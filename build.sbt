@@ -2,7 +2,9 @@ organization := "org.make.front"
 name := "make-front"
 version := "1.0.0-SNAPSHOT"
 
-isScalaJSProject := true
+scalaVersion := "2.12.1"
+
+enablePlugins(ScalaJSPlugin)
 
 libraryDependencies ++= Seq(
   "io.github.shogowada" %%% "scalajs-reactjs" % "0.10.0", // For react facade
