@@ -1,3 +1,5 @@
+import org.scalajs.core.tools.linker.backend.ModuleKind.CommonJSModule
+
 organization := "org.make.front"
 name := "make-front"
 version := "1.0.0-SNAPSHOT"
@@ -16,8 +18,6 @@ val WebpackVersion = "2.3.2"
 val log4jsVersion = "1.4.9"
 
 val scalaJsReactVersion = "0.13.1"
-
-
 
 enablePlugins(ScalaJSPlugin, ScalaJSBundlerPlugin)
 
@@ -43,6 +43,7 @@ npmResolutions in Compile := {
   (npmDependencies in Compile).value.toMap
 }
 
+
 version in webpack := WebpackVersion
-// (webpack in(Compile, fastOptJS)) := Seq()
+(webpack in(Compile, fastOptJS)) := Seq()
 
