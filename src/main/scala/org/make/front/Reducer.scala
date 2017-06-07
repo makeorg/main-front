@@ -1,39 +1,25 @@
 package org.make.front
 
-import org.make.front.FrontPage.{FrontPageDebateProps, Image}
+import io.github.shogowada.scalajs.reactjs.router.redux.ReactRouterRedux
 import org.make.front.Main.AppState
+
+import scala.scalajs.js.Dynamic
 
 object Reducer {
 
   def reduce(maybeState: Option[AppState], action: Any): AppState = {
 
-    val state = maybeState.getOrElse(defaultState())
+    Dynamic.global.console.info(s"Reducing ${maybeState.toString}, with action ${action.toString}")
 
-    action match {
-      case _ => state
-    }
+    val state = maybeState.getOrElse(defaultState())
+    state.copy(router = ReactRouterRedux.routerReducer(maybeState.map(_.router), action))
 
   }
 
-  private def defaultState(): AppState =
+  private def defaultState(action: Any): AppState =
     AppState(
-      debates = Seq(
-        FrontPageDebateProps(
-          firstImage = Image(
-            srcUrl = "https://cdn.make.org/upload/5878d3f591edd.jpg",
-            base64Image = "R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==",
-            imageAlt = "Education et formation professionnelle"
-          ),
-          secondImage = Image(
-            srcUrl = "https://cdn.make.org/upload/5878d3f5be9a5.jpg",
-            base64Image = "R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==",
-            imageAlt = "Education et formation professionnelle"
-          ),
-          id = "49",
-          title = "Education et formation professionnelle",
-          description = "Comment réformer l&#039;école ?"
-        )
-      )
+      themes = FrontPage.themes,
+      router = ReactRouterRedux.routerReducer(None, action)
     )
 
 }

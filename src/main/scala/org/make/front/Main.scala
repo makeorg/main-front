@@ -1,27 +1,31 @@
 package org.make.front
 
 import io.github.shogowada.scalajs.history.History
+import io.github.shogowada.scalajs.reactjs.React.Props
 import io.github.shogowada.scalajs.reactjs.VirtualDOM._
 import io.github.shogowada.scalajs.reactjs.classes.ReactClass
-import io.github.shogowada.scalajs.reactjs.events.SyntheticEvent
 import io.github.shogowada.scalajs.reactjs.redux.ReactRedux._
-import io.github.shogowada.scalajs.reactjs.redux.Redux.Dispatch
 import io.github.shogowada.scalajs.reactjs.redux.devtools.ReduxDevTools
-import io.github.shogowada.scalajs.reactjs.redux.{NativeAction, ReactRedux, Redux}
+import io.github.shogowada.scalajs.reactjs.redux.{ReactRedux, Redux}
 import io.github.shogowada.scalajs.reactjs.router.Router._
 import io.github.shogowada.scalajs.reactjs.router.RouterProps
 import io.github.shogowada.scalajs.reactjs.router.redux.ReactRouterRedux
 import io.github.shogowada.scalajs.reactjs.router.redux.ReactRouterRedux.RouterReduxVirtualDOMElements
 import io.github.shogowada.scalajs.reactjs.{React, ReactDOM}
-import org.make.front.FrontPage.FrontPageDebateProps
+import org.make.front.FrontPage.{ThemeListProps, ThemeProps}
+import org.make.front.Main.RouteControllerPresentationalComponent.WrappedProps
 import org.scalajs.dom
 
-import scala.scalajs.js.JSApp
+import scala.annotation.meta.field
+import scala.scalajs.js
+import scala.scalajs.js.{Dynamic, JSApp}
+import scala.scalajs.js.annotation.JSExport
 
 object Main extends JSApp {
 
   case class AppState(
-                       debates: Seq[FrontPageDebateProps]
+                       themes: Seq[ThemeProps],
+                       @(JSExport@field) router: js.Object
                      )
 
 
@@ -29,12 +33,7 @@ object Main extends JSApp {
     val history = History.createHashHistory()
 
     val store = Redux.createStore(
-      Redux.combineReducers(
-        Map(
-          "wrapped" -> Reducer.reduce,
-          "router" -> ReactRouterRedux.routerReducer
-        )
-      ),
+      Reducer.reduce,
       ReduxDevTools.composeWithDevTools(
         Redux.applyMiddleware(
           ReactRouterRedux.routerMiddleware(history)
@@ -51,41 +50,34 @@ object Main extends JSApp {
       dom.document.getElementById("make-app")
     )
 
-    // <(FrontPage.debateContainer).empty
-
   }
 
 
-  object RouteControllerComponent {
-    lazy val reactClass: ReactClass = ReactRedux.connectAdvanced(
-      (dispatch: Dispatch) => {
-        val act = (action: NativeAction) => dispatch(action)
-        (_: AppState, _: Unit) => {
-          RouteControllerPresentationalComponent.WrappedProps(act)
-        }
-      }
-    )(RouteControllerPresentationalComponent.reactClass)
+  object RouteControllerComponent extends RouterProps{
+
+    lazy val reactClass: ReactClass = ReactRedux.connectAdvanced { dispatch =>
+       (state: AppState, props: Props[Unit]) => {
+         Dynamic.global.console.info("called connect")
+         WrappedProps(props = ThemeListProps(FrontPage.themes))
+       }
+    }(RouteControllerPresentationalComponent.reactClass)
   }
 
 
-  object RouteControllerPresentationalComponent extends RouterProps {
+  object RouteControllerPresentationalComponent {
 
-    case class WrappedProps(act: (NativeAction) => _)
+    case class WrappedProps(props: ThemeListProps)
 
     type Self = React.Self[WrappedProps, Unit]
 
-    lazy val reactClass: ReactClass = React.createClass[WrappedProps, Unit](_ =>
+    lazy val reactClass: ReactClass =
+      React.createClass[WrappedProps, Unit](self =>
       <.Switch()(
-        <.Route(^.path := "/",           ^.component := FrontPage.debateContainer)()
-        <.Route(^.path := "/debate/:id", ^.component := BRouteComponent.reactClass)()
+        <.Route(^.path := "/",     ^.component := FrontPage())(),
+        <.Route(^.path := "/home", ^.component := FrontPage())()
       )
     )
 
-    private def act(self: Self, action: NativeAction) =
-      (event: SyntheticEvent) => {
-        event.preventDefault()
-        self.props.wrapped.act(action)
-      }
   }
 
 }
