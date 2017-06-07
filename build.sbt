@@ -1,5 +1,3 @@
-
-
 organization := "org.make.front"
 name := "make-front"
 version := "1.0.0-SNAPSHOT"
