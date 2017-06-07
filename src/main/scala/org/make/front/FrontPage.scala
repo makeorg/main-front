@@ -166,8 +166,8 @@ object FrontPage {
   case class ThemeListProps(propositions: Seq[ThemeProps])
   case class ThemeProps(id: String, name: String, image: String, actions: Int, propositions: String)
 
-  def apply(): ReactClass = ReactRedux.connectAdvanced { dispatch =>
-    (state: AppState, props: Props[Unit]) => {
+  def apply(): ReactClass = ReactRedux.connectAdvanced { _ =>
+    (state: AppState, _: Props[Unit]) => {
       ThemeListProps(state.themes)
     }
   }(frontPage)
@@ -180,7 +180,8 @@ object FrontPage {
     )
   }
 
-  def themeItem(props: ThemeProps): ReactElement = {
+  def themeItem: ReactClass = React.createClass[ThemeProps, Unit] { self =>
+    val props = self.props.wrapped
     <.div(^.className := "theme")(
       <.a(^.className := "themeimgcontainer w-inline-block", ^.href := "#")(
         <.img(^.className := "themeimg", ^("data-ix") := "ombrombre", ^.src := s"assets/images/${props.image}")(),
@@ -190,7 +191,7 @@ object FrontPage {
           ),
           <.div(^.className := "themecontainer2lignesl2")(
             <.div(^.className := "themenbactionspropositionstxt")(
-              s"${props.actions} ACTIONS EN COURS &nbsp; &nbsp;${props.propositions} PROPOSITIONS"
+              s"${props.actions} ACTIONS EN COURS   ${props.propositions} PROPOSITIONS"
             )
           )
         )
@@ -203,8 +204,8 @@ object FrontPage {
       <.div(^.className := "container1140 containermain")(
         <.h1(^.className := "pagethemestitle")("SÉLECTIONNEZ UN THÈME"),
         <.div(^.className := "themeflexwrap")(
-          props.propositions.map { p =>
-            themeItem(p)
+          props.propositions.map { themeProps =>
+            <(themeItem)(^.wrapped := themeProps)()
           }
         )
       )

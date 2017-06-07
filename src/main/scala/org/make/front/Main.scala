@@ -18,7 +18,7 @@ import org.scalajs.dom
 
 import scala.annotation.meta.field
 import scala.scalajs.js
-import scala.scalajs.js.{Dynamic, JSApp}
+import scala.scalajs.js.JSApp
 import scala.scalajs.js.annotation.JSExport
 
 object Main extends JSApp {
@@ -53,13 +53,9 @@ object Main extends JSApp {
   }
 
 
-  object RouteControllerComponent extends RouterProps{
-
-    lazy val reactClass: ReactClass = ReactRedux.connectAdvanced { dispatch =>
-       (state: AppState, props: Props[Unit]) => {
-         Dynamic.global.console.info("called connect")
-         WrappedProps(props = ThemeListProps(FrontPage.themes))
-       }
+  object RouteControllerComponent extends RouterProps {
+    lazy val reactClass: ReactClass = ReactRedux.connectAdvanced { _ =>
+       (_: AppState, _: Props[Unit]) => WrappedProps(props = ThemeListProps(FrontPage.themes))
     }(RouteControllerPresentationalComponent.reactClass)
   }
 
@@ -71,7 +67,7 @@ object Main extends JSApp {
     type Self = React.Self[WrappedProps, Unit]
 
     lazy val reactClass: ReactClass =
-      React.createClass[WrappedProps, Unit](self =>
+      React.createClass[WrappedProps, Unit]( _ =>
       <.Switch()(
         <.Route(^.path := "/",     ^.component := FrontPage())(),
         <.Route(^.path := "/home", ^.component := FrontPage())()

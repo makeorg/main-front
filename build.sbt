@@ -1,4 +1,4 @@
-import org.scalajs.core.tools.linker.backend.ModuleKind.CommonJSModule
+
 
 organization := "org.make.front"
 name := "make-front"
@@ -17,7 +17,7 @@ val ReduxDevToolsVersion = "2.13.0"
 val WebpackVersion = "2.3.2"
 val log4jsVersion = "1.4.9"
 
-val scalaJsReactVersion = "0.13.1"
+val scalaJsReactVersion = "0.14.0"
 
 enablePlugins(ScalaJSPlugin, ScalaJSBundlerPlugin)
 
@@ -31,12 +31,15 @@ libraryDependencies ++= Seq(
 )
 
 npmDependencies in Compile ++= Seq(
-  "create-react-class" -> CreateReactClassVersion,
   "react" -> ReactVersion,
   "react-dom" -> ReactVersion,
-  "react-router" -> ReactVersion,
-  "redux-devtools" -> ReactVersion,
-  "redux" -> ReduxVersion
+  "create-react-class" -> CreateReactClassVersion,
+  "history" -> HistoryVersion,
+  "react-router" -> ReactRouterVersion,
+  "react-redux" -> ReactReduxVersion,
+  "redux" -> ReduxVersion,
+  "react-router-redux" -> ReactRouterReduxVersion,
+  "redux-devtools" -> ReactVersion
 )
 
 npmResolutions in Compile := {
@@ -45,5 +48,4 @@ npmResolutions in Compile := {
 
 
 version in webpack := WebpackVersion
-(webpack in(Compile, fastOptJS)) := Seq()
 
