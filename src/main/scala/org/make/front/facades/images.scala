@@ -4,6 +4,18 @@ import scala.scalajs.js
 import scala.scalajs.js.annotation.JSImport
 
 @js.native
+@JSImport("./images/homeIllustration.jpg", "default")
+object homeIllustration extends js.Object
+
+@js.native
+@JSImport("./images/homeIllustration-p-500.jpeg", "default")
+object homeIllustration2 extends js.Object
+
+@js.native
+@JSImport("./images/homeIllustration-p-800.jpeg", "default")
+object homeIllustration3 extends js.Object
+
+@js.native
 @JSImport("./images/shutterstock-110700254.jpg", "default")
 object imageShutterstock extends js.Object
 

@@ -24,6 +24,12 @@ object Translations {
       |         "createAccount": "Créer un compte",
       |         "searchPlaceholder": "Chercher des propositions"
       |       },
+      |       "homepage": {
+      |         "baseline": "À la une",
+      |         "title": "Qui sommes-nous ?",
+      |         "subTitle": "Make.org est une initiative neture et indépendante",
+      |         "textSeeMore": "En Savoir +"
+      |       },
       |       "footer": {
       |         "jobs": "jobs",
       |         "press": "Espace presse",
@@ -51,6 +57,12 @@ object Translations {
       |         "connect": "Log In",
       |         "createAccount": "Create account",
       |         "searchPlaceholder": "Lookup proposals"
+      |       },
+      |       "homepage": {
+      |         "baseline": "À la une",
+      |         "title": "Qui sommes-nous ?",
+      |         "subTitle": "Make.org est une initiative neture et indépendante",
+      |         "textSeeMore": "En Savoir +"
       |       },
       |       "footer": {
       |         "jobs": "jobs",
