@@ -37,6 +37,8 @@ npmDependencies in Compile ++= Seq(
   "react-i18nify" -> "1.8.7"
 )
 
+npmDevDependencies in Compile += "webpack-merge" -> "4.1.0"
+
 npmResolutions in Compile := {
   (npmDependencies in Compile).value.toMap
 }
