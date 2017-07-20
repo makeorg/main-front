@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="60px" height="20px" viewBox="0 0 60 20" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 45.1 (43504) - http://www.bohemiancoding.com/sketch -->
+    <title>Artboard</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Artboard" fill="#000000">
+            <rect id="Rectangle" fill-opacity="0.100000001" x="5" y="0" width="50" height="20" rx="10"></rect>
+            <path d="M27.2857143,10.7142857 L27.2857143,14.1428571 L25.5714286,14.1428571 L25.5714286,10.7142857 L27.2857143,10.7142857 Z M29.8571429,7.28571429 L29.8571429,14.1428571 L28.1428571,14.1428571 L28.1428571,7.28571429 L29.8571429,7.28571429 Z M36.7142857,15 L36.7142857,15.8571429 L23,15.8571429 L23,5.57142857 L23.8571429,5.57142857 L23.8571429,15 L36.7142857,15 Z M32.4285714,9 L32.4285714,14.1428571 L30.7142857,14.1428571 L30.7142857,9 L32.4285714,9 Z M35,6.42857143 L35,14.1428571 L33.2857143,14.1428571 L33.2857143,6.42857143 L35,6.42857143 Z" id=""></path>
+        </g>
+    </g>
+</svg>
