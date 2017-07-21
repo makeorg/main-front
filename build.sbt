@@ -50,5 +50,7 @@ webpackResources := {
     baseDirectory.value / "src" / "main" / "universal" / "logo.svg"
 }
 
+webpackConfigFile := Some(baseDirectory.value / "make-webpack.config.js")
+
 webpackDevServerPort := 9009
 

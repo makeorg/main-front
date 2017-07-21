@@ -1,0 +1,11 @@
+*.jpg  binary -delta
+*.png  binary -delta
+*.eot  binary -delta
+*.svg  binary -delta
+*.mp4  binary -delta
+*.mp3  binary -delta
+*.zip  binary -delta
+*.woff  binary -delta
+*.woff2  binary -delta
+*.ttf  binary -delta
+*.vtt  binary -delta
