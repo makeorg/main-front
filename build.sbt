@@ -4,11 +4,11 @@ version := "1.0.0-SNAPSHOT"
 scalaVersion := "2.12.1"
 
 /* Npm versions */
-val npmReactVersion = "15.5.4"
+val npmReactVersion = "15.6.1"
 val npmWebpackVersion = "2.3.2"
-val npmReactRouterVersion = "4.0.0"
+val npmReactRouterVersion = "4.1.2"
 
-/* scala librairzs version */
+/* scala libraries version */
 val scalaJsReactVersion = "0.14.0"
 val circeVersion = "0.8.0"
 
@@ -33,7 +33,8 @@ npmDependencies in Compile ++= Seq(
   "react-dom" -> npmReactVersion,
   "react-router" -> npmReactRouterVersion,
   "react-router-dom" -> npmReactRouterVersion,
-  "react-modal" -> "2.2.2"
+  "react-modal" -> "2.2.2",
+  "react-i18nify" -> "1.8.7"
 )
 
 npmResolutions in Compile := {
