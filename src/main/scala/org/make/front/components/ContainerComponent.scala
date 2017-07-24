@@ -10,9 +10,6 @@ object ContainerComponent {
   def apply(): ReactClass = WithRouter(reactClass)
 
   private lazy val reactClass = React.createClass[Unit, Unit](
-    render = (_) =>
-      <.Switch()(
-        <.Route(^.exact := true, ^.path := "/", ^.component := HomeComponent())()
-      )
+    render = (_) => <.Switch()(<.Route(^.exact := true, ^.path := "/", ^.component := HomeComponent())())
   )
 }
