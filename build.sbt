@@ -3,7 +3,6 @@ name := "make-front"
 version := "1.0.0-SNAPSHOT"
 scalaVersion := "2.12.1"
 
-
 /* Npm versions */
 val npmReactVersion = "15.5.4"
 val npmWebpackVersion = "2.3.2"
@@ -12,7 +11,6 @@ val npmReactRouterVersion = "4.0.0"
 /* scala librairzs version */
 val scalaJsReactVersion = "0.14.0"
 val circeVersion = "0.8.0"
-
 
 enablePlugins(ScalaJSPlugin, ScalaJSBundlerPlugin)
 
@@ -34,7 +32,8 @@ npmDependencies in Compile ++= Seq(
   "react" -> npmReactVersion,
   "react-dom" -> npmReactVersion,
   "react-router" -> npmReactRouterVersion,
-  "react-router-dom" -> npmReactRouterVersion
+  "react-router-dom" -> npmReactRouterVersion,
+  "react-modal" -> "2.2.2"
 )
 
 npmResolutions in Compile := {
@@ -53,4 +52,3 @@ webpackResources := {
 webpackConfigFile := Some(baseDirectory.value / "make-webpack.config.js")
 
 webpackDevServerPort := 9009
-
