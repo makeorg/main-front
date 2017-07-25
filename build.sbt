@@ -1,3 +1,4 @@
+import org.scalajs.sbtplugin.Stage.FastOpt
 import sbt.Keys.baseDirectory
 
 organization := "org.make.front"
@@ -77,7 +78,8 @@ webpackResources := {
   baseDirectory.value / "src" / "main" / "static" / "sass" ** "*.sass"
 }
 
-webpackConfigFile := Some(baseDirectory.value / "make-webpack.config.js")
+webpackConfigFile in fastOptJS := Some(baseDirectory.value / "make-webpack.config.js")
+webpackConfigFile in fullOptJS := Some(baseDirectory.value / "make-webpack-prod.config.js")
 
 webpackDevServerPort := 9009
 
