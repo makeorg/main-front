@@ -10,6 +10,9 @@ import org.scalajs.dom
 import scala.scalajs.js.JSApp
 
 object Main extends JSApp {
+
+  val CssSettings = scalacss.devOrProdDefaults;
+
   override def main(): Unit = {
     Translations.loadTranslations()
     I18n.setLocale("fr")

@@ -7,25 +7,42 @@ scalaVersion := "2.12.1"
 val npmReactVersion = "15.6.1"
 val npmWebpackVersion = "2.3.2"
 val npmReactRouterVersion = "4.1.2"
+val npmBulmaVersion = "0.4.3"
+val npmSassLoaderVersion = "6.0.6"
+val npmNodeSassVersion = "4.5.3"
+val npmExtractTextWebpackPluginVersion = "2.1.2"
+val npmCssLoaderVersion = "0.28.4"
+val npmStyleLoaderVersion = "0.18.2"
+val npmReactModalVersion = "2.2.2"
+val npmReactI18nifyVersion = "1.8.7"
 
 /* scala libraries version */
 val scalaJsReactVersion = "0.14.0"
 val circeVersion = "0.8.0"
+val scalajsDomVersion = "0.9.1"
+val scalaCssCoreVersion = "0.5.3"
+val bulmaVersion = "0.4.3"
+val sassLoaderVersion = "6.0.6"
+val nodeSassVersion = "4.5.3"
+val extractTextWebpackPluginVersion = "2.1.2"
+val cssLoaderVersion = "0.28.4"
+val styleLoaderVersion = "0.18.2"
 
 enablePlugins(ScalaJSPlugin, ScalaJSBundlerPlugin)
 
 libraryDependencies ++= Seq(
-  "org.scala-js" %%% "scalajs-dom" % "0.9.1",
+  "org.scala-js" %%% "scalajs-dom" % scalajsDomVersion,
   "io.github.shogowada" %%% "scalajs-reactjs" % scalaJsReactVersion, // For react facade
   "io.github.shogowada" %%% "scalajs-reactjs-router-dom" % scalaJsReactVersion, // Optional. For react-router-dom facade
   "io.github.shogowada" %%% "scalajs-reactjs-router-redux" % scalaJsReactVersion, // Optional. For react-router-dom facade
   "io.github.shogowada" %%% "scalajs-reactjs-redux" % scalaJsReactVersion, // Optional. For react-redux facade
   "io.github.shogowada" %%% "scalajs-reactjs-redux-devtools" % scalaJsReactVersion, // Optional. For redux-devtools facade
-  "com.github.japgolly.scalacss" %%% "core" % "0.5.3",
+  "com.github.japgolly.scalacss" %%% "core" % scalaCssCoreVersion,
   "io.circe" %% "circe-core" % circeVersion,
   "io.circe" %% "circe-generic" % circeVersion,
   "io.circe" %% "circe-parser" % circeVersion,
   "io.circe" %%% "circe-scalajs" % circeVersion
+
 )
 
 npmDependencies in Compile ++= Seq(
@@ -33,8 +50,14 @@ npmDependencies in Compile ++= Seq(
   "react-dom" -> npmReactVersion,
   "react-router" -> npmReactRouterVersion,
   "react-router-dom" -> npmReactRouterVersion,
-  "react-modal" -> "2.2.2",
-  "react-i18nify" -> "1.8.7"
+  "react-modal" -> npmReactModalVersion,
+  "react-i18nify" -> npmReactI18nifyVersion,
+  "bulma" -> npmBulmaVersion,
+  "sass-loader" -> npmSassLoaderVersion,
+  "node-sass" -> npmNodeSassVersion,
+  "extract-text-webpack-plugin" -> npmExtractTextWebpackPluginVersion,
+  "css-loader" -> npmCssLoaderVersion,
+  "style-loader" -> npmStyleLoaderVersion
 )
 
 npmResolutions in Compile := {
@@ -44,12 +67,13 @@ npmResolutions in Compile := {
 version in webpack := npmWebpackVersion
 
 webpackResources := {
-  baseDirectory.value / "src" / "main" / "webpack" ** "*.js" +++
-    baseDirectory.value / "src" / "main" / "universal" ** "*.css" +++
-    baseDirectory.value / "src" / "main" / "universal" / "index.html" +++
-    baseDirectory.value / "src" / "main" / "universal" / "logo.svg"
+    baseDirectory.value / "src" / "main" / "static" ** "*.sass" +++
+    baseDirectory.value / "src" / "main" / "static" / "index.html"
 }
 
 webpackConfigFile := Some(baseDirectory.value / "make-webpack.config.js")
 
 webpackDevServerPort := 9009
+
+// Prod settings
+scalacOptions ++= Seq("-Xelide-below", "OFF")

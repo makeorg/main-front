@@ -16,9 +16,13 @@ package-docker-image:
 release:
 	sbt release
 
-run:
+clean:
+	sbt clean
+
+start:
 	sbt ~fastOptJS::startWebpackDevServer
 
+reload-all: clean start
 
 test-all: test-unit test-int
 
