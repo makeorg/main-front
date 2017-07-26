@@ -15,6 +15,9 @@ val npmCssLoaderVersion = "0.28.4"
 val npmStyleLoaderVersion = "0.18.2"
 val npmReactModalVersion = "2.2.2"
 val npmReactI18nifyVersion = "1.8.7"
+val npmCleanWebpackPluginVersion = "0.1.16"
+val npmHtmlWebpackPluginVersion = "2.29.0"
+val npmWebpackMd5HashVersion = "0.0.5"
 
 /* scala libraries version */
 val scalaJsReactVersion = "0.14.0"
@@ -57,7 +60,10 @@ npmDependencies in Compile ++= Seq(
   "node-sass" -> npmNodeSassVersion,
   "extract-text-webpack-plugin" -> npmExtractTextWebpackPluginVersion,
   "css-loader" -> npmCssLoaderVersion,
-  "style-loader" -> npmStyleLoaderVersion
+  "style-loader" -> npmStyleLoaderVersion,
+  "clean-webpack-plugin" -> npmCleanWebpackPluginVersion,
+  "html-webpack-plugin" -> npmHtmlWebpackPluginVersion,
+  "webpack-md5-hash" -> npmWebpackMd5HashVersion
 )
 
 npmResolutions in Compile := {
@@ -68,7 +74,7 @@ version in webpack := npmWebpackVersion
 
 webpackResources := {
     baseDirectory.value / "src" / "main" / "static" ** "*.sass" +++
-    baseDirectory.value / "src" / "main" / "static" / "index.html"
+    baseDirectory.value / "src" / "main" / "static" ** "*.ejs"
 }
 
 webpackConfigFile := Some(baseDirectory.value / "make-webpack.config.js")

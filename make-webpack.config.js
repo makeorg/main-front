@@ -1,16 +1,32 @@
 var webpack = require('webpack');
+var path = require('path');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
+var CleanWebpackPlugin = require('clean-webpack-plugin');
+var HtmlWebpackPlugin = require('html-webpack-plugin');
+var WebpackMd5Hash = require('webpack-md5-hash');
 
 module.exports = require('./scalajs.webpack.config');
 
+module.exports.plugins = [
+    new HtmlWebpackPlugin({
+        "title": "Make.org",
+        "template": path.join(__dirname, "index.template.ejs")
+    }),
+    new WebpackMd5Hash(),
+    new ExtractTextPlugin({ // define where to save the file
+        filename: '[name].[chunkhash].bundle.css',
+        allChunks: true,
+    })
+]
 
 module.exports.entry = {
     "make-app": "./fastopt-launcher.js",
-    "main": "./main.sass"
+    "main": "./main.sass",
 }
 
 module.exports.output = {
-    "filename": "[name].js"
+    path: path.join(__dirname, 'dist'),
+    "filename": "[name].[chunkhash].js"
 }
 
 module.exports.module.rules = [
@@ -23,11 +39,4 @@ module.exports.module.rules = [
         "enforce": "pre",
         "loader": "source-map-loader"
     }
-]
-
-module.exports.plugins = [
-    new ExtractTextPlugin({ // define where to save the file
-        filename: 'dist/[name].bundle.css',
-        allChunks: true,
-    }),
 ]
