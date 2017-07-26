@@ -5,7 +5,7 @@ import io.github.shogowada.scalajs.reactjs.VirtualDOM.{<, _}
 import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import io.github.shogowada.scalajs.reactjs.elements.ReactElement
 import org.make.front.helpers.NumberFormat
-import org.make.front.styles.{BulmaStyles, MakeStyles}
+import org.make.front.styles.{BulmaStyles, FontAwesomeStyles, MakeStyles}
 import org.make.front.Predef._
 
 import scalacss.DevDefaults._
@@ -41,7 +41,7 @@ object FooterComponent {
       <.div(^.className := BulmaStyles.Helpers.isFullWidth)(
         <.div(^.className := FooterStyles.themeWrapper)(
           <.div(^.className := BulmaStyles.Layout.container)(
-            <.h2(^.className := MakeStyles.title2)("Tous les thèmes"),
+            <.h2(^.className := FooterStyles.themeWrapperTitle)("Tous les thèmes"),
             ThemeList(self.state.themes)
           )
         ),
@@ -52,8 +52,8 @@ object FooterComponent {
             ),
             <.ul(^.className := Seq(BulmaStyles.Helpers.isPulledRight, FooterStyles.links))(
               <.li(^.className := FooterStyles.firstLink)(
-                <.span(^.className := "icon")(
-                  <.i(^.className := "fa fa-home")()
+                <.span(^.className := BulmaStyles.Element.icon)(
+                  <.i(^.className := FontAwesomeStyles.bullhorn)()
                 ),
                 "Devenez Maker!"
               ),
@@ -80,8 +80,7 @@ object ThemeList {
       themes.map(
         theme => <.li(
           ^.key := theme.slug,
-          ^.className := Seq(BulmaStyles.Grid.Columns.is4, BulmaStyles.Grid.Columns.column, FooterStyles.theme),
-          ^.style := Map("borderLeft" -> s"0.2rem solid ${theme.color}")
+          ^.className := Seq(BulmaStyles.Grid.Columns.is4, BulmaStyles.Grid.Columns.column, FooterStyles.theme(theme.color))
         )(
           <.span(^.className := Seq(BulmaStyles.Helpers.isClearfix, BulmaStyles.Helpers.isFullWidth, FooterStyles.themeTitle))(
             <.a(^.href := "#")(theme.title)
@@ -110,11 +109,17 @@ object FooterStyles extends StyleSheet.Inline {
 
   val themeWrapper: StyleA = style(
     backgroundColor(MakeStyles.Background.footer),
-    padding(2.4.rem, 2.7.rem)
+    padding(2.4.rem, 2.7.rem),
+    fontFamily(MakeStyles.Font.tradeGothicLTStd)
   )
 
-  val theme: StyleA = style(
-    margin(1.rem, 0.rem)
+  val themeWrapperTitle: StyleA = style(
+    MakeStyles.title2
+  )
+
+  def theme(color: String) = style(
+    margin(1.rem, 0.rem),
+    borderLeft := s"0.4rem solid $color"
   )
 
   val themeTitle: StyleA = style(
@@ -149,7 +154,13 @@ object FooterStyles extends StyleSheet.Inline {
       float.left,
       fontSize(1.6.rem),
       margin(0.px, 7.px),
-      fontWeight.bold
+      fontWeight.bold,
+      position.relative,
+      unsafeChild("span.icon")(
+        position.absolute,
+        top(4.px),
+        left(-30.px)
+      )
     )
   )
 

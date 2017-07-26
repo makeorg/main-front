@@ -18,18 +18,14 @@ val npmReactI18nifyVersion = "1.8.7"
 val npmCleanWebpackPluginVersion = "0.1.16"
 val npmHtmlWebpackPluginVersion = "2.29.0"
 val npmWebpackMd5HashVersion = "0.0.5"
+val npmFrontAwesomeVersion = "4.7.0"
+val npmFileLoaderVersion = "0.11.2"
 
 /* scala libraries version */
 val scalaJsReactVersion = "0.14.0"
 val circeVersion = "0.8.0"
 val scalajsDomVersion = "0.9.1"
 val scalaCssCoreVersion = "0.5.3"
-val bulmaVersion = "0.4.3"
-val sassLoaderVersion = "6.0.6"
-val nodeSassVersion = "4.5.3"
-val extractTextWebpackPluginVersion = "2.1.2"
-val cssLoaderVersion = "0.28.4"
-val styleLoaderVersion = "0.18.2"
 
 enablePlugins(ScalaJSPlugin, ScalaJSBundlerPlugin)
 
@@ -45,7 +41,6 @@ libraryDependencies ++= Seq(
   "io.circe" %% "circe-generic" % circeVersion,
   "io.circe" %% "circe-parser" % circeVersion,
   "io.circe" %%% "circe-scalajs" % circeVersion
-
 )
 
 npmDependencies in Compile ++= Seq(
@@ -64,6 +59,8 @@ npmDependencies in Compile ++= Seq(
   "clean-webpack-plugin" -> npmCleanWebpackPluginVersion,
   "html-webpack-plugin" -> npmHtmlWebpackPluginVersion,
   "webpack-md5-hash" -> npmWebpackMd5HashVersion
+  "file-loader" -> npmFileLoaderVersion,
+  "font-awesome" -> npmFrontAwesomeVersion
 )
 
 npmResolutions in Compile := {
