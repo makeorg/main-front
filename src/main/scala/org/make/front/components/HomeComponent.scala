@@ -2,9 +2,10 @@ package org.make.front.components
 
 import io.github.shogowada.scalajs.reactjs.React
 import io.github.shogowada.scalajs.reactjs.VirtualDOM._
+import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 
 object HomeComponent {
-  def apply() = reactClass
+  def apply(): ReactClass = reactClass
 
-  private lazy val reactClass = React.createClass[Unit, Unit](render = (_) => <.div()("The Home page"))
+  private lazy val reactClass = React.createClass[Unit, Unit](render = (_) => <.div()(<(HomeHeaderComponent()).empty))
 }

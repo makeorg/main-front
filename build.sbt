@@ -20,6 +20,7 @@ val npmHtmlWebpackPluginVersion = "2.29.0"
 val npmWebpackMd5HashVersion = "0.0.5"
 val npmFrontAwesomeVersion = "4.7.0"
 val npmFileLoaderVersion = "0.11.2"
+val npmNormalizeVersion = "7.0.0"
 
 /* scala libraries version */
 val scalaJsReactVersion = "0.14.0"
@@ -30,17 +31,17 @@ val scalaCssCoreVersion = "0.5.3"
 enablePlugins(ScalaJSPlugin, ScalaJSBundlerPlugin)
 
 libraryDependencies ++= Seq(
-  "org.scala-js" %%% "scalajs-dom" % scalajsDomVersion,
-  "io.github.shogowada" %%% "scalajs-reactjs" % scalaJsReactVersion, // For react facade
-  "io.github.shogowada" %%% "scalajs-reactjs-router-dom" % scalaJsReactVersion, // Optional. For react-router-dom facade
-  "io.github.shogowada" %%% "scalajs-reactjs-router-redux" % scalaJsReactVersion, // Optional. For react-router-dom facade
-  "io.github.shogowada" %%% "scalajs-reactjs-redux" % scalaJsReactVersion, // Optional. For react-redux facade
-  "io.github.shogowada" %%% "scalajs-reactjs-redux-devtools" % scalaJsReactVersion, // Optional. For redux-devtools facade
-  "com.github.japgolly.scalacss" %%% "core" % scalaCssCoreVersion,
-  "io.circe" %% "circe-core" % circeVersion,
-  "io.circe" %% "circe-generic" % circeVersion,
-  "io.circe" %% "circe-parser" % circeVersion,
-  "io.circe" %%% "circe-scalajs" % circeVersion
+  "org.scala-js"                 %%% "scalajs-dom"                    % scalajsDomVersion,
+  "io.github.shogowada"          %%% "scalajs-reactjs"                % scalaJsReactVersion, // For react facade
+  "io.github.shogowada"          %%% "scalajs-reactjs-router-dom"     % scalaJsReactVersion, // Optional. For react-router-dom facade
+  "io.github.shogowada"          %%% "scalajs-reactjs-router-redux"   % scalaJsReactVersion, // Optional. For react-router-dom facade
+  "io.github.shogowada"          %%% "scalajs-reactjs-redux"          % scalaJsReactVersion, // Optional. For react-redux facade
+  "io.github.shogowada"          %%% "scalajs-reactjs-redux-devtools" % scalaJsReactVersion, // Optional. For redux-devtools facade
+  "com.github.japgolly.scalacss" %%% "core"                           % scalaCssCoreVersion,
+  "io.circe"                     %% "circe-core"                      % circeVersion,
+  "io.circe"                     %% "circe-generic"                   % circeVersion,
+  "io.circe"                     %% "circe-parser"                    % circeVersion,
+  "io.circe"                     %%% "circe-scalajs"                  % circeVersion
 )
 
 npmDependencies in Compile ++= Seq(
@@ -58,9 +59,10 @@ npmDependencies in Compile ++= Seq(
   "style-loader" -> npmStyleLoaderVersion,
   "clean-webpack-plugin" -> npmCleanWebpackPluginVersion,
   "html-webpack-plugin" -> npmHtmlWebpackPluginVersion,
-  "webpack-md5-hash" -> npmWebpackMd5HashVersion
+  "webpack-md5-hash" -> npmWebpackMd5HashVersion,
   "file-loader" -> npmFileLoaderVersion,
-  "font-awesome" -> npmFrontAwesomeVersion
+  "font-awesome" -> npmFrontAwesomeVersion,
+  "normalize-scss" -> npmNormalizeVersion
 )
 
 npmResolutions in Compile := {
@@ -70,8 +72,12 @@ npmResolutions in Compile := {
 version in webpack := npmWebpackVersion
 
 webpackResources := {
-    baseDirectory.value / "src" / "main" / "static" ** "*.sass" +++
-    baseDirectory.value / "src" / "main" / "static" ** "*.ejs"
+  baseDirectory.value / "src" / "main" / "static" ** "*.sass" +++
+    baseDirectory.value / "src" / "main" / "static" ** "*.ejs" +++
+    baseDirectory.value / "src" / "main" / "static" ** "*.svg" +++
+    baseDirectory.value / "src" / "main" / "static" ** "*.png" +++
+    baseDirectory.value / "src" / "main" / "static" ** "*.jpg" +++
+    baseDirectory.value / "src" / "main" / "static" ** "*.jpeg"
 }
 
 webpackConfigFile := Some(baseDirectory.value / "make-webpack.config.js")
