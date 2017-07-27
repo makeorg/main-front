@@ -99,6 +99,10 @@ object BulmaStyles extends StyleSheet.Inline {
       val is12: StyleA = style(addClassNames("is-12"))
     }
   }
+
+  object Element {
+    val icon: StyleA = style(addClassNames("icon"))
+  }
 }
 
 

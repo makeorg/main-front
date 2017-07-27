@@ -11,7 +11,8 @@ object MakeStyles extends StyleSheet.Inline {
     val title1: StyleA = style()
     val title2: StyleA = style(
       fontSize(3.4.rem),
-      fontFamily(Font.tradeGothicLTStd)
+      fontFamily(Font.tradeGothicLTStd),
+      fontWeight.bold
     )
     //todo: implement h3
     val title3: StyleA = style()
