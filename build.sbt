@@ -58,7 +58,7 @@ npmDependencies in Compile ++= Seq(
   "style-loader" -> npmStyleLoaderVersion,
   "clean-webpack-plugin" -> npmCleanWebpackPluginVersion,
   "html-webpack-plugin" -> npmHtmlWebpackPluginVersion,
-  "webpack-md5-hash" -> npmWebpackMd5HashVersion
+  "webpack-md5-hash" -> npmWebpackMd5HashVersion,
   "file-loader" -> npmFileLoaderVersion,
   "font-awesome" -> npmFrontAwesomeVersion
 )
