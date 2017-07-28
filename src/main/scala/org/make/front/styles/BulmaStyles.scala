@@ -102,7 +102,15 @@ object BulmaStyles extends StyleSheet.Inline {
 
   object Element {
     val icon: StyleA = style(addClassNames("icon"))
+    val notification: StyleA = style(addClassName("notification"))
+    val notificationDelete: StyleA = style(addClassName("delete"))
+  }
+
+  object Syntax {
+    val isPrimary: StyleA = style(addClassNames("is-primary"))
+    val isInfo: StyleA = style(addClassNames("is-info"))
+    val isSuccess: StyleA = style(addClassNames("is-success"))
+    val isWarning: StyleA = style(addClassNames("is-warning"))
+    val isDanger: StyleA = style(addClassNames("is-danger"))
   }
 }
-
-

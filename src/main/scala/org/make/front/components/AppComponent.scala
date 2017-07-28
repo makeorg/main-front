@@ -10,7 +10,12 @@ object AppComponent {
 
   private lazy val reactClass = React.createClass[Unit, Unit](
     render = (_) =>
-      <.div(^.className := "App")(<(HeaderComponent()).empty, <(ContainerComponent()).empty, <(FooterComponent()).empty)
+      <.div(^.className := "App")(
+        <(HeaderComponent()).empty,
+        <(ContainerComponent()).empty,
+        <(FooterComponent()).empty,
+        <(NotificationContainerComponent()).empty
+    )
   )
 
 }
