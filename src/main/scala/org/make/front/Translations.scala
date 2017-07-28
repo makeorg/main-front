@@ -16,6 +16,13 @@ object Translations {
       |{
       |  "fr": {
       |    "content": {
+      |       "header": {
+      |         "profile": "Mon Profil",
+      |         "settings": "Paramètres",
+      |         "logout": "Se Déconnecter",
+      |         "connect": "Se Connecter",
+      |         "createAccount": "Créer un compte"
+      |       },
       |       "footer": {
       |         "jobs": "jobs",
       |         "press": "Espace presse",
@@ -36,6 +43,13 @@ object Translations {
       |  },
       |  "en": {
       |    "content": {
+      |       "header": {
+      |         "profile": "My Profile",
+      |         "settings": "Settings",
+      |         "logout": "Logout",
+      |         "connect": "Log In",
+      |         "createAccount": "Create account"
+      |       },
       |       "footer": {
       |         "jobs": "jobs",
       |         "press": "Espace presse",

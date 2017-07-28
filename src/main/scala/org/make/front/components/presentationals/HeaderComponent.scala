@@ -3,22 +3,36 @@ package org.make.front.components.presentationals
 import io.github.shogowada.scalajs.reactjs.React
 import io.github.shogowada.scalajs.reactjs.VirtualDOM._
 import org.make.front.facades.imageLogoMake
+import io.github.shogowada.scalajs.reactjs.classes.ReactClass
+import org.make.front.styles.{BulmaStyles, MakeStyles}
+import org.make.front.Predef._
+import org.make.front.controllers.UserHeaderComponentController
 
 import scalacss.DevDefaults._
 import scalacss.internal.mutable.StyleSheet
 
 object HeaderComponent {
-  def apply() = reactClass
+  def apply(): ReactClass = reactClass
 
   private lazy val reactClass = React.createClass[Unit, Unit](
     render = (self) =>
-      <.div(^.className := HeaderStyles.container.htmlClass)(
-        <.div(^.className := HeaderStyles.header_container.htmlClass)(
-          <.a(^.className := HeaderStyles.header_logo_container.htmlClass, ^.href := "/")(
-            <.img(^.src := imageLogoMake.toString)()
+      <.nav(^.className := Seq(BulmaStyles.Components.Navbar.navbar, HeaderStyles.headerContainer))(
+        <.div(^.className := BulmaStyles.Components.Navbar.navbarBrand)(
+          <.a(^.className := BulmaStyles.Components.Navbar.navbarItem, ^.href := "/")(
+            <.img(
+              ^.style := Map("maxHeight" -> "100%"),
+              ^.src := imageLogoMake.toString,
+              ^.height := 56,
+              ^.width := 105
+            )()
           ),
-          <(SearchInputComponent()).empty,
-          <(UserHeaderComponent()).empty
+          <.div(^.className := BulmaStyles.Components.Navbar.navbarBurger)(<.span()(), <.span()(), <.span()())
+        ),
+        <.div(^.className := BulmaStyles.Components.Navbar.navbarMenu)(
+          <.div(^.className := BulmaStyles.Components.Navbar.navbarMenu)(
+            <.div(^.className := BulmaStyles.Components.Navbar.navbarStart)(<(SearchInputComponent()).empty),
+            <.div(^.className := BulmaStyles.Components.Navbar.navbarEnd)(<(UserHeaderComponentController()).empty)
+          )
         ),
         <.style()(HeaderStyles.render[String])
     )
@@ -28,17 +42,11 @@ object HeaderComponent {
 object HeaderStyles extends StyleSheet.Inline {
   import dsl._
 
-  val container: StyleA = style(
-    position.relative,
-    zIndex(500),
-    height(80.px),
-    padding(12.px, 50.px, 0.px, 50.px),
-    backgroundColor(c"#fff"),
-    boxShadow := "1px 1px 4px 0 rgba(0, 0, 0, 0.5)"
+  val imageBrand: StyleA = style(maxHeight(100.%%))
+  val headerContainer: StyleA = style(
+    height(8.rem),
+    fontSize(1.6.rem),
+    MakeStyles.modeMobile(height(10.rem)),
+    MakeStyles.modeDesktop(padding(0.rem, 15.rem))
   )
-
-  val header_container: StyleA =
-    style(position.relative, width(100.%%), height(100.%%), maxWidth(1140.px), marginRight(auto), marginLeft(auto))
-
-  val header_logo_container: StyleA = style(float.left)
 }

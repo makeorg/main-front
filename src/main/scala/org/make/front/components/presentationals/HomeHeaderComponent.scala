@@ -33,7 +33,7 @@ object HomeHeaderStyles extends StyleSheet.Inline {
 
   val container: StyleA = style(position.relative)
 
-  val photo: StyleA = style(position.relative, zIndex(1), width(100.%%), marginTop(-5 px))
+  val photo: StyleA = style(position.relative, zIndex(1), width(100.%%))
 
   val title: StyleA =
     style(position.absolute, left(0 px), right(0 px), bottom(0 px), zIndex(5), paddingBottom(30 px), textAlign.center)

@@ -3,10 +3,21 @@ package org.make.front.styles
 import org.make.front.Main.CssSettings._
 
 import scalacss.DevDefaults.StyleA
-import scalacss.internal.{AV, ValueT}
+import scalacss.internal.{AV, Cond, Media, ValueT}
 
 object MakeStyles extends StyleSheet.Inline {
   import dsl._
+
+  // Responsiveness using Bulma standards: http://bulma.io/documentation/overview/responsiveness/
+  val modeMobile: Cond = media.maxWidth(768.px) & media.handheld
+  val modeTablet: Media.Query = media.minWidth(769.px)
+  val modeDesktop: Media.Query = media.minWidth(1008.px)
+  val modeWidescreen: Media.Query = media.minWidth(1200.px)
+  val modeFullhd: Media.Query = media.minWidth(1392.px)
+
+  val modeTabletOnly: Media.Query = modeTablet.maxWidth(1008.px)
+  val modeDesktopOnly: Media.Query = modeDesktop.maxWidth(1200.px)
+  val modeWidescreenOnly: Media.Query = modeWidescreen.maxWidth(1392.px)
 
   //todo: implement h1
   val title1: StyleA = style()
@@ -28,6 +39,7 @@ object MakeStyles extends StyleSheet.Inline {
   object Color {
     val black: ValueT[ValueT.Color] = rgb(0, 0, 0)
     val pink: ValueT[ValueT.Color] = c"#ed1844"
+    val grey: ValueT[ValueT.Color] = rgba(0, 0, 0, 0.3)
   }
 
   // font
