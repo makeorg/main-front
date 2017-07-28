@@ -10,6 +10,7 @@ val npmReactVersion = "15.6.1"
 val npmWebpackVersion = "2.3.2"
 val npmReactRouterVersion = "4.1.2"
 val npmBulmaVersion = "0.4.4"
+val npmReactAutosuggestVersion = "9.3.1"
 val npmSassLoaderVersion = "6.0.6"
 val npmNodeSassVersion = "4.5.3"
 val npmExtractTextWebpackPluginVersion = "2.1.2"
@@ -53,6 +54,7 @@ npmDependencies in Compile ++= Seq(
   "react-router-dom" -> npmReactRouterVersion,
   "react-modal" -> npmReactModalVersion,
   "react-i18nify" -> npmReactI18nifyVersion,
+  "react-autosuggest" -> npmReactAutosuggestVersion,
   "bulma" -> npmBulmaVersion,
   "sass-loader" -> npmSassLoaderVersion,
   "node-sass" -> npmNodeSassVersion,
