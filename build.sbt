@@ -101,3 +101,7 @@ fullOptJS in Compile := {
   prepareAssets.value
   (fullOptJS in Compile).value
 }
+
+gitCommitMessageHook := Some(baseDirectory.value / "bin" / "commit-msg.hook")
+
+enablePlugins(GitHooks)
