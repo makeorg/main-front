@@ -25,9 +25,7 @@ import scala.scalajs.js.annotation.JSImport
   *
   *   case class State(isOpen: Boolean = false)
   *
-  *   def apply(): ReactClass = reactClass
-  *
-  *   private lazy val reactClass = React.createClass[Unit, State](
+  *   lazy val reactClass = React.createClass[Unit, State](
   *     getInitialState = _ => State(),
   *     render = (self) =>
   *       <.div()(
@@ -78,13 +76,11 @@ object ReactModal {
       Attribute(name = name, value = onRequestClose, AS_IS)
   }
 
-  implicit class ReactModalVirtualDOMAttributes(
-      attributes: VirtualDOMAttributes) {
+  implicit class ReactModalVirtualDOMAttributes(attributes: VirtualDOMAttributes) {
     lazy val isOpen = BooleanAttributeSpec("isOpen")
     lazy val closeTimeoutMS = IntegerAttributeSpec("closeTimeoutMS")
     lazy val contentLabel = StringAttributeSpec("contentLabel")
-    lazy val shouldCloseOnOverlayClick = BooleanAttributeSpec(
-      "shouldCloseOnOverlayClick")
+    lazy val shouldCloseOnOverlayClick = BooleanAttributeSpec("shouldCloseOnOverlayClick")
     lazy val onAfterOpen = OnAfterOpenAttribute("onAfterOpen")
     lazy val onRequestClose = OnRequestCloseAttribute("onRequestClose")
   }

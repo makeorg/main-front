@@ -5,16 +5,12 @@ import io.github.shogowada.scalajs.reactjs.VirtualDOM._
 import org.make.front.facades.imageLogoMake
 import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import org.make.front.styles.{BulmaStyles, MakeStyles}
-import org.make.front.Predef._
-import org.make.front.controllers.UserHeaderComponentController
 
 import scalacss.DevDefaults._
 import scalacss.internal.mutable.StyleSheet
 
 object HeaderComponent {
-  def apply(): ReactClass = reactClass
-
-  private lazy val reactClass = React.createClass[Unit, Unit](
+  lazy val reactClass: ReactClass = React.createClass[Unit, Unit](
     render = (self) =>
       <.nav(^.className := Seq(BulmaStyles.Components.Navbar.navbar, HeaderStyles.headerContainer))(
         <.div(^.className := BulmaStyles.Components.Navbar.navbarBrand)(
@@ -30,8 +26,8 @@ object HeaderComponent {
         ),
         <.div(^.className := BulmaStyles.Components.Navbar.navbarMenu)(
           <.div(^.className := BulmaStyles.Components.Navbar.navbarMenu)(
-            <.div(^.className := BulmaStyles.Components.Navbar.navbarStart)(<(SearchInputComponent()).empty),
-            <.div(^.className := BulmaStyles.Components.Navbar.navbarEnd)(<(UserHeaderComponentController()).empty)
+            <.div(^.className := BulmaStyles.Components.Navbar.navbarStart)(<.SearchInputComponent.empty),
+            <.div(^.className := BulmaStyles.Components.Navbar.navbarEnd)(<.UserHeaderContainerComponent.empty)
           )
         ),
         <.style()(HeaderStyles.render[String])

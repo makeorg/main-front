@@ -9,9 +9,8 @@ import scalacss.DevDefaults._
 import scalacss.internal.mutable.StyleSheet
 
 object HomeHeaderComponent {
-  def apply(): ReactClass = reactClass
 
-  private lazy val reactClass = React.createClass[Unit, Unit](
+  lazy val reactClass: ReactClass = React.createClass[Unit, Unit](
     render = (_) =>
       <.div(^.className := HomeHeaderStyles.container.htmlClass)(
         <.img(

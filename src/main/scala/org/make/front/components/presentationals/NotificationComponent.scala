@@ -4,7 +4,6 @@ import io.github.shogowada.scalajs.reactjs.React.Props
 import io.github.shogowada.scalajs.reactjs.VirtualDOM.{<, _}
 import io.github.shogowada.scalajs.reactjs.elements.ReactElement
 import io.github.shogowada.scalajs.reactjs.events.MouseSyntheticEvent
-import org.make.front.Predef._
 import org.make.front.models.{Notification, NotificationLevel}
 import org.make.front.styles.{BulmaStyles, FontAwesomeStyles}
 

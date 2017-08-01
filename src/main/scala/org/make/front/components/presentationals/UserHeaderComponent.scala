@@ -4,7 +4,6 @@ import io.github.shogowada.scalajs.reactjs.React
 import io.github.shogowada.scalajs.reactjs.VirtualDOM._
 import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import io.github.shogowada.scalajs.reactjs.elements.ReactElement
-import org.make.front.Predef._
 import org.make.front.facades.I18n
 import org.make.front.styles.{BulmaStyles, FontAwesomeStyles, MakeStyles}
 
@@ -16,9 +15,7 @@ object UserHeaderComponent {
   case class WrappedProps(isConnected: Boolean, userFirstName: Option[String], avatarUrl: Option[String])
   case class State(avatarUrl: String)
 
-  def apply(): ReactClass = reactClass
-
-  private lazy val reactClass: ReactClass =
+  lazy val reactClass: ReactClass =
     React.createClass[WrappedProps, State](
       getInitialState = { self =>
         State(avatarUrl = self.props.wrapped.avatarUrl.getOrElse("http://phantom.make.org/images/headerAvatar.png"))
