@@ -13,8 +13,8 @@ object UserHeaderContainerComponent extends RouterProps {
   lazy val reactClass: ReactClass = ReactRedux.connectAdvanced { _: Dispatch => (state: AppState, _: Props[Unit]) =>
     UserHeaderComponent.WrappedProps(
       isConnected = state.connectedUser.isDefined,
-      userFirstName = state.connectedUser.map(_.firstname),
-      avatarUrl = state.connectedUser.flatMap(_.avatarUrl)
+      userFirstName = state.connectedUser.flatMap(_.firstName),
+      avatarUrl = state.connectedUser.flatMap(_.profile).flatMap(_.avatarUrl)
     )
   }(UserHeaderComponent.reactClass)
 }
