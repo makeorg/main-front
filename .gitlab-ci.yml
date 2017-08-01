@@ -16,8 +16,9 @@ build:
     - docker login "https://$NEXUS_URL" --username "$NEXUS_USER" --password "$NEXUS_PASSWORD"
     - . /root/.profile
   script:
-    - sbt clean fullOptJS::webpack
-    - sbt publish
+    - sbt clean publish
+    # TODO: only publish on master ?
+    # TODO: call rundeck
   cache:
     paths:
       - /root/.coursier

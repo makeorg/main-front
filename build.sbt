@@ -1,9 +1,9 @@
-import org.scalajs.sbtplugin.Stage.FastOpt
 import sbt.Keys.baseDirectory
 
 organization := "org.make.front"
 name := "make-front"
 version := "1.0.0-SNAPSHOT"
+// TODO: Use git plugin to append branch name in version
 scalaVersion := "2.12.1"
 
 /* Npm versions */
