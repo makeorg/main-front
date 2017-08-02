@@ -15,6 +15,9 @@ object Translations {
     """
       |{
       |  "fr": {
+      |    "search": {
+      |      "placeholder": "Chercher des propositions"
+      |    },
       |    "content": {
       |       "header": {
       |         "profile": "Mon Profil",
@@ -42,6 +45,9 @@ object Translations {
       |    }
       |  },
       |  "en": {
+      |    "search": {
+      |      "placeholder": "Lookup proposals"
+      |    },
       |    "content": {
       |       "header": {
       |         "profile": "My Profile",
