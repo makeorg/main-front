@@ -10,6 +10,12 @@ object ContainerComponent {
   def apply(): ReactClass = WithRouter(reactClass)
 
   private lazy val reactClass = React.createClass[Unit, Unit](
-    render = (_) => <.Switch()(<.Route(^.exact := true, ^.path := "/", ^.component := HomeComponent())())
+    render = (_) =>
+      <.div()(
+        <.Switch()(
+          <.Route(^.exact := true, ^.path := "/theme/:themeSlug", ^.component := ThemeContainerComponent())(),
+          <.Route(^.exact := true, ^.path := "/", ^.component := HomeComponent())()
+        )
+    )
   )
 }

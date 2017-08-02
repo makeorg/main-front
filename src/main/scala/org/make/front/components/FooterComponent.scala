@@ -1,76 +1,50 @@
 package org.make.front.components
 
-import io.github.shogowada.scalajs.reactjs.React
+import io.github.shogowada.scalajs.reactjs.React.Props
 import io.github.shogowada.scalajs.reactjs.VirtualDOM.{<, _}
-import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import io.github.shogowada.scalajs.reactjs.elements.ReactElement
-import org.make.front.helpers.NumberFormat
-import org.make.front.styles.{BulmaStyles, FontAwesomeStyles, MakeStyles}
+import io.github.shogowada.scalajs.reactjs.router.dom.RouterDOM._
 import org.make.front.Predef._
+import org.make.front.helpers.NumberFormat
+import org.make.front.models.Theme
+import org.make.front.styles.{BulmaStyles, FontAwesomeStyles, MakeStyles}
 
 import scalacss.DevDefaults._
 
-case class Theme(slug: String, title: String, actionsCount: Int, proposalsCount: Int, color: String)
-
 object FooterComponent {
 
-  case class State(themes: Seq[Theme])
+  case class WrappedProps(themes: Seq[Theme])
 
-  type self = React.Self[Unit, State]
-
-  def apply(): ReactClass = reactClass
-
-  private lazy val reactClass = React.createClass[Unit, State](
-    getInitialState = (self) => State(
-      themes = Seq(
-        Theme("democratie-vie-politique", "DÉMOCRATIE / VIE POLITIQUE", 3, 5600, "#e21d60"),
-        Theme("developpement-durable-energie", "DÉVELOPPEMENT DURABLE / ENERGIE", 3, 5600, "#82b745"),
-        Theme("sante-alimentation", "SANTÉ / ALIMENTATION", 3, 5600, "#26a69a"),
-        Theme("education", "EDUCATION", 3, 5600, "#673ab7"),
-        Theme("economie-emploi-travail", "ECONOMIE / EMPLOI / TRAVAIL", 3, 5600, "#0e74c4"),
-        Theme("securite-justice", "SÉCURITÉ / JUSTICE", 3, 5600, "#8e23a0"),
-        Theme("logement", "LOGEMENT", 3, 5600, "#ff9800"),
-        Theme("vivre-ensemble-solidarites", "VIVRE ENSEMBLE / SOLIDARITÉS", 3, 5600, "#ffeb3b"),
-        Theme("agriculture-ruralite", "AGRICULTURE / RURALITÉ", 3, 5600, "#2e7d32"),
-        Theme("europe-monde", "EUROPE / MONDE", 3, 5600, "#283593"),
-        Theme("transports-deplacement", "TRANSPORTS / DÉPLACEMENT", 3, 5600, "#ff5722"),
-        Theme("numerique-culture", "NUMÉRIQUE / CULTURE", 3, 5600, "#03a8f2")
-      )
-    ),
-    render = (self) =>
-      <.div(^.className := BulmaStyles.Helpers.isFullWidth)(
-        <.div(^.className := FooterStyles.themeWrapper)(
-          <.div(^.className := BulmaStyles.Layout.container)(
-            <.h2(^.className := FooterStyles.themeWrapperTitle)("Tous les thèmes"),
-            ThemeList(self.state.themes)
-          )
-        ),
-        <.div(^.className := FooterStyles.linksContainer)(
-          <.div(^.className := BulmaStyles.Layout.container)(
-            <.a(^.className := FooterStyles.footerLogo, ^.href := "/")(
-              <.img(^.src := "http://phantom.make.org/images/logoMake.svg")()
-            ),
-            <.ul(^.className := Seq(BulmaStyles.Helpers.isPulledRight, FooterStyles.links))(
-              <.li(^.className := FooterStyles.firstLink)(
-                <.span(^.className := BulmaStyles.Element.icon)(
-                  <.i(^.className := FontAwesomeStyles.bullhorn)()
-                ),
-                "Devenez Maker!"
-              ),
-              <.li()("jobs"),
-              <.li()("Espace presse"),
-              <.li()("conditions d'utilisation"),
-              <.li()("contact"),
-              <.li()("f.a.q."),
-              <.li()("sitemap")
-            )
-          )
-        ),
-        <.style()(
-          FooterStyles.render[String]
+  def apply(props: Props[WrappedProps]): ReactElement = {
+    <.div(^.className := BulmaStyles.Helpers.isFullWidth)(
+      <.div(^.className := FooterStyles.themeWrapper)(
+        <.div(^.className := BulmaStyles.Layout.container)(
+          <.h2(^.className := FooterStyles.themeWrapperTitle)("Tous les thèmes"),
+          ThemeList(props.wrapped.themes)
         )
-      )
-  )
+      ),
+      <.div(^.className := FooterStyles.linksContainer)(
+        <.div(^.className := BulmaStyles.Layout.container)(
+          <.a(^.className := FooterStyles.footerLogo, ^.href := "/")(
+            <.img(^.src := "http://phantom.make.org/images/logoMake.svg")()
+          ),
+          <.ul(^.className := Seq(BulmaStyles.Helpers.isPulledRight, FooterStyles.links))(
+            <.li(^.className := FooterStyles.firstLink)(
+              <.span(^.className := BulmaStyles.Element.icon)(<.i(^.className := FontAwesomeStyles.bullhorn)()),
+              "Devenez Maker!"
+            ),
+            <.li()("jobs"),
+            <.li()("Espace presse"),
+            <.li()("conditions d'utilisation"),
+            <.li()("contact"),
+            <.li()("f.a.q."),
+            <.li()("sitemap")
+          )
+        )
+      ),
+      <.style()(FooterStyles.render[String])
+    )
+  }
 }
 
 object ThemeList {
@@ -78,23 +52,28 @@ object ThemeList {
   def apply(themes: Seq[Theme]): ReactElement =
     <.ul(^.className := Seq(BulmaStyles.Grid.Columns.columnsMultiLines))(
       themes.map(
-        theme => <.li(
-          ^.key := theme.slug,
-          ^.className := Seq(BulmaStyles.Grid.Columns.is4, BulmaStyles.Grid.Columns.column, FooterStyles.theme(theme.color))
-        )(
-          <.span(^.className := Seq(BulmaStyles.Helpers.isClearfix, BulmaStyles.Helpers.isFullWidth, FooterStyles.themeTitle))(
-            <.a(^.href := "#")(theme.title)
-          ),
-          <.span(
-            ^.className := Seq(BulmaStyles.Helpers.isPulledLeft, FooterStyles.themeDescription)
+        theme =>
+          <.li(
+            ^.key := theme.slug,
+            ^.className := Seq(
+              BulmaStyles.Grid.Columns.is4,
+              BulmaStyles.Grid.Columns.column,
+              FooterStyles.theme(theme.color)
+            )
           )(
-            s"${NumberFormat.formatToKilo(theme.actionsCount)} actions en cours"
-          ),
-          <.span(
-            ^.className := Seq(BulmaStyles.Helpers.isPulledLeft, FooterStyles.themeDescription)
-          )(
-            s"${NumberFormat.formatToKilo(theme.proposalsCount)} propositions"
-          )
+            <.span(
+              ^.className := Seq(
+                BulmaStyles.Helpers.isClearfix,
+                BulmaStyles.Helpers.isFullWidth,
+                FooterStyles.themeTitle
+              )
+            )(<.Link(^.to := s"/theme/${theme.slug}")(theme.title)),
+            <.span(^.className := Seq(BulmaStyles.Helpers.isPulledLeft, FooterStyles.themeDescription))(
+              s"${NumberFormat.formatToKilo(theme.actionsCount)} actions en cours"
+            ),
+            <.span(^.className := Seq(BulmaStyles.Helpers.isPulledLeft, FooterStyles.themeDescription))(
+              s"${NumberFormat.formatToKilo(theme.proposalsCount)} propositions"
+            )
         )
       )
     )
@@ -103,51 +82,25 @@ object ThemeList {
 object FooterStyles extends StyleSheet.Inline {
   import dsl._
 
-  val container: StyleA = style(
-    width(100.%%)
-  )
+  val container: StyleA = style(width(100.%%))
 
-  val themeWrapper: StyleA = style(
-    backgroundColor(MakeStyles.Background.footer),
-    padding(2.4.rem, 2.7.rem),
-    fontFamily(MakeStyles.Font.tradeGothicLTStd)
-  )
+  val themeWrapper: StyleA =
+    style(backgroundColor(MakeStyles.Background.footer), padding(2.4.rem, 2.7.rem), MakeStyles.Font.tradeGothicLTStd)
 
-  val themeWrapperTitle: StyleA = style(
-    MakeStyles.title2
-  )
+  val themeWrapperTitle: StyleA = style(MakeStyles.title2)
 
-  def theme(color: String) = style(
-    margin(1.rem, 0.rem),
-    borderLeft := s"0.4rem solid $color"
-  )
+  def theme(color: String): StyleA = style(margin(1.rem, 0.rem), borderLeft :=! s"0.4rem solid $color")
 
   val themeTitle: StyleA = style(
-    unsafeChild("a")(
-      fontSize(2.rem),
-      lineHeight(1.4),
-      fontWeight.bold,
-      color(MakeStyles.Color.black)
-    )
+    unsafeChild("a")(fontSize(2.rem), lineHeight(1.4), fontWeight.bold, color(MakeStyles.Color.black))
   )
 
-  val themeDescription: StyleA = style(
-    color(rgba(0, 0, 0, 0.3)),
-    marginRight(10.px)
-  )
+  val themeDescription: StyleA = style(color(rgba(0, 0, 0, 0.3)), marginRight(10.px))
 
-  val linksContainer: StyleA = style(
-    height(71.px),
-    backgroundColor(c"#ffffff"),
-    boxShadow := "0 0 4px 0 rgba(0, 0, 0, 0.3)",
-    padding(20.px, 0.px)
-  )
+  val linksContainer: StyleA =
+    style(height(71.px), backgroundColor(c"#ffffff"), boxShadow := "0 0 4px 0 rgba(0, 0, 0, 0.3)", padding(20.px, 0.px))
 
-  val footerLogo: StyleA = style(
-    unsafeChild("img")(
-      width(60.px)
-    )
-  )
+  val footerLogo: StyleA = style(unsafeChild("img")(width(60.px)))
 
   val links: StyleA = style(
     unsafeChild("li")(
@@ -156,15 +109,9 @@ object FooterStyles extends StyleSheet.Inline {
       margin(0.px, 7.px),
       fontWeight.bold,
       position.relative,
-      unsafeChild("span.icon")(
-        position.absolute,
-        top(4.px),
-        left(-30.px)
-      )
+      unsafeChild("span.icon")(position.absolute, top(4.px), left(-30.px))
     )
   )
 
-  val firstLink: StyleA = style (
-    color(MakeStyles.Color.pink)
-  )
+  val firstLink: StyleA = style(color(MakeStyles.Color.pink))
 }

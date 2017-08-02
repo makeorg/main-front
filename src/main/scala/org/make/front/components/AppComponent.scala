@@ -13,7 +13,7 @@ object AppComponent {
       <.div(^.className := "App")(
         <(HeaderComponent()).empty,
         <(ContainerComponent()).empty,
-        <(FooterComponent()).empty,
+        <(FooterContainerComponent()).empty,
         <(NotificationContainerComponent()).empty
     )
   )

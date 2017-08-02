@@ -1,3 +1,5 @@
+import sbt.Keys.baseDirectory
+
 organization := "org.make.front"
 name := "make-front"
 version := "1.0.0-SNAPSHOT"
@@ -72,12 +74,7 @@ npmResolutions in Compile := {
 version in webpack := npmWebpackVersion
 
 webpackResources := {
-  baseDirectory.value / "src" / "main" / "static" ** "*.sass" +++
-    baseDirectory.value / "src" / "main" / "static" ** "*.ejs" +++
-    baseDirectory.value / "src" / "main" / "static" ** "*.svg" +++
-    baseDirectory.value / "src" / "main" / "static" ** "*.png" +++
-    baseDirectory.value / "src" / "main" / "static" ** "*.jpg" +++
-    baseDirectory.value / "src" / "main" / "static" ** "*.jpeg"
+  baseDirectory.value / "src" / "main" / "static" / "sass" ** "*.sass"
 }
 
 webpackConfigFile := Some(baseDirectory.value / "make-webpack.config.js")
@@ -86,3 +83,19 @@ webpackDevServerPort := 9009
 
 // Prod settings
 scalacOptions ++= Seq("-Xelide-below", "OFF")
+
+// Custome task to manage assets
+val prepareAssets = taskKey[Unit]("prepareAssets")
+prepareAssets in ThisBuild := {
+  val npmDirectory = (npmUpdate in Compile).value
+  IO.copyDirectory(baseDirectory.value / "src" / "main" / "static", npmDirectory, overwrite = true)
+  streams.value.log.info("Copy assets to working directory")
+}
+fastOptJS in Compile := {
+  prepareAssets.value
+  (fastOptJS in Compile).value
+}
+fullOptJS in Compile := {
+  prepareAssets.value
+  (fullOptJS in Compile).value
+}
