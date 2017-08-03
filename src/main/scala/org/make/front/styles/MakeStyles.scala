@@ -74,6 +74,7 @@ object MakeStyles extends StyleSheet.Inline {
   // background
   object Background {
     val footer: ValueT[ValueT.Color] = rgba(0, 0, 0, 0.05)
+    val action: ValueT[ValueT.Color] = rgba(0, 0, 0, 0.05)
   }
 
   def gradientBackground(from: String, to: String): StyleA =
