@@ -2,6 +2,7 @@ package org.make.front.components
 
 import io.github.shogowada.scalajs.reactjs.React
 import io.github.shogowada.scalajs.reactjs.VirtualDOM._
+import org.make.front.facades.imageLogoMake
 
 import scalacss.DevDefaults._
 import scalacss.internal.mutable.StyleSheet
@@ -14,7 +15,7 @@ object HeaderComponent {
       <.div(^.className := HeaderStyles.container.htmlClass)(
         <.div(^.className := HeaderStyles.header_container.htmlClass)(
           <.a(^.className := HeaderStyles.header_logo_container.htmlClass, ^.href := "/")(
-            <.img(^.src := "http://phantom.make.org/images/logoMake.svg")()
+            <.img(^.src := imageLogoMake.toString)()
           ),
           <(SearchInputComponent()).empty,
           <(UserHeaderComponent()).empty

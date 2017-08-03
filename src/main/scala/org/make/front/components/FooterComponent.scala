@@ -5,10 +5,13 @@ import io.github.shogowada.scalajs.reactjs.VirtualDOM.{<, _}
 import io.github.shogowada.scalajs.reactjs.elements.ReactElement
 import io.github.shogowada.scalajs.reactjs.router.dom.RouterDOM._
 import org.make.front.Predef._
+import org.make.front.facades.Translate.TranslateVirtualDOMElements
+import org.make.front.facades.{imageLogoMake, I18n}
 import org.make.front.helpers.NumberFormat
 import org.make.front.models.Theme
 import org.make.front.styles.{BulmaStyles, FontAwesomeStyles, MakeStyles}
 
+import org.make.front.facades.Translate._
 import scalacss.DevDefaults._
 
 object FooterComponent {
@@ -19,26 +22,24 @@ object FooterComponent {
     <.div(^.className := BulmaStyles.Helpers.isFullWidth)(
       <.div(^.className := FooterStyles.themeWrapper)(
         <.div(^.className := FooterStyles.container)(
-          <.h2(^.className := FooterStyles.themeWrapperTitle)("Tous les thèmes"),
+          <.h2(^.className := FooterStyles.themeWrapperTitle)(I18n.t("content.footer.title")),
           ThemeList(props.wrapped.themes)
         )
       ),
       <.div(^.className := FooterStyles.linksContainer)(
         <.div(^.className := BulmaStyles.Layout.container)(
-          <.a(^.className := FooterStyles.footerLogo, ^.href := "/")(
-            <.img(^.src := "http://phantom.make.org/images/logoMake.svg")()
-          ),
+          <.a(^.className := FooterStyles.footerLogo, ^.href := "/")(<.img(^.src := imageLogoMake.toString)()),
           <.ul(^.className := Seq(BulmaStyles.Helpers.isPulledRight, FooterStyles.links))(
             <.li(^.className := FooterStyles.firstLink)(
               <.span(^.className := BulmaStyles.Element.icon)(<.i(^.className := FontAwesomeStyles.bullhorn)()),
-              "Devenez Maker!"
+              I18n.t("content.footer.recruitment")
             ),
-            <.li()("jobs"),
-            <.li()("Espace presse"),
-            <.li()("conditions d'utilisation"),
-            <.li()("contact"),
-            <.li()("f.a.q."),
-            <.li()("sitemap")
+            <.li()(I18n.t("content.footer.jobs")),
+            <.li()(I18n.t("content.footer.press")),
+            <.li()(I18n.t("content.footer.terms")),
+            <.li()(I18n.t("content.footer.contact")),
+            <.li()(I18n.t("content.footer.faq")),
+            <.li()(I18n.t("content.footer.sitemap"))
           )
         )
       ),
@@ -66,12 +67,16 @@ object ThemeList {
                 )
               )(<.Link(^.to := s"/theme/${theme.slug}")(theme.title)),
               <.div(^.className := BulmaStyles.Helpers.isClearfix)(
-                <.span(^.className := Seq(BulmaStyles.Helpers.isPulledLeft, FooterStyles.themeDescription))(
-                  s"${NumberFormat.formatToKilo(theme.actionsCount)} actions en cours"
-                ),
-                <.span(^.className := Seq(BulmaStyles.Helpers.isPulledLeft, FooterStyles.themeDescription))(
-                  s"${NumberFormat.formatToKilo(theme.proposalsCount)} propositions"
-                )
+                <.Translate(
+                  ^.className := Seq(BulmaStyles.Helpers.isPulledLeft, FooterStyles.themeDescription),
+                  ^.value := "content.theme.actionsCount",
+                  ^("actions") := NumberFormat.formatToKilo(theme.actionsCount)
+                )(),
+                <.Translate(
+                  ^.className := Seq(BulmaStyles.Helpers.isPulledLeft, FooterStyles.themeDescription),
+                  ^.value := "content.theme.proposalsCount",
+                  ^("proposals") := NumberFormat.formatToKilo(theme.proposalsCount)
+                )()
               )
             )
         )

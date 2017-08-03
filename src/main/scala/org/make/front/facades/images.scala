@@ -14,3 +14,7 @@ object imageShutterstock2 extends js.Object
 @js.native
 @JSImport("./images/shutterstock-110700254@3x.jpg", "default")
 object imageShutterstock3 extends js.Object
+
+@js.native
+@JSImport("./images/logoMake.svg", "default")
+object imageLogoMake extends js.Object

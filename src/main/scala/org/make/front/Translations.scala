@@ -15,10 +15,44 @@ object Translations {
     """
       |{
       |  "fr": {
-      |    "hello": "Bonjour, le Monde <br />"
+      |    "content": {
+      |       "footer": {
+      |         "jobs": "jobs",
+      |         "press": "Espace presse",
+      |         "terms": "conditions d'utilisation",
+      |         "contact": "contact",
+      |         "faq": "f.a.q.",
+      |         "sitemap": "sitemap",
+      |         "recruitment": "Devenez Maker!",
+      |         "title": "Tous les thèmes"
+      |       },
+      |       "theme": {
+      |         "actionsCount": "%{actions} actions en cours",
+      |         "proposalsCount": "%{proposals} propositions"
+      |       }
+      |    },
+      |    "form": {
+      |    }
       |  },
       |  "en": {
-      |    "hello": "Hello, World"
+      |    "content": {
+      |       "footer": {
+      |         "jobs": "jobs",
+      |         "press": "Espace presse",
+      |         "terms": "conditions d'utilisation",
+      |         "contact": "contact",
+      |         "faq": "f.a.q.",
+      |         "sitemap": "sitemap",
+      |         "recruitment": "Devenez Maker!",
+      |         "title": "Tous les thèmes"
+      |       },
+      |       "theme": {
+      |         "actionsCount": "%{actions} actions en cours",
+      |         "proposalsCount": "%{proposals} propositions"
+      |       }
+      |    },
+      |    "form": {
+      |    }
       |  }
       |}
     """.stripMargin
