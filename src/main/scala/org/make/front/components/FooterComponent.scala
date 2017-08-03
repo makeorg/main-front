@@ -18,7 +18,7 @@ object FooterComponent {
   def apply(props: Props[WrappedProps]): ReactElement = {
     <.div(^.className := BulmaStyles.Helpers.isFullWidth)(
       <.div(^.className := FooterStyles.themeWrapper)(
-        <.div(^.className := BulmaStyles.Layout.container)(
+        <.div(^.className := FooterStyles.container)(
           <.h2(^.className := FooterStyles.themeWrapperTitle)("Tous les thèmes"),
           ThemeList(props.wrapped.themes)
         )
@@ -55,24 +55,24 @@ object ThemeList {
         theme =>
           <.li(
             ^.key := theme.slug,
-            ^.className := Seq(
-              BulmaStyles.Grid.Columns.is4,
-              BulmaStyles.Grid.Columns.column,
-              FooterStyles.theme(theme.color)
-            )
+            ^.className := Seq(BulmaStyles.Grid.Columns.is4, BulmaStyles.Grid.Columns.column, FooterStyles.theme)
           )(
-            <.span(
-              ^.className := Seq(
-                BulmaStyles.Helpers.isClearfix,
-                BulmaStyles.Helpers.isFullWidth,
-                FooterStyles.themeTitle
+            <.span(^.className := Seq(FooterStyles.themeInner(theme.color)))(
+              <.span(
+                ^.className := Seq(
+                  BulmaStyles.Helpers.isClearfix,
+                  BulmaStyles.Helpers.isFullWidth,
+                  FooterStyles.themeTitle
+                )
+              )(<.Link(^.to := s"/theme/${theme.slug}")(theme.title)),
+              <.div(^.className := BulmaStyles.Helpers.isClearfix)(
+                <.span(^.className := Seq(BulmaStyles.Helpers.isPulledLeft, FooterStyles.themeDescription))(
+                  s"${NumberFormat.formatToKilo(theme.actionsCount)} actions en cours"
+                ),
+                <.span(^.className := Seq(BulmaStyles.Helpers.isPulledLeft, FooterStyles.themeDescription))(
+                  s"${NumberFormat.formatToKilo(theme.proposalsCount)} propositions"
+                )
               )
-            )(<.Link(^.to := s"/theme/${theme.slug}")(theme.title)),
-            <.span(^.className := Seq(BulmaStyles.Helpers.isPulledLeft, FooterStyles.themeDescription))(
-              s"${NumberFormat.formatToKilo(theme.actionsCount)} actions en cours"
-            ),
-            <.span(^.className := Seq(BulmaStyles.Helpers.isPulledLeft, FooterStyles.themeDescription))(
-              s"${NumberFormat.formatToKilo(theme.proposalsCount)} propositions"
             )
         )
       )
@@ -82,30 +82,52 @@ object ThemeList {
 object FooterStyles extends StyleSheet.Inline {
   import dsl._
 
-  val container: StyleA = style(width(100.%%))
-
   val themeWrapper: StyleA =
-    style(backgroundColor(MakeStyles.Background.footer), padding(2.4.rem, 2.7.rem), MakeStyles.Font.tradeGothicLTStd)
+    style(
+      backgroundColor(MakeStyles.Background.footer),
+      padding(3.2F.rem, 0.rem, 1.8F.rem, 0.rem),
+      MakeStyles.Font.tradeGothicLTStd
+    )
 
-  val themeWrapperTitle: StyleA = style(MakeStyles.title2)
+  val themeWrapperTitle: StyleA = style(MakeStyles.title2, lineHeight(3.4F.rem), marginBottom(2.2F.rem))
 
-  def theme(color: String): StyleA = style(margin(1.rem, 0.rem), borderLeft :=! s"0.4rem solid $color")
+  val theme: StyleA =
+    style(padding(0.rem), margin(0.rem, 0.rem, 1.5F.rem, 0.rem))
+
+  def themeInner(color: String): StyleA =
+    style(
+      borderLeft :=! s"0.5rem solid $color",
+      width(100.%%),
+      height(100.%%),
+      display.block,
+      marginLeft(0.75F.rem),
+      paddingLeft(0.9F.rem)
+    )
 
   val themeTitle: StyleA = style(
-    unsafeChild("a")(fontSize(2.rem), lineHeight(1.4), fontWeight.bold, color(MakeStyles.Color.black))
+    unsafeChild("a")(fontSize(2.rem), lineHeight(1.2), fontWeight.bold, color(MakeStyles.Color.black))
   )
 
-  val themeDescription: StyleA = style(color(rgba(0, 0, 0, 0.3)), marginRight(10.px))
+  val themeDescription: StyleA =
+    style(
+      color(rgba(0, 0, 0, 0.3)),
+      marginRight(10.px),
+      fontSize(1.6F.rem),
+      lineHeight(1.6F.rem),
+      MakeStyles.Font.circularStdBook
+    )
 
   val linksContainer: StyleA =
     style(height(71.px), backgroundColor(c"#ffffff"), boxShadow := "0 0 4px 0 rgba(0, 0, 0, 0.3)", padding(20.px, 0.px))
+
+  val container: StyleA = style(maxWidth(114.rem), marginRight.auto, marginLeft.auto, width(100.%%), height(100.%%))
 
   val footerLogo: StyleA = style(unsafeChild("img")(width(60.px)))
 
   val links: StyleA = style(
     unsafeChild("li")(
       float.left,
-      fontSize(1.6.rem),
+      fontSize(1.6F.rem),
       margin(0.px, 7.px),
       fontWeight.bold,
       position.relative,

@@ -10,7 +10,7 @@ object MakeStyles extends StyleSheet.Inline {
 
   //todo: implement h1
   val title1: StyleA = style()
-  val title2: StyleA = style(fontSize(3.4.rem), Font.tradeGothicLTStd, fontWeight.bold)
+  val title2: StyleA = style(fontSize(3.4.rem), MakeStyles.Font.tradeGothicLTStd, textTransform.uppercase)
   //todo: implement h3
   val title3: StyleA = style()
 
