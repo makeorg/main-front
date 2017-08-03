@@ -1,4 +1,4 @@
-package org.make.front.components
+package org.make.front.components.presentationals
 
 import io.github.shogowada.scalajs.reactjs.React.Props
 import io.github.shogowada.scalajs.reactjs.VirtualDOM.{<, _}

@@ -1,10 +1,11 @@
-package org.make.front.components
+package org.make.front.components.containers
 
 import io.github.shogowada.scalajs.reactjs.React
 import io.github.shogowada.scalajs.reactjs.VirtualDOM._
 import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import io.github.shogowada.scalajs.reactjs.router.WithRouter
 import io.github.shogowada.scalajs.reactjs.router.dom.RouterDOM._
+import org.make.front.components.presentationals.HomeComponent
 
 object ContainerComponent {
   def apply(): ReactClass = WithRouter(reactClass)

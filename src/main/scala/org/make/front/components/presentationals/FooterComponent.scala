@@ -1,4 +1,4 @@
-package org.make.front.components
+package org.make.front.components.presentationals
 
 import io.github.shogowada.scalajs.reactjs.React.Props
 import io.github.shogowada.scalajs.reactjs.VirtualDOM.{<, _}
@@ -11,7 +11,6 @@ import org.make.front.helpers.NumberFormat
 import org.make.front.models.Theme
 import org.make.front.styles.{BulmaStyles, FontAwesomeStyles, MakeStyles}
 
-import org.make.front.facades.Translate._
 import scalacss.DevDefaults._
 
 object FooterComponent {

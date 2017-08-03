@@ -1,10 +1,11 @@
-package org.make.front.components
+package org.make.front.components.containers
 
 import io.github.shogowada.scalajs.reactjs.React.Props
 import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import io.github.shogowada.scalajs.reactjs.redux.ReactRedux
 import io.github.shogowada.scalajs.reactjs.redux.Redux.Dispatch
 import org.make.front.actions.LoadThemes
+import org.make.front.components.presentationals.FooterComponent
 import org.make.front.models.AppState
 
 object FooterContainerComponent {
