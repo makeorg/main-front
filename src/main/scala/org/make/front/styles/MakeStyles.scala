@@ -49,10 +49,11 @@ object MakeStyles extends StyleSheet.Inline {
 
   // colors
   object Color {
+    val white: ValueT[ValueT.Color] = c"#fff"
     val black: ValueT[ValueT.Color] = rgb(0, 0, 0)
     val grey: ValueT[ValueT.Color] = rgba(0, 0, 0, 0.3)
     val pink: ValueT[ValueT.Color] = c"#ed1844"
-    val white: ValueT[ValueT.Color] = rgb(255, 255, 255)
+    val darkGrey: ValueT[ValueT.Color] = c"#808080"
   }
 
   // font

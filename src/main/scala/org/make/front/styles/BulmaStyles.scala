@@ -112,6 +112,7 @@ object BulmaStyles extends StyleSheet.Inline {
     val button: StyleA = style(addClassNames("button"))
     val notification: StyleA = style(addClassName("notification"))
     val notificationDelete: StyleA = style(addClassName("delete"))
+    val tag: StyleA = style(addClassNames("tag"))
   }
 
   object Syntax {
@@ -120,8 +121,8 @@ object BulmaStyles extends StyleSheet.Inline {
     val isSuccess: StyleA = style(addClassNames("is-success"))
     val isWarning: StyleA = style(addClassNames("is-warning"))
     val isDanger: StyleA = style(addClassNames("is-danger"))
-
     val isDark: StyleA = style(addClassNames("is-dark"))
+    val isLight: StyleA = style(addClassNames("is-light"))
   }
 
   object Components {

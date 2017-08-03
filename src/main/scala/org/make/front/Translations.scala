@@ -43,6 +43,10 @@ object Translations {
       |       "theme": {
       |         "actionsCount": "%{actions} actions en cours",
       |         "proposalsCount": "%{proposals} propositions"
+      |       },
+      |       "tag": {
+      |         "showMore": "affichier tous les tags",
+      |         "showLess": "masquer les tags supplémentaires"
       |       }
       |    },
       |    "form": {
@@ -77,6 +81,10 @@ object Translations {
       |       "theme": {
       |         "actionsCount": "%{actions} actions en cours",
       |         "proposalsCount": "%{proposals} propositions"
+      |       },
+      |       "tag": {
+      |         "showMore": "show all tags",
+      |         "showLess": "hide additional tags"
       |       }
       |    },
       |    "form": {

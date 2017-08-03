@@ -20,11 +20,13 @@ package object presentationals {
     def HomeComponent: ReactClassElementSpec = self(presentationals.HomeComponent.reactClass)
     def ContainerComponent: ReactClassElementSpec = self(presentationals.ContainerComponent())
     def HomeHeaderComponent: ReactClassElementSpec = self(presentationals.HomeHeaderComponent.reactClass)
-    def NotificationContainerComponent: ReactClassElementSpec =
-      self(containers.NotificationContainerComponent.reactClass)
     def FooterComponent: ReactClassElementSpec = self(presentationals.FooterComponent.reactClass)
+    def TagListComponent: ReactClassElementSpec = self(presentationals.TagListComponent.reactClass)
+    def TagComponent: ReactClassElementSpec = self(presentationals.TagComponent.reactClass)
 
     // Containers
+    def NotificationContainerComponent: ReactClassElementSpec =
+      self(containers.NotificationContainerComponent.reactClass)
     def UserHeaderContainerComponent: ReactClassElementSpec =
       self(containers.UserHeaderContainerComponent.reactClass)
     def FooterContainerComponent: ReactClassElementSpec =
