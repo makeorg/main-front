@@ -1,3 +1,3 @@
 package org.make.front.models
 
-case class AppState(notifications: Seq[Notification])
+final case class AppState(notifications: Seq[Notification], themes: Seq[Theme])

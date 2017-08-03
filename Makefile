@@ -1,10 +1,11 @@
-.PHONY: package-docker-image release run test-all test-all-with-coverage test-int test-unit
+.PHONY: clean release reload-all start test-all test-all-with-coverage test-int test-unit
 
 help:
 	@echo "Please use 'make <target>' where <target> is one of"
-	@echo "   package-docker-image           to build locally the docker image"
+	@echo "   clean                          to clean"
 	@echo "   release                        to release the application"
-	@echo "   run                            to run app"
+	@echo "   reload-all                     to clean and start webpack dev server"
+	@echo "   start                          to start webpack dev server"
 	@echo "   test-all                       to test the application"
 	@echo "   test-all-with-coverage         to test the application with code coverage"
 	@echo "   test-int                       to test the application (integration tests)"
@@ -13,16 +14,16 @@ help:
 package-docker-image:
 	sbt publishLocal
 
-release:
-	sbt release
-
 clean:
 	sbt clean
 
-start:
-	sbt ~fastOptJS::startWebpackDevServer
+release:
+	sbt release
 
 reload-all: clean start
+
+start:
+	sbt ~fastOptJS::startWebpackDevServer
 
 test-all: test-unit test-int
 
