@@ -4,7 +4,7 @@ import io.github.shogowada.scalajs.reactjs.React
 import io.github.shogowada.scalajs.reactjs.VirtualDOM._
 import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import io.github.shogowada.scalajs.reactjs.elements.ReactElement
-import org.make.front.facades.I18n
+import org.make.front.facades.{imageAvatar, I18n}
 import org.make.front.styles.{BulmaStyles, FontAwesomeStyles, MakeStyles}
 
 import scalacss.DevDefaults._
@@ -18,7 +18,7 @@ object UserHeaderComponent {
   lazy val reactClass: ReactClass =
     React.createClass[WrappedProps, State](
       getInitialState = { self =>
-        State(avatarUrl = self.props.wrapped.avatarUrl.getOrElse("http://phantom.make.org/images/headerAvatar.png"))
+        State(avatarUrl = self.props.wrapped.avatarUrl.getOrElse(imageAvatar.toString))
       },
       render = self =>
         <.nav(^.className := BulmaStyles.Components.Navbar.navbarEnd)(if (self.props.wrapped.isConnected) {

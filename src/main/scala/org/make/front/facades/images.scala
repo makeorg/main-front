@@ -18,3 +18,15 @@ object imageShutterstock3 extends js.Object
 @js.native
 @JSImport("./images/logoMake.svg", "default")
 object imageLogoMake extends js.Object
+
+@js.native
+@JSImport("./images/avatar.png", "default")
+object imageAvatar extends js.Object
+
+@js.native
+@JSImport("./images/avatar@2x.png", "default")
+object imageAvatar2 extends js.Object
+
+@js.native
+@JSImport("./images/avatar@3x.png", "default")
+object imageAvatar3 extends js.Object
