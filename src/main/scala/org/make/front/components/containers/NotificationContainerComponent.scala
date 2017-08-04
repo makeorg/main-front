@@ -10,9 +10,7 @@ import org.make.front.models.AppState
 
 object NotificationContainerComponent {
 
-  def apply(): ReactClass = reactClass
-
-  private lazy val reactClass = ReactRedux.connectAdvanced(selectorFactory)(NotificationListComponent(_))
+  lazy val reactClass: ReactClass = ReactRedux.connectAdvanced(selectorFactory)(NotificationListComponent(_))
 
   def selectorFactory: (Dispatch) => (AppState, Props[Unit]) => NotificationListComponent.WrappedProps =
     (dispatch: Dispatch) => {

@@ -1,10 +1,11 @@
 package org.make.front.components.presentationals
 
+import io.github.shogowada.scalajs.reactjs.React
 import io.github.shogowada.scalajs.reactjs.React.Props
 import io.github.shogowada.scalajs.reactjs.VirtualDOM.{<, _}
+import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import io.github.shogowada.scalajs.reactjs.elements.ReactElement
 import io.github.shogowada.scalajs.reactjs.router.dom.RouterDOM._
-import org.make.front.Predef._
 import org.make.front.facades.Translate.TranslateVirtualDOMElements
 import org.make.front.facades.{imageLogoMake, I18n}
 import org.make.front.helpers.NumberFormat
@@ -17,12 +18,12 @@ object FooterComponent {
 
   case class WrappedProps(themes: Seq[Theme])
 
-  def apply(props: Props[WrappedProps]): ReactElement = {
+  lazy val reactClass: ReactClass = React.createClass[WrappedProps, Unit](render = self => {
     <.div(^.className := BulmaStyles.Helpers.isFullWidth)(
       <.div(^.className := FooterStyles.themeWrapper)(
         <.div(^.className := FooterStyles.container)(
           <.h2(^.className := FooterStyles.themeWrapperTitle)(I18n.t("content.footer.title")),
-          ThemeList(props.wrapped.themes)
+          ThemeList(self.props.wrapped.themes)
         )
       ),
       <.div(^.className := FooterStyles.linksContainer)(
@@ -44,7 +45,7 @@ object FooterComponent {
       ),
       <.style()(FooterStyles.render[String])
     )
-  }
+  })
 }
 
 object ThemeList {
@@ -122,7 +123,12 @@ object FooterStyles extends StyleSheet.Inline {
     )
 
   val linksContainer: StyleA =
-    style(height(71.px), backgroundColor(c"#ffffff"), boxShadow := "0 0 4px 0 rgba(0, 0, 0, 0.3)", padding(20.px, 0.px))
+    style(
+      height(71.px),
+      backgroundColor(c"#ffffff"),
+      boxShadow := "0 0 4px 0 rgba(0, 0, 0, 0.3)",
+      padding(20.px, 0.px)
+    )
 
   val container: StyleA = style(maxWidth(114.rem), marginRight.auto, marginLeft.auto, width(100.%%), height(100.%%))
 

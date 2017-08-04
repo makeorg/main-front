@@ -2,9 +2,6 @@ package org.make.front.styles
 
 import org.make.front.Main.CssSettings._
 
-import scalacss.internal.ValueT
-import scalacss.internal.mutable.Register
-
 object BulmaStyles extends StyleSheet.Inline {
 
   import dsl._
@@ -29,6 +26,10 @@ object BulmaStyles extends StyleSheet.Inline {
     val isPaddingless: StyleA = style(addClassName("is-paddingless"))
     val isUnselectable: StyleA = style(addClassName("is-unselectable"))
     val isHidden: StyleA = style(addClassName("is-hidden"))
+    val isHoverable: StyleA = style(addClassName("is-hoverable"))
+    val isActive: StyleA = style(addClassName("is-active"))
+    val hasDropdown: StyleA = style(addClassName("has-dropdown"))
+    val isSmall: StyleA = style(addClassName("is-small"))
   }
 
   // see http://bulma.io/documentation/modifiers/responsive-helpers/
@@ -112,5 +113,20 @@ object BulmaStyles extends StyleSheet.Inline {
     val isSuccess: StyleA = style(addClassNames("is-success"))
     val isWarning: StyleA = style(addClassNames("is-warning"))
     val isDanger: StyleA = style(addClassNames("is-danger"))
+  }
+
+  object Components {
+    object Navbar {
+      val navbar: StyleA = style(addClassNames("navbar"))
+      val navbarBrand: StyleA = style(addClassNames("navbar-brand"))
+      val navbarBurger: StyleA = style(addClassNames("navbar-burger"))
+      val navbarMenu: StyleA = style(addClassNames("navbar-menu"))
+      val navbarStart: StyleA = style(addClassNames("navbar-start"))
+      val navbarEnd: StyleA = style(addClassNames("navbar-end"))
+      val navbarItem: StyleA = style(addClassNames("navbar-item"))
+      val navbarLink: StyleA = style(addClassNames("navbar-link"))
+      val navbarDropdown: StyleA = style(addClassNames("navbar-dropdown"))
+      val navbarDivider: StyleA = style(addClassNames("navbar-divider"))
+    }
   }
 }

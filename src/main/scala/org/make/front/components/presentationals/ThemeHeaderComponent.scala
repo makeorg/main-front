@@ -3,7 +3,6 @@ package org.make.front.components.presentationals
 import io.github.shogowada.scalajs.reactjs.React.Props
 import io.github.shogowada.scalajs.reactjs.VirtualDOM._
 import io.github.shogowada.scalajs.reactjs.elements.ReactElement
-import org.make.front.Predef._
 import org.make.front.facades._
 import org.make.front.models.{GradientColor, Theme}
 import org.make.front.styles.{BulmaStyles, MakeStyles}

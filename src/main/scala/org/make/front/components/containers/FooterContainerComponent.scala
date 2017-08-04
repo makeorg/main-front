@@ -10,9 +10,7 @@ import org.make.front.models.AppState
 
 object FooterContainerComponent {
 
-  def apply(): ReactClass = reactClass
-
-  private lazy val reactClass = ReactRedux.connectAdvanced(selectorFactory)(FooterComponent(_))
+  lazy val reactClass: ReactClass = ReactRedux.connectAdvanced(selectorFactory)(FooterComponent.reactClass)
 
   def selectorFactory: (Dispatch) => (AppState, Props[Unit]) => FooterComponent.WrappedProps =
     (dispatch: Dispatch) => { (state: AppState, props: Props[Unit]) =>

@@ -6,7 +6,8 @@ object Reducer {
   def reduce(maybeState: Option[AppState], action: Any): AppState = {
     AppState(
       notifications = NotificationReducer.reduce(maybeState.map(_.notifications), action),
-      themes = ThemeReducer.reduce(maybeState.map(_.themes), action)
+      themes = ThemeReducer.reduce(maybeState.map(_.themes), action),
+      connectedUser = ConnectedUserReducer.reduce(maybeState.flatMap(_.connectedUser), action)
     )
   }
 }
