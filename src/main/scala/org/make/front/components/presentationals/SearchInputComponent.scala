@@ -6,6 +6,7 @@ import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import io.github.shogowada.scalajs.reactjs.elements.ReactElement
 import org.make.front.facades.Autosuggest._
 import org.make.front.facades._
+import org.make.front.styles.{BulmaStyles, FontAwesomeStyles}
 import org.scalajs.dom.raw.FocusEvent
 
 import scala.scalajs.js
@@ -37,6 +38,15 @@ object SearchInputComponent {
       "sectionContainerTitle" -> SearchInputStyles.sectionContainerTitle.htmlClass
     ).toJSDictionary
 
+  def renderInput(props: InputProps): ReactElement = {
+    <.p(^.className := Seq(BulmaStyles.Element.hasIconsLeft, BulmaStyles.Element.control))(
+      <.input(^.className := SearchInputStyles.input, ^.placeholder := props.placeholder, ^.value := props.value)(),
+      <.span(^.className := Seq(BulmaStyles.Element.icon, BulmaStyles.Element.isLeft))(
+        <.i(^.className := Seq(FontAwesomeStyles.search, SearchInputStyles.redSearchIcon))()
+      )
+    )
+  }
+
   lazy val reactClass: ReactClass =
     React
       .createClass[Unit, State](
@@ -49,7 +59,7 @@ object SearchInputComponent {
 
           def onBlur(event: FocusEvent, selectedObject: js.Object): Unit = {}
 
-          <.div()(
+          <.div(^.className := Seq(BulmaStyles.Element.hasIconsLeft, BulmaStyles.Element.control))(
             <.Autosuggest(
               ^.suggestions := js.Array(),
               ^.onSuggestionsFetchRequested := (
@@ -64,6 +74,9 @@ object SearchInputComponent {
               ^.inputProps := InputProps(self.state.value, onChange, onBlur, "search", I18n.t("search.placeholder")),
               ^.theme := theme
             )(),
+            <.span(^.className := Seq(BulmaStyles.Element.icon, BulmaStyles.Element.isLeft))(
+              <.i(^.className := Seq(FontAwesomeStyles.search, SearchInputStyles.redSearchIcon))()
+            ),
             <.style()(SearchInputStyles.render[String])
           )
         }
@@ -95,30 +108,33 @@ object SuggestionRender {
 object SearchInputStyles extends StyleSheet.Inline {
   import dsl._
 
-  val container: StyleA = style(border(none))
-  val containerOpen: StyleA = style(border(none))
+  val container: StyleA = style(border(none), verticalAlign.middle, padding(20.px), width(100.%%))
+  val containerOpen: StyleA = style()
   val input: StyleA =
     style(
       height(40.px),
-      width(500.px),
+      minWidth(200.px),
+      width(100.%%),
       borderRadius(40.px),
       border(1.px, solid, c"#CCC"),
       backgroundColor(c"#F7F7F7"),
-      marginLeft(50.px),
-      marginRight(50.px),
-      paddingLeft(20.px),
-      paddingRight(20.px)
+      paddingLeft(35.px),
+      paddingRight(20.px),
+      minWidth(300.px),
+      maxWidth(2000.px)
     )
   val inputFocused: StyleA = style(borderColor(c"#3898EC"), outline(none))
-  val inputOpen: StyleA = style(border(none))
-  val suggestionsContainer: StyleA = style(border(none))
-  val suggestionsContainerOpen: StyleA = style(border(none))
-  val suggestionsList: StyleA = style(border(none))
-  val suggestion: StyleA = style(border(none))
-  val suggestionFirst: StyleA = style(border(none))
-  val suggestionHighlighted: StyleA = style(border(none))
-  val sectionContainer: StyleA = style(border(none))
-  val sectionContainerFirst: StyleA = style(border(none))
-  val sectionContainerTitle: StyleA = style(border(none))
+  val inputOpen: StyleA = style()
+  val suggestionsContainer: StyleA = style()
+  val suggestionsContainerOpen: StyleA = style()
+  val suggestionsList: StyleA = style()
+  val suggestion: StyleA = style()
+  val suggestionFirst: StyleA = style()
+  val suggestionHighlighted: StyleA = style()
+  val sectionContainer: StyleA = style()
+  val sectionContainerFirst: StyleA = style()
+  val sectionContainerTitle: StyleA = style()
+
+  val redSearchIcon: StyleA = style(color.red, marginTop(55.px), marginLeft(60.px))
 
 }

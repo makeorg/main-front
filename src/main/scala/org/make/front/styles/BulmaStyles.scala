@@ -103,6 +103,11 @@ object BulmaStyles extends StyleSheet.Inline {
 
   object Element {
     val icon: StyleA = style(addClassNames("icon"))
+    val isLeft: StyleA = style(addClassNames("is-left"))
+    val isRight: StyleA = style(addClassNames("is-right"))
+    val hasIconsLeft: StyleA = style(addClassNames("has-icons-left"))
+    val hasIconsRight: StyleA = style(addClassNames("has-icons-right"))
+    val control: StyleA = style(addClassNames("control"))
     val notification: StyleA = style(addClassName("notification"))
     val notificationDelete: StyleA = style(addClassName("delete"))
   }

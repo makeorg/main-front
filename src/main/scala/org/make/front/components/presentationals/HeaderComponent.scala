@@ -26,7 +26,9 @@ object HeaderComponent {
         ),
         <.div(^.className := BulmaStyles.Components.Navbar.navbarMenu)(
           <.div(^.className := BulmaStyles.Components.Navbar.navbarMenu)(
-            <.div(^.className := BulmaStyles.Components.Navbar.navbarStart)(<.SearchInputComponent.empty),
+            <.div(^.className := BulmaStyles.Components.Navbar.navbarStart)(
+              <.SearchInputComponent(^.className := BulmaStyles.Components.Navbar.navbarItem)()
+            ),
             <.div(^.className := BulmaStyles.Components.Navbar.navbarEnd)(<.UserHeaderContainerComponent.empty)
           )
         ),

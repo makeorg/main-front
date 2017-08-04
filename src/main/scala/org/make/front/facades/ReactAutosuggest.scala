@@ -8,11 +8,8 @@ import io.github.shogowada.scalajs.reactjs.elements.ReactElement
 import io.github.shogowada.statictags.{Attribute, AttributeSpec}
 import org.scalajs.dom.raw.FocusEvent
 
-import scalacss.DevDefaults._
-
 import scala.scalajs.js
 import scala.scalajs.js.annotation.JSImport
-import scalacss.internal.mutable.StyleSheet
 
 /**
   * Facade for react-autosuggest
@@ -43,6 +40,7 @@ object Autosuggest {
   type OnSuggestionsClearRequested = js.Function0[Unit]
   type GetSuggestionValue = js.Function1[js.Object, String]
   type RenderSuggestion = js.Function2[js.Object, OnRenderSuggestionExtraParameters, ReactElement]
+  type RenderInput = js.Function1[InputProps, ReactElement]
 
   implicit class AutosuggestVirtualDOMElements(elements: VirtualDOMElements) {
     lazy val Autosuggest: ReactClassElementSpec = elements(NativeAutosuggest)
@@ -82,6 +80,10 @@ object Autosuggest {
       Attribute(name = name, value = theme, AS_IS)
   }
 
+  case class RenderInputComponent(name: String) extends AttributeSpec {
+    def :=(value: RenderInput): Attribute[RenderInput] = Attribute(name = name, value = value, AS_IS)
+  }
+
   implicit class AutosuggestVirtualDOMAttributes(attributes: VirtualDOMAttributes) {
     lazy val suggestions: NativeArrayAttribute = NativeArrayAttribute("suggestions")
     lazy val onSuggestionsFetchRequested: OnSuggestionsFetchRequestedAttribute = OnSuggestionsFetchRequestedAttribute(
@@ -94,6 +96,7 @@ object Autosuggest {
     lazy val renderSuggestion: RenderSuggestionAttribute = RenderSuggestionAttribute("renderSuggestion")
     lazy val inputProps: InputPropsAttribute = InputPropsAttribute("inputProps")
     lazy val theme: ThemeAttribute = ThemeAttribute("theme")
+    lazy val renderInputComponent: RenderInputComponent = RenderInputComponent("renderInputComponent")
   }
 }
 
