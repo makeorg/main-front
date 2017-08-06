@@ -18,15 +18,19 @@ import scala.scalajs.js.annotation.JSImport
   *
   * <.Autosuggest(
   *   ^.suggestions := Seq(
-  *     Map(
-  *       title ->  "Ma proposition 1",
-  *       content -> "the content of my proposition 1"
+  *     ProposalSuggestion(
+  *       id = "id-1",
+  *       title = "tile - proposal 1",
+  *       content = "content - proposal 1",
+  *       tags = ["tag-1", "tag-2"]
   *     ),
-  *     Map(
-  *       title ->  "Ma proposition 2",
-  *       content -> "the content of my proposition 2
+  *     ProposalSuggestion(
+  *       id = "id-2",
+  *       title = "tile - proposal 2",
+  *       content = "content - proposal 2",
+  *       tags = ["tag-3", "tag-4"]
   *     )
-  *   )
+  *   ).toJSArray,
   *   ^.onSuggestionsFetchRequested := (value: String))()
   *
   */
@@ -130,11 +134,10 @@ trait OnRenderSuggestionExtraParameters extends js.Object {
 object InputProps {
   def apply(value: String,
             onChange: (FocusEvent, OnChangeExtraParameters) => Unit,
-            onBlur: (FocusEvent, js.Object)                 => Unit,
             inputType: String,
             placeholder: String): InputProps = {
     js.Dynamic
-      .literal(value = value, onChange = onChange, onBlur = onBlur, `type` = inputType, placeholder = placeholder)
+      .literal(value = value, onChange = onChange, `type` = inputType, placeholder = placeholder)
       .asInstanceOf[InputProps]
   }
 }

@@ -8,7 +8,7 @@ import io.github.shogowada.scalajs.reactjs.router.RouterProps._
 import io.github.shogowada.scalajs.reactjs.router.WithRouter
 import org.make.front.facades.Autosuggest._
 import org.make.front.facades._
-import org.make.front.styles.{BulmaStyles, FontAwesomeStyles}
+import org.make.front.styles.{BulmaStyles, FontAwesomeStyles, MakeStyles}
 import org.scalajs.dom.raw.FocusEvent
 
 import scala.scalajs.js
@@ -22,7 +22,7 @@ object SearchInputComponent {
 
   case class State(value: String, suggestions: js.Array[js.Object])
 
-  val theme: Dictionary[String] =
+  val autoSuggestTheme: Dictionary[String] =
     Map[String, String](
       "container" -> SearchInputStyles.container.htmlClass,
       "containerOpen" -> SearchInputStyles.containerOpen.htmlClass,
@@ -45,66 +45,74 @@ object SearchInputComponent {
       React
         .createClass[Unit, State](
           getInitialState = (_) => State("", js.Array()),
-          render = (self) => {
+          render =
+            (self) => {
 
-            def onChange(event: FocusEvent, parameters: OnChangeExtraParameters): Unit = {
-              self.setState(_.copy(value = parameters.newValue))
-            }
+              def onChange(event: FocusEvent, parameters: OnChangeExtraParameters): Unit = {
+                self.setState(_.copy(value = parameters.newValue))
+                // TODO: trigger search and update suggestions
+              }
 
-            val onSubmit: () => Boolean = () => {
-              val currentValue = URIUtils.encodeURI(self.state.value)
-              self.props.history.push(s"/search?q=$currentValue")
-              false
-            }
+              val onSubmit: () => Boolean = () => {
+                val currentValue = URIUtils.encodeURI(self.state.value)
+                self.props.history.push(s"/search?q=$currentValue")
+                false
+              }
 
-            def onBlur(event: FocusEvent, selectedObject: js.Object): Unit = {}
-
-            <.form(
-              ^.className := Seq(BulmaStyles.Element.hasIconsLeft, BulmaStyles.Element.control),
-              ^.onSubmit := onSubmit
-            )(
-              <.Autosuggest(
-                ^.name := "q",
-                ^.suggestions := js.Array(),
-                ^.onSuggestionsFetchRequested := (
-                  (event: OnSuggestionFetchRequestedExtraParameters) => self.setState(_.copy(value = event.value))
+              <.form(
+                ^.className := Seq(BulmaStyles.Element.hasIconsLeft, BulmaStyles.Element.control),
+                ^.onSubmit := onSubmit
+              )(
+                <.Autosuggest(
+                  ^.suggestions := self.state.suggestions,
+                  ^.onSuggestionsFetchRequested := (
+                    (event: OnSuggestionFetchRequestedExtraParameters) => self.setState(_.copy(value = event.value))
+                  ),
+                  ^.onSuggestionsClearRequested := (() => self.setState(State("", js.Array()))),
+                  ^.renderSuggestion := ((suggestion: js.Object,
+                                          _: OnRenderSuggestionExtraParameters) => SuggestionRender(suggestion)),
+                  ^.getSuggestionValue := (
+                    (suggestion: js.Object) => suggestion.asInstanceOf[ProposalSuggestion].content
+                  ),
+                  ^.inputProps := InputProps(
+                    self.state.value,
+                    onChange,
+                    "search",
+                    I18n.t("content.header.searchPlaceholder")
+                  ),
+                  ^.theme := autoSuggestTheme
+                )(),
+                <.span(^.className := Seq(BulmaStyles.Element.icon, BulmaStyles.Element.isLeft))(
+                  <.i(^.className := Seq(FontAwesomeStyles.search, SearchInputStyles.redSearchIcon))()
                 ),
-                ^.onSuggestionsClearRequested := (() => self.setState(State("", js.Array()))),
-                ^.renderSuggestion := ((suggestion: js.Object,
-                                        _: OnRenderSuggestionExtraParameters) => SuggestionRender(suggestion)),
-                ^.getSuggestionValue := (
-                  (suggestion: js.Object) => suggestion.asInstanceOf[PropositionSuggestion].content
-                ),
-                ^.inputProps := InputProps(self.state.value, onChange, onBlur, "search", I18n.t("search.placeholder")),
-                ^.theme := theme
-              )(),
-              <.span(^.className := Seq(BulmaStyles.Element.icon, BulmaStyles.Element.isLeft))(
-                <.i(^.className := Seq(FontAwesomeStyles.search, SearchInputStyles.redSearchIcon))()
-              ),
-              <.style()(SearchInputStyles.render[String])
-            )
-          }
+                <.style()(SearchInputStyles.render[String])
+              )
+            }
         )
     )
 
 }
 
 @js.native
-trait PropositionSuggestion extends js.Object {
+trait ProposalSuggestion extends js.Object {
   def id: String
   def title: String
   def content: String
+  def tags: js.Array[String]
 }
 
-object PropositionSuggestion {
-  def apply(id: String, title: String, content: String): PropositionSuggestion = {
-    Dynamic.literal(id = id, title = title, content = content).asInstanceOf[PropositionSuggestion]
+object ProposalSuggestion {
+  def apply(id: String, title: String, content: String, tags: Seq[String]): ProposalSuggestion = {
+    Dynamic
+      .literal(id = id, title = title, content = content, tags = tags.toJSArray)
+      .asInstanceOf[ProposalSuggestion]
   }
 }
 
 object SuggestionRender {
   // Use a function to render
   def apply(suggestion: js.Object): ReactElement = {
+    // TODO: implement.me when we need to add suggestions in search
     <.span()()
 
   }
@@ -113,22 +121,11 @@ object SuggestionRender {
 object SearchInputStyles extends StyleSheet.Inline {
   import dsl._
 
-  val container: StyleA = style(border(none), verticalAlign.middle, padding(20.px), width(100.%%))
+  val container: StyleA = style(border(none), verticalAlign.middle, padding(2.rem), width(100.%%))
   val containerOpen: StyleA = style()
   val input: StyleA =
-    style(
-      height(40.px),
-      minWidth(200.px),
-      width(100.%%),
-      borderRadius(40.px),
-      border(1.px, solid, c"#CCC"),
-      backgroundColor(c"#F7F7F7"),
-      paddingLeft(35.px),
-      paddingRight(20.px),
-      minWidth(300.px),
-      maxWidth(2000.px)
-    )
-  val inputFocused: StyleA = style(borderColor(c"#3898EC"), outline(none))
+    style(MakeStyles.inputText, width(100.%%), minWidth(30.rem), maxWidth(200.rem))
+  val inputFocused: StyleA = MakeStyles.inputTextFocused
   val inputOpen: StyleA = style()
   val suggestionsContainer: StyleA = style()
   val suggestionsContainerOpen: StyleA = style()
@@ -140,6 +137,6 @@ object SearchInputStyles extends StyleSheet.Inline {
   val sectionContainerFirst: StyleA = style()
   val sectionContainerTitle: StyleA = style()
 
-  val redSearchIcon: StyleA = style(color.red, marginTop(55.px), marginLeft(60.px))
+  val redSearchIcon: StyleA = style(color.red, marginTop(5.5F.rem), marginLeft(6.rem))
 
 }

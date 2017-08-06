@@ -15,16 +15,14 @@ object Translations {
     """
       |{
       |  "fr": {
-      |    "search": {
-      |      "placeholder": "Chercher des propositions"
-      |    },
       |    "content": {
       |       "header": {
       |         "profile": "Mon Profil",
       |         "settings": "Paramètres",
       |         "logout": "Se Déconnecter",
       |         "connect": "Se Connecter",
-      |         "createAccount": "Créer un compte"
+      |         "createAccount": "Créer un compte",
+      |         "searchPlaceholder": "Chercher des propositions"
       |       },
       |       "footer": {
       |         "jobs": "jobs",
@@ -45,16 +43,14 @@ object Translations {
       |    }
       |  },
       |  "en": {
-      |    "search": {
-      |      "placeholder": "Lookup proposals"
-      |    },
       |    "content": {
       |       "header": {
       |         "profile": "My Profile",
       |         "settings": "Settings",
       |         "logout": "Logout",
       |         "connect": "Log In",
-      |         "createAccount": "Create account"
+      |         "createAccount": "Create account",
+      |         "searchPlaceholder": "Lookup proposals"
       |       },
       |       "footer": {
       |         "jobs": "jobs",
