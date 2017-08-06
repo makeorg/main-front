@@ -4,6 +4,8 @@ import io.github.shogowada.scalajs.reactjs.React
 import io.github.shogowada.scalajs.reactjs.VirtualDOM.{<, _}
 import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import io.github.shogowada.scalajs.reactjs.elements.ReactElement
+import io.github.shogowada.scalajs.reactjs.router.RouterProps._
+import io.github.shogowada.scalajs.reactjs.router.WithRouter
 import org.make.front.facades.Autosuggest._
 import org.make.front.facades._
 import org.make.front.styles.{BulmaStyles, FontAwesomeStyles}
@@ -11,14 +13,14 @@ import org.scalajs.dom.raw.FocusEvent
 
 import scala.scalajs.js
 import scala.scalajs.js.JSConverters._
-import scala.scalajs.js.{Dictionary, Dynamic}
+import scala.scalajs.js.{Dictionary, Dynamic, URIUtils}
 import scalacss.DevDefaults._
 import scalacss.internal.mutable.StyleSheet
 
 object SearchInputComponent {
   type Self = React.Self[Unit, State]
 
-  case class State(`value`: String, suggestions: js.Array[js.Object])
+  case class State(value: String, suggestions: js.Array[js.Object])
 
   val theme: Dictionary[String] =
     Map[String, String](
@@ -38,49 +40,52 @@ object SearchInputComponent {
       "sectionContainerTitle" -> SearchInputStyles.sectionContainerTitle.htmlClass
     ).toJSDictionary
 
-  def renderInput(props: InputProps): ReactElement = {
-    <.p(^.className := Seq(BulmaStyles.Element.hasIconsLeft, BulmaStyles.Element.control))(
-      <.input(^.className := SearchInputStyles.input, ^.placeholder := props.placeholder, ^.value := props.value)(),
-      <.span(^.className := Seq(BulmaStyles.Element.icon, BulmaStyles.Element.isLeft))(
-        <.i(^.className := Seq(FontAwesomeStyles.search, SearchInputStyles.redSearchIcon))()
-      )
-    )
-  }
-
   lazy val reactClass: ReactClass =
-    React
-      .createClass[Unit, State](
-        getInitialState = (_) => State("", js.Array()),
-        render = (self) => {
+    WithRouter(
+      React
+        .createClass[Unit, State](
+          getInitialState = (_) => State("", js.Array()),
+          render = (self) => {
 
-          def onChange(event: FocusEvent, parameters: OnChangeExtraParameters): Unit = {
-            self.setState(_.copy(value = parameters.newValue))
+            def onChange(event: FocusEvent, parameters: OnChangeExtraParameters): Unit = {
+              self.setState(_.copy(value = parameters.newValue))
+            }
+
+            val onSubmit: () => Boolean = () => {
+              val currentValue = URIUtils.encodeURI(self.state.value)
+              self.props.history.push(s"/search?q=$currentValue")
+              false
+            }
+
+            def onBlur(event: FocusEvent, selectedObject: js.Object): Unit = {}
+
+            <.form(
+              ^.className := Seq(BulmaStyles.Element.hasIconsLeft, BulmaStyles.Element.control),
+              ^.onSubmit := onSubmit
+            )(
+              <.Autosuggest(
+                ^.name := "q",
+                ^.suggestions := js.Array(),
+                ^.onSuggestionsFetchRequested := (
+                  (event: OnSuggestionFetchRequestedExtraParameters) => self.setState(_.copy(value = event.value))
+                ),
+                ^.onSuggestionsClearRequested := (() => self.setState(State("", js.Array()))),
+                ^.renderSuggestion := ((suggestion: js.Object,
+                                        _: OnRenderSuggestionExtraParameters) => SuggestionRender(suggestion)),
+                ^.getSuggestionValue := (
+                  (suggestion: js.Object) => suggestion.asInstanceOf[PropositionSuggestion].content
+                ),
+                ^.inputProps := InputProps(self.state.value, onChange, onBlur, "search", I18n.t("search.placeholder")),
+                ^.theme := theme
+              )(),
+              <.span(^.className := Seq(BulmaStyles.Element.icon, BulmaStyles.Element.isLeft))(
+                <.i(^.className := Seq(FontAwesomeStyles.search, SearchInputStyles.redSearchIcon))()
+              ),
+              <.style()(SearchInputStyles.render[String])
+            )
           }
-
-          def onBlur(event: FocusEvent, selectedObject: js.Object): Unit = {}
-
-          <.div(^.className := Seq(BulmaStyles.Element.hasIconsLeft, BulmaStyles.Element.control))(
-            <.Autosuggest(
-              ^.suggestions := js.Array(),
-              ^.onSuggestionsFetchRequested := (
-                (event: OnSuggestionFetchRequestedExtraParameters) => self.setState(_.copy(value = event.value))
-              ),
-              ^.onSuggestionsClearRequested := (() => self.setState(State("", js.Array()))),
-              ^.renderSuggestion := ((suggestion: js.Object,
-                                      _: OnRenderSuggestionExtraParameters) => SuggestionRender(suggestion)),
-              ^.getSuggestionValue := (
-                (suggestion: js.Object) => suggestion.asInstanceOf[PropositionSuggestion].content
-              ),
-              ^.inputProps := InputProps(self.state.value, onChange, onBlur, "search", I18n.t("search.placeholder")),
-              ^.theme := theme
-            )(),
-            <.span(^.className := Seq(BulmaStyles.Element.icon, BulmaStyles.Element.isLeft))(
-              <.i(^.className := Seq(FontAwesomeStyles.search, SearchInputStyles.redSearchIcon))()
-            ),
-            <.style()(SearchInputStyles.render[String])
-          )
-        }
-      )
+        )
+    )
 
 }
 
