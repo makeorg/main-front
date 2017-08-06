@@ -61,19 +61,33 @@ object Translations {
       |       }
       |    },
       |    "form": {
+      |       "required": "(obligatoire)",
+      |       "connection": "Connexion",
+      |       "or": "ou",
+      |       "fieldLabelEmail": "e-mail",
+      |       "fieldLabelPassword": "Mot de passe",
+      |       "fieldLabelFirstName": "Prénom",
       |       "login": {
       |         "close": "Fermer",
       |         "socialConnect": "Je me connecte avec",
-      |         "or": "ou",
+      |         "socialRegister": "Je m'inscris avec",
       |         "stdConnect": "Je me connecte avec mon adresse e-mail",
-      |         "fieldLabelEmail": "e-mail",
-      |         "fieldLabelPassword": "Mot de passe",
+      |         "stdRegister": "Je m’inscris avec ce formulaire",
       |         "submitButton": "se connecter",
       |         "oupsI": "Oups, j'ai ",
       |         "forgotPassword": "oublié mon mote de passe ?",
-      |         "anyAccount": "Je n'ai pas de compte, ",
+      |         "noAccount": "Je n'ai pas de compte, ",
       |         "createAccount": "je m'en créé un.",
       |         "errorAuthenticationFailed": "Erreur d'authentification"
+      |       },
+      |       "register": {
+      |          "withSocial": "Je m'inscris avec",
+      |          "noPublishedContent": "(Nous n’y posterons jamais en votre nom)",
+      |          "withForm": "Je m'inscris avec ce formulaire",
+      |          "termsAgreed": "En vous inscrivant, vous acceptez nos conditions générales d’utilisation et acceptez de recevoir des e-mails (peu nombreux) de Make.org.",
+      |          "subscribe": "S’inscrire",
+      |          "alreadySubscribed": "J’ai déjà un compte ! ",
+      |          "noRegister": "Non merci, je souhaite poursuivre sans compte finalement."
       |       }
       |    }
       |  },
@@ -124,19 +138,33 @@ object Translations {
       |       }
       |    },
       |    "form": {
+      |       "required": "(obligatoire)",
+      |       "connection": "Connexion",
+      |       "or": "ou",
+      |       "fieldLabelEmail": "e-mail",
+      |       "fieldLabelPassword": "Mot de passe",
+      |       "fieldLabelFirstName": "Prénom",
       |       "login": {
       |         "close": "Fermer",
       |         "socialConnect": "Je me connecte avec",
-      |         "or": "ou",
+      |         "socialRegister": "Je m'inscris avec",
       |         "stdConnect": "Je me connecte avec mon adresse e-mail",
-      |         "fieldLabelEmail": "e-mail",
-      |         "fieldLabelPassword": "Mot de passe",
+      |         "stdRegister": "Je m’inscris avec ce formulaire",
       |         "submitButton": "se connecter",
       |         "oupsI": "Oups, j'ai ",
       |         "forgotPassword": "oublié mon mote de passe ?",
-      |         "anyAccount": "Je n'ai pas de compte, ",
+      |         "noAccount": "Je n'ai pas de compte, ",
       |         "createAccount": "je m'en créé un.",
       |         "errorAuthenticationFailed": "Erreur d'authentification"
+      |       },
+      |       "register": {
+      |          "withSocial": "Je m'inscris avec",
+      |          "noPublishedContent": "(Nous n’y posterons jamais en votre nom)",
+      |          "withForm": "Je m'inscris avec ce formulaire",
+      |          "termsAgreed": "En vous inscrivant, vous acceptez nos conditions générales d’utilisation et acceptez de recevoir des e-mails (peu nombreux) de Make.org.",
+      |          "subscribe": "S’inscrire",
+      |          "alreadySubscribed": "J’ai déjà un compte ! ",
+      |          "noRegister": "Non merci, je souhaite poursuivre sans compte finalement."
       |       }
       |    }
       |  }

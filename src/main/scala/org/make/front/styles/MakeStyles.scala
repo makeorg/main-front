@@ -73,6 +73,7 @@ object MakeStyles extends StyleSheet.Inline {
     val inputText: StyleA = style(addClassName("make-input-text"))
     val field: StyleA = style(addClassName("make-field"))
     val inputIcon: StyleA = style(addClassName("make-input-icon"))
+    val inputIconLeft: StyleA = style(addClassName("make-input-icon-left"))
   }
 
   object Button {

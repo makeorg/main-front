@@ -6,8 +6,8 @@ import io.github.shogowada.scalajs.reactjs.redux.ReactRedux
 import io.github.shogowada.scalajs.reactjs.redux.Redux.Dispatch
 import io.github.shogowada.scalajs.reactjs.router.RouterProps
 import org.make.front.actions.{DismissLoginRequired, LoggedInAction, NotifyError}
-import org.make.front.components.presentationals.SignInComponent
-import org.make.front.components.presentationals.SignInComponent.{SignInProps, SignInState}
+import org.make.front.components.presentationals.ConnectUserComponent
+import org.make.front.components.presentationals.ConnectUserComponent.{ConnectUserProps, State}
 import org.make.front.facades.I18n
 import org.make.front.facades.ReactFacebookLogin.FacebookAuthResponse
 import org.make.front.facades.ReactGoogleLogin.GoogleAuthResponse
@@ -19,15 +19,15 @@ import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 import scala.util.{Failure, Success}
 
-object SignInContainerComponent extends RouterProps with UserServiceComponent {
+object ConnectUserContainerComponent extends RouterProps with UserServiceComponent {
 
   //TODO: load these from config
   val googleAppId = "810331964280-qtdupbrjusihad3b5da51i5p66qpmhmr.apps.googleusercontent.com"
   val facebookAppId = "317128238675603"
 
-  lazy val reactClass: ReactClass = ReactRedux.connectAdvanced(selectorFactory)(SignInComponent.reactClass)
+  lazy val reactClass: ReactClass = ReactRedux.connectAdvanced(selectorFactory)(ConnectUserComponent.reactClass)
 
-  def selectorFactory: (Dispatch) => (AppState, Props[Unit]) => SignInComponent.SignInProps =
+  def selectorFactory: (Dispatch) => (AppState, Props[Unit]) => ConnectUserComponent.ConnectUserProps =
     (dispatch: Dispatch) =>
       (appState: AppState, _: Props[Unit]) => {
 
@@ -35,22 +35,34 @@ object SignInContainerComponent extends RouterProps with UserServiceComponent {
           dispatch(DismissLoginRequired)
         }
 
-        def signInGoogle(response: Response, child: Self[SignInProps, SignInState]): Unit = {
+        def signInGoogle(response: Response, child: Self[ConnectUserProps, State]): Unit = {
           handleFutureApiResponse(userService.loginGoogle(response.asInstanceOf[GoogleAuthResponse].tokenId), child)
         }
 
-        def signInFacebook(response: Response, child: Self[SignInProps, SignInState]): Unit = {
+        def signInFacebook(response: Response, child: Self[ConnectUserProps, State]): Unit = {
           handleFutureApiResponse(
             userService.loginFacebook(response.asInstanceOf[FacebookAuthResponse].accessToken),
             child
           )
         }
 
-        def signIn(username: String, password: String, child: Self[SignInProps, SignInState]): Unit = {
+        def signIn(username: String, password: String, child: Self[ConnectUserProps, State]): Unit = {
           handleFutureApiResponse(userService.login(username, password), child)
         }
 
-        def handleFutureApiResponse(futureUser: Future[User], child: Self[SignInProps, SignInState]): Unit = {
+        def register(username: String,
+                     password: String,
+                     firstName: String,
+                     child: Self[ConnectUserProps, State]): Unit = {
+          handleFutureApiResponse(
+            userService.registerByUsernameAndPasswordAndFirstName(username, password, firstName).flatMap { _ =>
+              userService.login(username, password)
+            },
+            child
+          )
+        }
+
+        def handleFutureApiResponse(futureUser: Future[User], child: Self[ConnectUserProps, State]): Unit = {
           futureUser.onComplete {
             case Success(user) =>
               dispatch(LoggedInAction(user))
@@ -60,15 +72,17 @@ object SignInContainerComponent extends RouterProps with UserServiceComponent {
           }
         }
 
-        SignInComponent.SignInProps(
+        ConnectUserComponent.ConnectUserProps(
           isConnected = appState.connectedUser.isDefined,
           signInGoogle = signInGoogle,
           signInFacebook = signInFacebook,
           signIn = signIn,
+          register = register,
           closeModal = closeModal,
           isOpen = appState.technicalState.showLoginModal,
           googleAppId = googleAppId,
-          facebookAppId = facebookAppId
+          facebookAppId = facebookAppId,
+          isRegistering = true
         )
     }
 }

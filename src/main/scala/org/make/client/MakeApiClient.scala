@@ -185,11 +185,15 @@ trait DefaultMakeApiClientComponent extends MakeApiClientComponent with TimeInst
       }
     }
 
-    def logout(): Future[Unit] = {
-      post[Unit]("logout").map { _ =>
-        MakeApiClient.removeToken()
-      }
-    }
+    def logout(): Future[Unit] =
+      Ajax
+        .post(
+          url = urlFrom("logout"),
+          timeout = maxTimeout,
+          headers = defaultHeaders,
+          withCredentials = withCredentials
+        )
+        .map(_ => MakeApiClient.removeToken())
 
   }
 }
