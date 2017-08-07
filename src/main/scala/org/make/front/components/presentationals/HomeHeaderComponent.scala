@@ -3,7 +3,8 @@ package org.make.front.components.presentationals
 import io.github.shogowada.scalajs.reactjs.React
 import io.github.shogowada.scalajs.reactjs.VirtualDOM._
 import io.github.shogowada.scalajs.reactjs.classes.ReactClass
-import org.make.front.styles.MakeStyles
+import org.make.front.facades.{homeIllustration, I18n}
+import org.make.front.styles.{BulmaStyles, MakeStyles}
 
 import scalacss.DevDefaults._
 import scalacss.internal.mutable.StyleSheet
@@ -13,13 +14,13 @@ object HomeHeaderComponent {
   lazy val reactClass: ReactClass = React.createClass[Unit, Unit](
     render = (_) =>
       <.div(^.className := HomeHeaderStyles.container.htmlClass)(
-        <.img(
-          ^.className := HomeHeaderStyles.photo.htmlClass,
-          ^.src := "homeIllustration.jpeg",
-          ^.srcset := "homeIllustration-p-500.jpeg 500w, homeIllustration-p-800.jpeg 800w, homeIllustration.jpg 1440w"
-        )(),
-        <.div(^.className := HomeHeaderStyles.title.htmlClass)(
-          <.button(^.className := HomeHeaderStyles.buttonSeeMore.htmlClass)("EN SAVOIR +")
+        <.div(^.className := HomeHeaderStyles.titleContainer.htmlClass)(
+          <.div(
+            ^.className := Seq(BulmaStyles.Element.button, BulmaStyles.Syntax.isDark, HomeHeaderStyles.buttonLaUne)
+          )(I18n.t("content.homepage.baseline")),
+          <.h2(^.className := HomeHeaderStyles.titleText.htmlClass)(I18n.t("content.homepage.title")),
+          <.h5(^.className := HomeHeaderStyles.subTitleText.htmlClass)(I18n.t("content.homepage.subTitle")),
+          <.button(^.className := HomeHeaderStyles.buttonSeeMore.htmlClass)(I18n.t("content.homepage.textSeeMore"))
         ),
         <.style()(HomeHeaderStyles.render[String])
     )
@@ -30,26 +31,39 @@ object HomeHeaderStyles extends StyleSheet.Inline {
 
   import dsl._
 
-  val container: StyleA = style(position.relative)
+  val container: StyleA =
+    style(
+      position.relative,
+      paddingTop(15.rem),
+      paddingBottom(15.rem),
+      backgroundImage := s"url('${homeIllustration.toString}')",
+      backgroundSize := "cover"
+    )
 
-  val photo: StyleA = style(position.relative, zIndex(1), width(100.%%))
+  val titleContainer: StyleA = style(zIndex(5), textAlign.center)
 
-  val title: StyleA =
-    style(position.absolute, left(0 px), right(0 px), bottom(0 px), zIndex(5), paddingBottom(30 px), textAlign.center)
+  val titleText: StyleA = style(color :=! MakeStyles.Color.white, fontSize(5.rem), fontWeight.bold)
+
+  val subTitleText: StyleA = style(color :=! MakeStyles.Color.white, fontSize(1.5.rem))
+
+  val buttonLaUne: StyleA = style(textTransform.uppercase, fontSize(1.5.rem), borderRadius :=! "0", fontWeight.bold)
 
   val buttonSeeMore: StyleA = style(
     display.inlineBlock,
-    marginTop(20 px),
+    marginTop(2.rem),
     marginRight.auto,
     marginLeft.auto,
-    borderRadius(30 px),
+    borderRadius(10.rem),
     backgroundColor(MakeStyles.Color.pink),
-    boxShadow := "1px 1px 1px 0 rgba(0, 0, 0, .5)",
-    color.white,
-    textAlign.center,
-    padding(12 px, 20 px, 10 px),
+    boxShadow := "0.1rem 0.1rem 0.1rem 0 rgba(0, 0, 0, .5)",
+    padding(1.2.rem, 2.rem, 1.2.rem),
+    border :=! "none",
     textDecoration := "none",
-    border := "none"
+    textTransform.uppercase,
+    fontWeight.bold,
+    fontSize(1.3.rem),
+    color.white,
+    textAlign.center
   )
 
   val buttonSeeMoreBig: StyleA =

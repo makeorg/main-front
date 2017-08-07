@@ -99,6 +99,7 @@ object BulmaStyles extends StyleSheet.Inline {
       val is11: StyleA = style(addClassNames("is-11"))
       val is12: StyleA = style(addClassNames("is-12"))
     }
+
   }
 
   object Element {
@@ -108,6 +109,7 @@ object BulmaStyles extends StyleSheet.Inline {
     val hasIconsLeft: StyleA = style(addClassNames("has-icons-left"))
     val hasIconsRight: StyleA = style(addClassNames("has-icons-right"))
     val control: StyleA = style(addClassNames("control"))
+    val button: StyleA = style(addClassNames("button"))
     val notification: StyleA = style(addClassName("notification"))
     val notificationDelete: StyleA = style(addClassName("delete"))
   }
@@ -118,6 +120,8 @@ object BulmaStyles extends StyleSheet.Inline {
     val isSuccess: StyleA = style(addClassNames("is-success"))
     val isWarning: StyleA = style(addClassNames("is-warning"))
     val isDanger: StyleA = style(addClassNames("is-danger"))
+
+    val isDark: StyleA = style(addClassNames("is-dark"))
   }
 
   object Components {
