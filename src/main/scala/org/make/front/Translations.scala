@@ -21,7 +21,8 @@ object Translations {
       |         "settings": "Paramètres",
       |         "logout": "Se Déconnecter",
       |         "connect": "Se Connecter",
-      |         "createAccount": "Créer un compte"
+      |         "createAccount": "Créer un compte",
+      |         "searchPlaceholder": "Chercher des propositions"
       |       },
       |       "footer": {
       |         "jobs": "jobs",
@@ -48,7 +49,8 @@ object Translations {
       |         "settings": "Settings",
       |         "logout": "Logout",
       |         "connect": "Log In",
-      |         "createAccount": "Create account"
+      |         "createAccount": "Create account",
+      |         "searchPlaceholder": "Lookup proposals"
       |       },
       |       "footer": {
       |         "jobs": "jobs",

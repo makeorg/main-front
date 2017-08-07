@@ -25,6 +25,18 @@ object MakeStyles extends StyleSheet.Inline {
   //todo: implement h3
   val title3: StyleA = style()
 
+  val inputTextFocused: StyleA = style(borderColor(c"#3898EC"), outline(none))
+
+  val inputText: StyleA = style(
+    height(4.rem),
+    borderRadius(4.rem),
+    border(1.px, solid, c"#CCC"),
+    backgroundColor(c"#F7F7F7"),
+    paddingLeft(3.5F.rem),
+    paddingRight(2.rem),
+    &.focus(inputTextFocused)
+  )
+
   val heroTitle: StyleA = style(
     fontSize(6.rem),
     Font.tradeGothicLTStd,
