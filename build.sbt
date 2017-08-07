@@ -3,6 +3,7 @@ import sbt.Keys.baseDirectory
 organization := "org.make.front"
 name := "make-front"
 version := "1.0.0-SNAPSHOT"
+// TODO: Use git plugin to append branch name in version
 scalaVersion := "2.12.1"
 
 /* Npm versions */
@@ -77,7 +78,8 @@ webpackResources := {
   baseDirectory.value / "src" / "main" / "static" / "sass" ** "*.sass"
 }
 
-webpackConfigFile := Some(baseDirectory.value / "make-webpack.config.js")
+webpackConfigFile in fastOptJS := Some(baseDirectory.value / "make-webpack.config.js")
+webpackConfigFile in fullOptJS := Some(baseDirectory.value / "make-webpack-prod.config.js")
 
 webpackDevServerPort := 9009
 
@@ -99,3 +101,7 @@ fullOptJS in Compile := {
   prepareAssets.value
   (fullOptJS in Compile).value
 }
+
+gitCommitMessageHook := Some(baseDirectory.value / "bin" / "commit-msg.hook")
+
+enablePlugins(GitHooks)
