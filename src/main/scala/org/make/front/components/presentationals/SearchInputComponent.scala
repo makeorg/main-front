@@ -26,9 +26,8 @@ object SearchInputComponent {
     Map[String, String](
       "container" -> SearchInputStyles.container.htmlClass,
       "containerOpen" -> SearchInputStyles.containerOpen.htmlClass,
-      "input" -> SearchInputStyles.input.htmlClass,
+      "input" -> Seq(MakeStyles.Form.inputText.htmlClass, SearchInputStyles.input.htmlClass).mkString(" "),
       "inputOpen" -> SearchInputStyles.inputOpen.htmlClass,
-      "inputFocused" -> SearchInputStyles.inputFocused.htmlClass,
       "suggestionsContainer" -> SearchInputStyles.suggestionsContainer.htmlClass,
       "suggestionsContainerOpen" -> SearchInputStyles.suggestionsContainerOpen.htmlClass,
       "suggestionsList" -> SearchInputStyles.suggestionsList.htmlClass,
@@ -124,8 +123,7 @@ object SearchInputStyles extends StyleSheet.Inline {
   val container: StyleA = style(border(none), verticalAlign.middle, padding(2.rem), width(100.%%))
   val containerOpen: StyleA = style()
   val input: StyleA =
-    style(MakeStyles.inputText, width(100.%%), minWidth(30.rem), maxWidth(200.rem))
-  val inputFocused: StyleA = MakeStyles.inputTextFocused
+    style(width(100.%%), minWidth(30.rem), maxWidth(200.rem))
   val inputOpen: StyleA = style()
   val suggestionsContainer: StyleA = style()
   val suggestionsContainerOpen: StyleA = style()

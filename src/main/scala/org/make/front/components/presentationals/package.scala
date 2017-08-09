@@ -24,12 +24,14 @@ package object presentationals {
     def TagListComponent: ReactClassElementSpec = self(presentationals.TagListComponent.reactClass)
     def TagComponent: ReactClassElementSpec = self(presentationals.TagComponent.reactClass)
     def ThemeHeaderComponent: ReactClassElementSpec = self(presentationals.ThemeHeaderComponent.reactClass)
+    def SignInComponent: ReactClassElementSpec = self(presentationals.SignInComponent.reactClass)
 
     // Containers
     def NotificationContainerComponent: ReactClassElementSpec =
       self(containers.NotificationContainerComponent.reactClass)
     def UserHeaderContainerComponent: ReactClassElementSpec =
       self(containers.UserHeaderContainerComponent.reactClass)
+    def SignInContainerComponent: ReactClassElementSpec = self(containers.SignInContainerComponent.reactClass)
     def FooterContainerComponent: ReactClassElementSpec =
       self(containers.FooterContainerComponent.reactClass)
     def PoliticalActions: ReactClassElementSpec =

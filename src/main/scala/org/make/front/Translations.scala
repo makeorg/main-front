@@ -18,7 +18,10 @@ object Translations {
       |    "errors": {
       |       "main": "Une erreur est survenue",
       |       "noToken": "Token absent",
-      |       "loginFailed": "La connexion a échoué"
+      |       "loginFailed": "La connexion a échoué",
+      |       "apiFailure": "Échec de l'appel API",
+      |       "unexpectedBehaviour": "Comportement innatendu",
+      |       "tryAgain": "Veuillez réessayer"
       |    },
       |    "content": {
       |       "header": {
@@ -58,13 +61,30 @@ object Translations {
       |       }
       |    },
       |    "form": {
+      |       "login": {
+      |         "close": "Fermer",
+      |         "socialConnect": "Je me connecte avec",
+      |         "or": "ou",
+      |         "stdConnect": "Je me connecte avec mon adresse e-mail",
+      |         "fieldLabelEmail": "e-mail",
+      |         "fieldLabelPassword": "Mot de passe",
+      |         "submitButton": "se connecter",
+      |         "oupsI": "Oups, j'ai ",
+      |         "forgotPassword": "oublié mon mote de passe ?",
+      |         "anyAccount": "Je n'ai pas de compte, ",
+      |         "createAccount": "je m'en créé un.",
+      |         "errorAuthenticationFailed": "Erreur d'authentification"
+      |       }
       |    }
       |  },
       |  "en": {
       |    "errors": {
       |       "main": "An error occured",
       |       "noToken": "No token was provided",
-      |       "loginFailed": "Login Failed"
+      |       "loginFailed": "Login Failed",
+      |       "apiFailure": "API call failed",
+      |       "unexpectedBehaviour": "Unexpected behaviour",
+      |       "tryAgain": "Please try again"
       |    },
       |    "content": {
       |       "header": {
@@ -104,6 +124,20 @@ object Translations {
       |       }
       |    },
       |    "form": {
+      |       "login": {
+      |         "close": "Fermer",
+      |         "socialConnect": "Je me connecte avec",
+      |         "or": "ou",
+      |         "stdConnect": "Je me connecte avec mon adresse e-mail",
+      |         "fieldLabelEmail": "e-mail",
+      |         "fieldLabelPassword": "Mot de passe",
+      |         "submitButton": "se connecter",
+      |         "oupsI": "Oups, j'ai ",
+      |         "forgotPassword": "oublié mon mote de passe ?",
+      |         "anyAccount": "Je n'ai pas de compte, ",
+      |         "createAccount": "je m'en créé un.",
+      |         "errorAuthenticationFailed": "Erreur d'authentification"
+      |       }
       |    }
       |  }
       |}

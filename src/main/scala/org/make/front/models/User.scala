@@ -3,7 +3,7 @@ package org.make.front.models
 import java.time.ZonedDateTime
 
 import io.circe._
-import org.make.core.{StringValue, Timestamped}
+import org.make.core.StringValue
 
 sealed trait Role {
   def shortName: String
@@ -38,32 +38,16 @@ object Role {
     val shortName: String = "ROLE_CITIZEN"
   }
 }
+
 case class User(userId: UserId,
                 email: String,
                 firstName: Option[String],
                 lastName: Option[String],
-                lastIp: Option[String],
-                hashedPassword: Option[String],
-                salt: Option[String],
                 enabled: Boolean,
                 verified: Boolean,
                 lastConnection: ZonedDateTime,
-                verificationToken: Option[String],
-                verificationTokenExpiresAt: Option[ZonedDateTime],
-                resetToken: Option[String],
-                resetTokenExpiresAt: Option[ZonedDateTime],
                 roles: Seq[Role],
-                profile: Option[Profile],
-                override val createdAt: Option[ZonedDateTime] = None,
-                override val updatedAt: Option[ZonedDateTime] = None)
-    extends Timestamped {
-
-  def verificationTokenIsExpired: Boolean =
-    verificationTokenExpiresAt.forall(_.isBefore(ZonedDateTime.now()))
-
-  def resetTokenIsExpired: Boolean =
-    resetTokenExpiresAt.forall(_.isBefore(ZonedDateTime.now()))
-}
+                profile: Option[Profile])
 
 case class UserId(value: String) extends StringValue
 
