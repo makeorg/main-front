@@ -23,6 +23,7 @@ package object presentationals {
     def FooterComponent: ReactClassElementSpec = self(presentationals.FooterComponent.reactClass)
     def TagListComponent: ReactClassElementSpec = self(presentationals.TagListComponent.reactClass)
     def TagComponent: ReactClassElementSpec = self(presentationals.TagComponent.reactClass)
+    def ThemeHeaderComponent: ReactClassElementSpec = self(presentationals.ThemeHeaderComponent.reactClass)
 
     // Containers
     def NotificationContainerComponent: ReactClassElementSpec =
@@ -31,6 +32,8 @@ package object presentationals {
       self(containers.UserHeaderContainerComponent.reactClass)
     def FooterContainerComponent: ReactClassElementSpec =
       self(containers.FooterContainerComponent.reactClass)
+    def PoliticalActions: ReactClassElementSpec =
+      self(containers.PoliticalActionContainerComponent.reactClass)
   }
 
 }

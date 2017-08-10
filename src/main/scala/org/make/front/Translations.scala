@@ -42,11 +42,14 @@ object Translations {
       |       },
       |       "theme": {
       |         "actionsCount": "%{actions} actions en cours",
-      |         "proposalsCount": "%{proposals} propositions"
+      |         "proposalsCount": "%{proposals} propositions",
+      |         "moreInfos": "En savoir +"
       |       },
       |       "tag": {
       |         "showMore": "affichier tous les tags",
-      |         "showLess": "masquer les tags supplémentaires"
+      |         "showLess": "masquer les tags supplémentaires",
+      |         "proposalsCount": "%{proposals} propositions",
+      |         "moreInfos": "En savoir +"
       |       }
       |    },
       |    "form": {
@@ -80,11 +83,14 @@ object Translations {
       |       },
       |       "theme": {
       |         "actionsCount": "%{actions} actions en cours",
-      |         "proposalsCount": "%{proposals} propositions"
+      |         "proposalsCount": "%{proposals} propositions",
+      |         "moreInfos": "En savoir +"
       |       },
       |       "tag": {
       |         "showMore": "show all tags",
-      |         "showLess": "hide additional tags"
+      |         "showLess": "hide additional tags",
+      |         "proposalsCount": "%{proposals} propositions",
+      |         "moreInfos": "En savoir +"
       |       }
       |    },
       |    "form": {

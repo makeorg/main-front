@@ -33,4 +33,8 @@ object FontAwesomeStyles extends StyleSheet.Inline {
   val googlePlus: StyleA = style(addClassName("fa"), addClassName("fa-google-plus"))
   val warning: StyleA = style(addClassName("fa"), addClassName("fa-exclamation-triangle"))
   val infoCircle: StyleA = style(addClassName("fa"), addClassName("fa-info-circle"))
+  val angleLeft: StyleA = style(addClassName("fa"), addClassName("fa-angle-left"))
+  val angleRight: StyleA = style(addClassName("fa"), addClassName("fa-angle-right"))
+  val calendarOpen: StyleA = style(addClassName("fa"), addClassName("fa-calendar-o"))
+  val mapMarker: StyleA = style(addClassName("fa"), addClassName("fa-map-marker"))
 }

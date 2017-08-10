@@ -14,7 +14,7 @@ object ContainerComponent {
     render = (_) =>
       <.div()(
         <.Switch()(
-          <.Route(^.exact := true, ^.path := "/theme/:themeSlug", ^.component := ThemeContainerComponent())(),
+          <.Route(^.exact := true, ^.path := "/theme/:themeSlug", ^.component := ThemeContainerComponent.reactClass)(),
           <.Route(^.exact := true, ^.path := "/", ^.component := HomeComponent.reactClass)()
         )
     )
