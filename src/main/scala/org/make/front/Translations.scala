@@ -66,6 +66,22 @@ object Translations {
       |         "showLess": "masquer les tags supplémentaires",
       |         "proposalsCount": "%{proposals} propositions",
       |         "moreInfos": "En savoir +"
+      |       },
+      |       "proposal": {
+      |         "agree": "D'accord",
+      |         "disagree": "Pas d'accord",
+      |         "blank": "Vote Blanc",
+      |         "doable": "Réaliste",
+      |         "platitude": "Platitude",
+      |         "noWay": "Surtout pas !",
+      |         "impossible": "Infaisable",
+      |         "doNotUnderstand": "Pas compris",
+      |         "noOpinion": "Pas d'avis",
+      |         "doNotCare": "Je m'en moque",
+      |         "fullHeader": "%{firstName}, %{authorAge} ans (%{authorPostalCode})",
+      |         "ageHeader": "%{firstName}, %{authorAge} ans",
+      |         "postalCodeHeader": "%{firstName} (%{authorPostalCode})",
+      |         "tinyHeader": "%{firstName}"
       |       }
       |    },
       |    "form": {
@@ -151,6 +167,22 @@ object Translations {
       |         "showLess": "hide additional tags",
       |         "proposalsCount": "%{proposals} propositions",
       |         "moreInfos": "En savoir +"
+      |       },
+      |       "proposal": {
+      |         "agree": "Agree",
+      |         "disagree": "Disagree",
+      |         "blank": "Blank Vote",
+      |         "doable": "Doable",
+      |         "platitude": "Platitude",
+      |         "noWay": "No way !",
+      |         "impossible": "Impossible",
+      |         "doNotUnderstand": "Did not understand",
+      |         "noOpinion": "No opinion",
+      |         "doNotCare": "Don't care",
+      |         "fullHeader": "%{firstName}, %{authorAge} yo (%{authorPostalCode})",
+      |         "ageHeader": "%{firstName}, %{authorAge} yo",
+      |         "postalCodeHeader": "%{firstName} (%{authorPostalCode})",
+      |         "tinyHeader": "%{firstName}"
       |       }
       |    },
       |    "form": {

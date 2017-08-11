@@ -56,23 +56,21 @@ object TagListComponent {
             tagList.map(
               tag =>
                 <.TagComponent(
-                  ^.wrapped := TagComponentProps(
-                    tag = tag,
-                    handleSelectedTags = self.props.wrapped.handleSelectedTags
-                  )
+                  ^.wrapped := TagComponentProps(tag = tag, handleSelectedTags = self.props.wrapped.handleSelectedTags)
                 )()
             ),
             // if toggle show more mode add show all more
             if (self.props.wrapped.withShowMoreButton) {
               <.div(
                 ^.className := Seq(BulmaStyles.Element.tag, BulmaStyles.Syntax.isDanger, TagStyles.tagContainer),
-                ^.onClick := onClickShowMore(self))(<.span()(I18n.t("content.tag.showMore"))
-              )
+                ^.onClick := onClickShowMore(self)
+              )(<.span()(I18n.t("content.tag.showMore")))
             },
             <.style()(TagStyles.render[String])
           )
         }
       )
+
   /**
     * Toggle show all variable
     * @param self Self[TagListComponentProps, State]
@@ -105,14 +103,15 @@ object TagComponent {
     getInitialState = (_) => TagComponentState(isSelected = false),
     render = (self) => {
       <.div(
-        ^.className :=  Seq(
+        ^.className := Seq(
           BulmaStyles.Element.tag,
           TagStyles.tagContainer,
           if (self.state.isSelected) BulmaStyles.Syntax.isBlack else TagStyles.defaultStyle
         ),
         ^.onClick := onClickTag(self)
       )(<.span()(self.props.wrapped.tag.name))
-  })
+    }
+  )
 
   private def onClickTag(self: Self[TagComponentProps, TagComponentState]) = (e: SyntheticEvent) => {
     e.preventDefault()
@@ -129,8 +128,8 @@ object TagStyles extends StyleSheet.Inline {
     style(
       position.relative,
       paddingLeft(1.2.rem),
-      marginLeft(1.6.rem),
-      marginBottom(0.5.rem),
+      marginRight(1.6.rem),
+      marginTop(0.5.rem),
       borderRadius(0.15.rem),
       fontSize(1.rem),
       fontWeight.bold,
@@ -160,8 +159,6 @@ object TagStyles extends StyleSheet.Inline {
   val defaultStyle: StyleA = style(
     backgroundColor :=! MakeStyles.Color.lightGrey,
     color :=! MakeStyles.Color.white,
-    (&.before)(
-      backgroundColor :=! MakeStyles.Color.lightGrey
-    )
+    (&.before)(backgroundColor :=! MakeStyles.Color.lightGrey)
   )
 }

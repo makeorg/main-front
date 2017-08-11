@@ -67,6 +67,8 @@ object BulmaStyles extends StyleSheet.Inline {
       val isHalf: StyleA = style(addClassNames("is-half"))
       val isOneThird: StyleA = style(addClassNames("is-one-third"))
       val isOneQuarter: StyleA = style(addClassNames("is-one-quarter"))
+      val isOneQuarterDesktop: StyleA = style(addClassNames("is-one-quarter-desktop"))
+      val isHalfTablet: StyleA = style(addClassNames("is-half-tablet"))
       val is2: StyleA = style(addClassNames("is-2"))
       val is3: StyleA = style(addClassNames("is-3"))
       val is4: StyleA = style(addClassNames("is-4"))

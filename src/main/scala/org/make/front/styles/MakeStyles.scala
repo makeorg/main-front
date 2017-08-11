@@ -43,7 +43,7 @@ object MakeStyles extends StyleSheet.Inline {
     val darkGrey: ValueT[ValueT.Color] = c"#808080"
     val error: ValueT[ValueT.Color] = c"#d0011b"
     val backgroundFooter: ValueT[ValueT.Color] = rgba(0, 0, 0, 0.05)
-    val lightGrey: ValueT[ValueT.Color] = c"#cccccc"
+    val lightGrey: ValueT[ValueT.Color] = c"#bcbcbc"
   }
 
   // font
