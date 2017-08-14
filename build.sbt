@@ -8,7 +8,7 @@ scalaVersion := "2.12.1"
 
 /* Npm versions */
 val npmReactVersion = "15.6.1"
-val npmWebpackVersion = "2.3.2"
+val npmWebpackVersion = "2.6.1"
 val npmReactRouterVersion = "4.1.2"
 val npmBulmaVersion = "0.4.4"
 val npmReactAutosuggestVersion = "9.3.1"
@@ -25,6 +25,9 @@ val npmWebpackMd5HashVersion = "0.0.5"
 val npmFrontAwesomeVersion = "4.7.0"
 val npmFileLoaderVersion = "0.11.2"
 val npmNormalizeVersion = "7.0.0"
+val npmHardSourceWebpackVersion = "0.4.9"
+val npmSourceMapLoaderVersion = "0.2.1"
+
 
 /* scala libraries version */
 val scalaJsReactVersion = "0.14.0"
@@ -60,11 +63,14 @@ npmDependencies in Compile ++= Seq(
   "sass-loader" -> npmSassLoaderVersion,
   "node-sass" -> npmNodeSassVersion,
   "extract-text-webpack-plugin" -> npmExtractTextWebpackPluginVersion,
+  "hard-source-webpack-plugin" -> npmHardSourceWebpackVersion,
+  "source-map-loader" -> npmSourceMapLoaderVersion,
   "css-loader" -> npmCssLoaderVersion,
   "style-loader" -> npmStyleLoaderVersion,
   "clean-webpack-plugin" -> npmCleanWebpackPluginVersion,
   "html-webpack-plugin" -> npmHtmlWebpackPluginVersion,
   "webpack-md5-hash" -> npmWebpackMd5HashVersion,
+  "webpack" -> npmWebpackVersion,
   "file-loader" -> npmFileLoaderVersion,
   "font-awesome" -> npmFrontAwesomeVersion,
   "normalize-scss" -> npmNormalizeVersion
@@ -84,6 +90,8 @@ webpackConfigFile in fastOptJS := Some(baseDirectory.value / "make-webpack.confi
 webpackConfigFile in fullOptJS := Some(baseDirectory.value / "make-webpack-prod.config.js")
 
 webpackDevServerPort := 9009
+
+emitSourceMaps := false
 
 // Prod settings
 scalacOptions ++= Seq("-Xelide-below", "OFF")
