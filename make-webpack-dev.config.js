@@ -3,11 +3,15 @@ var path = require('path');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
 var WebpackMd5Hash = require('webpack-md5-hash');
-var pathBuild = path.join(__dirname, 'dist')
+var HardSourceWebpackPlugin = require('hard-source-webpack-plugin');
+var pathBuild = path.join(__dirname, 'dist');
 
 module.exports = require('./scalajs.webpack.config');
 
+module.exports.module = module.exports.module || {};
+
 module.exports.plugins = [
+    new HardSourceWebpackPlugin(),
     new HtmlWebpackPlugin({
         "title": "Make.org",
         "template": path.join(__dirname, "index.template.ejs")
@@ -17,17 +21,17 @@ module.exports.plugins = [
         filename: '[name].[chunkhash].bundle.css',
         allChunks: true,
     })
-]
+];
 
 module.exports.entry = {
     "make-app": path.join(__dirname, "fastopt-launcher.js"),
     "main": path.join(__dirname, "main.sass")
-}
+};
 
 module.exports.output = {
     path: pathBuild,
     "filename": "[name].[chunkhash].js"
-}
+};
 
 module.exports.module.rules = [
     {
@@ -48,4 +52,4 @@ module.exports.module.rules = [
         loader: 'file-loader?name=images/[name].[hash].[ext]',
         include: [path.join(__dirname, "images")]
     }
-]
+];

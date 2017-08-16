@@ -7,6 +7,7 @@ var pathBuild = path.join(__dirname, 'dist')
 
 module.exports = require('./scalajs.webpack.config');
 
+module.exports.module = module.exports.module || {};
 
 module.exports.entry = {
     "make-app": path.join(__dirname, "opt-launcher.js"),
