@@ -15,6 +15,11 @@ object Translations {
     """
       |{
       |  "fr": {
+      |    "errors": {
+      |       "main": "Une erreur est survenue",
+      |       "noToken": "Token absent",
+      |       "loginFailed": "La connexion a échoué"
+      |    },
       |    "content": {
       |       "header": {
       |         "profile": "Mon Profil",
@@ -56,6 +61,11 @@ object Translations {
       |    }
       |  },
       |  "en": {
+      |    "errors": {
+      |       "main": "An error occured",
+      |       "noToken": "No token was provided",
+      |       "loginFailed": "Login Failed"
+      |    },
       |    "content": {
       |       "header": {
       |         "profile": "My Profile",

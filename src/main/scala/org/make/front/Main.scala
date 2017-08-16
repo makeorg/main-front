@@ -3,13 +3,13 @@ package org.make.front
 import io.github.shogowada.scalajs.reactjs.ReactDOM
 import io.github.shogowada.scalajs.reactjs.VirtualDOM._
 import io.github.shogowada.scalajs.reactjs.redux.ReactRedux._
-import io.github.shogowada.scalajs.reactjs.redux.{Redux, Store}
 import io.github.shogowada.scalajs.reactjs.redux.devtools.ReduxDevTools
+import io.github.shogowada.scalajs.reactjs.redux.{Redux, Store}
 import io.github.shogowada.scalajs.reactjs.router.dom.RouterDOM._
-import org.make.front.actions.{LoadPoliticalAction, LoadThemes}
+import org.make.front.actions.LoadThemes
 import org.make.front.components.AppComponent
 import org.make.front.facades.I18n
-import org.make.front.middlewares.{NotificationMiddleware, PoliticalActionMiddleware, ThemeMiddleware}
+import org.make.front.middlewares.{NotificationMiddleware, PoliticalActionMiddleware, ThemeMiddleware, UserMiddleware}
 import org.make.front.models.AppState
 import org.make.front.reducers.Reducer
 import org.scalajs.dom
@@ -27,8 +27,14 @@ object Main extends JSApp {
     I18n.setLocale("fr")
     val store: Store[AppState] = Redux.createStore(
       Reducer.reduce,
-      ReduxDevTools.composeWithDevTools(Redux.applyMiddleware(
-        NotificationMiddleware.handle, ThemeMiddleware.handle, PoliticalActionMiddleware.handle))
+      ReduxDevTools.composeWithDevTools(
+        Redux.applyMiddleware(
+          NotificationMiddleware.handle,
+          ThemeMiddleware.handle,
+          PoliticalActionMiddleware.handle,
+          UserMiddleware.handle
+        )
+      )
     )
     initStore(store)
 

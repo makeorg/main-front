@@ -45,9 +45,10 @@ libraryDependencies ++= Seq(
   "io.github.shogowada"          %%% "scalajs-reactjs-redux"          % scalaJsReactVersion, // Optional. For react-redux facade
   "io.github.shogowada"          %%% "scalajs-reactjs-redux-devtools" % scalaJsReactVersion, // Optional. For redux-devtools facade
   "com.github.japgolly.scalacss" %%% "core"                           % scalaCssCoreVersion,
-  "io.circe"                     %% "circe-core"                      % circeVersion,
-  "io.circe"                     %% "circe-generic"                   % circeVersion,
-  "io.circe"                     %% "circe-parser"                    % circeVersion,
+  "io.circe"                     %%% "circe-core"                     % circeVersion,
+  "io.circe"                     %%% "circe-java8"                    % circeVersion,
+  "io.circe"                     %%% "circe-generic"                  % circeVersion,
+  "io.circe"                     %%% "circe-parser"                   % circeVersion,
   "io.circe"                     %%% "circe-scalajs"                  % circeVersion
 )
 
