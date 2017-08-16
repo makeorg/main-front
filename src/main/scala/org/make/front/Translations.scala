@@ -71,17 +71,26 @@ object Translations {
       |         "agree": "D'accord",
       |         "disagree": "Pas d'accord",
       |         "blank": "Vote Blanc",
-      |         "doable": "Réaliste",
-      |         "platitude": "Platitude",
-      |         "noWay": "Surtout pas !",
-      |         "impossible": "Infaisable",
-      |         "doNotUnderstand": "Pas compris",
-      |         "noOpinion": "Pas d'avis",
-      |         "doNotCare": "Je m'en moque",
+      |         "qualifAgree": {
+      |           "top": "Coup de <span class=\"spanHeart icon is-small\"><i class=\"fa fa-heart\"></i></span>",
+      |           "middle": "Réaliste",
+      |           "bottom": "Platitude"
+      |         },
+      |         "qualifDisagree": {
+      |           "top": "Surtout pas !",
+      |           "middle": "Infaisable",
+      |           "bottom": "Platitide"
+      |         },
+      |         "qualifNeutral": {
+      |           "top": "Pas compris",
+      |           "middle": "Pas d'avis",
+      |           "bottom": "Je m'en moque"
+      |         },
       |         "fullHeader": "%{firstName}, %{authorAge} ans (%{authorPostalCode})",
       |         "ageHeader": "%{firstName}, %{authorAge} ans",
       |         "postalCodeHeader": "%{firstName} (%{authorPostalCode})",
-      |         "tinyHeader": "%{firstName}"
+      |         "tinyHeader": "%{firstName}",
+      |         "plusOne": "+1"
       |       }
       |    },
       |    "form": {
@@ -172,17 +181,26 @@ object Translations {
       |         "agree": "Agree",
       |         "disagree": "Disagree",
       |         "blank": "Blank Vote",
-      |         "doable": "Doable",
-      |         "platitude": "Platitude",
-      |         "noWay": "No way !",
-      |         "impossible": "Impossible",
-      |         "doNotUnderstand": "Did not understand",
-      |         "noOpinion": "No opinion",
-      |         "doNotCare": "Don't care",
+      |         "qualifAgree": {
+      |           "top": "I <span class=\"spanHeart icon is-small\"><i class=\"fa fa-heart\"></i></span> It",
+      |           "middle": "Doable",
+      |           "bottom": "Platitude"
+      |         },
+      |         "qualifDisagree": {
+      |           "top": "No way !",
+      |           "middle": "Impossible",
+      |           "bottom": "Platitude"
+      |         },
+      |         "qualifNeutral": {
+      |           "top": "Did not understand",
+      |           "middle": "No opinion",
+      |           "bottom": "Don't care"
+      |         },
       |         "fullHeader": "%{firstName}, %{authorAge} yo (%{authorPostalCode})",
       |         "ageHeader": "%{firstName}, %{authorAge} yo",
       |         "postalCodeHeader": "%{firstName} (%{authorPostalCode})",
-      |         "tinyHeader": "%{firstName}"
+      |         "tinyHeader": "%{firstName}",
+      |         "plusOne": "+1"
       |       }
       |    },
       |    "form": {

@@ -24,9 +24,18 @@ object HomeComponent {
                     authorFirstname = "Marco",
                     authorPostalCode = Some("75"),
                     authorAge = Some(42),
-                    nbVoteAgree = 84,
-                    nbVoteDisagree = 42,
-                    nbVoteNeutral = 21,
+                    nbVoteAgree = 2500,
+                    nbVoteDisagree = 660,
+                    nbVoteNeutral = 170,
+                    nbQualifLikeIt = 952,
+                    nbQualifDoable = 97,
+                    nbQualifPlatitudeAgree = 7,
+                    nbQualifNoWay = 320,
+                    nbQualifImpossible = 53,
+                    nbQualifPlatitudeDisagree = 9,
+                    nbQualifDoNotUnderstand = 74,
+                    nbQualifNoOpinion = 12,
+                    nbQualifDoNotCare = 3,
                     tags = Seq(Tag(name = "un"), Tag(name = "deux"), Tag(name = "trois"))
                   )
                 )

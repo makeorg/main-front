@@ -3,8 +3,10 @@ package org.make.front.components.presentationals
 import io.github.shogowada.scalajs.reactjs.React
 import io.github.shogowada.scalajs.reactjs.VirtualDOM._
 import io.github.shogowada.scalajs.reactjs.classes.ReactClass
+import io.github.shogowada.scalajs.reactjs.elements.ReactElement
 import org.make.front.components.presentationals.TagListComponent.TagListComponentProps
-import org.make.front.models.Proposal
+import org.make.front.facades.Translate.TranslateVirtualDOMElements
+import org.make.front.models.{Proposal, VoteAgree, VoteDisagree, VoteNeutral}
 import org.make.front.styles.{BulmaStyles, MakeStyles}
 
 import scalacss.DevDefaults._
@@ -13,39 +15,69 @@ object ProposalTileComponent {
 
   final case class ProposalTileProps(proposal: Proposal)
 
-  def reactClass: ReactClass = React.createClass[ProposalTileProps, Unit](
-   render = (self) =>
-     <.div(^.className := Seq(
-       BulmaStyles.Grid.Columns.column,
-       BulmaStyles.Grid.Columns.isOneQuarterDesktop,
-       BulmaStyles.Grid.Columns.isHalfTablet
-     ))(
-       <.div(^.className := ProposalTileStyle.proposalCard)(
-         <.div(^.className := ProposalTileStyle.proposalUpPart)(
-           <.div(^.className := ProposalTileStyle.proposalAuthor)(
-             s"${self.props.wrapped.proposal.authorFirstname}, ${self.props.wrapped.proposal.authorAge} ans " +
-               s"(${self.props.wrapped.proposal.authorPostalCode})"
-           ),
-           <.div(^.className := ProposalTileStyle.proposalText)(
-             <.span()(
-               self.props.wrapped.proposal.content
-             )
-           ),
-           <.ButtonVoteComponent()()
-         ),
-         <.div(^.className := ProposalTileStyle.proposalTags)(
-           <.TagListComponent(
-             ^.wrapped := TagListComponentProps(
-               tags = self.props.wrapped.proposal.tags,
-               toggleShowAll = false
-             )
-           )()
-         ),
-         <.style()(ProposalTileStyle.render[String])
-       )
-     )
-  )
+  def reactClass: ReactClass =
+    React.createClass[ProposalTileProps, Unit](render = (self) => {
+      def header(proposal: Proposal): ReactElement = {
+        (proposal.authorAge, proposal.authorPostalCode) match {
+          case (Some(authorAge), Some(authorPostalCode)) =>
+            <.Translate(
+              ^.value := "content.proposal.fullHeader",
+              ^("firstName") := proposal.authorFirstname,
+              ^("authorAge") := authorAge.toString,
+              ^("authorPostalCode") := authorPostalCode
+            )()
+          case (Some(authorAge), None) =>
+            <.Translate(
+              ^.value := "content.proposal.ageHeader",
+              ^("firstName") := proposal.authorFirstname,
+              ^("authorAge") := authorAge.toString
+            )()
+          case (None, Some(authorPostalCode)) =>
+            <.Translate(
+              ^.value := "content.proposal.postalCodeHeader",
+              ^("firstName") := proposal.authorFirstname,
+              ^("authorPostalCode") := authorPostalCode
+            )()
+          case (None, None) =>
+            <.Translate(^.value := "content.proposal.tinyHeader", ^("firstName") := proposal.authorFirstname)()
+        }
+      }
 
+      <.div(
+        ^.className := Seq(
+          BulmaStyles.Grid.Columns.column,
+          BulmaStyles.Grid.Columns.isOneQuarterDesktop,
+          BulmaStyles.Grid.Columns.isHalfTablet
+        )
+      )(
+        <.div(^.className := ProposalTileStyle.proposalCard)(
+          <.div(^.className := ProposalTileStyle.proposalUpPart)(
+            <.div(^.className := ProposalTileStyle.proposalAuthor)(header(self.props.wrapped.proposal)),
+            <.div(^.className := ProposalTileStyle.proposalText)(<.span()(self.props.wrapped.proposal.content)),
+            <.VoteButtonComponent(
+              ^.wrapped := VoteButtonComponent.VoteButtonProps(
+                voteAgreeStats = Proposal.getVoteStats(self.props.wrapped.proposal, VoteAgree),
+                voteDisagreeStats = Proposal.getVoteStats(self.props.wrapped.proposal, VoteDisagree),
+                voteNeutralStats = Proposal.getVoteStats(self.props.wrapped.proposal, VoteNeutral),
+                totalVote = self.props.wrapped.proposal.nbVoteAgree +
+                  self.props.wrapped.proposal.nbVoteDisagree +
+                  self.props.wrapped.proposal.nbVoteNeutral
+              )
+            )()
+          ),
+          <.div(^.className := ProposalTileStyle.proposalTags)(
+            <.TagListComponent(
+              ^.wrapped := TagListComponentProps(
+                tags = self.props.wrapped.proposal.tags,
+                handleSelectedTags = _ => (),
+                withShowMoreButton = false
+              )
+            )()
+          ),
+          <.style()(ProposalTileStyle.render[String])
+        )
+      )
+    })
 }
 
 object ProposalTileStyle extends StyleSheet.Inline {

@@ -27,8 +27,10 @@ package object presentationals {
     def ConnectUserComponent: ReactClassElementSpec = self(presentationals.ConnectUserComponent.reactClass)
     def ProposalMatrixComponent: ReactClassElementSpec = self(presentationals.ProposalMatrixComponent.reactClass)
     def TagFilterComponent: ReactClassElementSpec = self(presentationals.TagFilterComponent.reactClass)
-    def ButtonVoteComponent: ReactClassElementSpec = self(presentationals.ButtonVoteComponent.reactClass)
     def ProposalTileComponent: ReactClassElementSpec = self(presentationals.ProposalTileComponent.reactClass)
+    def VoteButtonComponent: ReactClassElementSpec = self(presentationals.VoteButtonComponent.reactClass)
+    def QualificationButtonComponent: ReactClassElementSpec =
+      self(presentationals.QualificationButtonComponent.reactClass)
 
     // Containers
     def NotificationContainerComponent: ReactClassElementSpec =
