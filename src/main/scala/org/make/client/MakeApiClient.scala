@@ -3,6 +3,7 @@ package org.make.client
 import io.circe.Decoder
 import io.circe.java8.time.TimeInstances
 import io.circe.parser._
+import io.circe.syntax._
 import io.github.shogowada.statictags.MediaTypes
 import org.make.core.URI._
 import org.make.front.models.Token
@@ -162,6 +163,32 @@ trait DefaultMakeApiClientComponent extends MakeApiClientComponent with TimeInst
           data = "".paramsToString(Seq("username" -> username, "password" -> password, "grant_type" -> "password")),
           timeout = maxTimeout,
           headers = defaultHeaders ++ Map("Content-Type" -> MediaTypes.`application/x-www-form-urlencoded`),
+          withCredentials = withCredentials
+        )
+        .onComplete(responseTry => XHRResponseTo(responseTry, promiseReturn))
+      promiseReturn.future.map { newToken =>
+        MakeApiClient.setToken(newToken)
+        MakeApiClient.isAuthenticated
+      }
+    }
+
+    def authenticateSocial(provider: String, token: String)(implicit decoder: Decoder[Token]): Future[Boolean] = {
+      if (MakeApiClient.isAuthenticated) {
+        Future.successful(true)
+      } else {
+        askForAccessTokenSocial(provider, token)
+      }
+    }
+
+    private def askForAccessTokenSocial(provider: String,
+                                        token: String)(implicit decoder: Decoder[Token]): Future[Boolean] = {
+      val promiseReturn: Promise[Token] = Promise[Token]()
+      Ajax
+        .post(
+          url = urlFrom("user" / "login" / "social"),
+          data = Map("provider" -> provider, "token" -> token).asJson.toString,
+          timeout = maxTimeout,
+          headers = defaultHeaders,
           withCredentials = withCredentials
         )
         .onComplete(responseTry => XHRResponseTo(responseTry, promiseReturn))
