@@ -51,7 +51,15 @@ object Translations {
       |       "theme": {
       |         "actionsCount": "%{actions} actions en cours",
       |         "proposalsCount": "%{proposals} propositions",
-      |         "moreInfos": "En savoir +"
+      |         "moreInfos": "En savoir +",
+      |         "matrix": {
+      |           "title": "votez sur les propositions",
+      |           "filter": {
+      |             "tag": {
+      |               "title": "Tags populaire :"
+      |             }
+      |           }
+      |         }
       |       },
       |       "tag": {
       |         "showMore": "affichier tous les tags",
@@ -128,7 +136,15 @@ object Translations {
       |       "theme": {
       |         "actionsCount": "%{actions} actions en cours",
       |         "proposalsCount": "%{proposals} propositions",
-      |         "moreInfos": "En savoir +"
+      |         "moreInfos": "En savoir +",
+      |         "matrix": {
+      |           "title": "votez sur les propositions",
+      |           "filter": {
+      |             "tag": {
+      |               "title": "Tags populaire :"
+      |             }
+      |           }
+      |         }
       |       },
       |       "tag": {
       |         "showMore": "show all tags",
