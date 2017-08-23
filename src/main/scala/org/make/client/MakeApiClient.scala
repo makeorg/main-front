@@ -1,8 +1,9 @@
 package org.make.client
 
-import io.circe.Decoder
+import io.circe.{Decoder, Printer}
 import io.circe.java8.time.TimeInstances
 import io.circe.parser._
+import io.circe.syntax._
 import io.github.shogowada.statictags.MediaTypes
 import org.make.core.URI._
 import org.make.front.models.Token
@@ -155,26 +156,47 @@ trait DefaultMakeApiClientComponent extends MakeApiClientComponent with TimeInst
 
     private def askForAccessToken(username: String,
                                   password: String)(implicit decoder: Decoder[Token]): Future[Boolean] = {
-      val promiseReturn: Promise[Token] = Promise[Token]()
-      Ajax
-        .post(
-          url = urlFrom("oauth" / "make_access_token"),
-          data = "".paramsToString(Seq("username" -> username, "password" -> password, "grant_type" -> "password")),
-          timeout = maxTimeout,
-          headers = defaultHeaders ++ Map("Content-Type" -> MediaTypes.`application/x-www-form-urlencoded`),
-          withCredentials = withCredentials
-        )
-        .onComplete(responseTry => XHRResponseTo(responseTry, promiseReturn))
-      promiseReturn.future.map { newToken =>
+      post[Token](
+        "oauth" / "make_access_token",
+        data = "".paramsToString(Seq("username" -> username, "password" -> password, "grant_type" -> "password")),
+        headers = Map("Content-Type" -> MediaTypes.`application/x-www-form-urlencoded`)
+      ).map { newToken =>
         MakeApiClient.setToken(newToken)
         MakeApiClient.isAuthenticated
       }
     }
+
+    def authenticateSocial(provider: String, token: String)(implicit decoder: Decoder[Token]): Future[Boolean] = {
+      if (MakeApiClient.isAuthenticated) {
+        Future.successful(true)
+      } else {
+        askForAccessTokenSocial(provider, token)
+      }
+    }
+
+    private def askForAccessTokenSocial(provider: String,
+                                        token: String)(implicit decoder: Decoder[Token]): Future[Boolean] = {
+      post[Token](
+        "user" / "login" / "social",
+        data = Map("provider" -> provider, "token" -> token).asJson.pretty(MakeApiClient.printer)
+      ).map { newToken =>
+        MakeApiClient.setToken(newToken)
+        MakeApiClient.isAuthenticated
+      }
+    }
+
+    def logout(): Future[Unit] = {
+      post[Unit]("logout").map { _ =>
+        MakeApiClient.removeToken()
+      }
+    }
+
   }
 }
 
 object MakeApiClient {
   private var token: Option[Token] = None
+  val printer: Printer = Printer.noSpaces
 
   def getToken: Option[Token] = token
   def setToken(newToken: Token): Unit = token = Some(newToken)

@@ -6,25 +6,16 @@ import org.make.front.models._
 
 trait CirceClassFormatters extends TimeInstances {
   implicit lazy val userDecoder: Decoder[User] =
-    Decoder.forProduct18(
+    Decoder.forProduct9(
       "userId",
       "email",
       "firstName",
       "lastName",
-      "lastIp",
-      "hashedPassword",
-      "salt",
       "enabled",
       "verified",
       "lastConnection",
-      "verificationToken",
-      "verificationTokenExpiresAt",
-      "resetToken",
-      "resetTokenExpiresAt",
       "roles",
-      "profile",
-      "createdAt",
-      "updatedAt"
+      "profile"
     )(User.apply)
 
   implicit lazy val roleEncoder: Encoder[Role] = (role: Role) => Json.fromString(role.shortName)

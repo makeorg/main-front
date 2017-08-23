@@ -83,6 +83,7 @@ object ReactModal {
     lazy val shouldCloseOnOverlayClick = BooleanAttributeSpec("shouldCloseOnOverlayClick")
     lazy val onAfterOpen = OnAfterOpenAttribute("onAfterOpen")
     lazy val onRequestClose = OnRequestCloseAttribute("onRequestClose")
+    lazy val overlayClassName = SpaceSeparatedStringAttributeSpec("overlayClassName")
   }
 
 }

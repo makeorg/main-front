@@ -27,7 +27,8 @@ val npmFileLoaderVersion = "0.11.2"
 val npmNormalizeVersion = "7.0.0"
 val npmHardSourceWebpackVersion = "0.4.9"
 val npmSourceMapLoaderVersion = "0.2.1"
-
+val npmReactGoogleLogin = "2.9.2"
+val npmReactFacebookLogin = "3.6.2"
 
 /* scala libraries version */
 val scalaJsReactVersion = "0.14.0"
@@ -74,7 +75,9 @@ npmDependencies in Compile ++= Seq(
   "webpack" -> npmWebpackVersion,
   "file-loader" -> npmFileLoaderVersion,
   "font-awesome" -> npmFrontAwesomeVersion,
-  "normalize-scss" -> npmNormalizeVersion
+  "normalize-scss" -> npmNormalizeVersion,
+  "react-google-login" -> npmReactGoogleLogin,
+  "react-facebook-login" -> npmReactFacebookLogin
 )
 
 npmResolutions in Compile := {

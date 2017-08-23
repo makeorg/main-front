@@ -1,7 +1,6 @@
 package org.make.front.components.presentationals
 
 import io.github.shogowada.scalajs.reactjs.React
-import io.github.shogowada.scalajs.reactjs.React.Props
 import io.github.shogowada.scalajs.reactjs.VirtualDOM.{<, _}
 import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import io.github.shogowada.scalajs.reactjs.elements.ReactElement
@@ -123,12 +122,7 @@ object FooterStyles extends StyleSheet.Inline {
     )
 
   val linksContainer: StyleA =
-    style(
-      height(71.px),
-      backgroundColor(c"#ffffff"),
-      boxShadow := "0 0 4px 0 rgba(0, 0, 0, 0.3)",
-      padding(20.px, 0.px)
-    )
+    style(height(71.px), backgroundColor(c"#ffffff"), boxShadow := "0 0 4px 0 rgba(0, 0, 0, 0.3)", padding(20.px, 0.px))
 
   val container: StyleA = style(maxWidth(114.rem), marginRight.auto, marginLeft.auto, width(100.%%), height(100.%%))
 

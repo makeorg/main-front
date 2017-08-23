@@ -20,6 +20,6 @@ object NotificationContainerComponent {
       }
 
       (state: AppState, _) =>
-        NotificationListComponent.WrappedProps(state.notifications, onClose = onClose)
+        NotificationListComponent.WrappedProps(state.technicalState.notifications, onClose = onClose)
     }
 }

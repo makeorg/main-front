@@ -1,6 +1,8 @@
 package org.make.front.models
 
-final case class AppState(notifications: Seq[Notification],
-                          themes: Seq[Theme],
+final case class AppState(themes: Seq[Theme],
                           politicalActions: Seq[PoliticalAction],
-                          connectedUser: Option[User])
+                          connectedUser: Option[User],
+                          technicalState: TechnicalState)
+
+final case class TechnicalState(notifications: Seq[Notification], showLoginModal: Boolean)

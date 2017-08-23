@@ -2,8 +2,7 @@ package org.make.front.styles
 
 import org.make.front.Main.CssSettings._
 
-import scalacss.DevDefaults.StyleA
-import scalacss.internal.{AV, Cond, Media, ValueT}
+import scalacss.internal.{AV, Cond, Media, StyleA, ValueT}
 
 object MakeStyles extends StyleSheet.Inline {
   import dsl._
@@ -25,18 +24,6 @@ object MakeStyles extends StyleSheet.Inline {
   //todo: implement h3
   val title3: StyleA = style()
 
-  val inputTextFocused: StyleA = style(borderColor(c"#3898EC"), outline(none))
-
-  val inputText: StyleA = style(
-    height(4.rem),
-    borderRadius(4.rem),
-    border(1.px, solid, c"#CCC"),
-    backgroundColor(c"#F7F7F7"),
-    paddingLeft(3.5F.rem),
-    paddingRight(2.rem),
-    &.focus(inputTextFocused)
-  )
-
   val heroTitle: StyleA = style(
     fontSize(6.rem),
     Font.tradeGothicLTStd,
@@ -54,6 +41,8 @@ object MakeStyles extends StyleSheet.Inline {
     val grey: ValueT[ValueT.Color] = rgba(0, 0, 0, 0.3)
     val pink: ValueT[ValueT.Color] = c"#ed1844"
     val darkGrey: ValueT[ValueT.Color] = c"#808080"
+    val error: ValueT[ValueT.Color] = c"#d0011b"
+    val backgroundFooter: ValueT[ValueT.Color] = rgba(0, 0, 0, 0.05)
   }
 
   // font
@@ -75,6 +64,30 @@ object MakeStyles extends StyleSheet.Inline {
   object Background {
     val footer: ValueT[ValueT.Color] = rgba(0, 0, 0, 0.05)
     val action: ValueT[ValueT.Color] = rgba(0, 0, 0, 0.05)
+    val pink: StyleA = style(addClassNames("background-pink"))
+    val google: StyleA = style(addClassNames("background-google"))
+    val facebook: StyleA = style(addClassNames("background-facebook"))
+  }
+
+  object Form {
+    val inputText: StyleA = style(addClassName("make-input-text"))
+    val field: StyleA = style(addClassName("make-field"))
+    val inputIcon: StyleA = style(addClassName("make-input-icon"))
+  }
+
+  object Button {
+    val default: StyleA = style(addClassNames(BulmaStyles.Element.button.htmlClass, "make-button-default"))
+    val facebook: StyleA = style(addClassNames(BulmaStyles.Element.button.htmlClass, "make-button-facebook"))
+    val google: StyleA = style(addClassNames(BulmaStyles.Element.button.htmlClass, "make-button-google"))
+    val baseMake: StyleA = style(boxShadow := "0, 1px, 1px, 0, rgba(0, 0, 0, 0.5)")
+  }
+
+  object Modal {
+    val overlay: StyleA = style(addClassNames("make-modal-overlay"))
+    val modal: StyleA = style(addClassNames("make-modal-modal"))
+    val close: StyleA = style(addClassNames("make-modal-close"))
+    val content: StyleA = style(addClassNames("make-modal-content"))
+    val title: StyleA = style(addClassNames("make-modal-title"))
   }
 
   def gradientBackground(from: String, to: String): StyleA =
