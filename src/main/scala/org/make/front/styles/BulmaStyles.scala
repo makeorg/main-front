@@ -108,6 +108,7 @@ object BulmaStyles extends StyleSheet.Inline {
     val icon: StyleA = style(addClassNames("icon"))
     val isLeft: StyleA = style(addClassNames("is-left"))
     val isRight: StyleA = style(addClassNames("is-right"))
+    val isClipped: StyleA = style(addClassName("is-clipped"))
     val hasIconsLeft: StyleA = style(addClassNames("has-icons-left"))
     val hasIconsRight: StyleA = style(addClassNames("has-icons-right"))
     val control: StyleA = style(addClassNames("control"))

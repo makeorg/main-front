@@ -114,5 +114,10 @@ object ProposalTileStyle extends StyleSheet.Inline {
     style(marginBottom(1.rem), MakeStyles.Font.circularStdBold, fontWeight :=! "700", fontSize(1.6.rem))
 
   val proposalTags: StyleA =
-    style(borderTop :=! "0.1rem solid rgba(0, 0, 0, .1)", paddingLeft(1.36.rem), textAlign.left)
+    style(
+      borderTop :=! "0.1rem solid rgba(0, 0, 0, .1)",
+      paddingLeft(1.36.rem),
+      textAlign.left,
+      paddingTop(1.rem)
+    )
 }

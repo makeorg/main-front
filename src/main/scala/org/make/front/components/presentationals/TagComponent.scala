@@ -129,7 +129,6 @@ object TagStyles extends StyleSheet.Inline {
       position.relative,
       paddingLeft(1.2.rem),
       marginRight(1.6.rem),
-      marginTop(0.5.rem),
       borderRadius(0.15.rem),
       fontSize(1.rem),
       fontWeight.bold,

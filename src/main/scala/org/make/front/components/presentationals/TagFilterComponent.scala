@@ -9,6 +9,10 @@ import org.make.front.facades.Translate.TranslateVirtualDOMElements
 import org.make.front.models.Tag
 import org.make.front.styles.{BulmaStyles, FontAwesomeStyles}
 
+import scalacss.DevDefaults._
+import scalacss.internal.mutable.StyleSheet
+
+
 /**
   * Generates the Tag filter
   *
@@ -43,7 +47,7 @@ object TagFilterComponent {
             ))
           }
 
-          <.div()(
+          <.div(^.className := BulmaStyles.Element.isClipped)(
             <.ul()(
               self.state.selectedTags.map(tag => {
                 <.li()(tag.name)
@@ -57,22 +61,35 @@ object TagFilterComponent {
                 ^.value := "content.theme.matrix.filter.tag.title"
               )()
             ),
-            <.TagListComponent(
-              ^.wrapped := TagListComponentProps(
-                tags = Seq(
-                  Tag("budget"),
-                  Tag("équipement"),
-                  Tag("formation"),
-                  Tag("Alimentation"),
-                  Tag("Bio"),
-                  Tag("viande"),
-                  Tag("Permaculture")
-                ),
-                withShowMoreButton = true,
-                handleSelectedTags = handleSelectedTags
-              )
-            )()
+            <.div(^.className := Seq(BulmaStyles.Helpers.isPulledLeft, TagFilterStyles.tagsList))(
+              <.TagListComponent(
+                ^.wrapped := TagListComponentProps(
+                  tags = Seq(
+                    Tag("budget"),
+                    Tag("équipement"),
+                    Tag("formation"),
+                    Tag("Alimentation"),
+                    Tag("Bio"),
+                    Tag("viande"),
+                    Tag("Permaculture")
+                  ),
+                  withShowMoreButton = true,
+                  handleSelectedTags = handleSelectedTags
+                )
+              )()
+            ),
+            <.style()(TagFilterStyles.render[String])
           )
         }
       )
+}
+
+
+object TagFilterStyles extends StyleSheet.Inline {
+  import dsl._
+
+  val tagsList: StyleA = style(
+    marginLeft(2.rem)
+  )
+
 }
