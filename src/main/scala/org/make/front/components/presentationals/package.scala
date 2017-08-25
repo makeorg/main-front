@@ -31,6 +31,7 @@ package object presentationals {
     def VoteButtonComponent: ReactClassElementSpec = self(presentationals.VoteButtonComponent.reactClass)
     def QualificationButtonComponent: ReactClassElementSpec =
       self(presentationals.QualificationButtonComponent.reactClass)
+    def ProposalSubmitComponent: ReactClassElementSpec = self(presentationals.ProposalSubmitComponent.reactClass)
 
     // Containers
     def NotificationContainerComponent: ReactClassElementSpec =
@@ -42,6 +43,8 @@ package object presentationals {
       self(containers.FooterContainerComponent.reactClass)
     def PoliticalActionsComponent: ReactClassElementSpec =
       self(containers.PoliticalActionContainerComponent.reactClass)
+    def ProposalSubmitContainerComponent: ReactClassElementSpec =
+      self(containers.ProposalSubmitContainerComponent.reactClass)
   }
 
 }

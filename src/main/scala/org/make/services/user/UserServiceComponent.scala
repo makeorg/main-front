@@ -1,5 +1,7 @@
 package org.make.services.user
 
+import java.time.LocalDate
+
 import io.circe.generic.auto._
 import io.circe.syntax._
 import org.make.client.DefaultMakeApiClientComponent
@@ -29,10 +31,28 @@ trait UserServiceComponent {
     def getUserById(id: String): Future[Option[User]] =
       client.get[User](resourceName / id).map(Some(_)).recover { case _: Exception => None }
 
-    def registerByUsernameAndPasswordAndFirstName(username: String, password: String, firstName: String): Future[User] =
+    def registerUser(username: String, password: String, firstName: String): Future[User] =
       client.post[User](
         resourceName,
         data = RegisterUserRequest(username, password, firstName = firstName).asJson.pretty(ApiService.printer)
+      )
+
+    def registerUser(username: String,
+                     password: String,
+                     firstName: String,
+                     dateOfBirth: LocalDate,
+                     profession: String,
+                     postalCode: String): Future[User] =
+      client.post[User](
+        resourceName,
+        data = RegisterUserRequest(
+          username,
+          password,
+          firstName = firstName,
+          dateOfBirth = Some(dateOfBirth),
+          profession = Some(profession),
+          postalCode = Some(postalCode)
+        ).asJson.pretty(ApiService.printer)
       )
 
     def login(username: String, password: String): Future[User] = {

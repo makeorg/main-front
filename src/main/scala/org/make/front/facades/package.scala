@@ -30,4 +30,10 @@ package object facades {
     def :=(value: ReactClass): Attribute[ReactClass] =
       Attribute(name = name, value = value, AS_IS)
   }
+
+  case class NativeFloatAttribute(name: String) extends AttributeSpec {
+    def :=(value: Float): Attribute[Float] =
+      Attribute(name = name, value = value, AS_IS)
+  }
+
 }

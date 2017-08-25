@@ -13,8 +13,15 @@ class ConnectedUserMiddleware(override val apiBaseUrl: String) extends UserServi
       case LogoutAction =>
         userService.logout()
         dispatch(LogoutAction)
-
+      case action: LoggedInAction =>
+        dispatch(action)
+        processPendingProposal(store)
       case action => dispatch(action)
     }
+  }
+
+  def processPendingProposal(appState: Store[AppState]): Unit = {
+    appState.getState.technicalState.pendingProposalAction
+      .map(pendingProposalAction => pendingProposalAction.registerProposal())
   }
 }
