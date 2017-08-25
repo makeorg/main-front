@@ -66,6 +66,31 @@ object Translations {
       |         "showLess": "masquer les tags supplémentaires",
       |         "proposalsCount": "%{proposals} propositions",
       |         "moreInfos": "En savoir +"
+      |       },
+      |       "proposal": {
+      |         "agree": "D'accord",
+      |         "disagree": "Pas d'accord",
+      |         "blank": "Vote Blanc",
+      |         "qualifAgree": {
+      |           "top": "Coup de <span class=\"spanHeart icon is-small\"><i class=\"fa fa-heart\"></i></span>",
+      |           "middle": "Réaliste",
+      |           "bottom": "Platitude"
+      |         },
+      |         "qualifDisagree": {
+      |           "top": "Surtout pas !",
+      |           "middle": "Infaisable",
+      |           "bottom": "Platitide"
+      |         },
+      |         "qualifNeutral": {
+      |           "top": "Pas compris",
+      |           "middle": "Pas d'avis",
+      |           "bottom": "Je m'en moque"
+      |         },
+      |         "fullHeader": "%{firstName}, %{authorAge} ans (%{authorPostalCode})",
+      |         "ageHeader": "%{firstName}, %{authorAge} ans",
+      |         "postalCodeHeader": "%{firstName} (%{authorPostalCode})",
+      |         "tinyHeader": "%{firstName}",
+      |         "plusOne": "+1"
       |       }
       |    },
       |    "form": {
@@ -151,6 +176,31 @@ object Translations {
       |         "showLess": "hide additional tags",
       |         "proposalsCount": "%{proposals} propositions",
       |         "moreInfos": "En savoir +"
+      |       },
+      |       "proposal": {
+      |         "agree": "Agree",
+      |         "disagree": "Disagree",
+      |         "blank": "Blank Vote",
+      |         "qualifAgree": {
+      |           "top": "I <span class=\"spanHeart icon is-small\"><i class=\"fa fa-heart\"></i></span> It",
+      |           "middle": "Doable",
+      |           "bottom": "Platitude"
+      |         },
+      |         "qualifDisagree": {
+      |           "top": "No way !",
+      |           "middle": "Impossible",
+      |           "bottom": "Platitude"
+      |         },
+      |         "qualifNeutral": {
+      |           "top": "Did not understand",
+      |           "middle": "No opinion",
+      |           "bottom": "Don't care"
+      |         },
+      |         "fullHeader": "%{firstName}, %{authorAge} yo (%{authorPostalCode})",
+      |         "ageHeader": "%{firstName}, %{authorAge} yo",
+      |         "postalCodeHeader": "%{firstName} (%{authorPostalCode})",
+      |         "tinyHeader": "%{firstName}",
+      |         "plusOne": "+1"
       |       }
       |    },
       |    "form": {
