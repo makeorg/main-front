@@ -20,10 +20,6 @@ build:
     - sbt clean publish
     # TODO: only publish on master ?
     # TODO: call rundeck
-  cache:
-    paths:
-      - /root/.coursier
-      - /root/.ivy2
 
 deploy:
   stage: deploy
