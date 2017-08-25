@@ -37,12 +37,13 @@ object MakeStyles extends StyleSheet.Inline {
   // colors
   object Color {
     val white: ValueT[ValueT.Color] = c"#fff"
-    val black: ValueT[ValueT.Color] = rgb(0, 0, 0)
-    val grey: ValueT[ValueT.Color] = rgba(0, 0, 0, 0.3)
+    val black: ValueT[ValueT.Color] = c"#000"
+    val grey: ValueT[ValueT.Color] = c"#b2b2b2"
     val pink: ValueT[ValueT.Color] = c"#ed1844"
     val darkGrey: ValueT[ValueT.Color] = c"#808080"
     val error: ValueT[ValueT.Color] = c"#d0011b"
     val backgroundFooter: ValueT[ValueT.Color] = rgba(0, 0, 0, 0.05)
+    val lightGrey: ValueT[ValueT.Color] = c"#cccccc"
   }
 
   // font
@@ -62,7 +63,8 @@ object MakeStyles extends StyleSheet.Inline {
 
   // background
   object Background {
-    val footer: ValueT[ValueT.Color] = rgba(0, 0, 0, 0.05)
+    val footer: ValueT[ValueT.Color] = c"#ececec"
+    val wrapper: ValueT[ValueT.Color] = rgba(0, 0, 0, 0.05)
     val action: ValueT[ValueT.Color] = rgba(0, 0, 0, 0.05)
     val pink: StyleA = style(addClassNames("background-pink"))
     val google: StyleA = style(addClassNames("background-google"))

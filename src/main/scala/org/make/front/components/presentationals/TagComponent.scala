@@ -36,52 +36,50 @@ object TagListComponent {
   // TODO make variable dynamic / configurable
   private val showMaxCount: Int = 6
 
-  case class TagListComponentProps(tags: Seq[Tag], toggleShowAll: Boolean)
-
-  case class State(showAll: Boolean)
+  case class TagListComponentProps(tags: Seq[Tag], handleSelectedTags: (Tag) => Unit, withShowMoreButton: Boolean)
+  case class TagListComponentState(showMore: Boolean)
 
   lazy val reactClass: ReactClass =
     React
-      .createClass[TagListComponentProps, State](
-        getInitialState = (_) => State(showAll = false),
+      .createClass[TagListComponentProps, TagListComponentState](
+        getInitialState = (_) => TagListComponentState(showMore = false),
         render = (self) => {
           // slice tagList if not showing all elements
           val tagList =
-            if (self.state.showAll)
+            if (self.state.showMore) {
               self.props.wrapped.tags
-            else self.props.wrapped.tags.take(showMaxCount)
+            } else {
+              self.props.wrapped.tags.take(showMaxCount)
+            }
 
           <.div()(
             tagList.map(
               tag =>
                 <.TagComponent(
                   ^.wrapped := TagComponentProps(
-                    text = tag.name,
-                    triggerToggle = false,
-                    toggleShowAllTags = toggleShowAllTags(self)
+                    tag = tag,
+                    handleSelectedTags = self.props.wrapped.handleSelectedTags
                   )
                 )()
             ),
-            // if toggle show all mode add show all button
-            if (self.props.wrapped.toggleShowAll)
-              <.TagComponent(
-                ^.wrapped := TagComponentProps(
-                  text = if (!self.state.showAll) I18n.t("content.tag.showMore") else I18n.t("content.tag.showLess"),
-                  triggerToggle = true,
-                  toggleShowAllTags = toggleShowAllTags(self)
-                )
-              )(),
+            // if toggle show more mode add show all more
+            if (self.props.wrapped.withShowMoreButton) {
+              <.div(
+                ^.className := Seq(BulmaStyles.Element.tag, BulmaStyles.Syntax.isDanger, TagStyles.tagContainer),
+                ^.onClick := onClickShowMore(self))(<.span()(I18n.t("content.tag.showMore"))
+              )
+            },
             <.style()(TagStyles.render[String])
           )
         }
       )
-
   /**
     * Toggle show all variable
     * @param self Self[TagListComponentProps, State]
     */
-  private def toggleShowAllTags(self: Self[TagListComponentProps, State]): () => Unit = () => {
-    self.setState(_.copy(showAll = !self.state.showAll))
+  private def onClickShowMore(self: Self[TagListComponentProps, TagListComponentState]) = (e: SyntheticEvent) => {
+    e.preventDefault()
+    self.setState(_.copy(showMore = !self.state.showMore))
   }
 }
 
@@ -92,13 +90,7 @@ object TagListComponent {
   *
   * Create a simple tag:
   *   <code>
-  *      <.TagComponent(
-  *               ^.wrapped := TagComponentProps(
-  *                 text = "Tag Name",
-  *                 isTriggerToggle = false,
-  *                 toggleShowAllTags = toggleShowAllTags(self)
-  *               )
-  *             )()
+  *      <.TagComponent(^.wrapped := TagComponentProps(tag = Tag("Tag Name")))()
   *   </code>
   *
   * Set ifTriggerToggle as true if the tag show function as a toggle show more trigger
@@ -106,23 +98,26 @@ object TagListComponent {
   */
 object TagComponent {
 
-  case class TagComponentProps(text: String, triggerToggle: Boolean, toggleShowAllTags: () => Unit)
+  case class TagComponentProps(tag: Tag, handleSelectedTags: (Tag) => Unit)
+  case class TagComponentState(isSelected: Boolean)
 
-  lazy val reactClass: ReactClass = React.createClass[TagComponentProps, Unit](render = (self) => {
-    val className =
-      if (self.props.wrapped.triggerToggle)
-        Seq(BulmaStyles.Element.tag, TagStyles.tagContainer, BulmaStyles.Syntax.isDanger)
-      else
-        Seq(BulmaStyles.Element.tag, TagStyles.tagContainer, TagStyles.defaultStyle)
-
-    <.div(^.className := className, ^.onClick := onClickTag(self))(<.span()(self.props.wrapped.text))
+  lazy val reactClass: ReactClass = React.createClass[TagComponentProps, TagComponentState](
+    getInitialState = (_) => TagComponentState(isSelected = false),
+    render = (self) => {
+      <.div(
+        ^.className :=  Seq(
+          BulmaStyles.Element.tag,
+          TagStyles.tagContainer,
+          if (self.state.isSelected) BulmaStyles.Syntax.isBlack else TagStyles.defaultStyle
+        ),
+        ^.onClick := onClickTag(self)
+      )(<.span()(self.props.wrapped.tag.name))
   })
 
-  private def onClickTag(self: Self[TagComponentProps, Unit]) = (e: SyntheticEvent) => {
+  private def onClickTag(self: Self[TagComponentProps, TagComponentState]) = (e: SyntheticEvent) => {
     e.preventDefault()
-    if (self.props.wrapped.triggerToggle) {
-      self.props.wrapped.toggleShowAllTags()
-    }
+    self.setState(_.copy(isSelected = !self.state.isSelected))
+    self.props.wrapped.handleSelectedTags(self.props.wrapped.tag)
   }
 }
 
@@ -139,6 +134,7 @@ object TagStyles extends StyleSheet.Inline {
       borderRadius(0.15.rem),
       fontSize(1.rem),
       fontWeight.bold,
+      cursor.pointer,
       (&.before)(
         position.absolute,
         transform := "translateY(-50%) translateX(50%) rotate(-45deg)",
@@ -162,8 +158,10 @@ object TagStyles extends StyleSheet.Inline {
       )
     )
   val defaultStyle: StyleA = style(
-    backgroundColor :=! MakeStyles.Color.darkGrey,
+    backgroundColor :=! MakeStyles.Color.lightGrey,
     color :=! MakeStyles.Color.white,
-    (&.before)(backgroundColor := MakeStyles.Color.darkGrey)
+    (&.before)(
+      backgroundColor :=! MakeStyles.Color.lightGrey
+    )
   )
 }

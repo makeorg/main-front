@@ -6,6 +6,7 @@ import io.github.shogowada.scalajs.reactjs.VirtualDOM._
 import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import io.github.shogowada.scalajs.reactjs.elements.ReactElement
 import io.github.shogowada.scalajs.reactjs.events.MouseSyntheticEvent
+import org.make.front.components.AppComponentStyles
 import org.make.front.facades.Translate.TranslateVirtualDOMElements
 import org.make.front.facades.I18n
 import org.make.front.models.PoliticalAction
@@ -45,83 +46,64 @@ object PoliticalActionComponent {
     ),
     render = (self) =>
       <.div(^.className := BulmaStyles.Helpers.isFullWidth)(
-        <.div(^.className := ActionStyles.actionWrapper)(
-          <.div(^.className := ActionStyles.container)(
-            <.h2(^.className := ActionStyles.actionWrapperTitle)(
-              <.Translate(
-                ^.value := "content.theme.actionsCount",
-                ^("actions") := self.props.wrapped.politicalActions.length.toString
-              )()
-            ),
-            <.div(^.className := Seq(ActionStyles.boxWrapper))(
-              <.div(^.className := ActionStyles.themeSliderActions)(
-                <.div(^.className := ActionStyles.blockActionMask, ^.id := "slide")(
-                  self.props.wrapped.politicalActions.map { politicalAction =>
-                    textBox(politicalAction, self.state.translationOffset)
-                  }
+          <.h2(^.className := AppComponentStyles.title2)(
+            <.Translate(
+              ^.value := "content.theme.actionsCount",
+              ^("actions") := self.props.wrapped.politicalActions.length.toString
+            )()
+          ),
+          <.div(^.className := Seq(PoliticalActionStyles.boxWrapper))(
+            <.div(^.className := PoliticalActionStyles.themeSliderActions)(
+              <.div(^.className := PoliticalActionStyles.blockActionMask, ^.id := "slide")(
+                self.props.wrapped.politicalActions.map { politicalAction =>
+                  textBox(politicalAction, self.state.translationOffset)
+                }
+              ),
+              <.div(^.className := PoliticalActionStyles.arrows)(
+                <.span(^.className := PoliticalActionStyles.arrowSpan, ^.onClick := onClickLeft(self))(
+                  <.i(^.className := FontAwesomeStyles.angleLeft)()
                 ),
-                <.div(^.className := ActionStyles.arrows)(
-                  <.span(^.className := ActionStyles.arrowSpan, ^.onClick := onClickLeft(self))(
-                    <.i(^.className := FontAwesomeStyles.angleLeft)()
-                  ),
-                  <.span(^.className := ActionStyles.arrowSpan, ^.onClick := onClickRight(self))(
-                    <.i(^.className := FontAwesomeStyles.angleRight)()
-                  )
+                <.span(^.className := PoliticalActionStyles.arrowSpan, ^.onClick := onClickRight(self))(
+                  <.i(^.className := FontAwesomeStyles.angleRight)()
                 )
               )
             )
-          )
         ),
-        <.style()(ActionStyles.render[String])
+        <.style()(PoliticalActionStyles.render[String])
       )
   )
 
   private def textBox(action: PoliticalAction, translationOffset: Int): ReactElement = {
-    <.div(^.className := ActionStyles.blocActionSlide, ^.style := Map("transform" -> s"translateX(${translationOffset}px)",
+    <.div(^.className := PoliticalActionStyles.blocActionSlide, ^.style := Map("transform" -> s"translateX(${translationOffset}px)",
                                                                       "transition" -> "transform 500ms"))(
-      <.img(^.className := Seq(ActionStyles.actionImage),
+      <.img(^.className := Seq(PoliticalActionStyles.actionImage),
         ^.src := action.imageUrl)(),
       <.div()(
-        <.div(^.className := ActionStyles.actionInfos)(
-          <.span(^.className := Seq(ActionStyles.calendarImage, BulmaStyles.Element.icon, BulmaStyles.Helpers.isSmall))(
-            <.i(^.className := FontAwesomeStyles.calendarOpen)()
+        <.div(^.className := PoliticalActionStyles.actionInfos)(
+          <.div(^.className := Seq(BulmaStyles.Helpers.isPulledLeft, PoliticalActionStyles.actionDate))(
+            <.span(^.className := Seq(AppComponentStyles.icon, BulmaStyles.Helpers.isSmall))(
+              <.i(^.className := FontAwesomeStyles.calendarOpen)()
+            ),
+            <.span()(action.date)
           ),
-          <.span()(action.date),
-          <.span(^.className := Seq(ActionStyles.mapMarkerImage, BulmaStyles.Element.icon, BulmaStyles.Helpers.isSmall))(
-            <.i(^.className := FontAwesomeStyles.mapMarker)()
-          ),
-          <.span()(action.location)
+          <.div(^.className := PoliticalActionStyles.actionLocation)(
+            <.span(^.className := Seq(AppComponentStyles.icon, BulmaStyles.Helpers.isSmall))(
+              <.i(^.className := FontAwesomeStyles.mapMarker)()
+            ),
+            <.span()(action.location)
+          )
         ),
-        <.div(^.className := ActionStyles.textBloc)(
+        <.div(^.className := PoliticalActionStyles.textBloc)(
           action.text,
-          <.span(^.className := ActionStyles.pinkLink)(I18n.t("content.theme.moreInfos"))
+          <.span(^.className := PoliticalActionStyles.pinkLink)(I18n.t("content.theme.moreInfos"))
         )
       )
     )
   }
 }
 
-object ActionStyles extends StyleSheet.Inline {
+object PoliticalActionStyles extends StyleSheet.Inline {
   import dsl._
-
-  val actionWrapper: StyleA = style(
-    backgroundColor(MakeStyles.Background.action),
-    padding(2.4.rem, 2.7.rem),
-    position.relative
-  )
-
-  val container: StyleA = style(
-    maxWidth(114.rem),
-    marginRight.auto,
-    marginLeft.auto,
-    height(100.%%),
-    width(100.%%)
-  )
-
-  val actionWrapperTitle: StyleA = style(
-    MakeStyles.title2,
-    MakeStyles.Font.tradeGothicLTStd
-  )
 
   val boxWrapper: StyleA = style(
     backgroundColor(c"#ffffff"),
@@ -167,14 +149,15 @@ object ActionStyles extends StyleSheet.Inline {
     paddingTop(0.5.rem)
   )
 
-  val calendarImage: StyleA = style(
-    marginRight(0.5.rem)
+  val actionInfo: StyleA = style(
+    float.left
   )
 
-  val mapMarkerImage: StyleA = style(
-    marginRight(0.5.rem),
-    marginLeft(1.rem)
+  val actionDate: StyleA = style(
+    marginRight(1.rem)
   )
+
+  val actionLocation: StyleA = style()
 
   val textBloc: StyleA = style(
     lineHeight(2.4.rem),

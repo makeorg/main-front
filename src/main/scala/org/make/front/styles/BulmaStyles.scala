@@ -123,6 +123,7 @@ object BulmaStyles extends StyleSheet.Inline {
     val isDanger: StyleA = style(addClassNames("is-danger"))
     val isDark: StyleA = style(addClassNames("is-dark"))
     val isLight: StyleA = style(addClassNames("is-light"))
+    val isBlack: StyleA = style(addClassNames("is-black"))
   }
 
   object Components {
