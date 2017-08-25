@@ -16,7 +16,7 @@ object AppComponent {
         <.ContainerComponent.empty,
         <.FooterContainerComponent.empty,
         <.NotificationContainerComponent.empty,
-        <.SignInContainerComponent.empty
+        <.ConnectUserContainerComponent.empty
     )
   )
 

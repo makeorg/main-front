@@ -25,6 +25,7 @@ object FontAwesomeStyles extends StyleSheet.Inline {
   val lock: StyleA = style(addClassName("fa"), addClassName("fa-lock"))
   val user: StyleA = style(addClassName("fa"), addClassName("fa-user"))
   val eye: StyleA = style(addClassName("fa"), addClassName("fa-eye"))
+  val eyeSlash: StyleA = style(addClassName("fa"), addClassName("fa-eye-slash"))
   val barChart: StyleA = style(addClassName("fa"), addClassName("bar-chart"))
   val lineChart: StyleA = style(addClassName("fa"), addClassName("line-chart"))
   val rotateLeft: StyleA = style(addClassName("fa"), addClassName("rotate-left"))

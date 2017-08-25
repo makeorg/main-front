@@ -31,7 +31,7 @@ trait UserServiceComponent {
     def registerByUsernameAndPasswordAndFirstName(username: String, password: String, firstName: String): Future[User] =
       client.post[User](
         resourceName,
-        data = RegisterUserRequest(username, password, firstName = Some(firstName)).asJson.pretty(ApiService.printer)
+        data = RegisterUserRequest(username, password, firstName = firstName).asJson.pretty(ApiService.printer)
       )
 
     def login(username: String, password: String): Future[User] = {
