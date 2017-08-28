@@ -17,21 +17,15 @@ object VoteButtonComponent {
 
   final case class Button(color: ValueT[ValueT.Color], thumbFont: StyleA, thumbStyle: Map[String, Any])
 
-  final case class VoteButtonProps(voteAgreeStats: VoteStats,
-                                   voteDisagreeStats: VoteStats,
-                                   voteNeutralStats: VoteStats,
+  final case class VoteButtonProps(voteAgreeStats: Vote,
+                                   voteDisagreeStats: Vote,
+                                   voteNeutralStats: Vote,
                                    totalVote: Int)
 
-  final case class VoteButtonState(isClickButtonVote: Boolean,
-                                   button: Button,
-                                   voteStats: VoteStats,
-                                   qualifType: VoteType)
+  final case class VoteButtonState(isClickButtonVote: Boolean, button: Button, voteStats: Vote)
 
-  def onClickButton(self: Self[VoteButtonProps, VoteButtonState],
-                    button: Button,
-                    voteStats: VoteStats,
-                    qualifType: VoteType)(): Unit = {
-    self.setState(_.copy(isClickButtonVote = true, button = button, voteStats = voteStats, qualifType = qualifType))
+  def onClickButton(self: Self[VoteButtonProps, VoteButtonState], button: Button, voteStats: Vote)(): Unit = {
+    self.setState(_.copy(isClickButtonVote = true, button = button, voteStats = voteStats))
   }
 
   def onClickButtonStats(self: Self[VoteButtonProps, VoteButtonState])(): Unit = {
@@ -44,8 +38,7 @@ object VoteButtonComponent {
       ^.onClick := onClickButton(
         self,
         Button(MakeStyles.Color.green, FontAwesomeStyles.thumbsUpTransparent, Map.empty),
-        self.props.wrapped.voteAgreeStats,
-        VoteAgree
+        self.props.wrapped.voteAgreeStats
       ) _
     )(
       <.i(^.className := Seq(FontAwesomeStyles.thumbsUpTransparent, VoteButtonStyle.thumbs), ^.style := Map.empty)(),
@@ -59,8 +52,7 @@ object VoteButtonComponent {
       ^.onClick := onClickButton(
         self,
         Button(MakeStyles.Color.red, FontAwesomeStyles.thumbsDownTransparent, Map.empty),
-        self.props.wrapped.voteDisagreeStats,
-        VoteDisagree
+        self.props.wrapped.voteDisagreeStats
       ) _
     )(
       <.i(^.className := Seq(FontAwesomeStyles.thumbsDownTransparent, VoteButtonStyle.thumbs), ^.style := Map.empty)(),
@@ -74,8 +66,7 @@ object VoteButtonComponent {
       ^.onClick := onClickButton(
         self,
         Button(MakeStyles.Color.greyVote, FontAwesomeStyles.thumbsUpTransparent, Map("transform" -> "rotate(-90deg)")),
-        self.props.wrapped.voteDisagreeStats,
-        VoteNeutral
+        self.props.wrapped.voteDisagreeStats
       ) _
     )(
       <.i(
@@ -90,15 +81,15 @@ object VoteButtonComponent {
                            color: ValueT[ValueT.Color],
                            thumbFont: StyleA,
                            thumbStyle: Map[String, Any],
-                           voteStats: VoteStats): ReactElement = {
+                           voteStats: Vote): ReactElement = {
     <.div()(
       <.a(^.className := VoteButtonStyle.buttonStats(color), ^.onClick := onClickButtonStats(self) _)(
         <.i(^.className := Seq(thumbFont, VoteButtonStyle.thumbs), ^.style := thumbStyle)()
       ),
       <.div(^.className := VoteButtonStyle.statsBox(color))(
-        <.span()(formatToKilo(voteStats.totalVote)),
+        <.span()(formatToKilo(voteStats.count)),
         <.span(^.className := VoteButtonStyle.pourcentages)(
-          s"${formatToKilo(voteStats.totalVote * 100 / self.props.wrapped.totalVote)}%"
+          s"${Proposal.getPercentageVote(voteStats.count, self.props.wrapped.totalVote)}%"
         )
       )
     )
@@ -109,8 +100,7 @@ object VoteButtonComponent {
       VoteButtonState(
         isClickButtonVote = false,
         button = Button(MakeStyles.Color.green, FontAwesomeStyles.thumbsUpTransparent, Map.empty),
-        voteStats = VoteStats(totalVote = 0, nbQualifTop = 0, nbQualifMiddle = 0, nbQualifBottom = 0),
-        qualifType = VoteAgree
+        voteStats = Vote(key = "", qualifications = Seq.empty)
     ),
     render = (self) =>
       <.div(^.className := VoteButtonStyle.proposalButton)(
@@ -132,7 +122,7 @@ object VoteButtonComponent {
             <.div(^.className := VoteButtonStyle.proposalQualif)(
               <.QualificationButtonComponent(
                 ^.wrapped := QualificationButtonComponent
-                  .QualificationButtonProps(self.state.button.color, self.state.qualifType, self.state.voteStats)
+                  .QualificationButtonProps(self.state.button.color, self.state.voteStats)
               )()
             )
           )

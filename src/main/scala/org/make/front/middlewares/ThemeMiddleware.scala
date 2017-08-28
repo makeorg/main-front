@@ -3,7 +3,7 @@ package org.make.front.middlewares
 import io.github.shogowada.scalajs.reactjs.redux.Redux.Dispatch
 import io.github.shogowada.scalajs.reactjs.redux.Store
 import org.make.front.actions.{LoadThemes, SetThemes}
-import org.make.front.models.{AppState, GradientColor, Theme}
+import org.make.front.models.{AppState, GradientColor, Theme, ThemeId}
 
 object ThemeMiddleware {
 
@@ -20,6 +20,7 @@ object ThemeMiddleware {
   private def retrieveThemes(): Seq[Theme] =
     Seq(
       Theme(
+        ThemeId("1"),
         "democratie-vie-politique",
         "DÉMOCRATIE / VIE POLITIQUE",
         3,
@@ -28,6 +29,7 @@ object ThemeMiddleware {
         Some(GradientColor(from = "#e81e61", to = "#7f2fd0"))
       ),
       Theme(
+        ThemeId("2"),
         "developpement-durable-energie",
         "DÉVELOPPEMENT DURABLE / ENERGIE",
         3,
@@ -36,6 +38,7 @@ object ThemeMiddleware {
         Some(GradientColor(from = "#83bb1a", to = "#1fc8f1"))
       ),
       Theme(
+        ThemeId("3"),
         "sante-alimentation",
         "SANTÉ / ALIMENTATION",
         3,
@@ -43,8 +46,17 @@ object ThemeMiddleware {
         "#26a69a",
         Some(GradientColor(from = "#26a69a", to = "#1ceba0"))
       ),
-      Theme("education", "EDUCATION", 3, 5600, "#673ab7", Some(GradientColor(from = "#9173c6", to = "#ee98d7"))),
       Theme(
+        ThemeId("3"),
+        "education",
+        "EDUCATION",
+        3,
+        5600,
+        "#673ab7",
+        Some(GradientColor(from = "#9173c6", to = "#ee98d7"))
+      ),
+      Theme(
+        ThemeId("4"),
         "economie-emploi-travail",
         "ECONOMIE / EMPLOI / TRAVAIL",
         3,
@@ -53,6 +65,7 @@ object ThemeMiddleware {
         Some(GradientColor(from = "#0e75c6", to = "#41ced6"))
       ),
       Theme(
+        ThemeId("5"),
         "securite-justice",
         "SÉCURITÉ / JUSTICE",
         3,
@@ -60,8 +73,17 @@ object ThemeMiddleware {
         "#ff9047",
         Some(GradientColor(from = "#ff9047", to = "#b7588b"))
       ),
-      Theme("logement", "LOGEMENT", 3, 5600, "#ff9800", Some(GradientColor(from = "#ff9800", to = "#ffea9f"))),
       Theme(
+        ThemeId("6"),
+        "logement",
+        "LOGEMENT",
+        3,
+        5600,
+        "#ff9800",
+        Some(GradientColor(from = "#ff9800", to = "#ffea9f"))
+      ),
+      Theme(
+        ThemeId("7"),
         "vivre-ensemble-solidarites",
         "VIVRE ENSEMBLE / SOLIDARITÉS",
         3,
@@ -70,6 +92,7 @@ object ThemeMiddleware {
         Some(GradientColor(from = "#ecd400", to = "#ff9ffd"))
       ),
       Theme(
+        ThemeId("7"),
         "agriculture-ruralite",
         "AGRICULTURE / RURALITÉ",
         3,
@@ -78,6 +101,7 @@ object ThemeMiddleware {
         Some(GradientColor(from = "#2e7d32", to = "#8fcf4b"))
       ),
       Theme(
+        ThemeId("8"),
         "europe-monde",
         "EUROPE / MONDE",
         3,
@@ -86,6 +110,7 @@ object ThemeMiddleware {
         Some(GradientColor(from = "#311b92", to = "#54a0e3"))
       ),
       Theme(
+        ThemeId("9"),
         "transports-deplacement",
         "TRANSPORTS / DÉPLACEMENT",
         3,
@@ -94,6 +119,7 @@ object ThemeMiddleware {
         Some(GradientColor(from = "#f5515f", to = "#9f031b"))
       ),
       Theme(
+        ThemeId("10"),
         "numerique-culture",
         "NUMÉRIQUE / CULTURE",
         3,

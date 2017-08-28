@@ -71,26 +71,21 @@ object Translations {
       |         "agree": "D'accord",
       |         "disagree": "Pas d'accord",
       |         "blank": "Vote Blanc",
-      |         "qualifAgree": {
-      |           "top": "Coup de <span class=\"spanHeart icon is-small\"><i class=\"fa fa-heart\"></i></span>",
-      |           "middle": "Réaliste",
-      |           "bottom": "Platitude"
-      |         },
-      |         "qualifDisagree": {
-      |           "top": "Surtout pas !",
-      |           "middle": "Infaisable",
-      |           "bottom": "Platitide"
-      |         },
-      |         "qualifNeutral": {
-      |           "top": "Pas compris",
-      |           "middle": "Pas d'avis",
-      |           "bottom": "Je m'en moque"
-      |         },
-      |         "fullHeader": "%{firstName}, %{authorAge} ans (%{authorPostalCode})",
-      |         "ageHeader": "%{firstName}, %{authorAge} ans",
-      |         "postalCodeHeader": "%{firstName} (%{authorPostalCode})",
+      |         "likeIt": "Coup de <span class=\"spanHeart icon is-small\"><i class=\"fa fa-heart\"></i></span>",
+      |         "doable": "Réaliste",
+      |         "platitudeAgree": "Platitude",
+      |         "noWay": "Surtout pas !",
+      |         "impossible": "Infaisable",
+      |         "platitudeDisagree": "Platitide",
+      |         "doNotUnderstand": "Pas compris",
+      |         "noOpinion": "Pas d'avis",
+      |         "doNotCare": "Je m'en moque",
+      |         "fullHeader": "%{firstName}, %{age} ans (%{postalCode})",
+      |         "ageHeader": "%{firstName}, %{age} ans",
+      |         "postalCodeHeader": "%{firstName} (%{postalCode})",
       |         "tinyHeader": "%{firstName}",
-      |         "plusOne": "+1"
+      |         "plusOne": "+1",
+      |         "anonymous": "anonyme"
       |       }
       |    },
       |    "form": {
@@ -181,26 +176,21 @@ object Translations {
       |         "agree": "Agree",
       |         "disagree": "Disagree",
       |         "blank": "Blank Vote",
-      |         "qualifAgree": {
-      |           "top": "I <span class=\"spanHeart icon is-small\"><i class=\"fa fa-heart\"></i></span> It",
-      |           "middle": "Doable",
-      |           "bottom": "Platitude"
-      |         },
-      |         "qualifDisagree": {
-      |           "top": "No way !",
-      |           "middle": "Impossible",
-      |           "bottom": "Platitude"
-      |         },
-      |         "qualifNeutral": {
-      |           "top": "Did not understand",
-      |           "middle": "No opinion",
-      |           "bottom": "Don't care"
-      |         },
-      |         "fullHeader": "%{firstName}, %{authorAge} yo (%{authorPostalCode})",
-      |         "ageHeader": "%{firstName}, %{authorAge} yo",
-      |         "postalCodeHeader": "%{firstName} (%{authorPostalCode})",
+      |         "likeIt": "I <span class=\"spanHeart icon is-small\"><i class=\"fa fa-heart\"></i></span> It",
+      |         "doable": "Doable",
+      |         "platitudeAgree": "Platitude",
+      |         "noWay": "No way !",
+      |         "impossible": "Impossible",
+      |         "platitudeDisagree": "Platitude",
+      |         "doNotUnderstand": "Did not understand",
+      |         "noOpinion": "No opinion",
+      |         "doNotCare": "Don't care",
+      |         "fullHeader": "%{firstName}, %{age} yo (%{postalCode})",
+      |         "ageHeader": "%{firstName}, %{age} yo",
+      |         "postalCodeHeader": "%{firstName} (%{postalCode})",
       |         "tinyHeader": "%{firstName}",
-      |         "plusOne": "+1"
+      |         "plusOne": "+1",
+      |         "anonymous": "anonymous"
       |       }
       |    },
       |    "form": {

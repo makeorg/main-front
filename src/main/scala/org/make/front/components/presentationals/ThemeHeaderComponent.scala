@@ -4,7 +4,7 @@ import io.github.shogowada.scalajs.reactjs.React
 import io.github.shogowada.scalajs.reactjs.VirtualDOM._
 import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import org.make.front.facades._
-import org.make.front.models.{GradientColor, Theme}
+import org.make.front.models.{GradientColor, Theme, ThemeId}
 import org.make.front.styles.{BulmaStyles, MakeStyles}
 
 import scalacss.DevDefaults._
@@ -14,24 +14,23 @@ object ThemeHeaderComponent {
 
   case class ThemeHeaderProps(maybeTheme: Option[Theme])
 
-  lazy val reactClass: ReactClass = React.createClass[ThemeHeaderProps, Unit](
-    render = (self) => {
-      val theme: Theme = self.props.wrapped.maybeTheme.getOrElse(Theme("-", "", 0, 0, "#FFF"))
-      val gradientColor: GradientColor = theme.gradient.getOrElse(GradientColor("#FFF", "#FFF"))
-      val imageOuterStyle = ThemeHeaderStyles.imageOuter(gradientColor.from, gradientColor.to).htmlClass
+  lazy val reactClass: ReactClass = React.createClass[ThemeHeaderProps, Unit](render = (self) => {
+    val theme: Theme = self.props.wrapped.maybeTheme.getOrElse(Theme(ThemeId("asdf"), "-", "", 0, 0, "#FFF"))
+    val gradientColor: GradientColor = theme.gradient.getOrElse(GradientColor("#FFF", "#FFF"))
+    val imageOuterStyle = ThemeHeaderStyles.imageOuter(gradientColor.from, gradientColor.to).htmlClass
 
-      <.div(^.className := BulmaStyles.Layout.hero)(
-        <.style()(ThemeHeaderStyles.render[String]),
-        <.div(^.className := imageOuterStyle)(
-          <.img(
-            ^.className := ThemeHeaderStyles.imageInner,
-            ^.src := imageShutterstock.toString,
-            ^.srcset := s"${imageShutterstock2.toString} 2x, ${imageShutterstock3.toString} 3x"
-          )(),
-          <.h2(^.className := ThemeHeaderStyles.heroTitle)(theme.title)
-        )
-      )}
-  )
+    <.div(^.className := BulmaStyles.Layout.hero)(
+      <.style()(ThemeHeaderStyles.render[String]),
+      <.div(^.className := imageOuterStyle)(
+        <.img(
+          ^.className := ThemeHeaderStyles.imageInner,
+          ^.src := imageShutterstock.toString,
+          ^.srcset := s"${imageShutterstock2.toString} 2x, ${imageShutterstock3.toString} 3x"
+        )(),
+        <.h2(^.className := ThemeHeaderStyles.heroTitle)(theme.title)
+      )
+    )
+  })
 }
 
 object ThemeHeaderStyles extends StyleSheet.Inline {
