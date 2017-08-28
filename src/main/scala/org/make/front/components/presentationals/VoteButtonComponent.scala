@@ -11,11 +11,16 @@ import org.make.front.models._
 import org.make.front.styles.{FontAwesomeStyles, MakeStyles}
 
 import scalacss.DevDefaults._
-import scalacss.internal.ValueT
+
+sealed trait VoteType
+
+case object VoteAgree extends VoteType
+case object VoteDisagree extends VoteType
+case object VoteNeutral extends VoteType
 
 object VoteButtonComponent {
 
-  final case class Button(color: ValueT[ValueT.Color], thumbFont: StyleA, thumbStyle: Map[String, Any])
+  final case class Button(voteType: VoteType, thumbFont: StyleA, thumbStyle: Map[String, Any])
 
   final case class VoteButtonProps(voteAgreeStats: Vote,
                                    voteDisagreeStats: Vote,
@@ -34,10 +39,10 @@ object VoteButtonComponent {
 
   def renderVoteAgreeButton(self: Self[VoteButtonProps, VoteButtonState]): ReactElement = {
     <.a(
-      ^.className := VoteButtonStyle.button(MakeStyles.Color.green),
+      ^.className := Seq(VoteButtonStyle.button, VoteButtonStyle.buttonAgree),
       ^.onClick := onClickButton(
         self,
-        Button(MakeStyles.Color.green, FontAwesomeStyles.thumbsUpTransparent, Map.empty),
+        Button(VoteAgree, FontAwesomeStyles.thumbsUpTransparent, Map.empty),
         self.props.wrapped.voteAgreeStats
       ) _
     )(
@@ -48,10 +53,10 @@ object VoteButtonComponent {
 
   def renderVoteDisagreeButton(self: Self[VoteButtonProps, VoteButtonState]): ReactElement = {
     <.a(
-      ^.className := VoteButtonStyle.button(MakeStyles.Color.red),
+      ^.className := Seq(VoteButtonStyle.button, VoteButtonStyle.buttonDisagree),
       ^.onClick := onClickButton(
         self,
-        Button(MakeStyles.Color.red, FontAwesomeStyles.thumbsDownTransparent, Map.empty),
+        Button(VoteDisagree, FontAwesomeStyles.thumbsDownTransparent, Map.empty),
         self.props.wrapped.voteDisagreeStats
       ) _
     )(
@@ -62,11 +67,11 @@ object VoteButtonComponent {
 
   def renderVoteNeutralButton(self: Self[VoteButtonProps, VoteButtonState]): ReactElement = {
     <.a(
-      ^.className := VoteButtonStyle.button(MakeStyles.Color.greyVote),
+      ^.className := Seq(VoteButtonStyle.button, VoteButtonStyle.buttonNeutral),
       ^.onClick := onClickButton(
         self,
-        Button(MakeStyles.Color.greyVote, FontAwesomeStyles.thumbsUpTransparent, Map("transform" -> "rotate(-90deg)")),
-        self.props.wrapped.voteDisagreeStats
+        Button(VoteNeutral, FontAwesomeStyles.thumbsUpTransparent, Map("transform" -> "rotate(-90deg)")),
+        self.props.wrapped.voteNeutralStats
       ) _
     )(
       <.i(
@@ -78,15 +83,27 @@ object VoteButtonComponent {
   }
 
   def renderVoteButtonStat(self: Self[VoteButtonProps, VoteButtonState],
-                           color: ValueT[ValueT.Color],
+                           voteType: VoteType,
                            thumbFont: StyleA,
                            thumbStyle: Map[String, Any],
                            voteStats: Vote): ReactElement = {
+    val buttonStatsStyle = voteType match {
+      case VoteAgree    => Seq(VoteButtonStyle.buttonStats, VoteButtonStyle.buttonVoteAgreeStats)
+      case VoteDisagree => Seq(VoteButtonStyle.buttonStats, VoteButtonStyle.buttonVoteDisagreeStats)
+      case VoteNeutral  => Seq(VoteButtonStyle.buttonStats, VoteButtonStyle.buttonVoteNeutralStats)
+    }
+
+    val statsBoxStyle = voteType match {
+      case VoteAgree    => Seq(VoteButtonStyle.statsBox, VoteButtonStyle.statsBoxAgree)
+      case VoteDisagree => Seq(VoteButtonStyle.statsBox, VoteButtonStyle.statsBoxDisagree)
+      case VoteNeutral  => Seq(VoteButtonStyle.statsBox, VoteButtonStyle.statsBoxNeutral)
+    }
+
     <.div()(
-      <.a(^.className := VoteButtonStyle.buttonStats(color), ^.onClick := onClickButtonStats(self) _)(
+      <.a(^.className := buttonStatsStyle, ^.onClick := onClickButtonStats(self) _)(
         <.i(^.className := Seq(thumbFont, VoteButtonStyle.thumbs), ^.style := thumbStyle)()
       ),
-      <.div(^.className := VoteButtonStyle.statsBox(color))(
+      <.div(^.className := statsBoxStyle)(
         <.span()(formatToKilo(voteStats.count)),
         <.span(^.className := VoteButtonStyle.pourcentages)(
           s"${Proposal.getPercentageVote(voteStats.count, self.props.wrapped.totalVote)}%"
@@ -99,7 +116,7 @@ object VoteButtonComponent {
     getInitialState = (_) =>
       VoteButtonState(
         isClickButtonVote = false,
-        button = Button(MakeStyles.Color.green, FontAwesomeStyles.thumbsUpTransparent, Map.empty),
+        button = Button(VoteAgree, FontAwesomeStyles.thumbsUpTransparent, Map.empty),
         voteStats = Vote(key = "", qualifications = Seq.empty)
     ),
     render = (self) =>
@@ -114,7 +131,7 @@ object VoteButtonComponent {
           <.div(^.style := Map("display" -> "flex"))(
             renderVoteButtonStat(
               self,
-              self.state.button.color,
+              self.state.button.voteType,
               self.state.button.thumbFont,
               self.state.button.thumbStyle,
               self.state.voteStats
@@ -122,7 +139,7 @@ object VoteButtonComponent {
             <.div(^.className := VoteButtonStyle.proposalQualif)(
               <.QualificationButtonComponent(
                 ^.wrapped := QualificationButtonComponent
-                  .QualificationButtonProps(self.state.button.color, self.state.voteStats)
+                  .QualificationButtonProps(self.state.button.voteType, self.state.voteStats)
               )()
             )
           )
@@ -139,22 +156,39 @@ object VoteButtonStyle extends StyleSheet.Inline {
   val proposalButton: StyleA =
     style(position.relative, display.flex, justifyContent.center, alignItems.flexStart, minHeight(12.rem))
 
-  def button(buttonColor: ValueT[ValueT.Color]): StyleA = style(
+//  def button(buttonColor: ValueT[ValueT.Color]): StyleA = style(
+
+  val buttonAgree: StyleA = style(
+    border :=! s"0.2rem solid ${MakeStyles.Color.green.value}",
+    color :=! MakeStyles.Color.green,
+    (&.hover)(backgroundColor :=! MakeStyles.Color.green)
+  )
+
+  val buttonDisagree: StyleA = style(
+    border :=! s"0.2rem solid ${MakeStyles.Color.red.value}",
+    color :=! MakeStyles.Color.red,
+    (&.hover)(backgroundColor :=! MakeStyles.Color.red)
+  )
+
+  val buttonNeutral: StyleA = style(
+    border :=! s"0.2rem solid ${MakeStyles.Color.greyVote.value}",
+    color :=! MakeStyles.Color.greyVote,
+    (&.hover)(backgroundColor :=! MakeStyles.Color.greyVote)
+  )
+
+  val button: StyleA = style(
     position.relative,
-    border :=! s"0.2rem solid ${buttonColor.value}",
     borderRadius(5.rem),
     fontSize(2.4.rem),
     textAlign.center,
     width(4.8.rem),
     height(4.8.rem),
     margin :=! "0 0.5rem",
-    color :=! buttonColor,
     display.flex,
     alignItems.center,
     justifyContent.center,
     backgroundColor :=! "#fff",
     (&.hover)(
-      backgroundColor :=! buttonColor,
       color :=! "#fff",
       boxShadow := "0 -0.1rem 0.6rem 0 rgba(0, 0, 0, 0.3)",
       unsafeChild("span")(
@@ -172,12 +206,21 @@ object VoteButtonStyle extends StyleSheet.Inline {
     )
   )
 
-  def buttonStats(buttonColor: ValueT[ValueT.Color]): StyleA = style(
+  val buttonVoteAgreeStats: StyleA =
+    style(border :=! s"0.2rem solid ${MakeStyles.Color.green.value}", backgroundColor :=! MakeStyles.Color.green.value)
+
+  val buttonVoteDisagreeStats: StyleA =
+    style(border :=! s"0.2rem solid ${MakeStyles.Color.red.value}", backgroundColor :=! MakeStyles.Color.red.value)
+
+  val buttonVoteNeutralStats: StyleA = style(
+    border :=! s"0.2rem solid ${MakeStyles.Color.greyVote.value}",
+    backgroundColor :=! MakeStyles.Color.greyVote.value
+  )
+
+  val buttonStats: StyleA = style(
     position.relative,
-    border :=! s"0.2rem solid ${buttonColor.value}",
     borderRadius(5.rem),
     fontSize(2.4.rem),
-    backgroundColor :=! buttonColor,
     color :=! "#fff",
     textAlign.center,
     width(4.8.rem),
@@ -205,14 +248,19 @@ object VoteButtonStyle extends StyleSheet.Inline {
     )
   )
 
-  def statsBox(textColor: ValueT[ValueT.Color]): StyleA = style(
+  val statsBoxAgree: StyleA = style(color :=! MakeStyles.Color.green)
+
+  val statsBoxDisagree: StyleA = style(color :=! MakeStyles.Color.red)
+
+  val statsBoxNeutral: StyleA = style(color :=! MakeStyles.Color.greyVote)
+
+  val statsBox: StyleA = style(
     position.absolute,
     top(5.rem),
     width(4.8.rem),
     lineHeight(2.rem),
     textAlign.center,
     fontSize(1.6.rem),
-    color :=! textColor,
     MakeStyles.Font.circularStdBold
   )
 

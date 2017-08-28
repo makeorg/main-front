@@ -7,14 +7,22 @@ import io.github.shogowada.scalajs.reactjs.elements.ReactElement
 import org.make.front.components.presentationals.TagListComponent.TagListComponentProps
 import org.make.front.facades.I18n
 import org.make.front.facades.Translate.TranslateVirtualDOMElements
-import org.make.front.models.Proposal
-import org.make.front.styles.{BulmaStyles, MakeStyles}
+import org.make.front.models.{Proposal, Theme, ThemeId}
+import org.make.front.styles.MakeStyles
 
 import scalacss.DevDefaults._
 
+trait ProposalLocation
+
+case object ThemePage extends ProposalLocation
+case object HomePage extends ProposalLocation
+
 object ProposalTileComponent {
 
-  final case class ProposalTileProps(proposal: Proposal)
+  final case class ProposalTileProps(proposal: Proposal,
+                                     proposalLocation: ProposalLocation,
+                                     isHomePage: Boolean,
+                                     associatedTheme: Option[Theme])
 
   def reactClass: ReactClass =
     React.createClass[ProposalTileProps, Unit](render = (self) => {
@@ -47,29 +55,25 @@ object ProposalTileComponent {
         }
       }
 
-      <.div(
-        ^.className := Seq(
-          BulmaStyles.Grid.Columns.column,
-          BulmaStyles.Grid.Columns.isOneQuarterDesktop,
-          BulmaStyles.Grid.Columns.isHalfTablet
-        )
-      )(
-        <.div(^.className := ProposalTileStyle.proposalCard)(
-          <.div(^.className := ProposalTileStyle.proposalUpPart)(
-            <.div(^.className := ProposalTileStyle.proposalAuthor)(header(self.props.wrapped.proposal)),
-            <.div(^.className := ProposalTileStyle.proposalText)(<.span()(self.props.wrapped.proposal.content)),
-            <.VoteButtonComponent(
-              ^.wrapped := VoteButtonComponent.VoteButtonProps(
-                voteAgreeStats = self.props.wrapped.proposal.voteAgree,
-                voteDisagreeStats = self.props.wrapped.proposal.voteDisagree,
-                voteNeutralStats = self.props.wrapped.proposal.voteNeutral,
-                totalVote = self.props.wrapped.proposal.voteAgree.count +
-                  self.props.wrapped.proposal.voteDisagree.count +
-                  self.props.wrapped.proposal.voteNeutral.count
-              )
-            )()
+      <.div(^.className := ProposalTileStyle.proposalCard)(
+        <.div(^.className := ProposalTileStyle.proposalUpPart)(
+          <.div(^.className := ProposalTileStyle.proposalAuthor)(header(self.props.wrapped.proposal)),
+          <.div(^.className := ProposalTileStyle.proposalText(self.props.wrapped.isHomePage))(
+            <.span()(self.props.wrapped.proposal.content)
           ),
-          <.div(^.className := ProposalTileStyle.proposalTags)(
+          <.VoteButtonComponent(
+            ^.wrapped := VoteButtonComponent.VoteButtonProps(
+              voteAgreeStats = self.props.wrapped.proposal.voteAgree,
+              voteDisagreeStats = self.props.wrapped.proposal.voteDisagree,
+              voteNeutralStats = self.props.wrapped.proposal.voteNeutral,
+              totalVote = self.props.wrapped.proposal.voteAgree.count +
+                self.props.wrapped.proposal.voteDisagree.count +
+                self.props.wrapped.proposal.voteNeutral.count
+            )
+          )()
+        ),
+        <.div(^.className := ProposalTileStyle.proposalTags)(self.props.wrapped.proposalLocation match {
+          case ThemePage =>
             <.TagListComponent(
               ^.wrapped := TagListComponentProps(
                 tags = self.props.wrapped.proposal.tags,
@@ -77,9 +81,15 @@ object ProposalTileComponent {
                 withShowMoreButton = false
               )
             )()
-          ),
-          <.style()(ProposalTileStyle.render[String])
-        )
+          case HomePage =>
+            if (self.props.wrapped.associatedTheme.nonEmpty) {
+              <.div()(
+                <.Translate(^.className := ProposalTileStyle.postedInText, ^.value := s"content.proposal.postedIn")(),
+                <.span(^.className := ProposalTileStyle.postedInTextTheme)(self.props.wrapped.associatedTheme.get.title)
+              )
+            }
+        }),
+        <.style()(ProposalTileStyle.render[String])
       )
     })
 }
@@ -110,9 +120,20 @@ object ProposalTileStyle extends StyleSheet.Inline {
     MakeStyles.Font.circularStdBook
   )
 
-  val proposalText: StyleA =
-    style(marginBottom(1.rem), MakeStyles.Font.circularStdBold, fontWeight :=! "700", fontSize(1.6.rem))
+  val proposalText: (Boolean) => StyleA = styleF.bool(
+    isHomePage =>
+      if (isHomePage) {
+        styleS(marginBottom(1.rem), MakeStyles.Font.circularStdBold, fontWeight :=! "700", fontSize(2.8.rem))
+      } else {
+        styleS(marginBottom(1.rem), MakeStyles.Font.circularStdBold, fontWeight :=! "700", fontSize(1.6.rem))
+    }
+  )
 
   val proposalTags: StyleA =
     style(borderTop :=! "0.1rem solid rgba(0, 0, 0, .1)", paddingLeft(1.36.rem), textAlign.left, paddingTop(1.rem))
+
+  val postedInText: StyleA = style(MakeStyles.Font.circularStdBook, fontSize(1.4.rem), color(rgba(0, 0, 0, 0.5)))
+
+  val postedInTextTheme: StyleA =
+    style(MakeStyles.Font.tradeGothicLTStd, fontSize(1.4.rem), color(MakeStyles.Color.pink))
 }

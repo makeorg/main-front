@@ -81,6 +81,14 @@ object MakeStyles extends StyleSheet.Inline {
     val facebook: StyleA = style(addClassNames("background-facebook"))
   }
 
+  object Spacing {
+    val smaller: ValueT[ValueT.LenPctAuto] = 1.rem
+    val small: ValueT[ValueT.LenPctAuto] = 1.5.rem
+    val medium: ValueT[ValueT.LenPctAuto] = 3.rem
+    val large: ValueT[ValueT.LenPctAuto] = 5.rem
+    val larger: ValueT[ValueT.LenPctAuto] = 6.rem
+  }
+
   object Form {
     val inputText: StyleA = style(addClassName("make-input-text"))
     val inputSelect: StyleA = style(addClassName("make-input-select"))

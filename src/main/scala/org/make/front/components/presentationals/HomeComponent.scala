@@ -1,12 +1,9 @@
 package org.make.front.components.presentationals
 
-import java.time.ZonedDateTime
-
 import io.github.shogowada.scalajs.reactjs.React
 import io.github.shogowada.scalajs.reactjs.VirtualDOM._
 import io.github.shogowada.scalajs.reactjs.classes.ReactClass
-import org.make.front.models._
-import org.make.front.styles.BulmaStyles
+import org.make.front.components.containers.ShowcaseProposalContainerComponent.ShowcaseProposalContainerProps
 
 object HomeComponent {
   lazy val reactClass: ReactClass =
@@ -14,11 +11,9 @@ object HomeComponent {
       render = (_) =>
         <.div()(
           <.HomeHeaderComponent.empty,
-          <.div(^.className := BulmaStyles.Layout.container)(
-            <.div(
-              ^.className := BulmaStyles.Grid.Columns.columns
-            )()
-          )
-        )
+          <.ShowcaseProposalContainerComponent(
+            ^.wrapped := ShowcaseProposalContainerProps(translationKey = "content.homepage.expressYourself")
+          )()
+      )
     )
 }
