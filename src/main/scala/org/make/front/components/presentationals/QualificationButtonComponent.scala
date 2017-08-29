@@ -8,7 +8,7 @@ import io.github.shogowada.scalajs.reactjs.elements.ReactElement
 import org.make.front.facades.I18n
 import org.make.front.facades.Translate.{TranslateVirtualDOMAttributes, TranslateVirtualDOMElements}
 import org.make.front.helpers.NumberFormat.formatToKilo
-import org.make.front.models.{VoteStats, VoteType}
+import org.make.front.models.{Qualification, Vote}
 import org.make.front.styles.MakeStyles
 
 import scalacss.DevDefaults._
@@ -17,56 +17,37 @@ import scalacss.internal.ValueT
 //todo get qualification status through props
 object QualificationButtonComponent {
 
-  def onClickQualif(self: Self[QualificationButtonProps, QualificationButtonState], qualifPosition: String)(): Unit = {
+  def onClickQualif(self: Self[QualificationButtonProps, QualificationButtonState],
+                    qualification: Qualification)(): Unit = {
+    val index = self.state.qualifications.indexOf(self.state.qualifications.find(_ == qualification).get)
     self.setState(
       _.copy(
-        isToggledTop = if (qualifPosition == "top") !self.state.isToggledTop else self.state.isToggledTop,
-        isToggledMiddle = if (qualifPosition == "middle") !self.state.isToggledMiddle else self.state.isToggledMiddle,
-        isToggledBottom = if (qualifPosition == "bottom") !self.state.isToggledBottom else self.state.isToggledBottom
+        qualifications = self.state.qualifications.updated(
+          index,
+          Qualification(key = qualification.key, count = qualification.count, selected = !qualification.selected)
+        )
       )
     )
   }
 
-  final case class QualificationButtonProps(color: ValueT[ValueT.Color],
-                                            qualificationType: VoteType,
-                                            qualifStats: VoteStats)
+  final case class QualificationButtonProps(color: ValueT[ValueT.Color], qualifStats: Vote)
 
-  final case class QualificationButtonState(isToggledTop: Boolean, isToggledMiddle: Boolean, isToggledBottom: Boolean)
+  final case class QualificationButtonState(qualifications: Seq[Qualification])
 
   lazy val reactClass: ReactClass = React.createClass[QualificationButtonProps, QualificationButtonState](
-    getInitialState =
-      (_) => QualificationButtonState(isToggledTop = false, isToggledMiddle = false, isToggledBottom = false),
+    getInitialState = (self) => QualificationButtonState(qualifications = self.props.wrapped.qualifStats.qualifications),
     render = (self) => {
-      val keyQualifType = s"content.proposal.${self.props.wrapped.qualificationType.translationKey}"
-      val qualifStats = self.props.wrapped.qualifStats
-      <.div()(
-        renderQualification(self, s"$keyQualifType.top", qualifStats.nbQualifTop, self.state.isToggledTop, "top"),
-        renderQualification(
-          self,
-          s"$keyQualifType.middle",
-          qualifStats.nbQualifMiddle,
-          self.state.isToggledMiddle,
-          "middle"
-        ),
-        renderQualification(
-          self,
-          s"$keyQualifType.bottom",
-          qualifStats.nbQualifBottom,
-          self.state.isToggledBottom,
-          "bottom"
-        ),
-        <.style()(QualificationButtonStyle.render[String])
-      )
+      <.div()(self.state.qualifications.map { qualification =>
+        renderQualification(self, qualification, s"content.proposal.${qualification.key}")
+      }, <.style()(QualificationButtonStyle.render[String]))
     }
   )
 
   def renderQualification(self: Self[QualificationButtonProps, QualificationButtonState],
-                          text: String,
-                          totalQualif: Int,
-                          isToggled: Boolean,
-                          qualifPosition: String): ReactElement = {
+                          qualification: Qualification,
+                          text: String): ReactElement = {
     val (divStyle, spanText, spanStyle) =
-      if (!isToggled)
+      if (!qualification.selected)
         (
           QualificationButtonStyle.qualificationButton(self.props.wrapped.color),
           I18n.t("content.proposal.plusOne"),
@@ -75,11 +56,11 @@ object QualificationButtonComponent {
       else
         (
           QualificationButtonStyle.qualificationButtonSelected(self.props.wrapped.color),
-          formatToKilo(totalQualif),
+          formatToKilo(qualification.count),
           QualificationButtonStyle.statQualif
         )
 
-    <.div(^.className := divStyle, ^.onClick := onClickQualif(self, qualifPosition) _)(
+    <.div(^.className := divStyle, ^.onClick := onClickQualif(self, qualification) _)(
       <.div(^.className := QualificationButtonStyle.textQualif)(
         <.Translate(^.value := text, ^.dangerousHtml := true, ^.className := QualificationButtonStyle.qualifWrapper)()
       ),

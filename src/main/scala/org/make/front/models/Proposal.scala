@@ -1,60 +1,49 @@
 package org.make.front.models
 
+import java.time.ZonedDateTime
+
+import io.circe.{Decoder, Encoder, Json}
+import org.make.core.StringValue
+import org.make.front.helpers.NumberFormat.formatToKilo
 //todo Add connected user info about proposal
-final case class Proposal(content: String,
-                          authorFirstname: String,
-                          authorPostalCode: Option[String],
-                          authorAge: Option[Int],
-                          nbVoteAgree: Int = 0,
-                          nbVoteDisagree: Int = 0,
-                          nbVoteNeutral: Int = 0,
-                          nbQualifLikeIt: Int = 0,
-                          nbQualifDoable: Int = 0,
-                          nbQualifPlatitudeAgree: Int = 0,
-                          nbQualifNoWay: Int = 0,
-                          nbQualifImpossible: Int = 0,
-                          nbQualifPlatitudeDisagree: Int = 0,
-                          nbQualifDoNotUnderstand: Int = 0,
-                          nbQualifNoOpinion: Int = 0,
-                          nbQualifDoNotCare: Int = 0,
+final case class Proposal(id: ProposalId,
+                          userId: UserId,
+                          content: String,
+                          slug: String,
+                          status: String,
+                          createdAt: ZonedDateTime,
+                          updatedAt: Option[ZonedDateTime],
+                          voteAgree: Vote,
+                          voteDisagree: Vote,
+                          voteNeutral: Vote,
+                          proposalContext: ProposalContext,
+                          trending: Option[String],
+                          labels: Seq[String],
+                          author: Author,
+                          country: String,
+                          language: String,
+                          themeId: Option[ThemeId],
                           tags: Seq[Tag])
 
-final case class VoteStats(nbQualifTop: Int, nbQualifMiddle: Int, nbQualifBottom: Int, totalVote: Int)
+final case class Qualification(key: String, count: Int = 0, selected: Boolean = false)
+final case class Vote(key: String, selected: Boolean = false, count: Int = 0, qualifications: Seq[Qualification])
 
-sealed trait VoteType {
-  val translationKey: String
+final case class ProposalContext(operation: Option[String],
+                                 source: Option[String],
+                                 location: Option[String],
+                                 question: Option[String])
+
+final case class Author(firstname: Option[String], postalCode: Option[String], age: Option[Int])
+
+final case class ProposalId(value: String) extends StringValue
+
+object ProposalId {
+  implicit lazy val proposalIdEncoder: Encoder[ProposalId] = (a: ProposalId) => Json.fromString(a.value)
+  implicit lazy val proposalIdDecoder: Decoder[ProposalId] = Decoder.decodeString.map(ProposalId(_))
 }
 
-case object VoteAgree extends VoteType { override val translationKey = "qualifAgree" }
-case object VoteDisagree extends VoteType { override val translationKey = "qualifDisagree" }
-case object VoteNeutral extends VoteType { override val translationKey = "qualifNeutral" }
-
 object Proposal {
-
-  def getVoteStats(proposal: Proposal, qualificationType: VoteType): VoteStats = {
-    qualificationType match {
-      case VoteAgree =>
-        VoteStats(
-          proposal.nbQualifLikeIt,
-          proposal.nbQualifDoable,
-          proposal.nbQualifPlatitudeAgree,
-          proposal.nbVoteAgree
-        )
-      case VoteDisagree =>
-        VoteStats(
-          proposal.nbQualifNoWay,
-          proposal.nbQualifImpossible,
-          proposal.nbQualifPlatitudeDisagree,
-          proposal.nbVoteDisagree
-        )
-      case VoteNeutral =>
-        VoteStats(
-          proposal.nbQualifDoNotUnderstand,
-          proposal.nbQualifNoOpinion,
-          proposal.nbQualifDoNotCare,
-          proposal.nbVoteNeutral
-        )
-    }
+  def getPercentageVote(count: Int, totalVote: Int): String = {
+    formatToKilo(count * 100 / totalVote)
   }
-
 }

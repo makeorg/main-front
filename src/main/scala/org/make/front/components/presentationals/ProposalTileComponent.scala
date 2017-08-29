@@ -5,8 +5,9 @@ import io.github.shogowada.scalajs.reactjs.VirtualDOM._
 import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import io.github.shogowada.scalajs.reactjs.elements.ReactElement
 import org.make.front.components.presentationals.TagListComponent.TagListComponentProps
+import org.make.front.facades.I18n
 import org.make.front.facades.Translate.TranslateVirtualDOMElements
-import org.make.front.models.{Proposal, VoteAgree, VoteDisagree, VoteNeutral}
+import org.make.front.models.Proposal
 import org.make.front.styles.{BulmaStyles, MakeStyles}
 
 import scalacss.DevDefaults._
@@ -18,28 +19,31 @@ object ProposalTileComponent {
   def reactClass: ReactClass =
     React.createClass[ProposalTileProps, Unit](render = (self) => {
       def header(proposal: Proposal): ReactElement = {
-        (proposal.authorAge, proposal.authorPostalCode) match {
-          case (Some(authorAge), Some(authorPostalCode)) =>
+        (proposal.author.age, proposal.author.postalCode) match {
+          case (Some(age), Some(postalCode)) =>
             <.Translate(
               ^.value := "content.proposal.fullHeader",
-              ^("firstName") := proposal.authorFirstname,
-              ^("authorAge") := authorAge.toString,
-              ^("authorPostalCode") := authorPostalCode
+              ^("firstName") := proposal.author.firstname.getOrElse(I18n.t("anonymous")),
+              ^("age") := s"${age.toString}",
+              ^("postalCode") := s"$postalCode"
             )()
-          case (Some(authorAge), None) =>
+          case (Some(age), None) =>
             <.Translate(
               ^.value := "content.proposal.ageHeader",
-              ^("firstName") := proposal.authorFirstname,
-              ^("authorAge") := authorAge.toString
+              ^("firstName") := proposal.author.firstname.getOrElse(I18n.t("anonymous")),
+              ^("age") := s"${age.toString}"
             )()
-          case (None, Some(authorPostalCode)) =>
+          case (None, Some(postalCode)) =>
             <.Translate(
               ^.value := "content.proposal.postalCodeHeader",
-              ^("firstName") := proposal.authorFirstname,
-              ^("authorPostalCode") := authorPostalCode
+              ^("firstName") := proposal.author.firstname.getOrElse(I18n.t("anonymous")),
+              ^("postalCode") := s"$postalCode"
             )()
           case (None, None) =>
-            <.Translate(^.value := "content.proposal.tinyHeader", ^("firstName") := proposal.authorFirstname)()
+            <.Translate(
+              ^.value := "content.proposal.tinyHeader",
+              ^("firstName") := proposal.author.firstname.getOrElse(I18n.t("anonymous"))
+            )()
         }
       }
 
@@ -56,12 +60,12 @@ object ProposalTileComponent {
             <.div(^.className := ProposalTileStyle.proposalText)(<.span()(self.props.wrapped.proposal.content)),
             <.VoteButtonComponent(
               ^.wrapped := VoteButtonComponent.VoteButtonProps(
-                voteAgreeStats = Proposal.getVoteStats(self.props.wrapped.proposal, VoteAgree),
-                voteDisagreeStats = Proposal.getVoteStats(self.props.wrapped.proposal, VoteDisagree),
-                voteNeutralStats = Proposal.getVoteStats(self.props.wrapped.proposal, VoteNeutral),
-                totalVote = self.props.wrapped.proposal.nbVoteAgree +
-                  self.props.wrapped.proposal.nbVoteDisagree +
-                  self.props.wrapped.proposal.nbVoteNeutral
+                voteAgreeStats = self.props.wrapped.proposal.voteAgree,
+                voteDisagreeStats = self.props.wrapped.proposal.voteDisagree,
+                voteNeutralStats = self.props.wrapped.proposal.voteNeutral,
+                totalVote = self.props.wrapped.proposal.voteAgree.count +
+                  self.props.wrapped.proposal.voteDisagree.count +
+                  self.props.wrapped.proposal.voteNeutral.count
               )
             )()
           ),
