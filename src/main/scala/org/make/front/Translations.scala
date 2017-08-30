@@ -140,7 +140,9 @@ object Translations {
       |         "description": "Merci de renseigner l'adresse email liée à votre compte pour recevoir le lien de réinitialisation.",
       |         "receiveEmail": "recevoir l'e-mail",
       |         "invalidEmail": "veuillez rentrer un e-mail valide",
-      |         "emailDoesNotExist": "L'e-mail que vous avez rentré n'existe pas"
+      |         "emailDoesNotExist": "L'e-mail que vous avez rentré n'existe pas",
+      |         "return": "Revenir à ",
+      |         "connectScreen": "l'écran de connexion"
       |       }
       |     },
     |       "modal": {
@@ -273,7 +275,9 @@ object Translations {
       |         "description": "Merci de renseigner l'adresse email liée à votre compte pour recevoir le lien de réinitialisation.",
       |         "receiveEmail": "recevoir l'e-mail",
       |         "invalidEmail": "veuillez rentrer un e-mail valide",
-      |         "emailDoesNotExist": "L'e-mail que vous avez rentré n'existe pas"
+      |         "emailDoesNotExist": "L'e-mail que vous avez rentré n'existe pas",
+      |         "return": "Revenir à ",
+      |         "connectScreen": "l'écran de connexion"
       |       }
       |     },
   |         "modal": {

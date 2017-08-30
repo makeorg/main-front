@@ -14,17 +14,19 @@ import org.make.front.helpers.Validation
 import org.make.services.user.UserServiceComponent
 import org.scalajs.dom.raw.HTMLInputElement
 
-import scala.concurrent.ExecutionContext.Implicits.global
-import scala.util.{Failure, Success}
 import scalacss.DevDefaults._
 import scalacss.internal.StyleA
 import scalacss.internal.mutable.StyleSheet
 
 object PasswordRecoveryComponent extends UserServiceComponent {
 
-  override val apiBaseUrl: String = Configuration.apiUrl
+  case class PasswordRecoveryProps(
+    modalIsOpen: Boolean,
+    closeModal: () => Unit,
+    handleReturOnClick: () => Unit,
+    handleSubmit: (Self[PasswordRecoveryProps, PasswordRecoveryState]) => Unit
+  )
 
-  case class PasswordRecoveryProps(modalIsOpen: Boolean, closeModal: () => Unit, handleSubmitSuccess: () => Unit)
   case class PasswordRecoveryState(email: String, modalIsOpen: Boolean, errorMessage: String)
 
   lazy val reactClass: ReactClass =
@@ -65,9 +67,15 @@ object PasswordRecoveryComponent extends UserServiceComponent {
                     )()
                   ),
                   <.div()(<.span(^.className := AppComponentStyles.errorMessage)(self.state.errorMessage)),
-                  <.button(^.className := MakeStyles.Button.default, ^.onClick := handleSubmit(self))(
+                  <.button(^.className := Seq(MakeStyles.Button.default, AppComponentStyles.submitButton), ^.onClick := handleSubmit(self))(
                     <.i(^.className := Seq(FontAwesomeStyles.paperPlaneTransparent, AppComponentStyles.buttonIcon))(),
                     <.Translate(^.value := "form.passwordRecovery.receiveEmail")()
+                  ),
+                  <.div()(
+                    <.Translate(^.value := "form.passwordRecovery.return")(),
+                    <.a(^.className := AppComponentStyles.link, ^.onClick := handleReturOnClick(self))(
+                      I18n.t("form.passwordRecovery.connectScreen")
+                    )
                   )
                 )
               )
@@ -84,13 +92,8 @@ object PasswordRecoveryComponent extends UserServiceComponent {
   private def handleSubmit(self: Self[PasswordRecoveryProps, PasswordRecoveryState]) = (e: SyntheticEvent)  => {
     e.preventDefault()
     if (Validation.isValidEmail(self.state.email)) {
-      userService.recoverPassword(self.state.email).onComplete {
-        case Success(_) => {
-          self.setState(self.state.copy(errorMessage = ""))
-          self.props.wrapped.handleSubmitSuccess()
-        }
-        case Failure(e) => self.setState(self.state.copy(errorMessage = I18n.t("form.passwordRecovery.emailDoesNotExist")))
-      }
+      self.setState(self.state.copy(errorMessage = ""))
+      self.props.wrapped.handleSubmit(self)
     } else {
       self.setState(self.state.copy(errorMessage = I18n.t("form.passwordRecovery.invalidEmail")))
     }
@@ -99,6 +102,11 @@ object PasswordRecoveryComponent extends UserServiceComponent {
   private def closeModal(self: Self[PasswordRecoveryProps, PasswordRecoveryState]) = () => {
     self.setState(self.state.copy(errorMessage = ""))
     self.props.wrapped.closeModal()
+  }
+
+  private def handleReturOnClick(self: Self[PasswordRecoveryProps, PasswordRecoveryState]) = () => {
+    self.setState(self.state.copy(errorMessage = ""))
+    self.props.wrapped.handleReturOnClick()
   }
 }
 

@@ -43,11 +43,24 @@ object AppComponentStyles extends StyleSheet.Inline {
     marginTop(3.rem)
   )
 
+  val link: StyleA = style(
+    color(MakeStyles.Color.pink),
+    fontWeight.bold
+  )
+
   val icon: StyleA = style(
     addClassName(BulmaStyles.Element.icon.htmlClass),
     marginRight(0.6.rem)
   )
-  val buttonIcon: StyleA = style(paddingBottom(0.5F.rem), paddingRight(0.9.rem))
+
+  val buttonIcon: StyleA = style(
+    paddingBottom(0.5F.rem),
+    paddingRight(0.9.rem)
+  )
+
+  val submitButton: StyleA = style(
+    marginBottom(1.7F.rem)
+  )
 
   val errorInput: StyleA = style(
     backgroundColor(MakeStyles.Color.lightPink),

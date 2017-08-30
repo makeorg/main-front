@@ -208,11 +208,11 @@ object ConnectUserComponent {
         ),
         <.div(^.className := forgetPasswordClass)(
           <.Translate(^.value := "form.login.oupsI")(),
-          <.a(^.className := ConnectUserComponentStyles.link, ^.onClick := forgotPassword(self))(I18n.t("form.login.forgotPassword"))
+          <.a(^.className := AppComponentStyles.link, ^.onClick := forgotPassword(self))(I18n.t("form.login.forgotPassword"))
         ),
         <.div(^.className := toggleSignInRegisterClass)(
           <.Translate(^.value := "form.login.noAccount")(),
-          <.a(^.className := ConnectUserComponentStyles.link, ^.onClick := toggleRegister(self))(
+          <.a(^.className := AppComponentStyles.link, ^.onClick := toggleRegister(self))(
             I18n.t("form.login.createAccount")
           )
         )
@@ -293,7 +293,7 @@ object ConnectUserComponent {
         ),
         <.div(^.className := toggleSignInRegisterClass)(
           <.Translate(^.value := "form.register.alreadySubscribed")(),
-          <.a(^.className := ConnectUserComponentStyles.link, ^.onClick := toggleRegister(self))(
+          <.a(^.className := AppComponentStyles.link, ^.onClick := toggleRegister(self))(
             I18n.t("form.connection")
           )
         )
@@ -461,18 +461,20 @@ object ConnectUserComponentStyles extends StyleSheet.Inline {
   val button: StyleA = style(width(48.8F.%%))
   val buttonsInfo: StyleA = style(marginTop(1.4F.rem), display.block)
 
-  val link: StyleA = style(color(MakeStyles.Color.pink), fontWeight.bold)
-
   val lineWrapper: StyleA =
     style(display.flex, alignItems.center, margin(3.4F.rem, auto, 2.9F.rem, auto))
   val line: StyleA =
     style(height(0.1F.rem), backgroundColor(rgba(0, 0, 0, 0.3)), flexGrow(1), marginTop(0.5F.rem), opacity(0.3))
   val underlineText: StyleA = style(MakeStyles.Font.playfairDisplayItalic, margin(0.rem, 1.6F.rem), fontSize(1.8F.rem))
   val input: StyleA =
+<<<<<<< e2853c5db2b285386293b7721506df5fa5f6c956
     style(height(4.rem), width(100.%%), (media.all.maxWidth(800.px))(height(3.rem)))
   val buttonIcon: StyleA = style(paddingBottom(0.5F.rem), paddingRight(0.9.rem))
 
   val submitButton: StyleA = style(marginBottom(1.7F.rem))
+=======
+    style(height(4.rem), (media.all.maxWidth(800.px))(height(3.rem)))
+>>>>>>> feat(user): add link to return to connexion step
   val noRegisterButton: StyleA =
     style(
       marginBottom(1.7F.rem),
