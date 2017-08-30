@@ -16,8 +16,7 @@ object HomeComponent {
           <.HomeHeaderComponent.empty,
           <.div(^.className := BulmaStyles.Layout.container)(
             <.div(
-              ^.className := BulmaStyles.Grid.Columns.columns,
-              ^.style := Map("margin-top" -> "0", "margin-bottom" -> "0")
+              ^.className := BulmaStyles.Grid.Columns.columns
             )()
           )
         )

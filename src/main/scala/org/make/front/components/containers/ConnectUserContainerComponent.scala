@@ -5,7 +5,7 @@ import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import io.github.shogowada.scalajs.reactjs.redux.ReactRedux
 import io.github.shogowada.scalajs.reactjs.redux.Redux.Dispatch
 import io.github.shogowada.scalajs.reactjs.router.RouterProps
-import org.make.front.actions.{DismissLoginRequired, LoggedInAction, NotifyError}
+import org.make.front.actions.{DismissLoginRequired, LoggedInAction, NotifyError, PasswordRecoveryAction}
 import org.make.front.components.presentationals.ConnectUserComponent
 import org.make.front.components.presentationals.ConnectUserComponent.{ConnectUserProps, State}
 import org.make.front.facades.{Configuration, I18n}
@@ -34,6 +34,13 @@ object ConnectUserContainerComponent extends RouterProps with UserServiceCompone
 
         def closeModal() = {
           dispatch(DismissLoginRequired)
+        }
+
+        def forgotPassword() = {
+          // Close login modal
+          dispatch(DismissLoginRequired)
+          // Open PAssword recovery modal
+          dispatch(PasswordRecoveryAction(openModal = true))
         }
 
         def signInGoogle(response: Response, child: Self[ConnectUserProps, State]): Unit = {
@@ -93,6 +100,7 @@ object ConnectUserContainerComponent extends RouterProps with UserServiceCompone
           signIn = signIn,
           register = register,
           closeModal = closeModal,
+          forgotPassword = forgotPassword,
           isOpen = appState.technicalState.showLoginModal,
           googleAppId = googleAppId,
           facebookAppId = facebookAppId,

@@ -134,8 +134,18 @@ object Translations {
       |       },
       |       "proposal": {
       |         "submit": "Proposer"
+      |       },
+      |       "passwordRecovery": {
+      |         "title": "je réinitialise mon mot de passe",
+      |         "description": "Merci de renseigner l'adresse email liée à votre compte pour recevoir le lien de réinitialisation.",
+      |         "receiveEmail": "recevoir l'e-mail",
+      |         "invalidEmail": "veuillez rentrer un e-mail valide",
+      |         "emailDoesNotExist": "L'e-mail que vous avez rentré n'existe pas"
       |       }
-      |    }
+      |     },
+    |       "modal": {
+    |         "close": "Fermer"
+    |       }
       |  },
       |  "en": {
       |    "errors": {
@@ -257,8 +267,18 @@ object Translations {
       |       },
       |       "proposal": {
       |         "submit": "Proposer"
+      |       },
+      |       "passwordRecovery": {
+      |         "title": "je réinitialise mon mot de passe",
+      |         "description": "Merci de renseigner l'adresse email liée à votre compte pour recevoir le lien de réinitialisation.",
+      |         "receiveEmail": "recevoir l'e-mail",
+      |         "invalidEmail": "veuillez rentrer un e-mail valide",
+      |         "emailDoesNotExist": "L'e-mail que vous avez rentré n'existe pas"
       |       }
-      |    }
+      |     },
+  |         "modal": {
+  |           "close": "Fermer"
+  |         }
       |  }
       |}
     """.stripMargin

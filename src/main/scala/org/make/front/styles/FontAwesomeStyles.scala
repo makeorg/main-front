@@ -22,6 +22,7 @@ object FontAwesomeStyles extends StyleSheet.Inline {
   val envelopeTransparent: StyleA = style(addClassName("fa"), addClassName("fa-envelope-o"))
   val envelopeOpen: StyleA = style(addClassName("fa"), addClassName("fa-envelope-open"))
   val envelopeOpenTransparent: StyleA = style(addClassName("fa"), addClassName("fa-envelope-open-o"))
+  val paperPlaneTransparent: StyleA = style(addClassName("fa"), addClassName("fa-paper-plane-o"))
   val lock: StyleA = style(addClassName("fa"), addClassName("fa-lock"))
   val user: StyleA = style(addClassName("fa"), addClassName("fa-user"))
   val eye: StyleA = style(addClassName("fa"), addClassName("fa-eye"))

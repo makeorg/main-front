@@ -185,6 +185,13 @@ trait DefaultMakeApiClientComponent extends MakeApiClientComponent with TimeInst
       }
     }
 
+    def recoverPassword(email: String): Future[String] = {
+      post[String](
+        "user" / "reset-password",
+        data = Map("email" -> email).asJson.pretty(MakeApiClient.printer)
+      )
+    }
+
     def logout(): Future[Unit] =
       Ajax
         .post(

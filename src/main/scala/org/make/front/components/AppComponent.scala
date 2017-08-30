@@ -21,6 +21,7 @@ object AppComponent {
         <.FooterContainerComponent.empty,
         <.NotificationContainerComponent.empty,
         <.ConnectUserContainerComponent.empty,
+        <.PasswordRecoveryContainerComponent.empty,
         <.style()(AppComponentStyles.render[String])
     )
   )
@@ -45,5 +46,21 @@ object AppComponentStyles extends StyleSheet.Inline {
   val icon: StyleA = style(
     addClassName(BulmaStyles.Element.icon.htmlClass),
     marginRight(0.6.rem)
+  )
+  val buttonIcon: StyleA = style(paddingBottom(0.5F.rem), paddingRight(0.9.rem))
+
+  val errorInput: StyleA = style(
+    backgroundColor(MakeStyles.Color.lightPink),
+    border :=! s"0.1rem solid ${MakeStyles.Color.error}"
+  )
+
+  val errorMessage: StyleA = style(
+    display.block,
+    margin.auto,
+    MakeStyles.Font.circularStdBook,
+    fontSize(1.4F.rem),
+    color(MakeStyles.Color.error),
+    lineHeight(1.8F.rem),
+    paddingBottom(1.rem)
   )
 }

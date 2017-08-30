@@ -13,8 +13,10 @@ import org.make.services.ApiService
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
+import scala.util.Success
 
 case class NoTokenException(message: String = I18n.t("errors.noToken")) extends Exception(message)
+case class UserNotfoundException(message: String = I18n.t("errors.userNotFound")) extends Exception(message)
 
 trait UserServiceComponent {
   def apiBaseUrl: String
@@ -73,6 +75,10 @@ trait UserServiceComponent {
         case true  => client.get[User](resourceName / "me")
         case false => throw NoTokenException()
       }
+    }
+
+    def recoverPassword(email: String): Future[String] = {
+      client.recoverPassword(email)
     }
 
     def logout(): Future[Unit] =
