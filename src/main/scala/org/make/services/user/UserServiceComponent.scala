@@ -13,7 +13,6 @@ import org.make.services.ApiService
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
-import scala.util.Success
 
 case class NoTokenException(message: String = I18n.t("errors.noToken")) extends Exception(message)
 case class UserNotfoundException(message: String = I18n.t("errors.userNotFound")) extends Exception(message)
@@ -31,13 +30,13 @@ trait UserServiceComponent {
     override val resourceName: String = "user"
 
     def getUserById(id: String): Future[Option[User]] =
-      client.get[User](resourceName / id).map(Some(_)).recover { case _: Exception => None }
+      client.get[User](resourceName / id).recover { case _: Exception => None }
 
     def registerUser(username: String, password: String, firstName: String): Future[User] =
       client.post[User](
         resourceName,
         data = RegisterUserRequest(username, password, firstName = firstName).asJson.pretty(ApiService.printer)
-      )
+      ).map(_.get)
 
     def registerUser(username: String,
                      password: String,
@@ -59,25 +58,25 @@ trait UserServiceComponent {
 
     def login(username: String, password: String): Future[User] = {
       client.authenticate(username, password).flatMap {
-        case true  => client.get[User](resourceName / "me")
+        case true  => client.get[User](resourceName / "me").map(_.get)
         case false => throw NoTokenException()
       }
     }
 
     def loginGoogle(token: String): Future[User] = {
       client.authenticateSocial("google", token).flatMap {
-        case true  => client.get[User](resourceName / "me")
+        case true  => client.get[User](resourceName / "me").map(_.get)
         case false => throw NoTokenException()
       }
     }
     def loginFacebook(token: String): Future[User] = {
       client.authenticateSocial("facebook", token).flatMap {
-        case true  => client.get[User](resourceName / "me")
+        case true  => client.get[User](resourceName / "me").map(_.get)
         case false => throw NoTokenException()
       }
     }
 
-    def recoverPassword(email: String): Future[String] = {
+    def recoverPassword(email: String): Future[Unit] = {
       client.recoverPassword(email)
     }
 

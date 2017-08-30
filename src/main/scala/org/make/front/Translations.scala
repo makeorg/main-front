@@ -142,7 +142,10 @@ object Translations {
       |         "invalidEmail": "veuillez rentrer un e-mail valide",
       |         "emailDoesNotExist": "L'e-mail que vous avez rentré n'existe pas",
       |         "return": "Revenir à ",
-      |         "connectScreen": "l'écran de connexion"
+      |         "connectScreen": "l'écran de connexion",
+      |         "notification": {
+      |           "message" : "Merci, un email vient de vous être envoyé pour vous permettre de mettre à jour votre mot de passe."
+      |         }
       |       }
       |     },
     |       "modal": {
@@ -277,7 +280,10 @@ object Translations {
       |         "invalidEmail": "veuillez rentrer un e-mail valide",
       |         "emailDoesNotExist": "L'e-mail que vous avez rentré n'existe pas",
       |         "return": "Revenir à ",
-      |         "connectScreen": "l'écran de connexion"
+      |         "connectScreen": "l'écran de connexion",
+      |         "notification": {
+      |           "message" : "Merci, un email vient de vous être envoyé pour vous permettre de mettre à jour votre mot de passe."
+      |         }
       |       }
       |     },
   |         "modal": {

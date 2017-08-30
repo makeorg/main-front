@@ -25,15 +25,16 @@ object PasswordRecoveryContainerComponent {
 
       def handleSubmit(self: Self[PasswordRecoveryProps, PasswordRecoveryState]): Unit = {
         userService.recoverPassword(self.state.email).onComplete {
-          case Success(_) => dispatch(PasswordRecoveryAction(openModal = false))
-            /*dispatch(NotifyInfo(
+          case Success(_) =>
+            dispatch(PasswordRecoveryAction(openModal = false))
+            dispatch(NotifyInfo(
               message = I18n.t("form.passwordRecovery.notification.message"),
-              title = Some(I18n.t("form.passwordRecovery.notification.title")),
-              autoDismiss = None
+              title = None
             ))
-
-          }*/
-          case Failure(e) => self.setState(self.state.copy(errorMessage = I18n.t("form.passwordRecovery.emailDoesNotExist")))
+            self.setState(self.state.copy(errorMessage = "", email = ""))
+          case Failure(e) =>
+            println(e.getMessage)
+            self.setState(self.state.copy(errorMessage = I18n.t("form.passwordRecovery.emailDoesNotExist")))
         }
       }
 
