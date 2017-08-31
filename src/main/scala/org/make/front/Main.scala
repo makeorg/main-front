@@ -8,7 +8,7 @@ import io.github.shogowada.scalajs.reactjs.redux.{Redux, Store}
 import io.github.shogowada.scalajs.reactjs.router.dom.RouterDOM._
 import org.make.front.actions.LoadThemes
 import org.make.front.components.AppComponent
-import org.make.front.facades.I18n
+import org.make.front.facades.{Configuration, I18n}
 import org.make.front.middlewares.{
   ConnectedUserMiddleware,
   NotificationMiddleware,
@@ -30,6 +30,8 @@ object Main extends JSApp {
   override def main(): Unit = {
     Translations.loadTranslations()
     I18n.setLocale("fr")
+    val connectedUserMiddleware = new ConnectedUserMiddleware(Configuration.apiUrl)
+
     val store: Store[AppState] = Redux.createStore(
       Reducer.reduce,
       ReduxDevTools.composeWithDevTools(
@@ -37,7 +39,7 @@ object Main extends JSApp {
           NotificationMiddleware.handle,
           ThemeMiddleware.handle,
           PoliticalActionMiddleware.handle,
-          ConnectedUserMiddleware.handle
+          connectedUserMiddleware.handle
         )
       )
     )
@@ -52,4 +54,5 @@ object Main extends JSApp {
   private def initStore(store: Store[AppState]): Unit = {
     store.dispatch(LoadThemes)
   }
+
 }

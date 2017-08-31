@@ -3,7 +3,7 @@ var path = require('path');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
 var WebpackMd5Hash = require('webpack-md5-hash');
-var pathBuild = path.join(__dirname, 'dist')
+var pathBuild = path.join(__dirname, 'dist');
 
 module.exports = require('./scalajs.webpack.config');
 
@@ -22,7 +22,10 @@ module.exports.output = {
 module.exports.plugins = [
     new HtmlWebpackPlugin({
         "title": "Make.org",
-        "template": path.join(__dirname, "index.template.ejs")
+        "template": path.join(__dirname, "index.template.ejs"),
+        "apiUrl": "https://api.prod.makeorg.tech",
+        "googleAppId": "810331964280-qtdupbrjusihad3b5da51i5p66qpmhmr.apps.googleusercontent.com",
+        "facebookAppId": "317128238675603"
     }),
     new WebpackMd5Hash(),
     new ExtractTextPlugin({ // define where to save the file

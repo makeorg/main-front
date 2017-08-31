@@ -8,7 +8,7 @@ import io.github.shogowada.scalajs.reactjs.router.RouterProps
 import org.make.front.actions.{DismissLoginRequired, LoggedInAction, NotifyError}
 import org.make.front.components.presentationals.ConnectUserComponent
 import org.make.front.components.presentationals.ConnectUserComponent.{ConnectUserProps, State}
-import org.make.front.facades.I18n
+import org.make.front.facades.{Configuration, I18n}
 import org.make.front.facades.ReactFacebookLogin.FacebookAuthResponse
 import org.make.front.facades.ReactGoogleLogin.GoogleAuthResponse
 import org.make.front.models.{AppState, User}
@@ -21,9 +21,10 @@ import scala.util.{Failure, Success}
 
 object ConnectUserContainerComponent extends RouterProps with UserServiceComponent {
 
-  //TODO: load these from config
-  val googleAppId = "810331964280-qtdupbrjusihad3b5da51i5p66qpmhmr.apps.googleusercontent.com"
-  val facebookAppId = "317128238675603"
+  //TODO: have things injected rather than using static stuff
+  val googleAppId: String = Configuration.googleAppId
+  val facebookAppId: String = Configuration.facebookAppId
+  override val apiBaseUrl: String = Configuration.apiUrl
 
   lazy val reactClass: ReactClass = ReactRedux.connectAdvanced(selectorFactory)(ConnectUserComponent.reactClass)
 

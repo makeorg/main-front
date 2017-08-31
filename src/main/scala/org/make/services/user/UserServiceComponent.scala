@@ -15,9 +15,10 @@ import scala.concurrent.Future
 case class NoTokenException(message: String = I18n.t("errors.noToken")) extends Exception(message)
 
 trait UserServiceComponent {
-  def userService: UserService = new UserService()
+  def apiBaseUrl: String
+  def userService: UserService = new UserService(apiBaseUrl)
 
-  class UserService
+  class UserService(override val apiBaseUrl: String)
       extends ApiService
       with CirceClassFormatters
       with CirceFormatters
