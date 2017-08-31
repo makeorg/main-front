@@ -16,6 +16,7 @@ import scala.concurrent.{Future, Promise}
 import scala.util.{Failure, Success, Try}
 
 trait MakeApiClientComponent {
+  def apiBaseUrl: String
   def client: Client
   def maxTimeout: Int = 5000
   def defaultHeaders: Map[String, String] = Map.empty
@@ -39,8 +40,7 @@ trait DefaultMakeApiClientComponent extends MakeApiClientComponent with TimeInst
 
   final class DefaultMakeApiClient extends Client {
 
-    //TODO: load these from configuration file
-    override def baseUrl: String = "http://localhost:9000"
+    override def baseUrl: String = apiBaseUrl
 
     private def XHRResponseTo[ENTITY](responseTry: Try[XMLHttpRequest],
                                       promise: Promise[ENTITY])(implicit decoder: Decoder[ENTITY]): Promise[ENTITY] = {

@@ -6,7 +6,7 @@ import org.make.front.actions._
 import org.make.front.models.AppState
 import org.make.services.user.UserServiceComponent
 
-object ConnectedUserMiddleware extends UserServiceComponent {
+class ConnectedUserMiddleware(override val apiBaseUrl: String) extends UserServiceComponent {
 
   val handle: (Store[AppState]) => (Dispatch) => (Any) => Any = (store: Store[AppState]) => { (dispatch: Dispatch) =>
     {
