@@ -5,124 +5,81 @@ import io.github.shogowada.scalajs.reactjs.React.Self
 import io.github.shogowada.scalajs.reactjs.VirtualDOM._
 import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import io.github.shogowada.scalajs.reactjs.elements.ReactElement
-import org.make.front.facades.I18n
-import org.make.front.helpers.NumberFormat.formatToKilo
-import org.make.front.models._
-import org.make.front.styles.{FontAwesomeStyles, MakeStyles}
+import org.make.front.components.presentationals.VoteComponent.{Button, VoteProps, VoteState}
+import org.make.front.facades.Translate.TranslateVirtualDOMElements
+import org.make.front.models.Vote
 
 import scalacss.DevDefaults._
 
-sealed trait VoteType
-
-case object VoteAgree extends VoteType
-case object VoteDisagree extends VoteType
-case object VoteNeutral extends VoteType
-
 object VoteButtonComponent {
 
-  final case class Button(voteType: VoteType, thumbFont: StyleA)
-
-  final case class VoteButtonProps(voteAgreeStats: Vote,
-                                   voteDisagreeStats: Vote,
-                                   voteNeutralStats: Vote,
-                                   totalVote: Int)
-
-  final case class VoteButtonState(isClickButtonVote: Boolean, button: Button, voteStats: Vote)
-
-  def onClickButton(self: Self[VoteButtonProps, VoteButtonState], button: Button, voteStats: Vote)(): Unit = {
-    self.setState(_.copy(isClickButtonVote = true, button = button, voteStats = voteStats))
-  }
-
-  def onClickButtonStats(self: Self[VoteButtonProps, VoteButtonState])(): Unit = {
-    self.setState(_.copy(isClickButtonVote = false))
-  }
-
-  def renderVoteAgreeButton(self: Self[VoteButtonProps, VoteButtonState]): ReactElement = {
-    <.a(
-      ^.className := VoteButtonStyle.buttonAgree,
-      ^.onClick := onClickButton(self, Button(VoteAgree, FontAwesomeStyles.thumbsUp), self.props.wrapped.voteAgreeStats) _
-    )(<.i(^.className := FontAwesomeStyles.thumbsUp)(), <.span()(I18n.t("content.proposal.agree")))
-  }
-
-  def renderVoteDisagreeButton(self: Self[VoteButtonProps, VoteButtonState]): ReactElement = {
-    <.a(
-      ^.className := VoteButtonStyle.buttonDisagree,
-      ^.onClick := onClickButton(
-        self,
-        Button(VoteDisagree, FontAwesomeStyles.thumbsDown),
-        self.props.wrapped.voteDisagreeStats
-      ) _
-    )(<.i(^.className := FontAwesomeStyles.thumbsDown)(), <.span()(I18n.t("content.proposal.disagree")))
-  }
-
-  def renderVoteNeutralButton(self: Self[VoteButtonProps, VoteButtonState]): ReactElement = {
-
-    <.a(
-      ^.className := Seq(VoteButtonStyle.buttonNeutral),
-      ^.onClick := onClickButton(
-        self,
-        Button(VoteNeutral, FontAwesomeStyles.thumbsUp),
-        self.props.wrapped.voteNeutralStats
-      ) _
-    )(<.i(^.className := FontAwesomeStyles.thumbsUp)(), <.span()(I18n.t("content.proposal.blank")))
-  }
-
-  def renderVoteButtonStat(self: Self[VoteButtonProps, VoteButtonState],
-                           voteType: VoteType,
-                           thumbFont: StyleA,
-                           voteStats: Vote): ReactElement = {
-    val buttonStatsStyle = voteType match {
-      case VoteAgree    => Seq(VoteButtonStyle.buttonVoteAgreeStats)
-      case VoteDisagree => Seq(VoteButtonStyle.buttonVoteDisagreeStats)
-      case VoteNeutral  => Seq(VoteButtonStyle.buttonVoteNeutralStats)
+  def onClickButtonVote(self: Self[VoteButtonProps, Unit], parentNode: Self[VoteProps, VoteState], vote: Vote)(): Unit = {
+    vote match {
+      case v if v == parentNode.props.wrapped.voteAgreeStats =>
+        parentNode.setState(
+          VoteState(
+            isClickButtonVoteAgree = !self.props.wrapped.isSelected,
+            isClickButtonVoteDisagree = false,
+            isClickButtonVoteNeutral = false
+          )
+        )
+      case v if v == parentNode.props.wrapped.voteDisagreeStats =>
+        parentNode.setState(
+          VoteState(
+            isClickButtonVoteAgree = false,
+            isClickButtonVoteDisagree = !self.props.wrapped.isSelected,
+            isClickButtonVoteNeutral = false
+          )
+        )
+      case v if v == parentNode.props.wrapped.voteNeutralStats =>
+        parentNode.setState(
+          VoteState(
+            isClickButtonVoteAgree = false,
+            isClickButtonVoteDisagree = false,
+            isClickButtonVoteNeutral = !self.props.wrapped.isSelected
+          )
+        )
+      case _ =>
     }
+  }
 
-    val statsBoxStyle = voteType match {
-      case VoteAgree    => Seq(VoteButtonStyle.statsBoxAgree)
-      case VoteDisagree => Seq(VoteButtonStyle.statsBoxDisagree)
-      case VoteNeutral  => Seq(VoteButtonStyle.statsBoxNeutral)
+  final case class VoteButtonProps(parentNode: Self[VoteProps, VoteState],
+                                   button: Button,
+                                   vote: Vote,
+                                   voteType: VoteType,
+                                   isSelected: Boolean)
+
+  def displayQualification(self: Self[VoteButtonProps, Unit]): ReactElement = {
+    <.QualificationButtonComponent(
+      ^.wrapped := QualificationButtonComponent
+        .QualificationButtonProps(voteType = self.props.wrapped.voteType, qualifStats = self.props.wrapped.vote)
+    )()
+  }
+
+  lazy val reactClass: ReactClass = React.createClass[VoteButtonProps, Unit](render = (self) => {
+    val buttonStatsStyle = self.props.wrapped.voteType match {
+      case VoteAgree    => VoteButtonStyle.buttonAgree
+      case VoteDisagree => VoteButtonStyle.buttonDisagree
+      case VoteNeutral  => VoteButtonStyle.buttonNeutral
     }
 
     <.div()(
-      <.a(^.className := buttonStatsStyle, ^.onClick := onClickButtonStats(self) _)(
-        <.i(^.className := Seq(thumbFont))()
+      <.button(
+        ^.onClick := onClickButtonVote(self, self.props.wrapped.parentNode, self.props.wrapped.vote) _,
+        ^.className := buttonStatsStyle
+      )(
+        <.i(
+          ^.className :=
+            Seq(self.props.wrapped.button.thumbFont) ++ self.props.wrapped.button.thumbStyle
+              .getOrElse(Seq())
+        )(),
+        <.Translate(^.value := s"content.proposal.${self.props.wrapped.vote.key}")()
       ),
-      <.div(^.className := statsBoxStyle)(
-        <.span()(formatToKilo(voteStats.count)),
-        <.span()(s"${Proposal.getPercentageVote(voteStats.count, self.props.wrapped.totalVote)}%")
-      )
+      if (self.props.wrapped.isSelected)
+        displayQualification(self),
+      <.style()(VoteButtonStyle.render[String])
     )
-  }
-
-  lazy val reactClass: ReactClass = React.createClass[VoteButtonProps, VoteButtonState](
-    getInitialState = (_) =>
-      VoteButtonState(
-        isClickButtonVote = false,
-        button = Button(VoteAgree, FontAwesomeStyles.thumbsUp, Map.empty),
-        voteStats = Vote(key = "", qualifications = Seq.empty)
-    ),
-    render = (self) =>
-      <.div()(
-        if (!self.state.isClickButtonVote) {
-          <.div(^.style := Map("display" -> "flex"))(
-            renderVoteAgreeButton(self),
-            renderVoteDisagreeButton(self),
-            renderVoteNeutralButton(self)
-          )
-        } else {
-          <.div(^.style := Map("display" -> "flex"))(
-            renderVoteButtonStat(self, self.state.button.voteType, self.state.button.thumbFont, self.state.voteStats),
-            <.div()(
-              <.QualificationButtonComponent(
-                ^.wrapped := QualificationButtonComponent
-                  .QualificationButtonProps(self.state.button.voteType, self.state.voteStats)
-              )()
-            )
-          )
-        },
-        <.style()(VoteButtonStyle.render[String])
-    )
-  )
+  })
 
 }
 

@@ -28,6 +28,7 @@ package object presentationals {
     def ProposalMatrixComponent: ReactClassElementSpec = self(presentationals.ProposalMatrixComponent.reactClass)
     def TagFilterComponent: ReactClassElementSpec = self(presentationals.TagFilterComponent.reactClass)
     def ProposalTileComponent: ReactClassElementSpec = self(presentationals.ProposalTileComponent.reactClass)
+    def VoteComponent: ReactClassElementSpec = self(presentationals.VoteComponent.reactClass)
     def VoteButtonComponent: ReactClassElementSpec = self(presentationals.VoteButtonComponent.reactClass)
     def QualificationButtonComponent: ReactClassElementSpec =
       self(presentationals.QualificationButtonComponent.reactClass)

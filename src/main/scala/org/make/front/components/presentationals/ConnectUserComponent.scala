@@ -411,7 +411,7 @@ object ConnectUserComponent {
         )()
       ),
       <.div()(
-        <.span(^.className := ConnectUserComponentStyles.errorMessage(!self.state.postalCode.isEmpty).htmlClass)(
+        <.span(^.className := ConnectUserComponentStyles.errorMessage(self.state.postalCode.nonEmpty).htmlClass)(
           self.state.postalCodeErrorMessage
         )
       ),
@@ -489,8 +489,8 @@ object ConnectUserComponent {
 
     self.setState(
       _.copy(
-        emailErrorMessage = if (!errorEmailMessages.isEmpty) errorEmailMessages.head else "",
-        passwordErrorMessage = if (!errorPasswordMessages.isEmpty) errorPasswordMessages.head else ""
+        emailErrorMessage = if (errorEmailMessages.nonEmpty) errorEmailMessages.head else "",
+        passwordErrorMessage = if (errorPasswordMessages.nonEmpty) errorPasswordMessages.head else ""
       )
     )
 
@@ -543,11 +543,11 @@ object ConnectUserComponent {
 
     self.setState(
       self.state.copy(
-        emailErrorMessage = if (!errorEmailMessages.isEmpty) errorEmailMessages.head else "",
-        passwordErrorMessage = if (!errorPasswordMessages.isEmpty) errorPasswordMessages.head else "",
-        ageErrorMessage = if (!errorAgeMessages.isEmpty) errorAgeMessages.head else "",
-        postalCodeErrorMessage = if (!errorPostalCodeMessages.isEmpty) errorPostalCodeMessages.head else "",
-        firstNameErrorMessage = if (!errorFirstNameMessages.isEmpty) errorFirstNameMessages.head else ""
+        emailErrorMessage = if (errorEmailMessages.nonEmpty) errorEmailMessages.head else "",
+        passwordErrorMessage = if (errorPasswordMessages.nonEmpty) errorPasswordMessages.head else "",
+        ageErrorMessage = if (errorAgeMessages.nonEmpty) errorAgeMessages.head else "",
+        postalCodeErrorMessage = if (errorPostalCodeMessages.nonEmpty) errorPostalCodeMessages.head else "",
+        firstNameErrorMessage = if (errorFirstNameMessages.nonEmpty) errorFirstNameMessages.head else ""
       )
     )
 

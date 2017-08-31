@@ -2,17 +2,15 @@ package org.make.front.components.presentationals
 
 import io.github.shogowada.scalajs.reactjs.React
 import io.github.shogowada.scalajs.reactjs.VirtualDOM._
-import org.make.front.facades.{imageLogoMake, I18n}
 import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import org.make.front.components.{LayoutStyleSheet, TextStyleSheet}
 import org.make.front.facades.Unescape.unescape
+import org.make.front.facades.{imageLogoMake, I18n}
 import org.make.front.styles.MakeStyles
 
-import scalacss.internal.{StyleA}
-
 import scalacss.DevDefaults._
+import scalacss.internal.{Length, StyleA}
 import scalacss.internal.mutable.StyleSheet
-import scalacss.internal.Length
 
 object HeaderComponent {
   lazy val reactClass: ReactClass = React.createClass[Unit, Unit](

@@ -6,10 +6,10 @@ import io.github.shogowada.scalajs.reactjs.VirtualDOM.{<, _}
 import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import io.github.shogowada.scalajs.reactjs.elements.ReactElement
 import io.github.shogowada.scalajs.reactjs.events.{FormSyntheticEvent, SyntheticEvent}
-import org.make.core.validation.{ConstraintError, PasswordConstraint}
+import org.make.core.validation.PasswordConstraint
+import org.make.front.facades.Translate.TranslateVirtualDOMElements
 import org.make.front.facades.{I18n, Replacements}
 import org.make.front.styles.{BulmaStyles, FontAwesomeStyles, MakeStyles}
-import org.make.front.facades.Translate.TranslateVirtualDOMElements
 import org.scalajs.dom.raw.HTMLInputElement
 
 import scalacss.DevDefaults._

@@ -60,14 +60,12 @@ object ProposalTileComponent {
         <.h3(^.className := ProposalTileStyle.proposalContent(self.props.wrapped.isHomePage))(
           self.props.wrapped.proposal.content
         ),
-        <.VoteButtonComponent(
-          ^.wrapped := VoteButtonComponent.VoteButtonProps(
+        <.VoteComponent(
+          ^.wrapped := VoteComponent.VoteProps(
             voteAgreeStats = self.props.wrapped.proposal.voteAgree,
             voteDisagreeStats = self.props.wrapped.proposal.voteDisagree,
             voteNeutralStats = self.props.wrapped.proposal.voteNeutral,
-            totalVote = self.props.wrapped.proposal.voteAgree.count +
-              self.props.wrapped.proposal.voteDisagree.count +
-              self.props.wrapped.proposal.voteNeutral.count
+            totalVote = self.props.wrapped.proposal.voteAgree.count + self.props.wrapped.proposal.voteDisagree.count + self.props.wrapped.proposal.voteNeutral.count
           )
         )(),
         <.footer()(self.props.wrapped.proposalLocation match {
