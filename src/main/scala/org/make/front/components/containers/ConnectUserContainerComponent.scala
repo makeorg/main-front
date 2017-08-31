@@ -37,39 +37,52 @@ object ConnectUserContainerComponent extends RouterProps with UserServiceCompone
         }
 
         def signInGoogle(response: Response, child: Self[ConnectUserProps, State]): Unit = {
-          handleFutureApiResponse(userService.loginGoogle(response.asInstanceOf[GoogleAuthResponse].tokenId), child)
+          handleFutureApiSignInResponse(
+            userService.loginGoogle(response.asInstanceOf[GoogleAuthResponse].tokenId),
+            child
+          )
         }
 
         def signInFacebook(response: Response, child: Self[ConnectUserProps, State]): Unit = {
-          handleFutureApiResponse(
+          handleFutureApiSignInResponse(
             userService.loginFacebook(response.asInstanceOf[FacebookAuthResponse].accessToken),
             child
           )
         }
 
         def signIn(username: String, password: String, child: Self[ConnectUserProps, State]): Unit = {
-          handleFutureApiResponse(userService.login(username, password), child)
+          handleFutureApiSignInResponse(userService.login(username, password), child)
         }
 
         def register(username: String,
                      password: String,
                      firstName: String,
                      child: Self[ConnectUserProps, State]): Unit = {
-          handleFutureApiResponse(
-            userService.registerByUsernameAndPasswordAndFirstName(username, password, firstName).flatMap { _ =>
-              userService.login(username, password)
-            },
-            child
-          )
+          handleFutureApiRegisterResponse(userService.registerUser(username, password, firstName).flatMap { _ =>
+            userService.login(username, password)
+          }, child)
         }
 
-        def handleFutureApiResponse(futureUser: Future[User], child: Self[ConnectUserProps, State]): Unit = {
+        // @toDo: manage specific errors (like username already exist)
+        def handleFutureApiSignInResponse(futureUser: Future[User], child: Self[ConnectUserProps, State]): Unit = {
           futureUser.onComplete {
             case Success(user) =>
               dispatch(LoggedInAction(user))
-            case Failure(e) =>
+            case Failure(_) =>
               dispatch(NotifyError(I18n.t("errors.tryAgain"), Some(I18n.t("errors.unexpectedBehaviour"))))
               child.setState(child.state.copy(errorMessage = I18n.t("form.login.errorAuthenticationFailed")))
+          }
+        }
+
+        // @toDo: manage specific errors (like username already exist)
+        // @toDo: manage make api authentication to register an access token
+        def handleFutureApiRegisterResponse(futureUser: Future[User], child: Self[ConnectUserProps, State]): Unit = {
+          futureUser.onComplete {
+            case Success(user) =>
+              dispatch(LoggedInAction(user))
+            case Failure(_) =>
+              dispatch(NotifyError(I18n.t("errors.tryAgain"), Some(I18n.t("errors.unexpectedBehaviour"))))
+              child.setState(child.state.copy(errorMessage = I18n.t("form.register.errorRegistrationFailed")))
           }
         }
 
@@ -83,7 +96,8 @@ object ConnectUserContainerComponent extends RouterProps with UserServiceCompone
           isOpen = appState.technicalState.showLoginModal,
           googleAppId = googleAppId,
           facebookAppId = facebookAppId,
-          isRegistering = true
+          isRegistering = true,
+          isProposalFlow = appState.technicalState.useProposalLoginView
         )
     }
 }

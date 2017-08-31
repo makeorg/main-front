@@ -1,8 +1,9 @@
 package org.make.core
 
-import io.circe.java8.time.TimeInstances
 import io.circe.{Decoder, Encoder, Json}
+import io.circe.java8.time.TimeInstances
 import org.make.front.models._
+import org.make.services.proposal.ProposalResponses.RegisterProposalResponse
 
 trait CirceClassFormatters extends TimeInstances {
   implicit lazy val userDecoder: Decoder[User] =
@@ -17,6 +18,9 @@ trait CirceClassFormatters extends TimeInstances {
       "roles",
       "profile"
     )(User.apply)
+
+  implicit lazy val registerProposalResponseDecoder: Decoder[RegisterProposalResponse] =
+    Decoder.forProduct1("proposalId")(RegisterProposalResponse.apply)
 
   implicit lazy val roleEncoder: Encoder[Role] = (role: Role) => Json.fromString(role.shortName)
   implicit lazy val roleDecoder: Decoder[Role] =

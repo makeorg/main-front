@@ -2,10 +2,10 @@ package org.make.services.user
 
 import java.time.LocalDate
 
-import org.make.front.models.User
-
 final case class RegisterUserRequest(email: String,
                                      password: String,
-                                     dateOfBirth: LocalDate = LocalDate.now,
                                      firstName: String = "",
-                                     lastName: String = "")
+                                     lastName: String = "",
+                                     dateOfBirth: Option[LocalDate] = None,
+                                     profession: Option[String] = None,
+                                     postalCode: Option[String] = None)

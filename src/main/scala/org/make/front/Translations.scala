@@ -20,7 +20,7 @@ object Translations {
       |       "noToken": "Token absent",
       |       "loginFailed": "La connexion a échoué",
       |       "apiFailure": "Échec de l'appel API",
-      |       "unexpectedBehaviour": "Comportement innatendu",
+      |       "unexpectedBehaviour": "Comportement inattendu",
       |       "tryAgain": "Veuillez réessayer"
       |    },
       |    "content": {
@@ -85,7 +85,16 @@ object Translations {
       |         "postalCodeHeader": "%{firstName} (%{postalCode})",
       |         "tinyHeader": "%{firstName}",
       |         "plusOne": "+1",
-      |         "anonymous": "anonyme"
+      |         "anonymous": "anonyme",
+      |         "confirmationThanks": "Merci !",
+      |         "confirmationButtonBackTheme": "Retourner sur le thème %{theme}",
+      |         "confirmationButtonAnotherProposal": "Faire une nouvelle proposition",
+      |         "confirmationContent": "Votre proposition a été déposée. Elle va maintenant être relue par notre service modération. <br><br>Vous recevrez un e-mail quand elle aura été validée !",
+      |         "isTooLong": "Oups ! Vous avez dépassé la limite de %{max} caractères 😅",
+      |         "isTooShort": "Oups ! Votre proposition doit contenir au minimum %{min} caractères 😅",
+      |         "titleIntro": "Ajoutez votre proposition au thème",
+      |         "help": "Ne vous inquiétez pas, nous corrigerons vos éventuelles fautes d'orthographe.",
+      |         "subHelp": "Pour en savoir plus sur notre charte de modération, cliquez ici."
       |       }
       |    },
       |    "form": {
@@ -95,6 +104,9 @@ object Translations {
       |       "fieldLabelEmail": "e-mail",
       |       "fieldLabelPassword": "Mot de passe",
       |       "fieldLabelFirstName": "Prénom",
+      |       "fieldLabelAge": "Âge",
+      |       "fieldPostalCode": "Code postal",
+      |       "fieldProfession": "Profession",
       |       "login": {
       |         "close": "Fermer",
       |         "socialConnect": "Je me connecte avec",
@@ -103,10 +115,12 @@ object Translations {
       |         "stdRegister": "Je m’inscris avec ce formulaire",
       |         "submitButton": "se connecter",
       |         "oupsI": "Oups, j'ai ",
-      |         "forgotPassword": "oublié mon mote de passe ?",
+      |         "forgotPassword": "oublié mon mot de passe ?",
       |         "noAccount": "Je n'ai pas de compte, ",
       |         "createAccount": "je m'en créé un.",
-      |         "errorAuthenticationFailed": "Erreur d'authentification"
+      |         "errorAuthenticationFailed": "Erreur d'authentification",
+      |         "proposalIntroFirst": "Nous avons besoin de quelques informations",
+      |         "proposalIntroSecond": "Pour valider votre proposition"
       |       },
       |       "register": {
       |          "withSocial": "Je m'inscris avec",
@@ -115,7 +129,11 @@ object Translations {
       |          "termsAgreed": "En vous inscrivant, vous acceptez nos conditions générales d’utilisation et acceptez de recevoir des e-mails (peu nombreux) de Make.org.",
       |          "subscribe": "S’inscrire",
       |          "alreadySubscribed": "J’ai déjà un compte ! ",
-      |          "noRegister": "Non merci, je souhaite poursuivre sans compte finalement."
+      |          "noRegister": "Non merci, je souhaite poursuivre %{break} sans compte finalement.",
+      |          "errorRegistrationFailed": "Erreur d'enregistrement"
+      |       },
+      |       "proposal": {
+      |         "submit": "Proposer"
       |       }
       |    }
       |  },
@@ -190,7 +208,16 @@ object Translations {
       |         "postalCodeHeader": "%{firstName} (%{postalCode})",
       |         "tinyHeader": "%{firstName}",
       |         "plusOne": "+1",
-      |         "anonymous": "anonymous"
+      |         "anonymous": "anonymous",
+      |         "confirmationThanks": "Merci !",
+      |         "confirmationButtonBackTheme": "Retourner sur le thème %{theme}",
+      |         "confirmationButtonAnotherProposal": "Faire une nouvelle proposition",
+      |         "confirmationContent": "Votre proposition a été déposée. Elle va maintenant être relue par notre service modération. <br><br>Vous recevrez un e-mail quand elle aura été validée !",
+      |         "isTooLong": "Oups ! Vous avez dépassé la limite de %{max} caractères 😅",
+      |         "isTooShort": "Oups ! Votre proposition doit contenir au minimum %{min} caractères 😅",
+      |         "titleIntro": "Ajoutez votre proposition au thème",
+      |         "help": "Ne vous inquiétez pas, nous corrigerons vos éventuelles fautes d'orthographe.",
+      |         "subHelp": "Pour en savoir plus sur notre charte de modération, cliquez ici."
       |       }
       |    },
       |    "form": {
@@ -200,6 +227,9 @@ object Translations {
       |       "fieldLabelEmail": "e-mail",
       |       "fieldLabelPassword": "Mot de passe",
       |       "fieldLabelFirstName": "Prénom",
+      |       "fieldLabelAge": "Âge",
+      |       "fieldPostalCode": "Code postal",
+      |       "fieldProfession": "Profession",
       |       "login": {
       |         "close": "Fermer",
       |         "socialConnect": "Je me connecte avec",
@@ -208,10 +238,12 @@ object Translations {
       |         "stdRegister": "Je m’inscris avec ce formulaire",
       |         "submitButton": "se connecter",
       |         "oupsI": "Oups, j'ai ",
-      |         "forgotPassword": "oublié mon mote de passe ?",
+      |         "forgotPassword": "oublié mon mot de passe ?",
       |         "noAccount": "Je n'ai pas de compte, ",
       |         "createAccount": "je m'en créé un.",
-      |         "errorAuthenticationFailed": "Erreur d'authentification"
+      |         "errorAuthenticationFailed": "Erreur d'authentification",
+      |         "proposalIntroFirst": "Nous avons besoin de quelques informations",
+      |         "proposalIntroSecond": "Pour valider votre proposition"
       |       },
       |       "register": {
       |          "withSocial": "Je m'inscris avec",
@@ -220,7 +252,11 @@ object Translations {
       |          "termsAgreed": "En vous inscrivant, vous acceptez nos conditions générales d’utilisation et acceptez de recevoir des e-mails (peu nombreux) de Make.org.",
       |          "subscribe": "S’inscrire",
       |          "alreadySubscribed": "J’ai déjà un compte ! ",
-      |          "noRegister": "Non merci, je souhaite poursuivre sans compte finalement."
+      |          "noRegister": "Non merci, je souhaite poursuivre %{break} sans compte finalement.",
+      |          "errorRegistrationFailed": "Erreur d'enregistrement"
+      |       },
+      |       "proposal": {
+      |         "submit": "Proposer"
       |       }
       |    }
       |  }

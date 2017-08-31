@@ -26,12 +26,14 @@ object MakeStyles extends StyleSheet.Inline {
 
   val heroTitle: StyleA = style(
     fontSize(6.rem),
+    lineHeight(6.rem),
     Font.tradeGothicLTStd,
     color(c"#FFF"),
     BulmaStyles.ResponsiveHelpers.block,
     textAlign.center,
     textShadow := "0.1rem 0.1rem 0.1rem #000",
-    textTransform.uppercase
+    textTransform.uppercase,
+    (media.all.maxWidth(800.px))(fontSize(3.rem), lineHeight(3.rem))
   )
 
   // colors
@@ -42,11 +44,13 @@ object MakeStyles extends StyleSheet.Inline {
     val pink: ValueT[ValueT.Color] = c"#ed1844"
     val darkGrey: ValueT[ValueT.Color] = c"#808080"
     val error: ValueT[ValueT.Color] = c"#d0011b"
+    val softGrey: ValueT[ValueT.Color] = c"#cccccc"
     val backgroundFooter: ValueT[ValueT.Color] = rgba(0, 0, 0, 0.05)
     val lightGrey: ValueT[ValueT.Color] = c"#bcbcbc"
     val green: ValueT[ValueT.Color] = c"#6eb61f"
     val red: ValueT[ValueT.Color] = c"#da001a"
     val greyVote: ValueT[ValueT.Color] = c"#9b9b9b"
+    val greyLight: ValueT[ValueT.Color] = rgba(0, 0, 0, 0.3)
   }
 
   // font
@@ -76,6 +80,7 @@ object MakeStyles extends StyleSheet.Inline {
 
   object Form {
     val inputText: StyleA = style(addClassName("make-input-text"))
+    val inputSelect: StyleA = style(addClassName("make-input-select"))
     val field: StyleA = style(addClassName("make-field"))
     val inputIcon: StyleA = style(addClassName("make-input-icon"))
     val inputIconLeft: StyleA = style(addClassName("make-input-icon-left"))
@@ -98,4 +103,7 @@ object MakeStyles extends StyleSheet.Inline {
 
   def gradientBackground(from: String, to: String): StyleA =
     style(background := s"linear-gradient(131deg, $from, $to)")
+
+  def gradientBackgroundImage(deg: String, from: String, to: String): StyleA =
+    style(backgroundImage := s"linear-gradient($deg, $from, $to)")
 }

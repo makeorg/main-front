@@ -40,11 +40,17 @@ object HeaderComponent {
 object HeaderStyles extends StyleSheet.Inline {
   import dsl._
 
+  val headerRemHeight: Float = 8
+
   val imageBrand: StyleA = style(maxHeight(100.%%))
   val headerContainer: StyleA = style(
-    height(8.rem),
+    height(headerRemHeight.rem),
     fontSize(1.6.rem),
     MakeStyles.modeMobile(height(10.rem)),
-    MakeStyles.modeDesktop(padding(0.rem, 15.rem))
+    MakeStyles.modeDesktop(padding(0.rem, 15.rem)),
+    position.sticky,
+    zIndex(1000),
+    top(0.rem),
+    boxShadow := "0 4px 8px 0 rgba(0, 0, 0, 0.5)"
   )
 }

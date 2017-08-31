@@ -190,28 +190,51 @@ button.make-button-facebook
         border-color: #3898EC
         outline: none
 
+.make-input-select
+    font-family: CircularStdBook
+    font-size: 1.6rem
+    height: 4rem
+    border-radius: 4rem
+    border: 1px solid #CCC
+    background-color: #F7F7F7
+    text-indent: 4.8rem
+    padding-right: 2rem
+    &:focus
+        border-color: #3898EC
+        outline: none
+
+.fa.make-input-icon,
 .make-input-icon
     color: $colorPink
     position: absolute
-    -webkit-transform : translate(1.8rem,1.2rem) ;
-    -moz-transform : translate(1.8rem,1.2rem) ;
-    -o-transform : translate(1.8rem,1.2rem) ;
-    -ms-transform : translate(1.8rem,1.2rem) ;
-    transform : translate(1.8rem,1.2rem) ;
+    font-size: 1.8rem
+    -webkit-transform : translate(1.8rem,1.2rem);
+    -moz-transform : translate(1.8rem,1.2rem);
+    -o-transform : translate(1.8rem,1.2rem);
+    -ms-transform : translate(1.8rem,1.2rem);
+    transform : translate(1.8rem,1.2rem);
+
+
 
 .make-input-icon-left
     color: $colorBlack
     position: absolute
     right: 0
-    -webkit-transform : translate(-1.8rem,1.2rem) ;
-    -moz-transform : translate(-1.8rem,1.2rem) ;
-    -o-transform : translate(-1.8rem,1.2rem) ;
-    -ms-transform : translate(-1.8rem,1.2rem) ;
-    transform : translate(-1.8rem,1.2rem) ;
+    -webkit-transform : translate(-1.8rem,1.2rem);
+    -moz-transform : translate(-1.8rem,1.2rem);
+    -o-transform : translate(-1.8rem,1.2rem);
+    -ms-transform : translate(-1.8rem,1.2rem);
+    transform : translate(-1.8rem,1.2rem);
 
 @media all and (max-width:800px)
     .make-field
         margin-bottom: 1.2rem
+    .make-input-text
+        font-size: 1.3rem
+
+    .fa.make-input-icon,
+    .make-input-icon
+        transform: translate(1.8rem, 0.6rem);
 
 /* modal */
 
@@ -274,7 +297,7 @@ button.make-button-facebook
     display: block;
     height: 0.5rem;
     width: 3rem;
-    background-color: rgb(228,228,228);
+    background-color: #aaa;
 
 @mixin closeBeforeAfterMobile()
     height: 0.3rem;
@@ -305,6 +328,13 @@ button.make-button-facebook
     color: rgb(0,0,0);
     line-height: 3.6rem;
     margin-bottom: 0.75rem;
+
+.ReactModal__Body--open
+    overflow: hidden;
+    position: fixed;
+    width: 100%;
+    height: 100%;
+
 
 @media screen and (min-width:769px)
     .make-modal-modal

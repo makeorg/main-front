@@ -29,6 +29,8 @@ object FontAwesomeStyles extends StyleSheet.Inline {
   val barChart: StyleA = style(addClassName("fa"), addClassName("fa-bar-chart"))
   val lineChart: StyleA = style(addClassName("fa"), addClassName("fa-line-chart"))
   val rotateLeft: StyleA = style(addClassName("fa"), addClassName("fa-rotate-left"))
+  val child: StyleA = style(addClassName("fa"), addClassName("fa-child"))
+  val suitCase: StyleA = style(addClassName("fa"), addClassName("fa-suitcase"))
 
   val facebook: StyleA = style(addClassName("fa"), addClassName("fa-facebook"))
   val twitter: StyleA = style(addClassName("fa"), addClassName("fa-twitter"))
@@ -39,4 +41,6 @@ object FontAwesomeStyles extends StyleSheet.Inline {
   val angleRight: StyleA = style(addClassName("fa"), addClassName("fa-angle-right"))
   val calendarOpen: StyleA = style(addClassName("fa"), addClassName("fa-calendar-o"))
   val mapMarker: StyleA = style(addClassName("fa"), addClassName("fa-map-marker"))
+  val handOLeft: StyleA = style(addClassName("fa"), addClassName("fa-hand-o-left"))
+  val handPeaceO: StyleA = style(addClassName("fa"), addClassName("fa-hand-peace-o"))
 }
