@@ -8,7 +8,7 @@ import io.github.shogowada.scalajs.reactjs.events.SyntheticEvent
 import org.make.front.components.presentationals.TagComponent.TagComponentProps
 import org.make.front.facades.I18n
 import org.make.front.models.Tag
-import org.make.front.styles.{BulmaStyles, MakeStyles}
+import org.make.front.styles.{MakeStyles}
 
 import scalacss.DevDefaults._
 import scalacss.internal.mutable.StyleSheet
@@ -55,19 +55,25 @@ object TagListComponent {
               self.props.wrapped.tags.take(showMaxCount)
             }
 
-          <.div()(
+          <.ul()(
             tagList.map(
               tag =>
-                <.TagComponent(
-                  ^.wrapped := TagComponentProps(tag = tag, handleSelectedTags = self.props.wrapped.handleSelectedTags)
-                )()
+                <.li(^.className := Seq(TagStyles.tagContainer))(
+                  <.TagComponent(
+                    ^.wrapped := TagComponentProps(
+                      tag = tag,
+                      handleSelectedTags = self.props.wrapped.handleSelectedTags
+                    )
+                  )()
+              )
             ),
             // if toggle show more mode add show all more
             if (self.props.wrapped.withShowMoreButton) {
-              <.div(
-                ^.className := Seq(BulmaStyles.Element.tag, BulmaStyles.Syntax.isDanger, TagStyles.tagContainer),
-                ^.onClick := onClickShowMore(self)
-              )(<.span()(I18n.t("content.tag.showMore")))
+              <.li(^.className := TagStyles.tagContainer)(
+                <.a(^.className := Seq(TagStyles.tag, TagStyles.danger), ^.onClick := onClickShowMore(self))(
+                  I18n.t("content.tag.showMore")
+                )
+              )
             },
             <.style()(TagStyles.render[String])
           )
@@ -76,6 +82,7 @@ object TagListComponent {
 
   /**
     * Toggle show all variable
+    *
     * @param self Self[TagListComponentProps, State]
     */
   private def onClickShowMore(self: Self[TagListComponentProps, TagListComponentState]) = (e: SyntheticEvent) => {
@@ -90,9 +97,9 @@ object TagListComponent {
   * Example usage:
   *
   * Create a simple tag:
-  *   <code>
-  *      <.TagComponent(^.wrapped := TagComponentProps(tag = Tag(TagId("tag-tag-name), "Tag Name")))()
-  *   </code>
+  * <code>
+  * <.TagComponent(^.wrapped := TagComponentProps(tag = Tag(TagId("tag-tag-name), "Tag Name")))()
+  * </code>
   *
   * Set ifTriggerToggle as true if the tag show function as a toggle show more trigger
   *
@@ -100,19 +107,14 @@ object TagListComponent {
 object TagComponent {
 
   case class TagComponentProps(tag: Tag, handleSelectedTags: (Tag) => Unit)
+
   case class TagComponentState(isSelected: Boolean)
 
   lazy val reactClass: ReactClass = React.createClass[TagComponentProps, TagComponentState](
     getInitialState = (_) => TagComponentState(isSelected = false),
     render = (self) => {
-      <.div(
-        ^.className := Seq(
-          BulmaStyles.Element.tag,
-          TagStyles.tagContainer,
-          if (self.state.isSelected) BulmaStyles.Syntax.isBlack else TagStyles.defaultStyle
-        ),
-        ^.onClick := onClickTag(self)
-      )(<.span()(self.props.wrapped.tag.label))
+      val styles = if (self.state.isSelected) Seq(TagStyles.active, TagStyles.tag) else Seq(TagStyles.tag)
+      <.a(^.className := styles, ^.onClick := onClickTag(self))(self.props.wrapped.tag.label)
     }
   )
 
@@ -128,39 +130,55 @@ object TagStyles extends StyleSheet.Inline {
   import dsl._
 
   val tagContainer: StyleA =
+    style(display.inlineBlock, margin :=! "0.5rem 1rem 0.5em 0")
+
+  val tag: StyleA =
     style(
       position.relative,
+      display.block,
       paddingLeft(1.2.rem),
-      marginRight(1.6.rem),
-      borderRadius(0.15.rem),
-      fontSize(1.rem),
+      paddingRight(1.rem),
+      marginLeft(0.8.rem),
+      fontSize(1.4.rem),
+      lineHeight(2.4.rem),
       fontWeight.bold,
-      cursor.pointer,
+      whiteSpace.nowrap,
+      color :=! MakeStyles.Color.white,
+      backgroundColor :=! MakeStyles.Color.lightGrey,
       (&.before)(
-        position.absolute,
-        transform := "translateY(-50%) translateX(50%) rotate(-45deg)",
-        top(50.%%),
-        right(99.%%),
         content := "''",
-        backgroundColor :=! "inherit",
-        width(1.36.rem),
-        height(1.36.rem)
+        position.absolute,
+        top(0.%%),
+        right(100.%%),
+        width(0.rem),
+        height(0.rem),
+        borderTop :=! "1.2rem solid transparent",
+        borderBottom :=! "1.2rem solid transparent",
+        borderRight :=! "0.8rem solid transparent",
+        borderRightColor :=! MakeStyles.Color.lightGrey
       ),
       (&.after)(
-        position.absolute,
         content := "''",
+        position.absolute,
         top(50.%%),
-        left(-0.20.rem),
-        marginTop(-0.20.rem),
-        backgroundColor :=! MakeStyles.Color.white,
-        width(0.45.rem),
-        height(0.45.rem),
-        borderRadius(500.rem)
+        left(0.%%),
+        width(0.6.rem),
+        height(0.6.rem),
+        marginTop(-0.3.rem),
+        borderRadius(50.%%),
+        backgroundColor :=! MakeStyles.Color.white
       )
     )
-  val defaultStyle: StyleA = style(
-    backgroundColor :=! MakeStyles.Color.lightGrey,
+
+  val active: StyleA = style(
     color :=! MakeStyles.Color.white,
-    (&.before)(backgroundColor :=! MakeStyles.Color.lightGrey)
+    backgroundColor :=! MakeStyles.Color.black,
+    (&.before)(borderRightColor :=! MakeStyles.Color.black)
+  )
+
+  val danger: StyleA = style(
+    color :=! MakeStyles.Color.white,
+    backgroundColor :=! MakeStyles.Color.pink,
+    (&.before)(borderRightColor :=! MakeStyles.Color.pink)
   )
 }

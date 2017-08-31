@@ -8,7 +8,7 @@ import org.make.front.components.AppComponentStyles
 import org.make.front.components.presentationals.TagListComponent.TagListComponentProps
 import org.make.front.facades.Translate.TranslateVirtualDOMElements
 import org.make.front.models.Tag
-import org.make.front.styles.{BulmaStyles, FontAwesomeStyles}
+import org.make.front.styles.{BulmaStyles, FontAwesomeStyles, MakeStyles}
 
 import scalacss.DevDefaults._
 import scalacss.internal.mutable.StyleSheet
@@ -18,6 +18,7 @@ object TagFilterComponent {
   type TagFilterSelf = Self[TagFilterProps, TagFilterState]
 
   case class TagFilterProps(tags: Seq[Tag], handleSelectedTags: Seq[Tag] => Unit)
+
   case class TagFilterState(showAll: Boolean, selectedTags: Seq[Tag])
 
   lazy val reactClass: ReactClass =
@@ -28,7 +29,9 @@ object TagFilterComponent {
           val previouslySelectedTags = self.state.selectedTags
           val selectedTags = if (previouslySelectedTags.contains(tag)) {
             previouslySelectedTags.filterNot(_ == tag)
-          } else { previouslySelectedTags ++ Seq(tag) }
+          } else {
+            previouslySelectedTags ++ Seq(tag)
+          }
           self.setState(_.copy(selectedTags = selectedTags))
           self.props.wrapped.handleSelectedTags(selectedTags)
         }
@@ -56,8 +59,22 @@ object TagFilterComponent {
 }
 
 object TagFilterStyles extends StyleSheet.Inline {
+
   import dsl._
 
   val tagsList: StyleA = style(marginLeft(2.rem))
+
+  val intro: StyleA =
+    style(
+      float.left,
+      margin :=! "0.5rem 1rem 0.5rem 0",
+      MakeStyles.Font.circularStdBook,
+      fontSize(1.6.rem),
+      lineHeight(2.4.rem),
+      color :=! MakeStyles.Color.darkGrey
+    )
+
+  val introIll: StyleA =
+    style(verticalAlign.baseline, marginRight(0.5.rem))
 
 }
