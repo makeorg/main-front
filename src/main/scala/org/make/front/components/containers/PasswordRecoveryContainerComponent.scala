@@ -4,29 +4,32 @@ import io.github.shogowada.scalajs.reactjs.React.{Props, Self}
 import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import io.github.shogowada.scalajs.reactjs.redux.ReactRedux
 import io.github.shogowada.scalajs.reactjs.redux.Redux.Dispatch
-import org.make.front.actions.{LoginRequired, NotifyInfo, PasswordRecoveryAction}
+import org.make.front.actions.{ClosePasswordRecoveryModalAction, LoginRequired, NotifyInfo}
 import org.make.front.components.presentationals.PasswordRecoveryComponent
 import org.make.front.components.presentationals.PasswordRecoveryComponent._
-import org.make.front.facades.I18n
+import org.make.front.facades.{Configuration, I18n}
 import org.make.front.models.AppState
+import org.make.services.user.UserServiceComponent
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.util.{Failure, Success}
 
-object PasswordRecoveryContainerComponent {
+object PasswordRecoveryContainerComponent extends UserServiceComponent {
+
+  override val apiBaseUrl: String = Configuration.apiUrl
 
   lazy val reactClass: ReactClass = ReactRedux.connectAdvanced(selectorFactory)(PasswordRecoveryComponent.reactClass)
 
   def selectorFactory: (Dispatch) => (AppState, Props[Unit]) => PasswordRecoveryProps =
     (dispatch: Dispatch) => {
       def closeModal() = {
-        dispatch(PasswordRecoveryAction(openModal = false))
+        dispatch(ClosePasswordRecoveryModalAction)
       }
 
       def handleSubmit(self: Self[PasswordRecoveryProps, PasswordRecoveryState]): Unit = {
         userService.recoverPassword(self.state.email).onComplete {
           case Success(_) =>
-            dispatch(PasswordRecoveryAction(openModal = false))
+            dispatch(ClosePasswordRecoveryModalAction)
             dispatch(NotifyInfo(
               message = I18n.t("form.passwordRecovery.notification.message"),
               title = None
@@ -38,16 +41,16 @@ object PasswordRecoveryContainerComponent {
         }
       }
 
-      def handleReturOnClick() = {
-        dispatch(PasswordRecoveryAction(openModal = false))
+      def handleReturnLinkClick() = {
+        dispatch(ClosePasswordRecoveryModalAction)
         dispatch(LoginRequired)
       }
 
       (state: AppState, _) =>
         PasswordRecoveryComponent.PasswordRecoveryProps(
-          state.passwordRecoveryModalIsOpen,
+          state.technicalState.passwordRecoveryModalIsOpen,
           closeModal,
-          handleReturOnClick,
+          handleReturnLinkClick,
           handleSubmit
         )
     }

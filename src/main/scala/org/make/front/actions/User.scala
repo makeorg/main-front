@@ -5,4 +5,5 @@ import org.make.front.models.User
 
 final case class LoggedInAction(user: User) extends Action
 case object LogoutAction extends Action
-final case class PasswordRecoveryAction(openModal: Boolean) extends Action
+case object OpenPasswordRecoveryModalAction extends Action
+case object ClosePasswordRecoveryModalAction extends Action

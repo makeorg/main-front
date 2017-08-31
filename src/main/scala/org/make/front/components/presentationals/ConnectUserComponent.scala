@@ -7,7 +7,6 @@ import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import io.github.shogowada.scalajs.reactjs.elements.ReactElement
 import io.github.shogowada.scalajs.reactjs.events.{FormSyntheticEvent, SyntheticEvent}
 import org.make.front.facades.Localize.LocalizeVirtualDOMAttributes
-import org.make.front.components.AppComponentStyles
 import org.make.front.facades.I18n
 import org.make.front.facades.ReactFacebookLogin._
 import org.make.front.facades.ReactGoogleLogin._
@@ -28,7 +27,7 @@ object ConnectUserComponent {
                               signIn: (String, String, Self[ConnectUserProps, State])           => Unit,
                               register: (String, String, String, Self[ConnectUserProps, State]) => Unit,
                               closeModal: ()                                                    => Unit,
-                              forgotPassword: ()                                                => Unit,
+                              handleForgotPasswordLinkClick: ()                                 => Unit,
                               isOpen: Boolean,
                               googleAppId: String,
                               facebookAppId: String,
@@ -208,11 +207,11 @@ object ConnectUserComponent {
         ),
         <.div(^.className := forgetPasswordClass)(
           <.Translate(^.value := "form.login.oupsI")(),
-          <.a(^.className := AppComponentStyles.link, ^.onClick := forgotPassword(self))(I18n.t("form.login.forgotPassword"))
+          <.a(^.className := ConnectUserComponentStyles.link, ^.onClick := handleForgotPasswordLinkClick(self))(I18n.t("form.login.forgotPassword"))
         ),
         <.div(^.className := toggleSignInRegisterClass)(
           <.Translate(^.value := "form.login.noAccount")(),
-          <.a(^.className := AppComponentStyles.link, ^.onClick := toggleRegister(self))(
+          <.a(^.className := ConnectUserComponentStyles.link, ^.onClick := toggleRegister(self))(
             I18n.t("form.login.createAccount")
           )
         )
@@ -293,7 +292,7 @@ object ConnectUserComponent {
         ),
         <.div(^.className := toggleSignInRegisterClass)(
           <.Translate(^.value := "form.register.alreadySubscribed")(),
-          <.a(^.className := AppComponentStyles.link, ^.onClick := toggleRegister(self))(
+          <.a(^.className := ConnectUserComponentStyles.link, ^.onClick := toggleRegister(self))(
             I18n.t("form.connection")
           )
         )
@@ -428,8 +427,8 @@ object ConnectUserComponent {
     self.props.wrapped.closeModal()
   }
 
-  private def forgotPassword(self: Self[ConnectUserProps, State]) = () => {
-    self.props.wrapped.forgotPassword()
+  private def handleForgotPasswordLinkClick(self: Self[ConnectUserProps, State]) = () => {
+    self.props.wrapped.handleForgotPasswordLinkClick()
   }
 
   private def toggleRegister(self: Self[ConnectUserProps, State]) = () => {
@@ -467,14 +466,15 @@ object ConnectUserComponentStyles extends StyleSheet.Inline {
     style(height(0.1F.rem), backgroundColor(rgba(0, 0, 0, 0.3)), flexGrow(1), marginTop(0.5F.rem), opacity(0.3))
   val underlineText: StyleA = style(MakeStyles.Font.playfairDisplayItalic, margin(0.rem, 1.6F.rem), fontSize(1.8F.rem))
   val input: StyleA =
-<<<<<<< e2853c5db2b285386293b7721506df5fa5f6c956
     style(height(4.rem), width(100.%%), (media.all.maxWidth(800.px))(height(3.rem)))
   val buttonIcon: StyleA = style(paddingBottom(0.5F.rem), paddingRight(0.9.rem))
 
   val submitButton: StyleA = style(marginBottom(1.7F.rem))
-=======
-    style(height(4.rem), (media.all.maxWidth(800.px))(height(3.rem)))
->>>>>>> feat(user): add link to return to connexion step
+
+  val link: StyleA = style(
+    color(MakeStyles.Color.pink),
+    fontWeight.bold
+  )
   val noRegisterButton: StyleA =
     style(
       marginBottom(1.7F.rem),

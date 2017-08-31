@@ -1,13 +1,16 @@
 package org.make.front.reducers
 
-import org.make.front.actions.PasswordRecoveryAction
+import org.make.front.actions.{ClosePasswordRecoveryModalAction, OpenPasswordRecoveryModalAction}
 
 object PasswordRecoveryReducer {
 
   def reduce(maybePasswordRecoveryModalIsOpen: Option[Boolean], action: Any): Boolean = {
-    val passwordRecoveryModalIsOpen: Boolean = maybePasswordRecoveryModalIsOpen.getOrElse(false)
+    val initialPasswordRecoveryModalIsOpen: Boolean = false
+    val passwordRecoveryModalIsOpen: Boolean = maybePasswordRecoveryModalIsOpen.getOrElse(initialPasswordRecoveryModalIsOpen)
+
     action match {
-      case action: PasswordRecoveryAction => action.openModal
+      case OpenPasswordRecoveryModalAction => true
+      case ClosePasswordRecoveryModalAction => false
       case _ => passwordRecoveryModalIsOpen
     }
   }

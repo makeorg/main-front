@@ -9,6 +9,7 @@ import org.make.services.ApiService
 import org.make.services.proposal.ProposalRequests.RegisterProposalRequest
 import org.make.services.proposal.ProposalResponses.RegisterProposalResponse
 
+import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
 case class UnexpectedException(message: String = I18n.t("errors.unexpected")) extends Exception(message)
@@ -29,7 +30,7 @@ trait ProposalServiceComponent {
       client.post[RegisterProposalResponse](
         resourceName,
         data = RegisterProposalRequest(content).asJson.pretty(ApiService.printer)
-      )
+      ).map(_.get)
 
   }
 }

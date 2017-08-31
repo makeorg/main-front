@@ -10,7 +10,8 @@ object TechnicalStateReducer {
       notifications = NotificationReducer.reduce(maybeTechnicalState.map(_.notifications), action),
       showLoginModal = reduceShowLoginModal(maybeTechnicalState.map(_.showLoginModal), action),
       useProposalLoginView = reduceProposalLoginView(maybeTechnicalState.map(_.useProposalLoginView), action),
-      pendingProposalAction = ProposalReducer.reduce(maybeTechnicalState.flatMap(_.pendingProposalAction), action)
+      pendingProposalAction = ProposalReducer.reduce(maybeTechnicalState.flatMap(_.pendingProposalAction), action),
+      passwordRecoveryModalIsOpen = PasswordRecoveryReducer.reduce(maybeTechnicalState.map(_.passwordRecoveryModalIsOpen), action)
     )
   }
 

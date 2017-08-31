@@ -5,27 +5,23 @@ import io.github.shogowada.scalajs.reactjs.React.Self
 import io.github.shogowada.scalajs.reactjs.VirtualDOM.{<, _}
 import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import io.github.shogowada.scalajs.reactjs.events.{FormSyntheticEvent, SyntheticEvent}
-import org.make.front.components.AppComponentStyles
-import org.make.front.facades.{Configuration, I18n}
+import org.make.core.validation.EmailValidation
+import org.make.front.facades.I18n
 import org.make.front.facades.ReactModal._
 import org.make.front.styles.{FontAwesomeStyles, MakeStyles}
 import org.make.front.facades.Translate.TranslateVirtualDOMElements
-import org.make.front.helpers.Validation
-import org.make.services.user.UserServiceComponent
 import org.scalajs.dom.raw.HTMLInputElement
 
 import scalacss.DevDefaults._
 import scalacss.internal.StyleA
 import scalacss.internal.mutable.StyleSheet
 
-object PasswordRecoveryComponent extends UserServiceComponent {
+object PasswordRecoveryComponent {
 
-  case class PasswordRecoveryProps(
-    modalIsOpen: Boolean,
-    closeModal: () => Unit,
-    handleReturOnClick: () => Unit,
-    handleSubmit: (Self[PasswordRecoveryProps, PasswordRecoveryState]) => Unit
-  )
+  case class PasswordRecoveryProps(modalIsOpen: Boolean,
+                                   closeModal: ()                                                     => Unit,
+                                   handleReturnLinkClick: ()                                          => Unit,
+                                   handleSubmit: (Self[PasswordRecoveryProps, PasswordRecoveryState]) => Unit)
 
   case class PasswordRecoveryState(email: String, modalIsOpen: Boolean, errorMessage: String)
 
@@ -39,7 +35,7 @@ object PasswordRecoveryComponent extends UserServiceComponent {
           if (self.state.errorMessage == "") {
             Seq(MakeStyles.Form.inputText)
           } else {
-            Seq(MakeStyles.Form.inputText, AppComponentStyles.errorInput)
+            Seq(MakeStyles.Form.inputText, PasswordRecoveryComponentStyles.errorInput)
           }
         }
 
@@ -53,9 +49,11 @@ object PasswordRecoveryComponent extends UserServiceComponent {
             <.a(^.onClick := closeModal(self), ^.className := MakeStyles.Modal.close)(I18n.t("modal.close")),
             <.div(^.className := MakeStyles.Modal.content)(
               <.div()(
-                <.Translate(^.className := MakeStyles.Modal.title, ^.value := {"form.passwordRecovery.title"})(),
-                <.Translate(^.className := PasswordRecoveryComponentStyles.terms, ^.value := {"form.passwordRecovery.description"})(),
-                <.form(^.onSubmit := handleSubmit(self))(
+                <.Translate(^.className := MakeStyles.Modal.title, ^.value := { "form.passwordRecovery.title" })(),
+                <.Translate(^.className := PasswordRecoveryComponentStyles.terms, ^.value := {
+                  "form.passwordRecovery.description"
+                })(),
+                <.form(^.onSubmit := handleSubmit(self), ^.novalidate := true)(
                   <.div(^.className := MakeStyles.Form.field)(
                     <.i(^.className := Seq(FontAwesomeStyles.envelopeTransparent, MakeStyles.Form.inputIcon))(),
                     <.input(
@@ -66,32 +64,37 @@ object PasswordRecoveryComponent extends UserServiceComponent {
                       ^.value := self.state.email
                     )()
                   ),
-                  <.div()(<.span(^.className := AppComponentStyles.errorMessage)(self.state.errorMessage)),
-                  <.button(^.className := Seq(MakeStyles.Button.default, AppComponentStyles.submitButton), ^.onClick := handleSubmit(self))(
-                    <.i(^.className := Seq(FontAwesomeStyles.paperPlaneTransparent, AppComponentStyles.buttonIcon))(),
+                  <.div()(<.span(^.className := PasswordRecoveryComponentStyles.errorMessage)(self.state.errorMessage)),
+                  <.button(
+                    ^.className := Seq(MakeStyles.Button.default, PasswordRecoveryComponentStyles.submitButton),
+                    ^.onClick := handleSubmit(self)
+                  )(
+                    <.i(^.className := Seq(FontAwesomeStyles.paperPlaneTransparent, PasswordRecoveryComponentStyles.buttonIcon))(),
                     <.Translate(^.value := "form.passwordRecovery.receiveEmail")()
                   ),
                   <.div()(
                     <.Translate(^.value := "form.passwordRecovery.return")(),
-                    <.a(^.className := AppComponentStyles.link, ^.onClick := handleReturOnClick(self))(
+                    <.a(^.className := PasswordRecoveryComponentStyles.link, ^.onClick := handleReturnLinkClick(self))(
                       I18n.t("form.passwordRecovery.connectScreen")
                     )
                   )
                 )
               )
             )
-          )
+          ),
+          <.style()(PasswordRecoveryComponentStyles.render[String])
         )
       }
     )
-  private def handleEmailChange(self: Self[PasswordRecoveryProps, PasswordRecoveryState]) = (e: FormSyntheticEvent[HTMLInputElement]) => {
-    val newEmail = e.target.value
-    self.setState(_.copy(email = newEmail))
-  }
+  private def handleEmailChange(self: Self[PasswordRecoveryProps, PasswordRecoveryState]) =
+    (e: FormSyntheticEvent[HTMLInputElement]) => {
+      val newEmail = e.target.value
+      self.setState(_.copy(email = newEmail))
+    }
 
-  private def handleSubmit(self: Self[PasswordRecoveryProps, PasswordRecoveryState]) = (e: SyntheticEvent)  => {
+  private def handleSubmit(self: Self[PasswordRecoveryProps, PasswordRecoveryState]) = (e: SyntheticEvent) => {
     e.preventDefault()
-    if (Validation.isValidEmail(self.state.email)) {
+    if (EmailValidation.isValidEmail(Some(self.state.email))) {
       self.setState(self.state.copy(errorMessage = ""))
       self.props.wrapped.handleSubmit(self)
     } else {
@@ -104,9 +107,9 @@ object PasswordRecoveryComponent extends UserServiceComponent {
     self.props.wrapped.closeModal()
   }
 
-  private def handleReturOnClick(self: Self[PasswordRecoveryProps, PasswordRecoveryState]) = () => {
+  private def handleReturnLinkClick(self: Self[PasswordRecoveryProps, PasswordRecoveryState]) = () => {
     self.setState(self.state.copy(errorMessage = ""))
-    self.props.wrapped.handleReturOnClick()
+    self.props.wrapped.handleReturnLinkClick()
   }
 }
 
@@ -115,4 +118,32 @@ object PasswordRecoveryComponentStyles extends StyleSheet.Inline {
 
   val terms: StyleA = style(marginBottom(0.8F.rem), fontSize(1.4.rem), textAlign.left)
 
+  val link: StyleA = style(
+    color(MakeStyles.Color.pink),
+    fontWeight.bold
+  )
+
+  val buttonIcon: StyleA = style(
+    paddingBottom(0.5F.rem),
+    paddingRight(0.9.rem)
+  )
+
+  val submitButton: StyleA = style(
+    marginBottom(1.7F.rem)
+  )
+
+  val errorInput: StyleA = style(
+    backgroundColor(MakeStyles.Color.lightPink),
+    border :=! s"0.1rem solid ${MakeStyles.Color.error}"
+  )
+
+  val errorMessage: StyleA = style(
+    display.block,
+    margin.auto,
+    MakeStyles.Font.circularStdBook,
+    fontSize(1.4F.rem),
+    color(MakeStyles.Color.error),
+    lineHeight(1.8F.rem),
+    paddingBottom(1.rem)
+  )
 }

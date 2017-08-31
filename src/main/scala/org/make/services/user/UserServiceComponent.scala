@@ -54,7 +54,7 @@ trait UserServiceComponent {
           profession = Some(profession),
           postalCode = Some(postalCode)
         ).asJson.pretty(ApiService.printer)
-      )
+      ).map(_.get)
 
     def login(username: String, password: String): Future[User] = {
       client.authenticate(username, password).flatMap {
@@ -77,7 +77,12 @@ trait UserServiceComponent {
     }
 
     def recoverPassword(email: String): Future[Unit] = {
-      client.recoverPassword(email)
+      client.post[Unit](
+        "user" / "reset-password",
+        data = Map("email" -> email).asJson.pretty(ApiService.printer)
+      ).map {
+        _ =>
+      }
     }
 
     def logout(): Future[Unit] =
