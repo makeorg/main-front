@@ -43,12 +43,13 @@ trait DefaultMakeApiClientComponent extends MakeApiClientComponent with TimeInst
     override def baseUrl: String = apiBaseUrl
 
     private def XHRResponseTo[ENTITY](responseTry: Try[XMLHttpRequest],
-                                      promise: Promise[ENTITY])(implicit decoder: Decoder[ENTITY]): Promise[ENTITY] = {
+                                      promise: Promise[Option[ENTITY]])(implicit decoder: Decoder[ENTITY]): Promise[Option[ENTITY]] = {
       responseTry match {
+        case Success(response) if response.status == 204 => promise.success(None)
         case Success(response) =>
           parse(response.responseText).flatMap(_.as[ENTITY]) match {
-            case Left(error)           => promise.failure(error)
-            case Right(parsedResponse) => promise.success(parsedResponse)
+            case Left(error) => promise.failure(error)
+            case Right(parsedResponse) => promise.success(Some(parsedResponse))
           }
         case Failure(error) => promise.failure(error)
       }
@@ -61,8 +62,8 @@ trait DefaultMakeApiClientComponent extends MakeApiClientComponent with TimeInst
       apiEndpoint: String = "",
       urlParams: Seq[(String, Any)] = Seq.empty,
       headers: Map[String, String] = Map.empty
-    )(implicit decoder: Decoder[ENTITY]): Future[ENTITY] = {
-      val promiseReturn = Promise[ENTITY]()
+    )(implicit decoder: Decoder[ENTITY]): Future[Option[ENTITY]] = {
+      val promiseReturn = Promise[Option[ENTITY]]()
       Ajax
         .get(
           url = urlFrom(apiEndpoint, urlParams),
@@ -79,8 +80,8 @@ trait DefaultMakeApiClientComponent extends MakeApiClientComponent with TimeInst
       urlParams: Seq[(String, Any)] = Seq.empty,
       data: InputData = "",
       headers: Map[String, String] = Map.empty
-    )(implicit decoder: Decoder[ENTITY]): Future[ENTITY] = {
-      val promiseReturn = Promise[ENTITY]()
+    )(implicit decoder: Decoder[ENTITY]): Future[Option[ENTITY]] = {
+      val promiseReturn = Promise[Option[ENTITY]]()
       Ajax
         .post(
           url = urlFrom(apiEndpoint, urlParams),
@@ -96,8 +97,8 @@ trait DefaultMakeApiClientComponent extends MakeApiClientComponent with TimeInst
     override def put[ENTITY](apiEndpoint: String,
                              urlParams: Seq[(String, Any)],
                              data: InputData,
-                             headers: Map[String, String])(implicit decoder: Decoder[ENTITY]): Future[ENTITY] = {
-      val promiseReturn = Promise[ENTITY]()
+                             headers: Map[String, String])(implicit decoder: Decoder[ENTITY]): Future[Option[ENTITY]] = {
+      val promiseReturn = Promise[Option[ENTITY]]()
       Ajax
         .put(
           url = urlFrom(apiEndpoint, urlParams),
@@ -113,8 +114,8 @@ trait DefaultMakeApiClientComponent extends MakeApiClientComponent with TimeInst
     override def patch[ENTITY](apiEndpoint: String,
                                urlParams: Seq[(String, Any)],
                                data: InputData,
-                               headers: Map[String, String])(implicit decoder: Decoder[ENTITY]): Future[ENTITY] = {
-      val promiseReturn = Promise[ENTITY]()
+                               headers: Map[String, String])(implicit decoder: Decoder[ENTITY]): Future[Option[ENTITY]] = {
+      val promiseReturn = Promise[Option[ENTITY]]()
       Ajax
         .apply(
           method = "PATCH",
@@ -132,8 +133,8 @@ trait DefaultMakeApiClientComponent extends MakeApiClientComponent with TimeInst
     override def delete[ENTITY](apiEndpoint: String,
                                 urlParams: Seq[(String, Any)],
                                 data: InputData,
-                                headers: Map[String, String])(implicit decoder: Decoder[ENTITY]): Future[ENTITY] = {
-      val promiseReturn = Promise[ENTITY]()
+                                headers: Map[String, String])(implicit decoder: Decoder[ENTITY]): Future[Option[ENTITY]] = {
+      val promiseReturn = Promise[Option[ENTITY]]()
       Ajax
         .delete(
           url = urlFrom(apiEndpoint, urlParams),
@@ -161,7 +162,7 @@ trait DefaultMakeApiClientComponent extends MakeApiClientComponent with TimeInst
         data = "".paramsToString(Seq("username" -> username, "password" -> password, "grant_type" -> "password")),
         headers = Map("Content-Type" -> MediaTypes.`application/x-www-form-urlencoded`)
       ).map { newToken =>
-        MakeApiClient.setToken(newToken)
+        MakeApiClient.setToken(newToken.get)
         MakeApiClient.isAuthenticated
       }
     }
@@ -180,7 +181,7 @@ trait DefaultMakeApiClientComponent extends MakeApiClientComponent with TimeInst
         "user" / "login" / "social",
         data = Map("provider" -> provider, "token" -> token).asJson.pretty(MakeApiClient.printer)
       ).map { newToken =>
-        MakeApiClient.setToken(newToken)
+        MakeApiClient.setToken(newToken.get)
         MakeApiClient.isAuthenticated
       }
     }

@@ -134,8 +134,23 @@ object Translations {
       |       },
       |       "proposal": {
       |         "submit": "Proposer"
+      |       },
+      |       "passwordRecovery": {
+      |         "title": "je réinitialise mon mot de passe",
+      |         "description": "Merci de renseigner l'adresse email liée à votre compte pour recevoir le lien de réinitialisation.",
+      |         "receiveEmail": "recevoir l'e-mail",
+      |         "invalidEmail": "veuillez rentrer un e-mail valide",
+      |         "emailDoesNotExist": "L'e-mail que vous avez rentré n'existe pas",
+      |         "return": "Revenir à ",
+      |         "connectScreen": "l'écran de connexion",
+      |         "notification": {
+      |           "message" : "Merci, un email vient de vous être envoyé pour vous permettre de mettre à jour votre mot de passe."
+      |         }
       |       }
-      |    }
+      |     },
+    |       "modal": {
+    |         "close": "Fermer"
+    |       }
       |  },
       |  "en": {
       |    "errors": {
@@ -257,8 +272,23 @@ object Translations {
       |       },
       |       "proposal": {
       |         "submit": "Proposer"
+      |       },
+      |       "passwordRecovery": {
+      |         "title": "je réinitialise mon mot de passe",
+      |         "description": "Merci de renseigner l'adresse email liée à votre compte pour recevoir le lien de réinitialisation.",
+      |         "receiveEmail": "recevoir l'e-mail",
+      |         "invalidEmail": "veuillez rentrer un e-mail valide",
+      |         "emailDoesNotExist": "L'e-mail que vous avez rentré n'existe pas",
+      |         "return": "Revenir à ",
+      |         "connectScreen": "l'écran de connexion",
+      |         "notification": {
+      |           "message" : "Merci, un email vient de vous être envoyé pour vous permettre de mettre à jour votre mot de passe."
+      |         }
       |       }
-      |    }
+      |     },
+  |         "modal": {
+  |           "close": "Fermer"
+  |         }
       |  }
       |}
     """.stripMargin

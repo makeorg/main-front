@@ -45,6 +45,10 @@ package object presentationals {
       self(containers.PoliticalActionContainerComponent.reactClass)
     def ProposalSubmitContainerComponent: ReactClassElementSpec =
       self(containers.ProposalSubmitContainerComponent.reactClass)
+    def PasswordRecoveryContainerComponent: ReactClassElementSpec =
+      self(containers.PasswordRecoveryContainerComponent.reactClass)
+    def PasswordResetContainerComponent: ReactClassElementSpec =
+      self(containers.PasswordResetContainerComponent.reactClass)
   }
 
 }

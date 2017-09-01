@@ -27,6 +27,7 @@ object ConnectUserComponent {
                               signIn: (String, String, Self[ConnectUserProps, State])           => Unit,
                               register: (String, String, String, Self[ConnectUserProps, State]) => Unit,
                               closeModal: ()                                                    => Unit,
+                              handleForgotPasswordLinkClick: ()                                 => Unit,
                               isOpen: Boolean,
                               googleAppId: String,
                               facebookAppId: String,
@@ -116,7 +117,25 @@ object ConnectUserComponent {
                 } else {
                   "form.login.socialConnect"
                 }
-              })(), <.div(^.className := buttonWrapperClass)(<.ReactFacebookLogin(^.appId := self.props.wrapped.facebookAppId, ^.scope := "public_profile, email", ^.fields := "first_name, last_name, email, name, picture", ^.callback := facebookCallbackResponse(self), ^.cssClass := socialLoginButtonLeftClass, ^.iconClass := Seq(ConnectUserComponentStyles.buttonIcon.htmlClass, FontAwesomeStyles.facebook.htmlClass).mkString(" "), ^.textButton := "facebook")(), <.ReactGoogleLogin(^.clientID := self.props.wrapped.googleAppId, ^.scope := "profile email", ^.onSuccess := googleCallbackResponse(self), ^.onFailure := googleCallbackFailure(self), ^.isSignIn := self.props.wrapped.isConnected, ^.className := socialLoginButtonRightClass)(<.i(^.className := Seq(ConnectUserComponentStyles.buttonIcon, FontAwesomeStyles.googlePlus))(), "google+"))),
+              })(), <.div(^.className := buttonWrapperClass)(
+                <.ReactFacebookLogin(
+                  ^.appId := self.props.wrapped.facebookAppId,
+                  ^.scope := "public_profile, email",
+                  ^.fields := "first_name, last_name, email, name, picture",
+                  ^.callback := facebookCallbackResponse(self),
+                  ^.cssClass := socialLoginButtonLeftClass,
+                  ^.iconClass := Seq(ConnectUserComponentStyles.buttonIcon.htmlClass, FontAwesomeStyles.facebook.htmlClass).mkString(" "),
+                  ^.textButton := "facebook"
+                )(),
+                <.ReactGoogleLogin(
+                  ^.clientID := self.props.wrapped.googleAppId,
+                  ^.scope := "profile email",
+                  ^.onSuccess := googleCallbackResponse(self),
+                  ^.onFailure := googleCallbackFailure(self),
+                  ^.isSignIn := self.props.wrapped.isConnected,
+                  ^.className := socialLoginButtonRightClass
+                )(<.i(^.className := Seq(ConnectUserComponentStyles.buttonIcon, FontAwesomeStyles.googlePlus))(), "google+")
+              )),
               <.div(^.className := ConnectUserComponentStyles.lineWrapper)(
                 <.span(^.className := ConnectUserComponentStyles.line)(),
                 <.Translate(^.className := ConnectUserComponentStyles.underlineText, ^.value := "form.or")(),
@@ -180,7 +199,7 @@ object ConnectUserComponent {
           ^.value := self.state.password
         )()
       ),
-      <.div()(<.span(^.className := ConnectUserComponentStyles.error)(self.state.errorMessage)),
+      <.div()(<.span(^.className := ConnectUserComponentStyles.errorMessage)(self.state.errorMessage)),
       <.div(^.className := submitButtonContainer)(
         <.button(^.className := submitButton)(
           <.i(^.className := Seq(FontAwesomeStyles.thumbsUpTransparent, ConnectUserComponentStyles.buttonIcon))(),
@@ -188,7 +207,7 @@ object ConnectUserComponent {
         ),
         <.div(^.className := forgetPasswordClass)(
           <.Translate(^.value := "form.login.oupsI")(),
-          <.a(^.className := ConnectUserComponentStyles.link)(I18n.t("form.login.forgotPassword"))
+          <.a(^.className := ConnectUserComponentStyles.link, ^.onClick := handleForgotPasswordLinkClick(self))(I18n.t("form.login.forgotPassword"))
         ),
         <.div(^.className := toggleSignInRegisterClass)(
           <.Translate(^.value := "form.login.noAccount")(),
@@ -264,7 +283,7 @@ object ConnectUserComponent {
       ),
       // extra proposal fields
       if (self.props.wrapped.isProposalFlow) { extraFields(self) },
-      <.div()(<.span(^.className := ConnectUserComponentStyles.error)(self.state.errorMessage)),
+      <.div()(<.span(^.className := ConnectUserComponentStyles.errorMessage)(self.state.errorMessage)),
       <.div(^.className := termsClass)(I18n.t("form.register.termsAgreed")),
       <.div(^.className := submitButtonContainer)(
         <.button(^.className := submitButton)(
@@ -408,6 +427,10 @@ object ConnectUserComponent {
     self.props.wrapped.closeModal()
   }
 
+  private def handleForgotPasswordLinkClick(self: Self[ConnectUserProps, State]) = () => {
+    self.props.wrapped.handleForgotPasswordLinkClick()
+  }
+
   private def toggleRegister(self: Self[ConnectUserProps, State]) = () => {
     self.setState(self.state.copy(errorMessage = "", isRegistering = !self.state.isRegistering))
   }
@@ -437,10 +460,7 @@ object ConnectUserComponentStyles extends StyleSheet.Inline {
   val buttons: StyleA = style()
   val buttonsWrapper: StyleA = style(margin.auto)
   val button: StyleA = style(width(48.8F.%%))
-  val buttonIcon: StyleA = style(paddingBottom(0.5F.rem), paddingRight(0.9.rem))
   val buttonsInfo: StyleA = style(marginTop(1.4F.rem), display.block)
-
-  val link: StyleA = style(color(MakeStyles.Color.pink), fontWeight.bold)
 
   val lineWrapper: StyleA =
     style(display.flex, alignItems.center, margin(3.4F.rem, auto, 2.9F.rem, auto))
@@ -449,7 +469,14 @@ object ConnectUserComponentStyles extends StyleSheet.Inline {
   val underlineText: StyleA = style(MakeStyles.Font.playfairDisplayItalic, margin(0.rem, 1.6F.rem), fontSize(1.8F.rem))
   val input: StyleA =
     style(height(4.rem), width(100.%%), (media.all.maxWidth(800.px))(height(3.rem)))
+  val buttonIcon: StyleA = style(paddingBottom(0.5F.rem), paddingRight(0.9.rem))
+
   val submitButton: StyleA = style(marginBottom(1.7F.rem))
+
+  val link: StyleA = style(
+    color(MakeStyles.Color.pink),
+    fontWeight.bold
+  )
   val noRegisterButton: StyleA =
     style(
       marginBottom(1.7F.rem),
@@ -462,7 +489,8 @@ object ConnectUserComponentStyles extends StyleSheet.Inline {
     )
   val text: StyleA = style(marginBottom(0.8F.rem))
   val terms: StyleA = style(marginBottom(0.8F.rem), fontSize(1.4.rem), textAlign.left)
-  val error: StyleA = style(
+
+  val errorMessage: StyleA = style(
     display.block,
     margin.auto,
     MakeStyles.Font.circularStdBook,
