@@ -7,7 +7,7 @@ import io.github.shogowada.scalajs.reactjs.redux.Redux.Dispatch
 import io.github.shogowada.scalajs.reactjs.router.RouterProps
 import org.make.front.actions._
 import org.make.front.components.presentationals.ConnectUserComponent
-import org.make.front.components.presentationals.ConnectUserComponent.{ConnectUserProps, State}
+import org.make.front.components.presentationals.ConnectUserComponent.{ConnectUserProps, ConnectUserState}
 import org.make.front.facades.{Configuration, I18n}
 import org.make.front.facades.ReactFacebookLogin.FacebookAuthResponse
 import org.make.front.facades.ReactGoogleLogin.GoogleAuthResponse
@@ -43,54 +43,73 @@ object ConnectUserContainerComponent extends RouterProps with UserServiceCompone
           dispatch(OpenPasswordRecoveryModalAction)
         }
 
-        def signInGoogle(response: Response, child: Self[ConnectUserProps, State]): Unit = {
+        def signInGoogle(response: Response, child: Self[ConnectUserProps, ConnectUserState]): Unit = {
           handleFutureApiSignInResponse(
             userService.loginGoogle(response.asInstanceOf[GoogleAuthResponse].tokenId),
             child
           )
         }
 
-        def signInFacebook(response: Response, child: Self[ConnectUserProps, State]): Unit = {
+        def signInFacebook(response: Response, child: Self[ConnectUserProps, ConnectUserState]): Unit = {
           handleFutureApiSignInResponse(
             userService.loginFacebook(response.asInstanceOf[FacebookAuthResponse].accessToken),
             child
           )
         }
 
-        def signIn(username: String, password: String, child: Self[ConnectUserProps, State]): Unit = {
-          handleFutureApiSignInResponse(userService.login(username, password), child)
+        def signIn(email: String, password: String, child: Self[ConnectUserProps, ConnectUserState]): Unit = {
+          handleFutureApiSignInResponse(userService.login(email, password), child)
         }
 
-        def register(username: String,
-                     password: String,
-                     firstName: String,
-                     child: Self[ConnectUserProps, State]): Unit = {
-          handleFutureApiRegisterResponse(userService.registerUser(username, password, firstName).flatMap { _ =>
-            userService.login(username, password)
-          }, child)
+        def register(child: Self[ConnectUserProps, ConnectUserState]): Unit = {
+          handleFutureApiRegisterResponse(
+            userService
+              .registerUser(
+                email = child.state.email,
+                password = child.state.password,
+                firstName = child.state.firstName,
+                profession = child.state.profession,
+                postalCode = child.state.postalCode,
+                age = child.state.age.map(_.toInt)
+              )
+              .flatMap { _ =>
+                userService.login(child.state.email, child.state.password)
+              },
+            child
+          )
         }
 
-        // @toDo: manage specific errors (like username already exist)
-        def handleFutureApiSignInResponse(futureUser: Future[User], child: Self[ConnectUserProps, State]): Unit = {
+        def handleFutureApiSignInResponse(futureUser: Future[User],
+                                          child: Self[ConnectUserProps, ConnectUserState]): Unit = {
           futureUser.onComplete {
             case Success(user) =>
               dispatch(LoggedInAction(user))
+              clearDataState(child)
             case Failure(_) =>
               dispatch(NotifyError(I18n.t("errors.tryAgain"), Some(I18n.t("errors.unexpectedBehaviour"))))
               child.setState(child.state.copy(errorMessage = I18n.t("form.login.errorAuthenticationFailed")))
           }
         }
 
-        // @toDo: manage specific errors (like username already exist)
+        // @toDo: manage specific errors (like email already exist)
         // @toDo: manage make api authentication to register an access token
-        def handleFutureApiRegisterResponse(futureUser: Future[User], child: Self[ConnectUserProps, State]): Unit = {
+        def handleFutureApiRegisterResponse(futureUser: Future[User],
+                                            child: Self[ConnectUserProps, ConnectUserState]): Unit = {
           futureUser.onComplete {
             case Success(user) =>
               dispatch(LoggedInAction(user))
+              clearDataState(child)
             case Failure(_) =>
               dispatch(NotifyError(I18n.t("errors.tryAgain"), Some(I18n.t("errors.unexpectedBehaviour"))))
               child.setState(child.state.copy(errorMessage = I18n.t("form.register.errorRegistrationFailed")))
           }
+        }
+
+        def clearDataState(child: Self[ConnectUserProps, ConnectUserState]): Unit = {
+          child.setState(
+            child.state
+              .copy(email = "", password = "", firstName = "", age = None, postalCode = None, profession = None)
+          )
         }
 
         ConnectUserComponent.ConnectUserProps(

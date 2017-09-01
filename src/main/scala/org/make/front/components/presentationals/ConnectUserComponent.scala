@@ -22,33 +22,34 @@ import scalacss.internal.mutable.StyleSheet
 
 object ConnectUserComponent {
   case class ConnectUserProps(isConnected: Boolean,
-                              signInGoogle: (Response, Self[ConnectUserProps, State])           => Unit,
-                              signInFacebook: (Response, Self[ConnectUserProps, State])         => Unit,
-                              signIn: (String, String, Self[ConnectUserProps, State])           => Unit,
-                              register: (String, String, String, Self[ConnectUserProps, State]) => Unit,
-                              closeModal: ()                                                    => Unit,
-                              handleForgotPasswordLinkClick: ()                                 => Unit,
+                              signInGoogle: (Response, Self[ConnectUserProps, ConnectUserState])   => Unit,
+                              signInFacebook: (Response, Self[ConnectUserProps, ConnectUserState]) => Unit,
+                              signIn: (String, String, Self[ConnectUserProps, ConnectUserState])   => Unit,
+                              register: (Self[ConnectUserProps, ConnectUserState])                 => Unit,
+                              closeModal: ()                                                       => Unit,
+                              handleForgotPasswordLinkClick: ()                                    => Unit,
                               isOpen: Boolean,
                               googleAppId: String,
                               facebookAppId: String,
                               isRegistering: Boolean,
                               isProposalFlow: Boolean = false)
 
-  case class State(isOpen: Boolean,
-                   isRegistering: Boolean,
-                   username: String = "",
-                   password: String = "",
-                   firstName: String = "",
-                   age: String = "",
-                   postalCode: String = "",
-                   profession: String = "",
-                   errorMessage: String = "",
-                   typePassword: String = "password")
+  case class ConnectUserState(isOpen: Boolean,
+                              isRegistering: Boolean,
+                              email: String = "",
+                              password: String = "",
+                              firstName: String = "",
+                              age: Option[String] = None,
+                              postalCode: Option[String] = None,
+                              profession: Option[String] = None,
+                              errorMessage: String = "",
+                              typePassword: String = "password")
 
   lazy val reactClass: ReactClass =
-    React.createClass[ConnectUserProps, State](
+    React.createClass[ConnectUserProps, ConnectUserState](
+      displayName = "Connect User",
       getInitialState = { self =>
-        State(isOpen = self.props.wrapped.isOpen, isRegistering = self.props.wrapped.isRegistering)
+        ConnectUserState(isOpen = self.props.wrapped.isOpen, isRegistering = self.props.wrapped.isRegistering)
       },
       componentWillReceiveProps = { (self, props) =>
         self.setState(self.state.copy(isOpen = props.wrapped.isOpen, isRegistering = self.state.isRegistering))
@@ -117,25 +118,7 @@ object ConnectUserComponent {
                 } else {
                   "form.login.socialConnect"
                 }
-              })(), <.div(^.className := buttonWrapperClass)(
-                <.ReactFacebookLogin(
-                  ^.appId := self.props.wrapped.facebookAppId,
-                  ^.scope := "public_profile, email",
-                  ^.fields := "first_name, last_name, email, name, picture",
-                  ^.callback := facebookCallbackResponse(self),
-                  ^.cssClass := socialLoginButtonLeftClass,
-                  ^.iconClass := Seq(ConnectUserComponentStyles.buttonIcon.htmlClass, FontAwesomeStyles.facebook.htmlClass).mkString(" "),
-                  ^.textButton := "facebook"
-                )(),
-                <.ReactGoogleLogin(
-                  ^.clientID := self.props.wrapped.googleAppId,
-                  ^.scope := "profile email",
-                  ^.onSuccess := googleCallbackResponse(self),
-                  ^.onFailure := googleCallbackFailure(self),
-                  ^.isSignIn := self.props.wrapped.isConnected,
-                  ^.className := socialLoginButtonRightClass
-                )(<.i(^.className := Seq(ConnectUserComponentStyles.buttonIcon, FontAwesomeStyles.googlePlus))(), "google+")
-              )),
+              })(), <.div(^.className := buttonWrapperClass)(<.ReactFacebookLogin(^.appId := self.props.wrapped.facebookAppId, ^.scope := "public_profile, email", ^.fields := "first_name, last_name, email, name, picture", ^.callback := facebookCallbackResponse(self), ^.cssClass := socialLoginButtonLeftClass, ^.iconClass := Seq(ConnectUserComponentStyles.buttonIcon.htmlClass, FontAwesomeStyles.facebook.htmlClass).mkString(" "), ^.textButton := "facebook")(), <.ReactGoogleLogin(^.clientID := self.props.wrapped.googleAppId, ^.scope := "profile email", ^.onSuccess := googleCallbackResponse(self), ^.onFailure := googleCallbackFailure(self), ^.isSignIn := self.props.wrapped.isConnected, ^.className := socialLoginButtonRightClass)(<.i(^.className := Seq(ConnectUserComponentStyles.buttonIcon, FontAwesomeStyles.googlePlus))(), "google+"))),
               <.div(^.className := ConnectUserComponentStyles.lineWrapper)(
                 <.span(^.className := ConnectUserComponentStyles.line)(),
                 <.Translate(^.className := ConnectUserComponentStyles.underlineText, ^.value := "form.or")(),
@@ -159,7 +142,7 @@ object ConnectUserComponent {
       }
     )
 
-  def signInElement(self: Self[ConnectUserProps, State]): ReactElement = {
+  def signInElement(self: Self[ConnectUserProps, ConnectUserState]): ReactElement = {
 
     var submitButtonContainer: Seq[StyleA] = Seq()
     var submitButton: Seq[StyleA] = Seq(MakeStyles.Button.default, ConnectUserComponentStyles.submitButton)
@@ -185,8 +168,8 @@ object ConnectUserComponent {
           ^.`type`.email,
           ^.className := Seq(MakeStyles.Form.inputText, ConnectUserComponentStyles.input),
           ^.placeholder := I18n.t("form.fieldLabelEmail"),
-          ^.onChange := handleUsernameChange(self),
-          ^.value := self.state.username
+          ^.onChange := handleEmailChange(self),
+          ^.value := self.state.email
         )()
       ),
       <.div(^.className := MakeStyles.Form.field)(
@@ -207,7 +190,9 @@ object ConnectUserComponent {
         ),
         <.div(^.className := forgetPasswordClass)(
           <.Translate(^.value := "form.login.oupsI")(),
-          <.a(^.className := ConnectUserComponentStyles.link, ^.onClick := handleForgotPasswordLinkClick(self))(I18n.t("form.login.forgotPassword"))
+          <.a(^.className := ConnectUserComponentStyles.link, ^.onClick := handleForgotPasswordLinkClick(self))(
+            I18n.t("form.login.forgotPassword")
+          )
         ),
         <.div(^.className := toggleSignInRegisterClass)(
           <.Translate(^.value := "form.login.noAccount")(),
@@ -219,7 +204,7 @@ object ConnectUserComponent {
     )
   }
 
-  def registerElement(self: Self[ConnectUserProps, State]): ReactElement = {
+  def registerElement(self: Self[ConnectUserProps, ConnectUserState]): ReactElement = {
 
     var termsClass: Seq[StyleA] = Seq(ConnectUserComponentStyles.terms)
     var submitButtonContainer: Seq[StyleA] = Seq()
@@ -246,8 +231,8 @@ object ConnectUserComponent {
           ^.required := true,
           ^.className := Seq(MakeStyles.Form.inputText, ConnectUserComponentStyles.input),
           ^.placeholder := s"${I18n.t("form.fieldLabelEmail")} ${I18n.t("form.required")}",
-          ^.onChange := handleUsernameChange(self),
-          ^.value := self.state.username
+          ^.onChange := handleEmailChange(self),
+          ^.value := self.state.email
         )()
       ),
       // password field
@@ -317,7 +302,7 @@ object ConnectUserComponent {
     )
   }
 
-  def extraFields(self: Self[ConnectUserProps, State]): ReactElement = {
+  def extraFields(self: Self[ConnectUserProps, ConnectUserState]): ReactElement = {
 
     val ages: Seq[Int] = Range(13, 100)
 
@@ -331,7 +316,7 @@ object ConnectUserComponent {
           ^.className := Seq(MakeStyles.Form.inputSelect, ConnectUserComponentStyles.input),
           ^.placeholder := s"${I18n.t("form.fieldLabelAge")}",
           ^.onChange := handleAgeChange(self),
-          ^.value := self.state.age
+          ^.value := self.state.age.getOrElse("")
         )(<.option(^.value := "")(s"${I18n.t("form.fieldLabelAge")}"), ages.map(age => <.option(^.value := age)(age)))
       ),
       // postal code field
@@ -343,7 +328,7 @@ object ConnectUserComponent {
           ^.className := Seq(MakeStyles.Form.inputText, ConnectUserComponentStyles.input),
           ^.placeholder := s"${I18n.t("form.fieldPostalCode")}",
           ^.onChange := handlePostalCodeChange(self),
-          ^.value := self.state.postalCode
+          ^.value := self.state.postalCode.getOrElse("")
         )()
       ),
       // profession field
@@ -355,7 +340,7 @@ object ConnectUserComponent {
           ^.className := Seq(MakeStyles.Form.inputText, ConnectUserComponentStyles.input),
           ^.placeholder := s"${I18n.t("form.fieldProfession")}",
           ^.onChange := handleProfessionChange(self),
-          ^.value := self.state.profession
+          ^.value := self.state.profession.getOrElse("")
         )()
       )
     )
@@ -367,85 +352,88 @@ object ConnectUserComponent {
   }
 
   // @toDo: add validation
-  private def handleUsernameChange(self: Self[ConnectUserProps, State]) = (e: FormSyntheticEvent[HTMLInputElement]) => {
-    val newUsername = e.target.value
-    self.setState(_.copy(username = newUsername))
-  }
+  private def handleEmailChange(self: Self[ConnectUserProps, ConnectUserState]) =
+    (e: FormSyntheticEvent[HTMLInputElement]) => {
+      val newEmail = e.target.value
+      self.setState(_.copy(email = newEmail))
+    }
 
   // @toDo: add validation
-  private def handlePasswordChange(self: Self[ConnectUserProps, State]) = (e: FormSyntheticEvent[HTMLInputElement]) => {
-    val newPassword = e.target.value
-    self.setState(_.copy(password = newPassword))
-  }
+  private def handlePasswordChange(self: Self[ConnectUserProps, ConnectUserState]) =
+    (e: FormSyntheticEvent[HTMLInputElement]) => {
+      val newPassword = e.target.value
+      self.setState(_.copy(password = newPassword))
+    }
 
   // @toDo: add validation
-  private def handleFirstNameChange(self: Self[ConnectUserProps, State]) =
+  private def handleFirstNameChange(self: Self[ConnectUserProps, ConnectUserState]) =
     (e: FormSyntheticEvent[HTMLInputElement]) => {
       val newFirstName = e.target.value
       self.setState(_.copy(firstName = newFirstName))
     }
 
   // @toDo: add validation
-  private def handleAgeChange(self: Self[ConnectUserProps, State]) = (e: FormSyntheticEvent[HTMLInputElement]) => {
-    val newAge = e.target.value
-    self.setState(_.copy(age = newAge))
-  }
+  private def handleAgeChange(self: Self[ConnectUserProps, ConnectUserState]) =
+    (e: FormSyntheticEvent[HTMLInputElement]) => {
+      val newAge = e.target.value
+      self.setState(_.copy(age = Some(newAge)))
+    }
 
   // @toDo: add validation
-  private def handlePostalCodeChange(self: Self[ConnectUserProps, State]) =
+  private def handlePostalCodeChange(self: Self[ConnectUserProps, ConnectUserState]) =
     (e: FormSyntheticEvent[HTMLInputElement]) => {
       val newPostalCode = e.target.value
-      self.setState(_.copy(postalCode = newPostalCode))
+      self.setState(_.copy(postalCode = Some(newPostalCode)))
     }
 
   // @toDo: add validation
-  private def handleProfessionChange(self: Self[ConnectUserProps, State]) =
+  private def handleProfessionChange(self: Self[ConnectUserProps, ConnectUserState]) =
     (e: FormSyntheticEvent[HTMLInputElement]) => {
       val newProfession = e.target.value
-      self.setState(_.copy(profession = newProfession))
+      self.setState(_.copy(profession = Some(newProfession)))
     }
 
-  private def handleSignInSubmit(self: Self[ConnectUserProps, State]) = (e: SyntheticEvent) => {
+  private def handleSignInSubmit(self: Self[ConnectUserProps, ConnectUserState]) = (e: SyntheticEvent) => {
     self.setState(self.state.copy(errorMessage = ""))
     e.preventDefault()
-    self.props.wrapped.signIn(self.state.username, self.state.password, self)
+    self.props.wrapped.signIn(self.state.email, self.state.password, self)
   }
 
-  private def handleRegisterSubmit(self: Self[ConnectUserProps, State]) = (e: SyntheticEvent) => {
+  private def handleRegisterSubmit(self: Self[ConnectUserProps, ConnectUserState]) = (e: SyntheticEvent) => {
     self.setState(self.state.copy(errorMessage = ""))
     e.preventDefault()
-    self.props.wrapped.register(self.state.username, self.state.password, self.state.firstName, self)
+    self.props.wrapped.register(self)
   }
 
-  private def toggleHidePassword(self: Self[ConnectUserProps, State]) = () => {
+  private def toggleHidePassword(self: Self[ConnectUserProps, ConnectUserState]) = () => {
     val typePassword = if (self.state.typePassword == "input") "password" else "input"
     self.setState(self.state.copy(typePassword = typePassword))
   }
 
-  private def closeModal(self: Self[ConnectUserProps, State]) = () => {
+  private def closeModal(self: Self[ConnectUserProps, ConnectUserState]) = () => {
     self.setState(self.state.copy(errorMessage = ""))
     self.props.wrapped.closeModal()
   }
 
-  private def handleForgotPasswordLinkClick(self: Self[ConnectUserProps, State]) = () => {
+  private def handleForgotPasswordLinkClick(self: Self[ConnectUserProps, ConnectUserState]) = () => {
     self.props.wrapped.handleForgotPasswordLinkClick()
   }
 
-  private def toggleRegister(self: Self[ConnectUserProps, State]) = () => {
+  private def toggleRegister(self: Self[ConnectUserProps, ConnectUserState]) = () => {
     self.setState(self.state.copy(errorMessage = "", isRegistering = !self.state.isRegistering))
   }
 
-  private def facebookCallbackResponse(self: Self[ConnectUserProps, State])(response: Response): Unit = {
+  private def facebookCallbackResponse(self: Self[ConnectUserProps, ConnectUserState])(response: Response): Unit = {
     self.setState(self.state.copy(errorMessage = ""))
     self.props.wrapped.signInFacebook(response, self)
   }
 
-  private def googleCallbackResponse(self: Self[ConnectUserProps, State])(response: Response): Unit = {
+  private def googleCallbackResponse(self: Self[ConnectUserProps, ConnectUserState])(response: Response): Unit = {
     self.setState(self.state.copy(errorMessage = ""))
     self.props.wrapped.signInGoogle(response, self)
   }
 
-  private def googleCallbackFailure(self: Self[ConnectUserProps, State])(response: Response): Unit = {
+  private def googleCallbackFailure(self: Self[ConnectUserProps, ConnectUserState])(response: Response): Unit = {
     self.setState(self.state.copy(errorMessage = I18n.t("form.login.errorAuthenticationFailed")))
   }
 }
@@ -473,10 +461,7 @@ object ConnectUserComponentStyles extends StyleSheet.Inline {
 
   val submitButton: StyleA = style(marginBottom(1.7F.rem))
 
-  val link: StyleA = style(
-    color(MakeStyles.Color.pink),
-    fontWeight.bold
-  )
+  val link: StyleA = style(color(MakeStyles.Color.pink), fontWeight.bold)
   val noRegisterButton: StyleA =
     style(
       marginBottom(1.7F.rem),

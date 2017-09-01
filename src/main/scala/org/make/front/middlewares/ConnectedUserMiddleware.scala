@@ -12,6 +12,7 @@ class ConnectedUserMiddleware(override val apiBaseUrl: String) extends UserServi
     {
       case LogoutAction =>
         userService.logout()
+        // toDo: add a dispatch(ResetStore)
         dispatch(LogoutAction)
       case action: LoggedInAction =>
         dispatch(action)
