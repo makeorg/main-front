@@ -15,6 +15,7 @@ import io.github.shogowada.scalajs.reactjs.events.{
 }
 import io.github.shogowada.scalajs.reactjs.router.RouterProps._
 import io.github.shogowada.scalajs.reactjs.router.WithRouter
+import org.make.front.components.presentationals.ConnectUserComponentStyles.{&, styleF}
 import org.make.front.components.presentationals.ProposalSubmitComponent._
 import org.make.front.facades.Localize.LocalizeVirtualDOMAttributes
 import org.make.front.facades.ReactModal.{ReactModalVirtualDOMAttributes, ReactModalVirtualDOMElements}
@@ -301,7 +302,10 @@ object ProposalFormElement {
           else ProposalSubmitComponentStyles.iconField
         )
       )(),
-      <.form(^.className := ProposalSubmitComponentStyles.form, ^.onSubmit := handleProposalSubmit(self))(
+      <.form(
+        ^.className := ProposalSubmitComponentStyles.form(self.state.modalIsOpen),
+        ^.onSubmit := handleProposalSubmit(self)
+      )(
         if (isMobile && self.state.modalIsOpen) {
           <.textarea(
             ^.style := Map(
@@ -419,8 +423,19 @@ object ProposalSubmitComponentStyles extends StyleSheet.Inline {
 
   val inputShadow = "1px 1px 25px 0 rgba(0, 0, 0, .5), 1px 1px 1px 0 rgba(0, 0, 0, .5)"
 
-  val form: StyleA =
-    style(width(100.%%), display.flex, marginBottom(3.8F.rem), (media.all.maxWidth(800.px))(marginBottom(2.9F.rem)))
+  val form: (Boolean) => StyleA = styleF.bool(
+    modalIsOpen =>
+      if (modalIsOpen) {
+        styleS(
+          width(100.%%),
+          display.flex,
+          marginBottom(3.8F.rem),
+          (media.all.maxWidth(800.px))(marginBottom(2.9F.rem))
+        )
+      } else {
+        styleS(width(100.%%), display.flex, marginBottom.`0`, (media.all.maxWidth(800.px))(marginBottom(2.9F.rem)))
+    }
+  )
 
   val input: StyleA =
     style(
