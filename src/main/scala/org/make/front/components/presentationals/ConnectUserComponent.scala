@@ -68,7 +68,7 @@ object ConnectUserComponent {
         var formContainerClass: Seq[StyleA] = Seq()
 
         if (self.props.wrapped.isProposalFlow) {
-          overlayClass = Seq(ProposalSubmitComponentStyles.overlayModalStyle)
+          overlayClass = Seq(ConnectUserComponentStyles.proposalOverlay)
           modalClass = Seq(MakeStyles.Modal.modal, ProposalSubmitComponentStyles.modalStyle)
           modalContentClass =
             Seq(ProposalSubmitComponentStyles.modalContent, ProposalSubmitComponentStyles.modalContentSignin)
@@ -432,6 +432,8 @@ object ConnectUserComponentStyles extends StyleSheet.Inline {
   import dsl._
 
   val overlay: StyleA = style(zIndex(1000))
+  val proposalOverlay: StyleA =
+    style(addClassName(ProposalSubmitComponentStyles.overlayModalStyle.htmlClass), zIndex(10))
   val buttons: StyleA = style()
   val buttonsWrapper: StyleA = style(margin.auto)
   val button: StyleA = style(width(48.8F.%%))
