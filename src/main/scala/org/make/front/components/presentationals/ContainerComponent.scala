@@ -15,7 +15,7 @@ object ContainerComponent {
     render = (_) =>
       <.div(^.className := AppComponentStyles.wrapper)(
         <.Switch()(
-          <.Route(^.exact := true, ^.path := "/password-recovery/:userId/:resetToken", ^.component := PasswordResetContainerComponent.reactClass)(),
+          <.Route(^.exact := true, ^.path := "/reset-password/change-password/:userId/:resetToken", ^.component := PasswordResetContainerComponent.reactClass)(),
           <.Route(^.exact := true, ^.path := "/theme/:themeSlug", ^.component := ThemeContainerComponent.reactClass)(),
           <.Route(^.exact := true, ^.path := "/", ^.component := HomeComponent.reactClass)()
         )

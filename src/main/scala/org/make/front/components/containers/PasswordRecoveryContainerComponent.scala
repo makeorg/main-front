@@ -27,7 +27,7 @@ object PasswordRecoveryContainerComponent extends UserServiceComponent {
       }
 
       def handleSubmit(self: Self[PasswordRecoveryProps, PasswordRecoveryState]): Unit = {
-        userService.recoverPassword(self.state.email).onComplete {
+        userService.resetPasswordRequest(self.state.email).onComplete {
           case Success(_) =>
             dispatch(ClosePasswordRecoveryModalAction)
             dispatch(NotifyInfo(
