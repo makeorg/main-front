@@ -131,4 +131,5 @@ object ProposalMatrixStyles extends StyleSheet.Inline {
       lineHeight(3.4.rem),
       MakeStyles.Font.circularStdBook
     )
+
 }

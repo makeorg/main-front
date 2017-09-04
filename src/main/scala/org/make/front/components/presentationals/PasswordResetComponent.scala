@@ -18,14 +18,25 @@ import scalacss.internal.mutable.StyleSheet
 
 object PasswordResetComponent {
 
-  case class PasswordResetProps(handleSubmit: (Self[PasswordResetProps, PasswordResetState]) => Unit, checkResetToken: (Self[PasswordResetProps, PasswordResetState]) => Unit)
-  case class PasswordResetState(password: String, showPassword: Boolean, errorMessage: String, isValidResetToken: Boolean, success: Boolean)
+  case class PasswordResetProps(handleSubmit: (Self[PasswordResetProps, PasswordResetState])    => Unit,
+                                checkResetToken: (Self[PasswordResetProps, PasswordResetState]) => Unit)
+  case class PasswordResetState(password: String,
+                                showPassword: Boolean,
+                                errorMessage: String,
+                                isValidResetToken: Boolean,
+                                success: Boolean)
 
   lazy val reactClass: ReactClass =
     React.createClass[PasswordResetProps, PasswordResetState](
       displayName = getClass.getSimpleName,
       getInitialState = { _ =>
-        PasswordResetState(password = "", showPassword = false, errorMessage = "", isValidResetToken = false, success = false)
+        PasswordResetState(
+          password = "",
+          showPassword = false,
+          errorMessage = "",
+          isValidResetToken = false,
+          success = false
+        )
       },
       componentWillMount = { self =>
         self.props.wrapped.checkResetToken(self)
@@ -47,48 +58,64 @@ object PasswordResetComponent {
     )
 
   def resetFormElement(self: Self[PasswordResetProps, PasswordResetState]): ReactElement = {
-      <.div(^.className := Seq(BulmaStyles.Grid.Columns.column, BulmaStyles.Grid.Columns.is8, BulmaStyles.Grid.Offset.isOffset2))(
-        <.Translate(^.className := MakeStyles.Modal.title, ^.value := "form.passwordReset.title")(),
-        <.div(^.className := PasswordResetComponentStyles.terms)(I18n.t("form.passwordReset.description")),
-        <.form(^.onSubmit := handleSubmit(self), ^.novalidate := true)(
-          <.div(^.className := MakeStyles.Form.field)(
-            <.i(^.className := Seq(MakeStyles.Form.inputIcon, FontAwesomeStyles.lock))(),
-            <.i(
-              ^.className := Seq(
-                PasswordResetComponentStyles.eye(self.state.showPassword),
-                MakeStyles.Form.inputIconLeft
-              ),
-              ^.onClick := toggleHidePassword(self)
-            )(),
-            <.input(
-              ^.`type` := (if (self.state.showPassword) "text" else "password"),
-              ^.required := true,
-              ^.className := Seq(MakeStyles.Form.inputText, PasswordResetComponentStyles.input),
-              ^.placeholder := s"${I18n.t("form.fieldLabelPassword")} ${I18n.t("form.required")}",
-              ^.onChange := handlePasswordChange(self),
-              ^.value := self.state.password
-            )()
-          ),
-          <.div()(<.span(^.className := PasswordRecoveryComponentStyles.errorMessage)(self.state.errorMessage)),
-          <.button(
-            ^.className := Seq(MakeStyles.Button.default, PasswordRecoveryComponentStyles.submitButton),
-            ^.onClick := handleSubmit(self)
-          )(
-            <.i(^.className := Seq(FontAwesomeStyles.thumbsUpTransparent, PasswordRecoveryComponentStyles.buttonIcon))(),
-            <.Translate(^.value := "form.passwordReset.validation")()
-          )
+    <.div(
+      ^.className := Seq(
+        BulmaStyles.Grid.Columns.column,
+        BulmaStyles.Grid.Columns.is8,
+        BulmaStyles.Grid.Offset.isOffset2
+      )
+    )(
+      <.Translate(^.className := MakeStyles.Modal.title, ^.value := "form.passwordReset.title")(),
+      <.div(^.className := PasswordResetComponentStyles.terms)(I18n.t("form.passwordReset.description")),
+      <.form(^.onSubmit := handleSubmit(self), ^.novalidate := true)(
+        <.div(^.className := MakeStyles.Form.field)(
+          <.i(^.className := Seq(MakeStyles.Form.inputIcon, FontAwesomeStyles.lock))(),
+          <.i(
+            ^.className := Seq(
+              PasswordResetComponentStyles.eye(self.state.showPassword),
+              MakeStyles.Form.inputIconLeft
+            ),
+            ^.onClick := toggleHidePassword(self)
+          )(),
+          <.input(
+            ^.`type` := (if (self.state.showPassword) "text" else "password"),
+            ^.required := true,
+            ^.className := Seq(MakeStyles.Form.inputText, PasswordResetComponentStyles.input),
+            ^.placeholder := s"${I18n.t("form.fieldLabelPassword")} ${I18n.t("form.required")}",
+            ^.onChange := handlePasswordChange(self),
+            ^.value := self.state.password
+          )()
+        ),
+        <.div()(<.span(^.className := PasswordRecoveryComponentStyles.errorMessage)(self.state.errorMessage)),
+        <.button(
+          ^.className := Seq(MakeStyles.Button.default, PasswordRecoveryComponentStyles.submitButton),
+          ^.onClick := handleSubmit(self)
+        )(
+          <.i(^.className := Seq(FontAwesomeStyles.thumbsUp, PasswordRecoveryComponentStyles.buttonIcon))(),
+          <.Translate(^.value := "form.passwordReset.validation")()
         )
+      )
     )
   }
 
   def invalidResetTokenElement(self: Self[PasswordResetProps, PasswordResetState]): ReactElement = {
-    <.div(^.className := Seq(BulmaStyles.Grid.Columns.column, BulmaStyles.Grid.Columns.is8, BulmaStyles.Grid.Offset.isOffset2))(
-      <.Translate(^.className := MakeStyles.Modal.title, ^.value := "form.passwordReset.failed.title")()
-    )
+    <.div(
+      ^.className := Seq(
+        BulmaStyles.Grid.Columns.column,
+        BulmaStyles.Grid.Columns.is8,
+        BulmaStyles.Grid.Offset.isOffset2
+      )
+    )(<.Translate(^.className := MakeStyles.Modal.title, ^.value := "form.passwordReset.failed.title")())
   }
 
   def resetPasswordSuccessElement(self: Self[PasswordResetProps, PasswordResetState]): ReactElement = {
-    <.div(^.className := Seq(BulmaStyles.Grid.Columns.column, BulmaStyles.Grid.Columns.is8, BulmaStyles.Grid.Offset.isOffset2))(
+    <.div(
+      ^.className := Seq(
+        BulmaStyles.Grid.Columns.column,
+        BulmaStyles.Grid.Columns.is8,
+        BulmaStyles.Grid.Offset.isOffset2
+      )
+    )(
       <.Translate(^.className := MakeStyles.Modal.title, ^.value := "form.passwordReset.success.title")(),
       <.div(^.className := PasswordResetComponentStyles.terms)(I18n.t("form.passwordReset.success.description"))
     )
@@ -116,7 +143,9 @@ object PasswordResetComponent {
     if (errors.isEmpty) {
       self.props.wrapped.handleSubmit(self)
     } else {
-      self.setState(self.state.copy(errorMessage = I18n.t(errors.head, Replacements(("min", PasswordConstraint.min.toString)))))
+      self.setState(
+        self.state.copy(errorMessage = I18n.t(errors.head, Replacements(("min", PasswordConstraint.min.toString))))
+      )
     }
   }
 }
@@ -124,19 +153,12 @@ object PasswordResetComponent {
 object PasswordResetComponentStyles extends StyleSheet.Inline {
   import dsl._
 
-  val container: StyleA = style(
-    paddingTop(7.rem),
-    paddingBottom(7.rem)
-  )
+  val container: StyleA = style(paddingTop(7.rem), paddingBottom(7.rem))
 
-  val terms: StyleA = style(
-    marginBottom(0.8F.rem),
-    fontSize(1.4.rem),
-    color(rgba(0, 0, 0, 0.3))
-  )
+  val terms: StyleA = style(marginBottom(0.8F.rem), fontSize(1.4.rem), color(rgba(0, 0, 0, 0.3)))
 
   val content: StyleA = style(
-    width(100%%),
+    width(100 %%),
     backgroundColor(MakeStyles.Color.white),
     maxWidth(114.rem),
     marginRight.auto,
@@ -148,11 +170,7 @@ object PasswordResetComponentStyles extends StyleSheet.Inline {
     boxShadow := "0 1px 1px 0 rgba(0, 0, 0, 0.5)"
   )
 
-  val input: StyleA = style(
-    height(4.rem),
-    width(100.%%),
-    (media.all.maxWidth(800.px))(height(3.rem))
-  )
+  val input: StyleA = style(height(4.rem), width(100.%%), (media.all.maxWidth(800.px))(height(3.rem)))
 
   val eye: (Boolean) => StyleA = styleF.bool(
     typePassword =>
@@ -164,6 +182,6 @@ object PasswordResetComponentStyles extends StyleSheet.Inline {
         )
       } else {
         styleS((&.hover)(cursor.pointer), addClassName(FontAwesomeStyles.eye.htmlClass))
-      }
+    }
   )
 }

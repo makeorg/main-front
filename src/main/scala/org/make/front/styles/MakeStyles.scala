@@ -1,9 +1,7 @@
 package org.make.front.styles
 
 import org.make.front.Main.CssSettings._
-import org.make.front.components.AppComponentStyles.style
 
-import scalacss.DevDefaults.StyleA
 import scalacss.internal.{AV, Cond, Media, StyleA, ValueT}
 
 object MakeStyles extends StyleSheet.Inline {
@@ -20,23 +18,13 @@ object MakeStyles extends StyleSheet.Inline {
   val modeDesktopOnly: Media.Query = modeDesktop.maxWidth(1200.px)
   val modeWidescreenOnly: Media.Query = modeWidescreen.maxWidth(1392.px)
 
-  //todo: implement h1
-  val title1: StyleA = style()
-  val title2: StyleA = style(fontSize(3.4.rem), MakeStyles.Font.tradeGothicLTStd, textTransform.uppercase)
-  //todo: implement h3
-  val title3: StyleA = style()
-
-  val heroTitle: StyleA = style(
-    fontSize(6.rem),
-    lineHeight(6.rem),
-    Font.tradeGothicLTStd,
-    color(c"#FFF"),
-    BulmaStyles.ResponsiveHelpers.block,
-    textAlign.center,
-    textShadow := "0.1rem 0.1rem 0.1rem #000",
-    textTransform.uppercase,
-    (media.all.maxWidth(800.px))(fontSize(3.rem), lineHeight(3.rem))
-  )
+  // font
+  object Font {
+    val tradeGothicLTStd: AV = fontFamily :=! "TradeGothicLTStdBdCn20"
+    val playfairDisplayItalic: AV = fontFamily :=! "Playfair Display"
+    val circularStdBook: AV = fontFamily :=! "CircularStdBook"
+    val circularStdBold: AV = fontFamily :=! "CircularStdBold"
+  }
 
   // colors
   object Color {
@@ -56,21 +44,6 @@ object MakeStyles extends StyleSheet.Inline {
     val greyLight: ValueT[ValueT.Color] = rgba(0, 0, 0, 0.3)
   }
 
-  // font
-  object Font {
-    val tradeGothicLTStd: AV = fontFamily :=! "TradeGothicLTStdBdCn20"
-    val playfairDisplayRegular: AV = fontFamily :=! "PlayfairDisplayRegular"
-    val playfairDisplayItalic: AV = fontFamily :=! "PlayfairDisplayItalic"
-    val playfairDisplayBoldItalic: AV = fontFamily :=! "PlayfairDisplayBoldItalic"
-    val playfairDisplayBold: AV = fontFamily :=! "PlayfairDisplayBold"
-    val playfairDisplayBlackItalic: AV = fontFamily :=! "PlayfairDisplayBlackItalic"
-    val playfairDisplayBlack: AV = fontFamily :=! "PlayfairDisplayBlack"
-    val circularStdMedium: AV = fontFamily :=! "CircularStdMedium"
-    val circularStdBook: AV = fontFamily :=! "CircularStdBook"
-    val circularStdBold: AV = fontFamily :=! "CircularStdBold"
-    val circularStdBlack: AV = fontFamily :=! "CircularStdBlack"
-  }
-
   // background
   object Background {
     val footer: ValueT[ValueT.Color] = c"#ececec"
@@ -80,6 +53,12 @@ object MakeStyles extends StyleSheet.Inline {
     val google: StyleA = style(addClassNames("background-google"))
     val facebook: StyleA = style(addClassNames("background-facebook"))
   }
+
+  def gradientBackground(from: String, to: String): StyleA =
+    style(background := s"linear-gradient(131deg, $from, $to)")
+
+  def gradientBackgroundImage(deg: String, from: String, to: String): StyleA =
+    style(backgroundImage := s"linear-gradient($deg, $from, $to)")
 
   object Spacing {
     val smaller: ValueT[ValueT.LenPctAuto] = 1.rem
@@ -125,9 +104,28 @@ object MakeStyles extends StyleSheet.Inline {
     val title: StyleA = style(addClassNames("make-modal-title"))
   }
 
-  def gradientBackground(from: String, to: String): StyleA =
-    style(background := s"linear-gradient(131deg, $from, $to)")
+  //todo: implement h1
+  val title1: StyleA = style()
+  val title2: StyleA = style(fontSize(3.4.rem), MakeStyles.Font.tradeGothicLTStd, textTransform.uppercase)
 
-  def gradientBackgroundImage(deg: String, from: String, to: String): StyleA =
-    style(backgroundImage := s"linear-gradient($deg, $from, $to)")
+  //todo: implement h3
+  val title3: StyleA = style()
+
+  ///////////////////////////////////////////////////////////////////////////
+
+  object BorderColor {
+    val discreet: ValueT[ValueT.Color] = rgb(229, 229, 229)
+  }
+
+  object StyleText {
+    val smallerText: StyleA = style(fontSize(1.4.rem))
+    val baseText: StyleA = style(fontSize(1.6.rem))
+    val biggerText: StyleA = style(fontSize(1.8.rem))
+    val boldText: StyleA = style(Font.circularStdBold)
+    val title: StyleA = style(Font.tradeGothicLTStd, textTransform.uppercase)
+    val smallTitle: StyleA = style(MakeStyles.StyleText.title, fontSize(2.2.rem))
+    val mediumTitle: StyleA = style(MakeStyles.StyleText.title, fontSize(3.4.rem))
+    val bigTitle: StyleA = style(MakeStyles.StyleText.title, fontSize(4.6.rem))
+    val veryBigTitle: StyleA = style(MakeStyles.StyleText.title, fontSize(6.rem))
+  }
 }

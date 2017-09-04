@@ -231,7 +231,7 @@ object ConnectUserComponent {
       ),
       <.div(^.className := submitButtonContainer)(
         <.button(^.className := submitButton)(
-          <.i(^.className := Seq(FontAwesomeStyles.thumbsUpTransparent, ConnectUserComponentStyles.buttonIcon))(),
+          <.i(^.className := Seq(FontAwesomeStyles.thumbsUp, ConnectUserComponentStyles.buttonIcon))(),
           <.Translate(^.value := "form.login.submitButton")()
         ),
         <.div(^.className := forgetPasswordClass)(
@@ -345,7 +345,7 @@ object ConnectUserComponent {
       <.div(^.className := termsClass)(I18n.t("form.register.termsAgreed")),
       <.div(^.className := submitButtonContainer)(
         <.button(^.className := submitButton)(
-          <.i(^.className := Seq(FontAwesomeStyles.thumbsUpTransparent, ConnectUserComponentStyles.buttonIcon))(),
+          <.i(^.className := Seq(FontAwesomeStyles.thumbsUp, ConnectUserComponentStyles.buttonIcon))(),
           <.Translate(^.value := "form.register.subscribe")()
         ),
         <.div(^.className := toggleSignInRegisterClass)(

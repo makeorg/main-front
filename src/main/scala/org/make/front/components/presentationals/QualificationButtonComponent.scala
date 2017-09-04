@@ -13,6 +13,8 @@ import org.make.front.styles.MakeStyles
 
 import scalacss.DevDefaults._
 
+import scalajs.js.Dynamic.{global => g}
+
 //todo get qualification status through props
 object QualificationButtonComponent {
 
@@ -35,9 +37,12 @@ object QualificationButtonComponent {
 
   lazy val reactClass: ReactClass = React.createClass[QualificationButtonProps, QualificationButtonState](
     getInitialState = (self) => QualificationButtonState(qualifications = self.props.wrapped.qualifStats.qualifications),
+    componentDidUpdate = (self, _, _) => {
+      self.setState(_.copy(qualifications = self.props.wrapped.qualifStats.qualifications))
+    },
     render = (self) => {
-      <.div()(self.state.qualifications.map { qualification =>
-        renderQualification(self, qualification, s"content.proposal.${qualification.key}")
+      <.ul()(self.state.qualifications.map { qualification =>
+        <.li()(renderQualification(self, qualification, s"content.proposal.${qualification.key}"))
       }, <.style()(QualificationButtonStyle.render[String]))
     }
   )
@@ -47,100 +52,44 @@ object QualificationButtonComponent {
                           text: String): ReactElement = {
 
     val QualificationStyle = self.props.wrapped.voteType match {
-      case VoteAgree =>
-        Seq(QualificationButtonStyle.qualificationButton, QualificationButtonStyle.qualificationButtonAgree)
-      case VoteDisagree =>
-        Seq(QualificationButtonStyle.qualificationButton, QualificationButtonStyle.qualificationButtonDisagree)
-      case VoteNeutral =>
-        Seq(QualificationButtonStyle.qualificationButton, QualificationButtonStyle.qualificationButtonNeutral)
+      case VoteAgree    => QualificationButtonStyle.agree
+      case VoteDisagree => QualificationButtonStyle.disagree
+      case VoteNeutral  => QualificationButtonStyle.neutral
     }
 
     val QualificationSelectedStyle = self.props.wrapped.voteType match {
-      case VoteAgree =>
-        Seq(QualificationButtonStyle.qualificationButton, QualificationButtonStyle.qualificationButtonSelectedAgree)
-      case VoteDisagree =>
-        Seq(QualificationButtonStyle.qualificationButton, QualificationButtonStyle.qualificationButtonSelectedDisagree)
-      case VoteNeutral =>
-        Seq(QualificationButtonStyle.qualificationButton, QualificationButtonStyle.qualificationButtonSelectedNeutral)
+      case VoteAgree    => QualificationButtonStyle.agreeSelected
+      case VoteDisagree => QualificationButtonStyle.disagreeSelected
+      case VoteNeutral  => QualificationButtonStyle.neutralSelected
     }
 
-    val (divStyle, spanText, spanStyle) =
+    val (divStyle, spanText) =
       if (!qualification.selected)
-        (QualificationStyle, I18n.t("content.proposal.plusOne"), QualificationButtonStyle.plusOne)
+        (QualificationStyle, I18n.t("content.proposal.plusOne"))
       else
-        (QualificationSelectedStyle, formatToKilo(qualification.count), QualificationButtonStyle.statQualif)
+        (QualificationSelectedStyle, formatToKilo(qualification.count))
 
-    <.div(^.className := divStyle, ^.onClick := onClickQualif(self, qualification) _)(
-      <.div(^.className := QualificationButtonStyle.textQualif)(
-        <.Translate(^.value := text, ^.dangerousHtml := true, ^.className := QualificationButtonStyle.qualifWrapper)()
-      ),
-      <.div(^.className := spanStyle)(<.span()(spanText))
+    <.button(^.className := divStyle, ^.onClick := onClickQualif(self, qualification) _)(
+      <.Translate(^.value := text, ^.dangerousHtml := true)(),
+      spanText
     )
   }
-
 }
 
 object QualificationButtonStyle extends StyleSheet.Inline {
+
   import dsl._
 
-  val qualificationButtonAgree: StyleA = style(
-    border :=! s"0.2rem solid ${MakeStyles.Color.green.value}",
-    color :=! MakeStyles.Color.green,
-    (&.hover)(color :=! MakeStyles.Color.white, backgroundColor :=! MakeStyles.Color.green)
-  )
+  val agree: StyleA = style()
 
-  val qualificationButtonDisagree: StyleA = style(
-    border :=! s"0.2rem solid ${MakeStyles.Color.red.value}",
-    color :=! MakeStyles.Color.red,
-    (&.hover)(color :=! MakeStyles.Color.white, backgroundColor :=! MakeStyles.Color.red)
-  )
+  val disagree: StyleA = style()
 
-  val qualificationButtonNeutral: StyleA = style(
-    border :=! s"0.2rem solid ${MakeStyles.Color.greyVote.value}",
-    color :=! MakeStyles.Color.greyVote,
-    (&.hover)(color :=! MakeStyles.Color.white, backgroundColor :=! MakeStyles.Color.greyVote)
-  )
+  val neutral: StyleA = style()
 
-  val qualificationButton: StyleA = style(
-    display.flex,
-    position.relative,
-    width(100.%%),
-    borderRadius(3.rem),
-    padding :=! "0 1rem",
-    marginBottom(0.5.rem),
-    justifyContent.spaceBetween,
-    alignItems.center,
-    backgroundColor :=! MakeStyles.Color.white,
-    cursor.pointer
-  )
+  val agreeSelected: StyleA = style()
 
-  val qualificationButtonSelectedAgree: StyleA =
-    style(border :=! s"0.2rem solid ${MakeStyles.Color.green.value}", backgroundColor :=! MakeStyles.Color.green)
+  val disagreeSelected: StyleA = style()
 
-  val qualificationButtonSelectedDisagree: StyleA =
-    style(border :=! s"0.2rem solid ${MakeStyles.Color.red.value}", backgroundColor :=! MakeStyles.Color.red)
+  val neutralSelected: StyleA = style()
 
-  val qualificationButtonSelectedNeutral: StyleA =
-    style(border :=! s"0.2rem solid ${MakeStyles.Color.greyVote.value}", backgroundColor :=! MakeStyles.Color.greyVote)
-
-  val qualificationButtonSelected: StyleA = style(
-    display.flex,
-    position.relative,
-    width(100.%%),
-    color :=! MakeStyles.Color.white,
-    borderRadius(3.rem),
-    padding :=! "0 1rem",
-    marginBottom(0.5.rem),
-    justifyContent.spaceBetween,
-    alignItems.center,
-    cursor.pointer
-  )
-
-  val textQualif: StyleA = style(display.block, fontSize(1.3.rem), MakeStyles.Font.circularStdBook)
-
-  val plusOne: StyleA = style(fontSize(1.8.rem), fontWeight :=! "900")
-
-  val statQualif: StyleA = style(fontSize(1.8.rem), color :=! "hsla(0, 0%, 100%, .5)")
-
-  val qualifWrapper: StyleA = style(unsafeChild(".spanHeart")(color(MakeStyles.Color.pink), marginLeft(0.2.rem)))
 }

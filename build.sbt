@@ -24,7 +24,7 @@ val npmHtmlWebpackPluginVersion = "2.29.0"
 val npmWebpackMd5HashVersion = "0.0.5"
 val npmFrontAwesomeVersion = "4.7.0"
 val npmFileLoaderVersion = "0.11.2"
-val npmNormalizeVersion = "7.0.0"
+val npmResetVersion = "2.2.1"
 val npmHardSourceWebpackVersion = "0.4.9"
 val npmSourceMapLoaderVersion = "0.2.1"
 val npmReactGoogleLogin = "2.9.2"
@@ -74,7 +74,7 @@ npmDependencies in Compile ++= Seq(
   "webpack" -> npmWebpackVersion,
   "file-loader" -> npmFileLoaderVersion,
   "font-awesome" -> npmFrontAwesomeVersion,
-  "normalize-scss" -> npmNormalizeVersion,
+  "reset-css" -> npmResetVersion,
   "react-google-login" -> npmReactGoogleLogin,
   "react-facebook-login" -> npmReactFacebookLogin
 )

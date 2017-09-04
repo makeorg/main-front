@@ -55,10 +55,10 @@ object TagListComponent {
               self.props.wrapped.tags.take(showMaxCount)
             }
 
-          <.ul()(
+          <.ul(^.className := Seq(TagStyles.tagList))(
             tagList.map(
               tag =>
-                <.li(^.className := Seq(TagStyles.tagContainer))(
+                <.li(^.className := Seq(TagStyles.tagListItem))(
                   <.TagComponent(
                     ^.wrapped := TagComponentProps(
                       tag = tag,
@@ -69,8 +69,8 @@ object TagListComponent {
             ),
             // if toggle show more mode add show all more
             if (self.props.wrapped.withShowMoreButton) {
-              <.li(^.className := TagStyles.tagContainer)(
-                <.a(^.className := Seq(TagStyles.tag, TagStyles.danger), ^.onClick := onClickShowMore(self))(
+              <.li(^.className := TagStyles.tagListItem)(
+                <.button(^.className := Seq(TagStyles.tag, TagStyles.seeAllTags), ^.onClick := onClickShowMore(self))(
                   I18n.t("content.tag.showMore")
                 )
               )
@@ -129,8 +129,11 @@ object TagStyles extends StyleSheet.Inline {
 
   import dsl._
 
-  val tagContainer: StyleA =
-    style(display.inlineBlock, margin :=! "0.5rem 1rem 0.5em 0")
+  val tagList: StyleA =
+    style(lineHeight(0))
+
+  val tagListItem: StyleA =
+    style(display.inlineBlock, margin :=! "0rem 1rem 0.5rem 0")
 
   val tag: StyleA =
     style(
@@ -139,9 +142,8 @@ object TagStyles extends StyleSheet.Inline {
       paddingLeft(1.2.rem),
       paddingRight(1.rem),
       marginLeft(0.8.rem),
-      fontSize(1.4.rem),
+      MakeStyles.StyleText.smallerText,
       lineHeight(2.4.rem),
-      fontWeight.bold,
       whiteSpace.nowrap,
       color :=! MakeStyles.Color.white,
       backgroundColor :=! MakeStyles.Color.lightGrey,
@@ -154,8 +156,7 @@ object TagStyles extends StyleSheet.Inline {
         height(0.rem),
         borderTop :=! "1.2rem solid transparent",
         borderBottom :=! "1.2rem solid transparent",
-        borderRight :=! "0.8rem solid transparent",
-        borderRightColor :=! MakeStyles.Color.lightGrey
+        borderRight :=! s"0.8rem solid ${MakeStyles.Color.lightGrey.value}"
       ),
       (&.after)(
         content := "''",
@@ -176,7 +177,7 @@ object TagStyles extends StyleSheet.Inline {
     (&.before)(borderRightColor :=! MakeStyles.Color.black)
   )
 
-  val danger: StyleA = style(
+  val seeAllTags: StyleA = style(
     color :=! MakeStyles.Color.white,
     backgroundColor :=! MakeStyles.Color.pink,
     (&.before)(borderRightColor :=! MakeStyles.Color.pink)

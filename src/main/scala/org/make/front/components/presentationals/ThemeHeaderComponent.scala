@@ -73,7 +73,17 @@ object ThemeHeaderStyles extends StyleSheet.Inline {
       height(30.3.rem),
       (media.all.maxWidth(800.px))(height(18.85F.rem))
     )
-  val heroTitle: StyleA = style(paddingBottom(0.7.rem), MakeStyles.heroTitle)
+
+  val heroTitle: StyleA = style(
+    paddingBottom(0.7.rem),
+    MakeStyles.StyleText.veryBigTitle,
+    lineHeight(6.rem),
+    color(c"#FFF"),
+    BulmaStyles.ResponsiveHelpers.block,
+    textAlign.center,
+    textShadow := "0.1rem 0.1rem 0.1rem #000",
+    (media.all.maxWidth(800.px))(fontSize(3.rem), lineHeight(3.rem))
+  )
 
   val contentContainer: StyleA =
     style(
@@ -91,4 +101,5 @@ object ThemeHeaderStyles extends StyleSheet.Inline {
 
   val proposalSubmit: StyleA =
     style(width(80.%%))
+
 }

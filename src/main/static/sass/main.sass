@@ -1,3 +1,5 @@
+@import "node_modules/reset-css/_reset.scss"
+
 @import "node_modules/bulma/sass/utilities/_all.sass"
 @import "node_modules/bulma/sass/base/_all.sass"
 @import "node_modules/bulma/sass/components/navbar.sass"
@@ -11,64 +13,13 @@
 @import "node_modules/bulma/sass/components/navbar.sass"
 @import "node_modules/bulma/sass/grid/_all.sass"
 @import "node_modules/bulma/sass/layout/_all.sass"
-@import "node_modules/normalize-scss/sass/_normalize.scss"
+
 
 /* make fonts */
-
 @font-face
   font-family: 'TradeGothicLTStdBdCn20'
-  src: url('./fonts/trade-gothic-lt-std-bold-condensed-no-20-58d41e7f3b3bb.otf')
   src: url('./fonts/TradeGothicLTStd-BdCn20.woff2') format('woff2')
   src: url('./fonts/TradeGothicLTStd-BdCn20.woff') format('woff')
-  font-weight: normal
-  font-style: normal
-
-@font-face
-  font-family: 'PlayfairDisplayRegular'
-  src: url('./fonts/PlayfairDisplay-Regular.woff2') format('woff2')
-  src: url('./fonts/PlayfairDisplay-Regular.woff') format('woff')
-  font-weight: normal
-  font-style: normal
-
-@font-face
-  font-family: 'PlayfairDisplayItalic'
-  src: url('./fonts/PlayfairDisplay-Italic.woff2') format('woff2')
-  src: url('./fonts/PlayfairDisplay-Italic.woff') format('woff')
-  font-weight: normal
-  font-style: normal
-
-@font-face
-  font-family: 'PlayfairDisplayBoldItalic'
-  src: url('./fonts/PlayfairDisplay-BoldItalic.woff2') format('woff2')
-  src: url('./fonts/PlayfairDisplay-BoldItalic.woff') format('woff')
-  font-weight: normal
-  font-style: normal
-
-@font-face
-  font-family: 'PlayfairDisplayBold'
-  src: url('./fonts/PlayfairDisplay-Bold.woff2') format('woff2')
-  src: url('./fonts/PlayfairDisplay-Bold.woff') format('woff')
-  font-weight: normal
-  font-style: normal
-
-@font-face
-  font-family: 'PlayfairDisplayBlackItalic'
-  src: url('./fonts/PlayfairDisplay-BlackItalic.woff2') format('woff2')
-  src: url('./fonts/PlayfairDisplay-BlackItalic.woff') format('woff')
-  font-weight: normal
-  font-style: normal
-
-@font-face
-  font-family: 'PlayfairDisplayBlack'
-  src: url('./fonts/PlayfairDisplay-Black.woff2') format('woff2')
-  src: url('./fonts/PlayfairDisplay-Black.woff') format('woff')
-  font-weight: normal
-  font-style: normal
-
-@font-face
-  font-family: 'CircularStdMedium'
-  src: url('./fonts/CircularStd-Medium.woff2') format('woff2')
-  src: url('./fonts/CircularStd-Medium.woff') format('woff')
   font-weight: normal
   font-style: normal
 
@@ -86,26 +37,77 @@
   font-weight: normal
   font-style: normal
 
-@font-face
-  font-family: 'CircularStdBlack'
-  src: url('./fonts/CircularStd-Black.woff2') format('woff2')
-  src: url('./fonts/CircularStd-Black.woff') format('woff')
-  font-weight: normal
-  font-style: normal
-
 $fa-font-path: "node_modules/font-awesome/fonts"
 @import "node_modules/font-awesome/scss/font-awesome.scss"
+
+
+
+*
+  box-sizing: border-box
+  -moz-osx-font-smoothing: grayscale
+  -webkit-font-smoothing: antialiased
+  -webkit-tap-highlight-color: transparent
+
+
+*:focus
+  outline: none
+
+
+*::-moz-focus-inner
+  border: 0
+
+
+input:required:invalid
+  outline: none
+
+
+::-moz-selection
+  background-color: #253186
+  color: #FFF
+
+
+::selection
+  background-color: #253186
+  color: #FFF
+
+
+
+/* reset button */
+
+[role="button"],
+input[type="submit"],
+input[type="reset"],
+input[type="button"],
+button
+  box-sizing: content-box
+  padding: 0
+  margin: 0
+  border: 0
+  font: inherit
+  text-align: left
+  line-height: normal
+  background: none
+  color: inherit
+  overflow: visible
+  user-select: none
+  cursor: pointer
+
+
+input::-moz-focus-inner,
+button::-moz-focus-inner
+  border: 0
+  padding: 0
+
 
 
 /* init */
 
 html
     font-size: 62.5%
-    font-family: CircularStdMedium
+
 body
-    margin: 0
-    padding: 0
-    color: $black
+    font-size: 1.8rem
+    font-family: CircularStdBook
 
 /* variables */
 

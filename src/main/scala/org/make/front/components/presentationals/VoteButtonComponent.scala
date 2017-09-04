@@ -20,7 +20,7 @@ case object VoteNeutral extends VoteType
 
 object VoteButtonComponent {
 
-  final case class Button(voteType: VoteType, thumbFont: StyleA, thumbStyle: Map[String, Any])
+  final case class Button(voteType: VoteType, thumbFont: StyleA)
 
   final case class VoteButtonProps(voteAgreeStats: Vote,
                                    voteDisagreeStats: Vote,
@@ -39,75 +39,57 @@ object VoteButtonComponent {
 
   def renderVoteAgreeButton(self: Self[VoteButtonProps, VoteButtonState]): ReactElement = {
     <.a(
-      ^.className := Seq(VoteButtonStyle.button, VoteButtonStyle.buttonAgree),
-      ^.onClick := onClickButton(
-        self,
-        Button(VoteAgree, FontAwesomeStyles.thumbsUpTransparent, Map.empty),
-        self.props.wrapped.voteAgreeStats
-      ) _
-    )(
-      <.i(^.className := Seq(FontAwesomeStyles.thumbsUpTransparent, VoteButtonStyle.thumbs), ^.style := Map.empty)(),
-      <.span(^.className := VoteButtonStyle.textButton)(I18n.t("content.proposal.agree"))
-    )
+      ^.className := VoteButtonStyle.buttonAgree,
+      ^.onClick := onClickButton(self, Button(VoteAgree, FontAwesomeStyles.thumbsUp), self.props.wrapped.voteAgreeStats) _
+    )(<.i(^.className := FontAwesomeStyles.thumbsUp)(), <.span()(I18n.t("content.proposal.agree")))
   }
 
   def renderVoteDisagreeButton(self: Self[VoteButtonProps, VoteButtonState]): ReactElement = {
     <.a(
-      ^.className := Seq(VoteButtonStyle.button, VoteButtonStyle.buttonDisagree),
+      ^.className := VoteButtonStyle.buttonDisagree,
       ^.onClick := onClickButton(
         self,
-        Button(VoteDisagree, FontAwesomeStyles.thumbsDownTransparent, Map.empty),
+        Button(VoteDisagree, FontAwesomeStyles.thumbsDown),
         self.props.wrapped.voteDisagreeStats
       ) _
-    )(
-      <.i(^.className := Seq(FontAwesomeStyles.thumbsDownTransparent, VoteButtonStyle.thumbs), ^.style := Map.empty)(),
-      <.span(^.className := VoteButtonStyle.textButton)(I18n.t("content.proposal.disagree"))
-    )
+    )(<.i(^.className := FontAwesomeStyles.thumbsDown)(), <.span()(I18n.t("content.proposal.disagree")))
   }
 
   def renderVoteNeutralButton(self: Self[VoteButtonProps, VoteButtonState]): ReactElement = {
+
     <.a(
-      ^.className := Seq(VoteButtonStyle.button, VoteButtonStyle.buttonNeutral),
+      ^.className := Seq(VoteButtonStyle.buttonNeutral),
       ^.onClick := onClickButton(
         self,
-        Button(VoteNeutral, FontAwesomeStyles.thumbsUpTransparent, Map("transform" -> "rotate(-90deg)")),
+        Button(VoteNeutral, FontAwesomeStyles.thumbsUp),
         self.props.wrapped.voteNeutralStats
       ) _
-    )(
-      <.i(
-        ^.className := Seq(FontAwesomeStyles.thumbsUpTransparent, VoteButtonStyle.thumbs),
-        ^.style := Map("transform" -> "rotate(-90deg)")
-      )(),
-      <.span(^.className := VoteButtonStyle.textButton)(I18n.t("content.proposal.blank"))
-    )
+    )(<.i(^.className := FontAwesomeStyles.thumbsUp)(), <.span()(I18n.t("content.proposal.blank")))
   }
 
   def renderVoteButtonStat(self: Self[VoteButtonProps, VoteButtonState],
                            voteType: VoteType,
                            thumbFont: StyleA,
-                           thumbStyle: Map[String, Any],
                            voteStats: Vote): ReactElement = {
     val buttonStatsStyle = voteType match {
-      case VoteAgree    => Seq(VoteButtonStyle.buttonStats, VoteButtonStyle.buttonVoteAgreeStats)
-      case VoteDisagree => Seq(VoteButtonStyle.buttonStats, VoteButtonStyle.buttonVoteDisagreeStats)
-      case VoteNeutral  => Seq(VoteButtonStyle.buttonStats, VoteButtonStyle.buttonVoteNeutralStats)
+      case VoteAgree    => Seq(VoteButtonStyle.buttonVoteAgreeStats)
+      case VoteDisagree => Seq(VoteButtonStyle.buttonVoteDisagreeStats)
+      case VoteNeutral  => Seq(VoteButtonStyle.buttonVoteNeutralStats)
     }
 
     val statsBoxStyle = voteType match {
-      case VoteAgree    => Seq(VoteButtonStyle.statsBox, VoteButtonStyle.statsBoxAgree)
-      case VoteDisagree => Seq(VoteButtonStyle.statsBox, VoteButtonStyle.statsBoxDisagree)
-      case VoteNeutral  => Seq(VoteButtonStyle.statsBox, VoteButtonStyle.statsBoxNeutral)
+      case VoteAgree    => Seq(VoteButtonStyle.statsBoxAgree)
+      case VoteDisagree => Seq(VoteButtonStyle.statsBoxDisagree)
+      case VoteNeutral  => Seq(VoteButtonStyle.statsBoxNeutral)
     }
 
     <.div()(
       <.a(^.className := buttonStatsStyle, ^.onClick := onClickButtonStats(self) _)(
-        <.i(^.className := Seq(thumbFont, VoteButtonStyle.thumbs), ^.style := thumbStyle)()
+        <.i(^.className := Seq(thumbFont))()
       ),
       <.div(^.className := statsBoxStyle)(
         <.span()(formatToKilo(voteStats.count)),
-        <.span(^.className := VoteButtonStyle.pourcentages)(
-          s"${Proposal.getPercentageVote(voteStats.count, self.props.wrapped.totalVote)}%"
-        )
+        <.span()(s"${Proposal.getPercentageVote(voteStats.count, self.props.wrapped.totalVote)}%")
       )
     )
   }
@@ -116,11 +98,11 @@ object VoteButtonComponent {
     getInitialState = (_) =>
       VoteButtonState(
         isClickButtonVote = false,
-        button = Button(VoteAgree, FontAwesomeStyles.thumbsUpTransparent, Map.empty),
+        button = Button(VoteAgree, FontAwesomeStyles.thumbsUp, Map.empty),
         voteStats = Vote(key = "", qualifications = Seq.empty)
     ),
     render = (self) =>
-      <.div(^.className := VoteButtonStyle.proposalButton)(
+      <.div()(
         if (!self.state.isClickButtonVote) {
           <.div(^.style := Map("display" -> "flex"))(
             renderVoteAgreeButton(self),
@@ -129,14 +111,8 @@ object VoteButtonComponent {
           )
         } else {
           <.div(^.style := Map("display" -> "flex"))(
-            renderVoteButtonStat(
-              self,
-              self.state.button.voteType,
-              self.state.button.thumbFont,
-              self.state.button.thumbStyle,
-              self.state.voteStats
-            ),
-            <.div(^.className := VoteButtonStyle.proposalQualif)(
+            renderVoteButtonStat(self, self.state.button.voteType, self.state.button.thumbFont, self.state.voteStats),
+            <.div()(
               <.QualificationButtonComponent(
                 ^.wrapped := QualificationButtonComponent
                   .QualificationButtonProps(self.state.button.voteType, self.state.voteStats)
@@ -151,127 +127,19 @@ object VoteButtonComponent {
 }
 
 object VoteButtonStyle extends StyleSheet.Inline {
+
   import dsl._
 
-  val proposalButton: StyleA =
-    style(position.relative, display.flex, justifyContent.center, alignItems.flexStart, minHeight(12.rem))
+  val buttonAgree: StyleA = style()
+  val buttonDisagree: StyleA = style()
+  val buttonNeutral: StyleA = style()
 
-//  def button(buttonColor: ValueT[ValueT.Color]): StyleA = style(
+  val buttonVoteAgreeStats: StyleA = style()
+  val buttonVoteDisagreeStats: StyleA = style()
+  val buttonVoteNeutralStats: StyleA = style()
 
-  val buttonAgree: StyleA = style(
-    border :=! s"0.2rem solid ${MakeStyles.Color.green.value}",
-    color :=! MakeStyles.Color.green,
-    (&.hover)(backgroundColor :=! MakeStyles.Color.green)
-  )
+  val statsBoxAgree: StyleA = style()
+  val statsBoxDisagree: StyleA = style()
+  val statsBoxNeutral: StyleA = style()
 
-  val buttonDisagree: StyleA = style(
-    border :=! s"0.2rem solid ${MakeStyles.Color.red.value}",
-    color :=! MakeStyles.Color.red,
-    (&.hover)(backgroundColor :=! MakeStyles.Color.red)
-  )
-
-  val buttonNeutral: StyleA = style(
-    border :=! s"0.2rem solid ${MakeStyles.Color.greyVote.value}",
-    color :=! MakeStyles.Color.greyVote,
-    (&.hover)(backgroundColor :=! MakeStyles.Color.greyVote)
-  )
-
-  val button: StyleA = style(
-    position.relative,
-    borderRadius(5.rem),
-    fontSize(2.4.rem),
-    textAlign.center,
-    width(4.8.rem),
-    height(4.8.rem),
-    margin :=! "0 0.5rem",
-    display.flex,
-    alignItems.center,
-    justifyContent.center,
-    backgroundColor :=! "#fff",
-    (&.hover)(
-      color :=! "#fff",
-      boxShadow := "0 -0.1rem 0.6rem 0 rgba(0, 0, 0, 0.3)",
-      unsafeChild("span")(
-        visibility.visible,
-        position.absolute,
-        padding :=! "0 0.5rem",
-        backgroundColor :=! "black",
-        color :=! "#fff",
-        textAlign.center,
-        borderRadius(0.6.rem),
-        fontSize(1.4.rem),
-        zIndex(1),
-        top(111.%%)
-      )
-    )
-  )
-
-  val buttonVoteAgreeStats: StyleA =
-    style(border :=! s"0.2rem solid ${MakeStyles.Color.green.value}", backgroundColor :=! MakeStyles.Color.green.value)
-
-  val buttonVoteDisagreeStats: StyleA =
-    style(border :=! s"0.2rem solid ${MakeStyles.Color.red.value}", backgroundColor :=! MakeStyles.Color.red.value)
-
-  val buttonVoteNeutralStats: StyleA = style(
-    border :=! s"0.2rem solid ${MakeStyles.Color.greyVote.value}",
-    backgroundColor :=! MakeStyles.Color.greyVote.value
-  )
-
-  val buttonStats: StyleA = style(
-    position.relative,
-    borderRadius(5.rem),
-    fontSize(2.4.rem),
-    color :=! "#fff",
-    textAlign.center,
-    width(4.8.rem),
-    height(4.8.rem),
-    display.flex,
-    alignItems.center,
-    justifyContent.center,
-    (&.hover)(boxShadow := "0 -0.1rem 0.6rem 0 rgba(0, 0, 0, 0.3)", color :=! "#fff")
-  )
-
-  val thumbs: StyleA = style(position.absolute)
-
-  val textButton: StyleA = style(
-    visibility.hidden,
-    whiteSpace.nowrap,
-    (&.after)(
-      content := "''",
-      position.absolute,
-      bottom(100.%%),
-      left(50.%%),
-      marginLeft((-0.5).rem),
-      borderWidth(0.5.rem),
-      borderStyle.solid,
-      borderColor :=! "transparent transparent black transparent"
-    )
-  )
-
-  val statsBoxAgree: StyleA = style(color :=! MakeStyles.Color.green)
-
-  val statsBoxDisagree: StyleA = style(color :=! MakeStyles.Color.red)
-
-  val statsBoxNeutral: StyleA = style(color :=! MakeStyles.Color.greyVote)
-
-  val statsBox: StyleA = style(
-    position.absolute,
-    top(5.rem),
-    width(4.8.rem),
-    lineHeight(2.rem),
-    textAlign.center,
-    fontSize(1.6.rem),
-    MakeStyles.Font.circularStdBold
-  )
-
-  val pourcentages: StyleA = style(
-    marginTop(-0.4.rem),
-    display.block,
-    MakeStyles.Font.circularStdBook,
-    fontSize(1.4.rem),
-    fontWeight :=! "300",
-    color :=! "rgba(0, 0, 0, 0.3)"
-  )
-
-  val proposalQualif: StyleA = style(position.relative, width(15.rem), marginLeft(1.rem), flex := "0 0 auto")
 }

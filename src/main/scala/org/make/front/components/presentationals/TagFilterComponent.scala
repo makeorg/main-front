@@ -67,9 +67,8 @@ object TagFilterStyles extends StyleSheet.Inline {
   val intro: StyleA =
     style(
       float.left,
-      margin :=! "0.5rem 1rem 0.5rem 0",
+      margin :=! "0 1rem 0.5rem 0",
       MakeStyles.Font.circularStdBook,
-      fontSize(1.6.rem),
       lineHeight(2.4.rem),
       color :=! MakeStyles.Color.darkGrey
     )
