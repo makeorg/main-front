@@ -2,6 +2,7 @@ image: makeorg/docker-sbt-coursier-nvm
 
 variables:
   CI_BUILD: "true"
+  SBT_OPTS: "-Xms2G -Xmx2G"
 
 stages:
   - build
