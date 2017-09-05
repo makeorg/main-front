@@ -146,6 +146,18 @@ object Translations {
       |         "notification": {
       |           "message" : "Merci, un email vient de vous être envoyé pour vous permettre de mettre à jour votre mot de passe."
       |         }
+      |       },
+      |       "passwordReset": {
+      |         "title": "Je crée un nouveau mot de passe",
+      |         "description": "Vous pouvez choisir un nouveau mot de passe.",
+      |         "validation": "Valider",
+      |         "success": {
+      |           "title": "merci, votre mot de passe a bien été changé.",
+      |           "description": "Vous pouvez vous connecter dès maintenant."
+      |         },
+      |         "failed" : {
+      |           "title": "Votre jeton est invalide!"
+      |         }
       |       }
       |     },
     |       "modal": {
@@ -283,6 +295,18 @@ object Translations {
       |         "connectScreen": "l'écran de connexion",
       |         "notification": {
       |           "message" : "Merci, un email vient de vous être envoyé pour vous permettre de mettre à jour votre mot de passe."
+      |         }
+      |       },
+      |       "passwordReset": {
+      |         "title": "Je crée un nouveau mot de passe",
+      |         "description": "Vous pouvez choisir un nouveau mot de passe.",
+      |         "validation": "Valider",
+      |         "success": {
+      |           "title": "merci, votre mot de passe a bien été changé.",
+      |           "description": "Vous pouvez vous connecter dès maintenant."
+      |         },
+      |         "failed" : {
+      |           "title": "Votre jeton est invalide!"
       |         }
       |       }
       |     },

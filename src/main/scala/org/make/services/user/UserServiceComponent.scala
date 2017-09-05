@@ -76,12 +76,33 @@ trait UserServiceComponent {
       }
     }
 
-    def recoverPassword(email: String): Future[Unit] = {
-      client.post[Unit]("user" / "reset-password", data = Map("email" -> email).asJson.pretty(ApiService.printer)).map {
+    def resetPasswordRequest(email: String): Future[Unit] = {
+      client.post[Unit](
+        resourceName / "reset-password" / "request-reset",
+        data = Map("email" -> email).asJson.pretty(ApiService.printer)
+      ).map {
         _ =>
         }
     }
 
+    def resetPasswordCheck(userId: String, resetToken: String): Future[Boolean] = {
+      client.post[Unit](
+        resourceName / "reset-password" / "check-validity" / userId / resetToken
+      ).map {
+        _ => true
+      }.recoverWith{
+        case _ => Future.successful(false)
+      }
+    }
+
+    def resetPasswordChange(userId: String, resetToken: String, password: String): Future[Unit] = {
+      client.post[Unit](
+        resourceName / "reset-password" / "change-password" / userId,
+        data = Map("resetToken" -> resetToken, "password" -> password).asJson.pretty(ApiService.printer)
+      ).map {
+        _ =>
+      }
+    }
     def logout(): Future[Unit] =
       client.logout()
 

@@ -81,6 +81,20 @@ object BulmaStyles extends StyleSheet.Inline {
       val is11: StyleA = style(addClassNames("is-11"))
     }
 
+    object Offset {
+      val isOffset1: StyleA = style(addClassName("is-offset-1"))
+      val isOffset2: StyleA = style(addClassName("is-offset-2"))
+      val isOffset3: StyleA = style(addClassName("is-offset-3"))
+      val isOffset4: StyleA = style(addClassName("is-offset-4"))
+      val isOffset5: StyleA = style(addClassName("is-offset-5"))
+      val isOffset6: StyleA = style(addClassName("is-offset-6"))
+      val isOffset7: StyleA = style(addClassName("is-offset-7"))
+      val isOffset8: StyleA = style(addClassName("is-offset-8"))
+      val isOffset9: StyleA = style(addClassName("is-offset-9"))
+      val isOffset10: StyleA = style(addClassName("is-offset-10"))
+      val isOffset11: StyleA = style(addClassName("is-offset-11"))
+    }
+
     // see http://bulma.io/documentation/grid/tiles/
     object Tiles {
       val tile: StyleA = style(addClassNames("tile"))
