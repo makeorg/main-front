@@ -143,21 +143,20 @@ object ProposalSubmitComponent {
 
   def handleProposalUpdate(self: Self, content: String): Unit = {
     val proposalContent = if (content.isEmpty) self.state.proposalPrefix else content
-    self.setState(_.copy(errorMessage = ""))
+
+    var resultState = self.state.copy(errorMessage = "")
 
     if (isValidProposalContent(proposalContent = proposalContent, proposalPrefix = self.state.proposalPrefix)) {
-      self.setState(_.copy(proposalContent = proposalContent))
+      resultState = resultState.copy(proposalContent = proposalContent)
     }
 
     if (proposalLength(self, Some(proposalContent)) > self.state.maxLength) {
-      self.setState(
-        _.copy(
-          errorMessage = I18n.t("content.proposal.isTooLong", Replacements(("max", self.state.maxLength.toString)))
-        )
+      resultState = resultState.copy(
+        errorMessage = I18n.t("content.proposal.isTooLong", Replacements(("max", self.state.maxLength.toString)))
       )
-    } else {
-      self.setState(_.copy(errorMessage = ""))
     }
+
+    self.setState(resultState)
   }
 
   def handleProposalSubmit(self: Self): (SyntheticEvent) => Any = (e: SyntheticEvent) => {

@@ -32,29 +32,29 @@ trait UserServiceComponent {
     def getUserById(id: String): Future[Option[User]] =
       client.get[User](resourceName / id).recover { case _: Exception => None }
 
-    def registerUser(username: String, password: String, firstName: String): Future[User] =
-      client.post[User](
-        resourceName,
-        data = RegisterUserRequest(username, password, firstName = firstName).asJson.pretty(ApiService.printer)
-      ).map(_.get)
-
-    def registerUser(username: String,
+    def registerUser(email: String,
                      password: String,
                      firstName: String,
-                     dateOfBirth: LocalDate,
-                     profession: String,
-                     postalCode: String): Future[User] =
-      client.post[User](
-        resourceName,
-        data = RegisterUserRequest(
-          username,
-          password,
-          firstName = firstName,
-          dateOfBirth = Some(dateOfBirth),
-          profession = Some(profession),
-          postalCode = Some(postalCode)
-        ).asJson.pretty(ApiService.printer)
-      ).map(_.get)
+                     profession: Option[String],
+                     age: Option[Int],
+                     postalCode: Option[String]): Future[User] = {
+
+      client
+        .post[User](
+          resourceName,
+          data = RegisterUserRequest(
+            email = email,
+            firstName = firstName,
+            password = password,
+            profession = profession,
+            postalCode = postalCode,
+            dateOfBirth = age.map(age => {
+              LocalDate.of(LocalDate.now.getYear - age, 1, 1)
+            })
+          ).asJson.pretty(ApiService.printer)
+        )
+        .map(_.get)
+    }
 
     def login(username: String, password: String): Future[User] = {
       client.authenticate(username, password).flatMap {
@@ -77,12 +77,9 @@ trait UserServiceComponent {
     }
 
     def recoverPassword(email: String): Future[Unit] = {
-      client.post[Unit](
-        "user" / "reset-password",
-        data = Map("email" -> email).asJson.pretty(ApiService.printer)
-      ).map {
+      client.post[Unit]("user" / "reset-password", data = Map("email" -> email).asJson.pretty(ApiService.printer)).map {
         _ =>
-      }
+        }
     }
 
     def logout(): Future[Unit] =
