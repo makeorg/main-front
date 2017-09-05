@@ -11,7 +11,8 @@ final case class Theme(id: ThemeId,
                        actionsCount: Int,
                        proposalsCount: Int,
                        color: String,
-                       gradient: Option[GradientColor] = None)
+                       gradient: Option[GradientColor] = None,
+                       tags: Seq[Tag] = Seq.empty)
 
 final case class ThemeId(value: String) extends StringValue
 

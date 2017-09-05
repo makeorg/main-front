@@ -3,7 +3,7 @@ package org.make.front.middlewares
 import io.github.shogowada.scalajs.reactjs.redux.Redux.Dispatch
 import io.github.shogowada.scalajs.reactjs.redux.Store
 import org.make.front.actions.{LoadThemes, SetThemes}
-import org.make.front.models.{AppState, GradientColor, Theme, ThemeId}
+import org.make.front.models._
 
 object ThemeMiddleware {
 
@@ -26,7 +26,16 @@ object ThemeMiddleware {
         3,
         5600,
         "#e91e63",
-        Some(GradientColor(from = "#e81e61", to = "#7f2fd0"))
+        Some(GradientColor(from = "#e81e61", to = "#7f2fd0")),
+        Seq(
+          Tag(TagId("tag-budget"), "budget"),
+          Tag(TagId("tag-equipement"), "équipement"),
+          Tag(TagId("tag-formation"), "formation"),
+          Tag(TagId("tag-alimentation"), "Alimentation"),
+          Tag(TagId("tag-bio"), "Bio"),
+          Tag(TagId("tag-viande"), "viande"),
+          Tag(TagId("tag-permaculture"), "Permaculture")
+        )
       ),
       Theme(
         ThemeId("2"),
@@ -35,7 +44,13 @@ object ThemeMiddleware {
         3,
         5600,
         "#8bc34a",
-        Some(GradientColor(from = "#83bb1a", to = "#1fc8f1"))
+        Some(GradientColor(from = "#83bb1a", to = "#1fc8f1")),
+        Seq(
+          Tag(TagId("tag-budget"), "budget"),
+          Tag(TagId("tag-bio"), "Bio"),
+          Tag(TagId("tag-viande"), "viande"),
+          Tag(TagId("tag-permaculture"), "Permaculture")
+        )
       ),
       Theme(
         ThemeId("3"),
