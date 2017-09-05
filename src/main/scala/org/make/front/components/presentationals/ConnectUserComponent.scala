@@ -6,12 +6,13 @@ import io.github.shogowada.scalajs.reactjs.VirtualDOM._
 import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import io.github.shogowada.scalajs.reactjs.elements.ReactElement
 import io.github.shogowada.scalajs.reactjs.events.{FormSyntheticEvent, SyntheticEvent}
+import org.make.core.validation.{ChoiceConstraint, EmailConstraint, LengthConstraint, PasswordConstraint}
+import org.make.front.facades.{I18n, Replacements}
 import org.make.front.facades.Localize.LocalizeVirtualDOMAttributes
-import org.make.front.facades.I18n
 import org.make.front.facades.ReactFacebookLogin._
 import org.make.front.facades.ReactGoogleLogin._
-import org.make.front.facades.Translate.TranslateVirtualDOMElements
 import org.make.front.facades.ReactModal._
+import org.make.front.facades.Translate.TranslateVirtualDOMElements
 import org.make.front.styles.{BulmaStyles, FontAwesomeStyles, MakeStyles}
 import org.scalajs.dom.experimental.Response
 import org.scalajs.dom.raw.HTMLInputElement
@@ -42,8 +43,16 @@ object ConnectUserComponent {
                               age: Option[String] = None,
                               postalCode: Option[String] = None,
                               profession: Option[String] = None,
-                              errorMessage: String = "",
-                              typePassword: String = "password")
+                              errorMessage: Seq[String] = Seq(),
+                              typePassword: String = "password",
+                              emailErrorMessage: String = "",
+                              firstNameErrorMessage: String = "",
+                              passwordErrorMessage: String = "",
+                              ageErrorMessage: String = "",
+                              postalCodeErrorMessage: String = "",
+                              professionErrorMessage: String = "")
+
+  val agesChoices: Seq[Int] = Range(13, 100)
 
   lazy val reactClass: ReactClass =
     React.createClass[ConnectUserProps, ConnectUserState](
@@ -161,28 +170,43 @@ object ConnectUserComponent {
       toggleSignInRegisterClass = Seq(ConnectUserComponentStyles.proposalToggleSignInRegister)
     }
 
-    <.form(^.onSubmit := handleSignInSubmit(self))(
+    <.form(^.onSubmit := handleSignInSubmit(self), ^.novalidate := true)(
+      // email
       <.div(^.className := MakeStyles.Form.field)(
         <.i(^.className := Seq(MakeStyles.Form.inputIcon, FontAwesomeStyles.envelopeTransparent))(),
         <.input(
           ^.`type`.email,
-          ^.className := Seq(MakeStyles.Form.inputText, ConnectUserComponentStyles.input),
+          ^.className := ConnectUserComponentStyles.input(!self.state.emailErrorMessage.isEmpty),
           ^.placeholder := I18n.t("form.fieldLabelEmail"),
           ^.onChange := handleEmailChange(self),
           ^.value := self.state.email
         )()
       ),
+      <.div()(
+        <.span(^.className := ConnectUserComponentStyles.errorMessage(!self.state.emailErrorMessage.isEmpty).htmlClass)(
+          self.state.emailErrorMessage
+        )
+      ),
+      // password
       <.div(^.className := MakeStyles.Form.field)(
         <.i(^.className := Seq(MakeStyles.Form.inputIcon, FontAwesomeStyles.lock))(),
         <.input(
           ^.`type`.password,
-          ^.className := Seq(MakeStyles.Form.inputText, ConnectUserComponentStyles.input),
+          ^.className := ConnectUserComponentStyles.input(!self.state.passwordErrorMessage.isEmpty),
           ^.placeholder := I18n.t("form.fieldLabelPassword"),
           ^.onChange := handlePasswordChange(self),
           ^.value := self.state.password
         )()
       ),
-      <.div()(<.span(^.className := ConnectUserComponentStyles.errorMessage)(self.state.errorMessage)),
+      <.div()(
+        <.span(
+          ^.className := ConnectUserComponentStyles.errorMessage(!self.state.passwordErrorMessage.isEmpty).htmlClass
+        )(self.state.passwordErrorMessage)
+      ),
+      <.div()(
+        self.state.errorMessage
+          .map(message => <.span(^.className := ConnectUserComponentStyles.errorMessage(!message.isEmpty))(message))
+      ),
       <.div(^.className := submitButtonContainer)(
         <.button(^.className := submitButton)(
           <.i(^.className := Seq(FontAwesomeStyles.thumbsUpTransparent, ConnectUserComponentStyles.buttonIcon))(),
@@ -222,18 +246,23 @@ object ConnectUserComponent {
       toggleSignInRegisterClass = Seq(ConnectUserComponentStyles.proposalToggleSignInRegister)
     }
 
-    <.form(^.onSubmit := handleRegisterSubmit(self))(
+    <.form(^.onSubmit := handleRegisterSubmit(self), ^.novalidate := true)(
       // email field
       <.div(^.className := MakeStyles.Form.field)(
         <.i(^.className := Seq(MakeStyles.Form.inputIcon, FontAwesomeStyles.envelopeTransparent))(),
         <.input(
           ^.`type`.email,
           ^.required := true,
-          ^.className := Seq(MakeStyles.Form.inputText, ConnectUserComponentStyles.input),
+          ^.className := ConnectUserComponentStyles.input(!self.state.emailErrorMessage.isEmpty),
           ^.placeholder := s"${I18n.t("form.fieldLabelEmail")} ${I18n.t("form.required")}",
           ^.onChange := handleEmailChange(self),
           ^.value := self.state.email
         )()
+      ),
+      <.div()(
+        <.span(^.className := ConnectUserComponentStyles.errorMessage(!self.state.emailErrorMessage.isEmpty).htmlClass)(
+          self.state.emailErrorMessage
+        )
       ),
       // password field
       <.div(^.className := MakeStyles.Form.field)(
@@ -248,11 +277,16 @@ object ConnectUserComponent {
         <.input(
           ^.`type` := self.state.typePassword,
           ^.required := true,
-          ^.className := Seq(MakeStyles.Form.inputText, ConnectUserComponentStyles.input),
+          ^.className := ConnectUserComponentStyles.input(!self.state.passwordErrorMessage.isEmpty),
           ^.placeholder := s"${I18n.t("form.fieldLabelPassword")} ${I18n.t("form.required")}",
           ^.onChange := handlePasswordChange(self),
           ^.value := self.state.password
         )()
+      ),
+      <.div()(
+        <.span(
+          ^.className := ConnectUserComponentStyles.errorMessage(!self.state.passwordErrorMessage.isEmpty).htmlClass
+        )(self.state.passwordErrorMessage)
       ),
       // firstname field
       <.div(^.className := MakeStyles.Form.field)(
@@ -260,15 +294,23 @@ object ConnectUserComponent {
         <.input(
           ^.`type`.text,
           ^.required := true,
-          ^.className := Seq(MakeStyles.Form.inputText, ConnectUserComponentStyles.input),
+          ^.className := ConnectUserComponentStyles.input(!self.state.firstNameErrorMessage.isEmpty),
           ^.placeholder := s"${I18n.t("form.fieldLabelFirstName")} ${I18n.t("form.required")}",
           ^.onChange := handleFirstNameChange(self),
           ^.value := self.state.firstName
         )()
       ),
+      <.div()(
+        <.span(
+          ^.className := ConnectUserComponentStyles.errorMessage(!self.state.firstNameErrorMessage.isEmpty).htmlClass
+        )(self.state.firstNameErrorMessage)
+      ),
       // extra proposal fields
       if (self.props.wrapped.isProposalFlow) { extraFields(self) },
-      <.div()(<.span(^.className := ConnectUserComponentStyles.errorMessage)(self.state.errorMessage)),
+      <.div()(
+        self.state.errorMessage
+          .map(message => <.span(^.className := ConnectUserComponentStyles.errorMessage(!message.isEmpty))(message))
+      ),
       <.div(^.className := termsClass)(I18n.t("form.register.termsAgreed")),
       <.div(^.className := submitButtonContainer)(
         <.button(^.className := submitButton)(
@@ -304,8 +346,6 @@ object ConnectUserComponent {
 
   def extraFields(self: Self[ConnectUserProps, ConnectUserState]): ReactElement = {
 
-    val ages: Seq[Int] = Range(13, 100)
-
     <.div()(
       // age field
       <.div(^.className := MakeStyles.Form.field)(
@@ -313,11 +353,19 @@ object ConnectUserComponent {
         <.select(
           ^.`type`.text,
           ^.required := true,
-          ^.className := Seq(MakeStyles.Form.inputSelect, ConnectUserComponentStyles.input),
+          ^.className := ConnectUserComponentStyles.select(!self.state.ageErrorMessage.isEmpty),
           ^.placeholder := s"${I18n.t("form.fieldLabelAge")}",
           ^.onChange := handleAgeChange(self),
           ^.value := self.state.age.getOrElse("")
-        )(<.option(^.value := "")(s"${I18n.t("form.fieldLabelAge")}"), ages.map(age => <.option(^.value := age)(age)))
+        )(
+          <.option(^.value := "")(s"${I18n.t("form.fieldLabelAge")}"),
+          agesChoices.map(age => <.option(^.value := age)(age))
+        )
+      ),
+      <.div()(
+        <.span(^.className := ConnectUserComponentStyles.errorMessage(!self.state.ageErrorMessage.isEmpty).htmlClass)(
+          self.state.ageErrorMessage
+        )
       ),
       // postal code field
       <.div(^.className := MakeStyles.Form.field)(
@@ -325,11 +373,16 @@ object ConnectUserComponent {
         <.input(
           ^.`type`.text,
           ^.required := true,
-          ^.className := Seq(MakeStyles.Form.inputText, ConnectUserComponentStyles.input),
+          ^.className := ConnectUserComponentStyles.input(!self.state.postalCodeErrorMessage.isEmpty),
           ^.placeholder := s"${I18n.t("form.fieldPostalCode")}",
           ^.onChange := handlePostalCodeChange(self),
           ^.value := self.state.postalCode.getOrElse("")
         )()
+      ),
+      <.div()(
+        <.span(^.className := ConnectUserComponentStyles.errorMessage(!self.state.postalCode.isEmpty).htmlClass)(
+          self.state.postalCodeErrorMessage
+        )
       ),
       // profession field
       <.div(^.className := MakeStyles.Form.field)(
@@ -337,11 +390,16 @@ object ConnectUserComponent {
         <.input(
           ^.`type`.text,
           ^.required := true,
-          ^.className := Seq(MakeStyles.Form.inputText, ConnectUserComponentStyles.input),
+          ^.className := ConnectUserComponentStyles.input(!self.state.professionErrorMessage.isEmpty),
           ^.placeholder := s"${I18n.t("form.fieldProfession")}",
           ^.onChange := handleProfessionChange(self),
           ^.value := self.state.profession.getOrElse("")
         )()
+      ),
+      <.div()(
+        <.span(
+          ^.className := ConnectUserComponentStyles.errorMessage(!self.state.professionErrorMessage.isEmpty).htmlClass
+        )(self.state.professionErrorMessage)
       )
     )
   }
@@ -351,58 +409,91 @@ object ConnectUserComponent {
     dom.window.hasOwnProperty("matchMedia") && dom.window.matchMedia("(max-width: 800px)").matches
   }
 
-  // @toDo: add validation
   private def handleEmailChange(self: Self[ConnectUserProps, ConnectUserState]) =
     (e: FormSyntheticEvent[HTMLInputElement]) => {
       val newEmail = e.target.value
-      self.setState(_.copy(email = newEmail))
+      self.setState(_.copy(email = newEmail, emailErrorMessage = ""))
     }
 
-  // @toDo: add validation
   private def handlePasswordChange(self: Self[ConnectUserProps, ConnectUserState]) =
     (e: FormSyntheticEvent[HTMLInputElement]) => {
       val newPassword = e.target.value
-      self.setState(_.copy(password = newPassword))
+      self.setState(_.copy(password = newPassword, passwordErrorMessage = ""))
     }
 
-  // @toDo: add validation
   private def handleFirstNameChange(self: Self[ConnectUserProps, ConnectUserState]) =
     (e: FormSyntheticEvent[HTMLInputElement]) => {
       val newFirstName = e.target.value
-      self.setState(_.copy(firstName = newFirstName))
+      self.setState(_.copy(firstName = newFirstName, firstNameErrorMessage = ""))
     }
 
-  // @toDo: add validation
   private def handleAgeChange(self: Self[ConnectUserProps, ConnectUserState]) =
     (e: FormSyntheticEvent[HTMLInputElement]) => {
       val newAge = e.target.value
-      self.setState(_.copy(age = Some(newAge)))
+      self.setState(_.copy(age = Some(newAge), ageErrorMessage = ""))
     }
 
-  // @toDo: add validation
   private def handlePostalCodeChange(self: Self[ConnectUserProps, ConnectUserState]) =
     (e: FormSyntheticEvent[HTMLInputElement]) => {
       val newPostalCode = e.target.value
-      self.setState(_.copy(postalCode = Some(newPostalCode)))
+      self.setState(_.copy(postalCode = Some(newPostalCode), postalCodeErrorMessage = ""))
     }
 
-  // @toDo: add validation
   private def handleProfessionChange(self: Self[ConnectUserProps, ConnectUserState]) =
     (e: FormSyntheticEvent[HTMLInputElement]) => {
       val newProfession = e.target.value
-      self.setState(_.copy(profession = Some(newProfession)))
+      self.setState(_.copy(profession = Some(newProfession), professionErrorMessage = ""))
     }
 
   private def handleSignInSubmit(self: Self[ConnectUserProps, ConnectUserState]) = (e: SyntheticEvent) => {
-    self.setState(self.state.copy(errorMessage = ""))
+    self.setState(self.state.copy(errorMessage = Seq()))
     e.preventDefault()
     self.props.wrapped.signIn(self.state.email, self.state.password, self)
   }
 
   private def handleRegisterSubmit(self: Self[ConnectUserProps, ConnectUserState]) = (e: SyntheticEvent) => {
-    self.setState(self.state.copy(errorMessage = ""))
+    self.setState(self.state.copy(errorMessage = Seq()))
     e.preventDefault()
-    self.props.wrapped.register(self)
+
+    val maxPostalCodeLength = 10
+    val ageConstraint = new ChoiceConstraint(agesChoices.map(_.toString))
+    val postalCodeConstraint = new LengthConstraint(max = Some(maxPostalCodeLength))
+    val firstNameConstraint = new LengthConstraint(min = Some(1))
+
+    val errorEmailMessages: Seq[String] = EmailConstraint
+      .validate(Some(self.state.email), Map("invalid" -> "form.register.errorInvalidEmail"))
+      .map(_.message)
+    val errorPasswordMessages: Seq[String] = PasswordConstraint
+      .validate(Some(self.state.password), Map("minMessage" -> "form.register.errorMinPassword"))
+      .map(_.message)
+    val errorAgeMessages: Seq[String] =
+      ageConstraint.validate(self.state.age, Map("invalid" -> "form.register.errorChoiceAge")).map(_.message)
+    val errorPostalCodeMessages: Seq[String] = postalCodeConstraint
+      .validate(self.state.postalCode, Map("maxMessage" -> "form.register.errorMaxPostalCode"))
+      .map(_.message)
+    val errorFirstNameMessages: Seq[String] = firstNameConstraint
+      .validate(Some(self.state.firstName), Map("minMessage" -> "form.register.errorMinFirstName"))
+      .map(_.message)
+
+    self.setState(
+      self.state.copy(
+        emailErrorMessage = if (!errorEmailMessages.isEmpty) I18n.t(errorEmailMessages.head) else "",
+        passwordErrorMessage =
+          if (!errorPasswordMessages.isEmpty)
+            I18n.t(errorPasswordMessages.head, Replacements(("min", PasswordConstraint.min.toString)))
+          else "",
+        ageErrorMessage = if (!errorAgeMessages.isEmpty) I18n.t(errorAgeMessages.head) else "",
+        postalCodeErrorMessage =
+          if (!errorPostalCodeMessages.isEmpty)
+            I18n.t(errorPostalCodeMessages.head, Replacements(("max", maxPostalCodeLength.toString)))
+          else "",
+        firstNameErrorMessage = if (!errorFirstNameMessages.isEmpty) I18n.t(errorFirstNameMessages.head) else ""
+      )
+    )
+
+    if (errorEmailMessages.isEmpty && errorPasswordMessages.isEmpty && errorAgeMessages.isEmpty && errorPostalCodeMessages.isEmpty) {
+      self.props.wrapped.register(self)
+    }
   }
 
   private def toggleHidePassword(self: Self[ConnectUserProps, ConnectUserState]) = () => {
@@ -411,8 +502,26 @@ object ConnectUserComponent {
   }
 
   private def closeModal(self: Self[ConnectUserProps, ConnectUserState]) = () => {
-    self.setState(self.state.copy(errorMessage = ""))
-    self.props.wrapped.closeModal()
+
+    // TODO: need synchrone call using a callback not implemented actualy in scalajs-react
+    self.setState(
+      self.state.copy(
+        firstName = "",
+        password = "",
+        email = "",
+        age = None,
+        profession = None,
+        postalCode = None,
+        firstNameErrorMessage = "",
+        passwordErrorMessage = "",
+        emailErrorMessage = "",
+        ageErrorMessage = "",
+        professionErrorMessage = "",
+        postalCodeErrorMessage = "",
+        errorMessage = Seq()
+      )
+    )
+    self.forceUpdate(self.props.wrapped.closeModal)
   }
 
   private def handleForgotPasswordLinkClick(self: Self[ConnectUserProps, ConnectUserState]) = () => {
@@ -420,21 +529,34 @@ object ConnectUserComponent {
   }
 
   private def toggleRegister(self: Self[ConnectUserProps, ConnectUserState]) = () => {
-    self.setState(self.state.copy(errorMessage = "", isRegistering = !self.state.isRegistering))
+    self.setState(
+      self.state.copy(
+        errorMessage = Seq(),
+        isRegistering = !self.state.isRegistering,
+        password = "",
+        age = None,
+        profession = None,
+        postalCode = None,
+        ageErrorMessage = "",
+        postalCodeErrorMessage = "",
+        professionErrorMessage = "",
+        passwordErrorMessage = ""
+      )
+    )
   }
 
   private def facebookCallbackResponse(self: Self[ConnectUserProps, ConnectUserState])(response: Response): Unit = {
-    self.setState(self.state.copy(errorMessage = ""))
+    self.setState(self.state.copy(errorMessage = Seq()))
     self.props.wrapped.signInFacebook(response, self)
   }
 
   private def googleCallbackResponse(self: Self[ConnectUserProps, ConnectUserState])(response: Response): Unit = {
-    self.setState(self.state.copy(errorMessage = ""))
+    self.setState(self.state.copy(errorMessage = Seq()))
     self.props.wrapped.signInGoogle(response, self)
   }
 
   private def googleCallbackFailure(self: Self[ConnectUserProps, ConnectUserState])(response: Response): Unit = {
-    self.setState(self.state.copy(errorMessage = I18n.t("form.login.errorAuthenticationFailed")))
+    self.setState(self.state.copy(errorMessage = Seq(I18n.t("form.login.errorAuthenticationFailed"))))
   }
 }
 
@@ -455,8 +577,56 @@ object ConnectUserComponentStyles extends StyleSheet.Inline {
   val line: StyleA =
     style(height(0.1F.rem), backgroundColor(rgba(0, 0, 0, 0.3)), flexGrow(1), marginTop(0.5F.rem), opacity(0.3))
   val underlineText: StyleA = style(MakeStyles.Font.playfairDisplayItalic, margin(0.rem, 1.6F.rem), fontSize(1.8F.rem))
-  val input: StyleA =
-    style(height(4.rem), width(100.%%), (media.all.maxWidth(800.px))(height(3.rem)))
+
+  val input: (Boolean) => StyleA = styleF.bool(
+    hasError =>
+      if (hasError) {
+        styleS(
+          height(4.rem),
+          width(100.%%),
+          MakeStyles.Form.errorInput,
+          addClassName(MakeStyles.Form.inputText.htmlClass),
+          (media.all.maxWidth(800.px))(height(3.rem))
+        )
+      } else {
+        styleS(
+          height(4.rem),
+          width(100.%%),
+          addClassName(MakeStyles.Form.inputText.htmlClass),
+          (media.all.maxWidth(800.px))(height(3.rem))
+        )
+    }
+  )
+
+  val select: (Boolean) => StyleA = styleF.bool(
+    hasError =>
+      if (hasError) {
+        styleS(
+          height(4.rem),
+          width(100.%%),
+          MakeStyles.Form.errorInput,
+          addClassName(MakeStyles.Form.inputSelect.htmlClass),
+          (media.all.maxWidth(800.px))(height(3.rem))
+        )
+      } else {
+        styleS(
+          height(4.rem),
+          width(100.%%),
+          addClassName(MakeStyles.Form.inputSelect.htmlClass),
+          (media.all.maxWidth(800.px))(height(3.rem))
+        )
+    }
+  )
+
+  val errorMessage: (Boolean) => StyleA = styleF.bool(
+    hasError =>
+      if (hasError) {
+        styleS(MakeStyles.Form.errorMessage)
+      } else {
+        styleS(height(0.rem))
+    }
+  )
+
   val buttonIcon: StyleA = style(paddingBottom(0.5F.rem), paddingRight(0.9.rem))
 
   val submitButton: StyleA = style(marginBottom(1.7F.rem))
@@ -474,17 +644,6 @@ object ConnectUserComponentStyles extends StyleSheet.Inline {
     )
   val text: StyleA = style(marginBottom(0.8F.rem))
   val terms: StyleA = style(marginBottom(0.8F.rem), fontSize(1.4.rem), textAlign.left)
-
-  val errorMessage: StyleA = style(
-    display.block,
-    margin.auto,
-    MakeStyles.Font.circularStdBook,
-    fontSize(1.4F.rem),
-    color(MakeStyles.Color.error),
-    lineHeight(1.8F.rem),
-    paddingBottom(1.rem)
-  )
-
   val eye: (Boolean) => StyleA = styleF.bool(
     typePassword =>
       if (typePassword) {

@@ -79,6 +79,7 @@ object ConnectUserContainerComponent extends RouterProps with UserServiceCompone
           )
         }
 
+        // @toDo: manage specific errors
         def handleFutureApiSignInResponse(futureUser: Future[User],
                                           child: Self[ConnectUserProps, ConnectUserState]): Unit = {
           futureUser.onComplete {
@@ -86,12 +87,11 @@ object ConnectUserContainerComponent extends RouterProps with UserServiceCompone
               dispatch(LoggedInAction(user))
               clearDataState(child)
             case Failure(_) =>
-              dispatch(NotifyError(I18n.t("errors.tryAgain"), Some(I18n.t("errors.unexpectedBehaviour"))))
-              child.setState(child.state.copy(errorMessage = I18n.t("form.login.errorAuthenticationFailed")))
+              child.setState(child.state.copy(errorMessage = Seq(I18n.t("form.login.errorAuthenticationFailed"))))
           }
         }
 
-        // @toDo: manage specific errors (like email already exist)
+        // @toDo: manage specific errors (like email already exist) - need to refactor client
         // @toDo: manage make api authentication to register an access token
         def handleFutureApiRegisterResponse(futureUser: Future[User],
                                             child: Self[ConnectUserProps, ConnectUserState]): Unit = {
@@ -99,9 +99,9 @@ object ConnectUserContainerComponent extends RouterProps with UserServiceCompone
             case Success(user) =>
               dispatch(LoggedInAction(user))
               clearDataState(child)
-            case Failure(_) =>
+            case Failure(e) =>
               dispatch(NotifyError(I18n.t("errors.tryAgain"), Some(I18n.t("errors.unexpectedBehaviour"))))
-              child.setState(child.state.copy(errorMessage = I18n.t("form.register.errorRegistrationFailed")))
+              child.setState(child.state.copy(errorMessage = Seq(I18n.t("form.register.errorRegistrationFailed"))))
           }
         }
 
