@@ -1,15 +1,16 @@
 package org.make.client
 
-import io.circe.{Decoder, Printer}
+import io.circe.generic.auto._
 import io.circe.java8.time.TimeInstances
 import io.circe.parser._
 import io.circe.syntax._
+import io.circe.{Decoder, Printer}
 import io.github.shogowada.statictags.MediaTypes
 import org.make.core.URI._
 import org.make.front.models.Token
 import org.scalajs.dom.XMLHttpRequest
-import org.scalajs.dom.ext.Ajax
 import org.scalajs.dom.ext.Ajax.InputData
+import org.scalajs.dom.ext.{Ajax, AjaxException}
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.{Future, Promise}
@@ -42,16 +43,30 @@ trait DefaultMakeApiClientComponent extends MakeApiClientComponent with TimeInst
 
     override def baseUrl: String = apiBaseUrl
 
-    private def XHRResponseTo[ENTITY](responseTry: Try[XMLHttpRequest],
-                                      promise: Promise[Option[ENTITY]])(implicit decoder: Decoder[ENTITY]): Promise[Option[ENTITY]] = {
+    private def XHRResponseTo[ENTITY](responseTry: Try[XMLHttpRequest], promise: Promise[Option[ENTITY]])(
+      implicit decoder: Decoder[ENTITY]
+    ): Promise[Option[ENTITY]] = {
       responseTry match {
         case Success(response) if response.status == 204 => promise.success(None)
         case Success(response) =>
           parse(response.responseText).flatMap(_.as[ENTITY]) match {
-            case Left(error) => promise.failure(error)
+            case Left(error)           => promise.failure(error)
             case Right(parsedResponse) => promise.success(Some(parsedResponse))
           }
-        case Failure(error) => promise.failure(error)
+        case Failure(AjaxException(response: XMLHttpRequest)) =>
+          response.status match {
+            case 400 =>
+              parse(response.responseText).flatMap(_.as[Seq[ValidationError]]) match {
+                case Left(error)     => promise.failure(error)
+                case Right(messages) => promise.failure(BadRequestHttpException(messages))
+              }
+            case 401 => promise.failure(UnauthorizedHttpException)
+            case 403 => promise.failure(ForbiddenHttpException)
+            case 404 => promise.failure(NotFoundHttpException)
+            case 500 => promise.failure(InternalServerHttpException)
+            case 502 => promise.failure(BadGatewayHttpException)
+            case _   => promise.failure(NotImplementedHttpException)
+          }
       }
     }
 
@@ -94,10 +109,12 @@ trait DefaultMakeApiClientComponent extends MakeApiClientComponent with TimeInst
       promiseReturn.future
     }
 
-    override def put[ENTITY](apiEndpoint: String,
-                             urlParams: Seq[(String, Any)],
-                             data: InputData,
-                             headers: Map[String, String])(implicit decoder: Decoder[ENTITY]): Future[Option[ENTITY]] = {
+    override def put[ENTITY](
+      apiEndpoint: String,
+      urlParams: Seq[(String, Any)],
+      data: InputData,
+      headers: Map[String, String]
+    )(implicit decoder: Decoder[ENTITY]): Future[Option[ENTITY]] = {
       val promiseReturn = Promise[Option[ENTITY]]()
       Ajax
         .put(
@@ -111,10 +128,12 @@ trait DefaultMakeApiClientComponent extends MakeApiClientComponent with TimeInst
       promiseReturn.future
     }
 
-    override def patch[ENTITY](apiEndpoint: String,
-                               urlParams: Seq[(String, Any)],
-                               data: InputData,
-                               headers: Map[String, String])(implicit decoder: Decoder[ENTITY]): Future[Option[ENTITY]] = {
+    override def patch[ENTITY](
+      apiEndpoint: String,
+      urlParams: Seq[(String, Any)],
+      data: InputData,
+      headers: Map[String, String]
+    )(implicit decoder: Decoder[ENTITY]): Future[Option[ENTITY]] = {
       val promiseReturn = Promise[Option[ENTITY]]()
       Ajax
         .apply(
@@ -130,10 +149,12 @@ trait DefaultMakeApiClientComponent extends MakeApiClientComponent with TimeInst
       promiseReturn.future
     }
 
-    override def delete[ENTITY](apiEndpoint: String,
-                                urlParams: Seq[(String, Any)],
-                                data: InputData,
-                                headers: Map[String, String])(implicit decoder: Decoder[ENTITY]): Future[Option[ENTITY]] = {
+    override def delete[ENTITY](
+      apiEndpoint: String,
+      urlParams: Seq[(String, Any)],
+      data: InputData,
+      headers: Map[String, String]
+    )(implicit decoder: Decoder[ENTITY]): Future[Option[ENTITY]] = {
       val promiseReturn = Promise[Option[ENTITY]]()
       Ajax
         .delete(
