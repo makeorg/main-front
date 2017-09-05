@@ -23,26 +23,19 @@ object PasswordResetComponent {
   lazy val reactClass: ReactClass =
     React.createClass[PasswordResetProps, PasswordResetState](
       displayName = getClass.getSimpleName,
-      getInitialState = { self =>
+      getInitialState = { _ =>
         PasswordResetState(password = "", showPassword = false, errorMessage = "", isValidResetToken = false, success = false)
       },
       componentWillMount = { self =>
         self.props.wrapped.checkResetToken(self)
       },
       render = self => {
-        def inputStyles: Seq[StyleA] = {
-          if (self.state.errorMessage == "") {
-            Seq(MakeStyles.Form.inputText)
-          } else {
-            Seq(MakeStyles.Form.inputText, PasswordRecoveryComponentStyles.errorInput)
-          }
-        }
         <.div(^.className := PasswordResetComponentStyles.container)(
           <.div(^.className := Seq(PasswordResetComponentStyles.content, BulmaStyles.Grid.Columns.columns))(
-            if (self.state.isValidResetToken) {
-              resetFormElement(self)
-            } else if (self.state.success) {
+            if (self.state.success) {
               resetPasswordSuccessElement(self)
+            } else if (self.state.isValidResetToken) {
+              resetFormElement(self)
             } else {
               invalidResetTokenElement(self)
             }
@@ -89,13 +82,14 @@ object PasswordResetComponent {
 
   def invalidResetTokenElement(self: Self[PasswordResetProps, PasswordResetState]): ReactElement = {
     <.div(^.className := Seq(BulmaStyles.Grid.Columns.column, BulmaStyles.Grid.Columns.is8, BulmaStyles.Grid.Offset.isOffset2))(
-      <.div()("invalid reset Token")
+      <.Translate(^.className := MakeStyles.Modal.title, ^.value := "form.passwordReset.failed.title")()
     )
   }
 
   def resetPasswordSuccessElement(self: Self[PasswordResetProps, PasswordResetState]): ReactElement = {
     <.div(^.className := Seq(BulmaStyles.Grid.Columns.column, BulmaStyles.Grid.Columns.is8, BulmaStyles.Grid.Offset.isOffset2))(
-      <.div()("Success resetting password")
+      <.Translate(^.className := MakeStyles.Modal.title, ^.value := "form.passwordReset.success.title")(),
+      <.div(^.className := PasswordResetComponentStyles.terms)(I18n.t("form.passwordReset.success.description"))
     )
   }
 
@@ -112,8 +106,8 @@ object PasswordResetComponent {
 
   private def handleSubmit(self: Self[PasswordResetProps, PasswordResetState]) = (e: SyntheticEvent) => {
     e.preventDefault()
-      self.setState(self.state.copy(errorMessage = ""))
-      self.props.wrapped.handleSubmit(self)
+    self.setState(self.state.copy(errorMessage = ""))
+    self.props.wrapped.handleSubmit(self)
   }
 }
 

@@ -78,7 +78,7 @@ trait UserServiceComponent {
 
     def resetPasswordRequest(email: String): Future[Unit] = {
       client.post[Unit](
-        "user" / "reset-password" / "request-reset",
+        resourceName / "reset-password" / "request-reset",
         data = Map("email" -> email).asJson.pretty(ApiService.printer)
       ).map {
         _ =>
@@ -87,7 +87,7 @@ trait UserServiceComponent {
 
     def resetPasswordCheck(userId: String, resetToken: String): Future[Boolean] = {
       client.post[Unit](
-        "user" / "reset-password" / "check-validity" / userId / resetToken
+        resourceName / "reset-password" / "check-validity" / userId / resetToken
       ).map {
         _ => true
       }.recoverWith{
@@ -97,7 +97,7 @@ trait UserServiceComponent {
 
     def resetPasswordChange(userId: String, resetToken: String, password: String): Future[Unit] = {
       client.post[Unit](
-        "user" / "reset-password" / "change-password/" / userId,
+        resourceName / "reset-password" / "change-password" / userId,
         data = Map("resetToken" -> resetToken, "password" -> password).asJson.pretty(ApiService.printer)
       ).map {
         _ =>

@@ -27,7 +27,6 @@ object PasswordResetContainerComponent extends UserServiceComponent {
 
       (state: AppState, props: Props[Unit]) =>
         val userId = props.`match`.params("userId")
-
         val resetToken = props.`match`.params("resetToken")
 
         def checkResetToken(child: Self[PasswordResetProps, PasswordResetState]): Unit = {
@@ -40,9 +39,8 @@ object PasswordResetContainerComponent extends UserServiceComponent {
         def handleSubmit(self: Self[PasswordResetProps, PasswordResetState]): Unit = {
           userService.resetPasswordChange(userId, resetToken, self.state.password).onComplete {
             case Success(_) =>
-              self.setState(self.state.copy(password = "", showPassword = false, errorMessage = "", isValidResetToken = false))
+              self.setState(self.state.copy(success = true))
             case Failure(e) =>
-              println(e.getMessage)
               self.setState(self.state.copy(errorMessage = I18n.t("form.passwordReset.changeFailed")))
           }
         }
