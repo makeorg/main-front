@@ -130,7 +130,13 @@ object Translations {
       |          "subscribe": "S’inscrire",
       |          "alreadySubscribed": "J’ai déjà un compte ! ",
       |          "noRegister": "Non merci, je souhaite poursuivre %{break} sans compte finalement.",
-      |          "errorRegistrationFailed": "Erreur d'enregistrement"
+      |          "errorRegistrationFailed": "Erreur d'enregistrement",
+      |          "errorInvalidEmail": "Un email valide est requis",
+      |          "errorMinPassword": "Le mot de passe doit comporter au moins %{min} caractères",
+      |          "errorChoiceAge": "Valeur invalide",
+      |          "errorMaxPostalCode": "Le code postal ne doit pas dépasser %{max} caractères",
+      |          "errorMinFirstName": "Le prénom est requis",
+      |          "errorAlreadyExist": "Cet email est déjà enregistré"
       |       },
       |       "proposal": {
       |         "submit": "Proposer"
@@ -148,9 +154,9 @@ object Translations {
       |         }
       |       }
       |     },
-    |       "modal": {
-    |         "close": "Fermer"
-    |       }
+      |     "modal": {
+      |       "close": "Fermer"
+      |     }
       |  },
       |  "en": {
       |    "errors": {
@@ -268,7 +274,13 @@ object Translations {
       |          "subscribe": "S’inscrire",
       |          "alreadySubscribed": "J’ai déjà un compte ! ",
       |          "noRegister": "Non merci, je souhaite poursuivre %{break} sans compte finalement.",
-      |          "errorRegistrationFailed": "Erreur d'enregistrement"
+      |          "errorRegistrationFailed": "Erreur d'enregistrement",
+      |          "errorInvalidEmail": "Un email valide est requis",
+      |          "errorMinPassword": "Le mot de passe doit comporter au moins %{min} caractères",
+      |          "errorChoiceAge": "Valeur invalide",
+      |          "errorMaxPostalCode": "Le code postal ne doit pas dépasser %{max} caractères",
+      |          "errorMinFirstName": "Le prénom est requis",
+      |          "errorAlreadyExist": "Cet email est déjà enregistré"
       |       },
       |       "proposal": {
       |         "submit": "Proposer"
@@ -286,9 +298,9 @@ object Translations {
       |         }
       |       }
       |     },
-  |         "modal": {
-  |           "close": "Fermer"
-  |         }
+      |     "modal": {
+      |       "close": "Fermer"
+      |     }
       |  }
       |}
     """.stripMargin

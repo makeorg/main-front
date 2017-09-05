@@ -32,48 +32,15 @@ object AppComponentStyles extends StyleSheet.Inline {
 
   val container: StyleA = style(maxWidth(114.rem), marginRight.auto, marginLeft.auto, width(100.%%), height(100.%%))
 
-  val wrapper: StyleA = style(
-    backgroundColor(MakeStyles.Background.wrapper),
-    position.relative
-  )
+  val wrapper: StyleA = style(backgroundColor(MakeStyles.Background.wrapper), position.relative)
 
-  val title2: StyleA = style(
-    MakeStyles.title2,
-    MakeStyles.Font.tradeGothicLTStd,
-    marginTop(3.rem)
-  )
+  val title2: StyleA = style(MakeStyles.title2, MakeStyles.Font.tradeGothicLTStd, marginTop(3.rem))
 
-  val link: StyleA = style(
-    color(MakeStyles.Color.pink),
-    fontWeight.bold
-  )
+  val link: StyleA = style(color(MakeStyles.Color.pink), fontWeight.bold)
 
-  val icon: StyleA = style(
-    addClassName(BulmaStyles.Element.icon.htmlClass),
-    marginRight(0.6.rem)
-  )
+  val icon: StyleA = style(addClassName(BulmaStyles.Element.icon.htmlClass), marginRight(0.6.rem))
 
-  val buttonIcon: StyleA = style(
-    paddingBottom(0.5F.rem),
-    paddingRight(0.9.rem)
-  )
+  val buttonIcon: StyleA = style(paddingBottom(0.5F.rem), paddingRight(0.9.rem))
 
-  val submitButton: StyleA = style(
-    marginBottom(1.7F.rem)
-  )
-
-  val errorInput: StyleA = style(
-    backgroundColor(MakeStyles.Color.lightPink),
-    border :=! s"0.1rem solid ${MakeStyles.Color.error}"
-  )
-
-  val errorMessage: StyleA = style(
-    display.block,
-    margin.auto,
-    MakeStyles.Font.circularStdBook,
-    fontSize(1.4F.rem),
-    color(MakeStyles.Color.error),
-    lineHeight(1.8F.rem),
-    paddingBottom(1.rem)
-  )
+  val submitButton: StyleA = style(marginBottom(1.7F.rem))
 }

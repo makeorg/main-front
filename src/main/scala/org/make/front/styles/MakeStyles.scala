@@ -1,7 +1,9 @@
 package org.make.front.styles
 
 import org.make.front.Main.CssSettings._
+import org.make.front.components.AppComponentStyles.style
 
+import scalacss.DevDefaults.StyleA
 import scalacss.internal.{AV, Cond, Media, StyleA, ValueT}
 
 object MakeStyles extends StyleSheet.Inline {
@@ -85,6 +87,19 @@ object MakeStyles extends StyleSheet.Inline {
     val field: StyleA = style(addClassName("make-field"))
     val inputIcon: StyleA = style(addClassName("make-input-icon"))
     val inputIconLeft: StyleA = style(addClassName("make-input-icon-left"))
+
+    val errorInput: StyleA =
+      style(backgroundColor(MakeStyles.Color.lightPink), border :=! s"0.1rem solid ${MakeStyles.Color.error}")
+
+    val errorMessage: StyleA = style(
+      display.block,
+      margin.auto,
+      MakeStyles.Font.circularStdBook,
+      fontSize(1.4F.rem),
+      color(MakeStyles.Color.error),
+      lineHeight(1.8F.rem),
+      paddingBottom(1.rem)
+    )
   }
 
   object Button {
