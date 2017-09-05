@@ -34,7 +34,7 @@ object ProposalSubmitContainerComponent extends ProposalServiceComponent {
         def handleProposalSubmit(child: Self[ProposalSubmitProps, ProposalSubmitState]) = {
           val content = child.state.proposalContent
           def registerProposal(): Unit = {
-            handleFutureApiResponse(proposalService.postProposal(content), child)
+            handleFutureApiResponse(proposalService.createProposal(content), child)
           }
           if (appState.connectedUser.isDefined) {
             registerProposal()

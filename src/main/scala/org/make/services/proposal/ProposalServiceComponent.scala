@@ -26,11 +26,13 @@ trait ProposalServiceComponent {
 
     override val resourceName: String = "proposal"
 
-    def postProposal(content: String): Future[RegisterProposalResponse] =
-      client.post[RegisterProposalResponse](
-        resourceName,
-        data = RegisterProposalRequest(content).asJson.pretty(ApiService.printer)
-      ).map(_.get)
+    def createProposal(content: String): Future[RegisterProposalResponse] =
+      client
+        .post[RegisterProposalResponse](
+          resourceName,
+          data = RegisterProposalRequest(content).asJson.pretty(ApiService.printer)
+        )
+        .map(_.get)
 
   }
 }
