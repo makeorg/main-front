@@ -5,6 +5,7 @@ import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import io.github.shogowada.scalajs.reactjs.redux.ReactRedux
 import io.github.shogowada.scalajs.reactjs.redux.Redux.Dispatch
 import io.github.shogowada.scalajs.reactjs.router.RouterProps
+import org.make.client.BadRequestHttpException
 import org.make.front.actions._
 import org.make.front.components.presentationals.ConnectUserComponent
 import org.make.front.components.presentationals.ConnectUserComponent.{ConnectUserProps, ConnectUserState}
@@ -91,8 +92,8 @@ object ConnectUserContainerComponent extends RouterProps with UserServiceCompone
           }
         }
 
-        // @toDo: manage specific errors (like email already exist) - need to refactor client
         // @toDo: manage make api authentication to register an access token
+        // @toDo: update error handling when API return a key code instead of text
         def handleFutureApiRegisterResponse(futureUser: Future[User],
                                             child: Self[ConnectUserProps, ConnectUserState]): Unit = {
           futureUser.onComplete {
@@ -100,8 +101,13 @@ object ConnectUserContainerComponent extends RouterProps with UserServiceCompone
               dispatch(LoggedInAction(user))
               clearDataState(child)
             case Failure(e) =>
-              dispatch(NotifyError(I18n.t("errors.tryAgain"), Some(I18n.t("errors.unexpectedBehaviour"))))
-              child.setState(child.state.copy(errorMessage = Seq(I18n.t("form.register.errorRegistrationFailed"))))
+              e match {
+                case exception: BadRequestHttpException if exception.getMessage.contains("already exist") =>
+                  child.setState(child.state.copy(errorMessage = Seq(I18n.t("form.register.errorAlreadyExist"))))
+                case _ => {
+                  child.setState(child.state.copy(errorMessage = Seq(I18n.t("form.register.errorRegistrationFailed"))))
+                }
+              }
           }
         }
 
