@@ -92,9 +92,9 @@ object Translations {
       |         "confirmationButtonBackTheme": "Retourner sur le thème %{theme}",
       |         "confirmationButtonAnotherProposal": "Faire une nouvelle proposition",
       |         "confirmationContent": "Votre proposition a été déposée. Elle va maintenant être relue par notre service modération. <br><br>Vous recevrez un e-mail quand elle aura été validée !",
-      |         "isTooLong": "Oups ! Vous avez dépassé la limite de %{max} caractères 😅",
-      |         "isTooShort": "Oups ! Votre proposition doit contenir au minimum %{min} caractères 😅",
-      |         "titleIntro": "Ajoutez votre proposition au thème",
+      |         "isTooLong": "Vous avez dépassé la limite de caractères.",
+      |         "isTooShort": "Votre proposition doit faire au moins %{min} caractères",
+      |         "titleIntro": "Partagez votre proposition sur le thème",
       |         "help": "Ne vous inquiétez pas, nous corrigerons vos éventuelles fautes d'orthographe.",
       |         "subHelp": "Pour en savoir plus sur notre charte de modération, cliquez ici."
       |       }
@@ -251,9 +251,9 @@ object Translations {
       |         "confirmationButtonBackTheme": "Retourner sur le thème %{theme}",
       |         "confirmationButtonAnotherProposal": "Faire une nouvelle proposition",
       |         "confirmationContent": "Votre proposition a été déposée. Elle va maintenant être relue par notre service modération. <br><br>Vous recevrez un e-mail quand elle aura été validée !",
-      |         "isTooLong": "Oups ! Vous avez dépassé la limite de %{max} caractères 😅",
-      |         "isTooShort": "Oups ! Votre proposition doit contenir au minimum %{min} caractères 😅",
-      |         "titleIntro": "Ajoutez votre proposition au thème",
+      |         "isTooLong": "Vous avez dépassé la limite de caractères.",
+      |         "isTooShort": "Votre proposition doit faire au moins %{min} caractères",
+      |         "titleIntro": "Partagez votre proposition sur le thème",
       |         "help": "Ne vous inquiétez pas, nous corrigerons vos éventuelles fautes d'orthographe.",
       |         "subHelp": "Pour en savoir plus sur notre charte de modération, cliquez ici."
       |       }
