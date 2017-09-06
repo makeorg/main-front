@@ -6,7 +6,13 @@ import io.github.shogowada.scalajs.reactjs.VirtualDOM.{<, _}
 import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import io.github.shogowada.scalajs.reactjs.elements.ReactElement
 import io.github.shogowada.scalajs.reactjs.events.{FormSyntheticEvent, SyntheticEvent}
-import org.make.core.validation.{ChoiceConstraint, EmailConstraint, LengthConstraint, PasswordConstraint}
+import org.make.core.validation.{
+  ChoiceConstraint,
+  EmailConstraint,
+  LengthConstraint,
+  NotBlankConstraint,
+  PasswordConstraint
+}
 import org.make.front.facades.{I18n, Replacements}
 import org.make.front.facades.Localize.LocalizeVirtualDOMAttributes
 import org.make.front.facades.ReactFacebookLogin._
@@ -457,7 +463,24 @@ object ConnectUserComponent {
   private def handleSignInSubmit(self: Self[ConnectUserProps, ConnectUserState]) = (e: SyntheticEvent) => {
     self.setState(self.state.copy(errorMessage = Seq()))
     e.preventDefault()
-    self.props.wrapped.signIn(self.state.email, self.state.password, self)
+
+    val errorEmailMessages: Seq[String] = NotBlankConstraint
+      .validate(Some(self.state.email), Map("notBlank" -> I18n.t("form.register.errorBlankEmail")))
+      .map(_.message)
+    val errorPasswordMessages: Seq[String] = NotBlankConstraint
+      .validate(Some(self.state.password), Map("notBlank" -> I18n.t("form.register.errorBlankPassword")))
+      .map(_.message)
+
+    self.setState(
+      _.copy(
+        emailErrorMessage = if (!errorEmailMessages.isEmpty) errorEmailMessages.head else "",
+        passwordErrorMessage = if (!errorPasswordMessages.isEmpty) errorPasswordMessages.head else ""
+      )
+    )
+
+    if (errorEmailMessages.isEmpty && errorPasswordMessages.isEmpty) {
+      self.props.wrapped.signIn(self.state.email, self.state.password, self)
+    }
   }
 
   private def handleRegisterSubmit(self: Self[ConnectUserProps, ConnectUserState]) = (e: SyntheticEvent) => {
@@ -467,40 +490,52 @@ object ConnectUserComponent {
     val maxPostalCodeLength = 10
     val ageConstraint = new ChoiceConstraint(agesChoices.map(_.toString))
     val postalCodeConstraint = new LengthConstraint(max = Some(maxPostalCodeLength))
-    val firstNameConstraint = new LengthConstraint(min = Some(1))
 
-    val errorEmailMessages: Seq[String] = EmailConstraint
-      .validate(Some(self.state.email), Map("invalid" -> "form.register.errorInvalidEmail"))
+    val errorEmailMessages: Seq[String] = (EmailConstraint & NotBlankConstraint)
+      .validate(
+        Some(self.state.email),
+        Map(
+          "invalid" -> I18n.t("form.register.errorInvalidEmail"),
+          "notBlank" -> I18n.t("form.register.errorBlankEmail")
+        )
+      )
       .map(_.message)
-    val errorPasswordMessages: Seq[String] = PasswordConstraint
-      .validate(Some(self.state.password), Map("minMessage" -> "form.register.errorMinPassword"))
+    val errorPasswordMessages: Seq[String] = (PasswordConstraint & NotBlankConstraint)
+      .validate(
+        Some(self.state.password),
+        Map(
+          "minMessage" -> I18n
+            .t("form.register.errorMinPassword", Replacements(("min", PasswordConstraint.min.toString))),
+          "notBlank" -> I18n.t("form.register.errorBlankPassword")
+        )
+      )
       .map(_.message)
     val errorAgeMessages: Seq[String] =
-      ageConstraint.validate(self.state.age, Map("invalid" -> "form.register.errorChoiceAge")).map(_.message)
+      ageConstraint.validate(self.state.age, Map("invalid" -> I18n.t("form.register.errorChoiceAge"))).map(_.message)
     val errorPostalCodeMessages: Seq[String] = postalCodeConstraint
-      .validate(self.state.postalCode, Map("maxMessage" -> "form.register.errorMaxPostalCode"))
+      .validate(
+        self.state.postalCode,
+        Map(
+          "maxMessage" -> I18n
+            .t("form.register.errorMaxPostalCode", Replacements(("max", maxPostalCodeLength.toString)))
+        )
+      )
       .map(_.message)
-    val errorFirstNameMessages: Seq[String] = firstNameConstraint
-      .validate(Some(self.state.firstName), Map("minMessage" -> "form.register.errorMinFirstName"))
+    val errorFirstNameMessages: Seq[String] = NotBlankConstraint
+      .validate(Some(self.state.firstName), Map("notBlank" -> I18n.t("form.register.errorBlankFirstName")))
       .map(_.message)
 
     self.setState(
       self.state.copy(
-        emailErrorMessage = if (!errorEmailMessages.isEmpty) I18n.t(errorEmailMessages.head) else "",
-        passwordErrorMessage =
-          if (!errorPasswordMessages.isEmpty)
-            I18n.t(errorPasswordMessages.head, Replacements(("min", PasswordConstraint.min.toString)))
-          else "",
-        ageErrorMessage = if (!errorAgeMessages.isEmpty) I18n.t(errorAgeMessages.head) else "",
-        postalCodeErrorMessage =
-          if (!errorPostalCodeMessages.isEmpty)
-            I18n.t(errorPostalCodeMessages.head, Replacements(("max", maxPostalCodeLength.toString)))
-          else "",
-        firstNameErrorMessage = if (!errorFirstNameMessages.isEmpty) I18n.t(errorFirstNameMessages.head) else ""
+        emailErrorMessage = if (!errorEmailMessages.isEmpty) errorEmailMessages.head else "",
+        passwordErrorMessage = if (!errorPasswordMessages.isEmpty) errorPasswordMessages.head else "",
+        ageErrorMessage = if (!errorAgeMessages.isEmpty) errorAgeMessages.head else "",
+        postalCodeErrorMessage = if (!errorPostalCodeMessages.isEmpty) errorPostalCodeMessages.head else "",
+        firstNameErrorMessage = if (!errorFirstNameMessages.isEmpty) errorFirstNameMessages.head else ""
       )
     )
 
-    if (errorEmailMessages.isEmpty && errorPasswordMessages.isEmpty && errorAgeMessages.isEmpty && errorPostalCodeMessages.isEmpty) {
+    if (errorEmailMessages.isEmpty && errorPasswordMessages.isEmpty && errorAgeMessages.isEmpty && errorPostalCodeMessages.isEmpty && errorFirstNameMessages.isEmpty) {
       self.props.wrapped.register(self)
     }
   }

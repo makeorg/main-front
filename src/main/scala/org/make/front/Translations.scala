@@ -138,8 +138,10 @@ object Translations {
       |          "errorMinPassword": "Votre mot de passe doit contenir au moins %{min} caractères",
       |          "errorChoiceAge": "Valeur invalide",
       |          "errorMaxPostalCode": "Format erronné",
-      |          "errorMinFirstName": "Le prénom est requis",
-      |          "errorAlreadyExist": "Cet email est déjà enregistré"
+      |          "errorBlankFirstName": "Le prénom est un champ obligatoire",
+      |          "errorAlreadyExist": "Cet email est déjà enregistré",
+      |          "errorBlankEmail": "L'email est un champ obligatoire",
+      |          "errorBlankPassword": "Le mot de passe est un champ obligatoire"
       |       },
       |       "proposal": {
       |         "submit": "Proposer"
@@ -298,8 +300,10 @@ object Translations {
       |          "errorMinPassword": "Le mot de passe doit comporter au moins %{min} caractères",
       |          "errorChoiceAge": "Valeur invalide",
       |          "errorMaxPostalCode": "Format erronné",
-      |          "errorMinFirstName": "Le prénom est requis",
-      |          "errorAlreadyExist": "Cet email est déjà enregistré"
+      |          "errorBlankFirstName": "Le prénom est un champ obligatoire",
+      |          "errorAlreadyExist": "Cet email est déjà enregistré",
+      |          "errorBlankEmail": "L'email est un champ obligatoire",
+      |          "errorBlankPassword": "Le mot de passe est un champ obligatoire"
       |       },
       |       "proposal": {
       |         "submit": "Proposer"

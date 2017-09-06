@@ -5,7 +5,7 @@ import scala.util.matching.Regex
 class RegexConstraint(pattern: Regex) extends Constraint {
   override def validate(value: Option[String], constraintMessages: Map[String, String] = Map()): Seq[ConstraintError] = {
 
-    if (value.isEmpty) {
+    if (value.getOrElse("").isEmpty) {
       Seq()
     } else {
       pattern.findFirstIn(value.get) match {
