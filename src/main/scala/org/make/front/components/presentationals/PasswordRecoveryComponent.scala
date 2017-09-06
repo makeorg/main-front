@@ -59,7 +59,7 @@ object PasswordRecoveryComponent {
                     <.input(
                       ^.`type`.email,
                       ^.className := inputStyles,
-                      ^.placeholder := I18n.t("form.fieldLabelEmail"),
+                      ^.placeholder := I18n.t("form.passwordRecovery.fieldLabelEmail"),
                       ^.onChange := handleEmailChange(self),
                       ^.value := self.state.email
                     )()
@@ -75,7 +75,7 @@ object PasswordRecoveryComponent {
                         PasswordRecoveryComponentStyles.buttonIcon
                       )
                     )(),
-                    <.Translate(^.value := "form.passwordRecovery.receiveEmail")()
+                    <.Translate(^.value := "form.passwordRecovery.sendEmail")()
                   ),
                   <.div()(
                     <.Translate(^.value := "form.passwordRecovery.return")(),
@@ -101,6 +101,7 @@ object PasswordRecoveryComponent {
     e.preventDefault()
     val errors: Seq[ConstraintError] =
       EmailConstraint.validate(Some(self.state.email), Map("invalid" -> "form.passwordRecovery.invalidEmail"))
+
     if (errors.isEmpty) {
       self.setState(self.state.copy(errorMessage = ""))
       self.props.wrapped.handleSubmit(self)

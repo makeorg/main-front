@@ -6,7 +6,8 @@ import io.github.shogowada.scalajs.reactjs.VirtualDOM.{<, _}
 import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import io.github.shogowada.scalajs.reactjs.elements.ReactElement
 import io.github.shogowada.scalajs.reactjs.events.{FormSyntheticEvent, SyntheticEvent}
-import org.make.front.facades.I18n
+import org.make.core.validation.{ConstraintError, PasswordConstraint}
+import org.make.front.facades.{I18n, Replacements}
 import org.make.front.styles.{BulmaStyles, FontAwesomeStyles, MakeStyles}
 import org.make.front.facades.Translate.TranslateVirtualDOMElements
 import org.scalajs.dom.raw.HTMLInputElement
@@ -105,9 +106,18 @@ object PasswordResetComponent {
   }
 
   private def handleSubmit(self: Self[PasswordResetProps, PasswordResetState]) = (e: SyntheticEvent) => {
-    e.preventDefault()
     self.setState(self.state.copy(errorMessage = ""))
-    self.props.wrapped.handleSubmit(self)
+    e.preventDefault()
+
+    val errors: Seq[String] = PasswordConstraint
+      .validate(Some(self.state.password), Map("minMessage" -> "form.register.errorMinPassword"))
+      .map(_.message)
+
+    if (errors.isEmpty) {
+      self.props.wrapped.handleSubmit(self)
+    } else {
+      self.setState(self.state.copy(errorMessage = I18n.t(errors.head, Replacements(("min", PasswordConstraint.min.toString)))))
+    }
   }
 }
 

@@ -144,7 +144,8 @@ object Translations {
       |       "passwordRecovery": {
       |         "title": "je réinitialise mon mot de passe",
       |         "description": "Merci de renseigner l'adresse email liée à votre compte pour recevoir le lien de réinitialisation.",
-      |         "receiveEmail": "recevoir l'e-mail",
+      |         "fieldLabelEmail": "votre adresse email",
+      |         "sendEmail": "Envoyer",
       |         "invalidEmail": "veuillez rentrer un e-mail valide",
       |         "emailDoesNotExist": "L'e-mail que vous avez rentré n'existe pas",
       |         "return": "Revenir à ",
@@ -300,7 +301,8 @@ object Translations {
       |       "passwordRecovery": {
       |         "title": "je réinitialise mon mot de passe",
       |         "description": "Merci de renseigner l'adresse email liée à votre compte pour recevoir le lien de réinitialisation.",
-      |         "receiveEmail": "recevoir l'e-mail",
+      |         "fieldLabelEmail": "votre adresse email",
+      |         "sendEmail": "Envoyer",
       |         "invalidEmail": "veuillez rentrer un e-mail valide",
       |         "emailDoesNotExist": "L'e-mail que vous avez rentré n'existe pas",
       |         "return": "Revenir à ",
