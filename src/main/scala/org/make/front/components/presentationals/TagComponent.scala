@@ -21,7 +21,10 @@ import scalacss.internal.mutable.StyleSheet
   * - Creates a simple tag list
   *
   * <.TagListComponent(
-  *     ^.wrapped := TagListComponentProps(tags = Seq(Tag("hello"), Tag("world")), toggleShowAll = false)
+  *    ^.wrapped := TagListComponentProps(
+  *      tags = Seq(Tag(TagId("tag-hello"), "hello"), Tag(TagId("tag-world"), "world")),
+  *      toggleShowAll = false
+  *    )
   *  )()
   *
   * - To create show all toggle-able tag list simply set toggleShowAll = true
@@ -88,7 +91,7 @@ object TagListComponent {
   *
   * Create a simple tag:
   *   <code>
-  *      <.TagComponent(^.wrapped := TagComponentProps(tag = Tag("Tag Name")))()
+  *      <.TagComponent(^.wrapped := TagComponentProps(tag = Tag(TagId("tag-tag-name), "Tag Name")))()
   *   </code>
   *
   * Set ifTriggerToggle as true if the tag show function as a toggle show more trigger
@@ -109,7 +112,7 @@ object TagComponent {
           if (self.state.isSelected) BulmaStyles.Syntax.isBlack else TagStyles.defaultStyle
         ),
         ^.onClick := onClickTag(self)
-      )(<.span()(self.props.wrapped.tag.name))
+      )(<.span()(self.props.wrapped.tag.label))
     }
   )
 

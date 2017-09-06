@@ -20,10 +20,10 @@ object ThemeContainerComponent {
         val themeList: Seq[Theme] = state.themes.filter(_.slug == slug)
         if (themeList.isEmpty) {
           // @toDo: manage 404 redirect
-          ThemeComponent.ThemeProps(None)
+          ThemeComponent.ThemeProps(None, slug)
         } else {
           dispatch(LoadThemes)
-          ThemeComponent.ThemeProps(Some(themeList.head))
+          ThemeComponent.ThemeProps(Some(themeList.head), slug)
         }
       }
     }

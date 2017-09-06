@@ -54,6 +54,8 @@ object Translations {
       |         "moreInfos": "En savoir +",
       |         "matrix": {
       |           "title": "votez sur les propositions",
+      |           "noContent": "Nous n’avons trouvé <strong>aucun résultat</strong> correspondant à votre sélection de tag(s).",
+      |           "selectOtherTags": "Vous pouvez sélectionner d’autres combinaisons de tags.",
       |           "filter": {
       |             "tag": {
       |               "title": "Tags populaire :"
@@ -211,6 +213,8 @@ object Translations {
       |         "moreInfos": "En savoir +",
       |         "matrix": {
       |           "title": "votez sur les propositions",
+      |           "noContent": "Nous n’avons trouvé <strong>aucun résultat</strong> correspondant à votre sélection de tag(s).",
+      |           "selectOtherTags": "Vous pouvez sélectionner d’autres combinaisons de tags.",
       |           "filter": {
       |             "tag": {
       |               "title": "Tags populaire :"
