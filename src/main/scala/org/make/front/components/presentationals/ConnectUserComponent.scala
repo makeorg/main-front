@@ -282,13 +282,15 @@ object ConnectUserComponent {
       // password field
       <.div(^.className := MakeStyles.Form.field)(
         <.i(^.className := Seq(MakeStyles.Form.inputIcon, FontAwesomeStyles.lock))(),
-        <.i(
-          ^.className := Seq(
-            ConnectUserComponentStyles.eye(self.state.typePassword == "password"),
-            MakeStyles.Form.inputIconLeft
-          ),
-          ^.onClick := toggleHidePassword(self)
-        )(),
+        if (self.state.password.nonEmpty) {
+          <.i(
+            ^.className := Seq(
+              ConnectUserComponentStyles.eye(self.state.typePassword == "password"),
+              MakeStyles.Form.inputIconLeft
+            ),
+            ^.onClick := toggleHidePassword(self)
+          )()
+        },
         <.input(
           ^.`type` := self.state.typePassword,
           ^.required := true,
@@ -562,7 +564,8 @@ object ConnectUserComponent {
         ageErrorMessage = "",
         professionErrorMessage = "",
         postalCodeErrorMessage = "",
-        errorMessage = Seq()
+        errorMessage = Seq(),
+        typePassword = "password"
       )
     )
     self.forceUpdate(self.props.wrapped.closeModal)
@@ -584,7 +587,8 @@ object ConnectUserComponent {
         ageErrorMessage = "",
         postalCodeErrorMessage = "",
         professionErrorMessage = "",
-        passwordErrorMessage = ""
+        passwordErrorMessage = "",
+        typePassword = "password"
       )
     )
   }
