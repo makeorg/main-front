@@ -2,7 +2,7 @@ package org.make.front.components.presentationals
 
 import io.github.shogowada.scalajs.reactjs.React
 import io.github.shogowada.scalajs.reactjs.React.Self
-import io.github.shogowada.scalajs.reactjs.VirtualDOM._
+import io.github.shogowada.scalajs.reactjs.VirtualDOM.{<, _}
 import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import io.github.shogowada.scalajs.reactjs.elements.ReactElement
 import io.github.shogowada.scalajs.reactjs.events.{FormSyntheticEvent, SyntheticEvent}
@@ -122,7 +122,10 @@ object ConnectUserComponent {
                   <.Translate(
                     ^.className := ConnectUserComponentStyles.introSecondLine,
                     ^.value := "form.login.proposalIntroSecond"
-                  )()
+                  )(),
+                  <.div(^.className := ConnectUserComponentStyles.lineWrapper)(
+                    <.span(^.className := ConnectUserComponentStyles.line)()
+                  )
                 )
               }, <.Translate(^.className := MakeStyles.Modal.title, ^.value := {
                 if (self.state.isRegistering) {
@@ -579,7 +582,13 @@ object ConnectUserComponentStyles extends StyleSheet.Inline {
   val buttonsInfo: StyleA = style(marginTop(1.4F.rem), display.block)
 
   val lineWrapper: StyleA =
-    style(display.flex, alignItems.center, margin(3.4F.rem, auto, 2.9F.rem, auto))
+    style(
+      display.flex,
+      alignItems.center,
+      margin(3.4F.rem, auto, 2.9F.rem, auto),
+      width(46.7F.rem),
+      (media.all.maxWidth(800.px))(width(100.%%))
+    )
   val line: StyleA =
     style(height(0.1F.rem), backgroundColor(rgba(0, 0, 0, 0.3)), flexGrow(1), marginTop(0.5F.rem), opacity(0.3))
   val underlineText: StyleA = style(MakeStyles.Font.playfairDisplayItalic, margin(0.rem, 1.6F.rem), fontSize(1.8F.rem))
@@ -681,9 +690,8 @@ object ConnectUserComponentStyles extends StyleSheet.Inline {
       display.block,
       textAlign.center,
       textTransform.uppercase,
-      marginBottom(6.1F.rem),
       color(MakeStyles.Color.black),
-      (media.all.maxWidth(800.px))(fontSize(3.rem), lineHeight(3.rem), marginBottom(3.2F.rem))
+      (media.all.maxWidth(800.px))(fontSize(3.rem), lineHeight(3.rem))
     )
   val proposalSocialLeftButton: StyleA = style(width(22.8F.rem), (media.all.maxWidth(800.px))(width(14.7F.rem)))
   val proposalSocialRightButton: StyleA = style(width(22.8F.rem), (media.all.maxWidth(800.px))(width(14.7F.rem)))
