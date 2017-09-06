@@ -41,8 +41,8 @@ package object presentationals {
     def ConnectUserContainerComponent: ReactClassElementSpec = self(containers.ConnectUserContainerComponent.reactClass)
     def ProposalMatrixContainerComponent: ReactClassElementSpec =
       self(containers.ProposalMatrixContainerComponent.reactClass)
-    def FooterContainerComponent: ReactClassElementSpec =
-      self(containers.FooterContainerComponent.reactClass)
+    def NavigationInThemesContainerComponent: ReactClassElementSpec =
+      self(containers.NavigationInThemesContainerComponent.reactClass)
     def PoliticalActionsComponent: ReactClassElementSpec =
       self(containers.PoliticalActionContainerComponent.reactClass)
     def ProposalSubmitContainerComponent: ReactClassElementSpec =

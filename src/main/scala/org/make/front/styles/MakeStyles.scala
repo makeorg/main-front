@@ -2,10 +2,18 @@ package org.make.front.styles
 
 import org.make.front.Main.CssSettings._
 
-import scalacss.internal.{AV, Cond, Media, StyleA, ValueT}
+import scalacss.internal.{AV, Cond, Length, Media, StyleA, ValueT}
 
 object MakeStyles extends StyleSheet.Inline {
+
   import dsl._
+
+  //TODO: globalize function
+  implicit class NormalizedSize(val baseSize: Int) extends AnyVal {
+    def pxToEm(browserContextSize: Int = 18): Length[Double] = {
+      (baseSize.toFloat / browserContextSize.toFloat).em
+    }
+  }
 
   // Responsiveness using Bulma standards: http://bulma.io/documentation/overview/responsiveness/
   val modeMobile: Cond = media.maxWidth(768.px) & media.handheld
@@ -60,14 +68,6 @@ object MakeStyles extends StyleSheet.Inline {
   def gradientBackgroundImage(deg: String, from: String, to: String): StyleA =
     style(backgroundImage := s"linear-gradient($deg, $from, $to)")
 
-  object Spacing {
-    val smaller: ValueT[ValueT.LenPctAuto] = 1.rem
-    val small: ValueT[ValueT.LenPctAuto] = 1.5.rem
-    val medium: ValueT[ValueT.LenPctAuto] = 3.rem
-    val large: ValueT[ValueT.LenPctAuto] = 5.rem
-    val larger: ValueT[ValueT.LenPctAuto] = 6.rem
-  }
-
   object Form {
     val inputText: StyleA = style(addClassName("make-input-text"))
     val inputSelect: StyleA = style(addClassName("make-input-select"))
@@ -106,26 +106,71 @@ object MakeStyles extends StyleSheet.Inline {
 
   //todo: implement h1
   val title1: StyleA = style()
-  val title2: StyleA = style(fontSize(3.4.rem), MakeStyles.Font.tradeGothicLTStd, textTransform.uppercase)
+  val title2: StyleA = style(fontSize(3.4.rem), Font.tradeGothicLTStd, textTransform.uppercase)
 
   //todo: implement h3
   val title3: StyleA = style()
 
   ///////////////////////////////////////////////////////////////////////////
 
+  object TextStyles {
+    val smallerText: StyleA = style(fontSize(14.pxToEm()))
+    val smallText: StyleA = style(fontSize(16.pxToEm()))
+    val baseText: StyleA = style(fontSize(18.pxToEm()))
+    val boldText: StyleA = style(Font.circularStdBold)
+    val title: StyleA = style(Font.tradeGothicLTStd, textTransform.uppercase)
+    val smallerTitle: StyleA = style(TextStyles.title, fontSize(20.pxToEm()))
+    val smallTitle: StyleA = style(TextStyles.title, fontSize(22.pxToEm()))
+    val mediumTitle: StyleA = style(TextStyles.title, fontSize(34.pxToEm()))
+    val bigTitle: StyleA = style(TextStyles.title, fontSize(46.pxToEm()))
+    val veryBigTitle: StyleA = style(TextStyles.title, fontSize(60.pxToEm()))
+  }
+
+  object ThemeColor {
+    val primary: ValueT[ValueT.Color] = rgba(237, 24, 68, 1)
+  }
+
+  object TextColor {
+    val default: ValueT[ValueT.Color] = rgba(0, 0, 0, 1)
+    val grey: ValueT[ValueT.Color] = rgba(155, 155, 155, 1)
+    val darkerGrey: ValueT[ValueT.Color] = rgba(137, 137, 137, 1)
+    val white: ValueT[ValueT.Color] = rgba(255, 255, 255, 1)
+  }
+
+  object BackgroundColor {
+    val white: ValueT[ValueT.Color] = rgba(255, 255, 255, 1)
+    val grey: ValueT[ValueT.Color] = rgba(239, 239, 239, 1)
+    val darkerGrey: ValueT[ValueT.Color] = rgba(215, 215, 215, 1)
+  }
+
   object BorderColor {
     val discreet: ValueT[ValueT.Color] = rgb(229, 229, 229)
   }
 
-  object StyleText {
-    val smallerText: StyleA = style(fontSize(1.4.rem))
-    val baseText: StyleA = style(fontSize(1.6.rem))
-    val biggerText: StyleA = style(fontSize(1.8.rem))
-    val boldText: StyleA = style(Font.circularStdBold)
-    val title: StyleA = style(Font.tradeGothicLTStd, textTransform.uppercase)
-    val smallTitle: StyleA = style(MakeStyles.StyleText.title, fontSize(2.2.rem))
-    val mediumTitle: StyleA = style(MakeStyles.StyleText.title, fontSize(3.4.rem))
-    val bigTitle: StyleA = style(MakeStyles.StyleText.title, fontSize(4.6.rem))
-    val veryBigTitle: StyleA = style(MakeStyles.StyleText.title, fontSize(6.rem))
+  object ContainerMaxWidth {
+    val main: ValueT[ValueT.LenPct] = 1200.pxToEm()
+  }
+
+  object Spacing {
+    val smaller: ValueT[ValueT.LenPct] = 10.pxToEm()
+    val small: ValueT[ValueT.LenPct] = 15.pxToEm()
+    val medium: ValueT[ValueT.LenPct] = 30.pxToEm()
+    val large: ValueT[ValueT.LenPct] = 50.pxToEm()
+    val larger: ValueT[ValueT.LenPct] = 60.pxToEm()
+  }
+
+  object MediaQueries {
+
+    val belowSmall: Media.Query = media.maxWidth(499.pxToEm(16))
+    val beyondSmall: Media.Query = media.minWidth(500.pxToEm(16))
+    val small: Media.Query = beyondSmall.maxWidth(839.pxToEm(16))
+
+    val belowMedium: Media.Query = media.maxWidth(839.pxToEm(16))
+    val beyondMedium: Media.Query = media.minWidth(840.pxToEm(16))
+    val medium: Media.Query = beyondMedium.maxWidth(1199.pxToEm(16))
+
+    val belowLarge: Media.Query = media.maxWidth(1199.pxToEm(16))
+    val beyondLarge: Media.Query = media.minWidth(1200.pxToEm(16))
+
   }
 }

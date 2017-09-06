@@ -3,42 +3,66 @@ package org.make.front.components.presentationals
 import io.github.shogowada.scalajs.reactjs.React
 import io.github.shogowada.scalajs.reactjs.VirtualDOM.{<, _}
 import io.github.shogowada.scalajs.reactjs.classes.ReactClass
-import io.github.shogowada.scalajs.reactjs.elements.ReactElement
-import io.github.shogowada.scalajs.reactjs.router.dom.RouterDOM._
-import org.make.front.facades.Translate.TranslateVirtualDOMElements
 import org.make.front.facades.{imageLogoMake, I18n}
-import org.make.front.helpers.NumberFormat
-import org.make.front.models.Theme
-import org.make.front.styles.{BulmaStyles, FontAwesomeStyles, MakeStyles}
+import org.make.front.components.LayoutStyleSheet
+import org.make.front.components.TextStyleSheet
+import org.make.front.styles.{FontAwesomeStyles, MakeStyles}
+import scalacss.internal.{Length}
 
 import scalacss.DevDefaults._
 
 object FooterComponent {
 
-  case class WrappedProps(themes: Seq[Theme])
-
-  lazy val reactClass: ReactClass = React.createClass[WrappedProps, Unit](render = self => {
-    <.div(^.className := BulmaStyles.Helpers.isFullWidth)(
-      <.div(^.className := FooterStyles.themeWrapper)(
-        <.div(^.className := FooterStyles.container)(
-          <.h2(^.className := FooterStyles.themeWrapperTitle)(I18n.t("content.footer.title")),
-          ThemeList(self.props.wrapped.themes)
-        )
-      ),
-      <.div(^.className := FooterStyles.linksContainer)(
-        <.div(^.className := BulmaStyles.Layout.container)(
-          <.a(^.className := FooterStyles.footerLogo, ^.href := "/")(<.img(^.src := imageLogoMake.toString)()),
-          <.ul(^.className := Seq(BulmaStyles.Helpers.isPulledRight, FooterStyles.links))(
-            <.li(^.className := FooterStyles.firstLink)(
-              <.span(^.className := BulmaStyles.Element.icon)(<.i(^.className := FontAwesomeStyles.bullhorn)()),
-              I18n.t("content.footer.recruitment")
+  lazy val reactClass: ReactClass = React.createClass[Unit, Unit](render = self => {
+    <.footer(^.className := FooterStyles.wrapper)(
+      <.div(^.className := LayoutStyleSheet.centeredRow)(
+        <.div(^.className := LayoutStyleSheet.col)(
+          <.div(^.className := FooterStyles.innerWrapper)(
+            <.p(^.className := FooterStyles.logoWrapper)(
+              <.a(^.href := "/")(<.img(^.className := FooterStyles.logo, ^.src := imageLogoMake.toString)())
             ),
-            <.li()(I18n.t("content.footer.jobs")),
-            <.li()(I18n.t("content.footer.press")),
-            <.li()(I18n.t("content.footer.terms")),
-            <.li()(I18n.t("content.footer.contact")),
-            <.li()(I18n.t("content.footer.faq")),
-            <.li()(I18n.t("content.footer.sitemap"))
+            <.div(^.className := FooterStyles.menuWrapper)(
+              <.ul(^.className := FooterStyles.menu)(
+                <.li(^.className := Seq(FooterStyles.menuItem, FooterStyles.emphasizedMenuItem))(
+                  <.p(^.className := Seq(TextStyleSheet.title, TextStyleSheet.smallText))(
+                    <.a(^.href := "/", ^.className := FooterStyles.MenuItemLink)(
+                      <.i(^.className := Seq(FooterStyles.MenuItemIcon, FontAwesomeStyles.bullhorn))(),
+                      I18n.t("content.footer.recruitment")
+                    )
+                  )
+                ),
+                <.li(^.className := FooterStyles.menuItem)(
+                  <.p(^.className := Seq(TextStyleSheet.title, TextStyleSheet.smallText))(
+                    <.a(^.href := "/", ^.className := FooterStyles.MenuItemLink)(I18n.t("content.footer.jobs"))
+                  )
+                ),
+                <.li(^.className := FooterStyles.menuItem)(
+                  <.p(^.className := Seq(TextStyleSheet.title, TextStyleSheet.smallText))(
+                    <.a(^.href := "/", ^.className := FooterStyles.MenuItemLink)(I18n.t("content.footer.press"))
+                  )
+                ),
+                <.li(^.className := FooterStyles.menuItem)(
+                  <.p(^.className := Seq(TextStyleSheet.title, TextStyleSheet.smallText))(
+                    <.a(^.href := "/", ^.className := FooterStyles.MenuItemLink)(I18n.t("content.footer.terms"))
+                  )
+                ),
+                <.li(^.className := FooterStyles.menuItem)(
+                  <.p(^.className := Seq(TextStyleSheet.title, TextStyleSheet.smallText))(
+                    <.a(^.href := "/", ^.className := FooterStyles.MenuItemLink)(I18n.t("content.footer.contact"))
+                  )
+                ),
+                <.li(^.className := FooterStyles.menuItem)(
+                  <.p(^.className := Seq(TextStyleSheet.title, TextStyleSheet.smallText))(
+                    <.a(^.href := "/", ^.className := FooterStyles.MenuItemLink)(I18n.t("content.footer.faq"))
+                  )
+                ),
+                <.li(^.className := FooterStyles.menuItem)(
+                  <.p(^.className := Seq(TextStyleSheet.title, TextStyleSheet.smallText))(
+                    <.a(^.href := "/", ^.className := FooterStyles.MenuItemLink)(I18n.t("content.footer.sitemap"))
+                  )
+                )
+              )
+            )
           )
         )
       ),
@@ -47,97 +71,54 @@ object FooterComponent {
   })
 }
 
-object ThemeList {
-  // Use a function to render
-  def apply(themes: Seq[Theme]): ReactElement =
-    <.ul(^.className := Seq(BulmaStyles.Grid.Columns.columnsMultiLines))(
-      themes.map(
-        theme =>
-          <.li(
-            ^.key := theme.slug,
-            ^.className := Seq(BulmaStyles.Grid.Columns.is4, BulmaStyles.Grid.Columns.column, FooterStyles.theme)
-          )(
-            <.span(^.className := Seq(FooterStyles.themeInner(theme.color)))(
-              <.span(
-                ^.className := Seq(
-                  BulmaStyles.Helpers.isClearfix,
-                  BulmaStyles.Helpers.isFullWidth,
-                  FooterStyles.themeTitle
-                )
-              )(<.Link(^.to := s"/theme/${theme.slug}")(theme.title)),
-              <.div(^.className := BulmaStyles.Helpers.isClearfix)(
-                <.Translate(
-                  ^.className := Seq(BulmaStyles.Helpers.isPulledLeft, FooterStyles.themeDescription),
-                  ^.value := "content.theme.actionsCount",
-                  ^("actions") := NumberFormat.formatToKilo(theme.actionsCount)
-                )(),
-                <.Translate(
-                  ^.className := Seq(BulmaStyles.Helpers.isPulledLeft, FooterStyles.themeDescription),
-                  ^.value := "content.theme.proposalsCount",
-                  ^("proposals") := NumberFormat.formatToKilo(theme.proposalsCount)
-                )()
-              )
-            )
-        )
-      )
-    )
-}
-
 object FooterStyles extends StyleSheet.Inline {
+
   import dsl._
 
-  val themeWrapper: StyleA =
+  //TODO: globalize function
+  implicit class NormalizedSize(val baseSize: Int) extends AnyVal {
+    def pxToEm(browserContextSize: Int = 18): Length[Double] = {
+      (baseSize.toFloat / browserContextSize.toFloat).em
+    }
+  }
+
+  //TODO: adjust shadow
+  val wrapper: StyleA =
+    style(backgroundColor(white), boxShadow := s"0 -2px 4px 0 rgba(0,0,0,0.50)")
+
+  val innerWrapper: StyleA =
+    style(display.table, width(100.%%), height(80.pxToEm()))
+
+  val logoWrapper: StyleA =
+    style(display.tableCell, verticalAlign.middle)
+
+  val menuWrapper: StyleA =
+    style(display.tableCell, verticalAlign.middle)
+
+  val logo: StyleA =
+    style(width(100.%%), maxWidth(60.pxToEm()))
+
+  val menu: StyleA =
     style(
-      backgroundColor(MakeStyles.Background.footer),
-      padding(3.2F.rem, 0.rem, 1.8F.rem, 0.rem),
-      MakeStyles.Font.tradeGothicLTStd
+      textAlign.right,
+      margin :=! s"${MakeStyles.Spacing.medium.value} 0",
+      MakeStyles.MediaQueries.beyondMedium(margin :=! s"0 -${MakeStyles.Spacing.small.value}")
     )
 
-  val themeWrapperTitle: StyleA = style(MakeStyles.title2, lineHeight(3.4F.rem), marginBottom(2.2F.rem))
-
-  val theme: StyleA =
-    style(padding(0.rem), margin(0.rem, 0.rem, 1.5F.rem, 0.rem))
-
-  def themeInner(color: String): StyleA =
+  val menuItem: StyleA =
     style(
-      borderLeft :=! s"0.5rem solid $color",
-      width(100.%%),
-      height(100.%%),
-      display.block,
-      marginLeft(0.75F.rem),
-      paddingLeft(0.9F.rem)
+      margin :=! s"${MakeStyles.Spacing.small.value} 0",
+      MakeStyles.MediaQueries
+        .beyondMedium(display.inlineBlock, verticalAlign.baseline, margin :=! s"${MakeStyles.Spacing.small.value}")
     )
 
-  val themeTitle: StyleA = style(
-    unsafeChild("a")(fontSize(2.rem), lineHeight(1.2), fontWeight.bold, color(MakeStyles.Color.black))
-  )
+  val MenuItemLink: StyleA =
+    style(color :=! inherit, transition := "color .2s ease-in-out", (&.hover)(color :=! MakeStyles.ThemeColor.primary))
 
-  val themeDescription: StyleA =
-    style(
-      color(rgba(0, 0, 0, 0.3)),
-      marginRight(10.px),
-      fontSize(1.6F.rem),
-      lineHeight(1.6F.rem),
-      MakeStyles.Font.circularStdBook
-    )
+  val emphasizedMenuItem: StyleA =
+    style(color(MakeStyles.ThemeColor.primary))
 
-  val linksContainer: StyleA =
-    style(height(71.px), backgroundColor(c"#ffffff"), boxShadow := "0 0 4px 0 rgba(0, 0, 0, 0.3)", padding(20.px, 0.px))
+  val MenuItemIcon: StyleA =
+    style(marginRight(MakeStyles.Spacing.smaller), verticalAlign.baseline)
 
-  val container: StyleA = style(maxWidth(114.rem), marginRight.auto, marginLeft.auto, width(100.%%), height(100.%%))
-
-  val footerLogo: StyleA = style(unsafeChild("img")(width(60.px)))
-
-  val links: StyleA = style(
-    unsafeChild("li")(
-      float.left,
-      fontSize(1.6F.rem),
-      margin(0.px, 7.px),
-      fontWeight.bold,
-      position.relative,
-      unsafeChild("span.icon")(position.absolute, top(4.px), left(-30.px))
-    )
-  )
-
-  val firstLink: StyleA = style(color(MakeStyles.Color.pink))
 }

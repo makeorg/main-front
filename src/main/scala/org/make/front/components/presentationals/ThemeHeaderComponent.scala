@@ -76,7 +76,7 @@ object ThemeHeaderStyles extends StyleSheet.Inline {
 
   val heroTitle: StyleA = style(
     paddingBottom(0.7.rem),
-    MakeStyles.StyleText.veryBigTitle,
+    MakeStyles.TextStyles.veryBigTitle,
     lineHeight(6.rem),
     color(c"#FFF"),
     BulmaStyles.ResponsiveHelpers.block,
