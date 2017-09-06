@@ -95,14 +95,25 @@ trait UserServiceComponent {
       }
     }
 
-    def resetPasswordChange(userId: String, resetToken: String, password: String): Future[Unit] = {
+    def resetPasswordChange(userId: String, resetToken: String, password: String): Future[Boolean] = {
       client.post[Unit](
         resourceName / "reset-password" / "change-password" / userId,
         data = Map("resetToken" -> resetToken, "password" -> password).asJson.pretty(ApiService.printer)
       ).map {
+        _ => true
+      }.recoverWith {
+        case _ => Future.successful(false)
+      }
+    }
+
+    def validateAccount(userId: String, verificationToken: String): Future[Unit] = {
+      client.post[Unit](
+        resourceName / userId / "validate" / verificationToken
+      ).map {
         _ =>
       }
     }
+
     def logout(): Future[Unit] =
       client.logout()
 

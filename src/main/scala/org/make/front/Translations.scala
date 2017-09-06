@@ -100,6 +100,11 @@ object Translations {
       |         "help": "Ne vous inquiétez pas, nous corrigerons vos éventuelles fautes d'orthographe.",
       |         "subHelp": "Pour en savoir plus sur notre charte de modération, cliquez ici.",
       |         "postedIn": "postée dans "
+      |       },
+      |       "account": {
+      |         "validationTitle": "Activation du compte",
+      |         "validationSuccess": "Votre compte vient d'être activé. vous pouvez vous connectez dès maintenant",
+      |         "validationError": "Votre jeton est invalide, votre compte ne peut pas être activé."
       |       }
       |    },
       |    "form": {
@@ -265,6 +270,11 @@ object Translations {
       |         "help": "Ne vous inquiétez pas, nous corrigerons vos éventuelles fautes d'orthographe.",
       |         "subHelp": "Pour en savoir plus sur notre charte de modération, cliquez ici.",
       |         "postedIn": "posted in "
+      |       },
+      |       "account": {
+      |         "validationTitle": "Activation du compte",
+      |         "validationSuccess": "Votre compte vient d'être activé. vous pouvez vous connectez dès maintenant",
+      |         "validationError": "Votre jeton est invalide, votre compte ne peut pas être activé."
       |       }
       |    },
       |    "form": {
