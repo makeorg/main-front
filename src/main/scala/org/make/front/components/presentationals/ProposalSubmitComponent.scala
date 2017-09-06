@@ -16,7 +16,6 @@ import io.github.shogowada.scalajs.reactjs.events.{
 import io.github.shogowada.scalajs.reactjs.router.RouterProps._
 import io.github.shogowada.scalajs.reactjs.router.WithRouter
 import org.make.core.validation.{ConstraintError, LengthConstraint, RegexConstraint}
-import org.make.front.components.presentationals.ConnectUserComponentStyles.{&, styleF}
 import org.make.front.components.presentationals.ProposalSubmitComponent._
 import org.make.front.facades.Localize.LocalizeVirtualDOMAttributes
 import org.make.front.facades.ReactModal.{ReactModalVirtualDOMAttributes, ReactModalVirtualDOMElements}

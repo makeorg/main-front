@@ -56,7 +56,7 @@ object ConnectUserComponent {
 
   lazy val reactClass: ReactClass =
     React.createClass[ConnectUserProps, ConnectUserState](
-      displayName = "Connect User",
+      displayName = getClass.toString,
       getInitialState = { self =>
         ConnectUserState(isOpen = self.props.wrapped.isOpen, isRegistering = self.props.wrapped.isRegistering)
       },
@@ -77,6 +77,7 @@ object ConnectUserComponent {
         var buttonWrapperClass: Seq[StyleA] =
           Seq(BulmaStyles.Helpers.isClearfix, ConnectUserComponentStyles.buttonsWrapper)
         var formContainerClass: Seq[StyleA] = Seq()
+        var socialInfo: Seq[StyleA] = Seq(ConnectUserComponentStyles.socialInfo)
 
         if (self.props.wrapped.isProposalFlow) {
           overlayClass = Seq(ConnectUserComponentStyles.proposalOverlay)
@@ -98,6 +99,8 @@ object ConnectUserComponent {
           )
           buttonWrapperClass = Seq(BulmaStyles.Helpers.isClearfix, ConnectUserComponentStyles.proposalButtonsWrapper)
           formContainerClass = Seq(ConnectUserComponentStyles.proposalFormContainer)
+          socialInfo = Seq(ConnectUserComponentStyles.proposalSocialInfo)
+
         }
 
         <.div()(
@@ -128,6 +131,9 @@ object ConnectUserComponent {
                   "form.login.socialConnect"
                 }
               })(), <.div(^.className := buttonWrapperClass)(<.ReactFacebookLogin(^.appId := self.props.wrapped.facebookAppId, ^.scope := "public_profile, email", ^.fields := "first_name, last_name, email, name, picture", ^.callback := facebookCallbackResponse(self), ^.cssClass := socialLoginButtonLeftClass, ^.iconClass := Seq(ConnectUserComponentStyles.buttonIcon.htmlClass, FontAwesomeStyles.facebook.htmlClass).mkString(" "), ^.textButton := "facebook")(), <.ReactGoogleLogin(^.clientID := self.props.wrapped.googleAppId, ^.scope := "profile email", ^.onSuccess := googleCallbackResponse(self), ^.onFailure := googleCallbackFailure(self), ^.isSignIn := self.props.wrapped.isConnected, ^.className := socialLoginButtonRightClass)(<.i(^.className := Seq(ConnectUserComponentStyles.buttonIcon, FontAwesomeStyles.googlePlus))(), "google+"))),
+              if (self.state.isRegistering) {
+                <.div(^.className := socialInfo)(<.Translate(^.value := "form.login.socialInfo")())
+              },
               <.div(^.className := ConnectUserComponentStyles.lineWrapper)(
                 <.span(^.className := ConnectUserComponentStyles.line)(),
                 <.Translate(^.className := ConnectUserComponentStyles.underlineText, ^.value := "form.or")(),
@@ -691,4 +697,24 @@ object ConnectUserComponentStyles extends StyleSheet.Inline {
   val proposalToggleSignInRegister: StyleA =
     style(MakeStyles.Font.circularStdBook, fontSize(1.6F.rem), textAlign.center)
 
+  val socialInfo: StyleA =
+    style(
+      MakeStyles.Font.circularStdBook,
+      fontSize(1.6F.rem),
+      lineHeight(1.6F.rem),
+      color(MakeStyles.Color.greyLight),
+      textAlign.center,
+      marginTop(1.6F.rem),
+      (media.all.maxWidth(800.px))(fontSize(1.3F.rem), lineHeight(1.3F.rem))
+    )
+  val proposalSocialInfo: StyleA =
+    style(
+      MakeStyles.Font.circularStdBook,
+      fontSize(1.6F.rem),
+      lineHeight(1.6F.rem),
+      color(MakeStyles.Color.greyLight),
+      textAlign.center,
+      marginTop(1.8F.rem),
+      (media.all.maxWidth(800.px))(fontSize(1.3F.rem), lineHeight(1.3F.rem))
+    )
 }
