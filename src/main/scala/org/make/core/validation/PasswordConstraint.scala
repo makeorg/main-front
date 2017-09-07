@@ -14,7 +14,7 @@ object PasswordConstraint extends Constraint {
   override def validate(value: Option[String], constraintMessages: Map[String, String] = Map()): Seq[ConstraintError] = {
 
     if (value.getOrElse("").isEmpty || isValidMin(value)) {
-      Seq()
+      Seq.empty
     } else {
       Seq(
         ConstraintError(

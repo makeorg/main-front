@@ -6,11 +6,11 @@ object EmailConstraint extends Constraint {
   override def validate(value: Option[String], constraintMessages: Map[String, String] = Map()): Seq[ConstraintError] = {
 
     if (value.getOrElse("").isEmpty) {
-      Seq()
+      Seq.empty
     } else {
       emailRegex
         .findFirstMatchIn(value.get)
-        .map(_ => Seq())
+        .map(_ => Seq.empty)
         .getOrElse(Seq(ConstraintError(constraintMessages.get("invalid").getOrElse("Invalid email"))))
     }
   }

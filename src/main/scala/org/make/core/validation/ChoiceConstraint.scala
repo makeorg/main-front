@@ -5,7 +5,7 @@ class ChoiceConstraint(choices: Seq[String]) extends Constraint {
     if (!value.getOrElse("").isEmpty && !choices.contains(value.getOrElse(""))) {
       Seq(ConstraintError(constraintMessages.get("invalid").getOrElse("The value you selected is not a valid choice")))
     } else {
-      Seq()
+      Seq.empty
     }
   }
 }

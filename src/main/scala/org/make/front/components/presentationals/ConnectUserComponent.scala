@@ -49,7 +49,7 @@ object ConnectUserComponent {
                               age: Option[String] = None,
                               postalCode: Option[String] = None,
                               profession: Option[String] = None,
-                              errorMessage: Seq[String] = Seq(),
+                              errorMessage: Seq[String] = Seq.empty,
                               typePassword: String = "password",
                               emailErrorMessage: String = "",
                               firstNameErrorMessage: String = "",
@@ -82,7 +82,7 @@ object ConnectUserComponent {
           Seq(MakeStyles.Button.google, ConnectUserComponentStyles.button, BulmaStyles.Helpers.isPulledLeft)
         var buttonWrapperClass: Seq[StyleA] =
           Seq(BulmaStyles.Helpers.isClearfix, ConnectUserComponentStyles.buttonsWrapper)
-        var formContainerClass: Seq[StyleA] = Seq()
+        var formContainerClass: Seq[StyleA] = Seq.empty
         var socialInfo: Seq[StyleA] = Seq(ConnectUserComponentStyles.socialInfo)
 
         if (self.props.wrapped.isProposalFlow) {
@@ -168,10 +168,10 @@ object ConnectUserComponent {
 
   def signInElement(self: Self[ConnectUserProps, ConnectUserState]): ReactElement = {
 
-    var submitButtonContainer: Seq[StyleA] = Seq()
+    var submitButtonContainer: Seq[StyleA] = Seq.empty
     var submitButton: Seq[StyleA] = Seq(MakeStyles.Button.default, ConnectUserComponentStyles.submitButton)
     var forgetPasswordClass: Seq[StyleA] = Seq(ConnectUserComponentStyles.text)
-    var toggleSignInRegisterClass: Seq[StyleA] = Seq()
+    var toggleSignInRegisterClass: Seq[StyleA] = Seq.empty
 
     if (self.props.wrapped.isProposalFlow) {
       submitButtonContainer = Seq(ConnectUserComponentStyles.proposalSubmitButtonContainer)
@@ -246,9 +246,9 @@ object ConnectUserComponent {
   def registerElement(self: Self[ConnectUserProps, ConnectUserState]): ReactElement = {
 
     var termsClass: Seq[StyleA] = Seq(ConnectUserComponentStyles.terms)
-    var submitButtonContainer: Seq[StyleA] = Seq()
+    var submitButtonContainer: Seq[StyleA] = Seq.empty
     var submitButton: Seq[StyleA] = Seq(MakeStyles.Button.default, ConnectUserComponentStyles.submitButton)
-    var toggleSignInRegisterClass: Seq[StyleA] = Seq()
+    var toggleSignInRegisterClass: Seq[StyleA] = Seq.empty
 
     if (self.props.wrapped.isProposalFlow) {
       termsClass = Seq(ConnectUserComponentStyles.terms, ConnectUserComponentStyles.proposalTerms)
@@ -463,7 +463,7 @@ object ConnectUserComponent {
     }
 
   private def handleSignInSubmit(self: Self[ConnectUserProps, ConnectUserState]) = (e: SyntheticEvent) => {
-    self.setState(self.state.copy(errorMessage = Seq()))
+    self.setState(self.state.copy(errorMessage = Seq.empty))
     e.preventDefault()
 
     val errorEmailMessages: Seq[String] = NotBlankConstraint
@@ -486,7 +486,7 @@ object ConnectUserComponent {
   }
 
   private def handleRegisterSubmit(self: Self[ConnectUserProps, ConnectUserState]) = (e: SyntheticEvent) => {
-    self.setState(self.state.copy(errorMessage = Seq()))
+    self.setState(self.state.copy(errorMessage = Seq.empty))
     e.preventDefault()
 
     val maxPostalCodeLength = 10
@@ -564,7 +564,7 @@ object ConnectUserComponent {
         ageErrorMessage = "",
         professionErrorMessage = "",
         postalCodeErrorMessage = "",
-        errorMessage = Seq(),
+        errorMessage = Seq.empty,
         typePassword = "password"
       )
     )
@@ -578,7 +578,7 @@ object ConnectUserComponent {
   private def toggleRegister(self: Self[ConnectUserProps, ConnectUserState]) = () => {
     self.setState(
       self.state.copy(
-        errorMessage = Seq(),
+        errorMessage = Seq.empty,
         isRegistering = !self.state.isRegistering,
         password = "",
         age = None,
@@ -594,12 +594,12 @@ object ConnectUserComponent {
   }
 
   private def facebookCallbackResponse(self: Self[ConnectUserProps, ConnectUserState])(response: Response): Unit = {
-    self.setState(self.state.copy(errorMessage = Seq()))
+    self.setState(self.state.copy(errorMessage = Seq.empty))
     self.props.wrapped.signInFacebook(response, self)
   }
 
   private def googleCallbackResponse(self: Self[ConnectUserProps, ConnectUserState])(response: Response): Unit = {
-    self.setState(self.state.copy(errorMessage = Seq()))
+    self.setState(self.state.copy(errorMessage = Seq.empty))
     self.props.wrapped.signInGoogle(response, self)
   }
 

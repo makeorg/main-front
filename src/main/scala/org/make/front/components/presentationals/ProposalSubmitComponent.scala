@@ -142,7 +142,7 @@ object ProposalSubmitComponent {
     }
   }
 
-  def getPrefixValidator(prefix: String) = {
+  def getPrefixValidator(prefix: String): RegexConstraint = {
     new RegexConstraint(pattern = s"^${Pattern.quote(prefix)}.*".r)
   }
 
