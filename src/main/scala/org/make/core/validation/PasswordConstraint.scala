@@ -13,7 +13,9 @@ object PasswordConstraint extends Constraint {
 
   override def validate(value: Option[String], constraintMessages: Map[String, String] = Map()): Seq[ConstraintError] = {
 
-    if (!isValidMin(value)) {
+    if (value.getOrElse("").isEmpty || isValidMin(value)) {
+      Seq.empty
+    } else {
       Seq(
         ConstraintError(
           constraintMessages
@@ -21,8 +23,6 @@ object PasswordConstraint extends Constraint {
             .getOrElse("This value is too short. It should have %{min} characters or more")
         )
       )
-    } else {
-      Seq()
     }
   }
 }

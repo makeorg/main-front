@@ -2,11 +2,17 @@ package org.make.front.components.presentationals
 
 import io.github.shogowada.scalajs.reactjs.React
 import io.github.shogowada.scalajs.reactjs.React.Self
-import io.github.shogowada.scalajs.reactjs.VirtualDOM._
+import io.github.shogowada.scalajs.reactjs.VirtualDOM.{<, _}
 import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import io.github.shogowada.scalajs.reactjs.elements.ReactElement
 import io.github.shogowada.scalajs.reactjs.events.{FormSyntheticEvent, SyntheticEvent}
-import org.make.core.validation.{ChoiceConstraint, EmailConstraint, LengthConstraint, PasswordConstraint}
+import org.make.core.validation.{
+  ChoiceConstraint,
+  EmailConstraint,
+  LengthConstraint,
+  NotBlankConstraint,
+  PasswordConstraint
+}
 import org.make.front.facades.{I18n, Replacements}
 import org.make.front.facades.Localize.LocalizeVirtualDOMAttributes
 import org.make.front.facades.ReactFacebookLogin._
@@ -43,7 +49,7 @@ object ConnectUserComponent {
                               age: Option[String] = None,
                               postalCode: Option[String] = None,
                               profession: Option[String] = None,
-                              errorMessage: Seq[String] = Seq(),
+                              errorMessage: Seq[String] = Seq.empty,
                               typePassword: String = "password",
                               emailErrorMessage: String = "",
                               firstNameErrorMessage: String = "",
@@ -56,7 +62,7 @@ object ConnectUserComponent {
 
   lazy val reactClass: ReactClass =
     React.createClass[ConnectUserProps, ConnectUserState](
-      displayName = "Connect User",
+      displayName = getClass.toString,
       getInitialState = { self =>
         ConnectUserState(isOpen = self.props.wrapped.isOpen, isRegistering = self.props.wrapped.isRegistering)
       },
@@ -76,7 +82,8 @@ object ConnectUserComponent {
           Seq(MakeStyles.Button.google, ConnectUserComponentStyles.button, BulmaStyles.Helpers.isPulledLeft)
         var buttonWrapperClass: Seq[StyleA] =
           Seq(BulmaStyles.Helpers.isClearfix, ConnectUserComponentStyles.buttonsWrapper)
-        var formContainerClass: Seq[StyleA] = Seq()
+        var formContainerClass: Seq[StyleA] = Seq.empty
+        var socialInfo: Seq[StyleA] = Seq(ConnectUserComponentStyles.socialInfo)
 
         if (self.props.wrapped.isProposalFlow) {
           overlayClass = Seq(ConnectUserComponentStyles.proposalOverlay)
@@ -98,6 +105,8 @@ object ConnectUserComponent {
           )
           buttonWrapperClass = Seq(BulmaStyles.Helpers.isClearfix, ConnectUserComponentStyles.proposalButtonsWrapper)
           formContainerClass = Seq(ConnectUserComponentStyles.proposalFormContainer)
+          socialInfo = Seq(ConnectUserComponentStyles.proposalSocialInfo)
+
         }
 
         <.div()(
@@ -119,7 +128,10 @@ object ConnectUserComponent {
                   <.Translate(
                     ^.className := ConnectUserComponentStyles.introSecondLine,
                     ^.value := "form.login.proposalIntroSecond"
-                  )()
+                  )(),
+                  <.div(^.className := ConnectUserComponentStyles.lineWrapper)(
+                    <.span(^.className := ConnectUserComponentStyles.line)()
+                  )
                 )
               }, <.Translate(^.className := MakeStyles.Modal.title, ^.value := {
                 if (self.state.isRegistering) {
@@ -128,6 +140,9 @@ object ConnectUserComponent {
                   "form.login.socialConnect"
                 }
               })(), <.div(^.className := buttonWrapperClass)(<.ReactFacebookLogin(^.appId := self.props.wrapped.facebookAppId, ^.scope := "public_profile, email", ^.fields := "first_name, last_name, email, name, picture", ^.callback := facebookCallbackResponse(self), ^.cssClass := socialLoginButtonLeftClass, ^.iconClass := Seq(ConnectUserComponentStyles.buttonIcon.htmlClass, FontAwesomeStyles.facebook.htmlClass).mkString(" "), ^.textButton := "facebook")(), <.ReactGoogleLogin(^.clientID := self.props.wrapped.googleAppId, ^.scope := "profile email", ^.onSuccess := googleCallbackResponse(self), ^.onFailure := googleCallbackFailure(self), ^.isSignIn := self.props.wrapped.isConnected, ^.className := socialLoginButtonRightClass)(<.i(^.className := Seq(ConnectUserComponentStyles.buttonIcon, FontAwesomeStyles.googlePlus))(), "google+"))),
+              if (self.state.isRegistering) {
+                <.div(^.className := socialInfo)(<.Translate(^.value := "form.login.socialInfo")())
+              },
               <.div(^.className := ConnectUserComponentStyles.lineWrapper)(
                 <.span(^.className := ConnectUserComponentStyles.line)(),
                 <.Translate(^.className := ConnectUserComponentStyles.underlineText, ^.value := "form.or")(),
@@ -153,10 +168,10 @@ object ConnectUserComponent {
 
   def signInElement(self: Self[ConnectUserProps, ConnectUserState]): ReactElement = {
 
-    var submitButtonContainer: Seq[StyleA] = Seq()
+    var submitButtonContainer: Seq[StyleA] = Seq.empty
     var submitButton: Seq[StyleA] = Seq(MakeStyles.Button.default, ConnectUserComponentStyles.submitButton)
     var forgetPasswordClass: Seq[StyleA] = Seq(ConnectUserComponentStyles.text)
-    var toggleSignInRegisterClass: Seq[StyleA] = Seq()
+    var toggleSignInRegisterClass: Seq[StyleA] = Seq.empty
 
     if (self.props.wrapped.isProposalFlow) {
       submitButtonContainer = Seq(ConnectUserComponentStyles.proposalSubmitButtonContainer)
@@ -231,9 +246,9 @@ object ConnectUserComponent {
   def registerElement(self: Self[ConnectUserProps, ConnectUserState]): ReactElement = {
 
     var termsClass: Seq[StyleA] = Seq(ConnectUserComponentStyles.terms)
-    var submitButtonContainer: Seq[StyleA] = Seq()
+    var submitButtonContainer: Seq[StyleA] = Seq.empty
     var submitButton: Seq[StyleA] = Seq(MakeStyles.Button.default, ConnectUserComponentStyles.submitButton)
-    var toggleSignInRegisterClass: Seq[StyleA] = Seq()
+    var toggleSignInRegisterClass: Seq[StyleA] = Seq.empty
 
     if (self.props.wrapped.isProposalFlow) {
       termsClass = Seq(ConnectUserComponentStyles.terms, ConnectUserComponentStyles.proposalTerms)
@@ -267,13 +282,15 @@ object ConnectUserComponent {
       // password field
       <.div(^.className := MakeStyles.Form.field)(
         <.i(^.className := Seq(MakeStyles.Form.inputIcon, FontAwesomeStyles.lock))(),
-        <.i(
-          ^.className := Seq(
-            ConnectUserComponentStyles.eye(self.state.typePassword == "password"),
-            MakeStyles.Form.inputIconLeft
-          ),
-          ^.onClick := toggleHidePassword(self)
-        )(),
+        if (self.state.password.nonEmpty) {
+          <.i(
+            ^.className := Seq(
+              ConnectUserComponentStyles.eye(self.state.typePassword == "password"),
+              MakeStyles.Form.inputIconLeft
+            ),
+            ^.onClick := toggleHidePassword(self)
+          )()
+        },
         <.input(
           ^.`type` := self.state.typePassword,
           ^.required := true,
@@ -446,52 +463,81 @@ object ConnectUserComponent {
     }
 
   private def handleSignInSubmit(self: Self[ConnectUserProps, ConnectUserState]) = (e: SyntheticEvent) => {
-    self.setState(self.state.copy(errorMessage = Seq()))
+    self.setState(self.state.copy(errorMessage = Seq.empty))
     e.preventDefault()
-    self.props.wrapped.signIn(self.state.email, self.state.password, self)
+
+    val errorEmailMessages: Seq[String] = NotBlankConstraint
+      .validate(Some(self.state.email), Map("notBlank" -> I18n.t("form.register.errorBlankEmail")))
+      .map(_.message)
+    val errorPasswordMessages: Seq[String] = NotBlankConstraint
+      .validate(Some(self.state.password), Map("notBlank" -> I18n.t("form.register.errorBlankPassword")))
+      .map(_.message)
+
+    self.setState(
+      _.copy(
+        emailErrorMessage = if (!errorEmailMessages.isEmpty) errorEmailMessages.head else "",
+        passwordErrorMessage = if (!errorPasswordMessages.isEmpty) errorPasswordMessages.head else ""
+      )
+    )
+
+    if (errorEmailMessages.isEmpty && errorPasswordMessages.isEmpty) {
+      self.props.wrapped.signIn(self.state.email, self.state.password, self)
+    }
   }
 
   private def handleRegisterSubmit(self: Self[ConnectUserProps, ConnectUserState]) = (e: SyntheticEvent) => {
-    self.setState(self.state.copy(errorMessage = Seq()))
+    self.setState(self.state.copy(errorMessage = Seq.empty))
     e.preventDefault()
 
     val maxPostalCodeLength = 10
     val ageConstraint = new ChoiceConstraint(agesChoices.map(_.toString))
     val postalCodeConstraint = new LengthConstraint(max = Some(maxPostalCodeLength))
-    val firstNameConstraint = new LengthConstraint(min = Some(1))
 
-    val errorEmailMessages: Seq[String] = EmailConstraint
-      .validate(Some(self.state.email), Map("invalid" -> "form.register.errorInvalidEmail"))
+    val errorEmailMessages: Seq[String] = (EmailConstraint & NotBlankConstraint)
+      .validate(
+        Some(self.state.email),
+        Map(
+          "invalid" -> I18n.t("form.register.errorInvalidEmail"),
+          "notBlank" -> I18n.t("form.register.errorBlankEmail")
+        )
+      )
       .map(_.message)
-    val errorPasswordMessages: Seq[String] = PasswordConstraint
-      .validate(Some(self.state.password), Map("minMessage" -> "form.register.errorMinPassword"))
+    val errorPasswordMessages: Seq[String] = (PasswordConstraint & NotBlankConstraint)
+      .validate(
+        Some(self.state.password),
+        Map(
+          "minMessage" -> I18n
+            .t("form.register.errorMinPassword", Replacements(("min", PasswordConstraint.min.toString))),
+          "notBlank" -> I18n.t("form.register.errorBlankPassword")
+        )
+      )
       .map(_.message)
     val errorAgeMessages: Seq[String] =
-      ageConstraint.validate(self.state.age, Map("invalid" -> "form.register.errorChoiceAge")).map(_.message)
+      ageConstraint.validate(self.state.age, Map("invalid" -> I18n.t("form.register.errorChoiceAge"))).map(_.message)
     val errorPostalCodeMessages: Seq[String] = postalCodeConstraint
-      .validate(self.state.postalCode, Map("maxMessage" -> "form.register.errorMaxPostalCode"))
+      .validate(
+        self.state.postalCode,
+        Map(
+          "maxMessage" -> I18n
+            .t("form.register.errorMaxPostalCode", Replacements(("max", maxPostalCodeLength.toString)))
+        )
+      )
       .map(_.message)
-    val errorFirstNameMessages: Seq[String] = firstNameConstraint
-      .validate(Some(self.state.firstName), Map("minMessage" -> "form.register.errorMinFirstName"))
+    val errorFirstNameMessages: Seq[String] = NotBlankConstraint
+      .validate(Some(self.state.firstName), Map("notBlank" -> I18n.t("form.register.errorBlankFirstName")))
       .map(_.message)
 
     self.setState(
       self.state.copy(
-        emailErrorMessage = if (!errorEmailMessages.isEmpty) I18n.t(errorEmailMessages.head) else "",
-        passwordErrorMessage =
-          if (!errorPasswordMessages.isEmpty)
-            I18n.t(errorPasswordMessages.head, Replacements(("min", PasswordConstraint.min.toString)))
-          else "",
-        ageErrorMessage = if (!errorAgeMessages.isEmpty) I18n.t(errorAgeMessages.head) else "",
-        postalCodeErrorMessage =
-          if (!errorPostalCodeMessages.isEmpty)
-            I18n.t(errorPostalCodeMessages.head, Replacements(("max", maxPostalCodeLength.toString)))
-          else "",
-        firstNameErrorMessage = if (!errorFirstNameMessages.isEmpty) I18n.t(errorFirstNameMessages.head) else ""
+        emailErrorMessage = if (!errorEmailMessages.isEmpty) errorEmailMessages.head else "",
+        passwordErrorMessage = if (!errorPasswordMessages.isEmpty) errorPasswordMessages.head else "",
+        ageErrorMessage = if (!errorAgeMessages.isEmpty) errorAgeMessages.head else "",
+        postalCodeErrorMessage = if (!errorPostalCodeMessages.isEmpty) errorPostalCodeMessages.head else "",
+        firstNameErrorMessage = if (!errorFirstNameMessages.isEmpty) errorFirstNameMessages.head else ""
       )
     )
 
-    if (errorEmailMessages.isEmpty && errorPasswordMessages.isEmpty && errorAgeMessages.isEmpty && errorPostalCodeMessages.isEmpty) {
+    if (errorEmailMessages.isEmpty && errorPasswordMessages.isEmpty && errorAgeMessages.isEmpty && errorPostalCodeMessages.isEmpty && errorFirstNameMessages.isEmpty) {
       self.props.wrapped.register(self)
     }
   }
@@ -518,7 +564,8 @@ object ConnectUserComponent {
         ageErrorMessage = "",
         professionErrorMessage = "",
         postalCodeErrorMessage = "",
-        errorMessage = Seq()
+        errorMessage = Seq.empty,
+        typePassword = "password"
       )
     )
     self.forceUpdate(self.props.wrapped.closeModal)
@@ -531,7 +578,7 @@ object ConnectUserComponent {
   private def toggleRegister(self: Self[ConnectUserProps, ConnectUserState]) = () => {
     self.setState(
       self.state.copy(
-        errorMessage = Seq(),
+        errorMessage = Seq.empty,
         isRegistering = !self.state.isRegistering,
         password = "",
         age = None,
@@ -540,18 +587,19 @@ object ConnectUserComponent {
         ageErrorMessage = "",
         postalCodeErrorMessage = "",
         professionErrorMessage = "",
-        passwordErrorMessage = ""
+        passwordErrorMessage = "",
+        typePassword = "password"
       )
     )
   }
 
   private def facebookCallbackResponse(self: Self[ConnectUserProps, ConnectUserState])(response: Response): Unit = {
-    self.setState(self.state.copy(errorMessage = Seq()))
+    self.setState(self.state.copy(errorMessage = Seq.empty))
     self.props.wrapped.signInFacebook(response, self)
   }
 
   private def googleCallbackResponse(self: Self[ConnectUserProps, ConnectUserState])(response: Response): Unit = {
-    self.setState(self.state.copy(errorMessage = Seq()))
+    self.setState(self.state.copy(errorMessage = Seq.empty))
     self.props.wrapped.signInGoogle(response, self)
   }
 
@@ -573,7 +621,13 @@ object ConnectUserComponentStyles extends StyleSheet.Inline {
   val buttonsInfo: StyleA = style(marginTop(1.4F.rem), display.block)
 
   val lineWrapper: StyleA =
-    style(display.flex, alignItems.center, margin(3.4F.rem, auto, 2.9F.rem, auto))
+    style(
+      display.flex,
+      alignItems.center,
+      margin(3.4F.rem, auto, 2.9F.rem, auto),
+      width(46.7F.rem),
+      (media.all.maxWidth(800.px))(width(100.%%))
+    )
   val line: StyleA =
     style(height(0.1F.rem), backgroundColor(rgba(0, 0, 0, 0.3)), flexGrow(1), marginTop(0.5F.rem), opacity(0.3))
   val underlineText: StyleA = style(MakeStyles.Font.playfairDisplayItalic, margin(0.rem, 1.6F.rem), fontSize(1.8F.rem))
@@ -675,9 +729,8 @@ object ConnectUserComponentStyles extends StyleSheet.Inline {
       display.block,
       textAlign.center,
       textTransform.uppercase,
-      marginBottom(6.1F.rem),
       color(MakeStyles.Color.black),
-      (media.all.maxWidth(800.px))(fontSize(3.rem), lineHeight(3.rem), marginBottom(3.2F.rem))
+      (media.all.maxWidth(800.px))(fontSize(3.rem), lineHeight(3.rem))
     )
   val proposalSocialLeftButton: StyleA = style(width(22.8F.rem), (media.all.maxWidth(800.px))(width(14.7F.rem)))
   val proposalSocialRightButton: StyleA = style(width(22.8F.rem), (media.all.maxWidth(800.px))(width(14.7F.rem)))
@@ -691,4 +744,24 @@ object ConnectUserComponentStyles extends StyleSheet.Inline {
   val proposalToggleSignInRegister: StyleA =
     style(MakeStyles.Font.circularStdBook, fontSize(1.6F.rem), textAlign.center)
 
+  val socialInfo: StyleA =
+    style(
+      MakeStyles.Font.circularStdBook,
+      fontSize(1.6F.rem),
+      lineHeight(1.6F.rem),
+      color(MakeStyles.Color.greyLight),
+      textAlign.center,
+      marginTop(1.6F.rem),
+      (media.all.maxWidth(800.px))(fontSize(1.3F.rem), lineHeight(1.3F.rem))
+    )
+  val proposalSocialInfo: StyleA =
+    style(
+      MakeStyles.Font.circularStdBook,
+      fontSize(1.6F.rem),
+      lineHeight(1.6F.rem),
+      color(MakeStyles.Color.greyLight),
+      textAlign.center,
+      marginTop(1.8F.rem),
+      (media.all.maxWidth(800.px))(fontSize(1.3F.rem), lineHeight(1.3F.rem))
+    )
 }

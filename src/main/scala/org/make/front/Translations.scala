@@ -20,15 +20,15 @@ object Translations {
       |       "noToken": "Token absent",
       |       "loginFailed": "La connexion a échoué",
       |       "apiFailure": "Échec de l'appel API",
-      |       "unexpectedBehaviour": "Comportement inattendu",
-      |       "tryAgain": "Veuillez réessayer"
+      |       "unexpectedBehaviour": "Quelque chose n'a pas fonctionné",
+      |       "tryAgain": "Si le problème persiste n'hésitez pas à nous contacter à support@make.org."
       |    },
       |    "content": {
       |       "header": {
       |         "profile": "Mon Profil",
       |         "settings": "Paramètres",
       |         "logout": "Se Déconnecter",
-      |         "connect": "Se Connecter",
+      |         "connect": "Je me connecte",
       |         "createAccount": "Créer un compte",
       |         "searchPlaceholder": "Chercher des propositions"
       |       },
@@ -89,12 +89,12 @@ object Translations {
       |         "plusOne": "+1",
       |         "anonymous": "anonyme",
       |         "confirmationThanks": "Merci !",
-      |         "confirmationButtonBackTheme": "Retourner sur le thème %{theme}",
+      |         "confirmationButtonBackTheme": "Retour au thème %{theme}",
       |         "confirmationButtonAnotherProposal": "Faire une nouvelle proposition",
-      |         "confirmationContent": "Votre proposition a été déposée. Elle va maintenant être relue par notre service modération. <br><br>Vous recevrez un e-mail quand elle aura été validée !",
-      |         "isTooLong": "Oups ! Vous avez dépassé la limite de %{max} caractères 😅",
-      |         "isTooShort": "Oups ! Votre proposition doit contenir au minimum %{min} caractères 😅",
-      |         "titleIntro": "Ajoutez votre proposition au thème",
+      |         "confirmationContent": "Votre proposition a bien été prise en compte, elle va maintenant être relue par notre service modération. Vous recevrez un email lorsqu'elle aura été validée.",
+      |         "isTooLong": "Vous avez dépassé la limite de caractères.",
+      |         "isTooShort": "Votre proposition doit faire au moins %{min} caractères",
+      |         "titleIntro": "Partagez votre proposition sur le thème",
       |         "help": "Ne vous inquiétez pas, nous corrigerons vos éventuelles fautes d'orthographe.",
       |         "subHelp": "Pour en savoir plus sur notre charte de modération, cliquez ici."
       |       }
@@ -115,30 +115,33 @@ object Translations {
       |         "socialRegister": "Je m'inscris avec",
       |         "stdConnect": "Je me connecte avec mon adresse e-mail",
       |         "stdRegister": "Je m’inscris avec ce formulaire",
-      |         "submitButton": "se connecter",
-      |         "oupsI": "Oups, j'ai ",
+      |         "submitButton": "Je me connecte",
+      |         "oupsI": "J'ai ",
       |         "forgotPassword": "oublié mon mot de passe ?",
-      |         "noAccount": "Je n'ai pas de compte, ",
-      |         "createAccount": "je m'en créé un.",
-      |         "errorAuthenticationFailed": "Erreur d'authentification",
+      |         "noAccount": "Je n'ai pas de compte | ",
+      |         "createAccount": "Inscription",
+      |         "errorAuthenticationFailed": "Ce compte ne semble pas exister. Merci de bien vouloir vérifier vos informations. ",
       |         "proposalIntroFirst": "Nous avons besoin de quelques informations",
-      |         "proposalIntroSecond": "Pour valider votre proposition"
+      |         "proposalIntroSecond": "Pour valider votre proposition",
+      |         "socialInfo": "Rassurez-vous, nous ne publierons jamais rien sans votre accord."
       |       },
       |       "register": {
       |          "withSocial": "Je m'inscris avec",
       |          "noPublishedContent": "(Nous n’y posterons jamais en votre nom)",
-      |          "withForm": "Je m'inscris avec ce formulaire",
-      |          "termsAgreed": "En vous inscrivant, vous acceptez nos conditions générales d’utilisation et acceptez de recevoir des e-mails (peu nombreux) de Make.org.",
-      |          "subscribe": "S’inscrire",
-      |          "alreadySubscribed": "J’ai déjà un compte ! ",
+      |          "withForm": "Je m'inscris avec mon adresse email",
+      |          "termsAgreed": "En vous inscrivant, vous acceptez nos conditions générales d'utilisation ainsi que de recevoir ponctuellement des emails de Make.org.",
+      |          "subscribe": "Je m'inscris",
+      |          "alreadySubscribed": "J’ai déjà un compte | ",
       |          "noRegister": "Non merci, je souhaite poursuivre %{break} sans compte finalement.",
-      |          "errorRegistrationFailed": "Erreur d'enregistrement",
-      |          "errorInvalidEmail": "Un email valide est requis",
-      |          "errorMinPassword": "Le mot de passe doit comporter au moins %{min} caractères",
+      |          "errorRegistrationFailed": "Quelque chose n'a pas fonctionné. Si le problème persiste n'hésitez pas à nous contacter à support@make.org.",
+      |          "errorInvalidEmail": "Format d'email non reconnu",
+      |          "errorMinPassword": "Votre mot de passe doit contenir au moins %{min} caractères",
       |          "errorChoiceAge": "Valeur invalide",
-      |          "errorMaxPostalCode": "Le code postal ne doit pas dépasser %{max} caractères",
-      |          "errorMinFirstName": "Le prénom est requis",
-      |          "errorAlreadyExist": "Cet email est déjà enregistré"
+      |          "errorMaxPostalCode": "Format erronné",
+      |          "errorBlankFirstName": "Le prénom est un champ obligatoire",
+      |          "errorAlreadyExist": "Cet email est déjà enregistré",
+      |          "errorBlankEmail": "L'email est un champ obligatoire",
+      |          "errorBlankPassword": "Le mot de passe est un champ obligatoire"
       |       },
       |       "proposal": {
       |         "submit": "Proposer"
@@ -179,8 +182,8 @@ object Translations {
       |       "noToken": "No token was provided",
       |       "loginFailed": "Login Failed",
       |       "apiFailure": "API call failed",
-      |       "unexpectedBehaviour": "Unexpected behaviour",
-      |       "tryAgain": "Please try again"
+      |       "unexpectedBehaviour": "Quelque chose n'a pas fonctionné",
+      |       "tryAgain": "Si le problème persiste n'hésitez pas à nous contacter à support@make.org."
       |    },
       |    "content": {
       |       "header": {
@@ -248,12 +251,12 @@ object Translations {
       |         "plusOne": "+1",
       |         "anonymous": "anonymous",
       |         "confirmationThanks": "Merci !",
-      |         "confirmationButtonBackTheme": "Retourner sur le thème %{theme}",
+      |         "confirmationButtonBackTheme": "Retour au thème %{theme}",
       |         "confirmationButtonAnotherProposal": "Faire une nouvelle proposition",
-      |         "confirmationContent": "Votre proposition a été déposée. Elle va maintenant être relue par notre service modération. <br><br>Vous recevrez un e-mail quand elle aura été validée !",
-      |         "isTooLong": "Oups ! Vous avez dépassé la limite de %{max} caractères 😅",
-      |         "isTooShort": "Oups ! Votre proposition doit contenir au minimum %{min} caractères 😅",
-      |         "titleIntro": "Ajoutez votre proposition au thème",
+      |         "confirmationContent": "Votre proposition a bien été prise en compte, elle va maintenant être relue par notre service modération. Vous recevrez un email lorsqu'elle aura été validée.",
+      |         "isTooLong": "Vous avez dépassé la limite de caractères.",
+      |         "isTooShort": "Votre proposition doit faire au moins %{min} caractères",
+      |         "titleIntro": "Partagez votre proposition sur le thème",
       |         "help": "Ne vous inquiétez pas, nous corrigerons vos éventuelles fautes d'orthographe.",
       |         "subHelp": "Pour en savoir plus sur notre charte de modération, cliquez ici."
       |       }
@@ -275,29 +278,32 @@ object Translations {
       |         "stdConnect": "Je me connecte avec mon adresse e-mail",
       |         "stdRegister": "Je m’inscris avec ce formulaire",
       |         "submitButton": "se connecter",
-      |         "oupsI": "Oups, j'ai ",
+      |         "oupsI": "J'ai ",
       |         "forgotPassword": "oublié mon mot de passe ?",
-      |         "noAccount": "Je n'ai pas de compte, ",
-      |         "createAccount": "je m'en créé un.",
-      |         "errorAuthenticationFailed": "Erreur d'authentification",
+      |         "noAccount": "Je n'ai pas de compte | ",
+      |         "createAccount": "Inscription",
+      |         "errorAuthenticationFailed": "Ce compte ne semble pas exister. Merci de bien vouloir vérifier vos informations. ",
       |         "proposalIntroFirst": "Nous avons besoin de quelques informations",
-      |         "proposalIntroSecond": "Pour valider votre proposition"
+      |         "proposalIntroSecond": "Pour valider votre proposition",
+      |         "socialInfo": "Rassurez-vous, nous ne publierons jamais rien sans votre accord."
       |       },
       |       "register": {
       |          "withSocial": "Je m'inscris avec",
       |          "noPublishedContent": "(Nous n’y posterons jamais en votre nom)",
-      |          "withForm": "Je m'inscris avec ce formulaire",
-      |          "termsAgreed": "En vous inscrivant, vous acceptez nos conditions générales d’utilisation et acceptez de recevoir des e-mails (peu nombreux) de Make.org.",
-      |          "subscribe": "S’inscrire",
-      |          "alreadySubscribed": "J’ai déjà un compte ! ",
+      |          "withForm": "Je m'inscris avec mon adresse email",
+      |          "termsAgreed": "En vous inscrivant, vous acceptez nos conditions générales d'utilisation ainsi que de recevoir ponctuellement des emails de Make.org.",
+      |          "subscribe": "Je m'inscris",
+      |          "alreadySubscribed": "J’ai déjà un compte | ",
       |          "noRegister": "Non merci, je souhaite poursuivre %{break} sans compte finalement.",
-      |          "errorRegistrationFailed": "Erreur d'enregistrement",
-      |          "errorInvalidEmail": "Un email valide est requis",
+      |          "errorRegistrationFailed": "Quelque chose n'a pas fonctionné. Si le problème persiste n'hésitez pas à nous contacter à support@make.org.",
+      |          "errorInvalidEmail": "Format d'email non reconnu",
       |          "errorMinPassword": "Le mot de passe doit comporter au moins %{min} caractères",
       |          "errorChoiceAge": "Valeur invalide",
-      |          "errorMaxPostalCode": "Le code postal ne doit pas dépasser %{max} caractères",
-      |          "errorMinFirstName": "Le prénom est requis",
-      |          "errorAlreadyExist": "Cet email est déjà enregistré"
+      |          "errorMaxPostalCode": "Format erronné",
+      |          "errorBlankFirstName": "Le prénom est un champ obligatoire",
+      |          "errorAlreadyExist": "Cet email est déjà enregistré",
+      |          "errorBlankEmail": "L'email est un champ obligatoire",
+      |          "errorBlankPassword": "Le mot de passe est un champ obligatoire"
       |       },
       |       "proposal": {
       |         "submit": "Proposer"

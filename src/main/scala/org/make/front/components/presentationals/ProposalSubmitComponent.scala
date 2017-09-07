@@ -15,7 +15,7 @@ import io.github.shogowada.scalajs.reactjs.events.{
 }
 import io.github.shogowada.scalajs.reactjs.router.RouterProps._
 import io.github.shogowada.scalajs.reactjs.router.WithRouter
-import org.make.front.components.presentationals.ConnectUserComponentStyles.{&, styleF}
+import org.make.core.validation.{ConstraintError, LengthConstraint, RegexConstraint}
 import org.make.front.components.presentationals.ProposalSubmitComponent._
 import org.make.front.facades.Localize.LocalizeVirtualDOMAttributes
 import org.make.front.facades.ReactModal.{ReactModalVirtualDOMAttributes, ReactModalVirtualDOMElements}
@@ -26,6 +26,7 @@ import org.make.front.styles.MakeStyles.Font
 import org.make.front.styles.{BulmaStyles, FontAwesomeStyles, MakeStyles}
 import org.scalajs.dom.raw.{HTMLElement, HTMLInputElement}
 
+import scala.util.matching.Regex
 import scalacss.DevDefaults._
 import scalacss.internal.StyleA
 import scalacss.internal.mutable.StyleSheet
@@ -141,18 +142,25 @@ object ProposalSubmitComponent {
     }
   }
 
+  def getPrefixValidator(prefix: String): RegexConstraint = {
+    new RegexConstraint(pattern = s"^${Pattern.quote(prefix)}.*".r)
+  }
+
   def handleProposalUpdate(self: Self, content: String): Unit = {
     val proposalContent = if (content.isEmpty) self.state.proposalPrefix else content
 
     var resultState = self.state.copy(errorMessage = "")
 
-    if (isValidProposalContent(proposalContent = proposalContent, proposalPrefix = self.state.proposalPrefix)) {
+    if (getPrefixValidator(self.state.proposalPrefix).validate(Some(proposalContent)).isEmpty) {
       resultState = resultState.copy(proposalContent = proposalContent)
     }
 
-    if (proposalLength(self, Some(proposalContent)) > self.state.maxLength) {
+    val constraintLengthErrors: Seq[ConstraintError] = new LengthConstraint(max = Some(self.state.maxLength))
+      .validate(Some(proposalContent), Map("maxMessage" -> "content.proposal.isTooLong"))
+
+    if (constraintLengthErrors.nonEmpty) {
       resultState = resultState.copy(
-        errorMessage = I18n.t("content.proposal.isTooLong", Replacements(("max", self.state.maxLength.toString)))
+        errorMessage = I18n.t(constraintLengthErrors.head.message, Replacements(("max", self.state.maxLength.toString)))
       )
     }
 
@@ -161,48 +169,43 @@ object ProposalSubmitComponent {
 
   def handleProposalSubmit(self: Self): (SyntheticEvent) => Any = (e: SyntheticEvent) => {
     e.preventDefault()
-    if (isValidProposalContent(
-          maxLength = self.state.maxLength,
-          proposalContent = self.state.proposalContent,
-          proposalPrefix = self.state.proposalPrefix,
-          minLength = self.state.minLength
-        ) && !self.state.proposalContent.isEmpty) {
+
+    val lenghtValidator = new LengthConstraint(
+      max = Some(self.state.maxLength),
+      min = Some(self.state.minLength + self.state.proposalPrefix.length)
+    )
+    val proposalValidator = getPrefixValidator(self.state.proposalPrefix) & lenghtValidator
+
+    val constraintErrors = proposalValidator.validate(
+      Some(self.state.proposalContent),
+      Map("minMessage" -> "content.proposal.isTooShort", "maxMessage" -> "content.proposal.isTooLong")
+    )
+
+    if (constraintErrors.isEmpty) {
       self.props.wrapped.handleProposalSubmit(self)
     } else {
-      if (self.state.proposalContent.length - self.state.proposalPrefix.length < self.state.minLength) {
-        self.setState(
-          _.copy(
-            errorMessage = I18n.t("content.proposal.isTooShort", Replacements(("min", self.state.minLength.toString)))
+
+      self.setState(
+        _.copy(
+          errorMessage = I18n.t(
+            constraintErrors.head.message,
+            Replacements(("min", self.state.minLength.toString), ("max", self.state.maxLength.toString))
           )
         )
-      }
+      )
     }
   }
 
   def proposalLength(self: Self, content: Option[String] = None): Int = {
 
     val proposalContent = content.getOrElse(self.state.proposalContent)
-    val length = proposalContent.length - self.state.proposalPrefix.length
+    val length = proposalContent.length
     if (length < 0) 0 else length
-  }
-
-  private def isValidProposalContent(maxLength: Int = 1000,
-                                     proposalContent: String,
-                                     proposalPrefix: String,
-                                     minLength: Int = 0): Boolean = {
-    val latinUnicodeRangeAccepted = "\\u00C0-\\u017F"
-    val specialCharactersAccepted = " ,'\\-"
-    val pattern =
-      s"(${Pattern.quote(proposalPrefix)}[0-9a-zA-Z$latinUnicodeRangeAccepted$specialCharactersAccepted]{$minLength,$maxLength}){0,1}".r
-
-    proposalContent match {
-      case pattern(_*) => true
-      case _           => false
-    }
   }
 }
 
 object ProposalModalElement {
+
   def apply(self: Self[ProposalSubmitProps, ProposalSubmitState]): ReactElement = {
     val gradientColor: GradientColor = self.state.theme.gradient.getOrElse(GradientColor("#FFF", "#FFF"))
     val themeTitleStyle =
