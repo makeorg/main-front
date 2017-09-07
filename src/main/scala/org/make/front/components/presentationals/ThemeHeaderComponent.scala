@@ -3,6 +3,7 @@ package org.make.front.components.presentationals
 import io.github.shogowada.scalajs.reactjs.React
 import io.github.shogowada.scalajs.reactjs.VirtualDOM._
 import io.github.shogowada.scalajs.reactjs.classes.ReactClass
+import org.make.front.components.TextStyleSheet
 import org.make.front.components.containers.ProposalSubmitContainerComponent
 import org.make.front.facades._
 import org.make.front.models.{GradientColor, Theme, ThemeId}
@@ -33,7 +34,7 @@ object ThemeHeaderComponent {
           ^.srcset := s"${imageShutterstock2.toString} 2x, ${imageShutterstock3.toString} 3x"
         )(),
         <.div(^.className := ThemeHeaderStyles.contentContainer)(
-          <.h2(^.className := ThemeHeaderStyles.heroTitle)(theme.title),
+          <.h2(^.className := Seq(TextStyleSheet.veryBigTitle, ThemeHeaderStyles.heroTitle))(theme.title),
           <.div(^.className := ThemeHeaderStyles.proposalSubmit)(
             <.ProposalSubmitContainerComponent(
               ^.wrapped := ProposalSubmitContainerComponent

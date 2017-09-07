@@ -113,17 +113,35 @@ object MakeStyles extends StyleSheet.Inline {
 
   ///////////////////////////////////////////////////////////////////////////
 
+  object MediaQueries {
+
+    val belowSmall: Media.Query = media.maxWidth(499.pxToEm(16))
+    val beyondSmall: Media.Query = media.minWidth(500.pxToEm(16))
+    val small: Media.Query = beyondSmall.maxWidth(839.pxToEm(16))
+
+    val belowMedium: Media.Query = media.maxWidth(839.pxToEm(16))
+    val beyondMedium: Media.Query = media.minWidth(840.pxToEm(16))
+    val medium: Media.Query = beyondMedium.maxWidth(1199.pxToEm(16))
+
+    val belowLarge: Media.Query = media.maxWidth(1199.pxToEm(16))
+    val beyondLarge: Media.Query = media.minWidth(1200.pxToEm(16))
+
+  }
+
   object TextStyles {
     val smallerText: StyleA = style(fontSize(14.pxToEm()))
-    val smallText: StyleA = style(fontSize(16.pxToEm()))
+    val smallText: StyleA = style(fontSize(13.pxToEm()), MediaQueries.beyondSmall(fontSize(16.pxToEm())))
     val baseText: StyleA = style(fontSize(18.pxToEm()))
     val boldText: StyleA = style(Font.circularStdBold)
     val title: StyleA = style(Font.tradeGothicLTStd, textTransform.uppercase)
-    val smallerTitle: StyleA = style(TextStyles.title, fontSize(20.pxToEm()))
+    val smallerTitle: StyleA =
+      style(TextStyles.title, fontSize(15.pxToEm()), MediaQueries.beyondSmall(fontSize(20.pxToEm())))
     val smallTitle: StyleA = style(TextStyles.title, fontSize(22.pxToEm()))
-    val mediumTitle: StyleA = style(TextStyles.title, fontSize(34.pxToEm()))
+    val mediumTitle: StyleA =
+      style(TextStyles.title, fontSize(20.pxToEm()), MediaQueries.beyondSmall(fontSize(34.pxToEm())))
     val bigTitle: StyleA = style(TextStyles.title, fontSize(46.pxToEm()))
-    val veryBigTitle: StyleA = style(TextStyles.title, fontSize(60.pxToEm()))
+    val veryBigTitle: StyleA =
+      style(TextStyles.title, fontSize(30.pxToEm()), MediaQueries.beyondMedium(fontSize(60.pxToEm())))
   }
 
   object ThemeColor {
@@ -131,16 +149,17 @@ object MakeStyles extends StyleSheet.Inline {
   }
 
   object TextColor {
-    val default: ValueT[ValueT.Color] = rgba(0, 0, 0, 1)
-    val grey: ValueT[ValueT.Color] = rgba(155, 155, 155, 1)
-    val darkerGrey: ValueT[ValueT.Color] = rgba(137, 137, 137, 1)
-    val white: ValueT[ValueT.Color] = rgba(255, 255, 255, 1)
+    val default: ValueT[ValueT.Color] = rgb(0, 0, 0)
+    val light: ValueT[ValueT.Color] = rgba(0, 0, 0, 0.5)
+    val lighter: ValueT[ValueT.Color] = rgba(0, 0, 0, 0.3)
+    val white: ValueT[ValueT.Color] = rgb(255, 255, 255)
+    val grey: ValueT[ValueT.Color] = rgb(155, 155, 155)
   }
 
   object BackgroundColor {
     val white: ValueT[ValueT.Color] = rgba(255, 255, 255, 1)
-    val grey: ValueT[ValueT.Color] = rgba(239, 239, 239, 1)
-    val darkerGrey: ValueT[ValueT.Color] = rgba(215, 215, 215, 1)
+    val grey: ValueT[ValueT.Color] = rgba(231, 231, 231, 1)
+    val blackTransparent: ValueT[ValueT.Color] = rgba(0, 0, 0, 0.05)
   }
 
   object BorderColor {
@@ -159,18 +178,4 @@ object MakeStyles extends StyleSheet.Inline {
     val larger: ValueT[ValueT.LenPct] = 60.pxToEm()
   }
 
-  object MediaQueries {
-
-    val belowSmall: Media.Query = media.maxWidth(499.pxToEm(16))
-    val beyondSmall: Media.Query = media.minWidth(500.pxToEm(16))
-    val small: Media.Query = beyondSmall.maxWidth(839.pxToEm(16))
-
-    val belowMedium: Media.Query = media.maxWidth(839.pxToEm(16))
-    val beyondMedium: Media.Query = media.minWidth(840.pxToEm(16))
-    val medium: Media.Query = beyondMedium.maxWidth(1199.pxToEm(16))
-
-    val belowLarge: Media.Query = media.maxWidth(1199.pxToEm(16))
-    val beyondLarge: Media.Query = media.minWidth(1200.pxToEm(16))
-
-  }
 }

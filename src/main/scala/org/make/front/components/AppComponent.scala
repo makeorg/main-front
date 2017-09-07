@@ -30,6 +30,7 @@ object AppComponent {
 }
 
 object LayoutStyleSheet extends StyleSheet.Inline {
+
   import dsl._
 
   val gutter: ValueT[ValueT.LenPct] = MakeStyles.Spacing.small
@@ -78,19 +79,23 @@ object TextStyleSheet extends StyleSheet.Inline {
   }
 
   val smallerText: StyleA = style(fontSize(14.pxToEm()))
-  val smallText: StyleA = style(fontSize(16.pxToEm()))
+  val smallText: StyleA = style(fontSize(13.pxToEm()), MakeStyles.MediaQueries.beyondSmall(fontSize(16.pxToEm())))
   val baseText: StyleA = style(fontSize(18.pxToEm()))
   val boldText: StyleA = style(MakeStyles.Font.circularStdBold)
   val title: StyleA = style(MakeStyles.Font.tradeGothicLTStd, textTransform.uppercase)
-  val smallerTitle: StyleA = style(title, fontSize(20.pxToEm()))
+  val smallerTitle: StyleA =
+    style(title, fontSize(15.pxToEm()), MakeStyles.MediaQueries.beyondSmall(fontSize(20.pxToEm())))
   val smallTitle: StyleA = style(title, fontSize(22.pxToEm()))
-  val mediumTitle: StyleA = style(title, fontSize(34.pxToEm()))
+  val mediumTitle: StyleA =
+    style(title, fontSize(20.pxToEm()), MakeStyles.MediaQueries.beyondSmall(fontSize(34.pxToEm())))
   val bigTitle: StyleA = style(title, fontSize(46.pxToEm()))
-  val veryBigTitle: StyleA = style(title, fontSize(60.pxToEm()))
+  val veryBigTitle: StyleA =
+    style(title, fontSize(30.pxToEm()), MakeStyles.MediaQueries.beyondMedium(fontSize(60.pxToEm())))
 
 }
 
 object AppComponentStyles extends StyleSheet.Inline {
+
   import dsl._
 
   val container: StyleA = style(maxWidth(114.rem), marginRight.auto, marginLeft.auto, width(100.%%), height(100.%%))

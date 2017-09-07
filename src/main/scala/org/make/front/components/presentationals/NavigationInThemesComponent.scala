@@ -69,7 +69,7 @@ object NavigationInThemesStyles extends StyleSheet.Inline {
   import dsl._
 
   val wrapper: StyleA = style(
-    backgroundColor(MakeStyles.BackgroundColor.darkerGrey),
+    backgroundColor(MakeStyles.BackgroundColor.blackTransparent),
     padding :=! s"${MakeStyles.Spacing.medium.value} 0 ${MakeStyles.Spacing.small.value}"
   )
 
@@ -90,7 +90,7 @@ object NavigationInThemesStyles extends StyleSheet.Inline {
     MakeStyles.MediaQueries.belowMedium(display.none),
     marginRight(MakeStyles.Spacing.small),
     verticalAlign.baseline,
-    color(MakeStyles.TextColor.darkerGrey)
+    color(MakeStyles.TextColor.lighter)
   )
 
   val propositionsCounter: StyleA = style(actionsCounter)
