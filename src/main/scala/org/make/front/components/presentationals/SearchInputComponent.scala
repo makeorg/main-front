@@ -24,19 +24,19 @@ object SearchInputComponent {
 
   val autoSuggestTheme: Dictionary[String] =
     Map[String, String](
-      "container" -> SearchInputStyles.container.htmlClass,
-      "containerOpen" -> SearchInputStyles.containerOpen.htmlClass,
-      "input" -> Seq(MakeStyles.Form.inputText.htmlClass, SearchInputStyles.input.htmlClass).mkString(" "),
-      "inputOpen" -> SearchInputStyles.inputOpen.htmlClass,
-      "suggestionsContainer" -> SearchInputStyles.suggestionsContainer.htmlClass,
-      "suggestionsContainerOpen" -> SearchInputStyles.suggestionsContainerOpen.htmlClass,
-      "suggestionsList" -> SearchInputStyles.suggestionsList.htmlClass,
-      "suggestion" -> SearchInputStyles.suggestion.htmlClass,
-      "suggestionFirst" -> SearchInputStyles.suggestionFirst.htmlClass,
-      "suggestionHighlighted" -> SearchInputStyles.suggestionHighlighted.htmlClass,
-      "sectionContainer" -> SearchInputStyles.sectionContainer.htmlClass,
-      "sectionContainerFirst" -> SearchInputStyles.sectionContainerFirst.htmlClass,
-      "sectionContainerTitle" -> SearchInputStyles.sectionContainerTitle.htmlClass
+      "container" -> "",
+      "containerOpen" -> "",
+      "input" -> "",
+      "inputOpen" -> "",
+      "suggestionsContainer" -> "",
+      "suggestionsContainerOpen" -> "",
+      "suggestionsList" -> "",
+      "suggestion" -> "",
+      "suggestionFirst" -> "",
+      "suggestionHighlighted" -> "",
+      "sectionContainer" -> "",
+      "sectionContainerFirst" -> "",
+      "sectionContainerTitle" -> ""
     ).toJSDictionary
 
   lazy val reactClass: ReactClass =
@@ -58,10 +58,8 @@ object SearchInputComponent {
                 false
               }
 
-              <.form(
-                ^.className := Seq(BulmaStyles.Element.hasIconsLeft, BulmaStyles.Element.control),
-                ^.onSubmit := onSubmit
-              )(
+              <.form(^.onSubmit := onSubmit)(
+                <.i(^.className := Seq(FontAwesomeStyles.search))(),
                 <.Autosuggest(
                   ^.suggestions := self.state.suggestions,
                   ^.onSuggestionsFetchRequested := (
@@ -81,9 +79,6 @@ object SearchInputComponent {
                   ),
                   ^.theme := autoSuggestTheme
                 )(),
-                <.span(^.className := Seq(BulmaStyles.Element.icon, BulmaStyles.Element.isLeft))(
-                  <.i(^.className := Seq(FontAwesomeStyles.search, SearchInputStyles.redSearchIcon))()
-                ),
                 <.style()(SearchInputStyles.render[String])
               )
             }
@@ -119,22 +114,5 @@ object SuggestionRender {
 
 object SearchInputStyles extends StyleSheet.Inline {
   import dsl._
-
-  val container: StyleA = style(border(none), verticalAlign.middle, padding(2.rem), width(100.%%))
-  val containerOpen: StyleA = style()
-  val input: StyleA =
-    style(width(100.%%), minWidth(30.rem), maxWidth(200.rem))
-  val inputOpen: StyleA = style()
-  val suggestionsContainer: StyleA = style()
-  val suggestionsContainerOpen: StyleA = style()
-  val suggestionsList: StyleA = style()
-  val suggestion: StyleA = style()
-  val suggestionFirst: StyleA = style()
-  val suggestionHighlighted: StyleA = style()
-  val sectionContainer: StyleA = style()
-  val sectionContainerFirst: StyleA = style()
-  val sectionContainerTitle: StyleA = style()
-
-  val redSearchIcon: StyleA = style(color.red, marginTop(5.5F.rem), marginLeft(6.rem))
 
 }

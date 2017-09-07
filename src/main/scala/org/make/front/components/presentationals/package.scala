@@ -15,7 +15,7 @@ package object presentationals {
   implicit class RichVirtualDOMElements(val self: VirtualDOMElements) extends AnyVal {
     // Components
     def HeaderComponent: ReactClassElementSpec = self(presentationals.HeaderComponent.reactClass)
-    def UserHeaderComponent: ReactClassElementSpec = self(presentationals.UserHeaderComponent.reactClass)
+    def UserNavComponent: ReactClassElementSpec = self(presentationals.UserNavComponent.reactClass)
     def SearchInputComponent: ReactClassElementSpec = self(presentationals.SearchInputComponent.reactClass)
     def HomeComponent: ReactClassElementSpec = self(presentationals.HomeComponent.reactClass)
     def ContainerComponent: ReactClassElementSpec = self(presentationals.ContainerComponent())
@@ -36,8 +36,8 @@ package object presentationals {
     // Containers
     def NotificationContainerComponent: ReactClassElementSpec =
       self(containers.NotificationContainerComponent.reactClass)
-    def UserHeaderContainerComponent: ReactClassElementSpec =
-      self(containers.UserHeaderContainerComponent.reactClass)
+    def UserNavContainerComponent: ReactClassElementSpec =
+      self(containers.UserNavContainerComponent.reactClass)
     def ConnectUserContainerComponent: ReactClassElementSpec = self(containers.ConnectUserContainerComponent.reactClass)
     def ProposalMatrixContainerComponent: ReactClassElementSpec =
       self(containers.ProposalMatrixContainerComponent.reactClass)

@@ -105,5 +105,4 @@ object ProposalTileStyle extends StyleSheet.Inline {
         styleS()
     }
   )
-
 }

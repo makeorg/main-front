@@ -2,34 +2,49 @@ package org.make.front.components.presentationals
 
 import io.github.shogowada.scalajs.reactjs.React
 import io.github.shogowada.scalajs.reactjs.VirtualDOM._
-import org.make.front.facades.imageLogoMake
+import org.make.front.facades.{imageLogoMake, I18n}
 import io.github.shogowada.scalajs.reactjs.classes.ReactClass
-import org.make.front.styles.{BulmaStyles, MakeStyles}
+import org.make.front.components.{LayoutStyleSheet, TextStyleSheet}
+import org.make.front.facades.Unescape.unescape
+import org.make.front.styles.MakeStyles
+
+import scalacss.internal.{StyleA}
 
 import scalacss.DevDefaults._
 import scalacss.internal.mutable.StyleSheet
+import scalacss.internal.Length
 
 object HeaderComponent {
   lazy val reactClass: ReactClass = React.createClass[Unit, Unit](
     render = (self) =>
-      <.nav(^.className := Seq(BulmaStyles.Components.Navbar.navbar, HeaderStyles.headerContainer))(
-        <.div(^.className := BulmaStyles.Components.Navbar.navbarBrand)(
-          <.a(^.className := BulmaStyles.Components.Navbar.navbarItem, ^.href := "/")(
-            <.img(
-              ^.style := Map("maxHeight" -> "100%"),
-              ^.src := imageLogoMake.toString,
-              ^.height := 56,
-              ^.width := 105
-            )()
-          ),
-          <.div(^.className := BulmaStyles.Components.Navbar.navbarBurger)(<.span()(), <.span()(), <.span()())
-        ),
-        <.div(^.className := BulmaStyles.Components.Navbar.navbarMenu)(
-          <.div(^.className := BulmaStyles.Components.Navbar.navbarMenu)(
-            <.div(^.className := BulmaStyles.Components.Navbar.navbarStart)(
-              <.SearchInputComponent(^.className := BulmaStyles.Components.Navbar.navbarItem)()
-            ),
-            <.div(^.className := BulmaStyles.Components.Navbar.navbarEnd)(<.UserHeaderContainerComponent.empty)
+      <.header(^.className := HeaderStyles.wrapper)(
+        <.div(^.className := LayoutStyleSheet.centeredRow)(
+          <.div(^.className := LayoutStyleSheet.col)(
+            <.div(^.className := HeaderStyles.innerWrapper)(
+              //TODO: h1 if homepage else p
+              <.h1(^.className := HeaderStyles.logoWrapper)(
+                <.a(^.href := "/")(
+                  <.img(^.className := HeaderStyles.logo, ^.src := imageLogoMake.toString, ^.title := "Make.org")()
+                )
+              ),
+              <.div(^.className := HeaderStyles.searchWrapper)(<.SearchInputComponent()()),
+              <.div(^.className := HeaderStyles.menusWrapper)(
+                <.div(^.className := HeaderStyles.menusInnerWrapper)(
+                  <.nav(^.className := Seq(HeaderStyles.menuWrapper, LayoutStyleSheet.showInlineBlockBeyondMedium))(
+                    <.ul(^.className := HeaderStyles.menu)(
+                      <.li(^.className := HeaderStyles.menuItem)(
+                        <.p(^.className := Seq(TextStyleSheet.title, TextStyleSheet.smallText))(
+                          <.a(^.href := "/", ^.className := HeaderStyles.menuItemLink)(
+                            unescape(I18n.t("content.header.presentation"))
+                          )
+                        )
+                      )
+                    )
+                  ),
+                  <.UserNavContainerComponent.empty
+                )
+              )
+            )
           )
         ),
         <.style()(HeaderStyles.render[String])
@@ -38,19 +53,59 @@ object HeaderComponent {
 }
 
 object HeaderStyles extends StyleSheet.Inline {
+
   import dsl._
 
-  val headerRemHeight: Float = 8
+  //TODO: globalize function
+  implicit class NormalizedSize(val baseSize: Int) extends AnyVal {
+    def pxToEm(browserContextSize: Int = 18): Length[Double] = {
+      (baseSize.toFloat / browserContextSize.toFloat).em
+    }
+  }
 
-  val imageBrand: StyleA = style(maxHeight(100.%%))
-  val headerContainer: StyleA = style(
-    height(headerRemHeight.rem),
-    fontSize(1.6.rem),
-    MakeStyles.modeMobile(height(10.rem)),
-    MakeStyles.modeDesktop(padding(0.rem, 15.rem)),
-    position.sticky,
-    zIndex(1000),
-    top(0.rem),
-    boxShadow := "0 4px 8px 0 rgba(0, 0, 0, 0.5)"
-  )
+  val wrapper: StyleA =
+    style(
+      position.fixed,
+      top(0.em),
+      left(0.em),
+      width(100.%%),
+      zIndex(10),
+      backgroundColor(MakeStyles.BackgroundColor.white),
+      boxShadow := s"0 2px 4px 0 rgba(0,0,0,0.50)"
+    )
+
+  val innerWrapper: StyleA =
+    style(
+      display.table,
+      width(100.%%),
+      height(50.pxToEm()),
+      MakeStyles.MediaQueries.beyondSmall(height(MakeStyles.mainNavDefaultHeight))
+    )
+
+  val logoWrapper: StyleA =
+    style(display.tableCell, verticalAlign.middle)
+
+  val searchWrapper: StyleA =
+    style(display.tableCell, verticalAlign.middle)
+
+  val menusWrapper: StyleA =
+    style(display.tableCell, verticalAlign.middle, textAlign.right)
+
+  val menusInnerWrapper: StyleA =
+    style(margin :=! s"0 -${MakeStyles.Spacing.small.value}")
+
+  val menuWrapper: StyleA =
+    style(display.inlineBlock)
+
+  val logo: StyleA = style(width(100.%%), maxWidth(60.pxToEm()))
+
+  val menu: StyleA =
+    style()
+
+  val menuItem: StyleA =
+    style(display.inlineBlock, verticalAlign.baseline, margin :=! s"0 ${MakeStyles.Spacing.small.value}")
+
+  val menuItemLink: StyleA =
+    style(color :=! MakeStyles.ThemeColor.primary)
+
 }

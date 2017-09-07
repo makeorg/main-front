@@ -65,6 +65,19 @@ object LayoutStyleSheet extends StyleSheet.Inline {
     MakeStyles.MediaQueries.beyondLarge(maxWidth(MakeStyles.ContainerMaxWidth.main), marginRight.auto, marginLeft.auto)
   )
 
+  val showBlockBeyondSmall: StyleA = style(display.none, MakeStyles.MediaQueries.beyondSmall(display.block))
+  val showBlockBeyondMedium: StyleA = style(display.none, MakeStyles.MediaQueries.beyondMedium(display.block))
+  val showBlockBeyondLarge: StyleA = style(display.none, MakeStyles.MediaQueries.beyondLarge(display.block))
+
+  val showInlineBlockBeyondSmall: StyleA = style(display.none, MakeStyles.MediaQueries.beyondSmall(display.inlineBlock))
+  val showInlineBlockBeyondMedium: StyleA =
+    style(display.none, MakeStyles.MediaQueries.beyondMedium(display.inlineBlock))
+  val showInlineBlockBeyondLarge: StyleA = style(display.none, MakeStyles.MediaQueries.beyondLarge(display.inlineBlock))
+
+  val hideBeyondSmall: StyleA = style(MakeStyles.MediaQueries.beyondSmall(display.none))
+  val hideBeyondMedium: StyleA = style(MakeStyles.MediaQueries.beyondMedium(display.none))
+  val hideBeyondLarge: StyleA = style(MakeStyles.MediaQueries.beyondLarge(display.none))
+
 }
 
 object TextStyleSheet extends StyleSheet.Inline {

@@ -149,7 +149,7 @@ object MakeStyles extends StyleSheet.Inline {
   }
 
   object TextColor {
-    val default: ValueT[ValueT.Color] = rgb(0, 0, 0)
+    val base: ValueT[ValueT.Color] = rgb(0, 0, 0)
     val light: ValueT[ValueT.Color] = rgba(0, 0, 0, 0.5)
     val lighter: ValueT[ValueT.Color] = rgba(0, 0, 0, 0.3)
     val white: ValueT[ValueT.Color] = rgb(255, 255, 255)
@@ -157,13 +157,15 @@ object MakeStyles extends StyleSheet.Inline {
   }
 
   object BackgroundColor {
-    val white: ValueT[ValueT.Color] = rgba(255, 255, 255, 1)
-    val grey: ValueT[ValueT.Color] = rgba(231, 231, 231, 1)
+    val white: ValueT[ValueT.Color] = rgb(255, 255, 255)
+    val grey: ValueT[ValueT.Color] = rgb(231, 231, 231)
     val blackTransparent: ValueT[ValueT.Color] = rgba(0, 0, 0, 0.05)
   }
 
   object BorderColor {
-    val discreet: ValueT[ValueT.Color] = rgb(229, 229, 229)
+    val base: ValueT[ValueT.Color] = rgb(155, 155, 155)
+    val light: ValueT[ValueT.Color] = rgb(204, 204, 204)
+    val blackTransparent: ValueT[ValueT.Color] = rgba(0, 0, 0, 0.01)
   }
 
   object ContainerMaxWidth {
@@ -177,5 +179,7 @@ object MakeStyles extends StyleSheet.Inline {
     val large: ValueT[ValueT.LenPct] = 50.pxToEm()
     val larger: ValueT[ValueT.LenPct] = 60.pxToEm()
   }
+
+  val mainNavDefaultHeight: ValueT[ValueT.LenPct] = 80.pxToEm()
 
 }

@@ -395,11 +395,7 @@ object ProposalSubmitComponentStyles extends StyleSheet.Inline {
     style(width(60.rem), (media.all.maxWidth(800.px))(width(31.rem)))
 
   val overlayModalStyle: StyleA =
-    style(
-      background := s"linear-gradient(121deg, #ffffff, #ececec)",
-      addClassName(MakeStyles.Modal.overlay.htmlClass),
-      paddingTop(HeaderStyles.headerRemHeight.rem)
-    )
+    style(background := s"linear-gradient(121deg, #ffffff, #ececec)", addClassName(MakeStyles.Modal.overlay.htmlClass))
 
   val modalStyle: StyleA =
     style(
@@ -486,7 +482,6 @@ object ProposalSubmitComponentStyles extends StyleSheet.Inline {
   val close: StyleA =
     style(
       position.fixed,
-      top(HeaderStyles.headerRemHeight.+(3.7).rem),
       right(3.7F.rem),
       height(4.rem),
       width(4.rem),
@@ -494,7 +489,6 @@ object ProposalSubmitComponentStyles extends StyleSheet.Inline {
       (&.before)(width(4.rem)),
       (&.after)(width(4.rem)),
       (media.all.maxWidth(800.px))(
-        top(HeaderStyles.headerRemHeight.+(3).rem),
         right(0.rem),
         height(5.6F.rem),
         width(5.6F.rem),

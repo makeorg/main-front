@@ -3,6 +3,7 @@ package org.make.front.components.presentationals
 import io.github.shogowada.scalajs.reactjs.React
 import io.github.shogowada.scalajs.reactjs.VirtualDOM._
 import io.github.shogowada.scalajs.reactjs.classes.ReactClass
+import org.make.front.facades.Unescape.unescape
 import org.make.front.facades.{homeIllustration, I18n}
 import org.make.front.styles.{BulmaStyles, MakeStyles}
 
@@ -17,10 +18,12 @@ object HomeHeaderComponent {
         <.div(^.className := HomeHeaderStyles.titleContainer.htmlClass)(
           <.div(
             ^.className := Seq(BulmaStyles.Element.button, BulmaStyles.Syntax.isDark, HomeHeaderStyles.buttonLaUne)
-          )(I18n.t("content.homepage.baseline")),
-          <.h2(^.className := HomeHeaderStyles.titleText.htmlClass)(I18n.t("content.homepage.title")),
-          <.h5(^.className := HomeHeaderStyles.subTitleText.htmlClass)(I18n.t("content.homepage.subTitle")),
-          <.button(^.className := HomeHeaderStyles.buttonSeeMore.htmlClass)(I18n.t("content.homepage.textSeeMore"))
+          )(unescape(I18n.t("content.homepage.baseline"))),
+          <.h2(^.className := HomeHeaderStyles.titleText.htmlClass)(unescape(I18n.t("content.homepage.title"))),
+          <.h5(^.className := HomeHeaderStyles.subTitleText.htmlClass)(unescape(I18n.t("content.homepage.subTitle"))),
+          <.button(^.className := HomeHeaderStyles.buttonSeeMore.htmlClass)(
+            unescape(I18n.t("content.homepage.textSeeMore"))
+          )
         ),
         <.style()(HomeHeaderStyles.render[String])
     )

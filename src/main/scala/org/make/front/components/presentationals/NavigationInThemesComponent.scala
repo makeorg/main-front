@@ -10,6 +10,7 @@ import org.make.front.models.Theme
 import org.make.front.styles.MakeStyles
 import org.make.front.components.LayoutStyleSheet
 import org.make.front.components.TextStyleSheet
+import org.make.front.facades.Unescape.unescape
 
 import scalacss.DevDefaults._
 
@@ -34,15 +35,19 @@ object NavigationInThemesComponent {
             <.div(^.className := NavigationInThemesStyles.themeItemContentWrapper(theme.color))(
               <.h3(^.className := TextStyleSheet.smallerTitle)(theme.title),
               <.p(^.className := Seq(NavigationInThemesStyles.actionsCounter, TextStyleSheet.smallText))(
-                I18n.t(
-                  "content.theme.actionsCount",
-                  Replacements(("actions", NumberFormat.formatToKilo(theme.actionsCount)))
+                unescape(
+                  I18n.t(
+                    "content.theme.actionsCount",
+                    Replacements(("actions", NumberFormat.formatToKilo(theme.actionsCount)))
+                  )
                 )
               ),
               <.p(^.className := Seq(NavigationInThemesStyles.propositionsCounter, TextStyleSheet.smallText))(
-                I18n.t(
-                  "content.theme.proposalsCount",
-                  Replacements(("proposals", NumberFormat.formatToKilo(theme.proposalsCount)))
+                unescape(
+                  I18n.t(
+                    "content.theme.proposalsCount",
+                    Replacements(("proposals", NumberFormat.formatToKilo(theme.proposalsCount)))
+                  )
                 )
               )
             )
@@ -54,7 +59,7 @@ object NavigationInThemesComponent {
       <.div(^.className := LayoutStyleSheet.centeredRow)(
         <.header(^.className := Seq(LayoutStyleSheet.col))(
           <.h2(^.className := Seq(NavigationInThemesStyles.title, TextStyleSheet.mediumTitle))(
-            I18n.t("content.footer.title")
+            unescape(I18n.t("content.footer.title"))
           )
         ),
         <.ul(^.className := Seq(NavigationInThemesStyles.themesList))(listTheme),
