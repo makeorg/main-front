@@ -51,6 +51,7 @@ package object presentationals {
       self(containers.PasswordRecoveryContainerComponent.reactClass)
     def PasswordResetContainerComponent: ReactClassElementSpec =
       self(containers.PasswordResetContainerComponent.reactClass)
+    def ShowcaseProposalContainerComponent: ReactClassElementSpec =
+      self(containers.ShowcaseProposalContainerComponent.reactClass)
   }
-
 }

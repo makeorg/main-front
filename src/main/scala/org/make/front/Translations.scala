@@ -36,7 +36,9 @@ object Translations {
       |         "baseline": "À la une",
       |         "title": "Qui sommes-nous ?",
       |         "subTitle": "Make.org est une initiative neture et indépendante",
-      |         "textSeeMore": "En Savoir +"
+      |         "textSeeMore": "En Savoir +",
+      |         "expressYourself": "Exprimez-vous !",
+      |         "mostPopular": "Les propositions les + populaires sur Make.org"
       |       },
       |       "footer": {
       |         "jobs": "jobs",
@@ -96,7 +98,8 @@ object Translations {
       |         "isTooShort": "Votre proposition doit faire au moins %{min} caractères",
       |         "titleIntro": "Partagez votre proposition sur le thème",
       |         "help": "Ne vous inquiétez pas, nous corrigerons vos éventuelles fautes d'orthographe.",
-      |         "subHelp": "Pour en savoir plus sur notre charte de modération, cliquez ici."
+      |         "subHelp": "Pour en savoir plus sur notre charte de modération, cliquez ici.",
+      |         "postedIn": "postée dans "
       |       }
       |    },
       |    "form": {
@@ -198,7 +201,9 @@ object Translations {
       |         "baseline": "À la une",
       |         "title": "Qui sommes-nous ?",
       |         "subTitle": "Make.org est une initiative neture et indépendante",
-      |         "textSeeMore": "En Savoir +"
+      |         "textSeeMore": "En Savoir +",
+      |         "expressYourself": "Express yourself !",
+      |         "mostPopular": "Proposals the most popular on Make.org"
       |       },
       |       "footer": {
       |         "jobs": "jobs",
@@ -258,7 +263,8 @@ object Translations {
       |         "isTooShort": "Votre proposition doit faire au moins %{min} caractères",
       |         "titleIntro": "Partagez votre proposition sur le thème",
       |         "help": "Ne vous inquiétez pas, nous corrigerons vos éventuelles fautes d'orthographe.",
-      |         "subHelp": "Pour en savoir plus sur notre charte de modération, cliquez ici."
+      |         "subHelp": "Pour en savoir plus sur notre charte de modération, cliquez ici.",
+      |         "postedIn": "posted in "
       |       }
       |    },
       |    "form": {

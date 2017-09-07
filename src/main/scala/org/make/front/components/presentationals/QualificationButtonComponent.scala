@@ -12,7 +12,6 @@ import org.make.front.models.{Qualification, Vote}
 import org.make.front.styles.MakeStyles
 
 import scalacss.DevDefaults._
-import scalacss.internal.ValueT
 
 //todo get qualification status through props
 object QualificationButtonComponent {
@@ -30,7 +29,7 @@ object QualificationButtonComponent {
     )
   }
 
-  final case class QualificationButtonProps(color: ValueT[ValueT.Color], qualifStats: Vote)
+  final case class QualificationButtonProps(voteType: VoteType, qualifStats: Vote)
 
   final case class QualificationButtonState(qualifications: Seq[Qualification])
 
@@ -46,19 +45,30 @@ object QualificationButtonComponent {
   def renderQualification(self: Self[QualificationButtonProps, QualificationButtonState],
                           qualification: Qualification,
                           text: String): ReactElement = {
+
+    val QualificationStyle = self.props.wrapped.voteType match {
+      case VoteAgree =>
+        Seq(QualificationButtonStyle.qualificationButton, QualificationButtonStyle.qualificationButtonAgree)
+      case VoteDisagree =>
+        Seq(QualificationButtonStyle.qualificationButton, QualificationButtonStyle.qualificationButtonDisagree)
+      case VoteNeutral =>
+        Seq(QualificationButtonStyle.qualificationButton, QualificationButtonStyle.qualificationButtonNeutral)
+    }
+
+    val QualificationSelectedStyle = self.props.wrapped.voteType match {
+      case VoteAgree =>
+        Seq(QualificationButtonStyle.qualificationButton, QualificationButtonStyle.qualificationButtonSelectedAgree)
+      case VoteDisagree =>
+        Seq(QualificationButtonStyle.qualificationButton, QualificationButtonStyle.qualificationButtonSelectedDisagree)
+      case VoteNeutral =>
+        Seq(QualificationButtonStyle.qualificationButton, QualificationButtonStyle.qualificationButtonSelectedNeutral)
+    }
+
     val (divStyle, spanText, spanStyle) =
       if (!qualification.selected)
-        (
-          QualificationButtonStyle.qualificationButton(self.props.wrapped.color),
-          I18n.t("content.proposal.plusOne"),
-          QualificationButtonStyle.plusOne
-        )
+        (QualificationStyle, I18n.t("content.proposal.plusOne"), QualificationButtonStyle.plusOne)
       else
-        (
-          QualificationButtonStyle.qualificationButtonSelected(self.props.wrapped.color),
-          formatToKilo(qualification.count),
-          QualificationButtonStyle.statQualif
-        )
+        (QualificationSelectedStyle, formatToKilo(qualification.count), QualificationButtonStyle.statQualif)
 
     <.div(^.className := divStyle, ^.onClick := onClickQualif(self, qualification) _)(
       <.div(^.className := QualificationButtonStyle.textQualif)(
@@ -73,34 +83,56 @@ object QualificationButtonComponent {
 object QualificationButtonStyle extends StyleSheet.Inline {
   import dsl._
 
-  def qualificationButton(buttonColor: ValueT[ValueT.Color]): StyleA = style(
+  val qualificationButtonAgree: StyleA = style(
+    border :=! s"0.2rem solid ${MakeStyles.Color.green.value}",
+    color :=! MakeStyles.Color.green,
+    (&.hover)(color :=! MakeStyles.Color.white, backgroundColor :=! MakeStyles.Color.green)
+  )
+
+  val qualificationButtonDisagree: StyleA = style(
+    border :=! s"0.2rem solid ${MakeStyles.Color.red.value}",
+    color :=! MakeStyles.Color.red,
+    (&.hover)(color :=! MakeStyles.Color.white, backgroundColor :=! MakeStyles.Color.red)
+  )
+
+  val qualificationButtonNeutral: StyleA = style(
+    border :=! s"0.2rem solid ${MakeStyles.Color.greyVote.value}",
+    color :=! MakeStyles.Color.greyVote,
+    (&.hover)(color :=! MakeStyles.Color.white, backgroundColor :=! MakeStyles.Color.greyVote)
+  )
+
+  val qualificationButton: StyleA = style(
     display.flex,
     position.relative,
     width(100.%%),
-    border :=! s"0.2rem solid ${buttonColor.value}",
-    color :=! buttonColor,
     borderRadius(3.rem),
     padding :=! "0 1rem",
     marginBottom(0.5.rem),
     justifyContent.spaceBetween,
     alignItems.center,
     backgroundColor :=! MakeStyles.Color.white,
-    cursor.pointer,
-    (&.hover)(color :=! MakeStyles.Color.white, backgroundColor :=! buttonColor)
+    cursor.pointer
   )
 
-  def qualificationButtonSelected(buttonColor: ValueT[ValueT.Color]): StyleA = style(
+  val qualificationButtonSelectedAgree: StyleA =
+    style(border :=! s"0.2rem solid ${MakeStyles.Color.green.value}", backgroundColor :=! MakeStyles.Color.green)
+
+  val qualificationButtonSelectedDisagree: StyleA =
+    style(border :=! s"0.2rem solid ${MakeStyles.Color.red.value}", backgroundColor :=! MakeStyles.Color.red)
+
+  val qualificationButtonSelectedNeutral: StyleA =
+    style(border :=! s"0.2rem solid ${MakeStyles.Color.greyVote.value}", backgroundColor :=! MakeStyles.Color.greyVote)
+
+  val qualificationButtonSelected: StyleA = style(
     display.flex,
     position.relative,
     width(100.%%),
-    border :=! s"0.2rem solid ${buttonColor.value}",
     color :=! MakeStyles.Color.white,
     borderRadius(3.rem),
     padding :=! "0 1rem",
     marginBottom(0.5.rem),
     justifyContent.spaceBetween,
     alignItems.center,
-    backgroundColor :=! buttonColor,
     cursor.pointer
   )
 

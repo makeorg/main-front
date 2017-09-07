@@ -7,7 +7,6 @@ import io.github.shogowada.scalajs.reactjs.redux.Redux.Dispatch
 import org.make.front.actions.NotifyError
 import org.make.front.components.presentationals.ProposalMatrixComponent
 import org.make.front.components.presentationals.ProposalMatrixComponent.ProposalMatrixSelf
-import org.make.front.components.presentationals.TagFilterComponent.TagFilterSelf
 import org.make.front.facades.{Configuration, I18n}
 import org.make.front.models.{AppState, Tag, ThemeId}
 import org.make.services.proposal.ProposalServiceComponent
