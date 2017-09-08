@@ -41,30 +41,9 @@ object ConnectedUserNavElement {
   def apply(userFirstName: String, avatarUrl: String, logout: () => Unit): ReactElement =
     <.ul(^.className := UserNavStyles.menu)(
       <.li(^.className := UserNavStyles.menuItem)(
-        <.button(^.className := Seq(UserNavStyles.menuItemLink, TextStyleSheet.title, TextStyleSheet.smallText))(
-          <.img(^.src := avatarUrl)(),
-          userFirstName
-        ),
-        <.ul()(
-          <.li()(<.a(^.href := "/me")(I18n.t("content.header.profile"))),
-          <.li()(<.a(^.href := "/me/settings")(I18n.t("content.header.settings"))),
-          <.li()(<.button(^.onClick := logout)(I18n.t("content.header.logout")))
-        )
-      )
-    )
-
-}
-
-object UnconnectedUserNavElement {
-  def apply(login: () => Unit): ReactElement =
-    <.ul(^.className := UserNavStyles.menu)(
-      <.li(^.className := UserNavStyles.menuItem)(
         <.button()(
           <.span(^.className := UserNavStyles.avatarWrapper)(
-            <.img(
-              ^.src := "https://upload.wikimedia.org/wikipedia/commons/3/31/Chirac_Lula_ABr62198_%28without_light%29.jpeg",
-              ^.className := UserNavStyles.avatar
-            )()
+            <.img(^.src := avatarUrl, ^.className := UserNavStyles.avatar)()
           ),
           <.span(
             ^.className := Seq(
@@ -73,17 +52,15 @@ object UnconnectedUserNavElement {
               TextStyleSheet.title,
               TextStyleSheet.smallText
             )
-          )("Jacques")
-        ) /*,
-        <.ul()(
-          <.li()(<.a(^.href := "/me")(I18n.t("content.header.profile"))),
-          <.li()(<.a(^.href := "/me/settings")(I18n.t("content.header.settings"))),
-          <.li()(<.button()(I18n.t("content.header.logout")))
-        )*/
+          )(userFirstName)
+        )
       )
     )
+}
 
-  /*<.ul(^.className := UserNavStyles.menu)(
+object UnconnectedUserNavElement {
+  def apply(login: () => Unit): ReactElement =
+    <.ul(^.className := UserNavStyles.menu)(
       <.li(^.className := UserNavStyles.menuItem)(
         <.button(
           ^.onClick := login,
@@ -96,7 +73,7 @@ object UnconnectedUserNavElement {
           I18n.t("content.header.createAccount")
         )
       )
-    )*/
+    )
 }
 
 object UserNavStyles extends StyleSheet.Inline {
