@@ -55,9 +55,9 @@ object NavigationInThemesComponent {
         )
     }
 
-    <.section(^.className := NavigationInThemesStyles.wrapper)(
+    <.nav(^.className := NavigationInThemesStyles.wrapper)(
       <.div(^.className := LayoutStyleSheet.centeredRow)(
-        <.header(^.className := Seq(LayoutStyleSheet.col))(
+        <.div(^.className := Seq(LayoutStyleSheet.col))(
           <.h2(^.className := Seq(NavigationInThemesStyles.title, TextStyleSheet.mediumTitle))(
             unescape(I18n.t("content.footer.title"))
           )

@@ -19,7 +19,7 @@ package object presentationals {
     def SearchInputComponent: ReactClassElementSpec = self(presentationals.SearchInputComponent.reactClass)
     def HomeComponent: ReactClassElementSpec = self(presentationals.HomeComponent.reactClass)
     def ContainerComponent: ReactClassElementSpec = self(presentationals.ContainerComponent())
-    def HomeHeaderComponent: ReactClassElementSpec = self(presentationals.HomeHeaderComponent.reactClass)
+    def MainIntroComponent: ReactClassElementSpec = self(presentationals.MainIntroComponent.reactClass)
     def FooterComponent: ReactClassElementSpec = self(presentationals.FooterComponent.reactClass)
     def TagListComponent: ReactClassElementSpec = self(presentationals.TagListComponent.reactClass)
     def TagComponent: ReactClassElementSpec = self(presentationals.TagComponent.reactClass)

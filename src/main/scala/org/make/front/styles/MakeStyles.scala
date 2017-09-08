@@ -114,7 +114,6 @@ object MakeStyles extends StyleSheet.Inline {
   ///////////////////////////////////////////////////////////////////////////
 
   object MediaQueries {
-
     val belowSmall: Media.Query = media.maxWidth(499.pxToEm(16))
     val beyondSmall: Media.Query = media.minWidth(500.pxToEm(16))
     val small: Media.Query = beyondSmall.maxWidth(839.pxToEm(16))
@@ -125,7 +124,6 @@ object MakeStyles extends StyleSheet.Inline {
 
     val belowLarge: Media.Query = media.maxWidth(1199.pxToEm(16))
     val beyondLarge: Media.Query = media.minWidth(1200.pxToEm(16))
-
   }
 
   object TextStyles {

@@ -13,7 +13,9 @@ import scalacss.DevDefaults._
 
 object VoteButtonComponent {
 
-  def onClickButtonVote(self: Self[VoteButtonProps, Unit], parentNode: Self[VoteProps, VoteState], vote: Vote)(): Unit = {
+  def onClickButtonVote(self: Self[VoteButtonProps, Unit],
+                        parentNode: Self[VoteProps, VoteState],
+                        vote: Vote)(): Unit = {
     vote match {
       case v if v == parentNode.props.wrapped.voteAgreeStats =>
         parentNode.setState(

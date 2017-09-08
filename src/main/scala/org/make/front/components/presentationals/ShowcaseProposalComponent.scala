@@ -19,7 +19,7 @@ object ShowcaseProposalComponent {
 
   lazy val reactClass: ReactClass = React.createClass[ShowcaseProps, Unit](
     render = (self) =>
-      <.div(^.className := AppComponentStyles.container)(
+      <.section()(
         <.Translate(^.className := ShowCaseProposalStyle.expressText, ^.value := self.props.wrapped.translationKey)(),
         <.h2(^.className := ShowCaseProposalStyle.mostPopularText)(I18n.t("content.homepage.mostPopular")),
         <.ul()(

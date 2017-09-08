@@ -16,7 +16,7 @@ object AppComponent {
 
   private lazy val reactClass = React.createClass[Unit, Unit](
     render = (_) =>
-      <.div(^.className := "App")(
+      <("app-container")(^.className := "App")(
         <.HeaderComponent.empty,
         <.ContainerComponent.empty,
         <.NavigationInThemesContainerComponent.empty,
@@ -94,7 +94,9 @@ object TextStyleSheet extends StyleSheet.Inline {
   val smallerText: StyleA = style(fontSize(14.pxToEm()))
   val smallText: StyleA = style(fontSize(13.pxToEm()), MakeStyles.MediaQueries.beyondSmall(fontSize(16.pxToEm())))
   val baseText: StyleA = style(fontSize(18.pxToEm()))
+  val veryBigText: StyleA = style(fontSize(44.pxToEm()))
   val boldText: StyleA = style(MakeStyles.Font.circularStdBold)
+
   val title: StyleA = style(MakeStyles.Font.tradeGothicLTStd, textTransform.uppercase)
   val smallerTitle: StyleA =
     style(title, fontSize(15.pxToEm()), MakeStyles.MediaQueries.beyondSmall(fontSize(20.pxToEm())))
@@ -112,8 +114,6 @@ object AppComponentStyles extends StyleSheet.Inline {
   import dsl._
 
   val container: StyleA = style(maxWidth(114.rem), marginRight.auto, marginLeft.auto, width(100.%%), height(100.%%))
-
-  val wrapper: StyleA = style(backgroundColor(MakeStyles.Background.wrapper), position.relative)
 
   val title2: StyleA = style(MakeStyles.title2, MakeStyles.Font.tradeGothicLTStd, marginTop(3.rem))
 

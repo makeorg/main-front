@@ -9,8 +9,8 @@ object HomeComponent {
   lazy val reactClass: ReactClass =
     React.createClass[Unit, Unit](
       render = (_) =>
-        <.div()(
-          <.HomeHeaderComponent.empty,
+        <("home")()(
+          <.MainIntroComponent.empty,
           <.ShowcaseProposalContainerComponent(
             ^.wrapped := ShowcaseProposalContainerProps(translationKey = "content.homepage.expressYourself")
           )()

@@ -67,10 +67,11 @@ object UnconnectedUserNavElement {
           ^.className := Seq(UserNavStyles.menuItemLink, TextStyleSheet.title, TextStyleSheet.smallText)
         )(
           <.i(^.className := Seq(UserNavStyles.menuItemIcon, FontAwesomeStyles.user))(),
-          unescape("&nbsp;"),
-          I18n.t("content.header.connect"),
-          unescape("&nbsp;/&nbsp;"),
-          I18n.t("content.header.createAccount")
+          <.span(^.className := LayoutStyleSheet.showInlineBlockBeyondMedium)(
+            I18n.t("content.header.connect"),
+            unescape("&nbsp;/&nbsp;"),
+            I18n.t("content.header.createAccount")
+          )
         )
       )
     )
