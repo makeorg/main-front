@@ -80,21 +80,33 @@ object HeaderStyles extends StyleSheet.Inline {
     )
 
   val logoWrapper: StyleA =
-    style(display.tableCell, verticalAlign.middle)
+    style(
+      display.tableCell,
+      verticalAlign.middle,
+      width(80.pxToEm()),
+      paddingRight(20.pxToEm()),
+      ThemeStyles.MediaQueries.beyondSmall(width(100.pxToEm()), paddingRight(40.pxToEm()))
+    )
 
   val searchWrapper: StyleA =
-    style(display.tableCell, verticalAlign.middle)
+    style(display.tableCell, verticalAlign.middle, width(500.pxToEm()))
 
   val menusWrapper: StyleA =
-    style(display.tableCell, verticalAlign.middle, textAlign.right)
+    style(
+      display.tableCell,
+      verticalAlign.middle,
+      textAlign.right,
+      paddingLeft(20.pxToEm()),
+      ThemeStyles.MediaQueries.beyondSmall(paddingLeft(40.pxToEm()))
+    )
 
   val menusInnerWrapper: StyleA =
-    style(margin :=! s"0 -${ThemeStyles.Spacing.small.value}")
+    style(margin :=! s"0 -${ThemeStyles.Spacing.small.value}", whiteSpace.nowrap)
 
   val menuWrapper: StyleA =
     style(display.inlineBlock)
 
-  val logo: StyleA = style(width(100.%%), maxWidth(60.pxToEm()))
+  val logo: StyleA = style(width(50.pxToEm()), maxWidth.none, ThemeStyles.MediaQueries.beyondSmall(width(90.pxToEm())))
 
   val menu: StyleA =
     style()

@@ -8,7 +8,7 @@ import io.github.shogowada.scalajs.reactjs.router.RouterProps._
 import io.github.shogowada.scalajs.reactjs.router.WithRouter
 import org.make.front.facades.Autosuggest._
 import org.make.front.facades._
-import org.make.front.styles.{FontAwesomeStyles}
+import org.make.front.styles.{InputStyles, ThemeStyles}
 import org.scalajs.dom.raw.FocusEvent
 
 import scala.scalajs.js
@@ -24,9 +24,16 @@ object MainSearchFormComponent {
 
   val autoSuggestTheme: Dictionary[String] =
     Map[String, String](
-      "container" -> "",
+      "container" -> Seq(
+        InputStyles.withIconWrapper.htmlClass,
+        MainSearchFormStyles.searchInputWithIconWrapper.htmlClass
+      ).mkString(" "),
       "containerOpen" -> "",
-      "input" -> "",
+      "input" -> Seq(
+        InputStyles.basic.htmlClass,
+        InputStyles.withIcon.htmlClass,
+        MainSearchFormStyles.searchInput.htmlClass
+      ).mkString(" "),
       "inputOpen" -> "",
       "suggestionsContainer" -> "",
       "suggestionsContainerOpen" -> "",
@@ -59,7 +66,6 @@ object MainSearchFormComponent {
               }
 
               <.form(^.onSubmit := onSubmit)(
-                <.i(^.className := Seq(FontAwesomeStyles.search))(),
                 <.Autosuggest(
                   ^.suggestions := self.state.suggestions,
                   ^.onSuggestionsFetchRequested := (
@@ -115,4 +121,9 @@ object SuggestionRender {
 object MainSearchFormStyles extends StyleSheet.Inline {
   import dsl._
 
+  val searchInput: StyleA =
+    style(backgroundColor(ThemeStyles.BackgroundColor.lightGrey))
+
+  val searchInputWithIconWrapper: StyleA =
+    style(position.relative, (&.before)(content := "'\\F002'"))
 }

@@ -20,6 +20,7 @@ object ThemeStyles extends StyleSheet.Inline {
     val playfairDisplayItalic: AV = fontFamily :=! "Playfair Display"
     val circularStdBook: AV = fontFamily :=! "CircularStdBook"
     val circularStdBold: AV = fontFamily :=! "CircularStdBold"
+    val fontAwesome: AV = fontFamily :=! "FontAwesome"
   }
 
   object ThemeColor {
@@ -36,6 +37,7 @@ object ThemeStyles extends StyleSheet.Inline {
 
   object BackgroundColor {
     val white: ValueT[ValueT.Color] = rgb(255, 255, 255)
+    val lightGrey: ValueT[ValueT.Color] = rgb(247, 247, 247)
     val grey: ValueT[ValueT.Color] = rgb(231, 231, 231)
     val black: ValueT[ValueT.Color] = rgb(0, 0, 0)
     val blackTransparent: ValueT[ValueT.Color] = rgba(0, 0, 0, 0.05)
