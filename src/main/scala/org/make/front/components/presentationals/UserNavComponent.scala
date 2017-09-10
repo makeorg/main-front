@@ -61,16 +61,11 @@ object UnconnectedUserNavElement {
   def apply(login: () => Unit): ReactElement =
     <.ul(^.className := UserNavStyles.menu)(
       <.li(^.className := UserNavStyles.menuItem)(
-        <.button(
-          ^.onClick := login,
-          ^.className := Seq(UserNavStyles.menuItemLink, TextStyles.title, TextStyles.smallText)
-        )(
+        <.button(^.onClick := login, ^.className := Seq(UserNavStyles.menuItemLink))(
           <.i(^.className := Seq(UserNavStyles.menuItemIcon, FontAwesomeStyles.user))(),
-          <.span(^.className := LayoutRulesStyles.showInlineBlockBeyondMedium)(
-            I18n.t("content.header.connect"),
-            unescape("&nbsp;/&nbsp;"),
-            I18n.t("content.header.createAccount")
-          )
+          <.span(
+            ^.className := Seq(LayoutRulesStyles.showInlineBlockBeyondMedium, TextStyles.title, TextStyles.smallText)
+          )(I18n.t("content.header.connect"), unescape("&nbsp;/&nbsp;"), I18n.t("content.header.createAccount"))
         )
       )
     )
@@ -100,7 +95,12 @@ object UserNavStyles extends StyleSheet.Inline {
     style(color :=! ThemeStyles.ThemeColor.primary)
 
   val menuItemIcon: StyleA =
-    style(marginRight(ThemeStyles.Spacing.smaller), verticalAlign.baseline, color(ThemeStyles.TextColor.lighter))
+    style(
+      marginRight(ThemeStyles.Spacing.smaller),
+      verticalAlign.baseline,
+      fontSize(16.pxToEm()),
+      color(ThemeStyles.TextColor.lighter)
+    )
 
   val avatarWrapper: StyleA =
     style(
