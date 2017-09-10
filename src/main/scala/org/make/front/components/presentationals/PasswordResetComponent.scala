@@ -83,12 +83,12 @@ object PasswordResetComponent {
             ^.value := self.state.password
           )()
         ),
-        <.div()(<.span(^.className := PasswordRecoveryComponentStyles.errorMessage)(self.state.errorMessage)),
+        <.div()(<.span(^.className := PasswordRecoveryStyles.errorMessage)(self.state.errorMessage)),
         <.button(
-          ^.className := Seq(MakeStyles.Button.default, PasswordRecoveryComponentStyles.submitButton),
+          ^.className := Seq(MakeStyles.Button.default, PasswordRecoveryStyles.submitButton),
           ^.onClick := handleSubmit(self)
         )(
-          <.i(^.className := Seq(FontAwesomeStyles.thumbsUp, PasswordRecoveryComponentStyles.buttonIcon))(),
+          <.i(^.className := Seq(FontAwesomeStyles.thumbsUp, PasswordRecoveryStyles.buttonIcon))(),
           <.Translate(^.value := "form.passwordReset.validation")()
         )
       )
