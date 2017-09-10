@@ -4,10 +4,9 @@ import io.github.shogowada.scalajs.reactjs.React
 import io.github.shogowada.scalajs.reactjs.VirtualDOM._
 import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import io.github.shogowada.scalajs.reactjs.elements.ReactElement
-import org.make.front.components.{LayoutStyleSheet, TextStyleSheet}
 import org.make.front.facades.Unescape.unescape
 import org.make.front.facades.{I18n}
-import org.make.front.styles.{FontAwesomeStyles, MakeStyles}
+import org.make.front.styles.{FontAwesomeStyles, LayoutRulesStyles, TextStyles, ThemeStyles}
 
 import scalacss.DevDefaults._
 import scalacss.internal.{Length, StyleA}
@@ -48,9 +47,9 @@ object ConnectedUserNavElement {
           <.span(
             ^.className := Seq(
               UserNavStyles.userNameWrapper,
-              LayoutStyleSheet.showInlineBlockBeyondMedium,
-              TextStyleSheet.title,
-              TextStyleSheet.smallText
+              LayoutRulesStyles.showInlineBlockBeyondMedium,
+              TextStyles.title,
+              TextStyles.smallText
             )
           )(userFirstName)
         )
@@ -64,10 +63,10 @@ object UnconnectedUserNavElement {
       <.li(^.className := UserNavStyles.menuItem)(
         <.button(
           ^.onClick := login,
-          ^.className := Seq(UserNavStyles.menuItemLink, TextStyleSheet.title, TextStyleSheet.smallText)
+          ^.className := Seq(UserNavStyles.menuItemLink, TextStyles.title, TextStyles.smallText)
         )(
           <.i(^.className := Seq(UserNavStyles.menuItemIcon, FontAwesomeStyles.user))(),
-          <.span(^.className := LayoutStyleSheet.showInlineBlockBeyondMedium)(
+          <.span(^.className := LayoutRulesStyles.showInlineBlockBeyondMedium)(
             I18n.t("content.header.connect"),
             unescape("&nbsp;/&nbsp;"),
             I18n.t("content.header.createAccount")
@@ -95,13 +94,13 @@ object UserNavStyles extends StyleSheet.Inline {
     style()
 
   val menuItem: StyleA =
-    style(display.inlineBlock, verticalAlign.baseline, margin :=! s"0 ${MakeStyles.Spacing.small.value}")
+    style(display.inlineBlock, verticalAlign.baseline, margin :=! s"0 ${ThemeStyles.Spacing.small.value}")
 
   val menuItemLink: StyleA =
-    style(color :=! MakeStyles.ThemeColor.primary)
+    style(color :=! ThemeStyles.ThemeColor.primary)
 
   val menuItemIcon: StyleA =
-    style(marginRight(MakeStyles.Spacing.smaller), verticalAlign.baseline, color(MakeStyles.TextColor.lighter))
+    style(marginRight(ThemeStyles.Spacing.smaller), verticalAlign.baseline, color(ThemeStyles.TextColor.lighter))
 
   val avatarWrapper: StyleA =
     style(
@@ -110,11 +109,11 @@ object UserNavStyles extends StyleSheet.Inline {
       verticalAlign.middle,
       width(32.pxToEm()),
       height(32.pxToEm()),
-      MakeStyles.MediaQueries.beyondSmall(width(40.pxToEm()), height(40.pxToEm())),
+      ThemeStyles.MediaQueries.beyondSmall(width(40.pxToEm()), height(40.pxToEm())),
       overflow.hidden,
-      backgroundColor(MakeStyles.BackgroundColor.white),
+      backgroundColor(ThemeStyles.BackgroundColor.white),
       borderRadius(50.%%),
-      border :=! s"2px solid ${MakeStyles.BorderColor.base.value}"
+      border :=! s"2px solid ${ThemeStyles.BorderColor.base.value}"
     )
 
   val avatar: StyleA =
@@ -124,7 +123,7 @@ object UserNavStyles extends StyleSheet.Inline {
       left(50.%%),
       transform := s"translate(-50%, -50%)",
       width(32.pxToEm()),
-      MakeStyles.MediaQueries.beyondSmall(width(40.pxToEm())),
+      ThemeStyles.MediaQueries.beyondSmall(width(40.pxToEm())),
       minWidth(100.%%),
       minHeight(100.%%),
       maxWidth.none,
@@ -132,5 +131,5 @@ object UserNavStyles extends StyleSheet.Inline {
     )
 
   val userNameWrapper: StyleA =
-    style(display.inlineBlock, verticalAlign.middle, marginLeft(MakeStyles.Spacing.smaller))
+    style(display.inlineBlock, verticalAlign.middle, marginLeft(ThemeStyles.Spacing.smaller))
 }

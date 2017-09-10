@@ -3,10 +3,9 @@ package org.make.front.components.presentationals
 import io.github.shogowada.scalajs.reactjs.React
 import io.github.shogowada.scalajs.reactjs.VirtualDOM._
 import io.github.shogowada.scalajs.reactjs.classes.ReactClass
-import org.make.front.components.{LayoutStyleSheet, TextStyleSheet, UIStyleSheet}
 import org.make.front.facades.Unescape.unescape
 import org.make.front.facades.{mainIntroIll, I18n}
-import org.make.front.styles.MakeStyles
+import org.make.front.styles.{CTAStyles, LayoutRulesStyles, TextStyles, ThemeStyles}
 
 import scalacss.DevDefaults._
 import scalacss.internal.Length
@@ -18,17 +17,17 @@ object MainIntroComponent {
     render = (_) =>
       <.section(^.className := MainIntroStyles.wrapper)(
         <.div(^.className := MainIntroStyles.innerWrapper)(
-          <.div(^.className := LayoutStyleSheet.centeredRow)(
-            <.div(^.className := LayoutStyleSheet.col)(
-              <.p(^.className := Seq(MainIntroStyles.label, UIStyleSheet.label))(
+          <.div(^.className := LayoutRulesStyles.centeredRow)(
+            <.div(^.className := LayoutRulesStyles.col)(
+              <.p(^.className := Seq(MainIntroStyles.label, TextStyles.label))(
                 unescape(I18n.t("content.homepage.baseline"))
               ),
-              <.h2(^.className := Seq(MainIntroStyles.title, TextStyleSheet.veryBigText, TextStyleSheet.boldText))(
+              <.h2(^.className := Seq(MainIntroStyles.title, TextStyles.veryBigText, TextStyles.boldText))(
                 unescape(I18n.t("content.homepage.title"))
               ),
               <.h3(^.className := Seq(MainIntroStyles.subTitle))(unescape(I18n.t("content.homepage.subTitle"))),
               <.p()(
-                <.a(^.href := "/", ^.className := Seq(MainIntroStyles.cta, UIStyleSheet.cta))(
+                <.a(^.href := "/", ^.className := Seq(MainIntroStyles.cta, CTAStyles.basic))(
                   unescape(I18n.t("content.homepage.textSeeMore"))
                 )
               ),
@@ -58,7 +57,7 @@ object MainIntroStyles extends StyleSheet.Inline {
       width(100.%%),
       height(500.pxToEm()),
       height :=! s"calc(100% - ${200.pxToEm().value})",
-      backgroundColor(MakeStyles.BackgroundColor.black)
+      backgroundColor(ThemeStyles.BackgroundColor.black)
     )
 
   val innerWrapper: StyleA =
@@ -67,8 +66,8 @@ object MainIntroStyles extends StyleSheet.Inline {
       display.tableCell,
       verticalAlign.middle,
       paddingTop((60 + 50).pxToEm()), // TODO: dynamise calcul, if main intro is first child of page
-      MakeStyles.MediaQueries.beyondSmall(paddingTop((60 + 80).pxToEm())),
-      paddingBottom(MakeStyles.Spacing.larger),
+      ThemeStyles.MediaQueries.beyondSmall(paddingTop((60 + 80).pxToEm())),
+      paddingBottom(ThemeStyles.Spacing.larger),
       textAlign.center,
       (&.before)(
         content := "''",
@@ -86,19 +85,19 @@ object MainIntroStyles extends StyleSheet.Inline {
     )
 
   val label: StyleA =
-    style(marginBottom(MakeStyles.Spacing.small))
+    style(marginBottom(ThemeStyles.Spacing.small))
 
   val title: StyleA =
-    style(color(MakeStyles.TextColor.white), textShadow := s"0 1px 1px rgba(0, 0, 0, 0.5)")
+    style(color(ThemeStyles.TextColor.white), textShadow := s"0 1px 1px rgba(0, 0, 0, 0.5)")
 
   val subTitle: StyleA =
     style(
-      marginTop(MakeStyles.Spacing.small),
-      color(MakeStyles.TextColor.white),
+      marginTop(ThemeStyles.Spacing.small),
+      color(ThemeStyles.TextColor.white),
       textShadow := s"0 1px 1px rgba(0, 0, 0, 0.5)"
     )
 
   val cta: StyleA =
-    style(marginTop(MakeStyles.Spacing.small))
+    style(marginTop(ThemeStyles.Spacing.small))
 
 }

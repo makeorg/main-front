@@ -5,11 +5,10 @@ import io.github.shogowada.scalajs.reactjs.VirtualDOM._
 import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import io.github.shogowada.scalajs.reactjs.router.WithRouter
 import org.make.front.components.presentationals.RichVirtualDOMElements
-import org.make.front.styles.{BulmaStyles, MakeStyles}
+import org.make.front.styles.{BulmaStyles, CTAStyles, InputStyles, LayoutRulesStyles, MakeStyles, TextStyles}
 
 import scalacss.DevDefaults._
 import scalacss.internal.mutable.StyleSheet
-import scalacss.internal.{Length, ValueT}
 
 object AppComponent {
   def apply(): ReactClass = WithRouter(reactClass)
@@ -26,135 +25,13 @@ object AppComponent {
         <.PasswordRecoveryContainerComponent.empty,
         <.style()(
           AppComponentStyles.render[String],
-          LayoutStyleSheet.render[String],
-          TextStyleSheet.render[String],
-          UIStyleSheet.render[String]
+          LayoutRulesStyles.render[String],
+          TextStyles.render[String],
+          CTAStyles.render[String],
+          InputStyles.render[String]
         )
     )
   )
-}
-
-object LayoutStyleSheet extends StyleSheet.Inline {
-
-  import dsl._
-
-  val gutter: ValueT[ValueT.LenPct] = MakeStyles.Spacing.small
-
-  val col: StyleA =
-    style(display.inlineBlock, verticalAlign.top, width(100.%%), paddingRight(gutter), paddingLeft(gutter))
-
-  val colHalf: StyleA = style(width(50.%%))
-  val colThird: StyleA = style(width(33.3333.%%))
-  val colQuarter: StyleA = style(width(25.%%))
-
-  val colHalfBeyondSmall: StyleA = style(MakeStyles.MediaQueries.beyondSmall(width(50.%%)))
-  val colThirdBeyondSmall: StyleA = style(MakeStyles.MediaQueries.beyondSmall(width(33.3333.%%)))
-  val colQuarterBeyondSmall: StyleA = style(MakeStyles.MediaQueries.beyondSmall(width(25.%%)))
-
-  val colHalfBeyondMedium: StyleA = style(MakeStyles.MediaQueries.beyondMedium(width(50.%%)))
-  val colThirdBeyondMedium: StyleA = style(MakeStyles.MediaQueries.beyondMedium(width(33.3333.%%)))
-  val colQuarterBeyondMedium: StyleA = style(MakeStyles.MediaQueries.beyondMedium(width(25.%%)))
-
-  val colHalfBeyondLarge: StyleA = style(MakeStyles.MediaQueries.beyondLarge(width(50.%%)))
-  val colThirdBeyondLarge: StyleA = style(MakeStyles.MediaQueries.beyondLarge(width(33.3333.%%)))
-  val colQuarterBeyondLarge: StyleA = style(MakeStyles.MediaQueries.beyondLarge(width(25.%%)))
-
-  val row: StyleA = style(
-    display.block,
-    position.relative,
-    MakeStyles.MediaQueries.beyondSmall(paddingRight(gutter), paddingLeft(gutter))
-  )
-
-  val centeredRow: StyleA = style(
-    row,
-    MakeStyles.MediaQueries.beyondLarge(maxWidth(MakeStyles.ContainerMaxWidth.main), marginRight.auto, marginLeft.auto)
-  )
-
-  val showBlockBeyondSmall: StyleA = style(display.none, MakeStyles.MediaQueries.beyondSmall(display.block))
-  val showBlockBeyondMedium: StyleA = style(display.none, MakeStyles.MediaQueries.beyondMedium(display.block))
-  val showBlockBeyondLarge: StyleA = style(display.none, MakeStyles.MediaQueries.beyondLarge(display.block))
-
-  val showInlineBlockBeyondSmall: StyleA = style(display.none, MakeStyles.MediaQueries.beyondSmall(display.inlineBlock))
-  val showInlineBlockBeyondMedium: StyleA =
-    style(display.none, MakeStyles.MediaQueries.beyondMedium(display.inlineBlock))
-  val showInlineBlockBeyondLarge: StyleA = style(display.none, MakeStyles.MediaQueries.beyondLarge(display.inlineBlock))
-
-  val hideBeyondSmall: StyleA = style(MakeStyles.MediaQueries.beyondSmall(display.none))
-  val hideBeyondMedium: StyleA = style(MakeStyles.MediaQueries.beyondMedium(display.none))
-  val hideBeyondLarge: StyleA = style(MakeStyles.MediaQueries.beyondLarge(display.none))
-
-}
-
-object TextStyleSheet extends StyleSheet.Inline {
-
-  import dsl._
-
-  //TODO: globalize function
-  implicit class NormalizedSize(val baseSize: Int) extends AnyVal {
-    def pxToEm(browserContextSize: Int = 18): Length[Double] = {
-      (baseSize.toFloat / browserContextSize.toFloat).em
-    }
-  }
-
-  val smallerText: StyleA = style(fontSize(14.pxToEm()))
-  val smallText: StyleA = style(fontSize(13.pxToEm()), MakeStyles.MediaQueries.beyondSmall(fontSize(16.pxToEm())))
-  val baseText: StyleA = style(fontSize(18.pxToEm()))
-  val veryBigText: StyleA = style(fontSize(44.pxToEm()))
-  val boldText: StyleA = style(MakeStyles.Font.circularStdBold)
-
-  val title: StyleA = style(MakeStyles.Font.tradeGothicLTStd, textTransform.uppercase)
-  val smallerTitle: StyleA =
-    style(title, fontSize(15.pxToEm()), MakeStyles.MediaQueries.beyondSmall(fontSize(20.pxToEm())))
-  val smallTitle: StyleA = style(title, fontSize(22.pxToEm()))
-  val mediumTitle: StyleA =
-    style(title, fontSize(20.pxToEm()), MakeStyles.MediaQueries.beyondSmall(fontSize(34.pxToEm())))
-  val bigTitle: StyleA = style(title, fontSize(46.pxToEm()))
-  val veryBigTitle: StyleA =
-    style(title, fontSize(30.pxToEm()), MakeStyles.MediaQueries.beyondMedium(fontSize(60.pxToEm())))
-
-}
-
-object UIStyleSheet extends StyleSheet.Inline {
-
-  import dsl._
-
-  //TODO: globalize function
-  implicit class NormalizedSize(val baseSize: Int) extends AnyVal {
-    def pxToEm(browserContextSize: Int = 18): Length[Double] = {
-      (baseSize.toFloat / browserContextSize.toFloat).em
-    }
-  }
-
-  val label: StyleA =
-    style(
-      display.inlineBlock,
-      padding :=! s"${MakeStyles.Spacing.smaller.value} ${MakeStyles.Spacing.smaller.value} ${5.pxToEm().value}",
-      MakeStyles.Font.tradeGothicLTStd,
-      color(MakeStyles.TextColor.white),
-      textTransform.uppercase,
-      backgroundColor(MakeStyles.TextColor.base)
-    )
-
-  val cta: StyleA =
-    style(
-      display.inlineBlock,
-      verticalAlign.top,
-      maxWidth(100.%%),
-      boxSizing.borderBox,
-      height(40.pxToEm()),
-      padding :=! s"${12.pxToEm().value} ${20.pxToEm().value} 0",
-      borderRadius(20.pxToEm()),
-      lineHeight.normal,
-      MakeStyles.Font.tradeGothicLTStd,
-      textTransform.uppercase,
-      textAlign.center,
-      whiteSpace.nowrap,
-      overflow.hidden,
-      textOverflow := s"ellipsis",
-      color(MakeStyles.TextColor.white),
-      backgroundColor(MakeStyles.ThemeColor.primary),
-      boxShadow := s"0 1px 1px rgba(0, 0, 0, 0.5)"
-    )
 }
 
 object AppComponentStyles extends StyleSheet.Inline {

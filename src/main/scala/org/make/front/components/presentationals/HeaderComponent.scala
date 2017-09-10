@@ -3,10 +3,9 @@ package org.make.front.components.presentationals
 import io.github.shogowada.scalajs.reactjs.React
 import io.github.shogowada.scalajs.reactjs.VirtualDOM._
 import io.github.shogowada.scalajs.reactjs.classes.ReactClass
-import org.make.front.components.{LayoutStyleSheet, TextStyleSheet}
 import org.make.front.facades.Unescape.unescape
 import org.make.front.facades.{logoMake, I18n}
-import org.make.front.styles.MakeStyles
+import org.make.front.styles.{LayoutRulesStyles, TextStyles, ThemeStyles}
 
 import scalacss.DevDefaults._
 import scalacss.internal.{Length, StyleA}
@@ -16,8 +15,8 @@ object HeaderComponent {
   lazy val reactClass: ReactClass = React.createClass[Unit, Unit](
     render = (self) =>
       <.header(^.className := HeaderStyles.wrapper)(
-        <.div(^.className := LayoutStyleSheet.centeredRow)(
-          <.div(^.className := LayoutStyleSheet.col)(
+        <.div(^.className := LayoutRulesStyles.centeredRow)(
+          <.div(^.className := LayoutRulesStyles.col)(
             <.div(^.className := HeaderStyles.innerWrapper)(
               //TODO: h1 if homepage else p
               <.h1(^.className := HeaderStyles.logoWrapper)(
@@ -28,10 +27,10 @@ object HeaderComponent {
               <.div(^.className := HeaderStyles.searchWrapper)(<.SearchInputComponent()()),
               <.div(^.className := HeaderStyles.menusWrapper)(
                 <.div(^.className := HeaderStyles.menusInnerWrapper)(
-                  <.nav(^.className := Seq(HeaderStyles.menuWrapper, LayoutStyleSheet.showInlineBlockBeyondMedium))(
+                  <.nav(^.className := Seq(HeaderStyles.menuWrapper, LayoutRulesStyles.showInlineBlockBeyondMedium))(
                     <.ul(^.className := HeaderStyles.menu)(
                       <.li(^.className := HeaderStyles.menuItem)(
-                        <.p(^.className := Seq(TextStyleSheet.title, TextStyleSheet.smallText))(
+                        <.p(^.className := Seq(TextStyles.title, TextStyles.smallText))(
                           <.a(^.href := "/", ^.className := HeaderStyles.menuItemLink)(
                             unescape(I18n.t("content.header.presentation"))
                           )
@@ -68,7 +67,7 @@ object HeaderStyles extends StyleSheet.Inline {
       left(0.em),
       width(100.%%),
       zIndex(10),
-      backgroundColor(MakeStyles.BackgroundColor.white),
+      backgroundColor(ThemeStyles.BackgroundColor.white),
       boxShadow := s"0 2px 4px 0 rgba(0,0,0,0.50)"
     )
 
@@ -77,7 +76,7 @@ object HeaderStyles extends StyleSheet.Inline {
       display.table,
       width(100.%%),
       height(50.pxToEm()),
-      MakeStyles.MediaQueries.beyondSmall(height(MakeStyles.mainNavDefaultHeight))
+      ThemeStyles.MediaQueries.beyondSmall(height(ThemeStyles.mainNavDefaultHeight))
     )
 
   val logoWrapper: StyleA =
@@ -90,7 +89,7 @@ object HeaderStyles extends StyleSheet.Inline {
     style(display.tableCell, verticalAlign.middle, textAlign.right)
 
   val menusInnerWrapper: StyleA =
-    style(margin :=! s"0 -${MakeStyles.Spacing.small.value}")
+    style(margin :=! s"0 -${ThemeStyles.Spacing.small.value}")
 
   val menuWrapper: StyleA =
     style(display.inlineBlock)
@@ -101,9 +100,9 @@ object HeaderStyles extends StyleSheet.Inline {
     style()
 
   val menuItem: StyleA =
-    style(display.inlineBlock, verticalAlign.baseline, margin :=! s"0 ${MakeStyles.Spacing.small.value}")
+    style(display.inlineBlock, verticalAlign.baseline, margin :=! s"0 ${ThemeStyles.Spacing.small.value}")
 
   val menuItemLink: StyleA =
-    style(color :=! MakeStyles.ThemeColor.primary)
+    style(color :=! ThemeStyles.ThemeColor.primary)
 
 }

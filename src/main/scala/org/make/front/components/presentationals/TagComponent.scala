@@ -142,7 +142,6 @@ object TagStyles extends StyleSheet.Inline {
       paddingLeft(1.2.rem),
       paddingRight(1.rem),
       marginLeft(0.8.rem),
-      MakeStyles.TextStyles.smallerText,
       lineHeight(2.4.rem),
       whiteSpace.nowrap,
       color :=! MakeStyles.Color.white,

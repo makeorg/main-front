@@ -7,10 +7,8 @@ import io.github.shogowada.scalajs.reactjs.router.dom.RouterDOM._
 import org.make.front.facades.{I18n, Replacements}
 import org.make.front.helpers.NumberFormat
 import org.make.front.models.Theme
-import org.make.front.styles.MakeStyles
-import org.make.front.components.LayoutStyleSheet
-import org.make.front.components.TextStyleSheet
 import org.make.front.facades.Unescape.unescape
+import org.make.front.styles.{LayoutRulesStyles, TextStyles, ThemeStyles}
 
 import scalacss.DevDefaults._
 
@@ -26,15 +24,15 @@ object NavigationInThemesComponent {
           ^.key := theme.slug,
           ^.className := Seq(
             NavigationInThemesStyles.themeItem,
-            LayoutStyleSheet.col,
-            LayoutStyleSheet.colHalfBeyondSmall,
-            LayoutStyleSheet.colThirdBeyondLarge
+            LayoutRulesStyles.col,
+            LayoutRulesStyles.colHalfBeyondSmall,
+            LayoutRulesStyles.colThirdBeyondLarge
           )
         )(
           <.Link(^.to := s"/theme/${theme.slug}", ^.className := NavigationInThemesStyles.themeLink)(
             <.div(^.className := NavigationInThemesStyles.themeItemContentWrapper(theme.color))(
-              <.h3(^.className := TextStyleSheet.smallerTitle)(theme.title),
-              <.p(^.className := Seq(NavigationInThemesStyles.actionsCounter, TextStyleSheet.smallText))(
+              <.h3(^.className := TextStyles.smallerTitle)(theme.title),
+              <.p(^.className := Seq(NavigationInThemesStyles.actionsCounter, TextStyles.smallText))(
                 unescape(
                   I18n.t(
                     "content.theme.actionsCount",
@@ -42,7 +40,7 @@ object NavigationInThemesComponent {
                   )
                 )
               ),
-              <.p(^.className := Seq(NavigationInThemesStyles.propositionsCounter, TextStyleSheet.smallText))(
+              <.p(^.className := Seq(NavigationInThemesStyles.propositionsCounter, TextStyles.smallText))(
                 unescape(
                   I18n.t(
                     "content.theme.proposalsCount",
@@ -56,9 +54,9 @@ object NavigationInThemesComponent {
     }
 
     <.nav(^.className := NavigationInThemesStyles.wrapper)(
-      <.div(^.className := LayoutStyleSheet.centeredRow)(
-        <.div(^.className := Seq(LayoutStyleSheet.col))(
-          <.h2(^.className := Seq(NavigationInThemesStyles.title, TextStyleSheet.mediumTitle))(
+      <.div(^.className := LayoutRulesStyles.centeredRow)(
+        <.div(^.className := Seq(LayoutRulesStyles.col))(
+          <.h2(^.className := Seq(NavigationInThemesStyles.title, TextStyles.mediumTitle))(
             unescape(I18n.t("content.footer.title"))
           )
         ),
@@ -74,28 +72,28 @@ object NavigationInThemesStyles extends StyleSheet.Inline {
   import dsl._
 
   val wrapper: StyleA = style(
-    backgroundColor(MakeStyles.BackgroundColor.blackTransparent),
-    padding :=! s"${MakeStyles.Spacing.medium.value} 0 ${MakeStyles.Spacing.small.value}"
+    backgroundColor(ThemeStyles.BackgroundColor.blackTransparent),
+    padding :=! s"${ThemeStyles.Spacing.medium.value} 0 ${ThemeStyles.Spacing.small.value}"
   )
 
-  val title: StyleA = style(marginBottom(MakeStyles.Spacing.small))
+  val title: StyleA = style(marginBottom(ThemeStyles.Spacing.small))
 
   val themesList: StyleA = style(display.flex, flexFlow := s"row wrap")
 
   val themeLink: StyleA = style()
 
   val themeItem: StyleA =
-    style(paddingBottom(MakeStyles.Spacing.small))
+    style(paddingBottom(ThemeStyles.Spacing.small))
 
   def themeItemContentWrapper(color: String): StyleA =
-    style(height(100.%%), paddingLeft :=! MakeStyles.Spacing.smaller, borderLeft :=! s"5px solid $color")
+    style(height(100.%%), paddingLeft :=! ThemeStyles.Spacing.smaller, borderLeft :=! s"5px solid $color")
 
   val actionsCounter: StyleA = style(
     display.inlineBlock,
-    MakeStyles.MediaQueries.belowMedium(display.none),
-    marginRight(MakeStyles.Spacing.small),
+    ThemeStyles.MediaQueries.belowMedium(display.none),
+    marginRight(ThemeStyles.Spacing.small),
     verticalAlign.baseline,
-    color(MakeStyles.TextColor.lighter)
+    color(ThemeStyles.TextColor.lighter)
   )
 
   val propositionsCounter: StyleA = style(actionsCounter)

@@ -3,7 +3,6 @@ package org.make.front.components.presentationals
 import io.github.shogowada.scalajs.reactjs.React
 import io.github.shogowada.scalajs.reactjs.VirtualDOM._
 import io.github.shogowada.scalajs.reactjs.classes.ReactClass
-import org.make.front.components.AppComponentStyles
 import org.make.front.facades.I18n
 import org.make.front.facades.Translate.TranslateVirtualDOMElements
 import org.make.front.models._
@@ -53,5 +52,5 @@ object ShowCaseProposalStyle extends StyleSheet.Inline {
   val mostPopularText: StyleA = style(MakeStyles.title2)
 
   val proposalItem: StyleA =
-    style(display.inlineBlock, verticalAlign.top, width(50.%%), padding :=! MakeStyles.Spacing.small)
+    style(display.inlineBlock, verticalAlign.top, width(50.%%))
 }

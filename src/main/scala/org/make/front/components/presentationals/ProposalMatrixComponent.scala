@@ -10,7 +10,7 @@ import io.github.shogowada.statictags.Element
 import org.make.front.components.presentationals.TagFilterComponent.TagFilterProps
 import org.make.front.facades.Translate.{TranslateVirtualDOMAttributes, TranslateVirtualDOMElements}
 import org.make.front.models._
-import org.make.front.styles.MakeStyles
+import org.make.front.styles.{MakeStyles, ThemeStyles}
 
 import scalacss.DevDefaults._
 import scalacss.internal.mutable.StyleSheet
@@ -120,7 +120,7 @@ object ProposalMatrixStyles extends StyleSheet.Inline {
   val matrix: StyleA = style(minHeight(50.rem))
   val proposalList: StyleA = style(marginTop(4.rem))
   val proposalItem: StyleA =
-    style(display.inlineBlock, verticalAlign.top, width(25.%%), padding :=! MakeStyles.Spacing.small)
+    style(display.inlineBlock, verticalAlign.top, width(25.%%), padding :=! ThemeStyles.Spacing.small)
   val sadSmiley: StyleA = style(fontSize(4.8.rem))
   val noContent: StyleA =
     style(

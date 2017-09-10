@@ -3,7 +3,6 @@ package org.make.front.components.presentationals
 import io.github.shogowada.scalajs.reactjs.React
 import io.github.shogowada.scalajs.reactjs.VirtualDOM._
 import io.github.shogowada.scalajs.reactjs.classes.ReactClass
-import org.make.front.components.TextStyleSheet
 import org.make.front.components.containers.ProposalSubmitContainerComponent
 import org.make.front.facades._
 import org.make.front.models.{GradientColor, Theme, ThemeId}
@@ -30,7 +29,7 @@ object ThemeHeaderComponent {
       <.div(^.className := imageOuterStyle)(
         <.img(^.className := ThemeHeaderStyles.imageInner, ^.src := imageShutterstock.toString)(),
         <.div(^.className := ThemeHeaderStyles.contentContainer)(
-          <.h2(^.className := Seq(TextStyleSheet.veryBigTitle, ThemeHeaderStyles.heroTitle))(theme.title),
+          <.h2(^.className := Seq(ThemeHeaderStyles.heroTitle))(theme.title),
           <.div(^.className := ThemeHeaderStyles.proposalSubmit)(
             <.ProposalSubmitContainerComponent(
               ^.wrapped := ProposalSubmitContainerComponent
@@ -73,7 +72,6 @@ object ThemeHeaderStyles extends StyleSheet.Inline {
 
   val heroTitle: StyleA = style(
     paddingBottom(0.7.rem),
-    MakeStyles.TextStyles.veryBigTitle,
     lineHeight(6.rem),
     color(c"#FFF"),
     BulmaStyles.ResponsiveHelpers.block,

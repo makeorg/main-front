@@ -4,10 +4,8 @@ import io.github.shogowada.scalajs.reactjs.React
 import io.github.shogowada.scalajs.reactjs.VirtualDOM.{<, _}
 import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import org.make.front.facades.{logoMake, I18n}
-import org.make.front.components.LayoutStyleSheet
-import org.make.front.components.TextStyleSheet
 import org.make.front.facades.Unescape.unescape
-import org.make.front.styles.{FontAwesomeStyles, MakeStyles}
+import org.make.front.styles.{FontAwesomeStyles, LayoutRulesStyles, TextStyles, ThemeStyles}
 
 import scalacss.internal.Length
 import scalacss.DevDefaults._
@@ -16,8 +14,8 @@ object FooterComponent {
 
   lazy val reactClass: ReactClass = React.createClass[Unit, Unit](render = self => {
     <.footer(^.className := FooterStyles.wrapper)(
-      <.div(^.className := LayoutStyleSheet.centeredRow)(
-        <.div(^.className := LayoutStyleSheet.col)(
+      <.div(^.className := LayoutRulesStyles.centeredRow)(
+        <.div(^.className := LayoutRulesStyles.col)(
           <.div(^.className := FooterStyles.innerWrapper)(
             <.p(^.className := FooterStyles.logoWrapper)(
               <.a(^.href := "/")(<.img(^.className := FooterStyles.logo, ^.src := logoMake.toString)())
@@ -25,7 +23,7 @@ object FooterComponent {
             <.div(^.className := FooterStyles.menuWrapper)(
               <.ul(^.className := FooterStyles.menu)(
                 <.li(^.className := Seq(FooterStyles.menuItem, FooterStyles.emphasizedMenuItem))(
-                  <.p(^.className := Seq(TextStyleSheet.title, TextStyleSheet.smallText))(
+                  <.p(^.className := Seq(TextStyles.title, TextStyles.smallText))(
                     <.a(^.href := "/", ^.className := FooterStyles.menuItemLink)(
                       <.i(^.className := Seq(FooterStyles.menuItemIcon, FontAwesomeStyles.bullhorn))(),
                       unescape(I18n.t("content.footer.recruitment"))
@@ -33,39 +31,39 @@ object FooterComponent {
                   )
                 ),
                 <.li(^.className := FooterStyles.menuItem)(
-                  <.p(^.className := Seq(TextStyleSheet.title, TextStyleSheet.smallText))(
+                  <.p(^.className := Seq(TextStyles.title, TextStyles.smallText))(
                     <.a(^.href := "/", ^.className := FooterStyles.menuItemLink)(I18n.t("content.footer.jobs"))
                   )
                 ),
-                <.li(^.className := Seq(FooterStyles.menuItem, LayoutStyleSheet.hideBeyondMedium))(
-                  <.p(^.className := Seq(TextStyleSheet.title, TextStyleSheet.smallText))(
+                <.li(^.className := Seq(FooterStyles.menuItem, LayoutRulesStyles.hideBeyondMedium))(
+                  <.p(^.className := Seq(TextStyles.title, TextStyles.smallText))(
                     <.a(^.href := "/", ^.className := FooterStyles.menuItemLink)(
                       unescape(I18n.t("content.footer.presentation"))
                     )
                   )
                 ),
                 <.li(^.className := FooterStyles.menuItem)(
-                  <.p(^.className := Seq(TextStyleSheet.title, TextStyleSheet.smallText))(
+                  <.p(^.className := Seq(TextStyles.title, TextStyles.smallText))(
                     <.a(^.href := "/", ^.className := FooterStyles.menuItemLink)(I18n.t("content.footer.press"))
                   )
                 ),
                 <.li(^.className := FooterStyles.menuItem)(
-                  <.p(^.className := Seq(TextStyleSheet.title, TextStyleSheet.smallText))(
+                  <.p(^.className := Seq(TextStyles.title, TextStyles.smallText))(
                     <.a(^.href := "/", ^.className := FooterStyles.menuItemLink)(I18n.t("content.footer.terms"))
                   )
                 ),
                 <.li(^.className := FooterStyles.menuItem)(
-                  <.p(^.className := Seq(TextStyleSheet.title, TextStyleSheet.smallText))(
+                  <.p(^.className := Seq(TextStyles.title, TextStyles.smallText))(
                     <.a(^.href := "/", ^.className := FooterStyles.menuItemLink)(I18n.t("content.footer.contact"))
                   )
                 ),
                 <.li(^.className := FooterStyles.menuItem)(
-                  <.p(^.className := Seq(TextStyleSheet.title, TextStyleSheet.smallText))(
+                  <.p(^.className := Seq(TextStyles.title, TextStyles.smallText))(
                     <.a(^.href := "/", ^.className := FooterStyles.menuItemLink)(I18n.t("content.footer.faq"))
                   )
                 ),
                 <.li(^.className := FooterStyles.menuItem)(
-                  <.p(^.className := Seq(TextStyleSheet.title, TextStyleSheet.smallText))(
+                  <.p(^.className := Seq(TextStyles.title, TextStyles.smallText))(
                     <.a(^.href := "/", ^.className := FooterStyles.menuItemLink)(I18n.t("content.footer.sitemap"))
                   )
                 )
@@ -92,10 +90,10 @@ object FooterStyles extends StyleSheet.Inline {
 
   //TODO: adjust shadow
   val wrapper: StyleA =
-    style(backgroundColor(MakeStyles.BackgroundColor.white), boxShadow := s"0 -2px 4px 0 rgba(0,0,0,0.50)")
+    style(backgroundColor(ThemeStyles.BackgroundColor.white), boxShadow := s"0 -2px 4px 0 rgba(0,0,0,0.50)")
 
   val innerWrapper: StyleA =
-    style(display.table, width(100.%%), height(MakeStyles.mainNavDefaultHeight))
+    style(display.table, width(100.%%), height(ThemeStyles.mainNavDefaultHeight))
 
   val logoWrapper: StyleA =
     style(display.tableCell, verticalAlign.middle)
@@ -109,24 +107,24 @@ object FooterStyles extends StyleSheet.Inline {
   val menu: StyleA =
     style(
       textAlign.right,
-      margin :=! s"${MakeStyles.Spacing.medium.value} 0",
-      MakeStyles.MediaQueries.beyondMedium(margin :=! s"0 -${MakeStyles.Spacing.small.value}")
+      margin :=! s"${ThemeStyles.Spacing.medium.value} 0",
+      ThemeStyles.MediaQueries.beyondMedium(margin :=! s"0 -${ThemeStyles.Spacing.small.value}")
     )
 
   val menuItem: StyleA =
     style(
-      margin :=! s"${MakeStyles.Spacing.small.value} 0",
-      MakeStyles.MediaQueries
-        .beyondMedium(display.inlineBlock, verticalAlign.baseline, margin :=! s"${MakeStyles.Spacing.small.value}")
+      margin :=! s"${ThemeStyles.Spacing.small.value} 0",
+      ThemeStyles.MediaQueries
+        .beyondMedium(display.inlineBlock, verticalAlign.baseline, margin :=! s"${ThemeStyles.Spacing.small.value}")
     )
 
   val menuItemLink: StyleA =
-    style(color :=! inherit, transition := "color .2s ease-in-out", (&.hover)(color :=! MakeStyles.ThemeColor.primary))
+    style(color :=! inherit, transition := "color .2s ease-in-out", (&.hover)(color :=! ThemeStyles.ThemeColor.primary))
 
   val emphasizedMenuItem: StyleA =
-    style(color(MakeStyles.ThemeColor.primary))
+    style(color(ThemeStyles.ThemeColor.primary))
 
   val menuItemIcon: StyleA =
-    style(marginRight(MakeStyles.Spacing.smaller), verticalAlign.baseline)
+    style(marginRight(ThemeStyles.Spacing.smaller), verticalAlign.baseline)
 
 }

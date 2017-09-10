@@ -8,7 +8,7 @@ import io.github.shogowada.scalajs.reactjs.router.RouterProps._
 import io.github.shogowada.scalajs.reactjs.router.WithRouter
 import org.make.front.facades.Autosuggest._
 import org.make.front.facades._
-import org.make.front.styles.{BulmaStyles, FontAwesomeStyles, MakeStyles}
+import org.make.front.styles.{FontAwesomeStyles}
 import org.scalajs.dom.raw.FocusEvent
 
 import scala.scalajs.js
