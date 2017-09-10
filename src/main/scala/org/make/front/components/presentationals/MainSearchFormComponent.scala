@@ -17,7 +17,7 @@ import scala.scalajs.js.{Dictionary, Dynamic, URIUtils}
 import scalacss.DevDefaults._
 import scalacss.internal.mutable.StyleSheet
 
-object SearchInputComponent {
+object MainSearchFormComponent {
   type Self = React.Self[Unit, State]
 
   case class State(value: String, suggestions: js.Array[js.Object])
@@ -79,7 +79,7 @@ object SearchInputComponent {
                   ),
                   ^.theme := autoSuggestTheme
                 )(),
-                <.style()(SearchInputStyles.render[String])
+                <.style()(MainSearchFormStyles.render[String])
               )
             }
         )
@@ -112,7 +112,7 @@ object SuggestionRender {
   }
 }
 
-object SearchInputStyles extends StyleSheet.Inline {
+object MainSearchFormStyles extends StyleSheet.Inline {
   import dsl._
 
 }

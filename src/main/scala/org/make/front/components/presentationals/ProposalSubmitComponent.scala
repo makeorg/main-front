@@ -77,14 +77,14 @@ object ProposalSubmitComponent {
             <.ReactModal(
               ^.contentLabel := "Submit proposal",
               ^.isOpen := self.state.modalIsOpen,
-              ^.overlayClassName := ProposalSubmitComponentStyles.overlayModalStyle,
-              ^.className := Seq(MakeStyles.Modal.modal, ProposalSubmitComponentStyles.modalStyle),
+              ^.overlayClassName := ProposalSubmitStyles.overlayModalStyle,
+              ^.className := Seq(MakeStyles.Modal.modal, ProposalSubmitStyles.modalStyle),
               ^.onRequestClose := closeModal(self),
               ^.shouldCloseOnOverlayClick := false
             )(
               <.a(
                 ^.onClick := closeModal(self),
-                ^.className := Seq(MakeStyles.Modal.close, ProposalSubmitComponentStyles.close)
+                ^.className := Seq(MakeStyles.Modal.close, ProposalSubmitStyles.close)
               )(I18n.t("form.login.close")),
               if (self.state.confirmationIsOpen) {
                 ProposalConfirmElement(self)
@@ -92,7 +92,7 @@ object ProposalSubmitComponent {
                 ProposalModalElement(self)
               }
             ),
-            <.style()(ProposalSubmitComponentStyles.render[String])
+            <.style()(ProposalSubmitStyles.render[String])
           )
         })
     )
@@ -209,20 +209,20 @@ object ProposalModalElement {
   def apply(self: Self[ProposalSubmitProps, ProposalSubmitState]): ReactElement = {
     val gradientColor: GradientColor = self.state.theme.gradient.getOrElse(GradientColor("#FFF", "#FFF"))
     val themeTitleStyle =
-      ProposalSubmitComponentStyles.themeTitleStyle(gradientColor.from, gradientColor.to).htmlClass
-    <.div(^.className := Seq(MakeStyles.Modal.content, ProposalSubmitComponentStyles.modalContent))(
-      <.h2(^.className := ProposalSubmitComponentStyles.titleWrapper)(
-        <.span(^.className := ProposalSubmitComponentStyles.titleIntro)(I18n.t("content.proposal.titleIntro")),
+      ProposalSubmitStyles.themeTitleStyle(gradientColor.from, gradientColor.to).htmlClass
+    <.div(^.className := Seq(MakeStyles.Modal.content, ProposalSubmitStyles.modalContent))(
+      <.h2(^.className := ProposalSubmitStyles.titleWrapper)(
+        <.span(^.className := ProposalSubmitStyles.titleIntro)(I18n.t("content.proposal.titleIntro")),
         <.span(^.className := themeTitleStyle)(self.state.theme.title)
       ),
       ProposalFormElement(self),
-      <.p(^.className := ProposalSubmitComponentStyles.help)(I18n.t("content.proposal.help")),
-      <.p(^.className := ProposalSubmitComponentStyles.subHelp)(I18n.t("content.proposal.subHelp")),
+      <.p(^.className := ProposalSubmitStyles.help)(I18n.t("content.proposal.help")),
+      <.p(^.className := ProposalSubmitStyles.subHelp)(I18n.t("content.proposal.subHelp")),
       <.button(
-        ^.className := Seq(MakeStyles.Button.default, ProposalSubmitComponentStyles.submitButton),
+        ^.className := Seq(MakeStyles.Button.default, ProposalSubmitStyles.submitButton),
         ^.onClick := handleProposalSubmit(self)
       )(
-        <.i(^.className := Seq(ProposalSubmitComponentStyles.submitButtonIcon, FontAwesomeStyles.pencil))(),
+        <.i(^.className := Seq(ProposalSubmitStyles.submitButtonIcon, FontAwesomeStyles.pencil))(),
         <.Translate(^.value := "form.proposal.submit")()
       )
     )
@@ -236,20 +236,20 @@ object ProposalConfirmElement {
       self.setState(_.copy(confirmationIsOpen = false))
     }
 
-    <.div(^.className := Seq(MakeStyles.Modal.content, ProposalSubmitComponentStyles.modalContent))(
-      <.div(^.className := ProposalSubmitComponentStyles.confirmationContainer)(
-        <.h2(^.className := ProposalSubmitComponentStyles.confirmationTitle)(
-          <.i(^.className := Seq(ProposalSubmitComponentStyles.confirmationIconTitle, FontAwesomeStyles.handPeaceO))(),
+    <.div(^.className := Seq(MakeStyles.Modal.content, ProposalSubmitStyles.modalContent))(
+      <.div(^.className := ProposalSubmitStyles.confirmationContainer)(
+        <.h2(^.className := ProposalSubmitStyles.confirmationTitle)(
+          <.i(^.className := Seq(ProposalSubmitStyles.confirmationIconTitle, FontAwesomeStyles.handPeaceO))(),
           <.Translate(^.value := "content.proposal.confirmationThanks")()
         ),
-        <.p(^.className := ProposalSubmitComponentStyles.confirmationContent)(
+        <.p(^.className := ProposalSubmitStyles.confirmationContent)(
           <.Translate(^.value := "content.proposal.confirmationContent", ^.dangerousHtml := true)()
         ),
         <.button(
-          ^.className := Seq(MakeStyles.Button.default, ProposalSubmitComponentStyles.confirmationButtonBackTheme),
+          ^.className := Seq(MakeStyles.Button.default, ProposalSubmitStyles.confirmationButtonBackTheme),
           ^.onClick := (() => { self.props.history.push(s"/theme/${self.props.wrapped.theme.slug}") })
         )(
-          <.i(^.className := Seq(ProposalSubmitComponentStyles.submitButtonIcon, FontAwesomeStyles.handOLeft))(),
+          <.i(^.className := Seq(ProposalSubmitStyles.submitButtonIcon, FontAwesomeStyles.handOLeft))(),
           <.Translate(
             ^.value := "content.proposal.confirmationButtonBackTheme",
             ^("theme") := (if (isMobile) "<br>" + self.props.wrapped.theme.title else self.props.wrapped.theme.title),
@@ -257,15 +257,10 @@ object ProposalConfirmElement {
           )()
         ),
         <.button(
-          ^.className := Seq(
-            MakeStyles.Button.default,
-            ProposalSubmitComponentStyles.confirmationButtonAnotherProposal
-          ),
+          ^.className := Seq(MakeStyles.Button.default, ProposalSubmitStyles.confirmationButtonAnotherProposal),
           ^.onClick := handleAnotherProposal
         )(
-          <.i(
-            ^.className := Seq(ProposalSubmitComponentStyles.submitButtonIcon, FontAwesomeStyles.lightbulbTransparent)
-          )(),
+          <.i(^.className := Seq(ProposalSubmitStyles.submitButtonIcon, FontAwesomeStyles.lightbulbTransparent))(),
           <.Translate(^.value := "content.proposal.confirmationButtonAnotherProposal")()
         )
       )
@@ -279,8 +274,8 @@ object ProposalSubmitCounterElement {
   def apply(props: ProposalSubmitCounterProps): ReactElement = {
 
     val className =
-      if (isMobile && props.isMobileModal) ProposalSubmitComponentStyles.counterMainMobileModal
-      else ProposalSubmitComponentStyles.counterMain
+      if (isMobile && props.isMobileModal) ProposalSubmitStyles.counterMainMobileModal
+      else ProposalSubmitStyles.counterMain
     <.div(^.className := className)(
       <.span(^.className := getCounterClassName(props.length, props.max))(props.length),
       <.span()("/"),
@@ -289,23 +284,23 @@ object ProposalSubmitCounterElement {
   }
 
   private def getCounterClassName(length: Int, max: Int) = {
-    if (length > max) ProposalSubmitComponentStyles.counterMaxError.htmlClass else ""
+    if (length > max) ProposalSubmitStyles.counterMaxError.htmlClass else ""
   }
 }
 
 object ProposalFormElement {
   def apply(self: Self[ProposalSubmitProps, ProposalSubmitState]): ReactElement = {
-    <.div(^.className := ProposalSubmitComponentStyles.main)(
+    <.div(^.className := ProposalSubmitStyles.main)(
       <.i(
         ^.className := Seq(
           FontAwesomeStyles.lightbulbTransparent,
           MakeStyles.Form.inputIcon,
-          if (isMobile && self.state.modalIsOpen) ProposalSubmitComponentStyles.iconFieldMobileModal
-          else ProposalSubmitComponentStyles.iconField
+          if (isMobile && self.state.modalIsOpen) ProposalSubmitStyles.iconFieldMobileModal
+          else ProposalSubmitStyles.iconField
         )
       )(),
       <.form(
-        ^.className := ProposalSubmitComponentStyles.form(self.state.modalIsOpen),
+        ^.className := ProposalSubmitStyles.form(self.state.modalIsOpen),
         ^.onSubmit := handleProposalSubmit(self)
       )(
         if (isMobile && self.state.modalIsOpen) {
@@ -319,7 +314,7 @@ object ProposalFormElement {
               "paddingLeft" -> "3.4rem",
               "paddingRight" -> "6.5rem"
             ),
-            ^.className := Seq(MakeStyles.Form.inputText, ProposalSubmitComponentStyles.input),
+            ^.className := Seq(MakeStyles.Form.inputText, ProposalSubmitStyles.input),
             ^.onChange := handleProposalChange(self),
             ^.onFocus := handleProposalFocus(self),
             ^.onBlur := handleProposalBlur(self),
@@ -330,7 +325,7 @@ object ProposalFormElement {
           <.input(
             ^.style := (if (isMobile) Map("height" -> "3.5rem") else Map("height" -> "5rem")),
             ^.onClick := handleProposalClick(self),
-            ^.className := Seq(MakeStyles.Form.inputText, ProposalSubmitComponentStyles.input),
+            ^.className := Seq(MakeStyles.Form.inputText, ProposalSubmitStyles.input),
             ^.onChange := handleProposalChange(self),
             ^.onFocus := handleProposalFocus(self),
             ^.onBlur := handleProposalBlur(self),
@@ -339,7 +334,7 @@ object ProposalFormElement {
           )()
         },
         <.div(
-          ^.className := ProposalSubmitComponentStyles.toolTip,
+          ^.className := ProposalSubmitStyles.toolTip,
           ^.style := (if (self.state.errorMessage.isEmpty) Map("visibility" -> "hidden")
                       else Map("visibility" -> "visible"))
         )(self.state.errorMessage),
@@ -356,7 +351,7 @@ object ProposalFormElement {
   }
 }
 
-object ProposalSubmitComponentStyles extends StyleSheet.Inline {
+object ProposalSubmitStyles extends StyleSheet.Inline {
   import dsl._
 
   def themeTitleStyle(from: String, to: String): StyleA =
@@ -454,7 +449,7 @@ object ProposalSubmitComponentStyles extends StyleSheet.Inline {
 
   val iconField: StyleA =
     style(
-      unsafeRoot("i.fa.ProposalSubmitComponentStyles-iconField")(
+      unsafeRoot("i.fa.ProposalSubmitStyles-iconField")(
         fontSize(3.rem),
         transform := "translate(2.8rem, 1rem)",
         (media.all.maxWidth(800.px))(fontSize(2.rem), lineHeight(2.rem), transform := "translate(2.8rem, 0.7rem)")
@@ -462,7 +457,7 @@ object ProposalSubmitComponentStyles extends StyleSheet.Inline {
     )
   val iconFieldMobileModal: StyleA =
     style(
-      unsafeRoot("i.fa.ProposalSubmitComponentStyles-iconFieldMobileModal")(
+      unsafeRoot("i.fa.ProposalSubmitStyles-iconFieldMobileModal")(
         fontSize(1.7F.rem),
         transform := "translate(1.5rem, 1rem)"
       )
@@ -562,7 +557,7 @@ object ProposalSubmitComponentStyles extends StyleSheet.Inline {
     alignSelf.center,
     marginBottom(2.rem),
     textTransform.uppercase,
-    unsafeRoot("button.make-button-default.ProposalSubmitComponentStyles-confirmationButtonBackTheme")(
+    unsafeRoot("button.make-button-default.ProposalSubmitStyles-confirmationButtonBackTheme")(
       (media.all.maxWidth(800.px))(fontSize(1.5F.rem), marginBottom(2F.rem), height.auto)
     )
   )

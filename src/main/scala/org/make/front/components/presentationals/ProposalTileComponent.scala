@@ -57,7 +57,7 @@ object ProposalTileComponent {
 
       <.article()(
         <.header()(<.h4()(header(self.props.wrapped.proposal))),
-        <.h3(^.className := ProposalTileStyle.proposalContent(self.props.wrapped.isHomePage))(
+        <.h3(^.className := ProposalTileStyles.proposalContent(self.props.wrapped.isHomePage))(
           self.props.wrapped.proposal.content
         ),
         <.VoteComponent(
@@ -85,13 +85,13 @@ object ProposalTileComponent {
               )
             }
         }),
-        <.style()(ProposalTileStyle.render[String])
+        <.style()(ProposalTileStyles.render[String])
       )
 
     })
 }
 
-object ProposalTileStyle extends StyleSheet.Inline {
+object ProposalTileStyles extends StyleSheet.Inline {
 
   import dsl._
 

@@ -19,12 +19,12 @@ object ShowcaseProposalComponent {
   lazy val reactClass: ReactClass = React.createClass[ShowcaseProps, Unit](
     render = (self) =>
       <.section()(
-        <.Translate(^.className := ShowCaseProposalStyle.expressText, ^.value := self.props.wrapped.translationKey)(),
-        <.h2(^.className := ShowCaseProposalStyle.mostPopularText)(I18n.t("content.homepage.mostPopular")),
+        <.Translate(^.className := ShowCaseProposalStyles.expressText, ^.value := self.props.wrapped.translationKey)(),
+        <.h2(^.className := ShowCaseProposalStyles.mostPopularText)(I18n.t("content.homepage.mostPopular")),
         <.ul()(
           self.props.wrapped.proposals.map(
             proposal =>
-              <.li(^.className := ShowCaseProposalStyle.proposalItem)(
+              <.li(^.className := ShowCaseProposalStyles.proposalItem)(
                 <.ProposalTileComponent(
                   ^.wrapped := ProposalTileComponent
                     .ProposalTileProps(
@@ -37,13 +37,13 @@ object ShowcaseProposalComponent {
             )
           )
         ),
-        <.style()(ShowCaseProposalStyle.render[String])
+        <.style()(ShowCaseProposalStyles.render[String])
     )
   )
 
 }
 
-object ShowCaseProposalStyle extends StyleSheet.Inline {
+object ShowCaseProposalStyles extends StyleSheet.Inline {
   import dsl._
 
   val expressText: StyleA =

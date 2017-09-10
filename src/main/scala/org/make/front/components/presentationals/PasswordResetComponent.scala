@@ -42,8 +42,8 @@ object PasswordResetComponent {
         self.props.wrapped.checkResetToken(self)
       },
       render = self => {
-        <.div(^.className := PasswordResetComponentStyles.container)(
-          <.div(^.className := Seq(PasswordResetComponentStyles.content, BulmaStyles.Grid.Columns.columns))(
+        <.div(^.className := PasswordResetStyles.container)(
+          <.div(^.className := Seq(PasswordResetStyles.content, BulmaStyles.Grid.Columns.columns))(
             if (self.state.success) {
               resetPasswordSuccessElement(self)
             } else if (self.state.isValidResetToken) {
@@ -52,7 +52,7 @@ object PasswordResetComponent {
               invalidResetTokenElement(self)
             }
           ),
-          <.style()(PasswordResetComponentStyles.render[String])
+          <.style()(PasswordResetStyles.render[String])
         )
       }
     )
@@ -66,21 +66,18 @@ object PasswordResetComponent {
       )
     )(
       <.Translate(^.className := MakeStyles.Modal.title, ^.value := "form.passwordReset.title")(),
-      <.div(^.className := PasswordResetComponentStyles.terms)(I18n.t("form.passwordReset.description")),
+      <.div(^.className := PasswordResetStyles.terms)(I18n.t("form.passwordReset.description")),
       <.form(^.onSubmit := handleSubmit(self), ^.novalidate := true)(
         <.div(^.className := MakeStyles.Form.field)(
           <.i(^.className := Seq(MakeStyles.Form.inputIcon, FontAwesomeStyles.lock))(),
           <.i(
-            ^.className := Seq(
-              PasswordResetComponentStyles.eye(self.state.showPassword),
-              MakeStyles.Form.inputIconLeft
-            ),
+            ^.className := Seq(PasswordResetStyles.eye(self.state.showPassword), MakeStyles.Form.inputIconLeft),
             ^.onClick := toggleHidePassword(self)
           )(),
           <.input(
             ^.`type` := (if (self.state.showPassword) "text" else "password"),
             ^.required := true,
-            ^.className := Seq(MakeStyles.Form.inputText, PasswordResetComponentStyles.input),
+            ^.className := Seq(MakeStyles.Form.inputText, PasswordResetStyles.input),
             ^.placeholder := s"${I18n.t("form.fieldLabelPassword")} ${I18n.t("form.required")}",
             ^.onChange := handlePasswordChange(self),
             ^.value := self.state.password
@@ -117,7 +114,7 @@ object PasswordResetComponent {
       )
     )(
       <.Translate(^.className := MakeStyles.Modal.title, ^.value := "form.passwordReset.success.title")(),
-      <.div(^.className := PasswordResetComponentStyles.terms)(I18n.t("form.passwordReset.success.description"))
+      <.div(^.className := PasswordResetStyles.terms)(I18n.t("form.passwordReset.success.description"))
     )
   }
 
@@ -150,7 +147,7 @@ object PasswordResetComponent {
   }
 }
 
-object PasswordResetComponentStyles extends StyleSheet.Inline {
+object PasswordResetStyles extends StyleSheet.Inline {
   import dsl._
 
   val container: StyleA = style(paddingTop(7.rem), paddingBottom(7.rem))

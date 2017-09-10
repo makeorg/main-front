@@ -60,9 +60,9 @@ object VoteButtonComponent {
 
   lazy val reactClass: ReactClass = React.createClass[VoteButtonProps, Unit](render = (self) => {
     val buttonStatsStyle = self.props.wrapped.voteType match {
-      case VoteAgree    => VoteButtonStyle.buttonAgree
-      case VoteDisagree => VoteButtonStyle.buttonDisagree
-      case VoteNeutral  => VoteButtonStyle.buttonNeutral
+      case VoteAgree    => VoteButtonStyles.buttonAgree
+      case VoteDisagree => VoteButtonStyles.buttonDisagree
+      case VoteNeutral  => VoteButtonStyles.buttonNeutral
     }
 
     <.div()(
@@ -79,13 +79,13 @@ object VoteButtonComponent {
       ),
       if (self.props.wrapped.isSelected)
         displayQualification(self),
-      <.style()(VoteButtonStyle.render[String])
+      <.style()(VoteButtonStyles.render[String])
     )
   })
 
 }
 
-object VoteButtonStyle extends StyleSheet.Inline {
+object VoteButtonStyles extends StyleSheet.Inline {
 
   import dsl._
 

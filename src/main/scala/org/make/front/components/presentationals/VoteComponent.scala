@@ -31,8 +31,8 @@ object VoteComponent {
   }
 
   def listButtonVote(self: React.Self[VoteProps, VoteState]): Element =
-    <.ul(^.className := VoteStyle.voteButtonsList)(
-      <.li(^.className := VoteStyle.voteButtonItem)(
+    <.ul(^.className := VoteStyles.voteButtonsList)(
+      <.li(^.className := VoteStyles.voteButtonItem)(
         <.VoteButtonComponent(
           ^.wrapped := VoteButtonComponent.VoteButtonProps(
             parentNode = self,
@@ -43,7 +43,7 @@ object VoteComponent {
           )
         )()
       ),
-      <.li(^.className := VoteStyle.voteButtonItem)(
+      <.li(^.className := VoteStyles.voteButtonItem)(
         <.VoteButtonComponent(
           ^.wrapped := VoteButtonComponent.VoteButtonProps(
             parentNode = self,
@@ -54,14 +54,14 @@ object VoteComponent {
           )
         )()
       ),
-      <.li(^.className := VoteStyle.voteButtonItem)(
+      <.li(^.className := VoteStyles.voteButtonItem)(
         <.VoteButtonComponent(
           ^.wrapped := VoteButtonComponent.VoteButtonProps(
             parentNode = self,
             button = Button(
               color = MakeStyles.Color.greyVote,
               thumbFont = FontAwesomeStyles.thumbsUp,
-              thumbStyle = Some(Seq(VoteStyle.buttonIconNeutralVote))
+              thumbStyle = Some(Seq(VoteStyles.buttonIconNeutralVote))
             ),
             vote = self.props.wrapped.voteNeutralStats,
             voteType = VoteNeutral,
@@ -75,8 +75,8 @@ object VoteComponent {
     getInitialState = (_) =>
       VoteState(isClickButtonVoteAgree = false, isClickButtonVoteDisagree = false, isClickButtonVoteNeutral = false),
     render = (self) =>
-      <.div(^.className := VoteStyle.voteWrapper)(
-        <.div(^.className := VoteStyle.voteButtonsWrapper)(
+      <.div(^.className := VoteStyles.voteWrapper)(
+        <.div(^.className := VoteStyles.voteButtonsWrapper)(
           if (isNotSelectedButtonVote(self.state)) {
             listButtonVote(self)
           } else {
@@ -114,7 +114,7 @@ object VoteComponent {
                     button = Button(
                       color = MakeStyles.Color.greyVote,
                       thumbFont = FontAwesomeStyles.thumbsUp,
-                      thumbStyle = Some(Seq(VoteStyle.buttonIconNeutralVote))
+                      thumbStyle = Some(Seq(VoteStyles.buttonIconNeutralVote))
                     ),
                     vote = self.props.wrapped.voteNeutralStats,
                     voteType = VoteNeutral,
@@ -125,13 +125,13 @@ object VoteComponent {
             }
           }
         ),
-        <.style()(VoteStyle.render[String])
+        <.style()(VoteStyles.render[String])
     )
   )
 
 }
 
-object VoteStyle extends StyleSheet.Inline {
+object VoteStyles extends StyleSheet.Inline {
 
   import dsl._
 

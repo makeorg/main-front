@@ -16,7 +16,7 @@ package object presentationals {
     // Components
     def HeaderComponent: ReactClassElementSpec = self(presentationals.HeaderComponent.reactClass)
     def UserNavComponent: ReactClassElementSpec = self(presentationals.UserNavComponent.reactClass)
-    def SearchInputComponent: ReactClassElementSpec = self(presentationals.SearchInputComponent.reactClass)
+    def MainSearchFormComponent: ReactClassElementSpec = self(presentationals.MainSearchFormComponent.reactClass)
     def HomeComponent: ReactClassElementSpec = self(presentationals.HomeComponent.reactClass)
     def ContainerComponent: ReactClassElementSpec = self(presentationals.ContainerComponent())
     def MainIntroComponent: ReactClassElementSpec = self(presentationals.MainIntroComponent.reactClass)

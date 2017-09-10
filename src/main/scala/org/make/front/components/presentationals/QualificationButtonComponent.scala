@@ -37,7 +37,7 @@ object QualificationButtonComponent {
     render = (self) => {
       <.ul()(self.state.qualifications.map { qualification =>
         <.li()(renderQualification(self, qualification, s"content.proposal.${qualification.key}"))
-      }, <.style()(QualificationButtonStyle.render[String]))
+      }, <.style()(QualificationButtonStyles.render[String]))
     }
   )
 
@@ -46,15 +46,15 @@ object QualificationButtonComponent {
                           text: String): ReactElement = {
 
     val QualificationStyle = self.props.wrapped.voteType match {
-      case VoteAgree    => QualificationButtonStyle.agree
-      case VoteDisagree => QualificationButtonStyle.disagree
-      case VoteNeutral  => QualificationButtonStyle.neutral
+      case VoteAgree    => QualificationButtonStyles.agree
+      case VoteDisagree => QualificationButtonStyles.disagree
+      case VoteNeutral  => QualificationButtonStyles.neutral
     }
 
     val QualificationSelectedStyle = self.props.wrapped.voteType match {
-      case VoteAgree    => QualificationButtonStyle.agreeSelected
-      case VoteDisagree => QualificationButtonStyle.disagreeSelected
-      case VoteNeutral  => QualificationButtonStyle.neutralSelected
+      case VoteAgree    => QualificationButtonStyles.agreeSelected
+      case VoteDisagree => QualificationButtonStyles.disagreeSelected
+      case VoteNeutral  => QualificationButtonStyles.neutralSelected
     }
 
     val (divStyle, spanText) =
@@ -70,7 +70,7 @@ object QualificationButtonComponent {
   }
 }
 
-object QualificationButtonStyle extends StyleSheet.Inline {
+object QualificationButtonStyles extends StyleSheet.Inline {
 
   import dsl._
 

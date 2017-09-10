@@ -24,7 +24,7 @@ object HeaderComponent {
                   <.img(^.className := HeaderStyles.logo, ^.src := logoMake.toString, ^.title := "Make.org")()
                 )
               ),
-              <.div(^.className := HeaderStyles.searchWrapper)(<.SearchInputComponent()()),
+              <.div(^.className := HeaderStyles.searchWrapper)(<.MainSearchFormComponent()()),
               <.div(^.className := HeaderStyles.menusWrapper)(
                 <.div(^.className := HeaderStyles.menusInnerWrapper)(
                   <.nav(^.className := Seq(HeaderStyles.menuWrapper, LayoutRulesStyles.showInlineBlockBeyondMedium))(

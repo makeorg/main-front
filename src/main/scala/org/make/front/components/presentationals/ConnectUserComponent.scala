@@ -72,40 +72,40 @@ object ConnectUserComponent {
       render = self => {
 
         var overlayClass: Seq[StyleA] =
-          Seq(MakeStyles.Modal.overlay, ConnectUserComponentStyles.overlay)
+          Seq(MakeStyles.Modal.overlay, ConnectUserStyles.overlay)
         var modalClass: Seq[StyleA] = Seq(MakeStyles.Modal.modal)
         var modalContentClass: Seq[StyleA] = Seq(MakeStyles.Modal.content)
         var modalCloseClass: Seq[StyleA] = Seq(MakeStyles.Modal.close)
         var socialLoginButtonLeftClass: Seq[StyleA] =
-          Seq(MakeStyles.Button.facebook, ConnectUserComponentStyles.button, BulmaStyles.Helpers.isPulledRight)
+          Seq(MakeStyles.Button.facebook, ConnectUserStyles.button, BulmaStyles.Helpers.isPulledRight)
         var socialLoginButtonRightClass: Seq[StyleA] =
-          Seq(MakeStyles.Button.google, ConnectUserComponentStyles.button, BulmaStyles.Helpers.isPulledLeft)
+          Seq(MakeStyles.Button.google, ConnectUserStyles.button, BulmaStyles.Helpers.isPulledLeft)
         var buttonWrapperClass: Seq[StyleA] =
-          Seq(BulmaStyles.Helpers.isClearfix, ConnectUserComponentStyles.buttonsWrapper)
+          Seq(BulmaStyles.Helpers.isClearfix, ConnectUserStyles.buttonsWrapper)
         var formContainerClass: Seq[StyleA] = Seq.empty
-        var socialInfo: Seq[StyleA] = Seq(ConnectUserComponentStyles.socialInfo)
+        var socialInfo: Seq[StyleA] = Seq(ConnectUserStyles.socialInfo)
 
         if (self.props.wrapped.isProposalFlow) {
-          overlayClass = Seq(ConnectUserComponentStyles.proposalOverlay)
+          overlayClass = Seq(ConnectUserStyles.proposalOverlay)
           modalClass = Seq(MakeStyles.Modal.modal, ProposalSubmitComponentStyles.modalStyle)
           modalContentClass =
             Seq(ProposalSubmitComponentStyles.modalContent, ProposalSubmitComponentStyles.modalContentSignin)
           modalCloseClass = Seq(MakeStyles.Modal.close, ProposalSubmitComponentStyles.close)
           socialLoginButtonLeftClass = Seq(
             MakeStyles.Button.facebook,
-            ConnectUserComponentStyles.button,
+            ConnectUserStyles.button,
             BulmaStyles.Helpers.isPulledRight,
-            ConnectUserComponentStyles.proposalSocialLeftButton
+            ConnectUserStyles.proposalSocialLeftButton
           )
           socialLoginButtonRightClass = Seq(
             MakeStyles.Button.google,
-            ConnectUserComponentStyles.button,
+            ConnectUserStyles.button,
             BulmaStyles.Helpers.isPulledLeft,
-            ConnectUserComponentStyles.proposalSocialRightButton
+            ConnectUserStyles.proposalSocialRightButton
           )
-          buttonWrapperClass = Seq(BulmaStyles.Helpers.isClearfix, ConnectUserComponentStyles.proposalButtonsWrapper)
-          formContainerClass = Seq(ConnectUserComponentStyles.proposalFormContainer)
-          socialInfo = Seq(ConnectUserComponentStyles.proposalSocialInfo)
+          buttonWrapperClass = Seq(BulmaStyles.Helpers.isClearfix, ConnectUserStyles.proposalButtonsWrapper)
+          formContainerClass = Seq(ConnectUserStyles.proposalFormContainer)
+          socialInfo = Seq(ConnectUserStyles.proposalSocialInfo)
 
         }
 
@@ -119,19 +119,17 @@ object ConnectUserComponent {
           )(
             <.a(^.onClick := closeModal(self), ^.className := modalCloseClass)(I18n.t("form.login.close")),
             <.div(^.className := modalContentClass)(
-              <.div(^.className := ConnectUserComponentStyles.buttons)(if (self.props.wrapped.isProposalFlow) {
+              <.div(^.className := ConnectUserStyles.buttons)(if (self.props.wrapped.isProposalFlow) {
                 <.div()(
                   <.Translate(
-                    ^.className := ConnectUserComponentStyles.introFirstLine,
+                    ^.className := ConnectUserStyles.introFirstLine,
                     ^.value := "form.login.proposalIntroFirst"
                   )(),
                   <.Translate(
-                    ^.className := ConnectUserComponentStyles.introSecondLine,
+                    ^.className := ConnectUserStyles.introSecondLine,
                     ^.value := "form.login.proposalIntroSecond"
                   )(),
-                  <.div(^.className := ConnectUserComponentStyles.lineWrapper)(
-                    <.span(^.className := ConnectUserComponentStyles.line)()
-                  )
+                  <.div(^.className := ConnectUserStyles.lineWrapper)(<.span(^.className := ConnectUserStyles.line)())
                 )
               }, <.Translate(^.className := MakeStyles.Modal.title, ^.value := {
                 if (self.state.isRegistering) {
@@ -139,14 +137,14 @@ object ConnectUserComponent {
                 } else {
                   "form.login.socialConnect"
                 }
-              })(), <.div(^.className := buttonWrapperClass)(<.ReactFacebookLogin(^.appId := self.props.wrapped.facebookAppId, ^.scope := "public_profile, email", ^.fields := "first_name, last_name, email, name, picture", ^.callback := facebookCallbackResponse(self), ^.cssClass := socialLoginButtonLeftClass, ^.iconClass := Seq(ConnectUserComponentStyles.buttonIcon.htmlClass, FontAwesomeStyles.facebook.htmlClass).mkString(" "), ^.textButton := "facebook")(), <.ReactGoogleLogin(^.clientID := self.props.wrapped.googleAppId, ^.scope := "profile email", ^.onSuccess := googleCallbackResponse(self), ^.onFailure := googleCallbackFailure(self), ^.isSignIn := self.props.wrapped.isConnected, ^.className := socialLoginButtonRightClass)(<.i(^.className := Seq(ConnectUserComponentStyles.buttonIcon, FontAwesomeStyles.googlePlus))(), "google+"))),
+              })(), <.div(^.className := buttonWrapperClass)(<.ReactFacebookLogin(^.appId := self.props.wrapped.facebookAppId, ^.scope := "public_profile, email", ^.fields := "first_name, last_name, email, name, picture", ^.callback := facebookCallbackResponse(self), ^.cssClass := socialLoginButtonLeftClass, ^.iconClass := Seq(ConnectUserStyles.buttonIcon.htmlClass, FontAwesomeStyles.facebook.htmlClass).mkString(" "), ^.textButton := "facebook")(), <.ReactGoogleLogin(^.clientID := self.props.wrapped.googleAppId, ^.scope := "profile email", ^.onSuccess := googleCallbackResponse(self), ^.onFailure := googleCallbackFailure(self), ^.isSignIn := self.props.wrapped.isConnected, ^.className := socialLoginButtonRightClass)(<.i(^.className := Seq(ConnectUserStyles.buttonIcon, FontAwesomeStyles.googlePlus))(), "google+"))),
               if (self.state.isRegistering) {
                 <.div(^.className := socialInfo)(<.Translate(^.value := "form.login.socialInfo")())
               },
-              <.div(^.className := ConnectUserComponentStyles.lineWrapper)(
-                <.span(^.className := ConnectUserComponentStyles.line)(),
-                <.Translate(^.className := ConnectUserComponentStyles.underlineText, ^.value := "form.or")(),
-                <.span(^.className := ConnectUserComponentStyles.line)()
+              <.div(^.className := ConnectUserStyles.lineWrapper)(
+                <.span(^.className := ConnectUserStyles.line)(),
+                <.Translate(^.className := ConnectUserStyles.underlineText, ^.value := "form.or")(),
+                <.span(^.className := ConnectUserStyles.line)()
               ),
               <.div(^.className := formContainerClass)(<.Translate(^.className := MakeStyles.Modal.title, ^.value := {
                 if (self.state.isRegistering) {
@@ -160,7 +158,7 @@ object ConnectUserComponent {
                 signInElement(self)
               })
             ),
-            <.style()(ConnectUserComponentStyles.render[String])
+            <.style()(ConnectUserStyles.render[String])
           )
         )
       }
@@ -169,20 +167,16 @@ object ConnectUserComponent {
   def signInElement(self: Self[ConnectUserProps, ConnectUserState]): ReactElement = {
 
     var submitButtonContainer: Seq[StyleA] = Seq.empty
-    var submitButton: Seq[StyleA] = Seq(MakeStyles.Button.default, ConnectUserComponentStyles.submitButton)
-    var forgetPasswordClass: Seq[StyleA] = Seq(ConnectUserComponentStyles.text)
+    var submitButton: Seq[StyleA] = Seq(MakeStyles.Button.default, ConnectUserStyles.submitButton)
+    var forgetPasswordClass: Seq[StyleA] = Seq(ConnectUserStyles.text)
     var toggleSignInRegisterClass: Seq[StyleA] = Seq.empty
 
     if (self.props.wrapped.isProposalFlow) {
-      submitButtonContainer = Seq(ConnectUserComponentStyles.proposalSubmitButtonContainer)
-      submitButton = Seq(
-        MakeStyles.Button.default,
-        ConnectUserComponentStyles.submitButton,
-        ConnectUserComponentStyles.proposalSubmitButton
-      )
-      forgetPasswordClass =
-        Seq(ConnectUserComponentStyles.text, ConnectUserComponentStyles.proposalToggleSignInRegister)
-      toggleSignInRegisterClass = Seq(ConnectUserComponentStyles.proposalToggleSignInRegister)
+      submitButtonContainer = Seq(ConnectUserStyles.proposalSubmitButtonContainer)
+      submitButton =
+        Seq(MakeStyles.Button.default, ConnectUserStyles.submitButton, ConnectUserStyles.proposalSubmitButton)
+      forgetPasswordClass = Seq(ConnectUserStyles.text, ConnectUserStyles.proposalToggleSignInRegister)
+      toggleSignInRegisterClass = Seq(ConnectUserStyles.proposalToggleSignInRegister)
     }
 
     <.form(^.onSubmit := handleSignInSubmit(self), ^.novalidate := true)(
@@ -191,14 +185,14 @@ object ConnectUserComponent {
         <.i(^.className := Seq(MakeStyles.Form.inputIcon, FontAwesomeStyles.envelopeTransparent))(),
         <.input(
           ^.`type`.email,
-          ^.className := ConnectUserComponentStyles.input(!self.state.emailErrorMessage.isEmpty),
+          ^.className := ConnectUserStyles.input(!self.state.emailErrorMessage.isEmpty),
           ^.placeholder := I18n.t("form.fieldLabelEmail"),
           ^.onChange := handleEmailChange(self),
           ^.value := self.state.email
         )()
       ),
       <.div()(
-        <.span(^.className := ConnectUserComponentStyles.errorMessage(!self.state.emailErrorMessage.isEmpty).htmlClass)(
+        <.span(^.className := ConnectUserStyles.errorMessage(!self.state.emailErrorMessage.isEmpty).htmlClass)(
           self.state.emailErrorMessage
         )
       ),
@@ -207,16 +201,16 @@ object ConnectUserComponent {
         <.i(^.className := Seq(MakeStyles.Form.inputIcon, FontAwesomeStyles.lock))(),
         <.input(
           ^.`type`.password,
-          ^.className := ConnectUserComponentStyles.input(!self.state.passwordErrorMessage.isEmpty),
+          ^.className := ConnectUserStyles.input(!self.state.passwordErrorMessage.isEmpty),
           ^.placeholder := I18n.t("form.fieldLabelPassword"),
           ^.onChange := handlePasswordChange(self),
           ^.value := self.state.password
         )()
       ),
       <.div()(
-        <.span(
-          ^.className := ConnectUserComponentStyles.errorMessage(!self.state.passwordErrorMessage.isEmpty).htmlClass
-        )(self.state.passwordErrorMessage)
+        <.span(^.className := ConnectUserStyles.errorMessage(!self.state.passwordErrorMessage.isEmpty).htmlClass)(
+          self.state.passwordErrorMessage
+        )
       ),
       <.div()(
         self.state.errorMessage
@@ -225,24 +219,24 @@ object ConnectUserComponent {
               <.Translate(
                 ^.value := message,
                 ^.dangerousHtml := true,
-                ^.className := ConnectUserComponentStyles.errorMessage(!message.isEmpty)
+                ^.className := ConnectUserStyles.errorMessage(!message.isEmpty)
               )()
           )
       ),
       <.div(^.className := submitButtonContainer)(
         <.button(^.className := submitButton)(
-          <.i(^.className := Seq(FontAwesomeStyles.thumbsUp, ConnectUserComponentStyles.buttonIcon))(),
+          <.i(^.className := Seq(FontAwesomeStyles.thumbsUp, ConnectUserStyles.buttonIcon))(),
           <.Translate(^.value := "form.login.submitButton")()
         ),
         <.div(^.className := forgetPasswordClass)(
           <.Translate(^.value := "form.login.oupsI")(),
-          <.a(^.className := ConnectUserComponentStyles.link, ^.onClick := handleForgotPasswordLinkClick(self))(
+          <.a(^.className := ConnectUserStyles.link, ^.onClick := handleForgotPasswordLinkClick(self))(
             I18n.t("form.login.forgotPassword")
           )
         ),
         <.div(^.className := toggleSignInRegisterClass)(
           <.Translate(^.value := "form.login.noAccount")(),
-          <.a(^.className := ConnectUserComponentStyles.link, ^.onClick := toggleRegister(self))(
+          <.a(^.className := ConnectUserStyles.link, ^.onClick := toggleRegister(self))(
             I18n.t("form.login.createAccount")
           )
         )
@@ -252,20 +246,17 @@ object ConnectUserComponent {
 
   def registerElement(self: Self[ConnectUserProps, ConnectUserState]): ReactElement = {
 
-    var termsClass: Seq[StyleA] = Seq(ConnectUserComponentStyles.terms)
+    var termsClass: Seq[StyleA] = Seq(ConnectUserStyles.terms)
     var submitButtonContainer: Seq[StyleA] = Seq.empty
-    var submitButton: Seq[StyleA] = Seq(MakeStyles.Button.default, ConnectUserComponentStyles.submitButton)
+    var submitButton: Seq[StyleA] = Seq(MakeStyles.Button.default, ConnectUserStyles.submitButton)
     var toggleSignInRegisterClass: Seq[StyleA] = Seq.empty
 
     if (self.props.wrapped.isProposalFlow) {
-      termsClass = Seq(ConnectUserComponentStyles.terms, ConnectUserComponentStyles.proposalTerms)
-      submitButtonContainer = Seq(ConnectUserComponentStyles.proposalSubmitButtonContainer)
-      submitButton = Seq(
-        MakeStyles.Button.default,
-        ConnectUserComponentStyles.submitButton,
-        ConnectUserComponentStyles.proposalSubmitButton
-      )
-      toggleSignInRegisterClass = Seq(ConnectUserComponentStyles.proposalToggleSignInRegister)
+      termsClass = Seq(ConnectUserStyles.terms, ConnectUserStyles.proposalTerms)
+      submitButtonContainer = Seq(ConnectUserStyles.proposalSubmitButtonContainer)
+      submitButton =
+        Seq(MakeStyles.Button.default, ConnectUserStyles.submitButton, ConnectUserStyles.proposalSubmitButton)
+      toggleSignInRegisterClass = Seq(ConnectUserStyles.proposalToggleSignInRegister)
     }
 
     <.form(^.onSubmit := handleRegisterSubmit(self), ^.novalidate := true)(
@@ -275,14 +266,14 @@ object ConnectUserComponent {
         <.input(
           ^.`type`.email,
           ^.required := true,
-          ^.className := ConnectUserComponentStyles.input(!self.state.emailErrorMessage.isEmpty),
+          ^.className := ConnectUserStyles.input(!self.state.emailErrorMessage.isEmpty),
           ^.placeholder := s"${I18n.t("form.fieldLabelEmail")} ${I18n.t("form.required")}",
           ^.onChange := handleEmailChange(self),
           ^.value := self.state.email
         )()
       ),
       <.div()(
-        <.span(^.className := ConnectUserComponentStyles.errorMessage(!self.state.emailErrorMessage.isEmpty).htmlClass)(
+        <.span(^.className := ConnectUserStyles.errorMessage(!self.state.emailErrorMessage.isEmpty).htmlClass)(
           self.state.emailErrorMessage
         )
       ),
@@ -292,7 +283,7 @@ object ConnectUserComponent {
         if (self.state.password.nonEmpty) {
           <.i(
             ^.className := Seq(
-              ConnectUserComponentStyles.eye(self.state.typePassword == "password"),
+              ConnectUserStyles.eye(self.state.typePassword == "password"),
               MakeStyles.Form.inputIconLeft
             ),
             ^.onClick := toggleHidePassword(self)
@@ -301,16 +292,16 @@ object ConnectUserComponent {
         <.input(
           ^.`type` := self.state.typePassword,
           ^.required := true,
-          ^.className := ConnectUserComponentStyles.input(!self.state.passwordErrorMessage.isEmpty),
+          ^.className := ConnectUserStyles.input(!self.state.passwordErrorMessage.isEmpty),
           ^.placeholder := s"${I18n.t("form.fieldLabelPassword")} ${I18n.t("form.required")}",
           ^.onChange := handlePasswordChange(self),
           ^.value := self.state.password
         )()
       ),
       <.div()(
-        <.span(
-          ^.className := ConnectUserComponentStyles.errorMessage(!self.state.passwordErrorMessage.isEmpty).htmlClass
-        )(self.state.passwordErrorMessage)
+        <.span(^.className := ConnectUserStyles.errorMessage(!self.state.passwordErrorMessage.isEmpty).htmlClass)(
+          self.state.passwordErrorMessage
+        )
       ),
       // firstname field
       <.div(^.className := MakeStyles.Form.field)(
@@ -318,16 +309,16 @@ object ConnectUserComponent {
         <.input(
           ^.`type`.text,
           ^.required := true,
-          ^.className := ConnectUserComponentStyles.input(!self.state.firstNameErrorMessage.isEmpty),
+          ^.className := ConnectUserStyles.input(!self.state.firstNameErrorMessage.isEmpty),
           ^.placeholder := s"${I18n.t("form.fieldLabelFirstName")} ${I18n.t("form.required")}",
           ^.onChange := handleFirstNameChange(self),
           ^.value := self.state.firstName
         )()
       ),
       <.div()(
-        <.span(
-          ^.className := ConnectUserComponentStyles.errorMessage(!self.state.firstNameErrorMessage.isEmpty).htmlClass
-        )(self.state.firstNameErrorMessage)
+        <.span(^.className := ConnectUserStyles.errorMessage(!self.state.firstNameErrorMessage.isEmpty).htmlClass)(
+          self.state.firstNameErrorMessage
+        )
       ),
       // extra proposal fields
       if (self.props.wrapped.isProposalFlow) { extraFields(self) },
@@ -338,30 +329,26 @@ object ConnectUserComponent {
               <.Translate(
                 ^.value := message,
                 ^.dangerousHtml := true,
-                ^.className := ConnectUserComponentStyles.errorMessage(!message.isEmpty)
+                ^.className := ConnectUserStyles.errorMessage(!message.isEmpty)
               )()
           )
       ),
       <.div(^.className := termsClass)(I18n.t("form.register.termsAgreed")),
       <.div(^.className := submitButtonContainer)(
         <.button(^.className := submitButton)(
-          <.i(^.className := Seq(FontAwesomeStyles.thumbsUp, ConnectUserComponentStyles.buttonIcon))(),
+          <.i(^.className := Seq(FontAwesomeStyles.thumbsUp, ConnectUserStyles.buttonIcon))(),
           <.Translate(^.value := "form.register.subscribe")()
         ),
         <.div(^.className := toggleSignInRegisterClass)(
           <.Translate(^.value := "form.register.alreadySubscribed")(),
-          <.a(^.className := ConnectUserComponentStyles.link, ^.onClick := toggleRegister(self))(
-            I18n.t("form.connection")
-          )
+          <.a(^.className := ConnectUserStyles.link, ^.onClick := toggleRegister(self))(I18n.t("form.connection"))
         )
       ),
       if (!self.props.wrapped.isProposalFlow) {
         <.div()(
-          <.div(^.className := ConnectUserComponentStyles.lineWrapper)(
-            <.span(^.className := ConnectUserComponentStyles.line)()
-          ),
+          <.div(^.className := ConnectUserStyles.lineWrapper)(<.span(^.className := ConnectUserStyles.line)()),
           <.button(
-            ^.className := Seq(ConnectUserComponentStyles.noRegisterButton, MakeStyles.Button.default),
+            ^.className := Seq(ConnectUserStyles.noRegisterButton, MakeStyles.Button.default),
             ^.onClick := closeModal(self)
           )(
             <.Translate(
@@ -384,7 +371,7 @@ object ConnectUserComponent {
         <.select(
           ^.`type`.text,
           ^.required := true,
-          ^.className := ConnectUserComponentStyles.select(!self.state.ageErrorMessage.isEmpty),
+          ^.className := ConnectUserStyles.select(!self.state.ageErrorMessage.isEmpty),
           ^.placeholder := s"${I18n.t("form.fieldLabelAge")}",
           ^.onChange := handleAgeChange(self),
           ^.value := self.state.age.getOrElse("")
@@ -394,7 +381,7 @@ object ConnectUserComponent {
         )
       ),
       <.div()(
-        <.span(^.className := ConnectUserComponentStyles.errorMessage(!self.state.ageErrorMessage.isEmpty).htmlClass)(
+        <.span(^.className := ConnectUserStyles.errorMessage(!self.state.ageErrorMessage.isEmpty).htmlClass)(
           self.state.ageErrorMessage
         )
       ),
@@ -404,14 +391,14 @@ object ConnectUserComponent {
         <.input(
           ^.`type`.text,
           ^.required := true,
-          ^.className := ConnectUserComponentStyles.input(!self.state.postalCodeErrorMessage.isEmpty),
+          ^.className := ConnectUserStyles.input(!self.state.postalCodeErrorMessage.isEmpty),
           ^.placeholder := s"${I18n.t("form.fieldPostalCode")}",
           ^.onChange := handlePostalCodeChange(self),
           ^.value := self.state.postalCode.getOrElse("")
         )()
       ),
       <.div()(
-        <.span(^.className := ConnectUserComponentStyles.errorMessage(self.state.postalCode.nonEmpty).htmlClass)(
+        <.span(^.className := ConnectUserStyles.errorMessage(self.state.postalCode.nonEmpty).htmlClass)(
           self.state.postalCodeErrorMessage
         )
       ),
@@ -421,16 +408,16 @@ object ConnectUserComponent {
         <.input(
           ^.`type`.text,
           ^.required := true,
-          ^.className := ConnectUserComponentStyles.input(!self.state.professionErrorMessage.isEmpty),
+          ^.className := ConnectUserStyles.input(!self.state.professionErrorMessage.isEmpty),
           ^.placeholder := s"${I18n.t("form.fieldProfession")}",
           ^.onChange := handleProfessionChange(self),
           ^.value := self.state.profession.getOrElse("")
         )()
       ),
       <.div()(
-        <.span(
-          ^.className := ConnectUserComponentStyles.errorMessage(!self.state.professionErrorMessage.isEmpty).htmlClass
-        )(self.state.professionErrorMessage)
+        <.span(^.className := ConnectUserStyles.errorMessage(!self.state.professionErrorMessage.isEmpty).htmlClass)(
+          self.state.professionErrorMessage
+        )
       )
     )
   }
@@ -622,7 +609,7 @@ object ConnectUserComponent {
   }
 }
 
-object ConnectUserComponentStyles extends StyleSheet.Inline {
+object ConnectUserStyles extends StyleSheet.Inline {
 
   import dsl._
 
@@ -710,7 +697,7 @@ object ConnectUserComponentStyles extends StyleSheet.Inline {
       backgroundColor(MakeStyles.Color.grey).important,
       border.none,
       (media.all.maxWidth(800.px))(fontSize(1.3F.rem), lineHeight(1.3F.rem), width(100.%%)),
-      unsafeRoot("button.make-button-default.ConnectUserComponentStyles-noRegisterButton")(
+      unsafeRoot("button.make-button-default.ConnectUserStyles-noRegisterButton")(
         (media.all.maxWidth(800.px))(height.auto)
       )
     )

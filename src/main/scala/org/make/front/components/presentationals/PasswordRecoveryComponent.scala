@@ -33,9 +33,9 @@ object PasswordRecoveryComponent {
       render = self => {
         def inputStyles: StyleA = {
           if (self.state.errorMessage == "") {
-            PasswordRecoveryComponentStyles.inputText
+            PasswordRecoveryStyles.inputText
           } else {
-            PasswordRecoveryComponentStyles.errorInput
+            PasswordRecoveryStyles.errorInput
           }
         }
 
@@ -50,7 +50,7 @@ object PasswordRecoveryComponent {
             <.div(^.className := MakeStyles.Modal.content)(
               <.div()(
                 <.Translate(^.className := MakeStyles.Modal.title, ^.value := { "form.passwordRecovery.title" })(),
-                <.Translate(^.className := PasswordRecoveryComponentStyles.terms, ^.value := {
+                <.Translate(^.className := PasswordRecoveryStyles.terms, ^.value := {
                   "form.passwordRecovery.description"
                 })(),
                 <.form(^.onSubmit := handleSubmit(self), ^.novalidate := true)(
@@ -64,22 +64,19 @@ object PasswordRecoveryComponent {
                       ^.value := self.state.email
                     )()
                   ),
-                  <.div()(<.span(^.className := PasswordRecoveryComponentStyles.errorMessage)(self.state.errorMessage)),
+                  <.div()(<.span(^.className := PasswordRecoveryStyles.errorMessage)(self.state.errorMessage)),
                   <.button(
-                    ^.className := Seq(MakeStyles.Button.default, PasswordRecoveryComponentStyles.submitButton),
+                    ^.className := Seq(MakeStyles.Button.default, PasswordRecoveryStyles.submitButton),
                     ^.onClick := handleSubmit(self)
                   )(
                     <.i(
-                      ^.className := Seq(
-                        FontAwesomeStyles.paperPlaneTransparent,
-                        PasswordRecoveryComponentStyles.buttonIcon
-                      )
+                      ^.className := Seq(FontAwesomeStyles.paperPlaneTransparent, PasswordRecoveryStyles.buttonIcon)
                     )(),
                     <.Translate(^.value := "form.passwordRecovery.sendEmail")()
                   ),
                   <.div()(
                     <.Translate(^.value := "form.passwordRecovery.return")(),
-                    <.a(^.className := PasswordRecoveryComponentStyles.link, ^.onClick := handleReturnLinkClick(self))(
+                    <.a(^.className := PasswordRecoveryStyles.link, ^.onClick := handleReturnLinkClick(self))(
                       I18n.t("form.passwordRecovery.connectScreen")
                     )
                   )
@@ -87,7 +84,7 @@ object PasswordRecoveryComponent {
               )
             )
           ),
-          <.style()(PasswordRecoveryComponentStyles.render[String])
+          <.style()(PasswordRecoveryStyles.render[String])
         )
       }
     )
@@ -121,7 +118,7 @@ object PasswordRecoveryComponent {
   }
 }
 
-object PasswordRecoveryComponentStyles extends StyleSheet.Inline {
+object PasswordRecoveryStyles extends StyleSheet.Inline {
   import dsl._
 
   val terms: StyleA = style(marginBottom(0.8F.rem), fontSize(1.4.rem), textAlign.left)
