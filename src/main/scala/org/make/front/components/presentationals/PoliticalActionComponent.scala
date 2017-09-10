@@ -22,62 +22,63 @@ object PoliticalActionComponent {
   final case class PoliticalActionState(translationOffset: Int)
 
   def onClickLeft(self: Self[WrappedProps, PoliticalActionState]): (MouseSyntheticEvent) => Unit = {
-    _: MouseSyntheticEvent => {
-      val width = dom.document.getElementById("slide").clientWidth
-      val oldTranslationOffset = self.state.translationOffset
-      if (oldTranslationOffset != 0)
-        self.setState(_.copy(translationOffset = oldTranslationOffset + width))
-    }
+    _: MouseSyntheticEvent =>
+      {
+        val width = dom.document.getElementById("slide").clientWidth
+        val oldTranslationOffset = self.state.translationOffset
+        if (oldTranslationOffset != 0)
+          self.setState(_.copy(translationOffset = oldTranslationOffset + width))
+      }
   }
 
   def onClickRight(self: Self[WrappedProps, PoliticalActionState]): (MouseSyntheticEvent) => Unit = {
-    _: MouseSyntheticEvent => {
-      val width = dom.document.getElementById("slide").clientWidth
-      val oldTranslationOffset = self.state.translationOffset
-      if (oldTranslationOffset != -width * (self.props.wrapped.politicalActions.length - 1))
-        self.setState(_.copy(translationOffset = oldTranslationOffset - width))
-    }
+    _: MouseSyntheticEvent =>
+      {
+        val width = dom.document.getElementById("slide").clientWidth
+        val oldTranslationOffset = self.state.translationOffset
+        if (oldTranslationOffset != -width * (self.props.wrapped.politicalActions.length - 1))
+          self.setState(_.copy(translationOffset = oldTranslationOffset - width))
+      }
   }
 
   // toDo: responsive design
   lazy val reactClass: ReactClass = React.createClass[WrappedProps, PoliticalActionState](
-    getInitialState = (_) => PoliticalActionState(
-      translationOffset = 0
-    ),
+    getInitialState = (_) => PoliticalActionState(translationOffset = 0),
     render = (self) =>
       <.div(^.className := BulmaStyles.Helpers.isFullWidth)(
-          <.h2(^.className := AppComponentStyles.title2)(
-            <.Translate(
-              ^.value := "content.theme.actionsCount",
-              ^("actions") := self.props.wrapped.politicalActions.length.toString
-            )()
-          ),
-          <.div(^.className := Seq(PoliticalActionStyles.boxWrapper))(
-            <.div(^.className := PoliticalActionStyles.themeSliderActions)(
-              <.div(^.className := PoliticalActionStyles.blockActionMask, ^.id := "slide")(
-                self.props.wrapped.politicalActions.map { politicalAction =>
-                  textBox(politicalAction, self.state.translationOffset)
-                }
+        <.h2(^.className := AppComponentStyles.title2)(
+          <.Translate(
+            ^.value := "content.theme.actionsCount",
+            ^("actions") := self.props.wrapped.politicalActions.length.toString
+          )()
+        ),
+        <.div(^.className := Seq(PoliticalActionStyles.boxWrapper))(
+          <.div(^.className := PoliticalActionStyles.themeSliderActions)(
+            <.div(^.className := PoliticalActionStyles.blockActionMask, ^.id := "slide")(
+              self.props.wrapped.politicalActions.map { politicalAction =>
+                textBox(politicalAction, self.state.translationOffset)
+              }
+            ),
+            <.div(^.className := PoliticalActionStyles.arrows)(
+              <.span(^.className := PoliticalActionStyles.arrowSpan, ^.onClick := onClickLeft(self))(
+                <.i(^.className := FontAwesomeStyles.angleLeft)()
               ),
-              <.div(^.className := PoliticalActionStyles.arrows)(
-                <.span(^.className := PoliticalActionStyles.arrowSpan, ^.onClick := onClickLeft(self))(
-                  <.i(^.className := FontAwesomeStyles.angleLeft)()
-                ),
-                <.span(^.className := PoliticalActionStyles.arrowSpan, ^.onClick := onClickRight(self))(
-                  <.i(^.className := FontAwesomeStyles.angleRight)()
-                )
+              <.span(^.className := PoliticalActionStyles.arrowSpan, ^.onClick := onClickRight(self))(
+                <.i(^.className := FontAwesomeStyles.angleRight)()
               )
             )
+          )
         ),
         <.style()(PoliticalActionStyles.render[String])
-      )
+    )
   )
 
   private def textBox(action: PoliticalAction, translationOffset: Int): ReactElement = {
-    <.div(^.className := PoliticalActionStyles.blocActionSlide, ^.style := Map("transform" -> s"translateX(${translationOffset}px)",
-                                                                      "transition" -> "transform 500ms"))(
-      <.img(^.className := Seq(PoliticalActionStyles.actionImage),
-        ^.src := action.imageUrl)(),
+    <.div(
+      ^.className := PoliticalActionStyles.blocActionSlide,
+      ^.style := Map("transform" -> s"translateX(${translationOffset}px)", "transition" -> "transform 500ms")
+    )(
+      <.img(^.className := Seq(PoliticalActionStyles.actionImage), ^.src := action.imageUrl)(),
       <.div()(
         <.div(^.className := PoliticalActionStyles.actionInfos)(
           <.div(^.className := Seq(BulmaStyles.Helpers.isPulledLeft, PoliticalActionStyles.actionDate))(
@@ -112,19 +113,10 @@ object PoliticalActionStyles extends StyleSheet.Inline {
     (&.hover)(boxShadow := "1px 1px 25px 0 rgba(0, 0, 0, 0.3)")
   )
 
-  val themeSliderActions: StyleA = style(
-    position.relative,
-    height(8.5.rem),
-    clear.both
-  )
+  val themeSliderActions: StyleA = style(position.relative, height(8.5.rem), clear.both)
 
-  val blockActionMask: StyleA = style(
-    position.static,
-    display.block,
-    overflow.hidden,
-    height(8.5.rem),
-    whiteSpace.nowrap
-  )
+  val blockActionMask: StyleA =
+    style(position.static, display.block, overflow.hidden, height(8.5.rem), whiteSpace.nowrap)
 
   val blocActionSlide: StyleA = style(
     position.relative,
@@ -137,34 +129,19 @@ object PoliticalActionStyles extends StyleSheet.Inline {
     whiteSpace.normal
   )
 
-  val actionImage: StyleA = style(
-    margin.auto,
-    float.left
-  )
+  val actionImage: StyleA = style(margin.auto, float.left)
 
-  val actionInfos: StyleA = style(
-    color(rgba(0, 0, 0, 0.5)),
-    fontSize(1.4.rem),
-    MakeStyles.Font.circularStdBook,
-    paddingTop(0.5.rem)
-  )
+  val actionInfos: StyleA =
+    style(color(rgba(0, 0, 0, 0.5)), fontSize(1.4.rem), MakeStyles.Font.circularStdBook, paddingTop(0.5.rem))
 
-  val actionInfo: StyleA = style(
-    float.left
-  )
+  val actionInfo: StyleA = style(float.left)
 
-  val actionDate: StyleA = style(
-    marginRight(1.rem)
-  )
+  val actionDate: StyleA = style(marginRight(1.rem))
 
   val actionLocation: StyleA = style()
 
-  val textBloc: StyleA = style(
-    lineHeight(2.4.rem),
-    fontWeight._700,
-    marginTop(0.5.rem),
-    MakeStyles.Font.circularStdBold
-  )
+  val textBloc: StyleA =
+    style(lineHeight(2.4.rem), fontWeight._700, marginTop(0.5.rem), MakeStyles.Font.circularStdBold)
 
   val arrows: StyleA = style(
     borderLeft :=! "1px solid rgba(0, 0, 0, 0.1)",
@@ -188,7 +165,5 @@ object PoliticalActionStyles extends StyleSheet.Inline {
     (&.hover)(color(c"#000000"))
   )
 
-  val pinkLink: StyleA = style(
-    color(MakeStyles.Color.pink)
-  )
+  val pinkLink: StyleA = style(color(MakeStyles.Color.pink))
 }

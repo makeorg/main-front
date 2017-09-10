@@ -157,6 +157,7 @@ object MakeStyles extends StyleSheet.Inline {
   object BackgroundColor {
     val white: ValueT[ValueT.Color] = rgb(255, 255, 255)
     val grey: ValueT[ValueT.Color] = rgb(231, 231, 231)
+    val black: ValueT[ValueT.Color] = rgb(0, 0, 0)
     val blackTransparent: ValueT[ValueT.Color] = rgba(0, 0, 0, 0.05)
   }
 
@@ -170,6 +171,7 @@ object MakeStyles extends StyleSheet.Inline {
     val main: ValueT[ValueT.LenPct] = 1200.pxToEm()
   }
 
+  /**TODO: functions with baseText value for em convertion**/
   object Spacing {
     val smaller: ValueT[ValueT.LenPct] = 10.pxToEm()
     val small: ValueT[ValueT.LenPct] = 15.pxToEm()

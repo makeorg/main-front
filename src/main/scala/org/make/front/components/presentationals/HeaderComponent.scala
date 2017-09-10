@@ -5,7 +5,7 @@ import io.github.shogowada.scalajs.reactjs.VirtualDOM._
 import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import org.make.front.components.{LayoutStyleSheet, TextStyleSheet}
 import org.make.front.facades.Unescape.unescape
-import org.make.front.facades.{imageLogoMake, I18n}
+import org.make.front.facades.{logoMake, I18n}
 import org.make.front.styles.MakeStyles
 
 import scalacss.DevDefaults._
@@ -22,7 +22,7 @@ object HeaderComponent {
               //TODO: h1 if homepage else p
               <.h1(^.className := HeaderStyles.logoWrapper)(
                 <.a(^.href := "/")(
-                  <.img(^.className := HeaderStyles.logo, ^.src := imageLogoMake.toString, ^.title := "Make.org")()
+                  <.img(^.className := HeaderStyles.logo, ^.src := logoMake.toString, ^.title := "Make.org")()
                 )
               ),
               <.div(^.className := HeaderStyles.searchWrapper)(<.SearchInputComponent()()),

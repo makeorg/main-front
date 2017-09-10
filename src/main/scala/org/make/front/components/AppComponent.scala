@@ -24,7 +24,12 @@ object AppComponent {
         <.NotificationContainerComponent.empty,
         <.ConnectUserContainerComponent.empty,
         <.PasswordRecoveryContainerComponent.empty,
-        <.style()(AppComponentStyles.render[String], LayoutStyleSheet.render[String], TextStyleSheet.render[String])
+        <.style()(
+          AppComponentStyles.render[String],
+          LayoutStyleSheet.render[String],
+          TextStyleSheet.render[String],
+          UIStyleSheet.render[String]
+        )
     )
   )
 }
@@ -109,6 +114,49 @@ object TextStyleSheet extends StyleSheet.Inline {
 
 }
 
+object UIStyleSheet extends StyleSheet.Inline {
+
+  import dsl._
+
+  //TODO: globalize function
+  implicit class NormalizedSize(val baseSize: Int) extends AnyVal {
+    def pxToEm(browserContextSize: Int = 18): Length[Double] = {
+      (baseSize.toFloat / browserContextSize.toFloat).em
+    }
+  }
+
+  val label: StyleA =
+    style(
+      display.inlineBlock,
+      padding :=! s"${MakeStyles.Spacing.smaller.value} ${MakeStyles.Spacing.smaller.value} ${5.pxToEm().value}",
+      MakeStyles.Font.tradeGothicLTStd,
+      color(MakeStyles.TextColor.white),
+      textTransform.uppercase,
+      backgroundColor(MakeStyles.TextColor.base)
+    )
+
+  val cta: StyleA =
+    style(
+      display.inlineBlock,
+      verticalAlign.top,
+      maxWidth(100.%%),
+      boxSizing.borderBox,
+      height(40.pxToEm()),
+      padding :=! s"${12.pxToEm().value} ${20.pxToEm().value} 0",
+      borderRadius(20.pxToEm()),
+      lineHeight.normal,
+      MakeStyles.Font.tradeGothicLTStd,
+      textTransform.uppercase,
+      textAlign.center,
+      whiteSpace.nowrap,
+      overflow.hidden,
+      textOverflow := s"ellipsis",
+      color(MakeStyles.TextColor.white),
+      backgroundColor(MakeStyles.ThemeColor.primary),
+      boxShadow := s"0 1px 1px rgba(0, 0, 0, 0.5)"
+    )
+}
+
 object AppComponentStyles extends StyleSheet.Inline {
 
   import dsl._
@@ -137,4 +185,5 @@ object AppComponentStyles extends StyleSheet.Inline {
     lineHeight(1.8F.rem),
     paddingBottom(1.rem)
   )
+
 }

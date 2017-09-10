@@ -3,7 +3,7 @@ package org.make.front.components.presentationals
 import io.github.shogowada.scalajs.reactjs.React
 import io.github.shogowada.scalajs.reactjs.VirtualDOM.{<, _}
 import io.github.shogowada.scalajs.reactjs.classes.ReactClass
-import org.make.front.facades.{imageLogoMake, I18n}
+import org.make.front.facades.{logoMake, I18n}
 import org.make.front.components.LayoutStyleSheet
 import org.make.front.components.TextStyleSheet
 import org.make.front.facades.Unescape.unescape
@@ -20,7 +20,7 @@ object FooterComponent {
         <.div(^.className := LayoutStyleSheet.col)(
           <.div(^.className := FooterStyles.innerWrapper)(
             <.p(^.className := FooterStyles.logoWrapper)(
-              <.a(^.href := "/")(<.img(^.className := FooterStyles.logo, ^.src := imageLogoMake.toString)())
+              <.a(^.href := "/")(<.img(^.className := FooterStyles.logo, ^.src := logoMake.toString)())
             ),
             <.div(^.className := FooterStyles.menuWrapper)(
               <.ul(^.className := FooterStyles.menu)(

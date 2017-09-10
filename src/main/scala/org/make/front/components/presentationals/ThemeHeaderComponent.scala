@@ -28,11 +28,7 @@ object ThemeHeaderComponent {
     <.div(^.className := BulmaStyles.Layout.hero)(
       <.style()(ThemeHeaderStyles.render[String]),
       <.div(^.className := imageOuterStyle)(
-        <.img(
-          ^.className := ThemeHeaderStyles.imageInner,
-          ^.src := imageShutterstock.toString,
-          ^.srcset := s"${imageShutterstock2.toString} 2x, ${imageShutterstock3.toString} 3x"
-        )(),
+        <.img(^.className := ThemeHeaderStyles.imageInner, ^.src := imageShutterstock.toString)(),
         <.div(^.className := ThemeHeaderStyles.contentContainer)(
           <.h2(^.className := Seq(TextStyleSheet.veryBigTitle, ThemeHeaderStyles.heroTitle))(theme.title),
           <.div(^.className := ThemeHeaderStyles.proposalSubmit)(

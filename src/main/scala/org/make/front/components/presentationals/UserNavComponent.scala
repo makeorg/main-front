@@ -6,7 +6,7 @@ import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import io.github.shogowada.scalajs.reactjs.elements.ReactElement
 import org.make.front.components.{LayoutStyleSheet, TextStyleSheet}
 import org.make.front.facades.Unescape.unescape
-import org.make.front.facades.{imageAvatar, I18n}
+import org.make.front.facades.{I18n}
 import org.make.front.styles.{FontAwesomeStyles, MakeStyles}
 
 import scalacss.DevDefaults._
@@ -26,7 +26,7 @@ object UserNavComponent {
   lazy val reactClass: ReactClass =
     React.createClass[WrappedProps, State](
       componentWillReceiveProps = { (self, props) =>
-        self.setState(State(avatarUrl = props.wrapped.avatarUrl.getOrElse(imageAvatar.toString)))
+        self.setState(State(avatarUrl = props.wrapped.avatarUrl.getOrElse("")))
       },
       render = self =>
         <.nav(^.className := UserNavStyles.menuWrapper)(if (self.props.wrapped.isConnected) {
