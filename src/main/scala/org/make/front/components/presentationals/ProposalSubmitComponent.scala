@@ -426,7 +426,7 @@ object ProposalSubmitStyles extends StyleSheet.Inline {
           (media.all.maxWidth(800.px))(marginBottom(2.9F.rem))
         )
       } else {
-        styleS(width(100.%%), display.flex, marginBottom.`0`, (media.all.maxWidth(800.px))(marginBottom(2.9F.rem)))
+        styleS(width(100.%%), display.flex)
     }
   )
 

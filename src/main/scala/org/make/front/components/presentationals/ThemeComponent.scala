@@ -14,14 +14,11 @@ object ThemeComponent {
 
   lazy val reactClass: ReactClass = React.createClass[ThemeProps, Unit](
     render = (self) =>
-      <.div(^.className := "theme")(
-        //TODO: fix CSS WARNING: `themeTitleStyle-2`: Style being registered after stylesheet has been rendered
+      <("theme")()(
         <.ThemeHeaderComponent(^.wrapped := ThemeHeaderProps(self.props.wrapped.theme))(),
-        <.div(^.className := AppComponentStyles.container)(
-          //TODO: fix 5 errors of setState before render. These are logged in console.
-          <.PoliticalActionsComponent()(),
-          <.ProposalMatrixContainerComponent(^.wrapped := MatrixWrappedProps(self.props.wrapped.themeSlug))()
-        )
+        //TODO: fix 5 errors of setState before render. These are logged in console.
+        <.PoliticalActionsComponent()(),
+        <.ProposalMatrixContainerComponent(^.wrapped := MatrixWrappedProps(self.props.wrapped.themeSlug))()
     )
   )
 }
