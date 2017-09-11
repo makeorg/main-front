@@ -2,7 +2,9 @@ package org.make.front.styles
 
 import org.make.front.Main.CssSettings._
 
-import scalacss.internal.{Length}
+import scalacss.internal.DslBase.ToStyle
+import scalacss.internal.Length
+import scalacss.internal.PseudoType.{Class, Element}
 
 object InputStyles extends StyleSheet.Inline {
 
@@ -16,14 +18,15 @@ object InputStyles extends StyleSheet.Inline {
   }
 
   /** TODO: pseudo class to customise placeholder */
-  /*def pseudoElement(value: String) = Pseudo.Custom(value, PseudoElement)
-  def pseudoClass(value: String) = Pseudo.Custom(value, PseudoClass)
+  def pseudoElement(value: String) = Pseudo.Custom(value, Element)
+  def pseudoClass(value: String) = Pseudo.Custom(value, Class)
 
   val webkitPlaceholder = pseudoElement("::-webkit-input-placeholder")
   val mozPlaceholder = pseudoElement("::-moz-placeholder")
   val msPlaceholder = pseudoClass(":-ms-input-placeholder")
 
-  def placeholder(styles: ToStyle*) = styleS(webkitPlaceholder(styles: _*), mozPlaceholder(styles: _*), msPlaceholder(styles: _*))*/
+  def placeholder(styles: ToStyle*) =
+    styleS(webkitPlaceholder(styles: _*), mozPlaceholder(styles: _*), msPlaceholder(styles: _*))
 
   val basic: StyleA =
     style(
@@ -35,7 +38,9 @@ object InputStyles extends StyleSheet.Inline {
       border :=! s"1px solid ${ThemeStyles.BorderColor.light.value}",
       fontSize(16.pxToEm()),
       lineHeight.normal,
-      fontFamily.inherit
+      fontFamily.inherit,
+      transition := "color .2s ease-in-out",
+      placeholder(color(ThemeStyles.TextColor.lighter))
     )
 
   val withIcon: StyleA =
