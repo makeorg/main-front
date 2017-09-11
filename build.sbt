@@ -66,7 +66,6 @@ npmDependencies in Compile ++= Seq(
   "node-sass" -> npmNodeSassVersion,
   "extract-text-webpack-plugin" -> npmExtractTextWebpackPluginVersion,
   "hard-source-webpack-plugin" -> npmHardSourceWebpackVersion,
-  "source-map-loader" -> npmSourceMapLoaderVersion,
   "css-loader" -> npmCssLoaderVersion,
   "style-loader" -> npmStyleLoaderVersion,
   "clean-webpack-plugin" -> npmCleanWebpackPluginVersion,
@@ -119,3 +118,5 @@ fullOptJS in Compile := {
 gitCommitMessageHook := Some(baseDirectory.value / "bin" / "commit-msg.hook")
 
 enablePlugins(GitHooks)
+
+useYarn := true
