@@ -134,7 +134,7 @@ object PasswordRecoveryComponentStyles extends StyleSheet.Inline {
 
   val inputText: StyleA = style(MakeStyles.Form.inputText)
 
-  val errorInput: StyleA = style(MakeStyles.Form.inputText, MakeStyles.Form.errorInput)
+  val errorInput: StyleA = style(MakeStyles.Form.errorInput, addClassName(MakeStyles.Form.inputText.htmlClass))
 
   val errorMessage: StyleA = style(MakeStyles.Form.errorMessage)
 }
