@@ -21,10 +21,10 @@ trait MakeApiClientComponent {
   def client: Client
   def maxTimeout: Int = 5000
   def defaultHeaders: Map[String, String] = Map.empty
-  def withCredentials: Boolean = false
+  def withCredentials: Boolean = true
 }
 
-//TODO: add error handler. throw custom exception in the promise.future
+// TODO: manage retry using refresh_token when get a 401
 trait DefaultMakeApiClientComponent extends MakeApiClientComponent with TimeInstances {
   override def client: DefaultMakeApiClient = new DefaultMakeApiClient()
 

@@ -28,8 +28,8 @@ object Translations {
       |         "profile": "Mon Profil",
       |         "settings": "Paramètres",
       |         "logout": "Se Déconnecter",
-      |         "connect": "Je me connecte",
-      |         "createAccount": "Créer un compte",
+      |         "connect": "Se connecter",
+      |         "createAccount": "S'inscrire",
       |         "searchPlaceholder": "Chercher des propositions"
       |       },
       |       "homepage": {
@@ -122,7 +122,7 @@ object Translations {
       |         "socialConnect": "Je me connecte avec",
       |         "socialRegister": "Je m'inscris avec",
       |         "stdConnect": "Je me connecte avec mon adresse e-mail",
-      |         "stdRegister": "Je m’inscris avec ce formulaire",
+      |         "stdRegister": "Je m’inscris avec mon adresse email",
       |         "submitButton": "Je me connecte",
       |         "oupsI": "J'ai ",
       |         "forgotPassword": "oublié mon mot de passe ?",
@@ -131,7 +131,8 @@ object Translations {
       |         "errorAuthenticationFailed": "Ce compte ne semble pas exister. Merci de bien vouloir vérifier vos informations. ",
       |         "proposalIntroFirst": "Nous avons besoin de quelques informations",
       |         "proposalIntroSecond": "Pour valider votre proposition",
-      |         "socialInfo": "Rassurez-vous, nous ne publierons jamais rien sans votre accord."
+      |         "socialInfo": "Rassurez-vous, nous ne publierons jamais rien sans votre accord.",
+      |         "errorSignInFailed": "Quelque chose n'a pas fonctionné. Si le problème persiste n'hésitez pas à nous contacter à support@make.org."
       |       },
       |       "register": {
       |          "withSocial": "Je m'inscris avec",
@@ -292,7 +293,7 @@ object Translations {
       |         "socialConnect": "Je me connecte avec",
       |         "socialRegister": "Je m'inscris avec",
       |         "stdConnect": "Je me connecte avec mon adresse e-mail",
-      |         "stdRegister": "Je m’inscris avec ce formulaire",
+      |         "stdRegister": "Je m’inscris avec mon adresse email",
       |         "submitButton": "se connecter",
       |         "oupsI": "J'ai ",
       |         "forgotPassword": "oublié mon mot de passe ?",
@@ -301,7 +302,8 @@ object Translations {
       |         "errorAuthenticationFailed": "Ce compte ne semble pas exister. Merci de bien vouloir vérifier vos informations. ",
       |         "proposalIntroFirst": "Nous avons besoin de quelques informations",
       |         "proposalIntroSecond": "Pour valider votre proposition",
-      |         "socialInfo": "Rassurez-vous, nous ne publierons jamais rien sans votre accord."
+      |         "socialInfo": "Rassurez-vous, nous ne publierons jamais rien sans votre accord.",
+      |         "errorSignInFailed": "Quelque chose n'a pas fonctionné. Si le problème persiste n'hésitez pas à nous contacter à support@make.org."
       |       },
       |       "register": {
       |          "withSocial": "Je m'inscris avec",

@@ -6,7 +6,7 @@ import io.github.shogowada.scalajs.reactjs.redux.ReactRedux._
 import io.github.shogowada.scalajs.reactjs.redux.devtools.ReduxDevTools
 import io.github.shogowada.scalajs.reactjs.redux.{Redux, Store}
 import io.github.shogowada.scalajs.reactjs.router.dom.RouterDOM._
-import org.make.front.actions.LoadThemes
+import org.make.front.actions.{LoadThemes, ReloadUserAction}
 import org.make.front.components.AppComponent
 import org.make.front.facades.{Configuration, I18n}
 import org.make.front.middlewares.{
@@ -53,6 +53,7 @@ object Main extends JSApp {
 
   private def initStore(store: Store[AppState]): Unit = {
     store.dispatch(LoadThemes)
+    store.dispatch(ReloadUserAction)
   }
 
 }

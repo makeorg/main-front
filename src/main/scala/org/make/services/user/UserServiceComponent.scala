@@ -58,60 +58,66 @@ trait UserServiceComponent {
 
     def login(username: String, password: String): Future[User] = {
       client.authenticate(username, password).flatMap {
-        case true  => client.get[User](resourceName / "me").map(_.get)
+        case true  => getCurrentUser()
         case false => throw NoTokenException()
       }
     }
 
+    def getCurrentUser(): Future[User] = {
+      client.get[User](resourceName / "me").map(_.get)
+    }
+
     def loginGoogle(token: String): Future[User] = {
       client.authenticateSocial("google", token).flatMap {
-        case true  => client.get[User](resourceName / "me").map(_.get)
+        case true  => getCurrentUser()
         case false => throw NoTokenException()
       }
     }
     def loginFacebook(token: String): Future[User] = {
       client.authenticateSocial("facebook", token).flatMap {
-        case true  => client.get[User](resourceName / "me").map(_.get)
+        case true  => getCurrentUser()
         case false => throw NoTokenException()
       }
     }
 
     def resetPasswordRequest(email: String): Future[Unit] = {
-      client.post[Unit](
-        resourceName / "reset-password" / "request-reset",
-        data = Map("email" -> email).asJson.pretty(ApiService.printer)
-      ).map {
-        _ =>
-        }
+      client
+        .post[Unit](
+          resourceName / "reset-password" / "request-reset",
+          data = Map("email" -> email).asJson.pretty(ApiService.printer)
+        )
+        .map { _ =>
+          }
     }
 
     def resetPasswordCheck(userId: String, resetToken: String): Future[Boolean] = {
-      client.post[Unit](
-        resourceName / "reset-password" / "check-validity" / userId / resetToken
-      ).map {
-        _ => true
-      }.recoverWith{
-        case _ => Future.successful(false)
-      }
+      client
+        .post[Unit](resourceName / "reset-password" / "check-validity" / userId / resetToken)
+        .map { _ =>
+          true
+        }
+        .recoverWith {
+          case _ => Future.successful(false)
+        }
     }
 
     def resetPasswordChange(userId: String, resetToken: String, password: String): Future[Boolean] = {
-      client.post[Unit](
-        resourceName / "reset-password" / "change-password" / userId,
-        data = Map("resetToken" -> resetToken, "password" -> password).asJson.pretty(ApiService.printer)
-      ).map {
-        _ => true
-      }.recoverWith {
-        case _ => Future.successful(false)
-      }
+      client
+        .post[Unit](
+          resourceName / "reset-password" / "change-password" / userId,
+          data = Map("resetToken" -> resetToken, "password" -> password).asJson.pretty(ApiService.printer)
+        )
+        .map { _ =>
+          true
+        }
+        .recoverWith {
+          case _ => Future.successful(false)
+        }
     }
 
     def validateAccount(userId: String, verificationToken: String): Future[Unit] = {
-      client.post[Unit](
-        resourceName / userId / "validate" / verificationToken
-      ).map {
-        _ =>
-      }
+      client.post[Unit](resourceName / userId / "validate" / verificationToken).map { _ =>
+        }
     }
 
     def logout(): Future[Unit] =
