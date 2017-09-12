@@ -7,7 +7,7 @@ import io.github.shogowada.scalajs.reactjs.redux.devtools.ReduxDevTools
 import io.github.shogowada.scalajs.reactjs.redux.{Redux, Store}
 import io.github.shogowada.scalajs.reactjs.router.dom.RouterDOM._
 import org.make.front.actions.{LoadThemes, ReloadUserAction}
-import org.make.front.components.AppComponent
+import org.make.front.components.presentationals.RichVirtualDOMElements
 import org.make.front.facades.{Configuration, I18n}
 import org.make.front.middlewares.{
   ConnectedUserMiddleware,
@@ -46,7 +46,7 @@ object Main extends JSApp {
     initStore(store)
 
     ReactDOM.render(
-      <.Provider(^.store := store)(<.HashRouter()(<(AppComponent()).empty)),
+      <.Provider(^.store := store)(<.HashRouter()(<.AppComponent.empty)),
       dom.document.getElementById("make-app")
     )
   }

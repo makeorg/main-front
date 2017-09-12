@@ -1,4 +1,4 @@
-package org.make.front.components.presentationals
+package org.make.front.components.Proposals
 
 import java.time.ZonedDateTime
 
@@ -7,6 +7,8 @@ import io.github.shogowada.scalajs.reactjs.React.Self
 import io.github.shogowada.scalajs.reactjs.VirtualDOM._
 import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import io.github.shogowada.statictags.Element
+import org.make.front.components.Tags.FilterByTagsComponent.FilterByTagsProps
+import org.make.front.components.presentationals._
 import org.make.front.facades.Translate.{TranslateVirtualDOMAttributes, TranslateVirtualDOMElements}
 import org.make.front.models._
 import org.make.front.styles.{MakeStyles, ThemeStyles}
@@ -14,7 +16,7 @@ import org.make.front.styles.{MakeStyles, ThemeStyles}
 import scalacss.DevDefaults._
 import scalacss.internal.mutable.StyleSheet
 
-object ProposalMatrixComponent {
+object ProposalsListComponent {
 
   val proposals: Seq[Proposal] = {
     for (i <- 1 to 2)
@@ -69,16 +71,16 @@ object ProposalMatrixComponent {
         )
   }
 
-  type ProposalMatrixSelf = Self[ProposalMatrixProps, ProposalMatrixState]
+  type ProposalsListSelf = Self[ProposalsListProps, ProposalsListState]
 
-  case class ProposalMatrixProps(handleSelectedTags: ProposalMatrixSelf => Seq[Tag] => Unit, tags: Seq[Tag])
-  case class ProposalMatrixState(listProposals: Seq[Proposal], selectedTags: Seq[Tag])
+  case class ProposalsListProps(handleSelectedTags: ProposalsListSelf => Seq[Tag] => Unit, tags: Seq[Tag])
+  case class ProposalsListState(listProposals: Seq[Proposal], selectedTags: Seq[Tag])
 
-  lazy val reactClass: ReactClass = React.createClass[ProposalMatrixProps, ProposalMatrixState](
-    getInitialState = (_) => ProposalMatrixState(proposals, Seq.empty),
+  lazy val reactClass: ReactClass = React.createClass[ProposalsListProps, ProposalsListState](
+    getInitialState = (_) => ProposalsListState(proposals, Seq.empty),
     render = (self) => {
-      val noContent: Element = <.div(^.className := ProposalMatrixStyles.noContent)(
-        <.span(^.className := ProposalMatrixStyles.sadSmiley)("😞"),
+      val noContent: Element = <.div(^.className := ProposalsListStyles.noContent)(
+        <.span(^.className := ProposalsListStyles.sadSmiley)("😞"),
         <.br()(),
         <.Translate(^.value := "content.theme.matrix.noContent", ^.dangerousHtml := true)(),
         <.br()(),
@@ -87,31 +89,31 @@ object ProposalMatrixComponent {
 
       val listProposals: Seq[Element] = self.state.listProposals.map(
         proposal =>
-          <.li(^.className := ProposalMatrixStyles.proposalItem)(
-            <.ProposalTileComponent(
-              ^.wrapped := ProposalTileComponent
-                .ProposalTileProps(proposal = proposal, proposalLocation = ThemePage, isHomePage = false, None)
+          <.li(^.className := ProposalsListStyles.proposalItem)(
+            <.ProposalComponent(
+              ^.wrapped := ProposalComponent
+                .ProposalProps(proposal = proposal, proposalLocation = ThemePage, isHomePage = false, None)
             )()
         )
       )
 
-      <.div(^.className := ProposalMatrixStyles.matrix)(
-        <.h2(^.className := ProposalMatrixStyles.title2)(<.Translate(^.value := "content.theme.matrix.title")()),
-        <.TagFilterComponent(
-          ^.wrapped := TagFilterProps(self.props.wrapped.tags, self.props.wrapped.handleSelectedTags(self))
+      <.div(^.className := ProposalsListStyles.matrix)(
+        <.h2(^.className := ProposalsListStyles.title2)(<.Translate(^.value := "content.theme.matrix.title")()),
+        <.FilterByTagsComponent(
+          ^.wrapped := FilterByTagsProps(self.props.wrapped.tags, self.props.wrapped.handleSelectedTags(self))
         )(),
-        <.div(^.className := ProposalMatrixStyles.proposalList)(if (self.state.listProposals.nonEmpty) {
+        <.div(^.className := ProposalsListStyles.proposalList)(if (self.state.listProposals.nonEmpty) {
           <.ul()(listProposals)
         } else {
           noContent
         }),
-        <.style()(ProposalMatrixStyles.render[String])
+        <.style()(ProposalsListStyles.render[String])
       )
     }
   )
 }
 
-object ProposalMatrixStyles extends StyleSheet.Inline {
+object ProposalsListStyles extends StyleSheet.Inline {
 
   import dsl._
 
