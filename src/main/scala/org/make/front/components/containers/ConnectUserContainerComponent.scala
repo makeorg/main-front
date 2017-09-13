@@ -90,9 +90,9 @@ object ConnectUserContainerComponent extends RouterProps with UserServiceCompone
             case Failure(e) =>
               e match {
                 case UnauthorizedHttpException =>
-                  child.setState(child.state.copy(errorMessage = Seq(I18n.t("form.login.errorAuthenticationFailed"))))
+                  child.setState(child.state.copy(errorMessage = Seq("form.login.errorAuthenticationFailed")))
                 case _ => {
-                  child.setState(child.state.copy(errorMessage = Seq(I18n.t("form.login.errorSignInFailed"))))
+                  child.setState(child.state.copy(errorMessage = Seq("form.login.errorSignInFailed")))
                 }
               }
           }
@@ -109,9 +109,9 @@ object ConnectUserContainerComponent extends RouterProps with UserServiceCompone
             case Failure(e) =>
               e match {
                 case exception: BadRequestHttpException if exception.getMessage.contains("already exist") =>
-                  child.setState(child.state.copy(errorMessage = Seq(I18n.t("form.register.errorAlreadyExist"))))
+                  child.setState(child.state.copy(errorMessage = Seq("form.register.errorAlreadyExist")))
                 case _ => {
-                  child.setState(child.state.copy(errorMessage = Seq(I18n.t("form.register.errorRegistrationFailed"))))
+                  child.setState(child.state.copy(errorMessage = Seq("form.register.errorRegistrationFailed")))
                 }
               }
           }

@@ -50,7 +50,7 @@ object ProposalSubmitContainerComponent extends ProposalServiceComponent {
             case Success(_) =>
               child.setState(child.state.copy(confirmationIsOpen = true, proposalContent = "", modalIsOpen = true))
             case Failure(_) =>
-              dispatch(NotifyError(I18n.t("errors.tryAgain"), Some(I18n.t("errors.unexpectedBehaviour"))))
+              dispatch(NotifyError("errors.tryAgain", Some("errors.unexpectedBehaviour")))
               child.setState(child.state.copy(errorMessage = I18n.t("form.proposal.errorSubmitFailed")))
           }
         }

@@ -21,7 +21,7 @@ object Translations {
       |       "loginFailed": "La connexion a échoué",
       |       "apiFailure": "Échec de l'appel API",
       |       "unexpectedBehaviour": "Quelque chose n'a pas fonctionné",
-      |       "tryAgain": "Si le problème persiste n'hésitez pas à nous contacter à support@make.org."
+      |       "tryAgain": "Si le problème persiste n'hésitez pas à nous contacter à <a href=\"mailto:contact@make.org\">contact@make.org</a>."
       |    },
       |    "content": {
       |       "header": {
@@ -132,7 +132,7 @@ object Translations {
       |         "proposalIntroFirst": "Nous avons besoin de quelques informations",
       |         "proposalIntroSecond": "Pour valider votre proposition",
       |         "socialInfo": "Rassurez-vous, nous ne publierons jamais rien sans votre accord.",
-      |         "errorSignInFailed": "Quelque chose n'a pas fonctionné. Si le problème persiste n'hésitez pas à nous contacter à support@make.org."
+      |         "errorSignInFailed": "Quelque chose n'a pas fonctionné. Si le problème persiste n'hésitez pas à nous contacter à <a href=\"mailto:contact@make.org\">contact@make.org</a>."
       |       },
       |       "register": {
       |          "withSocial": "Je m'inscris avec",
@@ -142,7 +142,7 @@ object Translations {
       |          "subscribe": "Je m'inscris",
       |          "alreadySubscribed": "J’ai déjà un compte | ",
       |          "noRegister": "Non merci, je souhaite poursuivre %{break} sans compte finalement.",
-      |          "errorRegistrationFailed": "Quelque chose n'a pas fonctionné. Si le problème persiste n'hésitez pas à nous contacter à support@make.org.",
+      |          "errorRegistrationFailed": "Quelque chose n'a pas fonctionné. Si le problème persiste n'hésitez pas à nous contacter à <a href=\"mailto:contact@make.org\">contact@make.org</a>.",
       |          "errorInvalidEmail": "Format d'email non reconnu",
       |          "errorMinPassword": "Votre mot de passe doit contenir au moins %{min} caractères",
       |          "errorChoiceAge": "Valeur invalide",
@@ -192,7 +192,7 @@ object Translations {
       |       "loginFailed": "Login Failed",
       |       "apiFailure": "API call failed",
       |       "unexpectedBehaviour": "Quelque chose n'a pas fonctionné",
-      |       "tryAgain": "Si le problème persiste n'hésitez pas à nous contacter à support@make.org."
+      |       "tryAgain": "Si le problème persiste n'hésitez pas à nous contacter à <a href=\"mailto:contact@make.org\">contact@make.org</a>."
       |    },
       |    "content": {
       |       "header": {
@@ -303,7 +303,7 @@ object Translations {
       |         "proposalIntroFirst": "Nous avons besoin de quelques informations",
       |         "proposalIntroSecond": "Pour valider votre proposition",
       |         "socialInfo": "Rassurez-vous, nous ne publierons jamais rien sans votre accord.",
-      |         "errorSignInFailed": "Quelque chose n'a pas fonctionné. Si le problème persiste n'hésitez pas à nous contacter à support@make.org."
+      |         "errorSignInFailed": "Quelque chose n'a pas fonctionné. Si le problème persiste n'hésitez pas à nous contacter à <a href=\"mailto:contact@make.org\">contact@make.org</a>."
       |       },
       |       "register": {
       |          "withSocial": "Je m'inscris avec",
@@ -313,7 +313,7 @@ object Translations {
       |          "subscribe": "Je m'inscris",
       |          "alreadySubscribed": "J’ai déjà un compte | ",
       |          "noRegister": "Non merci, je souhaite poursuivre %{break} sans compte finalement.",
-      |          "errorRegistrationFailed": "Quelque chose n'a pas fonctionné. Si le problème persiste n'hésitez pas à nous contacter à support@make.org.",
+      |          "errorRegistrationFailed": "Quelque chose n'a pas fonctionné. Si le problème persiste n'hésitez pas à nous contacter à <a href=\"mailto:contact@make.org\">contact@make.org</a>.",
       |          "errorInvalidEmail": "Format d'email non reconnu",
       |          "errorMinPassword": "Le mot de passe doit comporter au moins %{min} caractères",
       |          "errorChoiceAge": "Valeur invalide",

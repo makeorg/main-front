@@ -7,7 +7,7 @@ import io.github.shogowada.scalajs.reactjs.redux.Redux.Dispatch
 import org.make.front.actions.NotifyError
 import org.make.front.components.presentationals.ProposalMatrixComponent
 import org.make.front.components.presentationals.ProposalMatrixComponent.ProposalMatrixSelf
-import org.make.front.facades.{Configuration, I18n}
+import org.make.front.facades.Configuration
 import org.make.front.models.{AppState, Tag, ThemeId}
 import org.make.services.proposal.ProposalServiceComponent
 
@@ -32,7 +32,7 @@ object ProposalMatrixContainerComponent extends ProposalServiceComponent {
           .searchProposals(themesIds = themesIds, tagsIds = selectedTags.map(_.tagId))
           .onComplete {
             case Success(listProposals) => matrix.setState(_.copy(listProposals = listProposals))
-            case Failure(_)             => dispatch(NotifyError(I18n.t("errors.tryAgain"), None))
+            case Failure(_)             => dispatch(NotifyError("errors.tryAgain", None))
           }
 
       val tags: Seq[Tag] = appState.themes.find(_.slug == ownProps.wrapped.themeSlug).map(_.tags).getOrElse(Seq.empty)
