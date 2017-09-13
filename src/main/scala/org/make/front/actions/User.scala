@@ -7,3 +7,4 @@ final case class LoggedInAction(user: User) extends Action
 case object LogoutAction extends Action
 case object OpenPasswordRecoveryModalAction extends Action
 case object ClosePasswordRecoveryModalAction extends Action
+case object ReloadUserAction extends Action

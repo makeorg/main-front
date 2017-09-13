@@ -4,6 +4,7 @@ import io.github.shogowada.scalajs.reactjs.React.Props
 import io.github.shogowada.scalajs.reactjs.VirtualDOM.{<, _}
 import io.github.shogowada.scalajs.reactjs.elements.ReactElement
 import io.github.shogowada.scalajs.reactjs.events.MouseSyntheticEvent
+import org.make.front.facades.Translate.{TranslateVirtualDOMAttributes, TranslateVirtualDOMElements}
 import org.make.front.models.{Notification, NotificationLevel}
 import org.make.front.styles.{BulmaStyles, FontAwesomeStyles}
 
@@ -43,8 +44,12 @@ object NotificationComponent {
         })
       )(),
       <.span(^.className := BulmaStyles.Element.icon)(<.i(^.className := FontAwesomeStyles.infoCircle)()),
-      <.span(^.className := NotificationStyles.text)(props.notification.title.getOrElse("")),
-      <.span(^.className := NotificationStyles.text)(props.notification.message)
+      <.Translate(^.className := NotificationStyles.text, ^.value := props.notification.title.getOrElse(""))(),
+      <.Translate(
+        ^.className := NotificationStyles.text,
+        ^.value := props.notification.message,
+        ^.dangerousHtml := true
+      )()
     )
   }
 }

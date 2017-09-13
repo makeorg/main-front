@@ -220,7 +220,14 @@ object ConnectUserComponent {
       ),
       <.div()(
         self.state.errorMessage
-          .map(message => <.span(^.className := ConnectUserComponentStyles.errorMessage(!message.isEmpty))(message))
+          .map(
+            message =>
+              <.Translate(
+                ^.value := message,
+                ^.dangerousHtml := true,
+                ^.className := ConnectUserComponentStyles.errorMessage(!message.isEmpty)
+              )()
+          )
       ),
       <.div(^.className := submitButtonContainer)(
         <.button(^.className := submitButton)(
@@ -326,7 +333,14 @@ object ConnectUserComponent {
       if (self.props.wrapped.isProposalFlow) { extraFields(self) },
       <.div()(
         self.state.errorMessage
-          .map(message => <.span(^.className := ConnectUserComponentStyles.errorMessage(!message.isEmpty))(message))
+          .map(
+            message =>
+              <.Translate(
+                ^.value := message,
+                ^.dangerousHtml := true,
+                ^.className := ConnectUserComponentStyles.errorMessage(!message.isEmpty)
+              )()
+          )
       ),
       <.div(^.className := termsClass)(I18n.t("form.register.termsAgreed")),
       <.div(^.className := submitButtonContainer)(
@@ -675,9 +689,13 @@ object ConnectUserComponentStyles extends StyleSheet.Inline {
   val errorMessage: (Boolean) => StyleA = styleF.bool(
     hasError =>
       if (hasError) {
-        styleS(MakeStyles.Form.errorMessage)
+        styleS(MakeStyles.Form.errorMessage, unsafeChild("a") {
+          color(MakeStyles.Color.error)
+        })
       } else {
-        styleS(height(0.rem))
+        styleS(height(0.rem), unsafeChild("a") {
+          color(MakeStyles.Color.error)
+        })
     }
   )
 

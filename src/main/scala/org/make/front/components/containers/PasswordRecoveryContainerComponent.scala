@@ -30,10 +30,7 @@ object PasswordRecoveryContainerComponent extends UserServiceComponent {
         userService.resetPasswordRequest(self.state.email).onComplete {
           case Success(_) =>
             dispatch(ClosePasswordRecoveryModalAction)
-            dispatch(NotifyInfo(
-              message = I18n.t("form.passwordRecovery.notification.message"),
-              title = None
-            ))
+            dispatch(NotifyInfo(message = "form.passwordRecovery.notification.message", title = None))
             self.setState(self.state.copy(errorMessage = "", email = ""))
           case Failure(e) =>
             println(e.getMessage)

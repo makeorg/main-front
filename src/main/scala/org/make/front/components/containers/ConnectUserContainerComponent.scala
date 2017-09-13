@@ -5,7 +5,7 @@ import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import io.github.shogowada.scalajs.reactjs.redux.ReactRedux
 import io.github.shogowada.scalajs.reactjs.redux.Redux.Dispatch
 import io.github.shogowada.scalajs.reactjs.router.RouterProps
-import org.make.client.BadRequestHttpException
+import org.make.client.{BadRequestHttpException, UnauthorizedHttpException}
 import org.make.front.actions._
 import org.make.front.components.presentationals.ConnectUserComponent
 import org.make.front.components.presentationals.ConnectUserComponent.{ConnectUserProps, ConnectUserState}
@@ -87,8 +87,14 @@ object ConnectUserContainerComponent extends RouterProps with UserServiceCompone
             case Success(user) =>
               dispatch(LoggedInAction(user))
               clearDataState(child)
-            case Failure(_) =>
-              child.setState(child.state.copy(errorMessage = Seq(I18n.t("form.login.errorAuthenticationFailed"))))
+            case Failure(e) =>
+              e match {
+                case UnauthorizedHttpException =>
+                  child.setState(child.state.copy(errorMessage = Seq("form.login.errorAuthenticationFailed")))
+                case _ => {
+                  child.setState(child.state.copy(errorMessage = Seq("form.login.errorSignInFailed")))
+                }
+              }
           }
         }
 
@@ -103,9 +109,9 @@ object ConnectUserContainerComponent extends RouterProps with UserServiceCompone
             case Failure(e) =>
               e match {
                 case exception: BadRequestHttpException if exception.getMessage.contains("already exist") =>
-                  child.setState(child.state.copy(errorMessage = Seq(I18n.t("form.register.errorAlreadyExist"))))
+                  child.setState(child.state.copy(errorMessage = Seq("form.register.errorAlreadyExist")))
                 case _ => {
-                  child.setState(child.state.copy(errorMessage = Seq(I18n.t("form.register.errorRegistrationFailed"))))
+                  child.setState(child.state.copy(errorMessage = Seq("form.register.errorRegistrationFailed")))
                 }
               }
           }
