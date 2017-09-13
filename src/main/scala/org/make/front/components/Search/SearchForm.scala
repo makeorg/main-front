@@ -123,5 +123,5 @@ object SearchFormStyles extends StyleSheet.Inline {
     style(backgroundColor(ThemeStyles.BackgroundColor.lightGrey))
 
   val searchInputWithIconWrapper: StyleA =
-    style(position.relative, (&.before)(content := "'\\F002'"))
+    style((&.before)(content := "'\\F002'"))
 }

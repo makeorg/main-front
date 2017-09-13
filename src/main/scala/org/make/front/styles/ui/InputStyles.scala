@@ -19,6 +19,7 @@ object InputStyles extends StyleSheet.Inline {
 
   /** TODO: pseudo class to customise placeholder */
   def pseudoElement(value: String) = Pseudo.Custom(value, Element)
+
   def pseudoClass(value: String) = Pseudo.Custom(value, Class)
 
   val webkitPlaceholder = pseudoElement("::-webkit-input-placeholder")
@@ -39,25 +40,45 @@ object InputStyles extends StyleSheet.Inline {
       fontSize(16.pxToEm()),
       lineHeight.normal,
       fontFamily.inherit,
-      transition := "color .2s ease-in-out",
       placeholder(color(ThemeStyles.TextColor.lighter))
     )
 
   val withIcon: StyleA =
-    style(paddingLeft(40.pxToEm(16)))
+    style(paddingLeft(50.pxToEm(16)))
 
   val withIconWrapper: StyleA =
     style(
       position.relative,
+      display.block,
       (&.before)(
         position.absolute,
         top(0.%%),
-        left(15.pxToEm(20)),
+        left(0.%%),
+        width(50.pxToEm(20)),
         ThemeStyles.Font.fontAwesome,
         fontSize(20.pxToEm()),
         lineHeight(40.pxToEm(20)),
+        textAlign.center,
         color(ThemeStyles.ThemeColor.primary)
       )
+    )
+
+  val biggerBeyondMedium: StyleA = style(
+    ThemeStyles.MediaQueries.beyondSmall(
+      fontSize(18.pxToEm()),
+      height(50.pxToEm(18)),
+      padding :=! s"0 ${25.pxToEm(18).value}",
+      borderRadius(25.pxToEm(18))
+    )
+  )
+
+  val withIconBiggerBeyondMedium: StyleA =
+    style(ThemeStyles.MediaQueries.beyondSmall(paddingLeft(70.pxToEm(18))))
+
+  val withIconBiggerBeyondMediumWrapper: StyleA =
+    style(
+      ThemeStyles.MediaQueries
+        .beyondSmall((&.before)(fontSize(28.pxToEm()), width(70.pxToEm(28)), lineHeight(50.pxToEm(28))))
     )
 
 }

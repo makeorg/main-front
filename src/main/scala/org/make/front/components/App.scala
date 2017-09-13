@@ -15,6 +15,14 @@ object AppComponent {
     React.createClass[Unit, Unit](
       render = (_) =>
         <("app-container")(^.className := "App")(
+          <.style()(
+            AppComponentStyles.render[String],
+            LayoutRulesStyles.render[String],
+            TextStyles.render[String],
+            CTAStyles.render[String],
+            InputStyles.render[String],
+            ModalStyles.render[String]
+          ),
           <.MainHeaderComponent.empty,
           <.ContainerComponent.empty,
           <.NavInThemesContainerComponent.empty,
@@ -22,13 +30,7 @@ object AppComponent {
           <.NotificationContainerComponent.empty,
           <.ConnectUserContainerComponent.empty,
           <.PasswordRecoveryContainerComponent.empty,
-          <.style()(
-            AppComponentStyles.render[String],
-            LayoutRulesStyles.render[String],
-            TextStyles.render[String],
-            CTAStyles.render[String],
-            InputStyles.render[String]
-          )
+          <.style()(RWDHideRulesStyles.render[String])
       )
     )
   )

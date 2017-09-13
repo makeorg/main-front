@@ -54,8 +54,16 @@ import scala.scalajs.js.annotation.JSImport
   * </code>
   */
 @js.native
+trait ModalStyles extends js.Object {
+  def overlay: js.Dictionary[js.Any] = js.native
+  def content: js.Dictionary[js.Any] = js.native
+}
+
+@js.native
 @JSImport("react-modal", JSImport.Default)
-object NativeReactModal extends ReactClass
+object NativeReactModal extends ReactClass {
+  def defaultStyles: ModalStyles = js.native
+}
 
 object ReactModal {
 

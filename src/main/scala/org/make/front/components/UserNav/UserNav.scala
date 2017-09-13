@@ -7,7 +7,7 @@ import io.github.shogowada.scalajs.reactjs.elements.ReactElement
 import org.make.front.components.presentationals._
 import org.make.front.facades.I18n
 import org.make.front.facades.Unescape.unescape
-import org.make.front.styles.{FontAwesomeStyles, LayoutRulesStyles, TextStyles, ThemeStyles}
+import org.make.front.styles._
 
 import scalacss.DevDefaults._
 import scalacss.internal.mutable.StyleSheet
@@ -48,7 +48,7 @@ object ConnectedUserNavElement {
           <.span(
             ^.className := Seq(
               UserNavStyles.userNameWrapper,
-              LayoutRulesStyles.showInlineBlockBeyondMedium,
+              RWDHideRulesStyles.showInlineBlockBeyondMedium,
               TextStyles.title,
               TextStyles.smallText
             )
@@ -65,7 +65,7 @@ object UnconnectedUserNavElement {
         <.button(^.onClick := login, ^.className := Seq(UserNavStyles.menuItemLink))(
           <.i(^.className := Seq(UserNavStyles.menuItemIcon, FontAwesomeStyles.user))(),
           <.span(
-            ^.className := Seq(LayoutRulesStyles.showInlineBlockBeyondMedium, TextStyles.title, TextStyles.smallText)
+            ^.className := Seq(RWDHideRulesStyles.showInlineBlockBeyondMedium, TextStyles.title, TextStyles.smallText)
           )(I18n.t("content.header.connect"), unescape("&nbsp;/&nbsp;"), I18n.t("content.header.createAccount"))
         )
       )
@@ -97,7 +97,7 @@ object UserNavStyles extends StyleSheet.Inline {
 
   val menuItemIcon: StyleA =
     style(
-      marginRight(ThemeStyles.Spacing.smaller),
+      ThemeStyles.MediaQueries.beyondMedium(marginRight(ThemeStyles.Spacing.smaller)),
       verticalAlign.baseline,
       fontSize(16.pxToEm()),
       color(ThemeStyles.TextColor.lighter)

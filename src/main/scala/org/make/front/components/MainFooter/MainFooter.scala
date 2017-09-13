@@ -6,7 +6,7 @@ import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import org.make.front.components.presentationals._
 import org.make.front.facades.Unescape.unescape
 import org.make.front.facades.{logoMake, I18n}
-import org.make.front.styles.{FontAwesomeStyles, LayoutRulesStyles, TextStyles, ThemeStyles}
+import org.make.front.styles._
 
 import scalacss.DevDefaults._
 import scalacss.internal.Length
@@ -36,7 +36,7 @@ object MainFooterComponent {
                     <.a(^.href := "/", ^.className := MainFooterStyles.menuItemLink)(I18n.t("content.footer.jobs"))
                   )
                 ),
-                <.li(^.className := Seq(MainFooterStyles.menuItem, LayoutRulesStyles.hideBeyondMedium))(
+                <.li(^.className := Seq(MainFooterStyles.menuItem, RWDHideRulesStyles.hideBeyondMedium))(
                   <.p(^.className := Seq(TextStyles.title, TextStyles.smallText))(
                     <.a(^.href := "/", ^.className := MainFooterStyles.menuItemLink)(
                       unescape(I18n.t("content.footer.presentation"))

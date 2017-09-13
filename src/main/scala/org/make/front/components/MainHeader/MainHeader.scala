@@ -6,7 +6,7 @@ import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import org.make.front.components.presentationals._
 import org.make.front.facades.Unescape.unescape
 import org.make.front.facades.{logoMake, I18n}
-import org.make.front.styles.{LayoutRulesStyles, TextStyles, ThemeStyles}
+import org.make.front.styles.{LayoutRulesStyles, RWDHideRulesStyles, TextStyles, ThemeStyles}
 
 import scalacss.DevDefaults._
 import scalacss.internal.mutable.StyleSheet
@@ -29,7 +29,7 @@ object MainHeaderComponent {
               <.div(^.className := MainHeaderStyles.menusWrapper)(
                 <.div(^.className := MainHeaderStyles.menusInnerWrapper)(
                   <.nav(
-                    ^.className := Seq(MainHeaderStyles.menuWrapper, LayoutRulesStyles.showInlineBlockBeyondMedium)
+                    ^.className := Seq(MainHeaderStyles.menuWrapper, RWDHideRulesStyles.showInlineBlockBeyondMedium)
                   )(
                     <.ul(^.className := MainHeaderStyles.menu)(
                       <.li(^.className := MainHeaderStyles.menuItem)(

@@ -54,6 +54,7 @@ object ThemeStyles extends StyleSheet.Inline {
     val smaller: ValueT[ValueT.LenPct] = 10.pxToEm()
     val small: ValueT[ValueT.LenPct] = 15.pxToEm()
     val medium: ValueT[ValueT.LenPct] = 30.pxToEm()
+    val largerMedium: ValueT[ValueT.LenPct] = 40.pxToEm()
     val large: ValueT[ValueT.LenPct] = 50.pxToEm()
     val larger: ValueT[ValueT.LenPct] = 60.pxToEm()
   }
@@ -71,9 +72,8 @@ object ThemeStyles extends StyleSheet.Inline {
     val beyondLarge: Media.Query = media.minWidth(1200.pxToEm(16))
   }
 
-  object ContainerMaxWidth {
-    val main: ValueT[ValueT.LenPct] = 1200.pxToEm()
-  }
+  val containerMaxWidth: ValueT[ValueT.LenPct] = 1200.pxToEm()
+  val modalMaxWidth: ValueT[ValueT.LenPct] = 730.pxToEm()
 
   val mainNavDefaultHeight: ValueT[ValueT.LenPct] = 80.pxToEm()
 

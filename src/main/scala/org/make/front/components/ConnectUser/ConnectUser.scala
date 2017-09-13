@@ -82,9 +82,9 @@ object ConnectUserComponent {
 
         if (self.props.wrapped.isProposalFlow) {
           overlayClass = Seq(ConnectUserStyles.proposalOverlay)
-          modalClass = Seq(MakeStyles.Modal.modal, SubmitProposalFormStyles.modalStyle)
-          modalContentClass = Seq(SubmitProposalFormStyles.modalContent, SubmitProposalFormStyles.modalContentSignin)
-          modalCloseClass = Seq(MakeStyles.Modal.close, SubmitProposalFormStyles.close)
+          modalClass = Seq(MakeStyles.Modal.modal)
+          modalContentClass = Seq()
+          modalCloseClass = Seq(MakeStyles.Modal.close)
           socialLoginButtonLeftClass = Seq(
             MakeStyles.Button.facebook,
             ConnectUserStyles.button,
@@ -609,7 +609,7 @@ object ConnectUserStyles extends StyleSheet.Inline {
 
   val overlay: StyleA = style(zIndex(1000))
   val proposalOverlay: StyleA =
-    style(addClassName(SubmitProposalFormStyles.overlayModalStyle.htmlClass), zIndex(10))
+    style(zIndex(10))
   val buttons: StyleA = style()
   val buttonsWrapper: StyleA = style(margin.auto)
   val button: StyleA = style(width(48.8F.%%))

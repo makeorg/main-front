@@ -3,11 +3,12 @@ package org.make.front.components.Theme
 import io.github.shogowada.scalajs.reactjs.React
 import io.github.shogowada.scalajs.reactjs.VirtualDOM._
 import io.github.shogowada.scalajs.reactjs.classes.ReactClass
-import org.make.front.components.SubmitProposal.SubmitProposalFormContainerComponent
+import org.make.front.components.Modal.FullscreenModalComponent.FullscreenModalProps
 import org.make.front.components.presentationals._
 import org.make.front.facades._
 import org.make.front.models.{GradientColor, Theme, ThemeId}
-import org.make.front.styles.{LayoutRulesStyles, TextStyles, ThemeStyles}
+import org.make.front.styles.{InputStyles, LayoutRulesStyles, TextStyles, ThemeStyles}
+import org.scalajs.dom.raw.{HTMLElement}
 
 import scalacss.DevDefaults._
 import scalacss.internal.Length
@@ -17,38 +18,75 @@ object ThemeHeaderComponent {
 
   case class ThemeHeaderProps(maybeTheme: Option[Theme])
 
-  // @toDo: get it from a config (API call)
-  val proposalFieldPrefix = "Il faut "
-  val proposalFieldPlaceHolder = "Il faut une proposition réaliste et respectueuse de tous"
+  case class ThemeHeaderState(isProposalModalOpened: Boolean)
 
-  lazy val reactClass: ReactClass = React.createClass[ThemeHeaderProps, Unit](render = (self) => {
-    val theme: Theme = self.props.wrapped.maybeTheme.getOrElse(Theme(ThemeId("asdf"), "-", "", 0, 0, "#FFF"))
-    val gradient: GradientColor = theme.gradient.getOrElse(GradientColor("#FFF", "#FFF"))
+  lazy val reactClass: ReactClass =
+    React.createClass[ThemeHeaderProps, ThemeHeaderState](
+      displayName = getClass.toString,
+      getInitialState = { self =>
+        ThemeHeaderState(isProposalModalOpened = false)
+      },
+      render = (self) => {
 
-    <.header(
-      ^.className := Seq(ThemeHeaderStyles.wrapper, ThemeHeaderStyles.gradientBackground(gradient.from, gradient.to))
-    )(
-      <.div(^.className := ThemeHeaderStyles.innerWrapper)(
-        <.img(^.className := ThemeHeaderStyles.illustration, ^.src := imageShutterstock.toString)(),
-        <.div(^.className := LayoutRulesStyles.centeredRow)(
-          <.div(^.className := LayoutRulesStyles.col)(
-            <.h1(^.className := Seq(TextStyles.veryBigTitle, ThemeHeaderStyles.title))(theme.title),
-            <.div(^.className := ThemeHeaderStyles.proposalFormWrapper)(
-              <.SubmitProposalFormContainerComponent(
-                ^.wrapped := SubmitProposalFormContainerComponent
-                  .SubmitProposalFormContainerProps(
-                    proposalPrefix = proposalFieldPrefix,
-                    proposalPlaceHolder = proposalFieldPlaceHolder,
-                    theme = theme
-                  )
-              )()
-            )
+        var proposalInput: Option[HTMLElement] = None
+
+        def toggleProposalModal() = () => {
+          self.setState(state => state.copy(isProposalModalOpened = !self.state.isProposalModalOpened))
+
+        }
+
+        def openProposalModalFromInput() = () => {
+          self.setState(state => state.copy(isProposalModalOpened = true))
+          proposalInput.foreach(_.blur())
+        }
+
+        val theme: Theme = self.props.wrapped.maybeTheme.getOrElse(Theme(ThemeId("asdf"), "-", "", 0, 0, "#FFF"))
+        val gradient: GradientColor = theme.gradient.getOrElse(GradientColor("#FFF", "#FFF"))
+
+        <.header(
+          ^.className := Seq(
+            ThemeHeaderStyles.wrapper,
+            ThemeHeaderStyles.gradientBackground(gradient.from, gradient.to)
           )
+        )(
+          <.div(^.className := ThemeHeaderStyles.innerWrapper)(
+            <.img(^.className := ThemeHeaderStyles.illustration, ^.src := imageShutterstock.toString)(),
+            <.div(^.className := LayoutRulesStyles.centeredRow)(
+              <.div(^.className := LayoutRulesStyles.col)(
+                <.h1(^.className := Seq(TextStyles.veryBigTitle, ThemeHeaderStyles.title))(theme.title),
+                <.label(
+                  ^.className := Seq(
+                    InputStyles.withIconWrapper,
+                    InputStyles.withIconBiggerBeyondMediumWrapper,
+                    ThemeHeaderStyles.proposalInputWrapper,
+                    ThemeHeaderStyles.proposalInputWithIconWrapper
+                  )
+                )(
+                  <.input(
+                    ^.className := Seq(
+                      InputStyles.basic,
+                      InputStyles.withIcon,
+                      InputStyles.biggerBeyondMedium,
+                      InputStyles.withIconBiggerBeyondMedium,
+                      ThemeHeaderStyles.proposalInput
+                    ),
+                    ^.`type`.text,
+                    ^.value := "Il faut ",
+                    ^.ref := ((input: HTMLElement) => proposalInput = Some(input)),
+                    ^.onFocus := openProposalModalFromInput()
+                  )()
+                ),
+                <.FullscreenModalComponent(
+                  ^.wrapped := FullscreenModalProps(self.state.isProposalModalOpened, toggleProposalModal())
+                )(<.p()("Fullscreen"), <.button(^.onClick := toggleProposalModal())("Click to close"))
+              )
+            )
+          ),
+          <.style()(ThemeHeaderStyles.render[String])
         )
-      ),
-      <.style()(ThemeHeaderStyles.render[String])
+      }
     )
-  })
+
 }
 
 object ThemeHeaderStyles extends StyleSheet.Inline {
@@ -107,7 +145,12 @@ object ThemeHeaderStyles extends StyleSheet.Inline {
   val title: StyleA =
     style(color(ThemeStyles.TextColor.white), textShadow := s"1px 1px 1px rgb(0, 0, 0)")
 
-  val proposalFormWrapper: StyleA =
-    style(marginTop(ThemeStyles.Spacing.smaller))
+  val proposalInput: StyleA =
+    style(ThemeStyles.Font.circularStdBold, boxShadow := "0 2px 5px 0 rgba(0,0,0,0.50)")
 
+  val proposalInputWrapper: StyleA =
+    style(marginTop(ThemeStyles.Spacing.small))
+
+  val proposalInputWithIconWrapper: StyleA =
+    style((&.before)(content := "'\\F0EB'"))
 }

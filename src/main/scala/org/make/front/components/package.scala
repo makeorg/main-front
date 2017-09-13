@@ -23,8 +23,11 @@ package object presentationals {
     def HomeComponent: ReactClassElementSpec = self(Home.HomeComponent.reactClass)
     def MainIntroComponent: ReactClassElementSpec = self(Home.MainIntroComponent.reactClass)
 
+    def ModalComponent: ReactClassElementSpec = self(Modal.ModalComponent.reactClass)
+    def FullscreenModalComponent: ReactClassElementSpec = self(Modal.FullscreenModalComponent.reactClass)
+
     def TagComponent: ReactClassElementSpec = self(Tags.TagComponent.reactClass)
-    def TagsListComponent: ReactClassElementSpec = self(org.make.front.components.Tags.TagsListComponent.reactClass)
+    def TagsListComponent: ReactClassElementSpec = self(Tags.TagsListComponent.reactClass)
     def FilterByTagsComponent: ReactClassElementSpec = self(Tags.FilterByTagsComponent.reactClass)
 
     def ThemeHeaderComponent: ReactClassElementSpec = self(Theme.ThemeHeaderComponent.reactClass)
@@ -33,13 +36,14 @@ package object presentationals {
     def ProposalComponent: ReactClassElementSpec = self(Proposals.ProposalComponent.reactClass)
     def ProposalsListComponent: ReactClassElementSpec = self(Proposals.ProposalsListComponent.reactClass)
 
+    def SubmitProposalFormContainerComponent: ReactClassElementSpec =
+      self(SubmitProposal.SubmitProposalFormContainerComponent.reactClass)
+
     def VoteComponent: ReactClassElementSpec = self(Vote.VoteComponent.reactClass)
     def VoteButtonComponent: ReactClassElementSpec = self(presentationals.VoteButtonComponent.reactClass)
     def QualificateVoteComponent: ReactClassElementSpec =
       self(Vote.QualificateVoteComponent.reactClass)
 
-    def SubmitProposalFormComponent: ReactClassElementSpec =
-      self(presentationals.SubmitProposalFormComponent.reactClass)
     def AppComponent: ReactClassElementSpec =
       self(org.make.front.components.AppComponent.reactClass)
     def NotificationContainerComponent: ReactClassElementSpec =
@@ -54,8 +58,7 @@ package object presentationals {
       self(NavInThemes.NavInThemesContainer.reactClass)
     def PoliticalActionsComponent: ReactClassElementSpec =
       self(PoliticalAction.PoliticalActionContainerComponent.reactClass)
-    def SubmitProposalFormContainerComponent: ReactClassElementSpec =
-      self(SubmitProposal.SubmitProposalFormContainerComponent.reactClass)
+
     def PasswordRecoveryContainerComponent: ReactClassElementSpec =
       self(containers.PasswordRecoveryContainerComponent.reactClass)
     def PasswordResetContainerComponent: ReactClassElementSpec =
