@@ -24,14 +24,13 @@ object SearchFormComponent {
 
   val autoSuggestTheme: Dictionary[String] =
     Map[String, String](
-      "container" -> Seq(InputStyles.withIconWrapper.htmlClass, SearchFormStyles.searchInputWithIconWrapper.htmlClass)
-        .mkString(" "),
-      "containerOpen" -> "",
-      "input" -> Seq(
-        InputStyles.basic.htmlClass,
+      "container" -> Seq(
+        InputStyles.wrapper.htmlClass,
         InputStyles.withIcon.htmlClass,
-        SearchFormStyles.searchInput.htmlClass
+        SearchFormStyles.searchInputWithIconWrapper.htmlClass
       ).mkString(" "),
+      "containerOpen" -> "",
+      "input" -> "",
       "inputOpen" -> "",
       "suggestionsContainer" -> "",
       "suggestionsContainerOpen" -> "",
@@ -119,9 +118,6 @@ object SuggestionRender {
 object SearchFormStyles extends StyleSheet.Inline {
   import dsl._
 
-  val searchInput: StyleA =
-    style(backgroundColor(ThemeStyles.BackgroundColor.lightGrey))
-
   val searchInputWithIconWrapper: StyleA =
-    style((&.before)(content := "'\\F002'"))
+    style(backgroundColor(ThemeStyles.BackgroundColor.lightGrey), (&.before)(content := "'\\F002'"))
 }

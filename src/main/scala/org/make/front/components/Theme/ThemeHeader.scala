@@ -4,11 +4,12 @@ import io.github.shogowada.scalajs.reactjs.React
 import io.github.shogowada.scalajs.reactjs.VirtualDOM._
 import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import org.make.front.components.Modal.FullscreenModalComponent.FullscreenModalProps
+import org.make.front.components.SubmitProposal.SubmitProposalInRelationToThemeComponent.SubmitProposalInRelationToThemeProps
 import org.make.front.components.presentationals._
 import org.make.front.facades._
 import org.make.front.models.{GradientColor, Theme, ThemeId}
 import org.make.front.styles.{InputStyles, LayoutRulesStyles, TextStyles, ThemeStyles}
-import org.scalajs.dom.raw.{HTMLElement}
+import org.scalajs.dom.raw.HTMLElement
 
 import scalacss.DevDefaults._
 import scalacss.internal.Length
@@ -23,7 +24,7 @@ object ThemeHeaderComponent {
   lazy val reactClass: ReactClass =
     React.createClass[ThemeHeaderProps, ThemeHeaderState](
       displayName = getClass.toString,
-      getInitialState = { self =>
+      getInitialState = { _ =>
         ThemeHeaderState(isProposalModalOpened = false)
       },
       render = (self) => {
@@ -54,31 +55,35 @@ object ThemeHeaderComponent {
             <.div(^.className := LayoutRulesStyles.centeredRow)(
               <.div(^.className := LayoutRulesStyles.col)(
                 <.h1(^.className := Seq(TextStyles.veryBigTitle, ThemeHeaderStyles.title))(theme.title),
-                <.label(
+                <.p(
                   ^.className := Seq(
-                    InputStyles.withIconWrapper,
-                    InputStyles.withIconBiggerBeyondMediumWrapper,
-                    ThemeHeaderStyles.proposalInputWrapper,
+                    InputStyles.wrapper,
+                    InputStyles.withIcon,
+                    InputStyles.biggerWithIcon,
                     ThemeHeaderStyles.proposalInputWithIconWrapper
                   )
                 )(
-                  <.input(
-                    ^.className := Seq(
-                      InputStyles.basic,
-                      InputStyles.withIcon,
-                      InputStyles.biggerBeyondMedium,
-                      InputStyles.withIconBiggerBeyondMedium,
-                      ThemeHeaderStyles.proposalInput
+                  <.span(^.className := ThemeHeaderStyles.innerWapper)(
+                    <.span(^.className := ThemeHeaderStyles.inputWapper)(
+                      <.input(
+                        ^.`type`.text,
+                        ^.value := "Il faut ",
+                        ^.ref := ((input: HTMLElement) => proposalInput = Some(input)),
+                        ^.onFocus := openProposalModalFromInput()
+                      )()
                     ),
-                    ^.`type`.text,
-                    ^.value := "Il faut ",
-                    ^.ref := ((input: HTMLElement) => proposalInput = Some(input)),
-                    ^.onFocus := openProposalModalFromInput()
-                  )()
+                    <.span(^.className := ThemeHeaderStyles.textLimitInfoWapper)(
+                      <.span(^.className := Seq(TextStyles.smallText, ThemeHeaderStyles.textLimitInfo))("8/140")
+                    )
+                  )
                 ),
                 <.FullscreenModalComponent(
                   ^.wrapped := FullscreenModalProps(self.state.isProposalModalOpened, toggleProposalModal())
-                )(<.p()("Fullscreen"), <.button(^.onClick := toggleProposalModal())("Click to close"))
+                )(
+                  <.SubmitProposalInRelationToThemeComponent(
+                    ^.wrapped := SubmitProposalInRelationToThemeProps(Some(theme))
+                  )()
+                )
               )
             )
           ),
@@ -143,14 +148,30 @@ object ThemeHeaderStyles extends StyleSheet.Inline {
     )
 
   val title: StyleA =
-    style(color(ThemeStyles.TextColor.white), textShadow := s"1px 1px 1px rgb(0, 0, 0)")
-
-  val proposalInput: StyleA =
-    style(ThemeStyles.Font.circularStdBold, boxShadow := "0 2px 5px 0 rgba(0,0,0,0.50)")
-
-  val proposalInputWrapper: StyleA =
-    style(marginTop(ThemeStyles.Spacing.small))
+    style(
+      display.inlineBlock,
+      marginBottom(15.pxToEm(30)),
+      lineHeight(41.pxToEm(30)),
+      ThemeStyles.MediaQueries.beyondMedium(marginBottom(10.pxToEm(60)), lineHeight(83.pxToEm(60))),
+      color(ThemeStyles.TextColor.white),
+      textShadow := s"1px 1px 1px rgb(0, 0, 0)"
+    )
 
   val proposalInputWithIconWrapper: StyleA =
-    style((&.before)(content := "'\\F0EB'"))
+    style(
+      boxShadow := "0 2px 5px 0 rgba(0,0,0,0.50)",
+      (&.before)(content := "'\\F0EB'"),
+      unsafeChild("input")(ThemeStyles.Font.circularStdBold)
+    )
+
+  val innerWapper: StyleA = style(display.table, width(100.%%))
+
+  val inputWapper: StyleA =
+    style(display.tableCell, width(100.%%))
+
+  val textLimitInfoWapper: StyleA = style(display.tableCell, verticalAlign.middle)
+
+  val textLimitInfo: StyleA =
+    style(padding(1.em), lineHeight.initial, color(ThemeStyles.TextColor.lighter), whiteSpace.nowrap)
+
 }

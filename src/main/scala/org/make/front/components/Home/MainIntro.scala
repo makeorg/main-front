@@ -28,7 +28,7 @@ object MainIntroComponent {
               ),
               <.h3(^.className := Seq(MainIntroStyles.subTitle))(unescape(I18n.t("content.homepage.subTitle"))),
               <.p()(
-                <.a(^.href := "/", ^.className := Seq(MainIntroStyles.cta, CTAStyles.basic))(
+                <.a(^.href := "/", ^.className := Seq(MainIntroStyles.cta, CTAStyles.basic, CTAStyles.basicOnA))(
                   unescape(I18n.t("content.homepage.textSeeMore"))
                 )
               ),

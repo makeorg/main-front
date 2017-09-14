@@ -19,21 +19,20 @@ object CTAStyles extends StyleSheet.Inline {
     style(
       display.inlineBlock,
       verticalAlign.top,
+      minHeight(40.pxToEm()),
       maxWidth(100.%%),
       boxSizing.borderBox,
-      height(40.pxToEm()),
-      padding :=! s"${12.pxToEm().value} ${20.pxToEm().value} 0",
+      padding :=! s"0 ${20.pxToEm().value}",
       borderRadius(20.pxToEm()),
       lineHeight.normal,
       ThemeStyles.Font.tradeGothicLTStd,
       textTransform.uppercase,
       textAlign.center,
-      whiteSpace.nowrap,
-      overflow.hidden,
-      textOverflow := s"ellipsis",
       color(ThemeStyles.TextColor.white),
       backgroundColor(ThemeStyles.ThemeColor.primary),
       boxShadow := s"0 1px 1px rgba(0, 0, 0, 0.5)"
     )
+  val basicOnA: StyleA = style(paddingTop(11.pxToEm()))
 
+  val basicOnButton: StyleA = style(paddingTop(3.pxToEm()))
 }

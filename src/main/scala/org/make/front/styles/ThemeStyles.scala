@@ -33,6 +33,7 @@ object ThemeStyles extends StyleSheet.Inline {
     val lighter: ValueT[ValueT.Color] = rgba(0, 0, 0, 0.3)
     val white: ValueT[ValueT.Color] = rgb(255, 255, 255)
     val grey: ValueT[ValueT.Color] = rgb(155, 155, 155)
+    val danger: ValueT[ValueT.Color] = rgba(208, 2, 27, 1)
   }
 
   object BackgroundColor {
@@ -41,12 +42,14 @@ object ThemeStyles extends StyleSheet.Inline {
     val grey: ValueT[ValueT.Color] = rgb(231, 231, 231)
     val black: ValueT[ValueT.Color] = rgb(0, 0, 0)
     val blackTransparent: ValueT[ValueT.Color] = rgba(0, 0, 0, 0.05)
+    val danger: ValueT[ValueT.Color] = rgba(208, 2, 27, 0.1)
   }
 
   object BorderColor {
     val base: ValueT[ValueT.Color] = rgb(155, 155, 155)
     val light: ValueT[ValueT.Color] = rgb(204, 204, 204)
     val blackTransparent: ValueT[ValueT.Color] = rgba(0, 0, 0, 0.01)
+    val danger: ValueT[ValueT.Color] = rgba(208, 2, 27, 1)
   }
 
   /**TODO: functions with baseText value for em convertion**/

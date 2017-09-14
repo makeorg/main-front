@@ -38,6 +38,8 @@ package object presentationals {
 
     def SubmitProposalFormContainerComponent: ReactClassElementSpec =
       self(SubmitProposal.SubmitProposalFormContainerComponent.reactClass)
+    def SubmitProposalInRelationToThemeComponent: ReactClassElementSpec =
+      self(SubmitProposal.SubmitProposalInRelationToThemeComponent.reactClass)
 
     def VoteComponent: ReactClassElementSpec = self(Vote.VoteComponent.reactClass)
     def VoteButtonComponent: ReactClassElementSpec = self(presentationals.VoteButtonComponent.reactClass)

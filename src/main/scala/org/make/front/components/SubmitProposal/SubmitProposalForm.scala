@@ -1,279 +1,153 @@
-package org.make.front.components.presentationals
-
-import java.util.regex.Pattern
+package org.make.front.components.SubmitProposal
 
 import io.github.shogowada.scalajs.reactjs.React
-import io.github.shogowada.scalajs.reactjs.React.Self
-import io.github.shogowada.scalajs.reactjs.VirtualDOM._
+import io.github.shogowada.scalajs.reactjs.VirtualDOM.{^, _}
 import io.github.shogowada.scalajs.reactjs.classes.ReactClass
-import io.github.shogowada.scalajs.reactjs.elements.ReactElement
-import io.github.shogowada.scalajs.reactjs.events.{
-  FocusSyntheticEvent,
-  FormSyntheticEvent,
-  MouseSyntheticEvent,
-  SyntheticEvent
-}
-import io.github.shogowada.scalajs.reactjs.router.RouterProps._
-import io.github.shogowada.scalajs.reactjs.router.WithRouter
-import org.make.core.validation.{ConstraintError, LengthConstraint, RegexConstraint}
-import org.make.front.components.presentationals.SubmitProposalFormComponent._
-import org.make.front.facades.Localize.LocalizeVirtualDOMAttributes
-import org.make.front.facades.ReactModal.{ReactModalVirtualDOMAttributes, ReactModalVirtualDOMElements}
-import org.make.front.facades.Translate.TranslateVirtualDOMElements
+import io.github.shogowada.scalajs.reactjs.events.FormSyntheticEvent
+import org.make.front.components.presentationals._
+import org.make.front.facades.I18n
 import org.make.front.facades.Unescape.unescape
-import org.make.front.facades.{I18n, Replacements}
-import org.make.front.models.{GradientColor, Theme}
-import org.make.front.styles.FontAwesomeStyles
-import org.scalajs.dom.raw.{HTMLElement, HTMLInputElement}
+import org.make.front.models.{Theme, ThemeId}
+import org.make.front.styles._
+import org.scalajs.dom.raw.HTMLInputElement
+
+import scalacss.DevDefaults._
+import scalacss.internal.{Length, StyleA}
+import scalacss.internal.mutable.StyleSheet
 
 object SubmitProposalFormComponent {
 
-  type Self = React.Self[SubmitProposalFormProps, SubmitProposalFormState]
+  type SubmitProposalFormSelf = React.Self[SubmitProposalFormProps, SubmitProposalFormState]
 
-  case class SubmitProposalFormState(proposalContent: String = "",
-                                     proposalPrefix: String,
-                                     proposalPlaceHolder: String,
-                                     maxLength: Int,
-                                     minLength: Int,
-                                     errorMessage: String = "",
-                                     modalIsOpen: Boolean = false,
-                                     theme: Theme,
-                                     confirmationIsOpen: Boolean = false)
+  case class SubmitProposalFormState(theme: Theme,
+                                     proposalContent: String = "",
+                                     bait: String = "",
+                                     proposalContentMaxLength: Int,
+                                     SubmissionError: Boolean = false)
 
-  case class SubmitProposalFormProps(proposalPrefix: String,
-                                     proposalPlaceHolder: String,
-                                     maxLength: Int = 140,
-                                     minLength: Int = 5,
-                                     theme: Theme,
-                                     handleSubmitProposalForm: (Self) => Unit)
-
-  private var proposalElement: Option[HTMLElement] = None
-
-  val setElement: HTMLElement => Unit = input => {
-    proposalElement = Some(input)
-  }
+  case class SubmitProposalFormProps(maybeTheme: Option[Theme], handleSubmitProposalForm: (SubmitProposalFormSelf) => _)
 
   lazy val reactClass: ReactClass =
-    WithRouter(
-      React
-        .createClass[SubmitProposalFormProps, SubmitProposalFormState](getInitialState = { self =>
-          SubmitProposalFormState(
-            proposalPrefix = self.props.wrapped.proposalPrefix,
-            proposalPlaceHolder = self.props.wrapped.proposalPlaceHolder,
-            maxLength = self.props.wrapped.maxLength,
-            theme = self.props.wrapped.theme,
-            minLength = self.props.wrapped.minLength
-          )
-        }, render = (self) => {
+    React.createClass[SubmitProposalFormProps, SubmitProposalFormState](
+      displayName = getClass.toString,
+      getInitialState = { self =>
+        val theme: Theme = self.props.wrapped.maybeTheme.getOrElse(Theme(ThemeId("asdf"), "-", "", 0, 0, "#FFF"))
+        SubmitProposalFormState(
+          theme = theme,
+          bait = "Il faut ",
+          proposalContent = "Il faut ",
+          proposalContentMaxLength = 140
+        )
 
-          val history = self.props.history
+      },
+      render = (self) => {
 
-          <.div()(
-            <.form(^.onSubmit := handleSubmitProposalForm(self))(
-              <.label()(
-                <.i(^.className := FontAwesomeStyles.lightbulbTransparent)(),
+        <.form(^.className := SubmitProposalFormStyles.form, ^.onSubmit := handleSubmitFormChange(self))(
+          <.label(
+            ^.className := Seq(
+              InputStyles.wrapper,
+              InputStyles.withIcon,
+              InputStyles.biggerWithIcon,
+              SubmitProposalFormStyles.proposalInputWithIconWrapper
+            )
+          )(
+            <.span(^.className := SubmitProposalFormStyles.innerWapper)(
+              <.span(^.className := SubmitProposalFormStyles.textareaWapper)(
                 <.textarea(
-                  ^.onChange := handleProposalChange(self),
-                  ^.onFocus := handleProposalFocus(self),
-                  ^.onBlur := handleProposalBlur(self),
-                  ^.value := self.state.proposalContent,
-                  ^.placeholder := self.state.proposalPlaceHolder
-                )(),
-                <.span()(self.state.errorMessage),
-                SubmitProposalFormCounterElement(
-                  SubmitProposalFormCounterElement
-                    .SubmitProposalFormCounterProps(max = self.state.maxLength, length = proposalLength(self))
+                  ^.value := self.state.proposalContent, /*textarea autosize*/
+                  ^("autoFocus") := true,
+                  ^.onChange := handleProposalContentChange(self)
+                )()
+              ),
+              <.span(^.className := SubmitProposalFormStyles.textLimitInfoWapper)(
+                <.span(^.className := Seq(TextStyles.smallText, SubmitProposalFormStyles.textLimitInfo))(
+                  self.state.proposalContent.length,
+                  "/",
+                  self.state.proposalContentMaxLength
                 )
               )
-            ),
-            <.ReactModal(
-              ^.contentLabel := "Submit proposal",
-              ^.isOpen := self.state.modalIsOpen,
-              ^.onRequestClose := closeModal(self),
-              ^.shouldCloseOnOverlayClick := false
-            )(if (self.state.confirmationIsOpen) {
-              ProposalConfirmElement(self)
-            } else {
-              ProposalModalElement(self)
-            })
-          )
-        })
-    )
-
-  private def closeModal(self: Self): () => Unit = () => {
-    self.setState(_.copy(confirmationIsOpen = false, modalIsOpen = false))
-  }
-
-  private def toggleModal(self: Self): () => Unit = () => {
-    self.setState(_.copy(modalIsOpen = !self.state.modalIsOpen))
-  }
-
-  def clearAll(self: Self): () => Unit = () => {
-    self.setState(_.copy(modalIsOpen = false, proposalContent = ""))
-  }
-
-  def getPrefixValidator(prefix: String): RegexConstraint = {
-    new RegexConstraint(pattern = s"^${Pattern.quote(prefix)}.*".r)
-  }
-
-  def handleProposalUpdate(self: Self, content: String): Unit = {
-    val proposalContent = if (content.isEmpty) self.state.proposalPrefix else content
-
-    var resultState = self.state.copy(errorMessage = "")
-
-    if (getPrefixValidator(self.state.proposalPrefix).validate(Some(proposalContent)).isEmpty) {
-      resultState = resultState.copy(proposalContent = proposalContent)
-    }
-
-    val constraintLengthErrors: Seq[ConstraintError] = new LengthConstraint(max = Some(self.state.maxLength))
-      .validate(Some(proposalContent), Map("maxMessage" -> "content.proposal.isTooLong"))
-
-    if (constraintLengthErrors.nonEmpty) {
-      resultState = resultState.copy(
-        errorMessage = I18n.t(constraintLengthErrors.head.message, Replacements(("max", self.state.maxLength.toString)))
-      )
-    }
-
-    self.setState(resultState)
-  }
-
-  def handleSubmitProposalForm(self: Self): (SyntheticEvent) => Any = (e: SyntheticEvent) => {
-    e.preventDefault()
-
-    val lenghtValidator = new LengthConstraint(
-      max = Some(self.state.maxLength),
-      min = Some(self.state.minLength + self.state.proposalPrefix.length)
-    )
-    val proposalValidator = getPrefixValidator(self.state.proposalPrefix) & lenghtValidator
-
-    val constraintErrors = proposalValidator.validate(
-      Some(self.state.proposalContent),
-      Map("minMessage" -> "content.proposal.isTooShort", "maxMessage" -> "content.proposal.isTooLong")
-    )
-
-    if (constraintErrors.isEmpty) {
-      self.props.wrapped.handleSubmitProposalForm(self)
-    } else {
-
-      self.setState(
-        _.copy(
-          errorMessage = I18n.t(
-            constraintErrors.head.message,
-            Replacements(("min", self.state.minLength.toString), ("max", self.state.maxLength.toString))
-          )
+            )
+          ),
+          if (self.state.SubmissionError) {
+            <.p(^.className := InputStyles.errorMessage)(unescape(I18n.t("form.proposal.errorSubmitFailed")))
+          },
+          <.div(^.className := SubmitProposalFormStyles.notice)(
+            <.p()(unescape(I18n.t("content.proposal.help"))),
+            <.p(^.className := TextStyles.smallText)(unescape(I18n.t("content.proposal.subHelp")))
+          ),
+          <.button(^.className := Seq(CTAStyles.basic, CTAStyles.basicOnButton), ^.`type`.submit)(
+            <.i(^.className := FontAwesomeStyles.pencil)(),
+            unescape("&nbsp;"),
+            unescape(I18n.t("form.proposal.submit"))
+          ),
+          <.a(^.className := Seq(CTAStyles.basic, CTAStyles.basicOnA), ^.`type`.submit)(
+            <.i(^.className := FontAwesomeStyles.pencil)(),
+            unescape("&nbsp;"),
+            unescape(I18n.t("form.proposal.submit"))
+          ),
+          <.style()(SubmitProposalFormStyles.render[String])
         )
-      )
-    }
-  }
+      }
+    )
 
-  def handleProposalChange(self: Self): (FormSyntheticEvent[HTMLInputElement]) => Unit =
+  private def handleProposalContentChange(self: SubmitProposalFormSelf) =
     (e: FormSyntheticEvent[HTMLInputElement]) => {
-      e.preventDefault()
-      handleProposalUpdate(self, e.target.value)
+      val newProposalContent = e.target.value
+
+      if (newProposalContent.length <= self.state.bait.length) {
+        self.setState(_.copy(proposalContent = self.state.bait))
+      } else if (newProposalContent.length <= self.state.proposalContentMaxLength) {
+        self.setState(_.copy(proposalContent = newProposalContent))
+      }
+
     }
 
-  def handleProposalClick(self: Self): (MouseSyntheticEvent) => Unit = (e: MouseSyntheticEvent) => {
-    e.preventDefault()
-    if (!self.state.modalIsOpen) {
-      self.setState(_.copy(modalIsOpen = true))
+  private def handleSubmitFormChange(self: SubmitProposalFormSelf) =
+    (e: FormSyntheticEvent[HTMLInputElement]) => {
+      self.props.wrapped.handleSubmitProposalForm(self)
     }
-  }
-
-  def handleProposalFocus(self: Self): (FocusSyntheticEvent) => Any = (e: FocusSyntheticEvent) => {
-    if (self.state.proposalContent.isEmpty) {
-      self.setState(_.copy(proposalContent = self.state.proposalPrefix))
-    }
-    if (!self.state.modalIsOpen) {
-      toggleModal(self)
-    }
-  }
-
-  def handleProposalBlur(self: Self): (FocusSyntheticEvent) => Unit = (e: FocusSyntheticEvent) => {
-    if (self.state.proposalContent == self.state.proposalPrefix) {
-      self.setState(_.copy(proposalContent = ""))
-    }
-  }
-
-  def proposalLength(self: Self, content: Option[String] = None): Int = {
-    val proposalContent = content.getOrElse(self.state.proposalContent)
-    val length = proposalContent.length
-    if (length < 0) 0 else length
-  }
-
-  object SubmitProposalFormCounterElement {
-
-    case class SubmitProposalFormCounterProps(max: Int, length: Int = 0)
-
-    def apply(props: SubmitProposalFormCounterProps): ReactElement = {
-      <.span()(props.length, "/", props.max)
-    }
-
-  }
-
 }
 
-object ProposalModalElement {
+object SubmitProposalFormStyles extends StyleSheet.Inline {
 
-  def apply(self: Self[SubmitProposalFormProps, SubmitProposalFormState]): ReactElement = {
-    val gradientColor: GradientColor = self.state.theme.gradient.getOrElse(GradientColor("#FFF", "#FFF"))
+  import dsl._
 
-    <.div()(
-      <.h2()(<.span()(I18n.t("content.proposal.titleIntro")), <.span()(self.state.theme.title)),
-      <.form(^.onSubmit := handleSubmitProposalForm(self))(
-        <.label()(
-          <.i(^.className := FontAwesomeStyles.lightbulbTransparent)(),
-          <.textarea(
-            ^.onChange := handleProposalChange(self),
-            ^.onFocus := handleProposalFocus(self),
-            ^.onBlur := handleProposalBlur(self),
-            ^.value := self.state.proposalContent,
-            ^.placeholder := self.state.proposalPlaceHolder
-          )(),
-          <.span()(self.state.errorMessage),
-          SubmitProposalFormCounterElement(
-            SubmitProposalFormCounterElement
-              .SubmitProposalFormCounterProps(max = self.state.maxLength, length = proposalLength(self))
-          )
-        )
-      ),
-      <.p()(I18n.t("content.proposal.help")),
-      <.p()(I18n.t("content.proposal.subHelp")),
-      <.button(^.onClick := handleSubmitProposalForm(self))(
-        <.i(^.className := FontAwesomeStyles.pencil)(),
-        unescape(I18n.t("form.proposal.submit"))
-      )
-    )
-  }
-}
-
-object ProposalConfirmElement {
-  def apply(self: Self[SubmitProposalFormProps, SubmitProposalFormState]): ReactElement = {
-
-    def handleAnotherProposal(): (MouseSyntheticEvent) => Unit = (e: MouseSyntheticEvent) => {
-      self.setState(_.copy(confirmationIsOpen = false))
+  //TODO: globalize function
+  implicit class NormalizedSize(val baseSize: Int) extends AnyVal {
+    def pxToEm(browserContextSize: Int = 18): Length[Double] = {
+      (baseSize.toFloat / browserContextSize.toFloat).em
     }
-
-    <.div()(
-      <.h2()(
-        <.i(^.className := FontAwesomeStyles.handPeaceO)(),
-        unescape(I18n.t("content.proposal.confirmationThanks"))
-      ),
-      <.p()(<.Translate(^.value := "content.proposal.confirmationContent", ^.dangerousHtml := true)()),
-      <.button(^.onClick := (() => {
-        self.props.history.push(s"/theme/${self.props.wrapped.theme.slug}")
-      }))(
-        <.i(^.className := FontAwesomeStyles.handOLeft)(),
-        unescape(
-          I18n.t(
-            "content.proposal.confirmationButtonAnotherProposal",
-            Replacements(("theme", self.props.wrapped.theme.title))
-          )
-        )
-      ),
-      <.button(^.onClick := handleAnotherProposal)(
-        <.i(^.className := FontAwesomeStyles.lightbulbTransparent)(),
-        unescape(I18n.t("content.proposal.confirmationButtonAnotherProposal"))
-      )
-    )
   }
+
+  val form: StyleA =
+    style(textAlign.center)
+
+  val notice: StyleA =
+    style(
+      marginTop(ThemeStyles.Spacing.medium),
+      unsafeChild("p + p")(marginTop(1.em)),
+      unsafeChild("a")(textDecoration := "underline"),
+      color(ThemeStyles.TextColor.lighter),
+      lineHeight(1.3)
+    )
+
+  val proposalInputWithIconWrapper: StyleA =
+    style(
+      boxShadow := "0 2px 5px 0 rgba(0,0,0,0.50)",
+      (&.before)(content := "'\\F0EB'"),
+      unsafeChild("textarea")(ThemeStyles.Font.circularStdBold)
+    )
+
+  val innerWapper: StyleA = style(display.table, width(100.%%))
+
+  val textareaWapper: StyleA =
+    style(display.tableCell, width(100.%%))
+
+  val textLimitInfoWapper: StyleA = style(display.tableCell, verticalAlign.middle)
+
+  val textLimitInfo: StyleA =
+    style(padding(1.em), lineHeight.initial, color(ThemeStyles.TextColor.lighter), whiteSpace.nowrap)
+
+  val submitButton: StyleA =
+    style(marginTop(ThemeStyles.Spacing.medium))
 }

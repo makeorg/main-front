@@ -17,7 +17,6 @@ object InputStyles extends StyleSheet.Inline {
     }
   }
 
-  /** TODO: pseudo class to customise placeholder */
   def pseudoElement(value: String) = Pseudo.Custom(value, Element)
 
   def pseudoClass(value: String) = Pseudo.Custom(value, Class)
@@ -29,56 +28,92 @@ object InputStyles extends StyleSheet.Inline {
   def placeholder(styles: ToStyle*) =
     styleS(webkitPlaceholder(styles: _*), mozPlaceholder(styles: _*), msPlaceholder(styles: _*))
 
-  val basic: StyleA =
+  val wrapper: StyleA =
     style(
-      height(40.pxToEm(16)),
+      display.block,
+      minHeight(30.pxToEm()),
       width(100.%%),
-      padding :=! s"0 ${20.pxToEm(16).value}",
+      padding :=! s"0 ${20.pxToEm().value}",
+      lineHeight(0),
+      backgroundColor(ThemeStyles.BackgroundColor.white),
       boxSizing.borderBox,
-      borderRadius(20.pxToEm(16)),
       border :=! s"1px solid ${ThemeStyles.BorderColor.light.value}",
-      fontSize(16.pxToEm()),
-      lineHeight.normal,
-      fontFamily.inherit,
-      placeholder(color(ThemeStyles.TextColor.lighter))
+      borderRadius(20.pxToEm()),
+      overflow.hidden,
+      transition := "color .2s ease-in-out, background .2s ease-in-out, border .2s ease-in-out",
+      ThemeStyles.MediaQueries
+        .beyondSmall(minHeight(40.pxToEm()), padding :=! s"0 ${20.pxToEm().value}", borderRadius(20.pxToEm())),
+      unsafeChild("input")(
+        height(28.pxToEm(13)),
+        width(100.%%),
+        padding(0.%%),
+        fontSize(13.pxToEm()),
+        ThemeStyles.MediaQueries.beyondSmall(minHeight(38.pxToEm(16)), fontSize(16.pxToEm())),
+        lineHeight.normal,
+        fontFamily.inherit,
+        border.none,
+        background := "none",
+        placeholder(color(ThemeStyles.TextColor.lighter))
+      ),
+      unsafeChild("textarea")(
+        height(28.pxToEm(13)),
+        width(100.%%),
+        padding(0.%%),
+        paddingTop(6.pxToEm(13)),
+        fontSize(13.pxToEm()),
+        ThemeStyles.MediaQueries
+          .beyondSmall(minHeight(38.pxToEm(16)), paddingTop(9.pxToEm(16)), fontSize(16.pxToEm())),
+        fontFamily.inherit,
+        border.none,
+        background := "none",
+        resize.none
+      )
     )
 
   val withIcon: StyleA =
-    style(paddingLeft(50.pxToEm(16)))
-
-  val withIconWrapper: StyleA =
     style(
       position.relative,
-      display.block,
+      paddingLeft(30.pxToEm()),
+      ThemeStyles.MediaQueries.beyondSmall(paddingLeft(50.pxToEm())),
       (&.before)(
         position.absolute,
         top(0.%%),
         left(0.%%),
-        width(50.pxToEm(20)),
+        lineHeight(28.pxToEm(13)),
+        width(30.pxToEm(13)),
+        fontSize(13.pxToEm()),
         ThemeStyles.Font.fontAwesome,
-        fontSize(20.pxToEm()),
-        lineHeight(40.pxToEm(20)),
         textAlign.center,
-        color(ThemeStyles.ThemeColor.primary)
+        color(ThemeStyles.ThemeColor.primary),
+        ThemeStyles.MediaQueries.beyondSmall(fontSize(20.pxToEm()), lineHeight(38.pxToEm(20)), width(50.pxToEm(20)))
       )
     )
 
-  val biggerBeyondMedium: StyleA = style(
-    ThemeStyles.MediaQueries.beyondSmall(
-      fontSize(18.pxToEm()),
-      height(50.pxToEm(18)),
-      padding :=! s"0 ${25.pxToEm(18).value}",
-      borderRadius(25.pxToEm(18))
+  val bigger: StyleA =
+    style(
+      ThemeStyles.MediaQueries.beyondMedium(
+        minHeight(50.pxToEm()),
+        padding :=! s"0 ${25.pxToEm().value}",
+        borderRadius(25.pxToEm()),
+        unsafeChild("input")(minHeight(48.pxToEm(18)), fontSize(18.pxToEm())),
+        unsafeChild("textarea")(minHeight(48.pxToEm(18)), paddingTop(13.pxToEm(18)), fontSize(18.pxToEm()))
+      )
     )
-  )
 
-  val withIconBiggerBeyondMedium: StyleA =
-    style(ThemeStyles.MediaQueries.beyondSmall(paddingLeft(70.pxToEm(18))))
-
-  val withIconBiggerBeyondMediumWrapper: StyleA =
+  val biggerWithIcon: StyleA =
     style(
       ThemeStyles.MediaQueries
-        .beyondSmall((&.before)(fontSize(28.pxToEm()), width(70.pxToEm(28)), lineHeight(50.pxToEm(28))))
+        .beyondMedium(bigger, paddingLeft(70.pxToEm()), (&.before)(fontSize(28.pxToEm()), lineHeight(48.pxToEm(28))))
     )
+
+  val withError: StyleA =
+    style(
+      color(ThemeStyles.TextColor.danger),
+      borderColor(ThemeStyles.BorderColor.danger),
+      backgroundColor(ThemeStyles.BackgroundColor.danger)
+    )
+
+  val errorMessage: StyleA =
+    style(display.block, textAlign.left, color(ThemeStyles.TextColor.danger))
 
 }

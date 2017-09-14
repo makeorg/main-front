@@ -15,7 +15,7 @@ object TextStyles extends StyleSheet.Inline {
     }
   }
 
-  val smallerText: StyleA = style(fontSize(14.pxToEm()))
+  val smallerText: StyleA = style(fontSize(13.pxToEm()), ThemeStyles.MediaQueries.beyondSmall(fontSize(14.pxToEm())))
   val smallText: StyleA = style(fontSize(13.pxToEm()), ThemeStyles.MediaQueries.beyondSmall(fontSize(16.pxToEm())))
   val baseText: StyleA = style(fontSize(18.pxToEm()))
   val veryBigText: StyleA = style(fontSize(44.pxToEm()))
