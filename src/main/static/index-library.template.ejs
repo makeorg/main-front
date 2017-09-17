@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title><%= htmlWebpackPlugin.options.title %></title>
+    <meta content="<%= htmlWebpackPlugin.options.title %>" property="og:title">
+    <meta content="width=device-width, initial-scale=1" name="viewport">
+    <link href="main.b2328beb0372c051d06d.bundle.css" rel="stylesheet"></head>
+    <script type="application/javascript" src="make-front-fastopt-library.js"></script>
+    <script language="javascript">
+        var configuration = {
+            "apiUrl": "<%= htmlWebpackPlugin.options.apiUrl %>",
+            "googleAppId": "<%= htmlWebpackPlugin.options.googleAppId %>",
+            "facebookAppId": "<%= htmlWebpackPlugin.options.facebookAppId %>"
+        };
+        var exports = window;
+        exports.require = window["makeApp"].require;
+    </script>
+</head>
+<body>
+<div id="make-app"></div>
+<script type="application/javascript" src="make-front-fastopt.js"></script>
+</body>
+</html>

@@ -78,11 +78,15 @@ npmResolutions in Compile := {
 version in webpack := npmWebpackVersion
 
 
-webpackConfigFile in fastOptJS := Some(baseDirectory.value / "make-webpack-dev.config.js")
+webpackConfigFile in fastOptJS := Some(baseDirectory.value / "make-webpack-library.config.js")
+//webpackConfigFile in fastOptJS := Some(baseDirectory.value / "make-webpack-dev.config.js")
 webpackConfigFile in fullOptJS := Some(baseDirectory.value / "make-webpack-prod.config.js")
 
-webpackDevServerPort := 9009
+scalaJSUseMainModuleInitializer := true
 
+webpackDevServerExtraArgs := Seq("--lazy", "--inline")
+webpackDevServerPort := 9009
+webpackBundlingMode := BundlingMode.LibraryOnly("makeApp")
 emitSourceMaps := false
 
 // Prod settings
