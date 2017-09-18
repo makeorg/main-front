@@ -7,6 +7,7 @@ import io.github.shogowada.scalajs.reactjs.events.MouseSyntheticEvent
 import org.make.front.facades.Translate.{TranslateVirtualDOMAttributes, TranslateVirtualDOMElements}
 import org.make.front.models.{Notification, NotificationLevel}
 import org.make.front.styles.FontAwesomeStyles
+import org.make.front.components.presentationals._
 
 import scalacss.DevDefaults._
 
