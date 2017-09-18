@@ -3,6 +3,7 @@ package org.make.front.components
 import io.github.shogowada.scalajs.reactjs.VirtualDOM.VirtualDOMElements
 import io.github.shogowada.scalajs.reactjs.VirtualDOM.VirtualDOMElements.ReactClassElementSpec
 import io.github.shogowada.statictags.{Attribute, SpaceSeparatedStringAttributeSpec}
+import org.make.front.components.authenticate.AuthenticateWithSocialNetworksContainer
 
 import scalacss.StyleA
 
@@ -74,6 +75,9 @@ package object presentationals {
       self(showcase.ShowcaseContainer.reactClass)
     def ActivateAccountContainerComponent: ReactClassElementSpec =
       self(activateAccount.ActivateAccountContainer.reactClass)
+
+    def AuthenticateWithSocialNetworksComponent: ReactClassElementSpec =
+      self(AuthenticateWithSocialNetworksContainer.reactClass)
   }
 
 }
