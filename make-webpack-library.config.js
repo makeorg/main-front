@@ -27,13 +27,12 @@ module.exports.plugins = [
     })
 ];
 
-module.exports.entry.main = path.join(__dirname, "main.sass");
 
 
 module.exports.module.rules = [
     {
-        test: /\.sass$/,
-        loader: ExtractTextPlugin.extract(['css-loader', 'sass-loader'])
+        test: /\.css$/,
+        loader: ExtractTextPlugin.extract(['css-loader'])
     },
     {
         "test": new RegExp("\\.js$"),

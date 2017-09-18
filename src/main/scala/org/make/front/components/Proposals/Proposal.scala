@@ -107,10 +107,7 @@ object ProposalStyles extends StyleSheet.Inline {
   }
 
   val wrapper: StyleA =
-    style(
-      backgroundColor(ThemeStyles.BackgroundColor.white),
-      padding := s"${ThemeStyles.SpacingValue.small.pxToEm().value}"
-    )
+    style(backgroundColor(ThemeStyles.BackgroundColor.white), padding(ThemeStyles.SpacingValue.small.pxToEm()))
 
   val proposalContent: (Boolean) => StyleA = styleF.bool(
     isHomePage =>

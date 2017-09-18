@@ -22,14 +22,12 @@ object PoliticalActionsContainerComponent {
 
       dispatch(LoadPoliticalAction)
 
-      g.console.log(LoadPoliticalAction.toString())
+      org.scalajs.dom.window.console.log(politicalActionsList)
 
-      PoliticalActionsListComponent.PoliticalActionsListProps(politicalActionsList)
-
-    /*if (politicalActionsList.isEmpty)
-        PoliticalActionsComponent.PoliticalActionsProps(Seq.empty)
+      if (politicalActionsList.isEmpty)
+        PoliticalActionsListComponent.PoliticalActionsListProps(Seq.empty)
       else
-        PoliticalActionsComponent.PoliticalActionsProps(politicalActionsList)*/
+        PoliticalActionsListComponent.PoliticalActionsListProps(politicalActionsList)
     }
 
 }

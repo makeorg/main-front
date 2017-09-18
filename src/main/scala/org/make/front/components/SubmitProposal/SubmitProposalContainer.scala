@@ -51,7 +51,7 @@ object SubmitProposalContainerComponent extends ProposalServiceComponent {
             case Success(_) =>
               props.wrapped.handleSavedProposal
             case Failure(_) =>
-              //dispatch(NotifyError("errors.tryAgain", Some("errors.unexpectedBehaviour")))
+              dispatch(NotifyError("errors.tryAgain", Some("errors.unexpectedBehaviour")))
               child.setState(child.state.copy(SubmissionError = true))
           }
         }

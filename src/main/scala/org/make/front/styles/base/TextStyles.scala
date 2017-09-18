@@ -18,6 +18,7 @@ object TextStyles extends StyleSheet.Inline {
   val smallerText: StyleA = style(
     ThemeStyles.Font.circularStdBook,
     fontSize(13.pxToEm()),
+    lineHeight(20.0 / 13.0),
     ThemeStyles.MediaQueries.beyondSmall(fontSize(14.pxToEm()))
   )
 

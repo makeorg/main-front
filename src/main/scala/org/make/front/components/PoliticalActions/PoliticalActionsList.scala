@@ -5,6 +5,7 @@ import io.github.shogowada.scalajs.reactjs.React.Self
 import io.github.shogowada.scalajs.reactjs.VirtualDOM._
 import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import io.github.shogowada.scalajs.reactjs.events.MouseSyntheticEvent
+import org.make.front.components.PoliticalActions.PoliticalActionComponent.PoliticalActionProps
 import org.make.front.components.presentationals._
 import org.make.front.facades.Unescape.unescape
 import org.make.front.facades.{I18n, Replacements}
@@ -62,12 +63,14 @@ object PoliticalActionsListComponent {
                 <.ul(^.className := Seq(PoliticalActionsListStyles.slideshow), ^.id := "slideshow")(
                   self.props.wrapped.politicalActions.map { politicalAction =>
                     <.li(^.className := Seq(PoliticalActionsListStyles.slide))(
-                      <.PoliticalActionComponent(politicalAction)()
+                      <.PoliticalActionComponent(^.wrapped := PoliticalActionProps(politicalAction))()
                     )
                   }
                 )
               ),
-              <.nav(^.className := PoliticalActionsListStyles.slideshowNav)(
+              <.nav(
+                ^.className := Seq(PoliticalActionsListStyles.slideshowNav, RWDHideRulesStyles.showBlockBeyondMedium)
+              )(
                 <.button(
                   ^.className := Seq(FontAwesomeStyles.angleLeft, PoliticalActionsListStyles.slideshowArrow),
                   ^.onClick := onClickLeft(self)
@@ -107,31 +110,38 @@ object PoliticalActionsListStyles extends StyleSheet.Inline {
 
   val slideshowWrapper: StyleA =
     style(
-      display.table,
-      width(100.%%),
-      backgroundColor(ThemeStyles.BackgroundColor.white),
-      boxShadow := "0 1px 1px 0 rgba(0,0,0,0.50)"
+      ThemeStyles.MediaQueries.beyondMedium(
+        display.table,
+        width(100.%%),
+        backgroundColor(ThemeStyles.BackgroundColor.white),
+        boxShadow := "0 1px 1px 0 rgba(0,0,0,0.50)"
+      )
     )
 
   val slideshowContentWrapper: StyleA =
-    style(display.tableCell, width(100.%%))
+    style(ThemeStyles.MediaQueries.beyondMedium(display.tableCell, width(100.%%)))
 
   val slideshowNav: StyleA =
-    style(display.tableCell, verticalAlign.middle, whiteSpace.nowrap)
+    style(ThemeStyles.MediaQueries.beyondMedium(display.tableCell, verticalAlign.middle, whiteSpace.nowrap))
 
   val slideshowArrow: StyleA =
     style(
-      display.inlineBlock,
-      verticalAlign.middle,
-      margin(15.pxToEm(54)),
-      fontSize(54.pxToEm()),
-      color(ThemeStyles.TextColor.base),
-      opacity(0.1),
-      transition := "opacity .2s ease-in-out",
-      (&.hover)(opacity(1))
+      ThemeStyles.MediaQueries.beyondMedium(
+        display.inlineBlock,
+        verticalAlign.middle,
+        margin(15.pxToEm(54)),
+        fontSize(54.pxToEm()),
+        color(ThemeStyles.TextColor.base),
+        opacity(0.1),
+        transition := "opacity .2s ease-in-out",
+        (&.hover)(opacity(1))
+      )
     )
 
   val slide: StyleA =
-    style()
+    style(
+      ThemeStyles.MediaQueries
+        .belowMedium(backgroundColor(ThemeStyles.BackgroundColor.white), boxShadow := "0 1px 1px 0 rgba(0,0,0,0.50)")
+    )
 
 }
