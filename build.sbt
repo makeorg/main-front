@@ -15,6 +15,7 @@ val npmExtractTextWebpackPluginVersion = "2.1.2"
 val npmCssLoaderVersion = "0.28.4"
 val npmStyleLoaderVersion = "0.18.2"
 val npmReactModalVersion = "2.2.2"
+val npmReactSlickVersion = "0.15.4"
 val npmReactI18nifyVersion = "1.8.7"
 val npmCleanWebpackPluginVersion = "0.1.16"
 val npmHtmlWebpackPluginVersion = "2.29.0"
@@ -55,6 +56,7 @@ npmDependencies in Compile ++= Seq(
   "react-router" -> npmReactRouterVersion,
   "react-router-dom" -> npmReactRouterVersion,
   "react-modal" -> npmReactModalVersion,
+  "react-slick" -> npmReactSlickVersion,
   "react-i18nify" -> npmReactI18nifyVersion,
   "react-autosuggest" -> npmReactAutosuggestVersion,
   "extract-text-webpack-plugin" -> npmExtractTextWebpackPluginVersion,
