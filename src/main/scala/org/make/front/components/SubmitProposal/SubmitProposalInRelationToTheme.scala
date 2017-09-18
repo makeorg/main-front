@@ -3,7 +3,7 @@ package org.make.front.components.SubmitProposal
 import io.github.shogowada.scalajs.reactjs.React
 import io.github.shogowada.scalajs.reactjs.VirtualDOM._
 import io.github.shogowada.scalajs.reactjs.classes.ReactClass
-import org.make.front.components.SubmitProposal.SubmitProposalFormContainerComponent.SubmitProposalFormContainerProps
+import org.make.front.components.SubmitProposal.SubmitProposalContainerComponent.SubmitProposalFormContainerProps
 import org.make.front.components.presentationals._
 import org.make.front.facades.I18n
 import org.make.front.facades.Unescape.unescape
@@ -35,9 +35,9 @@ object SubmitProposalInRelationToThemeComponent {
 
         <.article()(
           <.h2(^.className := SubmitProposalInRelationToThemeStyles.title)(
-            <.span(^.className := SubmitProposalInRelationToThemeStyles.introOfTitle)(
-              unescape(I18n.t("content.proposal.titleIntro"))
-            ),
+            <.span(
+              ^.className := Seq(TextStyles.mediumText, TextStyles.intro, SubmitProposalInRelationToThemeStyles.intro)
+            )(unescape(I18n.t("content.proposal.titleIntro"))),
             <.br()(),
             <.strong(
               ^.className := Seq(
@@ -47,7 +47,7 @@ object SubmitProposalInRelationToThemeComponent {
               )
             )(unescape(self.state.theme.title))
           ),
-          <.SubmitProposalFormContainerComponent(
+          <.SubmitProposalContainerComponent(
             ^.wrapped :=
               SubmitProposalFormContainerProps(Some(self.state.theme), nextStep())
           )(),
@@ -64,7 +64,7 @@ object SubmitProposalInRelationToThemeStyles extends StyleSheet.Inline {
 
   //TODO: globalize function
   implicit class NormalizedSize(val baseSize: Int) extends AnyVal {
-    def pxToEm(browserContextSize: Int = 18): Length[Double] = {
+    def pxToEm(browserContextSize: Int = 16): Length[Double] = {
       (baseSize.toFloat / browserContextSize.toFloat).em
     }
   }
@@ -72,12 +72,11 @@ object SubmitProposalInRelationToThemeStyles extends StyleSheet.Inline {
   val title: StyleA =
     style(textAlign.center)
 
-  val introOfTitle: StyleA =
+  val intro: StyleA =
     style(
       display.inlineBlock,
-      marginBottom(ThemeStyles.Spacing.small),
-      ThemeStyles.Font.playfairDisplayItalic,
-      fontStyle.italic
+      marginBottom(ThemeStyles.SpacingValue.smaller.pxToEm(15)),
+      ThemeStyles.MediaQueries.beyondSmall(marginBottom(ThemeStyles.SpacingValue.smaller.pxToEm(18)))
     )
 
   val theme: StyleA =

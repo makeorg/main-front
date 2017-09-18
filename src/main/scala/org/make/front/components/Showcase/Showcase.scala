@@ -6,53 +6,84 @@ import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import org.make.front.components.Proposals.{HomePage, ProposalComponent}
 import org.make.front.components.presentationals._
 import org.make.front.facades.I18n
-import org.make.front.facades.Translate.TranslateVirtualDOMElements
+import org.make.front.facades.Unescape.unescape
 import org.make.front.models._
-import org.make.front.styles.MakeStyles
+import org.make.front.styles.{LayoutRulesStyles, TextStyles, ThemeStyles}
 
 import scalacss.DevDefaults._
+import scalacss.internal.Length
 
 object ShowcaseComponent {
 
   final case class ShowcaseProps(proposals: Seq[Proposal],
-                                 translationKey: String,
+                                 introTranslationKey: String,
                                  searchThemeByThemeId: (ThemeId) => Option[Theme])
 
   lazy val reactClass: ReactClass = React.createClass[ShowcaseProps, Unit](
     render = (self) =>
-      <.section()(
-        <.Translate(^.className := ShowCaseProposalStyles.expressText, ^.value := self.props.wrapped.translationKey)(),
-        <.h2(^.className := ShowCaseProposalStyles.mostPopularText)(I18n.t("content.homepage.mostPopular")),
-        <.ul()(
-          self.props.wrapped.proposals.map(
-            proposal =>
-              <.li(^.className := ShowCaseProposalStyles.proposalItem)(
-                <.ProposalComponent(
-                  ^.wrapped := ProposalComponent
-                    .ProposalProps(
-                      proposal = proposal,
-                      proposalLocation = HomePage,
-                      isHomePage = true,
-                      associatedTheme = self.props.wrapped.searchThemeByThemeId(proposal.themeId.getOrElse(ThemeId("")))
-                    )
-                )()
+      <.section(^.className := ShowCaseStyles.wrapper)(
+        <.div(^.className := LayoutRulesStyles.centeredRow)(
+          <.header(^.className := LayoutRulesStyles.col)(
+            <.p(^.className := Seq(ShowCaseStyles.intro, TextStyles.mediumText, TextStyles.intro))(
+              unescape(I18n.t(self.props.wrapped.introTranslationKey))
+            ),
+            <.h2(^.className := Seq(ShowCaseStyles.title, TextStyles.bigTitle))(
+              unescape(I18n.t("content.homepage.mostPopular"))
+            )
+          ),
+          <.ul()(
+            self.props.wrapped.proposals.map(
+              proposal =>
+                <.li(
+                  ^.className := Seq(
+                    ShowCaseStyles.propasalItem,
+                    LayoutRulesStyles.col,
+                    LayoutRulesStyles.colHalfBeyondMedium
+                  )
+                )(
+                  <.ProposalComponent(
+                    ^.wrapped := ProposalComponent
+                      .ProposalProps(
+                        proposal = proposal,
+                        proposalLocation = HomePage,
+                        isHomePage = true,
+                        associatedTheme =
+                          self.props.wrapped.searchThemeByThemeId(proposal.themeId.getOrElse(ThemeId("")))
+                      )
+                  )()
+              )
             )
           )
         ),
-        <.style()(ShowCaseProposalStyles.render[String])
+        <.style()(ShowCaseStyles.render[String])
     )
   )
 
 }
 
-object ShowCaseProposalStyles extends StyleSheet.Inline {
+object ShowCaseStyles extends StyleSheet.Inline {
   import dsl._
 
-  val expressText: StyleA =
-    style(MakeStyles.Font.playfairDisplayItalic, fontSize(1.8.rem), marginTop(3.rem), display.block)
+  //TODO: globalize function
+  implicit class NormalizedSize(val baseSize: Int) extends AnyVal {
+    def pxToEm(browserContextSize: Int = 16): Length[Double] = {
+      (baseSize.toFloat / browserContextSize.toFloat).em
+    }
+  }
 
-  val mostPopularText: StyleA = style(MakeStyles.title2)
+  val wrapper: StyleA =
+    style(
+      backgroundColor(ThemeStyles.BackgroundColor.blackVeryTransparent),
+      padding :=! s"${ThemeStyles.SpacingValue.medium.pxToEm().value} 0"
+    )
 
-  val proposalItem: StyleA =
-    style(display.inlineBlock, verticalAlign.top, width(50.%%))
+  val title: StyleA = style()
+  val intro: StyleA = style(
+    marginBottom(ThemeStyles.SpacingValue.smaller.pxToEm(15)),
+    ThemeStyles.MediaQueries.beyondSmall(marginBottom(ThemeStyles.SpacingValue.smaller.pxToEm(18)))
+  )
+
+  val propasalItem: StyleA =
+    style(marginTop(ThemeStyles.SpacingValue.small.pxToEm()), marginBottom(ThemeStyles.SpacingValue.small.pxToEm()))
+
 }

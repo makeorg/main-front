@@ -16,7 +16,7 @@ import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 import scala.util.{Failure, Success}
 
-object SubmitProposalFormContainerComponent extends ProposalServiceComponent {
+object SubmitProposalContainerComponent extends ProposalServiceComponent {
 
   override def apiBaseUrl: String = Configuration.apiUrl
 

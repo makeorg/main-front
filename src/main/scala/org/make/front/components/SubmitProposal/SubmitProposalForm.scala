@@ -75,12 +75,10 @@ object SubmitProposalFormComponent {
             <.p()(unescape(I18n.t("content.proposal.help"))),
             <.p(^.className := TextStyles.smallText)(unescape(I18n.t("content.proposal.subHelp")))
           ),
-          <.button(^.className := Seq(CTAStyles.basic, CTAStyles.basicOnButton), ^.`type`.submit)(
-            <.i(^.className := FontAwesomeStyles.pencil)(),
-            unescape("&nbsp;"),
-            unescape(I18n.t("form.proposal.submit"))
-          ),
-          <.a(^.className := Seq(CTAStyles.basic, CTAStyles.basicOnA), ^.`type`.submit)(
+          <.button(
+            ^.className := Seq(SubmitProposalFormStyles.submitButton, CTAStyles.basic, CTAStyles.basicOnButton),
+            ^.`type`.submit
+          )(
             <.i(^.className := FontAwesomeStyles.pencil)(),
             unescape("&nbsp;"),
             unescape(I18n.t("form.proposal.submit"))
@@ -114,7 +112,7 @@ object SubmitProposalFormStyles extends StyleSheet.Inline {
 
   //TODO: globalize function
   implicit class NormalizedSize(val baseSize: Int) extends AnyVal {
-    def pxToEm(browserContextSize: Int = 18): Length[Double] = {
+    def pxToEm(browserContextSize: Int = 16): Length[Double] = {
       (baseSize.toFloat / browserContextSize.toFloat).em
     }
   }
@@ -124,7 +122,7 @@ object SubmitProposalFormStyles extends StyleSheet.Inline {
 
   val notice: StyleA =
     style(
-      marginTop(ThemeStyles.Spacing.medium),
+      marginTop(ThemeStyles.SpacingValue.medium.pxToEm()),
       unsafeChild("p + p")(marginTop(1.em)),
       unsafeChild("a")(textDecoration := "underline"),
       color(ThemeStyles.TextColor.lighter),
@@ -149,5 +147,5 @@ object SubmitProposalFormStyles extends StyleSheet.Inline {
     style(padding(1.em), lineHeight.initial, color(ThemeStyles.TextColor.lighter), whiteSpace.nowrap)
 
   val submitButton: StyleA =
-    style(marginTop(ThemeStyles.Spacing.medium))
+    style(marginTop(ThemeStyles.SpacingValue.medium.pxToEm()))
 }

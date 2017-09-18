@@ -10,10 +10,7 @@ scalaVersion := "2.12.1"
 val npmReactVersion = "15.6.1"
 val npmWebpackVersion = "2.6.1"
 val npmReactRouterVersion = "4.1.2"
-val npmBulmaVersion = "0.4.4"
 val npmReactAutosuggestVersion = "9.3.1"
-val npmSassLoaderVersion = "6.0.6"
-val npmNodeSassVersion = "4.5.3"
 val npmExtractTextWebpackPluginVersion = "2.1.2"
 val npmCssLoaderVersion = "0.28.4"
 val npmStyleLoaderVersion = "0.18.2"
@@ -24,7 +21,6 @@ val npmHtmlWebpackPluginVersion = "2.29.0"
 val npmWebpackMd5HashVersion = "0.0.5"
 val npmFrontAwesomeVersion = "4.7.0"
 val npmFileLoaderVersion = "0.11.2"
-val npmResetVersion = "2.2.1"
 val npmHardSourceWebpackVersion = "0.4.9"
 val npmSourceMapLoaderVersion = "0.2.1"
 val npmReactGoogleLogin = "2.9.2"
@@ -61,9 +57,6 @@ npmDependencies in Compile ++= Seq(
   "react-modal" -> npmReactModalVersion,
   "react-i18nify" -> npmReactI18nifyVersion,
   "react-autosuggest" -> npmReactAutosuggestVersion,
-  "bulma" -> npmBulmaVersion,
-  "sass-loader" -> npmSassLoaderVersion,
-  "node-sass" -> npmNodeSassVersion,
   "extract-text-webpack-plugin" -> npmExtractTextWebpackPluginVersion,
   "hard-source-webpack-plugin" -> npmHardSourceWebpackVersion,
   "css-loader" -> npmCssLoaderVersion,
@@ -74,7 +67,6 @@ npmDependencies in Compile ++= Seq(
   "webpack" -> npmWebpackVersion,
   "file-loader" -> npmFileLoaderVersion,
   "font-awesome" -> npmFrontAwesomeVersion,
-  "reset-css" -> npmResetVersion,
   "react-google-login" -> npmReactGoogleLogin,
   "react-facebook-login" -> npmReactFacebookLogin
 )
@@ -85,9 +77,6 @@ npmResolutions in Compile := {
 
 version in webpack := npmWebpackVersion
 
-webpackResources := {
-  baseDirectory.value / "src" / "main" / "static" / "sass" ** "*.sass"
-}
 
 webpackConfigFile in fastOptJS := Some(baseDirectory.value / "make-webpack-dev.config.js")
 webpackConfigFile in fullOptJS := Some(baseDirectory.value / "make-webpack-prod.config.js")

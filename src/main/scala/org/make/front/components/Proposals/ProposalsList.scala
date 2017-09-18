@@ -9,11 +9,15 @@ import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import io.github.shogowada.statictags.Element
 import org.make.front.components.Tags.FilterByTagsComponent.FilterByTagsProps
 import org.make.front.components.presentationals._
-import org.make.front.facades.Translate.{TranslateVirtualDOMAttributes, TranslateVirtualDOMElements}
+import org.make.front.facades.I18n
+import org.make.front.facades.Translate.TranslateVirtualDOMElements
+import org.make.front.facades.Unescape.unescape
 import org.make.front.models._
-import org.make.front.styles.{MakeStyles, ThemeStyles}
+import org.make.front.styles.TextStyles.title
+import org.make.front.styles._
 
 import scalacss.DevDefaults._
+import scalacss.internal.Length
 import scalacss.internal.mutable.StyleSheet
 
 object ProposalsListComponent {
@@ -79,17 +83,17 @@ object ProposalsListComponent {
   lazy val reactClass: ReactClass = React.createClass[ProposalsListProps, ProposalsListState](
     getInitialState = (_) => ProposalsListState(proposals, Seq.empty),
     render = (self) => {
-      val noContent: Element = <.div(^.className := ProposalsListStyles.noContent)(
-        <.span(^.className := ProposalsListStyles.sadSmiley)("😞"),
-        <.br()(),
-        <.Translate(^.value := "content.theme.matrix.noContent", ^.dangerousHtml := true)(),
-        <.br()(),
-        <.Translate(^.value := "content.theme.matrix.selectOtherTags")()
-      )
 
       val listProposals: Seq[Element] = self.state.listProposals.map(
         proposal =>
-          <.li(^.className := ProposalsListStyles.proposalItem)(
+          <.li(
+            ^.className := Seq(
+              ProposalsListStyles.item,
+              LayoutRulesStyles.col,
+              LayoutRulesStyles.colHalfBeyondMedium,
+              LayoutRulesStyles.colQuarterBeyondLarge
+            )
+          )(
             <.ProposalComponent(
               ^.wrapped := ProposalComponent
                 .ProposalProps(proposal = proposal, proposalLocation = ThemePage, isHomePage = false, None)
@@ -97,16 +101,41 @@ object ProposalsListComponent {
         )
       )
 
-      <.div(^.className := ProposalsListStyles.matrix)(
-        <.h2(^.className := ProposalsListStyles.title2)(<.Translate(^.value := "content.theme.matrix.title")()),
-        <.FilterByTagsComponent(
-          ^.wrapped := FilterByTagsProps(self.props.wrapped.tags, self.props.wrapped.handleSelectedTags(self))
-        )(),
-        <.div(^.className := ProposalsListStyles.proposalList)(if (self.state.listProposals.nonEmpty) {
-          <.ul()(listProposals)
-        } else {
-          noContent
-        }),
+      val proposals: Element =
+        <.div()(
+          <.ul()(listProposals),
+          <.div(^.className := Seq(ProposalsListStyles.seeMoreButtonWrapper, LayoutRulesStyles.col))(
+            <.button(^.className := Seq(CTAStyles.basic, CTAStyles.basicOnButton))(
+              unescape(I18n.t("content.theme.matrix.seeMoreProposals"))
+            )
+          )
+        )
+
+      val noProposal: Element = <.div(^.className := ProposalsListStyles.noProposal)(
+        <.p(^.className := ProposalsListStyles.smiley)("😞"),
+        <.p(^.className := TextStyles.mediumText)(
+          unescape(I18n.t("content.theme.matrix.noContent")),
+          <.br()(),
+          unescape(I18n.t("content.theme.matrix.selectOtherTags"))
+        )
+      )
+
+      <.section(^.className := ProposalsListStyles.wrapper)(
+        <.div(^.className := LayoutRulesStyles.centeredRow)(
+          <.header(^.className := LayoutRulesStyles.col)(
+            <.h2(^.className := TextStyles.bigTitle)(<.Translate(^.value := "content.theme.matrix.title")())
+          ),
+          <.div(^.className := LayoutRulesStyles.col)(
+            <.FilterByTagsComponent(
+              ^.wrapped := FilterByTagsProps(self.props.wrapped.tags, self.props.wrapped.handleSelectedTags(self))
+            )()
+          ),
+          if (self.state.listProposals.nonEmpty) {
+            proposals
+          } else {
+            noProposal
+          }
+        ),
         <.style()(ProposalsListStyles.render[String])
       )
     }
@@ -117,20 +146,40 @@ object ProposalsListStyles extends StyleSheet.Inline {
 
   import dsl._
 
-  val title2: StyleA = style(MakeStyles.title2, MakeStyles.Font.tradeGothicLTStd, marginTop(3.rem))
-  val matrix: StyleA = style(minHeight(50.rem))
-  val proposalList: StyleA = style(marginTop(4.rem))
-  val proposalItem: StyleA =
-    style(display.inlineBlock, verticalAlign.top, width(25.%%), padding :=! ThemeStyles.Spacing.small)
-  val sadSmiley: StyleA = style(fontSize(4.8.rem))
-  val noContent: StyleA =
+  //TODO: globalize function
+  implicit class NormalizedSize(val baseSize: Int) extends AnyVal {
+    def pxToEm(browserContextSize: Int = 16): Length[Double] = {
+      (baseSize.toFloat / browserContextSize.toFloat).em
+    }
+  }
+
+  val wrapper: StyleA =
     style(
-      marginTop(10.rem),
-      width(100.%%),
-      textAlign.center,
-      fontSize(1.8.rem),
-      lineHeight(3.4.rem),
-      MakeStyles.Font.circularStdBook
+      backgroundColor(ThemeStyles.BackgroundColor.blackVeryTransparent),
+      padding :=! s"${ThemeStyles.SpacingValue.medium.pxToEm().value} 0 ${ThemeStyles.SpacingValue.small.pxToEm().value}"
     )
 
+  val item: StyleA =
+    style(marginTop(ThemeStyles.SpacingValue.small.pxToEm()), marginBottom(ThemeStyles.SpacingValue.small.pxToEm()))
+
+  val seeMoreButtonWrapper: StyleA = style(
+    marginTop(ThemeStyles.SpacingValue.small.pxToEm()),
+    marginBottom(ThemeStyles.SpacingValue.small.pxToEm()),
+    textAlign.center
+  )
+
+  val smiley: StyleA =
+    style(
+      display.inlineBlock,
+      marginBottom(ThemeStyles.SpacingValue.small.pxToEm(34)),
+      fontSize(34.pxToEm()),
+      ThemeStyles.MediaQueries
+        .beyondSmall(marginBottom(ThemeStyles.SpacingValue.small.pxToEm(48)), fontSize(48.pxToEm()))
+    )
+
+  val noProposal: StyleA = style(
+    marginTop(ThemeStyles.SpacingValue.larger.pxToEm()),
+    marginBottom(ThemeStyles.SpacingValue.larger.pxToEm()),
+    textAlign.center
+  )
 }

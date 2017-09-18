@@ -12,6 +12,7 @@ import org.make.front.models.Theme
 import org.make.front.styles.{LayoutRulesStyles, TextStyles, ThemeStyles}
 
 import scalacss.DevDefaults._
+import scalacss.internal.Length
 
 object NavInThemesComponent {
 
@@ -56,10 +57,8 @@ object NavInThemesComponent {
 
     <.nav(^.className := NavInThemesStyles.wrapper)(
       <.div(^.className := LayoutRulesStyles.centeredRow)(
-        <.div(^.className := Seq(LayoutRulesStyles.col))(
-          <.h2(^.className := Seq(NavInThemesStyles.title, TextStyles.mediumTitle))(
-            unescape(I18n.t("content.footer.title"))
-          )
+        <.div(^.className := Seq(NavInThemesStyles.titleWrapper, LayoutRulesStyles.col))(
+          <.h2(^.className := Seq(TextStyles.mediumTitle))(unescape(I18n.t("content.footer.title")))
         ),
         <.ul(^.className := Seq(NavInThemesStyles.themesList))(listTheme),
         <.style()(NavInThemesStyles.render[String])
@@ -72,27 +71,34 @@ object NavInThemesStyles extends StyleSheet.Inline {
 
   import dsl._
 
+  //TODO: globalize function
+  implicit class NormalizedSize(val baseSize: Int) extends AnyVal {
+    def pxToEm(browserContextSize: Int = 16): Length[Double] = {
+      (baseSize.toFloat / browserContextSize.toFloat).em
+    }
+  }
+
   val wrapper: StyleA = style(
-    backgroundColor(ThemeStyles.BackgroundColor.blackTransparent),
-    padding :=! s"${ThemeStyles.Spacing.medium.value} 0 ${ThemeStyles.Spacing.small.value}"
+    backgroundColor(ThemeStyles.BackgroundColor.blackVeryTransparent),
+    padding :=! s"${ThemeStyles.SpacingValue.medium.pxToEm().value} 0 ${ThemeStyles.SpacingValue.small.pxToEm().value}"
   )
 
-  val title: StyleA = style(marginBottom(ThemeStyles.Spacing.small))
+  val titleWrapper: StyleA = style(marginBottom(ThemeStyles.SpacingValue.small.pxToEm()))
 
   val themesList: StyleA = style(display.flex, flexFlow := s"row wrap")
 
   val themeLink: StyleA = style()
 
   val themeItem: StyleA =
-    style(paddingBottom(ThemeStyles.Spacing.small))
+    style(paddingBottom(ThemeStyles.SpacingValue.small.pxToEm()))
 
   def themeItemContentWrapper(color: String): StyleA =
-    style(height(100.%%), paddingLeft :=! ThemeStyles.Spacing.smaller, borderLeft :=! s"5px solid $color")
+    style(height(100.%%), paddingLeft :=! ThemeStyles.SpacingValue.smaller.pxToEm(), borderLeft :=! s"5px solid $color")
 
   val actionsCounter: StyleA = style(
     display.inlineBlock,
     ThemeStyles.MediaQueries.belowMedium(display.none),
-    marginRight(ThemeStyles.Spacing.small),
+    marginRight(ThemeStyles.SpacingValue.small.pxToEm()),
     verticalAlign.baseline,
     color(ThemeStyles.TextColor.lighter)
   )

@@ -3,7 +3,7 @@ package org.make.front.components.Theme
 import io.github.shogowada.scalajs.reactjs.React
 import io.github.shogowada.scalajs.reactjs.VirtualDOM._
 import io.github.shogowada.scalajs.reactjs.classes.ReactClass
-import org.make.front.components.Modal.FullscreenModalComponent.FullscreenModalProps
+import org.make.front.components.Modals.FullscreenModalComponent.FullscreenModalProps
 import org.make.front.components.SubmitProposal.SubmitProposalInRelationToThemeComponent.SubmitProposalInRelationToThemeProps
 import org.make.front.components.presentationals._
 import org.make.front.facades._
@@ -100,7 +100,7 @@ object ThemeHeaderStyles extends StyleSheet.Inline {
 
   //TODO: globalize function
   implicit class NormalizedSize(val baseSize: Int) extends AnyVal {
-    def pxToEm(browserContextSize: Int = 18): Length[Double] = {
+    def pxToEm(browserContextSize: Int = 16): Length[Double] = {
       (baseSize.toFloat / browserContextSize.toFloat).em
     }
   }
@@ -126,7 +126,7 @@ object ThemeHeaderStyles extends StyleSheet.Inline {
       verticalAlign.middle,
       paddingTop((60 + 50).pxToEm()), // TODO: dynamise calcul, if main intro is first child of page
       ThemeStyles.MediaQueries.beyondSmall(paddingTop((60 + 80).pxToEm())),
-      paddingBottom(ThemeStyles.Spacing.larger),
+      paddingBottom(ThemeStyles.SpacingValue.larger.pxToEm()),
       textAlign.center
     )
 

@@ -14,7 +14,7 @@ import org.make.front.facades.ReactGoogleLogin._
 import org.make.front.facades.ReactModal._
 import org.make.front.facades.Translate.TranslateVirtualDOMElements
 import org.make.front.facades.{I18n, Replacements}
-import org.make.front.styles.{BulmaStyles, FontAwesomeStyles, MakeStyles}
+import org.make.front.styles.{FontAwesomeStyles, MakeStyles}
 import org.scalajs.dom.experimental.Response
 import org.scalajs.dom.raw.HTMLInputElement
 
@@ -72,11 +72,11 @@ object ConnectUserComponent {
         var modalContentClass: Seq[StyleA] = Seq(MakeStyles.Modal.content)
         var modalCloseClass: Seq[StyleA] = Seq(MakeStyles.Modal.close)
         var socialLoginButtonLeftClass: Seq[StyleA] =
-          Seq(MakeStyles.Button.facebook, ConnectUserStyles.button, BulmaStyles.Helpers.isPulledRight)
+          Seq(MakeStyles.Button.facebook, ConnectUserStyles.button)
         var socialLoginButtonRightClass: Seq[StyleA] =
-          Seq(MakeStyles.Button.google, ConnectUserStyles.button, BulmaStyles.Helpers.isPulledLeft)
+          Seq(MakeStyles.Button.google, ConnectUserStyles.button)
         var buttonWrapperClass: Seq[StyleA] =
-          Seq(BulmaStyles.Helpers.isClearfix, ConnectUserStyles.buttonsWrapper)
+          Seq(ConnectUserStyles.buttonsWrapper)
         var formContainerClass: Seq[StyleA] = Seq.empty
         var socialInfo: Seq[StyleA] = Seq(ConnectUserStyles.socialInfo)
 
@@ -85,19 +85,11 @@ object ConnectUserComponent {
           modalClass = Seq(MakeStyles.Modal.modal)
           modalContentClass = Seq()
           modalCloseClass = Seq(MakeStyles.Modal.close)
-          socialLoginButtonLeftClass = Seq(
-            MakeStyles.Button.facebook,
-            ConnectUserStyles.button,
-            BulmaStyles.Helpers.isPulledRight,
-            ConnectUserStyles.proposalSocialLeftButton
-          )
-          socialLoginButtonRightClass = Seq(
-            MakeStyles.Button.google,
-            ConnectUserStyles.button,
-            BulmaStyles.Helpers.isPulledLeft,
-            ConnectUserStyles.proposalSocialRightButton
-          )
-          buttonWrapperClass = Seq(BulmaStyles.Helpers.isClearfix, ConnectUserStyles.proposalButtonsWrapper)
+          socialLoginButtonLeftClass =
+            Seq(MakeStyles.Button.facebook, ConnectUserStyles.button, ConnectUserStyles.proposalSocialLeftButton)
+          socialLoginButtonRightClass =
+            Seq(MakeStyles.Button.google, ConnectUserStyles.button, ConnectUserStyles.proposalSocialRightButton)
+          buttonWrapperClass = Seq(ConnectUserStyles.proposalButtonsWrapper)
           formContainerClass = Seq(ConnectUserStyles.proposalFormContainer)
           socialInfo = Seq(ConnectUserStyles.proposalSocialInfo)
 

@@ -13,7 +13,7 @@ object HomeComponent {
         <("home")()(
           <.MainIntroComponent.empty,
           <.ShowcaseContainerComponent(
-            ^.wrapped := ShowcaseContainerProps(translationKey = "content.homepage.expressYourself")
+            ^.wrapped := ShowcaseContainerProps(introTranslationKey = "content.homepage.expressYourself")
           )()
       )
     )

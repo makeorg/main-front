@@ -58,7 +58,7 @@ object MainHeaderStyles extends StyleSheet.Inline {
 
   //TODO: globalize function
   implicit class NormalizedSize(val baseSize: Int) extends AnyVal {
-    def pxToEm(browserContextSize: Int = 18): Length[Double] = {
+    def pxToEm(browserContextSize: Int = 16): Length[Double] = {
       (baseSize.toFloat / browserContextSize.toFloat).em
     }
   }
@@ -104,7 +104,7 @@ object MainHeaderStyles extends StyleSheet.Inline {
     )
 
   val menusInnerWrapper: StyleA =
-    style(margin :=! s"0 -${ThemeStyles.Spacing.small.value}", whiteSpace.nowrap)
+    style(margin :=! s"0 -${ThemeStyles.SpacingValue.small.pxToEm().value}", whiteSpace.nowrap)
 
   val menuWrapper: StyleA =
     style(display.inlineBlock)
@@ -115,7 +115,7 @@ object MainHeaderStyles extends StyleSheet.Inline {
     style()
 
   val menuItem: StyleA =
-    style(display.inlineBlock, verticalAlign.baseline, margin :=! s"0 ${ThemeStyles.Spacing.small.value}")
+    style(display.inlineBlock, verticalAlign.baseline, margin :=! s"0 ${ThemeStyles.SpacingValue.small.pxToEm().value}")
 
   val menuItemLink: StyleA =
     style(color :=! ThemeStyles.ThemeColor.primary)

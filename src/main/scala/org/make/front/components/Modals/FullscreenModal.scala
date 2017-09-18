@@ -1,4 +1,4 @@
-package org.make.front.components.Modal
+package org.make.front.components.Modals
 
 import io.github.shogowada.scalajs.reactjs.React
 import io.github.shogowada.scalajs.reactjs.VirtualDOM._
@@ -64,7 +64,7 @@ object FullscreenModalStyles extends StyleSheet.Inline {
 
   //TODO: globalize function
   implicit class NormalizedSize(val baseSize: Int) extends AnyVal {
-    def pxToEm(browserContextSize: Int = 18): Length[Double] = {
+    def pxToEm(browserContextSize: Int = 16): Length[Double] = {
       (baseSize.toFloat / browserContextSize.toFloat).em
     }
   }
@@ -93,18 +93,22 @@ object FullscreenModalStyles extends StyleSheet.Inline {
   val closeModalButton = style(
     position.absolute,
     top(50.pxToEm()),
-    right(0.%%),
-    height(ThemeStyles.Spacing.largerMedium),
-    width(ThemeStyles.Spacing.largerMedium),
-    lineHeight :=! s"${ThemeStyles.Spacing.largerMedium.value}",
+    right(`0`),
+    height(ThemeStyles.SpacingValue.largerMedium.pxToEm()),
+    width(ThemeStyles.SpacingValue.largerMedium.pxToEm()),
+    lineHeight :=! s"${ThemeStyles.SpacingValue.largerMedium.pxToEm().value}",
     unsafeChild("svg")(verticalAlign.bottom, opacity(0.3), transition := "opacity .2s ease-in-out"),
     (&.hover)(unsafeChild("svg")(opacity(0.5))),
     ThemeStyles.MediaQueries
-      .beyondSmall(top(80.pxToEm()), marginTop(ThemeStyles.Spacing.small), marginRight(ThemeStyles.Spacing.small)),
-    media.minWidth((1200 + 50 + 15).pxToEm(16))(
-      height(ThemeStyles.Spacing.large),
-      width(ThemeStyles.Spacing.large),
-      lineHeight :=! s"${ThemeStyles.Spacing.large.value}",
+      .beyondSmall(
+        top(80.pxToEm()),
+        marginTop(ThemeStyles.SpacingValue.small.pxToEm()),
+        marginRight(ThemeStyles.SpacingValue.small.pxToEm())
+      ),
+    media.minWidth((1200 + 50 + 15).pxToEm())(
+      height(ThemeStyles.SpacingValue.large.pxToEm()),
+      width(ThemeStyles.SpacingValue.large.pxToEm()),
+      lineHeight :=! s"${ThemeStyles.SpacingValue.large.pxToEm().value}",
       unsafeChild("svg")(width(35.pxToEm()), height(35.pxToEm()))
     )
   )

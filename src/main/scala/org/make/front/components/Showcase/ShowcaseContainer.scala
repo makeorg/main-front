@@ -10,7 +10,7 @@ import org.make.front.models._
 
 object ShowcaseContainerComponent {
 
-  final case class ShowcaseContainerProps(translationKey: String)
+  final case class ShowcaseContainerProps(introTranslationKey: String)
 
   val proposals: Seq[Proposal] = {
     for (i <- 1 to 2)
@@ -75,7 +75,7 @@ object ShowcaseContainerComponent {
 
       ShowcaseComponent.ShowcaseProps(
         proposals = proposals,
-        translationKey = ownProps.wrapped.translationKey,
+        introTranslationKey = ownProps.wrapped.introTranslationKey,
         searchThemeByThemeId = searchThemeByThemeId
       )
     }

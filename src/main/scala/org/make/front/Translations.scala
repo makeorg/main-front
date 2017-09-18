@@ -65,11 +65,12 @@ object Translations {
       |             "tag": {
       |               "title": "Tags populaire&nbsp;:"
       |             }
-      |           }
+      |           },
+      |           "seeMoreProposals": "Voir + de propositions"
       |         }
       |       },
       |       "tag": {
-      |         "showMore": "affichier tous les&nbsp;tags",
+      |         "showMore": "afficher tous les&nbsp;tags",
       |         "showLess": "masquer les tags&nbsp;supplémentaires",
       |         "proposalsCount": "%{proposals} propositions",
       |         "moreInfos": "En savoir&nbsp;+"
@@ -81,7 +82,7 @@ object Translations {
       |         "likeIt": "Coup de <i class=\"fa fa-heart\"></i>",
       |         "doable": "Réaliste",
       |         "platitudeAgree": "Platitude",
-      |         "noWay": "Surtout pas !",
+      |         "noWay": "Surtout pas&nbsp;!",
       |         "impossible": "Infaisable",
       |         "platitudeDisagree": "Platitude",
       |         "doNotUnderstand": "Pas compris",

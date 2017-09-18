@@ -10,7 +10,7 @@ object ThemeStyles extends StyleSheet.Inline {
 
   //TODO: globalize function
   implicit class NormalizedSize(val baseSize: Int) extends AnyVal {
-    def pxToEm(browserContextSize: Int = 18): Length[Double] = {
+    def pxToEm(browserContextSize: Int = 16): Length[Double] = {
       (baseSize.toFloat / browserContextSize.toFloat).em
     }
   }
@@ -24,7 +24,8 @@ object ThemeStyles extends StyleSheet.Inline {
   }
 
   object ThemeColor {
-    val primary: ValueT[ValueT.Color] = rgba(237, 24, 68, 1)
+    val primary: ValueT[ValueT.Color] = rgb(237, 24, 68)
+    val secondary: ValueT[ValueT.Color] = rgb(37, 49, 134)
   }
 
   object TextColor {
@@ -41,38 +42,39 @@ object ThemeStyles extends StyleSheet.Inline {
     val lightGrey: ValueT[ValueT.Color] = rgb(247, 247, 247)
     val grey: ValueT[ValueT.Color] = rgb(231, 231, 231)
     val black: ValueT[ValueT.Color] = rgb(0, 0, 0)
-    val blackTransparent: ValueT[ValueT.Color] = rgba(0, 0, 0, 0.05)
+    val blackTransparent: ValueT[ValueT.Color] = rgba(0, 0, 0, 0.2)
+    val blackVeryTransparent: ValueT[ValueT.Color] = rgba(0, 0, 0, 0.05)
     val danger: ValueT[ValueT.Color] = rgba(208, 2, 27, 0.1)
   }
 
   object BorderColor {
     val base: ValueT[ValueT.Color] = rgb(155, 155, 155)
     val light: ValueT[ValueT.Color] = rgb(204, 204, 204)
-    val blackTransparent: ValueT[ValueT.Color] = rgba(0, 0, 0, 0.01)
+    val blackVeryTransparent: ValueT[ValueT.Color] = rgba(0, 0, 0, 0.01)
     val danger: ValueT[ValueT.Color] = rgba(208, 2, 27, 1)
   }
 
   /**TODO: functions with baseText value for em convertion**/
-  object Spacing {
-    val smaller: ValueT[ValueT.LenPct] = 10.pxToEm()
-    val small: ValueT[ValueT.LenPct] = 15.pxToEm()
-    val medium: ValueT[ValueT.LenPct] = 30.pxToEm()
-    val largerMedium: ValueT[ValueT.LenPct] = 40.pxToEm()
-    val large: ValueT[ValueT.LenPct] = 50.pxToEm()
-    val larger: ValueT[ValueT.LenPct] = 60.pxToEm()
+  object SpacingValue {
+    val smaller: Int = 10
+    val small: Int = 15
+    val medium: Int = 30
+    val largerMedium: Int = 40
+    val large: Int = 50
+    val larger: Int = 60
   }
 
   object MediaQueries {
-    val belowSmall: Media.Query = media.maxWidth(499.pxToEm(16))
-    val beyondSmall: Media.Query = media.minWidth(500.pxToEm(16))
-    val small: Media.Query = beyondSmall.maxWidth(839.pxToEm(16))
+    val belowSmall: Media.Query = media.maxWidth(499.pxToEm())
+    val beyondSmall: Media.Query = media.minWidth(500.pxToEm())
+    val small: Media.Query = beyondSmall.maxWidth(839.pxToEm())
 
-    val belowMedium: Media.Query = media.maxWidth(839.pxToEm(16))
-    val beyondMedium: Media.Query = media.minWidth(840.pxToEm(16))
-    val medium: Media.Query = beyondMedium.maxWidth(1199.pxToEm(16))
+    val belowMedium: Media.Query = media.maxWidth(839.pxToEm())
+    val beyondMedium: Media.Query = media.minWidth(840.pxToEm())
+    val medium: Media.Query = beyondMedium.maxWidth(1199.pxToEm())
 
-    val belowLarge: Media.Query = media.maxWidth(1199.pxToEm(16))
-    val beyondLarge: Media.Query = media.minWidth(1200.pxToEm(16))
+    val belowLarge: Media.Query = media.maxWidth(1199.pxToEm())
+    val beyondLarge: Media.Query = media.minWidth(1200.pxToEm())
   }
 
   val containerMaxWidth: ValueT[ValueT.LenPct] = 1200.pxToEm()

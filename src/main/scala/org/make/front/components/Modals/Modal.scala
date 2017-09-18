@@ -1,4 +1,4 @@
-package org.make.front.components.Modal
+package org.make.front.components.Modals
 
 import io.github.shogowada.scalajs.reactjs.React
 import io.github.shogowada.scalajs.reactjs.VirtualDOM._
@@ -67,7 +67,7 @@ object ModalStyles extends StyleSheet.Inline {
 
   //TODO: globalize function
   implicit class NormalizedSize(val baseSize: Int) extends AnyVal {
-    def pxToEm(browserContextSize: Int = 18): Length[Double] = {
+    def pxToEm(browserContextSize: Int = 16): Length[Double] = {
       (baseSize.toFloat / browserContextSize.toFloat).em
     }
   }
@@ -93,8 +93,8 @@ object ModalStyles extends StyleSheet.Inline {
     style(
       position.relative,
       marginTop(60.pxToEm()), // TODO: dynamise calcul, if main intro is first child of page
-      marginBottom(ThemeStyles.Spacing.larger),
-      padding :=! s"${ThemeStyles.Spacing.largerMedium.value} ${ThemeStyles.Spacing.small.value}",
+      marginBottom(ThemeStyles.SpacingValue.larger.pxToEm()),
+      padding :=! s"${ThemeStyles.SpacingValue.largerMedium.pxToEm().value} ${ThemeStyles.SpacingValue.small.pxToEm()}",
       ThemeStyles.MediaQueries
         .beyondSmall(paddingRight(55.pxToEm()), paddingLeft(55.pxToEm())), // TODO: dynamise calcul
       backgroundColor(ThemeStyles.BackgroundColor.white),
@@ -103,11 +103,11 @@ object ModalStyles extends StyleSheet.Inline {
 
   val closeModalButton = style(
     position.absolute,
-    top(0.%%),
-    right(0.%%),
-    height(ThemeStyles.Spacing.largerMedium),
-    width(ThemeStyles.Spacing.largerMedium),
-    lineHeight :=! s"${ThemeStyles.Spacing.largerMedium.value}",
+    top(`0`),
+    right(`0`),
+    height(ThemeStyles.SpacingValue.largerMedium.pxToEm()),
+    width(ThemeStyles.SpacingValue.largerMedium.pxToEm()),
+    lineHeight :=! s"${ThemeStyles.SpacingValue.largerMedium.pxToEm().value}",
     unsafeChild("svg")(verticalAlign.bottom, opacity(0.1), transition := "opacity .2s ease-in-out"),
     (&.hover)(unsafeChild("svg")(opacity(0.3)))
   )

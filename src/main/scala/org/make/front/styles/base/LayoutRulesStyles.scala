@@ -10,12 +10,12 @@ object LayoutRulesStyles extends StyleSheet.Inline {
 
   //TODO: globalize function
   implicit class NormalizedSize(val baseSize: Int) extends AnyVal {
-    def pxToEm(browserContextSize: Int = 18): Length[Double] = {
+    def pxToEm(browserContextSize: Int = 16): Length[Double] = {
       (baseSize.toFloat / browserContextSize.toFloat).em
     }
   }
 
-  val gutter: ValueT[ValueT.LenPct] = ThemeStyles.Spacing.small
+  val gutter: ValueT[ValueT.LenPct] = ThemeStyles.SpacingValue.small.pxToEm()
 
   val col: StyleA =
     style(display.inlineBlock, verticalAlign.top, width(100.%%), paddingRight(gutter), paddingLeft(gutter))

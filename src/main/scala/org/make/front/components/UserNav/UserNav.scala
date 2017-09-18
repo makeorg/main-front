@@ -78,7 +78,7 @@ object UserNavStyles extends StyleSheet.Inline {
 
   //TODO: globalize function
   implicit class NormalizedSize(val baseSize: Int) extends AnyVal {
-    def pxToEm(browserContextSize: Int = 18): Length[Double] = {
+    def pxToEm(browserContextSize: Int = 16): Length[Double] = {
       (baseSize.toFloat / browserContextSize.toFloat).em
     }
   }
@@ -90,14 +90,14 @@ object UserNavStyles extends StyleSheet.Inline {
     style()
 
   val menuItem: StyleA =
-    style(display.inlineBlock, verticalAlign.baseline, margin :=! s"0 ${ThemeStyles.Spacing.small.value}")
+    style(display.inlineBlock, verticalAlign.baseline, margin :=! s"0 ${ThemeStyles.SpacingValue.small.pxToEm().value}")
 
   val menuItemLink: StyleA =
     style(color :=! ThemeStyles.ThemeColor.primary)
 
   val menuItemIcon: StyleA =
     style(
-      ThemeStyles.MediaQueries.beyondMedium(marginRight(ThemeStyles.Spacing.smaller)),
+      ThemeStyles.MediaQueries.beyondMedium(marginRight(ThemeStyles.SpacingValue.smaller.pxToEm())),
       verticalAlign.baseline,
       fontSize(16.pxToEm()),
       color(ThemeStyles.TextColor.lighter)
@@ -132,5 +132,5 @@ object UserNavStyles extends StyleSheet.Inline {
     )
 
   val userNameWrapper: StyleA =
-    style(display.inlineBlock, verticalAlign.middle, marginLeft(ThemeStyles.Spacing.smaller))
+    style(display.inlineBlock, verticalAlign.middle, marginLeft(ThemeStyles.SpacingValue.smaller.pxToEm()))
 }

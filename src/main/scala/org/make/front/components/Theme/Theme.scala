@@ -17,8 +17,8 @@ object ThemeComponent {
       <("theme")()(
         <.ThemeHeaderComponent(^.wrapped := ThemeHeaderProps(self.props.wrapped.theme))(),
         //TODO: fix 5 errors of setState before render. These are logged in console.
-        <.PoliticalActionsComponent()(),
-        <.ProposalsListContainerComponent(^.wrapped := MatrixWrappedProps(self.props.wrapped.themeSlug))()
+        <.PoliticalActionsContainerComponent()(),
+        <.ProposalsContainerComponent(^.wrapped := MatrixWrappedProps(self.props.wrapped.themeSlug))()
     )
   )
 }

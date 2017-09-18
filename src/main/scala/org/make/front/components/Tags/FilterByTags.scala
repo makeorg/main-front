@@ -6,11 +6,13 @@ import io.github.shogowada.scalajs.reactjs.VirtualDOM.{<, _}
 import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import org.make.front.components.Tags.TagsListComponent.TagsListComponentProps
 import org.make.front.components.presentationals._
-import org.make.front.facades.Translate.TranslateVirtualDOMElements
+import org.make.front.facades.I18n
+import org.make.front.facades.Unescape.unescape
 import org.make.front.models.Tag
-import org.make.front.styles.{BulmaStyles, FontAwesomeStyles, MakeStyles}
+import org.make.front.styles.{FontAwesomeStyles, TextStyles, ThemeStyles}
 
 import scalacss.DevDefaults._
+import scalacss.internal.Length
 import scalacss.internal.mutable.StyleSheet
 
 object FilterByTagsComponent {
@@ -38,18 +40,16 @@ object FilterByTagsComponent {
 
         val tagsListProps = TagsListComponentProps(
           tags = self.props.wrapped.tags,
-          withShowMoreButton = self.props.wrapped.tags.size > 6,
+          withShowMoreTagsButton = self.props.wrapped.tags.size > 6,
           handleSelectedTags = handleSelectedTags
         )
 
         <.div()(
-          <.p(^.className := BulmaStyles.Helpers.isPulledLeft)(
-            <.i(^.className := FontAwesomeStyles.lineChart)(),
-            <.Translate(^.value := "content.theme.matrix.filter.tag.title")()
+          <.p(^.className := Seq(FilterByTagsStyles.intro))(
+            <.i(^.className := Seq(FilterByTagsStyles.illInIntro, FontAwesomeStyles.lineChart))(),
+            unescape(I18n.t("content.theme.matrix.filter.tag.title"))
           ),
-          <.nav(^.className := Seq(BulmaStyles.Helpers.isPulledLeft, FilterByTagsStyles.tagsList))(
-            <.TagsListComponent(^.wrapped := tagsListProps)()
-          ),
+          <.nav(^.className := FilterByTagsStyles.tagsList)(<.TagsListComponent(^.wrapped := tagsListProps)()),
           <.style()(FilterByTagsStyles.render[String])
         )
       }
@@ -60,18 +60,32 @@ object FilterByTagsStyles extends StyleSheet.Inline {
 
   import dsl._
 
-  val tagsList: StyleA = style(marginLeft(2.rem))
+  //TODO: globalize function
+  implicit class NormalizedSize(val baseSize: Int) extends AnyVal {
+    def pxToEm(browserContextSize: Int = 16): Length[Double] = {
+      (baseSize.toFloat / browserContextSize.toFloat).em
+    }
+  }
+
+  val tagsList: StyleA = style()
 
   val intro: StyleA =
     style(
-      float.left,
-      margin :=! "0 1rem 0.5rem 0",
-      MakeStyles.Font.circularStdBook,
-      lineHeight(2.4.rem),
-      color :=! MakeStyles.Color.darkGrey
+      marginBottom(5.pxToEm(15)),
+      ThemeStyles.Font.circularStdBook,
+      fontSize(15.pxToEm()),
+      color :=! ThemeStyles.TextColor.light,
+      ThemeStyles.MediaQueries.beyondSmall(
+        float.left,
+        marginTop(5.pxToEm()),
+        marginRight(10.pxToEm()),
+        marginBottom(`0`),
+        fontSize(16.pxToEm()),
+        lineHeight(24.pxToEm())
+      )
     )
 
-  val introIll: StyleA =
-    style(verticalAlign.baseline, marginRight(0.5.rem))
+  val illInIntro: StyleA =
+    style(verticalAlign.baseline, marginRight(5.pxToEm()))
 
 }

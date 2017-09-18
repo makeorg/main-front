@@ -10,8 +10,10 @@ import org.make.front.components.presentationals._
 import org.make.front.facades.I18n
 import org.make.front.facades.Translate.TranslateVirtualDOMElements
 import org.make.front.models.{Proposal, Theme}
+import org.make.front.styles.{TextStyles, ThemeStyles}
 
 import scalacss.DevDefaults._
+import scalacss.internal.Length
 
 trait ProposalLocation
 
@@ -57,9 +59,9 @@ object ProposalComponent {
         }
       }
 
-      <.article()(
+      <.article(^.className := ProposalStyles.wrapper)(
         <.header()(<.h4()(header(self.props.wrapped.proposal))),
-        <.h3(^.className := ProposalStyles.proposalContent(self.props.wrapped.isHomePage))(
+        <.h3(^.className := Seq(TextStyles.boldText, ProposalStyles.proposalContent(self.props.wrapped.isHomePage)))(
           self.props.wrapped.proposal.content
         ),
         <.VoteComponent(
@@ -76,7 +78,7 @@ object ProposalComponent {
               ^.wrapped := TagsListComponentProps(
                 tags = self.props.wrapped.proposal.tags,
                 handleSelectedTags = _ => (),
-                withShowMoreButton = false
+                withShowMoreTagsButton = false
               )
             )()
           case HomePage =>
@@ -96,6 +98,19 @@ object ProposalComponent {
 object ProposalStyles extends StyleSheet.Inline {
 
   import dsl._
+
+  //TODO: globalize function
+  implicit class NormalizedSize(val baseSize: Int) extends AnyVal {
+    def pxToEm(browserContextSize: Int = 16): Length[Double] = {
+      (baseSize.toFloat / browserContextSize.toFloat).em
+    }
+  }
+
+  val wrapper: StyleA =
+    style(
+      backgroundColor(ThemeStyles.BackgroundColor.white),
+      padding := s"${ThemeStyles.SpacingValue.small.pxToEm().value}"
+    )
 
   val proposalContent: (Boolean) => StyleA = styleF.bool(
     isHomePage =>

@@ -10,35 +10,65 @@ object TextStyles extends StyleSheet.Inline {
 
   //TODO: globalize function
   implicit class NormalizedSize(val baseSize: Int) extends AnyVal {
-    def pxToEm(browserContextSize: Int = 18): Length[Double] = {
+    def pxToEm(browserContextSize: Int = 16): Length[Double] = {
       (baseSize.toFloat / browserContextSize.toFloat).em
     }
   }
 
-  val smallerText: StyleA = style(fontSize(13.pxToEm()), ThemeStyles.MediaQueries.beyondSmall(fontSize(14.pxToEm())))
-  val smallText: StyleA = style(fontSize(13.pxToEm()), ThemeStyles.MediaQueries.beyondSmall(fontSize(16.pxToEm())))
-  val baseText: StyleA = style(fontSize(18.pxToEm()))
-  val veryBigText: StyleA = style(fontSize(44.pxToEm()))
-  val boldText: StyleA = style(ThemeStyles.Font.circularStdBold)
+  val smallerText: StyleA = style(
+    ThemeStyles.Font.circularStdBook,
+    fontSize(13.pxToEm()),
+    ThemeStyles.MediaQueries.beyondSmall(fontSize(14.pxToEm()))
+  )
 
-  val title: StyleA = style(ThemeStyles.Font.tradeGothicLTStd, textTransform.uppercase)
+  val smallText: StyleA = style(
+    ThemeStyles.Font.circularStdBook,
+    fontSize(13.pxToEm()),
+    ThemeStyles.MediaQueries.beyondSmall(fontSize(16.pxToEm()), lineHeight(20.0 / 16.0))
+  )
+
+  val mediumText: StyleA = style(
+    ThemeStyles.Font.circularStdBook,
+    fontSize(15.pxToEm()),
+    lineHeight(20.0 / 15.0),
+    ThemeStyles.MediaQueries.beyondSmall(fontSize(18.pxToEm()), lineHeight(23.0 / 18.0))
+  )
+  val bigText: StyleA = style(
+    ThemeStyles.Font.circularStdBook,
+    fontSize(18.pxToEm()),
+    ThemeStyles.MediaQueries.beyondSmall(fontSize(28.pxToEm()))
+  )
+  val veryBigText: StyleA =
+    style(ThemeStyles.Font.circularStdBook, fontSize(44.pxToEm()), lineHeight(1))
+
+  val boldText: StyleA = style(ThemeStyles.Font.circularStdBold)
+  val intro: StyleA = style(ThemeStyles.Font.playfairDisplayItalic, fontStyle.italic)
+  val title: StyleA =
+    style(ThemeStyles.Font.tradeGothicLTStd, textTransform.uppercase)
+
   val smallerTitle: StyleA =
     style(title, fontSize(15.pxToEm()), ThemeStyles.MediaQueries.beyondSmall(fontSize(20.pxToEm())))
   val smallTitle: StyleA = style(title, fontSize(22.pxToEm()))
   val mediumTitle: StyleA =
     style(title, fontSize(20.pxToEm()), ThemeStyles.MediaQueries.beyondSmall(fontSize(34.pxToEm())))
-  val bigTitle: StyleA = style(title, fontSize(46.pxToEm()))
+  val bigTitle: StyleA =
+    style(title, fontSize(20.pxToEm()), lineHeight(1), ThemeStyles.MediaQueries.beyondSmall(fontSize(46.pxToEm())))
   val veryBigTitle: StyleA =
     style(title, fontSize(30.pxToEm()), ThemeStyles.MediaQueries.beyondMedium(fontSize(60.pxToEm())))
 
   val label: StyleA =
     style(
       display.inlineBlock,
-      padding :=! s"${ThemeStyles.Spacing.smaller.value} ${ThemeStyles.Spacing.smaller.value} ${5.pxToEm().value}",
+      padding :=! s"${8.pxToEm(13).value} ${5.pxToEm(13).value} ${3.pxToEm(13).value}",
       ThemeStyles.Font.tradeGothicLTStd,
-      color(ThemeStyles.TextColor.white),
+      fontSize(13.pxToEm()),
       textTransform.uppercase,
-      backgroundColor(ThemeStyles.TextColor.base)
+      color(ThemeStyles.TextColor.white),
+      backgroundColor(ThemeStyles.TextColor.base),
+      ThemeStyles.MediaQueries.beyondSmall(
+        padding :=! s"${10.pxToEm(18).value} ${10.pxToEm(18).value} ${5.pxToEm(18).value}",
+        fontSize(18.pxToEm())
+      )
     )
 
 }

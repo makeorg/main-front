@@ -10,7 +10,7 @@ object MakeStyles extends StyleSheet.Inline {
 
   //TODO: globalize function
   implicit class NormalizedSize(val baseSize: Int) extends AnyVal {
-    def pxToEm(browserContextSize: Int = 18): Length[Double] = {
+    def pxToEm(browserContextSize: Int = 16): Length[Double] = {
       (baseSize.toFloat / browserContextSize.toFloat).em
     }
   }
@@ -90,9 +90,9 @@ object MakeStyles extends StyleSheet.Inline {
   }
 
   object Button {
-    val default: StyleA = style(addClassNames(BulmaStyles.Element.button.htmlClass, "make-button-default"))
-    val facebook: StyleA = style(addClassNames(BulmaStyles.Element.button.htmlClass, "make-button-facebook"))
-    val google: StyleA = style(addClassNames(BulmaStyles.Element.button.htmlClass, "make-button-google"))
+    val default: StyleA = style(addClassNames("make-button-default"))
+    val facebook: StyleA = style(addClassNames("make-button-facebook"))
+    val google: StyleA = style(addClassNames("make-button-google"))
     val baseMake: StyleA = style(boxShadow := "0, 1px, 1px, 0, rgba(0, 0, 0, 0.5)")
   }
 

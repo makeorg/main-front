@@ -8,9 +8,12 @@ import io.github.shogowada.scalajs.reactjs.events.SyntheticEvent
 import org.make.front.components.Tags.TagComponent.TagComponentProps
 import org.make.front.components.presentationals._
 import org.make.front.facades.I18n
+import org.make.front.facades.Unescape.unescape
 import org.make.front.models.Tag
+import org.make.front.styles.{TagStyles, ThemeStyles}
 
 import scalacss.DevDefaults._
+import scalacss.internal.Length
 import scalacss.internal.mutable.StyleSheet
 
 /**
@@ -39,7 +42,7 @@ object TagsListComponent {
   // TODO make variable dynamic / configurable
   private val showMaxCount: Int = 6
 
-  case class TagsListComponentProps(tags: Seq[Tag], handleSelectedTags: (Tag) => Unit, withShowMoreButton: Boolean)
+  case class TagsListComponentProps(tags: Seq[Tag], handleSelectedTags: (Tag) => Unit, withShowMoreTagsButton: Boolean)
 
   case class TagsListComponentState(showMore: Boolean)
 
@@ -59,24 +62,27 @@ object TagsListComponent {
               self.props.wrapped.tags.take(showMaxCount)
             }
 
-          <.div()(
-            <.ul()(
-              tagsList.map(
-                tag =>
-                  <.li()(
-                    <.TagComponent(
-                      ^.wrapped := TagComponentProps(
-                        tag = tag,
-                        handleSelectedTags = self.props.wrapped.handleSelectedTags
-                      )
-                    )()
-                )
+          <.ul(^.className := TagsListStyles.tagList)(
+            tagsList.map(
+              tag =>
+                <.li(^.className := TagsListStyles.tagListItem)(
+                  <.TagComponent(
+                    ^.wrapped := TagComponentProps(
+                      tag = tag,
+                      handleSelectedTags = self.props.wrapped.handleSelectedTags
+                    )
+                  )()
               )
             ),
-            if (self.props.wrapped.withShowMoreButton) {
-              <.button(^.onClick := onClickShowMore(self))(I18n.t("content.tag.showMore"))
+            if (self.props.wrapped.withShowMoreTagsButton) {
+              <.li(^.className := TagsListStyles.tagListItem)(
+                <.button(
+                  ^.className := Seq(TagStyles.basic, TagsListStyles.showMoreTags),
+                  ^.onClick := onClickShowMoreTags(self)
+                )(unescape(I18n.t("content.tag.showMore")))
+              )
             },
-            <.style()(TagStyles.render[String])
+            <.style()(TagsListStyles.render[String])
           )
         }
       )
@@ -86,7 +92,7 @@ object TagsListComponent {
     *
     * @param self Self[TagsListComponentProps, State]
     */
-  private def onClickShowMore(self: Self[TagsListComponentProps, TagsListComponentState]) = (e: SyntheticEvent) => {
+  private def onClickShowMoreTags(self: Self[TagsListComponentProps, TagsListComponentState]) = (e: SyntheticEvent) => {
     e.preventDefault()
     self.setState(_.copy(showMore = !self.state.showMore))
   }
@@ -96,9 +102,22 @@ object TagsListStyles extends StyleSheet.Inline {
 
   import dsl._
 
+  //TODO: globalize function
+  implicit class NormalizedSize(val baseSize: Int) extends AnyVal {
+    def pxToEm(browserContextSize: Int = 16): Length[Double] = {
+      (baseSize.toFloat / browserContextSize.toFloat).em
+    }
+  }
+
   val tagList: StyleA =
-    style(lineHeight(0))
+    style(lineHeight(0), margin :=! s"-${5.pxToEm().value} -${5.pxToEm().value} 0")
 
   val tagListItem: StyleA =
-    style(display.inlineBlock, margin :=! "0rem 1rem 0.5rem 0")
+    style(display.inlineBlock, verticalAlign.middle, margin(5.pxToEm()))
+
+  val showMoreTags: StyleA = style(
+    color :=! ThemeStyles.TextColor.white,
+    backgroundColor :=! ThemeStyles.ThemeColor.primary,
+    (&.before)(borderRightColor :=! ThemeStyles.ThemeColor.primary)
+  )
 }

@@ -11,7 +11,7 @@ import org.make.front.components.RecoverPassword.PasswordRecoveryStyles
 import org.make.front.components.presentationals._
 import org.make.front.facades.Translate.TranslateVirtualDOMElements
 import org.make.front.facades.{I18n, Replacements}
-import org.make.front.styles.{BulmaStyles, FontAwesomeStyles, MakeStyles}
+import org.make.front.styles.{FontAwesomeStyles, MakeStyles}
 import org.scalajs.dom.raw.HTMLInputElement
 
 import scalacss.DevDefaults._
@@ -45,28 +45,20 @@ object PasswordResetComponent {
       },
       render = self => {
         <.div(^.className := PasswordResetStyles.container)(
-          <.div(^.className := Seq(PasswordResetStyles.content, BulmaStyles.Grid.Columns.columns))(
-            if (self.state.success) {
-              resetPasswordSuccessElement(self)
-            } else if (self.state.isValidResetToken) {
-              resetFormElement(self)
-            } else {
-              invalidResetTokenElement(self)
-            }
-          ),
+          <.div(^.className := Seq(PasswordResetStyles.content))(if (self.state.success) {
+            resetPasswordSuccessElement(self)
+          } else if (self.state.isValidResetToken) {
+            resetFormElement(self)
+          } else {
+            invalidResetTokenElement(self)
+          }),
           <.style()(PasswordResetStyles.render[String])
         )
       }
     )
 
   def resetFormElement(self: Self[PasswordResetProps, PasswordResetState]): ReactElement = {
-    <.div(
-      ^.className := Seq(
-        BulmaStyles.Grid.Columns.column,
-        BulmaStyles.Grid.Columns.is8,
-        BulmaStyles.Grid.Offset.isOffset2
-      )
-    )(
+    <.div()(
       <.Translate(^.className := MakeStyles.Modal.title, ^.value := "form.passwordReset.title")(),
       <.div(^.className := PasswordResetStyles.terms)(I18n.t("form.passwordReset.description")),
       <.form(^.onSubmit := handleSubmit(self), ^.novalidate := true)(
@@ -98,23 +90,11 @@ object PasswordResetComponent {
   }
 
   def invalidResetTokenElement(self: Self[PasswordResetProps, PasswordResetState]): ReactElement = {
-    <.div(
-      ^.className := Seq(
-        BulmaStyles.Grid.Columns.column,
-        BulmaStyles.Grid.Columns.is8,
-        BulmaStyles.Grid.Offset.isOffset2
-      )
-    )(<.Translate(^.className := MakeStyles.Modal.title, ^.value := "form.passwordReset.failed.title")())
+    <.div()(<.Translate(^.className := MakeStyles.Modal.title, ^.value := "form.passwordReset.failed.title")())
   }
 
   def resetPasswordSuccessElement(self: Self[PasswordResetProps, PasswordResetState]): ReactElement = {
-    <.div(
-      ^.className := Seq(
-        BulmaStyles.Grid.Columns.column,
-        BulmaStyles.Grid.Columns.is8,
-        BulmaStyles.Grid.Offset.isOffset2
-      )
-    )(
+    <.div()(
       <.Translate(^.className := MakeStyles.Modal.title, ^.value := "form.passwordReset.success.title")(),
       <.div(^.className := PasswordResetStyles.terms)(I18n.t("form.passwordReset.success.description"))
     )

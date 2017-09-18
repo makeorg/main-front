@@ -10,8 +10,7 @@ module.exports = require('./scalajs.webpack.config');
 module.exports.module = module.exports.module || {};
 
 module.exports.entry = {
-    "make-app": path.join(__dirname, "opt-launcher.js"),
-    "main": path.join(__dirname, "main.sass")
+    "make-app": path.join(__dirname, "opt-launcher.js")
 };
 
 module.exports.output = {
@@ -36,8 +35,8 @@ module.exports.plugins = [
 
 module.exports.module.rules = [
     {
-        test: /\.sass$/,
-        loader: ExtractTextPlugin.extract(['css-loader', 'sass-loader'])
+        test: /\.css$/,
+        loader: ExtractTextPlugin.extract(['css-loader'])
     },
     {
         "test": new RegExp("\\.js$"),

@@ -12,7 +12,7 @@ object InputStyles extends StyleSheet.Inline {
 
   //TODO: globalize function
   implicit class NormalizedSize(val baseSize: Int) extends AnyVal {
-    def pxToEm(browserContextSize: Int = 18): Length[Double] = {
+    def pxToEm(browserContextSize: Int = 16): Length[Double] = {
       (baseSize.toFloat / browserContextSize.toFloat).em
     }
   }
@@ -50,7 +50,7 @@ object InputStyles extends StyleSheet.Inline {
         fontSize(13.pxToEm()),
         ThemeStyles.MediaQueries.beyondSmall(minHeight(38.pxToEm(16)), fontSize(16.pxToEm())),
         lineHeight.normal,
-        fontFamily.inherit,
+        ThemeStyles.Font.circularStdBook,
         border.none,
         background := "none",
         placeholder(color(ThemeStyles.TextColor.lighter))
@@ -63,7 +63,7 @@ object InputStyles extends StyleSheet.Inline {
         fontSize(13.pxToEm()),
         ThemeStyles.MediaQueries
           .beyondSmall(minHeight(38.pxToEm(16)), paddingTop(9.pxToEm(16)), fontSize(16.pxToEm())),
-        fontFamily.inherit,
+        ThemeStyles.Font.circularStdBook,
         border.none,
         background := "none",
         resize.none
@@ -77,8 +77,8 @@ object InputStyles extends StyleSheet.Inline {
       ThemeStyles.MediaQueries.beyondSmall(paddingLeft(50.pxToEm())),
       (&.before)(
         position.absolute,
-        top(0.%%),
-        left(0.%%),
+        top(`0`),
+        left(`0`),
         lineHeight(28.pxToEm(13)),
         width(30.pxToEm(13)),
         fontSize(13.pxToEm()),
@@ -114,6 +114,6 @@ object InputStyles extends StyleSheet.Inline {
     )
 
   val errorMessage: StyleA =
-    style(display.block, textAlign.left, color(ThemeStyles.TextColor.danger))
+    style(display.block, ThemeStyles.Font.circularStdBook, textAlign.left, color(ThemeStyles.TextColor.danger))
 
 }

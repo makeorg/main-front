@@ -84,7 +84,7 @@ object MainFooterStyles extends StyleSheet.Inline {
 
   //TODO: globalize function
   implicit class NormalizedSize(val baseSize: Int) extends AnyVal {
-    def pxToEm(browserContextSize: Int = 18): Length[Double] = {
+    def pxToEm(browserContextSize: Int = 16): Length[Double] = {
       (baseSize.toFloat / browserContextSize.toFloat).em
     }
   }
@@ -108,15 +108,19 @@ object MainFooterStyles extends StyleSheet.Inline {
   val menu: StyleA =
     style(
       textAlign.right,
-      margin :=! s"${ThemeStyles.Spacing.medium.value} 0",
-      ThemeStyles.MediaQueries.beyondMedium(margin :=! s"0 -${ThemeStyles.Spacing.small.value}")
+      margin :=! s"${ThemeStyles.SpacingValue.medium.pxToEm().value} 0",
+      ThemeStyles.MediaQueries.beyondMedium(margin :=! s"0 -${ThemeStyles.SpacingValue.small.pxToEm().value}")
     )
 
   val menuItem: StyleA =
     style(
-      margin :=! s"${ThemeStyles.Spacing.small.value} 0",
+      margin :=! s"${ThemeStyles.SpacingValue.small.pxToEm().value} 0",
       ThemeStyles.MediaQueries
-        .beyondMedium(display.inlineBlock, verticalAlign.baseline, margin :=! s"${ThemeStyles.Spacing.small.value}")
+        .beyondMedium(
+          display.inlineBlock,
+          verticalAlign.baseline,
+          margin :=! s"${ThemeStyles.SpacingValue.small.pxToEm().value}"
+        )
     )
 
   val menuItemLink: StyleA =
@@ -126,6 +130,6 @@ object MainFooterStyles extends StyleSheet.Inline {
     style(color(ThemeStyles.ThemeColor.primary))
 
   val menuItemIcon: StyleA =
-    style(marginRight(ThemeStyles.Spacing.smaller), verticalAlign.baseline)
+    style(marginRight(ThemeStyles.SpacingValue.smaller.pxToEm()), verticalAlign.baseline)
 
 }
