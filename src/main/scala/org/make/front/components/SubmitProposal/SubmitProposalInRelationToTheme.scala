@@ -87,7 +87,6 @@ object SubmitProposalInRelationToThemeStyles extends StyleSheet.Inline {
       ThemeStyles.MediaQueries.beyondMedium(marginBottom(10.pxToEm(60)), lineHeight(83.pxToEm(60)))
     )
 
-  /** TODO: pseudo class to customise placeholder */
   def gradientColor(from: String, to: String): StyleA =
     style(
       background := s"-webkit-linear-gradient(94deg, $from, $to)",

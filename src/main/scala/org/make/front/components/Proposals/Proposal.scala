@@ -3,17 +3,18 @@ package org.make.front.components.Proposals
 import io.github.shogowada.scalajs.reactjs.React
 import io.github.shogowada.scalajs.reactjs.VirtualDOM._
 import io.github.shogowada.scalajs.reactjs.classes.ReactClass
-import io.github.shogowada.scalajs.reactjs.elements.ReactElement
 import org.make.front.components.Tags.TagsListComponent.TagsListComponentProps
 import org.make.front.components.Vote.VoteComponent
 import org.make.front.components.presentationals._
-import org.make.front.facades.I18n
 import org.make.front.facades.Translate.TranslateVirtualDOMElements
+import org.make.front.facades.Unescape.unescape
+import org.make.front.facades.{I18n, Replacements}
 import org.make.front.models.{Proposal, Theme}
 import org.make.front.styles.{TextStyles, ThemeStyles}
 
 import scalacss.DevDefaults._
 import scalacss.internal.Length
+import scalacss.internal.mutable.StyleSheet
 
 trait ProposalLocation
 
@@ -30,40 +31,60 @@ object ProposalComponent {
 
   val reactClass: ReactClass =
     React.createClass[ProposalProps, Unit](render = (self) => {
-      def header(proposal: Proposal): ReactElement = {
+
+      def infos(proposal: Proposal): String = {
+
         (proposal.author.age, proposal.author.postalCode) match {
+
           case (Some(age), Some(postalCode)) =>
-            <.Translate(
-              ^.value := "content.proposal.fullHeader",
-              ^("firstName") := proposal.author.firstname.getOrElse(I18n.t("anonymous")),
-              ^("age") := s"${age.toString}",
-              ^("postalCode") := s"$postalCode"
-            )()
+            unescape(
+              I18n.t(
+                "content.proposal.fullHeader",
+                Replacements(
+                  ("firstName", proposal.author.firstname.getOrElse(I18n.t("anonymous"))),
+                  ("age", s"${age.toString}"),
+                  ("postalCode", s"$postalCode")
+                )
+              )
+            )
+
           case (Some(age), None) =>
-            <.Translate(
-              ^.value := "content.proposal.ageHeader",
-              ^("firstName") := proposal.author.firstname.getOrElse(I18n.t("anonymous")),
-              ^("age") := s"${age.toString}"
-            )()
+            unescape(
+              I18n.t(
+                "content.proposal.ageHeader",
+                Replacements(
+                  ("firstName", proposal.author.firstname.getOrElse(I18n.t("anonymous"))),
+                  ("age", s"${age.toString}")
+                )
+              )
+            )
+
           case (None, Some(postalCode)) =>
-            <.Translate(
-              ^.value := "content.proposal.postalCodeHeader",
-              ^("firstName") := proposal.author.firstname.getOrElse(I18n.t("anonymous")),
-              ^("postalCode") := s"$postalCode"
-            )()
+            unescape(
+              I18n.t(
+                "content.proposal.postalCodeHeader",
+                Replacements(
+                  ("firstName", proposal.author.firstname.getOrElse(I18n.t("anonymous"))),
+                  ("postalCode", s"$postalCode")
+                )
+              )
+            )
+
           case (None, None) =>
-            <.Translate(
-              ^.value := "content.proposal.tinyHeader",
-              ^("firstName") := proposal.author.firstname.getOrElse(I18n.t("anonymous"))
-            )()
+            unescape(
+              I18n.t(
+                "content.proposal.postalCodeHeader",
+                Replacements(("firstName", proposal.author.firstname.getOrElse(I18n.t("anonymous"))))
+              )
+            )
         }
       }
 
       <.article(^.className := ProposalStyles.wrapper)(
-        <.header()(<.h4()(header(self.props.wrapped.proposal))),
-        <.h3(^.className := Seq(TextStyles.boldText, ProposalStyles.proposalContent(self.props.wrapped.isHomePage)))(
-          self.props.wrapped.proposal.content
+        <.header(^.className := ProposalStyles.header)(
+          <.h4(^.className := Seq(TextStyles.smallText, ProposalStyles.infos))(infos(self.props.wrapped.proposal))
         ),
+        <.h3(^.className := Seq(TextStyles.mediumText, TextStyles.boldText))(self.props.wrapped.proposal.content),
         <.VoteComponent(
           ^.wrapped := VoteComponent.VoteProps(
             voteAgreeStats = self.props.wrapped.proposal.voteAgree,
@@ -109,12 +130,12 @@ object ProposalStyles extends StyleSheet.Inline {
   val wrapper: StyleA =
     style(backgroundColor(ThemeStyles.BackgroundColor.white), padding(ThemeStyles.SpacingValue.small.pxToEm()))
 
-  val proposalContent: (Boolean) => StyleA = styleF.bool(
-    isHomePage =>
-      if (isHomePage) {
-        styleS()
-      } else {
-        styleS()
-    }
+  val infos: StyleA =
+    style(color(ThemeStyles.TextColor.light))
+
+  val header: StyleA = style(
+    paddingBottom :=! ThemeStyles.SpacingValue.small.pxToEm(),
+    borderBottom :=! s"0.1rem solid ${ThemeStyles.BorderColor.light.value}"
   )
+
 }

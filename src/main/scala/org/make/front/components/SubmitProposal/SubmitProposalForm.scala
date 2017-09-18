@@ -72,7 +72,7 @@ object SubmitProposalFormComponent {
             <.p(^.className := InputStyles.errorMessage)(unescape(I18n.t("form.proposal.errorSubmitFailed")))
           },
           <.div(^.className := SubmitProposalFormStyles.notice)(
-            <.p()(unescape(I18n.t("content.proposal.help"))),
+            <.p(^.className := TextStyles.mediumText)(unescape(I18n.t("content.proposal.help"))),
             <.p(^.className := TextStyles.smallText)(unescape(I18n.t("content.proposal.subHelp")))
           ),
           <.button(
