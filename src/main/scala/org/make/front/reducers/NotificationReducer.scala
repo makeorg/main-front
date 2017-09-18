@@ -1,19 +1,19 @@
 package org.make.front.reducers
 
 import org.make.front.actions._
-import org.make.front.models.{Notification, NotificationLevel}
+import org.make.front.models.{Notification => NotificationModel, NotificationLevel => NotificationLevelModel}
 
 object NotificationReducer {
 
-  def reduce(maybeNotifications: Option[Seq[Notification]], action: Any): Seq[Notification] = {
+  def reduce(maybeNotifications: Option[Seq[NotificationModel]], action: Any): Seq[NotificationModel] = {
     val notifications = maybeNotifications.getOrElse(Seq.empty)
     action match {
       case action: NotifyAction =>
         addNotification(generateIdentifier(action), notifications, action match {
-          case _: NotifyInfo    => NotificationLevel.Info
-          case _: NotifyError   => NotificationLevel.Error
-          case _: NotifyAlert   => NotificationLevel.Alert
-          case _: NotifySuccess => NotificationLevel.Success
+          case _: NotifyInfo    => NotificationLevelModel.Info
+          case _: NotifyError   => NotificationLevelModel.Error
+          case _: NotifyAlert   => NotificationLevelModel.Alert
+          case _: NotifySuccess => NotificationLevelModel.Success
         }, action.message, action.title, action.autoDismiss)
       case action: DismissNotification =>
         dismissNotification(notifications, action.identifier)
@@ -26,16 +26,21 @@ object NotificationReducer {
   }
 
   private def addNotification(identifier: Int,
-                              notifications: Seq[Notification],
-                              level: NotificationLevel.Value,
+                              notifications: Seq[NotificationModel],
+                              level: NotificationLevelModel.Value,
                               message: String,
                               title: Option[String],
-                              autoDismiss: Option[Int]): Seq[Notification] = {
+                              autoDismiss: Option[Int]): Seq[NotificationModel] = {
 
-    notifications :+ Notification(identifier = identifier, notificationLevel = level, message = message, title = title)
+    notifications :+ NotificationModel(
+      identifier = identifier,
+      notificationLevel = level,
+      message = message,
+      title = title
+    )
   }
 
-  private def dismissNotification(notifications: Seq[Notification], identifier: Int): Seq[Notification] = {
+  private def dismissNotification(notifications: Seq[NotificationModel], identifier: Int): Seq[NotificationModel] = {
     notifications.filter(_.identifier != identifier)
   }
 }

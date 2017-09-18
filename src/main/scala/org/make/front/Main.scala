@@ -7,6 +7,7 @@ import io.github.shogowada.scalajs.reactjs.redux.devtools.ReduxDevTools
 import io.github.shogowada.scalajs.reactjs.redux.{Redux, Store}
 import io.github.shogowada.scalajs.reactjs.router.dom.RouterDOM._
 import org.make.front.actions.{LoadThemes, ReloadUserAction}
+import org.make.front.components.AppState
 import org.make.front.components.presentationals.RichVirtualDOMElements
 import org.make.front.facades.{Configuration, I18n, NativeReactModal}
 import org.make.front.middlewares.{
@@ -15,7 +16,6 @@ import org.make.front.middlewares.{
   PoliticalActionMiddleware,
   ThemeMiddleware
 }
-import org.make.front.models.AppState
 import org.make.front.reducers.Reducer
 import org.scalajs.dom
 

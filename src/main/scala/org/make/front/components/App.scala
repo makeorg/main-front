@@ -9,7 +9,7 @@ import org.make.front.styles._
 import scalacss.DevDefaults._
 import scalacss.internal.mutable.StyleSheet
 
-object AppComponent {
+object App {
 
   lazy val reactClass = WithRouter(
     React.createClass[Unit, Unit](

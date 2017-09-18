@@ -3,6 +3,7 @@ package org.make.front.models
 import io.circe.{Decoder, Encoder, Json}
 import io.github.shogowada.scalajs.reactjs.redux.Store
 import org.make.core.StringValue
+import org.make.front.components.AppState
 
 final case class GradientColor(from: String, to: String)
 

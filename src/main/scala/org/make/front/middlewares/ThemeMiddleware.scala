@@ -3,6 +3,7 @@ package org.make.front.middlewares
 import io.github.shogowada.scalajs.reactjs.redux.Redux.Dispatch
 import io.github.shogowada.scalajs.reactjs.redux.Store
 import org.make.front.actions.{LoadThemes, SetThemes}
+import org.make.front.components.AppState
 import org.make.front.models._
 
 object ThemeMiddleware {

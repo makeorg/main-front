@@ -3,7 +3,7 @@ package org.make.front.middlewares
 import io.github.shogowada.scalajs.reactjs.redux.Redux.Dispatch
 import io.github.shogowada.scalajs.reactjs.redux.Store
 import org.make.front.actions.{DismissNotification, NotifyAction}
-import org.make.front.models.AppState
+import org.make.front.components.AppState
 import org.make.front.reducers.NotificationReducer
 
 import scala.scalajs.js

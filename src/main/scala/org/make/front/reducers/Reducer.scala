@@ -1,6 +1,6 @@
 package org.make.front.reducers
 
-import org.make.front.models.AppState
+import org.make.front.components.AppState
 
 object Reducer {
   def reduce(maybeState: Option[AppState], action: Any): AppState = {

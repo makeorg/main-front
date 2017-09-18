@@ -1,7 +1,7 @@
 package org.make.front.reducers
 
 import org.make.front.actions.{DismissLoginRequired, LoggedInAction, LoginRequired}
-import org.make.front.models.TechnicalState
+import org.make.front.components.TechnicalState
 
 object TechnicalStateReducer {
 
@@ -11,7 +11,8 @@ object TechnicalStateReducer {
       showLoginModal = reduceShowLoginModal(maybeTechnicalState.map(_.showLoginModal), action),
       useProposalLoginView = reduceProposalLoginView(maybeTechnicalState.map(_.useProposalLoginView), action),
       pendingProposalAction = ProposalReducer.reduce(maybeTechnicalState.flatMap(_.pendingProposalAction), action),
-      passwordRecoveryModalIsOpen = PasswordRecoveryReducer.reduce(maybeTechnicalState.map(_.passwordRecoveryModalIsOpen), action)
+      passwordRecoveryModalIsOpen =
+        PasswordRecoveryReducer.reduce(maybeTechnicalState.map(_.passwordRecoveryModalIsOpen), action)
     )
   }
 
