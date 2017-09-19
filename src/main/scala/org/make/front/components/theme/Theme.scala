@@ -3,7 +3,7 @@ package org.make.front.components.theme
 import io.github.shogowada.scalajs.reactjs.React
 import io.github.shogowada.scalajs.reactjs.VirtualDOM._
 import io.github.shogowada.scalajs.reactjs.classes.ReactClass
-import org.make.front.components.presentationals._
+import org.make.front.components.Components._
 import org.make.front.components.proposals.ProposalsListContainer.MatrixWrappedProps
 import org.make.front.components.theme.ThemeHeader.ThemeHeaderProps
 import org.make.front.models.{Theme => ThemeModel}

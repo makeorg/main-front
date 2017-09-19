@@ -5,7 +5,7 @@ import io.github.shogowada.scalajs.reactjs.React.Self
 import io.github.shogowada.scalajs.reactjs.VirtualDOM.{<, _}
 import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import io.github.shogowada.scalajs.reactjs.events.SyntheticEvent
-import org.make.front.components.presentationals._
+import org.make.front.components.Components._
 import org.make.front.models.{Tag => TagModel}
 import org.make.front.styles.TagStyles
 

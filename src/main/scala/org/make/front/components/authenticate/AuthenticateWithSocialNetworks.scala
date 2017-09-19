@@ -1,10 +1,10 @@
 package org.make.front.components.authenticate
 
 import io.github.shogowada.scalajs.reactjs.React
-import io.github.shogowada.scalajs.reactjs.React.Self
 import io.github.shogowada.scalajs.reactjs.VirtualDOM._
 import io.github.shogowada.scalajs.reactjs.classes.ReactClass
-import org.make.front.components.presentationals._
+import org.make.client.UnauthorizedHttpException
+import org.make.front.components.Components._
 import org.make.front.facades.I18n
 import org.make.front.facades.ReactFacebookLogin.{
   ReactFacebookLoginVirtualDOMAttributes,
@@ -17,22 +17,24 @@ import org.make.front.facades.ReactGoogleLogin.{
 import org.make.front.styles._
 import org.scalajs.dom.experimental.Response
 
+import scala.concurrent.Future
+import scala.util.{Failure, Success}
 import scalacss.DevDefaults._
 import scalacss.internal.{Length, StyleA}
 import scalacss.internal.mutable.StyleSheet
 
+import scala.concurrent.ExecutionContext.Implicits.global
+
 object AuthenticateWithSocialNetworks {
 
-  case class AuthenticateWithSocialNetworksProps(
-    intro: String,
-    note: String,
-    isConnected: Boolean,
-    signInGoogle: (Response, Self[AuthenticateWithSocialNetworksProps, AuthenticateWithSocialNetworksState])   => Unit,
-    signInFacebook: (Response, Self[AuthenticateWithSocialNetworksProps, AuthenticateWithSocialNetworksState]) => Unit,
-    googleAppId: String,
-    facebookAppId: String,
-    errorMessages: Seq[String]
-  )
+  case class AuthenticateWithSocialNetworksProps(intro: String,
+                                                 note: String,
+                                                 isConnected: Boolean,
+                                                 signInGoogle: (Response)   => Future[_],
+                                                 signInFacebook: (Response) => Future[_],
+                                                 googleAppId: String,
+                                                 facebookAppId: String,
+                                                 errorMessages: Seq[String])
 
   case class AuthenticateWithSocialNetworksState(errorMessages: Seq[String] = Seq.empty)
 
@@ -42,16 +44,27 @@ object AuthenticateWithSocialNetworks {
         AuthenticateWithSocialNetworksState(Seq.empty)
       },
       render = { self =>
-        def facebookCallbackResponse()(response: Response): Unit = {
-          self.setState(self.state.copy(errorMessages = Seq.empty))
-          self.props.wrapped.signInFacebook(response, self)
-        }
-        def googleCallbackResponse()(response: Response): Unit = {
-          self.setState(self.state.copy(errorMessages = Seq.empty))
-          self.props.wrapped.signInGoogle(response, self)
+        // @toDo: manage specific errors
+        def handleCallback(result: Future[_]): Unit = {
+          result.onComplete {
+            case Success(_) => self.setState(AuthenticateWithSocialNetworksState())
+            case Failure(UnauthorizedHttpException) =>
+              self.setState(state => state.copy(errorMessages = Seq("form.login.errorAuthenticationFailed")))
+            case Failure(_) => self.setState(state => state.copy(errorMessages = Seq("form.login.errorSignInFailed")))
+          }
         }
 
-        def googleCallbackFailure()(response: Response): Unit = {
+        val facebookCallbackResponse: (Response) => Unit = { response =>
+          self.setState(self.state.copy(errorMessages = Seq.empty))
+          handleCallback(self.props.wrapped.signInFacebook(response))
+        }
+
+        val googleCallbackResponse: (Response) => Unit = { response =>
+          self.setState(self.state.copy(errorMessages = Seq.empty))
+          handleCallback(self.props.wrapped.signInGoogle(response))
+        }
+
+        val googleCallbackFailure: (Response) => Unit = { _ =>
           self.setState(self.state.copy(errorMessages = Seq(I18n.t("form.login.errorAuthenticationFailed"))))
         }
 
@@ -64,7 +77,7 @@ object AuthenticateWithSocialNetworks {
               ^.appId := self.props.wrapped.facebookAppId,
               ^.scope := "public_profile, email",
               ^.fields := "first_name, last_name, email, name, picture",
-              ^.callback := facebookCallbackResponse(),
+              ^.callback := facebookCallbackResponse,
               ^.cssClass := Seq(
                 CTAStyles.basic,
                 CTAStyles.basicOnButton,
@@ -78,8 +91,8 @@ object AuthenticateWithSocialNetworks {
             <.ReactGoogleLogin(
               ^.clientID := self.props.wrapped.googleAppId,
               ^.scope := "profile email",
-              ^.onSuccess := googleCallbackResponse(),
-              ^.onFailure := googleCallbackFailure(),
+              ^.onSuccess := googleCallbackResponse,
+              ^.onFailure := googleCallbackFailure,
               ^.isSignIn := self.props.wrapped.isConnected,
               ^.className := Seq(
                 CTAStyles.basic,

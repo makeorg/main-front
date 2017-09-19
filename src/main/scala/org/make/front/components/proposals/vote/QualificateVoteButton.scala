@@ -4,7 +4,7 @@ import io.github.shogowada.scalajs.reactjs.React
 import io.github.shogowada.scalajs.reactjs.VirtualDOM.{<, _}
 import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import io.github.shogowada.scalajs.reactjs.events.SyntheticEvent
-import org.make.front.components.presentationals._
+import org.make.front.components.Components._
 import org.make.front.facades.I18n
 import org.make.front.models.{Qualification => QualificationModel, Vote => VoteModel}
 import org.make.front.styles.{TextStyles, ThemeStyles}

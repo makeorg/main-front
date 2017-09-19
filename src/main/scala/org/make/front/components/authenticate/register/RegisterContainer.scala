@@ -1,14 +1,17 @@
 package org.make.front.components.authenticate.register
 
+import io.github.shogowada.scalajs.reactjs.React.Props
 import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import io.github.shogowada.scalajs.reactjs.redux.{ContainerComponentFactory, ReactRedux}
 import org.make.front.actions.LoggedInAction
+import org.make.front.components.AppState
 import org.make.front.components.authenticate.register.RegisterWithEmail.{RegisterProps, RegisterState}
 import org.make.front.facades.Configuration
 import org.make.front.models.{User => UserModel}
 import org.make.services.user.UserServiceComponent
 
 import scala.concurrent.Future
+import scala.concurrent.ExecutionContext.Implicits.global
 
 object RegisterContainer extends UserServiceComponent {
 
@@ -34,8 +37,8 @@ object RegisterContainer extends UserServiceComponent {
         }
     }
 
-    (_, _) =>
-      RegisterProps(onSubmit = register())
+    (_: AppState, _: Props[Unit]) =>
+      RegisterProps(register = register())
   }
 
   val registerWithEmailReactClass: ReactClass = selector(RegisterWithEmail.reactClass)

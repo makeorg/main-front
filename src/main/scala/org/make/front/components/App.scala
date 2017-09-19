@@ -3,7 +3,7 @@ package org.make.front.components
 import io.github.shogowada.scalajs.reactjs.React
 import io.github.shogowada.scalajs.reactjs.VirtualDOM._
 import io.github.shogowada.scalajs.reactjs.router.WithRouter
-import org.make.front.components.presentationals.RichVirtualDOMElements
+import org.make.front.components.Components.RichVirtualDOMElements
 import org.make.front.styles._
 
 import scalacss.DevDefaults._
@@ -26,6 +26,7 @@ object App {
           <.MainHeaderComponent.empty,
           <.NotificationContainerComponent.empty,
           <.ContainerComponent.empty,
+          <.RegisterWithEmailComponent.empty,
           <.NavInThemesContainerComponent.empty,
           <.MainFooterComponent.empty,
           <.ConnectUserContainerComponent.empty,

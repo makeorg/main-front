@@ -7,7 +7,7 @@ import io.github.shogowada.scalajs.reactjs.React.Self
 import io.github.shogowada.scalajs.reactjs.VirtualDOM._
 import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import io.github.shogowada.statictags.Element
-import org.make.front.components.presentationals._
+import org.make.front.components.Components._
 import org.make.front.components.proposals.proposal.ProposalWithTags.ProposalWithTagsProps
 import org.make.front.components.tags.FilterByTags.FilterByTagsProps
 import org.make.front.facades.I18n

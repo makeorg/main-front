@@ -6,7 +6,7 @@ import io.github.shogowada.scalajs.reactjs.VirtualDOM.{<, _}
 import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import io.github.shogowada.scalajs.reactjs.events.{FormSyntheticEvent, SyntheticEvent}
 import org.make.core.validation.{ConstraintError, EmailConstraint}
-import org.make.front.components.presentationals._
+import org.make.front.components.Components._
 import org.make.front.facades.I18n
 import org.make.front.facades.ReactModal._
 import org.make.front.facades.Translate.TranslateVirtualDOMElements

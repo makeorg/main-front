@@ -3,7 +3,7 @@ package org.make.front.components.modals
 import io.github.shogowada.scalajs.reactjs.React
 import io.github.shogowada.scalajs.reactjs.VirtualDOM._
 import io.github.shogowada.scalajs.reactjs.classes.ReactClass
-import org.make.front.components.presentationals._
+import org.make.front.components.Components._
 import org.make.front.facades.ReactModal.{ReactModalVirtualDOMAttributes, ReactModalVirtualDOMElements}
 import org.make.front.styles.{LayoutRulesStyles, ThemeStyles}
 

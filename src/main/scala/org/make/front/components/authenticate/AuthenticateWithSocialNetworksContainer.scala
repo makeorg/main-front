@@ -1,15 +1,10 @@
 package org.make.front.components.authenticate
 
-import io.github.shogowada.scalajs.reactjs.React.Self
 import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import io.github.shogowada.scalajs.reactjs.redux.ReactRedux
-import org.make.client.UnauthorizedHttpException
 import org.make.front.actions.LoggedInAction
 import org.make.front.components.AppState
-import org.make.front.components.authenticate.AuthenticateWithSocialNetworks.{
-  AuthenticateWithSocialNetworksProps,
-  AuthenticateWithSocialNetworksState
-}
+import org.make.front.components.authenticate.AuthenticateWithSocialNetworks.AuthenticateWithSocialNetworksProps
 import org.make.front.facades.Configuration
 import org.make.front.facades.ReactFacebookLogin.FacebookAuthResponse
 import org.make.front.facades.ReactGoogleLogin.GoogleAuthResponse
@@ -30,52 +25,22 @@ object AuthenticateWithSocialNetworksContainer extends UserServiceComponent {
   val reactClass: ReactClass = ReactRedux
     .connectAdvanced[AppState, AuthenticateWithSocialNetworksContainerProps, AuthenticateWithSocialNetworksProps] {
       dispatch =>
-        def signInGoogle(
-          response: Response,
-          child: Self[AuthenticateWithSocialNetworksProps, AuthenticateWithSocialNetworksState]
-        ): Unit = {
-          org.scalajs.dom.console.log("Just before doing the call...")
+        def signInGoogle(response: Response): Future[UserModel] = {
+          handleFutureApiSignInResponse(userService.loginGoogle(response.asInstanceOf[GoogleAuthResponse].tokenId))
+        }
+
+        def signInFacebook(response: Response): Future[UserModel] = {
           handleFutureApiSignInResponse(
-            userService.loginGoogle(response.asInstanceOf[GoogleAuthResponse].tokenId),
-            child
+            userService.loginFacebook(response.asInstanceOf[FacebookAuthResponse].accessToken)
           )
         }
 
-        def signInFacebook(
-          response: Response,
-          child: Self[AuthenticateWithSocialNetworksProps, AuthenticateWithSocialNetworksState]
-        ): Unit = {
-          handleFutureApiSignInResponse(
-            userService.loginFacebook(response.asInstanceOf[FacebookAuthResponse].accessToken),
-            child
-          )
-        }
-
-        // @toDo: manage specific errors
-        def handleFutureApiSignInResponse(
-          futureUser: Future[UserModel],
-          child: Self[AuthenticateWithSocialNetworksProps, AuthenticateWithSocialNetworksState]
-        ): Unit = {
+        def handleFutureApiSignInResponse(futureUser: Future[UserModel]): Future[UserModel] = {
           futureUser.onComplete {
-            case Success(user) =>
-              org.scalajs.dom.console.log("Successfully retrieves user")
-              dispatch(LoggedInAction(user))
-              clearDataState(child)
-            case Failure(e) =>
-              org.scalajs.dom.console.log("error while retrieving user", e.getMessage)
-              e match {
-                case UnauthorizedHttpException =>
-                  child.setState(child.state.copy(errorMessages = Seq("form.login.errorAuthenticationFailed")))
-                case _ =>
-                  child.setState(child.state.copy(errorMessages = Seq("form.login.errorSignInFailed")))
-              }
+            case Success(user) => dispatch(LoggedInAction(user))
+            case Failure(_)    =>
           }
-        }
-
-        def clearDataState(
-          child: Self[AuthenticateWithSocialNetworksProps, AuthenticateWithSocialNetworksState]
-        ): Unit = {
-          child.setState(_.copy(errorMessages = Seq.empty))
+          futureUser
         }
 
         (state, props) =>

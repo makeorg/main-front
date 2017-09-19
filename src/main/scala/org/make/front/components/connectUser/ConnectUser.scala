@@ -7,7 +7,7 @@ import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import io.github.shogowada.scalajs.reactjs.elements.ReactElement
 import io.github.shogowada.scalajs.reactjs.events.{FormSyntheticEvent, SyntheticEvent}
 import org.make.core.validation._
-import org.make.front.components.presentationals._
+import org.make.front.components.Components._
 import org.make.front.facades.Localize.LocalizeVirtualDOMAttributes
 import org.make.front.facades.ReactFacebookLogin._
 import org.make.front.facades.ReactGoogleLogin._

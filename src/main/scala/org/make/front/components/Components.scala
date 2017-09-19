@@ -4,11 +4,13 @@ import io.github.shogowada.scalajs.reactjs.VirtualDOM.VirtualDOMAttributes.Type.
 import io.github.shogowada.scalajs.reactjs.VirtualDOM.VirtualDOMElements.ReactClassElementSpec
 import io.github.shogowada.scalajs.reactjs.VirtualDOM.{VirtualDOMAttributes, VirtualDOMElements}
 import io.github.shogowada.statictags.{Attribute, SpaceSeparatedStringAttributeSpec}
+import org.make.front.components.authenticate.AuthenticateWithSocialNetworksContainer
+import org.make.front.components.authenticate.register.RegisterContainer
 
 import scala.scalajs.js
 import scalacss.StyleA
 
-package object presentationals {
+object Components {
   implicit class RichSpaceSeparatedStringAttributeSpec(val spec: SpaceSeparatedStringAttributeSpec) extends AnyVal {
     def :=(style: StyleA): Attribute[Iterable[String]] = spec := style.htmlClass
     def :=(styleSeq: Seq[StyleA]): Attribute[Iterable[String]] = spec := styleSeq.map(_.htmlClass)
@@ -121,7 +123,12 @@ package object presentationals {
       self(activateAccount.ActivateAccountContainer.reactClass)
 
     def AuthenticateWithSocialNetworksComponent: ReactClassElementSpec =
-      self(authenticate.AuthenticateWithSocialNetworksContainer.reactClass)
+      self(AuthenticateWithSocialNetworksContainer.reactClass)
+
+    def RegisterWithEmailComponent: ReactClassElementSpec = self(RegisterContainer.registerWithEmailReactClass)
+
+    def ViewablePasswordComponent: ReactClassElementSpec =
+      self(ViewablePassword.reactClass)
   }
 
 }
