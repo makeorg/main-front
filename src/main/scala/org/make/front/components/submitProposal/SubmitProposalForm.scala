@@ -73,7 +73,7 @@ object SubmitProposalFormComponent {
           if (self.state.SubmissionError) {
             <.p(^.className := InputStyles.errorMessage)(unescape(I18n.t("form.proposal.errorSubmitFailed")))
           },
-          <.div(^.className := SubmitProposalFormStyles.notice)(
+          <.div(^.className := SubmitProposalFormStyles.note)(
             <.p(^.className := TextStyles.mediumText)(unescape(I18n.t("content.proposal.help"))),
             <.p(^.className := TextStyles.smallText)(unescape(I18n.t("content.proposal.subHelp")))
           ),
@@ -122,7 +122,7 @@ object SubmitProposalFormStyles extends StyleSheet.Inline {
   val form: StyleA =
     style(textAlign.center)
 
-  val notice: StyleA =
+  val note: StyleA =
     style(
       marginTop(ThemeStyles.SpacingValue.medium.pxToEm()),
       unsafeChild("p + p")(marginTop(1.em)),

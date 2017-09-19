@@ -2,9 +2,10 @@ package org.make.front.components.authenticate
 
 import io.github.shogowada.scalajs.reactjs.React.Self
 import io.github.shogowada.scalajs.reactjs.classes.ReactClass
-import io.github.shogowada.scalajs.reactjs.redux.{ContainerComponentFactory, ReactRedux}
+import io.github.shogowada.scalajs.reactjs.redux.ReactRedux
 import org.make.client.UnauthorizedHttpException
 import org.make.front.actions.LoggedInAction
+import org.make.front.components.AppState
 import org.make.front.components.authenticate.AuthenticateWithSocialNetworks.{
   AuthenticateWithSocialNetworksProps,
   AuthenticateWithSocialNetworksState
@@ -12,7 +13,7 @@ import org.make.front.components.authenticate.AuthenticateWithSocialNetworks.{
 import org.make.front.facades.Configuration
 import org.make.front.facades.ReactFacebookLogin.FacebookAuthResponse
 import org.make.front.facades.ReactGoogleLogin.GoogleAuthResponse
-import org.make.front.models.{AppState, User}
+import org.make.front.models.{User => UserModel}
 import org.make.services.user.UserServiceComponent
 import org.scalajs.dom.experimental.Response
 
@@ -24,7 +25,7 @@ object AuthenticateWithSocialNetworksContainer extends UserServiceComponent {
 
   override def apiBaseUrl: String = Configuration.apiUrl
 
-  case class AuthenticateWithSocialNetworksContainerProps(title: String, comment: String)
+  case class AuthenticateWithSocialNetworksContainerProps(intro: String, note: String)
 
   val reactClass: ReactClass = ReactRedux
     .connectAdvanced[AppState, AuthenticateWithSocialNetworksContainerProps, AuthenticateWithSocialNetworksProps] {
@@ -52,7 +53,7 @@ object AuthenticateWithSocialNetworksContainer extends UserServiceComponent {
 
         // @toDo: manage specific errors
         def handleFutureApiSignInResponse(
-          futureUser: Future[User],
+          futureUser: Future[UserModel],
           child: Self[AuthenticateWithSocialNetworksProps, AuthenticateWithSocialNetworksState]
         ): Unit = {
           futureUser.onComplete {
@@ -79,8 +80,8 @@ object AuthenticateWithSocialNetworksContainer extends UserServiceComponent {
 
         (state, props) =>
           AuthenticateWithSocialNetworksProps(
-            title = props.wrapped.title,
-            comment = props.wrapped.comment,
+            intro = props.wrapped.intro,
+            note = props.wrapped.note,
             isConnected = state.connectedUser.isDefined,
             googleAppId = Configuration.googleAppId,
             facebookAppId = Configuration.facebookAppId,

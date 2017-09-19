@@ -27,12 +27,6 @@ object App {
           <.MainHeaderComponent.empty,
           <.NotificationContainerComponent.empty,
           <.ContainerComponent.empty,
-          <.AuthenticateWithSocialNetworksComponent(
-            ^.wrapped := AuthenticateWithSocialNetworksContainerProps(
-              title = "Testons le composant",
-              comment = "C'est trop de la balle de bombe"
-            )
-          )(),
           <.NavInThemesContainerComponent.empty,
           <.MainFooterComponent.empty,
           <.ConnectUserContainerComponent.empty,
