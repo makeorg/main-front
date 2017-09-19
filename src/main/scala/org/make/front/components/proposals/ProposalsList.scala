@@ -115,19 +115,17 @@ object ProposalsList {
         <.div()(
           <.ul()(listProposals),
           <.div(^.className := Seq(ProposalsListStyles.seeMoreButtonWrapper, LayoutRulesStyles.col))(
-            <.button(^.className := Seq(CTAStyles.basic, CTAStyles.basicOnButton))(
-              unescape(I18n.t("content.theme.matrix.seeMoreProposals"))
-            )
+            <.button(^.className := Seq(CTAStyles.basic, CTAStyles.basicOnButton))()
           )
         )
 
       val noProposal: Element = <.div(^.className := ProposalsListStyles.noProposal)(
-        <.p(^.className := ProposalsListStyles.smiley)("😞"),
-        <.p(^.className := TextStyles.mediumText)(
-          unescape(I18n.t("content.theme.matrix.noContent")),
-          <.br()(),
-          unescape(I18n.t("content.theme.matrix.selectOtherTags"))
-        )
+        <.p(^.className := ProposalsListStyles.noProposalSmiley)("😞"),
+        <.p(
+          ^.className := Seq(TextStyles.mediumText, ProposalsListStyles.noProposalMessage),
+          ^.dangerouslySetInnerHTML := (I18n.t("content.theme.matrix.noContent") + "<br>" +
+            I18n.t("content.theme.matrix.selectOtherTags"))
+        )()
       )
 
       <.section(^.className := ProposalsListStyles.wrapper)(
@@ -178,7 +176,7 @@ object ProposalsListStyles extends StyleSheet.Inline {
     textAlign.center
   )
 
-  val smiley: StyleA =
+  val noProposalSmiley: StyleA =
     style(
       display.inlineBlock,
       marginBottom(ThemeStyles.SpacingValue.small.pxToEm(34)),
@@ -186,6 +184,9 @@ object ProposalsListStyles extends StyleSheet.Inline {
       ThemeStyles.MediaQueries
         .beyondSmall(marginBottom(ThemeStyles.SpacingValue.small.pxToEm(48)), fontSize(48.pxToEm()))
     )
+
+  val noProposalMessage: StyleA =
+    style(unsafeChild("strong")(ThemeStyles.Font.circularStdBold))
 
   val noProposal: StyleA = style(
     marginTop(ThemeStyles.SpacingValue.larger.pxToEm()),

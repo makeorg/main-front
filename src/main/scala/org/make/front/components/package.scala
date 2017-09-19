@@ -1,16 +1,34 @@
 package org.make.front.components
 
-import io.github.shogowada.scalajs.reactjs.VirtualDOM.VirtualDOMElements
+import io.github.shogowada.scalajs.reactjs.VirtualDOM.VirtualDOMAttributes.Type.AS_IS
 import io.github.shogowada.scalajs.reactjs.VirtualDOM.VirtualDOMElements.ReactClassElementSpec
+import io.github.shogowada.scalajs.reactjs.VirtualDOM.{VirtualDOMAttributes, VirtualDOMElements}
 import io.github.shogowada.statictags.{Attribute, SpaceSeparatedStringAttributeSpec}
 import org.make.front.components.authenticate.AuthenticateWithSocialNetworksContainer
 
+import scala.scalajs.js
 import scalacss.StyleA
 
 package object presentationals {
   implicit class RichSpaceSeparatedStringAttributeSpec(val spec: SpaceSeparatedStringAttributeSpec) extends AnyVal {
     def :=(style: StyleA): Attribute[Iterable[String]] = spec := style.htmlClass
     def :=(styleSeq: Seq[StyleA]): Attribute[Iterable[String]] = spec := styleSeq.map(_.htmlClass)
+  }
+
+  object DangerouslySetInnerHtmlParameters {
+    def apply(html: String): js.Object = {
+      js.Dynamic.literal(__html = html).asInstanceOf[js.Object]
+    }
+  }
+
+  class DangerouslySetInnerHtmlParameterSpec {
+    def :=(html: String): Attribute[js.Object] = {
+      Attribute(name = "dangerouslySetInnerHTML", value = DangerouslySetInnerHtmlParameters(html), AS_IS)
+    }
+  }
+
+  implicit class TranslateVirtualDOMAttributes(attributes: VirtualDOMAttributes) {
+    lazy val dangerouslySetInnerHTML: DangerouslySetInnerHtmlParameterSpec = new DangerouslySetInnerHtmlParameterSpec
   }
 
   implicit class RichVirtualDOMElements(val self: VirtualDOMElements) extends AnyVal {
