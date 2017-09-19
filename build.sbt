@@ -26,6 +26,7 @@ val npmHardSourceWebpackVersion = "0.4.9"
 val npmSourceMapLoaderVersion = "0.2.1"
 val npmReactGoogleLogin = "2.9.2"
 val npmReactFacebookLogin = "3.6.2"
+val npmReactTextareaAutoresize = "5.1.0"
 
 /* scala libraries version */
 val scalaJsReactVersion = "0.14.0"
@@ -70,7 +71,8 @@ npmDependencies in Compile ++= Seq(
   "file-loader" -> npmFileLoaderVersion,
   "font-awesome" -> npmFrontAwesomeVersion,
   "react-google-login" -> npmReactGoogleLogin,
-  "react-facebook-login" -> npmReactFacebookLogin
+  "react-facebook-login" -> npmReactFacebookLogin,
+  "react-textarea-autosize" -> npmReactTextareaAutoresize
 )
 
 npmResolutions in Compile := {
