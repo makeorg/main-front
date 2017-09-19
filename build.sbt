@@ -20,11 +20,10 @@ val npmReactI18nifyVersion = "1.8.7"
 val npmCleanWebpackPluginVersion = "0.1.16"
 val npmHtmlWebpackPluginVersion = "2.29.0"
 val npmWebpackMd5HashVersion = "0.0.5"
-val npmFrontAwesomeVersion = "4.7.0"
 val npmFileLoaderVersion = "0.11.2"
 val npmHardSourceWebpackVersion = "0.4.9"
 val npmSourceMapLoaderVersion = "0.2.1"
-val npmReactGoogleLogin = "2.9.2"
+val npmReactGoogleLogin = "2.9.3"
 val npmReactFacebookLogin = "3.6.2"
 val npmReactTextareaAutoresize = "5.1.0"
 
@@ -69,7 +68,6 @@ npmDependencies in Compile ++= Seq(
   "webpack-md5-hash" -> npmWebpackMd5HashVersion,
   "webpack" -> npmWebpackVersion,
   "file-loader" -> npmFileLoaderVersion,
-  "font-awesome" -> npmFrontAwesomeVersion,
   "react-google-login" -> npmReactGoogleLogin,
   "react-facebook-login" -> npmReactFacebookLogin,
   "react-textarea-autosize" -> npmReactTextareaAutoresize
@@ -94,7 +92,13 @@ webpackBundlingMode := BundlingMode.LibraryOnly("makeApp")
 emitSourceMaps := false
 
 // Prod settings
-scalacOptions ++= Seq("-Xelide-below", "OFF")
+scalacOptions ++= {
+  if(System.getenv("CI_BUILD") == "true") {
+    Seq("-Xelide-below", "OFF")
+  } else {
+    Seq()
+  }
+}
 
 // Custome task to manage assets
 val prepareAssets = taskKey[Unit]("prepareAssets")
