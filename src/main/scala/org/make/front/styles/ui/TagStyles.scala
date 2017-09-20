@@ -28,6 +28,7 @@ object TagStyles extends StyleSheet.Inline {
       whiteSpace.nowrap,
       color :=! ThemeStyles.TextColor.white,
       backgroundColor :=! ThemeStyles.BackgroundColor.blackTransparent,
+      userSelect := "none",
       (&.before)(
         content := "''",
         position.absolute,

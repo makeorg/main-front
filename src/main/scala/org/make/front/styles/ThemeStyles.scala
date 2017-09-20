@@ -28,6 +28,7 @@ object ThemeStyles extends StyleSheet.Inline {
     val secondary: ValueT[ValueT.Color] = rgb(37, 49, 134)
     val negative: ValueT[ValueT.Color] = rgb(218, 0, 27)
     val positive: ValueT[ValueT.Color] = rgb(110, 182, 31)
+    val assertive: ValueT[ValueT.Color] = rgb(218, 0, 27)
   }
 
   object TextColor {

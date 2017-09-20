@@ -5,6 +5,7 @@ import io.github.shogowada.scalajs.reactjs.VirtualDOM.{<, _}
 import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import io.github.shogowada.scalajs.reactjs.events.SyntheticEvent
 import org.make.front.components.presentationals._
+import org.make.front.components.proposals.vote.QualificateVote.QualificateVoteProps
 import org.make.front.facades.I18n
 import org.make.front.facades.Unescape.unescape
 import org.make.front.models.{Vote => VoteModel}
@@ -32,43 +33,43 @@ object VoteButton {
 
       val buttonClasses =
         Seq(
-          VoteButtonStyle.button.htmlClass,
-          if (!self.state.isSelected) VoteButtonStyle.buttonNotActivated.htmlClass else "",
+          VoteButtonStyles.button.htmlClass,
+          if (!self.state.isSelected) VoteButtonStyles.buttonNotActivated.htmlClass else "",
           self.props.wrapped.vote.key match {
             case "agree" =>
-              VoteButtonStyle.agree.htmlClass + " " + (if (self.state.isSelected)
-                                                         VoteButtonStyle.agreeActivated.htmlClass
-                                                       else "")
+              VoteButtonStyles.agree.htmlClass + " " + (if (self.state.isSelected)
+                                                          VoteButtonStyles.agreeActivated.htmlClass
+                                                        else "")
             case "disagree" =>
-              VoteButtonStyle.disagree.htmlClass + " " + (if (self.state.isSelected)
-                                                            VoteButtonStyle.disagreeActivated.htmlClass
-                                                          else "")
+              VoteButtonStyles.disagree.htmlClass + " " + (if (self.state.isSelected)
+                                                             VoteButtonStyles.disagreeActivated.htmlClass
+                                                           else "")
             case "neutral" =>
-              VoteButtonStyle.neutral.htmlClass + " " + (if (self.state.isSelected)
-                                                           VoteButtonStyle.neutralActivated.htmlClass
-                                                         else "")
+              VoteButtonStyles.neutral.htmlClass + " " + (if (self.state.isSelected)
+                                                            VoteButtonStyles.neutralActivated.htmlClass
+                                                          else "")
             case _ =>
-              VoteButtonStyle.neutral.htmlClass + " " + (if (self.state.isSelected)
-                                                           VoteButtonStyle.neutralActivated.htmlClass
-                                                         else "")
+              VoteButtonStyles.neutral.htmlClass + " " + (if (self.state.isSelected)
+                                                            VoteButtonStyles.neutralActivated.htmlClass
+                                                          else "")
           }
         ).mkString(" ")
-
-      <.button(^.className := buttonClasses, ^.onClick := vote())(
-        <.span(^.className := VoteButtonStyle.label)(
-          <.span(^.className := TextStyles.smallerText)(
-            unescape(I18n.t(s"content.proposal.${self.props.wrapped.vote.key}"))
+      <.div()(
+        <.button(^.className := buttonClasses, ^.onClick := vote())(
+          <.span(^.className := VoteButtonStyles.label)(
+            <.span(^.className := TextStyles.smallerText)(
+              unescape(I18n.t(s"content.proposal.${self.props.wrapped.vote.key}"))
+            )
           )
         ),
-        <.style()(VoteButtonStyle.render[String])
+        <.QualificateVoteComponent(^.wrapped := QualificateVoteProps(vote = self.props.wrapped.vote))(),
+        <.style()(VoteButtonStyles.render[String])
       )
-
     }
   )
-
 }
 
-object VoteButtonStyle extends StyleSheet.Inline {
+object VoteButtonStyles extends StyleSheet.Inline {
 
   import dsl._
 

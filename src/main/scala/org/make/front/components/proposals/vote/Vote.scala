@@ -11,12 +11,6 @@ import org.make.front.styles.ThemeStyles
 import scalacss.DevDefaults._
 import scalacss.internal.Length
 
-sealed trait VoteType
-
-case object VoteAgree extends VoteType
-case object VoteDisagree extends VoteType
-case object VoteNeutral extends VoteType
-
 import scalajs.js.Dynamic.{global => g}
 
 object Vote {
@@ -74,5 +68,9 @@ object VoteStyles extends StyleSheet.Inline {
   )
 
   val voteButtonItem: StyleA =
-    style(display.inlineBlock, verticalAlign.middle, margin(ThemeStyles.SpacingValue.smaller.pxToEm()))
+    style(
+      display.inlineBlock,
+      verticalAlign.middle,
+      margin := s"${ThemeStyles.SpacingValue.smaller.pxToEm().value} ${ThemeStyles.SpacingValue.smaller.pxToEm().value} 0"
+    )
 }

@@ -4,7 +4,6 @@ import io.github.shogowada.scalajs.reactjs.VirtualDOM.VirtualDOMAttributes.Type.
 import io.github.shogowada.scalajs.reactjs.VirtualDOM.VirtualDOMElements.ReactClassElementSpec
 import io.github.shogowada.scalajs.reactjs.VirtualDOM.{VirtualDOMAttributes, VirtualDOMElements}
 import io.github.shogowada.statictags.{Attribute, SpaceSeparatedStringAttributeSpec}
-import org.make.front.components.authenticate.AuthenticateWithSocialNetworksContainer
 
 import scala.scalajs.js
 import scalacss.StyleA
@@ -73,6 +72,9 @@ package object presentationals {
 
     def VoteButtonComponent: ReactClassElementSpec = self(proposals.vote.VoteButton.reactClass)
 
+    def QualificateVoteButtonComponent: ReactClassElementSpec =
+      self(proposals.vote.QualificateVoteButton.reactClass)
+
     def QualificateVoteComponent: ReactClassElementSpec =
       self(proposals.vote.QualificateVote.reactClass)
 
@@ -119,7 +121,7 @@ package object presentationals {
       self(activateAccount.ActivateAccountContainer.reactClass)
 
     def AuthenticateWithSocialNetworksComponent: ReactClassElementSpec =
-      self(AuthenticateWithSocialNetworksContainer.reactClass)
+      self(authenticate.AuthenticateWithSocialNetworksContainer.reactClass)
   }
 
 }
