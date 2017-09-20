@@ -5,7 +5,10 @@ import io.github.shogowada.scalajs.reactjs.VirtualDOM.VirtualDOMElements.ReactCl
 import io.github.shogowada.scalajs.reactjs.VirtualDOM.{VirtualDOMAttributes, VirtualDOMElements}
 import io.github.shogowada.statictags.{Attribute, SpaceSeparatedStringAttributeSpec}
 import org.make.front.components.authenticate.AuthenticateWithSocialNetworksContainer
+import org.make.front.components.authenticate.login.LoginWithEmailContainer
 import org.make.front.components.authenticate.register.RegisterContainer
+import org.make.front.components.containers.RecoverPasswordContainer
+import org.make.front.components.resetPassword.ResetPasswordContainer
 
 import scala.scalajs.js
 import scalacss.StyleA
@@ -110,12 +113,11 @@ object Components {
     def NavInThemesContainerComponent: ReactClassElementSpec =
       self(navInThemes.NavInThemesContainer.reactClass)
 
-    def PasswordRecoveryContainerComponent: ReactClassElementSpec =
-      self(containers.PasswordRecoveryContainer.reactClass)
+    def RecoverPasswordContainerComponent: ReactClassElementSpec =
+      self(RecoverPasswordContainer.reactClass)
 
-    def PasswordResetContainerComponent: ReactClassElementSpec =
-      self(resetPassword.PasswordResetContainer.reactClass)
-
+    def ResetPasswordContainerComponent: ReactClassElementSpec =
+      self(ResetPasswordContainer.reactClass)
     def ShowcaseContainerComponent: ReactClassElementSpec =
       self(showcase.ShowcaseContainer.reactClass)
 
@@ -128,6 +130,8 @@ object Components {
     def RegisterWithEmailComponent: ReactClassElementSpec = self(RegisterContainer.registerWithEmailReactClass)
     def RegisterWithEmailExpandedComponent: ReactClassElementSpec =
       self(RegisterContainer.registerWithEmailExpandedReactClass)
+
+    def LoginWithEmailComponent: ReactClassElementSpec = self(LoginWithEmailContainer.reactClass)
 
     def ViewablePasswordComponent: ReactClassElementSpec =
       self(ViewablePassword.reactClass)

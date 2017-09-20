@@ -6,7 +6,7 @@ import io.github.shogowada.scalajs.reactjs.router.WithRouter
 import io.github.shogowada.scalajs.reactjs.router.dom.RouterDOM._
 import org.make.front.components.activateAccount.ActivateAccountContainer
 import org.make.front.components.home.Home
-import org.make.front.components.resetPassword.PasswordResetContainer
+import org.make.front.components.resetPassword.ResetPasswordContainer
 import org.make.front.components.theme.ThemeContainerComponent
 
 object ContainerComponent {
@@ -18,7 +18,7 @@ object ContainerComponent {
           <.Route(
             ^.exact := true,
             ^.path := "/reset-password/change-password/:userId/:resetToken",
-            ^.component := PasswordResetContainer.reactClass
+            ^.component := ResetPasswordContainer.reactClass
           )(),
           <.Route(
             ^.exact := true,

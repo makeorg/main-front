@@ -38,7 +38,7 @@ object App {
           <.NavInThemesContainerComponent.empty,
           <.MainFooterComponent.empty,
           <.ConnectUserContainerComponent.empty,
-          <.PasswordRecoveryContainerComponent.empty,
+          <.RecoverPasswordContainerComponent.empty,
           <.style()(RWDHideRulesStyles.render[String])
       )
     )

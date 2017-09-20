@@ -129,7 +129,9 @@ object RegisterWithEmailExpanded {
       ),
       <.span()(self.state.errors.getOrElse("profession", "")),
       <.p()(self.props.wrapped.note),
-      <.button(^.`type` := "submit", ^.className := Seq(CTAStyles.basic))(I18n.t("form.register.subscribe")),
+      <.button(^.`type` := "submit", ^.className := Seq(CTAStyles.basicOnButton, CTAStyles.basic))(
+        I18n.t("form.register.subscribe")
+      ),
       <.style()(RegisterWithEmailExpandedStyles.render[String])
     )
 

@@ -13,7 +13,7 @@ import org.make.services.user.UserServiceComponent
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.util.{Failure, Success}
 
-object PasswordResetContainer extends UserServiceComponent {
+object ResetPasswordContainer extends UserServiceComponent {
 
   override val apiBaseUrl: String = Configuration.apiUrl
 

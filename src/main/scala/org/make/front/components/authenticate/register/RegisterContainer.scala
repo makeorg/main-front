@@ -11,34 +11,39 @@ import org.make.services.user.UserServiceComponent
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
+import scala.util.{Failure, Success}
 
 object RegisterContainer extends UserServiceComponent {
 
-  case class RegisterUserProps(intro: String, note: String)
+  case class RegisterUserProps(intro: String, note: String, onSuccessfulRegistration: () => Unit = () => {})
 
   override def apiBaseUrl: String = Configuration.apiUrl
 
-  def selector: ContainerComponentFactory[RegisterProps] = ReactRedux.connectAdvanced { dispatch =>
-    def register(): (RegisterState) => Future[UserModel] = { state =>
-      userService
-        .registerUser(
-          email = state.fields("email"),
-          password = state.fields("password"),
-          firstName = state.fields("firstName"),
-          profession = state.fields.get("profession"),
-          postalCode = state.fields.get("postalCode"),
-          age = state.fields.get("age").map(_.toInt)
-        )
-        .flatMap { _ =>
-          userService.login(state.fields("email"), state.fields("password"))
-        }
-        .map { user =>
-          dispatch(LoggedInAction(user))
-          user
-        }
-    }
+  def selector: ContainerComponentFactory[RegisterProps] = ReactRedux.connectAdvanced {
+    dispatch => (_: AppState, props: Props[RegisterUserProps]) =>
+      def register(): (RegisterState) => Future[UserModel] = { state =>
+        val future = userService
+          .registerUser(
+            email = state.fields("email"),
+            password = state.fields("password"),
+            firstName = state.fields("firstName"),
+            profession = state.fields.get("profession"),
+            postalCode = state.fields.get("postalCode"),
+            age = state.fields.get("age").map(_.toInt)
+          )
+          .flatMap { _ =>
+            userService.login(state.fields("email"), state.fields("password"))
+          }
 
-    (_: AppState, props: Props[RegisterUserProps]) =>
+        future.onComplete {
+          case Success(user) =>
+            dispatch(LoggedInAction(user))
+            props.wrapped.onSuccessfulRegistration()
+          case Failure(_) =>
+        }
+
+        future
+      }
       RegisterProps(props.wrapped.intro, props.wrapped.note, register = register())
   }
 
