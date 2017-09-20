@@ -19,8 +19,6 @@ object PoliticalActionsContainer {
 
       dispatch(LoadPoliticalAction)
 
-      org.scalajs.dom.window.console.log(politicalActionsList)
-
       if (politicalActionsList.isEmpty)
         PoliticalActionsList.PoliticalActionsListProps(Seq.empty)
       else

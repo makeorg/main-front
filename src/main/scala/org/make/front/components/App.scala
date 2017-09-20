@@ -29,12 +29,6 @@ object App {
           <.MainHeaderComponent.empty,
           <.NotificationContainerComponent.empty,
           <.ContainerComponent.empty,
-          <.RegisterWithEmailExpandedComponent(
-            ^.wrapped := RegisterUserProps(
-              unescape(I18n.t("form.register.withForm")),
-              unescape(I18n.t("form.register.termsAgreed"))
-            )
-          )(),
           <.NavInThemesContainerComponent.empty,
           <.MainFooterComponent.empty,
           <.ConnectUserContainerComponent.empty,

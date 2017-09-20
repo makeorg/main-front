@@ -41,7 +41,7 @@ object ConnectedUserNavElement {
   def apply(userFirstName: String, avatarUrl: String, logout: () => Unit): ReactElement =
     <.ul(^.className := UserNavStyles.menu)(
       <.li(^.className := UserNavStyles.menuItem)(
-        <.button()(
+        <.button(^.onClick := logout)(
           <.span(^.className := UserNavStyles.avatarWrapper)(
             <.img(^.src := avatarUrl, ^.className := UserNavStyles.avatar)()
           ),

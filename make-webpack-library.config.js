@@ -3,15 +3,12 @@ var path = require('path');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
 var WebpackMd5Hash = require('webpack-md5-hash');
-var HardSourceWebpackPlugin = require('hard-source-webpack-plugin');
-var pathBuild = path.join(__dirname, 'dist');
 
 module.exports = require('./scalajs.webpack.config');
 
 module.exports.module = module.exports.module || {};
 
 module.exports.plugins = [
-    new HardSourceWebpackPlugin(),
     new HtmlWebpackPlugin({
         "title": "Make.org",
         "template": path.join(__dirname, "index-library.template.ejs"),
@@ -37,7 +34,10 @@ module.exports.module.rules = [
     {
         "test": new RegExp("\\.js$"),
         "enforce": "pre",
-        "loader": "source-map-loader"
+        "loader": "source-map-loader",
+        "exclude": [
+            path.join(__dirname, "node_modules/react-google-login")
+        ]
     },
     {
         test: /\.(ttf|otf|eot|svg|woff(2)?)(\?[a-z0-9]+)?$/,

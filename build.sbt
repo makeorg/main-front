@@ -8,7 +8,7 @@ scalaVersion := "2.12.1"
 
 /* Npm versions */
 val npmReactVersion = "15.6.1"
-val npmWebpackVersion = "2.6.1"
+val npmWebpackVersion = "3.6.0"
 val npmReactRouterVersion = "4.1.2"
 val npmReactAutosuggestVersion = "9.3.1"
 val npmExtractTextWebpackPluginVersion = "2.1.2"
