@@ -1,12 +1,12 @@
-package org.make.front.components.authenticate
+package org.make.front.components.users.authenticate
 
 import io.github.shogowada.scalajs.reactjs.React
 import io.github.shogowada.scalajs.reactjs.VirtualDOM._
 import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import io.github.shogowada.scalajs.reactjs.events.SyntheticEvent
 import org.make.front.components.Components.RichVirtualDOMElements
-import org.make.front.components.authenticate.login.LoginWithEmailOrSocialNetworks.LoginWithEmailOrSocialNetworksProps
-import org.make.front.components.authenticate.register.RegisterWithSocialNetworksOrEmail.RegisterWithSocialNetworksOrEmailProps
+import org.make.front.components.users.authenticate.login.LoginWithEmailOrSocialNetworks.LoginWithEmailOrSocialNetworksProps
+import org.make.front.components.users.authenticate.register.RegisterWithSocialNetworksOrEmail.RegisterWithSocialNetworksOrEmailProps
 import org.make.front.components.containers.RecoverPasswordContainer.RecoverPasswordContainerProps
 import org.make.front.facades.I18n
 import org.make.front.facades.Unescape.unescape

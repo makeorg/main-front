@@ -1,4 +1,4 @@
-package org.make.front.components.userNav
+package org.make.front.components.users.userNav
 
 import io.github.shogowada.scalajs.reactjs.React
 import io.github.shogowada.scalajs.reactjs.React.Self
@@ -6,9 +6,9 @@ import io.github.shogowada.scalajs.reactjs.VirtualDOM._
 import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import io.github.shogowada.scalajs.reactjs.elements.ReactElement
 import org.make.front.components.Components._
-import org.make.front.components.authenticate.LoginOrRegister.LoginOrRegisterProps
+import org.make.front.components.users.authenticate.LoginOrRegister.LoginOrRegisterProps
 import org.make.front.components.modals.Modal.ModalProps
-import org.make.front.components.userNav.UserNav.{UserNavProps, UserNavState}
+import org.make.front.components.users.userNav.UserNav.{UserNavProps, UserNavState}
 import org.make.front.facades.I18n
 import org.make.front.facades.Unescape.unescape
 import org.make.front.styles._

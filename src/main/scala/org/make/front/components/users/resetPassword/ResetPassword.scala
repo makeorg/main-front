@@ -1,4 +1,4 @@
-package org.make.front.components.resetPassword
+package org.make.front.components.users.resetPassword
 
 import io.github.shogowada.scalajs.reactjs.React
 import io.github.shogowada.scalajs.reactjs.React.Self
@@ -8,7 +8,7 @@ import io.github.shogowada.scalajs.reactjs.elements.ReactElement
 import io.github.shogowada.scalajs.reactjs.events.{FormSyntheticEvent, SyntheticEvent}
 import org.make.core.validation.PasswordConstraint
 import org.make.front.components.Components._
-import org.make.front.components.recoverPassword.PasswordRecoveryStyles
+import org.make.front.components.users.recoverPassword.PasswordRecoveryStyles
 import org.make.front.facades.Translate.TranslateVirtualDOMElements
 import org.make.front.facades.{I18n, Replacements}
 import org.make.front.styles.{FontAwesomeStyles, MakeStyles}

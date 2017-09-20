@@ -6,8 +6,8 @@ import io.github.shogowada.scalajs.reactjs.redux.ReactRedux
 import io.github.shogowada.scalajs.reactjs.redux.Redux.Dispatch
 import org.make.front.actions.NotifyInfo
 import org.make.front.components.AppState
-import org.make.front.components.recoverPassword.PasswordRecovery
-import org.make.front.components.recoverPassword.PasswordRecovery.PasswordRecoveryProps
+import org.make.front.components.users.recoverPassword.PasswordRecovery
+import org.make.front.components.users.recoverPassword.PasswordRecovery.PasswordRecoveryProps
 import org.make.front.facades.{Configuration, I18n}
 import org.make.services.user.UserServiceComponent
 

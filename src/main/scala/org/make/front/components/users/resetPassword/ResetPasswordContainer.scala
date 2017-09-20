@@ -1,4 +1,4 @@
-package org.make.front.components.resetPassword
+package org.make.front.components.users.resetPassword
 
 import io.github.shogowada.scalajs.reactjs.React.{Props, Self}
 import io.github.shogowada.scalajs.reactjs.classes.ReactClass
@@ -6,7 +6,7 @@ import io.github.shogowada.scalajs.reactjs.redux.ReactRedux
 import io.github.shogowada.scalajs.reactjs.redux.Redux.Dispatch
 import io.github.shogowada.scalajs.reactjs.router.RouterProps._
 import org.make.front.components.AppState
-import org.make.front.components.resetPassword.PasswordReset.{PasswordResetProps, PasswordResetState}
+import org.make.front.components.users.resetPassword.PasswordReset.{PasswordResetProps, PasswordResetState}
 import org.make.front.facades.{Configuration, I18n}
 import org.make.services.user.UserServiceComponent
 
@@ -20,7 +20,7 @@ object ResetPasswordContainer extends UserServiceComponent {
   lazy val reactClass: ReactClass = ReactRedux.connectAdvanced(selectorFactory)(PasswordReset.reactClass)
 
   def selectorFactory: (Dispatch) => (AppState, Props[Unit]) => PasswordResetProps =
-    (_: Dispatch) => { (state: AppState, props: Props[Unit]) =>
+    (_: Dispatch) => { (_: AppState, props: Props[Unit]) =>
       val userId = props.`match`.params("userId")
       val resetToken = props.`match`.params("resetToken")
 

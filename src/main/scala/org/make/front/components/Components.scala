@@ -4,11 +4,12 @@ import io.github.shogowada.scalajs.reactjs.VirtualDOM.VirtualDOMAttributes.Type.
 import io.github.shogowada.scalajs.reactjs.VirtualDOM.VirtualDOMElements.ReactClassElementSpec
 import io.github.shogowada.scalajs.reactjs.VirtualDOM.{VirtualDOMAttributes, VirtualDOMElements}
 import io.github.shogowada.statictags.{Attribute, SpaceSeparatedStringAttributeSpec}
-import org.make.front.components.authenticate.login.{LoginWithEmailContainer, LoginWithEmailOrSocialNetworks}
-import org.make.front.components.authenticate.register.{RegisterContainer, RegisterWithSocialNetworksOrEmail}
-import org.make.front.components.authenticate.{AuthenticateWithSocialNetworksContainer, LoginOrRegister}
+import org.make.front.components.users.authenticate.login.{LoginWithEmailContainer, LoginWithEmailOrSocialNetworks}
+import org.make.front.components.users.authenticate.register.{RegisterContainer, RegisterWithSocialNetworksOrEmail}
+import org.make.front.components.users.authenticate.{AuthenticateWithSocialNetworksContainer, LoginOrRegister}
 import org.make.front.components.containers.RecoverPasswordContainer
-import org.make.front.components.resetPassword.ResetPasswordContainer
+import org.make.front.components.users.resetPassword.ResetPasswordContainer
+import org.make.front.components.users.userNav.{UserNav, UserNavContainer}
 
 import scala.scalajs.js
 import scalacss.StyleA
@@ -43,7 +44,7 @@ object Components {
     def ContainerComponent: ReactClassElementSpec = self(org.make.front.components.ContainerComponent.reactClass)
     def MainHeaderComponent: ReactClassElementSpec = self(mainHeader.MainHeader.reactClass)
     def MainFooterComponent: ReactClassElementSpec = self(mainFooter.MainFooter.reactClass)
-    def UserNavComponent: ReactClassElementSpec = self(userNav.UserNav.reactClass)
+    def UserNavComponent: ReactClassElementSpec = self(UserNav.reactClass)
     def SearchFormComponent: ReactClassElementSpec = self(search.SearchForm.reactClass)
     def HomeComponent: ReactClassElementSpec = self(home.Home.reactClass)
     def MainIntroComponent: ReactClassElementSpec = self(home.MainIntro.reactClass)
@@ -58,8 +59,6 @@ object Components {
     def FilterByTagsComponent: ReactClassElementSpec = self(tags.FilterByTags.reactClass)
 
     def ThemeHeaderComponent: ReactClassElementSpec = self(theme.ThemeHeader.reactClass)
-
-    def ConnectUserComponent: ReactClassElementSpec = self(connectUser.ConnectUser.reactClass)
 
     def SubmitProposalContainerComponent: ReactClassElementSpec =
       self(submitProposal.SubmitProposalContainer.reactClass)
@@ -87,10 +86,7 @@ object Components {
       self(notification.NotificationContainer.reactClass)
 
     def UserNavContainerComponent: ReactClassElementSpec =
-      self(userNav.UserNavContainer.reactClass)
-
-    def ConnectUserContainerComponent: ReactClassElementSpec =
-      self(connectUser.ConnectUserContainer.reactClass)
+      self(UserNavContainer.reactClass)
 
     def ProposalsContainerComponent: ReactClassElementSpec =
       self(proposals.ProposalsListContainer.reactClass)

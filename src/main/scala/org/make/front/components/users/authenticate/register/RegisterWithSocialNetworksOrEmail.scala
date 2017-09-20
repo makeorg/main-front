@@ -1,11 +1,11 @@
-package org.make.front.components.authenticate.register
+package org.make.front.components.users.authenticate.register
 
 import io.github.shogowada.scalajs.reactjs.React
 import io.github.shogowada.scalajs.reactjs.VirtualDOM._
 import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import org.make.front.components.Components._
-import org.make.front.components.authenticate.AuthenticateWithSocialNetworksContainer.AuthenticateWithSocialNetworksContainerProps
-import org.make.front.components.authenticate.register.RegisterContainer.RegisterUserProps
+import org.make.front.components.users.authenticate.AuthenticateWithSocialNetworksContainer.AuthenticateWithSocialNetworksContainerProps
+import org.make.front.components.users.authenticate.register.RegisterContainer.RegisterUserProps
 import org.make.front.facades.I18n
 import org.make.front.facades.Unescape.unescape
 

@@ -1,4 +1,4 @@
-package org.make.front.components.authenticate
+package org.make.front.components.users.authenticate
 
 import scala.concurrent.Future
 import org.make.front.models.{User => UserModel}

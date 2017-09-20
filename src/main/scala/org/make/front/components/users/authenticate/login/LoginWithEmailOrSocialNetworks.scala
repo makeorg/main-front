@@ -1,11 +1,11 @@
-package org.make.front.components.authenticate.login
+package org.make.front.components.users.authenticate.login
 
 import io.github.shogowada.scalajs.reactjs.React
 import io.github.shogowada.scalajs.reactjs.VirtualDOM._
 import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import org.make.front.components.Components._
-import org.make.front.components.authenticate.AuthenticateWithSocialNetworksContainer.AuthenticateWithSocialNetworksContainerProps
-import org.make.front.components.authenticate.login.LoginWithEmailContainer.LoginWithEmailContainerProps
+import org.make.front.components.users.authenticate.AuthenticateWithSocialNetworksContainer.AuthenticateWithSocialNetworksContainerProps
+import org.make.front.components.users.authenticate.login.LoginWithEmailContainer.LoginWithEmailContainerProps
 import org.make.front.facades.I18n
 import org.make.front.facades.Unescape.unescape
 

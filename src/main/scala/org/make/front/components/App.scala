@@ -28,8 +28,6 @@ object App {
           <.ContainerComponent.empty,
           <.NavInThemesContainerComponent.empty,
           <.MainFooterComponent.empty,
-          <.ConnectUserContainerComponent.empty,
-          <.RecoverPasswordContainerComponent.empty,
           <.style()(RWDHideRulesStyles.render[String])
       )
     )

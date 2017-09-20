@@ -6,7 +6,7 @@ import io.github.shogowada.scalajs.reactjs.router.WithRouter
 import io.github.shogowada.scalajs.reactjs.router.dom.RouterDOM._
 import org.make.front.components.activateAccount.ActivateAccountContainer
 import org.make.front.components.home.Home
-import org.make.front.components.resetPassword.ResetPasswordContainer
+import org.make.front.components.users.resetPassword.ResetPasswordContainer
 import org.make.front.components.theme.ThemeContainerComponent
 
 object ContainerComponent {

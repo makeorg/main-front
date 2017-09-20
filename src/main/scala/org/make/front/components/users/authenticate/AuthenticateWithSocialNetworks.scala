@@ -1,4 +1,4 @@
-package org.make.front.components.authenticate
+package org.make.front.components.users.authenticate
 
 import io.github.shogowada.scalajs.reactjs.React
 import io.github.shogowada.scalajs.reactjs.VirtualDOM._
