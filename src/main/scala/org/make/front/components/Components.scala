@@ -5,7 +5,7 @@ import io.github.shogowada.scalajs.reactjs.VirtualDOM.VirtualDOMElements.ReactCl
 import io.github.shogowada.scalajs.reactjs.VirtualDOM.{VirtualDOMAttributes, VirtualDOMElements}
 import io.github.shogowada.statictags.{Attribute, SpaceSeparatedStringAttributeSpec}
 import org.make.front.components.authenticate.AuthenticateWithSocialNetworksContainer
-import org.make.front.components.authenticate.login.LoginWithEmailContainer
+import org.make.front.components.authenticate.login.{LoginWithEmailContainer, LoginWithEmailOrSocialNetworks}
 import org.make.front.components.authenticate.register.RegisterContainer
 import org.make.front.components.containers.RecoverPasswordContainer
 import org.make.front.components.resetPassword.ResetPasswordContainer
@@ -132,6 +132,8 @@ object Components {
       self(RegisterContainer.registerWithEmailExpandedReactClass)
 
     def LoginWithEmailComponent: ReactClassElementSpec = self(LoginWithEmailContainer.reactClass)
+
+    def LoginWithEmailOrSocialNetworksComponent: ReactClassElementSpec = self(LoginWithEmailOrSocialNetworks.reactClass)
 
     def ViewablePasswordComponent: ReactClassElementSpec =
       self(ViewablePassword.reactClass)

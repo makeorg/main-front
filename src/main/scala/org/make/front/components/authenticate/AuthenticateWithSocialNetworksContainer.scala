@@ -20,11 +20,13 @@ object AuthenticateWithSocialNetworksContainer extends UserServiceComponent {
 
   override def apiBaseUrl: String = Configuration.apiUrl
 
-  case class AuthenticateWithSocialNetworksContainerProps(intro: String, note: String)
+  case class AuthenticateWithSocialNetworksContainerProps(intro: String,
+                                                          note: String,
+                                                          onSuccessfulLogin: () => Unit = () => {})
 
   val reactClass: ReactClass = ReactRedux
     .connectAdvanced[AppState, AuthenticateWithSocialNetworksContainerProps, AuthenticateWithSocialNetworksProps] {
-      dispatch =>
+      dispatch => (state, props) =>
         def signInGoogle(response: Response): Future[UserModel] = {
           handleFutureApiSignInResponse(userService.loginGoogle(response.asInstanceOf[GoogleAuthResponse].tokenId))
         }
@@ -37,22 +39,23 @@ object AuthenticateWithSocialNetworksContainer extends UserServiceComponent {
 
         def handleFutureApiSignInResponse(futureUser: Future[UserModel]): Future[UserModel] = {
           futureUser.onComplete {
-            case Success(user) => dispatch(LoggedInAction(user))
-            case Failure(_)    =>
+            case Success(user) =>
+              dispatch(LoggedInAction(user))
+              props.wrapped.onSuccessfulLogin()
+            case Failure(_) =>
           }
           futureUser
         }
 
-        (state, props) =>
-          AuthenticateWithSocialNetworksProps(
-            intro = props.wrapped.intro,
-            note = props.wrapped.note,
-            isConnected = state.connectedUser.isDefined,
-            googleAppId = Configuration.googleAppId,
-            facebookAppId = Configuration.facebookAppId,
-            errorMessages = Seq.empty,
-            signInFacebook = signInFacebook,
-            signInGoogle = signInGoogle
-          )
+        AuthenticateWithSocialNetworksProps(
+          intro = props.wrapped.intro,
+          note = props.wrapped.note,
+          isConnected = state.connectedUser.isDefined,
+          googleAppId = Configuration.googleAppId,
+          facebookAppId = Configuration.facebookAppId,
+          errorMessages = Seq.empty,
+          signInFacebook = signInFacebook,
+          signInGoogle = signInGoogle
+        )
     }(AuthenticateWithSocialNetworks.reactClass)
 }

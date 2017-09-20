@@ -89,7 +89,7 @@ scalaJSUseMainModuleInitializer := true
 webpackDevServerExtraArgs := Seq("--lazy", "--inline")
 webpackDevServerPort := 9009
 webpackBundlingMode := BundlingMode.LibraryOnly("makeApp")
-emitSourceMaps := false
+emitSourceMaps := true
 
 // Prod settings
 scalacOptions ++= {

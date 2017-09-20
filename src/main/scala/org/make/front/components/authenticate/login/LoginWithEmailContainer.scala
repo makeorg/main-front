@@ -15,7 +15,7 @@ import scala.concurrent.ExecutionContext.Implicits.global
 
 object LoginWithEmailContainer {
 
-  case class LoginWithEmailContainerProps(intro: String, onSuccessfulLogin: () => Unit = () => {})
+  case class LoginWithEmailContainerProps(intro: String, note: String, onSuccessfulLogin: () => Unit = () => {})
 
   val reactClass: ReactClass = ReactRedux.connectAdvanced {
     dispatch => (_: AppState, props: Props[LoginWithEmailContainerProps]) =>
@@ -29,7 +29,7 @@ object LoginWithEmailContainer {
         }
         result
       }
-      LoginWithEmailProps(intro = props.wrapped.intro, connectUser = signIn)
+      LoginWithEmailProps(intro = props.wrapped.intro, note = props.wrapped.note, connectUser = signIn)
   }(LoginWithEmail.reactClass)
 
 }

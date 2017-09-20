@@ -19,7 +19,7 @@ import scalacss.internal.mutable.StyleSheet.Inline
 
 object LoginWithEmail {
 
-  case class LoginWithEmailProps(intro: String, connectUser: (String, String) => Future[_])
+  case class LoginWithEmailProps(intro: String, note: String, connectUser: (String, String) => Future[_])
   case class LoginWithEmailState(email: String,
                                  emailErrorMessage: Option[String],
                                  password: String,
@@ -97,6 +97,7 @@ object LoginWithEmail {
               )()
             ),
             <.span(^.className := LoginWithEmailStyles.error)(self.state.passwordErrorMessage),
+            <.p()(props.note),
             <.button(^.className := Seq(CTAStyles.basicOnButton, CTAStyles.basic), ^.`type`.submit)(
               I18n.t("form.login.submitButton")
             ),
