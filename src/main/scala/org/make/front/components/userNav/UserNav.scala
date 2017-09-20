@@ -36,7 +36,6 @@ object UserNav {
         )
       },
       render = self => {
-
         <.nav(^.className := UserNavStyles.menuWrapper)(if (self.props.wrapped.isConnected) {
           ConnectedUserNavElement(self.props.wrapped.userFirstName.get, self.state.avatarUrl, self.props.wrapped.logout)
         } else {

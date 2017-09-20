@@ -92,6 +92,7 @@ object ModalStyles extends StyleSheet.Inline {
   val contentWrapper =
     style(
       position.relative,
+      minHeight(200.pxToEm()),
       marginTop(60.pxToEm()), // TODO: dynamise calcul, if main intro is first child of page
       marginBottom(ThemeStyles.SpacingValue.larger.pxToEm()),
       padding :=! s"${ThemeStyles.SpacingValue.largerMedium.pxToEm().value} ${ThemeStyles.SpacingValue.small.pxToEm()}",
@@ -112,6 +113,11 @@ object ModalStyles extends StyleSheet.Inline {
     (&.hover)(unsafeChild("svg")(opacity(0.3)))
   )
 
-  val article = style(maxWidth(470.pxToEm()), marginRight.auto, marginLeft.auto)
+  val article = style(
+    maxWidth(470.pxToEm()),
+    marginRight.auto,
+    marginLeft.auto,
+    paddingTop(ThemeStyles.SpacingValue.largerMedium.pxToEm())
+  )
 
 }
