@@ -9,30 +9,15 @@ import org.make.front.Main.CssSettings._
 import org.make.front.components.Components._
 import org.make.front.components.ViewablePassword.ViewablePasswordProps
 import org.make.front.facades.I18n
-import org.make.front.models.{User => UserModel}
 import org.make.front.styles.{CTAStyles, InputStyles}
 import org.scalajs.dom.raw.HTMLInputElement
 
 import scala.concurrent.ExecutionContext.Implicits.global
-import scala.concurrent.Future
 import scala.util.{Failure, Success}
 import scalacss.DevDefaults.StyleA
 import scalacss.internal.mutable.StyleSheet.Inline
 
 object RegisterWithEmail {
-
-  case class RegisterState(fields: Map[String, String], errors: Map[String, String]) {
-    def hasError(field: String): Boolean = {
-      val maybeErrorMessage = errors.get(field)
-      maybeErrorMessage.isEmpty || maybeErrorMessage.contains("")
-    }
-  }
-
-  object RegisterState {
-    val empty = RegisterState(Map(), Map())
-  }
-
-  case class RegisterProps(register: (RegisterState) => Future[UserModel])
 
   val reactClass: ReactClass =
     React.createClass[RegisterProps, RegisterState](getInitialState = { _ =>
@@ -66,6 +51,7 @@ object RegisterWithEmail {
       }
 
       <.form(^.onSubmit := onSubmit)(
+        <.p()(self.props.wrapped.intro),
         <.label(^.className := Seq(InputStyles.wrapper, InputStyles.withIcon, RegisterWithEmailStyles.emailPicto))(
           <.input(
             ^.`type`.email,
@@ -98,6 +84,7 @@ object RegisterWithEmail {
           )()
         ),
         <.span()(self.state.errors.getOrElse("firstName", "")),
+        <.p()(self.props.wrapped.note),
         <.button(^.`type` := "submit", ^.className := Seq(CTAStyles.basic))(I18n.t("form.register.subscribe")),
         <.style()(RegisterWithEmailStyles.render[String])
       )

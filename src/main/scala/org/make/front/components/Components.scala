@@ -126,6 +126,8 @@ object Components {
       self(AuthenticateWithSocialNetworksContainer.reactClass)
 
     def RegisterWithEmailComponent: ReactClassElementSpec = self(RegisterContainer.registerWithEmailReactClass)
+    def RegisterWithEmailExpandedComponent: ReactClassElementSpec =
+      self(RegisterContainer.registerWithEmailExpandedReactClass)
 
     def ViewablePasswordComponent: ReactClassElementSpec =
       self(ViewablePassword.reactClass)

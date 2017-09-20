@@ -4,6 +4,9 @@ import io.github.shogowada.scalajs.reactjs.React
 import io.github.shogowada.scalajs.reactjs.VirtualDOM._
 import io.github.shogowada.scalajs.reactjs.router.WithRouter
 import org.make.front.components.Components.RichVirtualDOMElements
+import org.make.front.components.authenticate.register.RegisterContainer.RegisterUserProps
+import org.make.front.facades.I18n
+import org.make.front.facades.Unescape.unescape
 import org.make.front.styles._
 
 import scalacss.DevDefaults._
@@ -26,7 +29,12 @@ object App {
           <.MainHeaderComponent.empty,
           <.NotificationContainerComponent.empty,
           <.ContainerComponent.empty,
-          <.RegisterWithEmailComponent.empty,
+          <.RegisterWithEmailExpandedComponent(
+            ^.wrapped := RegisterUserProps(
+              unescape(I18n.t("form.register.withForm")),
+              unescape(I18n.t("form.register.termsAgreed"))
+            )
+          )(),
           <.NavInThemesContainerComponent.empty,
           <.MainFooterComponent.empty,
           <.ConnectUserContainerComponent.empty,
