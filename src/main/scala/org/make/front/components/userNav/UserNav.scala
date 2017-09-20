@@ -26,16 +26,24 @@ object UserNav {
   case class UserNavState(avatarUrl: String, isAuthenticateModalOpened: Boolean)
 
   lazy val reactClass: ReactClass =
-    React.createClass[UserNavProps, UserNavState](componentWillReceiveProps = { (self, props) =>
-      self.setState(UserNavState(avatarUrl = props.wrapped.avatarUrl.getOrElse(""), isAuthenticateModalOpened = false))
-    }, render = self => {
+    React.createClass[UserNavProps, UserNavState](
+      getInitialState = { _ =>
+        UserNavState(avatarUrl = "", isAuthenticateModalOpened = false)
+      },
+      componentWillReceiveProps = { (self, props) =>
+        self.setState(
+          UserNavState(avatarUrl = props.wrapped.avatarUrl.getOrElse(""), isAuthenticateModalOpened = false)
+        )
+      },
+      render = self => {
 
-      <.nav(^.className := UserNavStyles.menuWrapper)(if (self.props.wrapped.isConnected) {
-        ConnectedUserNavElement(self.props.wrapped.userFirstName.get, self.state.avatarUrl, self.props.wrapped.logout)
-      } else {
-        UnconnectedUserNavElement(self)
-      }, <.style()(UserNavStyles.render[String]))
-    })
+        <.nav(^.className := UserNavStyles.menuWrapper)(if (self.props.wrapped.isConnected) {
+          ConnectedUserNavElement(self.props.wrapped.userFirstName.get, self.state.avatarUrl, self.props.wrapped.logout)
+        } else {
+          UnconnectedUserNavElement(self)
+        }, <.style()(UserNavStyles.render[String]))
+      }
+    )
 }
 
 object ConnectedUserNavElement {
