@@ -1,12 +1,13 @@
 package org.make.front.components
 
+import io.github.shogowada.scalajs.reactjs.VirtualDOM
 import io.github.shogowada.scalajs.reactjs.VirtualDOM.VirtualDOMAttributes.Type.AS_IS
 import io.github.shogowada.scalajs.reactjs.VirtualDOM.VirtualDOMElements.ReactClassElementSpec
 import io.github.shogowada.scalajs.reactjs.VirtualDOM.{VirtualDOMAttributes, VirtualDOMElements}
 import io.github.shogowada.statictags.{Attribute, SpaceSeparatedStringAttributeSpec}
-import org.make.front.components.authenticate.AuthenticateWithSocialNetworksContainer
+import org.make.front.components.authenticate.{AuthenticateWithSocialNetworksContainer, LoginOrRegister}
 import org.make.front.components.authenticate.login.{LoginWithEmailContainer, LoginWithEmailOrSocialNetworks}
-import org.make.front.components.authenticate.register.RegisterContainer
+import org.make.front.components.authenticate.register.{RegisterContainer, RegisterWithSocialNetworksOrEmail}
 import org.make.front.components.containers.RecoverPasswordContainer
 import org.make.front.components.resetPassword.ResetPasswordContainer
 
@@ -134,6 +135,15 @@ object Components {
     def LoginWithEmailComponent: ReactClassElementSpec = self(LoginWithEmailContainer.reactClass)
 
     def LoginWithEmailOrSocialNetworksComponent: ReactClassElementSpec = self(LoginWithEmailOrSocialNetworks.reactClass)
+
+    def RegisterWithSocialNetworksOrEmailComponent: ReactClassElementSpec =
+      self(RegisterWithSocialNetworksOrEmail.regular)
+
+    def RegisterWithSocialNetworksOrEmailExpandedComponent: ReactClassElementSpec =
+      self(RegisterWithSocialNetworksOrEmail.expanded)
+
+    def LoginOrRegisterComponent: ReactClassElementSpec =
+      self(LoginOrRegister.reactClass)
 
     def ViewablePasswordComponent: ReactClassElementSpec =
       self(ViewablePassword.reactClass)

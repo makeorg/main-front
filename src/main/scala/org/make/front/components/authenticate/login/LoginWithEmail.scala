@@ -88,7 +88,7 @@ object LoginWithEmail {
               )()
             ),
             <.span(^.className := LoginWithEmailStyles.error)(self.state.emailErrorMessage),
-            <.label(^.className := Seq(InputStyles.wrapper, InputStyles.withIcon, LoginWithEmailStyles.emailPicto))(
+            <.label(^.className := Seq(InputStyles.wrapper, InputStyles.withIcon, LoginWithEmailStyles.passwordPicto))(
               <.input(
                 ^.`type`.password,
                 ^.required := true,

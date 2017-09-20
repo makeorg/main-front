@@ -6,6 +6,7 @@ import io.github.shogowada.scalajs.reactjs.VirtualDOM._
 import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import io.github.shogowada.scalajs.reactjs.elements.ReactElement
 import org.make.front.components.Components._
+import org.make.front.components.authenticate.LoginOrRegister.LoginOrRegisterProps
 import org.make.front.components.modals.Modal.ModalProps
 import org.make.front.components.userNav.UserNav.{UserNavProps, UserNavState}
 import org.make.front.facades.I18n
@@ -86,7 +87,11 @@ object UnconnectedUserNavElement {
           )(I18n.t("content.header.connect"), unescape("&nbsp;/&nbsp;"), I18n.t("content.header.createAccount"))
         ),
         <.ModalComponent(^.wrapped := ModalProps(self.state.isAuthenticateModalOpened, toggleAuthenticateModal()))(
-          <.p()("truc")
+          <.LoginOrRegisterComponent(
+            ^.wrapped := LoginOrRegisterProps(displayView = "login", onSuccessfulLogin = () => {
+              self.setState(_.copy(isAuthenticateModalOpened = false))
+            })
+          )()
         )
       )
     )
