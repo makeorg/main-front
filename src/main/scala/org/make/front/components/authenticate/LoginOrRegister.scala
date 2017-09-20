@@ -7,6 +7,7 @@ import io.github.shogowada.scalajs.reactjs.events.SyntheticEvent
 import org.make.front.components.Components.RichVirtualDOMElements
 import org.make.front.components.authenticate.login.LoginWithEmailOrSocialNetworks.LoginWithEmailOrSocialNetworksProps
 import org.make.front.components.authenticate.register.RegisterWithSocialNetworksOrEmail.RegisterWithSocialNetworksOrEmailProps
+import org.make.front.components.containers.RecoverPasswordContainer.RecoverPasswordContainerProps
 import org.make.front.facades.I18n
 import org.make.front.facades.Unescape.unescape
 
@@ -42,10 +43,23 @@ object LoginOrRegister {
               <.LoginWithEmailOrSocialNetworksComponent(
                 ^.wrapped := LoginWithEmailOrSocialNetworksProps(props.onSuccessfulLogin)
               )(),
-              <.p()(unescape(I18n.t("form.login.oupsI")), <.a()(unescape(I18n.t("form.login.forgotPassword")))),
+              <.p()(
+                unescape(I18n.t("form.login.oupsI")),
+                <.a(^.onClick := goTo("reset-password"))(unescape(I18n.t("form.login.forgotPassword")))
+              ),
               <.p()(
                 unescape(I18n.t("form.login.noAccount")),
                 <.a(^.onClick := goTo("register"))(unescape(I18n.t("form.login.createAccount")))
+              )
+            )
+          else if (state.currentView == "reset-password")
+            Seq(
+              <.RecoverPasswordContainerComponent(
+                ^.wrapped := RecoverPasswordContainerProps(props.onSuccessfulLogin)
+              )(),
+              <.p()(
+                unescape(I18n.t("form.passwordRecovery.return")),
+                <.a(^.onClick := goTo("login"))(unescape(I18n.t("form.passwordRecovery.connectScreen")))
               )
             )
           else

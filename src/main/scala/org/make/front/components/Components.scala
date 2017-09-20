@@ -1,13 +1,12 @@
 package org.make.front.components
 
-import io.github.shogowada.scalajs.reactjs.VirtualDOM
 import io.github.shogowada.scalajs.reactjs.VirtualDOM.VirtualDOMAttributes.Type.AS_IS
 import io.github.shogowada.scalajs.reactjs.VirtualDOM.VirtualDOMElements.ReactClassElementSpec
 import io.github.shogowada.scalajs.reactjs.VirtualDOM.{VirtualDOMAttributes, VirtualDOMElements}
 import io.github.shogowada.statictags.{Attribute, SpaceSeparatedStringAttributeSpec}
-import org.make.front.components.authenticate.{AuthenticateWithSocialNetworksContainer, LoginOrRegister}
 import org.make.front.components.authenticate.login.{LoginWithEmailContainer, LoginWithEmailOrSocialNetworks}
 import org.make.front.components.authenticate.register.{RegisterContainer, RegisterWithSocialNetworksOrEmail}
+import org.make.front.components.authenticate.{AuthenticateWithSocialNetworksContainer, LoginOrRegister}
 import org.make.front.components.containers.RecoverPasswordContainer
 import org.make.front.components.resetPassword.ResetPasswordContainer
 

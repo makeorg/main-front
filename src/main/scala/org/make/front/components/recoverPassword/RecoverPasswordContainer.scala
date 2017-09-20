@@ -1,17 +1,18 @@
 package org.make.front.components.containers
 
-import io.github.shogowada.scalajs.reactjs.React.{Props, Self}
+import io.github.shogowada.scalajs.reactjs.React.Props
 import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import io.github.shogowada.scalajs.reactjs.redux.ReactRedux
 import io.github.shogowada.scalajs.reactjs.redux.Redux.Dispatch
-import org.make.front.actions.{ClosePasswordRecoveryModalAction, LoginRequired, NotifyInfo}
+import org.make.front.actions.NotifyInfo
 import org.make.front.components.AppState
 import org.make.front.components.recoverPassword.PasswordRecovery
-import org.make.front.components.recoverPassword.PasswordRecovery.{PasswordRecoveryProps, _}
+import org.make.front.components.recoverPassword.PasswordRecovery.PasswordRecoveryProps
 import org.make.front.facades.{Configuration, I18n}
 import org.make.services.user.UserServiceComponent
 
 import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.Future
 import scala.util.{Failure, Success}
 
 object RecoverPasswordContainer extends UserServiceComponent {
@@ -20,35 +21,21 @@ object RecoverPasswordContainer extends UserServiceComponent {
 
   lazy val reactClass: ReactClass = ReactRedux.connectAdvanced(selectorFactory)(PasswordRecovery.reactClass)
 
-  def selectorFactory: (Dispatch) => (AppState, Props[Unit]) => PasswordRecoveryProps =
-    (dispatch: Dispatch) => {
-      def closeModal() = {
-        dispatch(ClosePasswordRecoveryModalAction)
-      }
+  case class RecoverPasswordContainerProps(onRecoverPasswordSuccess: () => Unit = () => {})
 
-      def handleSubmit(self: Self[PasswordRecoveryProps, PasswordRecoveryState]): Unit = {
-        userService.resetPasswordRequest(self.state.email).onComplete {
+  def selectorFactory: (Dispatch) => (AppState, Props[RecoverPasswordContainerProps]) => PasswordRecoveryProps =
+    (dispatch: Dispatch) => { (_: AppState, props) =>
+      def handleSubmit(email: String): Future[_] = {
+        val future = userService.resetPasswordRequest(email)
+        future.onComplete {
           case Success(_) =>
-            dispatch(ClosePasswordRecoveryModalAction)
             dispatch(NotifyInfo(message = I18n.t("form.passwordRecovery.notification.message"), title = None))
-            self.setState(self.state.copy(errorMessage = "", email = ""))
-          case Failure(e) =>
-            println(e.getMessage)
-            self.setState(self.state.copy(errorMessage = I18n.t("form.passwordRecovery.emailDoesNotExist")))
+            props.wrapped.onRecoverPasswordSuccess()
+          case Failure(_) =>
         }
+        future
       }
 
-      def handleReturnLinkClick() = {
-        dispatch(ClosePasswordRecoveryModalAction)
-        dispatch(LoginRequired)
-      }
-
-      (state: AppState, _) =>
-        PasswordRecovery.PasswordRecoveryProps(
-          state.technicalState.passwordRecoveryModalIsOpen,
-          closeModal,
-          handleReturnLinkClick,
-          handleSubmit
-        )
+      PasswordRecovery.PasswordRecoveryProps(handleSubmit)
     }
 }
