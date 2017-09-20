@@ -79,7 +79,7 @@ object UnconnectedUserNavElement {
           )(I18n.t("content.header.connect"), unescape("&nbsp;/&nbsp;"), I18n.t("content.header.createAccount"))
         ),
         <.ModalComponent(^.wrapped := ModalProps(self.state.isAuthenticateModalOpened, toggleAuthenticateModal()))(
-          <.AuthenticateWithSocialNetworksComponent()()
+          <.p()("truc")
         )
       )
     )

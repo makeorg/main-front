@@ -5,7 +5,7 @@ import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import io.github.shogowada.scalajs.reactjs.redux.ReactRedux
 import io.github.shogowada.scalajs.reactjs.redux.Redux.Dispatch
 import io.github.shogowada.scalajs.reactjs.router.RouterProps
-import org.make.front.actions.{LoginRequired, LogoutAction}
+import org.make.front.actions.LogoutAction
 import org.make.front.components.AppState
 
 object UserNavContainer extends RouterProps {
