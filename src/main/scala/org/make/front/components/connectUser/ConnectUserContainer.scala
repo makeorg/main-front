@@ -132,7 +132,7 @@ object ConnectUserContainer extends RouterProps with UserServiceComponent {
           register = register,
           closeModal = closeModal,
           handleForgotPasswordLinkClick = handleForgotPasswordLinkClick,
-          isOpen = appState.technicalState.showLoginModal,
+          isOpen = false,
           googleAppId = googleAppId,
           facebookAppId = facebookAppId,
           isRegistering = true,

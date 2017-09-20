@@ -9,7 +9,5 @@ final case class AppState(themes: Seq[Theme],
                           technicalState: TechnicalState)
 
 final case class TechnicalState(notifications: Seq[Notification],
-                                showLoginModal: Boolean,
                                 useProposalLoginView: Boolean,
-                                pendingProposalAction: Option[StorePendingProposal] = None,
-                                passwordRecoveryModalIsOpen: Boolean)
+                                pendingProposalAction: Option[StorePendingProposal] = None)
