@@ -7,6 +7,7 @@ import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import io.github.shogowada.scalajs.reactjs.elements.ReactElement
 import org.make.front.components.Components._
 import org.make.front.components.modals.Modal.ModalProps
+import org.make.front.components.userNav.UserNav.{UserNavProps, UserNavState}
 import org.make.front.facades.I18n
 import org.make.front.facades.Unescape.unescape
 import org.make.front.styles._
@@ -32,7 +33,7 @@ object UserNav {
       <.nav(^.className := UserNavStyles.menuWrapper)(if (self.props.wrapped.isConnected) {
         ConnectedUserNavElement(self.props.wrapped.userFirstName.get, self.state.avatarUrl, self.props.wrapped.logout)
       } else {
-        UnconnectedUserNavElement()
+        UnconnectedUserNavElement(self)
       }, <.style()(UserNavStyles.render[String]))
     })
 }
@@ -59,7 +60,7 @@ object ConnectedUserNavElement {
 }
 
 object UnconnectedUserNavElement {
-  def apply(): ReactElement = {
+  def apply(self: Self[UserNavProps, UserNavState]): ReactElement = {
 
     def openAuthenticateModal() = () => {
       self.setState(state => state.copy(isAuthenticateModalOpened = true))

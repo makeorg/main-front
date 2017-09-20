@@ -12,7 +12,7 @@ object UserNavContainer extends RouterProps {
 
   lazy val reactClass: ReactClass = ReactRedux.connectAdvanced {
     dispatch: Dispatch => (state: AppState, _: Props[Unit]) =>
-      UserNav.WrappedProps(
+      UserNav.UserNavProps(
         isConnected = state.connectedUser.isDefined,
         userFirstName = state.connectedUser.flatMap(_.firstName),
         avatarUrl = state.connectedUser.flatMap(_.profile).flatMap(_.avatarUrl),
