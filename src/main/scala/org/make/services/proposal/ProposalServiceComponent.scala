@@ -50,6 +50,5 @@ trait ProposalServiceComponent {
           ).asJson.pretty(ApiService.printer)
         )
         .map(_.get)
-
   }
 }

@@ -4,10 +4,12 @@ import io.github.shogowada.scalajs.reactjs.React
 import io.github.shogowada.scalajs.reactjs.VirtualDOM.{<, _}
 import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import io.github.shogowada.scalajs.reactjs.elements.ReactElement
+import io.github.shogowada.scalajs.reactjs.events.SyntheticEvent
 import io.github.shogowada.scalajs.reactjs.router.RouterProps._
 import io.github.shogowada.scalajs.reactjs.router.WithRouter
 import org.make.front.facades.Autosuggest._
 import org.make.front.facades._
+import org.make.front.helpers.QueryString
 import org.make.front.styles.{InputStyles, ThemeStyles}
 import org.scalajs.dom.raw.FocusEvent
 
@@ -47,7 +49,14 @@ object SearchForm {
     WithRouter(
       React
         .createClass[Unit, State](
-          getInitialState = (_) => State("", js.Array()),
+          getInitialState = (self) => {
+            State(URIUtils.decodeURI(QueryString.parse(self.props.location.search).getOrElse("q", "")), js.Array())
+          },
+          componentWillReceiveProps = (self, nextProps) => {
+            self.setState(
+              _.copy(value = URIUtils.decodeURI(QueryString.parse(nextProps.location.search).getOrElse("q", "")))
+            )
+          },
           render =
             (self) => {
 
@@ -56,10 +65,11 @@ object SearchForm {
                 // TODO: trigger search and update suggestions
               }
 
-              val onSubmit: () => Boolean = () => {
-                val currentValue = URIUtils.encodeURI(self.state.value)
+              // TODO: handle theme context : search with more weight to proposals from the same theme
+              def onSubmit: (SyntheticEvent) => Unit = (e: SyntheticEvent) => {
+                e.preventDefault()
+                val currentValue: String = URIUtils.encodeURI(self.state.value)
                 self.props.history.push(s"/search?q=$currentValue")
-                false
               }
 
               <.form(^.onSubmit := onSubmit)(
@@ -75,10 +85,10 @@ object SearchForm {
                     (suggestion: js.Object) => suggestion.asInstanceOf[ProposalSuggestion].content
                   ),
                   ^.inputProps := InputProps(
-                    self.state.value,
-                    onChange,
-                    "search",
-                    I18n.t("content.header.searchPlaceholder")
+                    value = self.state.value,
+                    onChange = onChange,
+                    inputType = "search",
+                    placeholder = I18n.t("content.header.searchPlaceholder")
                   ),
                   ^.theme := autoSuggestTheme
                 )(),

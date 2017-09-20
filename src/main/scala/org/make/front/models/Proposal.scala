@@ -13,9 +13,9 @@ final case class Proposal(id: ProposalId,
                           status: String,
                           createdAt: ZonedDateTime,
                           updatedAt: Option[ZonedDateTime],
-                          voteAgree: Vote,
-                          voteDisagree: Vote,
-                          voteNeutral: Vote,
+                          votesAgree: Vote,
+                          votesDisagree: Vote,
+                          votesNeutral: Vote,
                           proposalContext: ProposalContext,
                           trending: Option[String],
                           labels: Seq[String],
@@ -26,7 +26,7 @@ final case class Proposal(id: ProposalId,
                           tags: Seq[Tag])
 
 final case class Qualification(key: String, count: Int = 0, selected: Boolean = false)
-final case class Vote(key: String, selected: Boolean = false, count: Int = 0, qualifications: Seq[Qualification])
+final case class Vote(key: String, count: Int = 0, qualifications: Seq[Qualification])
 
 final case class ProposalContext(operation: Option[String],
                                  source: Option[String],

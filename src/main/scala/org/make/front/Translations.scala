@@ -31,7 +31,7 @@ object Translations {
       |         "logout": "Se Déconnecter",
       |         "connect": "Se connecter",
       |         "createAccount": "S'inscrire",
-      |         "searchPlaceholder": "Chercher des propositions"
+      |         "searchPlaceholder": "Recherchez une proposition..."
       |       },
       |       "homepage": {
       |
@@ -59,8 +59,7 @@ object Translations {
       |         "moreInfos": "En savoir&nbsp;+",
       |         "matrix": {
       |           "title": "votez sur les propositions",
-      |           "noContent": "Nous n’avons trouvé <strong>aucun résultat</strong> correspondant à votre sélection de&nbsp;tag(s).",
-      |           "selectOtherTags": "Vous pouvez sélectionner d’autres combinaisons de&nbsp;tags.",
+      |           "noContent": "Nous n’avons trouvé <strong>aucun résultat</strong> correspondant à votre sélection de&nbsp;tag(s). <br> Vous pouvez sélectionner d’autres combinaisons de&nbsp;tags.",
       |           "filter": {
       |             "tag": {
       |               "title": "Tags populaire&nbsp;:"
@@ -103,12 +102,21 @@ object Translations {
       |         "titleIntro": "Partagez votre proposition sur le&nbsp;thème",
       |         "help": "Ne vous inquiétez pas, nous corrigerons vos éventuelles fautes&nbsp;d'orthographe.",
       |         "subHelp": "Pour en savoir plus sur notre charte de modération, cliquez&nbsp;ici.",
-      |         "postedIn": "postée dans "
+      |         "postedIn": "postée dans ",
+      |         "seeMore":"Voir + de résultats"
       |       },
       |       "account": {
       |         "validationTitle": "Activation du&nbsp;compte",
       |         "validationSuccess": "Votre compte vient d'être activé. vous pouvez vous connectez dès&nbsp;maintenant",
       |         "validationError": "Votre jeton est invalide, votre compte ne peut pas être&nbsp;activé."
+      |       },
+      |       "search": {
+      |         "title": "<strong>%{results} résultats</strong> pour votre recherche ",
+      |         "matrix": {
+      |           "noContent": "Nous n'avons trouvé <strong> aucun résultat </strong> pour votre recherche<br> «&nbsp;%{search}&nbsp;»"
+      |         },
+      |         "proposeIntro": "Soyez la première personne à formuler une proposition à ce sujet !",
+      |         "propose": "Proposer"
       |       }
       |    },
       |    "form": {
@@ -206,7 +214,7 @@ object Translations {
       |         "logout": "Logout",
       |         "connect": "Log In",
       |         "createAccount": "Create account",
-      |         "searchPlaceholder": "Lookup proposals"
+      |         "searchPlaceholder": "Search for an idea..."
       |       },
       |       "homepage": {
       |         "baseline": "À la&nbsp;une",
@@ -232,8 +240,7 @@ object Translations {
       |         "moreInfos": "En savoir&nbsp;+",
       |         "matrix": {
       |           "title": "votez sur les propositions",
-      |           "noContent": "Nous n’avons trouvé <strong>aucun résultat</strong> correspondant à votre sélection de&nbsp;tag(s).",
-      |           "selectOtherTags": "Vous pouvez sélectionner d’autres combinaisons de&nbsp;tags.",
+      |           "noContent": "Nous n’avons trouvé <strong>aucun résultat</strong> correspondant à votre sélection de&nbsp;tag(s). <br /> Vous pouvez sélectionner d’autres combinaisons de&nbsp;tags.",
       |           "filter": {
       |             "tag": {
       |               "title": "Tags populaire&nbsp;:"
@@ -275,12 +282,21 @@ object Translations {
       |         "titleIntro": "Partagez votre proposition sur le&nbsp;thème",
       |         "help": "Ne vous inquiétez pas, nous corrigerons vos éventuelles fautes&nbsp;d'orthographe.",
       |         "subHelp": "Pour en savoir plus sur notre charte de modération, cliquez&nbsp;ici.",
-      |         "postedIn": "posted in "
+      |         "postedIn": "posted in ",
+      |         "seeMore":"Voir + de résultats"
       |       },
       |       "account": {
       |         "validationTitle": "Activation du compte",
       |         "validationSuccess": "Votre compte vient d'être activé. vous pouvez vous connectez dès maintenant",
       |         "validationError": "Votre jeton est invalide, votre compte ne peut pas être activé."
+      |       },
+      |       "search": {
+      |         "title": "<strong>%{results} results</strong> for your search ",
+      |         "matrix": {
+      |           "noContent": "We didn't find <strong> any results </strong> to your search<br> «&nbsp;%{search}&nbsp;»"
+      |         },
+      |         "proposeIntro": "Be the first one to suggest an idea on this topic !",
+      |         "propose": "Propose"
       |       }
       |    },
       |    "form": {

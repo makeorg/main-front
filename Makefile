@@ -23,7 +23,7 @@ release:
 reload-all: clean start
 
 start:
-	sbt ~fastOptJS::startWebpackDevServer
+	sbt fastOptJS::startWebpackDevServer ~fastOptJS
 
 test-all: test-unit test-int
 

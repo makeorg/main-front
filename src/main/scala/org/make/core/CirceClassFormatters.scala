@@ -3,11 +3,13 @@ package org.make.core
 import io.circe.java8.time.TimeInstances
 import io.circe.{Decoder, Encoder, Json}
 import org.make.front.models.{
-  Gender  => GenderModel,
-  Profile => ProfileModel,
-  Role    => RoleModel,
-  Token   => TokenModel,
-  User    => UserModel
+  Gender        => GenderModel,
+  Profile       => ProfileModel,
+  Role          => RoleModel,
+  Token         => TokenModel,
+  User          => UserModel,
+  Vote          => VoteModel,
+  Qualification => QualificationModel
 }
 import org.make.services.proposal.ProposalResponses.RegisterProposalResponse
 
@@ -68,4 +70,9 @@ trait CirceClassFormatters extends TimeInstances {
       }
     )
 
+  implicit lazy val vote: Decoder[VoteModel] =
+    Decoder.forProduct3("key", "count", "qualifications")(VoteModel.apply)
+
+  implicit lazy val qualification: Decoder[QualificationModel] =
+    Decoder.forProduct3("key", "count", "selected")(QualificationModel.apply)
 }

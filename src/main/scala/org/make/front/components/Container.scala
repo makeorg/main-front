@@ -7,6 +7,7 @@ import io.github.shogowada.scalajs.reactjs.router.dom.RouterDOM._
 import org.make.front.components.activateAccount.ActivateAccountContainer
 import org.make.front.components.home.Home
 import org.make.front.components.authenticate.resetPassword.ResetPasswordContainer
+import org.make.front.components.search.SearchContainer
 import org.make.front.components.theme.ThemeContainerComponent
 
 object ContainerComponent {
@@ -26,6 +27,7 @@ object ContainerComponent {
             ^.component := ActivateAccountContainer.reactClass
           )(),
           <.Route(^.exact := true, ^.path := "/theme/:themeSlug", ^.component := ThemeContainerComponent.reactClass)(),
+          <.Route(^.exact := true, ^.path := "/search", ^.component := SearchContainer.reactClass)(),
           <.Route(^.exact := true, ^.path := "/", ^.component := Home.reactClass)()
       )
     )

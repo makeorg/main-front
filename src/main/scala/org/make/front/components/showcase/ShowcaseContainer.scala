@@ -35,7 +35,7 @@ object ShowcaseContainer {
           status = "",
           createdAt = ZonedDateTime.now(),
           updatedAt = None,
-          voteAgree = VoteModel(
+          votesAgree = VoteModel(
             key = "agree",
             count = 2500,
             qualifications = Seq(
@@ -44,7 +44,7 @@ object ShowcaseContainer {
               QualificationModel(key = "platitudeAgree", count = 7)
             )
           ),
-          voteDisagree = VoteModel(
+          votesDisagree = VoteModel(
             key = "disagree",
             count = 660,
             qualifications = Seq(
@@ -53,7 +53,7 @@ object ShowcaseContainer {
               QualificationModel(key = "platitudeDisagree", count = 9)
             )
           ),
-          voteNeutral = VoteModel(
+          votesNeutral = VoteModel(
             key = "neutral",
             count = 170,
             qualifications = Seq(

@@ -4,6 +4,7 @@ import io.github.shogowada.scalajs.reactjs.VirtualDOM.VirtualDOMAttributes.Type.
 import io.github.shogowada.scalajs.reactjs.VirtualDOM.VirtualDOMElements.ReactClassElementSpec
 import io.github.shogowada.scalajs.reactjs.VirtualDOM.{VirtualDOMAttributes, VirtualDOMElements}
 import io.github.shogowada.statictags.{Attribute, SpaceSeparatedStringAttributeSpec}
+import org.make.front.components.proposals.ProposalsList
 
 import scala.scalajs.js
 import scalacss.StyleA
@@ -104,6 +105,9 @@ object Components {
 
     def ProposalWithTagsComponent: ReactClassElementSpec =
       self(proposals.proposal.ProposalWithTags.reactClass)
+
+    def ProposalsListComponent: ReactClassElementSpec =
+      self(ProposalsList.reactClass)
 
     def NavInThemesContainerComponent: ReactClassElementSpec =
       self(navInThemes.NavInThemesContainer.reactClass)
