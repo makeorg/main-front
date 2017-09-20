@@ -26,6 +26,8 @@ object ThemeStyles extends StyleSheet.Inline {
   object ThemeColor {
     val primary: ValueT[ValueT.Color] = rgb(237, 24, 68)
     val secondary: ValueT[ValueT.Color] = rgb(37, 49, 134)
+    val negative: ValueT[ValueT.Color] = rgb(218, 0, 27)
+    val positive: ValueT[ValueT.Color] = rgb(110, 182, 31)
   }
 
   object TextColor {
@@ -34,7 +36,7 @@ object ThemeStyles extends StyleSheet.Inline {
     val lighter: ValueT[ValueT.Color] = rgba(0, 0, 0, 0.3)
     val white: ValueT[ValueT.Color] = rgb(255, 255, 255)
     val grey: ValueT[ValueT.Color] = rgb(155, 155, 155)
-    val danger: ValueT[ValueT.Color] = rgba(208, 2, 27, 1)
+    val danger: ValueT[ValueT.Color] = ThemeColor.negative
   }
 
   object BackgroundColor {
@@ -50,7 +52,7 @@ object ThemeStyles extends StyleSheet.Inline {
   object BorderColor {
     val base: ValueT[ValueT.Color] = rgb(155, 155, 155)
     val light: ValueT[ValueT.Color] = rgb(204, 204, 204)
-    val blackVeryTransparent: ValueT[ValueT.Color] = rgba(0, 0, 0, 0.01)
+    val blackVeryTransparent: ValueT[ValueT.Color] = rgba(0, 0, 0, 0.1)
     val danger: ValueT[ValueT.Color] = rgba(208, 2, 27, 1)
   }
 

@@ -8,6 +8,7 @@ import io.github.shogowada.scalajs.reactjs.VirtualDOM._
 import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import io.github.shogowada.statictags.Element
 import org.make.front.components.presentationals._
+import org.make.front.components.proposals.proposal.ProposalWithTags.ProposalWithTagsProps
 import org.make.front.components.tags.FilterByTags.FilterByTagsProps
 import org.make.front.facades.I18n
 import org.make.front.facades.Translate.TranslateVirtualDOMElements
@@ -103,19 +104,16 @@ object ProposalsList {
               LayoutRulesStyles.colHalfBeyondMedium,
               LayoutRulesStyles.colQuarterBeyondLarge
             )
-          )(
-            <.ProposalComponent(
-              ^.wrapped := Proposal
-                .ProposalProps(proposal = proposal, proposalLocation = ThemePage, isHomePage = false, None)
-            )()
-        )
+          )(<.ProposalWithTagsComponent(^.wrapped := ProposalWithTagsProps(proposal = proposal))())
       )
 
       val proposals: Element =
         <.div()(
           <.ul()(listProposals),
           <.div(^.className := Seq(ProposalsListStyles.seeMoreButtonWrapper, LayoutRulesStyles.col))(
-            <.button(^.className := Seq(CTAStyles.basic, CTAStyles.basicOnButton))()
+            <.button(^.className := Seq(CTAStyles.basic, CTAStyles.basicOnButton))(
+              unescape(I18n.t("content.theme.seeMoreProposals"))
+            )
           )
         )
 

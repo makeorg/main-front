@@ -15,7 +15,6 @@ import org.make.front.models.{
   Qualification   => QualificationModel,
   Tag             => TagModel,
   TagId           => TagIdModel,
-  Theme           => ThemeModel,
   ThemeId         => ThemeIdModel,
   UserId          => UserIdModel,
   Vote            => VoteModel
@@ -82,15 +81,7 @@ object ShowcaseContainer {
 
   def selectorFactory: (Dispatch) => (AppState, Props[ShowcaseContainerProps]) => Showcase.ShowcaseProps =
     (_: Dispatch) => { (appState: AppState, ownProps: Props[ShowcaseContainerProps]) =>
-      def searchThemeByThemeId(themeId: ThemeIdModel): Option[ThemeModel] = {
-        appState.themes.find(_.id == themeId)
-      }
-
-      Showcase.ShowcaseProps(
-        proposals = proposals,
-        introTranslationKey = ownProps.wrapped.introTranslationKey,
-        searchThemeByThemeId = searchThemeByThemeId
-      )
+      Showcase.ShowcaseProps(proposals = proposals, introTranslationKey = ownProps.wrapped.introTranslationKey)
     }
 
 }

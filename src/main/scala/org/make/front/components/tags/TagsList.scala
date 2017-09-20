@@ -112,10 +112,13 @@ object TagsListStyles extends StyleSheet.Inline {
   }
 
   val tagList: StyleA =
-    style(lineHeight(0), margin :=! s"-${5.pxToEm().value} -${5.pxToEm().value} 0")
+    style(
+      lineHeight(0),
+      margin :=! s"-${(ThemeStyles.SpacingValue.smaller / 2).pxToEm().value} -${(ThemeStyles.SpacingValue.smaller / 2).pxToEm().value} 0"
+    )
 
   val tagListItem: StyleA =
-    style(display.inlineBlock, verticalAlign.middle, margin(5.pxToEm()))
+    style(display.inlineBlock, verticalAlign.middle, margin((ThemeStyles.SpacingValue.smaller / 2).pxToEm()))
 
   val showMoreTags: StyleA = style(
     color :=! ThemeStyles.TextColor.white,

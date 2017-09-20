@@ -3,7 +3,6 @@ package org.make.front.components
 import io.github.shogowada.scalajs.reactjs.React
 import io.github.shogowada.scalajs.reactjs.VirtualDOM._
 import io.github.shogowada.scalajs.reactjs.router.WithRouter
-import org.make.front.components.authenticate.AuthenticateWithSocialNetworksContainer.AuthenticateWithSocialNetworksContainerProps
 import org.make.front.components.presentationals.RichVirtualDOMElements
 import org.make.front.styles._
 

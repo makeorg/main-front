@@ -1,4 +1,4 @@
-package org.make.front.components.vote
+package org.make.front.components.proposals.vote
 
 import io.github.shogowada.scalajs.reactjs.React
 import io.github.shogowada.scalajs.reactjs.React.Self

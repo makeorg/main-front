@@ -32,6 +32,7 @@ object CTAStyles extends StyleSheet.Inline {
       backgroundColor(ThemeStyles.ThemeColor.primary),
       boxShadow := s"0 1px 1px rgba(0, 0, 0, 0.5)"
     )
+
   val basicOnA: StyleA = style(paddingTop(11.pxToEm()))
 
   val basicOnButton: StyleA = style(paddingTop(3.pxToEm()))

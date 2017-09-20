@@ -4,7 +4,7 @@ import io.github.shogowada.scalajs.reactjs.React
 import io.github.shogowada.scalajs.reactjs.VirtualDOM._
 import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import org.make.front.components.presentationals._
-import org.make.front.components.proposals.{HomePage, Proposal}
+import org.make.front.components.proposals.proposal.ProposalWithThemeContainer.ProposalWithThemeContainerProps
 import org.make.front.facades.I18n
 import org.make.front.facades.Unescape.unescape
 import org.make.front.models.{Proposal => ProposalModel, Theme => ThemeModel, ThemeId => ThemeIdModel}
@@ -15,9 +15,7 @@ import scalacss.internal.Length
 
 object Showcase {
 
-  final case class ShowcaseProps(proposals: Seq[ProposalModel],
-                                 introTranslationKey: String,
-                                 searchThemeByThemeId: (ThemeIdModel) => Option[ThemeModel])
+  final case class ShowcaseProps(proposals: Seq[ProposalModel], introTranslationKey: String)
 
   lazy val reactClass: ReactClass = React.createClass[ShowcaseProps, Unit](
     render = (self) =>
@@ -41,15 +39,9 @@ object Showcase {
                     LayoutRulesStyles.colHalfBeyondMedium
                   )
                 )(
-                  <.ProposalComponent(
-                    ^.wrapped := Proposal
-                      .ProposalProps(
-                        proposal = proposal,
-                        proposalLocation = HomePage,
-                        isHomePage = true,
-                        associatedTheme =
-                          self.props.wrapped.searchThemeByThemeId(proposal.themeId.getOrElse(ThemeIdModel("")))
-                      )
+                  <.ProposalWithThemeContainerComponent(
+                    ^.wrapped :=
+                      ProposalWithThemeContainerProps(proposal = proposal)
                   )()
               )
             )

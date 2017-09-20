@@ -48,10 +48,13 @@ package object presentationals {
     def FullscreenModalComponent: ReactClassElementSpec = self(modals.FullscreenModal.reactClass)
 
     def TagComponent: ReactClassElementSpec = self(tags.Tag.reactClass)
+
     def TagsListComponent: ReactClassElementSpec = self(tags.TagsListComponent.reactClass)
+
     def FilterByTagsComponent: ReactClassElementSpec = self(tags.FilterByTags.reactClass)
 
     def ThemeHeaderComponent: ReactClassElementSpec = self(theme.ThemeHeader.reactClass)
+
     def ConnectUserComponent: ReactClassElementSpec = self(connectUser.ConnectUser.reactClass)
 
     def SubmitProposalContainerComponent: ReactClassElementSpec =
@@ -66,31 +69,52 @@ package object presentationals {
     def PoliticalActionComponent: ReactClassElementSpec =
       self(politicalActions.PoliticalAction.reactClass)
 
-    def VoteComponent: ReactClassElementSpec = self(vote.Vote.reactClass)
-    def VoteButtonComponent: ReactClassElementSpec = self(presentationals.VoteButton.reactClass)
+    def VoteComponent: ReactClassElementSpec = self(proposals.vote.Vote.reactClass)
+
+    def VoteButtonComponent: ReactClassElementSpec = self(proposals.vote.VoteButton.reactClass)
+
     def QualificateVoteComponent: ReactClassElementSpec =
-      self(vote.QualificateVote.reactClass)
+      self(proposals.vote.QualificateVote.reactClass)
 
     def NotificationContainerComponent: ReactClassElementSpec =
       self(notification.NotificationContainer.reactClass)
+
     def UserNavContainerComponent: ReactClassElementSpec =
       self(userNav.UserNavContainer.reactClass)
+
     def ConnectUserContainerComponent: ReactClassElementSpec =
       self(connectUser.ConnectUserContainer.reactClass)
+
     def ProposalsContainerComponent: ReactClassElementSpec =
       self(proposals.ProposalsListContainer.reactClass)
+
+    def ProposalInfosComponent: ReactClassElementSpec =
+      self(proposals.proposal.ProposalInfos.reactClass)
+
     def ProposalComponent: ReactClassElementSpec =
-      self(proposals.Proposal.reactClass)
+      self(proposals.proposal.Proposal.reactClass)
+
+    def ProposalWithThemeContainerComponent: ReactClassElementSpec =
+      self(proposals.proposal.ProposalWithThemeContainer.reactClass)
+
+    def ProposalWithThemeComponent: ReactClassElementSpec =
+      self(proposals.proposal.ProposalWithTheme.reactClass)
+
+    def ProposalWithTagsComponent: ReactClassElementSpec =
+      self(proposals.proposal.ProposalWithTags.reactClass)
 
     def NavInThemesContainerComponent: ReactClassElementSpec =
       self(navInThemes.NavInThemesContainer.reactClass)
 
     def PasswordRecoveryContainerComponent: ReactClassElementSpec =
       self(containers.PasswordRecoveryContainer.reactClass)
+
     def PasswordResetContainerComponent: ReactClassElementSpec =
       self(resetPassword.PasswordResetContainer.reactClass)
+
     def ShowcaseContainerComponent: ReactClassElementSpec =
       self(showcase.ShowcaseContainer.reactClass)
+
     def ActivateAccountContainerComponent: ReactClassElementSpec =
       self(activateAccount.ActivateAccountContainer.reactClass)
 
