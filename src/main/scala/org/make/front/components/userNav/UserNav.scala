@@ -1,10 +1,12 @@
 package org.make.front.components.userNav
 
 import io.github.shogowada.scalajs.reactjs.React
+import io.github.shogowada.scalajs.reactjs.React.Self
 import io.github.shogowada.scalajs.reactjs.VirtualDOM._
 import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import io.github.shogowada.scalajs.reactjs.elements.ReactElement
 import org.make.front.components.Components._
+import org.make.front.components.modals.Modal.ModalProps
 import org.make.front.facades.I18n
 import org.make.front.facades.Unescape.unescape
 import org.make.front.styles._
@@ -15,26 +17,24 @@ import scalacss.internal.{Length, StyleA}
 
 object UserNav {
 
-  case class WrappedProps(isConnected: Boolean,
+  case class UserNavProps(isConnected: Boolean,
                           userFirstName: Option[String],
                           avatarUrl: Option[String],
-                          login: ()  => Unit,
                           logout: () => Unit)
 
-  case class State(avatarUrl: String)
+  case class UserNavState(avatarUrl: String, isAuthenticateModalOpened: Boolean)
 
   lazy val reactClass: ReactClass =
-    React.createClass[WrappedProps, State](
-      componentWillReceiveProps = { (self, props) =>
-        self.setState(State(avatarUrl = props.wrapped.avatarUrl.getOrElse("")))
-      },
-      render = self =>
-        <.nav(^.className := UserNavStyles.menuWrapper)(if (self.props.wrapped.isConnected) {
-          ConnectedUserNavElement(self.props.wrapped.userFirstName.get, self.state.avatarUrl, self.props.wrapped.logout)
-        } else {
-          UnconnectedUserNavElement(self.props.wrapped.login)
-        }, <.style()(UserNavStyles.render[String]))
-    )
+    React.createClass[UserNavProps, UserNavState](componentWillReceiveProps = { (self, props) =>
+      self.setState(UserNavState(avatarUrl = props.wrapped.avatarUrl.getOrElse(""), isAuthenticateModalOpened = false))
+    }, render = self => {
+
+      <.nav(^.className := UserNavStyles.menuWrapper)(if (self.props.wrapped.isConnected) {
+        ConnectedUserNavElement(self.props.wrapped.userFirstName.get, self.state.avatarUrl, self.props.wrapped.logout)
+      } else {
+        UnconnectedUserNavElement()
+      }, <.style()(UserNavStyles.render[String]))
+    })
 }
 
 object ConnectedUserNavElement {
@@ -59,17 +59,30 @@ object ConnectedUserNavElement {
 }
 
 object UnconnectedUserNavElement {
-  def apply(login: () => Unit): ReactElement =
+  def apply(): ReactElement = {
+
+    def openAuthenticateModal() = () => {
+      self.setState(state => state.copy(isAuthenticateModalOpened = true))
+    }
+
+    def toggleAuthenticateModal() = () => {
+      self.setState(state => state.copy(isAuthenticateModalOpened = !self.state.isAuthenticateModalOpened))
+    }
+
     <.ul(^.className := UserNavStyles.menu)(
       <.li(^.className := UserNavStyles.menuItem)(
-        <.button(^.onClick := login, ^.className := Seq(UserNavStyles.menuItemLink))(
+        <.button(^.onClick := openAuthenticateModal, ^.className := Seq(UserNavStyles.menuItemLink))(
           <.i(^.className := Seq(UserNavStyles.menuItemIcon, FontAwesomeStyles.user))(),
           <.span(
             ^.className := Seq(RWDHideRulesStyles.showInlineBlockBeyondMedium, TextStyles.title, TextStyles.smallText)
           )(I18n.t("content.header.connect"), unescape("&nbsp;/&nbsp;"), I18n.t("content.header.createAccount"))
+        ),
+        <.ModalComponent(^.wrapped := ModalProps(self.state.isAuthenticateModalOpened, toggleAuthenticateModal()))(
+          <.AuthenticateWithSocialNetworksComponent()()
         )
       )
     )
+  }
 }
 
 object UserNavStyles extends StyleSheet.Inline {
