@@ -3,20 +3,20 @@ package org.make.front.components.submitProposal
 import io.github.shogowada.scalajs.reactjs.React
 import io.github.shogowada.scalajs.reactjs.VirtualDOM._
 import io.github.shogowada.scalajs.reactjs.classes.ReactClass
-import org.make.front.components.submitProposal.SubmitProposalContainer.SubmitProposalFormContainerProps
 import org.make.front.components.Components._
+import org.make.front.components.submitProposal.SubmitProposalAndLoginContainer.SubmitProposalAndLoginContainerProps
 import org.make.front.facades.I18n
 import org.make.front.facades.Unescape.unescape
 import org.make.front.models.{GradientColor => GradientColorModel, Theme => ThemeModel, ThemeId => ThemeIdModel}
 import org.make.front.styles.{TextStyles, ThemeStyles}
 
 import scalacss.DevDefaults._
-import scalacss.internal.{Attr, Length}
 import scalacss.internal.mutable.StyleSheet
+import scalacss.internal.{Attr, Length}
 
 object SubmitProposalInRelationToTheme {
 
-  case class SubmitProposalInRelationToThemeProps(maybeTheme: Option[ThemeModel])
+  case class SubmitProposalInRelationToThemeProps(theme: ThemeModel, onProposalProposed: () => Unit)
 
   case class SubmitProposalInRelationToThemeState(theme: ThemeModel)
 
@@ -24,14 +24,9 @@ object SubmitProposalInRelationToTheme {
     React.createClass[SubmitProposalInRelationToThemeProps, SubmitProposalInRelationToThemeState](
       displayName = getClass.toString,
       getInitialState = { self =>
-        val theme: ThemeModel =
-          self.props.wrapped.maybeTheme.getOrElse(ThemeModel(ThemeIdModel("asdf"), "-", "", 0, 0, "#FFF"))
-        SubmitProposalInRelationToThemeState(theme = theme)
+        SubmitProposalInRelationToThemeState(theme = self.props.wrapped.theme)
       },
-      render = (self) => {
-
-        def nextStep() = () => {}
-
+      render = { self =>
         val gradientColor: GradientColorModel = self.state.theme.gradient.getOrElse(GradientColorModel("#FFF", "#FFF"))
 
         <.article()(
@@ -48,9 +43,14 @@ object SubmitProposalInRelationToTheme {
               )
             )(unescape(self.state.theme.title))
           ),
-          <.SubmitProposalContainerComponent(
+          <.SubmitProposalAndLoginComponent(
             ^.wrapped :=
-              SubmitProposalFormContainerProps(Some(self.state.theme), nextStep())
+              SubmitProposalAndLoginContainerProps(
+                bait = "il faut",
+                proposalContentMaxLength = 140,
+                maybeTheme = Some(self.props.wrapped.theme),
+                onProposalProposed = self.props.wrapped.onProposalProposed
+              )
           )(),
           <.style()(SubmitProposalInRelationToThemeStyles.render[String])
         )

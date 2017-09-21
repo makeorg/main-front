@@ -6,14 +6,16 @@ import io.github.shogowada.scalajs.reactjs.VirtualDOM.{VirtualDOMAttributes, Vir
 import io.github.shogowada.statictags.{Attribute, SpaceSeparatedStringAttributeSpec}
 import org.make.front.components.authenticate.login.{LoginWithEmailContainer, LoginWithEmailOrSocialNetworks}
 import org.make.front.components.authenticate.register.{RegisterContainer, RegisterWithSocialNetworksOrEmail}
+import org.make.front.components.authenticate.resetPassword.ResetPasswordContainer
 import org.make.front.components.authenticate.{
   AuthenticateWithSocialNetworksContainer,
   LoginOrRegister,
   NewPasswordInput
 }
 import org.make.front.components.containers.RecoverPasswordContainer
-import org.make.front.components.authenticate.resetPassword.ResetPasswordContainer
+import org.make.front.components.submitProposal.{SubmitProposalAndLoginContainer, SubmitProposalForm}
 import org.make.front.components.userNav.{UserNav, UserNavContainer}
+import org.make.front.components.users.authenticate.RequireAuthenticatedUserContainer
 
 import scala.scalajs.js
 import scalacss.StyleA
@@ -64,11 +66,12 @@ object Components {
 
     def ThemeHeaderComponent: ReactClassElementSpec = self(theme.ThemeHeader.reactClass)
 
-    def SubmitProposalContainerComponent: ReactClassElementSpec =
-      self(submitProposal.SubmitProposalContainer.reactClass)
-
     def SubmitProposalInRelationToThemeComponent: ReactClassElementSpec =
       self(submitProposal.SubmitProposalInRelationToTheme.reactClass)
+
+    def SubmitProposalFormComponent: ReactClassElementSpec = self(SubmitProposalForm.reactClass)
+
+    def SubmitProposalAndLoginComponent: ReactClassElementSpec = self(SubmitProposalAndLoginContainer.reactClass)
 
     def PoliticalActionsContainerComponent: ReactClassElementSpec =
       self(politicalActions.PoliticalActionsContainer.reactClass)
@@ -143,6 +146,8 @@ object Components {
 
     def LoginOrRegisterComponent: ReactClassElementSpec =
       self(LoginOrRegister.reactClass)
+
+    def RequireAuthenticatedUserComponent: ReactClassElementSpec = self(RequireAuthenticatedUserContainer.reactClass)
 
     def NewPasswordInputComponent: ReactClassElementSpec =
       self(NewPasswordInput.reactClass)

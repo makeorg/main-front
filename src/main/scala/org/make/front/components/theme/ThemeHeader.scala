@@ -82,7 +82,9 @@ object ThemeHeader {
                   ^.wrapped := FullscreenModalProps(self.state.isProposalModalOpened, toggleProposalModal())
                 )(
                   <.SubmitProposalInRelationToThemeComponent(
-                    ^.wrapped := SubmitProposalInRelationToThemeProps(Some(theme))
+                    ^.wrapped := SubmitProposalInRelationToThemeProps(theme = theme, onProposalProposed = () => {
+                      self.setState(_.copy(isProposalModalOpened = false))
+                    })
                   )()
                 )
               )

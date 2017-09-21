@@ -8,7 +8,7 @@ object Reducer {
       themes = ThemeReducer.reduce(maybeState.map(_.themes), action),
       politicalActions = PoliticalActionReducer.reduce(maybeState.map(_.politicalActions), action),
       connectedUser = ConnectedUserReducer.reduce(maybeState.flatMap(_.connectedUser), action),
-      technicalState = TechnicalStateReducer.reduce(maybeState.map(_.technicalState), action)
+      notifications = NotificationReducer.reduce(maybeState.map(_.notifications), action)
     )
   }
 }

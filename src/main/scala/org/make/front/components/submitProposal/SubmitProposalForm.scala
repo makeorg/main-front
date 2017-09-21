@@ -7,44 +7,59 @@ import io.github.shogowada.scalajs.reactjs.events.FormSyntheticEvent
 import org.make.front.components.Components._
 import org.make.front.facades.I18n
 import org.make.front.facades.Unescape.unescape
-import org.make.front.models.{Theme => ThemeModel, ThemeId => ThemeIdModel}
+import org.make.front.models.{Theme => ThemeModel}
 import org.make.front.styles._
 import org.scalajs.dom.raw.HTMLInputElement
 
 import scalacss.DevDefaults._
-import scalacss.internal.{Length, StyleA}
 import scalacss.internal.mutable.StyleSheet
+import scalacss.internal.{Length, StyleA}
 
-object SubmitProposalFormComponent {
+object SubmitProposalForm {
 
   type SubmitProposalFormSelf = React.Self[SubmitProposalFormProps, SubmitProposalFormState]
 
-  case class SubmitProposalFormState(theme: ThemeModel,
-                                     proposalContent: String = "",
-                                     bait: String = "",
-                                     proposalContentMaxLength: Int,
-                                     SubmissionError: Boolean = false)
+  case class SubmitProposalFormState(proposalContent: String = "", errorMessage: Option[String] = None)
 
-  case class SubmitProposalFormProps(maybeTheme: Option[ThemeModel],
-                                     handleSubmitProposalForm: (SubmitProposalFormSelf) => _)
+  case class SubmitProposalFormProps(bait: String = "il faut",
+                                     proposalContentMaxLength: Int = 140,
+                                     maybeTheme: Option[ThemeModel],
+                                     errorMessage: Option[String] = None,
+                                     handleSubmitProposalForm: (String) => Unit)
 
   lazy val reactClass: ReactClass =
     React.createClass[SubmitProposalFormProps, SubmitProposalFormState](
       displayName = getClass.toString,
-      getInitialState = { self =>
-        val theme: ThemeModel =
-          self.props.wrapped.maybeTheme.getOrElse(ThemeModel(ThemeIdModel("asdf"), "-", "", 0, 0, "#FFF"))
-        SubmitProposalFormState(
-          theme = theme,
-          bait = "Il faut ",
-          proposalContent = "Il faut ",
-          proposalContentMaxLength = 140
-        )
-
+      getInitialState = { _ =>
+        SubmitProposalFormState()
       },
-      render = (self) => {
+      componentWillReceiveProps = { (self, props) =>
+        val newContent =
+          if (self.state.proposalContent == "") { props.wrapped.bait + " " } else { self.state.proposalContent }
+        self.setState(_.copy(errorMessage = props.wrapped.errorMessage, proposalContent = newContent))
+      },
+      render = { self =>
+        val props = self.props.wrapped
 
-        <.form(^.className := SubmitProposalFormStyles.form, ^.onSubmit := handleSubmitFormChange(self))(
+        val handleProposalContentChange: (FormSyntheticEvent[HTMLInputElement]) => Unit = { e =>
+          var newProposalContent = e.target.value
+
+          if (!newProposalContent.startsWith(props.bait)) {
+            newProposalContent = s"${props.bait} $newProposalContent"
+          }
+          self.setState(_.copy(proposalContent = newProposalContent))
+        }
+
+        val handleSubmitFormChange: (FormSyntheticEvent[HTMLInputElement]) => Boolean = { _ =>
+          if (self.state.proposalContent.length <= props.proposalContentMaxLength) {
+            self.props.wrapped.handleSubmitProposalForm(self.state.proposalContent)
+          } else {
+            self.setState(_.copy(errorMessage = Some(unescape(I18n.t("form.proposal.errorSubmitFailed")))))
+          }
+          false
+        }
+
+        <.form(^.className := SubmitProposalFormStyles.form, ^.onSubmit := handleSubmitFormChange)(
           <.label(
             ^.className := Seq(
               InputStyles.wrapper,
@@ -58,20 +73,20 @@ object SubmitProposalFormComponent {
                 <.textarea(
                   ^.value := self.state.proposalContent, /*textarea autosize*/
                   ^("autoFocus") := true,
-                  ^.onChange := handleProposalContentChange(self)
+                  ^.onChange := handleProposalContentChange
                 )()
               ),
               <.span(^.className := SubmitProposalFormStyles.textLimitInfoWapper)(
                 <.span(^.className := Seq(TextStyles.smallText, SubmitProposalFormStyles.textLimitInfo))(
                   self.state.proposalContent.length,
                   "/",
-                  self.state.proposalContentMaxLength
+                  props.proposalContentMaxLength
                 )
               )
             )
           ),
-          if (self.state.SubmissionError) {
-            <.p(^.className := InputStyles.errorMessage)(unescape(I18n.t("form.proposal.errorSubmitFailed")))
+          if (self.state.errorMessage.isDefined) {
+            <.p(^.className := InputStyles.errorMessage)(self.state.errorMessage.getOrElse(""))
           },
           <.div(^.className := SubmitProposalFormStyles.note)(
             <.p(^.className := TextStyles.mediumText)(unescape(I18n.t("content.proposal.help"))),
@@ -89,23 +104,6 @@ object SubmitProposalFormComponent {
         )
       }
     )
-
-  private def handleProposalContentChange(self: SubmitProposalFormSelf) =
-    (e: FormSyntheticEvent[HTMLInputElement]) => {
-      val newProposalContent = e.target.value
-
-      if (newProposalContent.length <= self.state.bait.length) {
-        self.setState(_.copy(proposalContent = self.state.bait))
-      } else if (newProposalContent.length <= self.state.proposalContentMaxLength) {
-        self.setState(_.copy(proposalContent = newProposalContent))
-      }
-
-    }
-
-  private def handleSubmitFormChange(self: SubmitProposalFormSelf) =
-    (e: FormSyntheticEvent[HTMLInputElement]) => {
-      self.props.wrapped.handleSubmitProposalForm(self)
-    }
 }
 
 object SubmitProposalFormStyles extends StyleSheet.Inline {

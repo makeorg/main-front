@@ -157,7 +157,8 @@ object Translations {
       |          "errorBlankPassword": "Le mot de passe est un champ&nbsp;obligatoire"
       |       },
       |       "proposal": {
-      |         "submit": "Proposer"
+      |         "submit": "Proposer",
+      |         "errorSubmitFailed": "Une erreur s'est produite, réessayez dans quelques minutes"
       |       },
       |       "passwordRecovery": {
       |         "title": "Je réinitialise mon mot de&nbsp;passe",
@@ -328,7 +329,8 @@ object Translations {
       |          "errorBlankPassword": "Le mot de passe est un champ&nbsp;obligatoire"
       |       },
       |       "proposal": {
-      |         "submit": "Proposer"
+      |         "submit": "Proposer",
+      |         "errorSubmitFailed": "An error occurred, please try again later"
       |       },
       |       "passwordRecovery": {
       |         "title": "je réinitialise mon mot de&nbsp;passe",

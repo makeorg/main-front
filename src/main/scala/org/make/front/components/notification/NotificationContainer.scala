@@ -19,6 +19,6 @@ object NotificationContainer {
       }
 
       (state: AppState, _) =>
-        NotificationList.WrappedProps(state.technicalState.notifications, onClose = onClose)
+        NotificationList.WrappedProps(state.notifications, onClose = onClose)
     }
 }
