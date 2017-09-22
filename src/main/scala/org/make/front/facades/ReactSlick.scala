@@ -1,5 +1,6 @@
 package org.make.front.facades
 
+import io.github.shogowada.scalajs.reactjs.React.Props
 import io.github.shogowada.scalajs.reactjs.VirtualDOM.VirtualDOMAttributes.Type.AS_IS
 import io.github.shogowada.scalajs.reactjs.VirtualDOM.{VirtualDOMAttributes, VirtualDOMElements}
 import io.github.shogowada.scalajs.reactjs.VirtualDOM.VirtualDOMElements.ReactClassElementSpec
@@ -38,6 +39,13 @@ object ReactSlick {
     def :=(paging: js.Function1[Int, ReactElement]): Attribute[js.Function1[Int, ReactElement]] = {
       Attribute(name = name, value = paging, AS_IS)
     }
+  }
+
+  @js.native
+  trait Slider {
+    def slickNext(): Unit = js.native
+    def slickPrev(): Unit = js.native
+    def slickGoTo(slide: Int): Unit = js.native
   }
 
   @js.native
