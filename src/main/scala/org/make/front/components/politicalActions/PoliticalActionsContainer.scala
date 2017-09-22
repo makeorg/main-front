@@ -6,7 +6,6 @@ import io.github.shogowada.scalajs.reactjs.redux.ReactRedux
 import io.github.shogowada.scalajs.reactjs.redux.Redux.Dispatch
 import org.make.front.actions.LoadPoliticalAction
 import org.make.front.components.AppState
-import org.make.front.components.PoliticalActions.PoliticalActionsList
 
 object PoliticalActionsContainer {
 
