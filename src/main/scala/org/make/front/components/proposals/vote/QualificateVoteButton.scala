@@ -13,6 +13,8 @@ import scalacss.DevDefaults._
 import scalacss.internal.Length
 import scalacss.internal.mutable.StyleSheet
 
+import org.make.front.helpers.NumberFormat.formatToKilo
+
 object QualificateVoteButton {
 
   case class QualificateVoteButtonProps(vote: VoteModel,
@@ -56,6 +58,19 @@ object QualificateVoteButton {
           ^.className := Seq(TextStyles.smallerText, TextStyles.boldText, QualificateVoteButtonStyles.label),
           ^.dangerouslySetInnerHTML := (I18n.t(s"content.proposal.${self.props.wrapped.qualification.key}"))
         )(),
+        if (!self.state.isSelected)
+          <.span(
+            ^.className := Seq(QualificateVoteButtonStyles.votesCounter, TextStyles.mediumText, TextStyles.boldText)
+          )(I18n.t("content.proposal.plusOne"))
+        else
+          <.span(
+            ^.className := Seq(
+              QualificateVoteButtonStyles.votesCounter,
+              QualificateVoteButtonStyles.selectedQualificationVotesCounter,
+              TextStyles.mediumText,
+              TextStyles.boldText
+            )
+          )(formatToKilo(self.props.wrapped.qualification.count)),
         <.style()(QualificateVoteButtonStyles.render[String])
       )
 
@@ -115,5 +130,17 @@ object QualificateVoteButtonStyles extends StyleSheet.Inline {
 
   val neutralActivated: StyleA = style(color(ThemeStyles.TextColor.white), backgroundColor(ThemeStyles.TextColor.grey))
 
-  val label: StyleA = style(unsafeChild(".fa")(display.inline, color(ThemeStyles.ThemeColor.assertive)))
+  val label: StyleA =
+    style(lineHeight(1), whiteSpace.nowrap, unsafeChild(".fa")(display.inline, color(ThemeStyles.ThemeColor.assertive)))
+
+  val votesCounter: StyleA =
+    style(
+      float.right,
+      paddingLeft(ThemeStyles.SpacingValue.smaller.pxToEm()),
+      opacity(1),
+      transition := "opacity .2s ease-in-out",
+      lineHeight(1)
+    )
+
+  val selectedQualificationVotesCounter: StyleA = style(opacity(0.5))
 }

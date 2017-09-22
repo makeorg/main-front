@@ -1,0 +1,121 @@
+package org.make.front.components.authenticate.recoverPassword
+
+import io.github.shogowada.scalajs.reactjs.React
+import io.github.shogowada.scalajs.reactjs.VirtualDOM.{<, ^, _}
+import io.github.shogowada.scalajs.reactjs.classes.ReactClass
+import io.github.shogowada.scalajs.reactjs.events.{FormSyntheticEvent, SyntheticEvent}
+import org.make.core.validation.{ConstraintError, EmailConstraint}
+import org.make.front.components.Components._
+import org.make.front.facades.I18n
+import org.make.front.facades.Unescape.unescape
+import org.make.front.styles._
+import org.scalajs.dom.raw.HTMLInputElement
+
+import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.Future
+import scala.util.{Failure, Success}
+import scalacss.DevDefaults._
+import scalacss.internal.mutable.StyleSheet
+import scalacss.internal.{Length, StyleA}
+
+object PasswordRecovery {
+
+  case class PasswordRecoveryProps(handleSubmit: (String) => Future[_])
+
+  case class PasswordRecoveryState(email: String, errorMessage: String)
+
+  lazy val reactClass: ReactClass =
+    React.createClass[PasswordRecoveryProps, PasswordRecoveryState](getInitialState = { _ =>
+      PasswordRecoveryState(email = "", errorMessage = "")
+    }, render = {
+      self =>
+        val updateEmail =
+          (e: FormSyntheticEvent[HTMLInputElement]) => {
+            val newEmail = e.target.value
+            self.setState(_.copy(email = newEmail))
+          }
+
+        val handleSubmit = (e: SyntheticEvent) => {
+          e.preventDefault()
+          val errors: Seq[ConstraintError] =
+            EmailConstraint.validate(Some(self.state.email), Map("invalid" -> "form.passwordRecovery.invalidEmail"))
+
+          if (errors.isEmpty) {
+            self.setState(self.state.copy(errorMessage = ""))
+            self.props.wrapped.handleSubmit(self.state.email).onComplete {
+              case Success(_) =>
+              case Failure(_) =>
+                self
+                  .setState(self.state.copy(errorMessage = unescape(I18n.t("form.passwordRecovery.emailDoesNotExist"))))
+            }
+          } else {
+            self.setState(self.state.copy(errorMessage = unescape(I18n.t(errors.head.message))))
+          }
+        }
+
+        val emailInputWrapperClasses = Seq(
+          InputStyles.wrapper.htmlClass,
+          InputStyles.withIcon.htmlClass,
+          RecoverPasswordStyles.emailInputWithIconWrapper.htmlClass,
+          if (self.state.errorMessage != "") {
+            InputStyles.withError.htmlClass
+          }
+        ).mkString(" ")
+
+        <.div()(
+          <.div(^.className := RecoverPasswordStyles.introWrapper)(
+            <.p(^.className := TextStyles.smallTitle)(unescape(I18n.t("form.passwordRecovery.title")))
+          ),
+          <.p(^.className := Seq(RecoverPasswordStyles.text, TextStyles.smallText))(
+            unescape(I18n.t("form.passwordRecovery.description"))
+          ),
+          <.form(^.onSubmit := handleSubmit, ^.novalidate := true)(
+            <.label(^.className := emailInputWrapperClasses)(
+              <.input(
+                ^.`type`.email,
+                ^.required := true,
+                ^.placeholder := I18n.t("form.passwordRecovery.fieldLabelEmail"),
+                ^.onChange := updateEmail,
+                ^.value := self.state.email
+              )()
+            ),
+            if (self.state.errorMessage != "") {
+              <.p(^.className := InputStyles.errorMessage)(self.state.errorMessage)
+            },
+            <.div(^.className := RecoverPasswordStyles.submitButtonWrapper)(
+              <.button(^.className := Seq(CTAStyles.basic, CTAStyles.basicOnButton), ^.`type`.submit)(
+                <.i(^.className := FontAwesomeStyles.paperPlaneTransparent)(),
+                unescape("&nbsp;" + I18n.t("form.passwordRecovery.sendEmail"))
+              )
+            )
+          ),
+          <.style()(RecoverPasswordStyles.render[String])
+        )
+    })
+}
+
+object RecoverPasswordStyles extends StyleSheet.Inline {
+  import dsl._
+
+  //TODO: globalize function
+  implicit class NormalizedSize(val baseSize: Int) extends AnyVal {
+    def pxToEm(browserContextSize: Int = 16): Length[Double] = {
+      (baseSize.toFloat / browserContextSize.toFloat).em
+    }
+  }
+
+  val introWrapper: StyleA = style(marginBottom(ThemeStyles.SpacingValue.small.pxToEm()), textAlign.center)
+
+  val text: StyleA =
+    style(
+      textAlign.center,
+      margin := s"${ThemeStyles.SpacingValue.small.pxToEm().value} 0",
+      color(ThemeStyles.TextColor.lighter)
+    )
+
+  val emailInputWithIconWrapper: StyleA =
+    style(backgroundColor(ThemeStyles.BackgroundColor.lightGrey), (&.before)(content := "'\\f003'"))
+
+  val submitButtonWrapper: StyleA =
+    style(marginTop(ThemeStyles.SpacingValue.small.pxToEm()), textAlign.center)
+}

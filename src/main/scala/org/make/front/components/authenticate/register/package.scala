@@ -1,4 +1,4 @@
-package org.make.front.components.users.authenticate
+package org.make.front.components.authenticate
 
 import scala.concurrent.Future
 import org.make.front.models.{User => UserModel}
@@ -15,6 +15,6 @@ package object register {
     val empty = RegisterState(Map(), Map())
   }
 
-  case class RegisterProps(intro: String, note: String, register: (RegisterState) => Future[UserModel])
+  case class RegisterProps(note: String, register: (RegisterState) => Future[UserModel])
 
 }

@@ -1,4 +1,4 @@
-package org.make.front.components.users.userNav
+package org.make.front.components.userNav
 
 import io.github.shogowada.scalajs.reactjs.React.Props
 import io.github.shogowada.scalajs.reactjs.classes.ReactClass

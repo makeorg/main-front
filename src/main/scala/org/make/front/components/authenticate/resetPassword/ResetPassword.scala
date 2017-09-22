@@ -1,4 +1,4 @@
-package org.make.front.components.users.resetPassword
+package org.make.front.components.authenticate.resetPassword
 
 import io.github.shogowada.scalajs.reactjs.React
 import io.github.shogowada.scalajs.reactjs.React.Self
@@ -8,10 +8,9 @@ import io.github.shogowada.scalajs.reactjs.elements.ReactElement
 import io.github.shogowada.scalajs.reactjs.events.{FormSyntheticEvent, SyntheticEvent}
 import org.make.core.validation.PasswordConstraint
 import org.make.front.components.Components._
-import org.make.front.components.users.recoverPassword.PasswordRecoveryStyles
 import org.make.front.facades.Translate.TranslateVirtualDOMElements
 import org.make.front.facades.{I18n, Replacements}
-import org.make.front.styles.{FontAwesomeStyles, MakeStyles}
+import org.make.front.styles.{FontAwesomeStyles, ThemeStyles}
 import org.scalajs.dom.raw.HTMLInputElement
 
 import scalacss.DevDefaults._
@@ -59,30 +58,27 @@ object PasswordReset {
 
   def resetFormElement(self: Self[PasswordResetProps, PasswordResetState]): ReactElement = {
     <.div()(
-      <.Translate(^.className := MakeStyles.Modal.title, ^.value := "form.passwordReset.title")(),
+      <.Translate(^.value := "form.passwordReset.title")(),
       <.div(^.className := PasswordResetStyles.terms)(I18n.t("form.passwordReset.description")),
       <.form(^.onSubmit := handleSubmit(self), ^.novalidate := true)(
-        <.div(^.className := MakeStyles.Form.field)(
-          <.i(^.className := Seq(MakeStyles.Form.inputIcon, FontAwesomeStyles.lock))(),
+        <.div()(
+          <.i(^.className := Seq(FontAwesomeStyles.lock))(),
           <.i(
-            ^.className := Seq(PasswordResetStyles.eye(self.state.showPassword), MakeStyles.Form.inputIconLeft),
+            ^.className := Seq(PasswordResetStyles.eye(self.state.showPassword)),
             ^.onClick := toggleHidePassword(self)
           )(),
           <.input(
             ^.`type` := (if (self.state.showPassword) "text" else "password"),
             ^.required := true,
-            ^.className := Seq(MakeStyles.Form.inputText, PasswordResetStyles.input),
+            ^.className := Seq(PasswordResetStyles.input),
             ^.placeholder := s"${I18n.t("form.fieldLabelPassword")} ${I18n.t("form.required")}",
             ^.onChange := handlePasswordChange(self),
             ^.value := self.state.password
           )()
         ),
-        <.div()(<.span(^.className := PasswordRecoveryStyles.errorMessage)(self.state.errorMessage)),
-        <.button(
-          ^.className := Seq(MakeStyles.Button.default, PasswordRecoveryStyles.submitButton),
-          ^.onClick := handleSubmit(self)
-        )(
-          <.i(^.className := Seq(FontAwesomeStyles.thumbsUp, PasswordRecoveryStyles.buttonIcon))(),
+        <.div()(<.span()(self.state.errorMessage)),
+        <.button(^.onClick := handleSubmit(self))(
+          <.i(^.className := Seq(FontAwesomeStyles.thumbsUp))(),
           <.Translate(^.value := "form.passwordReset.validation")()
         )
       )
@@ -90,12 +86,12 @@ object PasswordReset {
   }
 
   def invalidResetTokenElement(self: Self[PasswordResetProps, PasswordResetState]): ReactElement = {
-    <.div()(<.Translate(^.className := MakeStyles.Modal.title, ^.value := "form.passwordReset.failed.title")())
+    <.div()(<.Translate(^.value := "form.passwordReset.failed.title")())
   }
 
   def resetPasswordSuccessElement(self: Self[PasswordResetProps, PasswordResetState]): ReactElement = {
     <.div()(
-      <.Translate(^.className := MakeStyles.Modal.title, ^.value := "form.passwordReset.success.title")(),
+      <.Translate(^.value := "form.passwordReset.success.title")(),
       <.div(^.className := PasswordResetStyles.terms)(I18n.t("form.passwordReset.success.description"))
     )
   }
@@ -138,7 +134,7 @@ object PasswordResetStyles extends StyleSheet.Inline {
 
   val content: StyleA = style(
     width(100 %%),
-    backgroundColor(MakeStyles.Color.white),
+    backgroundColor(white),
     maxWidth(114.rem),
     marginRight.auto,
     marginLeft.auto,
@@ -157,7 +153,7 @@ object PasswordResetStyles extends StyleSheet.Inline {
         styleS(
           (&.hover)(cursor.pointer),
           addClassName(FontAwesomeStyles.eyeSlash.htmlClass),
-          color(MakeStyles.Color.grey)
+          color(ThemeStyles.TextColor.lighter)
         )
       } else {
         styleS((&.hover)(cursor.pointer), addClassName(FontAwesomeStyles.eye.htmlClass))

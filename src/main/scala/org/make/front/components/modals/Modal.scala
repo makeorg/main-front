@@ -95,7 +95,7 @@ object ModalStyles extends StyleSheet.Inline {
       minHeight(200.pxToEm()),
       marginTop(60.pxToEm()), // TODO: dynamise calcul, if main intro is first child of page
       marginBottom(ThemeStyles.SpacingValue.larger.pxToEm()),
-      padding :=! s"${ThemeStyles.SpacingValue.largerMedium.pxToEm().value} ${ThemeStyles.SpacingValue.small.pxToEm()}",
+      padding :=! s"${ThemeStyles.SpacingValue.largerMedium.pxToEm().value} ${ThemeStyles.SpacingValue.small.pxToEm().value}",
       ThemeStyles.MediaQueries
         .beyondSmall(paddingRight(55.pxToEm()), paddingLeft(55.pxToEm())), // TODO: dynamise calcul
       backgroundColor(ThemeStyles.BackgroundColor.white),
@@ -113,11 +113,6 @@ object ModalStyles extends StyleSheet.Inline {
     (&.hover)(unsafeChild("svg")(opacity(0.3)))
   )
 
-  val article = style(
-    maxWidth(470.pxToEm()),
-    marginRight.auto,
-    marginLeft.auto,
-    paddingTop(ThemeStyles.SpacingValue.largerMedium.pxToEm())
-  )
+  val article = style(maxWidth(470.pxToEm()), marginRight.auto, marginLeft.auto)
 
 }

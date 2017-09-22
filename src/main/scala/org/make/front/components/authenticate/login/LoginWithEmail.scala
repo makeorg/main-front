@@ -1,0 +1,169 @@
+package org.make.front.components.authenticate.login
+
+import io.github.shogowada.scalajs.reactjs.React
+import io.github.shogowada.scalajs.reactjs.VirtualDOM._
+import io.github.shogowada.scalajs.reactjs.classes.ReactClass
+import io.github.shogowada.scalajs.reactjs.events.FormSyntheticEvent
+import org.make.core.validation.NotBlankConstraint
+import org.make.front.Main.CssSettings._
+import org.make.front.components.Components._
+import org.make.front.facades.I18n
+import org.make.front.facades.Unescape.unescape
+import org.make.front.styles.{CTAStyles, InputStyles, TextStyles, ThemeStyles}
+import org.scalajs.dom.raw.HTMLInputElement
+
+import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.Future
+import scala.util.{Failure, Success}
+import scalacss.DevDefaults.StyleA
+import scalacss.internal.Length
+import scalacss.internal.mutable.StyleSheet.Inline
+
+object LoginWithEmail {
+
+  case class LoginWithEmailProps(note: String, connectUser: (String, String) => Future[_])
+  case class LoginWithEmailState(email: String,
+                                 emailErrorMessage: Option[String],
+                                 password: String,
+                                 passwordErrorMessage: Option[String])
+
+  object LoginWithEmailState {
+    val empty: LoginWithEmailState = LoginWithEmailState("", None, "", None)
+  }
+
+  val reactClass: ReactClass =
+    React
+      .createClass[LoginWithEmailProps, LoginWithEmailState](
+        getInitialState = (_) => LoginWithEmailState.empty,
+        render = { self =>
+          val props = self.props.wrapped
+
+          val updateEmail: (FormSyntheticEvent[HTMLInputElement]) => Unit = { event =>
+            val newEmail = event.target.value
+            self.setState(_.copy(email = newEmail))
+          }
+
+          val updatePassword: (FormSyntheticEvent[HTMLInputElement]) => Unit = { event =>
+            val newPassword = event.target.value
+            self.setState(_.copy(password = newPassword))
+          }
+
+          def validate(): Boolean = {
+            val errorEmailMessages: Option[String] = NotBlankConstraint
+              .validate(Some(self.state.email), Map("notBlank" -> unescape(I18n.t("form.register.errorBlankEmail"))))
+              .map(_.message)
+              .toList match {
+              case head :: _ => Some(head)
+              case Nil       => None
+            }
+            val errorPasswordMessages: Option[String] = NotBlankConstraint
+              .validate(
+                Some(self.state.password),
+                Map("notBlank" -> unescape(I18n.t("form.register.errorBlankPassword")))
+              )
+              .map(_.message)
+              .toList match {
+              case head :: _ => Some(head)
+              case Nil       => None
+            }
+
+            self.setState(_.copy(emailErrorMessage = errorEmailMessages, passwordErrorMessage = errorPasswordMessages))
+
+            errorEmailMessages.isEmpty && errorPasswordMessages.isEmpty
+          }
+
+          val handleSubmit: () => Boolean = { () =>
+            if (validate()) {
+              props.connectUser(self.state.email, self.state.password).onComplete {
+                case Success(_) => self.setState(LoginWithEmailState.empty)
+                case Failure(e) =>
+              }
+            }
+            false
+          }
+          val loginWithEmailInputWrapperClasses = Seq(
+            InputStyles.wrapper.htmlClass,
+            InputStyles.withIcon.htmlClass,
+            LoginWithEmailStyles.emailInputWithIconWrapper.htmlClass,
+            (if (self.state.emailErrorMessage != None) {
+               InputStyles.withError.htmlClass
+             })
+          ).mkString(" ")
+
+          val updatePasswordInputWrapperClasses = Seq(
+            InputStyles.wrapper.htmlClass,
+            InputStyles.withIcon.htmlClass,
+            LoginWithEmailStyles.passwordInputWithIconWrapper.htmlClass,
+            (if (self.state.passwordErrorMessage != None) {
+               InputStyles.withError.htmlClass
+             })
+          ).mkString(" ")
+
+          <.form(^.onSubmit := handleSubmit)(
+            <.label(^.className := loginWithEmailInputWrapperClasses)(
+              <.input(
+                ^.`type`.email,
+                ^.required := true,
+                ^.placeholder := I18n.t("form.fieldLabelEmail"),
+                ^.onChange := updateEmail
+              )()
+            ),
+            if (self.state.emailErrorMessage != None) {
+              <.p(^.className := InputStyles.errorMessage)(self.state.emailErrorMessage)
+            },
+            <.label(^.className := updatePasswordInputWrapperClasses)(
+              <.input(
+                ^.`type`.password,
+                ^.required := true,
+                ^.placeholder := I18n.t("form.fieldLabelPassword"),
+                ^.onChange := updatePassword
+              )()
+            ),
+            if (self.state.passwordErrorMessage != None) {
+              <.p(^.className := InputStyles.errorMessage)(self.state.passwordErrorMessage)
+            },
+            if (props.note != "") {
+              <.p(^.className := Seq(LoginWithEmailStyles.note, TextStyles.smallerText))(props.note)
+            },
+            <.div(^.className := LoginWithEmailStyles.submitButtonWrapper)(
+              <.button(^.className := Seq(CTAStyles.basic, CTAStyles.basicOnButton), ^.`type`.submit)(
+                unescape(I18n.t("form.login.submitButton"))
+              )
+            ),
+            <.style()(LoginWithEmailStyles.render[String])
+          )
+        }
+      )
+}
+
+object LoginWithEmailStyles extends StyleSheet.Inline {
+
+  import dsl._
+
+  //TODO: globalize function
+  implicit class NormalizedSize(val baseSize: Int) extends AnyVal {
+    def pxToEm(browserContextSize: Int = 16): Length[Double] = {
+      (baseSize.toFloat / browserContextSize.toFloat).em
+    }
+  }
+
+  val emailInputWithIconWrapper: StyleA =
+    style(backgroundColor(ThemeStyles.BackgroundColor.lightGrey), (&.before)(content := "'\\f003'"))
+
+  val passwordInputWithIconWrapper: StyleA =
+    style(
+      marginTop(ThemeStyles.SpacingValue.small.pxToEm()),
+      backgroundColor(ThemeStyles.BackgroundColor.lightGrey),
+      (&.before)(content := "'\\f023'")
+    )
+
+  val submitButtonWrapper: StyleA =
+    style(marginTop(ThemeStyles.SpacingValue.small.pxToEm()), textAlign.center)
+
+  val note: StyleA =
+    style(
+      margin := s"${ThemeStyles.SpacingValue.small.pxToEm().value} 0",
+      color(ThemeStyles.TextColor.lighter),
+      unsafeChild("a")(color(ThemeStyles.ThemeColor.primary))
+    )
+}

@@ -49,7 +49,7 @@ object TagStyles extends StyleSheet.Inline {
         height(4.pxToEm(11)),
         marginTop(-2.pxToEm(11)),
         borderRadius(50.%%),
-        backgroundColor :=! MakeStyles.Color.white
+        backgroundColor :=! ThemeStyles.TextColor.white
       ),
       ThemeStyles.MediaQueries.beyondSmall(
         paddingLeft(11.pxToEm(13)),

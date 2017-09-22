@@ -23,12 +23,12 @@ object ProposalStyles extends StyleSheet.Inline {
 
   val header: StyleA = style(
     paddingBottom(ThemeStyles.SpacingValue.smaller.pxToEm()),
-    borderBottom :=! s"1px solid ${ThemeStyles.BorderColor.blackVeryTransparent.value}"
+    borderBottom :=! s"1px solid ${ThemeStyles.BorderColor.veryLight.value}"
   )
 
   val contentWrapper: StyleA =
     style(paddingTop(ThemeStyles.SpacingValue.smaller.pxToEm()), paddingBottom(ThemeStyles.SpacingValue.small.pxToEm()))
 
-  val footer: StyleA = style(borderTop :=! s"1px solid ${ThemeStyles.BorderColor.blackVeryTransparent.value}")
+  val footer: StyleA = style(borderTop :=! s"1px solid ${ThemeStyles.BorderColor.veryLight.value}")
 
 }

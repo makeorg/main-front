@@ -1,4 +1,4 @@
-package org.make.front.components.users.authenticate.register
+package org.make.front.components.authenticate.register
 
 import io.github.shogowada.scalajs.reactjs.React.Props
 import io.github.shogowada.scalajs.reactjs.classes.ReactClass
@@ -15,7 +15,7 @@ import scala.util.{Failure, Success}
 
 object RegisterContainer extends UserServiceComponent {
 
-  case class RegisterUserProps(intro: String, note: String, onSuccessfulRegistration: () => Unit = () => {})
+  case class RegisterUserProps(note: String, onSuccessfulRegistration: () => Unit = () => {})
 
   override def apiBaseUrl: String = Configuration.apiUrl
 
@@ -44,7 +44,7 @@ object RegisterContainer extends UserServiceComponent {
 
         future
       }
-      RegisterProps(props.wrapped.intro, props.wrapped.note, register = register())
+      RegisterProps(props.wrapped.note, register = register())
   }
 
   val registerWithEmailReactClass: ReactClass = selector(RegisterWithEmail.reactClass)

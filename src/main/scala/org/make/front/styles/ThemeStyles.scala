@@ -52,8 +52,9 @@ object ThemeStyles extends StyleSheet.Inline {
 
   object BorderColor {
     val base: ValueT[ValueT.Color] = rgb(155, 155, 155)
-    val light: ValueT[ValueT.Color] = rgb(204, 204, 204)
-    val blackVeryTransparent: ValueT[ValueT.Color] = rgba(0, 0, 0, 0.1)
+    val light: ValueT[ValueT.Color] = rgba(0, 0, 0, 0.5)
+    val lighter: ValueT[ValueT.Color] = rgba(0, 0, 0, 0.3)
+    val veryLight: ValueT[ValueT.Color] = rgba(0, 0, 0, 0.1)
     val danger: ValueT[ValueT.Color] = rgba(208, 2, 27, 1)
   }
 
@@ -68,6 +69,11 @@ object ThemeStyles extends StyleSheet.Inline {
   }
 
   object MediaQueries {
+
+    val belowVerySmall: Media.Query = media.maxWidth(399.pxToEm())
+    val beyondVerySmall: Media.Query = media.minWidth(400.pxToEm())
+    val verySmall: Media.Query = belowVerySmall.maxWidth(499.pxToEm())
+
     val belowSmall: Media.Query = media.maxWidth(499.pxToEm())
     val beyondSmall: Media.Query = media.minWidth(500.pxToEm())
     val small: Media.Query = beyondSmall.maxWidth(839.pxToEm())

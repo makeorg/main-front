@@ -1,10 +1,10 @@
-package org.make.front.components.users.authenticate
+package org.make.front.components.authenticate
 
 import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import io.github.shogowada.scalajs.reactjs.redux.ReactRedux
 import org.make.front.actions.LoggedInAction
 import org.make.front.components.AppState
-import org.make.front.components.users.authenticate.AuthenticateWithSocialNetworks.AuthenticateWithSocialNetworksProps
+import org.make.front.components.authenticate.AuthenticateWithSocialNetworks.AuthenticateWithSocialNetworksProps
 import org.make.front.facades.Configuration
 import org.make.front.facades.ReactFacebookLogin.FacebookAuthResponse
 import org.make.front.facades.ReactGoogleLogin.GoogleAuthResponse
@@ -20,9 +20,7 @@ object AuthenticateWithSocialNetworksContainer extends UserServiceComponent {
 
   override def apiBaseUrl: String = Configuration.apiUrl
 
-  case class AuthenticateWithSocialNetworksContainerProps(intro: String,
-                                                          note: String,
-                                                          onSuccessfulLogin: () => Unit = () => {})
+  case class AuthenticateWithSocialNetworksContainerProps(note: String, onSuccessfulLogin: () => Unit = () => {})
 
   val reactClass: ReactClass = ReactRedux
     .connectAdvanced[AppState, AuthenticateWithSocialNetworksContainerProps, AuthenticateWithSocialNetworksProps] {
@@ -48,7 +46,6 @@ object AuthenticateWithSocialNetworksContainer extends UserServiceComponent {
         }
 
         AuthenticateWithSocialNetworksProps(
-          intro = props.wrapped.intro,
           note = props.wrapped.note,
           isConnected = state.connectedUser.isDefined,
           googleAppId = Configuration.googleAppId,

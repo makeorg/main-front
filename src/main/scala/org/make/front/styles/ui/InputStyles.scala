@@ -37,7 +37,7 @@ object InputStyles extends StyleSheet.Inline {
       lineHeight(0),
       backgroundColor(ThemeStyles.BackgroundColor.white),
       boxSizing.borderBox,
-      border :=! s"1px solid ${ThemeStyles.BorderColor.light.value}",
+      border :=! s"1px solid ${ThemeStyles.BorderColor.lighter.value}",
       borderRadius(20.pxToEm()),
       overflow.hidden,
       transition := "color .2s ease-in-out, background .2s ease-in-out, border .2s ease-in-out",
@@ -110,10 +110,17 @@ object InputStyles extends StyleSheet.Inline {
     style(
       color(ThemeStyles.TextColor.danger),
       borderColor(ThemeStyles.BorderColor.danger),
-      backgroundColor(ThemeStyles.BackgroundColor.danger)
+      backgroundColor := s"${ThemeStyles.BackgroundColor.danger.value} !important"
     )
 
   val errorMessage: StyleA =
-    style(display.block, ThemeStyles.Font.circularStdBook, textAlign.left, color(ThemeStyles.TextColor.danger))
+    style(
+      display.block,
+      marginTop(0.3.em),
+      TextStyles.smallerText,
+      ThemeStyles.Font.circularStdBook,
+      textAlign.left,
+      color(ThemeStyles.TextColor.danger)
+    )
 
 }

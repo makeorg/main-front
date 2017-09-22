@@ -1,11 +1,11 @@
-package org.make.front.components.users.authenticate.login
+package org.make.front.components.authenticate.login
 
 import io.github.shogowada.scalajs.reactjs.React.Props
 import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import io.github.shogowada.scalajs.reactjs.redux.ReactRedux
 import org.make.front.actions.LoggedInAction
 import org.make.front.components.AppState
-import org.make.front.components.users.authenticate.login.LoginWithEmail.LoginWithEmailProps
+import org.make.front.components.authenticate.login.LoginWithEmail.LoginWithEmailProps
 import org.make.front.facades.Configuration
 import org.make.services.user.UserServiceComponent
 
@@ -17,7 +17,7 @@ object LoginWithEmailContainer extends UserServiceComponent {
 
   override def apiBaseUrl: String = Configuration.apiUrl
 
-  case class LoginWithEmailContainerProps(intro: String, note: String, onSuccessfulLogin: () => Unit = () => {})
+  case class LoginWithEmailContainerProps(note: String, onSuccessfulLogin: () => Unit = () => {})
 
   val reactClass: ReactClass = ReactRedux.connectAdvanced {
     dispatch => (_: AppState, props: Props[LoginWithEmailContainerProps]) =>
@@ -31,7 +31,7 @@ object LoginWithEmailContainer extends UserServiceComponent {
         }
         result
       }
-      LoginWithEmailProps(intro = props.wrapped.intro, note = props.wrapped.note, connectUser = signIn)
+      LoginWithEmailProps(note = props.wrapped.note, connectUser = signIn)
   }(LoginWithEmail.reactClass)
 
 }

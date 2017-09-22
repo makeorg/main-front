@@ -1,10 +1,9 @@
-package org.make.front.components.users.authenticate
+package org.make.front.components.authenticate
 
 import io.github.shogowada.scalajs.reactjs.React
 import io.github.shogowada.scalajs.reactjs.VirtualDOM._
 import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import org.make.client.UnauthorizedHttpException
-import org.make.front.components.Components._
 import org.make.front.facades.I18n
 import org.make.front.facades.ReactFacebookLogin.{
   ReactFacebookLoginVirtualDOMAttributes,
@@ -16,7 +15,7 @@ import org.make.front.facades.ReactGoogleLogin.{
 }
 import org.make.front.styles._
 import org.scalajs.dom.experimental.Response
-
+import org.make.front.components.Components._
 import scala.concurrent.Future
 import scala.util.{Failure, Success}
 import scalacss.DevDefaults._
@@ -27,8 +26,7 @@ import scala.concurrent.ExecutionContext.Implicits.global
 
 object AuthenticateWithSocialNetworks {
 
-  case class AuthenticateWithSocialNetworksProps(intro: String,
-                                                 note: String,
+  case class AuthenticateWithSocialNetworksProps(note: String,
                                                  isConnected: Boolean,
                                                  signInGoogle: (Response)   => Future[_],
                                                  signInFacebook: (Response) => Future[_],
@@ -68,11 +66,8 @@ object AuthenticateWithSocialNetworks {
           self.setState(self.state.copy(errorMessages = Seq(I18n.t("form.login.errorAuthenticationFailed"))))
         }
 
-        <.div(^.className := LayoutRulesStyles.row)(
-          <.div(^.className := Seq(AuthenticateWithSocialNetworksStyles.introWrapper, LayoutRulesStyles.col))(
-            <.p(^.className := TextStyles.smallTitle)(self.props.wrapped.intro)
-          ),
-          <.div(^.className := Seq(LayoutRulesStyles.col, LayoutRulesStyles.colHalf))(
+        <.div()(
+          <.div(^.className := AuthenticateWithSocialNetworksStyles.facebookConnectButtonWrapper)(
             <.ReactFacebookLogin(
               ^.appId := self.props.wrapped.facebookAppId,
               ^.scope := "public_profile, email",
@@ -81,13 +76,13 @@ object AuthenticateWithSocialNetworks {
               ^.cssClass := Seq(
                 CTAStyles.basic,
                 CTAStyles.basicOnButton,
-                AuthenticateWithSocialNetworksStyles.facebookButton
+                AuthenticateWithSocialNetworksStyles.facebookConnectButton
               ),
               ^.iconClass := FontAwesomeStyles.facebook.htmlClass,
               ^.textButton := " facebook"
             )()
           ),
-          <.div(^.className := Seq(LayoutRulesStyles.col, LayoutRulesStyles.colHalf))(
+          <.div(^.className := AuthenticateWithSocialNetworksStyles.googlePlusConnectButtonWrapper)(
             <.ReactGoogleLogin(
               ^.clientID := self.props.wrapped.googleAppId,
               ^.scope := "profile email",
@@ -97,40 +92,54 @@ object AuthenticateWithSocialNetworks {
               ^.className := Seq(
                 CTAStyles.basic,
                 CTAStyles.basicOnButton,
-                AuthenticateWithSocialNetworksStyles.googlePlusButton
-              ),
-              ^.style := Map()
+                AuthenticateWithSocialNetworksStyles.googlePlusConnectButton
+              )
             )(<.i(^.className := FontAwesomeStyles.googlePlus)(), " google+")
           ),
-          <.div(^.className := Seq(AuthenticateWithSocialNetworksStyles.noteWrapper, LayoutRulesStyles.col))(
-            <.p(^.className := Seq(AuthenticateWithSocialNetworksStyles.note, TextStyles.smallText))(
-              self.props.wrapped.note
+          if (self.props.wrapped.note != "") {
+            <.div(^.className := AuthenticateWithSocialNetworksStyles.noteWrapper)(
+              <.p(^.className := Seq(AuthenticateWithSocialNetworksStyles.note, TextStyles.smallText))(
+                self.props.wrapped.note
+              )
             )
-          ),
+          },
           <.style()(AuthenticateWithSocialNetworksStyles.render[String])
         )
       }
     )
+}
 
-  object AuthenticateWithSocialNetworksStyles extends StyleSheet.Inline {
-    import dsl._
+object AuthenticateWithSocialNetworksStyles extends StyleSheet.Inline {
+  import dsl._
 
-    //TODO: globalize function
-    implicit class NormalizedSize(val baseSize: Int) extends AnyVal {
-      def pxToEm(browserContextSize: Int = 16): Length[Double] = {
-        (baseSize.toFloat / browserContextSize.toFloat).em
-      }
+  //TODO: globalize function
+  implicit class NormalizedSize(val baseSize: Int) extends AnyVal {
+    def pxToEm(browserContextSize: Int = 16): Length[Double] = {
+      (baseSize.toFloat / browserContextSize.toFloat).em
     }
-    val introWrapper: StyleA = style(marginBottom(ThemeStyles.SpacingValue.small.pxToEm()), textAlign.center)
-
-    val facebookButton: StyleA = style(width(100.%%), backgroundColor(rgb(58, 89, 152)))
-
-    val googlePlusButton: StyleA = style(width(100.%%), backgroundColor(rgb(219, 68, 55)))
-
-    val noteWrapper: StyleA = style(marginTop(ThemeStyles.SpacingValue.small.pxToEm()), textAlign.center)
-
-    val note: StyleA = style(color(ThemeStyles.TextColor.lighter))
-
   }
+
+  val facebookConnectButtonWrapper: StyleA =
+    style(
+      ThemeStyles.MediaQueries
+        .beyondVerySmall(display.inlineBlock, width(50.%%), paddingRight(LayoutRulesStyles.gutter))
+    )
+
+  val facebookConnectButton: StyleA =
+    style(display.block, width(100.%%), backgroundColor(rgb(58, 89, 152)))
+
+  val googlePlusConnectButtonWrapper: StyleA =
+    style(
+      marginTop(ThemeStyles.SpacingValue.smaller.pxToEm()),
+      ThemeStyles.MediaQueries
+        .beyondVerySmall(display.inlineBlock, width(50.%%), marginTop(`0`), paddingLeft(LayoutRulesStyles.gutter))
+    )
+
+  val googlePlusConnectButton: StyleA =
+    style(display.block, width(100.%%), backgroundColor(rgb(219, 68, 55)))
+
+  val noteWrapper: StyleA = style(marginTop(ThemeStyles.SpacingValue.small.pxToEm()), textAlign.center)
+
+  val note: StyleA = style(color(ThemeStyles.TextColor.lighter))
 
 }
