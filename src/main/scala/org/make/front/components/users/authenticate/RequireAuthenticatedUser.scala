@@ -8,7 +8,8 @@ import org.make.front.components.authenticate.LoginOrRegister.LoginOrRegisterPro
 
 object RequireAuthenticatedUser {
 
-  case class RequireAuthenticatedUserProps(defaultView: String = "login",
+  case class RequireAuthenticatedUserProps(registerView: String,
+                                           defaultView: String = "login",
                                            onceConnected: () => Unit,
                                            isConnected: Boolean)
   type RequireAuthenticatedUserState = Unit
@@ -24,7 +25,11 @@ object RequireAuthenticatedUser {
         <.LoginOrRegisterComponent(
           // There is no need to use callback here, since the component will be reloaded with different props
           // once the user is connected. if we map it here, the callback will be called twice
-          ^.wrapped := LoginOrRegisterProps(displayView = props.defaultView, onSuccessfulLogin = () => {})
+          ^.wrapped := LoginOrRegisterProps(
+            registerView = props.registerView,
+            displayView = props.defaultView,
+            onSuccessfulLogin = () => {}
+          )
         )()
       }
     })

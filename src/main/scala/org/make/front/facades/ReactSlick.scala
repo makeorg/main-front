@@ -41,7 +41,7 @@ object ReactSlick {
   }
 
   @js.native
-  trait Slider {
+  trait Slider extends js.Object {
     def slickNext(): Unit = js.native
     def slickPrev(): Unit = js.native
     def slickGoTo(slide: Int): Unit = js.native

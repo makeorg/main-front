@@ -73,7 +73,10 @@ object SubmitProposalAndLogin {
           )()
         } else if (self.state.displayedComponent == "connect") {
           <.RequireAuthenticatedUserComponent(
-            ^.wrapped := RequireAuthenticatedUserContainerProps(onceConnected = onConnectionOk)
+            ^.wrapped := RequireAuthenticatedUserContainerProps(
+              onceConnected = onConnectionOk,
+              registerView = "register-expanded"
+            )
           )()
         })
       }

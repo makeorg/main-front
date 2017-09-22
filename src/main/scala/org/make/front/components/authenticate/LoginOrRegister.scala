@@ -18,7 +18,9 @@ import scalacss.internal.{Length, StyleA}
 
 object LoginOrRegister {
 
-  case class LoginOrRegisterProps(displayView: String, onSuccessfulLogin: () => Unit = () => {})
+  case class LoginOrRegisterProps(registerView: String = "register",
+                                  displayView: String,
+                                  onSuccessfulLogin: () => Unit = () => {})
   case class LoginOrRegisterState(currentView: String = "login")
 
   object LoginOrRegisterState {
@@ -26,14 +28,12 @@ object LoginOrRegister {
   }
 
   val reactClass: ReactClass =
-    React.createClass[LoginOrRegisterProps, LoginOrRegisterState](
-      getInitialState = { _ =>
-        LoginOrRegisterState.empty
-      },
-      componentWillReceiveProps = { (self, props) =>
-        self.setState(_.copy(currentView = props.wrapped.displayView))
-      },
-      render = { self =>
+    React.createClass[LoginOrRegisterProps, LoginOrRegisterState](getInitialState = { _ =>
+      LoginOrRegisterState.empty
+    }, componentWillReceiveProps = { (self, props) =>
+      self.setState(_.copy(currentView = props.wrapped.displayView))
+    }, render = {
+      self =>
         val state = self.state
         val props = self.props.wrapped
 
@@ -42,51 +42,56 @@ object LoginOrRegister {
           self.setState(_.copy(currentView = view))
         }
 
-        <.div(^.className := LoginOrRegisterStyles.wrapper)(
-          if (state.currentView == "login")
-            Seq(
-              <.LoginWithEmailOrSocialNetworksComponent(
-                ^.wrapped := LoginWithEmailOrSocialNetworksProps(props.onSuccessfulLogin)
-              )(),
-              <.p(^.className := Seq(LoginOrRegisterStyles.text, TextStyles.smallText))(
-                unescape(I18n.t("form.login.oupsI")),
-                <.a(^.className := TextStyles.boldText, ^.onClick := goTo("reset-password"))(
-                  unescape(I18n.t("form.login.forgotPassword"))
-                )
-              ),
-              <.p(^.className := Seq(LoginOrRegisterStyles.text, TextStyles.smallText))(
-                unescape(I18n.t("form.login.noAccount")) + " ",
-                <.a(^.className := TextStyles.boldText, ^.onClick := goTo("register"))(
-                  unescape(I18n.t("form.login.createAccount"))
-                )
-              )
-            )
-          else if (state.currentView == "reset-password")
-            Seq(
-              <.RecoverPasswordContainerComponent(
-                ^.wrapped := RecoverPasswordContainerProps(props.onSuccessfulLogin)
-              )(),
-              <.p(^.className := Seq(LoginOrRegisterStyles.text, TextStyles.smallText))(
-                unescape(I18n.t("form.passwordRecovery.return")) + " ",
-                <.a(^.className := TextStyles.boldText, ^.onClick := goTo("login"))(
-                  unescape(I18n.t("form.passwordRecovery.connectScreen"))
-                )
-              )
-            )
-          else
-            Seq(
-              <.RegisterWithSocialNetworksOrEmailComponent(
-                ^.wrapped := RegisterWithSocialNetworksOrEmailProps(props.onSuccessfulLogin)
-              )(),
-              <.p(^.className := Seq(LoginOrRegisterStyles.text, TextStyles.smallText))(
-                unescape(I18n.t("form.register.alreadySubscribed")) + " ",
-                <.a(^.className := TextStyles.boldText, ^.onClick := goTo("login"))(unescape(I18n.t("form.connection")))
+        <.div(^.className := LoginOrRegisterStyles.wrapper)(if (state.currentView == "login") {
+          Seq(
+            <.LoginWithEmailOrSocialNetworksComponent(
+              ^.wrapped := LoginWithEmailOrSocialNetworksProps(props.onSuccessfulLogin)
+            )(),
+            <.p(^.className := Seq(LoginOrRegisterStyles.text, TextStyles.smallText))(
+              unescape(I18n.t("form.login.oupsI")),
+              <.a(^.className := TextStyles.boldText, ^.onClick := goTo("reset-password"))(
+                unescape(I18n.t("form.login.forgotPassword"))
               )
             ),
-          <.style()(LoginOrRegisterStyles.render[String])
-        )
-      }
-    )
+            <.p(^.className := Seq(LoginOrRegisterStyles.text, TextStyles.smallText))(
+              unescape(I18n.t("form.login.noAccount")) + " ",
+              <.a(^.className := TextStyles.boldText, ^.onClick := goTo(props.registerView))(
+                unescape(I18n.t("form.login.createAccount"))
+              )
+            )
+          )
+        } else if (state.currentView == "reset-password") {
+          Seq(
+            <.RecoverPasswordContainerComponent(^.wrapped := RecoverPasswordContainerProps(props.onSuccessfulLogin))(),
+            <.p(^.className := Seq(LoginOrRegisterStyles.text, TextStyles.smallText))(
+              unescape(I18n.t("form.passwordRecovery.return")) + " ",
+              <.a(^.className := TextStyles.boldText, ^.onClick := goTo("login"))(
+                unescape(I18n.t("form.passwordRecovery.connectScreen"))
+              )
+            )
+          )
+        } else if (state.currentView == "register-expanded") {
+          Seq(
+            <.RegisterWithSocialNetworksOrEmailExpandedComponent(
+              ^.wrapped := RegisterWithSocialNetworksOrEmailProps(props.onSuccessfulLogin)
+            )(),
+            <.p(^.className := Seq(LoginOrRegisterStyles.text, TextStyles.smallText))(
+              unescape(I18n.t("form.register.alreadySubscribed")) + " ",
+              <.a(^.className := TextStyles.boldText, ^.onClick := goTo("login"))(unescape(I18n.t("form.connection")))
+            )
+          )
+        } else {
+          Seq(
+            <.RegisterWithSocialNetworksOrEmailComponent(
+              ^.wrapped := RegisterWithSocialNetworksOrEmailProps(props.onSuccessfulLogin)
+            )(),
+            <.p(^.className := Seq(LoginOrRegisterStyles.text, TextStyles.smallText))(
+              unescape(I18n.t("form.register.alreadySubscribed")) + " ",
+              <.a(^.className := TextStyles.boldText, ^.onClick := goTo("login"))(unescape(I18n.t("form.connection")))
+            )
+          )
+        }, <.style()(LoginOrRegisterStyles.render[String]))
+    })
 }
 
 object LoginOrRegisterStyles extends StyleSheet.Inline {

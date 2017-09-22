@@ -9,11 +9,14 @@ import org.make.front.components.users.authenticate.RequireAuthenticatedUser.Req
 
 object RequireAuthenticatedUserContainer {
 
-  case class RequireAuthenticatedUserContainerProps(defaultView: String = "login", onceConnected: () => Unit)
+  case class RequireAuthenticatedUserContainerProps(registerView: String,
+                                                    defaultView: String = "login",
+                                                    onceConnected: () => Unit)
 
   val reactClass: ReactClass = ReactRedux.connectAdvanced {
     _: Dispatch => (state: AppState, props: Props[RequireAuthenticatedUserContainerProps]) =>
       RequireAuthenticatedUserProps(
+        registerView = props.wrapped.registerView,
         defaultView = props.wrapped.defaultView,
         onceConnected = props.wrapped.onceConnected,
         isConnected = state.connectedUser.isDefined
