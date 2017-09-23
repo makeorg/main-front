@@ -11,7 +11,7 @@ val npmReactVersion = "15.6.1"
 val npmWebpackVersion = "3.6.0"
 val npmReactRouterVersion = "4.1.2"
 val npmReactAutosuggestVersion = "9.3.1"
-val npmExtractTextWebpackPluginVersion = "2.1.2"
+val npmExtractTextWebpackPluginVersion = "3.0.0"
 val npmCssLoaderVersion = "0.28.4"
 val npmStyleLoaderVersion = "0.18.2"
 val npmReactModalVersion = "2.2.2"
@@ -36,18 +36,18 @@ val scalaCssCoreVersion = "0.5.3"
 enablePlugins(ScalaJSPlugin, ScalaJSBundlerPlugin)
 
 libraryDependencies ++= Seq(
-  "org.scala-js"                 %%% "scalajs-dom"                    % scalajsDomVersion,
-  "io.github.shogowada"          %%% "scalajs-reactjs"                % scalaJsReactVersion, // For react facade
-  "io.github.shogowada"          %%% "scalajs-reactjs-router-dom"     % scalaJsReactVersion, // Optional. For react-router-dom facade
-  "io.github.shogowada"          %%% "scalajs-reactjs-router-redux"   % scalaJsReactVersion, // Optional. For react-router-dom facade
-  "io.github.shogowada"          %%% "scalajs-reactjs-redux"          % scalaJsReactVersion, // Optional. For react-redux facade
-  "io.github.shogowada"          %%% "scalajs-reactjs-redux-devtools" % scalaJsReactVersion, // Optional. For redux-devtools facade
-  "com.github.japgolly.scalacss" %%% "core"                           % scalaCssCoreVersion,
-  "io.circe"                     %%% "circe-core"                     % circeVersion,
-  "io.circe"                     %%% "circe-java8"                    % circeVersion,
-  "io.circe"                     %%% "circe-generic"                  % circeVersion,
-  "io.circe"                     %%% "circe-parser"                   % circeVersion,
-  "io.circe"                     %%% "circe-scalajs"                  % circeVersion
+  "org.scala-js" %%% "scalajs-dom" % scalajsDomVersion,
+  "io.github.shogowada" %%% "scalajs-reactjs" % scalaJsReactVersion, // For react facade
+  "io.github.shogowada" %%% "scalajs-reactjs-router-dom" % scalaJsReactVersion, // Optional. For react-router-dom facade
+  "io.github.shogowada" %%% "scalajs-reactjs-router-redux" % scalaJsReactVersion, // Optional. For react-router-dom facade
+  "io.github.shogowada" %%% "scalajs-reactjs-redux" % scalaJsReactVersion, // Optional. For react-redux facade
+  "io.github.shogowada" %%% "scalajs-reactjs-redux-devtools" % scalaJsReactVersion, // Optional. For redux-devtools facade
+  "com.github.japgolly.scalacss" %%% "core" % scalaCssCoreVersion,
+  "io.circe" %%% "circe-core" % circeVersion,
+  "io.circe" %%% "circe-java8" % circeVersion,
+  "io.circe" %%% "circe-generic" % circeVersion,
+  "io.circe" %%% "circe-parser" % circeVersion,
+  "io.circe" %%% "circe-scalajs" % circeVersion
 )
 
 npmDependencies in Compile ++= Seq(
@@ -79,7 +79,6 @@ npmResolutions in Compile := {
 
 version in webpack := npmWebpackVersion
 
-
 webpackConfigFile in fastOptJS := Some(baseDirectory.value / "make-webpack-library.config.js")
 //webpackConfigFile in fastOptJS := Some(baseDirectory.value / "make-webpack-dev.config.js")
 webpackConfigFile in fullOptJS := Some(baseDirectory.value / "make-webpack-prod.config.js")
@@ -88,12 +87,18 @@ scalaJSUseMainModuleInitializer := true
 
 webpackDevServerExtraArgs := Seq("--lazy", "--inline")
 webpackDevServerPort := 9009
-webpackBundlingMode := BundlingMode.LibraryOnly("makeApp")
-emitSourceMaps := true
+webpackBundlingMode := {
+  if (System.getenv("CI_BUILD") == "true") {
+    BundlingMode.Application
+  } else {
+    BundlingMode.LibraryOnly("makeApp")
+  }
+}
+emitSourceMaps := System.getenv("CI_BUILD") != "true"
 
 // Prod settings
 scalacOptions ++= {
-  if(System.getenv("CI_BUILD") == "true") {
+  if (System.getenv("CI_BUILD") == "true") {
     Seq("-Xelide-below", "OFF")
   } else {
     Seq()
