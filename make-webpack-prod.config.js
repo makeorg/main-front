@@ -8,7 +8,10 @@ var scalajs = require('./scalajs.webpack.config')
 // Content that will be included in docker image
 var build = {
     name: "build",
-    entry: scalajs.entry,
+    entry: {
+        'make-front-opt': scalajs.entry["make-front-opt"],
+        'css': path.join(__dirname, 'styles/main.css')
+    },
     output: {
         path: path.join(__dirname, 'dist'),
         "filename": "[name].[chunkhash].js"
@@ -17,11 +20,14 @@ var build = {
         rules: [
             {
                 test: /\.css$/,
-                loader: ExtractTextPlugin.extract(['css-loader'])
+                loader: ExtractTextPlugin.extract({
+                    fallback: "style-loader",
+                    use: "css-loader"
+                })
             },
             {
                 test: /\.(ttf|otf|eot|svg|woff(2)?)(\?[a-z0-9]+)?$/,
-                loader: 'file-loader?name=fonts/[name].[ext]'
+                loader: 'file-loader?name=fonts/[name].[hash].[ext]'
             },
             {
                 test: /\.(jpe?g|gif|png)$/,

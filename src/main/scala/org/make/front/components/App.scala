@@ -5,6 +5,7 @@ import io.github.shogowada.scalajs.reactjs.VirtualDOM._
 import io.github.shogowada.scalajs.reactjs.router.WithRouter
 import org.make.front.components.Components.RichVirtualDOMElements
 import org.make.front.styles._
+import org.make.front.styles.base.Basic
 
 import scalacss.DevDefaults._
 

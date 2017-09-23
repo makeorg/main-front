@@ -1,34 +1,44 @@
-package org.make.front.styles
+package org.make.front.styles.base
 
 import org.make.front.Main.CssSettings._
+import org.make.front.facades._
+import org.make.front.styles.ThemeStyles
 
-import scalacss.internal.{Attr}
+import scalacss.internal.{Attr, FontFace}
 
 object Basic extends StyleSheet.Inline {
 
   import dsl._
 
-  val tradeGothicLTStd = fontFace("TradeGothicLTStdBdCn20")(
+  val tradeGothicLTStd: FontFace[String] = fontFace("TradeGothicLTStdBdCn20")(
     _.src(
-      "url(./fonts/TradeGothicLTStd-BdCn20.ttf)",
-      "url('./fonts/TradeGothicLTStd-BdCn20.woff2') format('woff2')",
-      "url('./fonts/TradeGothicLTStd-BdCn20.woff') format('woff')"
+      s"url('${tradeGothicLTTtf.toString}')",
+      s"url('${tradeGothicLTWoff2.toString}') format('woff2')",
+      s"url('${tradeGothicLTWoff.toString}') format('woff')"
     ).fontStyle.normal.fontWeight.normal
   )
 
-  val circularStdBook =
+  val circularStdBook: FontFace[String] =
     fontFace("CircularStdBook")(
       _.src(
-        "url('./fonts/CircularStd-Book.woff2') format('woff2')",
-        "url('./fonts/CircularStd-Book.woff') format('woff')"
+        s"url('${circularStdBookWoff2.toString}') format('woff2')",
+        s"url('${circularStdBookWoff.toString}') format('woff')"
       ).fontStyle.normal.fontWeight.normal
     )
 
-  val circularStdBold =
+  val circularStdBold: FontFace[String] =
     fontFace("CircularStdBold")(
       _.src(
-        "url(./fonts/CircularStd-Bold.woff2) format('woff2')",
-        "url('./fonts/CircularStd-Bold.woff') format('woff')"
+        s"url('${circularStdBoldWoff2.toString}') format('woff2')",
+        s"url('${circularStdBoldWoff.toString}') format('woff')"
+      ).fontStyle.normal.fontWeight.normal
+    )
+
+  val fontAwesome: FontFace[String] =
+    fontFace("")(
+      _.src(
+        s"url('${fontAwesomeWoff2.toString}') format('woff2')",
+        s"url('${fontAwesomeWoff.toString}') format('woff')"
       ).fontStyle.normal.fontWeight.normal
     )
 
