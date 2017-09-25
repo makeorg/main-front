@@ -54,48 +54,60 @@ object ProposalsList {
       },
       render = (self) => {
 
-        def listProposals(proposals: Seq[ProposalModel]): Seq[Element] = proposals.map(
-          proposal =>
-            <.li(
-              ^.className := Seq(
-                ProposalsListStyles.item,
-                LayoutRulesStyles.col,
-                LayoutRulesStyles.colHalfBeyondMedium,
-                LayoutRulesStyles.colQuarterBeyondLarge
-              )
-            )(<.ProposalWithTagsComponent(^.wrapped := ProposalWithTagsProps(proposal = proposal))())
-        )
-
         def onSeeMore = () => self.props.wrapped.handleNextResults(self)
 
-        def proposals(proposals: Seq[ProposalModel]): Element =
-          <.div()(<.ul()(listProposals(proposals)), if (self.state.showSeeMoreButton) {
-            <.div(^.className := Seq(ProposalsListStyles.seeMoreButtonWrapper, LayoutRulesStyles.col))(
-              <.button(^.onClick := onSeeMore, ^.className := Seq(CTAStyles.basic, CTAStyles.basicOnButton))(
-                unescape(I18n.t("content.theme.seeMoreProposals"))
+        def proposals(proposals: Seq[ProposalModel]) =
+          Seq(
+            <.ul(^.className := LayoutRulesStyles.centeredRow)(
+              proposals.map(
+                proposal =>
+                  <.li(
+                    ^.className := Seq(
+                      ProposalsListStyles.item,
+                      LayoutRulesStyles.col,
+                      LayoutRulesStyles.colHalfBeyondMedium,
+                      LayoutRulesStyles.colQuarterBeyondLarge
+                    )
+                  )(<.ProposalWithTagsComponent(^.wrapped := ProposalWithTagsProps(proposal = proposal))())
               )
-            )
-          })
+            ),
+            if (self.state.showSeeMoreButton) {
+              <.div(^.className := LayoutRulesStyles.centeredRow)(
+                <.div(^.className := Seq(ProposalsListStyles.seeMoreButtonWrapper, LayoutRulesStyles.col))(
+                  <.button(^.onClick := onSeeMore, ^.className := Seq(CTAStyles.basic, CTAStyles.basicOnButton))(
+                    unescape(I18n.t("content.theme.seeMoreProposals"))
+                  )
+                )
+              )
+            }
+          )
 
-        val noProposal: Element = <.div(^.className := ProposalsListStyles.noProposal)(
-          <.p(^.className := ProposalsListStyles.noProposalSmiley)("😞"),
-          <.p(
-            ^.className := Seq(TextStyles.mediumText, ProposalsListStyles.noProposalMessage),
-            ^.dangerouslySetInnerHTML := self.state.noContentText()
-          )()
-        )
+        val noProposal: Element =
+          <.div(^.className := Seq(LayoutRulesStyles.centeredRow, ProposalsListStyles.noProposal))(
+            <.div(^.className := LayoutRulesStyles.col)(
+              <.p(^.className := ProposalsListStyles.noProposalSmiley)("😞"),
+              <.p(
+                ^.className := Seq(TextStyles.mediumText, ProposalsListStyles.noProposalMessage),
+                ^.dangerouslySetInnerHTML := self.state.noContentText()
+              )()
+            )
+          )
 
         val proposalsToDisplay: Seq[ProposalModel] = self.state.listProposals.getOrElse(Seq.empty)
 
-        <.div(^.className := LayoutRulesStyles.col)(<.div()(if (self.state.showTagsSelect) {
-          <.FilterByTagsComponent(
-            ^.wrapped := FilterByTagsProps(self.props.wrapped.tags, self.props.wrapped.handleSelectedTags(self))
-          )()
+        <.div()(if (self.state.showTagsSelect) {
+          <.div(^.className := LayoutRulesStyles.centeredRow)(
+            <.div(^.className := LayoutRulesStyles.col)(
+              <.FilterByTagsComponent(
+                ^.wrapped := FilterByTagsProps(self.props.wrapped.tags, self.props.wrapped.handleSelectedTags(self))
+              )()
+            )
+          )
         }, if (proposalsToDisplay.nonEmpty) {
           proposals(proposalsToDisplay)
         } else {
           noProposal
-        }), <.style()(ProposalsListStyles.render[String]))
+        }, <.style()(ProposalsListStyles.render[String]))
       }
     )
 }
@@ -133,8 +145,8 @@ object ProposalsListStyles extends StyleSheet.Inline {
     style(unsafeChild("strong")(ThemeStyles.Font.circularStdBold), unsafeChild("em")(TextStyles.title))
 
   val noProposal: StyleA = style(
-    marginTop(ThemeStyles.SpacingValue.larger.pxToEm()),
-    marginBottom(ThemeStyles.SpacingValue.larger.pxToEm()),
+    paddingTop(ThemeStyles.SpacingValue.larger.pxToEm()),
+    paddingBottom(ThemeStyles.SpacingValue.larger.pxToEm()),
     textAlign.center
   )
 }

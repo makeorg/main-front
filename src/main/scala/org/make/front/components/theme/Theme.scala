@@ -31,14 +31,14 @@ object Theme {
         <.div(^.className := LayoutRulesStyles.centeredRow)(
           <.header(^.className := LayoutRulesStyles.col)(
             <.h2(^.className := TextStyles.bigTitle)(<.Translate(^.value := "content.theme.matrix.title")())
-          ),
-          <.ProposalsContainerComponent(
-            ^.wrapped := ProposalsListContainerProps(
-              themeSlug = Some(self.props.wrapped.themeSlug),
-              noContentText = noContentText
-            )
-          )()
-        )
+          )
+        ),
+        <.ProposalsContainerComponent(
+          ^.wrapped := ProposalsListContainerProps(
+            themeSlug = Some(self.props.wrapped.themeSlug),
+            noContentText = noContentText
+          )
+        )()
       ),
       <.style()(ThemeComponentStyles.render[String])
     )

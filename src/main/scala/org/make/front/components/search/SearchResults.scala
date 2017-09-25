@@ -66,29 +66,28 @@ object SearchResults {
           def searchValue(): Option[String] = self.state.searchValue
 
           <.section(^.className := SearchResultsStyles.wrapper)(
-            <.div(^.className := LayoutRulesStyles.centeredRow)(
-              //<.span()(s"« ${self.state.searchValue.getOrElse("")} »")
-              if (hasResult) {
-                <.h1(
-                  ^.dangerouslySetInnerHTML := (I18n
-                    .t(
-                      s"content.search.title",
-                      Replacements(("results", self.state.resultsCount.getOrElse(0).toString))
-                    ))
-                )()
-              },
-              <.ProposalsContainerComponent(
-                ^.wrapped := ProposalsListContainerProps(
-                  themeSlug = None,
-                  searchValue = searchValue,
-                  handleResults = Some(handleResults),
-                  showTagsSelect = false,
-                  noContentText = noContentText
-                )
-              )(),
-              if (!hasResult) {
+            //<.span()(s"« ${self.state.searchValue.getOrElse("")} »")
+            if (hasResult) {
+              <.h1(
+                ^.dangerouslySetInnerHTML := (I18n
+                  .t(s"content.search.title", Replacements(("results", self.state.resultsCount.getOrElse(0).toString))))
+              )()
+            },
+            <.ProposalsContainerComponent(
+              ^.wrapped := ProposalsListContainerProps(
+                themeSlug = None,
+                searchValue = searchValue,
+                handleResults = Some(handleResults),
+                showTagsSelect = false,
+                noContentText = noContentText
+              )
+            )(),
+            if (!hasResult) {
+              <.div(^.className := Seq(SearchResultsStyles.newProposal, LayoutRulesStyles.centeredRow))(
                 <.div(^.className := LayoutRulesStyles.col)(
-                  <.p()(I18n.t("content.search.proposeIntro")),
+                  <.p(^.className := Seq(SearchResultsStyles.newProposalIntro, TextStyles.mediumText))(
+                    I18n.t("content.search.proposeIntro")
+                  ),
                   <.button(
                     ^.className := Seq(CTAStyles.basic, CTAStyles.basicOnButton),
                     ^.onClick := openProposalModalFromInput()
@@ -101,8 +100,8 @@ object SearchResults {
                     ^.wrapped := FullscreenModalProps(self.state.isProposalModalOpened, toggleProposalModal())
                   )()
                 )
-              }
-            ),
+              )
+            },
             <.style()(SearchResultsStyles.render[String])
           )
 
@@ -124,9 +123,17 @@ object SearchResultsStyles extends StyleSheet.Inline {
 
   val wrapper: StyleA =
     style(
-      backgroundColor(ThemeStyles.BackgroundColor.blackVeryTransparent),
       paddingTop((50).pxToEm()), // TODO: dynamise calcul, if main intro is first child of page
       ThemeStyles.MediaQueries.beyondSmall(paddingTop((80).pxToEm()))
     )
+  val newProposal: StyleA =
+    style(
+      paddingTop(ThemeStyles.SpacingValue.larger.pxToEm()),
+      paddingBottom(ThemeStyles.SpacingValue.larger.pxToEm()),
+      textAlign.center
+    )
+
+  val newProposalIntro: StyleA =
+    style()
 
 }
