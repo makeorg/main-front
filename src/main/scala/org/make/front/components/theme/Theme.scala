@@ -4,7 +4,7 @@ import io.github.shogowada.scalajs.reactjs.React
 import io.github.shogowada.scalajs.reactjs.VirtualDOM._
 import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import org.make.front.components.Components._
-import org.make.front.components.proposals.ProposalsListContainer.MatrixWrappedProps
+import org.make.front.components.proposals.ProposalsListContainer.ProposalsListContainerProps
 import org.make.front.components.theme.ThemeHeader.ThemeHeaderProps
 import org.make.front.facades.I18n
 import org.make.front.facades.Translate.TranslateVirtualDOMElements
@@ -33,7 +33,7 @@ object Theme {
             <.h2(^.className := TextStyles.bigTitle)(<.Translate(^.value := "content.theme.matrix.title")())
           ),
           <.ProposalsContainerComponent(
-            ^.wrapped := MatrixWrappedProps(
+            ^.wrapped := ProposalsListContainerProps(
               themeSlug = Some(self.props.wrapped.themeSlug),
               noContentText = noContentText
             )

@@ -20,16 +20,17 @@ object ProposalsListContainer extends ProposalServiceComponent {
   override def apiBaseUrl: String = Configuration.apiUrl
   private val resultSetCount = 20
 
-  case class MatrixWrappedProps(themeSlug: Option[String] = None,
-                                searchValue: () => Option[String] = () => None,
-                                handleResults: Option[(Seq[ProposalModel]) => Unit] = None,
-                                showTagsSelect: Boolean = true,
-                                noContentText: () => String)
+  case class ProposalsListContainerProps(themeSlug: Option[String] = None,
+                                         searchValue: () => Option[String] = () => None,
+                                         handleResults: Option[(Seq[ProposalModel]) => Unit] = None,
+                                         showTagsSelect: Boolean = true,
+                                         noContentText: () => String)
 
   lazy val reactClass: ReactClass = ReactRedux.connectAdvanced(selectorFactory)(ProposalsList.reactClass)
 
-  def selectorFactory: (Dispatch) => (AppState, Props[MatrixWrappedProps]) => ProposalsList.ProposalsListProps =
-    (dispatch: Dispatch) => { (appState: AppState, ownProps: Props[MatrixWrappedProps]) =>
+  def selectorFactory
+    : (Dispatch) => (AppState, Props[ProposalsListContainerProps]) => ProposalsList.ProposalsListProps =
+    (dispatch: Dispatch) => { (appState: AppState, ownProps: Props[ProposalsListContainerProps]) =>
       val mayBeThemesId: Option[ThemeIdModel] = for {
         themeSlug <- ownProps.wrapped.themeSlug
         theme     <- appState.themes.find(_.slug == themeSlug)

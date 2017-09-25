@@ -87,15 +87,15 @@ object ProposalsList {
 
         val proposalsToDisplay: Seq[ProposalModel] = self.state.listProposals.getOrElse(Seq.empty)
 
-        <.div()(<.div(^.className := LayoutRulesStyles.col)(if (self.state.showTagsSelect) {
+        <.div(^.className := LayoutRulesStyles.col)(<.div()(if (self.state.showTagsSelect) {
           <.FilterByTagsComponent(
             ^.wrapped := FilterByTagsProps(self.props.wrapped.tags, self.props.wrapped.handleSelectedTags(self))
           )()
-        }), if (proposalsToDisplay.nonEmpty) {
+        }, if (proposalsToDisplay.nonEmpty) {
           proposals(proposalsToDisplay)
         } else {
           noProposal
-        }, <.style()(ProposalsListStyles.render[String]))
+        }), <.style()(ProposalsListStyles.render[String]))
       }
     )
 }
@@ -130,7 +130,7 @@ object ProposalsListStyles extends StyleSheet.Inline {
     )
 
   val noProposalMessage: StyleA =
-    style(unsafeChild("strong")(ThemeStyles.Font.circularStdBold))
+    style(unsafeChild("strong")(ThemeStyles.Font.circularStdBold), unsafeChild("em")(TextStyles.title))
 
   val noProposal: StyleA = style(
     marginTop(ThemeStyles.SpacingValue.larger.pxToEm()),
