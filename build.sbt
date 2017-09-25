@@ -59,6 +59,7 @@ npmDependencies in Compile ++= Seq(
   "react-slick" -> npmReactSlickVersion,
   "react-i18nify" -> npmReactI18nifyVersion,
   "react-autosuggest" -> npmReactAutosuggestVersion,
+  "ajv" -> "5.2.2",
   "extract-text-webpack-plugin" -> npmExtractTextWebpackPluginVersion,
   "hard-source-webpack-plugin" -> npmHardSourceWebpackVersion,
   "css-loader" -> npmCssLoaderVersion,
@@ -72,6 +73,12 @@ npmDependencies in Compile ++= Seq(
   "react-facebook-login" -> npmReactFacebookLogin,
   "react-textarea-autosize" -> npmReactTextareaAutoresize
 )
+
+npmDevDependencies in Compile ++= Seq(
+  "webpack-dev-server" -> "2.8.2",
+  "webpack" -> npmWebpackVersion
+)
+
 
 npmResolutions in Compile := {
   (npmDependencies in Compile).value.toMap
