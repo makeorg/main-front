@@ -2,6 +2,7 @@ package org.make.front.components.proposals
 
 import io.github.shogowada.scalajs.reactjs.React.Props
 import io.github.shogowada.scalajs.reactjs.classes.ReactClass
+import io.github.shogowada.scalajs.reactjs.elements.ReactElement
 import io.github.shogowada.scalajs.reactjs.redux.ReactRedux
 import io.github.shogowada.scalajs.reactjs.redux.Redux.Dispatch
 import org.make.front.actions.NotifyError
@@ -21,10 +22,9 @@ object ProposalsListContainer extends ProposalServiceComponent {
   private val resultSetCount = 20
 
   case class ProposalsListContainerProps(themeSlug: Option[String] = None,
-                                         searchValue: () => Option[String] = () => None,
-                                         handleResults: Option[(Seq[ProposalModel]) => Unit] = None,
+                                         searchValue: Option[String] = None,
                                          showTagsSelect: Boolean = true,
-                                         noContentText: () => String)
+                                         noContent: ReactElement)
 
   lazy val reactClass: ReactClass = ReactRedux.connectAdvanced(selectorFactory)(ProposalsList.reactClass)
 
@@ -42,11 +42,10 @@ object ProposalsListContainer extends ProposalServiceComponent {
                        listProposals: Seq[ProposalModel],
                        showSeeMore: Option[Boolean] = None): Unit = {
 
-        ownProps.wrapped.handleResults.foreach(_(listProposals))
         matrix.setState(
           _.copy(
             listProposals = Some(listProposals),
-            searchValue = matrix.props.wrapped.searchValue(),
+            searchValue = matrix.props.wrapped.searchValue,
             showSeeMoreButton = showSeeMore.getOrElse(mayHaveMoreResults(listProposals.length))
           )
         )
@@ -73,16 +72,16 @@ object ProposalsListContainer extends ProposalServiceComponent {
       }
 
       def handleSelectedTags(matrix: ProposalsListSelf)(selectedTags: Seq[TagModel]): Unit = {
-        handleNewProposals(matrix, getProposals(Some(selectedTags), ownProps.wrapped.searchValue()))
+        handleNewProposals(matrix, getProposals(Some(selectedTags), ownProps.wrapped.searchValue))
       }
 
       def handleSearchValueChange(matrix: ProposalsListSelf): Unit = {
-        handleNewProposals(matrix, getProposals(Some(matrix.state.selectedTags), ownProps.wrapped.searchValue()))
+        handleNewProposals(matrix, getProposals(Some(matrix.state.selectedTags), ownProps.wrapped.searchValue))
       }
 
       def handleNextResults(matrix: ProposalsListSelf): Unit = {
         val skip: Int = matrix.state.listProposals.map(_.length).getOrElse(0)
-        getProposals(Some(matrix.state.selectedTags), ownProps.wrapped.searchValue(), skip).onComplete {
+        getProposals(Some(matrix.state.selectedTags), ownProps.wrapped.searchValue, skip).onComplete {
           case Success(listProposals) =>
             updateMatrix(
               matrix = matrix,
@@ -110,7 +109,7 @@ object ProposalsListContainer extends ProposalServiceComponent {
         handleNextResults = handleNextResults,
         tags = tags,
         showTagsSelect = ownProps.wrapped.showTagsSelect,
-        noContentText = ownProps.wrapped.noContentText,
+        noContent = ownProps.wrapped.noContent,
         searchValue = ownProps.wrapped.searchValue
       )
     }

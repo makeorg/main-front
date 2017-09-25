@@ -4,7 +4,8 @@ import io.github.shogowada.scalajs.reactjs.React
 import io.github.shogowada.scalajs.reactjs.React.Self
 import io.github.shogowada.scalajs.reactjs.VirtualDOM._
 import io.github.shogowada.scalajs.reactjs.classes.ReactClass
-import io.github.shogowada.statictags.Element
+import io.github.shogowada.scalajs.reactjs.elements.ReactElement
+import org.make.front.Main.CssSettings._
 import org.make.front.components.Components._
 import org.make.front.components.proposals.proposal.ProposalWithTags.ProposalWithTagsProps
 import org.make.front.components.tags.FilterByTags.FilterByTagsProps
@@ -13,7 +14,6 @@ import org.make.front.facades.Unescape.unescape
 import org.make.front.models.{Proposal => ProposalModel, Tag => TagModel}
 import org.make.front.styles.{CTAStyles, LayoutRulesStyles, TextStyles, ThemeStyles}
 
-import org.make.front.Main.CssSettings._
 import scalacss.internal.Length
 import scalacss.internal.mutable.StyleSheet
 
@@ -26,12 +26,14 @@ object ProposalsList {
                                 handleNextResults: ProposalsListSelf       => Unit,
                                 tags: Seq[TagModel],
                                 showTagsSelect: Boolean = true,
-                                noContentText: () => String,
-                                searchValue: ()   => Option[String])
+                                noContent: ReactElement,
+                                searchValue: Option[String],
+                                title: (Int) => Seq[ReactElement] = (_) => Seq.empty)
+
   case class ProposalsListState(listProposals: Option[Seq[ProposalModel]] = None,
                                 selectedTags: Seq[TagModel],
                                 showTagsSelect: Boolean,
-                                noContentText: () => String,
+                                noContent: ReactElement,
                                 showSeeMoreButton: Boolean = true,
                                 searchValue: Option[String] = None)
 
@@ -41,14 +43,14 @@ object ProposalsList {
         ProposalsListState(
           selectedTags = self.props.wrapped.tags,
           showTagsSelect = self.props.wrapped.showTagsSelect,
-          noContentText = self.props.wrapped.noContentText,
-          searchValue = self.props.wrapped.searchValue()
+          noContent = self.props.wrapped.noContent,
+          searchValue = self.props.wrapped.searchValue
       ),
       componentDidMount = (self) => {
         self.props.wrapped.handleSearchValueChange(self)
       },
       componentDidUpdate = (self, _, _) => {
-        if (self.state.searchValue != self.props.wrapped.searchValue()) {
+        if (self.state.searchValue != self.props.wrapped.searchValue) {
           self.props.wrapped.handleSearchValueChange(self)
         }
       },
@@ -82,32 +84,26 @@ object ProposalsList {
             }
           )
 
-        val noProposal: Element =
-          <.div(^.className := Seq(LayoutRulesStyles.centeredRow, ProposalsListStyles.noProposal))(
-            <.div(^.className := LayoutRulesStyles.col)(
-              <.p(^.className := ProposalsListStyles.noProposalSmiley)("😞"),
-              <.p(
-                ^.className := Seq(TextStyles.mediumText, ProposalsListStyles.noProposalMessage),
-                ^.dangerouslySetInnerHTML := self.state.noContentText()
-              )()
-            )
-          )
-
         val proposalsToDisplay: Seq[ProposalModel] = self.state.listProposals.getOrElse(Seq.empty)
 
-        <.div()(if (self.state.showTagsSelect) {
-          <.div(^.className := LayoutRulesStyles.centeredRow)(
-            <.div(^.className := LayoutRulesStyles.col)(
-              <.FilterByTagsComponent(
-                ^.wrapped := FilterByTagsProps(self.props.wrapped.tags, self.props.wrapped.handleSelectedTags(self))
-              )()
+        <.div()(
+          self.props.wrapped.title(self.state.listProposals.map(_.size).getOrElse(0)),
+          if (self.state.showTagsSelect) {
+            <.div(^.className := LayoutRulesStyles.centeredRow)(
+              <.div(^.className := LayoutRulesStyles.col)(
+                <.FilterByTagsComponent(
+                  ^.wrapped := FilterByTagsProps(self.props.wrapped.tags, self.props.wrapped.handleSelectedTags(self))
+                )()
+              )
             )
-          )
-        }, if (proposalsToDisplay.nonEmpty) {
-          proposals(proposalsToDisplay)
-        } else {
-          noProposal
-        }, <.style()(ProposalsListStyles.render[String]))
+          },
+          if (proposalsToDisplay.nonEmpty) {
+            proposals(proposalsToDisplay)
+          } else {
+            self.state.noContent
+          },
+          <.style()(ProposalsListStyles.render[String])
+        )
       }
     )
 }

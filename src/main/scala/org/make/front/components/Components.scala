@@ -27,7 +27,7 @@ object Components {
     }
   }
 
-  implicit class TranslateVirtualDOMAttributes(attributes: VirtualDOMAttributes) {
+  implicit class DangerouslySetInnerHTMLVirtualDOMAttributes(attributes: VirtualDOMAttributes) {
     lazy val dangerouslySetInnerHTML: DangerouslySetInnerHtmlParameterSpec = new DangerouslySetInnerHtmlParameterSpec
   }
 
@@ -57,6 +57,9 @@ object Components {
 
     def SubmitProposalInRelationToThemeComponent: ReactClassElementSpec =
       self(submitProposal.SubmitProposalInRelationToTheme.reactClass)
+
+    def SubmitProposalWithoutAThemeComponent: ReactClassElementSpec =
+      self(submitProposal.SubmitProposalWithoutATheme.reactClass)
 
     def SubmitProposalFormComponent: ReactClassElementSpec = self(submitProposal.SubmitProposalForm.reactClass)
 

@@ -3,16 +3,16 @@ package org.make.front.components.search
 import io.github.shogowada.scalajs.reactjs.React
 import io.github.shogowada.scalajs.reactjs.VirtualDOM.{<, _}
 import io.github.shogowada.scalajs.reactjs.classes.ReactClass
+import io.github.shogowada.scalajs.reactjs.elements.ReactElement
 import io.github.shogowada.scalajs.reactjs.events.MouseSyntheticEvent
 import io.github.shogowada.scalajs.reactjs.router.RouterProps._
 import io.github.shogowada.scalajs.reactjs.router.WithRouter
 import org.make.front.components.Components.{RichVirtualDOMElements, _}
 import org.make.front.components.modals.FullscreenModal.FullscreenModalProps
 import org.make.front.components.proposals.ProposalsListContainer.ProposalsListContainerProps
-import org.make.front.facades.{I18n, Replacements}
 import org.make.front.facades.Unescape.unescape
+import org.make.front.facades.{I18n, Replacements}
 import org.make.front.helpers.QueryString
-import org.make.front.models.{Proposal => ProposalModel}
 import org.make.front.styles._
 
 import scala.scalajs.js.URIUtils
@@ -27,62 +27,45 @@ object SearchResults {
 
   lazy val reactClass: ReactClass =
     WithRouter(
-      React.createClass[SearchResultsProps, SearchResultsState](
-        displayName = getClass.toString,
-        getInitialState = (self) => {
+      React.createClass[SearchResultsProps, SearchResultsState](displayName = getClass.toString, getInitialState = {
+        (self) =>
           val search = QueryString.parse(self.props.location.search)
           val searchValue: Option[String] = search.get("q").map(URIUtils.decodeURI)
           SearchResultsState(searchValue = searchValue)
-        },
-        componentWillReceiveProps = (self, nextProps) => {
-          val search = QueryString.parse(nextProps.location.search)
-          val newSearchValue = search.get("q").map(URIUtils.decodeURI)
-          if (self.state.searchValue != newSearchValue) {
-            self.setState(_.copy(searchValue = newSearchValue))
-          }
-        },
-        render = (self) => {
-
-          def toggleProposalModal() = () => {
-            self.setState(state => state.copy(isProposalModalOpened = !self.state.isProposalModalOpened))
+      }, componentWillReceiveProps = (self, nextProps) => {
+        val search = QueryString.parse(nextProps.location.search)
+        val newSearchValue = search.get("q").map(URIUtils.decodeURI)
+        self.setState(_.copy(searchValue = newSearchValue))
+      }, render = {
+        (self) =>
+          val closeProposalModal: () => Unit = () => {
+            self.setState(state => state.copy(isProposalModalOpened = false))
           }
 
-          def openProposalModalFromInput() = (event: MouseSyntheticEvent) => {
+          val openProposalModalFromInput: (MouseSyntheticEvent) => Unit = { event =>
             event.preventDefault()
             self.setState(state => state.copy(isProposalModalOpened = true))
           }
 
-          def handleResults(proposals: Seq[ProposalModel]): Unit = {
-            val resultCount = proposals.length
-            self.setState(_.copy(resultsCount = Some(resultCount)))
-          }
+          val searchValue: Option[String] = self.state.searchValue
 
-          def noContentText(): String = {
-            val searchContent: String = self.state.searchValue.getOrElse("")
-            I18n.t("content.search.matrix.noContent", Replacements(("search", "<em>" + searchContent + "</em>")))
-          }
-
-          def hasResult = self.state.resultsCount.getOrElse(0) > 0
-          def searchValue(): Option[String] = self.state.searchValue
-
-          <.section(^.className := SearchResultsStyles.wrapper)(
-            //<.span()(s"« ${self.state.searchValue.getOrElse("")} »")
-            if (hasResult) {
-              <.h1(
-                ^.dangerouslySetInnerHTML := (I18n
-                  .t(s"content.search.title", Replacements(("results", self.state.resultsCount.getOrElse(0).toString))))
-              )()
-            },
-            <.ProposalsContainerComponent(
-              ^.wrapped := ProposalsListContainerProps(
-                themeSlug = None,
-                searchValue = searchValue,
-                handleResults = Some(handleResults),
-                showTagsSelect = false,
-                noContentText = noContentText
-              )
-            )(),
-            if (!hasResult) {
+          val noContent: ReactElement = {
+            <.div()(
+              <.div(^.className := Seq(LayoutRulesStyles.centeredRow, SearchResultsStyles.noProposal))(
+                <.div(^.className := LayoutRulesStyles.col)(
+                  <.p(^.className := SearchResultsStyles.noProposalSmiley)("😞"),
+                  <.p(
+                    ^.className := Seq(TextStyles.mediumText, SearchResultsStyles.noProposalMessage),
+                    ^.dangerouslySetInnerHTML := unescape(
+                      I18n
+                        .t(
+                          s"content.search.matrix.noContent",
+                          Replacements(("search", self.state.searchValue.getOrElse("")))
+                        )
+                    )
+                  )()
+                )
+              ),
               <.div(^.className := Seq(SearchResultsStyles.newProposal, LayoutRulesStyles.centeredRow))(
                 <.div(^.className := LayoutRulesStyles.col)(
                   <.p(^.className := Seq(SearchResultsStyles.newProposalIntro, TextStyles.mediumText))(
@@ -90,23 +73,39 @@ object SearchResults {
                   ),
                   <.button(
                     ^.className := Seq(CTAStyles.basic, CTAStyles.basicOnButton),
-                    ^.onClick := openProposalModalFromInput()
+                    ^.onClick := openProposalModalFromInput
                   )(
                     <.i(^.className := FontAwesomeStyles.pencil)(),
                     unescape("&nbsp;"),
                     unescape(I18n.t("content.search.propose"))
                   ),
                   <.FullscreenModalComponent(
-                    ^.wrapped := FullscreenModalProps(self.state.isProposalModalOpened, toggleProposalModal())
+                    ^.wrapped := FullscreenModalProps(self.state.isProposalModalOpened, closeProposalModal)
                   )()
                 )
               )
-            },
+            )
+          }
+
+          <.section(^.className := SearchResultsStyles.wrapper)(
+            <.h1(
+              ^.dangerouslySetInnerHTML := unescape(
+                I18n
+                  .t(s"content.search.title", Replacements(("results", self.state.resultsCount.getOrElse(0).toString)))
+              )
+            )(),
+            <.ProposalsContainerComponent(
+              ^.wrapped := ProposalsListContainerProps(
+                themeSlug = None,
+                searchValue = searchValue,
+                showTagsSelect = false,
+                noContent = noContent
+              )
+            )(),
             <.style()(SearchResultsStyles.render[String])
           )
 
-        }
-      )
+      })
     )
 }
 
@@ -135,5 +134,23 @@ object SearchResultsStyles extends StyleSheet.Inline {
 
   val newProposalIntro: StyleA =
     style()
+
+  val noProposalMessage: StyleA =
+    style(unsafeChild("strong")(ThemeStyles.Font.circularStdBold), unsafeChild("em")(TextStyles.title))
+
+  val noProposal: StyleA = style(
+    paddingTop(ThemeStyles.SpacingValue.larger.pxToEm()),
+    paddingBottom(ThemeStyles.SpacingValue.larger.pxToEm()),
+    textAlign.center
+  )
+
+  val noProposalSmiley: StyleA =
+    style(
+      display.inlineBlock,
+      marginBottom(ThemeStyles.SpacingValue.small.pxToEm(34)),
+      fontSize(34.pxToEm()),
+      ThemeStyles.MediaQueries
+        .beyondSmall(marginBottom(ThemeStyles.SpacingValue.small.pxToEm(48)), fontSize(48.pxToEm()))
+    )
 
 }
