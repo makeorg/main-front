@@ -25,7 +25,7 @@ trait ProposalServiceComponent {
       with CirceFormatters
       with DefaultMakeApiClientComponent {
 
-    override val resourceName: String = "proposal"
+    override val resourceName: String = "proposals"
 
     def createProposal(content: String): Future[RegisterProposalResponse] =
       client
