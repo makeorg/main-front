@@ -21,7 +21,7 @@ object Proposal {
     React.createClass[ProposalProps, Unit](render = (self) => {
 
       <.article(^.className := ProposalStyles.wrapper)(
-        <.header(^.className := ProposalStyles.header)(
+        <.header(^.className := ProposalStyles.proposalInfosWrapper)(
           <.ProposalInfosComponent(^.wrapped := ProposalInfosProps(proposal = self.props.wrapped.proposal))()
         ),
         <.div(^.className := ProposalStyles.contentWrapper)(

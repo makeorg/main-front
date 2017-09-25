@@ -23,7 +23,7 @@ object ProposalWithTheme {
     React.createClass[ProposalWithThemeProps, Unit](render = (self) => {
 
       <.article(^.className := ProposalStyles.wrapper)(
-        <.header(^.className := ProposalStyles.header)(
+        <.header(^.className := ProposalStyles.proposalInfosWrapper)(
           <.ProposalInfosComponent(^.wrapped := ProposalInfosProps(proposal = self.props.wrapped.proposal))()
         ),
         <.div(^.className := ProposalStyles.contentWrapper)(
@@ -65,6 +65,6 @@ object ProposalWithThemeStyles extends StyleSheet.Inline {
     style(color(ThemeStyles.ThemeColor.primary))
 
   val themeInfo: StyleA =
-    style(paddingTop(ThemeStyles.SpacingValue.smaller.pxToEm()), color(ThemeStyles.TextColor.light))
+    style(color(ThemeStyles.TextColor.light))
 
 }

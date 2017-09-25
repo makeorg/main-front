@@ -94,6 +94,9 @@ object Components {
     def ProposalInfosComponent: ReactClassElementSpec =
       self(proposals.proposal.ProposalInfos.reactClass)
 
+    def ShareOwnProposalComponent: ReactClassElementSpec =
+      self(proposals.proposal.ShareOwnProposal.reactClass)
+
     def ProposalComponent: ReactClassElementSpec =
       self(proposals.proposal.Proposal.reactClass)
 
@@ -152,6 +155,7 @@ object Components {
 
     def NewPasswordInputComponent: ReactClassElementSpec =
       self(authenticate.NewPasswordInput.reactClass)
+
   }
 
 }

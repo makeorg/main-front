@@ -19,16 +19,28 @@ object ProposalStyles extends StyleSheet.Inline {
   }
 
   val wrapper: StyleA =
-    style(backgroundColor(ThemeStyles.BackgroundColor.white), padding(ThemeStyles.SpacingValue.smaller.pxToEm()))
+    style(backgroundColor(ThemeStyles.BackgroundColor.white))
 
-  val header: StyleA = style(
-    paddingBottom(ThemeStyles.SpacingValue.smaller.pxToEm()),
+  val proposalInfosWrapper: StyleA = style(
+    margin := s"0 ${ThemeStyles.SpacingValue.small.pxToEm().value}",
+    padding := s"${ThemeStyles.SpacingValue.small.pxToEm().value} 0 ${ThemeStyles.SpacingValue.smaller.pxToEm().value}",
     borderBottom :=! s"1px solid ${ThemeStyles.BorderColor.veryLight.value}"
   )
 
-  val contentWrapper: StyleA =
-    style(paddingTop(ThemeStyles.SpacingValue.smaller.pxToEm()), paddingBottom(ThemeStyles.SpacingValue.small.pxToEm()))
+  val shareOwnProposalWrapper: StyleA = style(
+    padding := s"${ThemeStyles.SpacingValue.small.pxToEm().value} ${ThemeStyles.SpacingValue.small
+      .pxToEm()
+      .value} ${ThemeStyles.SpacingValue.smaller.pxToEm().value} ${ThemeStyles.SpacingValue.small.pxToEm().value}",
+    backgroundColor(ThemeStyles.BackgroundColor.blackMoreTransparent)
+  )
 
-  val footer: StyleA = style(borderTop :=! s"1px solid ${ThemeStyles.BorderColor.veryLight.value}")
+  val contentWrapper: StyleA =
+    style(padding(ThemeStyles.SpacingValue.small.pxToEm()))
+
+  val footer: StyleA = style(
+    margin := s"0 ${ThemeStyles.SpacingValue.small.pxToEm().value}",
+    padding := s"${ThemeStyles.SpacingValue.smaller.pxToEm().value} 0 ${ThemeStyles.SpacingValue.small.pxToEm().value}",
+    borderTop :=! s"1px solid ${ThemeStyles.BorderColor.veryLight.value}"
+  )
 
 }

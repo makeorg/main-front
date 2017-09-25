@@ -126,7 +126,7 @@ object AuthenticateWithSocialNetworksStyles extends StyleSheet.Inline {
     )
 
   val facebookConnectButton: StyleA =
-    style(display.block, width(100.%%), backgroundColor(rgb(58, 89, 152)))
+    style(display.block, width(100.%%), backgroundColor(ThemeStyles.SocialNetworksColor.facebook))
 
   val googlePlusConnectButtonWrapper: StyleA =
     style(
@@ -136,7 +136,7 @@ object AuthenticateWithSocialNetworksStyles extends StyleSheet.Inline {
     )
 
   val googlePlusConnectButton: StyleA =
-    style(display.block, width(100.%%), backgroundColor(rgb(219, 68, 55)))
+    style(display.block, width(100.%%), backgroundColor(ThemeStyles.SocialNetworksColor.googlePlus))
 
   val noteWrapper: StyleA = style(marginTop(ThemeStyles.SpacingValue.small.pxToEm()), textAlign.center)
 

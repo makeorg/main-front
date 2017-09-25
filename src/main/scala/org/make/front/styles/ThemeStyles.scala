@@ -29,6 +29,14 @@ object ThemeStyles extends StyleSheet.Inline {
     val negative: ValueT[ValueT.Color] = rgb(218, 0, 27)
     val positive: ValueT[ValueT.Color] = rgb(110, 182, 31)
     val assertive: ValueT[ValueT.Color] = rgb(218, 0, 27)
+    val prominent: ValueT[ValueT.Color] = rgb(255, 110, 0)
+  }
+
+  object SocialNetworksColor {
+    val facebook: ValueT[ValueT.Color] = rgb(58, 89, 152)
+    val twitter: ValueT[ValueT.Color] = rgb(26, 145, 218)
+    val googlePlus: ValueT[ValueT.Color] = rgb(219, 68, 55)
+    val linkedIn: ValueT[ValueT.Color] = rgb(0, 119, 181)
   }
 
   object TextColor {
@@ -46,6 +54,7 @@ object ThemeStyles extends StyleSheet.Inline {
     val grey: ValueT[ValueT.Color] = rgb(231, 231, 231)
     val black: ValueT[ValueT.Color] = rgb(0, 0, 0)
     val blackTransparent: ValueT[ValueT.Color] = rgba(0, 0, 0, 0.2)
+    val blackMoreTransparent: ValueT[ValueT.Color] = rgba(0, 0, 0, 0.1)
     val blackVeryTransparent: ValueT[ValueT.Color] = rgba(0, 0, 0, 0.05)
     val danger: ValueT[ValueT.Color] = rgba(208, 2, 27, 0.1)
   }
@@ -69,7 +78,6 @@ object ThemeStyles extends StyleSheet.Inline {
   }
 
   object MediaQueries {
-
     val belowVerySmall: Media.Query = media.maxWidth(399.pxToEm())
     val beyondVerySmall: Media.Query = media.minWidth(400.pxToEm())
     val verySmall: Media.Query = belowVerySmall.maxWidth(499.pxToEm())

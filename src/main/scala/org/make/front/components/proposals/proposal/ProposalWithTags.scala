@@ -5,6 +5,7 @@ import io.github.shogowada.scalajs.reactjs.VirtualDOM._
 import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import org.make.front.components.Components.{RichVirtualDOMElements, _}
 import org.make.front.components.proposals.proposal.ProposalInfos.ProposalInfosProps
+import org.make.front.components.proposals.proposal.ShareOwnProposal.ShareOwnProposalProps
 import org.make.front.components.proposals.vote.Vote
 import org.make.front.models.{Proposal => ProposalModel}
 import org.make.front.styles.{TagStyles, TextStyles, ThemeStyles}
@@ -21,9 +22,12 @@ object ProposalWithTags {
     React.createClass[ProposalWithTagsProps, Unit](render = (self) => {
 
       <.article(^.className := ProposalStyles.wrapper)(
-        <.header(^.className := ProposalStyles.header)(
+        <.header(^.className := ProposalStyles.proposalInfosWrapper)(
           <.ProposalInfosComponent(^.wrapped := ProposalInfosProps(proposal = self.props.wrapped.proposal))()
         ),
+        /*<.header(^.className := ProposalStyles.shareOwnProposalWrapper)(
+          <.ShareOwnProposalComponent(^.wrapped := ShareOwnProposalProps(proposal = self.props.wrapped.proposal))()
+          ),*/
         <.div(^.className := ProposalStyles.contentWrapper)(
           <.h3(^.className := Seq(TextStyles.mediumText, TextStyles.boldText))(self.props.wrapped.proposal.content),
           <.VoteComponent(
@@ -47,7 +51,6 @@ object ProposalWithTags {
         ),
         <.style()(ProposalStyles.render[String], ProposalWithTagsStyles.render[String])
       )
-
     })
 }
 
@@ -63,11 +66,7 @@ object ProposalWithTagsStyles extends StyleSheet.Inline {
   }
 
   val tagList: StyleA =
-    style(
-      lineHeight(0),
-      paddingTop((ThemeStyles.SpacingValue.smaller / 2).pxToEm()),
-      margin :=! s"0 -${(ThemeStyles.SpacingValue.smaller / 2).pxToEm().value} -${(ThemeStyles.SpacingValue.smaller / 2).pxToEm().value}"
-    )
+    style(lineHeight(0), margin :=! s"-${(ThemeStyles.SpacingValue.smaller / 2).pxToEm().value}")
 
   val tagListItem: StyleA =
     style(display.inlineBlock, verticalAlign.middle, margin((ThemeStyles.SpacingValue.smaller / 2).pxToEm()))
