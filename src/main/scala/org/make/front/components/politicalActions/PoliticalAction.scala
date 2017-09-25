@@ -56,12 +56,26 @@ object PoliticalActionStyles extends StyleSheet.Inline {
   val wrapper: StyleA = style(display.table, width(100.%%))
 
   val imageWrapper: StyleA =
-    style(display.tableCell, verticalAlign.top, padding(ThemeStyles.SpacingValue.small.pxToEm()))
+    style(
+      display.tableCell,
+      verticalAlign.top,
+      width(70.pxToEm()),
+      ThemeStyles.MediaQueries
+        .beyondMedium(verticalAlign.middle, width(120.pxToEm())),
+      padding(ThemeStyles.SpacingValue.small.pxToEm()),
+      textAlign.right
+    )
 
   val contentWrapper: StyleA =
-    style(display.tableCell, verticalAlign.top, width(100.%%), padding(ThemeStyles.SpacingValue.small.pxToEm()))
+    style(
+      display.tableCell,
+      verticalAlign.top,
+      padding := s"${ThemeStyles.SpacingValue.small.pxToEm().value} ${ThemeStyles.SpacingValue.small.pxToEm().value} ${ThemeStyles.SpacingValue.small.pxToEm().value} 0",
+      ThemeStyles.MediaQueries
+        .beyondMedium(paddingLeft(ThemeStyles.SpacingValue.small.pxToEm()))
+    )
 
-  val image: StyleA = style(maxWidth(ThemeStyles.SpacingValue.largerMedium.pxToEm()))
+  val image: StyleA = style(display := s"inline!important", maxWidth(60.pxToEm()))
 
   val info: StyleA = style(
     display.inlineBlock,

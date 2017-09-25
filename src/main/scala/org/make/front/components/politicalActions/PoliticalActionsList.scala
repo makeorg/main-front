@@ -9,7 +9,7 @@ import org.make.front.facades.ReactSlick.{ReactTooltipVirtualDOMAttributes, Reac
 import org.make.front.facades.Unescape.unescape
 import org.make.front.facades.{I18n, Replacements}
 import org.make.front.models.{PoliticalAction => PoliticalActionModel}
-import org.make.front.styles._
+import org.make.front.styles.{FontAwesomeStyles, LayoutRulesStyles, TextStyles, ThemeStyles}
 import org.scalajs.dom.raw.HTMLElement
 
 import scalacss.DevDefaults._
@@ -85,18 +85,22 @@ object PoliticalActionsList {
             <.div(^.className := PoliticalActionsListStyles.slideshowWrapper)(
               <.div(^.className := PoliticalActionsListStyles.slideshowContentWrapper)(
                 <.div(^.className := Seq(PoliticalActionsListStyles.slideshow))(
-                  <.Slider(
-                    ^.ref := ((s: HTMLElement) => slider = Some(s.asInstanceOf[Slider])),
-                    ^.infinite := false,
-                    ^.arrows := false,
-                    ^.id := "slideshow"
-                  )(self.props.wrapped.politicalActions.map { politicalAction =>
-                    <.div(^.className := Seq(PoliticalActionsListStyles.slideWrapper))(
-                      <.div(^.className := Seq(PoliticalActionsListStyles.slide))(
-                        <.PoliticalActionComponent(^.wrapped := PoliticalActionProps(politicalAction))()
+                  if (self.props.wrapped.politicalActions.length == 0) {
+                    <.NoPoliticalActionComponent.empty
+                  } else {
+                    <.Slider(
+                      ^.ref := ((s: HTMLElement) => slider = Some(s.asInstanceOf[Slider])),
+                      ^.infinite := false,
+                      ^.arrows := false,
+                      ^.id := "slideshow"
+                    )(self.props.wrapped.politicalActions.map { politicalAction =>
+                      <.div(^.className := Seq(PoliticalActionsListStyles.slideWrapper))(
+                        <.div(^.className := Seq(PoliticalActionsListStyles.slide))(
+                          <.PoliticalActionComponent(^.wrapped := PoliticalActionProps(politicalAction))()
+                        )
                       )
-                    )
-                  })
+                    })
+                  }
                 )
               ),
               <.nav(^.className := Seq(PoliticalActionsListStyles.slideshowNav))(
@@ -145,6 +149,14 @@ object PoliticalActionsListStyles extends StyleSheet.Inline {
       unsafeChild(".slick-list")(
         ThemeStyles.MediaQueries
           .belowMedium(overflow.visible)
+      ),
+      unsafeChild(".slick-slide")(
+        ThemeStyles.MediaQueries
+          .belowMedium(height.auto, minHeight.inherit)
+      ),
+      unsafeChild(".slick-track")(
+        ThemeStyles.MediaQueries
+          .belowMedium(display.flex)
       )
     )
 
@@ -187,13 +199,19 @@ object PoliticalActionsListStyles extends StyleSheet.Inline {
   val slideWrapper: StyleA =
     style(
       ThemeStyles.MediaQueries
-        .belowMedium(padding :=! s"0 ${ThemeStyles.SpacingValue.small.pxToEm().value} 0 0")
+        .belowMedium(padding :=! s"0 ${ThemeStyles.SpacingValue.small.pxToEm().value} 0 0"),
+      ThemeStyles.MediaQueries
+        .belowSmall(padding :=! s"0 ${ThemeStyles.SpacingValue.smaller.pxToEm().value} 0 0")
     )
 
   val slide: StyleA =
     style(
       ThemeStyles.MediaQueries
-        .belowMedium(backgroundColor(ThemeStyles.BackgroundColor.white), boxShadow := "0 1px 1px 0 rgba(0,0,0,0.50)")
+        .belowMedium(
+          height(100.%%),
+          backgroundColor(ThemeStyles.BackgroundColor.white),
+          boxShadow := "0 1px 1px 0 rgba(0,0,0,0.50)"
+        )
     )
 
 }

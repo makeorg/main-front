@@ -6,8 +6,8 @@ import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import io.github.shogowada.scalajs.reactjs.events.SyntheticEvent
 import org.make.front.components.Components.{RichVirtualDOMElements, _}
 import org.make.front.components.authenticate.login.LoginWithEmailOrSocialNetworks.LoginWithEmailOrSocialNetworksProps
+import org.make.front.components.authenticate.recoverPassword.RecoverPasswordContainer.RecoverPasswordContainerProps
 import org.make.front.components.authenticate.register.RegisterWithSocialNetworksOrEmail.RegisterWithSocialNetworksOrEmailProps
-import org.make.front.components.containers.RecoverPasswordContainer.RecoverPasswordContainerProps
 import org.make.front.facades.I18n
 import org.make.front.facades.Unescape.unescape
 import org.make.front.styles.{TextStyles, ThemeStyles}

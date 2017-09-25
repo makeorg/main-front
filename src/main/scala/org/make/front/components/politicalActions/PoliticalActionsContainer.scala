@@ -23,5 +23,4 @@ object PoliticalActionsContainer {
       else
         PoliticalActionsList.PoliticalActionsListProps(politicalActionsList)
     }
-
 }

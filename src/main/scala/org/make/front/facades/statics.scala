@@ -16,6 +16,10 @@ object mainIntroIll extends js.Object
 object imageShutterstock extends js.Object
 
 @js.native
+@JSImport("./images/cone.svg", "default")
+object cone extends js.Object
+
+@js.native
 @JSImport("./fonts/CircularStd-Book.woff2", "default")
 object circularStdBookWoff2 extends js.Object
 

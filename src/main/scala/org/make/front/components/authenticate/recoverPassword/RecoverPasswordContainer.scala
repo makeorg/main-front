@@ -1,4 +1,4 @@
-package org.make.front.components.containers
+package org.make.front.components.authenticate.recoverPassword
 
 import io.github.shogowada.scalajs.reactjs.React.Props
 import io.github.shogowada.scalajs.reactjs.classes.ReactClass
@@ -6,8 +6,7 @@ import io.github.shogowada.scalajs.reactjs.redux.ReactRedux
 import io.github.shogowada.scalajs.reactjs.redux.Redux.Dispatch
 import org.make.front.actions.NotifyInfo
 import org.make.front.components.AppState
-import org.make.front.components.authenticate.recoverPassword.PasswordRecovery
-import org.make.front.components.authenticate.recoverPassword.PasswordRecovery.PasswordRecoveryProps
+import org.make.front.components.authenticate.recoverPassword.RecoverPassword.RecoverPasswordProps
 import org.make.front.facades.{Configuration, I18n}
 import org.make.services.user.UserServiceComponent
 
@@ -19,11 +18,11 @@ object RecoverPasswordContainer extends UserServiceComponent {
 
   override val apiBaseUrl: String = Configuration.apiUrl
 
-  lazy val reactClass: ReactClass = ReactRedux.connectAdvanced(selectorFactory)(PasswordRecovery.reactClass)
+  lazy val reactClass: ReactClass = ReactRedux.connectAdvanced(selectorFactory)(RecoverPassword.reactClass)
 
   case class RecoverPasswordContainerProps(onRecoverPasswordSuccess: () => Unit = () => {})
 
-  def selectorFactory: (Dispatch) => (AppState, Props[RecoverPasswordContainerProps]) => PasswordRecoveryProps =
+  def selectorFactory: (Dispatch) => (AppState, Props[RecoverPasswordContainerProps]) => RecoverPasswordProps =
     (dispatch: Dispatch) => { (_: AppState, props) =>
       def handleSubmit(email: String): Future[_] = {
         val future = userService.resetPasswordRequest(email)
@@ -36,6 +35,6 @@ object RecoverPasswordContainer extends UserServiceComponent {
         future
       }
 
-      PasswordRecovery.PasswordRecoveryProps(handleSubmit)
+      RecoverPassword.RecoverPasswordProps(handleSubmit)
     }
 }

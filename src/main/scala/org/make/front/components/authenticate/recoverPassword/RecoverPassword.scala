@@ -18,15 +18,15 @@ import scalacss.DevDefaults._
 import scalacss.internal.mutable.StyleSheet
 import scalacss.internal.{Length, StyleA}
 
-object PasswordRecovery {
+object RecoverPassword {
 
-  case class PasswordRecoveryProps(handleSubmit: (String) => Future[_])
+  case class RecoverPasswordProps(handleSubmit: (String) => Future[_])
 
-  case class PasswordRecoveryState(email: String, errorMessage: String)
+  case class RecoverPasswordState(email: String, errorMessage: String)
 
   lazy val reactClass: ReactClass =
-    React.createClass[PasswordRecoveryProps, PasswordRecoveryState](getInitialState = { _ =>
-      PasswordRecoveryState(email = "", errorMessage = "")
+    React.createClass[RecoverPasswordProps, RecoverPasswordState](getInitialState = { _ =>
+      RecoverPasswordState(email = "", errorMessage = "")
     }, render = {
       self =>
         val updateEmail =

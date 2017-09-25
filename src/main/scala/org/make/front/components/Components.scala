@@ -4,18 +4,6 @@ import io.github.shogowada.scalajs.reactjs.VirtualDOM.VirtualDOMAttributes.Type.
 import io.github.shogowada.scalajs.reactjs.VirtualDOM.VirtualDOMElements.ReactClassElementSpec
 import io.github.shogowada.scalajs.reactjs.VirtualDOM.{VirtualDOMAttributes, VirtualDOMElements}
 import io.github.shogowada.statictags.{Attribute, SpaceSeparatedStringAttributeSpec}
-import org.make.front.components.authenticate.login.{LoginWithEmailContainer, LoginWithEmailOrSocialNetworks}
-import org.make.front.components.authenticate.register.{RegisterContainer, RegisterWithSocialNetworksOrEmail}
-import org.make.front.components.authenticate.resetPassword.ResetPasswordContainer
-import org.make.front.components.authenticate.{
-  AuthenticateWithSocialNetworksContainer,
-  LoginOrRegister,
-  NewPasswordInput
-}
-import org.make.front.components.containers.RecoverPasswordContainer
-import org.make.front.components.submitProposal.{SubmitProposalAndLoginContainer, SubmitProposalForm}
-import org.make.front.components.userNav.{UserNav, UserNavContainer}
-import org.make.front.components.users.authenticate.RequireAuthenticatedUserContainer
 
 import scala.scalajs.js
 import scalacss.StyleA
@@ -50,7 +38,7 @@ object Components {
     def ContainerComponent: ReactClassElementSpec = self(org.make.front.components.ContainerComponent.reactClass)
     def MainHeaderComponent: ReactClassElementSpec = self(mainHeader.MainHeader.reactClass)
     def MainFooterComponent: ReactClassElementSpec = self(mainFooter.MainFooter.reactClass)
-    def UserNavComponent: ReactClassElementSpec = self(UserNav.reactClass)
+    def UserNavComponent: ReactClassElementSpec = self(userNav.UserNav.reactClass)
     def SearchFormComponent: ReactClassElementSpec = self(search.SearchForm.reactClass)
     def HomeComponent: ReactClassElementSpec = self(home.Home.reactClass)
     def MainIntroComponent: ReactClassElementSpec = self(home.MainIntro.reactClass)
@@ -69,15 +57,19 @@ object Components {
     def SubmitProposalInRelationToThemeComponent: ReactClassElementSpec =
       self(submitProposal.SubmitProposalInRelationToTheme.reactClass)
 
-    def SubmitProposalFormComponent: ReactClassElementSpec = self(SubmitProposalForm.reactClass)
+    def SubmitProposalFormComponent: ReactClassElementSpec = self(submitProposal.SubmitProposalForm.reactClass)
 
-    def SubmitProposalAndLoginComponent: ReactClassElementSpec = self(SubmitProposalAndLoginContainer.reactClass)
+    def SubmitProposalAndLoginComponent: ReactClassElementSpec =
+      self(submitProposal.SubmitProposalAndLoginContainer.reactClass)
 
     def PoliticalActionsContainerComponent: ReactClassElementSpec =
       self(politicalActions.PoliticalActionsContainer.reactClass)
 
     def PoliticalActionComponent: ReactClassElementSpec =
       self(politicalActions.PoliticalAction.reactClass)
+
+    def NoPoliticalActionComponent: ReactClassElementSpec =
+      self(politicalActions.NoPoliticalAction.reactClass)
 
     def VoteComponent: ReactClassElementSpec = self(proposals.vote.Vote.reactClass)
 
@@ -93,7 +85,7 @@ object Components {
       self(notification.NotificationContainer.reactClass)
 
     def UserNavContainerComponent: ReactClassElementSpec =
-      self(UserNavContainer.reactClass)
+      self(userNav.UserNavContainer.reactClass)
 
     def ProposalsContainerComponent: ReactClassElementSpec =
       self(proposals.ProposalsListContainer.reactClass)
@@ -117,10 +109,11 @@ object Components {
       self(navInThemes.NavInThemesContainer.reactClass)
 
     def RecoverPasswordContainerComponent: ReactClassElementSpec =
-      self(RecoverPasswordContainer.reactClass)
+      self(authenticate.recoverPassword.RecoverPasswordContainer.reactClass)
 
     def ResetPasswordContainerComponent: ReactClassElementSpec =
-      self(ResetPasswordContainer.reactClass)
+      self(authenticate.resetPassword.ResetPasswordContainer.reactClass)
+
     def ShowcaseContainerComponent: ReactClassElementSpec =
       self(showcase.ShowcaseContainer.reactClass)
 
@@ -128,29 +121,33 @@ object Components {
       self(activateAccount.ActivateAccountContainer.reactClass)
 
     def AuthenticateWithSocialNetworksComponent: ReactClassElementSpec =
-      self(AuthenticateWithSocialNetworksContainer.reactClass)
+      self(authenticate.AuthenticateWithSocialNetworksContainer.reactClass)
 
-    def RegisterWithEmailComponent: ReactClassElementSpec = self(RegisterContainer.registerWithEmailReactClass)
+    def RegisterWithEmailComponent: ReactClassElementSpec =
+      self(authenticate.register.RegisterContainer.registerWithEmailReactClass)
+
     def RegisterWithEmailExpandedComponent: ReactClassElementSpec =
-      self(RegisterContainer.registerWithEmailExpandedReactClass)
+      self(authenticate.register.RegisterContainer.registerWithEmailExpandedReactClass)
 
-    def LoginWithEmailComponent: ReactClassElementSpec = self(LoginWithEmailContainer.reactClass)
+    def LoginWithEmailComponent: ReactClassElementSpec = self(authenticate.login.LoginWithEmailContainer.reactClass)
 
-    def LoginWithEmailOrSocialNetworksComponent: ReactClassElementSpec = self(LoginWithEmailOrSocialNetworks.reactClass)
+    def LoginWithEmailOrSocialNetworksComponent: ReactClassElementSpec =
+      self(authenticate.login.LoginWithEmailOrSocialNetworks.reactClass)
 
     def RegisterWithSocialNetworksOrEmailComponent: ReactClassElementSpec =
-      self(RegisterWithSocialNetworksOrEmail.regular)
+      self(authenticate.register.RegisterWithSocialNetworksOrEmail.regular)
 
     def RegisterWithSocialNetworksOrEmailExpandedComponent: ReactClassElementSpec =
-      self(RegisterWithSocialNetworksOrEmail.expanded)
+      self(authenticate.register.RegisterWithSocialNetworksOrEmail.expanded)
 
     def LoginOrRegisterComponent: ReactClassElementSpec =
-      self(LoginOrRegister.reactClass)
+      self(authenticate.LoginOrRegister.reactClass)
 
-    def RequireAuthenticatedUserComponent: ReactClassElementSpec = self(RequireAuthenticatedUserContainer.reactClass)
+    def RequireAuthenticatedUserComponent: ReactClassElementSpec =
+      self(users.authenticate.RequireAuthenticatedUserContainer.reactClass)
 
     def NewPasswordInputComponent: ReactClassElementSpec =
-      self(NewPasswordInput.reactClass)
+      self(authenticate.NewPasswordInput.reactClass)
   }
 
 }

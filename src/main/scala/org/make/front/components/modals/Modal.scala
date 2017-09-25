@@ -93,8 +93,8 @@ object ModalStyles extends StyleSheet.Inline {
     style(
       position.relative,
       minHeight(200.pxToEm()),
-      marginTop(60.pxToEm()), // TODO: dynamise calcul, if main intro is first child of page
-      marginBottom(ThemeStyles.SpacingValue.larger.pxToEm()),
+      marginTop(ThemeStyles.SpacingValue.medium.pxToEm()), // TODO: dynamise calcul, if main intro is first child of page
+      marginBottom(ThemeStyles.SpacingValue.medium.pxToEm()),
       padding :=! s"${ThemeStyles.SpacingValue.largerMedium.pxToEm().value} ${ThemeStyles.SpacingValue.small.pxToEm().value}",
       ThemeStyles.MediaQueries
         .beyondSmall(paddingRight(55.pxToEm()), paddingLeft(55.pxToEm())), // TODO: dynamise calcul
