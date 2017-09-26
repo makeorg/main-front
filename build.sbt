@@ -26,6 +26,7 @@ val npmSourceMapLoaderVersion = "0.2.1"
 val npmReactGoogleLogin = "2.9.3"
 val npmReactFacebookLogin = "3.6.2"
 val npmReactTextareaAutoresize = "5.1.0"
+val npmReactInfiniteScroller = "1.0.15"
 
 /* scala libraries version */
 val scalaJsReactVersion = "0.14.0"
@@ -36,18 +37,18 @@ val scalaCssCoreVersion = "0.5.3"
 enablePlugins(ScalaJSPlugin, ScalaJSBundlerPlugin)
 
 libraryDependencies ++= Seq(
-  "org.scala-js" %%% "scalajs-dom" % scalajsDomVersion,
-  "io.github.shogowada" %%% "scalajs-reactjs" % scalaJsReactVersion, // For react facade
-  "io.github.shogowada" %%% "scalajs-reactjs-router-dom" % scalaJsReactVersion, // Optional. For react-router-dom facade
-  "io.github.shogowada" %%% "scalajs-reactjs-router-redux" % scalaJsReactVersion, // Optional. For react-router-dom facade
-  "io.github.shogowada" %%% "scalajs-reactjs-redux" % scalaJsReactVersion, // Optional. For react-redux facade
-  "io.github.shogowada" %%% "scalajs-reactjs-redux-devtools" % scalaJsReactVersion, // Optional. For redux-devtools facade
-  "com.github.japgolly.scalacss" %%% "core" % scalaCssCoreVersion,
-  "io.circe" %%% "circe-core" % circeVersion,
-  "io.circe" %%% "circe-java8" % circeVersion,
-  "io.circe" %%% "circe-generic" % circeVersion,
-  "io.circe" %%% "circe-parser" % circeVersion,
-  "io.circe" %%% "circe-scalajs" % circeVersion
+  "org.scala-js"                 %%% "scalajs-dom"                    % scalajsDomVersion,
+  "io.github.shogowada"          %%% "scalajs-reactjs"                % scalaJsReactVersion, // For react facade
+  "io.github.shogowada"          %%% "scalajs-reactjs-router-dom"     % scalaJsReactVersion, // Optional. For react-router-dom facade
+  "io.github.shogowada"          %%% "scalajs-reactjs-router-redux"   % scalaJsReactVersion, // Optional. For react-router-dom facade
+  "io.github.shogowada"          %%% "scalajs-reactjs-redux"          % scalaJsReactVersion, // Optional. For react-redux facade
+  "io.github.shogowada"          %%% "scalajs-reactjs-redux-devtools" % scalaJsReactVersion, // Optional. For redux-devtools facade
+  "com.github.japgolly.scalacss" %%% "core"                           % scalaCssCoreVersion,
+  "io.circe"                     %%% "circe-core"                     % circeVersion,
+  "io.circe"                     %%% "circe-java8"                    % circeVersion,
+  "io.circe"                     %%% "circe-generic"                  % circeVersion,
+  "io.circe"                     %%% "circe-parser"                   % circeVersion,
+  "io.circe"                     %%% "circe-scalajs"                  % circeVersion
 )
 
 npmDependencies in Compile ++= Seq(
@@ -59,26 +60,24 @@ npmDependencies in Compile ++= Seq(
   "react-slick" -> npmReactSlickVersion,
   "react-i18nify" -> npmReactI18nifyVersion,
   "react-autosuggest" -> npmReactAutosuggestVersion,
-  "ajv" -> "5.2.2",
-  "extract-text-webpack-plugin" -> npmExtractTextWebpackPluginVersion,
-  "hard-source-webpack-plugin" -> npmHardSourceWebpackVersion,
-  "css-loader" -> npmCssLoaderVersion,
-  "style-loader" -> npmStyleLoaderVersion,
-  "clean-webpack-plugin" -> npmCleanWebpackPluginVersion,
-  "html-webpack-plugin" -> npmHtmlWebpackPluginVersion,
-  "webpack-md5-hash" -> npmWebpackMd5HashVersion,
-  "webpack" -> npmWebpackVersion,
-  "file-loader" -> npmFileLoaderVersion,
+  "react-infinite-scroller " -> npmReactInfiniteScroller,
   "react-google-login" -> npmReactGoogleLogin,
   "react-facebook-login" -> npmReactFacebookLogin,
-  "react-textarea-autosize" -> npmReactTextareaAutoresize
-)
-
-npmDevDependencies in Compile ++= Seq(
+  "react-textarea-autosize" -> npmReactTextareaAutoresize,
+  "ajv" -> "5.2.2",
+  "clean-webpack-plugin" -> npmCleanWebpackPluginVersion,
+  "css-loader" -> npmCssLoaderVersion,
+  "extract-text-webpack-plugin" -> npmExtractTextWebpackPluginVersion,
+  "file-loader" -> npmFileLoaderVersion,
+  "hard-source-webpack-plugin" -> npmHardSourceWebpackVersion,
+  "html-webpack-plugin" -> npmHtmlWebpackPluginVersion,
+  "style-loader" -> npmStyleLoaderVersion,
   "webpack-dev-server" -> "2.8.2",
+  "webpack-md5-hash" -> npmWebpackMd5HashVersion,
   "webpack" -> npmWebpackVersion
 )
 
+npmDevDependencies in Compile ++= Seq("webpack" -> npmWebpackVersion)
 
 npmResolutions in Compile := {
   (npmDependencies in Compile).value.toMap
