@@ -6,15 +6,15 @@ import io.github.shogowada.scalajs.reactjs.redux.ReactRedux._
 import io.github.shogowada.scalajs.reactjs.redux.devtools.ReduxDevTools
 import io.github.shogowada.scalajs.reactjs.redux.{Redux, Store}
 import io.github.shogowada.scalajs.reactjs.router.dom.RouterDOM._
-import org.make.front.actions.{LoadThemes, ReloadUserAction}
+import org.make.front.actions.{LoadConfiguration, ReloadUserAction}
 import org.make.front.components.AppState
 import org.make.front.components.Components.RichVirtualDOMElements
-import org.make.front.facades.{Configuration, I18n, NativeReactModal}
+import org.make.front.facades.{I18n, NativeReactModal}
 import org.make.front.middlewares.{
+  ConfigurationMiddleware,
   ConnectedUserMiddleware,
   NotificationMiddleware,
-  PoliticalActionMiddleware,
-  ThemeMiddleware
+  PoliticalActionMiddleware
 }
 import org.make.front.reducers.Reducer
 import org.scalajs.dom
@@ -54,7 +54,7 @@ object Main extends JSApp {
       ReduxDevTools.composeWithDevTools(
         Redux.applyMiddleware(
           NotificationMiddleware.handle,
-          ThemeMiddleware.handle,
+          ConfigurationMiddleware.handle,
           PoliticalActionMiddleware.handle,
           connectedUserMiddleware.handle
         )
@@ -69,7 +69,7 @@ object Main extends JSApp {
   }
 
   private def initStore(store: Store[AppState]): Unit = {
-    store.dispatch(LoadThemes)
+    store.dispatch(LoadConfiguration)
     store.dispatch(ReloadUserAction)
   }
 

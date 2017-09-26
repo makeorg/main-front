@@ -13,8 +13,6 @@ import org.make.services.proposal.ProposalResponses.RegisterProposalResponse
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
-case class UnexpectedException(message: String = I18n.t("errors.unexpected")) extends Exception(message)
-
 object ProposalService extends ApiService with CirceClassFormatters with CirceFormatters {
 
   override val resourceName: String = "proposals"
@@ -44,4 +42,7 @@ object ProposalService extends ApiService with CirceClassFormatters with CirceFo
         ).asJson.pretty(ApiService.printer)
       )
       .map(_.get)
+
+  final case class UnexpectedException(message: String = I18n.t("errors.unexpected")) extends Exception(message)
+
 }

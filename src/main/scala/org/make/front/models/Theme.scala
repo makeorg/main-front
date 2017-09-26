@@ -7,6 +7,10 @@ import org.make.front.components.AppState
 
 final case class GradientColor(from: String, to: String)
 
+object GradientColor {
+  implicit val decoder: Decoder[GradientColor] = Decoder.forProduct2("from", "to")(GradientColor.apply)
+}
+
 final case class Theme(id: ThemeId,
                        slug: String,
                        title: String,

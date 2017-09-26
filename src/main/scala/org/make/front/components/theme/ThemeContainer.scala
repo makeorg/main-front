@@ -5,7 +5,7 @@ import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import io.github.shogowada.scalajs.reactjs.redux.ReactRedux
 import io.github.shogowada.scalajs.reactjs.redux.Redux.Dispatch
 import io.github.shogowada.scalajs.reactjs.router.RouterProps._
-import org.make.front.actions.LoadThemes
+import org.make.front.actions.LoadConfiguration
 import org.make.front.components.AppState
 import org.make.front.models.{ThemeId, Theme => ThemeModel}
 
@@ -22,7 +22,7 @@ object ThemeContainer {
           props.history.push("/")
           Theme.ThemeProps(ThemeModel(ThemeId("fake"), "", "", 0, 0, "", None))
         } else {
-          dispatch(LoadThemes)
+          dispatch(LoadConfiguration)
           Theme.ThemeProps(themeList.head)
         }
       }

@@ -14,9 +14,6 @@ import org.make.services.ApiService
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
-case class NoTokenException(message: String = I18n.t("errors.noToken")) extends Exception(message)
-case class UserNotfoundException(message: String = I18n.t("errors.userNotFound")) extends Exception(message)
-
 object UserService extends ApiService with CirceClassFormatters with CirceFormatters {
 
   override val resourceName: String = "user"
@@ -114,5 +111,8 @@ object UserService extends ApiService with CirceClassFormatters with CirceFormat
 
   def logout(): Future[Unit] =
     MakeApiClient.logout()
+
+  final case class NoTokenException(message: String = I18n.t("errors.noToken")) extends Exception(message)
+  final case class UserNotfoundException(message: String = I18n.t("errors.userNotFound")) extends Exception(message)
 
 }
