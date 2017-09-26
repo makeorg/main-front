@@ -9,6 +9,10 @@ import org.make.front.components.Components._
 import org.make.front.components.proposal.ProposalWithTags.ProposalWithTagsProps
 import org.make.front.components.tags.FilterByTags.FilterByTagsProps
 import org.make.front.facades.I18n
+import org.make.front.facades.ReactInfiniteScroller.{
+  ReactInfiniteScrollerVirtualDOMAttributes,
+  ReactInfiniteScrollerVirtualDOMElements
+}
 import org.make.front.facades.Unescape.unescape
 import org.make.front.models.{ProposalSearchResult, Proposal => ProposalModel, Tag => TagModel}
 import org.make.front.styles.{CTAStyles, LayoutRulesStyles, TextStyles, ThemeStyles}
@@ -79,7 +83,12 @@ object ResultsInTheme {
 
         def proposals(proposals: Seq[ProposalModel]) =
           Seq(
-            <.ul()(
+            <.InfiniteScroll(
+              ^.element := "ul",
+              ^.hasMore := (self.state.hasMore && self.state.hasRequestedMore),
+              ^.initialLoad := false,
+              ^.loadMore := onSeeMore
+            )(
               proposals.map(
                 proposal =>
                   <.li(

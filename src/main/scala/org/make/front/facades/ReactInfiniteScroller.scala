@@ -13,10 +13,10 @@ import scalajs.js
 object NativeReactInfiniteScroller extends ReactClass
 
 object ReactInfiniteScroller {
-  implicit class ReactModalVirtualDOMElements(elements: VirtualDOMElements) {
-    lazy val ReactModal: ReactClassElementSpec = elements(NativeReactInfiniteScroller)
+  implicit class ReactInfiniteScrollerVirtualDOMElements(elements: VirtualDOMElements) {
+    lazy val InfiniteScroll: ReactClassElementSpec = elements(NativeReactInfiniteScroller)
   }
-  implicit class ReactModalVirtualDOMAttributes(attributes: VirtualDOMAttributes) {
+  implicit class ReactInfiniteScrollerVirtualDOMAttributes(attributes: VirtualDOMAttributes) {
     lazy val element: StringAttributeSpec = StringAttributeSpec("element")
     lazy val hasMore: NativeBooleanAttribute = NativeBooleanAttribute("hasMore")
     lazy val initialLoad: NativeBooleanAttribute = NativeBooleanAttribute("initialLoad")

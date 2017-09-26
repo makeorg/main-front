@@ -10,6 +10,11 @@ import org.make.front.components.Components.{RichVirtualDOMElements, _}
 import org.make.front.components.modals.FullscreenModal.FullscreenModalProps
 import org.make.front.components.proposal.ProposalWithTags.ProposalWithTagsProps
 import org.make.front.components.submitProposal.SubmitProposal.SubmitProposalProps
+import org.make.front.components.theme.ResultsInThemeStyles
+import org.make.front.facades.ReactInfiniteScroller.{
+  ReactInfiniteScrollerVirtualDOMAttributes,
+  ReactInfiniteScrollerVirtualDOMElements
+}
 import org.make.front.facades.Unescape.unescape
 import org.make.front.facades.{I18n, Replacements}
 import org.make.front.models.{ProposalSearchResult, Proposal => ProposalModel}
@@ -19,7 +24,6 @@ import scala.concurrent.Future
 import scala.util.{Failure, Success}
 import scalacss.DevDefaults._
 import scalacss.internal.Length
-
 import scala.concurrent.ExecutionContext.Implicits.global
 
 object SearchResults {
@@ -73,6 +77,18 @@ object SearchResults {
             self.setState(state => state.copy(isProposalModalOpened = true))
           }
 
+          val onSeeMore: () => Unit =
+            () => {
+              self.setState(_.copy(hasRequestedMore = true))
+              self.props.wrapped
+                .onMoreResultsRequested(self.state.listProposals, self.props.wrapped.searchValue)
+                .onComplete {
+                  case Success(searchResult) =>
+                    self.setState(_.copy(listProposals = searchResult.proposals, hasMore = searchResult.hasMore))
+                  case Failure(_) => // TODO: handle error
+                }
+            }
+
           val noResults: ReactElement = {
             <.div(^.className := LayoutRulesStyles.centeredRow)(
               <.div(^.className := Seq(LayoutRulesStyles.col, SearchResultsStyles.noResults))(
@@ -108,7 +124,13 @@ object SearchResults {
 
           def proposals(proposals: Seq[ProposalModel]) =
             Seq(
-              <.ul(^.className := LayoutRulesStyles.centeredRow)(
+              <.InfiniteScroll(
+                ^.className := LayoutRulesStyles.centeredRow,
+                ^.element := "ul",
+                ^.hasMore := (self.state.hasMore && self.state.hasRequestedMore),
+                ^.initialLoad := false,
+                ^.loadMore := onSeeMore
+              )(
                 proposals.map(
                   proposal =>
                     <.li(
@@ -119,7 +141,14 @@ object SearchResults {
                       )
                     )(<.ProposalWithTagsComponent(^.wrapped := ProposalWithTagsProps(proposal = proposal))())
                 )
-              )
+              ),
+              if (self.state.hasMore && !self.state.hasRequestedMore) {
+                <.div(^.className := Seq(ResultsInThemeStyles.seeMoreButtonWrapper, LayoutRulesStyles.col))(
+                  <.button(^.onClick := onSeeMore, ^.className := Seq(CTAStyles.basic, CTAStyles.basicOnButton))(
+                    unescape(I18n.t("content.theme.seeMoreProposals"))
+                  )
+                )
+              }
             )
 
           val proposalsToDisplay: Seq[ProposalModel] = self.state.listProposals
