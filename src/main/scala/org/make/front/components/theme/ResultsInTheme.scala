@@ -1,7 +1,6 @@
 package org.make.front.components.theme
 
 import io.github.shogowada.scalajs.reactjs.React
-import io.github.shogowada.scalajs.reactjs.React.Self
 import io.github.shogowada.scalajs.reactjs.VirtualDOM._
 import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import io.github.shogowada.scalajs.reactjs.elements.ReactElement
@@ -9,31 +8,58 @@ import org.make.front.Main.CssSettings._
 import org.make.front.components.Components._
 import org.make.front.components.proposal.ProposalWithTags.ProposalWithTagsProps
 import org.make.front.components.tags.FilterByTags.FilterByTagsProps
+import org.make.front.components.theme.ResultsInThemeContainer.ProposalSearchResult
 import org.make.front.facades.I18n
 import org.make.front.facades.Unescape.unescape
 import org.make.front.models.{Proposal => ProposalModel, Tag => TagModel}
 import org.make.front.styles.{CTAStyles, LayoutRulesStyles, TextStyles, ThemeStyles}
 
+import scala.concurrent.Future
+import scala.util.{Failure, Success}
 import scalacss.internal.Length
 import scalacss.internal.mutable.StyleSheet
 
+import scala.concurrent.ExecutionContext.Implicits.global
+
 object ResultsInTheme {
 
-  type ProposalsListSelf = Self[ResultsInThemeProps, ResultsInThemeState]
+  case class ResultsInThemeProps(
+    onMoreResultsRequested: (Seq[ProposalModel], Seq[TagModel]) => Future[ProposalSearchResult],
+    onTagSelectionChange: (Seq[TagModel])                       => Future[ProposalSearchResult],
+    proposals: Future[ProposalSearchResult],
+    preselectedTags: Seq[TagModel]
+  )
 
-  case class ResultsInThemeProps(handleSelectedTags: ProposalsListSelf => Seq[TagModel] => Unit,
-                                 handleNextResults: ProposalsListSelf  => Unit,
-                                 tags: Seq[TagModel])
-
-  case class ResultsInThemeState(listProposals: Option[Seq[ProposalModel]] = None,
+  case class ResultsInThemeState(listProposals: Seq[ProposalModel],
                                  selectedTags: Seq[TagModel],
-                                 showSeeMoreButton: Boolean = true)
+                                 hasRequestedMore: Boolean,
+                                 hasMore: Boolean)
 
   lazy val reactClass: ReactClass =
     React.createClass[ResultsInThemeProps, ResultsInThemeState](
-      getInitialState = (self) => ResultsInThemeState(selectedTags = self.props.wrapped.tags),
+      getInitialState = { self =>
+        self.props.wrapped.proposals.onComplete {
+          case Success(searchResult) =>
+            self.setState(_.copy(listProposals = searchResult.proposals, hasMore = searchResult.hasMore))
+          case Failure(_) => // TODO: handle error
+        }
+        ResultsInThemeState(
+          selectedTags = self.props.wrapped.preselectedTags,
+          listProposals = Seq(),
+          hasRequestedMore = false,
+          hasMore = false
+        )
+      },
       render = { (self) =>
-        val onSeeMore: () => Unit = () => self.props.wrapped.handleNextResults(self)
+        val onSeeMore: () => Unit =
+          () => {
+            self.setState(_.copy(hasRequestedMore = true))
+            self.props.wrapped.onMoreResultsRequested(self.state.listProposals, self.state.selectedTags).onComplete {
+              case Success(searchResult) =>
+                self.setState(_.copy(listProposals = searchResult.proposals, hasMore = searchResult.hasMore))
+              case Failure(_) => // TODO: handle error
+            }
+          }
 
         val noResults: ReactElement =
           <.div(^.className := Seq(LayoutRulesStyles.col, ResultsInThemeStyles.noResults))(
@@ -43,6 +69,15 @@ object ResultsInTheme {
               ^.dangerouslySetInnerHTML := I18n.t("content.theme.matrix.noContent")
             )()
           )
+
+        val onTagsChange: (Seq[TagModel]) => Unit = { tags =>
+          self.setState(_.copy(selectedTags = tags))
+          self.props.wrapped.onTagSelectionChange(tags).onComplete {
+            case Success(searchResult) =>
+              self.setState(_.copy(listProposals = searchResult.proposals, hasMore = searchResult.hasMore))
+            case Failure(_) => // TODO: handle error
+          }
+        }
 
         def proposals(proposals: Seq[ProposalModel]) =
           Seq(
@@ -59,7 +94,7 @@ object ResultsInTheme {
                   )(<.ProposalWithTagsComponent(^.wrapped := ProposalWithTagsProps(proposal = proposal))())
               )
             ),
-            if (self.state.showSeeMoreButton) {
+            if (self.state.hasMore && !self.state.hasRequestedMore) {
               <.div(^.className := Seq(ResultsInThemeStyles.seeMoreButtonWrapper, LayoutRulesStyles.col))(
                 <.button(^.onClick := onSeeMore, ^.className := Seq(CTAStyles.basic, CTAStyles.basicOnButton))(
                   unescape(I18n.t("content.theme.seeMoreProposals"))
@@ -68,16 +103,14 @@ object ResultsInTheme {
             }
           )
 
-        val proposalsToDisplay: Seq[ProposalModel] = self.state.listProposals.getOrElse(Seq.empty)
+        val proposalsToDisplay: Seq[ProposalModel] = self.state.listProposals
 
         <.section(^.className := Seq(LayoutRulesStyles.centeredRow, ResultsInThemeStyles.wrapper))(
           <.header(^.className := LayoutRulesStyles.col)(
             <.h2(^.className := TextStyles.bigTitle)(unescape(I18n.t("content.theme.matrix.title")))
           ),
           <.nav(^.className := LayoutRulesStyles.col)(
-            <.FilterByTagsComponent(
-              ^.wrapped := FilterByTagsProps(self.props.wrapped.tags, self.props.wrapped.handleSelectedTags(self))
-            )()
+            <.FilterByTagsComponent(^.wrapped := FilterByTagsProps(self.props.wrapped.preselectedTags, onTagsChange))()
           ),
           if (proposalsToDisplay.nonEmpty) {
             proposals(proposalsToDisplay)

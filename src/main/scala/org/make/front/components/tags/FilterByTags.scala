@@ -19,14 +19,14 @@ object FilterByTags {
 
   type FilterByTagsSelf = Self[FilterByTagsProps, FilterByTagsState]
 
-  case class FilterByTagsProps(tags: Seq[TagModel], handleSelectedTags: Seq[TagModel] => Unit)
+  case class FilterByTagsProps(tags: Seq[TagModel], onTagSelectionChange: Seq[TagModel] => Unit)
 
   case class FilterByTagsState(showAll: Boolean, selectedTags: Seq[TagModel])
 
   lazy val reactClass: ReactClass =
     React.createClass[FilterByTagsProps, FilterByTagsState](
       getInitialState = (_) => FilterByTagsState(showAll = false, selectedTags = Seq.empty),
-      render = (self) => {
+      render = { self =>
         def handleSelectedTags(tag: TagModel): Unit = {
           val previouslySelectedTags = self.state.selectedTags
           val selectedTags = if (previouslySelectedTags.contains(tag)) {
@@ -35,7 +35,7 @@ object FilterByTags {
             previouslySelectedTags ++ Seq(tag)
           }
           self.setState(_.copy(selectedTags = selectedTags))
-          self.props.wrapped.handleSelectedTags(selectedTags)
+          self.props.wrapped.onTagSelectionChange(selectedTags)
         }
 
         val tagsListProps = TagsListComponentProps(
