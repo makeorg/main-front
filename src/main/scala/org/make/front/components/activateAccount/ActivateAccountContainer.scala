@@ -8,15 +8,13 @@ import io.github.shogowada.scalajs.reactjs.router.RouterProps._
 import org.make.front.actions.{NotifyError, NotifySuccess}
 import org.make.front.components.AppState
 import org.make.front.components.activateAccount.ActivateAccount.ActivateAccountProps
-import org.make.front.facades.{Configuration, I18n}
-import org.make.services.user.UserServiceComponent
+import org.make.front.facades.I18n
+import org.make.services.user.UserService
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.util.{Failure, Success}
 
-object ActivateAccountContainer extends UserServiceComponent {
-
-  override val apiBaseUrl: String = Configuration.apiUrl
+object ActivateAccountContainer {
 
   lazy val reactClass: ReactClass = ReactRedux.connectAdvanced(selectorFactory)(ActivateAccount.reactClass)
 
@@ -26,7 +24,7 @@ object ActivateAccountContainer extends UserServiceComponent {
       val verificationToken = props.`match`.params("verificationToken")
 
       def handleValidateAccount(child: Self[ActivateAccountProps, Unit]): Unit = {
-        userService.validateAccount(userId, verificationToken).onComplete {
+        UserService.validateAccount(userId, verificationToken).onComplete {
           case Success(_) => {
             dispatch(
               NotifySuccess(

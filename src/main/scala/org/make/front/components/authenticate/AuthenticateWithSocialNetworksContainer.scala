@@ -9,16 +9,14 @@ import org.make.front.facades.Configuration
 import org.make.front.facades.ReactFacebookLogin.FacebookAuthResponse
 import org.make.front.facades.ReactGoogleLogin.GoogleAuthResponse
 import org.make.front.models.{User => UserModel}
-import org.make.services.user.UserServiceComponent
+import org.make.services.user.UserService
 import org.scalajs.dom.experimental.Response
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 import scala.util.{Failure, Success}
 
-object AuthenticateWithSocialNetworksContainer extends UserServiceComponent {
-
-  override def apiBaseUrl: String = Configuration.apiUrl
+object AuthenticateWithSocialNetworksContainer {
 
   case class AuthenticateWithSocialNetworksContainerProps(note: String, onSuccessfulLogin: () => Unit = () => {})
 
@@ -26,12 +24,12 @@ object AuthenticateWithSocialNetworksContainer extends UserServiceComponent {
     .connectAdvanced[AppState, AuthenticateWithSocialNetworksContainerProps, AuthenticateWithSocialNetworksProps] {
       dispatch => (state, props) =>
         def signInGoogle(response: Response): Future[UserModel] = {
-          handleFutureApiSignInResponse(userService.loginGoogle(response.asInstanceOf[GoogleAuthResponse].tokenId))
+          handleFutureApiSignInResponse(UserService.loginGoogle(response.asInstanceOf[GoogleAuthResponse].tokenId))
         }
 
         def signInFacebook(response: Response): Future[UserModel] = {
           handleFutureApiSignInResponse(
-            userService.loginFacebook(response.asInstanceOf[FacebookAuthResponse].accessToken)
+            UserService.loginFacebook(response.asInstanceOf[FacebookAuthResponse].accessToken)
           )
         }
 

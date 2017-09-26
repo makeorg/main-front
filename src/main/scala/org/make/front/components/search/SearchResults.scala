@@ -5,42 +5,65 @@ import io.github.shogowada.scalajs.reactjs.VirtualDOM.{<, _}
 import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import io.github.shogowada.scalajs.reactjs.elements.ReactElement
 import io.github.shogowada.scalajs.reactjs.events.MouseSyntheticEvent
-import io.github.shogowada.scalajs.reactjs.router.RouterProps._
 import io.github.shogowada.scalajs.reactjs.router.WithRouter
 import org.make.front.components.Components.{RichVirtualDOMElements, _}
 import org.make.front.components.modals.FullscreenModal.FullscreenModalProps
-import org.make.front.facades.Unescape.unescape
-import org.make.front.facades.{I18n, Replacements}
-import org.make.front.helpers.QueryString
-import org.make.front.models.{Proposal => ProposalModel}
 import org.make.front.components.proposal.ProposalWithTags.ProposalWithTagsProps
 import org.make.front.components.submitProposal.SubmitProposal.SubmitProposalProps
+import org.make.front.facades.Unescape.unescape
+import org.make.front.facades.{I18n, Replacements}
+import org.make.front.models.{ProposalSearchResult, Proposal => ProposalModel}
 import org.make.front.styles._
 
-import scala.scalajs.js.URIUtils
+import scala.concurrent.Future
+import scala.util.{Failure, Success}
 import scalacss.DevDefaults._
 import scalacss.internal.Length
 
+import scala.concurrent.ExecutionContext.Implicits.global
+
 object SearchResults {
-  final case class SearchResultsProps(searchValue: Option[String])
-  case class SearchResultsState(searchValue: Option[String] = None,
-                                resultsCount: Option[Int] = None,
-                                listProposals: Option[Seq[ProposalModel]] = None,
-                                isProposalModalOpened: Boolean = false)
+  final case class SearchResultsProps(
+    onMoreResultsRequested: (Seq[ProposalModel], Option[String]) => Future[ProposalSearchResult],
+    proposals: Future[ProposalSearchResult],
+    searchValue: Option[String]
+  )
+
+  case class SearchResultsState(listProposals: Seq[ProposalModel],
+                                hasRequestedMore: Boolean,
+                                hasMore: Boolean,
+                                isProposalModalOpened: Boolean)
+
+  object SearchResultsState {
+    val empty = SearchResultsState(
+      listProposals = Seq.empty,
+      hasRequestedMore = false,
+      hasMore = false,
+      isProposalModalOpened = false
+    )
+  }
 
   lazy val reactClass: ReactClass =
     WithRouter(
       React.createClass[SearchResultsProps, SearchResultsState](displayName = getClass.toString, getInitialState = {
-        (self) =>
-          val search = QueryString.parse(self.props.location.search)
-          val searchValue: Option[String] = search.get("q").map(URIUtils.decodeURI)
-          SearchResultsState(searchValue = searchValue)
+        self =>
+          val props = self.props.wrapped
+          props.proposals.onComplete {
+            case Success(searchResults) =>
+              self.setState(_.copy(listProposals = searchResults.proposals, hasMore = searchResults.hasMore))
+            case Failure(_) => // TODO: handle error
+          }
+          SearchResultsState.empty
       }, componentWillReceiveProps = (self, nextProps) => {
-        val search = QueryString.parse(nextProps.location.search)
-        val newSearchValue = search.get("q").map(URIUtils.decodeURI)
-        self.setState(_.copy(searchValue = newSearchValue))
+        val props = nextProps.wrapped
+        props.proposals.onComplete {
+          case Success(searchResults) =>
+            self.setState(_.copy(listProposals = searchResults.proposals, hasMore = searchResults.hasMore))
+          case Failure(_) => // TODO: handle error
+        }
+        self.setState(SearchResultsState.empty)
       }, render = {
-        (self) =>
+        self =>
           val closeProposalModal: () => Unit = () => {
             self.setState(state => state.copy(isProposalModalOpened = false))
           }
@@ -49,8 +72,6 @@ object SearchResults {
             event.preventDefault()
             self.setState(state => state.copy(isProposalModalOpened = true))
           }
-
-          val searchValue: Option[String] = self.state.searchValue
 
           val noResults: ReactElement = {
             <.div(^.className := LayoutRulesStyles.centeredRow)(
@@ -61,7 +82,7 @@ object SearchResults {
                   ^.dangerouslySetInnerHTML := I18n.t(s"content.search.matrix.noContent")
                 )(),
                 <.p(^.className := Seq(SearchResultsStyles.searchedExpression, TextStyles.mediumTitle))(
-                  unescape("«&nbsp;" + self.state.searchValue.get + "&nbsp;»")
+                  unescape("«&nbsp;" + self.props.wrapped.searchValue.getOrElse("") + "&nbsp;»")
                 ),
                 <.hr(^.className := SearchResultsStyles.noResultsMessageSeparator)(),
                 <.p(^.className := Seq(TextStyles.mediumText))(I18n.t("content.search.proposeIntro")),
@@ -101,16 +122,13 @@ object SearchResults {
               )
             )
 
-          val proposalsToDisplay: Seq[ProposalModel] = self.state.listProposals.getOrElse(Seq.empty)
+          val proposalsToDisplay: Seq[ProposalModel] = self.state.listProposals
           <("search-resulst")()(if (proposalsToDisplay.nonEmpty) {
             <.section(^.className := SearchResultsStyles.resultsWrapper)(
               <.h1(
                 ^.dangerouslySetInnerHTML := unescape(
                   I18n
-                    .t(
-                      s"content.search.title",
-                      Replacements(("results", self.state.resultsCount.getOrElse(0).toString))
-                    )
+                    .t(s"content.search.title", Replacements(("results", self.state.listProposals.size.toString)))
                 )
               )(),
               proposals(proposalsToDisplay)

@@ -7,15 +7,13 @@ import io.github.shogowada.scalajs.reactjs.redux.Redux.Dispatch
 import io.github.shogowada.scalajs.reactjs.router.RouterProps._
 import org.make.front.components.AppState
 import org.make.front.components.authenticate.resetPassword.PasswordReset.{PasswordResetProps, PasswordResetState}
-import org.make.front.facades.{Configuration, I18n}
-import org.make.services.user.UserServiceComponent
+import org.make.front.facades.I18n
+import org.make.services.user.UserService
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.util.{Failure, Success}
 
-object ResetPasswordContainer extends UserServiceComponent {
-
-  override val apiBaseUrl: String = Configuration.apiUrl
+object ResetPasswordContainer {
 
   lazy val reactClass: ReactClass = ReactRedux.connectAdvanced(selectorFactory)(PasswordReset.reactClass)
 
@@ -25,14 +23,14 @@ object ResetPasswordContainer extends UserServiceComponent {
       val resetToken = props.`match`.params("resetToken")
 
       def checkResetToken(child: Self[PasswordResetProps, PasswordResetState]): Unit = {
-        userService.resetPasswordCheck(userId, resetToken).onComplete {
+        UserService.resetPasswordCheck(userId, resetToken).onComplete {
           case Success(isValidResetToken) => child.setState(child.state.copy(isValidResetToken = isValidResetToken))
           case Failure(e)                 => throw e
         }
       }
 
       def handleSubmit(self: Self[PasswordResetProps, PasswordResetState]): Unit = {
-        userService.resetPasswordChange(userId, resetToken, self.state.password).onComplete {
+        UserService.resetPasswordChange(userId, resetToken, self.state.password).onComplete {
           case Success(_) =>
             self.setState(self.state.copy(success = true))
           case Failure(e) =>

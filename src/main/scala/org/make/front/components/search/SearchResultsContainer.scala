@@ -8,6 +8,14 @@ import io.github.shogowada.scalajs.reactjs.router.RouterProps._
 import org.make.front.components.AppState
 import org.make.front.components.search.SearchResults.SearchResultsProps
 import org.make.front.helpers.QueryString
+import org.make.services.proposal.{ProposalService, SearchOptionsRequest}
+import org.make.front.models.{ProposalSearchResult, Proposal => ProposalModel}
+import org.make.services.proposal.ProposalService.defaultResultsCount
+
+import scala.concurrent.Future
+import scala.scalajs.js.URIUtils
+
+import scala.concurrent.ExecutionContext.Implicits.global
 
 object SearchResultsContainer {
 
@@ -17,12 +25,45 @@ object SearchResultsContainer {
     (_: Dispatch) => { (_: AppState, props: Props[Unit]) =>
       {
         val queryParams: Map[String, String] = QueryString.parse(props.location.search)
-        def searchValue: Option[String] = queryParams.get("q") match {
-          case Some(value) if value.isEmpty => None
-          case other                        => other
+
+        val searchValue: Option[String] = {
+          queryParams
+            .get("q")
+            .flatMap { value =>
+              if (value.isEmpty) {
+                None
+              } else {
+                Some(value)
+              }
+            }
+            .map(URIUtils.decodeURI)
         }
 
-        SearchResults.SearchResultsProps(searchValue)
+        def getProposals(originalProposals: Seq[ProposalModel],
+                         content: Option[String]): Future[ProposalSearchResult] = {
+          ProposalService
+            .searchProposals(
+              content = content,
+              options = Some(
+                SearchOptionsRequest(
+                  sort = Seq.empty,
+                  limit = Some(defaultResultsCount),
+                  skip = Some(originalProposals.size)
+                )
+              )
+            )
+            .map { proposals =>
+              ProposalSearchResult(
+                proposals = originalProposals ++ proposals,
+                hasMore = proposals.size == defaultResultsCount
+              )
+            }
+        }
+        SearchResults.SearchResultsProps(
+          onMoreResultsRequested = getProposals,
+          proposals = getProposals(Seq.empty, searchValue),
+          searchValue = searchValue
+        )
       }
     }
 }

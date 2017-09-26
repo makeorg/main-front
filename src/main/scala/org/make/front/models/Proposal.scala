@@ -47,3 +47,5 @@ object Proposal {
     formatToKilo(count * 100 / totalVote)
   }
 }
+
+case class ProposalSearchResult(proposals: Seq[Proposal], hasMore: Boolean)

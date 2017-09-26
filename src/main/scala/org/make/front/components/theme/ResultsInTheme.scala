@@ -8,18 +8,16 @@ import org.make.front.Main.CssSettings._
 import org.make.front.components.Components._
 import org.make.front.components.proposal.ProposalWithTags.ProposalWithTagsProps
 import org.make.front.components.tags.FilterByTags.FilterByTagsProps
-import org.make.front.components.theme.ResultsInThemeContainer.ProposalSearchResult
 import org.make.front.facades.I18n
 import org.make.front.facades.Unescape.unescape
-import org.make.front.models.{Proposal => ProposalModel, Tag => TagModel}
+import org.make.front.models.{ProposalSearchResult, Proposal => ProposalModel, Tag => TagModel}
 import org.make.front.styles.{CTAStyles, LayoutRulesStyles, TextStyles, ThemeStyles}
 
+import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 import scala.util.{Failure, Success}
 import scalacss.internal.Length
 import scalacss.internal.mutable.StyleSheet
-
-import scala.concurrent.ExecutionContext.Implicits.global
 
 object ResultsInTheme {
 

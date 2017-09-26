@@ -47,7 +47,7 @@ object Main extends JSApp {
     NativeReactModal.defaultStyles.content.update("background", "transparent")
     NativeReactModal.defaultStyles.content.update("overflow", "auto")
 
-    val connectedUserMiddleware = new ConnectedUserMiddleware(Configuration.apiUrl)
+    val connectedUserMiddleware = new ConnectedUserMiddleware()
 
     val store: Store[AppState] = Redux.createStore(
       Reducer.reduce,
