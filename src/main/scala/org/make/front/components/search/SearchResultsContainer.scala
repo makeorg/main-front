@@ -9,7 +9,7 @@ import org.make.front.components.AppState
 import org.make.front.components.search.SearchResults.SearchResultsProps
 import org.make.front.helpers.QueryString
 
-object SearchContainer {
+object SearchResultsContainer {
 
   lazy val reactClass: ReactClass = ReactRedux.connectAdvanced(selectorFactory)(SearchResults.reactClass)
 

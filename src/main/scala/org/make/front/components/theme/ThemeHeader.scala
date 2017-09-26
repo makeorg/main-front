@@ -17,7 +17,7 @@ import scalacss.internal.mutable.StyleSheet
 
 object ThemeHeader {
 
-  case class ThemeHeaderProps(maybeTheme: Option[ThemeModel])
+  case class ThemeHeaderProps(theme: ThemeModel)
 
   case class ThemeHeaderState(isProposalModalOpened: Boolean)
 
@@ -42,7 +42,7 @@ object ThemeHeader {
         }
 
         val theme: ThemeModel =
-          self.props.wrapped.maybeTheme.getOrElse(ThemeModel(ThemeIdModel("asdf"), "-", "", 0, 0, "#FFF"))
+          self.props.wrapped.theme
         val gradient: GradientColorModel = theme.gradient.getOrElse(GradientColorModel("#FFF", "#FFF"))
 
         <.header(

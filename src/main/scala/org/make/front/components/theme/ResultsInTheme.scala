@@ -34,6 +34,17 @@ object ResultsInTheme {
       render = { (self) =>
         val onSeeMore: () => Unit = () => self.props.wrapped.handleNextResults(self)
 
+        def noResults() =
+          <.div(^.className := Seq(LayoutRulesStyles.centeredRow, ResultsInThemeStyles.noProposal))(
+            <.div(^.className := LayoutRulesStyles.col)(
+              <.p(^.className := ResultsInThemeStyles.noProposalSmiley)("😞"),
+              <.p(
+                ^.className := Seq(TextStyles.mediumText, ResultsInThemeStyles.noProposalMessage),
+                ^.dangerouslySetInnerHTML := I18n.t("content.theme.matrix.noContent")
+              )()
+            )
+          )
+
         def proposals(proposals: Seq[ProposalModel]) =
           Seq(
             <.ul(^.className := LayoutRulesStyles.centeredRow)(
@@ -73,15 +84,7 @@ object ResultsInTheme {
           if (proposalsToDisplay.nonEmpty) {
             proposals(proposalsToDisplay)
           } else {
-            <.div(^.className := Seq(LayoutRulesStyles.centeredRow, ResultsInThemeStyles.noProposal))(
-              <.div(^.className := LayoutRulesStyles.col)(
-                <.p(^.className := ResultsInThemeStyles.noProposalSmiley)("😞"),
-                <.p(
-                  ^.className := Seq(TextStyles.mediumText, ResultsInThemeStyles.noProposalMessage),
-                  ^.dangerouslySetInnerHTML := I18n.t("content.theme.matrix.noContent")
-                )()
-              )
-            )
+            noResults
           },
           <.style()(ResultsInThemeStyles.render[String])
         )

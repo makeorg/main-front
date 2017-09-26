@@ -6,7 +6,7 @@ import io.github.shogowada.scalajs.reactjs.redux.ReactRedux
 import io.github.shogowada.scalajs.reactjs.redux.Redux.Dispatch
 import org.make.front.components.AppState
 import org.make.front.facades.Configuration
-import org.make.front.models.{Theme, Proposal => ProposalModel, Tag => TagModel, ThemeId => ThemeIdModel}
+import org.make.front.models.{Theme => ThemeModel, Proposal => ProposalModel, Tag => TagModel, ThemeId => ThemeIdModel}
 import org.make.services.proposal.{ProposalServiceComponent, SearchOptionsRequest}
 
 import scala.concurrent.Future
@@ -16,7 +16,7 @@ object ResultsInThemeContainer extends ProposalServiceComponent {
   override def apiBaseUrl: String = Configuration.apiUrl
   private val resultSetCount = 20
 
-  case class ResultsInThemeContainerProps(currentTheme: Theme)
+  case class ResultsInThemeContainerProps(currentTheme: ThemeModel)
 
   lazy val reactClass: ReactClass = ReactRedux.connectAdvanced(selectorFactory)(ResultsInTheme.reactClass)
 

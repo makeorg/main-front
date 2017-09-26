@@ -9,10 +9,11 @@ import io.github.shogowada.scalajs.reactjs.router.RouterProps._
 import io.github.shogowada.scalajs.reactjs.router.WithRouter
 import org.make.front.components.Components.{RichVirtualDOMElements, _}
 import org.make.front.components.modals.FullscreenModal.FullscreenModalProps
-import org.make.front.components.theme.ResultsInThemeContainer.ResultsInThemeContainerProps
 import org.make.front.facades.Unescape.unescape
 import org.make.front.facades.{I18n, Replacements}
 import org.make.front.helpers.QueryString
+import org.make.front.models.{Proposal => ProposalModel}
+import org.make.front.components.proposal.ProposalWithTags.ProposalWithTagsProps
 import org.make.front.styles._
 
 import scala.scalajs.js.URIUtils
@@ -23,6 +24,7 @@ object SearchResults {
   final case class SearchResultsProps(searchValue: Option[String])
   case class SearchResultsState(searchValue: Option[String] = None,
                                 resultsCount: Option[Int] = None,
+                                listProposals: Option[Seq[ProposalModel]] = None,
                                 isProposalModalOpened: Boolean = false)
 
   lazy val reactClass: ReactClass =
@@ -49,13 +51,13 @@ object SearchResults {
 
           val searchValue: Option[String] = self.state.searchValue
 
-          val noContent: ReactElement = {
+          val noResults: ReactElement = {
             <.div()(
-              <.div(^.className := Seq(LayoutRulesStyles.centeredRow, SearchResultsStyles.noProposal))(
+              <.div(^.className := Seq(LayoutRulesStyles.centeredRow, SearchResultsStyles.noResults))(
                 <.div(^.className := LayoutRulesStyles.col)(
-                  <.p(^.className := SearchResultsStyles.noProposalSmiley)("😞"),
+                  <.p(^.className := SearchResultsStyles.noResultsSmiley)("😞"),
                   <.p(
-                    ^.className := Seq(TextStyles.mediumText, SearchResultsStyles.noProposalMessage),
+                    ^.className := Seq(TextStyles.mediumText, SearchResultsStyles.noResultsMessage),
                     ^.dangerouslySetInnerHTML := unescape(
                       I18n
                         .t(
@@ -87,6 +89,24 @@ object SearchResults {
             )
           }
 
+          def proposals(proposals: Seq[ProposalModel]) =
+            Seq(
+              <.ul(^.className := LayoutRulesStyles.centeredRow)(
+                proposals.map(
+                  proposal =>
+                    <.li(
+                      ^.className := Seq(
+                        LayoutRulesStyles.col,
+                        LayoutRulesStyles.colHalfBeyondMedium,
+                        LayoutRulesStyles.colQuarterBeyondLarge
+                      )
+                    )(<.ProposalWithTagsComponent(^.wrapped := ProposalWithTagsProps(proposal = proposal))())
+                )
+              )
+            )
+
+          val proposalsToDisplay: Seq[ProposalModel] = self.state.listProposals.getOrElse(Seq.empty)
+
           <.section(^.className := SearchResultsStyles.wrapper)(
             <.h1(
               ^.dangerouslySetInnerHTML := unescape(
@@ -94,14 +114,11 @@ object SearchResults {
                   .t(s"content.search.title", Replacements(("results", self.state.resultsCount.getOrElse(0).toString)))
               )
             )(),
-            <.ProposalsContainerComponent(
-              ^.wrapped := ResultsInThemeContainerProps(
-                themeSlug = None,
-                searchValue = searchValue,
-                showTagsSelect = false,
-                noContent = noContent
-              )
-            )(),
+            if (proposalsToDisplay.nonEmpty) {
+              proposals(proposalsToDisplay)
+            } else {
+              noResults
+            },
             <.style()(SearchResultsStyles.render[String])
           )
 
@@ -135,16 +152,16 @@ object SearchResultsStyles extends StyleSheet.Inline {
   val newProposalIntro: StyleA =
     style()
 
-  val noProposalMessage: StyleA =
+  val noResultsMessage: StyleA =
     style(unsafeChild("strong")(ThemeStyles.Font.circularStdBold), unsafeChild("em")(TextStyles.title))
 
-  val noProposal: StyleA = style(
+  val noResults: StyleA = style(
     paddingTop(ThemeStyles.SpacingValue.larger.pxToEm()),
     paddingBottom(ThemeStyles.SpacingValue.larger.pxToEm()),
     textAlign.center
   )
 
-  val noProposalSmiley: StyleA =
+  val noResultsSmiley: StyleA =
     style(
       display.inlineBlock,
       marginBottom(ThemeStyles.SpacingValue.small.pxToEm(34)),

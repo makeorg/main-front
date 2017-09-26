@@ -41,6 +41,7 @@ object Components {
     def MainFooterComponent: ReactClassElementSpec = self(mainFooter.MainFooter.reactClass)
     def UserNavComponent: ReactClassElementSpec = self(userNav.UserNav.reactClass)
     def SearchFormComponent: ReactClassElementSpec = self(search.SearchForm.reactClass)
+    def SearchResultsContainerComponent: ReactClassElementSpec = self(search.SearchResultsContainer.reactClass)
     def HomeComponent: ReactClassElementSpec = self(home.Home.reactClass)
     def MainIntroComponent: ReactClassElementSpec = self(home.MainIntro.reactClass)
 
@@ -59,7 +60,7 @@ object Components {
       self(submitProposal.SubmitProposalInRelationToTheme.reactClass)
 
     def SubmitProposalWithoutAThemeComponent: ReactClassElementSpec =
-      self(submitProposal.SubmitProposalWithoutATheme.reactClass)
+      self(submitProposal.SubmitProposal.reactClass)
 
     def SubmitProposalFormComponent: ReactClassElementSpec = self(submitProposal.SubmitProposalForm.reactClass)
 
@@ -75,15 +76,15 @@ object Components {
     def NoPoliticalActionComponent: ReactClassElementSpec =
       self(politicalActions.NoPoliticalAction.reactClass)
 
-    def VoteComponent: ReactClassElementSpec = self(proposals.vote.Vote.reactClass)
+    def VoteComponent: ReactClassElementSpec = self(proposal.vote.Vote.reactClass)
 
-    def VoteButtonComponent: ReactClassElementSpec = self(proposals.vote.VoteButton.reactClass)
+    def VoteButtonComponent: ReactClassElementSpec = self(proposal.vote.VoteButton.reactClass)
 
     def QualificateVoteButtonComponent: ReactClassElementSpec =
-      self(proposals.vote.QualificateVoteButton.reactClass)
+      self(proposal.vote.QualificateVoteButton.reactClass)
 
     def QualificateVoteComponent: ReactClassElementSpec =
-      self(proposals.vote.QualificateVote.reactClass)
+      self(proposal.vote.QualificateVote.reactClass)
 
     def NotificationContainerComponent: ReactClassElementSpec =
       self(notification.NotificationContainer.reactClass)
@@ -91,28 +92,28 @@ object Components {
     def UserNavContainerComponent: ReactClassElementSpec =
       self(userNav.UserNavContainer.reactClass)
 
-    def ProposalsContainerComponent: ReactClassElementSpec =
+    def ResultsInThemeContainerComponent: ReactClassElementSpec =
       self(ResultsInThemeContainer.reactClass)
 
     def ProposalInfosComponent: ReactClassElementSpec =
-      self(proposals.proposal.ProposalInfos.reactClass)
+      self(proposal.ProposalInfos.reactClass)
 
     def ShareOwnProposalComponent: ReactClassElementSpec =
-      self(proposals.proposal.ShareOwnProposal.reactClass)
+      self(proposal.ShareOwnProposal.reactClass)
 
     def ProposalComponent: ReactClassElementSpec =
-      self(proposals.proposal.Proposal.reactClass)
+      self(proposal.Proposal.reactClass)
 
     def ProposalWithThemeContainerComponent: ReactClassElementSpec =
-      self(proposals.proposal.ProposalWithThemeContainer.reactClass)
+      self(proposal.ProposalWithThemeContainer.reactClass)
 
     def ProposalWithThemeComponent: ReactClassElementSpec =
-      self(proposals.proposal.ProposalWithTheme.reactClass)
+      self(proposal.ProposalWithTheme.reactClass)
 
     def ProposalWithTagsComponent: ReactClassElementSpec =
-      self(proposals.proposal.ProposalWithTags.reactClass)
+      self(proposal.ProposalWithTags.reactClass)
 
-    def ProposalsListComponent: ReactClassElementSpec =
+    def ResultsInThemeComponent: ReactClassElementSpec =
       self(ResultsInTheme.reactClass)
 
     def NavInThemesContainerComponent: ReactClassElementSpec =

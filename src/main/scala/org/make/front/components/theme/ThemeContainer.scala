@@ -7,9 +7,9 @@ import io.github.shogowada.scalajs.reactjs.redux.Redux.Dispatch
 import io.github.shogowada.scalajs.reactjs.router.RouterProps._
 import org.make.front.actions.LoadThemes
 import org.make.front.components.AppState
-import org.make.front.models.{Theme => ThemeModel}
+import org.make.front.models.{ThemeId, Theme => ThemeModel}
 
-object ThemeContainerComponent {
+object ThemeContainer {
 
   lazy val reactClass: ReactClass = ReactRedux.connectAdvanced(selectorFactory)(Theme.reactClass)
 
@@ -19,11 +19,11 @@ object ThemeContainerComponent {
         val slug = props.`match`.params("themeSlug")
         val themeList: Seq[ThemeModel] = state.themes.filter(_.slug == slug)
         if (themeList.isEmpty) {
-          // @toDo: manage 404 redirect
-          Theme.ThemeProps(None, slug)
+          props.history.push("/")
+          Theme.ThemeProps(ThemeModel(ThemeId("fake"), "", "", 0, 0, "", None))
         } else {
           dispatch(LoadThemes)
-          Theme.ThemeProps(Some(themeList.head), slug)
+          Theme.ThemeProps(themeList.head)
         }
       }
     }

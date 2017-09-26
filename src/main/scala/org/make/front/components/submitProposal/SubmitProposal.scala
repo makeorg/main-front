@@ -14,24 +14,22 @@ import scalacss.DevDefaults._
 import scalacss.internal.mutable.StyleSheet
 import scalacss.internal.{Attr, Length}
 
-object SubmitProposalWithoutATheme {
+object SubmitProposal {
 
-  case class SubmitProposalWithoutAThemeProps(onProposalProposed: () => Unit)
+  case class SubmitProposalProps(onProposalProposed: () => Unit)
 
-  case class SubmitProposalWithoutAThemeState()
+  case class SubmitProposalState()
 
   lazy val reactClass: ReactClass =
-    React.createClass[SubmitProposalWithoutAThemeProps, SubmitProposalWithoutAThemeState](
+    React.createClass[SubmitProposalProps, SubmitProposalState](
       displayName = getClass.toString,
       getInitialState = { _ =>
-        SubmitProposalWithoutAThemeState()
+        SubmitProposalState()
       },
       render = { self =>
         <.article()(
-          <.h2(^.className := SubmitProposalInRelationToThemeStyles.title)(
-            <.span(
-              ^.className := Seq(TextStyles.mediumText, TextStyles.intro, SubmitProposalInRelationToThemeStyles.intro)
-            )(unescape(I18n.t("content.proposal.titleIntroNoTheme")))
+          <.h2(^.className := Seq(TextStyles.mediumText, TextStyles.intro, SubmitProposalStyles.intro))(
+            unescape(I18n.t("content.proposal.titleIntroNoTheme"))
           ),
           <.SubmitProposalAndLoginComponent(
             ^.wrapped :=
@@ -42,14 +40,14 @@ object SubmitProposalWithoutATheme {
                 onProposalProposed = self.props.wrapped.onProposalProposed
               )
           )(),
-          <.style()(SubmitProposalWithoutAThemeStyles.render[String])
+          <.style()(SubmitProposalStyles.render[String])
         )
       }
     )
 
 }
 
-object SubmitProposalWithoutAThemeStyles extends StyleSheet.Inline {
+object SubmitProposalStyles extends StyleSheet.Inline {
 
   import dsl._
 
@@ -60,29 +58,12 @@ object SubmitProposalWithoutAThemeStyles extends StyleSheet.Inline {
     }
   }
 
-  val title: StyleA =
-    style(textAlign.center)
-
   val intro: StyleA =
     style(
+      textAlign.center,
       display.inlineBlock,
       marginBottom(ThemeStyles.SpacingValue.smaller.pxToEm(15)),
       ThemeStyles.MediaQueries.beyondSmall(marginBottom(ThemeStyles.SpacingValue.smaller.pxToEm(18)))
-    )
-
-  val theme: StyleA =
-    style(
-      display.inlineBlock,
-      marginBottom(15.pxToEm(30)),
-      lineHeight(41.pxToEm(30)),
-      ThemeStyles.MediaQueries.beyondMedium(marginBottom(10.pxToEm(60)), lineHeight(83.pxToEm(60)))
-    )
-
-  def gradientColor(from: String, to: String): StyleA =
-    style(
-      background := s"-webkit-linear-gradient(94deg, $from, $to)",
-      Attr.real("-webkit-background-clip") := "text",
-      Attr.real("-webkit-text-fill-color") := "transparent"
     )
 
 }

@@ -18,7 +18,7 @@ import scalacss.internal.mutable.StyleSheet
 
 object Theme {
 
-  final case class ThemeProps(theme: Option[ThemeModel], themeSlug: String)
+  final case class ThemeProps(theme: ThemeModel)
 
   lazy val reactClass: ReactClass = React.createClass[ThemeProps, Unit](render = (self) => {
 
@@ -44,11 +44,8 @@ object Theme {
             <.h2(^.className := TextStyles.bigTitle)(<.Translate(^.value := "content.theme.matrix.title")())
           )
         ),
-        <.ProposalsContainerComponent(
-          ^.wrapped := ResultsInThemeContainerProps(
-            themeSlug = Some(self.props.wrapped.themeSlug),
-            noContent = noContent
-          )
+        <.ResultsInThemeContainerComponent(
+          ^.wrapped := ResultsInThemeContainerProps(currentTheme = self.props.wrapped.theme)
         )()
       ),
       <.style()(ThemeComponentStyles.render[String])
