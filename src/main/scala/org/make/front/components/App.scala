@@ -27,7 +27,6 @@ object App {
           <.MainHeaderComponent.empty,
           <.NotificationContainerComponent.empty,
           <.ContainerComponent.empty,
-          <.NavInThemesContainerComponent.empty,
           <.MainFooterComponent.empty,
           <.style()(RWDHideRulesStyles.render[String])
       )

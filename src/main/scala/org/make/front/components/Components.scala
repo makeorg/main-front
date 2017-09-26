@@ -59,7 +59,7 @@ object Components {
     def SubmitProposalInRelationToThemeComponent: ReactClassElementSpec =
       self(submitProposal.SubmitProposalInRelationToTheme.reactClass)
 
-    def SubmitProposalWithoutAThemeComponent: ReactClassElementSpec =
+    def SubmitProposalComponent: ReactClassElementSpec =
       self(submitProposal.SubmitProposal.reactClass)
 
     def SubmitProposalFormComponent: ReactClassElementSpec = self(submitProposal.SubmitProposalForm.reactClass)

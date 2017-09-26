@@ -14,6 +14,7 @@ import org.make.front.facades.{I18n, Replacements}
 import org.make.front.helpers.QueryString
 import org.make.front.models.{Proposal => ProposalModel}
 import org.make.front.components.proposal.ProposalWithTags.ProposalWithTagsProps
+import org.make.front.components.submitProposal.SubmitProposal.SubmitProposalProps
 import org.make.front.styles._
 
 import scala.scalajs.js.URIUtils
@@ -44,7 +45,7 @@ object SearchResults {
             self.setState(state => state.copy(isProposalModalOpened = false))
           }
 
-          val openProposalModalFromInput: (MouseSyntheticEvent) => Unit = { event =>
+          val openProposalModal: (MouseSyntheticEvent) => Unit = { event =>
             event.preventDefault()
             self.setState(state => state.copy(isProposalModalOpened = true))
           }
@@ -52,39 +53,34 @@ object SearchResults {
           val searchValue: Option[String] = self.state.searchValue
 
           val noResults: ReactElement = {
-            <.div()(
-              <.div(^.className := Seq(LayoutRulesStyles.centeredRow, SearchResultsStyles.noResults))(
-                <.div(^.className := LayoutRulesStyles.col)(
-                  <.p(^.className := SearchResultsStyles.noResultsSmiley)("😞"),
-                  <.p(
-                    ^.className := Seq(TextStyles.mediumText, SearchResultsStyles.noResultsMessage),
-                    ^.dangerouslySetInnerHTML := unescape(
-                      I18n
-                        .t(
-                          s"content.search.matrix.noContent",
-                          Replacements(("search", self.state.searchValue.getOrElse("")))
-                        )
-                    )
-                  )()
-                )
-              ),
-              <.div(^.className := Seq(SearchResultsStyles.newProposal, LayoutRulesStyles.centeredRow))(
-                <.div(^.className := LayoutRulesStyles.col)(
-                  <.p(^.className := Seq(SearchResultsStyles.newProposalIntro, TextStyles.mediumText))(
-                    I18n.t("content.search.proposeIntro")
+            <.div(^.className := LayoutRulesStyles.centeredRow)(
+              <.div(^.className := Seq(LayoutRulesStyles.col, SearchResultsStyles.noResults))(
+                <.p(^.className := SearchResultsStyles.noResultsSmiley)("😞"),
+                <.p(
+                  ^.className := Seq(TextStyles.mediumText, SearchResultsStyles.noResultsMessage),
+                  ^.dangerouslySetInnerHTML := I18n.t(s"content.search.matrix.noContent")
+                )(),
+                <.p(^.className := Seq(SearchResultsStyles.searchedExpression, TextStyles.mediumTitle))(
+                  unescape("«&nbsp;" + self.state.searchValue.get + "&nbsp;»")
+                ),
+                <.hr(^.className := SearchResultsStyles.noResultsMessageSeparator)(),
+                <.p(^.className := Seq(TextStyles.mediumText))(I18n.t("content.search.proposeIntro")),
+                <.button(
+                  ^.className := Seq(
+                    SearchResultsStyles.openProposalModalButton,
+                    CTAStyles.basic,
+                    CTAStyles.basicOnButton
                   ),
-                  <.button(
-                    ^.className := Seq(CTAStyles.basic, CTAStyles.basicOnButton),
-                    ^.onClick := openProposalModalFromInput
-                  )(
-                    <.i(^.className := FontAwesomeStyles.pencil)(),
-                    unescape("&nbsp;"),
-                    unescape(I18n.t("content.search.propose"))
-                  ),
-                  <.FullscreenModalComponent(
-                    ^.wrapped := FullscreenModalProps(self.state.isProposalModalOpened, closeProposalModal)
-                  )()
-                )
+                  ^.onClick := openProposalModal
+                )(
+                  <.i(^.className := FontAwesomeStyles.pencil)(),
+                  unescape("&nbsp;" + I18n.t("content.search.propose"))
+                ),
+                <.FullscreenModalComponent(
+                  ^.wrapped := FullscreenModalProps(self.state.isProposalModalOpened, closeProposalModal)
+                )(<.SubmitProposalComponent(^.wrapped := SubmitProposalProps(onProposalProposed = () => {
+                  self.setState(_.copy(isProposalModalOpened = false))
+                }))())
               )
             )
           }
@@ -106,22 +102,22 @@ object SearchResults {
             )
 
           val proposalsToDisplay: Seq[ProposalModel] = self.state.listProposals.getOrElse(Seq.empty)
-
-          <.section(^.className := SearchResultsStyles.wrapper)(
-            <.h1(
-              ^.dangerouslySetInnerHTML := unescape(
-                I18n
-                  .t(s"content.search.title", Replacements(("results", self.state.resultsCount.getOrElse(0).toString)))
-              )
-            )(),
-            if (proposalsToDisplay.nonEmpty) {
+          <("search-resulst")()(if (proposalsToDisplay.nonEmpty) {
+            <.section(^.className := SearchResultsStyles.resultsWrapper)(
+              <.h1(
+                ^.dangerouslySetInnerHTML := unescape(
+                  I18n
+                    .t(
+                      s"content.search.title",
+                      Replacements(("results", self.state.resultsCount.getOrElse(0).toString))
+                    )
+                )
+              )(),
               proposals(proposalsToDisplay)
-            } else {
-              noResults
-            },
-            <.style()(SearchResultsStyles.render[String])
-          )
-
+            )
+          } else {
+            <.section(^.className := SearchResultsStyles.noResultsWrapper)(noResults)
+          }, <.NavInThemesContainerComponent.empty, <.style()(SearchResultsStyles.render[String]))
       })
     )
 }
@@ -137,28 +133,17 @@ object SearchResultsStyles extends StyleSheet.Inline {
     }
   }
 
-  val wrapper: StyleA =
+  val resultsWrapper: StyleA =
     style(
+      backgroundColor(ThemeStyles.BackgroundColor.blackVeryTransparent),
       paddingTop((50).pxToEm()), // TODO: dynamise calcul, if main intro is first child of page
       ThemeStyles.MediaQueries.beyondSmall(paddingTop((80).pxToEm()))
     )
-  val newProposal: StyleA =
-    style(
-      paddingTop(ThemeStyles.SpacingValue.larger.pxToEm()),
-      paddingBottom(ThemeStyles.SpacingValue.larger.pxToEm()),
-      textAlign.center
-    )
 
-  val newProposalIntro: StyleA =
-    style()
-
-  val noResultsMessage: StyleA =
-    style(unsafeChild("strong")(ThemeStyles.Font.circularStdBold), unsafeChild("em")(TextStyles.title))
-
-  val noResults: StyleA = style(
-    paddingTop(ThemeStyles.SpacingValue.larger.pxToEm()),
-    paddingBottom(ThemeStyles.SpacingValue.larger.pxToEm()),
-    textAlign.center
+  val noResultsWrapper: StyleA = style(
+    minHeight(100.%%),
+    paddingTop((50).pxToEm()), // TODO: dynamise calcul, if main intro is first child of page
+    ThemeStyles.MediaQueries.beyondSmall(paddingTop((80).pxToEm()))
   )
 
   val noResultsSmiley: StyleA =
@@ -166,8 +151,37 @@ object SearchResultsStyles extends StyleSheet.Inline {
       display.inlineBlock,
       marginBottom(ThemeStyles.SpacingValue.small.pxToEm(34)),
       fontSize(34.pxToEm()),
+      lineHeight(1),
       ThemeStyles.MediaQueries
         .beyondSmall(marginBottom(ThemeStyles.SpacingValue.small.pxToEm(48)), fontSize(48.pxToEm()))
     )
 
+  val noResults: StyleA = style(
+    paddingTop(ThemeStyles.SpacingValue.larger.pxToEm()),
+    paddingBottom(ThemeStyles.SpacingValue.larger.pxToEm()),
+    textAlign.center
+  )
+
+  val noResultsMessageSeparator: StyleA = style(
+    display.block,
+    maxWidth(235.pxToEm()),
+    margin := s"${ThemeStyles.SpacingValue.medium.pxToEm().value} auto",
+    border.none,
+    borderTop := s"1px solid ${ThemeStyles.BorderColor.veryLight.value}",
+    ThemeStyles.MediaQueries
+      .beyondSmall(maxWidth(470.pxToEm()), margin := s"${ThemeStyles.SpacingValue.large.pxToEm().value} auto")
+  )
+
+  val noResultsMessage: StyleA =
+    style(unsafeChild("strong")(ThemeStyles.Font.circularStdBold))
+
+  val searchedExpression: StyleA =
+    style(
+      marginTop(ThemeStyles.SpacingValue.small.pxToEm(20)),
+      ThemeStyles.MediaQueries
+        .beyondSmall(marginTop(ThemeStyles.SpacingValue.small.pxToEm(34)))
+    )
+
+  val openProposalModalButton: StyleA =
+    style(marginTop(ThemeStyles.SpacingValue.small.pxToEm()))
 }

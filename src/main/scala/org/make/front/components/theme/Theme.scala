@@ -21,33 +21,13 @@ object Theme {
   final case class ThemeProps(theme: ThemeModel)
 
   lazy val reactClass: ReactClass = React.createClass[ThemeProps, Unit](render = (self) => {
-
-    val noContent: ReactElement = {
-      <.div(^.className := Seq(LayoutRulesStyles.centeredRow, ResultsInThemeStyles.noProposal))(
-        <.div(^.className := LayoutRulesStyles.col)(
-          <.p(^.className := ResultsInThemeStyles.noProposalSmiley)("😞"),
-          <.p(
-            ^.className := Seq(TextStyles.mediumText, ResultsInThemeStyles.noProposalMessage),
-            ^.dangerouslySetInnerHTML := I18n.t("content.theme.matrix.noContent")
-          )()
-        )
-      )
-    }
-
-    <("theme")()(
+    <("theme")(^.className := ThemeComponentStyles.wrapper)(
       <.ThemeHeaderComponent(^.wrapped := ThemeHeaderProps(self.props.wrapped.theme))(),
-      //TODO: fix 5 errors of setState before render. These are logged in console.
       <.PoliticalActionsContainerComponent()(),
-      <.section(^.className := ThemeComponentStyles.wrapper)(
-        <.div(^.className := LayoutRulesStyles.centeredRow)(
-          <.header(^.className := LayoutRulesStyles.col)(
-            <.h2(^.className := TextStyles.bigTitle)(<.Translate(^.value := "content.theme.matrix.title")())
-          )
-        ),
-        <.ResultsInThemeContainerComponent(
-          ^.wrapped := ResultsInThemeContainerProps(currentTheme = self.props.wrapped.theme)
-        )()
-      ),
+      <.ResultsInThemeContainerComponent(
+        ^.wrapped := ResultsInThemeContainerProps(currentTheme = self.props.wrapped.theme)
+      )(),
+      <.NavInThemesContainerComponent.empty,
       <.style()(ThemeComponentStyles.render[String])
     )
   })
@@ -65,9 +45,6 @@ object ThemeComponentStyles extends StyleSheet.Inline {
   }
 
   val wrapper: StyleA =
-    style(
-      backgroundColor(ThemeStyles.BackgroundColor.blackVeryTransparent),
-      padding :=! s"${ThemeStyles.SpacingValue.medium.pxToEm().value} 0 ${ThemeStyles.SpacingValue.small.pxToEm().value}"
-    )
+    style(display.block, backgroundColor(ThemeStyles.BackgroundColor.blackVeryTransparent))
 
 }

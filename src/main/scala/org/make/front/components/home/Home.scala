@@ -14,7 +14,8 @@ object Home {
           <.MainIntroComponent.empty,
           <.ShowcaseContainerComponent(
             ^.wrapped := ShowcaseContainerProps(introTranslationKey = "content.homepage.expressYourself")
-          )()
+          )(),
+          <.NavInThemesContainerComponent.empty
       )
     )
 }

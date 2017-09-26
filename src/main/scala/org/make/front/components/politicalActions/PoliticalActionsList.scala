@@ -138,11 +138,7 @@ object PoliticalActionsListStyles extends StyleSheet.Inline {
   }
 
   val wrapper: StyleA =
-    style(
-      backgroundColor(ThemeStyles.BackgroundColor.blackVeryTransparent),
-      padding :=! s"${ThemeStyles.SpacingValue.medium.pxToEm().value} 0",
-      overflow.hidden
-    )
+    style(padding :=! s"${ThemeStyles.SpacingValue.medium.pxToEm().value} 0", overflow.hidden)
 
   val slideshow: StyleA =
     style(

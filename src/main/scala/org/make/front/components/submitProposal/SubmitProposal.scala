@@ -44,7 +44,6 @@ object SubmitProposal {
         )
       }
     )
-
 }
 
 object SubmitProposalStyles extends StyleSheet.Inline {
@@ -61,9 +60,7 @@ object SubmitProposalStyles extends StyleSheet.Inline {
   val intro: StyleA =
     style(
       textAlign.center,
-      display.inlineBlock,
-      marginBottom(ThemeStyles.SpacingValue.smaller.pxToEm(15)),
-      ThemeStyles.MediaQueries.beyondSmall(marginBottom(ThemeStyles.SpacingValue.smaller.pxToEm(18)))
+      marginBottom(ThemeStyles.SpacingValue.medium.pxToEm(15)),
+      ThemeStyles.MediaQueries.beyondSmall(marginBottom(ThemeStyles.SpacingValue.medium.pxToEm(18)))
     )
-
 }

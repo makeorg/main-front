@@ -114,7 +114,7 @@ object Translations {
       |       "search": {
       |         "title": "<strong>%{results} résultats</strong> pour votre recherche ",
       |         "matrix": {
-      |           "noContent": "Nous n'avons trouvé <strong> aucun résultat </strong> pour votre recherche<br> «&nbsp;%{search}&nbsp;»"
+      |           "noContent": "Nous n'avons trouvé <strong>aucun résultat</strong> pour votre recherche"
       |         },
       |         "proposeIntro": "Soyez la première personne à formuler une proposition à ce sujet !",
       |         "propose": "Proposer"

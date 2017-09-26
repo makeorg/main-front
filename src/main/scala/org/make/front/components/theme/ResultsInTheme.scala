@@ -4,6 +4,7 @@ import io.github.shogowada.scalajs.reactjs.React
 import io.github.shogowada.scalajs.reactjs.React.Self
 import io.github.shogowada.scalajs.reactjs.VirtualDOM._
 import io.github.shogowada.scalajs.reactjs.classes.ReactClass
+import io.github.shogowada.scalajs.reactjs.elements.ReactElement
 import org.make.front.Main.CssSettings._
 import org.make.front.components.Components._
 import org.make.front.components.proposal.ProposalWithTags.ProposalWithTagsProps
@@ -34,20 +35,18 @@ object ResultsInTheme {
       render = { (self) =>
         val onSeeMore: () => Unit = () => self.props.wrapped.handleNextResults(self)
 
-        def noResults() =
-          <.div(^.className := Seq(LayoutRulesStyles.centeredRow, ResultsInThemeStyles.noProposal))(
-            <.div(^.className := LayoutRulesStyles.col)(
-              <.p(^.className := ResultsInThemeStyles.noProposalSmiley)("😞"),
-              <.p(
-                ^.className := Seq(TextStyles.mediumText, ResultsInThemeStyles.noProposalMessage),
-                ^.dangerouslySetInnerHTML := I18n.t("content.theme.matrix.noContent")
-              )()
-            )
+        val noResults: ReactElement =
+          <.div(^.className := Seq(LayoutRulesStyles.col, ResultsInThemeStyles.noResults))(
+            <.p(^.className := ResultsInThemeStyles.noResultsSmiley)("😞"),
+            <.p(
+              ^.className := Seq(TextStyles.mediumText, ResultsInThemeStyles.noResultsMessage),
+              ^.dangerouslySetInnerHTML := I18n.t("content.theme.matrix.noContent")
+            )()
           )
 
         def proposals(proposals: Seq[ProposalModel]) =
           Seq(
-            <.ul(^.className := LayoutRulesStyles.centeredRow)(
+            <.ul()(
               proposals.map(
                 proposal =>
                   <.li(
@@ -61,11 +60,9 @@ object ResultsInTheme {
               )
             ),
             if (self.state.showSeeMoreButton) {
-              <.div(^.className := LayoutRulesStyles.centeredRow)(
-                <.div(^.className := Seq(ResultsInThemeStyles.seeMoreButtonWrapper, LayoutRulesStyles.col))(
-                  <.button(^.onClick := onSeeMore, ^.className := Seq(CTAStyles.basic, CTAStyles.basicOnButton))(
-                    unescape(I18n.t("content.theme.seeMoreProposals"))
-                  )
+              <.div(^.className := Seq(ResultsInThemeStyles.seeMoreButtonWrapper, LayoutRulesStyles.col))(
+                <.button(^.onClick := onSeeMore, ^.className := Seq(CTAStyles.basic, CTAStyles.basicOnButton))(
+                  unescape(I18n.t("content.theme.seeMoreProposals"))
                 )
               )
             }
@@ -73,13 +70,14 @@ object ResultsInTheme {
 
         val proposalsToDisplay: Seq[ProposalModel] = self.state.listProposals.getOrElse(Seq.empty)
 
-        <.div()(
-          <.div(^.className := LayoutRulesStyles.centeredRow)(
-            <.div(^.className := LayoutRulesStyles.col)(
-              <.FilterByTagsComponent(
-                ^.wrapped := FilterByTagsProps(self.props.wrapped.tags, self.props.wrapped.handleSelectedTags(self))
-              )()
-            )
+        <.section(^.className := Seq(LayoutRulesStyles.centeredRow, ResultsInThemeStyles.wrapper))(
+          <.header(^.className := LayoutRulesStyles.col)(
+            <.h2(^.className := TextStyles.bigTitle)(unescape(I18n.t("content.theme.matrix.title")))
+          ),
+          <.nav(^.className := LayoutRulesStyles.col)(
+            <.FilterByTagsComponent(
+              ^.wrapped := FilterByTagsProps(self.props.wrapped.tags, self.props.wrapped.handleSelectedTags(self))
+            )()
           ),
           if (proposalsToDisplay.nonEmpty) {
             proposals(proposalsToDisplay)
@@ -103,6 +101,11 @@ object ResultsInThemeStyles extends StyleSheet.Inline {
     }
   }
 
+  val wrapper: StyleA =
+    style(
+      padding :=! s"${ThemeStyles.SpacingValue.medium.pxToEm().value} 0 ${ThemeStyles.SpacingValue.small.pxToEm().value}"
+    )
+
   val item: StyleA =
     style(marginTop(ThemeStyles.SpacingValue.small.pxToEm()), marginBottom(ThemeStyles.SpacingValue.small.pxToEm()))
 
@@ -112,21 +115,23 @@ object ResultsInThemeStyles extends StyleSheet.Inline {
     textAlign.center
   )
 
-  val noProposalSmiley: StyleA =
-    style(
-      display.inlineBlock,
-      marginBottom(ThemeStyles.SpacingValue.small.pxToEm(34)),
-      fontSize(34.pxToEm()),
-      ThemeStyles.MediaQueries
-        .beyondSmall(marginBottom(ThemeStyles.SpacingValue.small.pxToEm(48)), fontSize(48.pxToEm()))
-    )
-
-  val noProposalMessage: StyleA =
-    style(unsafeChild("strong")(ThemeStyles.Font.circularStdBold), unsafeChild("em")(TextStyles.title))
-
-  val noProposal: StyleA = style(
+  val noResults: StyleA = style(
     paddingTop(ThemeStyles.SpacingValue.larger.pxToEm()),
     paddingBottom(ThemeStyles.SpacingValue.larger.pxToEm()),
     textAlign.center
   )
+
+  val noResultsSmiley: StyleA =
+    style(
+      display.inlineBlock,
+      marginBottom(ThemeStyles.SpacingValue.small.pxToEm(34)),
+      fontSize(34.pxToEm()),
+      lineHeight(1),
+      ThemeStyles.MediaQueries
+        .beyondSmall(marginBottom(ThemeStyles.SpacingValue.small.pxToEm(48)), fontSize(48.pxToEm()))
+    )
+
+  val noResultsMessage: StyleA =
+    style(unsafeChild("strong")(ThemeStyles.Font.circularStdBold))
+
 }
