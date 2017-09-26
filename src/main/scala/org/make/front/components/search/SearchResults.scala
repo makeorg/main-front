@@ -9,7 +9,7 @@ import io.github.shogowada.scalajs.reactjs.router.RouterProps._
 import io.github.shogowada.scalajs.reactjs.router.WithRouter
 import org.make.front.components.Components.{RichVirtualDOMElements, _}
 import org.make.front.components.modals.FullscreenModal.FullscreenModalProps
-import org.make.front.components.proposals.ProposalsListContainer.ProposalsListContainerProps
+import org.make.front.components.theme.ResultsInThemeContainer.ResultsInThemeContainerProps
 import org.make.front.facades.Unescape.unescape
 import org.make.front.facades.{I18n, Replacements}
 import org.make.front.helpers.QueryString
@@ -95,7 +95,7 @@ object SearchResults {
               )
             )(),
             <.ProposalsContainerComponent(
-              ^.wrapped := ProposalsListContainerProps(
+              ^.wrapped := ResultsInThemeContainerProps(
                 themeSlug = None,
                 searchValue = searchValue,
                 showTagsSelect = false,

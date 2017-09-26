@@ -1,10 +1,10 @@
-package org.make.front.components.proposals.vote
+package org.make.front.components.proposal.vote
 
 import io.github.shogowada.scalajs.reactjs.React
 import io.github.shogowada.scalajs.reactjs.VirtualDOM._
 import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import org.make.front.components.Components._
-import org.make.front.components.proposals.vote.VoteButton.VoteButtonProps
+import org.make.front.components.proposal.vote.VoteButton.VoteButtonProps
 import org.make.front.models.{Vote => VoteModel}
 import org.make.front.styles.ThemeStyles
 

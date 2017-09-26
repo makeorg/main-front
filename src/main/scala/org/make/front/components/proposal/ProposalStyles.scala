@@ -1,4 +1,4 @@
-package org.make.front.components.proposals.proposal
+package org.make.front.components.proposal
 
 import org.make.front.Main.CssSettings._
 import org.make.front.styles.ThemeStyles

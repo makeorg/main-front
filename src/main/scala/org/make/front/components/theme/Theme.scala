@@ -5,8 +5,7 @@ import io.github.shogowada.scalajs.reactjs.VirtualDOM._
 import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import io.github.shogowada.scalajs.reactjs.elements.ReactElement
 import org.make.front.components.Components._
-import org.make.front.components.proposals.ProposalsListContainer.ProposalsListContainerProps
-import org.make.front.components.proposals.ProposalsListStyles
+import ResultsInThemeContainer.ResultsInThemeContainerProps
 import org.make.front.components.theme.ThemeHeader.ThemeHeaderProps
 import org.make.front.facades.I18n
 import org.make.front.facades.Translate.TranslateVirtualDOMElements
@@ -24,11 +23,11 @@ object Theme {
   lazy val reactClass: ReactClass = React.createClass[ThemeProps, Unit](render = (self) => {
 
     val noContent: ReactElement = {
-      <.div(^.className := Seq(LayoutRulesStyles.centeredRow, ProposalsListStyles.noProposal))(
+      <.div(^.className := Seq(LayoutRulesStyles.centeredRow, ResultsInThemeStyles.noProposal))(
         <.div(^.className := LayoutRulesStyles.col)(
-          <.p(^.className := ProposalsListStyles.noProposalSmiley)("😞"),
+          <.p(^.className := ResultsInThemeStyles.noProposalSmiley)("😞"),
           <.p(
-            ^.className := Seq(TextStyles.mediumText, ProposalsListStyles.noProposalMessage),
+            ^.className := Seq(TextStyles.mediumText, ResultsInThemeStyles.noProposalMessage),
             ^.dangerouslySetInnerHTML := I18n.t("content.theme.matrix.noContent")
           )()
         )
@@ -46,7 +45,7 @@ object Theme {
           )
         ),
         <.ProposalsContainerComponent(
-          ^.wrapped := ProposalsListContainerProps(
+          ^.wrapped := ResultsInThemeContainerProps(
             themeSlug = Some(self.props.wrapped.themeSlug),
             noContent = noContent
           )

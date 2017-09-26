@@ -1,4 +1,4 @@
-package org.make.front.components.proposals.proposal
+package org.make.front.components.proposal
 
 import io.github.shogowada.scalajs.reactjs.React.Props
 import io.github.shogowada.scalajs.reactjs.classes.ReactClass

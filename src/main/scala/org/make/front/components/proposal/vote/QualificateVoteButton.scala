@@ -1,4 +1,4 @@
-package org.make.front.components.proposals.vote
+package org.make.front.components.proposal.vote
 
 import io.github.shogowada.scalajs.reactjs.React
 import io.github.shogowada.scalajs.reactjs.VirtualDOM.{<, _}

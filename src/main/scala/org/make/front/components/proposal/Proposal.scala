@@ -1,11 +1,11 @@
-package org.make.front.components.proposals.proposal
+package org.make.front.components.proposal
 
 import io.github.shogowada.scalajs.reactjs.React
 import io.github.shogowada.scalajs.reactjs.VirtualDOM._
 import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import org.make.front.components.Components.{RichVirtualDOMElements, _}
-import org.make.front.components.proposals.proposal.ProposalInfos.ProposalInfosProps
-import org.make.front.components.proposals.vote.Vote
+import org.make.front.components.proposal.ProposalInfos.ProposalInfosProps
+import org.make.front.components.proposal.vote.Vote
 import org.make.front.models.{Proposal => ProposalModel}
 import org.make.front.styles.TextStyles
 

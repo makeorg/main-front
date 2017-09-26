@@ -1,13 +1,12 @@
-package org.make.front.components.proposals
+package org.make.front.components.theme
 
 import io.github.shogowada.scalajs.reactjs.React
 import io.github.shogowada.scalajs.reactjs.React.Self
 import io.github.shogowada.scalajs.reactjs.VirtualDOM._
 import io.github.shogowada.scalajs.reactjs.classes.ReactClass
-import io.github.shogowada.scalajs.reactjs.elements.ReactElement
 import org.make.front.Main.CssSettings._
 import org.make.front.components.Components._
-import org.make.front.components.proposals.proposal.ProposalWithTags.ProposalWithTagsProps
+import org.make.front.components.proposal.ProposalWithTags.ProposalWithTagsProps
 import org.make.front.components.tags.FilterByTags.FilterByTagsProps
 import org.make.front.facades.I18n
 import org.make.front.facades.Unescape.unescape
@@ -17,46 +16,23 @@ import org.make.front.styles.{CTAStyles, LayoutRulesStyles, TextStyles, ThemeSty
 import scalacss.internal.Length
 import scalacss.internal.mutable.StyleSheet
 
-object ProposalsList {
+object ResultsInTheme {
 
-  type ProposalsListSelf = Self[ProposalsListProps, ProposalsListState]
+  type ProposalsListSelf = Self[ResultsInThemeProps, ResultsInThemeState]
 
-  case class ProposalsListProps(handleSelectedTags: ProposalsListSelf      => Seq[TagModel] => Unit,
-                                handleSearchValueChange: ProposalsListSelf => Unit,
-                                handleNextResults: ProposalsListSelf       => Unit,
-                                tags: Seq[TagModel],
-                                showTagsSelect: Boolean = true,
-                                noContent: ReactElement,
-                                searchValue: Option[String],
-                                title: (Int) => Seq[ReactElement] = (_) => Seq.empty)
+  case class ResultsInThemeProps(handleSelectedTags: ProposalsListSelf => Seq[TagModel] => Unit,
+                                 handleNextResults: ProposalsListSelf  => Unit,
+                                 tags: Seq[TagModel])
 
-  case class ProposalsListState(listProposals: Option[Seq[ProposalModel]] = None,
-                                selectedTags: Seq[TagModel],
-                                showTagsSelect: Boolean,
-                                noContent: ReactElement,
-                                showSeeMoreButton: Boolean = true,
-                                searchValue: Option[String] = None)
+  case class ResultsInThemeState(listProposals: Option[Seq[ProposalModel]] = None,
+                                 selectedTags: Seq[TagModel],
+                                 showSeeMoreButton: Boolean = true)
 
   lazy val reactClass: ReactClass =
-    React.createClass[ProposalsListProps, ProposalsListState](
-      getInitialState = (self) =>
-        ProposalsListState(
-          selectedTags = self.props.wrapped.tags,
-          showTagsSelect = self.props.wrapped.showTagsSelect,
-          noContent = self.props.wrapped.noContent,
-          searchValue = self.props.wrapped.searchValue
-      ),
-      componentDidMount = (self) => {
-        self.props.wrapped.handleSearchValueChange(self)
-      },
-      componentDidUpdate = (self, _, _) => {
-        if (self.state.searchValue != self.props.wrapped.searchValue) {
-          self.props.wrapped.handleSearchValueChange(self)
-        }
-      },
-      render = (self) => {
-
-        def onSeeMore = () => self.props.wrapped.handleNextResults(self)
+    React.createClass[ResultsInThemeProps, ResultsInThemeState](
+      getInitialState = (self) => ResultsInThemeState(selectedTags = self.props.wrapped.tags),
+      render = { (self) =>
+        val onSeeMore: () => Unit = () => self.props.wrapped.handleNextResults(self)
 
         def proposals(proposals: Seq[ProposalModel]) =
           Seq(
@@ -65,7 +41,7 @@ object ProposalsList {
                 proposal =>
                   <.li(
                     ^.className := Seq(
-                      ProposalsListStyles.item,
+                      ResultsInThemeStyles.item,
                       LayoutRulesStyles.col,
                       LayoutRulesStyles.colHalfBeyondMedium,
                       LayoutRulesStyles.colQuarterBeyondLarge
@@ -75,7 +51,7 @@ object ProposalsList {
             ),
             if (self.state.showSeeMoreButton) {
               <.div(^.className := LayoutRulesStyles.centeredRow)(
-                <.div(^.className := Seq(ProposalsListStyles.seeMoreButtonWrapper, LayoutRulesStyles.col))(
+                <.div(^.className := Seq(ResultsInThemeStyles.seeMoreButtonWrapper, LayoutRulesStyles.col))(
                   <.button(^.onClick := onSeeMore, ^.className := Seq(CTAStyles.basic, CTAStyles.basicOnButton))(
                     unescape(I18n.t("content.theme.seeMoreProposals"))
                   )
@@ -87,28 +63,33 @@ object ProposalsList {
         val proposalsToDisplay: Seq[ProposalModel] = self.state.listProposals.getOrElse(Seq.empty)
 
         <.div()(
-          self.props.wrapped.title(self.state.listProposals.map(_.size).getOrElse(0)),
-          if (self.state.showTagsSelect) {
-            <.div(^.className := LayoutRulesStyles.centeredRow)(
+          <.div(^.className := LayoutRulesStyles.centeredRow)(
+            <.div(^.className := LayoutRulesStyles.col)(
+              <.FilterByTagsComponent(
+                ^.wrapped := FilterByTagsProps(self.props.wrapped.tags, self.props.wrapped.handleSelectedTags(self))
+              )()
+            )
+          ),
+          if (proposalsToDisplay.nonEmpty) {
+            proposals(proposalsToDisplay)
+          } else {
+            <.div(^.className := Seq(LayoutRulesStyles.centeredRow, ResultsInThemeStyles.noProposal))(
               <.div(^.className := LayoutRulesStyles.col)(
-                <.FilterByTagsComponent(
-                  ^.wrapped := FilterByTagsProps(self.props.wrapped.tags, self.props.wrapped.handleSelectedTags(self))
+                <.p(^.className := ResultsInThemeStyles.noProposalSmiley)("😞"),
+                <.p(
+                  ^.className := Seq(TextStyles.mediumText, ResultsInThemeStyles.noProposalMessage),
+                  ^.dangerouslySetInnerHTML := I18n.t("content.theme.matrix.noContent")
                 )()
               )
             )
           },
-          if (proposalsToDisplay.nonEmpty) {
-            proposals(proposalsToDisplay)
-          } else {
-            self.state.noContent
-          },
-          <.style()(ProposalsListStyles.render[String])
+          <.style()(ResultsInThemeStyles.render[String])
         )
       }
     )
 }
 
-object ProposalsListStyles extends StyleSheet.Inline {
+object ResultsInThemeStyles extends StyleSheet.Inline {
 
   import dsl._
 
