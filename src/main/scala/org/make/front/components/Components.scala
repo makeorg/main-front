@@ -86,8 +86,8 @@ object Components {
     def QualificateVoteComponent: ReactClassElementSpec =
       self(proposal.vote.QualificateVote.reactClass)
 
-    def NotificationContainerComponent: ReactClassElementSpec =
-      self(notification.NotificationContainer.reactClass)
+    def NotificationsContainerComponent: ReactClassElementSpec =
+      self(notifications.NotificationsContainer.reactClass)
 
     def UserNavContainerComponent: ReactClassElementSpec =
       self(userNav.UserNavContainer.reactClass)

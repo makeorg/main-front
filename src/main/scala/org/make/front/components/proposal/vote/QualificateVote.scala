@@ -56,6 +56,6 @@ object QualificateVoteStyles extends StyleSheet.Inline {
   }
 
   val qualificateVoteButtonItem: StyleA =
-    style(marginTop({ ThemeStyles.SpacingValue.smaller / 2 }.pxToEm()), &.firstChild(marginTop(0.%%)))
+    style(marginTop({ ThemeStyles.SpacingValue.smaller / 2 }.pxToEm()), &.firstChild(marginTop(`0`)))
 
 }

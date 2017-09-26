@@ -1,11 +1,12 @@
 package org.make.front.models
 
-object NotificationLevel extends Enumeration {
-  val Info, Alert, Error, Success = Value
+sealed trait NotificationLevel
+
+object NotificationLevel {
+  object Info extends NotificationLevel
+  object Alert extends NotificationLevel
+  object Error extends NotificationLevel
+  object Success extends NotificationLevel
 }
 
-case class Notification(identifier: Int,
-                        notificationLevel: NotificationLevel.Value,
-                        message: String,
-                        title: Option[String],
-                        autoDismiss: Option[Int] = None)
+case class Notification(identifier: Int, level: NotificationLevel, message: String, autoDismiss: Option[Int] = None)

@@ -5,6 +5,7 @@ import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import io.github.shogowada.scalajs.reactjs.redux.ReactRedux
 import io.github.shogowada.scalajs.reactjs.redux.Redux.Dispatch
 import io.github.shogowada.scalajs.reactjs.router.RouterProps._
+import org.make.front.actions.NotifyInfo
 import org.make.front.components.AppState
 import org.make.front.components.search.SearchResults.SearchResultsProps
 import org.make.front.helpers.QueryString
@@ -22,8 +23,9 @@ object SearchResultsContainer {
   lazy val reactClass: ReactClass = ReactRedux.connectAdvanced(selectorFactory)(SearchResults.reactClass)
 
   def selectorFactory: (Dispatch) => (AppState, Props[Unit]) => SearchResultsProps =
-    (_: Dispatch) => { (_: AppState, props: Props[Unit]) =>
+    (dispatch: Dispatch) => { (_: AppState, props: Props[Unit]) =>
       {
+
         val queryParams: Map[String, String] = QueryString.parse(props.location.search)
 
         val searchValue: Option[String] = {

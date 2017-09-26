@@ -26,21 +26,11 @@ object ActivateAccountContainer {
       def handleValidateAccount(child: Self[ActivateAccountProps, Unit]): Unit = {
         UserService.validateAccount(userId, verificationToken).onComplete {
           case Success(_) => {
-            dispatch(
-              NotifySuccess(
-                message = I18n.t("content.account.validationSuccess"),
-                title = Some(I18n.t("content.account.validationTitle"))
-              )
-            )
+            dispatch(NotifySuccess(message = I18n.t("content.account.validationSuccess")))
             child.props.history.push("/")
           }
           case Failure(e) => {
-            dispatch(
-              NotifyError(
-                message = I18n.t("content.account.validationError"),
-                title = Some(I18n.t("content.account.validationTitle"))
-              )
-            )
+            dispatch(NotifyError(message = I18n.t("content.account.validationError")))
             child.props.history.push("/")
           }
         }
@@ -48,5 +38,4 @@ object ActivateAccountContainer {
 
       ActivateAccount.ActivateAccountProps(handleValidateAccount)
     }
-
 }

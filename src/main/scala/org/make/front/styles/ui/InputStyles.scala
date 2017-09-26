@@ -46,7 +46,7 @@ object InputStyles extends StyleSheet.Inline {
       unsafeChild("input")(
         height(28.pxToEm(13)),
         width(100.%%),
-        padding(0.%%),
+        padding(`0`),
         fontSize(13.pxToEm()),
         ThemeStyles.MediaQueries.beyondSmall(minHeight(38.pxToEm(16)), fontSize(16.pxToEm())),
         lineHeight.normal,
@@ -58,7 +58,7 @@ object InputStyles extends StyleSheet.Inline {
       unsafeChild("textarea")(
         height(28.pxToEm(13)),
         width(100.%%),
-        padding(0.%%),
+        padding(`0`),
         paddingTop(6.pxToEm(13)),
         fontSize(13.pxToEm()),
         ThemeStyles.MediaQueries
