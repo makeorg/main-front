@@ -69,7 +69,7 @@ object FullscreenModalStyles extends StyleSheet.Inline {
     }
   }
 
-  val wrapper =
+  val wrapper: StyleA =
     style(
       display.table,
       width(100.%%),
@@ -78,7 +78,7 @@ object FullscreenModalStyles extends StyleSheet.Inline {
       backgroundImage := "linear-gradient(155deg, #FFFFFF 0%, #ECECEC 100%)"
     )
 
-  val innerWrapper =
+  val innerWrapper: StyleA =
     style(
       display.tableCell,
       verticalAlign.middle,
@@ -90,7 +90,7 @@ object FullscreenModalStyles extends StyleSheet.Inline {
     )
 
   // TODO: avoid to much static values
-  val closeModalButton = style(
+  val closeModalButton: StyleA = style(
     position.absolute,
     top(50.pxToEm()),
     right(`0`),

@@ -60,6 +60,7 @@ object LoginWithEmailOrSocialNetworksStyles extends StyleSheet.Inline {
   val introWrapper: StyleA = style(marginBottom(ThemeStyles.SpacingValue.small.pxToEm()), textAlign.center)
 
   val separatorWrapper: StyleA = style(textAlign.center, overflow.hidden)
+
   val separator: StyleA = style(
     position.relative,
     display.inlineBlock,

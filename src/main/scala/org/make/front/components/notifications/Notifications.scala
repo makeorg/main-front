@@ -115,7 +115,7 @@ object NotificationsStyles extends StyleSheet.Inline {
   val success: StyleA = style()
   val info: StyleA = style()
 
-  val closeModalButton = style(
+  val closeModalButton: StyleA = style(
     position.absolute,
     top(ThemeStyles.SpacingValue.small.pxToEm()),
     right(ThemeStyles.SpacingValue.small.pxToEm()),

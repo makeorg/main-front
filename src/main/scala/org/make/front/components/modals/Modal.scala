@@ -72,10 +72,10 @@ object ModalStyles extends StyleSheet.Inline {
     }
   }
 
-  val wrapper =
+  val wrapper: StyleA =
     style(display.table, width(100.%%), height(100.%%))
 
-  val innerWrapper =
+  val innerWrapper: StyleA =
     style(
       display.tableCell,
       verticalAlign.middle,
@@ -83,13 +83,13 @@ object ModalStyles extends StyleSheet.Inline {
       ThemeStyles.MediaQueries.beyondSmall(paddingTop((80).pxToEm()))
     )
 
-  val row =
+  val row: StyleA =
     style(LayoutRulesStyles.row, maxWidth(ThemeStyles.modalMaxWidth), marginRight.auto, marginLeft.auto)
 
-  val col =
+  val col: StyleA =
     style(LayoutRulesStyles.col)
 
-  val contentWrapper =
+  val contentWrapper: StyleA =
     style(
       position.relative,
       minHeight(200.pxToEm()),
@@ -102,7 +102,7 @@ object ModalStyles extends StyleSheet.Inline {
       boxShadow := "0 2px 4px 0 rgba(0,0,0,0.5)" // TODO: create variable for shadows
     )
 
-  val closeModalButton = style(
+  val closeModalButton: StyleA = style(
     position.absolute,
     top(`0`),
     right(`0`),
@@ -113,6 +113,6 @@ object ModalStyles extends StyleSheet.Inline {
     (&.hover)(unsafeChild("svg")(opacity(0.3)))
   )
 
-  val article = style(maxWidth(470.pxToEm()), marginRight.auto, marginLeft.auto)
+  val article: StyleA = style(maxWidth(470.pxToEm()), marginRight.auto, marginLeft.auto)
 
 }

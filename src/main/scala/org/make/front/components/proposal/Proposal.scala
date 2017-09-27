@@ -11,8 +11,6 @@ import org.make.front.styles.TextStyles
 
 import scalacss.DevDefaults._
 
-trait ProposalLocation
-
 object Proposal {
 
   final case class ProposalProps(proposal: ProposalModel)

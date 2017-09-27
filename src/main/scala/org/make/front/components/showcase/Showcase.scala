@@ -4,6 +4,7 @@ import io.github.shogowada.scalajs.reactjs.React
 import io.github.shogowada.scalajs.reactjs.VirtualDOM._
 import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import org.make.front.components.Components._
+import org.make.front.components.proposal.Proposal.ProposalProps
 import org.make.front.components.proposal.ProposalWithThemeContainer.ProposalWithThemeContainerProps
 import org.make.front.facades.I18n
 import org.make.front.facades.Unescape.unescape
@@ -38,12 +39,17 @@ object Showcase {
                     LayoutRulesStyles.col,
                     LayoutRulesStyles.colHalfBeyondMedium
                   )
-                )(
+                )(if (proposal.themeId.getOrElse("") != "") {
                   <.ProposalWithThemeContainerComponent(
                     ^.wrapped :=
                       ProposalWithThemeContainerProps(proposal = proposal)
                   )()
-              )
+                } else {
+                  <.ProposalComponent(
+                    ^.wrapped :=
+                      ProposalProps(proposal = proposal)
+                  )()
+                })
             )
           )
         ),

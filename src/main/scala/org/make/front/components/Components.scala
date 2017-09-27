@@ -160,6 +160,8 @@ object Components {
     def NewPasswordInputComponent: ReactClassElementSpec =
       self(authenticate.NewPasswordInput.reactClass)
 
+    def SpinnerComponent: ReactClassElementSpec =
+      self(spinner.Spinner.reactClass)
   }
 
 }

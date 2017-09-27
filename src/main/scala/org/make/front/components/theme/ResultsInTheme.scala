@@ -87,7 +87,8 @@ object ResultsInTheme {
               ^.element := "ul",
               ^.hasMore := (self.state.hasMore && self.state.hasRequestedMore),
               ^.initialLoad := false,
-              ^.loadMore := onSeeMore
+              ^.loadMore := onSeeMore,
+              ^.loader := <.SpinnerComponent.empty
             )(
               proposals.map(
                 proposal =>
