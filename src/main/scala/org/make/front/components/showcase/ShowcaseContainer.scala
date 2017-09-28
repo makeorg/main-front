@@ -67,7 +67,7 @@ object ShowcaseContainer {
           context = ProposalContextModel(operation = None, source = None, location = None, question = None),
           trending = None,
           labels = Seq.empty,
-          author = AuthorModel(firstname = Some("Marco"), postalCode = Some("75"), age = Some(42)),
+          author = AuthorModel(firstName = Some("Marco"), postalCode = Some("75"), age = Some(42)),
           country = "FR",
           language = "fr",
           themeId = Some(ThemeIdModel(i.toString)),

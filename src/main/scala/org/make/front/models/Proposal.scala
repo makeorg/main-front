@@ -38,7 +38,7 @@ final case class ProposalContext(operation: Option[String],
                                  location: Option[String],
                                  question: Option[String])
 
-final case class Author(firstname: Option[String], postalCode: Option[String], age: Option[Int])
+final case class Author(firstName: Option[String], postalCode: Option[String], age: Option[Int])
 
 final case class ProposalId(value: String) extends StringValue
 

@@ -30,7 +30,7 @@ object ProposalInfos {
               I18n.t(
                 "content.proposal.fullHeader",
                 Replacements(
-                  ("firstName", proposal.author.firstname.getOrElse(I18n.t("anonymous"))),
+                  ("firstName", proposal.author.firstName.getOrElse(I18n.t("anonymous"))),
                   ("age", s"${age.toString}"),
                   ("postalCode", s"$postalCode")
                 )
@@ -42,7 +42,7 @@ object ProposalInfos {
               I18n.t(
                 "content.proposal.ageHeader",
                 Replacements(
-                  ("firstName", proposal.author.firstname.getOrElse(I18n.t("anonymous"))),
+                  ("firstName", proposal.author.firstName.getOrElse(I18n.t("anonymous"))),
                   ("age", s"${age.toString}")
                 )
               )
@@ -53,7 +53,7 @@ object ProposalInfos {
               I18n.t(
                 "content.proposal.postalCodeHeader",
                 Replacements(
-                  ("firstName", proposal.author.firstname.getOrElse(I18n.t("anonymous"))),
+                  ("firstName", proposal.author.firstName.getOrElse(I18n.t("anonymous"))),
                   ("postalCode", s"$postalCode")
                 )
               )
@@ -62,8 +62,8 @@ object ProposalInfos {
           case (None, None) =>
             unescape(
               I18n.t(
-                "content.proposal.postalCodeHeader",
-                Replacements(("firstName", proposal.author.firstname.getOrElse(I18n.t("anonymous"))))
+                "content.proposal.tinyHeader",
+                Replacements(("firstName", proposal.author.firstName.getOrElse(I18n.t("anonymous"))))
               )
             )
         }
