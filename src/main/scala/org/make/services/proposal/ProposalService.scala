@@ -31,7 +31,9 @@ object ProposalService extends ApiService with CirceClassFormatters with CirceFo
                       themesIds: Seq[ThemeId] = Seq.empty,
                       operationsIds: Seq[OperationId] = Seq.empty,
                       tagsIds: Seq[TagId] = Seq.empty,
-                      options: Option[SearchOptionsRequest] = None): Future[Seq[Proposal]] =
+                      sort: Seq[SortOptionRequest],
+                      limit: Option[Int],
+                      skip: Option[Int]): Future[Seq[Proposal]] =
     MakeApiClient
       .post[Seq[Proposal]](
         resourceName / "search",
@@ -40,7 +42,9 @@ object ProposalService extends ApiService with CirceClassFormatters with CirceFo
           themesIds = if (themesIds.nonEmpty) Some(themesIds.map(_.value)) else None,
           operationsIds = if (operationsIds.nonEmpty) Some(operationsIds.map(_.value)) else None,
           tagsIds = if (tagsIds.nonEmpty) Some(tagsIds.map(_.value)) else None,
-          options = options
+          limit = limit,
+          skip = skip,
+          sort = sort
         ).asJson.pretty(ApiService.printer)
       )
       .map(_.get)

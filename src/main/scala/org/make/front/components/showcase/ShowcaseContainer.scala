@@ -35,34 +35,36 @@ object ShowcaseContainer {
           status = "",
           createdAt = ZonedDateTime.now(),
           updatedAt = None,
-          votesAgree = VoteModel(
-            key = "agree",
-            count = 2500,
-            qualifications = Seq(
-              QualificationModel(key = "likeIt", count = 952),
-              QualificationModel(key = "doable", count = 97),
-              QualificationModel(key = "platitudeAgree", count = 7)
+          votes = Seq(
+            VoteModel(
+              key = "agree",
+              count = 2500,
+              qualifications = Seq(
+                QualificationModel(key = "likeIt", count = 952),
+                QualificationModel(key = "doable", count = 97),
+                QualificationModel(key = "platitudeAgree", count = 7)
+              )
+            ),
+            VoteModel(
+              key = "disagree",
+              count = 660,
+              qualifications = Seq(
+                QualificationModel(key = "noWay", count = 320),
+                QualificationModel(key = "impossible", count = 53),
+                QualificationModel(key = "platitudeDisagree", count = 9)
+              )
+            ),
+            VoteModel(
+              key = "neutral",
+              count = 170,
+              qualifications = Seq(
+                QualificationModel(key = "doNotUnderstand", count = 74),
+                QualificationModel(key = "noOpinion", count = 12),
+                QualificationModel(key = "doNotCare", count = 3)
+              )
             )
           ),
-          votesDisagree = VoteModel(
-            key = "disagree",
-            count = 660,
-            qualifications = Seq(
-              QualificationModel(key = "noWay", count = 320),
-              QualificationModel(key = "impossible", count = 53),
-              QualificationModel(key = "platitudeDisagree", count = 9)
-            )
-          ),
-          votesNeutral = VoteModel(
-            key = "neutral",
-            count = 170,
-            qualifications = Seq(
-              QualificationModel(key = "doNotUnderstand", count = 74),
-              QualificationModel(key = "noOpinion", count = 12),
-              QualificationModel(key = "doNotCare", count = 3)
-            )
-          ),
-          proposalContext = ProposalContextModel(operation = None, source = None, location = None, question = None),
+          context = ProposalContextModel(operation = None, source = None, location = None, question = None),
           trending = None,
           labels = Seq.empty,
           author = AuthorModel(firstname = Some("Marco"), postalCode = Some("75"), age = Some(42)),

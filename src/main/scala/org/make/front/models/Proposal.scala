@@ -13,10 +13,8 @@ final case class Proposal(id: ProposalId,
                           status: String,
                           createdAt: ZonedDateTime,
                           updatedAt: Option[ZonedDateTime],
-                          votesAgree: Vote,
-                          votesDisagree: Vote,
-                          votesNeutral: Vote,
-                          proposalContext: ProposalContext,
+                          votes: Seq[Vote],
+                          context: ProposalContext,
                           trending: Option[String],
                           labels: Seq[String],
                           author: Author,
@@ -24,7 +22,13 @@ final case class Proposal(id: ProposalId,
                           language: String,
                           themeId: Option[ThemeId],
                           operationId: Option[OperationId],
-                          tags: Seq[Tag])
+                          tags: Seq[Tag]) {
+  def votesAgree: Vote = votes.find(_.key == "agree").getOrElse(Vote(key = "agree", qualifications = Seq.empty))
+  def votesDisagree: Vote =
+    votes.find(_.key == "disagree").getOrElse(Vote(key = "disagree", qualifications = Seq.empty))
+  def votesNeutral: Vote = votes.find(_.key == "neutral").getOrElse(Vote(key = "neutral", qualifications = Seq.empty))
+
+}
 
 final case class Qualification(key: String, count: Int = 0, selected: Boolean = false)
 final case class Vote(key: String, count: Int = 0, qualifications: Seq[Qualification])

@@ -13,8 +13,8 @@ import org.make.front.models.{
   Theme    => ThemeModel,
   ThemeId  => ThemeIdModel
 }
+import org.make.services.proposal.ProposalService
 import org.make.services.proposal.ProposalService.defaultResultsCount
-import org.make.services.proposal.{ProposalService, SearchOptionsRequest}
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
@@ -37,7 +37,9 @@ object ResultsInThemeContainer {
             themesIds = themesIds,
             tagsIds = tags.map(_.tagId),
             content = None,
-            options = Some(SearchOptionsRequest(sort = Seq.empty, limit = Some(defaultResultsCount), skip = Some(skip)))
+            sort = Seq.empty,
+            limit = Some(defaultResultsCount),
+            skip = Some(skip)
           )
         proposals
       }

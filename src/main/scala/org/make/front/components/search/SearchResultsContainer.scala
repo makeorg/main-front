@@ -5,18 +5,16 @@ import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import io.github.shogowada.scalajs.reactjs.redux.ReactRedux
 import io.github.shogowada.scalajs.reactjs.redux.Redux.Dispatch
 import io.github.shogowada.scalajs.reactjs.router.RouterProps._
-import org.make.front.actions.NotifyInfo
 import org.make.front.components.AppState
 import org.make.front.components.search.SearchResults.SearchResultsProps
 import org.make.front.helpers.QueryString
-import org.make.services.proposal.{ProposalService, SearchOptionsRequest}
 import org.make.front.models.{ProposalSearchResult, Proposal => ProposalModel}
+import org.make.services.proposal.ProposalService
 import org.make.services.proposal.ProposalService.defaultResultsCount
 
+import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 import scala.scalajs.js.URIUtils
-
-import scala.concurrent.ExecutionContext.Implicits.global
 
 object SearchResultsContainer {
 
@@ -46,13 +44,9 @@ object SearchResultsContainer {
           ProposalService
             .searchProposals(
               content = content,
-              options = Some(
-                SearchOptionsRequest(
-                  sort = Seq.empty,
-                  limit = Some(defaultResultsCount),
-                  skip = Some(originalProposals.size)
-                )
-              )
+              sort = Seq.empty,
+              limit = Some(defaultResultsCount),
+              skip = Some(originalProposals.size)
             )
             .map { proposals =>
               ProposalSearchResult(
