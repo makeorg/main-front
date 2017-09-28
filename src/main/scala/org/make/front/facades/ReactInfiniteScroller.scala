@@ -26,6 +26,6 @@ object ReactInfiniteScroller {
     lazy val useCapture: NativeBooleanAttribute = NativeBooleanAttribute("useCapture")
     lazy val useWindow: NativeBooleanAttribute = NativeBooleanAttribute("useWindow")
     lazy val loader: NativeReactElementAttribute = NativeReactElementAttribute("loader")
-    lazy val loadMore: NativeFunction0Attribute[Unit] = NativeFunction0Attribute[Unit]("loadMore")
+    lazy val loadMore: NativeFunction1Attribute[Int, Unit] = NativeFunction1Attribute[Int, Unit]("loadMore")
   }
 }

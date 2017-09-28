@@ -105,13 +105,21 @@ object PoliticalActionsList {
               ),
               <.nav(^.className := Seq(PoliticalActionsListStyles.slideshowNav))(
                 <.button(
-                  ^.className := Seq(FontAwesomeStyles.angleLeft, PoliticalActionsListStyles.slideshowArrow),
+                  ^.className := Seq(
+                    FontAwesomeStyles.fa,
+                    FontAwesomeStyles.angleLeft,
+                    PoliticalActionsListStyles.slideshowArrow
+                  ),
                   ^.ref := ((e: HTMLElement) => { previousButton = Some(e) }),
                   ^.disabled := true,
                   ^.onClick := previous
                 )(),
                 <.button(
-                  ^.className := Seq(FontAwesomeStyles.angleRight, PoliticalActionsListStyles.slideshowArrow),
+                  ^.className := Seq(
+                    FontAwesomeStyles.fa,
+                    FontAwesomeStyles.angleRight,
+                    PoliticalActionsListStyles.slideshowArrow
+                  ),
                   ^.ref := ((e: HTMLElement) => { nextButton = Some(e) }),
                   ^.disabled := size < 2,
                   ^.onClick := next

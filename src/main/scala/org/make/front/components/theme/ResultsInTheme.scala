@@ -34,34 +34,45 @@ object ResultsInTheme {
 
   case class ResultsInThemeState(listProposals: Seq[ProposalModel],
                                  selectedTags: Seq[TagModel],
+                                 initialLoad: Boolean,
                                  hasRequestedMore: Boolean,
                                  hasMore: Boolean)
 
   lazy val reactClass: ReactClass =
     React.createClass[ResultsInThemeProps, ResultsInThemeState](
       getInitialState = { self =>
-        self.props.wrapped.proposals.onComplete {
-          case Success(searchResult) =>
-            self.setState(_.copy(listProposals = searchResult.proposals, hasMore = searchResult.hasMore))
-          case Failure(_) => // TODO: handle error
-        }
         ResultsInThemeState(
           selectedTags = self.props.wrapped.preselectedTags,
           listProposals = Seq(),
+          initialLoad = true,
           hasRequestedMore = false,
           hasMore = false
         )
       },
+      componentWillReceiveProps = { (self, nextProps) =>
+        self.setState(
+          ResultsInThemeState(
+            selectedTags = nextProps.wrapped.preselectedTags,
+            listProposals = Seq(),
+            initialLoad = true,
+            hasRequestedMore = false,
+            hasMore = false
+          )
+        )
+      },
       render = { (self) =>
-        val onSeeMore: () => Unit =
-          () => {
+        val onSeeMore: (Int) => Unit = { _ =>
+          if (!self.state.initialLoad) {
             self.setState(_.copy(hasRequestedMore = true))
-            self.props.wrapped.onMoreResultsRequested(self.state.listProposals, self.state.selectedTags).onComplete {
-              case Success(searchResult) =>
-                self.setState(_.copy(listProposals = searchResult.proposals, hasMore = searchResult.hasMore))
-              case Failure(_) => // TODO: handle error
-            }
           }
+          self.props.wrapped.onMoreResultsRequested(self.state.listProposals, self.state.selectedTags).onComplete {
+            case Success(searchResult) =>
+              self.setState(
+                _.copy(listProposals = searchResult.proposals, hasMore = searchResult.hasMore, initialLoad = false)
+              )
+            case Failure(_) => // TODO: handle error
+          }
+        }
 
         val noResults: ReactElement =
           <.div(^.className := Seq(LayoutRulesStyles.col, ResultsInThemeStyles.noResults))(
@@ -85,8 +96,9 @@ object ResultsInTheme {
           Seq(
             <.InfiniteScroll(
               ^.element := "ul",
-              ^.hasMore := (self.state.hasMore && self.state.hasRequestedMore),
-              ^.initialLoad := false,
+              ^.hasMore := (self.state.initialLoad || self.state.hasMore && self.state.hasRequestedMore),
+              ^.initialLoad := true,
+              ^.pageStart := 1,
               ^.loadMore := onSeeMore,
               ^.loader := <.SpinnerComponent.empty
             )(
@@ -104,9 +116,10 @@ object ResultsInTheme {
             ),
             if (self.state.hasMore && !self.state.hasRequestedMore) {
               <.div(^.className := Seq(ResultsInThemeStyles.seeMoreButtonWrapper, LayoutRulesStyles.col))(
-                <.button(^.onClick := onSeeMore, ^.className := Seq(CTAStyles.basic, CTAStyles.basicOnButton))(
-                  unescape(I18n.t("content.theme.seeMoreProposals"))
-                )
+                <.button(
+                  ^.onClick := (() => { onSeeMore(1) }),
+                  ^.className := Seq(CTAStyles.basic, CTAStyles.basicOnButton)
+                )(unescape(I18n.t("content.theme.seeMoreProposals")))
               )
             }
           )
@@ -124,7 +137,7 @@ object ResultsInTheme {
               )()
             )
           },
-          if (proposalsToDisplay.nonEmpty) {
+          if (self.state.initialLoad || proposalsToDisplay.nonEmpty) {
             proposals(proposalsToDisplay)
           } else {
             noResults

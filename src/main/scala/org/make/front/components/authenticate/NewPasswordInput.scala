@@ -93,10 +93,15 @@ object NewPasswordInputStyles extends StyleSheet.Inline {
         styleS(
           (&.hover)(cursor.pointer),
           addClassName(FontAwesomeStyles.eyeSlash.htmlClass),
+          addClassName(FontAwesomeStyles.fa.htmlClass),
           color(ThemeStyles.TextColor.lighter)
         )
       } else {
-        styleS((&.hover)(cursor.pointer), addClassName(FontAwesomeStyles.eye.htmlClass))
+        styleS(
+          (&.hover)(cursor.pointer),
+          addClassName(FontAwesomeStyles.eye.htmlClass),
+          addClassName(FontAwesomeStyles.fa.htmlClass)
+        )
     }
   )
 }

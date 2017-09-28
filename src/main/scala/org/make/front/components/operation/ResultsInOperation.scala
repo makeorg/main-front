@@ -87,7 +87,7 @@ object ResultsInOperation {
               ^.element := "ul",
               ^.hasMore := (self.state.hasMore && self.state.hasRequestedMore),
               ^.initialLoad := false,
-              ^.loadMore := onSeeMore,
+              ^.loadMore := (_ => onSeeMore()),
               ^.loader := <.SpinnerComponent.empty
             )(
               proposals.map(

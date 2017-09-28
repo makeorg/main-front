@@ -81,7 +81,7 @@ object UnconnectedUserNavElement {
     <.ul(^.className := UserNavStyles.menu)(
       <.li(^.className := UserNavStyles.menuItem)(
         <.button(^.onClick := openAuthenticateModal, ^.className := Seq(UserNavStyles.menuItemLink))(
-          <.i(^.className := Seq(UserNavStyles.menuItemIcon, FontAwesomeStyles.user))(),
+          <.i(^.className := Seq(UserNavStyles.menuItemIcon, FontAwesomeStyles.fa, FontAwesomeStyles.user))(),
           <.span(
             ^.className := Seq(RWDHideRulesStyles.showInlineBlockBeyondMedium, TextStyles.title, TextStyles.smallText)
           )(I18n.t("content.header.connect"), unescape("&nbsp;/&nbsp;"), I18n.t("content.header.createAccount"))

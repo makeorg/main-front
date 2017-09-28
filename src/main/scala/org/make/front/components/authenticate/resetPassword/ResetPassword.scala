@@ -62,7 +62,7 @@ object PasswordReset {
       <.div(^.className := PasswordResetStyles.terms)(I18n.t("form.passwordReset.description")),
       <.form(^.onSubmit := handleSubmit(self), ^.novalidate := true)(
         <.div()(
-          <.i(^.className := Seq(FontAwesomeStyles.lock))(),
+          <.i(^.className := Seq(FontAwesomeStyles.fa, FontAwesomeStyles.lock))(),
           <.i(
             ^.className := Seq(PasswordResetStyles.eye(self.state.showPassword)),
             ^.onClick := toggleHidePassword(self)
@@ -78,7 +78,7 @@ object PasswordReset {
         ),
         <.div()(<.span()(self.state.errorMessage)),
         <.button(^.onClick := handleSubmit(self))(
-          <.i(^.className := Seq(FontAwesomeStyles.thumbsUp))(),
+          <.i(^.className := Seq(FontAwesomeStyles.fa, FontAwesomeStyles.thumbsUp))(),
           <.Translate(^.value := "form.passwordReset.validation")()
         )
       )
@@ -153,10 +153,15 @@ object PasswordResetStyles extends StyleSheet.Inline {
         styleS(
           (&.hover)(cursor.pointer),
           addClassName(FontAwesomeStyles.eyeSlash.htmlClass),
+          addClassName(FontAwesomeStyles.fa.htmlClass),
           color(ThemeStyles.TextColor.lighter)
         )
       } else {
-        styleS((&.hover)(cursor.pointer), addClassName(FontAwesomeStyles.eye.htmlClass))
+        styleS(
+          (&.hover)(cursor.pointer),
+          addClassName(FontAwesomeStyles.eye.htmlClass),
+          addClassName(FontAwesomeStyles.fa.htmlClass)
+        )
     }
   )
 }

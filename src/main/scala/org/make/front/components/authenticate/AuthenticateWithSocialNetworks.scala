@@ -78,7 +78,7 @@ object AuthenticateWithSocialNetworks {
                 CTAStyles.basicOnButton,
                 AuthenticateWithSocialNetworksStyles.facebookConnectButton
               ),
-              ^.iconClass := FontAwesomeStyles.facebook.htmlClass,
+              ^.iconClass := s"${FontAwesomeStyles.fa.htmlClass} ${FontAwesomeStyles.facebook.htmlClass}",
               ^.textButton := " facebook"
             )()
           ),
@@ -94,7 +94,7 @@ object AuthenticateWithSocialNetworks {
                 CTAStyles.basicOnButton,
                 AuthenticateWithSocialNetworksStyles.googlePlusConnectButton
               )
-            )(<.i(^.className := FontAwesomeStyles.googlePlus)(), " google+")
+            )(<.i(^.className := Seq(FontAwesomeStyles.fa, FontAwesomeStyles.googlePlus))(), " google+")
           ),
           if (self.props.wrapped.note != "") {
             <.div(^.className := AuthenticateWithSocialNetworksStyles.noteWrapper)(

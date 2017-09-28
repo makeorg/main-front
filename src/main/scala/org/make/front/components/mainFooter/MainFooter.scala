@@ -26,7 +26,13 @@ object MainFooter {
                 <.li(^.className := Seq(MainFooterStyles.menuItem, MainFooterStyles.emphasizedMenuItem))(
                   <.p(^.className := Seq(TextStyles.title, TextStyles.smallText))(
                     <.a(^.href := "/", ^.className := MainFooterStyles.menuItemLink)(
-                      <.i(^.className := Seq(MainFooterStyles.menuItemIcon, FontAwesomeStyles.bullhorn))(),
+                      <.i(
+                        ^.className := Seq(
+                          MainFooterStyles.menuItemIcon,
+                          FontAwesomeStyles.fa,
+                          FontAwesomeStyles.bullhorn
+                        )
+                      )(),
                       unescape(I18n.t("content.footer.recruitment"))
                     )
                   )

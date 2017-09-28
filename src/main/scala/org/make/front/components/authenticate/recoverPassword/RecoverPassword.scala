@@ -84,7 +84,7 @@ object RecoverPassword {
             },
             <.div(^.className := RecoverPasswordStyles.submitButtonWrapper)(
               <.button(^.className := Seq(CTAStyles.basic, CTAStyles.basicOnButton), ^.`type`.submit)(
-                <.i(^.className := FontAwesomeStyles.paperPlaneTransparent)(),
+                <.i(^.className := Seq(FontAwesomeStyles.fa, FontAwesomeStyles.paperPlaneTransparent))(),
                 unescape("&nbsp;" + I18n.t("form.passwordRecovery.sendEmail"))
               )
             )

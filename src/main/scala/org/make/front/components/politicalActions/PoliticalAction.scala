@@ -24,11 +24,13 @@ object PoliticalAction {
       ),
       <.div(^.className := PoliticalActionStyles.contentWrapper)(
         <.p(^.className := Seq(TextStyles.smallerText, PoliticalActionStyles.info))(
-          <.i(^.className := Seq(PoliticalActionStyles.infoIcon, FontAwesomeStyles.calendarOpen))(),
+          <.i(
+            ^.className := Seq(FontAwesomeStyles.fa, PoliticalActionStyles.infoIcon, FontAwesomeStyles.calendarOpen)
+          )(),
           politicalAction.date
         ),
         <.p(^.className := Seq(TextStyles.smallerText, PoliticalActionStyles.info))(
-          <.i(^.className := Seq(PoliticalActionStyles.infoIcon, FontAwesomeStyles.mapMarker))(),
+          <.i(^.className := Seq(FontAwesomeStyles.fa, PoliticalActionStyles.infoIcon, FontAwesomeStyles.mapMarker))(),
           politicalAction.location
         ),
         <.p(^.className := Seq(TextStyles.boldText, TextStyles.mediumText, PoliticalActionStyles.text))(

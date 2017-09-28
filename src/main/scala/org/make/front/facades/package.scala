@@ -24,6 +24,11 @@ package object facades {
       Attribute(name = name, value = value, AS_IS)
   }
 
+  case class NativeFunction1Attribute[T, R](name: String) extends AttributeSpec {
+    def :=(value: (T) => R): Attribute[js.Function1[T, R]] =
+      Attribute(name = name, value = value, AS_IS)
+  }
+
   case class NativeArrayAttribute(name: String) extends AttributeSpec {
     def :=(value: js.Array[js.Object]): Attribute[js.Array[js.Object]] =
       Attribute(name = name, value = value, AS_IS)

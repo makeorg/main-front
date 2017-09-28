@@ -96,7 +96,7 @@ object SubmitProposalForm {
             ^.className := Seq(SubmitProposalFormStyles.submitButton, CTAStyles.basic, CTAStyles.basicOnButton),
             ^.`type`.submit
           )(
-            <.i(^.className := FontAwesomeStyles.pencil)(),
+            <.i(^.className := Seq(FontAwesomeStyles.fa, FontAwesomeStyles.pencil))(),
             unescape("&nbsp;"),
             unescape(I18n.t("form.proposal.submit"))
           ),

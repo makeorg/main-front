@@ -93,7 +93,9 @@ object ProposalInfos {
           case "trending" =>
             Seq(
               <.div(^.className := ProposalInfosStyles.labelWrapper)(
-                <.p(^.className := ProposalInfosStyles.label)(<.i(^.className := FontAwesomeStyles.lineChart)())
+                <.p(^.className := ProposalInfosStyles.label)(
+                  <.i(^.className := Seq(FontAwesomeStyles.fa, FontAwesomeStyles.lineChart))()
+                )
               )
             )
           case "new" =>

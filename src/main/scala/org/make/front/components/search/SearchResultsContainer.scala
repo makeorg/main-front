@@ -55,11 +55,7 @@ object SearchResultsContainer {
               )
             }
         }
-        SearchResults.SearchResultsProps(
-          onMoreResultsRequested = getProposals,
-          proposals = getProposals(Seq.empty, searchValue),
-          searchValue = searchValue
-        )
+        SearchResults.SearchResultsProps(onMoreResultsRequested = getProposals, searchValue = searchValue)
       }
     }
 }

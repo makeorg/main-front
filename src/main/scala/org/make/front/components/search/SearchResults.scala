@@ -29,11 +29,11 @@ import scala.concurrent.ExecutionContext.Implicits.global
 object SearchResults {
   final case class SearchResultsProps(
     onMoreResultsRequested: (Seq[ProposalModel], Option[String]) => Future[ProposalSearchResult],
-    proposals: Future[ProposalSearchResult],
     searchValue: Option[String]
   )
 
   case class SearchResultsState(listProposals: Seq[ProposalModel],
+                                initialLoad: Boolean,
                                 hasRequestedMore: Boolean,
                                 hasMore: Boolean,
                                 isProposalModalOpened: Boolean)
@@ -41,6 +41,7 @@ object SearchResults {
   object SearchResultsState {
     val empty = SearchResultsState(
       listProposals = Seq.empty,
+      initialLoad = true,
       hasRequestedMore = false,
       hasMore = false,
       isProposalModalOpened = false
@@ -50,21 +51,9 @@ object SearchResults {
   lazy val reactClass: ReactClass =
     WithRouter(
       React.createClass[SearchResultsProps, SearchResultsState](displayName = getClass.toString, getInitialState = {
-        self =>
-          val props = self.props.wrapped
-          props.proposals.onComplete {
-            case Success(searchResults) =>
-              self.setState(_.copy(listProposals = searchResults.proposals, hasMore = searchResults.hasMore))
-            case Failure(_) => // TODO: handle error
-          }
+        _ =>
           SearchResultsState.empty
-      }, componentWillReceiveProps = (self, nextProps) => {
-        val props = nextProps.wrapped
-        props.proposals.onComplete {
-          case Success(searchResults) =>
-            self.setState(_.copy(listProposals = searchResults.proposals, hasMore = searchResults.hasMore))
-          case Failure(_) => // TODO: handle error
-        }
+      }, componentWillReceiveProps = (self, _) => {
         self.setState(SearchResultsState.empty)
       }, render = {
         self =>
@@ -77,17 +66,20 @@ object SearchResults {
             self.setState(state => state.copy(isProposalModalOpened = true))
           }
 
-          val onSeeMore: () => Unit =
-            () => {
+          val onSeeMore: (Int) => Unit = { _ =>
+            if (!self.state.initialLoad) {
               self.setState(_.copy(hasRequestedMore = true))
-              self.props.wrapped
-                .onMoreResultsRequested(self.state.listProposals, self.props.wrapped.searchValue)
-                .onComplete {
-                  case Success(searchResult) =>
-                    self.setState(_.copy(listProposals = searchResult.proposals, hasMore = searchResult.hasMore))
-                  case Failure(_) => // TODO: handle error
-                }
             }
+            self.props.wrapped
+              .onMoreResultsRequested(self.state.listProposals, self.props.wrapped.searchValue)
+              .onComplete {
+                case Success(searchResult) =>
+                  self.setState(
+                    _.copy(listProposals = searchResult.proposals, hasMore = searchResult.hasMore, initialLoad = false)
+                  )
+                case Failure(_) => // TODO: handle error
+              }
+          }
 
           val noResults: ReactElement = {
             <.div(^.className := LayoutRulesStyles.centeredRow)(
@@ -110,7 +102,7 @@ object SearchResults {
                   ),
                   ^.onClick := openProposalModal
                 )(
-                  <.i(^.className := FontAwesomeStyles.pencil)(),
+                  <.i(^.className := Seq(FontAwesomeStyles.pencil, FontAwesomeStyles.fa))(),
                   unescape("&nbsp;" + I18n.t("content.search.propose"))
                 ),
                 <.FullscreenModalComponent(
@@ -127,10 +119,12 @@ object SearchResults {
               <.InfiniteScroll(
                 ^.className := LayoutRulesStyles.centeredRow,
                 ^.element := "ul",
-                ^.hasMore := (self.state.hasMore && self.state.hasRequestedMore),
-                ^.initialLoad := false,
-                ^.loadMore := onSeeMore
-              )(
+                ^.hasMore := (self.state.initialLoad || self.state.hasMore && self.state.hasRequestedMore),
+                ^.initialLoad := true,
+                ^.pageStart := 1,
+                ^.loadMore := onSeeMore,
+                ^.loader := <.SpinnerComponent.empty
+              )(if (proposals.nonEmpty) {
                 proposals.map(
                   proposal =>
                     <.li(
@@ -141,10 +135,14 @@ object SearchResults {
                       )
                     )(<.ProposalWithTagsComponent(^.wrapped := ProposalWithTagsProps(proposal = proposal))())
                 )
-              ),
+              } else {
+                Seq(<.span.empty)
+              }),
               if (self.state.hasMore && !self.state.hasRequestedMore) {
                 <.div(^.className := Seq(ResultsInThemeStyles.seeMoreButtonWrapper, LayoutRulesStyles.col))(
-                  <.button(^.onClick := onSeeMore, ^.className := Seq(CTAStyles.basic, CTAStyles.basicOnButton))(
+                  <.button(^.onClick := { () =>
+                    onSeeMore(1)
+                  }, ^.className := Seq(CTAStyles.basic, CTAStyles.basicOnButton))(
                     unescape(I18n.t("content.theme.seeMoreProposals"))
                   )
                 )
@@ -152,7 +150,7 @@ object SearchResults {
             )
 
           val proposalsToDisplay: Seq[ProposalModel] = self.state.listProposals
-          <("search-resulst")()(if (proposalsToDisplay.nonEmpty) {
+          <("search-resulst")()(if (self.state.initialLoad || proposalsToDisplay.nonEmpty) {
             <.section(^.className := SearchResultsStyles.resultsWrapper)(
               <.h1(
                 ^.dangerouslySetInnerHTML := unescape(
