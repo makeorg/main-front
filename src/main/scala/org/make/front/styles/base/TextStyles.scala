@@ -78,10 +78,9 @@ object TextStyles extends StyleSheet.Inline {
       color(ThemeStyles.TextColor.white),
       backgroundColor(ThemeStyles.TextColor.base),
       ThemeStyles.MediaQueries.beyondSmall(
-        padding :=! s"${4.pxToEm(18).value} ${10.pxToEm(18).value} 0",
+        padding :=! s"${8.pxToEm(18).value} ${10.pxToEm(18).value} ${3.pxToEm(18).value}",
         fontSize(18.pxToEm()),
         lineHeight(22.0 / 18.0)
       )
     )
-
 }
