@@ -5,10 +5,10 @@ import io.github.shogowada.scalajs.reactjs.VirtualDOM._
 import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import org.make.front.components.modals.FullscreenModal.FullscreenModalProps
 import org.make.front.components.Components._
+import org.make.front.components.operation.VFFIntro.VFFIntroProps
 import org.make.front.components.submitProposal.SubmitProposalInRelationToOperation.SubmitProposalInRelationToOperationProps
-import org.make.front.facades._
 import org.make.front.facades.Unescape.unescape
-import org.make.front.models.{GradientColor => GradientColorModel, Operation => OperationModel}
+import org.make.front.models.{Operation => OperationModel}
 import org.make.front.styles.{InputStyles, LayoutRulesStyles, TextStyles, ThemeStyles}
 import org.scalajs.dom.raw.HTMLElement
 
@@ -42,43 +42,55 @@ object OperationHeader {
           proposalInput.foreach(_.blur())
         }
 
-        val operation: OperationModel =
-          self.props.wrapped.operation
-        val gradient: GradientColorModel = operation.gradient.getOrElse(GradientColorModel("#FFF", "#FFF"))
+        val operation: OperationModel = self.props.wrapped.operation
 
-        <.header()(
-          <.h1(^.className := Seq(TextStyles.veryBigTitle, OperationHeaderStyles.title))(unescape(operation.title)),
-          <.p()("Partagez vos propositions"),
-          <.p(
-            ^.className := Seq(
-              InputStyles.wrapper,
-              InputStyles.withIcon,
-              InputStyles.biggerWithIcon,
-              OperationHeaderStyles.proposalInputWithIconWrapper
-            )
-          )(
-            <.span(^.className := OperationHeaderStyles.inputInnerWrapper)(
-              <.span(^.className := OperationHeaderStyles.inputSubInnerWrapper)(
-                <.input(
-                  ^.`type`.text,
-                  ^.value := "Il faut ",
-                  ^.ref := ((input: HTMLElement) => proposalInput = Some(input)),
-                  ^.onFocus := openProposalModalFromInput()
-                )()
+        <.header(^.className := OperationHeaderStyles.wrapper)(
+          <.div(^.className := LayoutRulesStyles.centeredRow)(
+            <.div(^.className := LayoutRulesStyles.col)(
+              <.h1(^.className := Seq(TextStyles.mediumTitle, OperationHeaderStyles.title))(unescape(operation.title)),
+              <.p(
+                ^.className := Seq(
+                  TextStyles.biggerMediumText,
+                  TextStyles.intro,
+                  OperationHeaderStyles.proposalInputIntro,
+                  OperationHeaderStyles.coloredProposalInputIntro(operation.color)
+                )
+              )("partagez vos propositions"),
+              <.p(
+                ^.className := Seq(
+                  InputStyles.wrapper,
+                  InputStyles.withIcon,
+                  InputStyles.biggerWithIcon,
+                  OperationHeaderStyles.proposalInputWithIconWrapper
+                )
+              )(
+                <.span(^.className := OperationHeaderStyles.inputInnerWrapper)(
+                  <.span(^.className := OperationHeaderStyles.inputSubInnerWrapper)(
+                    <.input(
+                      ^.`type`.text,
+                      ^.value := "Il faut ",
+                      ^.ref := ((input: HTMLElement) => proposalInput = Some(input)),
+                      ^.onFocus := openProposalModalFromInput()
+                    )()
+                  ),
+                  <.span(^.className := OperationHeaderStyles.textLimitInfoWapper)(
+                    <.span(^.className := Seq(TextStyles.smallText, OperationHeaderStyles.textLimitInfo))("8/140")
+                  )
+                )
               ),
-              <.span(^.className := OperationHeaderStyles.textLimitInfoWapper)(
-                <.span(^.className := Seq(TextStyles.smallText, OperationHeaderStyles.textLimitInfo))("8/140")
+              <.FullscreenModalComponent(
+                ^.wrapped := FullscreenModalProps(self.state.isProposalModalOpened, toggleProposalModal())
+              )(
+                <.SubmitProposalInRelationToOperationComponent(
+                  ^.wrapped := SubmitProposalInRelationToOperationProps(
+                    operation = operation,
+                    onProposalProposed = () => {
+                      self.setState(_.copy(isProposalModalOpened = false))
+                    }
+                  )
+                )()
               )
             )
-          ),
-          <.FullscreenModalComponent(
-            ^.wrapped := FullscreenModalProps(self.state.isProposalModalOpened, toggleProposalModal())
-          )(
-            <.SubmitProposalInRelationToOperationComponent(
-              ^.wrapped := SubmitProposalInRelationToOperationProps(operation = operation, onProposalProposed = () => {
-                self.setState(_.copy(isProposalModalOpened = false))
-              })
-            )()
           ),
           <.style()(OperationHeaderStyles.render[String])
         )
@@ -98,21 +110,30 @@ object OperationHeaderStyles extends StyleSheet.Inline {
     }
   }
 
-  def gradientBackground(from: String, to: String): StyleA =
-    style(background := s"linear-gradient(130deg, $from, $to)")
+  val wrapper: StyleA =
+    style(
+      display.block,
+      paddingTop(ThemeStyles.SpacingValue.medium.pxToEm()), // TODO: dynamise calcul, if main intro is first child of page
+      paddingBottom(ThemeStyles.SpacingValue.medium.pxToEm()),
+      ThemeStyles.MediaQueries.beyondSmall(
+        paddingTop(ThemeStyles.SpacingValue.larger.pxToEm()),
+        paddingBottom(ThemeStyles.SpacingValue.larger.pxToEm())
+      ),
+      backgroundColor(ThemeStyles.BackgroundColor.blackMoreTransparent)
+    )
 
   val title: StyleA =
-    style(
-      display.inlineBlock,
-      marginBottom(15.pxToEm(30)),
-      lineHeight(41.pxToEm(30)),
-      ThemeStyles.MediaQueries.beyondMedium(marginBottom(10.pxToEm(60)), lineHeight(83.pxToEm(60))),
-      color(ThemeStyles.TextColor.white),
-      textShadow := s"1px 1px 1px rgb(0, 0, 0)"
-    )
+    style(textAlign.center)
+
+  val proposalInputIntro: StyleA =
+    style(marginTop(10.pxToEm(15)), ThemeStyles.MediaQueries.beyondSmall(marginTop(-5.pxToEm(24))), textAlign.center)
+
+  def coloredProposalInputIntro(textColor: String): StyleA =
+    style(color := s"${textColor}")
 
   val proposalInputWithIconWrapper: StyleA =
     style(
+      marginTop(ThemeStyles.SpacingValue.small.pxToEm()),
       boxShadow := "0 2px 5px 0 rgba(0,0,0,0.50)",
       (&.before)(content := "'\\F0EB'"),
       unsafeChild("input")(ThemeStyles.Font.circularStdBold)

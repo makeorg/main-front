@@ -6,6 +6,7 @@ import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import org.make.front.components.Components._
 import org.make.front.components.operation.OperationHeader.OperationHeaderProps
 import org.make.front.components.operation.ResultsInOperationContainer.ResultsInOperationContainerProps
+import org.make.front.components.operation.VFFIntro.VFFIntroProps
 import org.make.front.models.{Operation => OperationModel}
 import org.make.front.styles.ThemeStyles
 
@@ -19,6 +20,7 @@ object Operation {
 
   lazy val reactClass: ReactClass = React.createClass[OperationProps, Unit](render = (self) => {
     <("operation")()(
+      <.VFFIntroComponent(^.wrapped := VFFIntroProps(operation = self.props.wrapped.operation))(),
       <.OperationHeaderComponent(^.wrapped := OperationHeaderProps(self.props.wrapped.operation))(),
       <.div(^.className := OperationComponentStyles.contentWrapper)(
         <.ResultsInOperationContainerComponent(

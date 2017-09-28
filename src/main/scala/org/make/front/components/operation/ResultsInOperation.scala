@@ -147,9 +147,7 @@ object ResultsInOperationStyles extends StyleSheet.Inline {
   }
 
   val wrapper: StyleA =
-    style(
-      padding :=! s"${ThemeStyles.SpacingValue.medium.pxToEm().value} 0 ${ThemeStyles.SpacingValue.small.pxToEm().value}"
-    )
+    style(paddingTop(ThemeStyles.SpacingValue.larger.pxToEm()), paddingBottom(ThemeStyles.SpacingValue.small.pxToEm()))
 
   val item: StyleA =
     style(marginTop(ThemeStyles.SpacingValue.small.pxToEm()), marginBottom(ThemeStyles.SpacingValue.small.pxToEm()))
@@ -162,7 +160,7 @@ object ResultsInOperationStyles extends StyleSheet.Inline {
 
   val noResults: StyleA = style(
     paddingTop(ThemeStyles.SpacingValue.larger.pxToEm()),
-    paddingBottom(ThemeStyles.SpacingValue.larger.pxToEm()),
+    paddingBottom((ThemeStyles.SpacingValue.larger - ThemeStyles.SpacingValue.small).pxToEm()),
     textAlign.center
   )
 

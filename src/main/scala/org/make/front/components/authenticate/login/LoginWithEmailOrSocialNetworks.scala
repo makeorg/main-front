@@ -66,7 +66,6 @@ object LoginWithEmailOrSocialNetworksStyles extends StyleSheet.Inline {
     display.inlineBlock,
     padding := s"0 ${20.pxToEm().value}",
     margin := s"${ThemeStyles.SpacingValue.medium.pxToEm().value} 0",
-    backgroundColor.white,
     ThemeStyles.Font.playfairDisplayItalic,
     fontStyle.italic,
     color(ThemeStyles.TextColor.lighter),

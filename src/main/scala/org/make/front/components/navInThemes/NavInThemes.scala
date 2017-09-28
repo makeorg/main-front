@@ -32,7 +32,12 @@ object NavInThemes {
           )
         )(
           <.Link(^.to := s"/theme/${theme.slug}", ^.className := NavInThemesStyles.themeLink)(
-            <.div(^.className := NavInThemesStyles.themeItemContentWrapper(theme.color))(
+            <.div(
+              ^.className := Seq(
+                NavInThemesStyles.themeItemContentWrapper,
+                NavInThemesStyles.themeItemContentWrapperBorderColor(theme.color)
+              )
+            )(
               <.h3(^.className := TextStyles.smallerTitle)(theme.title),
               <.p(^.className := Seq(NavInThemesStyles.actionsCounter, TextStyles.smallText))(
                 unescape(
@@ -92,8 +97,11 @@ object NavInThemesStyles extends StyleSheet.Inline {
   val themeItem: StyleA =
     style(paddingBottom(ThemeStyles.SpacingValue.small.pxToEm()))
 
-  def themeItemContentWrapper(color: String): StyleA =
-    style(height(100.%%), paddingLeft :=! ThemeStyles.SpacingValue.smaller.pxToEm(), borderLeft :=! s"5px solid $color")
+  val themeItemContentWrapper: StyleA =
+    style(height(100.%%), paddingLeft :=! ThemeStyles.SpacingValue.smaller.pxToEm(), borderLeft :=! s"5px solid")
+
+  def themeItemContentWrapperBorderColor(color: String): StyleA =
+    style(borderColor := s"${color}")
 
   val actionsCounter: StyleA = style(
     display.inlineBlock,

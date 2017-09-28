@@ -38,7 +38,7 @@ object SubmitProposalInRelationToOperation {
                 TextStyles.intro,
                 SubmitProposalInRelationToOperationStyles.intro
               )
-            )(unescape(I18n.t("content.proposal.titleIntro"))),
+            )("Partagez votre proposition"),
             <.br()(),
             <.strong(
               ^.className := Seq(

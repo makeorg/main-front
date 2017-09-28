@@ -127,8 +127,8 @@ object ThemeHeaderStyles extends StyleSheet.Inline {
       position.relative,
       display.tableCell,
       verticalAlign.middle,
-      paddingTop((60 + 50).pxToEm()), // TODO: dynamise calcul, if main intro is first child of page
-      ThemeStyles.MediaQueries.beyondSmall(paddingTop((60 + 80).pxToEm())),
+      paddingTop((ThemeStyles.SpacingValue.larger + 50).pxToEm()), // TODO: dynamise calcul, if main intro is first child of page
+      ThemeStyles.MediaQueries.beyondSmall(paddingTop((ThemeStyles.SpacingValue.larger + 80).pxToEm())),
       paddingBottom(ThemeStyles.SpacingValue.larger.pxToEm()),
       textAlign.center
     )

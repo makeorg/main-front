@@ -10,7 +10,7 @@ final case class AppState(configuration: Option[BusinessConfiguration],
                             OperationModel(
                               id = OperationId("operationId"),
                               slug = "vff",
-                              title = "Comment lutter contre les violences faîtes aux&nbsp;femmes&nbsp;?",
+                              title = "Comment lutter contre les violences faites aux&nbsp;femmes&nbsp;?",
                               actionsCount = 0, // actions count
                               proposalsCount = 0, // proposal count
                               color = "#660779",

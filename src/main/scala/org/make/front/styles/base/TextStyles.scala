@@ -25,6 +25,7 @@ object TextStyles extends StyleSheet.Inline {
   val smallText: StyleA = style(
     ThemeStyles.Font.circularStdBook,
     fontSize(13.pxToEm()),
+    lineHeight(20.0 / 13.0),
     ThemeStyles.MediaQueries.beyondSmall(fontSize(16.pxToEm()), lineHeight(20.0 / 16.0))
   )
 
@@ -34,6 +35,14 @@ object TextStyles extends StyleSheet.Inline {
     lineHeight(20.0 / 15.0),
     ThemeStyles.MediaQueries.beyondSmall(fontSize(18.pxToEm()), lineHeight(23.0 / 18.0))
   )
+
+  val biggerMediumText: StyleA = style(
+    ThemeStyles.Font.circularStdBook,
+    fontSize(15.pxToEm()),
+    lineHeight(20.0 / 15.0),
+    ThemeStyles.MediaQueries.beyondSmall(fontSize(24.pxToEm()), lineHeight(32.0 / 24.0))
+  )
+
   val bigText: StyleA = style(
     ThemeStyles.Font.circularStdBook,
     fontSize(18.pxToEm()),
@@ -61,15 +70,17 @@ object TextStyles extends StyleSheet.Inline {
   val label: StyleA =
     style(
       display.inlineBlock,
-      padding :=! s"${8.pxToEm(13).value} ${5.pxToEm(13).value} ${3.pxToEm(13).value}",
+      padding :=! s"${4.pxToEm(13).value} ${5.pxToEm(13).value} 0",
       ThemeStyles.Font.tradeGothicLTStd,
       fontSize(13.pxToEm()),
+      lineHeight(20.0 / 13.0),
       textTransform.uppercase,
       color(ThemeStyles.TextColor.white),
       backgroundColor(ThemeStyles.TextColor.base),
       ThemeStyles.MediaQueries.beyondSmall(
-        padding :=! s"${10.pxToEm(18).value} ${10.pxToEm(18).value} ${5.pxToEm(18).value}",
-        fontSize(18.pxToEm())
+        padding :=! s"${4.pxToEm(18).value} ${10.pxToEm(18).value} 0",
+        fontSize(18.pxToEm()),
+        lineHeight(22.0 / 18.0)
       )
     )
 

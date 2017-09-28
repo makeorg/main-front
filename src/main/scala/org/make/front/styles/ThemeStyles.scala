@@ -60,6 +60,7 @@ object ThemeStyles extends StyleSheet.Inline {
   }
 
   object BorderColor {
+    val white: ValueT[ValueT.Color] = rgb(255, 255, 255)
     val base: ValueT[ValueT.Color] = rgb(155, 155, 155)
     val light: ValueT[ValueT.Color] = rgba(0, 0, 0, 0.5)
     val lighter: ValueT[ValueT.Color] = rgba(0, 0, 0, 0.3)

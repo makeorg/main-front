@@ -12,29 +12,29 @@ import scalacss.DevDefaults._
 import scalacss.internal.Length
 import scalacss.internal.mutable.StyleSheet
 
-object MainIntro {
+object Intro {
 
   lazy val reactClass: ReactClass = React.createClass[Unit, Unit](
     render = (_) =>
-      <.section(^.className := MainIntroStyles.wrapper)(
-        <.div(^.className := MainIntroStyles.innerWrapper)(
+      <.section(^.className := IntroStyles.wrapper)(
+        <.div(^.className := IntroStyles.innerWrapper)(
           <.div(^.className := LayoutRulesStyles.centeredRow)(
             <.div(^.className := LayoutRulesStyles.col)(
-              <.div(^.className := MainIntroStyles.labelWrapper)(
+              <.div(^.className := IntroStyles.labelWrapper)(
                 <.p(^.className := TextStyles.label)(unescape(I18n.t("content.homepage.baseline")))
               ),
-              <.h2(^.className := Seq(MainIntroStyles.title, TextStyles.veryBigText, TextStyles.boldText))(
+              <.h2(^.className := Seq(IntroStyles.title, TextStyles.veryBigText, TextStyles.boldText))(
                 unescape(I18n.t("content.homepage.title"))
               ),
-              <.h3(^.className := Seq(TextStyles.mediumText, MainIntroStyles.subTitle))(
+              <.h3(^.className := Seq(TextStyles.mediumText, IntroStyles.subTitle))(
                 unescape(I18n.t("content.homepage.subTitle"))
               ),
-              <.p(^.className := MainIntroStyles.ctaWrapper)(
+              <.p(^.className := IntroStyles.ctaWrapper)(
                 <.a(^.href := "/", ^.className := Seq(CTAStyles.basic, CTAStyles.basicOnA))(
                   unescape(I18n.t("content.homepage.textSeeMore"))
                 )
               ),
-              <.style()(MainIntroStyles.render[String])
+              <.style()(IntroStyles.render[String])
             )
           )
         )
@@ -42,7 +42,7 @@ object MainIntro {
   )
 }
 
-object MainIntroStyles extends StyleSheet.Inline {
+object IntroStyles extends StyleSheet.Inline {
 
   import dsl._
 
@@ -68,8 +68,8 @@ object MainIntroStyles extends StyleSheet.Inline {
       position.relative,
       display.tableCell,
       verticalAlign.middle,
-      paddingTop((60 + 50).pxToEm()), // TODO: dynamise calcul, if main intro is first child of page
-      ThemeStyles.MediaQueries.beyondSmall(paddingTop((60 + 80).pxToEm())),
+      paddingTop((ThemeStyles.SpacingValue.larger + 50).pxToEm()), // TODO: dynamise calcul, if main intro is first child of page
+      ThemeStyles.MediaQueries.beyondSmall(paddingTop((ThemeStyles.SpacingValue.larger + 80).pxToEm())),
       paddingBottom(ThemeStyles.SpacingValue.larger.pxToEm()),
       textAlign.center,
       (&.before)(

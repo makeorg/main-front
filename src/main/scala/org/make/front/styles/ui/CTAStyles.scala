@@ -19,11 +19,11 @@ object CTAStyles extends StyleSheet.Inline {
     style(
       display.inlineBlock,
       verticalAlign.top,
-      minHeight(40.pxToEm(13)),
+      minHeight(30.pxToEm(13)),
       maxWidth(100.%%),
       boxSizing.borderBox,
-      padding :=! s"0 ${20.pxToEm(13).value}",
-      borderRadius(20.pxToEm(13)),
+      padding :=! s"0 ${15.pxToEm(13).value}",
+      borderRadius(15.pxToEm(13)),
       lineHeight.normal,
       ThemeStyles.Font.tradeGothicLTStd,
       textTransform.uppercase,
@@ -40,8 +40,9 @@ object CTAStyles extends StyleSheet.Inline {
       )
     )
 
-  val basicOnA: StyleA = style(paddingTop(11.pxToEm(13)), ThemeStyles.MediaQueries.beyondSmall(paddingTop(11.pxToEm())))
+  val basicOnA: StyleA =
+    style(paddingTop(9.pxToEm(13)), ThemeStyles.MediaQueries.beyondSmall(paddingTop(12.pxToEm(16))))
 
   val basicOnButton: StyleA =
-    style(paddingTop(3.pxToEm(13)), ThemeStyles.MediaQueries.beyondSmall(paddingTop(3.pxToEm())))
+    style(paddingTop(3.pxToEm(13)), ThemeStyles.MediaQueries.beyondSmall(paddingTop(3.pxToEm(16))))
 }
