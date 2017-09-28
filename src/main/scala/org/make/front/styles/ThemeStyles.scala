@@ -91,6 +91,8 @@ object ThemeStyles extends StyleSheet.Inline {
     val beyondMedium: Media.Query = media.minWidth(840.pxToEm())
     val medium: Media.Query = beyondMedium.maxWidth(1199.pxToEm())
 
+    val beyondLargeMedium: Media.Query = media.minWidth(1000.pxToEm())
+
     val belowLarge: Media.Query = media.maxWidth(1199.pxToEm())
     val beyondLarge: Media.Query = media.minWidth(1200.pxToEm())
   }

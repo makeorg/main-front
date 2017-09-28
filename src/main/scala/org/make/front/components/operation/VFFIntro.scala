@@ -35,7 +35,15 @@ object VFFIntro {
               <.div(^.className := VFFIntroStyles.presentationInnerWrapper)(
                 <.div(^.className := LayoutRulesStyles.centeredRow)(
                   <.div(^.className := LayoutRulesStyles.col)(
-                    <.p(^.className := Seq(TextStyles.mediumTitle))(unescape(operation.title)),
+                    <.div(^.className := VFFIntroStyles.titleWrapper)(
+                      <.p(^.className := Seq(TextStyles.label))("Grande cause Make.org"),
+                      <.p(^.className := Seq(VFFIntroStyles.logoWrapper))(
+                        <.img(^.src := vffLogo.toString, ^.title := "Stop aux violences faites aux femmes")()
+                      ),
+                      <.p(^.className := Seq(VFFIntroStyles.infos, TextStyles.label))(
+                        "Consultation ouverte du 25 nov. 2017 au 8 mars 2018"
+                      )
+                    ),
                     <.div(^.className := VFFIntroStyles.separatorWrapper)(
                       <.div(^.className := VFFIntroStyles.separatorLineWrapper)(
                         <.hr(^.className := Seq(VFFIntroStyles.separatorLine, VFFIntroStyles.separatorLineToTheLeft))()
@@ -52,6 +60,7 @@ object VFFIntro {
                         <.img(
                           ^.src := expediaLogo.toString,
                           ^("width") := "96",
+                          ^.title := "Expedia",
                           ^.className := VFFIntroStyles.partnerLogo
                         )()
                       ),
@@ -59,6 +68,7 @@ object VFFIntro {
                         <.img(
                           ^.src := lOrealLogo.toString,
                           ^("width") := "89",
+                          ^.title := "L'Oréal",
                           ^.className := VFFIntroStyles.partnerLogo
                         )()
                       ),
@@ -66,6 +76,7 @@ object VFFIntro {
                         <.img(
                           ^.src := axaLogo.toString,
                           ^("width") := "30",
+                          ^.title := "Axa",
                           ^.className := VFFIntroStyles.partnerLogo
                         )()
                       ),
@@ -73,6 +84,7 @@ object VFFIntro {
                         <.img(
                           ^.src := ileDeFranceLogo.toString,
                           ^("width") := "98",
+                          ^.title := "Île de France",
                           ^.className := VFFIntroStyles.partnerLogo
                         )()
                       ),
@@ -80,6 +92,7 @@ object VFFIntro {
                         <.img(
                           ^.src := elleLogo.toString,
                           ^("width") := "55",
+                          ^.title := "Elle",
                           ^.className := VFFIntroStyles.partnerLogo
                         )()
                       ),
@@ -87,6 +100,7 @@ object VFFIntro {
                         <.img(
                           ^.src := womenSForumLogo.toString,
                           ^("width") := "118",
+                          ^.title := "Women's Forum",
                           ^.className := VFFIntroStyles.partnerLogo
                         )()
                       )
@@ -157,9 +171,15 @@ object VFFIntroStyles extends StyleSheet.Inline {
       verticalAlign.middle,
       paddingTop((ThemeStyles.SpacingValue.medium + 50).pxToEm()), // TODO: dynamise calcul, if main intro is first child of page
       ThemeStyles.MediaQueries.beyondSmall(paddingTop((ThemeStyles.SpacingValue.larger + 80).pxToEm())),
-      paddingBottom(ThemeStyles.SpacingValue.small.pxToEm()),
-      textAlign.center
+      paddingBottom(ThemeStyles.SpacingValue.small.pxToEm())
     )
+
+  val titleWrapper: StyleA = style(maxWidth(470.pxToEm()), marginLeft.auto, marginRight.auto)
+  val logoWrapper: StyleA =
+    style(marginTop(ThemeStyles.SpacingValue.small.pxToEm()), marginBottom(ThemeStyles.SpacingValue.smaller.pxToEm()))
+
+  val infos: StyleA =
+    style(width(100.%%), textAlign.center, backgroundColor(ThemeStyles.BackgroundColor.blackMoreTransparent))
 
   val separatorWrapper: StyleA =
     style(
@@ -190,7 +210,7 @@ object VFFIntroStyles extends StyleSheet.Inline {
 
   val separator: StyleA = style(color(ThemeStyles.TextColor.white))
 
-  val partnersList: StyleA = style()
+  val partnersList: StyleA = style(textAlign.center)
 
   val partnerItem: StyleA = style(
     display.inlineBlock,

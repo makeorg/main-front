@@ -20,7 +20,11 @@ object imageShutterstock extends js.Object
 object cone extends js.Object
 
 @js.native
-@JSImport("./images/vff.jpg", "default")
+@JSImport("./images/vff.svg", "default")
+object vffLogo extends js.Object
+
+@js.native
+@JSImport("./images/vff-ill.jpg", "default")
 object vffIll extends js.Object
 
 @js.native

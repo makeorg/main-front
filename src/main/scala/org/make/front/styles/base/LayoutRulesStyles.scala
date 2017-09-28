@@ -55,7 +55,7 @@ object LayoutRulesStyles extends StyleSheet.Inline {
   val narrowerCenteredRow: StyleA = style(
     row,
     ThemeStyles.MediaQueries
-      .beyondLarge(maxWidth(1000.pxToEm()), marginRight.auto, marginLeft.auto)
+      .beyondLargeMedium(maxWidth(1000.pxToEm()), marginRight.auto, marginLeft.auto)
   )
 
 }
