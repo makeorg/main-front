@@ -5,10 +5,11 @@ import io.github.shogowada.scalajs.reactjs.VirtualDOM._
 import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import org.make.front.components.Components._
 import org.make.front.components.submitProposal.SubmitProposalForm.SubmitProposalFormProps
+import org.make.front.components.submitProposal.SubmitProposalFormContainer.SubmitProposalFormContainerProps
 import org.make.front.components.users.authenticate.RequireAuthenticatedUserContainer.RequireAuthenticatedUserContainerProps
-import org.make.front.facades.I18n
+import org.make.front.facades.{I18n, Replacements}
 import org.make.front.facades.Unescape.unescape
-import org.make.front.models.{Theme => ThemeModel, Operation => OperationModel}
+import org.make.front.models.{Operation => OperationModel, Theme => ThemeModel}
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
@@ -25,9 +26,7 @@ object SubmitProposalAndLogin {
       SubmitProposalAndLoginState(proposal = "", errorMessage = None)
   }
 
-  case class SubmitProposalAndLoginProps(bait: String,
-                                         proposalContentMaxLength: Int,
-                                         maybeTheme: Option[ThemeModel],
+  case class SubmitProposalAndLoginProps(maybeTheme: Option[ThemeModel],
                                          maybeOperation: Option[OperationModel],
                                          onProposalProposed: () => Unit,
                                          propose: (String)      => Future[_])
@@ -38,10 +37,7 @@ object SubmitProposalAndLogin {
         SubmitProposalAndLoginState.empty
       },
       componentWillReceiveProps = { (self, props) =>
-        if (self.state.proposal == "") {
-          self.setState(_.copy(proposal = props.wrapped.bait))
-        }
-      },
+        },
       render = { self =>
         val props = self.props.wrapped
 
@@ -64,9 +60,7 @@ object SubmitProposalAndLogin {
 
         <.div()(if (self.state.displayedComponent == "submit-proposal") {
           <.SubmitProposalFormComponent(
-            ^.wrapped := SubmitProposalFormProps(
-              bait = props.bait,
-              proposalContentMaxLength = props.proposalContentMaxLength,
+            ^.wrapped := SubmitProposalFormContainerProps(
               maybeTheme = props.maybeTheme,
               errorMessage = None,
               handleSubmitProposalForm = handleSubmitProposal

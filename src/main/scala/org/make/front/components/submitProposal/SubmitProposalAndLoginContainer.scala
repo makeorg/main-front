@@ -10,17 +10,13 @@ import org.make.services.proposal.ProposalService
 
 object SubmitProposalAndLoginContainer {
 
-  case class SubmitProposalAndLoginContainerProps(bait: String,
-                                                  proposalContentMaxLength: Int,
-                                                  maybeTheme: Option[ThemeModel],
+  case class SubmitProposalAndLoginContainerProps(maybeTheme: Option[ThemeModel],
                                                   maybeOperation: Option[OperationModel],
                                                   onProposalProposed: () => Unit)
 
   val reactClass: ReactClass = ReactRedux.connectAdvanced {
-    _ => (_: AppState, props: Props[SubmitProposalAndLoginContainerProps]) =>
+    _ => (state: AppState, props: Props[SubmitProposalAndLoginContainerProps]) =>
       SubmitProposalAndLoginProps(
-        bait = props.wrapped.bait,
-        proposalContentMaxLength = props.wrapped.proposalContentMaxLength,
         maybeTheme = props.wrapped.maybeTheme,
         maybeOperation = props.wrapped.maybeOperation,
         onProposalProposed = props.wrapped.onProposalProposed,

@@ -34,8 +34,6 @@ object SubmitProposal {
           <.SubmitProposalAndLoginComponent(
             ^.wrapped :=
               SubmitProposalAndLoginContainerProps(
-                bait = "il faut",
-                proposalContentMaxLength = 140,
                 maybeTheme = None,
                 maybeOperation = None,
                 onProposalProposed = self.props.wrapped.onProposalProposed

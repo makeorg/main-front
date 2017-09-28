@@ -26,11 +26,13 @@ final case class AppState(configuration: Option[BusinessConfiguration],
                               title = "Comment lutter contre les violences faites aux&nbsp;femmes&nbsp;?"
                             )
                           ),
+                          bait: String = "Il faut",
                           connectedUser: Option[User],
                           notifications: Seq[Notification],
-                          locale: String = "fr") {
+                          country: String = "FR",
+                          language: String = "fr") {
 
-  def themes: Seq[Theme] = configuration.map(_.themesForLocale(locale)).getOrElse(Seq.empty)
+  def themes: Seq[Theme] = configuration.map(_.themesForLocale(language)).getOrElse(Seq.empty)
   def findTheme(slug: String): Option[Theme] = themes.find(_.slug == slug)
 
   def findOperation(slug: String): Option[Operation] = operations.find(_.slug == slug)

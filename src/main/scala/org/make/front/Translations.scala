@@ -168,6 +168,8 @@ object Translations {
       |       },
       |       "proposal": {
       |         "submit": "Proposer",
+      |         "errorProposalTooShort": "Votre proposition doit contenir au moins %{min} caractères",
+      |         "errorProposalTooLong": "Votre proposition ne doit pas dépasser %{max} caractères",
       |         "errorSubmitFailed": "Une erreur s'est produite, réessayez dans quelques minutes"
       |       },
       |       "passwordRecovery": {
@@ -350,6 +352,8 @@ object Translations {
       |       },
       |       "proposal": {
       |         "submit": "Proposer",
+      |         "errorProposalTooShort": "Votre proposition doit contenir au moins %{min} caractères",
+      |         "errorProposalTooLong": "Votre proposition ne doit pas dépasser %{max} caractères",
       |         "errorSubmitFailed": "An error occurred, please try again later"
       |       },
       |       "passwordRecovery": {

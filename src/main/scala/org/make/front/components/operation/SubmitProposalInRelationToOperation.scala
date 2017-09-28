@@ -50,8 +50,6 @@ object SubmitProposalInRelationToOperation {
           <.SubmitProposalAndLoginComponent(
             ^.wrapped :=
               SubmitProposalAndLoginContainerProps(
-                bait = "il faut",
-                proposalContentMaxLength = 140,
                 maybeTheme = None,
                 maybeOperation = Some(self.props.wrapped.operation),
                 onProposalProposed = self.props.wrapped.onProposalProposed

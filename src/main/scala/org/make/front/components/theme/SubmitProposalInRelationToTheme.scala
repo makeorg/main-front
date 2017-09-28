@@ -46,8 +46,6 @@ object SubmitProposalInRelationToTheme {
           <.SubmitProposalAndLoginComponent(
             ^.wrapped :=
               SubmitProposalAndLoginContainerProps(
-                bait = "il faut",
-                proposalContentMaxLength = 140,
                 maybeTheme = Some(self.props.wrapped.theme),
                 maybeOperation = None,
                 onProposalProposed = self.props.wrapped.onProposalProposed

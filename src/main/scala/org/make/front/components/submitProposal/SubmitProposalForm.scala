@@ -5,7 +5,7 @@ import io.github.shogowada.scalajs.reactjs.VirtualDOM.{^, _}
 import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import io.github.shogowada.scalajs.reactjs.events.FormSyntheticEvent
 import org.make.front.components.Components._
-import org.make.front.facades.I18n
+import org.make.front.facades.{I18n, Replacements}
 import org.make.front.facades.Unescape.unescape
 import org.make.front.models.{Theme => ThemeModel}
 import org.make.front.styles._
@@ -21,8 +21,9 @@ object SubmitProposalForm {
 
   case class SubmitProposalFormState(proposalContent: String = "", errorMessage: Option[String] = None)
 
-  case class SubmitProposalFormProps(bait: String = "il faut",
-                                     proposalContentMaxLength: Int = 140,
+  case class SubmitProposalFormProps(bait: String,
+                                     proposalContentMaxLength: Int,
+                                     proposalContentMinLength: Int,
                                      maybeTheme: Option[ThemeModel],
                                      errorMessage: Option[String] = None,
                                      handleSubmitProposalForm: (String) => Unit)
@@ -50,13 +51,40 @@ object SubmitProposalForm {
           self.setState(_.copy(proposalContent = newProposalContent))
         }
 
-        val handleSubmitFormChange: (FormSyntheticEvent[HTMLInputElement]) => Boolean = { _ =>
-          if (self.state.proposalContent.length <= props.proposalContentMaxLength) {
-            self.props.wrapped.handleSubmitProposalForm(self.state.proposalContent)
-          } else {
-            self.setState(_.copy(errorMessage = Some(unescape(I18n.t("form.proposal.errorSubmitFailed")))))
-          }
-          false
+        val handleSubmitFormChange: (FormSyntheticEvent[HTMLInputElement]) => Boolean = {
+          event =>
+            event.preventDefault()
+            val content = self.state.proposalContent
+            if (content.length > props.proposalContentMaxLength) {
+              self.setState(
+                _.copy(
+                  errorMessage = Some(
+                    unescape(
+                      I18n.t(
+                        "form.proposal.errorProposalTooLong",
+                        Replacements("max" -> self.props.wrapped.proposalContentMaxLength.toString)
+                      )
+                    )
+                  )
+                )
+              )
+            } else if (content.length < props.proposalContentMinLength) {
+              self.setState(
+                _.copy(
+                  errorMessage = Some(
+                    unescape(
+                      I18n.t(
+                        "form.proposal.errorProposalTooShort",
+                        Replacements("min" -> self.props.wrapped.proposalContentMinLength.toString)
+                      )
+                    )
+                  )
+                )
+              )
+            } else {
+              self.props.wrapped.handleSubmitProposalForm(content)
+            }
+            false
         }
 
         <.form(^.className := SubmitProposalFormStyles.form, ^.onSubmit := handleSubmitFormChange)(
