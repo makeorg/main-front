@@ -151,15 +151,14 @@ object SearchResults {
 
           val proposalsToDisplay: Seq[ProposalModel] = self.state.listProposals
           <("search-resulst")()(if (self.state.initialLoad || proposalsToDisplay.nonEmpty) {
-            <.section(^.className := SearchResultsStyles.resultsWrapper)(
+            <.section(^.className := SearchResultsStyles.resultsWrapper)(if (!self.state.initialLoad) {
               <.h1(
                 ^.dangerouslySetInnerHTML := unescape(
                   I18n
                     .t(s"content.search.title", Replacements(("results", self.state.listProposals.size.toString)))
                 )
-              )(),
-              proposals(proposalsToDisplay)
-            )
+              )()
+            }, proposals(proposalsToDisplay))
           } else {
             <.section(^.className := SearchResultsStyles.noResultsWrapper)(noResults)
           }, <.NavInThemesContainerComponent.empty, <.style()(SearchResultsStyles.render[String]))
