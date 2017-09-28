@@ -23,6 +23,7 @@ final case class Proposal(id: ProposalId,
                           country: String,
                           language: String,
                           themeId: Option[ThemeId],
+                          operationId: Option[OperationId],
                           tags: Seq[Tag])
 
 final case class Qualification(key: String, count: Int = 0, selected: Boolean = false)

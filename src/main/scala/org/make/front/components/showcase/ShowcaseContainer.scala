@@ -69,6 +69,7 @@ object ShowcaseContainer {
           country = "FR",
           language = "fr",
           themeId = Some(ThemeIdModel(i.toString)),
+          operationId = None,
           tags = Seq(
             TagModel(tagId = TagIdModel("1"), label = "un"),
             TagModel(tagId = TagIdModel("2"), label = "deux"),

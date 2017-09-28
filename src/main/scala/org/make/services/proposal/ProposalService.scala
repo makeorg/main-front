@@ -6,7 +6,7 @@ import org.make.client.MakeApiClient
 import org.make.core.URI._
 import org.make.core.{CirceClassFormatters, CirceFormatters}
 import org.make.front.facades.I18n
-import org.make.front.models.{Proposal, TagId, ThemeId}
+import org.make.front.models.{OperationId, Proposal, TagId, ThemeId}
 import org.make.services.ApiService
 import org.make.services.proposal.ProposalResponses.RegisterProposalResponse
 
@@ -29,6 +29,7 @@ object ProposalService extends ApiService with CirceClassFormatters with CirceFo
 
   def searchProposals(content: Option[String] = None,
                       themesIds: Seq[ThemeId] = Seq.empty,
+                      operationsIds: Seq[OperationId] = Seq.empty,
                       tagsIds: Seq[TagId] = Seq.empty,
                       options: Option[SearchOptionsRequest] = None): Future[Seq[Proposal]] =
     MakeApiClient
@@ -37,6 +38,7 @@ object ProposalService extends ApiService with CirceClassFormatters with CirceFo
         data = SearchRequest(
           content = content,
           themesIds = if (themesIds.nonEmpty) Some(themesIds.map(_.value)) else None,
+          operationsIds = if (operationsIds.nonEmpty) Some(operationsIds.map(_.value)) else None,
           tagsIds = if (tagsIds.nonEmpty) Some(tagsIds.map(_.value)) else None,
           options = options
         ).asJson.pretty(ApiService.printer)

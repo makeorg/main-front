@@ -21,13 +21,15 @@ object Theme {
   final case class ThemeProps(theme: ThemeModel)
 
   lazy val reactClass: ReactClass = React.createClass[ThemeProps, Unit](render = (self) => {
-    <("theme")(^.className := ThemeComponentStyles.wrapper)(
+    <("theme")()(
       <.ThemeHeaderComponent(^.wrapped := ThemeHeaderProps(self.props.wrapped.theme))(),
-      <.PoliticalActionsContainerComponent()(),
-      <.ResultsInThemeContainerComponent(
-        ^.wrapped := ResultsInThemeContainerProps(currentTheme = self.props.wrapped.theme)
-      )(),
-      <.NavInThemesContainerComponent.empty,
+      <.div(^.className := ThemeComponentStyles.contentWrapper)(
+        <.PoliticalActionsContainerComponent()(),
+        <.ResultsInThemeContainerComponent(
+          ^.wrapped := ResultsInThemeContainerProps(currentTheme = self.props.wrapped.theme)
+        )(),
+        <.NavInThemesContainerComponent.empty
+      ),
       <.style()(ThemeComponentStyles.render[String])
     )
   })
@@ -44,7 +46,7 @@ object ThemeComponentStyles extends StyleSheet.Inline {
     }
   }
 
-  val wrapper: StyleA =
+  val contentWrapper: StyleA =
     style(display.block, backgroundColor(ThemeStyles.BackgroundColor.blackVeryTransparent))
 
 }

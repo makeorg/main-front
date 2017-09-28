@@ -1,4 +1,4 @@
-package org.make.front.components.theme
+package org.make.front.components.operation
 
 import io.github.shogowada.scalajs.reactjs.React
 import io.github.shogowada.scalajs.reactjs.VirtualDOM._
@@ -23,29 +23,29 @@ import scala.util.{Failure, Success}
 import scalacss.internal.Length
 import scalacss.internal.mutable.StyleSheet
 
-object ResultsInTheme {
+object ResultsInOperation {
 
-  case class ResultsInThemeProps(
+  case class ResultsInOperationProps(
     onMoreResultsRequested: (Seq[ProposalModel], Seq[TagModel]) => Future[ProposalSearchResult],
     onTagSelectionChange: (Seq[TagModel])                       => Future[ProposalSearchResult],
     proposals: Future[ProposalSearchResult],
     preselectedTags: Seq[TagModel]
   )
 
-  case class ResultsInThemeState(listProposals: Seq[ProposalModel],
-                                 selectedTags: Seq[TagModel],
-                                 hasRequestedMore: Boolean,
-                                 hasMore: Boolean)
+  case class ResultsInOperationState(listProposals: Seq[ProposalModel],
+                                     selectedTags: Seq[TagModel],
+                                     hasRequestedMore: Boolean,
+                                     hasMore: Boolean)
 
   lazy val reactClass: ReactClass =
-    React.createClass[ResultsInThemeProps, ResultsInThemeState](
+    React.createClass[ResultsInOperationProps, ResultsInOperationState](
       getInitialState = { self =>
         self.props.wrapped.proposals.onComplete {
           case Success(searchResult) =>
             self.setState(_.copy(listProposals = searchResult.proposals, hasMore = searchResult.hasMore))
           case Failure(_) => // TODO: handle error
         }
-        ResultsInThemeState(
+        ResultsInOperationState(
           selectedTags = self.props.wrapped.preselectedTags,
           listProposals = Seq(),
           hasRequestedMore = false,
@@ -64,10 +64,10 @@ object ResultsInTheme {
           }
 
         val noResults: ReactElement =
-          <.div(^.className := Seq(LayoutRulesStyles.col, ResultsInThemeStyles.noResults))(
-            <.p(^.className := ResultsInThemeStyles.noResultsSmiley)("😞"),
+          <.div(^.className := Seq(LayoutRulesStyles.col, ResultsInOperationStyles.noResults))(
+            <.p(^.className := ResultsInOperationStyles.noResultsSmiley)("😞"),
             <.p(
-              ^.className := Seq(TextStyles.mediumText, ResultsInThemeStyles.noResultsMessage),
+              ^.className := Seq(TextStyles.mediumText, ResultsInOperationStyles.noResultsMessage),
               ^.dangerouslySetInnerHTML := I18n.t("content.theme.matrix.noContent")
             )()
           )
@@ -94,7 +94,7 @@ object ResultsInTheme {
                 proposal =>
                   <.li(
                     ^.className := Seq(
-                      ResultsInThemeStyles.item,
+                      ResultsInOperationStyles.item,
                       LayoutRulesStyles.col,
                       LayoutRulesStyles.colHalfBeyondMedium,
                       LayoutRulesStyles.colQuarterBeyondLarge
@@ -103,7 +103,7 @@ object ResultsInTheme {
               )
             ),
             if (self.state.hasMore && !self.state.hasRequestedMore) {
-              <.div(^.className := Seq(ResultsInThemeStyles.seeMoreButtonWrapper, LayoutRulesStyles.col))(
+              <.div(^.className := Seq(ResultsInOperationStyles.seeMoreButtonWrapper, LayoutRulesStyles.col))(
                 <.button(^.onClick := onSeeMore, ^.className := Seq(CTAStyles.basic, CTAStyles.basicOnButton))(
                   unescape(I18n.t("content.theme.seeMoreProposals"))
                 )
@@ -113,7 +113,7 @@ object ResultsInTheme {
 
         val proposalsToDisplay: Seq[ProposalModel] = self.state.listProposals
 
-        <.section(^.className := Seq(LayoutRulesStyles.centeredRow, ResultsInThemeStyles.wrapper))(
+        <.section(^.className := Seq(LayoutRulesStyles.centeredRow, ResultsInOperationStyles.wrapper))(
           <.header(^.className := LayoutRulesStyles.col)(
             <.h2(^.className := TextStyles.bigTitle)(unescape(I18n.t("content.theme.matrix.title")))
           ),
@@ -129,13 +129,13 @@ object ResultsInTheme {
           } else {
             noResults
           },
-          <.style()(ResultsInThemeStyles.render[String])
+          <.style()(ResultsInOperationStyles.render[String])
         )
       }
     )
 }
 
-object ResultsInThemeStyles extends StyleSheet.Inline {
+object ResultsInOperationStyles extends StyleSheet.Inline {
 
   import dsl._
 

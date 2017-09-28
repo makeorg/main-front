@@ -6,6 +6,7 @@ case class BusinessConfiguration(proposalMinLength: Int,
                                  proposalMaxLength: Int,
                                  themes: Seq[BusinessConfigurationTheme],
                                  newVisitorCookieDefinition: String) {
+
   def themesForLocale(locale: String): Seq[Theme] = {
     themes.flatMap(_.toTheme(locale))
   }

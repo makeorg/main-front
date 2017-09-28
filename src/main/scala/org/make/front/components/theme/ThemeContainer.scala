@@ -17,13 +17,13 @@ object ThemeContainer {
     (dispatch: Dispatch) => { (state: AppState, props: Props[Unit]) =>
       {
         val slug = props.`match`.params("themeSlug")
-        val themeList: Seq[ThemeModel] = state.themes.filter(_.slug == slug)
-        if (themeList.isEmpty) {
+        val themesList: Seq[ThemeModel] = state.themes.filter(_.slug == slug)
+        if (themesList.isEmpty) {
           props.history.push("/")
           Theme.ThemeProps(ThemeModel(ThemeId("fake"), "", "", 0, 0, "", None))
         } else {
           dispatch(LoadConfiguration)
-          Theme.ThemeProps(themeList.head)
+          Theme.ThemeProps(themesList.head)
         }
       }
     }

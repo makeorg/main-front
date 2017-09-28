@@ -5,7 +5,7 @@ import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import io.github.shogowada.scalajs.reactjs.redux.ReactRedux
 import org.make.front.components.AppState
 import org.make.front.components.submitProposal.SubmitProposalAndLogin.SubmitProposalAndLoginProps
-import org.make.front.models.{Theme => ThemeModel}
+import org.make.front.models.{Theme => ThemeModel, Operation => OperationModel}
 import org.make.services.proposal.ProposalService
 
 object SubmitProposalAndLoginContainer {
@@ -13,6 +13,7 @@ object SubmitProposalAndLoginContainer {
   case class SubmitProposalAndLoginContainerProps(bait: String,
                                                   proposalContentMaxLength: Int,
                                                   maybeTheme: Option[ThemeModel],
+                                                  maybeOperation: Option[OperationModel],
                                                   onProposalProposed: () => Unit)
 
   val reactClass: ReactClass = ReactRedux.connectAdvanced {
@@ -21,6 +22,7 @@ object SubmitProposalAndLoginContainer {
         bait = props.wrapped.bait,
         proposalContentMaxLength = props.wrapped.proposalContentMaxLength,
         maybeTheme = props.wrapped.maybeTheme,
+        maybeOperation = props.wrapped.maybeOperation,
         onProposalProposed = props.wrapped.onProposalProposed,
         propose = ProposalService.createProposal
       )

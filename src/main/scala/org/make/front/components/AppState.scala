@@ -2,12 +2,29 @@ package org.make.front.components
 
 import org.make.front.models._
 
+import org.make.front.models.{Operation => OperationModel}
+
 final case class AppState(configuration: Option[BusinessConfiguration],
                           politicalActions: Seq[PoliticalAction],
+                          operations: Seq[OperationModel] = Seq(
+                            OperationModel(
+                              id = OperationId("operationId"),
+                              slug = "vff",
+                              title = "Comment lutter contre les violences faîtes aux&nbsp;femmes&nbsp;?",
+                              actionsCount = 0, // actions count
+                              proposalsCount = 0, // proposal count
+                              color = "#660779",
+                              gradient = Some(GradientColor("#AB92CA", "#54325A")),
+                              tags = Seq()
+                            )
+                          ),
                           connectedUser: Option[User],
                           notifications: Seq[Notification],
                           locale: String = "fr") {
 
   def themes: Seq[Theme] = configuration.map(_.themesForLocale(locale)).getOrElse(Seq.empty)
   def findTheme(slug: String): Option[Theme] = themes.find(_.slug == slug)
+
+  def findOperation(slug: String): Option[Operation] = operations.find(_.slug == slug)
+
 }

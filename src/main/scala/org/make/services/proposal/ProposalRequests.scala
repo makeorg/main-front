@@ -23,6 +23,7 @@ object Order {
 final case class SortOptionRequest(field: String, mode: Option[Order])
 final case class SearchOptionsRequest(sort: Seq[SortOptionRequest], limit: Option[Int], skip: Option[Int])
 final case class SearchRequest(themesIds: Option[Seq[String]] = None,
+                               operationsIds: Option[Seq[String]] = None,
                                tagsIds: Option[Seq[String]] = None,
                                content: Option[String] = None,
                                options: Option[SearchOptionsRequest] = None)

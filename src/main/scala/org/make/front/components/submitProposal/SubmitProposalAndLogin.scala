@@ -8,7 +8,7 @@ import org.make.front.components.submitProposal.SubmitProposalForm.SubmitProposa
 import org.make.front.components.users.authenticate.RequireAuthenticatedUserContainer.RequireAuthenticatedUserContainerProps
 import org.make.front.facades.I18n
 import org.make.front.facades.Unescape.unescape
-import org.make.front.models.{Theme => ThemeModel}
+import org.make.front.models.{Theme => ThemeModel, Operation => OperationModel}
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
@@ -28,6 +28,7 @@ object SubmitProposalAndLogin {
   case class SubmitProposalAndLoginProps(bait: String,
                                          proposalContentMaxLength: Int,
                                          maybeTheme: Option[ThemeModel],
+                                         maybeOperation: Option[OperationModel],
                                          onProposalProposed: () => Unit,
                                          propose: (String)      => Future[_])
 

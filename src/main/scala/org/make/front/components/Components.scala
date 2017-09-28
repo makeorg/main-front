@@ -4,7 +4,6 @@ import io.github.shogowada.scalajs.reactjs.VirtualDOM.VirtualDOMAttributes.Type.
 import io.github.shogowada.scalajs.reactjs.VirtualDOM.VirtualDOMElements.ReactClassElementSpec
 import io.github.shogowada.scalajs.reactjs.VirtualDOM.{VirtualDOMAttributes, VirtualDOMElements}
 import io.github.shogowada.statictags.{Attribute, SpaceSeparatedStringAttributeSpec}
-import org.make.front.components.theme.{ResultsInTheme, ResultsInThemeContainer}
 
 import scala.scalajs.js
 import scalacss.StyleA
@@ -54,11 +53,6 @@ object Components {
 
     def FilterByTagsComponent: ReactClassElementSpec = self(tags.FilterByTags.reactClass)
 
-    def ThemeHeaderComponent: ReactClassElementSpec = self(theme.ThemeHeader.reactClass)
-
-    def SubmitProposalInRelationToThemeComponent: ReactClassElementSpec =
-      self(submitProposal.SubmitProposalInRelationToTheme.reactClass)
-
     def SubmitProposalComponent: ReactClassElementSpec =
       self(submitProposal.SubmitProposal.reactClass)
 
@@ -92,9 +86,6 @@ object Components {
     def UserNavContainerComponent: ReactClassElementSpec =
       self(userNav.UserNavContainer.reactClass)
 
-    def ResultsInThemeContainerComponent: ReactClassElementSpec =
-      self(ResultsInThemeContainer.reactClass)
-
     def ProposalInfosComponent: ReactClassElementSpec =
       self(proposal.ProposalInfos.reactClass)
 
@@ -112,9 +103,6 @@ object Components {
 
     def ProposalWithTagsComponent: ReactClassElementSpec =
       self(proposal.ProposalWithTags.reactClass)
-
-    def ResultsInThemeComponent: ReactClassElementSpec =
-      self(ResultsInTheme.reactClass)
 
     def NavInThemesContainerComponent: ReactClassElementSpec =
       self(navInThemes.NavInThemesContainer.reactClass)
@@ -162,6 +150,23 @@ object Components {
 
     def SpinnerComponent: ReactClassElementSpec =
       self(spinner.Spinner.reactClass)
+
+    def ThemeHeaderComponent: ReactClassElementSpec = self(theme.ThemeHeader.reactClass)
+    def SubmitProposalInRelationToThemeComponent: ReactClassElementSpec =
+      self(submitProposal.SubmitProposalInRelationToTheme.reactClass)
+    def ResultsInThemeContainerComponent: ReactClassElementSpec =
+      self(theme.ResultsInThemeContainer.reactClass)
+    def ResultsInThemeComponent: ReactClassElementSpec =
+      self(theme.ResultsInTheme.reactClass)
+
+    def OperationHeaderComponent: ReactClassElementSpec = self(operation.OperationHeader.reactClass)
+    def SubmitProposalInRelationToOperationComponent: ReactClassElementSpec =
+      self(submitProposal.SubmitProposalInRelationToOperation.reactClass)
+    def ResultsInOperationContainerComponent: ReactClassElementSpec =
+      self(operation.ResultsInOperationContainer.reactClass)
+    def ResultsInOperationComponent: ReactClassElementSpec =
+      self(operation.ResultsInOperation.reactClass)
+
   }
 
 }

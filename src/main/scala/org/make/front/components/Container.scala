@@ -9,6 +9,7 @@ import org.make.front.components.home.Home
 import org.make.front.components.authenticate.resetPassword.ResetPasswordContainer
 import org.make.front.components.search.SearchResultsContainer
 import org.make.front.components.theme.ThemeContainer
+import org.make.front.components.operation.OperationContainer
 
 object ContainerComponent {
 
@@ -25,6 +26,11 @@ object ContainerComponent {
             ^.exact := true,
             ^.path := "/account-activation/:userId/:verificationToken",
             ^.component := ActivateAccountContainer.reactClass
+          )(),
+          <.Route(
+            ^.exact := true,
+            ^.path := "/operation/:operationSlug",
+            ^.component := OperationContainer.reactClass
           )(),
           <.Route(^.exact := true, ^.path := "/theme/:themeSlug", ^.component := ThemeContainer.reactClass)(),
           <.Route(^.exact := true, ^.path := "/search", ^.component := SearchResultsContainer.reactClass)(),

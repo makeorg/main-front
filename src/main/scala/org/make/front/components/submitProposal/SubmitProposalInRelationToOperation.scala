@@ -7,60 +7,65 @@ import org.make.front.components.Components._
 import org.make.front.components.submitProposal.SubmitProposalAndLoginContainer.SubmitProposalAndLoginContainerProps
 import org.make.front.facades.I18n
 import org.make.front.facades.Unescape.unescape
-import org.make.front.models.{GradientColor => GradientColorModel, Theme => ThemeModel}
+import org.make.front.models.{GradientColor => GradientColorModel, Operation => OperationModel}
 import org.make.front.styles.{TextStyles, ThemeStyles}
 
 import scalacss.DevDefaults._
 import scalacss.internal.mutable.StyleSheet
 import scalacss.internal.{Attr, Length}
 
-object SubmitProposalInRelationToTheme {
+object SubmitProposalInRelationToOperation {
 
-  case class SubmitProposalInRelationToThemeProps(theme: ThemeModel, onProposalProposed: () => Unit)
+  case class SubmitProposalInRelationToOperationProps(operation: OperationModel, onProposalProposed: () => Unit)
 
-  case class SubmitProposalInRelationToThemeState(theme: ThemeModel)
+  case class SubmitProposalInRelationToOperationState(operation: OperationModel)
 
   lazy val reactClass: ReactClass =
-    React.createClass[SubmitProposalInRelationToThemeProps, SubmitProposalInRelationToThemeState](
+    React.createClass[SubmitProposalInRelationToOperationProps, SubmitProposalInRelationToOperationState](
       displayName = getClass.toString,
       getInitialState = { self =>
-        SubmitProposalInRelationToThemeState(theme = self.props.wrapped.theme)
+        SubmitProposalInRelationToOperationState(operation = self.props.wrapped.operation)
       },
       render = { self =>
-        val gradientColor: GradientColorModel = self.state.theme.gradient.getOrElse(GradientColorModel("#FFF", "#FFF"))
+        val gradientColor: GradientColorModel =
+          self.state.operation.gradient.getOrElse(GradientColorModel("#FFF", "#FFF"))
 
         <.article()(
-          <.h2(^.className := SubmitProposalInRelationToThemeStyles.title)(
+          <.h2(^.className := SubmitProposalInRelationToOperationStyles.title)(
             <.span(
-              ^.className := Seq(TextStyles.mediumText, TextStyles.intro, SubmitProposalInRelationToThemeStyles.intro)
+              ^.className := Seq(
+                TextStyles.mediumText,
+                TextStyles.intro,
+                SubmitProposalInRelationToOperationStyles.intro
+              )
             )(unescape(I18n.t("content.proposal.titleIntro"))),
             <.br()(),
             <.strong(
               ^.className := Seq(
                 TextStyles.veryBigTitle,
-                SubmitProposalInRelationToThemeStyles.theme,
-                SubmitProposalInRelationToThemeStyles.gradientColor(gradientColor.from, gradientColor.to)
+                SubmitProposalInRelationToOperationStyles.operation,
+                SubmitProposalInRelationToOperationStyles.gradientColor(gradientColor.from, gradientColor.to)
               )
-            )(unescape(self.state.theme.title))
+            )(unescape(self.state.operation.title))
           ),
           <.SubmitProposalAndLoginComponent(
             ^.wrapped :=
               SubmitProposalAndLoginContainerProps(
                 bait = "il faut",
                 proposalContentMaxLength = 140,
-                maybeTheme = Some(self.props.wrapped.theme),
-                maybeOperation = None,
+                maybeTheme = None,
+                maybeOperation = Some(self.props.wrapped.operation),
                 onProposalProposed = self.props.wrapped.onProposalProposed
               )
           )(),
-          <.style()(SubmitProposalInRelationToThemeStyles.render[String])
+          <.style()(SubmitProposalInRelationToOperationStyles.render[String])
         )
       }
     )
 
 }
 
-object SubmitProposalInRelationToThemeStyles extends StyleSheet.Inline {
+object SubmitProposalInRelationToOperationStyles extends StyleSheet.Inline {
 
   import dsl._
 
@@ -81,7 +86,7 @@ object SubmitProposalInRelationToThemeStyles extends StyleSheet.Inline {
       ThemeStyles.MediaQueries.beyondSmall(marginBottom(ThemeStyles.SpacingValue.smaller.pxToEm(18)))
     )
 
-  val theme: StyleA =
+  val operation: StyleA =
     style(
       display.inlineBlock,
       marginBottom(15.pxToEm(30)),

@@ -64,8 +64,8 @@ object ThemeHeader {
                     ThemeHeaderStyles.proposalInputWithIconWrapper
                   )
                 )(
-                  <.span(^.className := ThemeHeaderStyles.innerWapper)(
-                    <.span(^.className := ThemeHeaderStyles.inputWapper)(
+                  <.span(^.className := ThemeHeaderStyles.inputInnerWrapper)(
+                    <.span(^.className := ThemeHeaderStyles.inputSubInnerWrapper)(
                       <.input(
                         ^.`type`.text,
                         ^.value := "Il faut ",
@@ -167,9 +167,9 @@ object ThemeHeaderStyles extends StyleSheet.Inline {
       unsafeChild("input")(ThemeStyles.Font.circularStdBold)
     )
 
-  val innerWapper: StyleA = style(display.table, width(100.%%))
+  val inputInnerWrapper: StyleA = style(display.table, width(100.%%))
 
-  val inputWapper: StyleA =
+  val inputSubInnerWrapper: StyleA =
     style(display.tableCell, width(100.%%))
 
   val textLimitInfoWapper: StyleA = style(display.tableCell, verticalAlign.middle)
