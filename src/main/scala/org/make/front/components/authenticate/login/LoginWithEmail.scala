@@ -4,6 +4,7 @@ import io.github.shogowada.scalajs.reactjs.React
 import io.github.shogowada.scalajs.reactjs.VirtualDOM._
 import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import io.github.shogowada.scalajs.reactjs.events.FormSyntheticEvent
+import org.make.client.UnauthorizedHttpException
 import org.make.core.validation.NotBlankConstraint
 import org.make.front.Main.CssSettings._
 import org.make.front.components.Components._
@@ -17,7 +18,6 @@ import scala.concurrent.Future
 import scala.util.{Failure, Success}
 import scalacss.DevDefaults.StyleA
 import scalacss.internal.Length
-import scalacss.internal.mutable.StyleSheet.Inline
 
 object LoginWithEmail {
 
@@ -72,31 +72,42 @@ object LoginWithEmail {
             errorEmailMessages.isEmpty && errorPasswordMessages.isEmpty
           }
 
-          val handleSubmit: () => Boolean = { () =>
-            if (validate()) {
-              props.connectUser(self.state.email, self.state.password).onComplete {
-                case Success(_) => self.setState(LoginWithEmailState.empty)
-                case Failure(e) =>
+          val handleSubmit: () => Boolean = {
+            () =>
+              if (validate()) {
+                props.connectUser(self.state.email, self.state.password).onComplete {
+                  case Success(_) => self.setState(LoginWithEmailState.empty)
+                  case Failure(e) =>
+                    e match {
+                      case UnauthorizedHttpException =>
+                        self.setState(
+                          _.copy(emailErrorMessage = Some(unescape(I18n.t("form.login.errorAuthenticationFailed"))))
+                        )
+                      case _ =>
+                        self
+                          .setState(_.copy(emailErrorMessage = Some(unescape(I18n.t("form.login.errorSignInFailed")))))
+                    }
+
+                }
               }
-            }
-            false
+              false
           }
           val loginWithEmailInputWrapperClasses = Seq(
             InputStyles.wrapper.htmlClass,
             InputStyles.withIcon.htmlClass,
             LoginWithEmailStyles.emailInputWithIconWrapper.htmlClass,
-            (if (self.state.emailErrorMessage != None) {
-               InputStyles.withError.htmlClass
-             })
+            if (self.state.emailErrorMessage.isDefined) {
+              InputStyles.withError.htmlClass
+            }
           ).mkString(" ")
 
           val updatePasswordInputWrapperClasses = Seq(
             InputStyles.wrapper.htmlClass,
             InputStyles.withIcon.htmlClass,
             LoginWithEmailStyles.passwordInputWithIconWrapper.htmlClass,
-            (if (self.state.passwordErrorMessage != None) {
-               InputStyles.withError.htmlClass
-             })
+            if (self.state.passwordErrorMessage.isDefined) {
+              InputStyles.withError.htmlClass
+            }
           ).mkString(" ")
 
           <.form(^.onSubmit := handleSubmit)(
@@ -108,8 +119,8 @@ object LoginWithEmail {
                 ^.onChange := updateEmail
               )()
             ),
-            if (self.state.emailErrorMessage != None) {
-              <.p(^.className := InputStyles.errorMessage)(self.state.emailErrorMessage)
+            if (self.state.emailErrorMessage.isDefined) {
+              <.p(^.className := InputStyles.errorMessage)(self.state.emailErrorMessage.get)
             },
             <.label(^.className := updatePasswordInputWrapperClasses)(
               <.input(
@@ -119,8 +130,8 @@ object LoginWithEmail {
                 ^.onChange := updatePassword
               )()
             ),
-            if (self.state.passwordErrorMessage != None) {
-              <.p(^.className := InputStyles.errorMessage)(self.state.passwordErrorMessage)
+            if (self.state.passwordErrorMessage.isDefined) {
+              <.p(^.className := InputStyles.errorMessage)(self.state.passwordErrorMessage.get)
             },
             if (props.note != "") {
               <.p(^.className := Seq(LoginWithEmailStyles.note, TextStyles.smallerText))(props.note)

@@ -4,11 +4,12 @@ import io.github.shogowada.scalajs.reactjs.React
 import io.github.shogowada.scalajs.reactjs.VirtualDOM._
 import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import io.github.shogowada.scalajs.reactjs.events.FormSyntheticEvent
-import org.make.client.BadRequestHttpException
+import org.make.client.{BadRequestHttpException, ValidationError}
 import org.make.front.Main.CssSettings._
 import org.make.front.components.Components._
 import org.make.front.components.authenticate.NewPasswordInput.NewPasswordInputProps
-import org.make.front.facades.I18n
+import org.make.front.facades.Unescape.unescape
+import org.make.front.facades.{I18n, Replacements, Unescape}
 import org.make.front.styles.{CTAStyles, InputStyles, TextStyles, ThemeStyles}
 import org.scalajs.dom.raw.HTMLInputElement
 
@@ -36,14 +37,29 @@ object RegisterWithEmail {
             case Success(_) => self.setState(RegisterState.empty)
             case Failure(e) =>
               e match {
-                case exception: BadRequestHttpException if exception.getMessage.contains("already exist") =>
-                  self.setState(
-                    state => state.copy(errors = state.errors + ("email" -> I18n.t("form.register.errorAlreadyExist")))
-                  )
+                case exception: BadRequestHttpException =>
+                  val errors = exception.errors.map {
+                    case ValidationError("email", Some(message)) if message.contains("already exist") =>
+                      "email" -> unescape(I18n.t("form.register.errorAlreadyExist"))
+                    case ValidationError("email", Some(message)) if message.contains("required") =>
+                      "email" -> unescape(I18n.t("form.register.errorBlankEmail"))
+                    case ValidationError("email", _) =>
+                      "email" -> unescape(I18n.t("form.register.errorInvalidEmail"))
+                    case ValidationError("password", Some(message)) if message.contains("required") =>
+                      "password" -> unescape(I18n.t("form.register.errorBlankPassword"))
+                    case ValidationError("password", _) =>
+                      "password" -> unescape(I18n.t("form.register.errorMinPassword", Replacements("min" -> "8")))
+                    case ValidationError("firstName", Some(message)) if message.contains("required") =>
+                      "firstName" -> unescape(I18n.t("form.register.errorBlankFirstName"))
+                    case ValidationError(_, _) =>
+                      "global" -> unescape(I18n.t("form.register.errorRegistrationFailed"))
+                  }.toMap
+                  self.setState(_.copy(errors = errors))
+
                 case _ =>
                   self.setState(
                     state =>
-                      state.copy(errors = state.errors + ("email" -> I18n.t("form.register.errorRegistrationFailed")))
+                      state.copy(errors = state.errors + ("global" -> I18n.t("form.register.errorRegistrationFailed")))
                   )
               }
           }
@@ -66,7 +82,7 @@ object RegisterWithEmail {
             ^.value := self.state.fields.getOrElse("email", "")
           )()
         ),
-        if (self.state.errors.getOrElse("email", "") == "") {
+        if (self.state.errors.getOrElse("email", "") != "") {
           <.p(^.className := InputStyles.errorMessage)(self.state.errors.getOrElse("email", ""))
         },
         <.div(^.className := RegisterWithEmailStyles.newPasswordInputComponentWrapper)(
@@ -79,7 +95,7 @@ object RegisterWithEmail {
             )
           )()
         ),
-        if (self.state.errors.getOrElse("password", "") == "") {
+        if (self.state.errors.getOrElse("password", "") != "") {
           <.p(^.className := InputStyles.errorMessage)(self.state.errors.getOrElse("password", ""))
         },
         <.label(
@@ -98,7 +114,10 @@ object RegisterWithEmail {
             ^.value := self.state.fields.getOrElse("firstName", "")
           )()
         ),
-        if (self.state.errors.getOrElse("firstName", "") == "") {
+        if (self.state.errors.getOrElse("firstName", "") != "") {
+          <.p(^.className := InputStyles.errorMessage)(self.state.errors.getOrElse("firstName", ""))
+        },
+        if (self.state.errors.getOrElse("global", "") != "") {
           <.p(^.className := InputStyles.errorMessage)(self.state.errors.getOrElse("firstName", ""))
         },
         if (self.props.wrapped.note != "") {
