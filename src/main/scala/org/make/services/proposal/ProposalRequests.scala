@@ -28,3 +28,5 @@ final case class SearchRequest(themesIds: Option[Seq[String]] = None,
                                sort: Seq[SortOptionRequest],
                                limit: Option[Int],
                                skip: Option[Int])
+
+final case class VoteRequest(key: String)

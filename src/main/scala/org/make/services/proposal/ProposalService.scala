@@ -6,9 +6,9 @@ import org.make.client.MakeApiClient
 import org.make.core.URI._
 import org.make.core.{CirceClassFormatters, CirceFormatters}
 import org.make.front.facades.I18n
-import org.make.front.models.{OperationId, Proposal, TagId, ThemeId}
+import org.make.front.models._
 import org.make.services.ApiService
-import org.make.services.proposal.ProposalResponses.RegisterProposalResponse
+import org.make.services.proposal.ProposalResponses.{RegisterProposalResponse, VoteResponse}
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
@@ -48,6 +48,24 @@ object ProposalService extends ApiService with CirceClassFormatters with CirceFo
         ).asJson.pretty(ApiService.printer)
       )
       .map(_.get)
+
+  def vote(proposalId: ProposalId, voteValue: String): Future[VoteResponse] = {
+    MakeApiClient
+      .post[VoteResponse](
+        apiEndpoint = resourceName / proposalId.value / "vote",
+        data = VoteRequest(voteValue).asJson.pretty(ApiService.printer)
+      )
+      .map(_.get)
+  }
+
+  def unvote(proposalId: ProposalId, oldVoteValue: String): Future[VoteResponse] = {
+    MakeApiClient
+      .post[VoteResponse](
+        apiEndpoint = resourceName / proposalId.value / "unvote",
+        data = VoteRequest(oldVoteValue).asJson.pretty(ApiService.printer)
+      )
+      .map(_.get)
+  }
 
   final case class UnexpectedException(message: String = I18n.t("errors.unexpected")) extends Exception(message)
 

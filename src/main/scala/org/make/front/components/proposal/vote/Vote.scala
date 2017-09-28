@@ -5,17 +5,20 @@ import io.github.shogowada.scalajs.reactjs.VirtualDOM._
 import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import org.make.front.components.Components._
 import org.make.front.components.proposal.vote.VoteButton.VoteButtonProps
-import org.make.front.models.{Vote => VoteModel}
+import org.make.front.models.{ProposalId, Vote => VoteModel}
 import org.make.front.styles.ThemeStyles
+import org.make.services.proposal.ProposalService
 
+import scala.concurrent.Future
 import scalacss.DevDefaults._
 import scalacss.internal.Length
 
-import scalajs.js.Dynamic.{global => g}
-
 object Vote {
 
-  final case class VoteProps(voteAgreeStats: VoteModel, voteDisagreeStats: VoteModel, voteNeutralStats: VoteModel)
+  final case class VoteProps(proposalId: ProposalId,
+                             voteAgreeStats: VoteModel,
+                             voteDisagreeStats: VoteModel,
+                             voteNeutralStats: VoteModel)
 
   final case class VoteState()
 
@@ -24,24 +27,40 @@ object Vote {
       .createClass[VoteProps, VoteState](
         getInitialState = (_) => VoteState(),
         render = { (self) =>
-          def saveVote(vote: VoteModel): Unit = {
-            g.console.log(vote.key.toString)
+          def vote(key: String): Future[_] = {
+            ProposalService.vote(proposalId = self.props.wrapped.proposalId, key)
+          }
+
+          def unvote(key: String): Future[_] = {
+            ProposalService.unvote(proposalId = self.props.wrapped.proposalId, key)
           }
 
           <.ul(^.className := VoteStyles.voteButtonsList)(
             <.li(^.className := VoteStyles.voteButtonItem)(
               <.VoteButtonComponent(
-                ^.wrapped := VoteButtonProps(vote = self.props.wrapped.voteAgreeStats, handleVote = saveVote)
+                ^.wrapped := VoteButtonProps(
+                  vote = self.props.wrapped.voteAgreeStats,
+                  handleVote = vote,
+                  handleUnvote = unvote
+                )
               )()
             ),
             <.li(^.className := VoteStyles.voteButtonItem)(
               <.VoteButtonComponent(
-                ^.wrapped := VoteButtonProps(vote = self.props.wrapped.voteDisagreeStats, handleVote = saveVote)
+                ^.wrapped := VoteButtonProps(
+                  vote = self.props.wrapped.voteDisagreeStats,
+                  handleVote = vote,
+                  handleUnvote = unvote
+                )
               )()
             ),
             <.li(^.className := VoteStyles.voteButtonItem)(
               <.VoteButtonComponent(
-                ^.wrapped := VoteButtonProps(vote = self.props.wrapped.voteNeutralStats, handleVote = saveVote)
+                ^.wrapped := VoteButtonProps(
+                  vote = self.props.wrapped.voteNeutralStats,
+                  handleVote = vote,
+                  handleUnvote = unvote
+                )
               )()
             ),
             <.style()(VoteStyles.render[String])

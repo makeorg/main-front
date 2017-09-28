@@ -11,13 +11,17 @@ import org.make.front.facades.Unescape.unescape
 import org.make.front.models.{Vote => VoteModel}
 import org.make.front.styles.{TextStyles, ThemeStyles}
 
+import scala.concurrent.Future
+import scala.util.{Failure, Success}
 import scalacss.DevDefaults._
 import scalacss.internal.Length
 import scalacss.internal.mutable.StyleSheet
 
+import scala.concurrent.ExecutionContext.Implicits.global
+
 object VoteButton {
 
-  case class VoteButtonProps(vote: VoteModel, handleVote: (VoteModel) => Unit)
+  case class VoteButtonProps(vote: VoteModel, handleVote: (String) => Future[_], handleUnvote: (String) => Future[_])
 
   case class VoteButtonState(isSelected: Boolean)
 
@@ -27,8 +31,18 @@ object VoteButton {
 
       def vote() = (e: SyntheticEvent) => {
         e.preventDefault()
-        self.setState(_.copy(isSelected = !self.state.isSelected))
-        self.props.wrapped.handleVote(self.props.wrapped.vote)
+        if (self.state.isSelected) {
+          self.props.wrapped.handleUnvote(self.props.wrapped.vote.key).onComplete {
+            case Success(_) => self.setState(_.copy(isSelected = false))
+            case Failure(_) => // TODO: handle errors
+          }
+        } else {
+          self.props.wrapped.handleVote(self.props.wrapped.vote.key).onComplete {
+            case Success(_) => self.setState(_.copy(isSelected = true))
+            case Failure(_) => // TODO: handle errors
+          }
+        }
+
       }
 
       val buttonClasses =

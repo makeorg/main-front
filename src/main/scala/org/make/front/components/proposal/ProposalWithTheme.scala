@@ -30,6 +30,7 @@ object ProposalWithTheme {
           <.h3(^.className := Seq(TextStyles.mediumText, TextStyles.boldText))(self.props.wrapped.proposal.content),
           <.VoteComponent(
             ^.wrapped := VoteProps(
+              proposalId = self.props.wrapped.proposal.id,
               voteAgreeStats = self.props.wrapped.proposal.votesAgree,
               voteDisagreeStats = self.props.wrapped.proposal.votesDisagree,
               voteNeutralStats = self.props.wrapped.proposal.votesNeutral
