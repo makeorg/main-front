@@ -27,13 +27,11 @@ object ThemeHeader {
       getInitialState = { _ =>
         ThemeHeaderState(isProposalModalOpened = false)
       },
-      render = (self) => {
-
+      render = { self =>
         var proposalInput: Option[HTMLElement] = None
 
         def toggleProposalModal() = () => {
           self.setState(state => state.copy(isProposalModalOpened = !self.state.isProposalModalOpened))
-
         }
 
         def openProposalModalFromInput() = () => {

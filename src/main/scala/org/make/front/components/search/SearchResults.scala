@@ -32,11 +32,11 @@ object SearchResults {
     searchValue: Option[String]
   )
 
-  case class SearchResultsState(listProposals: Seq[ProposalModel],
-                                initialLoad: Boolean,
-                                hasRequestedMore: Boolean,
-                                hasMore: Boolean,
-                                isProposalModalOpened: Boolean)
+  final case class SearchResultsState(listProposals: Seq[ProposalModel],
+                                      initialLoad: Boolean,
+                                      hasRequestedMore: Boolean,
+                                      hasMore: Boolean,
+                                      isProposalModalOpened: Boolean)
 
   object SearchResultsState {
     val empty = SearchResultsState(

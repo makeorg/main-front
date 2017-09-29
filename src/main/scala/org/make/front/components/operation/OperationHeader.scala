@@ -3,10 +3,9 @@ package org.make.front.components.operation
 import io.github.shogowada.scalajs.reactjs.React
 import io.github.shogowada.scalajs.reactjs.VirtualDOM._
 import io.github.shogowada.scalajs.reactjs.classes.ReactClass
-import org.make.front.components.modals.FullscreenModal.FullscreenModalProps
 import org.make.front.components.Components._
-import org.make.front.components.operation.VFFIntro.VFFIntroProps
-import SubmitProposalInRelationToOperation.SubmitProposalInRelationToOperationProps
+import org.make.front.components.modals.FullscreenModal.FullscreenModalProps
+import org.make.front.components.operation.SubmitProposalInRelationToOperation.SubmitProposalInRelationToOperationProps
 import org.make.front.facades.Unescape.unescape
 import org.make.front.models.{Operation => OperationModel}
 import org.make.front.styles.{InputStyles, LayoutRulesStyles, TextStyles, ThemeStyles}
