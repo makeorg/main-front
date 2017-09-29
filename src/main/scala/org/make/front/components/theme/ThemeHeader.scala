@@ -5,7 +5,7 @@ import io.github.shogowada.scalajs.reactjs.VirtualDOM._
 import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import org.make.front.components.modals.FullscreenModal.FullscreenModalProps
 import org.make.front.components.Components._
-import org.make.front.components.submitProposal.SubmitProposalInRelationToTheme.SubmitProposalInRelationToThemeProps
+import SubmitProposalInRelationToTheme.SubmitProposalInRelationToThemeProps
 import org.make.front.facades._
 import org.make.front.models.{GradientColor => GradientColorModel, Theme => ThemeModel, ThemeId => ThemeIdModel}
 import org.make.front.styles.{InputStyles, LayoutRulesStyles, TextStyles, ThemeStyles}

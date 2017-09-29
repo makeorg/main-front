@@ -117,7 +117,7 @@ object ResultsInOperation {
           <.header(^.className := LayoutRulesStyles.col)(
             <.h2(^.className := TextStyles.bigTitle)(unescape(I18n.t("content.theme.matrix.title")))
           ),
-          if (self.props.wrapped.preselectedTags.length > 0) {
+          if (self.props.wrapped.preselectedTags.nonEmpty) {
             <.nav(^.className := LayoutRulesStyles.col)(
               <.FilterByTagsComponent(
                 ^.wrapped := FilterByTagsProps(self.props.wrapped.preselectedTags, onTagsChange)

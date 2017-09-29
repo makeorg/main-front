@@ -1,5 +1,7 @@
 package org.make.front.reducers
 
+import java.util.UUID
+
 import org.make.front.actions._
 import org.make.front.models.{Notification => NotificationModel, NotificationLevel => NotificationLevelModel}
 
@@ -21,20 +23,21 @@ object NotificationReducer {
     }
   }
 
-  def generateIdentifier(notifyAction: NotifyAction): Int = {
-    (notifyAction.message).hashCode()
+  def generateIdentifier(notifyAction: NotifyAction): String = {
+    UUID.randomUUID().toString
   }
 
-  private def addNotification(identifier: Int,
+  private def addNotification(identifier: String,
                               notifications: Seq[NotificationModel],
                               level: NotificationLevelModel,
                               message: String,
                               autoDismiss: Option[Int]): Seq[NotificationModel] = {
 
     notifications :+ NotificationModel(identifier = identifier, level = level, message = message)
+
   }
 
-  private def dismissNotification(notifications: Seq[NotificationModel], identifier: Int): Seq[NotificationModel] = {
+  private def dismissNotification(notifications: Seq[NotificationModel], identifier: String): Seq[NotificationModel] = {
     notifications.filter(_.identifier != identifier)
   }
 }

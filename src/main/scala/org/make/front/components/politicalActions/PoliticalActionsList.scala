@@ -85,7 +85,7 @@ object PoliticalActionsList {
             <.div(^.className := PoliticalActionsListStyles.slideshowWrapper)(
               <.div(^.className := PoliticalActionsListStyles.slideshowContentWrapper)(
                 <.div(^.className := Seq(PoliticalActionsListStyles.slideshow))(
-                  if (self.props.wrapped.politicalActions.length == 0) {
+                  if (self.props.wrapped.politicalActions.isEmpty) {
                     <.NoPoliticalActionComponent.empty
                   } else {
                     <.Slider(

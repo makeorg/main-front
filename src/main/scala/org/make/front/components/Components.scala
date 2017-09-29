@@ -4,6 +4,7 @@ import io.github.shogowada.scalajs.reactjs.VirtualDOM.VirtualDOMAttributes.Type.
 import io.github.shogowada.scalajs.reactjs.VirtualDOM.VirtualDOMElements.ReactClassElementSpec
 import io.github.shogowada.scalajs.reactjs.VirtualDOM.{VirtualDOMAttributes, VirtualDOMElements}
 import io.github.shogowada.statictags.{Attribute, SpaceSeparatedStringAttributeSpec}
+import org.make.front.components.theme.SubmitProposalInRelationToTheme
 
 import scala.scalajs.js
 import scalacss.StyleA
@@ -91,6 +92,10 @@ object Components {
     def ProposalWithTagsComponent: ReactClassElementSpec = self(proposal.ProposalWithTags.reactClass)
 
     def ShowcaseContainerComponent: ReactClassElementSpec = self(showcase.ShowcaseContainer.reactClass)
+    def SequenceContainerComponent: ReactClassElementSpec = self(sequence.SequenceContainer.reactClass)
+    def OperationSSequenceComponent: ReactClassElementSpec = self(operation.OperationSSequence.reactClass)
+    def OperationSSequenceContainerComponent: ReactClassElementSpec =
+      self(operation.OperationSSequenceContainer.reactClass)
 
     /*********************/
     def VoteComponent: ReactClassElementSpec = self(proposal.vote.Vote.reactClass)
@@ -112,7 +117,7 @@ object Components {
     /*********************/
     def ThemeHeaderComponent: ReactClassElementSpec = self(theme.ThemeHeader.reactClass)
     def SubmitProposalInRelationToThemeComponent: ReactClassElementSpec =
-      self(submitProposal.SubmitProposalInRelationToTheme.reactClass)
+      self(SubmitProposalInRelationToTheme.reactClass)
     def ResultsInThemeContainerComponent: ReactClassElementSpec = self(theme.ResultsInThemeContainer.reactClass)
     def ResultsInThemeComponent: ReactClassElementSpec = self(theme.ResultsInTheme.reactClass)
 
@@ -120,7 +125,7 @@ object Components {
     def VFFIntroComponent: ReactClassElementSpec = self(operation.VFFIntro.reactClass)
     def OperationHeaderComponent: ReactClassElementSpec = self(operation.OperationHeader.reactClass)
     def SubmitProposalInRelationToOperationComponent: ReactClassElementSpec =
-      self(submitProposal.SubmitProposalInRelationToOperation.reactClass)
+      self(operation.SubmitProposalInRelationToOperation.reactClass)
     def ResultsInOperationContainerComponent: ReactClassElementSpec =
       self(operation.ResultsInOperationContainer.reactClass)
     def ResultsInOperationComponent: ReactClassElementSpec = self(operation.ResultsInOperation.reactClass)

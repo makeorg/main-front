@@ -28,4 +28,4 @@ case class NotifySuccess(override val message: String,
     extends Action
     with NotifyAction
 
-case class DismissNotification(identifier: Int) extends Action
+case class DismissNotification(identifier: String) extends Action

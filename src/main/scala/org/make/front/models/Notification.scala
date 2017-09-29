@@ -9,4 +9,4 @@ object NotificationLevel {
   object Success extends NotificationLevel
 }
 
-case class Notification(identifier: Int, level: NotificationLevel, message: String, autoDismiss: Option[Int] = None)
+case class Notification(identifier: String, level: NotificationLevel, message: String, autoDismiss: Option[Int] = None)

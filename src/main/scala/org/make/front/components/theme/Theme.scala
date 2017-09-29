@@ -3,14 +3,11 @@ package org.make.front.components.theme
 import io.github.shogowada.scalajs.reactjs.React
 import io.github.shogowada.scalajs.reactjs.VirtualDOM._
 import io.github.shogowada.scalajs.reactjs.classes.ReactClass
-import io.github.shogowada.scalajs.reactjs.elements.ReactElement
 import org.make.front.components.Components._
-import ResultsInThemeContainer.ResultsInThemeContainerProps
+import org.make.front.components.theme.ResultsInThemeContainer.ResultsInThemeContainerProps
 import org.make.front.components.theme.ThemeHeader.ThemeHeaderProps
-import org.make.front.facades.I18n
-import org.make.front.facades.Translate.TranslateVirtualDOMElements
 import org.make.front.models.{Theme => ThemeModel}
-import org.make.front.styles.{LayoutRulesStyles, TextStyles, ThemeStyles}
+import org.make.front.styles.ThemeStyles
 
 import scalacss.DevDefaults._
 import scalacss.internal.Length

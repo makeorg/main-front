@@ -46,8 +46,8 @@ object Notifications {
                 <.div(^.className := NotificationClasses(notification.level))(
                   <.button(
                     ^.className := NotificationsStyles.closeModalButton,
-                    ^.key := notification.identifier.toString,
-                    ^.id := notification.identifier.toString,
+                    ^.key := notification.identifier,
+                    ^.id := notification.identifier,
                     ^.onClick := closeNotification
                   )(
                     <("svg")(

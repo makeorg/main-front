@@ -20,13 +20,13 @@ object Showcase {
 
   lazy val reactClass: ReactClass = React.createClass[ShowcaseProps, Unit](
     render = (self) =>
-      <.section(^.className := ShowCaseStyles.wrapper)(
+      <.section(^.className := ShowcaseStyles.wrapper)(
         <.div(^.className := LayoutRulesStyles.centeredRow)(
           <.header(^.className := LayoutRulesStyles.col)(
-            <.p(^.className := Seq(ShowCaseStyles.intro, TextStyles.mediumText, TextStyles.intro))(
+            <.p(^.className := Seq(ShowcaseStyles.intro, TextStyles.mediumText, TextStyles.intro))(
               unescape(I18n.t(self.props.wrapped.introTranslationKey))
             ),
-            <.h2(^.className := Seq(ShowCaseStyles.title, TextStyles.bigTitle))(
+            <.h2(^.className := Seq(ShowcaseStyles.title, TextStyles.bigTitle))(
               unescape(I18n.t("content.homepage.mostPopular"))
             )
           ),
@@ -35,7 +35,7 @@ object Showcase {
               proposal =>
                 <.li(
                   ^.className := Seq(
-                    ShowCaseStyles.propasalItem,
+                    ShowcaseStyles.propasalItem,
                     LayoutRulesStyles.col,
                     LayoutRulesStyles.colHalfBeyondMedium
                   )
@@ -53,13 +53,13 @@ object Showcase {
             )
           )
         ),
-        <.style()(ShowCaseStyles.render[String])
+        <.style()(ShowcaseStyles.render[String])
     )
   )
 
 }
 
-object ShowCaseStyles extends StyleSheet.Inline {
+object ShowcaseStyles extends StyleSheet.Inline {
   import dsl._
 
   //TODO: globalize function
