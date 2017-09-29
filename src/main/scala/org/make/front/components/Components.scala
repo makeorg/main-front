@@ -38,7 +38,7 @@ object Components {
     def SpinnerComponent: ReactClassElementSpec = self(spinner.Spinner.reactClass)
 
     def ContainerComponent: ReactClassElementSpec = self(org.make.front.components.ContainerComponent.reactClass)
-    def NotificationsContainerComponent: ReactClassElementSpec = self(notifications.NotificationsContainer.reactClass)
+    def NotificationsComponent: ReactClassElementSpec = self(notifications.Notifications.reactClass)
     def MainHeaderComponent: ReactClassElementSpec = self(mainHeader.MainHeader.reactClass)
     def MainFooterComponent: ReactClassElementSpec = self(mainFooter.MainFooter.reactClass)
     def NavInThemesContainerComponent: ReactClassElementSpec = self(navInThemes.NavInThemesContainer.reactClass)

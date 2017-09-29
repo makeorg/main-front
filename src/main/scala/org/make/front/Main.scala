@@ -53,10 +53,10 @@ object Main extends JSApp {
       Reducer.reduce,
       ReduxDevTools.composeWithDevTools(
         Redux.applyMiddleware(
-          NotificationMiddleware.handle,
           ConfigurationMiddleware.handle,
           PoliticalActionMiddleware.handle,
-          connectedUserMiddleware.handle
+          connectedUserMiddleware.handle,
+          NotificationMiddleware.handle
         )
       )
     )

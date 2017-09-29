@@ -1,14 +1,16 @@
 package org.make.front.components.notifications
 
-import javax.swing.LayoutStyle
+import java.util.UUID
 
 import io.github.shogowada.scalajs.reactjs.React
 import io.github.shogowada.scalajs.reactjs.VirtualDOM.{<, _}
 import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import io.github.shogowada.scalajs.reactjs.events.MouseSyntheticEvent
 import org.make.front.components.Components._
+import org.make.front.middlewares.NotificationMiddleware
+import org.make.front.middlewares.NotificationMiddleware.NotificationListener
+import org.make.front.models.NotificationLevel._
 import org.make.front.models.{Notification => NotificationModel, NotificationLevel => NotificationLevelModel}
-import NotificationLevelModel._
 import org.make.front.styles.{LayoutRulesStyles, TextStyles, ThemeStyles}
 
 import scalacss.DevDefaults._
@@ -16,20 +18,32 @@ import scalacss.internal.Length
 import scalacss.internal.mutable.StyleSheet
 
 object Notifications {
-  case class NotificationsProps(notifications: Seq[NotificationModel])
+  type NotificationsProps = Unit
 
-  case class NotificationsState()
+  case class NotificationsState(id: String, notifications: List[NotificationModel])
 
   lazy val reactClass: ReactClass =
     React.createClass[NotificationsProps, NotificationsState](
-      getInitialState = { self =>
-        NotificationsState( /*isNotificationOpened = self.state.isNotificationOpened*/ )
+      getInitialState = { _ =>
+        NotificationsState(UUID.randomUUID().toString, Nil)
+      },
+      componentDidMount = { self =>
+        val onNewNotification: (NotificationModel) => Unit = { notification =>
+          self.setState(state => state.copy(notifications = notification :: state.notifications))
+        }
+        val onDismiss: (String) => Unit = { id =>
+          self.setState(state => state.copy(notifications = state.notifications.filter(_.identifier != id)))
+        }
+        NotificationMiddleware.addNotificationistener(self.state.id, NotificationListener(onNewNotification, onDismiss))
+      },
+      componentWillUnmount = { self =>
+        NotificationMiddleware.removeNotificationListener(self.state.id)
       },
       render = (self) => {
 
-        val closeNotification: (MouseSyntheticEvent) => Unit = { event =>
+        def closeNotification(id: String): (MouseSyntheticEvent) => Unit = { event =>
           event.preventDefault()
-        //self.setState(state => state.copy(isNotificationOpened = true))
+          self.setState(state => state.copy(notifications = state.notifications.filter(_.identifier != id)))
         }
 
         def NotificationClasses(level: NotificationLevelModel) =
@@ -41,14 +55,14 @@ object Notifications {
           }).mkString(" ")
         <.div(^.className := Seq(NotificationsStyles.wrapper))(
           <.ul(^.className := Seq(NotificationsStyles.list, LayoutRulesStyles.centeredRow))(
-            self.props.wrapped.notifications.map(notification => {
+            self.state.notifications.map(notification => {
               <.li(^.className := Seq(NotificationsStyles.item, LayoutRulesStyles.col))(
                 <.div(^.className := NotificationClasses(notification.level))(
                   <.button(
                     ^.className := NotificationsStyles.closeModalButton,
                     ^.key := notification.identifier,
                     ^.id := notification.identifier,
-                    ^.onClick := closeNotification
+                    ^.onClick := closeNotification(notification.identifier)
                   )(
                     <("svg")(
                       ^("xmlns") := "http://www.w3.org/2000/svg",

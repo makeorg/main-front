@@ -28,7 +28,6 @@ final case class AppState(configuration: Option[BusinessConfiguration],
                           ),
                           bait: String = "Il faut",
                           connectedUser: Option[User],
-                          notifications: Seq[Notification],
                           country: String = "FR",
                           language: String = "fr") {
 

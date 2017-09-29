@@ -7,8 +7,7 @@ object Reducer {
     AppState(
       configuration = ConfigurationReducer.reduce(maybeState.flatMap(_.configuration), action),
       politicalActions = PoliticalActionReducer.reduce(maybeState.map(_.politicalActions), action),
-      connectedUser = ConnectedUserReducer.reduce(maybeState.flatMap(_.connectedUser), action),
-      notifications = NotificationReducer.reduce(maybeState.map(_.notifications), action)
+      connectedUser = ConnectedUserReducer.reduce(maybeState.flatMap(_.connectedUser), action)
     )
   }
 }

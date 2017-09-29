@@ -25,7 +25,7 @@ object App {
             ModalStyles.render[String]
           ),
           <.MainHeaderComponent.empty,
-          <.NotificationsContainerComponent.empty,
+          <.NotificationsComponent.empty,
           <.ContainerComponent.empty,
           <.MainFooterComponent.empty,
           <.style()(RWDHideRulesStyles.render[String])
