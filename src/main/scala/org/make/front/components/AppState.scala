@@ -31,7 +31,7 @@ final case class AppState(configuration: Option[BusinessConfiguration],
                           country: String = "FR",
                           language: String = "fr") {
 
-  def themes: Seq[Theme] = configuration.map(_.themesForLocale(language)).getOrElse(Seq.empty)
+  def themes: Seq[Theme] = configuration.map(_.themesForLocale(country, language)).getOrElse(Seq.empty)
   def findTheme(slug: String): Option[Theme] = themes.find(_.slug == slug)
 
   def findOperation(slug: String): Option[Operation] = operations.find(_.slug == slug)

@@ -20,7 +20,7 @@ object ThemeContainer {
         val themesList: Seq[ThemeModel] = state.themes.filter(_.slug == slug)
         if (themesList.isEmpty) {
           props.history.push("/")
-          Theme.ThemeProps(ThemeModel(ThemeId("fake"), "", "", 0, 0, "", None))
+          Theme.ThemeProps(ThemeModel(ThemeId("fake"), "", "", 0, 0, -1, "", None))
         } else {
           dispatch(LoadConfiguration)
           Theme.ThemeProps(themesList.head)

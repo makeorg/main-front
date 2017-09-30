@@ -16,6 +16,7 @@ final case class Theme(id: ThemeId,
                        title: String,
                        actionsCount: Int,
                        proposalsCount: Int,
+                       order: Int,
                        color: String,
                        gradient: Option[GradientColor] = None,
                        tags: Seq[Tag] = Seq.empty)

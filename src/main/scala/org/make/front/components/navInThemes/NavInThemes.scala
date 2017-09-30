@@ -13,6 +13,7 @@ import org.make.front.styles._
 import org.make.front.styles.base.TextStyles
 
 import scalacss.DevDefaults._
+import scalacss.internal.mutable.StyleSheet.Inline
 
 object NavInThemes {
 
@@ -20,7 +21,18 @@ object NavInThemes {
 
   lazy val reactClass: ReactClass = React.createClass[WrappedProps, Unit](render = self => {
 
-    val listTheme = self.props.wrapped.themes.map {
+    val themes: Seq[ThemeModel] = self.props.wrapped.themes
+    val colors: Map[Int, String] = themes.map(theme => theme.order -> theme.color).toMap
+
+    object DynamicThemesStylesheet extends Inline {
+      import dsl._
+
+      val themesColor: (Int) => StyleA = styleF.int(0 to themes.size) { index =>
+        styleS(borderColor :=! colors.getOrElse(index, "black"))
+      }
+    }
+
+    val listTheme = themes.map {
       theme =>
         <.li(
           ^.key := theme.slug,
@@ -35,7 +47,7 @@ object NavInThemes {
             <.div(
               ^.className := Seq(
                 NavInThemesStyles.themeItemContentWrapper,
-                NavInThemesStyles.themeItemContentWrapperBorderColor(theme.color)
+                DynamicThemesStylesheet.themesColor(theme.order)
               )
             )(
               <.h3(^.className := TextStyles.smallerTitle)(theme.title),
@@ -66,7 +78,8 @@ object NavInThemes {
           <.h2(^.className := Seq(TextStyles.mediumTitle))(unescape(I18n.t("content.footer.title")))
         ),
         <.ul(^.className := Seq(NavInThemesStyles.themesList))(listTheme),
-        <.style()(NavInThemesStyles.render[String])
+        <.style()(NavInThemesStyles.render[String]),
+        <.style()(DynamicThemesStylesheet.render[String])
       )
     )
   })
@@ -92,9 +105,6 @@ object NavInThemesStyles extends StyleSheet.Inline {
 
   val themeItemContentWrapper: StyleA =
     style(height(100.%%), paddingLeft :=! ThemeStyles.SpacingValue.smaller.pxToEm(), borderLeft :=! s"5px solid")
-
-  def themeItemContentWrapperBorderColor(color: String): StyleA =
-    style(borderColor :=! color)
 
   val actionsCounter: StyleA = style(
     display.inlineBlock,

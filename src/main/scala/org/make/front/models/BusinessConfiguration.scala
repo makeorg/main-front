@@ -1,5 +1,7 @@
 package org.make.front.models
 
+import java.util.concurrent.atomic.AtomicInteger
+
 import io.circe.Decoder
 
 case class BusinessConfiguration(proposalMinLength: Int,
@@ -7,8 +9,9 @@ case class BusinessConfiguration(proposalMinLength: Int,
                                  themes: Seq[BusinessConfigurationTheme],
                                  newVisitorCookieDefinition: String) {
 
-  def themesForLocale(locale: String): Seq[Theme] = {
-    themes.flatMap(_.toTheme(locale))
+  def themesForLocale(country: String, locale: String): Seq[Theme] = {
+    val counter = new AtomicInteger()
+    themes.filter(_.country == country).flatMap(_.toTheme(locale, counter))
   }
 }
 
@@ -28,7 +31,7 @@ final case class BusinessConfigurationTheme(themeId: ThemeId,
                                             gradient: Option[GradientColor] = None,
                                             tags: Seq[Tag] = Seq.empty) {
 
-  def toTheme(locale: String): Option[Theme] = {
+  def toTheme(locale: String, counter: AtomicInteger): Option[Theme] = {
     for {
       title <- title(locale)
       slug  <- slug(locale)
@@ -41,7 +44,8 @@ final case class BusinessConfigurationTheme(themeId: ThemeId,
         proposalsCount = proposalsCount,
         color = color,
         gradient = gradient,
-        tags = tags
+        tags = tags,
+        order = counter.getAndIncrement()
       )
     }
   }
