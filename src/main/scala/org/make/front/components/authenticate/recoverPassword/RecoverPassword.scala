@@ -27,8 +27,9 @@ object RecoverPassword {
   case class RecoverPasswordState(email: String, errorMessage: String)
 
   lazy val reactClass: ReactClass =
-    React.createClass[RecoverPasswordProps, RecoverPasswordState](getInitialState = { _ =>
-      RecoverPasswordState(email = "", errorMessage = "")
+    React.createClass[RecoverPasswordProps, RecoverPasswordState](displayName = "RecoverPassword", getInitialState = {
+      _ =>
+        RecoverPasswordState(email = "", errorMessage = "")
     }, render = {
       self =>
         val updateEmail =

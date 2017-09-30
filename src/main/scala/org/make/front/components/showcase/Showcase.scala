@@ -19,6 +19,7 @@ object Showcase {
   final case class ShowcaseProps(proposals: Seq[ProposalModel], introTranslationKey: String)
 
   lazy val reactClass: ReactClass = React.createClass[ShowcaseProps, Unit](
+    displayName = "Showcase",
     render = (self) =>
       <.section(^.className := ShowcaseStyles.wrapper)(
         <.div(^.className := LayoutRulesStyles.centeredRow)(

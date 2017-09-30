@@ -16,6 +16,7 @@ import scalacss.internal.mutable.StyleSheet
 object Intro {
 
   lazy val reactClass: ReactClass = React.createClass[Unit, Unit](
+    displayName = "Intro",
     render = (_) =>
       <.section(^.className := IntroStyles.wrapper)(
         <.div(^.className := IntroStyles.innerWrapper)(

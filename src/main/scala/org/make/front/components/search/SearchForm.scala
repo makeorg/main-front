@@ -50,6 +50,7 @@ object SearchForm {
     WithRouter(
       React
         .createClass[Unit, State](
+          displayName = "SearchForm",
           getInitialState = (self) => {
             State(URIUtils.decodeURI(QueryString.parse(self.props.location.search).getOrElse("q", "")), js.Array())
           },

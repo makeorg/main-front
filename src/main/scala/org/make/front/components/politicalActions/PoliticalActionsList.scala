@@ -22,6 +22,7 @@ object PoliticalActionsList {
   final case class PoliticalActionsListState()
 
   lazy val reactClass: ReactClass = React.createClass[PoliticalActionsListProps, PoliticalActionsListState](
+    displayName = "PoliticalActionsList",
     getInitialState = (_) => PoliticalActionsListState(),
     render = { (self) =>
       var previousButton: Option[HTMLElement] = None

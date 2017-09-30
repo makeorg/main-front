@@ -24,7 +24,7 @@ object OperationHeader {
 
   lazy val reactClass: ReactClass =
     React.createClass[OperationHeaderProps, OperationHeaderState](
-      displayName = getClass.toString,
+      displayName = "OperationHeader",
       getInitialState = { _ =>
         OperationHeaderState(isProposalModalOpened = false)
       },

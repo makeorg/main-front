@@ -5,6 +5,7 @@ import io.github.shogowada.scalajs.reactjs.VirtualDOM._
 import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import org.make.front.components.Components._
 import org.make.front.components.submitProposal.SubmitProposalAndLoginContainer.SubmitProposalAndLoginContainerProps
+import org.make.front.components.theme.SubmitProposalInRelationToThemeStyles.style
 import org.make.front.facades.I18n
 import org.make.front.facades.Unescape.unescape
 import org.make.front.models.{GradientColor => GradientColorModel, Theme => ThemeModel}
@@ -15,6 +16,7 @@ import org.make.front.styles.base.TextStyles
 import scalacss.DevDefaults._
 import scalacss.internal.Attr
 import scalacss.internal.mutable.StyleSheet
+import scalacss.internal.mutable.StyleSheet.Inline
 
 object SubmitProposalInRelationToTheme {
 
@@ -24,12 +26,22 @@ object SubmitProposalInRelationToTheme {
 
   lazy val reactClass: ReactClass =
     React.createClass[SubmitProposalInRelationToThemeProps, SubmitProposalInRelationToThemeState](
-      displayName = getClass.toString,
+      displayName = "SubmitProposalInRelationToTheme",
       getInitialState = { self =>
         SubmitProposalInRelationToThemeState(theme = self.props.wrapped.theme)
       },
       render = { self =>
         val gradientColor: GradientColorModel = self.state.theme.gradient.getOrElse(GradientColorModel("#FFF", "#FFF"))
+
+        object ThemeStyles extends Inline {
+          import dsl._
+
+          val titleBackground = style(
+            background := s"-webkit-linear-gradient(94deg, ${gradientColor.from}, ${gradientColor.to})",
+            Attr.real("-webkit-background-clip") := "text",
+            Attr.real("-webkit-text-fill-color") := "transparent"
+          )
+        }
 
         <.article()(
           <.h2(^.className := SubmitProposalInRelationToThemeStyles.title)(
@@ -41,7 +53,7 @@ object SubmitProposalInRelationToTheme {
               ^.className := Seq(
                 TextStyles.veryBigTitle,
                 SubmitProposalInRelationToThemeStyles.theme,
-                SubmitProposalInRelationToThemeStyles.gradientColor(gradientColor.from, gradientColor.to)
+                ThemeStyles.titleBackground
               )
             )(unescape(self.state.theme.title))
           ),
@@ -53,7 +65,8 @@ object SubmitProposalInRelationToTheme {
                 onProposalProposed = self.props.wrapped.onProposalProposed
               )
           )(),
-          <.style()(SubmitProposalInRelationToThemeStyles.render[String])
+          <.style()(SubmitProposalInRelationToThemeStyles.render[String]),
+          <.style()(ThemeStyles.render[String])
         )
       }
     )
@@ -81,12 +94,4 @@ object SubmitProposalInRelationToThemeStyles extends StyleSheet.Inline {
       lineHeight(41.pxToEm(30)),
       ThemeStyles.MediaQueries.beyondMedium(marginBottom(10.pxToEm(60)), lineHeight(83.pxToEm(60)))
     )
-
-  def gradientColor(from: String, to: String): StyleA =
-    style(
-      background := s"-webkit-linear-gradient(94deg, $from, $to)",
-      Attr.real("-webkit-background-clip") := "text",
-      Attr.real("-webkit-text-fill-color") := "transparent"
-    )
-
 }

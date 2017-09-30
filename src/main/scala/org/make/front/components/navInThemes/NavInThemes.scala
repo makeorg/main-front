@@ -19,70 +19,71 @@ object NavInThemes {
 
   case class WrappedProps(themes: Seq[ThemeModel])
 
-  lazy val reactClass: ReactClass = React.createClass[WrappedProps, Unit](render = self => {
+  lazy val reactClass: ReactClass =
+    React.createClass[WrappedProps, Unit](displayName = "NavInThemes", render = self => {
 
-    val themes: Seq[ThemeModel] = self.props.wrapped.themes
-    val colors: Map[Int, String] = themes.map(theme => theme.order -> theme.color).toMap
+      val themes: Seq[ThemeModel] = self.props.wrapped.themes
+      val colors: Map[Int, String] = themes.map(theme => theme.order -> theme.color).toMap
 
-    object DynamicThemesStylesheet extends Inline {
-      import dsl._
+      object DynamicThemesStylesheet extends Inline {
+        import dsl._
 
-      val themesColor: (Int) => StyleA = styleF.int(0 to themes.size) { index =>
-        styleS(borderColor :=! colors.getOrElse(index, "black"))
+        val themesColor: (Int) => StyleA = styleF.int(0 to themes.size) { index =>
+          styleS(borderColor :=! colors.getOrElse(index, "black"))
+        }
       }
-    }
 
-    val listTheme = themes.map {
-      theme =>
-        <.li(
-          ^.key := theme.slug,
-          ^.className := Seq(
-            NavInThemesStyles.themeItem,
-            LayoutRulesStyles.col,
-            LayoutRulesStyles.colHalfBeyondSmall,
-            LayoutRulesStyles.colThirdBeyondLarge
-          )
-        )(
-          <.Link(^.to := s"/theme/${theme.slug}", ^.className := NavInThemesStyles.themeLink)(
-            <.div(
-              ^.className := Seq(
-                NavInThemesStyles.themeItemContentWrapper,
-                DynamicThemesStylesheet.themesColor(theme.order)
-              )
-            )(
-              <.h3(^.className := TextStyles.smallerTitle)(theme.title),
-              <.p(^.className := Seq(NavInThemesStyles.actionsCounter, TextStyles.smallText))(
-                unescape(
-                  I18n.t(
-                    "content.theme.actionsCount",
-                    Replacements(("actions", NumberFormat.formatToKilo(theme.actionsCount)))
-                  )
+      val listTheme = themes.map {
+        theme =>
+          <.li(
+            ^.key := theme.slug,
+            ^.className := Seq(
+              NavInThemesStyles.themeItem,
+              LayoutRulesStyles.col,
+              LayoutRulesStyles.colHalfBeyondSmall,
+              LayoutRulesStyles.colThirdBeyondLarge
+            )
+          )(
+            <.Link(^.to := s"/theme/${theme.slug}", ^.className := NavInThemesStyles.themeLink)(
+              <.div(
+                ^.className := Seq(
+                  NavInThemesStyles.themeItemContentWrapper,
+                  DynamicThemesStylesheet.themesColor(theme.order)
                 )
-              ),
-              <.p(^.className := Seq(NavInThemesStyles.propositionsCounter, TextStyles.smallText))(
-                unescape(
-                  I18n.t(
-                    "content.theme.proposalsCount",
-                    Replacements(("proposals", NumberFormat.formatToKilo(theme.proposalsCount)))
+              )(
+                <.h3(^.className := TextStyles.smallerTitle)(theme.title),
+                <.p(^.className := Seq(NavInThemesStyles.actionsCounter, TextStyles.smallText))(
+                  unescape(
+                    I18n.t(
+                      "content.theme.actionsCount",
+                      Replacements(("actions", NumberFormat.formatToKilo(theme.actionsCount)))
+                    )
+                  )
+                ),
+                <.p(^.className := Seq(NavInThemesStyles.propositionsCounter, TextStyles.smallText))(
+                  unescape(
+                    I18n.t(
+                      "content.theme.proposalsCount",
+                      Replacements(("proposals", NumberFormat.formatToKilo(theme.proposalsCount)))
+                    )
                   )
                 )
               )
             )
           )
-        )
-    }
+      }
 
-    <.nav(^.className := NavInThemesStyles.wrapper)(
-      <.div(^.className := LayoutRulesStyles.centeredRow)(
-        <.div(^.className := Seq(NavInThemesStyles.titleWrapper, LayoutRulesStyles.col))(
-          <.h2(^.className := Seq(TextStyles.mediumTitle))(unescape(I18n.t("content.footer.title")))
-        ),
-        <.ul(^.className := Seq(NavInThemesStyles.themesList))(listTheme),
-        <.style()(NavInThemesStyles.render[String]),
-        <.style()(DynamicThemesStylesheet.render[String])
+      <.nav(^.className := NavInThemesStyles.wrapper)(
+        <.div(^.className := LayoutRulesStyles.centeredRow)(
+          <.div(^.className := Seq(NavInThemesStyles.titleWrapper, LayoutRulesStyles.col))(
+            <.h2(^.className := Seq(TextStyles.mediumTitle))(unescape(I18n.t("content.footer.title")))
+          ),
+          <.ul(^.className := Seq(NavInThemesStyles.themesList))(listTheme),
+          <.style()(NavInThemesStyles.render[String]),
+          <.style()(DynamicThemesStylesheet.render[String])
+        )
       )
-    )
-  })
+    })
 }
 
 object NavInThemesStyles extends StyleSheet.Inline {

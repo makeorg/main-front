@@ -51,9 +51,8 @@ object SearchResults {
 
   lazy val reactClass: ReactClass =
     WithRouter(
-      React.createClass[SearchResultsProps, SearchResultsState](displayName = getClass.toString, getInitialState = {
-        _ =>
-          SearchResultsState.empty
+      React.createClass[SearchResultsProps, SearchResultsState](displayName = "SearchResults", getInitialState = { _ =>
+        SearchResultsState.empty
       }, componentWillReceiveProps = (self, _) => {
         self.setState(SearchResultsState.empty)
       }, render = {

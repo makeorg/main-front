@@ -22,7 +22,7 @@ object SubmitProposalInRelationToOperation {
 
   lazy val reactClass: ReactClass =
     React.createClass[SubmitProposalInRelationToOperationProps, SubmitProposalInRelationToOperationState](
-      displayName = getClass.toString,
+      displayName = "SubmitProposalInRelationToOperation",
       getInitialState = { self =>
         SubmitProposalInRelationToOperationState(operation = self.props.wrapped.operation)
       },

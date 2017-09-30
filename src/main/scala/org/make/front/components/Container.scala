@@ -11,10 +11,11 @@ import org.make.front.components.search.SearchResultsContainer
 import org.make.front.components.theme.ThemeContainer
 import org.make.front.components.operation.{OperationContainer, OperationSSequence, OperationSSequenceContainer}
 
-object ContainerComponent {
+object Container {
 
   lazy val reactClass = WithRouter(
     React.createClass[Unit, Unit](
+      displayName = "Container",
       render = (_) =>
         <.Switch()(
           <.Route(

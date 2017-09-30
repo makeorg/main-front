@@ -35,6 +35,7 @@ object LoginWithEmail {
   val reactClass: ReactClass =
     React
       .createClass[LoginWithEmailProps, LoginWithEmailState](
+        displayName = "LoginWithEmail",
         getInitialState = (_) => LoginWithEmailState.empty,
         render = { self =>
           val props = self.props.wrapped

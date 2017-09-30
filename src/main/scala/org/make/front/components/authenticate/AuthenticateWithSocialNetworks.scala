@@ -40,6 +40,7 @@ object AuthenticateWithSocialNetworks {
 
   val reactClass: ReactClass =
     React.createClass[AuthenticateWithSocialNetworksProps, AuthenticateWithSocialNetworksState](
+      displayName = "AuthenticateWithSocialNetworks",
       getInitialState = { _ =>
         AuthenticateWithSocialNetworksState(Seq.empty)
       },

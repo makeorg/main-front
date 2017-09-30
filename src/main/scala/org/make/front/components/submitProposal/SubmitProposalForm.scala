@@ -32,7 +32,7 @@ object SubmitProposalForm {
 
   lazy val reactClass: ReactClass =
     React.createClass[SubmitProposalFormProps, SubmitProposalFormState](
-      displayName = getClass.toString,
+      displayName = "SubmitProposalForm",
       getInitialState = { _ =>
         SubmitProposalFormState()
       },

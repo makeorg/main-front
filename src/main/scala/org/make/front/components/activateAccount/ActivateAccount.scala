@@ -10,7 +10,7 @@ object ActivateAccount {
   case class ActivateAccountProps(handleValidateAccount: (Self[ActivateAccountProps, Unit]) => Unit)
 
   lazy val reactClass: ReactClass =
-    React.createClass[ActivateAccountProps, Unit](displayName = getClass.getSimpleName, componentWillMount = { self =>
+    React.createClass[ActivateAccountProps, Unit](displayName = "ActivateAccount", componentWillMount = { self =>
       self.props.wrapped.handleValidateAccount(self)
     }, render = self => {
       <.div()()

@@ -16,37 +16,41 @@ object ShareOwnProposal {
   final case class ShareOwnProposalProps(proposal: ProposalModel)
 
   val reactClass: ReactClass =
-    React.createClass[ShareOwnProposalProps, Unit](render = (self) => {
+    React
+      .createClass[ShareOwnProposalProps, Unit](displayName = "ShareOwnProposal", render = (self) => {
 
-      <.div(^.className := ShareOwnProposalStyles.wrapper)(
-        <.h4(^.className := Seq(TextStyles.smallText, ShareOwnProposalStyles.intro))("Ma proposition"),
-        <.div(^.className := ShareOwnProposalStyles.shareButtonsListWrapper)(
-          <.ul(^.className := ShareOwnProposalStyles.shareButtonsList)(
-            <.li(^.className := ShareOwnProposalStyles.shareButtonItem)(
-              <.button(
-                ^.className := Seq(ShareOwnProposalStyles.shareButton, ShareOwnProposalStyles.shareWithFacebookButton)
-              )()
-            ),
-            <.li(^.className := ShareOwnProposalStyles.shareButtonItem)(
-              <.button(
-                ^.className := Seq(ShareOwnProposalStyles.shareButton, ShareOwnProposalStyles.shareWithTwitterButton)
-              )()
-            ),
-            <.li(^.className := ShareOwnProposalStyles.shareButtonItem)(
-              <.button(
-                ^.className := Seq(ShareOwnProposalStyles.shareButton, ShareOwnProposalStyles.shareWithGooglePlusButton)
-              )()
-            ),
-            <.li(^.className := ShareOwnProposalStyles.shareButtonItem)(
-              <.button(
-                ^.className := Seq(ShareOwnProposalStyles.shareButton, ShareOwnProposalStyles.shareWithLinkedInButton)
-              )()
+        <.div(^.className := ShareOwnProposalStyles.wrapper)(
+          <.h4(^.className := Seq(TextStyles.smallText, ShareOwnProposalStyles.intro))("Ma proposition"),
+          <.div(^.className := ShareOwnProposalStyles.shareButtonsListWrapper)(
+            <.ul(^.className := ShareOwnProposalStyles.shareButtonsList)(
+              <.li(^.className := ShareOwnProposalStyles.shareButtonItem)(
+                <.button(
+                  ^.className := Seq(ShareOwnProposalStyles.shareButton, ShareOwnProposalStyles.shareWithFacebookButton)
+                )()
+              ),
+              <.li(^.className := ShareOwnProposalStyles.shareButtonItem)(
+                <.button(
+                  ^.className := Seq(ShareOwnProposalStyles.shareButton, ShareOwnProposalStyles.shareWithTwitterButton)
+                )()
+              ),
+              <.li(^.className := ShareOwnProposalStyles.shareButtonItem)(
+                <.button(
+                  ^.className := Seq(
+                    ShareOwnProposalStyles.shareButton,
+                    ShareOwnProposalStyles.shareWithGooglePlusButton
+                  )
+                )()
+              ),
+              <.li(^.className := ShareOwnProposalStyles.shareButtonItem)(
+                <.button(
+                  ^.className := Seq(ShareOwnProposalStyles.shareButton, ShareOwnProposalStyles.shareWithLinkedInButton)
+                )()
+              )
             )
-          )
-        ),
-        <.style()(ShareOwnProposalStyles.render[String])
-      )
-    })
+          ),
+          <.style()(ShareOwnProposalStyles.render[String])
+        )
+      })
 }
 
 object ShareOwnProposalStyles extends StyleSheet.Inline {

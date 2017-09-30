@@ -15,6 +15,7 @@ import scalacss.internal.mutable.StyleSheet
 
 object MainHeader {
   lazy val reactClass: ReactClass = React.createClass[Unit, Unit](
+    displayName = "MainHeader",
     render = (self) =>
       <.header(^.className := MainHeaderStyles.wrapper)(
         <.div(^.className := LayoutRulesStyles.centeredRow)(

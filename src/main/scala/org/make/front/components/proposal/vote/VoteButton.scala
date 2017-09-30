@@ -25,6 +25,7 @@ object VoteButton {
   case class VoteButtonState(isSelected: Boolean)
 
   lazy val reactClass: ReactClass = React.createClass[VoteButtonProps, VoteButtonState](
+    displayName = "VoteButton",
     getInitialState = (_) => VoteButtonState(isSelected = false),
     render = (self) => {
 

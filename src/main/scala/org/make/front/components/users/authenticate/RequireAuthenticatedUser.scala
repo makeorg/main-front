@@ -15,22 +15,27 @@ object RequireAuthenticatedUser {
   type RequireAuthenticatedUserState = Unit
 
   val reactClass: ReactClass =
-    React.createClass[RequireAuthenticatedUserProps, RequireAuthenticatedUserState](render = { self =>
-      val props = self.props.wrapped
+    React.createClass[RequireAuthenticatedUserProps, RequireAuthenticatedUserState](
+      displayName = "RequireAuthenticatedUser",
+      componentWillMount = { self =>
+        self.props.wrapped.onceConnected()
+      },
+      render = { self =>
+        val props = self.props.wrapped
 
-      if (props.isConnected) {
-        props.onceConnected()
-        <.div()()
-      } else {
-        <.LoginOrRegisterComponent(
-          // There is no need to use callback here, since the component will be reloaded with different props
-          // once the user is connected. if we map it here, the callback will be called twice
-          ^.wrapped := LoginOrRegisterProps(
-            registerView = props.registerView,
-            displayView = props.defaultView,
-            onSuccessfulLogin = () => {}
-          )
-        )()
+        if (props.isConnected) {
+          <.div()()
+        } else {
+          <.LoginOrRegisterComponent(
+            // There is no need to use callback here, since the component will be reloaded with different props
+            // once the user is connected. if we map it here, the callback will be called twice
+            ^.wrapped := LoginOrRegisterProps(
+              registerView = props.registerView,
+              displayView = props.defaultView,
+              onSuccessfulLogin = () => {}
+            )
+          )()
+        }
       }
-    })
+    )
 }

@@ -17,18 +17,19 @@ object Operation {
 
   final case class OperationProps(operation: OperationModel)
 
-  lazy val reactClass: ReactClass = React.createClass[OperationProps, Unit](render = (self) => {
-    <("operation")()(
-      <.VFFIntroComponent(^.wrapped := VFFIntroProps(operation = self.props.wrapped.operation))(),
-      <.OperationHeaderComponent(^.wrapped := OperationHeaderProps(self.props.wrapped.operation))(),
-      <.div(^.className := OperationComponentStyles.contentWrapper)(
-        <.ResultsInOperationContainerComponent(
-          ^.wrapped := ResultsInOperationContainerProps(currentOperation = self.props.wrapped.operation)
-        )()
-      ),
-      <.style()(OperationComponentStyles.render[String])
-    )
-  })
+  lazy val reactClass: ReactClass =
+    React.createClass[OperationProps, Unit](displayName = "Operation", render = (self) => {
+      <("operation")()(
+        <.VFFIntroComponent(^.wrapped := VFFIntroProps(operation = self.props.wrapped.operation))(),
+        <.OperationHeaderComponent(^.wrapped := OperationHeaderProps(self.props.wrapped.operation))(),
+        <.div(^.className := OperationComponentStyles.contentWrapper)(
+          <.ResultsInOperationContainerComponent(
+            ^.wrapped := ResultsInOperationContainerProps(currentOperation = self.props.wrapped.operation)
+          )()
+        ),
+        <.style()(OperationComponentStyles.render[String])
+      )
+    })
 }
 
 object OperationComponentStyles extends StyleSheet.Inline {

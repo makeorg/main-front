@@ -41,6 +41,7 @@ object ResultsInTheme {
 
   lazy val reactClass: ReactClass =
     React.createClass[ResultsInThemeProps, ResultsInThemeState](
+      displayName = "ResultsInTheme",
       getInitialState = { self =>
         ResultsInThemeState(
           selectedTags = self.props.wrapped.preselectedTags,

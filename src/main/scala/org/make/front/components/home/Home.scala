@@ -9,6 +9,7 @@ import org.make.front.components.showcase.ShowcaseContainer.ShowcaseContainerPro
 object Home {
   lazy val reactClass: ReactClass =
     React.createClass[Unit, Unit](
+      displayName = "Home",
       render = (_) =>
         <("home")()(
           <.MainIntroComponent.empty,

@@ -5,7 +5,7 @@ import io.github.shogowada.scalajs.reactjs.React.Self
 import io.github.shogowada.scalajs.reactjs.VirtualDOM.{<, _}
 import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import org.make.front.components.Components._
-import org.make.front.components.tags.TagsListComponent.TagsListComponentProps
+import org.make.front.components.tags.TagsList.TagsListComponentProps
 import org.make.front.facades.I18n
 import org.make.front.facades.Unescape.unescape
 import org.make.front.models.{Tag => TagModel}
@@ -24,6 +24,7 @@ object FilterByTags {
 
   lazy val reactClass: ReactClass =
     React.createClass[FilterByTagsProps, FilterByTagsState](
+      displayName = "FilterByTags",
       getInitialState = (_) => FilterByTagsState(showAll = false, selectedTags = Seq.empty),
       render = { self =>
         def handleSelectedTags(tag: TagModel): Unit = {

@@ -15,34 +15,37 @@ object PoliticalAction {
 
   case class PoliticalActionProps(politicalAction: PoliticalActionModel)
 
-  lazy val reactClass: ReactClass = React.createClass[PoliticalActionProps, Unit](render = (self) => {
-    val politicalAction = self.props.wrapped.politicalAction
+  lazy val reactClass: ReactClass =
+    React.createClass[PoliticalActionProps, Unit](displayName = "PoliticalAction", render = (self) => {
+      val politicalAction = self.props.wrapped.politicalAction
 
-    <.article(^.className := PoliticalActionStyles.wrapper)(
-      <.p(^.className := PoliticalActionStyles.imageWrapper)(
-        <.img(^.className := PoliticalActionStyles.image, ^.src := politicalAction.imageUrl)()
-      ),
-      <.div(^.className := PoliticalActionStyles.contentWrapper)(
-        <.p(^.className := Seq(TextStyles.smallerText, PoliticalActionStyles.info))(
-          <.i(
-            ^.className := Seq(FontAwesomeStyles.fa, PoliticalActionStyles.infoIcon, FontAwesomeStyles.calendarOpen)
-          )(),
-          politicalAction.date
+      <.article(^.className := PoliticalActionStyles.wrapper)(
+        <.p(^.className := PoliticalActionStyles.imageWrapper)(
+          <.img(^.className := PoliticalActionStyles.image, ^.src := politicalAction.imageUrl)()
         ),
-        <.p(^.className := Seq(TextStyles.smallerText, PoliticalActionStyles.info))(
-          <.i(^.className := Seq(FontAwesomeStyles.fa, PoliticalActionStyles.infoIcon, FontAwesomeStyles.mapMarker))(),
-          politicalAction.location
+        <.div(^.className := PoliticalActionStyles.contentWrapper)(
+          <.p(^.className := Seq(TextStyles.smallerText, PoliticalActionStyles.info))(
+            <.i(
+              ^.className := Seq(FontAwesomeStyles.fa, PoliticalActionStyles.infoIcon, FontAwesomeStyles.calendarOpen)
+            )(),
+            politicalAction.date
+          ),
+          <.p(^.className := Seq(TextStyles.smallerText, PoliticalActionStyles.info))(
+            <.i(
+              ^.className := Seq(FontAwesomeStyles.fa, PoliticalActionStyles.infoIcon, FontAwesomeStyles.mapMarker)
+            )(),
+            politicalAction.location
+          ),
+          <.p(^.className := Seq(TextStyles.boldText, TextStyles.mediumText, PoliticalActionStyles.text))(
+            politicalAction.text,
+            <.br()(),
+            <.a(^.className := PoliticalActionStyles.seeMore)(unescape(I18n.t("content.theme.moreInfos")))
+          )
         ),
-        <.p(^.className := Seq(TextStyles.boldText, TextStyles.mediumText, PoliticalActionStyles.text))(
-          politicalAction.text,
-          <.br()(),
-          <.a(^.className := PoliticalActionStyles.seeMore)(unescape(I18n.t("content.theme.moreInfos")))
-        )
-      ),
-      <.style()(PoliticalActionStyles.render[String])
-    )
+        <.style()(PoliticalActionStyles.render[String])
+      )
 
-  })
+    })
 }
 
 object PoliticalActionStyles extends StyleSheet.Inline {

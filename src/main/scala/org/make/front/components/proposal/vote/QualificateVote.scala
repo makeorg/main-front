@@ -22,6 +22,7 @@ object QualificateVote {
   lazy val reactClass: ReactClass =
     React
       .createClass[QualificateVoteProps, QualificateVoteState](
+        displayName = "QualificateVote",
         getInitialState = (self) => QualificateVoteState(qualifications = self.props.wrapped.vote.qualifications),
         render = { (self) =>
           def saveVoteQualification(qualification: QualificationModel): Unit = {

@@ -18,31 +18,34 @@ object LoginWithEmailOrSocialNetworks {
 
   case class LoginWithEmailOrSocialNetworksProps(onSuccessfulLogin: () => Unit = () => {})
 
-  val reactClass: ReactClass = React.createClass[LoginWithEmailOrSocialNetworksProps, Unit](render = { self =>
-    <.div()(
-      <.div(^.className := LoginWithEmailOrSocialNetworksStyles.introWrapper)(
-        <.p(^.className := TextStyles.smallTitle)(unescape(I18n.t("form.login.socialConnect")))
-      ),
-      <.AuthenticateWithSocialNetworksComponent(
-        ^.wrapped := AuthenticateWithSocialNetworksContainerProps(
-          note = "",
-          onSuccessfulLogin = self.props.wrapped.onSuccessfulLogin
-        )
-      )(),
-      <.div(^.className := LoginWithEmailOrSocialNetworksStyles.separatorWrapper)(
-        <.p(^.className := Seq(LoginWithEmailOrSocialNetworksStyles.separator, TextStyles.mediumText))(
-          I18n.t("form.or")
-        )
-      ),
-      <.div(^.className := LoginWithEmailOrSocialNetworksStyles.introWrapper)(
-        <.p(^.className := TextStyles.smallTitle)(unescape(I18n.t("form.login.stdConnect")))
-      ),
-      <.LoginWithEmailComponent(
-        ^.wrapped := LoginWithEmailContainerProps(note = "", onSuccessfulLogin = self.props.wrapped.onSuccessfulLogin)
-      )(),
-      <.style()(LoginWithEmailOrSocialNetworksStyles.render[String])
-    )
-  })
+  val reactClass: ReactClass = React.createClass[LoginWithEmailOrSocialNetworksProps, Unit](
+    displayName = "LoginWithEmailOrSocialNetworks",
+    render = { self =>
+      <.div()(
+        <.div(^.className := LoginWithEmailOrSocialNetworksStyles.introWrapper)(
+          <.p(^.className := TextStyles.smallTitle)(unescape(I18n.t("form.login.socialConnect")))
+        ),
+        <.AuthenticateWithSocialNetworksComponent(
+          ^.wrapped := AuthenticateWithSocialNetworksContainerProps(
+            note = "",
+            onSuccessfulLogin = self.props.wrapped.onSuccessfulLogin
+          )
+        )(),
+        <.div(^.className := LoginWithEmailOrSocialNetworksStyles.separatorWrapper)(
+          <.p(^.className := Seq(LoginWithEmailOrSocialNetworksStyles.separator, TextStyles.mediumText))(
+            I18n.t("form.or")
+          )
+        ),
+        <.div(^.className := LoginWithEmailOrSocialNetworksStyles.introWrapper)(
+          <.p(^.className := TextStyles.smallTitle)(unescape(I18n.t("form.login.stdConnect")))
+        ),
+        <.LoginWithEmailComponent(
+          ^.wrapped := LoginWithEmailContainerProps(note = "", onSuccessfulLogin = self.props.wrapped.onSuccessfulLogin)
+        )(),
+        <.style()(LoginWithEmailOrSocialNetworksStyles.render[String])
+      )
+    }
+  )
 
 }
 

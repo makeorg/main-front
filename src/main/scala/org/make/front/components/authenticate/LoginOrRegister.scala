@@ -29,8 +29,9 @@ object LoginOrRegister {
   }
 
   val reactClass: ReactClass =
-    React.createClass[LoginOrRegisterProps, LoginOrRegisterState](getInitialState = { _ =>
-      LoginOrRegisterState.empty
+    React.createClass[LoginOrRegisterProps, LoginOrRegisterState](displayName = "LoginOrRegister", getInitialState = {
+      _ =>
+        LoginOrRegisterState.empty
     }, componentWillReceiveProps = { (self, props) =>
       self.setState(_.copy(currentView = props.wrapped.displayView))
     }, render = {

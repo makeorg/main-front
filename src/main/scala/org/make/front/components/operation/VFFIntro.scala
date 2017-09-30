@@ -21,7 +21,7 @@ object VFFIntro {
   lazy val reactClass: ReactClass =
     React
       .createClass[VFFIntroProps, Unit](
-        displayName = getClass.toString,
+        displayName = "VFFIntro",
         render = (self) => {
 
           val operation: OperationModel =

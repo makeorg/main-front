@@ -24,6 +24,7 @@ object NewPasswordInput {
 
   val reactClass: ReactClass =
     React.createClass[NewPasswordInputProps, NewPasswordInputState](
+      displayName = "NewPasswordInput",
       getInitialState = { _ =>
         NewPasswordInputState("password")
 

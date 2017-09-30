@@ -22,7 +22,7 @@ import scalacss.DevDefaults.StyleA
 object RegisterWithEmail {
 
   val reactClass: ReactClass =
-    React.createClass[RegisterProps, RegisterState](getInitialState = { _ =>
+    React.createClass[RegisterProps, RegisterState](displayName = "RegisterWithEmail", getInitialState = { _ =>
       RegisterState(Map(), Map())
     }, render = { self =>
       def updateField(name: String): (FormSyntheticEvent[HTMLInputElement]) => Unit = { event =>

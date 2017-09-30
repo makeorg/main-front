@@ -13,75 +13,76 @@ import scalacss.DevDefaults._
 
 object MainFooter {
 
-  lazy val reactClass: ReactClass = React.createClass[Unit, Unit](render = self => {
-    <.footer(^.className := MainFooterStyles.wrapper)(
-      <.div(^.className := LayoutRulesStyles.centeredRow)(
-        <.div(^.className := LayoutRulesStyles.col)(
-          <.div(^.className := MainFooterStyles.innerWrapper)(
-            <.p(^.className := MainFooterStyles.logoWrapper)(
-              <.a(^.href := "/")(<.img(^.className := MainFooterStyles.logo, ^.src := logoMake.toString)())
-            ),
-            <.div(^.className := MainFooterStyles.menuWrapper)(
-              <.ul(^.className := MainFooterStyles.menu)(
-                <.li(^.className := Seq(MainFooterStyles.menuItem, MainFooterStyles.emphasizedMenuItem))(
-                  <.p(^.className := Seq(TextStyles.title, TextStyles.smallText))(
-                    <.a(^.href := "/", ^.className := MainFooterStyles.menuItemLink)(
-                      <.i(
-                        ^.className := Seq(
-                          MainFooterStyles.menuItemIcon,
-                          FontAwesomeStyles.fa,
-                          FontAwesomeStyles.bullhorn
-                        )
-                      )(),
-                      unescape(I18n.t("content.footer.recruitment"))
+  lazy val reactClass: ReactClass =
+    React.createClass[Unit, Unit](displayName = "MainFooter", render = self => {
+      <.footer(^.className := MainFooterStyles.wrapper)(
+        <.div(^.className := LayoutRulesStyles.centeredRow)(
+          <.div(^.className := LayoutRulesStyles.col)(
+            <.div(^.className := MainFooterStyles.innerWrapper)(
+              <.p(^.className := MainFooterStyles.logoWrapper)(
+                <.a(^.href := "/")(<.img(^.className := MainFooterStyles.logo, ^.src := logoMake.toString)())
+              ),
+              <.div(^.className := MainFooterStyles.menuWrapper)(
+                <.ul(^.className := MainFooterStyles.menu)(
+                  <.li(^.className := Seq(MainFooterStyles.menuItem, MainFooterStyles.emphasizedMenuItem))(
+                    <.p(^.className := Seq(TextStyles.title, TextStyles.smallText))(
+                      <.a(^.href := "/", ^.className := MainFooterStyles.menuItemLink)(
+                        <.i(
+                          ^.className := Seq(
+                            MainFooterStyles.menuItemIcon,
+                            FontAwesomeStyles.fa,
+                            FontAwesomeStyles.bullhorn
+                          )
+                        )(),
+                        unescape(I18n.t("content.footer.recruitment"))
+                      )
                     )
-                  )
-                ),
-                <.li(^.className := MainFooterStyles.menuItem)(
-                  <.p(^.className := Seq(TextStyles.title, TextStyles.smallText))(
-                    <.a(^.href := "/", ^.className := MainFooterStyles.menuItemLink)(I18n.t("content.footer.jobs"))
-                  )
-                ),
-                <.li(^.className := Seq(MainFooterStyles.menuItem, RWDHideRulesStyles.hideBeyondMedium))(
-                  <.p(^.className := Seq(TextStyles.title, TextStyles.smallText))(
-                    <.a(^.href := "/", ^.className := MainFooterStyles.menuItemLink)(
-                      unescape(I18n.t("content.footer.presentation"))
+                  ),
+                  <.li(^.className := MainFooterStyles.menuItem)(
+                    <.p(^.className := Seq(TextStyles.title, TextStyles.smallText))(
+                      <.a(^.href := "/", ^.className := MainFooterStyles.menuItemLink)(I18n.t("content.footer.jobs"))
                     )
-                  )
-                ),
-                <.li(^.className := MainFooterStyles.menuItem)(
-                  <.p(^.className := Seq(TextStyles.title, TextStyles.smallText))(
-                    <.a(^.href := "/", ^.className := MainFooterStyles.menuItemLink)(I18n.t("content.footer.press"))
-                  )
-                ),
-                <.li(^.className := MainFooterStyles.menuItem)(
-                  <.p(^.className := Seq(TextStyles.title, TextStyles.smallText))(
-                    <.a(^.href := "/", ^.className := MainFooterStyles.menuItemLink)(I18n.t("content.footer.terms"))
-                  )
-                ),
-                <.li(^.className := MainFooterStyles.menuItem)(
-                  <.p(^.className := Seq(TextStyles.title, TextStyles.smallText))(
-                    <.a(^.href := "/", ^.className := MainFooterStyles.menuItemLink)(I18n.t("content.footer.contact"))
-                  )
-                ),
-                <.li(^.className := MainFooterStyles.menuItem)(
-                  <.p(^.className := Seq(TextStyles.title, TextStyles.smallText))(
-                    <.a(^.href := "/", ^.className := MainFooterStyles.menuItemLink)(I18n.t("content.footer.faq"))
-                  )
-                ),
-                <.li(^.className := MainFooterStyles.menuItem)(
-                  <.p(^.className := Seq(TextStyles.title, TextStyles.smallText))(
-                    <.a(^.href := "/", ^.className := MainFooterStyles.menuItemLink)(I18n.t("content.footer.sitemap"))
+                  ),
+                  <.li(^.className := Seq(MainFooterStyles.menuItem, RWDHideRulesStyles.hideBeyondMedium))(
+                    <.p(^.className := Seq(TextStyles.title, TextStyles.smallText))(
+                      <.a(^.href := "/", ^.className := MainFooterStyles.menuItemLink)(
+                        unescape(I18n.t("content.footer.presentation"))
+                      )
+                    )
+                  ),
+                  <.li(^.className := MainFooterStyles.menuItem)(
+                    <.p(^.className := Seq(TextStyles.title, TextStyles.smallText))(
+                      <.a(^.href := "/", ^.className := MainFooterStyles.menuItemLink)(I18n.t("content.footer.press"))
+                    )
+                  ),
+                  <.li(^.className := MainFooterStyles.menuItem)(
+                    <.p(^.className := Seq(TextStyles.title, TextStyles.smallText))(
+                      <.a(^.href := "/", ^.className := MainFooterStyles.menuItemLink)(I18n.t("content.footer.terms"))
+                    )
+                  ),
+                  <.li(^.className := MainFooterStyles.menuItem)(
+                    <.p(^.className := Seq(TextStyles.title, TextStyles.smallText))(
+                      <.a(^.href := "/", ^.className := MainFooterStyles.menuItemLink)(I18n.t("content.footer.contact"))
+                    )
+                  ),
+                  <.li(^.className := MainFooterStyles.menuItem)(
+                    <.p(^.className := Seq(TextStyles.title, TextStyles.smallText))(
+                      <.a(^.href := "/", ^.className := MainFooterStyles.menuItemLink)(I18n.t("content.footer.faq"))
+                    )
+                  ),
+                  <.li(^.className := MainFooterStyles.menuItem)(
+                    <.p(^.className := Seq(TextStyles.title, TextStyles.smallText))(
+                      <.a(^.href := "/", ^.className := MainFooterStyles.menuItemLink)(I18n.t("content.footer.sitemap"))
+                    )
                   )
                 )
               )
             )
           )
-        )
-      ),
-      <.style()(MainFooterStyles.render[String])
-    )
-  })
+        ),
+        <.style()(MainFooterStyles.render[String])
+      )
+    })
 }
 
 object MainFooterStyles extends StyleSheet.Inline {

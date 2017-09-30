@@ -29,7 +29,7 @@ object PasswordReset {
 
   lazy val reactClass: ReactClass =
     React.createClass[PasswordResetProps, PasswordResetState](
-      displayName = getClass.getSimpleName,
+      displayName = "PasswordReset",
       getInitialState = { _ =>
         PasswordResetState(
           password = "",

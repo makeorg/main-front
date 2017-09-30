@@ -21,7 +21,7 @@ object SubmitProposal {
 
   lazy val reactClass: ReactClass =
     React.createClass[SubmitProposalProps, SubmitProposalState](
-      displayName = getClass.toString,
+      displayName = "SubmitProposal",
       getInitialState = { _ =>
         SubmitProposalState()
       },

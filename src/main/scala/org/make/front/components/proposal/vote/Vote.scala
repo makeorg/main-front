@@ -24,6 +24,7 @@ object Vote {
   lazy val reactClass: ReactClass =
     React
       .createClass[VoteProps, VoteState](
+        displayName = "Vote",
         getInitialState = (_) => VoteState(),
         render = { (self) =>
           def vote(key: String): Future[_] = {

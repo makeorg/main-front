@@ -18,7 +18,7 @@ object Modal {
 
   lazy val reactClass: ReactClass =
     React.createClass[ModalProps, ModalState](
-      displayName = getClass.toString,
+      displayName = "Modal",
       getInitialState = { self =>
         ModalState(isModalOpened = self.props.wrapped.isModalOpened)
       },

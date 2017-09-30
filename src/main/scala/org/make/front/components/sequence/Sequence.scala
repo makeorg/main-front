@@ -12,7 +12,7 @@ object Sequence {
   final case class SequenceProps(sequence: SequenceModel)
 
   lazy val reactClass: ReactClass =
-    React.createClass[SequenceProps, Unit](getInitialState = { self =>
+    React.createClass[SequenceProps, Unit](displayName = "Sequence", getInitialState = { self =>
       }, render = { self =>
       <.div()("Sequence")
     })

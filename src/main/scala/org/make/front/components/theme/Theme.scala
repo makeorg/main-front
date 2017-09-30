@@ -16,19 +16,20 @@ object Theme {
 
   final case class ThemeProps(theme: ThemeModel)
 
-  lazy val reactClass: ReactClass = React.createClass[ThemeProps, Unit](render = (self) => {
-    <("theme")()(
-      <.ThemeHeaderComponent(^.wrapped := ThemeHeaderProps(self.props.wrapped.theme))(),
-      <.div(^.className := ThemeComponentStyles.contentWrapper)(
-        <.PoliticalActionsContainerComponent()(),
-        <.ResultsInThemeContainerComponent(
-          ^.wrapped := ResultsInThemeContainerProps(currentTheme = self.props.wrapped.theme)
-        )(),
-        <.NavInThemesContainerComponent.empty
-      ),
-      <.style()(ThemeComponentStyles.render[String])
-    )
-  })
+  lazy val reactClass: ReactClass =
+    React.createClass[ThemeProps, Unit](displayName = "Theme", render = (self) => {
+      <("theme")()(
+        <.ThemeHeaderComponent(^.wrapped := ThemeHeaderProps(self.props.wrapped.theme))(),
+        <.div(^.className := ThemeComponentStyles.contentWrapper)(
+          <.PoliticalActionsContainerComponent()(),
+          <.ResultsInThemeContainerComponent(
+            ^.wrapped := ResultsInThemeContainerProps(currentTheme = self.props.wrapped.theme)
+          )(),
+          <.NavInThemesContainerComponent.empty
+        ),
+        <.style()(ThemeComponentStyles.render[String])
+      )
+    })
 }
 
 object ThemeComponentStyles extends StyleSheet.Inline {

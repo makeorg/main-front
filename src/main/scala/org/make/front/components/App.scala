@@ -14,6 +14,7 @@ object App {
 
   lazy val reactClass = WithRouter(
     React.createClass[Unit, Unit](
+      displayName = "App",
       render = (_) =>
         <("app-container")(^.className := "App")(
           <.style()(

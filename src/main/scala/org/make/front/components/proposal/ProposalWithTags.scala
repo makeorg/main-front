@@ -18,40 +18,41 @@ object ProposalWithTags {
   final case class ProposalWithTagsProps(proposal: ProposalModel)
 
   val reactClass: ReactClass =
-    React.createClass[ProposalWithTagsProps, Unit](render = (self) => {
+    React
+      .createClass[ProposalWithTagsProps, Unit](displayName = "ProposalWithTags", render = (self) => {
 
-      <.article(^.className := ProposalStyles.wrapper)(
-        <.header(^.className := ProposalStyles.proposalInfosWrapper)(
-          <.ProposalInfosComponent(^.wrapped := ProposalInfosProps(proposal = self.props.wrapped.proposal))()
-        ),
-        /*<.header(^.className := ProposalStyles.shareOwnProposalWrapper)(
+        <.article(^.className := ProposalStyles.wrapper)(
+          <.header(^.className := ProposalStyles.proposalInfosWrapper)(
+            <.ProposalInfosComponent(^.wrapped := ProposalInfosProps(proposal = self.props.wrapped.proposal))()
+          ),
+          /*<.header(^.className := ProposalStyles.shareOwnProposalWrapper)(
           <.ShareOwnProposalComponent(^.wrapped := ShareOwnProposalProps(proposal = self.props.wrapped.proposal))()
           ),*/
-        <.div(^.className := ProposalStyles.contentWrapper)(
-          <.h3(^.className := Seq(TextStyles.mediumText, TextStyles.boldText))(self.props.wrapped.proposal.content),
-          <.VoteComponent(
-            ^.wrapped := Vote.VoteProps(
-              proposalId = self.props.wrapped.proposal.id,
-              voteAgreeStats = self.props.wrapped.proposal.votesAgree,
-              voteDisagreeStats = self.props.wrapped.proposal.votesDisagree,
-              voteNeutralStats = self.props.wrapped.proposal.votesNeutral
-            )
-          )()
-        ),
-        <.footer(^.className := ProposalStyles.footer)(
-          <.ul(^.className := ProposalWithTagsStyles.tagList)(
-            self.props.wrapped.proposal.tags
-              .map(
-                tag =>
-                  <.li(^.className := ProposalWithTagsStyles.tagListItem)(
-                    <.span(^.className := TagStyles.basic)(tag.label)
-                )
+          <.div(^.className := ProposalStyles.contentWrapper)(
+            <.h3(^.className := Seq(TextStyles.mediumText, TextStyles.boldText))(self.props.wrapped.proposal.content),
+            <.VoteComponent(
+              ^.wrapped := Vote.VoteProps(
+                proposalId = self.props.wrapped.proposal.id,
+                voteAgreeStats = self.props.wrapped.proposal.votesAgree,
+                voteDisagreeStats = self.props.wrapped.proposal.votesDisagree,
+                voteNeutralStats = self.props.wrapped.proposal.votesNeutral
               )
-          )
-        ),
-        <.style()(ProposalStyles.render[String], ProposalWithTagsStyles.render[String])
-      )
-    })
+            )()
+          ),
+          <.footer(^.className := ProposalStyles.footer)(
+            <.ul(^.className := ProposalWithTagsStyles.tagList)(
+              self.props.wrapped.proposal.tags
+                .map(
+                  tag =>
+                    <.li(^.className := ProposalWithTagsStyles.tagListItem)(
+                      <.span(^.className := TagStyles.basic)(tag.label)
+                  )
+                )
+            )
+          ),
+          <.style()(ProposalStyles.render[String], ProposalWithTagsStyles.render[String])
+        )
+      })
 }
 
 object ProposalWithTagsStyles extends StyleSheet.Inline {

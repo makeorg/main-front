@@ -25,7 +25,7 @@ object ThemeHeader {
 
   lazy val reactClass: ReactClass =
     React.createClass[ThemeHeaderProps, ThemeHeaderState](
-      displayName = getClass.toString,
+      displayName = "ThemeHeader",
       getInitialState = { _ =>
         ThemeHeaderState(isProposalModalOpened = false)
       },
@@ -41,8 +41,7 @@ object ThemeHeader {
           proposalInput.foreach(_.blur())
         }
 
-        val theme: ThemeModel =
-          self.props.wrapped.theme
+        val theme: ThemeModel = self.props.wrapped.theme
         val gradient: GradientColorModel = theme.gradient.getOrElse(GradientColorModel("#FFF", "#FFF"))
 
         object ThemeSheet extends Inline {

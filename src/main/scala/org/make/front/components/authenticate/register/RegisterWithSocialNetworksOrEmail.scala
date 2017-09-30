@@ -18,34 +18,37 @@ object RegisterWithSocialNetworksOrEmail {
 
   case class RegisterWithSocialNetworksOrEmailProps(onSuccessfulLogin: () => Unit = () => {})
 
-  val regular: ReactClass = React.createClass[RegisterWithSocialNetworksOrEmailProps, Unit](render = { self =>
-    <.div()(
-      <.div(^.className := RegisterWithSocialNetworksOrEmailStyles.introWrapper)(
-        <.p(^.className := TextStyles.smallTitle)(unescape(I18n.t("form.register.withSocial")))
-      ),
-      <.AuthenticateWithSocialNetworksComponent(
-        ^.wrapped := AuthenticateWithSocialNetworksContainerProps(
-          note = unescape(I18n.t("form.register.noPublishedContent")),
-          onSuccessfulLogin = self.props.wrapped.onSuccessfulLogin
-        )
-      )(),
-      <.div(^.className := RegisterWithSocialNetworksOrEmailStyles.separatorWrapper)(
-        <.p(^.className := Seq(RegisterWithSocialNetworksOrEmailStyles.separator, TextStyles.mediumText))(
-          I18n.t("form.or")
-        )
-      ),
-      <.div(^.className := RegisterWithSocialNetworksOrEmailStyles.introWrapper)(
-        <.p(^.className := TextStyles.smallTitle)(unescape(I18n.t("form.register.withForm")))
-      ),
-      <.RegisterWithEmailComponent(
-        ^.wrapped := RegisterUserProps(
-          note = unescape(I18n.t("form.register.termsAgreed")),
-          onSuccessfulRegistration = self.props.wrapped.onSuccessfulLogin
-        )
-      )(),
-      <.style()(RegisterWithSocialNetworksOrEmailStyles.render[String])
-    )
-  })
+  val regular: ReactClass = React.createClass[RegisterWithSocialNetworksOrEmailProps, Unit](
+    displayName = "RegisterWithSocialNetworksOrEmail",
+    render = { self =>
+      <.div()(
+        <.div(^.className := RegisterWithSocialNetworksOrEmailStyles.introWrapper)(
+          <.p(^.className := TextStyles.smallTitle)(unescape(I18n.t("form.register.withSocial")))
+        ),
+        <.AuthenticateWithSocialNetworksComponent(
+          ^.wrapped := AuthenticateWithSocialNetworksContainerProps(
+            note = unescape(I18n.t("form.register.noPublishedContent")),
+            onSuccessfulLogin = self.props.wrapped.onSuccessfulLogin
+          )
+        )(),
+        <.div(^.className := RegisterWithSocialNetworksOrEmailStyles.separatorWrapper)(
+          <.p(^.className := Seq(RegisterWithSocialNetworksOrEmailStyles.separator, TextStyles.mediumText))(
+            I18n.t("form.or")
+          )
+        ),
+        <.div(^.className := RegisterWithSocialNetworksOrEmailStyles.introWrapper)(
+          <.p(^.className := TextStyles.smallTitle)(unescape(I18n.t("form.register.withForm")))
+        ),
+        <.RegisterWithEmailComponent(
+          ^.wrapped := RegisterUserProps(
+            note = unescape(I18n.t("form.register.termsAgreed")),
+            onSuccessfulRegistration = self.props.wrapped.onSuccessfulLogin
+          )
+        )(),
+        <.style()(RegisterWithSocialNetworksOrEmailStyles.render[String])
+      )
+    }
+  )
 
   val expanded: ReactClass = React.createClass[RegisterWithSocialNetworksOrEmailProps, Unit](render = { self =>
     <.div()(

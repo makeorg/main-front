@@ -41,6 +41,7 @@ object ResultsInOperation {
 
   lazy val reactClass: ReactClass =
     React.createClass[ResultsInOperationProps, ResultsInOperationState](
+      displayName = "ResultsInOperation",
       getInitialState = { self =>
         self.props.wrapped.proposals.onComplete {
           case Success(searchResult) =>

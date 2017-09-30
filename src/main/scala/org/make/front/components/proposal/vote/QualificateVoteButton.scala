@@ -23,6 +23,7 @@ object QualificateVoteButton {
   case class QualificateVoteButtonState(isSelected: Boolean)
 
   lazy val reactClass: ReactClass = React.createClass[QualificateVoteButtonProps, QualificateVoteButtonState](
+    displayName = "QualificateVoteButton",
     getInitialState = (_) => QualificateVoteButtonState(isSelected = false),
     render = (self) => {
 

@@ -24,6 +24,7 @@ object Notifications {
 
   lazy val reactClass: ReactClass =
     React.createClass[NotificationsProps, NotificationsState](
+      displayName = "Notifications",
       getInitialState = { _ =>
         NotificationsState(UUID.randomUUID().toString, Nil)
       },

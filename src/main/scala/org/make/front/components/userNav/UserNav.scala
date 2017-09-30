@@ -29,6 +29,7 @@ object UserNav {
 
   lazy val reactClass: ReactClass =
     React.createClass[UserNavProps, UserNavState](
+      displayName = "UserNav",
       getInitialState = { _ =>
         UserNavState(avatarUrl = "", isAuthenticateModalOpened = false)
       },

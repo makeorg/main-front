@@ -18,7 +18,7 @@ object FullscreenModal {
 
   lazy val reactClass: ReactClass =
     React.createClass[FullscreenModalProps, FullscreenModalState](
-      displayName = getClass.toString,
+      displayName = "FullscreenModal",
       getInitialState = { self =>
         FullscreenModalState(isModalOpened = self.props.wrapped.isModalOpened)
       },

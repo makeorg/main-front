@@ -12,24 +12,25 @@ import scalacss.DevDefaults._
 
 object NoPoliticalAction {
 
-  lazy val reactClass: ReactClass = React.createClass[Unit, Unit](render = (self) => {
+  lazy val reactClass: ReactClass =
+    React.createClass[Unit, Unit](displayName = "NoPoliticalAction", render = (self) => {
 
-    <.article(^.className := NoPoliticalActionStyles.wrapper)(
-      <.p(^.className := NoPoliticalActionStyles.imageWrapper)(
-        <.img(^.className := NoPoliticalActionStyles.image, ^.src := cone.toString)()
-      ),
-      <.div(^.className := NoPoliticalActionStyles.contentWrapper)(
-        <.p(^.className := Seq(TextStyles.boldText, TextStyles.mediumText, NoPoliticalActionStyles.text))(
-          "Nous n’avons pas d’action à vous proposer sur ce thème pour le moment, mais nous y travaillons !"
+      <.article(^.className := NoPoliticalActionStyles.wrapper)(
+        <.p(^.className := NoPoliticalActionStyles.imageWrapper)(
+          <.img(^.className := NoPoliticalActionStyles.image, ^.src := cone.toString)()
         ),
-        <.p(^.className := Seq(TextStyles.boldText, TextStyles.mediumText, NoPoliticalActionStyles.text))(
-          "Rendez-vous très prochainement pour agir ensemble !"
-        )
-      ),
-      <.style()(NoPoliticalActionStyles.render[String])
-    )
+        <.div(^.className := NoPoliticalActionStyles.contentWrapper)(
+          <.p(^.className := Seq(TextStyles.boldText, TextStyles.mediumText, NoPoliticalActionStyles.text))(
+            "Nous n’avons pas d’action à vous proposer sur ce thème pour le moment, mais nous y travaillons !"
+          ),
+          <.p(^.className := Seq(TextStyles.boldText, TextStyles.mediumText, NoPoliticalActionStyles.text))(
+            "Rendez-vous très prochainement pour agir ensemble !"
+          )
+        ),
+        <.style()(NoPoliticalActionStyles.render[String])
+      )
 
-  })
+    })
 }
 
 object NoPoliticalActionStyles extends StyleSheet.Inline {

@@ -36,7 +36,7 @@ import scalacss.internal.mutable.StyleSheet
   * to toggle showing all the tags
   *
   */
-object TagsListComponent {
+object TagsList {
 
   // TODO make variable dynamic / configurable
   private val showMaxCount: Int = 6
@@ -50,6 +50,7 @@ object TagsListComponent {
   lazy val reactClass: ReactClass =
     React
       .createClass[TagsListComponentProps, TagsListComponentState](
+        displayName = "TagsList",
         getInitialState = { _ =>
           TagsListComponentState(showMore = false)
         },

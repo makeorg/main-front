@@ -38,7 +38,7 @@ object Components {
 
     def SpinnerComponent: ReactClassElementSpec = self(spinner.Spinner.reactClass)
 
-    def ContainerComponent: ReactClassElementSpec = self(org.make.front.components.ContainerComponent.reactClass)
+    def ContainerComponent: ReactClassElementSpec = self(org.make.front.components.Container.reactClass)
     def NotificationsComponent: ReactClassElementSpec = self(notifications.Notifications.reactClass)
     def MainHeaderComponent: ReactClassElementSpec = self(mainHeader.MainHeader.reactClass)
     def MainFooterComponent: ReactClassElementSpec = self(mainFooter.MainFooter.reactClass)
@@ -112,7 +112,7 @@ object Components {
 
     /*********************/
     def TagComponent: ReactClassElementSpec = self(tags.Tag.reactClass)
-    def TagsListComponent: ReactClassElementSpec = self(tags.TagsListComponent.reactClass)
+    def TagsListComponent: ReactClassElementSpec = self(tags.TagsList.reactClass)
     def FilterByTagsComponent: ReactClassElementSpec = self(tags.FilterByTags.reactClass)
 
     /*********************/

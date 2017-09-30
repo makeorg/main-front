@@ -29,6 +29,7 @@ object Tag {
   case class TagComponentState(isSelected: Boolean)
 
   lazy val reactClass: ReactClass = React.createClass[TagComponentProps, TagComponentState](
+    displayName = "Tag",
     getInitialState = (_) => TagComponentState(isSelected = false),
     render = (self) => {
       val tagClasses = if (self.state.isSelected) Seq(TagStyles.basic, TagStyles.activated) else Seq(TagStyles.basic)
