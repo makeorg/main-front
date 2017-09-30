@@ -5,10 +5,9 @@ import io.github.shogowada.scalajs.reactjs.VirtualDOM._
 import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import org.make.front.components.Components._
 import org.make.front.facades.ReactModal.{ReactModalVirtualDOMAttributes, ReactModalVirtualDOMElements}
-import org.make.front.styles.{LayoutRulesStyles, ThemeStyles}
+import org.make.front.styles._
 
 import scalacss.DevDefaults._
-import scalacss.internal.Length
 import scalacss.internal.mutable.StyleSheet
 
 object FullscreenModal {
@@ -61,13 +60,6 @@ object FullscreenModal {
 object FullscreenModalStyles extends StyleSheet.Inline {
 
   import dsl._
-
-  //TODO: globalize function
-  implicit class NormalizedSize(val baseSize: Int) extends AnyVal {
-    def pxToEm(browserContextSize: Int = 16): Length[Double] = {
-      (baseSize.toFloat / browserContextSize.toFloat).em
-    }
-  }
 
   val wrapper: StyleA =
     style(

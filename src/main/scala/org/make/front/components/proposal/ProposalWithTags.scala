@@ -5,13 +5,12 @@ import io.github.shogowada.scalajs.reactjs.VirtualDOM._
 import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import org.make.front.components.Components.{RichVirtualDOMElements, _}
 import org.make.front.components.proposal.ProposalInfos.ProposalInfosProps
-import org.make.front.components.proposal.ShareOwnProposal.ShareOwnProposalProps
 import org.make.front.components.proposal.vote.Vote
 import org.make.front.models.{Proposal => ProposalModel}
-import org.make.front.styles.{TagStyles, TextStyles, ThemeStyles}
+import org.make.front.styles.base.TextStyles
+import org.make.front.styles._
 
 import scalacss.DevDefaults._
-import scalacss.internal.Length
 import scalacss.internal.mutable.StyleSheet
 
 object ProposalWithTags {
@@ -58,13 +57,6 @@ object ProposalWithTags {
 object ProposalWithTagsStyles extends StyleSheet.Inline {
 
   import dsl._
-
-  //TODO: globalize function
-  implicit class NormalizedSize(val baseSize: Int) extends AnyVal {
-    def pxToEm(browserContextSize: Int = 16): Length[Double] = {
-      (baseSize.toFloat / browserContextSize.toFloat).em
-    }
-  }
 
   val tagList: StyleA =
     style(lineHeight(0), margin :=! s"-${(ThemeStyles.SpacingValue.smaller / 2).pxToEm().value}")

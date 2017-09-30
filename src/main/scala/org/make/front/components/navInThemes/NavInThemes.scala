@@ -9,10 +9,10 @@ import org.make.front.facades.Unescape.unescape
 import org.make.front.facades.{I18n, Replacements}
 import org.make.front.helpers.NumberFormat
 import org.make.front.models.{Theme => ThemeModel}
-import org.make.front.styles.{LayoutRulesStyles, TextStyles, ThemeStyles}
+import org.make.front.styles._
+import org.make.front.styles.base.TextStyles
 
 import scalacss.DevDefaults._
-import scalacss.internal.Length
 
 object NavInThemes {
 
@@ -76,13 +76,6 @@ object NavInThemesStyles extends StyleSheet.Inline {
 
   import dsl._
 
-  //TODO: globalize function
-  implicit class NormalizedSize(val baseSize: Int) extends AnyVal {
-    def pxToEm(browserContextSize: Int = 16): Length[Double] = {
-      (baseSize.toFloat / browserContextSize.toFloat).em
-    }
-  }
-
   val wrapper: StyleA = style(
     backgroundColor(ThemeStyles.BackgroundColor.blackVeryTransparent),
     padding :=! s"${ThemeStyles.SpacingValue.medium.pxToEm().value} 0 ${ThemeStyles.SpacingValue.small.pxToEm().value}"
@@ -101,7 +94,7 @@ object NavInThemesStyles extends StyleSheet.Inline {
     style(height(100.%%), paddingLeft :=! ThemeStyles.SpacingValue.smaller.pxToEm(), borderLeft :=! s"5px solid")
 
   def themeItemContentWrapperBorderColor(color: String): StyleA =
-    style(borderColor := s"${color}")
+    style(borderColor :=! color)
 
   val actionsCounter: StyleA = style(
     display.inlineBlock,

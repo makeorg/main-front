@@ -8,13 +8,6 @@ object ThemeStyles extends StyleSheet.Inline {
 
   import dsl._
 
-  //TODO: globalize function
-  implicit class NormalizedSize(val baseSize: Int) extends AnyVal {
-    def pxToEm(browserContextSize: Int = 16): Length[Double] = {
-      (baseSize.toFloat / browserContextSize.toFloat).em
-    }
-  }
-
   object Font {
     val tradeGothicLTStd: AV = fontFamily :=! "TradeGothicLTStdBdCn20"
     val playfairDisplayItalic: AV = fontFamily :=! "Playfair Display"

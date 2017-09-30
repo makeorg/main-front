@@ -1,31 +1,25 @@
-package org.make.front.styles
+package org.make.front.styles.ui
 
 import org.make.front.Main.CssSettings._
-
+import org.make.front.styles.base.TextStyles
+import org.make.front.styles._
+import scalacss.internal.Dsl
 import scalacss.internal.DslBase.ToStyle
-import scalacss.internal.Length
 import scalacss.internal.PseudoType.{Class, Element}
 
 object InputStyles extends StyleSheet.Inline {
 
   import dsl._
 
-  //TODO: globalize function
-  implicit class NormalizedSize(val baseSize: Int) extends AnyVal {
-    def pxToEm(browserContextSize: Int = 16): Length[Double] = {
-      (baseSize.toFloat / browserContextSize.toFloat).em
-    }
-  }
-
   def pseudoElement(value: String) = Pseudo.Custom(value, Element)
 
   def pseudoClass(value: String) = Pseudo.Custom(value, Class)
 
-  val webkitPlaceholder = pseudoElement("::-webkit-input-placeholder")
-  val mozPlaceholder = pseudoElement("::-moz-placeholder")
-  val msPlaceholder = pseudoClass(":-ms-input-placeholder")
+  val webkitPlaceholder: Pseudo.Custom = pseudoElement("::-webkit-input-placeholder")
+  val mozPlaceholder: Pseudo.Custom = pseudoElement("::-moz-placeholder")
+  val msPlaceholder: Pseudo.Custom = pseudoClass(":-ms-input-placeholder")
 
-  def placeholder(styles: ToStyle*) =
+  def placeholder(styles: ToStyle*): Dsl.StyleS =
     styleS(webkitPlaceholder(styles: _*), mozPlaceholder(styles: _*), msPlaceholder(styles: _*))
 
   val wrapper: StyleA =
@@ -110,7 +104,7 @@ object InputStyles extends StyleSheet.Inline {
     style(
       color(ThemeStyles.TextColor.danger),
       borderColor(ThemeStyles.BorderColor.danger),
-      backgroundColor := s"${ThemeStyles.BackgroundColor.danger.value} !important"
+      backgroundColor :=! s"${ThemeStyles.BackgroundColor.danger.value} !important"
     )
 
   val errorMessage: StyleA =

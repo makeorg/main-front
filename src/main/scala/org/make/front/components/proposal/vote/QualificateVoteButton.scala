@@ -6,14 +6,13 @@ import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import io.github.shogowada.scalajs.reactjs.events.SyntheticEvent
 import org.make.front.components.Components._
 import org.make.front.facades.I18n
+import org.make.front.helpers.NumberFormat.formatToKilo
 import org.make.front.models.{Qualification => QualificationModel, Vote => VoteModel}
-import org.make.front.styles.{TextStyles, ThemeStyles}
+import org.make.front.styles._
+import org.make.front.styles.base.TextStyles
 
 import scalacss.DevDefaults._
-import scalacss.internal.Length
 import scalacss.internal.mutable.StyleSheet
-
-import org.make.front.helpers.NumberFormat.formatToKilo
 
 object QualificateVoteButton {
 
@@ -82,13 +81,6 @@ object QualificateVoteButton {
 object QualificateVoteButtonStyles extends StyleSheet.Inline {
 
   import dsl._
-
-  //TODO: globalize function
-  implicit class NormalizedSize(val baseSize: Int) extends AnyVal {
-    def pxToEm(browserContextSize: Int = 16): Length[Double] = {
-      (baseSize.toFloat / browserContextSize.toFloat).em
-    }
-  }
 
   val button: StyleA = style(
     position.relative,

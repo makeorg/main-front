@@ -10,14 +10,15 @@ import org.make.front.Main.CssSettings._
 import org.make.front.components.Components._
 import org.make.front.facades.I18n
 import org.make.front.facades.Unescape.unescape
-import org.make.front.styles.{CTAStyles, InputStyles, TextStyles, ThemeStyles}
+import org.make.front.styles._
+import org.make.front.styles.base.TextStyles
+import org.make.front.styles.ui.{CTAStyles, InputStyles}
 import org.scalajs.dom.raw.HTMLInputElement
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 import scala.util.{Failure, Success}
 import scalacss.DevDefaults.StyleA
-import scalacss.internal.Length
 
 object LoginWithEmail {
 
@@ -151,13 +152,6 @@ object LoginWithEmailStyles extends StyleSheet.Inline {
 
   import dsl._
 
-  //TODO: globalize function
-  implicit class NormalizedSize(val baseSize: Int) extends AnyVal {
-    def pxToEm(browserContextSize: Int = 16): Length[Double] = {
-      (baseSize.toFloat / browserContextSize.toFloat).em
-    }
-  }
-
   val emailInputWithIconWrapper: StyleA =
     style(backgroundColor(ThemeStyles.BackgroundColor.lightGrey), (&.before)(content := "'\\f003'"))
 
@@ -173,7 +167,7 @@ object LoginWithEmailStyles extends StyleSheet.Inline {
 
   val note: StyleA =
     style(
-      margin := s"${ThemeStyles.SpacingValue.small.pxToEm().value} 0",
+      margin :=! s"${ThemeStyles.SpacingValue.small.pxToEm().value} 0",
       color(ThemeStyles.TextColor.lighter),
       unsafeChild("a")(color(ThemeStyles.ThemeColor.primary))
     )

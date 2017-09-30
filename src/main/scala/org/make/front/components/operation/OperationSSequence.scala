@@ -16,10 +16,10 @@ import org.make.front.models.{
   Operation     => OperationModel,
   Sequence      => SequenceModel
 }
-import org.make.front.styles.{CTAStyles, FontAwesomeStyles, ThemeStyles}
+import org.make.front.styles._
+import org.make.front.styles.ui.CTAStyles
 
 import scalacss.DevDefaults.{StyleA, _}
-import scalacss.internal.Length
 import scalacss.internal.mutable.StyleSheet
 
 object OperationSSequence {
@@ -91,13 +91,6 @@ object OperationSSequence {
 object OperationSSequenceStyles extends StyleSheet.Inline {
 
   import dsl._
-
-  //TODO: globalize function
-  implicit class NormalizedSize(val baseSize: Int) extends AnyVal {
-    def pxToEm(browserContextSize: Int = 16): Length[Double] = {
-      (baseSize.toFloat / browserContextSize.toFloat).em
-    }
-  }
 
   val wrapper: StyleA =
     style(display.table, height(100.%%), width(100.%%))

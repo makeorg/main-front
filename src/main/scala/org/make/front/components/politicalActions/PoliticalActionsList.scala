@@ -9,11 +9,11 @@ import org.make.front.facades.ReactSlick.{ReactTooltipVirtualDOMAttributes, Reac
 import org.make.front.facades.Unescape.unescape
 import org.make.front.facades.{I18n, Replacements}
 import org.make.front.models.{PoliticalAction => PoliticalActionModel}
-import org.make.front.styles.{FontAwesomeStyles, LayoutRulesStyles, TextStyles, ThemeStyles}
+import org.make.front.styles._
+import org.make.front.styles.base.TextStyles
 import org.scalajs.dom.raw.HTMLElement
 
 import scalacss.DevDefaults._
-import scalacss.internal.Length
 
 object PoliticalActionsList {
 
@@ -138,13 +138,6 @@ object PoliticalActionsList {
 object PoliticalActionsListStyles extends StyleSheet.Inline {
   import dsl._
 
-  //TODO: globalize function
-  implicit class NormalizedSize(val baseSize: Int) extends AnyVal {
-    def pxToEm(browserContextSize: Int = 16): Length[Double] = {
-      (baseSize.toFloat / browserContextSize.toFloat).em
-    }
-  }
-
   val wrapper: StyleA =
     style(padding :=! s"${ThemeStyles.SpacingValue.medium.pxToEm().value} 0", overflow.hidden)
 
@@ -196,7 +189,7 @@ object PoliticalActionsListStyles extends StyleSheet.Inline {
         opacity(0.1),
         transition := "opacity .2s ease-in-out",
         (&.hover)(opacity(1)),
-        (&.disabled)(opacity := "0!important")
+        (&.disabled)(opacity :=! "0!important")
       )
     )
 

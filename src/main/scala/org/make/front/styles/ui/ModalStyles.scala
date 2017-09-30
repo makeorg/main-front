@@ -1,5 +1,6 @@
-package org.make.front.styles
+package org.make.front.styles.ui
 
+import org.make.front.styles._
 import org.make.front.Main.CssSettings._
 
 import scalacss.internal.Length
@@ -7,12 +8,5 @@ import scalacss.internal.Length
 object ModalStyles extends StyleSheet.Inline {
 
   import dsl._
-
-  //TODO: globalize function
-  implicit class NormalizedSize(val baseSize: Int) extends AnyVal {
-    def pxToEm(browserContextSize: Int = 16): Length[Double] = {
-      (baseSize.toFloat / browserContextSize.toFloat).em
-    }
-  }
 
 }

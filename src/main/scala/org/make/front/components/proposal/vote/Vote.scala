@@ -6,12 +6,11 @@ import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import org.make.front.components.Components._
 import org.make.front.components.proposal.vote.VoteButton.VoteButtonProps
 import org.make.front.models.{ProposalId, Vote => VoteModel}
-import org.make.front.styles.ThemeStyles
+import org.make.front.styles._
 import org.make.services.proposal.ProposalService
 
 import scala.concurrent.Future
 import scalacss.DevDefaults._
-import scalacss.internal.Length
 
 object Vote {
 
@@ -74,15 +73,8 @@ object VoteStyles extends StyleSheet.Inline {
 
   import dsl._
 
-  //TODO: globalize function
-  implicit class NormalizedSize(val baseSize: Int) extends AnyVal {
-    def pxToEm(browserContextSize: Int = 16): Length[Double] = {
-      (baseSize.toFloat / browserContextSize.toFloat).em
-    }
-  }
-
   val voteButtonsList: StyleA = style(
-    margin := s"0 ${(ThemeStyles.SpacingValue.small - ThemeStyles.SpacingValue.smaller).pxToEm().value}",
+    margin :=! s"0 ${(ThemeStyles.SpacingValue.small - ThemeStyles.SpacingValue.smaller).pxToEm().value}",
     textAlign.center
   )
 
@@ -90,6 +82,6 @@ object VoteStyles extends StyleSheet.Inline {
     style(
       display.inlineBlock,
       verticalAlign.middle,
-      margin := s"${ThemeStyles.SpacingValue.smaller.pxToEm().value} ${ThemeStyles.SpacingValue.smaller.pxToEm().value} 0"
+      margin :=! s"${ThemeStyles.SpacingValue.smaller.pxToEm().value} ${ThemeStyles.SpacingValue.smaller.pxToEm().value} 0"
     )
 }

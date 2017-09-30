@@ -6,11 +6,12 @@ import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import io.github.shogowada.scalajs.reactjs.events.{FormSyntheticEvent, SyntheticEvent}
 import org.make.front.Main.CssSettings._
 import org.make.front.components.Components._
-import org.make.front.styles.{FontAwesomeStyles, InputStyles, ThemeStyles}
+import org.make.front.styles._
+import org.make.front.styles.ui.InputStyles
 import org.scalajs.dom.raw.HTMLInputElement
 
+import scalacss.internal.StyleA
 import scalacss.internal.mutable.StyleSheet
-import scalacss.internal.{Length, StyleA}
 
 object NewPasswordInput {
 
@@ -67,13 +68,6 @@ object NewPasswordInput {
 
 object NewPasswordInputStyles extends StyleSheet.Inline {
   import dsl._
-
-  //TODO: globalize function
-  implicit class NormalizedSize(val baseSize: Int) extends AnyVal {
-    def pxToEm(browserContextSize: Int = 16): Length[Double] = {
-      (baseSize.toFloat / browserContextSize.toFloat).em
-    }
-  }
 
   val withIconWrapper: StyleA =
     style(backgroundColor(ThemeStyles.BackgroundColor.lightGrey), (&.before)(content := "'\\f023'"))

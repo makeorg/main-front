@@ -5,10 +5,9 @@ import io.github.shogowada.scalajs.reactjs.VirtualDOM._
 import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import org.make.front.components.Components._
 import org.make.front.facades.ReactModal.{ReactModalVirtualDOMAttributes, ReactModalVirtualDOMElements}
-import org.make.front.styles.{LayoutRulesStyles, ThemeStyles}
+import org.make.front.styles._
 
 import scalacss.DevDefaults._
-import scalacss.internal.Length
 import scalacss.internal.mutable.StyleSheet
 
 object Modal {
@@ -65,13 +64,6 @@ object ModalStyles extends StyleSheet.Inline {
 
   import dsl._
 
-  //TODO: globalize function
-  implicit class NormalizedSize(val baseSize: Int) extends AnyVal {
-    def pxToEm(browserContextSize: Int = 16): Length[Double] = {
-      (baseSize.toFloat / browserContextSize.toFloat).em
-    }
-  }
-
   val wrapper: StyleA =
     style(display.table, width(100.%%), height(100.%%))
 
@@ -79,8 +71,8 @@ object ModalStyles extends StyleSheet.Inline {
     style(
       display.tableCell,
       verticalAlign.middle,
-      paddingTop((50).pxToEm()), // TODO: dynamise calcul, if main intro is first child of page
-      ThemeStyles.MediaQueries.beyondSmall(paddingTop((80).pxToEm()))
+      paddingTop(50.pxToEm()), // TODO: dynamise calcul, if main intro is first child of page
+      ThemeStyles.MediaQueries.beyondSmall(paddingTop(80.pxToEm()))
     )
 
   val row: StyleA =

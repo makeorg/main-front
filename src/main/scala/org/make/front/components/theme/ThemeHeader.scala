@@ -3,16 +3,17 @@ package org.make.front.components.theme
 import io.github.shogowada.scalajs.reactjs.React
 import io.github.shogowada.scalajs.reactjs.VirtualDOM._
 import io.github.shogowada.scalajs.reactjs.classes.ReactClass
-import org.make.front.components.modals.FullscreenModal.FullscreenModalProps
 import org.make.front.components.Components._
-import SubmitProposalInRelationToTheme.SubmitProposalInRelationToThemeProps
+import org.make.front.components.modals.FullscreenModal.FullscreenModalProps
+import org.make.front.components.theme.SubmitProposalInRelationToTheme.SubmitProposalInRelationToThemeProps
 import org.make.front.facades._
 import org.make.front.models.{GradientColor => GradientColorModel, Theme => ThemeModel, ThemeId => ThemeIdModel}
-import org.make.front.styles.{InputStyles, LayoutRulesStyles, TextStyles, ThemeStyles}
+import org.make.front.styles.base.TextStyles
+import org.make.front.styles.ui.InputStyles
+import org.make.front.styles.{LayoutRulesStyles, ThemeStyles, _}
 import org.scalajs.dom.raw.HTMLElement
 
 import scalacss.DevDefaults._
-import scalacss.internal.Length
 import scalacss.internal.mutable.StyleSheet
 
 object ThemeHeader {
@@ -98,13 +99,6 @@ object ThemeHeader {
 object ThemeHeaderStyles extends StyleSheet.Inline {
 
   import dsl._
-
-  //TODO: globalize function
-  implicit class NormalizedSize(val baseSize: Int) extends AnyVal {
-    def pxToEm(browserContextSize: Int = 16): Length[Double] = {
-      (baseSize.toFloat / browserContextSize.toFloat).em
-    }
-  }
 
   val wrapper: StyleA =
     style(

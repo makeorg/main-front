@@ -10,7 +10,8 @@ import io.github.shogowada.scalajs.reactjs.router.WithRouter
 import org.make.front.facades.Autosuggest._
 import org.make.front.facades._
 import org.make.front.helpers.QueryString
-import org.make.front.styles.{InputStyles, ThemeStyles}
+import org.make.front.styles.ThemeStyles
+import org.make.front.styles.ui.InputStyles
 import org.scalajs.dom.raw.FocusEvent
 
 import scala.scalajs.js

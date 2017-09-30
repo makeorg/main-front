@@ -1,19 +1,13 @@
-package org.make.front.styles
+package org.make.front.styles.base
 
 import org.make.front.Main.CssSettings._
-
-import scalacss.internal.{Length, StyleA}
+import org.make.front.styles.ThemeStyles
+import org.make.front.styles._
+import scalacss.internal.StyleA
 
 object TextStyles extends StyleSheet.Inline {
 
   import dsl._
-
-  //TODO: globalize function
-  implicit class NormalizedSize(val baseSize: Int) extends AnyVal {
-    def pxToEm(browserContextSize: Int = 16): Length[Double] = {
-      (baseSize.toFloat / browserContextSize.toFloat).em
-    }
-  }
 
   val smallerText: StyleA = style(
     ThemeStyles.Font.circularStdBook,

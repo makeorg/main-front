@@ -8,11 +8,12 @@ import org.make.front.components.modals.FullscreenModal.FullscreenModalProps
 import org.make.front.components.operation.SubmitProposalInRelationToOperation.SubmitProposalInRelationToOperationProps
 import org.make.front.facades.Unescape.unescape
 import org.make.front.models.{Operation => OperationModel}
-import org.make.front.styles.{InputStyles, LayoutRulesStyles, TextStyles, ThemeStyles}
+import org.make.front.styles._
+import org.make.front.styles.base.TextStyles
+import org.make.front.styles.ui.InputStyles
 import org.scalajs.dom.raw.HTMLElement
 
 import scalacss.DevDefaults._
-import scalacss.internal.Length
 import scalacss.internal.mutable.StyleSheet
 
 object OperationHeader {
@@ -102,13 +103,6 @@ object OperationHeaderStyles extends StyleSheet.Inline {
 
   import dsl._
 
-  //TODO: globalize function
-  implicit class NormalizedSize(val baseSize: Int) extends AnyVal {
-    def pxToEm(browserContextSize: Int = 16): Length[Double] = {
-      (baseSize.toFloat / browserContextSize.toFloat).em
-    }
-  }
-
   val wrapper: StyleA =
     style(
       display.block,
@@ -128,7 +122,7 @@ object OperationHeaderStyles extends StyleSheet.Inline {
     style(marginTop(10.pxToEm(15)), ThemeStyles.MediaQueries.beyondSmall(marginTop(-5.pxToEm(24))), textAlign.center)
 
   def coloredProposalInputIntro(textColor: String): StyleA =
-    style(color := s"${textColor}")
+    style(color :=! textColor)
 
   val proposalInputWithIconWrapper: StyleA =
     style(

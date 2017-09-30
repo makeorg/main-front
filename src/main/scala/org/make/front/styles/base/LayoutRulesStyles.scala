@@ -2,18 +2,11 @@ package org.make.front.styles
 
 import org.make.front.Main.CssSettings._
 
-import scalacss.internal.{Length, StyleA, ValueT}
+import scalacss.internal.{StyleA, ValueT}
 
 object LayoutRulesStyles extends StyleSheet.Inline {
 
   import dsl._
-
-  //TODO: globalize function
-  implicit class NormalizedSize(val baseSize: Int) extends AnyVal {
-    def pxToEm(browserContextSize: Int = 16): Length[Double] = {
-      (baseSize.toFloat / browserContextSize.toFloat).em
-    }
-  }
 
   val gutter: ValueT[ValueT.LenPct] = ThemeStyles.SpacingValue.small.pxToEm()
 

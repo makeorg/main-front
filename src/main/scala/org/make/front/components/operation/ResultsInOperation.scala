@@ -15,7 +15,9 @@ import org.make.front.facades.ReactInfiniteScroller.{
 }
 import org.make.front.facades.Unescape.unescape
 import org.make.front.models.{ProposalSearchResult, Proposal => ProposalModel, Tag => TagModel}
-import org.make.front.styles.{CTAStyles, LayoutRulesStyles, TextStyles, ThemeStyles}
+import org.make.front.styles.base.TextStyles
+import org.make.front.styles.ui.CTAStyles
+import org.make.front.styles._
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
@@ -138,13 +140,6 @@ object ResultsInOperation {
 object ResultsInOperationStyles extends StyleSheet.Inline {
 
   import dsl._
-
-  //TODO: globalize function
-  implicit class NormalizedSize(val baseSize: Int) extends AnyVal {
-    def pxToEm(browserContextSize: Int = 16): Length[Double] = {
-      (baseSize.toFloat / browserContextSize.toFloat).em
-    }
-  }
 
   val wrapper: StyleA =
     style(paddingTop(ThemeStyles.SpacingValue.larger.pxToEm()), paddingBottom(ThemeStyles.SpacingValue.small.pxToEm()))

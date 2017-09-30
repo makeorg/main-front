@@ -7,7 +7,7 @@ import org.make.front.components.Components.{RichVirtualDOMElements, _}
 import org.make.front.components.proposal.ProposalInfos.ProposalInfosProps
 import org.make.front.components.proposal.vote.Vote
 import org.make.front.models.{Proposal => ProposalModel}
-import org.make.front.styles.TextStyles
+import org.make.front.styles.base.TextStyles
 
 import scalacss.DevDefaults._
 

@@ -15,12 +15,13 @@ import org.make.front.facades.ReactInfiniteScroller.{
 }
 import org.make.front.facades.Unescape.unescape
 import org.make.front.models.{ProposalSearchResult, Proposal => ProposalModel, Tag => TagModel}
-import org.make.front.styles.{CTAStyles, LayoutRulesStyles, TextStyles, ThemeStyles}
+import org.make.front.styles._
+import org.make.front.styles.base.TextStyles
+import org.make.front.styles.ui.CTAStyles
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 import scala.util.{Failure, Success}
-import scalacss.internal.Length
 import scalacss.internal.mutable.StyleSheet
 
 object ResultsInTheme {
@@ -61,17 +62,18 @@ object ResultsInTheme {
         )
       },
       render = { (self) =>
-        val onSeeMore: (Int) => Unit = { _ =>
-          if (!self.state.initialLoad) {
-            self.setState(_.copy(hasRequestedMore = true))
-          }
-          self.props.wrapped.onMoreResultsRequested(self.state.listProposals, self.state.selectedTags).onComplete {
-            case Success(searchResult) =>
-              self.setState(
-                _.copy(listProposals = searchResult.proposals, hasMore = searchResult.hasMore, initialLoad = false)
-              )
-            case Failure(_) => // TODO: handle error
-          }
+        val onSeeMore: (Int) => Unit = {
+          _ =>
+            if (!self.state.initialLoad) {
+              self.setState(_.copy(hasRequestedMore = true))
+            }
+            self.props.wrapped.onMoreResultsRequested(self.state.listProposals, self.state.selectedTags).onComplete {
+              case Success(searchResult) =>
+                self.setState(
+                  _.copy(listProposals = searchResult.proposals, hasMore = searchResult.hasMore, initialLoad = false)
+                )
+              case Failure(_) => // Let parent handle logging error
+            }
         }
 
         val noResults: ReactElement =
@@ -88,7 +90,7 @@ object ResultsInTheme {
           self.props.wrapped.onTagSelectionChange(tags).onComplete {
             case Success(searchResult) =>
               self.setState(_.copy(listProposals = searchResult.proposals, hasMore = searchResult.hasMore))
-            case Failure(_) => // TODO: handle error
+            case Failure(_) => // Let parent handle logging error
           }
         }
 
@@ -151,13 +153,6 @@ object ResultsInTheme {
 object ResultsInThemeStyles extends StyleSheet.Inline {
 
   import dsl._
-
-  //TODO: globalize function
-  implicit class NormalizedSize(val baseSize: Int) extends AnyVal {
-    def pxToEm(browserContextSize: Int = 16): Length[Double] = {
-      (baseSize.toFloat / browserContextSize.toFloat).em
-    }
-  }
 
   val wrapper: StyleA =
     style(paddingTop(ThemeStyles.SpacingValue.medium.pxToEm()), paddingBottom(ThemeStyles.SpacingValue.small.pxToEm()))

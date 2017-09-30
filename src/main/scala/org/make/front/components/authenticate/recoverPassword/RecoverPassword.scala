@@ -9,14 +9,16 @@ import org.make.front.components.Components._
 import org.make.front.facades.I18n
 import org.make.front.facades.Unescape.unescape
 import org.make.front.styles._
+import org.make.front.styles.base.TextStyles
+import org.make.front.styles.ui.{CTAStyles, InputStyles}
 import org.scalajs.dom.raw.HTMLInputElement
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 import scala.util.{Failure, Success}
 import scalacss.DevDefaults._
+import scalacss.internal.StyleA
 import scalacss.internal.mutable.StyleSheet
-import scalacss.internal.{Length, StyleA}
 
 object RecoverPassword {
 
@@ -97,19 +99,12 @@ object RecoverPassword {
 object RecoverPasswordStyles extends StyleSheet.Inline {
   import dsl._
 
-  //TODO: globalize function
-  implicit class NormalizedSize(val baseSize: Int) extends AnyVal {
-    def pxToEm(browserContextSize: Int = 16): Length[Double] = {
-      (baseSize.toFloat / browserContextSize.toFloat).em
-    }
-  }
-
   val introWrapper: StyleA = style(marginBottom(ThemeStyles.SpacingValue.small.pxToEm()), textAlign.center)
 
   val text: StyleA =
     style(
       textAlign.center,
-      margin := s"${ThemeStyles.SpacingValue.small.pxToEm().value} 0",
+      margin :=! s"${ThemeStyles.SpacingValue.small.pxToEm().value} 0",
       color(ThemeStyles.TextColor.lighter)
     )
 

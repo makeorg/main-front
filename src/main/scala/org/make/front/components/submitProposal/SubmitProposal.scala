@@ -7,12 +7,11 @@ import org.make.front.components.Components._
 import org.make.front.components.submitProposal.SubmitProposalAndLoginContainer.SubmitProposalAndLoginContainerProps
 import org.make.front.facades.I18n
 import org.make.front.facades.Unescape.unescape
-import org.make.front.models.{GradientColor => GradientColorModel, Theme => ThemeModel, ThemeId => ThemeIdModel}
-import org.make.front.styles.{TextStyles, ThemeStyles}
+import org.make.front.styles._
+import org.make.front.styles.base.TextStyles
 
 import scalacss.DevDefaults._
 import scalacss.internal.mutable.StyleSheet
-import scalacss.internal.{Attr, Length}
 
 object SubmitProposal {
 
@@ -48,13 +47,6 @@ object SubmitProposal {
 object SubmitProposalStyles extends StyleSheet.Inline {
 
   import dsl._
-
-  //TODO: globalize function
-  implicit class NormalizedSize(val baseSize: Int) extends AnyVal {
-    def pxToEm(browserContextSize: Int = 16): Length[Double] = {
-      (baseSize.toFloat / browserContextSize.toFloat).em
-    }
-  }
 
   val intro: StyleA =
     style(

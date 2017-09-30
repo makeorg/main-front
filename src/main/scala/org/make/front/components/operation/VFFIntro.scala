@@ -7,10 +7,11 @@ import org.make.front.components.Components._
 import org.make.front.facades.Unescape.unescape
 import org.make.front.facades._
 import org.make.front.models.{GradientColor => GradientColorModel, Operation => OperationModel}
-import org.make.front.styles.{CTAStyles, LayoutRulesStyles, TextStyles, ThemeStyles}
+import org.make.front.styles._
+import org.make.front.styles.base.TextStyles
+import org.make.front.styles.ui.CTAStyles
 
 import scalacss.DevDefaults._
-import scalacss.internal.Length
 import scalacss.internal.mutable.StyleSheet
 
 object VFFIntro {
@@ -141,13 +142,6 @@ object VFFIntroStyles extends StyleSheet.Inline {
 
   import dsl._
 
-  //TODO: globalize function
-  implicit class NormalizedSize(val baseSize: Int) extends AnyVal {
-    def pxToEm(browserContextSize: Int = 16): Length[Double] = {
-      (baseSize.toFloat / browserContextSize.toFloat).em
-    }
-  }
-
   def gradientBackground(from: String, to: String): StyleA =
     style(background := s"linear-gradient(130deg, $from, $to)")
 
@@ -184,7 +178,7 @@ object VFFIntroStyles extends StyleSheet.Inline {
   val separatorWrapper: StyleA =
     style(
       display.table,
-      margin := s"${ThemeStyles.SpacingValue.medium.pxToEm().value} 0 ${ThemeStyles.SpacingValue.small.pxToEm().value}",
+      margin :=! s"${ThemeStyles.SpacingValue.medium.pxToEm().value} 0 ${ThemeStyles.SpacingValue.small.pxToEm().value}",
       opacity(0.5)
     )
 
@@ -206,7 +200,7 @@ object VFFIntroStyles extends StyleSheet.Inline {
     background := s"linear-gradient(to right, rgba(255,255,255,1) 0%,rgba(255,255,255,0) 100%)"
   )
 
-  val separatorTextWrapper: StyleA = style(display.tableCell, padding := s"0 ${20.pxToEm().value}")
+  val separatorTextWrapper: StyleA = style(display.tableCell, padding :=! s"0 ${20.pxToEm().value}")
 
   val separator: StyleA = style(color(ThemeStyles.TextColor.white))
 
@@ -228,7 +222,7 @@ object VFFIntroStyles extends StyleSheet.Inline {
     style(display.tableRow, backgroundColor(ThemeStyles.BackgroundColor.blackMoreTransparent))
 
   val explanationInnerWrapper: StyleA =
-    style(display.tableCell, padding := s"${ThemeStyles.SpacingValue.medium.pxToEm().value} 0")
+    style(display.tableCell, padding :=! s"${ThemeStyles.SpacingValue.medium.pxToEm().value} 0")
 
   val explanationIll: StyleA =
     style(width(100.%%), ThemeStyles.MediaQueries.belowSmall(marginBottom(ThemeStyles.SpacingValue.small.pxToEm())))

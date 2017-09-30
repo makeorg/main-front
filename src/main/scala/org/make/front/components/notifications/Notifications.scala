@@ -11,10 +11,10 @@ import org.make.front.middlewares.NotificationMiddleware
 import org.make.front.middlewares.NotificationMiddleware.NotificationListener
 import org.make.front.models.NotificationLevel._
 import org.make.front.models.{Notification => NotificationModel, NotificationLevel => NotificationLevelModel}
-import org.make.front.styles.{LayoutRulesStyles, TextStyles, ThemeStyles}
+import org.make.front.styles._
+import org.make.front.styles.base.TextStyles
 
 import scalacss.DevDefaults._
-import scalacss.internal.Length
 import scalacss.internal.mutable.StyleSheet
 
 object Notifications {
@@ -92,13 +92,6 @@ object NotificationsStyles extends StyleSheet.Inline {
 
   import dsl._
 
-  //TODO: globalize function
-  implicit class NormalizedSize(val baseSize: Int) extends AnyVal {
-    def pxToEm(browserContextSize: Int = 16): Length[Double] = {
-      (baseSize.toFloat / browserContextSize.toFloat).em
-    }
-  }
-
   val wrapper: StyleA = style(
     position.fixed,
     zIndex(1),
@@ -110,13 +103,13 @@ object NotificationsStyles extends StyleSheet.Inline {
 
   val list: StyleA = style()
 
-  val item: StyleA = style(margin := s"${ThemeStyles.SpacingValue.small.pxToEm().value} 0")
+  val item: StyleA = style(margin :=! s"${ThemeStyles.SpacingValue.small.pxToEm().value} 0")
 
   val notification: StyleA =
     style(
       position.relative,
       minHeight(ThemeStyles.SpacingValue.large.pxToEm()),
-      padding := s"${ThemeStyles.SpacingValue.small.pxToEm().value} ${ThemeStyles.SpacingValue.large
+      padding :=! s"${ThemeStyles.SpacingValue.small.pxToEm().value} ${ThemeStyles.SpacingValue.large
         .pxToEm()
         .value} ${ThemeStyles.SpacingValue.small.pxToEm().value} ${ThemeStyles.SpacingValue.small.pxToEm().value}",
       borderRadius(10.pxToEm()),

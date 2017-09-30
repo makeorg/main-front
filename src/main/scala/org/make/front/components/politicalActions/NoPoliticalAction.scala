@@ -5,10 +5,10 @@ import io.github.shogowada.scalajs.reactjs.VirtualDOM._
 import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import org.make.front.components.Components._
 import org.make.front.facades.cone
-import org.make.front.styles.{TextStyles, ThemeStyles}
+import org.make.front.styles._
+import org.make.front.styles.base.TextStyles
 
 import scalacss.DevDefaults._
-import scalacss.internal.Length
 
 object NoPoliticalAction {
 
@@ -35,13 +35,6 @@ object NoPoliticalAction {
 object NoPoliticalActionStyles extends StyleSheet.Inline {
   import dsl._
 
-  //TODO: globalize function
-  implicit class NormalizedSize(val baseSize: Int) extends AnyVal {
-    def pxToEm(browserContextSize: Int = 16): Length[Double] = {
-      (baseSize.toFloat / browserContextSize.toFloat).em
-    }
-  }
-
   val wrapper: StyleA = style(display.table, width(100.%%))
 
   val imageWrapper: StyleA =
@@ -59,7 +52,7 @@ object NoPoliticalActionStyles extends StyleSheet.Inline {
     style(
       display.tableCell,
       verticalAlign.middle,
-      padding := s"${ThemeStyles.SpacingValue.small.pxToEm().value} ${ThemeStyles.SpacingValue.small.pxToEm().value} ${ThemeStyles.SpacingValue.small.pxToEm().value} 0",
+      padding :=! s"${ThemeStyles.SpacingValue.small.pxToEm().value} ${ThemeStyles.SpacingValue.small.pxToEm().value} ${ThemeStyles.SpacingValue.small.pxToEm().value} 0",
       ThemeStyles.MediaQueries
         .beyondMedium(paddingLeft(ThemeStyles.SpacingValue.small.pxToEm()))
     )

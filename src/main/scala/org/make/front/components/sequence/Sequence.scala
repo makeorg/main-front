@@ -6,7 +6,6 @@ import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import org.make.front.models.{Sequence => SequenceModel}
 
 import scalacss.DevDefaults._
-import scalacss.internal.Length
 
 object Sequence {
 
@@ -22,10 +21,4 @@ object Sequence {
 object SequenceStyles extends StyleSheet.Inline {
   import dsl._
 
-  //TODO: globalize function
-  implicit class NormalizedSize(val baseSize: Int) extends AnyVal {
-    def pxToEm(browserContextSize: Int = 16): Length[Double] = {
-      (baseSize.toFloat / browserContextSize.toFloat).em
-    }
-  }
 }

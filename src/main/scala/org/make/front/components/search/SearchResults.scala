@@ -19,12 +19,13 @@ import org.make.front.facades.Unescape.unescape
 import org.make.front.facades.{I18n, Replacements}
 import org.make.front.models.{ProposalSearchResult, Proposal => ProposalModel}
 import org.make.front.styles._
+import org.make.front.styles.base.TextStyles
+import org.make.front.styles.ui.CTAStyles
 
+import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 import scala.util.{Failure, Success}
 import scalacss.DevDefaults._
-import scalacss.internal.Length
-import scala.concurrent.ExecutionContext.Implicits.global
 
 object SearchResults {
   final case class SearchResultsProps(
@@ -175,24 +176,17 @@ object SearchResultsStyles extends StyleSheet.Inline {
 
   import dsl._
 
-  //TODO: globalize function
-  implicit class NormalizedSize(val baseSize: Int) extends AnyVal {
-    def pxToEm(browserContextSize: Int = 16): Length[Double] = {
-      (baseSize.toFloat / browserContextSize.toFloat).em
-    }
-  }
-
   val resultsWrapper: StyleA =
     style(
       backgroundColor(ThemeStyles.BackgroundColor.blackVeryTransparent),
-      paddingTop((50).pxToEm()), // TODO: dynamise calcul, if main intro is first child of page
-      ThemeStyles.MediaQueries.beyondSmall(paddingTop((80).pxToEm()))
+      paddingTop(50.pxToEm()), // TODO: dynamise calcul, if main intro is first child of page
+      ThemeStyles.MediaQueries.beyondSmall(paddingTop(80.pxToEm()))
     )
 
   val noResultsWrapper: StyleA = style(
     minHeight(100.%%),
-    paddingTop((50).pxToEm()), // TODO: dynamise calcul, if main intro is first child of page
-    ThemeStyles.MediaQueries.beyondSmall(paddingTop((80).pxToEm()))
+    paddingTop(50.pxToEm()), // TODO: dynamise calcul, if main intro is first child of page
+    ThemeStyles.MediaQueries.beyondSmall(paddingTop(80.pxToEm()))
   )
 
   val noResultsSmiley: StyleA =
@@ -214,11 +208,11 @@ object SearchResultsStyles extends StyleSheet.Inline {
   val noResultsMessageSeparator: StyleA = style(
     display.block,
     maxWidth(235.pxToEm()),
-    margin := s"${ThemeStyles.SpacingValue.medium.pxToEm().value} auto",
+    margin :=! s"${ThemeStyles.SpacingValue.medium.pxToEm().value} auto",
     border.none,
-    borderTop := s"1px solid ${ThemeStyles.BorderColor.veryLight.value}",
+    borderTop :=! s"1px solid ${ThemeStyles.BorderColor.veryLight.value}",
     ThemeStyles.MediaQueries
-      .beyondSmall(maxWidth(470.pxToEm()), margin := s"${ThemeStyles.SpacingValue.large.pxToEm().value} auto")
+      .beyondSmall(maxWidth(470.pxToEm()), margin :=! s"${ThemeStyles.SpacingValue.large.pxToEm().value} auto")
   )
 
   val noResultsMessage: StyleA =

@@ -6,11 +6,11 @@ import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import org.make.front.components.Components._
 import org.make.front.components.proposal.vote.QualificateVoteButton.QualificateVoteButtonProps
 import org.make.front.models.{Qualification => QualificationModel, Vote => VoteModel}
-import org.make.front.styles.ThemeStyles
+import org.make.front.styles._
 
 import scala.scalajs.js.Dynamic.{global => g}
 import scalacss.DevDefaults._
-import scalacss.internal.{Length, StyleA}
+import scalacss.internal.StyleA
 import scalacss.internal.mutable.StyleSheet
 
 object QualificateVote {
@@ -48,14 +48,7 @@ object QualificateVoteStyles extends StyleSheet.Inline {
 
   import dsl._
 
-  //TODO: globalize function
-  implicit class NormalizedSize(val baseSize: Int) extends AnyVal {
-    def pxToEm(browserContextSize: Int = 16): Length[Double] = {
-      (baseSize.toFloat / browserContextSize.toFloat).em
-    }
-  }
-
   val qualificateVoteButtonItem: StyleA =
-    style(marginTop({ ThemeStyles.SpacingValue.smaller / 2 }.pxToEm()), &.firstChild(marginTop(`0`)))
+    style(marginTop({ ThemeStyles.SpacingValue.smaller / 2 }.pxToEm()), &.firstChild(marginTop.`0`))
 
 }

@@ -6,10 +6,10 @@ import org.make.front.components.Components._
 import org.make.front.facades.I18n
 import org.make.front.facades.Unescape.unescape
 import org.make.front.models.{PoliticalAction => PoliticalActionModel}
-import org.make.front.styles.{FontAwesomeStyles, TextStyles, ThemeStyles}
+import org.make.front.styles.base.TextStyles
+import org.make.front.styles._
 
 import scalacss.DevDefaults._
-import scalacss.internal.Length
 
 object PoliticalAction {
 
@@ -48,13 +48,6 @@ object PoliticalAction {
 object PoliticalActionStyles extends StyleSheet.Inline {
   import dsl._
 
-  //TODO: globalize function
-  implicit class NormalizedSize(val baseSize: Int) extends AnyVal {
-    def pxToEm(browserContextSize: Int = 16): Length[Double] = {
-      (baseSize.toFloat / browserContextSize.toFloat).em
-    }
-  }
-
   val wrapper: StyleA = style(display.table, width(100.%%))
 
   val imageWrapper: StyleA =
@@ -72,12 +65,12 @@ object PoliticalActionStyles extends StyleSheet.Inline {
     style(
       display.tableCell,
       verticalAlign.top,
-      padding := s"${ThemeStyles.SpacingValue.small.pxToEm().value} ${ThemeStyles.SpacingValue.small.pxToEm().value} ${ThemeStyles.SpacingValue.small.pxToEm().value} 0",
+      padding :=! s"${ThemeStyles.SpacingValue.small.pxToEm().value} ${ThemeStyles.SpacingValue.small.pxToEm().value} ${ThemeStyles.SpacingValue.small.pxToEm().value} 0",
       ThemeStyles.MediaQueries
         .beyondMedium(paddingLeft(ThemeStyles.SpacingValue.small.pxToEm()))
     )
 
-  val image: StyleA = style(display := s"inline!important", maxWidth(60.pxToEm()))
+  val image: StyleA = style(display :=! s"inline!important", maxWidth(60.pxToEm()))
 
   val info: StyleA = style(
     display.inlineBlock,

@@ -9,10 +9,10 @@ import org.make.front.components.proposal.ProposalWithThemeContainer.ProposalWit
 import org.make.front.facades.I18n
 import org.make.front.facades.Unescape.unescape
 import org.make.front.models.{Proposal => ProposalModel}
-import org.make.front.styles.{LayoutRulesStyles, TextStyles, ThemeStyles}
+import org.make.front.styles.base.TextStyles
+import org.make.front.styles._
 
 import scalacss.DevDefaults._
-import scalacss.internal.Length
 
 object Showcase {
 
@@ -61,13 +61,6 @@ object Showcase {
 
 object ShowcaseStyles extends StyleSheet.Inline {
   import dsl._
-
-  //TODO: globalize function
-  implicit class NormalizedSize(val baseSize: Int) extends AnyVal {
-    def pxToEm(browserContextSize: Int = 16): Length[Double] = {
-      (baseSize.toFloat / browserContextSize.toFloat).em
-    }
-  }
 
   val wrapper: StyleA =
     style(

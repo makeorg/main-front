@@ -9,10 +9,9 @@ import org.make.front.components.tags.TagsListComponent.TagsListComponentProps
 import org.make.front.facades.I18n
 import org.make.front.facades.Unescape.unescape
 import org.make.front.models.{Tag => TagModel}
-import org.make.front.styles.{FontAwesomeStyles, ThemeStyles}
+import org.make.front.styles._
 
 import scalacss.DevDefaults._
-import scalacss.internal.Length
 import scalacss.internal.mutable.StyleSheet
 
 object FilterByTags {
@@ -59,13 +58,6 @@ object FilterByTags {
 object FilterByTagsStyles extends StyleSheet.Inline {
 
   import dsl._
-
-  //TODO: globalize function
-  implicit class NormalizedSize(val baseSize: Int) extends AnyVal {
-    def pxToEm(browserContextSize: Int = 16): Length[Double] = {
-      (baseSize.toFloat / browserContextSize.toFloat).em
-    }
-  }
 
   val tagsList: StyleA = style()
 

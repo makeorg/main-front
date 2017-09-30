@@ -8,10 +8,10 @@ import org.make.front.components.authenticate.AuthenticateWithSocialNetworksCont
 import org.make.front.components.authenticate.register.RegisterContainer.RegisterUserProps
 import org.make.front.facades.I18n
 import org.make.front.facades.Unescape.unescape
-import org.make.front.styles.{TextStyles, ThemeStyles}
+import org.make.front.styles._
+import org.make.front.styles.base.TextStyles
 
 import scalacss.DevDefaults.{StyleA, _}
-import scalacss.internal.Length
 import scalacss.internal.mutable.StyleSheet
 
 object RegisterWithSocialNetworksOrEmail {
@@ -82,13 +82,6 @@ object RegisterWithSocialNetworksOrEmailStyles extends StyleSheet.Inline {
 
   import dsl._
 
-  //TODO: globalize function
-  implicit class NormalizedSize(val baseSize: Int) extends AnyVal {
-    def pxToEm(browserContextSize: Int = 16): Length[Double] = {
-      (baseSize.toFloat / browserContextSize.toFloat).em
-    }
-  }
-
   val introWrapper: StyleA = style(marginBottom(ThemeStyles.SpacingValue.small.pxToEm()), textAlign.center)
 
   val separatorWrapper: StyleA = style(textAlign.center, overflow.hidden)
@@ -96,8 +89,8 @@ object RegisterWithSocialNetworksOrEmailStyles extends StyleSheet.Inline {
   val separator: StyleA = style(
     position.relative,
     display.inlineBlock,
-    padding := s"0 ${20.pxToEm().value}",
-    margin := s"${ThemeStyles.SpacingValue.medium.pxToEm().value} 0",
+    padding :=! s"0 ${20.pxToEm().value}",
+    margin :=! s"${ThemeStyles.SpacingValue.medium.pxToEm().value} 0",
     ThemeStyles.Font.playfairDisplayItalic,
     fontStyle.italic,
     color(ThemeStyles.TextColor.lighter),

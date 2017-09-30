@@ -9,10 +9,10 @@ import org.make.front.components.proposal.vote.Vote.VoteProps
 import org.make.front.facades.I18n
 import org.make.front.facades.Unescape.unescape
 import org.make.front.models.{Proposal => ProposalModel}
-import org.make.front.styles.{TextStyles, ThemeStyles}
+import org.make.front.styles.ThemeStyles
+import org.make.front.styles.base.TextStyles
 
 import scalacss.DevDefaults._
-import scalacss.internal.Length
 import scalacss.internal.mutable.StyleSheet
 
 object ProposalWithTheme {
@@ -54,13 +54,6 @@ object ProposalWithTheme {
 object ProposalWithThemeStyles extends StyleSheet.Inline {
 
   import dsl._
-
-  //TODO: globalize function
-  implicit class NormalizedSize(val baseSize: Int) extends AnyVal {
-    def pxToEm(browserContextSize: Int = 16): Length[Double] = {
-      (baseSize.toFloat / browserContextSize.toFloat).em
-    }
-  }
 
   val themeName: StyleA =
     style(color(ThemeStyles.ThemeColor.primary))
