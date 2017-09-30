@@ -103,7 +103,9 @@ object ResultsInTheme {
               ^.pageStart := 1,
               ^.loadMore := onSeeMore,
               ^.loader := <.SpinnerComponent.empty
-            )(
+            )(if (proposals.isEmpty) {
+              <.p.empty
+            } else {
               proposals.map(
                 proposal =>
                   <.li(
@@ -115,7 +117,7 @@ object ResultsInTheme {
                     )
                   )(<.ProposalWithTagsComponent(^.wrapped := ProposalWithTagsProps(proposal = proposal))())
               )
-            ),
+            }),
             if (self.state.hasMore && !self.state.hasRequestedMore) {
               <.div(^.className := Seq(ResultsInThemeStyles.seeMoreButtonWrapper, LayoutRulesStyles.col))(
                 <.button(

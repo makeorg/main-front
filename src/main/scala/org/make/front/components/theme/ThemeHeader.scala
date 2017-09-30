@@ -15,6 +15,7 @@ import org.scalajs.dom.raw.HTMLElement
 
 import scalacss.DevDefaults._
 import scalacss.internal.mutable.StyleSheet
+import scalacss.internal.mutable.StyleSheet.Inline
 
 object ThemeHeader {
 
@@ -44,12 +45,13 @@ object ThemeHeader {
           self.props.wrapped.theme
         val gradient: GradientColorModel = theme.gradient.getOrElse(GradientColorModel("#FFF", "#FFF"))
 
-        <.header(
-          ^.className := Seq(
-            ThemeHeaderStyles.wrapper,
-            ThemeHeaderStyles.gradientBackground(gradient.from, gradient.to)
-          )
-        )(
+        object ThemeSheet extends Inline {
+          import dsl._
+
+          val gradientStyle = style(background := s"linear-gradient(130deg, ${gradient.from}, ${gradient.to})")
+        }
+
+        <.header(^.className := Seq(ThemeHeaderStyles.wrapper, ThemeSheet.gradientStyle))(
           <.div(^.className := ThemeHeaderStyles.innerWrapper)(
             <.img(^.className := ThemeHeaderStyles.illustration, ^.src := imageShutterstock.toString)(),
             <.div(^.className := LayoutRulesStyles.centeredRow)(
@@ -90,7 +92,8 @@ object ThemeHeader {
               )
             )
           ),
-          <.style()(ThemeHeaderStyles.render[String])
+          <.style()(ThemeHeaderStyles.render[String]),
+          <.style()(ThemeSheet.render[String])
         )
       }
     )
@@ -111,9 +114,6 @@ object ThemeHeaderStyles extends StyleSheet.Inline {
       backgroundColor(ThemeStyles.BackgroundColor.black), //TODO:gradient
       overflow.hidden
     )
-
-  def gradientBackground(from: String, to: String): StyleA =
-    style(background := s"linear-gradient(130deg, $from, $to)")
 
   val innerWrapper: StyleA =
     style(
