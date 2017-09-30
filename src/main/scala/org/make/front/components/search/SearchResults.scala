@@ -66,19 +66,24 @@ object SearchResults {
             self.setState(state => state.copy(isProposalModalOpened = true))
           }
 
-          val onSeeMore: (Int) => Unit = { _ =>
-            if (!self.state.initialLoad) {
-              self.setState(_.copy(hasRequestedMore = true))
-            }
-            self.props.wrapped
-              .onMoreResultsRequested(self.state.listProposals, self.props.wrapped.searchValue)
-              .onComplete {
-                case Success(searchResult) =>
-                  self.setState(
-                    _.copy(listProposals = searchResult.proposals, hasMore = searchResult.hasMore, initialLoad = false)
-                  )
-                case Failure(_) => // TODO: handle error
+          val onSeeMore: (Int) => Unit = {
+            _ =>
+              if (!self.state.initialLoad) {
+                self.setState(_.copy(hasRequestedMore = true))
               }
+              self.props.wrapped
+                .onMoreResultsRequested(self.state.listProposals, self.props.wrapped.searchValue)
+                .onComplete {
+                  case Success(searchResult) =>
+                    self.setState(
+                      _.copy(
+                        listProposals = searchResult.proposals,
+                        hasMore = searchResult.hasMore,
+                        initialLoad = false
+                      )
+                    )
+                  case Failure(_) => // parent container will dispatch an error
+                }
           }
 
           val noResults: ReactElement = {

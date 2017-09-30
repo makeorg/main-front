@@ -71,7 +71,7 @@ trait CirceClassFormatters extends TimeInstances {
     )
 
   implicit lazy val vote: Decoder[VoteModel] =
-    Decoder.forProduct3("key", "count", "qualifications")(VoteModel.apply)
+    Decoder.forProduct4("key", "count", "qualifications", "selected")(VoteModel.apply)
 
   implicit lazy val qualification: Decoder[QualificationModel] =
     Decoder.forProduct3("key", "count", "selected")(QualificationModel.apply)

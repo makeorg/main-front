@@ -30,8 +30,8 @@ final case class Proposal(id: ProposalId,
 
 }
 
-final case class Qualification(key: String, count: Int = 0, selected: Boolean = false)
-final case class Vote(key: String, count: Int = 0, qualifications: Seq[Qualification])
+final case class Qualification(key: String, count: Int = 0, selected: Option[Boolean] = None)
+final case class Vote(key: String, count: Int = 0, qualifications: Seq[Qualification], selected: Option[Boolean] = None)
 
 final case class ProposalContext(operation: Option[String],
                                  source: Option[String],

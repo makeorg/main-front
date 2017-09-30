@@ -29,8 +29,6 @@ object NotificationMiddleware {
   val handle: (Store[AppState]) => (Dispatch) => (Any) => Any = (_: Store[AppState]) =>
     (dispatch: Dispatch) => {
       case action: NotifyAction =>
-        org.scalajs.dom.window.console.log("New notification", action.message)
-
         val id: String = UUID.randomUUID().toString
         val level = action match {
           case _: NotifyInfo    => NotificationLevelModel.Info
@@ -54,8 +52,6 @@ object NotificationMiddleware {
           )
         }
 
-      case action =>
-        org.scalajs.dom.window.console.log("other action", action.toString)
-        dispatch(action)
+      case action => dispatch(action)
   }
 }
