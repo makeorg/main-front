@@ -8,7 +8,7 @@ import org.make.core.{CirceClassFormatters, CirceFormatters}
 import org.make.front.facades.I18n
 import org.make.front.models._
 import org.make.services.ApiService
-import org.make.services.proposal.ProposalResponses.{RegisterProposalResponse, VoteResponse}
+import org.make.services.proposal.ProposalResponses.{QualificationResponse, RegisterProposalResponse, VoteResponse}
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
@@ -63,6 +63,26 @@ object ProposalService extends ApiService with CirceClassFormatters with CirceFo
       .post[VoteResponse](
         apiEndpoint = resourceName / proposalId.value / "unvote",
         data = VoteRequest(oldVoteValue).asJson.pretty(ApiService.printer)
+      )
+      .map(_.get)
+  }
+
+  def qualifyVote(proposalId: ProposalId, vote: String, qualification: String): Future[QualificationResponse] = {
+    MakeApiClient
+      .post[QualificationResponse](
+        apiEndpoint = resourceName / proposalId.value / "qualify",
+        data = QualificationRequest(voteKey = vote, qualificationKey = qualification).asJson.pretty(ApiService.printer)
+      )
+      .map(_.get)
+  }
+
+  def removeVoteQualification(proposalId: ProposalId,
+                              vote: String,
+                              qualification: String): Future[QualificationResponse] = {
+    MakeApiClient
+      .post[QualificationResponse](
+        apiEndpoint = resourceName / proposalId.value / "unqualify",
+        data = QualificationRequest(voteKey = vote, qualificationKey = qualification).asJson.pretty(ApiService.printer)
       )
       .map(_.get)
   }

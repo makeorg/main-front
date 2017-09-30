@@ -68,6 +68,7 @@ object ThemeHeader {
                       <.input(
                         ^.`type`.text,
                         ^.value := "Il faut ",
+                        ^.readOnly := true,
                         ^.ref := ((input: HTMLElement) => proposalInput = Some(input)),
                         ^.onFocus := openProposalModalFromInput()
                       )()

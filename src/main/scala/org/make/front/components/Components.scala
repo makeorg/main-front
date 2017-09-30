@@ -3,7 +3,7 @@ package org.make.front.components
 import io.github.shogowada.scalajs.reactjs.VirtualDOM.VirtualDOMAttributes.Type.AS_IS
 import io.github.shogowada.scalajs.reactjs.VirtualDOM.VirtualDOMElements.ReactClassElementSpec
 import io.github.shogowada.scalajs.reactjs.VirtualDOM.{VirtualDOMAttributes, VirtualDOMElements}
-import io.github.shogowada.statictags.{Attribute, SpaceSeparatedStringAttributeSpec}
+import io.github.shogowada.statictags.{Attribute, BooleanAttributeSpec, SpaceSeparatedStringAttributeSpec}
 import org.make.front.components.theme.SubmitProposalInRelationToTheme
 
 import scala.scalajs.js
@@ -29,6 +29,7 @@ object Components {
 
   implicit class DangerouslySetInnerHTMLVirtualDOMAttributes(attributes: VirtualDOMAttributes) {
     lazy val dangerouslySetInnerHTML: DangerouslySetInnerHtmlParameterSpec = new DangerouslySetInnerHtmlParameterSpec
+    lazy val readOnly: BooleanAttributeSpec = BooleanAttributeSpec("readOnly")
   }
 
   implicit class RichVirtualDOMElements(val self: VirtualDOMElements) extends AnyVal {
@@ -78,7 +79,7 @@ object Components {
 
     /*********************/
     def SubmitProposalComponent: ReactClassElementSpec = self(submitProposal.SubmitProposal.reactClass)
-    def SubmitProposalFormComponent: ReactClassElementSpec = self(submitProposal.SubmitProposalForm.reactClass)
+    def SubmitProposalFormComponent: ReactClassElementSpec = self(submitProposal.SubmitProposalFormContainer.reactClass)
     def SubmitProposalAndLoginComponent: ReactClassElementSpec =
       self(submitProposal.SubmitProposalAndLoginContainer.reactClass)
 

@@ -30,3 +30,4 @@ final case class SearchRequest(themesIds: Option[Seq[String]] = None,
                                skip: Option[Int])
 
 final case class VoteRequest(key: String)
+final case class QualificationRequest(voteKey: String, qualificationKey: String)

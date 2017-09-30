@@ -60,7 +60,7 @@ object SearchResultsContainer {
 
           result.onComplete {
             case Success(_) => // let child handle new results
-            case Failure(_) => dispatch(NotifyError(I18n.t("error.main")))
+            case Failure(_) => dispatch(NotifyError(I18n.t("errors.main")))
           }
 
           result
