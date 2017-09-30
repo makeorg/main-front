@@ -17,6 +17,7 @@ import org.make.front.models.{
   Sequence      => SequenceModel
 }
 import org.make.front.styles._
+import org.make.front.styles.base.TextStyles
 import org.make.front.styles.ui.CTAStyles
 
 import scalacss.DevDefaults.{StyleA, _}
