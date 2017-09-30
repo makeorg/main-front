@@ -133,7 +133,7 @@ object PasswordResetStyles extends StyleSheet.Inline {
   val terms: StyleA = style(marginBottom(0.8F.rem), fontSize(1.4.rem), color(rgba(0, 0, 0, 0.3)))
 
   val content: StyleA = style(
-    width(100 %%),
+    width(100.%%),
     backgroundColor(white),
     maxWidth(114.rem),
     marginRight.auto,
