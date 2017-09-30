@@ -14,7 +14,7 @@ object Sequence {
   lazy val reactClass: ReactClass =
     React.createClass[SequenceProps, Unit](displayName = "Sequence", getInitialState = { self =>
       }, render = { self =>
-      <.div()("Sequence")
+      <.div()()
     })
 }
 

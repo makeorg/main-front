@@ -54,26 +54,58 @@ object OperationSSequence {
             )
           )(
             <.div(^.className := OperationSSequenceStyles.headerInnerWrapper)(
-              <.div(^.className := OperationSSequenceStyles.headerInnerSubWrapper)(
-                <.div(^.className := OperationSSequenceStyles.backButtonWrapper)(
-                  <.p()(<.Link(^.to := s"/operation/${self.props.wrapped.operation.slug}")("Accéder à l'opération"))
-                ),
-                <.div(^.className := OperationSSequenceStyles.titleWrapper)(
-                  <.h1()(unescape(self.props.wrapped.sequence.title))
-                ),
-                <.div()(
-                  <.button(
-                    ^.className := Seq(CTAStyles.basic, CTAStyles.basicOnButton),
-                    ^.onClick := openProposalModal
-                  )(
-                    <.i(^.className := Seq(FontAwesomeStyles.pencil, FontAwesomeStyles.fa))(),
-                    unescape("&nbsp;" + I18n.t("content.search.propose"))
-                  ),
-                  <.FullscreenModalComponent(
-                    ^.wrapped := FullscreenModalProps(self.state.isProposalModalOpened, closeProposalModal)
-                  )(<.SubmitProposalComponent(^.wrapped := SubmitProposalProps(onProposalProposed = () => {
-                    self.setState(_.copy(isProposalModalOpened = false))
-                  }))())
+              <.div(^.className := LayoutRulesStyles.centeredRow)(
+                <.div(^.className := LayoutRulesStyles.col)(
+                  <.div(^.className := OperationSSequenceStyles.headerInnerSubWrapper)(
+                    <.p(^.className := Seq(OperationSSequenceStyles.backLinkWrapper))(
+                      <.Link(
+                        ^.className := OperationSSequenceStyles.backLink,
+                        ^.to := s"/operation/${self.props.wrapped.operation.slug}"
+                      )(
+                        <.i(
+                          ^.className := Seq(
+                            OperationSSequenceStyles.backLinkArrow,
+                            FontAwesomeStyles.angleLeft,
+                            FontAwesomeStyles.fa
+                          )
+                        )(),
+                        <.span(
+                          ^.className := Seq(TextStyles.smallText, TextStyles.title),
+                          ^.dangerouslySetInnerHTML := "Accéder à<br>l'opération"
+                        )()
+                      )
+                    ),
+                    <.div(^.className := OperationSSequenceStyles.titleWrapper)(
+                      <.h1(^.className := Seq(OperationSSequenceStyles.title, TextStyles.smallTitle))(
+                        unescape(self.props.wrapped.sequence.title)
+                      ),
+                      <.p(
+                        ^.className := Seq(
+                          OperationSSequenceStyles.totalOfPropositions,
+                          TextStyles.smallText,
+                          TextStyles.boldText
+                        )
+                      )("10 propositions")
+                    ),
+                    <.div(^.className := OperationSSequenceStyles.openProposalModalButtonWrapper)(
+                      <.button(
+                        ^.className := Seq(
+                          CTAStyles.basic,
+                          CTAStyles.basicOnButton,
+                          OperationSSequenceStyles.openProposalModalButton
+                        ),
+                        ^.onClick := openProposalModal
+                      )(
+                        <.i(^.className := Seq(FontAwesomeStyles.pencil, FontAwesomeStyles.fa))(),
+                        unescape("&nbsp;" + I18n.t("content.search.propose"))
+                      ),
+                      <.FullscreenModalComponent(
+                        ^.wrapped := FullscreenModalProps(self.state.isProposalModalOpened, closeProposalModal)
+                      )(<.SubmitProposalComponent(^.wrapped := SubmitProposalProps(onProposalProposed = () => {
+                        self.setState(_.copy(isProposalModalOpened = false))
+                      }))())
+                    )
+                  )
                 )
               )
             )
@@ -96,30 +128,49 @@ object OperationSSequenceStyles extends StyleSheet.Inline {
     style(display.table, height(100.%%), width(100.%%))
 
   val contentWrapper: StyleA =
-    style(display.tableRow)
+    style(display.tableRow, height(100.%%))
 
   val contentInnerWrapper: StyleA =
     style(display.tableCell, verticalAlign.middle)
 
   val headerWrapper: StyleA =
     style(display.tableRow)
+
   val headerInnerWrapper: StyleA =
     style(
       display.tableCell,
       verticalAlign.middle,
-      paddingTop((ThemeStyles.SpacingValue.medium + 50).pxToEm()), // TODO: dynamise calcul, if main intro is first child of page
+      paddingTop(50.pxToEm()), // TODO: dynamise calcul, if main intro is first child of page
       ThemeStyles.MediaQueries
-        .beyondSmall(paddingTop((ThemeStyles.SpacingValue.larger + 80).pxToEm()))
+        .beyondSmall(paddingTop(80.pxToEm()))
     )
 
   val headerInnerSubWrapper: StyleA =
     style(display.table, height(100.pxToEm()), width(100.%%))
 
-  val backButtonWrapper: StyleA =
-    style(display.tableCell, verticalAlign.middle)
+  val backLinkWrapper: StyleA =
+    style(display.tableCell, verticalAlign.middle, width(150.pxToEm()), color(ThemeStyles.TextColor.white))
+
+  val backLink: StyleA =
+    style(position.relative, display.inlineBlock, paddingLeft(20.pxToEm()), color(ThemeStyles.TextColor.white))
+
+  val backLinkArrow: StyleA =
+    style(position.absolute, top(50.%%), left(`0`), transform := "translateY(-50%)", fontSize(28.pxToEm()))
 
   val titleWrapper: StyleA =
     style(display.tableCell, verticalAlign.middle)
+
+  val title: StyleA =
+    style(textAlign.center, color(ThemeStyles.TextColor.white))
+
+  val totalOfPropositions: StyleA =
+    style(textAlign.center, color(ThemeStyles.TextColor.white))
+
+  val openProposalModalButtonWrapper: StyleA =
+    style(display.tableCell, verticalAlign.middle, width(150.pxToEm()), textAlign.right)
+
+  val openProposalModalButton: StyleA =
+    style()
 
   def gradientBackground(from: String, to: String): StyleA =
     style(background := s"linear-gradient(130deg, $from, $to)")
