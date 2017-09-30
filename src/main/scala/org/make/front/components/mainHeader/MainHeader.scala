@@ -7,7 +7,8 @@ import org.make.front.components.Components._
 import org.make.front.facades.Unescape.unescape
 import org.make.front.facades.{logoMake, I18n}
 import org.make.front.styles._
-import org.make.front.styles.base.TextStyles
+import org.make.front.styles.base.{ColRulesStyles, RWDHideRulesStyles, RowRulesStyles, TextStyles}
+import org.make.front.styles.utils._
 
 import scalacss.DevDefaults._
 import scalacss.internal.StyleA
@@ -18,8 +19,8 @@ object MainHeader {
     displayName = "MainHeader",
     render = (self) =>
       <.header(^.className := MainHeaderStyles.wrapper)(
-        <.div(^.className := LayoutRulesStyles.centeredRow)(
-          <.div(^.className := LayoutRulesStyles.col)(
+        <.div(^.className := RowRulesStyles.centeredRow)(
+          <.div(^.className := ColRulesStyles.col)(
             <.div(^.className := MainHeaderStyles.innerWrapper)(
               //TODO: h1 if homepage else p
               <.h1(^.className := MainHeaderStyles.logoWrapper)(

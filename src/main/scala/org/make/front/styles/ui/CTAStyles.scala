@@ -1,9 +1,10 @@
 package org.make.front.styles.ui
 
 import org.make.front.Main.CssSettings._
-
-import scalacss.internal.{Length, StyleA}
 import org.make.front.styles._
+import org.make.front.styles.utils._
+
+import scalacss.internal.StyleA
 
 object CTAStyles extends StyleSheet.Inline {
 

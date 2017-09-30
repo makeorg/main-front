@@ -9,8 +9,9 @@ import org.make.front.components.proposal.ProposalWithThemeContainer.ProposalWit
 import org.make.front.facades.I18n
 import org.make.front.facades.Unescape.unescape
 import org.make.front.models.{Proposal => ProposalModel}
-import org.make.front.styles.base.TextStyles
 import org.make.front.styles._
+import org.make.front.styles.base.{ColRulesStyles, RowRulesStyles, TextStyles}
+import org.make.front.styles.utils._
 
 import scalacss.DevDefaults._
 
@@ -22,8 +23,8 @@ object Showcase {
     displayName = "Showcase",
     render = (self) =>
       <.section(^.className := ShowcaseStyles.wrapper)(
-        <.div(^.className := LayoutRulesStyles.centeredRow)(
-          <.header(^.className := LayoutRulesStyles.col)(
+        <.div(^.className := RowRulesStyles.centeredRow)(
+          <.header(^.className := ColRulesStyles.col)(
             <.p(^.className := Seq(ShowcaseStyles.intro, TextStyles.mediumText, TextStyles.intro))(
               unescape(I18n.t(self.props.wrapped.introTranslationKey))
             ),
@@ -37,8 +38,8 @@ object Showcase {
                 <.li(
                   ^.className := Seq(
                     ShowcaseStyles.propasalItem,
-                    LayoutRulesStyles.col,
-                    LayoutRulesStyles.colHalfBeyondMedium
+                    ColRulesStyles.col,
+                    ColRulesStyles.colHalfBeyondMedium
                   )
                 )(if (proposal.themeId.getOrElse("") != "") {
                   <.ProposalWithThemeContainerComponent(

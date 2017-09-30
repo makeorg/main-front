@@ -8,8 +8,9 @@ import org.make.front.facades.Unescape.unescape
 import org.make.front.facades._
 import org.make.front.models.{GradientColor => GradientColorModel, Operation => OperationModel}
 import org.make.front.styles._
-import org.make.front.styles.base.TextStyles
+import org.make.front.styles.base.{ColRulesStyles, RowRulesStyles, TextStyles}
 import org.make.front.styles.ui.CTAStyles
+import org.make.front.styles.utils._
 
 import scalacss.DevDefaults._
 import scalacss.internal.mutable.StyleSheet
@@ -34,8 +35,8 @@ object VFFIntro {
           )(
             <.div(^.className := VFFIntroStyles.presentationWrapper)(
               <.div(^.className := VFFIntroStyles.presentationInnerWrapper)(
-                <.div(^.className := LayoutRulesStyles.centeredRow)(
-                  <.div(^.className := LayoutRulesStyles.col)(
+                <.div(^.className := RowRulesStyles.centeredRow)(
+                  <.div(^.className := ColRulesStyles.col)(
                     <.div(^.className := VFFIntroStyles.titleWrapper)(
                       <.p(^.className := Seq(TextStyles.label))("Grande cause Make.org"),
                       <.p(^.className := Seq(VFFIntroStyles.logoWrapper))(
@@ -112,11 +113,11 @@ object VFFIntro {
             ),
             <.div(^.className := VFFIntroStyles.explanationWrapper)(
               <.div(^.className := VFFIntroStyles.explanationInnerWrapper)(
-                <.div(^.className := LayoutRulesStyles.narrowerCenteredRow)(
-                  <.div(^.className := Seq(LayoutRulesStyles.col, LayoutRulesStyles.colThirdBeyondSmall))(
+                <.div(^.className := RowRulesStyles.narrowerCenteredRow)(
+                  <.div(^.className := Seq(ColRulesStyles.col, ColRulesStyles.colThirdBeyondSmall))(
                     <.img(^.src := vffIll.toString, ^.className := VFFIntroStyles.explanationIll)()
                   ),
-                  <.div(^.className := Seq(LayoutRulesStyles.col, LayoutRulesStyles.colTwoThirdsBeyondSmall))(
+                  <.div(^.className := Seq(ColRulesStyles.col, ColRulesStyles.colTwoThirdsBeyondSmall))(
                     <.p(^.className := TextStyles.label)(unescape("Pourquoi cette consultation&nbsp;?")),
                     <.p(^.className := Seq(VFFIntroStyles.explanation, TextStyles.smallText))(
                       unescape(

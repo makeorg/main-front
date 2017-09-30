@@ -1,7 +1,8 @@
 package org.make.front.components.authenticate
 
-import scala.concurrent.Future
 import org.make.front.models.{User => UserModel}
+
+import scala.concurrent.Future
 
 package object register {
   case class RegisterState(fields: Map[String, String], errors: Map[String, String]) {

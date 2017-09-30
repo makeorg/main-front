@@ -6,6 +6,8 @@ import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import org.make.front.components.Components._
 import org.make.front.facades.ReactModal.{ReactModalVirtualDOMAttributes, ReactModalVirtualDOMElements}
 import org.make.front.styles._
+import org.make.front.styles.base.{ColRulesStyles, RowRulesStyles}
+import org.make.front.styles.utils._
 
 import scalacss.DevDefaults._
 import scalacss.internal.mutable.StyleSheet
@@ -76,10 +78,10 @@ object ModalStyles extends StyleSheet.Inline {
     )
 
   val row: StyleA =
-    style(LayoutRulesStyles.row, maxWidth(ThemeStyles.modalMaxWidth), marginRight.auto, marginLeft.auto)
+    style(RowRulesStyles.row, maxWidth(ThemeStyles.modalMaxWidth), marginRight.auto, marginLeft.auto)
 
   val col: StyleA =
-    style(LayoutRulesStyles.col)
+    style(ColRulesStyles.col)
 
   val contentWrapper: StyleA =
     style(

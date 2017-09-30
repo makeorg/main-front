@@ -6,8 +6,10 @@ import org.make.front.components.Components._
 import org.make.front.facades.I18n
 import org.make.front.facades.Unescape.unescape
 import org.make.front.models.{PoliticalAction => PoliticalActionModel}
-import org.make.front.styles.base.TextStyles
 import org.make.front.styles._
+import org.make.front.styles.base.TextStyles
+import org.make.front.styles.utils._
+import org.make.front.styles.vendors.FontAwesomeStyles
 
 import scalacss.DevDefaults._
 
@@ -16,36 +18,44 @@ object PoliticalAction {
   case class PoliticalActionProps(politicalAction: PoliticalActionModel)
 
   lazy val reactClass: ReactClass =
-    React.createClass[PoliticalActionProps, Unit](displayName = "PoliticalAction", render = (self) => {
-      val politicalAction = self.props.wrapped.politicalAction
+    React
+      .createClass[PoliticalActionProps, Unit](
+        displayName = "PoliticalAction",
+        render = (self) => {
+          val politicalAction = self.props.wrapped.politicalAction
 
-      <.article(^.className := PoliticalActionStyles.wrapper)(
-        <.p(^.className := PoliticalActionStyles.imageWrapper)(
-          <.img(^.className := PoliticalActionStyles.image, ^.src := politicalAction.imageUrl)()
-        ),
-        <.div(^.className := PoliticalActionStyles.contentWrapper)(
-          <.p(^.className := Seq(TextStyles.smallerText, PoliticalActionStyles.info))(
-            <.i(
-              ^.className := Seq(FontAwesomeStyles.fa, PoliticalActionStyles.infoIcon, FontAwesomeStyles.calendarOpen)
-            )(),
-            politicalAction.date
-          ),
-          <.p(^.className := Seq(TextStyles.smallerText, PoliticalActionStyles.info))(
-            <.i(
-              ^.className := Seq(FontAwesomeStyles.fa, PoliticalActionStyles.infoIcon, FontAwesomeStyles.mapMarker)
-            )(),
-            politicalAction.location
-          ),
-          <.p(^.className := Seq(TextStyles.boldText, TextStyles.mediumText, PoliticalActionStyles.text))(
-            politicalAction.text,
-            <.br()(),
-            <.a(^.className := PoliticalActionStyles.seeMore)(unescape(I18n.t("content.theme.moreInfos")))
+          <.article(^.className := PoliticalActionStyles.wrapper)(
+            <.p(^.className := PoliticalActionStyles.imageWrapper)(
+              <.img(^.className := PoliticalActionStyles.image, ^.src := politicalAction.imageUrl)()
+            ),
+            <.div(^.className := PoliticalActionStyles.contentWrapper)(
+              <.p(^.className := Seq(TextStyles.smallerText, PoliticalActionStyles.info))(
+                <.i(
+                  ^.className := Seq(
+                    FontAwesomeStyles.fa,
+                    PoliticalActionStyles.infoIcon,
+                    FontAwesomeStyles.calendarOpen
+                  )
+                )(),
+                politicalAction.date
+              ),
+              <.p(^.className := Seq(TextStyles.smallerText, PoliticalActionStyles.info))(
+                <.i(
+                  ^.className := Seq(FontAwesomeStyles.fa, PoliticalActionStyles.infoIcon, FontAwesomeStyles.mapMarker)
+                )(),
+                politicalAction.location
+              ),
+              <.p(^.className := Seq(TextStyles.boldText, TextStyles.mediumText, PoliticalActionStyles.text))(
+                politicalAction.text,
+                <.br()(),
+                <.a(^.className := PoliticalActionStyles.seeMore)(unescape(I18n.t("content.theme.moreInfos")))
+              )
+            ),
+            <.style()(PoliticalActionStyles.render[String])
           )
-        ),
-        <.style()(PoliticalActionStyles.render[String])
-      )
 
-    })
+        }
+      )
 }
 
 object PoliticalActionStyles extends StyleSheet.Inline {

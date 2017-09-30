@@ -8,9 +8,10 @@ import org.make.front.components.modals.FullscreenModal.FullscreenModalProps
 import org.make.front.components.theme.SubmitProposalInRelationToTheme.SubmitProposalInRelationToThemeProps
 import org.make.front.facades._
 import org.make.front.models.{GradientColor => GradientColorModel, Theme => ThemeModel, ThemeId => ThemeIdModel}
-import org.make.front.styles.base.TextStyles
+import org.make.front.styles.ThemeStyles
+import org.make.front.styles.base.{ColRulesStyles, RowRulesStyles, TextStyles}
 import org.make.front.styles.ui.InputStyles
-import org.make.front.styles.{LayoutRulesStyles, ThemeStyles, _}
+import org.make.front.styles.utils._
 import org.scalajs.dom.raw.HTMLElement
 
 import scalacss.DevDefaults._
@@ -53,8 +54,8 @@ object ThemeHeader {
         <.header(^.className := Seq(ThemeHeaderStyles.wrapper, ThemeSheet.gradientStyle))(
           <.div(^.className := ThemeHeaderStyles.innerWrapper)(
             <.img(^.className := ThemeHeaderStyles.illustration, ^.src := imageShutterstock.toString)(),
-            <.div(^.className := LayoutRulesStyles.centeredRow)(
-              <.div(^.className := LayoutRulesStyles.col)(
+            <.div(^.className := RowRulesStyles.centeredRow)(
+              <.div(^.className := ColRulesStyles.col)(
                 <.h1(^.className := Seq(TextStyles.veryBigTitle, ThemeHeaderStyles.title))(theme.title),
                 <.p(
                   ^.className := Seq(

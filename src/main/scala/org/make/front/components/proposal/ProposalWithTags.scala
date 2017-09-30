@@ -7,8 +7,10 @@ import org.make.front.components.Components.{RichVirtualDOMElements, _}
 import org.make.front.components.proposal.ProposalInfos.ProposalInfosProps
 import org.make.front.components.proposal.vote.Vote
 import org.make.front.models.{Proposal => ProposalModel}
-import org.make.front.styles.base.TextStyles
 import org.make.front.styles._
+import org.make.front.styles.base.TextStyles
+import org.make.front.styles.ui.TagStyles
+import org.make.front.styles.utils._
 
 import scalacss.DevDefaults._
 import scalacss.internal.mutable.StyleSheet
@@ -19,40 +21,43 @@ object ProposalWithTags {
 
   val reactClass: ReactClass =
     React
-      .createClass[ProposalWithTagsProps, Unit](displayName = "ProposalWithTags", render = (self) => {
+      .createClass[ProposalWithTagsProps, Unit](
+        displayName = "ProposalWithTags",
+        render = (self) => {
 
-        <.article(^.className := ProposalStyles.wrapper)(
-          <.header(^.className := ProposalStyles.proposalInfosWrapper)(
-            <.ProposalInfosComponent(^.wrapped := ProposalInfosProps(proposal = self.props.wrapped.proposal))()
-          ),
-          /*<.header(^.className := ProposalStyles.shareOwnProposalWrapper)(
+          <.article(^.className := ProposalStyles.wrapper)(
+            <.header(^.className := ProposalStyles.proposalInfosWrapper)(
+              <.ProposalInfosComponent(^.wrapped := ProposalInfosProps(proposal = self.props.wrapped.proposal))()
+            ),
+            /*<.header(^.className := ProposalStyles.shareOwnProposalWrapper)(
           <.ShareOwnProposalComponent(^.wrapped := ShareOwnProposalProps(proposal = self.props.wrapped.proposal))()
           ),*/
-          <.div(^.className := ProposalStyles.contentWrapper)(
-            <.h3(^.className := Seq(TextStyles.mediumText, TextStyles.boldText))(self.props.wrapped.proposal.content),
-            <.VoteComponent(
-              ^.wrapped := Vote.VoteProps(
-                proposalId = self.props.wrapped.proposal.id,
-                voteAgreeStats = self.props.wrapped.proposal.votesAgree,
-                voteDisagreeStats = self.props.wrapped.proposal.votesDisagree,
-                voteNeutralStats = self.props.wrapped.proposal.votesNeutral
-              )
-            )()
-          ),
-          <.footer(^.className := ProposalStyles.footer)(
-            <.ul(^.className := ProposalWithTagsStyles.tagList)(
-              self.props.wrapped.proposal.tags
-                .map(
-                  tag =>
-                    <.li(^.className := ProposalWithTagsStyles.tagListItem)(
-                      <.span(^.className := TagStyles.basic)(tag.label)
-                  )
+            <.div(^.className := ProposalStyles.contentWrapper)(
+              <.h3(^.className := Seq(TextStyles.mediumText, TextStyles.boldText))(self.props.wrapped.proposal.content),
+              <.VoteComponent(
+                ^.wrapped := Vote.VoteProps(
+                  proposalId = self.props.wrapped.proposal.id,
+                  voteAgreeStats = self.props.wrapped.proposal.votesAgree,
+                  voteDisagreeStats = self.props.wrapped.proposal.votesDisagree,
+                  voteNeutralStats = self.props.wrapped.proposal.votesNeutral
                 )
-            )
-          ),
-          <.style()(ProposalStyles.render[String], ProposalWithTagsStyles.render[String])
-        )
-      })
+              )()
+            ),
+            <.footer(^.className := ProposalStyles.footer)(
+              <.ul(^.className := ProposalWithTagsStyles.tagList)(
+                self.props.wrapped.proposal.tags
+                  .map(
+                    tag =>
+                      <.li(^.className := ProposalWithTagsStyles.tagListItem)(
+                        <.span(^.className := TagStyles.basic)(tag.label)
+                    )
+                  )
+              )
+            ),
+            <.style()(ProposalStyles.render[String], ProposalWithTagsStyles.render[String])
+          )
+        }
+      )
 }
 
 object ProposalWithTagsStyles extends StyleSheet.Inline {

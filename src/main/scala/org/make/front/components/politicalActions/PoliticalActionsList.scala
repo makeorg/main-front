@@ -10,7 +10,9 @@ import org.make.front.facades.Unescape.unescape
 import org.make.front.facades.{I18n, Replacements}
 import org.make.front.models.{PoliticalAction => PoliticalActionModel}
 import org.make.front.styles._
-import org.make.front.styles.base.TextStyles
+import org.make.front.styles.base.{ColRulesStyles, RowRulesStyles, TextStyles}
+import org.make.front.styles.utils._
+import org.make.front.styles.vendors.FontAwesomeStyles
 import org.scalajs.dom.raw.HTMLElement
 
 import scalacss.DevDefaults._
@@ -71,8 +73,8 @@ object PoliticalActionsList {
       }
 
       <.section(^.className := PoliticalActionsListStyles.wrapper)(
-        <.div(^.className := LayoutRulesStyles.centeredRow)(
-          <.header(^.className := LayoutRulesStyles.col)(
+        <.div(^.className := RowRulesStyles.centeredRow)(
+          <.header(^.className := ColRulesStyles.col)(
             <.h2(^.className := TextStyles.bigTitle)(
               unescape(
                 I18n.t(
@@ -82,7 +84,7 @@ object PoliticalActionsList {
               )
             )
           ),
-          <.div(^.className := LayoutRulesStyles.col)(
+          <.div(^.className := ColRulesStyles.col)(
             <.div(^.className := PoliticalActionsListStyles.slideshowWrapper)(
               <.div(^.className := PoliticalActionsListStyles.slideshowContentWrapper)(
                 <.div(^.className := Seq(PoliticalActionsListStyles.slideshow))(

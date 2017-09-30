@@ -1,4 +1,4 @@
-package org.make.front.styles
+package org.make.front.styles.vendors
 
 import org.make.front.Main.CssSettings._
 

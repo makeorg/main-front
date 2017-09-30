@@ -7,6 +7,7 @@ import org.make.front.components.Components._
 import org.make.front.components.proposal.vote.QualificateVoteButton.QualificateVoteButtonProps
 import org.make.front.models.{Qualification => QualificationModel, Vote => VoteModel}
 import org.make.front.styles._
+import org.make.front.styles.utils._
 
 import scala.scalajs.js.Dynamic.{global => g}
 import scalacss.DevDefaults._

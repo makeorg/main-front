@@ -11,6 +11,8 @@ import org.make.front.facades.I18n
 import org.make.front.facades.Unescape.unescape
 import org.make.front.models.{Tag => TagModel}
 import org.make.front.styles._
+import org.make.front.styles.ui.TagStyles
+import org.make.front.styles.utils._
 
 import scalacss.DevDefaults._
 import scalacss.internal.mutable.StyleSheet

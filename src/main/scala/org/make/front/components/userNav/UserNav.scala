@@ -12,7 +12,9 @@ import org.make.front.components.userNav.UserNav.{UserNavProps, UserNavState}
 import org.make.front.facades.I18n
 import org.make.front.facades.Unescape.unescape
 import org.make.front.styles._
-import org.make.front.styles.base.TextStyles
+import org.make.front.styles.base.{RWDHideRulesStyles, TextStyles}
+import org.make.front.styles.utils._
+import org.make.front.styles.vendors.FontAwesomeStyles
 
 import scalacss.DevDefaults._
 import scalacss.internal.StyleA

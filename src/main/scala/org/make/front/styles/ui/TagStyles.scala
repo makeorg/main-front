@@ -1,8 +1,8 @@
-package org.make.front.styles
+package org.make.front.styles.ui
 
 import org.make.front.Main.CssSettings._
-
-import scalacss.internal.Length
+import org.make.front.styles.ThemeStyles
+import org.make.front.styles.utils._
 
 object TagStyles extends StyleSheet.Inline {
 

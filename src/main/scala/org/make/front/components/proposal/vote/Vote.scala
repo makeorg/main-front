@@ -7,6 +7,7 @@ import org.make.front.components.Components._
 import org.make.front.components.proposal.vote.VoteButton.VoteButtonProps
 import org.make.front.models.{ProposalId, Vote => VoteModel}
 import org.make.front.styles._
+import org.make.front.styles.utils._
 import org.make.services.proposal.ProposalService
 
 import scala.concurrent.Future

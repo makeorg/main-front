@@ -17,6 +17,7 @@ import scala.concurrent.Future
 import scala.util.{Failure, Success}
 import scalacss.DevDefaults._
 import scalacss.internal.mutable.StyleSheet
+import org.make.front.styles.utils._
 
 object VoteButton {
 

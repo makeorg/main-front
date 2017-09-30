@@ -10,7 +10,8 @@ import org.make.core.validation.PasswordConstraint
 import org.make.front.components.Components._
 import org.make.front.facades.Translate.TranslateVirtualDOMElements
 import org.make.front.facades.{I18n, Replacements}
-import org.make.front.styles.{FontAwesomeStyles, ThemeStyles}
+import org.make.front.styles.ThemeStyles
+import org.make.front.styles.vendors.FontAwesomeStyles
 import org.scalajs.dom.raw.HTMLInputElement
 
 import scalacss.DevDefaults._

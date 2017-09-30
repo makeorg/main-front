@@ -13,6 +13,7 @@ import org.make.front.facades.Unescape.unescape
 import org.make.front.styles._
 import org.make.front.styles.base.TextStyles
 import org.make.front.styles.ui.{CTAStyles, InputStyles}
+import org.make.front.styles.utils._
 import org.scalajs.dom.raw.HTMLInputElement
 
 import scala.concurrent.ExecutionContext.Implicits.global

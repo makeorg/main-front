@@ -15,14 +15,14 @@ import org.make.front.facades.ReactInfiniteScroller.{
 }
 import org.make.front.facades.Unescape.unescape
 import org.make.front.models.{ProposalSearchResult, Proposal => ProposalModel, Tag => TagModel}
-import org.make.front.styles.base.TextStyles
-import org.make.front.styles.ui.CTAStyles
 import org.make.front.styles._
+import org.make.front.styles.base.{ColRulesStyles, RowRulesStyles, TextStyles}
+import org.make.front.styles.ui.CTAStyles
+import org.make.front.styles.utils._
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 import scala.util.{Failure, Success}
-import scalacss.internal.Length
 import scalacss.internal.mutable.StyleSheet
 
 object ResultsInOperation {
@@ -67,7 +67,7 @@ object ResultsInOperation {
           }
 
         val noResults: ReactElement =
-          <.div(^.className := Seq(LayoutRulesStyles.col, ResultsInOperationStyles.noResults))(
+          <.div(^.className := Seq(ColRulesStyles.col, ResultsInOperationStyles.noResults))(
             <.p(^.className := ResultsInOperationStyles.noResultsSmiley)("😞"),
             <.p(
               ^.className := Seq(TextStyles.mediumText, ResultsInOperationStyles.noResultsMessage),
@@ -98,15 +98,15 @@ object ResultsInOperation {
                   <.li(
                     ^.className := Seq(
                       ResultsInOperationStyles.item,
-                      LayoutRulesStyles.col,
-                      LayoutRulesStyles.colHalfBeyondMedium,
-                      LayoutRulesStyles.colQuarterBeyondLarge
+                      ColRulesStyles.col,
+                      ColRulesStyles.colHalfBeyondMedium,
+                      ColRulesStyles.colQuarterBeyondLarge
                     )
                   )(<.ProposalWithTagsComponent(^.wrapped := ProposalWithTagsProps(proposal = proposal))())
               )
             ),
             if (self.state.hasMore && !self.state.hasRequestedMore) {
-              <.div(^.className := Seq(ResultsInOperationStyles.seeMoreButtonWrapper, LayoutRulesStyles.col))(
+              <.div(^.className := Seq(ResultsInOperationStyles.seeMoreButtonWrapper, ColRulesStyles.col))(
                 <.button(^.onClick := onSeeMore, ^.className := Seq(CTAStyles.basic, CTAStyles.basicOnButton))(
                   unescape(I18n.t("content.theme.seeMoreProposals"))
                 )
@@ -116,12 +116,12 @@ object ResultsInOperation {
 
         val proposalsToDisplay: Seq[ProposalModel] = self.state.listProposals
 
-        <.section(^.className := Seq(LayoutRulesStyles.centeredRow, ResultsInOperationStyles.wrapper))(
-          <.header(^.className := LayoutRulesStyles.col)(
+        <.section(^.className := Seq(RowRulesStyles.centeredRow, ResultsInOperationStyles.wrapper))(
+          <.header(^.className := ColRulesStyles.col)(
             <.h2(^.className := TextStyles.bigTitle)(unescape(I18n.t("content.theme.matrix.title")))
           ),
           if (self.props.wrapped.preselectedTags.nonEmpty) {
-            <.nav(^.className := LayoutRulesStyles.col)(
+            <.nav(^.className := ColRulesStyles.col)(
               <.FilterByTagsComponent(
                 ^.wrapped := FilterByTagsProps(self.props.wrapped.preselectedTags, onTagsChange)
               )()

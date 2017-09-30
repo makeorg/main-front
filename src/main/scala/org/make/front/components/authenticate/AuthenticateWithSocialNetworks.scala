@@ -15,8 +15,10 @@ import org.make.front.facades.ReactGoogleLogin.{
   ReactGoogleLoginVirtualDOMElements
 }
 import org.make.front.styles._
-import org.make.front.styles.base.TextStyles
+import org.make.front.styles.base.{RowRulesStyles, TextStyles}
 import org.make.front.styles.ui.CTAStyles
+import org.make.front.styles.utils._
+import org.make.front.styles.vendors.FontAwesomeStyles
 import org.scalajs.dom.experimental.Response
 
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -25,7 +27,6 @@ import scala.util.{Failure, Success}
 import scalacss.DevDefaults._
 import scalacss.internal.StyleA
 import scalacss.internal.mutable.StyleSheet
-
 object AuthenticateWithSocialNetworks {
 
   case class AuthenticateWithSocialNetworksProps(note: String,
@@ -118,7 +119,7 @@ object AuthenticateWithSocialNetworksStyles extends StyleSheet.Inline {
   val facebookConnectButtonWrapper: StyleA =
     style(
       ThemeStyles.MediaQueries
-        .beyondVerySmall(display.inlineBlock, width(50.%%), paddingRight(LayoutRulesStyles.gutter))
+        .beyondVerySmall(display.inlineBlock, width(50.%%), paddingRight(RowRulesStyles.gutter))
     )
 
   val facebookConnectButton: StyleA =
@@ -128,7 +129,7 @@ object AuthenticateWithSocialNetworksStyles extends StyleSheet.Inline {
     style(
       marginTop(ThemeStyles.SpacingValue.smaller.pxToEm()),
       ThemeStyles.MediaQueries
-        .beyondVerySmall(display.inlineBlock, width(50.%%), marginTop.`0`, paddingLeft(LayoutRulesStyles.gutter))
+        .beyondVerySmall(display.inlineBlock, width(50.%%), marginTop.`0`, paddingLeft(RowRulesStyles.gutter))
     )
 
   val googlePlusConnectButton: StyleA =

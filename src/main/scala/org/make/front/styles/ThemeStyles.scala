@@ -1,8 +1,9 @@
 package org.make.front.styles
 
 import org.make.front.Main.CssSettings._
+import org.make.front.styles.utils._
 
-import scalacss.internal.{AV, Length, Media, ValueT}
+import scalacss.internal.{AV, Media, ValueT}
 
 object ThemeStyles extends StyleSheet.Inline {
 

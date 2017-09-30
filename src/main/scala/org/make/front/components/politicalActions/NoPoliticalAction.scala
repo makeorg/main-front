@@ -7,30 +7,35 @@ import org.make.front.components.Components._
 import org.make.front.facades.cone
 import org.make.front.styles._
 import org.make.front.styles.base.TextStyles
+import org.make.front.styles.utils._
 
 import scalacss.DevDefaults._
 
 object NoPoliticalAction {
 
   lazy val reactClass: ReactClass =
-    React.createClass[Unit, Unit](displayName = "NoPoliticalAction", render = (self) => {
+    React
+      .createClass[Unit, Unit](
+        displayName = "NoPoliticalAction",
+        render = (self) => {
 
-      <.article(^.className := NoPoliticalActionStyles.wrapper)(
-        <.p(^.className := NoPoliticalActionStyles.imageWrapper)(
-          <.img(^.className := NoPoliticalActionStyles.image, ^.src := cone.toString)()
-        ),
-        <.div(^.className := NoPoliticalActionStyles.contentWrapper)(
-          <.p(^.className := Seq(TextStyles.boldText, TextStyles.mediumText, NoPoliticalActionStyles.text))(
-            "Nous n’avons pas d’action à vous proposer sur ce thème pour le moment, mais nous y travaillons !"
-          ),
-          <.p(^.className := Seq(TextStyles.boldText, TextStyles.mediumText, NoPoliticalActionStyles.text))(
-            "Rendez-vous très prochainement pour agir ensemble !"
+          <.article(^.className := NoPoliticalActionStyles.wrapper)(
+            <.p(^.className := NoPoliticalActionStyles.imageWrapper)(
+              <.img(^.className := NoPoliticalActionStyles.image, ^.src := cone.toString)()
+            ),
+            <.div(^.className := NoPoliticalActionStyles.contentWrapper)(
+              <.p(^.className := Seq(TextStyles.boldText, TextStyles.mediumText, NoPoliticalActionStyles.text))(
+                "Nous n’avons pas d’action à vous proposer sur ce thème pour le moment, mais nous y travaillons !"
+              ),
+              <.p(^.className := Seq(TextStyles.boldText, TextStyles.mediumText, NoPoliticalActionStyles.text))(
+                "Rendez-vous très prochainement pour agir ensemble !"
+              )
+            ),
+            <.style()(NoPoliticalActionStyles.render[String])
           )
-        ),
-        <.style()(NoPoliticalActionStyles.render[String])
-      )
 
-    })
+        }
+      )
 }
 
 object NoPoliticalActionStyles extends StyleSheet.Inline {

@@ -17,8 +17,10 @@ import org.make.front.models.{
   Sequence      => SequenceModel
 }
 import org.make.front.styles._
-import org.make.front.styles.base.TextStyles
+import org.make.front.styles.base.{ColRulesStyles, RowRulesStyles, TextStyles}
 import org.make.front.styles.ui.CTAStyles
+import org.make.front.styles.utils._
+import org.make.front.styles.vendors.FontAwesomeStyles
 
 import scalacss.DevDefaults.{StyleA, _}
 import scalacss.internal.mutable.StyleSheet
@@ -55,8 +57,8 @@ object OperationSSequence {
             )
           )(
             <.div(^.className := OperationSSequenceStyles.headerInnerWrapper)(
-              <.div(^.className := LayoutRulesStyles.centeredRow)(
-                <.div(^.className := LayoutRulesStyles.col)(
+              <.div(^.className := RowRulesStyles.centeredRow)(
+                <.div(^.className := ColRulesStyles.col)(
                   <.div(^.className := OperationSSequenceStyles.headerInnerSubWrapper)(
                     <.p(^.className := Seq(OperationSSequenceStyles.backLinkWrapper))(
                       <.Link(

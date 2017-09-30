@@ -9,8 +9,9 @@ import org.make.front.components.operation.SubmitProposalInRelationToOperation.S
 import org.make.front.facades.Unescape.unescape
 import org.make.front.models.{Operation => OperationModel}
 import org.make.front.styles._
-import org.make.front.styles.base.TextStyles
+import org.make.front.styles.base.{ColRulesStyles, RowRulesStyles, TextStyles}
 import org.make.front.styles.ui.InputStyles
+import org.make.front.styles.utils._
 import org.scalajs.dom.raw.HTMLElement
 
 import scalacss.DevDefaults._
@@ -45,8 +46,8 @@ object OperationHeader {
         val operation: OperationModel = self.props.wrapped.operation
 
         <.header(^.className := OperationHeaderStyles.wrapper)(
-          <.div(^.className := LayoutRulesStyles.centeredRow)(
-            <.div(^.className := LayoutRulesStyles.col)(
+          <.div(^.className := RowRulesStyles.centeredRow)(
+            <.div(^.className := ColRulesStyles.col)(
               <.h1(^.className := Seq(TextStyles.mediumTitle, OperationHeaderStyles.title))(unescape(operation.title)),
               <.p(
                 ^.className := Seq(

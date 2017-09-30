@@ -18,15 +18,16 @@ import org.make.front.facades.ReactInfiniteScroller.{
 import org.make.front.facades.Unescape.unescape
 import org.make.front.facades.{I18n, Replacements}
 import org.make.front.models.{ProposalSearchResult, Proposal => ProposalModel}
-import org.make.front.styles._
-import org.make.front.styles.base.TextStyles
+import org.make.front.styles.ThemeStyles
+import org.make.front.styles.base.{ColRulesStyles, RowRulesStyles, TextStyles}
 import org.make.front.styles.ui.CTAStyles
+import org.make.front.styles.utils._
+import org.make.front.styles.vendors.FontAwesomeStyles
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 import scala.util.{Failure, Success}
 import scalacss.DevDefaults._
-
 object SearchResults {
   final case class SearchResultsProps(
     onMoreResultsRequested: (Seq[ProposalModel], Option[String]) => Future[ProposalSearchResult],
@@ -87,8 +88,8 @@ object SearchResults {
           }
 
           val noResults: ReactElement = {
-            <.div(^.className := LayoutRulesStyles.centeredRow)(
-              <.div(^.className := Seq(LayoutRulesStyles.col, SearchResultsStyles.noResults))(
+            <.div(^.className := RowRulesStyles.centeredRow)(
+              <.div(^.className := Seq(ColRulesStyles.col, SearchResultsStyles.noResults))(
                 <.p(^.className := SearchResultsStyles.noResultsSmiley)("😞"),
                 <.p(
                   ^.className := Seq(TextStyles.mediumText, SearchResultsStyles.noResultsMessage),
@@ -122,7 +123,7 @@ object SearchResults {
           def proposals(proposals: Seq[ProposalModel]) =
             Seq(
               <.InfiniteScroll(
-                ^.className := LayoutRulesStyles.centeredRow,
+                ^.className := RowRulesStyles.centeredRow,
                 ^.element := "ul",
                 ^.hasMore := (self.state.initialLoad || self.state.hasMore && self.state.hasRequestedMore),
                 ^.initialLoad := true,
@@ -134,9 +135,9 @@ object SearchResults {
                   proposal =>
                     <.li(
                       ^.className := Seq(
-                        LayoutRulesStyles.col,
-                        LayoutRulesStyles.colHalfBeyondMedium,
-                        LayoutRulesStyles.colQuarterBeyondLarge
+                        ColRulesStyles.col,
+                        ColRulesStyles.colHalfBeyondMedium,
+                        ColRulesStyles.colQuarterBeyondLarge
                       )
                     )(<.ProposalWithTagsComponent(^.wrapped := ProposalWithTagsProps(proposal = proposal))())
                 )
@@ -144,7 +145,7 @@ object SearchResults {
                 Seq(<.span.empty)
               }),
               if (self.state.hasMore && !self.state.hasRequestedMore) {
-                <.div(^.className := Seq(ResultsInThemeStyles.seeMoreButtonWrapper, LayoutRulesStyles.col))(
+                <.div(^.className := Seq(ResultsInThemeStyles.seeMoreButtonWrapper, ColRulesStyles.col))(
                   <.button(^.onClick := { () =>
                     onSeeMore(1)
                   }, ^.className := Seq(CTAStyles.basic, CTAStyles.basicOnButton))(

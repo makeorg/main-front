@@ -7,8 +7,9 @@ import org.make.front.components.Components._
 import org.make.front.facades.Unescape.unescape
 import org.make.front.facades.{mainIntroIll, I18n}
 import org.make.front.styles._
-import org.make.front.styles.base.TextStyles
+import org.make.front.styles.base.{ColRulesStyles, RowRulesStyles, TextStyles}
 import org.make.front.styles.ui.CTAStyles
+import org.make.front.styles.utils._
 
 import scalacss.DevDefaults._
 import scalacss.internal.mutable.StyleSheet
@@ -20,8 +21,8 @@ object Intro {
     render = (_) =>
       <.section(^.className := IntroStyles.wrapper)(
         <.div(^.className := IntroStyles.innerWrapper)(
-          <.div(^.className := LayoutRulesStyles.centeredRow)(
-            <.div(^.className := LayoutRulesStyles.col)(
+          <.div(^.className := Seq(IntroStyles.innerSubWrapper, RowRulesStyles.centeredRow))(
+            <.div(^.className := ColRulesStyles.col)(
               <.div(^.className := IntroStyles.labelWrapper)(
                 <.p(^.className := TextStyles.label)(unescape(I18n.t("content.homepage.baseline")))
               ),
@@ -81,6 +82,9 @@ object IntroStyles extends StyleSheet.Inline {
         opacity(0.5)
       )
     )
+
+  val innerSubWrapper: StyleA =
+    style(position.relative, zIndex(1))
 
   val labelWrapper: StyleA =
     style(marginBottom(ThemeStyles.SpacingValue.small.pxToEm()))

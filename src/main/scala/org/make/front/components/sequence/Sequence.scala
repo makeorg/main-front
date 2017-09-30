@@ -18,7 +18,4 @@ object Sequence {
     })
 }
 
-object SequenceStyles extends StyleSheet.Inline {
-  import dsl._
-
-}
+object SequenceStyles extends StyleSheet.Inline {}

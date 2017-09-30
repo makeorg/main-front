@@ -8,6 +8,8 @@ import org.make.front.Main.CssSettings._
 import org.make.front.components.Components._
 import org.make.front.styles._
 import org.make.front.styles.ui.InputStyles
+import org.make.front.styles.utils._
+import org.make.front.styles.vendors.FontAwesomeStyles
 import org.scalajs.dom.raw.HTMLInputElement
 
 import scalacss.internal.StyleA

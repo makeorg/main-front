@@ -1,8 +1,10 @@
 package org.make.front.styles.ui
 
 import org.make.front.Main.CssSettings._
-import org.make.front.styles.base.TextStyles
 import org.make.front.styles._
+import org.make.front.styles.base.TextStyles
+import org.make.front.styles.utils._
+
 import scalacss.internal.Dsl
 import scalacss.internal.DslBase.ToStyle
 import scalacss.internal.PseudoType.{Class, Element}

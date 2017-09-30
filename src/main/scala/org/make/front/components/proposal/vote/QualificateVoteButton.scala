@@ -10,6 +10,7 @@ import org.make.front.helpers.NumberFormat.formatToKilo
 import org.make.front.models.{Qualification => QualificationModel, Vote => VoteModel}
 import org.make.front.styles._
 import org.make.front.styles.base.TextStyles
+import org.make.front.styles.utils._
 
 import scalacss.DevDefaults._
 import scalacss.internal.mutable.StyleSheet

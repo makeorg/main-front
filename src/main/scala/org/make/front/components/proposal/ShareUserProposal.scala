@@ -7,6 +7,7 @@ import org.make.front.components.Components._
 import org.make.front.models.{Proposal => ProposalModel}
 import org.make.front.styles._
 import org.make.front.styles.base.TextStyles
+import org.make.front.styles.utils._
 
 import scalacss.DevDefaults._
 import scalacss.internal.mutable.StyleSheet
@@ -17,40 +18,52 @@ object ShareOwnProposal {
 
   val reactClass: ReactClass =
     React
-      .createClass[ShareOwnProposalProps, Unit](displayName = "ShareOwnProposal", render = (self) => {
+      .createClass[ShareOwnProposalProps, Unit](
+        displayName = "ShareOwnProposal",
+        render = (self) => {
 
-        <.div(^.className := ShareOwnProposalStyles.wrapper)(
-          <.h4(^.className := Seq(TextStyles.smallText, ShareOwnProposalStyles.intro))("Ma proposition"),
-          <.div(^.className := ShareOwnProposalStyles.shareButtonsListWrapper)(
-            <.ul(^.className := ShareOwnProposalStyles.shareButtonsList)(
-              <.li(^.className := ShareOwnProposalStyles.shareButtonItem)(
-                <.button(
-                  ^.className := Seq(ShareOwnProposalStyles.shareButton, ShareOwnProposalStyles.shareWithFacebookButton)
-                )()
-              ),
-              <.li(^.className := ShareOwnProposalStyles.shareButtonItem)(
-                <.button(
-                  ^.className := Seq(ShareOwnProposalStyles.shareButton, ShareOwnProposalStyles.shareWithTwitterButton)
-                )()
-              ),
-              <.li(^.className := ShareOwnProposalStyles.shareButtonItem)(
-                <.button(
-                  ^.className := Seq(
-                    ShareOwnProposalStyles.shareButton,
-                    ShareOwnProposalStyles.shareWithGooglePlusButton
-                  )
-                )()
-              ),
-              <.li(^.className := ShareOwnProposalStyles.shareButtonItem)(
-                <.button(
-                  ^.className := Seq(ShareOwnProposalStyles.shareButton, ShareOwnProposalStyles.shareWithLinkedInButton)
-                )()
+          <.div(^.className := ShareOwnProposalStyles.wrapper)(
+            <.h4(^.className := Seq(TextStyles.smallText, ShareOwnProposalStyles.intro))("Ma proposition"),
+            <.div(^.className := ShareOwnProposalStyles.shareButtonsListWrapper)(
+              <.ul(^.className := ShareOwnProposalStyles.shareButtonsList)(
+                <.li(^.className := ShareOwnProposalStyles.shareButtonItem)(
+                  <.button(
+                    ^.className := Seq(
+                      ShareOwnProposalStyles.shareButton,
+                      ShareOwnProposalStyles.shareWithFacebookButton
+                    )
+                  )()
+                ),
+                <.li(^.className := ShareOwnProposalStyles.shareButtonItem)(
+                  <.button(
+                    ^.className := Seq(
+                      ShareOwnProposalStyles.shareButton,
+                      ShareOwnProposalStyles.shareWithTwitterButton
+                    )
+                  )()
+                ),
+                <.li(^.className := ShareOwnProposalStyles.shareButtonItem)(
+                  <.button(
+                    ^.className := Seq(
+                      ShareOwnProposalStyles.shareButton,
+                      ShareOwnProposalStyles.shareWithGooglePlusButton
+                    )
+                  )()
+                ),
+                <.li(^.className := ShareOwnProposalStyles.shareButtonItem)(
+                  <.button(
+                    ^.className := Seq(
+                      ShareOwnProposalStyles.shareButton,
+                      ShareOwnProposalStyles.shareWithLinkedInButton
+                    )
+                  )()
+                )
               )
-            )
-          ),
-          <.style()(ShareOwnProposalStyles.render[String])
-        )
-      })
+            ),
+            <.style()(ShareOwnProposalStyles.render[String])
+          )
+        }
+      )
 }
 
 object ShareOwnProposalStyles extends StyleSheet.Inline {

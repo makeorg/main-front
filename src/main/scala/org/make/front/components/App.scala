@@ -4,9 +4,8 @@ import io.github.shogowada.scalajs.reactjs.React
 import io.github.shogowada.scalajs.reactjs.VirtualDOM._
 import io.github.shogowada.scalajs.reactjs.router.WithRouter
 import org.make.front.components.Components.RichVirtualDOMElements
-import org.make.front.styles._
-import org.make.front.styles.base.{Basic, TextStyles}
-import org.make.front.styles.ui.{CTAStyles, InputStyles, ModalStyles}
+import org.make.front.styles.base._
+import org.make.front.styles.ui.{CTAStyles, InputStyles, ModalStyles, TagStyles}
 
 import scalacss.DevDefaults._
 
@@ -19,7 +18,8 @@ object App {
         <("app-container")(^.className := "App")(
           <.style()(
             Basic.render[String],
-            LayoutRulesStyles.render[String],
+            RowRulesStyles.render[String],
+            ColRulesStyles.render[String],
             TextStyles.render[String],
             CTAStyles.render[String],
             InputStyles.render[String],

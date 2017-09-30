@@ -7,7 +7,7 @@ import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import io.github.shogowada.scalajs.reactjs.events.SyntheticEvent
 import org.make.front.components.Components._
 import org.make.front.models.{Tag => TagModel}
-import org.make.front.styles.TagStyles
+import org.make.front.styles.ui.TagStyles
 
 /**
   * Tag Element Component

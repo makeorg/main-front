@@ -6,6 +6,8 @@ import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import org.make.front.components.Components._
 import org.make.front.facades.ReactModal.{ReactModalVirtualDOMAttributes, ReactModalVirtualDOMElements}
 import org.make.front.styles._
+import org.make.front.styles.base.{ColRulesStyles, RowRulesStyles}
+import org.make.front.styles.utils._
 
 import scalacss.DevDefaults._
 import scalacss.internal.mutable.StyleSheet
@@ -45,8 +47,8 @@ object FullscreenModal {
                   )()
                 )
               ),
-              <.div(^.className := LayoutRulesStyles.centeredRow)(
-                <.article(^.className := LayoutRulesStyles.col)(self.props.children)
+              <.div(^.className := RowRulesStyles.centeredRow)(
+                <.article(^.className := ColRulesStyles.col)(self.props.children)
               )
             )
           ),

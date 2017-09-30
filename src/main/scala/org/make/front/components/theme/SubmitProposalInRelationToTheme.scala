@@ -5,13 +5,12 @@ import io.github.shogowada.scalajs.reactjs.VirtualDOM._
 import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import org.make.front.components.Components._
 import org.make.front.components.submitProposal.SubmitProposalAndLoginContainer.SubmitProposalAndLoginContainerProps
-import org.make.front.components.theme.SubmitProposalInRelationToThemeStyles.style
 import org.make.front.facades.I18n
 import org.make.front.facades.Unescape.unescape
 import org.make.front.models.{GradientColor => GradientColorModel, Theme => ThemeModel}
-import org.make.front.styles._
 import org.make.front.styles.ThemeStyles
 import org.make.front.styles.base.TextStyles
+import org.make.front.styles.utils._
 
 import scalacss.DevDefaults._
 import scalacss.internal.Attr
