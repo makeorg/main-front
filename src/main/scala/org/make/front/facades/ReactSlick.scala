@@ -1,11 +1,10 @@
 package org.make.front.facades
 
-import io.github.shogowada.scalajs.reactjs.VirtualDOM.VirtualDOMAttributes.Type.AS_IS
 import io.github.shogowada.scalajs.reactjs.VirtualDOM.VirtualDOMElements.ReactClassElementSpec
 import io.github.shogowada.scalajs.reactjs.VirtualDOM.{VirtualDOMAttributes, VirtualDOMElements}
 import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import io.github.shogowada.scalajs.reactjs.elements.ReactElement
-import io.github.shogowada.statictags.{Attribute, AttributeSpec, StringAttributeSpec}
+import io.github.shogowada.statictags.StringAttributeSpec
 
 import scala.scalajs.js
 import scala.scalajs.js.annotation.JSImport
@@ -17,28 +16,6 @@ import scala.scalajs.js.|
 object NativeReactSlick extends ReactClass
 
 object ReactSlick {
-
-  implicit class ReactTooltipVirtualDOMElements(elements: VirtualDOMElements) {
-    lazy val Slider: ReactClassElementSpec = elements(NativeReactSlick)
-  }
-
-  case class BeforeChangeAttributeSpec(name: String) extends AttributeSpec {
-    def :=(callback: js.Function2[Int, Int, Unit]): Attribute[js.Function2[Int, Int, Unit]] = {
-      Attribute(name = name, value = callback, AS_IS)
-    }
-  }
-
-  case class AfterChangeAttributeSpec(name: String) extends AttributeSpec {
-    def :=(callback: js.Function1[Int, Unit]): Attribute[js.Function1[Int, Unit]] = {
-      Attribute(name = name, value = callback, AS_IS)
-    }
-  }
-
-  case class CustomPagingAttributeSpec(name: String) extends AttributeSpec {
-    def :=(paging: js.Function1[Int, ReactElement]): Attribute[js.Function1[Int, ReactElement]] = {
-      Attribute(name = name, value = paging, AS_IS)
-    }
-  }
 
   @js.native
   trait Slider extends js.Object {
@@ -80,10 +57,8 @@ object ReactSlick {
     }
   }
 
-  case class ResponsiveAttributeSpec(name: String) extends AttributeSpec {
-    def :=(responsiveParameters: ResponsiveParameters): Attribute[ResponsiveParameters] = {
-      Attribute(name = name, value = responsiveParameters, AS_IS)
-    }
+  implicit class ReactTooltipVirtualDOMElements(elements: VirtualDOMElements) {
+    lazy val Slider: ReactClassElementSpec = elements(NativeReactSlick)
   }
 
   implicit class ReactTooltipVirtualDOMAttributes(attributes: VirtualDOMAttributes) {
@@ -98,7 +73,7 @@ object ReactSlick {
     lazy val centerMode: NativeBooleanAttribute = NativeBooleanAttribute("centerMode")
     lazy val centerPadding: StringAttributeSpec = StringAttributeSpec("centerPadding")
     lazy val cssEase = StringAttributeSpec("cssEase")
-    lazy val customPaging = CustomPagingAttributeSpec("customPaging")
+    lazy val customPaging: NativeFunction1Attribute[Int, ReactElement] = NativeFunction1Attribute("customPaging")
     lazy val dots: NativeBooleanAttribute = NativeBooleanAttribute("dots")
     lazy val dotsClass: StringAttributeSpec = StringAttributeSpec("dotsClass")
     lazy val draggable: NativeBooleanAttribute = NativeBooleanAttribute("draggable")
@@ -109,7 +84,7 @@ object ReactSlick {
     lazy val initialSlide: NativeIntAttribute = NativeIntAttribute("initialSlide")
     lazy val lazyLoad: NativeBooleanAttribute = NativeBooleanAttribute("lazyLoad")
     lazy val pauseOnHover: NativeBooleanAttribute = NativeBooleanAttribute("pauseOnHover")
-    lazy val responsive = ResponsiveAttributeSpec("responsive")
+    lazy val responsive: NativeJsObjectAttributeSpec[ResponsiveParameters] = NativeJsObjectAttributeSpec("responsive")
     lazy val rtl: NativeBooleanAttribute = NativeBooleanAttribute("rtl")
     lazy val slide: StringAttributeSpec = StringAttributeSpec("slide")
     lazy val slidesToShow: NativeIntAttribute = NativeIntAttribute("slidesToShow")
@@ -122,8 +97,8 @@ object ReactSlick {
     lazy val variableWidth: NativeBooleanAttribute = NativeBooleanAttribute("variableWidth")
     lazy val useCss: NativeBooleanAttribute = NativeBooleanAttribute("useCss")
     lazy val vertical: NativeBooleanAttribute = NativeBooleanAttribute("vertical")
-    lazy val afterChange = AfterChangeAttributeSpec("afterChange")
-    lazy val beforeChange = BeforeChangeAttributeSpec("beforeChange")
+    lazy val afterChange: NativeFunction1Attribute[Int, Unit] = NativeFunction1Attribute("afterChange")
+    lazy val beforeChange: NativeFunction2Attribute[Int, Int, Unit] = NativeFunction2Attribute("beforeChange")
     lazy val slickGoTo: NativeIntAttribute = NativeIntAttribute("slickGoTo")
 
   }

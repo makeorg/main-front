@@ -40,67 +40,26 @@ object NativeAutosuggest extends ReactClass
 
 object Autosuggest {
 
-  type OnSuggestionsFetchRequested = js.Function1[OnSuggestionFetchRequestedExtraParameters, Unit]
-  type OnSuggestionsClearRequested = js.Function0[Unit]
-  type GetSuggestionValue = js.Function1[js.Object, String]
-  type RenderSuggestion = js.Function2[js.Object, OnRenderSuggestionExtraParameters, ReactElement]
-  type RenderInput = js.Function1[InputProps, ReactElement]
-
   implicit class AutosuggestVirtualDOMElements(elements: VirtualDOMElements) {
     lazy val Autosuggest: ReactClassElementSpec = elements(NativeAutosuggest)
   }
 
-  case class OnSuggestionsFetchRequestedAttribute(name: String) extends AttributeSpec {
-    def :=(
-      onSuggestionsFetchRequested: (OnSuggestionFetchRequestedExtraParameters) => Unit
-    ): Attribute[OnSuggestionsFetchRequested] =
-      Attribute(name = name, value = onSuggestionsFetchRequested, AS_IS)
-  }
-
-  case class OnSuggestionsClearRequestedAttribute(name: String) extends AttributeSpec {
-    def :=(onSuggestionsClearRequested: () => Unit): Attribute[OnSuggestionsClearRequested] =
-      Attribute(name = name, value = onSuggestionsClearRequested, AS_IS)
-  }
-
-  case class GetSuggestionValueAttribute(name: String) extends AttributeSpec {
-    def :=(getSuggestionValue: (js.Object) => String): Attribute[GetSuggestionValue] =
-      Attribute(name = name, value = getSuggestionValue, AS_IS)
-  }
-
-  case class RenderSuggestionAttribute(name: String) extends AttributeSpec {
-    def :=(
-      renderSuggestion: js.Function2[js.Object, OnRenderSuggestionExtraParameters, ReactElement]
-    ): Attribute[RenderSuggestion] =
-      Attribute(name = name, value = renderSuggestion, AS_IS)
-  }
-
-  case class InputPropsAttribute(name: String) extends AttributeSpec {
-    def :=(inputProps: InputProps): Attribute[InputProps] =
-      Attribute(name = name, value = inputProps, AS_IS)
-  }
-
-  case class ThemeAttribute(name: String) extends AttributeSpec {
-    def :=(theme: js.Dictionary[String]): Attribute[js.Dictionary[String]] =
-      Attribute(name = name, value = theme, AS_IS)
-  }
-
-  case class RenderInputComponent(name: String) extends AttributeSpec {
-    def :=(value: RenderInput): Attribute[RenderInput] = Attribute(name = name, value = value, AS_IS)
-  }
-
   implicit class AutosuggestVirtualDOMAttributes(attributes: VirtualDOMAttributes) {
     lazy val suggestions: NativeArrayAttribute = NativeArrayAttribute("suggestions")
-    lazy val onSuggestionsFetchRequested: OnSuggestionsFetchRequestedAttribute = OnSuggestionsFetchRequestedAttribute(
-      "onSuggestionsFetchRequested"
+    lazy val onSuggestionsFetchRequested: NativeFunction1Attribute[OnSuggestionFetchRequestedExtraParameters, Unit] =
+      NativeFunction1Attribute("onSuggestionsFetchRequested")
+    lazy val onSuggestionsClearRequested: NativeFunction0Attribute[Unit] =
+      NativeFunction0Attribute[Unit]("onSuggestionsClearRequested")
+    lazy val getSuggestionValue: NativeFunction1Attribute[js.Object, String] = NativeFunction1Attribute(
+      "getSuggestionValue"
     )
-    lazy val onSuggestionsClearRequested: OnSuggestionsClearRequestedAttribute = OnSuggestionsClearRequestedAttribute(
-      "onSuggestionsClearRequested"
+    lazy val renderSuggestion: NativeFunction2Attribute[js.Object, OnRenderSuggestionExtraParameters, ReactElement] =
+      NativeFunction2Attribute("renderSuggestion")
+    lazy val inputProps: NativeJsObjectAttributeSpec[InputProps] = NativeJsObjectAttributeSpec("inputProps")
+    lazy val theme: NativeJsObjectAttributeSpec[js.Dictionary[String]] = NativeJsObjectAttributeSpec("theme")
+    lazy val renderInputComponent: NativeFunction1Attribute[InputProps, ReactElement] = NativeFunction1Attribute(
+      "renderInputComponent"
     )
-    lazy val getSuggestionValue: GetSuggestionValueAttribute = GetSuggestionValueAttribute("getSuggestionValue")
-    lazy val renderSuggestion: RenderSuggestionAttribute = RenderSuggestionAttribute("renderSuggestion")
-    lazy val inputProps: InputPropsAttribute = InputPropsAttribute("inputProps")
-    lazy val theme: ThemeAttribute = ThemeAttribute("theme")
-    lazy val renderInputComponent: RenderInputComponent = RenderInputComponent("renderInputComponent")
   }
 }
 

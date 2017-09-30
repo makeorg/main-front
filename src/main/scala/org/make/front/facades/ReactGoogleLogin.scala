@@ -16,9 +16,6 @@ object NativeReactGoogleLogin extends ReactClass
 
 object ReactGoogleLogin {
 
-  type OnSuccess = js.Function1[Response, Unit]
-  type OnFailure = js.Function1[Response, Unit]
-
   @js.native
   trait Profile extends js.Object {
     def email: String
@@ -38,16 +35,6 @@ object ReactGoogleLogin {
     def tokenId: String
   }
 
-  case class OnSuccessAttribute(name: String) extends AttributeSpec {
-    def :=(onSuccess: (Response) => Unit): Attribute[OnSuccess] =
-      Attribute(name = name, value = onSuccess, AS_IS)
-  }
-
-  case class OnFailureAttribute(name: String) extends AttributeSpec {
-    def :=(onFailure: (Response) => Unit): Attribute[OnFailure] =
-      Attribute(name = name, value = onFailure, AS_IS)
-  }
-
   implicit class ReactGoogleLoginVirtualDOMElements(elements: VirtualDOMElements) {
     lazy val ReactGoogleLogin: ReactClassElementSpec = elements(NativeReactGoogleLogin)
   }
@@ -55,8 +42,8 @@ object ReactGoogleLogin {
   implicit class ReactGoogleLoginVirtualDOMAttributes(attributes: VirtualDOMAttributes) {
     lazy val clientID: StringAttributeSpec = StringAttributeSpec("clientId")
     lazy val scope: StringAttributeSpec = StringAttributeSpec("scope")
-    lazy val onSuccess: OnSuccessAttribute = OnSuccessAttribute("onSuccess")
-    lazy val onFailure: OnFailureAttribute = OnFailureAttribute("onFailure")
+    lazy val onSuccess: NativeFunction1Attribute[Response, Unit] = NativeFunction1Attribute("onSuccess")
+    lazy val onFailure: NativeFunction1Attribute[Response, Unit] = NativeFunction1Attribute("onFailure")
     lazy val isSignIn: TrueOrFalseAttributeSpec = TrueOrFalseAttributeSpec("isSignIn")
     lazy val buttonText: StringAttributeSpec = StringAttributeSpec("buttonText")
     lazy val className: SpaceSeparatedStringAttributeSpec = SpaceSeparatedStringAttributeSpec("className")

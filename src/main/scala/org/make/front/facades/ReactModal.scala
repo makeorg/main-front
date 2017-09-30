@@ -67,21 +67,8 @@ object NativeReactModal extends ReactClass {
 
 object ReactModal {
 
-  type OnAfterOpen = js.Function0[Unit]
-  type OnRequestClose = js.Function0[Unit]
-
   implicit class ReactModalVirtualDOMElements(elements: VirtualDOMElements) {
     lazy val ReactModal: ReactClassElementSpec = elements(NativeReactModal)
-  }
-
-  case class OnAfterOpenAttribute(name: String) extends AttributeSpec {
-    def :=(onAfterOpen: () => Unit): Attribute[OnAfterOpen] =
-      Attribute(name = name, value = onAfterOpen, AS_IS)
-  }
-
-  case class OnRequestCloseAttribute(name: String) extends AttributeSpec {
-    def :=(onRequestClose: () => Unit): Attribute[OnRequestClose] =
-      Attribute(name = name, value = onRequestClose, AS_IS)
   }
 
   implicit class ReactModalVirtualDOMAttributes(attributes: VirtualDOMAttributes) {
@@ -89,8 +76,8 @@ object ReactModal {
     lazy val closeTimeoutMS = IntegerAttributeSpec("closeTimeoutMS")
     lazy val contentLabel = StringAttributeSpec("contentLabel")
     lazy val shouldCloseOnOverlayClick = BooleanAttributeSpec("shouldCloseOnOverlayClick")
-    lazy val onAfterOpen = OnAfterOpenAttribute("onAfterOpen")
-    lazy val onRequestClose = OnRequestCloseAttribute("onRequestClose")
+    lazy val onAfterOpen: NativeFunction0Attribute[Unit] = NativeFunction0Attribute("onAfterOpen")
+    lazy val onRequestClose: NativeFunction0Attribute[Unit] = NativeFunction0Attribute("onRequestClose")
     lazy val overlayClassName = SpaceSeparatedStringAttributeSpec("overlayClassName")
   }
 

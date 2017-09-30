@@ -14,6 +14,11 @@ package object facades {
       Attribute(name = name, value = value, AS_IS)
   }
 
+  case class NativeFloatAttribute(name: String) extends AttributeSpec {
+    def :=(value: Float): Attribute[Float] =
+      Attribute(name = name, value = value, AS_IS)
+  }
+
   case class NativeBooleanAttribute(name: String) extends AttributeSpec {
     def :=(value: Boolean): Attribute[Boolean] =
       Attribute(name = name, value = value, AS_IS)
@@ -29,6 +34,16 @@ package object facades {
       Attribute(name = name, value = value, AS_IS)
   }
 
+  case class NativeFunction2Attribute[T, U, R](name: String) extends AttributeSpec {
+    def :=(value: (T, U) => R): Attribute[js.Function2[T, U, R]] =
+      Attribute(name = name, value = value, AS_IS)
+  }
+
+  case class NativeFunction3Attribute[T, U, V, R](name: String) extends AttributeSpec {
+    def :=(value: (T, U, V) => R): Attribute[js.Function3[T, U, V, R]] =
+      Attribute(name = name, value = value, AS_IS)
+  }
+
   case class NativeArrayAttribute(name: String) extends AttributeSpec {
     def :=(value: js.Array[js.Object]): Attribute[js.Array[js.Object]] =
       Attribute(name = name, value = value, AS_IS)
@@ -41,8 +56,8 @@ package object facades {
       Attribute(name = name, value = value, AS_IS)
   }
 
-  case class NativeFloatAttribute(name: String) extends AttributeSpec {
-    def :=(value: Float): Attribute[Float] =
+  case class NativeJsObjectAttributeSpec[T <: js.Any](name: String) extends AttributeSpec {
+    def :=(value: T): Attribute[T] =
       Attribute(name = name, value = value, AS_IS)
   }
 
