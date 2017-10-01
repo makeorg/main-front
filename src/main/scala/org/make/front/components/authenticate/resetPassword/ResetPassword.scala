@@ -64,10 +64,7 @@ object PasswordReset {
       <.form(^.onSubmit := handleSubmit(self), ^.novalidate := true)(
         <.div()(
           <.i(^.className := Seq(FontAwesomeStyles.fa, FontAwesomeStyles.lock))(),
-          <.i(
-            ^.className := Seq(PasswordResetStyles.eye(self.state.showPassword)),
-            ^.onClick := toggleHidePassword(self)
-          )(),
+          <.i(^.className := PasswordResetStyles.eye(self.state.showPassword), ^.onClick := toggleHidePassword(self))(),
           <.input(
             ^.`type` := (if (self.state.showPassword) "text" else "password"),
             ^.required := true,

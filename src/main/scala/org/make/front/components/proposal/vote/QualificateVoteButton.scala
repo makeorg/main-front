@@ -55,26 +55,23 @@ object QualificateVoteButton {
         }).mkString(" ")
 
       <.button(^.className := buttonClasses, ^.onClick := QualificateVote())(
-        <.span(
-          ^.className := Seq(TextStyles.smallerText, TextStyles.boldText, QualificateVoteButtonStyles.label),
-          ^.dangerouslySetInnerHTML := (I18n.t(s"content.proposal.${self.props.wrapped.qualification.key}"))
-        )(),
-        if (!self.state.isSelected)
+        <.span(^.className := QualificateVoteButtonStyles.innerWrapper)(
+          <.span(
+            ^.className := Seq(TextStyles.smallerText, TextStyles.boldText, QualificateVoteButtonStyles.label),
+            ^.dangerouslySetInnerHTML := (I18n.t(s"content.proposal.${self.props.wrapped.qualification.key}"))
+          )(),
           <.span(
             ^.className := Seq(QualificateVoteButtonStyles.votesCounter, TextStyles.mediumText, TextStyles.boldText)
-          )(I18n.t("content.proposal.plusOne"))
-        else
-          <.span(
-            ^.className := Seq(
-              QualificateVoteButtonStyles.votesCounter,
-              QualificateVoteButtonStyles.selectedQualificationVotesCounter,
-              TextStyles.mediumText,
-              TextStyles.boldText
+          )(if (!self.state.isSelected) {
+            (I18n.t("content.proposal.plusOne"))
+          } else {
+            <.span(^.className := QualificateVoteButtonStyles.selectedQualificationVotesCounter)(
+              formatToKilo(self.props.wrapped.qualification.count)
             )
-          )(formatToKilo(self.props.wrapped.qualification.count)),
+          })
+        ),
         <.style()(QualificateVoteButtonStyles.render[String])
       )
-
     }
   )
 
@@ -94,6 +91,8 @@ object QualificateVoteButtonStyles extends StyleSheet.Inline {
     border :=! s"1px solid ${ThemeStyles.TextColor.base.value}",
     borderRadius(15.pxToEm()),
     backgroundColor.transparent,
+    whiteSpace.nowrap,
+    overflow.hidden,
     transition := "color .2s ease-in-out, background-color .2s ease-in-out",
     (&.hover)(color(ThemeStyles.TextColor.white), backgroundColor(ThemeStyles.TextColor.base))
   )
@@ -124,16 +123,26 @@ object QualificateVoteButtonStyles extends StyleSheet.Inline {
 
   val neutralActivated: StyleA = style(color(ThemeStyles.TextColor.white), backgroundColor(ThemeStyles.TextColor.grey))
 
+  val innerWrapper: StyleA =
+    style(display.table, width(100.%%), height(100.%%))
+
   val label: StyleA =
-    style(lineHeight(1), whiteSpace.nowrap, unsafeChild(".fa")(display.inline, color(ThemeStyles.ThemeColor.assertive)))
+    style(
+      display.tableCell,
+      verticalAlign.middle,
+      lineHeight(1),
+      unsafeChild(".fa")(display.inline, color(ThemeStyles.ThemeColor.assertive))
+    )
 
   val votesCounter: StyleA =
     style(
-      float.right,
-      paddingLeft(ThemeStyles.SpacingValue.smaller.pxToEm()),
+      display.tableCell,
+      verticalAlign.middle,
+      paddingLeft(0.5.em),
+      textAlign.right,
+      lineHeight(1),
       opacity(1),
-      transition := "opacity .2s ease-in-out",
-      lineHeight(1)
+      transition := "opacity .2s ease-in-out"
     )
 
   val selectedQualificationVotesCounter: StyleA = style(opacity(0.5))

@@ -31,7 +31,7 @@ object QualificateVote {
           }
 
           <.ul()(self.props.wrapped.vote.qualifications.map { qualification =>
-            <.li(^.className := QualificateVoteStyles.qualificateVoteButtonItem)(
+            <.li(^.className := QualificateVoteStyles.buttonItem)(
               <.QualificateVoteButtonComponent(
                 ^.wrapped := QualificateVoteButtonProps(
                   vote = self.props.wrapped.vote,
@@ -50,7 +50,7 @@ object QualificateVoteStyles extends StyleSheet.Inline {
 
   import dsl._
 
-  val qualificateVoteButtonItem: StyleA =
-    style(marginTop({ ThemeStyles.SpacingValue.smaller / 2 }.pxToEm()), &.firstChild(marginTop.`0`))
+  val buttonItem: StyleA =
+    style(marginTop({ ThemeStyles.SpacingValue.smaller / 2 }.pxToEm()), &.firstChild(marginTop(`0`)))
 
 }

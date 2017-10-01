@@ -96,7 +96,7 @@ object NotificationsStyles extends StyleSheet.Inline {
 
   val wrapper: StyleA = style(
     position.fixed,
-    zIndex(1),
+    zIndex(10),
     top((50).pxToEm()), // TODO: dynamise calcul, if main intro is first child of page
     ThemeStyles.MediaQueries.beyondSmall(top((80).pxToEm())),
     left(`0`),

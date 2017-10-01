@@ -33,17 +33,20 @@ object VoteButton {
       def vote() = (e: SyntheticEvent) => {
         e.preventDefault()
         if (self.state.isSelected) {
-          self.props.wrapped.handleUnvote(self.props.wrapped.vote.key).onComplete {
+          self.setState(_.copy(isSelected = false))
+          self.props.wrapped.handleUnvote(self.props.wrapped.vote.key)
+          /*self.props.wrapped.handleUnvote(self.props.wrapped.vote.key).onComplete {
             case Success(_) => self.setState(_.copy(isSelected = false))
-            case Failure(_) => // TODO: handle errors
-          }
+            case Failure(_) =>
+          }*/
         } else {
-          self.props.wrapped.handleVote(self.props.wrapped.vote.key).onComplete {
+          self.setState(_.copy(isSelected = true))
+          self.props.wrapped.handleVote(self.props.wrapped.vote.key)
+          /*self.props.wrapped.handleVote(self.props.wrapped.vote.key).onComplete {
             case Success(_) => self.setState(_.copy(isSelected = true))
-            case Failure(_) => // TODO: handle errors
-          }
+            case Failure(_) =>
+          }*/
         }
-
       }
 
       val buttonClasses =
@@ -69,7 +72,8 @@ object VoteButton {
                                                           else "")
           }
         ).mkString(" ")
-      <.div()(
+
+      <.div(^.className := VoteButtonStyles.wrapper(self.state.isSelected))(
         <.button(^.className := buttonClasses, ^.onClick := vote())(
           <.span(^.className := VoteButtonStyles.label)(
             <.span(^.className := TextStyles.smallerText)(
@@ -77,7 +81,11 @@ object VoteButton {
             )
           )
         ),
-        <.QualificateVoteComponent(^.wrapped := QualificateVoteProps(vote = self.props.wrapped.vote))(),
+        <.div(^.className := VoteButtonStyles.qualificateVoteWrapper(self.state.isSelected))(
+          <.div(^.className := VoteButtonStyles.qualificateVoteComponentWrapper)(
+            <.QualificateVoteComponent(^.wrapped := QualificateVoteProps(vote = self.props.wrapped.vote))()
+          )
+        ),
         <.style()(VoteButtonStyles.render[String])
       )
     }
@@ -88,8 +96,30 @@ object VoteButtonStyles extends StyleSheet.Inline {
 
   import dsl._
 
+  val wrapper: (Boolean) => StyleA = styleF.bool(
+    voted =>
+      if (voted) {
+        styleS(position.relative, display.inlineBlock, paddingLeft(50.pxToEm()), width(100.%%))
+      } else {
+        styleS(position.relative, display.inlineBlock, paddingLeft(50.pxToEm()))
+    }
+  )
+
+  val qualificateVoteWrapper: (Boolean) => StyleA = styleF.bool(
+    voted =>
+      if (voted) {
+        styleS(overflow.hidden, width(100.%%))
+      } else {
+        styleS(overflow.hidden, width(0.pxToEm()))
+    }
+  )
+
+  val qualificateVoteComponentWrapper: StyleA = style(paddingLeft(ThemeStyles.SpacingValue.smaller.pxToEm()))
+
   val button: StyleA = style(
-    position.relative,
+    position.absolute,
+    top(`0`),
+    left(`0`),
     display.block,
     width(50.pxToEm()),
     height(50.pxToEm()),
