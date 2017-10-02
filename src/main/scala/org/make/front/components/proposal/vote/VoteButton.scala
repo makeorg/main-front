@@ -18,29 +18,30 @@ import scala.util.{Failure, Success}
 import scalacss.DevDefaults._
 import scalacss.internal.mutable.StyleSheet
 import org.make.front.styles.utils._
+import org.make.front.styles.vendors.FontAwesomeStyles
 
 object VoteButton {
 
   case class VoteButtonProps(vote: VoteModel, handleVote: (String) => Future[_], handleUnvote: (String) => Future[_])
 
-  case class VoteButtonState(isSelected: Boolean)
+  case class VoteButtonState(isActivated: Boolean, resultsOfVoteAreDisplayed: Boolean)
 
   lazy val reactClass: ReactClass = React.createClass[VoteButtonProps, VoteButtonState](
     displayName = "VoteButton",
-    getInitialState = (_) => VoteButtonState(isSelected = false),
+    getInitialState = (_) => VoteButtonState(isActivated = false, resultsOfVoteAreDisplayed = false),
     render = (self) => {
 
       def vote() = (e: SyntheticEvent) => {
         e.preventDefault()
-        if (self.state.isSelected) {
-          self.setState(_.copy(isSelected = false))
+        if (self.state.isActivated) {
+          self.setState(_.copy(isActivated = false))
           self.props.wrapped.handleUnvote(self.props.wrapped.vote.key)
           /*self.props.wrapped.handleUnvote(self.props.wrapped.vote.key).onComplete {
             case Success(_) => self.setState(_.copy(isSelected = false))
             case Failure(_) =>
           }*/
         } else {
-          self.setState(_.copy(isSelected = true))
+          self.setState(_.copy(isActivated = true))
           self.props.wrapped.handleVote(self.props.wrapped.vote.key)
           /*self.props.wrapped.handleVote(self.props.wrapped.vote.key).onComplete {
             case Success(_) => self.setState(_.copy(isSelected = true))
@@ -49,41 +50,82 @@ object VoteButton {
         }
       }
 
+      def toggleResultsOfVote() = (e: SyntheticEvent) => {
+        e.preventDefault()
+        self.setState(_.copy(resultsOfVoteAreDisplayed = !self.state.resultsOfVoteAreDisplayed))
+      }
+
       val buttonClasses =
         Seq(
           VoteButtonStyles.button.htmlClass,
-          if (!self.state.isSelected) VoteButtonStyles.buttonNotActivated.htmlClass else "",
+          if (!self.state.isActivated) VoteButtonStyles.buttonNotActivated.htmlClass else "",
           self.props.wrapped.vote.key match {
             case "agree" =>
-              VoteButtonStyles.agree.htmlClass + " " + (if (self.state.isSelected)
+              VoteButtonStyles.agree.htmlClass + " " + (if (self.state.isActivated)
                                                           VoteButtonStyles.agreeActivated.htmlClass
                                                         else "")
             case "disagree" =>
-              VoteButtonStyles.disagree.htmlClass + " " + (if (self.state.isSelected)
+              VoteButtonStyles.disagree.htmlClass + " " + (if (self.state.isActivated)
                                                              VoteButtonStyles.disagreeActivated.htmlClass
                                                            else "")
             case "neutral" =>
-              VoteButtonStyles.neutral.htmlClass + " " + (if (self.state.isSelected)
+              VoteButtonStyles.neutral.htmlClass + " " + (if (self.state.isActivated)
                                                             VoteButtonStyles.neutralActivated.htmlClass
                                                           else "")
             case _ =>
-              VoteButtonStyles.neutral.htmlClass + " " + (if (self.state.isSelected)
+              VoteButtonStyles.neutral.htmlClass + " " + (if (self.state.isActivated)
                                                             VoteButtonStyles.neutralActivated.htmlClass
                                                           else "")
           }
         ).mkString(" ")
 
-      <.div(^.className := VoteButtonStyles.wrapper(self.state.isSelected))(
-        <.button(^.className := buttonClasses, ^.onClick := vote())(
-          <.span(^.className := VoteButtonStyles.label)(
-            <.span(^.className := TextStyles.smallerText)(
-              unescape(I18n.t(s"content.proposal.${self.props.wrapped.vote.key}"))
+      val totalOfVotesClasses =
+        Seq(VoteButtonStyles.totalOfVotes.htmlClass, self.props.wrapped.vote.key match {
+          case "agree" =>
+            VoteButtonStyles.totalOfAgreeVotes.htmlClass
+          case "disagree" =>
+            VoteButtonStyles.totalOfDisagreeVotes.htmlClass
+          case "neutral" =>
+            VoteButtonStyles.totalOfNeutralVotes.htmlClass
+          case _ =>
+            VoteButtonStyles.totalOfNeutralVotes.htmlClass
+        }).mkString(" ")
+
+      <.div(^.className := VoteButtonStyles.wrapper(self.state.isActivated))(
+        <.div(^.className := VoteButtonStyles.buttonAndResultsOfCurrentVoteWrapper)(
+          <.button(^.className := buttonClasses, ^.onClick := vote())(
+            <.span(^.className := VoteButtonStyles.label)(
+              <.span(^.className := TextStyles.smallerText)(
+                unescape(I18n.t(s"content.proposal.${self.props.wrapped.vote.key}"))
+              )
             )
-          )
+          ),
+          if (self.state.isActivated) {
+            Seq(
+              <.p(^.className := totalOfVotesClasses)("6,5K"),
+              <.p(^.className := Seq(VoteButtonStyles.partOfVotes))("(84%)"),
+              <.button(
+                ^.className := Seq(
+                  VoteButtonStyles.resultsOfVoteAccessButton,
+                  FontAwesomeStyles.fa,
+                  FontAwesomeStyles.barChart
+                ),
+                ^.onClick := toggleResultsOfVote()
+              )()
+            )
+          }
         ),
-        <.div(^.className := VoteButtonStyles.qualificateVoteWrapper(self.state.isSelected))(
-          <.div(^.className := VoteButtonStyles.qualificateVoteComponentWrapper)(
-            <.QualificateVoteComponent(^.wrapped := QualificateVoteProps(vote = self.props.wrapped.vote))()
+        <.div(^.className := VoteButtonStyles.qualificateVoteAndResultsOfVoteWrapper)(
+          <.div(^.className := VoteButtonStyles.qualificateVoteAndResultsOfVoteInnerWrapper(self.state.isActivated))(
+            if (self.state.isActivated && self.state.resultsOfVoteAreDisplayed) {
+              <.div(^.className := VoteButtonStyles.resultsOfVoteWrapper)(
+                <.p()("6,5K (84%)"),
+                <.p()("851 (11%)"),
+                <.p()("387 (5%)")
+              )
+            } else {
+              <.QualificateVoteComponent(^.wrapped := QualificateVoteProps(vote = self.props.wrapped.vote))()
+            }
           )
         ),
         <.style()(VoteButtonStyles.render[String])
@@ -99,28 +141,61 @@ object VoteButtonStyles extends StyleSheet.Inline {
   val wrapper: (Boolean) => StyleA = styleF.bool(
     voted =>
       if (voted) {
-        styleS(position.relative, display.inlineBlock, paddingLeft(50.pxToEm()), width(100.%%))
+        styleS(position.relative, display.table, height(100.%%), width(100.%%))
       } else {
-        styleS(position.relative, display.inlineBlock, paddingLeft(50.pxToEm()))
+        styleS(position.relative, display.table, height(100.%%))
     }
   )
 
-  val qualificateVoteWrapper: (Boolean) => StyleA = styleF.bool(
+  val buttonAndResultsOfCurrentVoteWrapper: StyleA =
+    style(display.tableCell, height(100.%%), verticalAlign.top, width(50.pxToEm()))
+
+  val qualificateVoteAndResultsOfVoteWrapper: StyleA = style(display.tableCell, height(100.%%), verticalAlign.top)
+
+  val qualificateVoteAndResultsOfVoteInnerWrapper: (Boolean) => StyleA = styleF.bool(
     voted =>
       if (voted) {
-        styleS(overflow.hidden, width(100.%%))
+        styleS(
+          position.relative,
+          display.table,
+          height(100.%%),
+          width(100.%%),
+          paddingLeft(ThemeStyles.SpacingValue.smaller.pxToEm()),
+          overflow.hidden
+        )
       } else {
         styleS(overflow.hidden, width(0.pxToEm()))
     }
   )
 
-  val qualificateVoteComponentWrapper: StyleA = style(paddingLeft(ThemeStyles.SpacingValue.smaller.pxToEm()))
+  val resultsOfVoteWrapper: StyleA =
+    style(
+      position.relative,
+      display.tableCell,
+      verticalAlign.middle,
+      width(100.%%),
+      height(100.%%),
+      padding(ThemeStyles.SpacingValue.smaller.pxToEm()),
+      borderRadius :=! s"${ThemeStyles.SpacingValue.small.pxToEm().value} ${ThemeStyles.SpacingValue.small
+        .pxToEm()
+        .value} ${ThemeStyles.SpacingValue.small.pxToEm().value} 0",
+      backgroundColor(rgb(74, 74, 74)),
+      color(ThemeStyles.TextColor.white),
+      (&.after)(
+        content := "''",
+        position.absolute,
+        right(100.%%),
+        bottom(0.%%),
+        borderRight :=! s"${5.pxToEm().value} solid ${rgb(74, 74, 74).value}",
+        borderBottom :=! s"${5.pxToEm().value} solid ${rgb(74, 74, 74).value}",
+        borderLeft :=! s"${5.pxToEm().value} solid transparent",
+        borderTop :=! s"${5.pxToEm().value} solid transparent"
+      )
+    )
 
   val button: StyleA = style(
-    position.absolute,
-    top(`0`),
-    left(`0`),
     display.block,
+    position.relative,
     width(50.pxToEm()),
     height(50.pxToEm()),
     boxSizing.borderBox,
@@ -141,7 +216,7 @@ object VoteButtonStyles extends StyleSheet.Inline {
       ThemeStyles.Font.fontAwesome,
       textAlign.center
     ),
-    unsafeChild("[class$=\"label\"]")(opacity(0)),
+    unsafeChild("[class$=\"label\"]")(display.none),
     (&.hover)(
       color(ThemeStyles.TextColor.white),
       backgroundColor(ThemeStyles.TextColor.base),
@@ -150,7 +225,7 @@ object VoteButtonStyles extends StyleSheet.Inline {
   )
 
   val buttonNotActivated: StyleA = style(
-    unsafeChild("[class$=\"label\"]")(transition := "opacity .2s ease-in-out"),
+    unsafeChild("[class$=\"label\"]")(display.block, opacity(0), transition := "opacity .2s ease-in-out"),
     (&.hover)(unsafeChild("[class$=\"label\"]")(opacity(1)))
   )
 
@@ -189,7 +264,7 @@ object VoteButtonStyles extends StyleSheet.Inline {
   val agreeActivated: StyleA = style(
     color(ThemeStyles.TextColor.white),
     backgroundColor(ThemeStyles.ThemeColor.positive),
-    boxShadow := s"0 ${2.pxToEm().value} ${5.pxToEm().value} 0 rgba(0, 0, 0, .5)"
+    boxShadow := "0 0 0 0 rgba(0, 0, 0, 0)"
   )
 
   val disagree: StyleA = style(
@@ -202,7 +277,7 @@ object VoteButtonStyles extends StyleSheet.Inline {
   val disagreeActivated: StyleA = style(
     color(ThemeStyles.TextColor.white),
     backgroundColor(ThemeStyles.ThemeColor.negative),
-    boxShadow := s"0 ${2.pxToEm().value} ${5.pxToEm().value} 0 rgba(0, 0, 0, .5)"
+    boxShadow := "0 0 0 0 rgba(0, 0, 0, 0)"
   )
 
   val neutral: StyleA = style(
@@ -215,6 +290,46 @@ object VoteButtonStyles extends StyleSheet.Inline {
   val neutralActivated: StyleA = style(
     color(ThemeStyles.TextColor.white),
     backgroundColor(ThemeStyles.TextColor.grey),
-    boxShadow := s"0 ${2.pxToEm().value} ${5.pxToEm().value} 0 rgba(0, 0, 0, .5)"
+    boxShadow := "0 0 0 0 rgba(0, 0, 0, 0)"
   )
+
+  val totalOfVotes: StyleA =
+    style(
+      marginTop(5.pxToEm(13)),
+      ThemeStyles.Font.circularStdBold,
+      fontSize(13.pxToEm()),
+      lineHeight(1),
+      textAlign.center
+    )
+
+  val totalOfAgreeVotes: StyleA =
+    style(color(ThemeStyles.ThemeColor.positive))
+
+  val totalOfDisagreeVotes: StyleA =
+    style(color(ThemeStyles.ThemeColor.negative))
+
+  val totalOfNeutralVotes: StyleA =
+    style(color(ThemeStyles.TextColor.grey))
+
+  val partOfVotes: StyleA =
+    style(
+      ThemeStyles.Font.circularStdBook,
+      fontSize(11.pxToEm()),
+      lineHeight(1),
+      textAlign.center,
+      color(ThemeStyles.TextColor.grey)
+    )
+
+  val resultsOfVoteAccessButton: StyleA =
+    style(
+      height(16.pxToEm(10)),
+      width(50.pxToEm(10)),
+      marginTop(5.pxToEm(10)),
+      boxSizing.borderBox,
+      borderRadius(8.pxToEm(10)),
+      padding :=! s"0 ${8.pxToEm(10).value}",
+      fontSize(10.pxToEm()),
+      textAlign.center,
+      backgroundColor(ThemeStyles.BackgroundColor.blackVeryTransparent)
+    )
 }
