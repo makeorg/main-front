@@ -8,14 +8,16 @@ import org.make.front.components.proposal.vote.VoteButton.VoteButtonProps
 import org.make.front.models.{Proposal => ProposalModel, Vote => VoteModel}
 import org.make.front.styles._
 import org.make.front.styles.utils._
-import org.make.services.proposal.ProposalService
+import org.make.services.proposal.ProposalResponses.VoteResponse
 
 import scala.concurrent.Future
 import scalacss.DevDefaults._
 
 object Vote {
 
-  final case class VoteProps(proposal: ProposalModel)
+  final case class VoteProps(proposal: ProposalModel,
+                             vote: (String)   => Future[VoteResponse],
+                             unvote: (String) => Future[VoteResponse])
 
   final case class VoteState(activeVoteKey: String)
 
@@ -27,12 +29,12 @@ object Vote {
         render = { (self) =>
           def vote(key: String): Future[_] = {
             self.setState(_.copy(activeVoteKey = key))
-            ProposalService.vote(proposalId = self.props.wrapped.proposal.id, key)
+            self.props.wrapped.vote(key)
           }
 
           def unvote(key: String): Future[_] = {
             self.setState(_.copy(activeVoteKey = ""))
-            ProposalService.unvote(proposalId = self.props.wrapped.proposal.id, key)
+            self.props.wrapped.unvote(key)
           }
 
           val voteAgree: VoteModel = self.props.wrapped.proposal.votesAgree
@@ -46,7 +48,7 @@ object Vote {
             )(
               <.VoteButtonComponent(
                 ^.wrapped := VoteButtonProps(
-                  proposal = self.props.wrapped.proposal,
+                  votes = self.props.wrapped.proposal.votes,
                   vote = voteAgree,
                   handleVote = vote,
                   handleUnvote = unvote
@@ -59,7 +61,7 @@ object Vote {
             )(
               <.VoteButtonComponent(
                 ^.wrapped := VoteButtonProps(
-                  proposal = self.props.wrapped.proposal,
+                  votes = self.props.wrapped.proposal.votes,
                   vote = voteDisagree,
                   handleVote = vote,
                   handleUnvote = unvote
@@ -72,7 +74,7 @@ object Vote {
             )(
               <.VoteButtonComponent(
                 ^.wrapped := VoteButtonProps(
-                  proposal = self.props.wrapped.proposal,
+                  votes = self.props.wrapped.proposal.votes,
                   vote = voteNeutral,
                   handleVote = vote,
                   handleUnvote = unvote

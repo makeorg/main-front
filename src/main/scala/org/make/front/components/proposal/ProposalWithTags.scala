@@ -5,7 +5,7 @@ import io.github.shogowada.scalajs.reactjs.VirtualDOM._
 import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import org.make.front.components.Components.{RichVirtualDOMElements, _}
 import org.make.front.components.proposal.ProposalInfos.ProposalInfosProps
-import org.make.front.components.proposal.vote.Vote
+import org.make.front.components.proposal.vote.VoteContainer.VoteContainerProps
 import org.make.front.models.{Proposal => ProposalModel}
 import org.make.front.styles._
 import org.make.front.styles.base.TextStyles
@@ -34,19 +34,21 @@ object ProposalWithTags {
           ),*/
             <.div(^.className := ProposalStyles.contentWrapper)(
               <.h3(^.className := Seq(TextStyles.mediumText, TextStyles.boldText))(self.props.wrapped.proposal.content),
-              <.VoteComponent(^.wrapped := Vote.VoteProps(proposal = self.props.wrapped.proposal))()
+              <.VoteContainerComponent(^.wrapped := VoteContainerProps(proposal = self.props.wrapped.proposal))()
             ),
-            <.footer(^.className := ProposalStyles.footer)(
-              <.ul(^.className := ProposalWithTagsStyles.tagList)(
-                self.props.wrapped.proposal.tags
-                  .map(
-                    tag =>
-                      <.li(^.className := ProposalWithTagsStyles.tagListItem)(
-                        <.span(^.className := TagStyles.basic)(tag.label)
+            if (self.props.wrapped.proposal.tags.nonEmpty) {
+              <.footer(^.className := ProposalStyles.footer)(
+                <.ul(^.className := ProposalWithTagsStyles.tagList)(
+                  self.props.wrapped.proposal.tags
+                    .map(
+                      tag =>
+                        <.li(^.className := ProposalWithTagsStyles.tagListItem)(
+                          <.span(^.className := TagStyles.basic)(tag.label)
+                      )
                     )
-                  )
+                )
               )
-            ),
+            },
             <.style()(ProposalStyles.render[String], ProposalWithTagsStyles.render[String])
           )
         }

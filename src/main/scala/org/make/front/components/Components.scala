@@ -101,7 +101,7 @@ object Components {
       self(operation.OperationSSequenceContainer.reactClass)
 
     /*********************/
-    def VoteComponent: ReactClassElementSpec = self(proposal.vote.Vote.reactClass)
+    def VoteContainerComponent: ReactClassElementSpec = self(proposal.vote.VoteContainer.reactClass)
     def VoteButtonComponent: ReactClassElementSpec = self(proposal.vote.VoteButton.reactClass)
     def QualificateVoteButtonComponent: ReactClassElementSpec = self(proposal.vote.QualificateVoteButton.reactClass)
     def QualificateVoteComponent: ReactClassElementSpec = self(proposal.vote.QualificateVote.reactClass)

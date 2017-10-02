@@ -9,7 +9,7 @@ import org.make.front.components.proposal.vote.QualificateVote.QualificateVotePr
 import org.make.front.components.proposal.vote.ResultsOfVote.ResultsOfVoteProps
 import org.make.front.facades.I18n
 import org.make.front.facades.Unescape.unescape
-import org.make.front.models.{Vote => VoteModel, Proposal => ProposalModel}
+import org.make.front.models.{Vote => VoteModel}
 import org.make.front.styles._
 import org.make.front.styles.base.TextStyles
 import org.make.front.helpers.NumberFormat._
@@ -24,7 +24,7 @@ import org.make.front.styles.vendors.FontAwesomeStyles
 
 object VoteButton {
 
-  case class VoteButtonProps(proposal: ProposalModel,
+  case class VoteButtonProps(votes: Seq[VoteModel],
                              vote: VoteModel,
                              handleVote: (String)   => Future[_],
                              handleUnvote: (String) => Future[_])
@@ -41,17 +41,9 @@ object VoteButton {
         if (self.state.isActivated) {
           self.setState(_.copy(isActivated = false))
           self.props.wrapped.handleUnvote(self.props.wrapped.vote.key)
-          /*self.props.wrapped.handleUnvote(self.props.wrapped.vote.key).onComplete {
-            case Success(_) => self.setState(_.copy(isSelected = false))
-            case Failure(_) =>
-          }*/
         } else {
           self.setState(_.copy(isActivated = true))
           self.props.wrapped.handleVote(self.props.wrapped.vote.key)
-          /*self.props.wrapped.handleVote(self.props.wrapped.vote.key).onComplete {
-            case Success(_) => self.setState(_.copy(isSelected = true))
-            case Failure(_) =>
-          }*/
         }
       }
 
@@ -106,16 +98,19 @@ object VoteButton {
             )
           ),
           if (self.state.isActivated) {
+
+            val voteAgree: VoteModel = self.props.wrapped.votes.find(_.key == "agree").get
+            val voteDisagree: VoteModel = self.props.wrapped.votes.find(_.key == "disagree").get
+            val voteNeutral: VoteModel = self.props.wrapped.votes.find(_.key == "neutral").get
+            val totalOfVotes: Int = voteAgree.count +
+              voteDisagree.count +
+              voteNeutral.count
+
             Seq(
               <.p(^.className := totalOfVotesClasses)(formatToKilo(self.props.wrapped.vote.count)),
               <.p(^.className := Seq(VoteButtonStyles.partOfVotes))(
                 "(" +
-                  formatToPercent(
-                    self.props.wrapped.vote.count,
-                    (self.props.wrapped.proposal.votesAgree.count +
-                      self.props.wrapped.proposal.votesDisagree.count +
-                      self.props.wrapped.proposal.votesNeutral.count)
-                  ) + "%)"
+                  formatToPercent(self.props.wrapped.vote.count, totalOfVotes) + "%)"
               ),
               <.button(
                 ^.className := Seq(
@@ -132,7 +127,7 @@ object VoteButton {
           <.div(^.className := VoteButtonStyles.qualificateVoteAndResultsOfVoteInnerWrapper(self.state.isActivated))(
             if (self.state.isActivated && self.state.resultsOfVoteAreDisplayed) {
               <.div(^.className := VoteButtonStyles.resultsOfVoteWrapper)(
-                <.ResultsOfVoteComponent(^.wrapped := ResultsOfVoteProps(proposal = self.props.wrapped.proposal))()
+                <.ResultsOfVoteComponent(^.wrapped := ResultsOfVoteProps(votes = self.props.wrapped.votes))()
               )
             } else {
               <.QualificateVoteComponent(^.wrapped := QualificateVoteProps(vote = self.props.wrapped.vote))()

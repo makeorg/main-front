@@ -18,6 +18,5 @@ object NavInThemesContainer {
       }
 
       NavInThemes.WrappedProps(state.themes)
-
     }
 }

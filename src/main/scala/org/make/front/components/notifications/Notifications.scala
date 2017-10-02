@@ -105,7 +105,7 @@ object NotificationsStyles extends StyleSheet.Inline {
 
   val list: StyleA = style()
 
-  val item: StyleA = style(margin :=! s"${ThemeStyles.SpacingValue.small.pxToEm().value} 0")
+  val item: StyleA = style(margin :=! s"${ThemeStyles.SpacingValue.smaller.pxToEm().value} 0 0")
 
   val notification: StyleA =
     style(

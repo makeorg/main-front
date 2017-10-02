@@ -5,7 +5,7 @@ import io.github.shogowada.scalajs.reactjs.VirtualDOM._
 import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import org.make.front.components.Components.{RichVirtualDOMElements, _}
 import org.make.front.components.proposal.ProposalInfos.ProposalInfosProps
-import org.make.front.components.proposal.vote.Vote
+import org.make.front.components.proposal.vote.VoteContainer.VoteContainerProps
 import org.make.front.models.{Proposal => ProposalModel}
 import org.make.front.styles.base.TextStyles
 
@@ -27,7 +27,7 @@ object Proposal {
             ),
             <.div(^.className := ProposalStyles.contentWrapper)(
               <.h3(^.className := Seq(TextStyles.mediumText, TextStyles.boldText))(self.props.wrapped.proposal.content),
-              <.VoteComponent(^.wrapped := Vote.VoteProps(proposal = self.props.wrapped.proposal))()
+              <.VoteContainerComponent(^.wrapped := VoteContainerProps(proposal = self.props.wrapped.proposal))()
             ),
             <.style()(ProposalStyles.render[String])
           )

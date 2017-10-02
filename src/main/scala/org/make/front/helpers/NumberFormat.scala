@@ -9,7 +9,7 @@ object NumberFormat {
     }
   }
 
-  def formatToPercent(count: Int, total: Int): String = {
-    formatToKilo(count * 100 / total)
+  def formatToPercent(count: Int, total: Int): Int = {
+    count * 100 / total
   }
 }

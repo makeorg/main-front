@@ -29,7 +29,7 @@ object NavInThemes {
           val themes: Seq[ThemeModel] = self.props.wrapped.themes
           val colors: Map[Int, String] = themes.map(theme => theme.order -> theme.color).toMap
 
-          object DynamicThemesStylesheet extends Inline {
+          object DynamicNavInThemesStyles extends Inline {
             import dsl._
 
             val themesColor: (Int) => StyleA = styleF.int(0 to themes.size) { index =>
@@ -52,7 +52,7 @@ object NavInThemes {
                   <.div(
                     ^.className := Seq(
                       NavInThemesStyles.themeItemContentWrapper,
-                      DynamicThemesStylesheet.themesColor(theme.order)
+                      DynamicNavInThemesStyles.themesColor(theme.order)
                     )
                   )(
                     <.h3(^.className := TextStyles.smallerTitle)(theme.title),
@@ -83,10 +83,10 @@ object NavInThemes {
                 <.h2(^.className := Seq(TextStyles.mediumTitle))(unescape(I18n.t("content.footer.title")))
               ),
               <.ul(^.className := Seq(NavInThemesStyles.themesList))(listTheme),
-              <.style()(NavInThemesStyles.render[String]),
-              <.style()(DynamicThemesStylesheet.render[String])
+              <.style()(NavInThemesStyles.render[String], DynamicNavInThemesStyles.render[String])
             )
           )
+
         }
       )
 }

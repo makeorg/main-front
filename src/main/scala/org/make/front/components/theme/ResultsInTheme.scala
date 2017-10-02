@@ -136,13 +136,9 @@ object ResultsInTheme {
           <.header(^.className := ColRulesStyles.col)(
             <.h2(^.className := TextStyles.bigTitle)(unescape(I18n.t("content.theme.matrix.title")))
           ),
-          if (self.props.wrapped.preselectedTags.nonEmpty) {
-            <.nav(^.className := ColRulesStyles.col)(
-              <.FilterByTagsComponent(
-                ^.wrapped := FilterByTagsProps(self.props.wrapped.preselectedTags, onTagsChange)
-              )()
-            )
-          },
+          <.nav(^.className := ColRulesStyles.col)(
+            <.FilterByTagsComponent(^.wrapped := FilterByTagsProps(self.props.wrapped.preselectedTags, onTagsChange))()
+          ),
           if (self.state.initialLoad || proposalsToDisplay.nonEmpty) {
             proposals(proposalsToDisplay)
           } else {
