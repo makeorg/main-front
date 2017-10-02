@@ -3,10 +3,13 @@ package org.make.front.helpers
 object NumberFormat {
 
   def formatToKilo(number: Int): String = {
-
     number match {
-      case _ if number >= 1000 => (Math.ceil(number / 100) / 10).toString+"k"
-      case _  => number.toString
+      case _ if number >= 1000 => (Math.ceil(number / 100) / 10).toString + "k"
+      case _                   => number.toString
     }
+  }
+
+  def formatToPercent(count: Int, total: Int): String = {
+    formatToKilo(count * 100 / total)
   }
 }

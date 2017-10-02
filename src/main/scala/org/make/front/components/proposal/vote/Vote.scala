@@ -5,7 +5,7 @@ import io.github.shogowada.scalajs.reactjs.VirtualDOM._
 import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import org.make.front.components.Components._
 import org.make.front.components.proposal.vote.VoteButton.VoteButtonProps
-import org.make.front.models.{ProposalId, Vote => VoteModel}
+import org.make.front.models.{Proposal => ProposalModel, Vote => VoteModel}
 import org.make.front.styles._
 import org.make.front.styles.utils._
 import org.make.services.proposal.ProposalService
@@ -15,10 +15,7 @@ import scalacss.DevDefaults._
 
 object Vote {
 
-  final case class VoteProps(proposalId: ProposalId,
-                             voteAgreeStats: VoteModel,
-                             voteDisagreeStats: VoteModel,
-                             voteNeutralStats: VoteModel)
+  final case class VoteProps(proposal: ProposalModel)
 
   final case class VoteState(activeVoteKey: String)
 
@@ -30,24 +27,27 @@ object Vote {
         render = { (self) =>
           def vote(key: String): Future[_] = {
             self.setState(_.copy(activeVoteKey = key))
-            ProposalService.vote(proposalId = self.props.wrapped.proposalId, key)
+            ProposalService.vote(proposalId = self.props.wrapped.proposal.id, key)
           }
 
           def unvote(key: String): Future[_] = {
             self.setState(_.copy(activeVoteKey = ""))
-            ProposalService.unvote(proposalId = self.props.wrapped.proposalId, key)
+            ProposalService.unvote(proposalId = self.props.wrapped.proposal.id, key)
           }
+
+          val voteAgree: VoteModel = self.props.wrapped.proposal.votesAgree
+          val voteDisagree: VoteModel = self.props.wrapped.proposal.votesDisagree
+          val voteNeutral: VoteModel = self.props.wrapped.proposal.votesNeutral
 
           <.ul(^.className := VoteStyles.voteButtonsList)(
             <.li(
               ^.className := VoteStyles
-                .voteButtonItem(
-                  self.state.activeVoteKey.nonEmpty && self.state.activeVoteKey != self.props.wrapped.voteAgreeStats.key
-                )
+                .voteButtonItem(self.state.activeVoteKey.nonEmpty && self.state.activeVoteKey != voteAgree.key)
             )(
               <.VoteButtonComponent(
                 ^.wrapped := VoteButtonProps(
-                  vote = self.props.wrapped.voteAgreeStats,
+                  proposal = self.props.wrapped.proposal,
+                  vote = voteAgree,
                   handleVote = vote,
                   handleUnvote = unvote
                 )
@@ -55,13 +55,12 @@ object Vote {
             ),
             <.li(
               ^.className := VoteStyles
-                .voteButtonItem(
-                  self.state.activeVoteKey.nonEmpty && self.state.activeVoteKey != self.props.wrapped.voteDisagreeStats.key
-                )
+                .voteButtonItem(self.state.activeVoteKey.nonEmpty && self.state.activeVoteKey != voteDisagree.key)
             )(
               <.VoteButtonComponent(
                 ^.wrapped := VoteButtonProps(
-                  vote = self.props.wrapped.voteDisagreeStats,
+                  proposal = self.props.wrapped.proposal,
+                  vote = voteDisagree,
                   handleVote = vote,
                   handleUnvote = unvote
                 )
@@ -69,13 +68,12 @@ object Vote {
             ),
             <.li(
               ^.className := VoteStyles
-                .voteButtonItem(
-                  self.state.activeVoteKey.nonEmpty && self.state.activeVoteKey != self.props.wrapped.voteNeutralStats.key
-                )
+                .voteButtonItem(self.state.activeVoteKey.nonEmpty && self.state.activeVoteKey != voteNeutral.key)
             )(
               <.VoteButtonComponent(
                 ^.wrapped := VoteButtonProps(
-                  vote = self.props.wrapped.voteNeutralStats,
+                  proposal = self.props.wrapped.proposal,
+                  vote = voteNeutral,
                   handleVote = vote,
                   handleUnvote = unvote
                 )

@@ -17,25 +17,21 @@ object Proposal {
 
   val reactClass: ReactClass =
     React
-      .createClass[ProposalProps, Unit](displayName = "Proposal", render = (self) => {
+      .createClass[ProposalProps, Unit](
+        displayName = "Proposal",
+        render = (self) => {
 
-        <.article(^.className := ProposalStyles.wrapper)(
-          <.header(^.className := ProposalStyles.proposalInfosWrapper)(
-            <.ProposalInfosComponent(^.wrapped := ProposalInfosProps(proposal = self.props.wrapped.proposal))()
-          ),
-          <.div(^.className := ProposalStyles.contentWrapper)(
-            <.h3(^.className := Seq(TextStyles.mediumText, TextStyles.boldText))(self.props.wrapped.proposal.content),
-            <.VoteComponent(
-              ^.wrapped := Vote.VoteProps(
-                proposalId = self.props.wrapped.proposal.id,
-                voteAgreeStats = self.props.wrapped.proposal.votesAgree,
-                voteDisagreeStats = self.props.wrapped.proposal.votesDisagree,
-                voteNeutralStats = self.props.wrapped.proposal.votesNeutral
-              )
-            )()
-          ),
-          <.style()(ProposalStyles.render[String])
-        )
+          <.article(^.className := ProposalStyles.wrapper)(
+            <.header(^.className := ProposalStyles.proposalInfosWrapper)(
+              <.ProposalInfosComponent(^.wrapped := ProposalInfosProps(proposal = self.props.wrapped.proposal))()
+            ),
+            <.div(^.className := ProposalStyles.contentWrapper)(
+              <.h3(^.className := Seq(TextStyles.mediumText, TextStyles.boldText))(self.props.wrapped.proposal.content),
+              <.VoteComponent(^.wrapped := Vote.VoteProps(proposal = self.props.wrapped.proposal))()
+            ),
+            <.style()(ProposalStyles.render[String])
+          )
 
-      })
+        }
+      )
 }

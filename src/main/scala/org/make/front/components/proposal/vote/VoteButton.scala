@@ -6,11 +6,13 @@ import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import io.github.shogowada.scalajs.reactjs.events.SyntheticEvent
 import org.make.front.components.Components._
 import org.make.front.components.proposal.vote.QualificateVote.QualificateVoteProps
+import org.make.front.components.proposal.vote.ResultsOfVote.ResultsOfVoteProps
 import org.make.front.facades.I18n
 import org.make.front.facades.Unescape.unescape
-import org.make.front.models.{Vote => VoteModel}
+import org.make.front.models.{Vote => VoteModel, Proposal => ProposalModel}
 import org.make.front.styles._
 import org.make.front.styles.base.TextStyles
+import org.make.front.helpers.NumberFormat._
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
@@ -22,7 +24,10 @@ import org.make.front.styles.vendors.FontAwesomeStyles
 
 object VoteButton {
 
-  case class VoteButtonProps(vote: VoteModel, handleVote: (String) => Future[_], handleUnvote: (String) => Future[_])
+  case class VoteButtonProps(proposal: ProposalModel,
+                             vote: VoteModel,
+                             handleVote: (String)   => Future[_],
+                             handleUnvote: (String) => Future[_])
 
   case class VoteButtonState(isActivated: Boolean, resultsOfVoteAreDisplayed: Boolean)
 
@@ -102,8 +107,16 @@ object VoteButton {
           ),
           if (self.state.isActivated) {
             Seq(
-              <.p(^.className := totalOfVotesClasses)("6,5K"),
-              <.p(^.className := Seq(VoteButtonStyles.partOfVotes))("(84%)"),
+              <.p(^.className := totalOfVotesClasses)(formatToKilo(self.props.wrapped.vote.count)),
+              <.p(^.className := Seq(VoteButtonStyles.partOfVotes))(
+                "(" +
+                  formatToPercent(
+                    self.props.wrapped.vote.count,
+                    (self.props.wrapped.proposal.votesAgree.count +
+                      self.props.wrapped.proposal.votesDisagree.count +
+                      self.props.wrapped.proposal.votesNeutral.count)
+                  ) + "%)"
+              ),
               <.button(
                 ^.className := Seq(
                   VoteButtonStyles.resultsOfVoteAccessButton,
@@ -119,9 +132,7 @@ object VoteButton {
           <.div(^.className := VoteButtonStyles.qualificateVoteAndResultsOfVoteInnerWrapper(self.state.isActivated))(
             if (self.state.isActivated && self.state.resultsOfVoteAreDisplayed) {
               <.div(^.className := VoteButtonStyles.resultsOfVoteWrapper)(
-                <.p()("6,5K (84%)"),
-                <.p()("851 (11%)"),
-                <.p()("387 (5%)")
+                <.ResultsOfVoteComponent(^.wrapped := ResultsOfVoteProps(proposal = self.props.wrapped.proposal))()
               )
             } else {
               <.QualificateVoteComponent(^.wrapped := QualificateVoteProps(vote = self.props.wrapped.vote))()
@@ -175,12 +186,11 @@ object VoteButtonStyles extends StyleSheet.Inline {
       verticalAlign.middle,
       width(100.%%),
       height(100.%%),
-      padding(ThemeStyles.SpacingValue.smaller.pxToEm()),
+      padding :=! s"${ThemeStyles.SpacingValue.smaller.pxToEm().value} ${ThemeStyles.SpacingValue.small.pxToEm().value}",
       borderRadius :=! s"${ThemeStyles.SpacingValue.small.pxToEm().value} ${ThemeStyles.SpacingValue.small
         .pxToEm()
         .value} ${ThemeStyles.SpacingValue.small.pxToEm().value} 0",
       backgroundColor(rgb(74, 74, 74)),
-      color(ThemeStyles.TextColor.white),
       (&.after)(
         content := "''",
         position.absolute,

@@ -11,6 +11,7 @@ object FontAwesomeStyles extends StyleSheet.Inline {
   val remove: StyleA = style(addClassName("fa-remove"))
   val bullhorn: StyleA = style(addClassName("fa-bullhorn"))
   val thumbsUp: StyleA = style(addClassName("fa-thumbs-o-up"))
+
   val thumbsDown: StyleA = style(addClassName("fa-thumbs-o-down"))
   val lightbulbTransparent: StyleA = style(addClassName("fa-lightbulb-o"))
   val search: StyleA = style(addClassName("fa-search"))

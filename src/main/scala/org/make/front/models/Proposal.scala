@@ -47,10 +47,4 @@ object ProposalId {
   implicit lazy val proposalIdDecoder: Decoder[ProposalId] = Decoder.decodeString.map(ProposalId(_))
 }
 
-object Proposal {
-  def getPercentageVote(count: Int, totalVote: Int): String = {
-    formatToKilo(count * 100 / totalVote)
-  }
-}
-
 case class ProposalSearchResult(proposals: Seq[Proposal], hasMore: Boolean)
