@@ -15,7 +15,7 @@ object SubmitProposalAndLoginContainer {
                                                   onProposalProposed: () => Unit)
 
   val reactClass: ReactClass = ReactRedux.connectAdvanced {
-    _ => (state: AppState, props: Props[SubmitProposalAndLoginContainerProps]) =>
+    _ => (_: AppState, props: Props[SubmitProposalAndLoginContainerProps]) =>
       SubmitProposalAndLoginProps(
         maybeTheme = props.wrapped.maybeTheme,
         maybeOperation = props.wrapped.maybeOperation,

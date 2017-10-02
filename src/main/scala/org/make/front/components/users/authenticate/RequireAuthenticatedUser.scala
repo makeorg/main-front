@@ -18,7 +18,14 @@ object RequireAuthenticatedUser {
     React.createClass[RequireAuthenticatedUserProps, RequireAuthenticatedUserState](
       displayName = "RequireAuthenticatedUser",
       componentWillMount = { self =>
-        self.props.wrapped.onceConnected()
+        if (self.props.wrapped.isConnected) {
+          self.props.wrapped.onceConnected()
+        }
+      },
+      componentWillUpdate = { (_, props, _) =>
+        if (props.wrapped.isConnected) {
+          props.wrapped.onceConnected()
+        }
       },
       render = { self =>
         val props = self.props.wrapped
