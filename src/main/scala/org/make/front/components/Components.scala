@@ -4,6 +4,7 @@ import io.github.shogowada.scalajs.reactjs.VirtualDOM.VirtualDOMAttributes.Type.
 import io.github.shogowada.scalajs.reactjs.VirtualDOM.VirtualDOMElements.ReactClassElementSpec
 import io.github.shogowada.scalajs.reactjs.VirtualDOM.{VirtualDOMAttributes, VirtualDOMElements}
 import io.github.shogowada.statictags.{Attribute, BooleanAttributeSpec, SpaceSeparatedStringAttributeSpec}
+import org.make.front.components.submitProposal.SubmitProposalResult
 import org.make.front.components.theme.SubmitProposalInRelationToTheme
 
 import scala.scalajs.js
@@ -79,6 +80,7 @@ object Components {
 
     /*********************/
     def SubmitProposalComponent: ReactClassElementSpec = self(submitProposal.SubmitProposal.reactClass)
+    def SubmitProposalResultComponent: ReactClassElementSpec = self(SubmitProposalResult.reactClass)
     def SubmitProposalFormComponent: ReactClassElementSpec = self(submitProposal.SubmitProposalFormContainer.reactClass)
     def SubmitProposalAndLoginComponent: ReactClassElementSpec =
       self(submitProposal.SubmitProposalAndLoginContainer.reactClass)

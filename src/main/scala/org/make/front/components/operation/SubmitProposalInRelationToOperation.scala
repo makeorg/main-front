@@ -3,6 +3,7 @@ package org.make.front.components.operation
 import io.github.shogowada.scalajs.reactjs.React
 import io.github.shogowada.scalajs.reactjs.VirtualDOM._
 import io.github.shogowada.scalajs.reactjs.classes.ReactClass
+import io.github.shogowada.scalajs.reactjs.elements.ReactElement
 import org.make.front.components.Components._
 import org.make.front.components.submitProposal.SubmitProposalAndLoginContainer.SubmitProposalAndLoginContainerProps
 import org.make.front.facades.Unescape.unescape
@@ -31,34 +32,42 @@ object SubmitProposalInRelationToOperation {
         val gradientColor: GradientColorModel =
           self.state.operation.gradient.getOrElse(GradientColorModel("#FFF", "#FFF"))
 
-        <.article()(
-          <.h2(^.className := SubmitProposalInRelationToOperationStyles.title)(
-            <.span(
-              ^.className := Seq(
-                TextStyles.mediumText,
-                TextStyles.intro,
-                SubmitProposalInRelationToOperationStyles.intro
-              )
-            )("Partagez votre proposition"),
-            <.br()(),
-            <.strong(
-              ^.className := Seq(
-                TextStyles.veryBigTitle,
-                SubmitProposalInRelationToOperationStyles.operation,
-                SubmitProposalInRelationToOperationStyles.gradientColor(gradientColor.from, gradientColor.to)
-              )
-            )(unescape(self.state.operation.title))
-          ),
-          <.SubmitProposalAndLoginComponent(
-            ^.wrapped :=
-              SubmitProposalAndLoginContainerProps(
-                maybeTheme = None,
-                maybeOperation = Some(self.props.wrapped.operation),
-                onProposalProposed = self.props.wrapped.onProposalProposed
-              )
-          )(),
-          <.style()(SubmitProposalInRelationToOperationStyles.render[String])
-        )
+        val intro: (ReactElement) => ReactElement = {
+          element =>
+            <.article()(
+              <.h2(^.className := SubmitProposalInRelationToOperationStyles.title)(
+                <.span(
+                  ^.className := Seq(
+                    TextStyles.mediumText,
+                    TextStyles.intro,
+                    SubmitProposalInRelationToOperationStyles.intro
+                  )
+                )("Partagez votre proposition"),
+                <.br()(),
+                <.strong(
+                  ^.className := Seq(
+                    TextStyles.veryBigTitle,
+                    SubmitProposalInRelationToOperationStyles.operation,
+                    SubmitProposalInRelationToOperationStyles.gradientColor(gradientColor.from, gradientColor.to)
+                  )
+                )(unescape(self.state.operation.title))
+              ),
+              element,
+              <.style()(SubmitProposalInRelationToOperationStyles.render[String])
+            )
+
+        }
+
+        <.SubmitProposalAndLoginComponent(
+          ^.wrapped :=
+            SubmitProposalAndLoginContainerProps(
+              intro = intro,
+              maybeTheme = None,
+              maybeOperation = Some(self.props.wrapped.operation),
+              onProposalProposed = self.props.wrapped.onProposalProposed
+            )
+        )()
+
       }
     )
 

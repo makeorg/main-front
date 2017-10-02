@@ -3,6 +3,7 @@ package org.make.front.components.theme
 import io.github.shogowada.scalajs.reactjs.React
 import io.github.shogowada.scalajs.reactjs.VirtualDOM._
 import io.github.shogowada.scalajs.reactjs.classes.ReactClass
+import io.github.shogowada.scalajs.reactjs.elements.ReactElement
 import org.make.front.components.Components._
 import org.make.front.components.submitProposal.SubmitProposalAndLoginContainer.SubmitProposalAndLoginContainerProps
 import org.make.front.facades.I18n
@@ -42,31 +43,42 @@ object SubmitProposalInRelationToTheme {
           )
         }
 
-        <.article()(
-          <.h2(^.className := SubmitProposalInRelationToThemeStyles.title)(
-            <.span(
-              ^.className := Seq(TextStyles.mediumText, TextStyles.intro, SubmitProposalInRelationToThemeStyles.intro)
-            )(unescape(I18n.t("content.proposal.titleIntro"))),
-            <.br()(),
-            <.strong(
-              ^.className := Seq(
-                TextStyles.veryBigTitle,
-                SubmitProposalInRelationToThemeStyles.theme,
-                ThemeStyles.titleBackground
-              )
-            )(unescape(self.state.theme.title))
-          ),
-          <.SubmitProposalAndLoginComponent(
-            ^.wrapped :=
-              SubmitProposalAndLoginContainerProps(
-                maybeTheme = Some(self.props.wrapped.theme),
-                maybeOperation = None,
-                onProposalProposed = self.props.wrapped.onProposalProposed
-              )
-          )(),
-          <.style()(SubmitProposalInRelationToThemeStyles.render[String]),
-          <.style()(ThemeStyles.render[String])
-        )
+        val intro: (ReactElement) => ReactElement = {
+          element =>
+            <.article()(
+              <.h2(^.className := SubmitProposalInRelationToThemeStyles.title)(
+                <.span(
+                  ^.className := Seq(
+                    TextStyles.mediumText,
+                    TextStyles.intro,
+                    SubmitProposalInRelationToThemeStyles.intro
+                  )
+                )(unescape(I18n.t("content.proposal.titleIntro"))),
+                <.br()(),
+                <.strong(
+                  ^.className := Seq(
+                    TextStyles.veryBigTitle,
+                    SubmitProposalInRelationToThemeStyles.theme,
+                    ThemeStyles.titleBackground
+                  )
+                )(unescape(self.state.theme.title))
+              ),
+              element,
+              <.style()(SubmitProposalInRelationToThemeStyles.render[String]),
+              <.style()(ThemeStyles.render[String])
+            )
+        }
+
+        <.SubmitProposalAndLoginComponent(
+          ^.wrapped :=
+            SubmitProposalAndLoginContainerProps(
+              intro = intro,
+              maybeTheme = Some(self.props.wrapped.theme),
+              maybeOperation = None,
+              onProposalProposed = self.props.wrapped.onProposalProposed
+            )
+        )()
+
       }
     )
 

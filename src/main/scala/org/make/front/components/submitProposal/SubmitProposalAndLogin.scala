@@ -3,8 +3,10 @@ package org.make.front.components.submitProposal
 import io.github.shogowada.scalajs.reactjs.React
 import io.github.shogowada.scalajs.reactjs.VirtualDOM._
 import io.github.shogowada.scalajs.reactjs.classes.ReactClass
+import io.github.shogowada.scalajs.reactjs.elements.ReactElement
 import org.make.front.components.Components._
 import org.make.front.components.submitProposal.SubmitProposalFormContainer.SubmitProposalFormContainerProps
+import org.make.front.components.submitProposal.SubmitProposalResult.SubmitProposalResultProps
 import org.make.front.components.users.authenticate.RequireAuthenticatedUserContainer.RequireAuthenticatedUserContainerProps
 import org.make.front.facades.I18n
 import org.make.front.facades.Unescape.unescape
@@ -25,7 +27,8 @@ object SubmitProposalAndLogin {
       SubmitProposalAndLoginState(proposal = "", errorMessage = None)
   }
 
-  case class SubmitProposalAndLoginProps(maybeTheme: Option[ThemeModel],
+  case class SubmitProposalAndLoginProps(intro: (ReactElement) => ReactElement,
+                                         maybeTheme: Option[ThemeModel],
                                          maybeOperation: Option[OperationModel],
                                          onProposalProposed: () => Unit,
                                          propose: (String)      => Future[_])
@@ -36,41 +39,51 @@ object SubmitProposalAndLogin {
       getInitialState = { _ =>
         SubmitProposalAndLoginState.empty
       },
-      componentWillReceiveProps = { (self, props) =>
-        },
       render = { self =>
         val props = self.props.wrapped
 
-        def goTo(destination: String): Unit = self.setState(_.copy(displayedComponent = destination))
-
         val onConnectionOk: () => Unit = { () =>
-          goTo("submit-proposal")
           props.propose(self.state.proposal).onComplete {
-            case Success(_) => props.onProposalProposed()
+            case Success(_) => self.setState(_.copy(displayedComponent = "result"))
             case Failure(_) =>
-              self.setState(_.copy(errorMessage = Some(unescape(I18n.t("form.proposal.errorSubmitFailed")))))
+              self.setState(
+                _.copy(
+                  displayedComponent = "submit-proposal",
+                  errorMessage = Some(unescape(I18n.t("form.proposal.errorSubmitFailed")))
+                )
+              )
           }
-
         }
 
         val handleSubmitProposal: String => Unit = { proposal =>
-          self.setState(_.copy(proposal = proposal))
-          goTo("connect")
+          self.setState(_.copy(displayedComponent = "connect", proposal = proposal))
         }
 
         <.div()(if (self.state.displayedComponent == "submit-proposal") {
-          <.SubmitProposalFormComponent(
-            ^.wrapped := SubmitProposalFormContainerProps(
-              maybeTheme = props.maybeTheme,
-              errorMessage = None,
-              handleSubmitProposalForm = handleSubmitProposal
-            )
-          )()
+          self.props.wrapped.intro(
+            <.SubmitProposalFormComponent(
+              ^.wrapped := SubmitProposalFormContainerProps(
+                maybeTheme = props.maybeTheme,
+                errorMessage = None,
+                handleSubmitProposalForm = handleSubmitProposal
+              )
+            )()
+          )
         } else if (self.state.displayedComponent == "connect") {
           <.RequireAuthenticatedUserComponent(
             ^.wrapped := RequireAuthenticatedUserContainerProps(
               onceConnected = onConnectionOk,
               registerView = "register-expanded"
+            )
+          )()
+        } else if (self.state.displayedComponent == "result") {
+          <.SubmitProposalResultComponent(
+            ^.wrapped := SubmitProposalResultProps(
+              maybeTheme = self.props.wrapped.maybeTheme,
+              onBack = self.props.wrapped.onProposalProposed,
+              onSubmitAnotherProposal = () => {
+                self.setState(_.copy(proposal = "", displayedComponent = "submit-proposal", errorMessage = None))
+              }
             )
           )()
         })
