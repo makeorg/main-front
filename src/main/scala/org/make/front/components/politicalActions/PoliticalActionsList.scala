@@ -33,43 +33,36 @@ object PoliticalActionsList {
       var slider: Option[Slider] = None
       val size = self.props.wrapped.politicalActions.size
 
-      def updateArrowsVisibility(): Unit = {
-        slider.foreach {
-          slider =>
-            val currentSlide = slider.innerSlider.state.currentSlide
-            if (currentSlide == 0) {
-              previousButton.foreach { button =>
-                button.setAttribute("disabled", "false")
-              }
-            } else {
-              previousButton.foreach { button =>
-                button.removeAttribute("disabled")
-                button.onclick = (_) => previous()
-              }
-            }
+      def updateArrowsVisibility(currentSlide: Int): Unit = {
+        if (currentSlide == 0) {
+          previousButton.foreach { button =>
+            button.setAttribute("disabled", "false")
+          }
+        } else {
+          previousButton.foreach { button =>
+            button.removeAttribute("disabled")
+            button.onclick = (_) => previous()
+          }
+        }
 
-            if (currentSlide + 1 >= size) {
-              nextButton.foreach { button =>
-                button.setAttribute("disabled", "false")
-              }
-            } else {
-              nextButton.foreach { button =>
-                button.removeAttribute("disabled")
-                button.onclick = (_) => next()
-              }
-            }
+        if (currentSlide + 1 >= size) {
+          nextButton.foreach { button =>
+            button.setAttribute("disabled", "false")
+          }
+        } else {
+          nextButton.foreach { button =>
+            button.removeAttribute("disabled")
+            button.onclick = (_) => next()
+          }
         }
       }
 
       def next: () => Unit = { () =>
         slider.foreach(_.slickNext())
-        slider.foreach(a => org.scalajs.dom.window.console.log(a.innerSlider))
-        updateArrowsVisibility()
       }
 
       def previous: () => Unit = { () =>
         slider.foreach(_.slickPrev())
-        updateArrowsVisibility()
       }
 
       <.section(^.className := PoliticalActionsListStyles.wrapper)(
@@ -95,7 +88,8 @@ object PoliticalActionsList {
                       ^.ref := ((s: HTMLElement) => slider = Some(s.asInstanceOf[Slider])),
                       ^.infinite := false,
                       ^.arrows := false,
-                      ^.id := "slideshow"
+                      ^.id := "slideshow",
+                      ^.afterChange := updateArrowsVisibility
                     )(self.props.wrapped.politicalActions.map { politicalAction =>
                       <.div(^.className := Seq(PoliticalActionsListStyles.slideWrapper))(
                         <.div(^.className := Seq(PoliticalActionsListStyles.slide))(

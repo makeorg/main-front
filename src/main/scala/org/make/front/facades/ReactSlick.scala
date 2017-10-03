@@ -22,17 +22,6 @@ object ReactSlick {
     def slickNext(): Unit = js.native
     def slickPrev(): Unit = js.native
     def slickGoTo(slide: Int): Unit = js.native
-    def innerSlider: InnerSlider = js.native
-  }
-
-  @js.native
-  trait InnerSlider extends js.Object {
-    def state: InnerSliderState = js.native
-  }
-
-  @js.native
-  trait InnerSliderState extends js.Object {
-    def currentSlide: Int = js.native
   }
 
   @js.native
