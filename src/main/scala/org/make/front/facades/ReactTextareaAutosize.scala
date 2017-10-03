@@ -13,6 +13,6 @@ object NativeReactTextareaAutosize extends ReactClass
 
 object ReactTextareaAutosize {
   implicit class ReactTooltipVirtualDOMElements(elements: VirtualDOMElements) {
-    lazy val Textarea: ReactClassElementSpec = elements(NativeReactTextareaAutosize)
+    lazy val TextareaAutosize: ReactClassElementSpec = elements(NativeReactTextareaAutosize)
   }
 }

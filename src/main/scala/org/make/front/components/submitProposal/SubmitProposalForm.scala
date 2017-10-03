@@ -5,8 +5,9 @@ import io.github.shogowada.scalajs.reactjs.VirtualDOM.{^, _}
 import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import io.github.shogowada.scalajs.reactjs.events.FormSyntheticEvent
 import org.make.front.components.Components._
+import org.make.front.facades.ReactTextareaAutosize.ReactTooltipVirtualDOMElements
 import org.make.front.facades.Unescape.unescape
-import org.make.front.facades.{I18n, Replacements}
+import org.make.front.facades.{I18n, NativeReactTextareaAutosize, Replacements}
 import org.make.front.models.{Theme => ThemeModel}
 import org.make.front.styles._
 import org.make.front.styles.base.TextStyles
@@ -102,7 +103,7 @@ object SubmitProposalForm {
           )(
             <.span(^.className := SubmitProposalFormStyles.innerWapper)(
               <.span(^.className := SubmitProposalFormStyles.textareaWapper)(
-                <.textarea(
+                <.TextareaAutosize(
                   ^.value := self.state.proposalContent, /*textarea autosize*/
                   ^("autoFocus") := true,
                   ^.onChange := handleProposalContentChange

@@ -134,12 +134,12 @@ object RegisterWithEmailExpanded {
             RegisterWithEmailExpandedStyles.ageInputWithIconWrapper
           )
         )(
-          /*TO-DO: avoid number out of limit*/
+          // TODO: avoid number out of limit
           <.input(
             ^.`type`.number,
             ^.required := false,
-            ^.min := 1,
-            ^.max := 122,
+            ^.min := 13,
+            ^.max := 128,
             ^.placeholder := s"${I18n.t("form.fieldLabelAge")}",
             ^.onChange := updateField("age"),
             ^.value := self.state.fields.getOrElse("age", "")
