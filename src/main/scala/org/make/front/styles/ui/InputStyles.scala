@@ -52,13 +52,20 @@ object InputStyles extends StyleSheet.Inline {
         placeholder(color(ThemeStyles.TextColor.lighter))
       ),
       unsafeChild("textarea")(
-        height(28.pxToEm(13)),
+        height(20.pxToEm(13)),
         width(100.%%),
+        boxSizing.contentBox,
         padding(`0`),
         paddingTop(6.pxToEm(13)),
+        paddingBottom(6.pxToEm(13)),
         fontSize(13.pxToEm()),
         ThemeStyles.MediaQueries
-          .beyondSmall(minHeight(38.pxToEm(16)), paddingTop(9.pxToEm(16)), fontSize(16.pxToEm())),
+          .beyondSmall(
+            height(20.pxToEm(16)),
+            paddingTop(9.pxToEm(16)),
+            paddingBottom(9.pxToEm(16)),
+            fontSize(16.pxToEm())
+          ),
         ThemeStyles.Font.circularStdBook,
         border.none,
         background := "none",

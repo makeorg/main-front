@@ -167,10 +167,18 @@ object SubmitProposalFormStyles extends StyleSheet.Inline {
   val textareaWapper: StyleA =
     style(display.tableCell, width(100.%%))
 
-  val textLimitInfoWapper: StyleA = style(display.tableCell, verticalAlign.middle)
+  val textLimitInfoWapper: StyleA = style(display.tableCell, verticalAlign.bottom)
 
   val textLimitInfo: StyleA =
-    style(padding(1.em), lineHeight.initial, color(ThemeStyles.TextColor.lighter), whiteSpace.nowrap)
+    style(
+      display.inlineBlock,
+      lineHeight :=! s"${38.pxToEm(13).value}",
+      paddingLeft(ThemeStyles.SpacingValue.small.pxToEm(13)),
+      ThemeStyles.MediaQueries
+        .beyondSmall(lineHeight :=! s"${38.pxToEm(16).value}", paddingLeft(ThemeStyles.SpacingValue.small.pxToEm(16))),
+      color(ThemeStyles.TextColor.lighter),
+      whiteSpace.nowrap
+    )
 
   val submitButton: StyleA =
     style(marginTop(ThemeStyles.SpacingValue.medium.pxToEm()))

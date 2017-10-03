@@ -157,7 +157,7 @@ object ThemeHeaderStyles extends StyleSheet.Inline {
     style(
       boxShadow := "0 2px 5px 0 rgba(0,0,0,0.50)",
       (&.before)(content := "'\\F0EB'"),
-      unsafeChild("input")(ThemeStyles.Font.circularStdBold)
+      unsafeChild("input")(ThemeStyles.Font.circularStdBold, cursor.text)
     )
 
   val inputInnerWrapper: StyleA = style(display.table, width(100.%%))
