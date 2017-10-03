@@ -9,42 +9,126 @@ import org.make.front.components.proposal.vote.QualificateVote.QualificateVotePr
 import org.make.front.components.proposal.vote.ResultsOfVote.ResultsOfVoteProps
 import org.make.front.facades.I18n
 import org.make.front.facades.Unescape.unescape
-import org.make.front.models.{Vote => VoteModel}
+import org.make.front.helpers.NumberFormat._
+import org.make.front.models.{ProposalId, Qualification, Vote => VoteModel}
 import org.make.front.styles._
 import org.make.front.styles.base.TextStyles
-import org.make.front.helpers.NumberFormat._
+import org.make.front.styles.utils._
+import org.make.front.styles.vendors.FontAwesomeStyles
+import org.make.services.proposal.ProposalResponses.{QualificationResponse, VoteResponse}
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 import scala.util.{Failure, Success}
 import scalacss.DevDefaults._
 import scalacss.internal.mutable.StyleSheet
-import org.make.front.styles.utils._
-import org.make.front.styles.vendors.FontAwesomeStyles
 
 object VoteButton {
 
-  case class VoteButtonProps(votes: Seq[VoteModel],
+  case class VoteButtonProps(proposalId: ProposalId,
+                             votes: Map[String, Int],
                              vote: VoteModel,
-                             handleVote: (String)   => Future[_],
-                             handleUnvote: (String) => Future[_])
+                             handleVote: (String)                      => Future[VoteResponse],
+                             handleUnvote: (String)                    => Future[VoteResponse],
+                             qualifyVote: (String, String)             => Future[QualificationResponse],
+                             removeVoteQualification: (String, String) => Future[QualificationResponse])
 
-  case class VoteButtonState(isActivated: Boolean, resultsOfVoteAreDisplayed: Boolean)
+  case class VoteButtonState(isActivated: Boolean,
+                             resultsOfVoteAreDisplayed: Boolean,
+                             votes: Map[String, Int],
+                             qualifications: Seq[Qualification])
 
-  lazy val reactClass: ReactClass = React.createClass[VoteButtonProps, VoteButtonState](
-    displayName = "VoteButton",
-    getInitialState = (_) => VoteButtonState(isActivated = false, resultsOfVoteAreDisplayed = false),
-    render = (self) => {
+  lazy val reactClass: ReactClass =
+    React.createClass[VoteButtonProps, VoteButtonState](displayName = "VoteButton", getInitialState = { self =>
+      VoteButtonState(
+        isActivated = self.props.wrapped.vote.selected.getOrElse(false),
+        resultsOfVoteAreDisplayed = false,
+        votes = self.props.wrapped.votes,
+        qualifications = self.props.wrapped.vote.qualifications
+      )
+    }, render = (self) => {
 
-      def vote() = (e: SyntheticEvent) => {
+      def voteOrUnvote() = (e: SyntheticEvent) => {
         e.preventDefault()
         if (self.state.isActivated) {
-          self.setState(_.copy(isActivated = false))
-          self.props.wrapped.handleUnvote(self.props.wrapped.vote.key)
+          self.props.wrapped.handleUnvote(self.props.wrapped.vote.key).onComplete {
+            case Failure(_) =>
+            case Success(result) =>
+              self.setState(
+                state =>
+                  state.copy(
+                    isActivated = false,
+                    resultsOfVoteAreDisplayed = false,
+                    votes = state.votes + (result.voteKey -> result.count),
+                    qualifications = state.qualifications.map(_.copy(selected = Some(false)))
+                )
+              )
+          }
+
         } else {
-          self.setState(_.copy(isActivated = true))
-          self.props.wrapped.handleVote(self.props.wrapped.vote.key)
+          self.props.wrapped.handleVote(self.props.wrapped.vote.key).onComplete {
+            case Failure(_) =>
+            case Success(result) =>
+              self.setState(
+                state =>
+                  state.copy(
+                    isActivated = true,
+                    resultsOfVoteAreDisplayed = false,
+                    votes = state.votes + (result.voteKey -> result.count)
+                )
+              )
+          }
         }
+      }
+
+      def qualify(key: String): Future[QualificationResponse] = {
+        val future = self.props.wrapped.qualifyVote(self.props.wrapped.vote.key, key)
+
+        future.onComplete {
+          case Failure(_) =>
+          case Success(qualifications) =>
+            self.setState(
+              state =>
+                state.copy(qualifications = state.qualifications.map { qualification =>
+                  if (qualifications.qualificationKey == qualification.key) {
+                    Qualification(
+                      key = qualifications.qualificationKey,
+                      count = qualifications.count,
+                      selected = Some(qualifications.hasQualified)
+                    )
+                  } else {
+                    qualification
+                  }
+                })
+            )
+        }
+
+        future
+
+      }
+      def removeQualification(key: String): Future[QualificationResponse] = {
+        val future = self.props.wrapped.removeVoteQualification(self.props.wrapped.vote.key, key)
+
+        future.onComplete {
+          case Failure(_) =>
+          case Success(qualifications) =>
+            self.setState(
+              state =>
+                state.copy(qualifications = state.qualifications.map { qualification =>
+                  if (qualifications.qualificationKey == qualification.key) {
+                    Qualification(
+                      key = qualifications.qualificationKey,
+                      count = qualifications.count,
+                      selected = Some(qualifications.hasQualified)
+                    )
+                  } else {
+                    qualification
+                  }
+                })
+            )
+        }
+
+        future
       }
 
       def toggleResultsOfVote() = (e: SyntheticEvent) => {
@@ -90,7 +174,7 @@ object VoteButton {
 
       <.div(^.className := VoteButtonStyles.wrapper(self.state.isActivated))(
         <.div(^.className := VoteButtonStyles.buttonAndResultsOfCurrentVoteWrapper)(
-          <.button(^.className := buttonClasses, ^.onClick := vote())(
+          <.button(^.className := buttonClasses, ^.onClick := voteOrUnvote())(
             <.span(^.className := VoteButtonStyles.label)(
               <.span(^.className := TextStyles.smallerText)(
                 unescape(I18n.t(s"content.proposal.${self.props.wrapped.vote.key}"))
@@ -99,18 +183,14 @@ object VoteButton {
           ),
           if (self.state.isActivated) {
 
-            val voteAgree: VoteModel = self.props.wrapped.votes.find(_.key == "agree").get
-            val voteDisagree: VoteModel = self.props.wrapped.votes.find(_.key == "disagree").get
-            val voteNeutral: VoteModel = self.props.wrapped.votes.find(_.key == "neutral").get
-            val totalOfVotes: Int = voteAgree.count +
-              voteDisagree.count +
-              voteNeutral.count
+            val totalOfVotes: Int = self.state.votes.values.sum
+            val currentVotes: Int = self.state.votes.getOrElse(self.props.wrapped.vote.key, 0)
 
             Seq(
-              <.p(^.className := totalOfVotesClasses)(formatToKilo(self.props.wrapped.vote.count)),
+              <.p(^.className := totalOfVotesClasses)(formatToKilo(currentVotes)),
               <.p(^.className := Seq(VoteButtonStyles.partOfVotes))(
                 "(" +
-                  formatToPercent(self.props.wrapped.vote.count, totalOfVotes) + "%)"
+                  formatToPercent(currentVotes, totalOfVotes) + "%)"
               ),
               <.button(
                 ^.className := Seq(
@@ -127,17 +207,23 @@ object VoteButton {
           <.div(^.className := VoteButtonStyles.qualificateVoteAndResultsOfVoteInnerWrapper(self.state.isActivated))(
             if (self.state.isActivated && self.state.resultsOfVoteAreDisplayed) {
               <.div(^.className := VoteButtonStyles.resultsOfVoteWrapper)(
-                <.ResultsOfVoteComponent(^.wrapped := ResultsOfVoteProps(votes = self.props.wrapped.votes))()
+                <.ResultsOfVoteComponent(^.wrapped := ResultsOfVoteProps(votes = self.state.votes))()
               )
             } else {
-              <.QualificateVoteComponent(^.wrapped := QualificateVoteProps(vote = self.props.wrapped.vote))()
+              <.QualificateVoteComponent(
+                ^.wrapped := QualificateVoteProps(
+                  qualifications = self.state.qualifications,
+                  voteKey = self.props.wrapped.vote.key,
+                  qualify = qualify,
+                  removeQualification = removeQualification
+                )
+              )()
             }
           )
         ),
         <.style()(VoteButtonStyles.render[String])
       )
-    }
-  )
+    })
 }
 
 object VoteButtonStyles extends StyleSheet.Inline {

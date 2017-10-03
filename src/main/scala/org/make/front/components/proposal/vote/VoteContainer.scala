@@ -8,11 +8,10 @@ import org.make.front.actions.NotifyError
 import org.make.front.components.AppState
 import org.make.front.facades.I18n
 import org.make.front.models.{Proposal => ProposalModel}
-import org.make.services.proposal.ProposalResponses.VoteResponse
+import org.make.services.proposal.ProposalResponses.{QualificationResponse, VoteResponse}
 import org.make.services.proposal.ProposalService
 
 import scala.concurrent.ExecutionContext.Implicits.global
-
 import scala.concurrent.Future
 import scala.util.{Failure, Success}
 
@@ -47,6 +46,35 @@ object VoteContainer {
         future
       }
 
-      Vote.VoteProps(proposal = ownProps.wrapped.proposal, vote = vote, unvote = unvote)
+      val qualify: (String, String) => Future[QualificationResponse] = { (vote, qualification) =>
+        val future = ProposalService.qualifyVote(ownProps.wrapped.proposal.id, vote, qualification)
+
+        future.onComplete {
+          case Success(_) =>
+          case Failure(_) => dispatch(NotifyError(I18n.t("errors.main")))
+        }
+
+        future
+      }
+
+      val removeQualification: (String, String) => Future[QualificationResponse] = { (vote, qualification) =>
+        val future =
+          ProposalService.removeVoteQualification(ownProps.wrapped.proposal.id, vote, qualification)
+
+        future.onComplete {
+          case Success(_) =>
+          case Failure(_) => dispatch(NotifyError(I18n.t("errors.main")))
+        }
+
+        future
+      }
+
+      Vote.VoteProps(
+        proposal = ownProps.wrapped.proposal,
+        vote = vote,
+        unvote = unvote,
+        qualifyVote = qualify,
+        removeVoteQualification = removeQualification
+      )
     }
 }

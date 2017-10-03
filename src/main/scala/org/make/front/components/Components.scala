@@ -4,6 +4,7 @@ import io.github.shogowada.scalajs.reactjs.VirtualDOM.VirtualDOMAttributes.Type.
 import io.github.shogowada.scalajs.reactjs.VirtualDOM.VirtualDOMElements.ReactClassElementSpec
 import io.github.shogowada.scalajs.reactjs.VirtualDOM.{VirtualDOMAttributes, VirtualDOMElements}
 import io.github.shogowada.statictags.{Attribute, BooleanAttributeSpec, SpaceSeparatedStringAttributeSpec}
+import org.make.front.components.proposal.vote.{QualificateVote, VoteButton}
 import org.make.front.components.submitProposal.SubmitProposalResult
 import org.make.front.components.theme.SubmitProposalInRelationToTheme
 
@@ -103,9 +104,9 @@ object Components {
 
     /*********************/
     def VoteContainerComponent: ReactClassElementSpec = self(proposal.vote.VoteContainer.reactClass)
-    def VoteButtonComponent: ReactClassElementSpec = self(proposal.vote.VoteButton.reactClass)
+    def VoteButtonComponent: ReactClassElementSpec = self(VoteButton.reactClass)
     def QualificateVoteButtonComponent: ReactClassElementSpec = self(proposal.vote.QualificateVoteButton.reactClass)
-    def QualificateVoteComponent: ReactClassElementSpec = self(proposal.vote.QualificateVote.reactClass)
+    def QualificateVoteComponent: ReactClassElementSpec = self(QualificateVote.reactClass)
     def ResultsOfVoteComponent: ReactClassElementSpec = self(proposal.vote.ResultsOfVote.reactClass)
 
     /*********************/

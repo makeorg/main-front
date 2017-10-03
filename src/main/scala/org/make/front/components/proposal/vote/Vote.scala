@@ -8,16 +8,20 @@ import org.make.front.components.proposal.vote.VoteButton.VoteButtonProps
 import org.make.front.models.{Proposal => ProposalModel, Vote => VoteModel}
 import org.make.front.styles._
 import org.make.front.styles.utils._
-import org.make.services.proposal.ProposalResponses.VoteResponse
+import org.make.services.proposal.ProposalResponses.{QualificationResponse, VoteResponse}
 
+import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
+import scala.util.{Failure, Success}
 import scalacss.DevDefaults._
 
 object Vote {
 
   final case class VoteProps(proposal: ProposalModel,
-                             vote: (String)   => Future[VoteResponse],
-                             unvote: (String) => Future[VoteResponse])
+                             vote: (String)                            => Future[VoteResponse],
+                             unvote: (String)                          => Future[VoteResponse],
+                             qualifyVote: (String, String)             => Future[QualificationResponse],
+                             removeVoteQualification: (String, String) => Future[QualificationResponse])
 
   final case class VoteState(activeVoteKey: String)
 
@@ -27,19 +31,34 @@ object Vote {
         displayName = "Vote",
         getInitialState = (_) => VoteState(activeVoteKey = ""),
         render = { (self) =>
-          def vote(key: String): Future[_] = {
-            self.setState(_.copy(activeVoteKey = key))
-            self.props.wrapped.vote(key)
+          def vote(key: String): Future[VoteResponse] = {
+            val future = self.props.wrapped.vote(key)
+
+            future.onComplete {
+              case Failure(_)      =>
+              case Success(result) => self.setState(_.copy(activeVoteKey = result.voteKey))
+            }
+            future
           }
 
-          def unvote(key: String): Future[_] = {
+          def unvote(key: String): Future[VoteResponse] = {
             self.setState(_.copy(activeVoteKey = ""))
-            self.props.wrapped.unvote(key)
+            val future = self.props.wrapped.unvote(key)
+
+            future.onComplete {
+              case Failure(_) =>
+              case Success(_) => self.setState(_.copy(activeVoteKey = ""))
+            }
+            future
           }
 
           val voteAgree: VoteModel = self.props.wrapped.proposal.votesAgree
           val voteDisagree: VoteModel = self.props.wrapped.proposal.votesDisagree
           val voteNeutral: VoteModel = self.props.wrapped.proposal.votesNeutral
+
+          val votes = self.props.wrapped.proposal.votes.map { vote =>
+            vote.key -> vote.count
+          }.toMap
 
           <.ul(^.className := VoteStyles.voteButtonsList)(
             <.li(
@@ -48,10 +67,13 @@ object Vote {
             )(
               <.VoteButtonComponent(
                 ^.wrapped := VoteButtonProps(
-                  votes = self.props.wrapped.proposal.votes,
+                  proposalId = self.props.wrapped.proposal.id,
+                  votes = votes,
                   vote = voteAgree,
                   handleVote = vote,
-                  handleUnvote = unvote
+                  handleUnvote = unvote,
+                  qualifyVote = self.props.wrapped.qualifyVote,
+                  removeVoteQualification = self.props.wrapped.removeVoteQualification
                 )
               )()
             ),
@@ -61,10 +83,13 @@ object Vote {
             )(
               <.VoteButtonComponent(
                 ^.wrapped := VoteButtonProps(
-                  votes = self.props.wrapped.proposal.votes,
+                  proposalId = self.props.wrapped.proposal.id,
+                  votes = votes,
                   vote = voteDisagree,
                   handleVote = vote,
-                  handleUnvote = unvote
+                  handleUnvote = unvote,
+                  qualifyVote = self.props.wrapped.qualifyVote,
+                  removeVoteQualification = self.props.wrapped.removeVoteQualification
                 )
               )()
             ),
@@ -74,10 +99,13 @@ object Vote {
             )(
               <.VoteButtonComponent(
                 ^.wrapped := VoteButtonProps(
-                  votes = self.props.wrapped.proposal.votes,
+                  proposalId = self.props.wrapped.proposal.id,
+                  votes = votes,
                   vote = voteNeutral,
                   handleVote = vote,
-                  handleUnvote = unvote
+                  handleUnvote = unvote,
+                  qualifyVote = self.props.wrapped.qualifyVote,
+                  removeVoteQualification = self.props.wrapped.removeVoteQualification
                 )
               )()
             ),

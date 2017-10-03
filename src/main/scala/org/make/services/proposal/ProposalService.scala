@@ -70,7 +70,7 @@ object ProposalService extends ApiService with CirceClassFormatters with CirceFo
   def qualifyVote(proposalId: ProposalId, vote: String, qualification: String): Future[QualificationResponse] = {
     MakeApiClient
       .post[QualificationResponse](
-        apiEndpoint = resourceName / proposalId.value / "qualify",
+        apiEndpoint = resourceName / proposalId.value / "qualification",
         data = QualificationRequest(voteKey = vote, qualificationKey = qualification).asJson.pretty(ApiService.printer)
       )
       .map(_.get)
@@ -81,7 +81,7 @@ object ProposalService extends ApiService with CirceClassFormatters with CirceFo
                               qualification: String): Future[QualificationResponse] = {
     MakeApiClient
       .post[QualificationResponse](
-        apiEndpoint = resourceName / proposalId.value / "unqualify",
+        apiEndpoint = resourceName / proposalId.value / "unqualification",
         data = QualificationRequest(voteKey = vote, qualificationKey = qualification).asJson.pretty(ApiService.printer)
       )
       .map(_.get)

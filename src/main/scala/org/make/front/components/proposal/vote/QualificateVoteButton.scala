@@ -7,35 +7,64 @@ import io.github.shogowada.scalajs.reactjs.events.SyntheticEvent
 import org.make.front.components.Components._
 import org.make.front.facades.I18n
 import org.make.front.helpers.NumberFormat.formatToKilo
-import org.make.front.models.{Qualification => QualificationModel, Vote => VoteModel}
+import org.make.front.models.{Qualification => QualificationModel}
 import org.make.front.styles._
 import org.make.front.styles.base.TextStyles
 import org.make.front.styles.utils._
+import org.make.services.proposal.ProposalResponses.QualificationResponse
 
+import scala.concurrent.Future
+import scala.util.{Failure, Success}
 import scalacss.DevDefaults._
 import scalacss.internal.mutable.StyleSheet
 
+import scala.concurrent.ExecutionContext.Implicits.global
+
 object QualificateVoteButton {
 
-  case class QualificateVoteButtonProps(vote: VoteModel,
+  case class QualificateVoteButtonProps(voteKey: String,
                                         qualification: QualificationModel,
-                                        handleQualificateVote: (QualificationModel) => Unit)
+                                        qualifyVote: (String)             => Future[QualificationResponse],
+                                        removeVoteQualification: (String) => Future[QualificationResponse])
 
-  case class QualificateVoteButtonState(isSelected: Boolean)
+  case class QualificateVoteButtonState(isSelected: Boolean, count: Int)
 
   lazy val reactClass: ReactClass = React.createClass[QualificateVoteButtonProps, QualificateVoteButtonState](
     displayName = "QualificateVoteButton",
-    getInitialState = (_) => QualificateVoteButtonState(isSelected = false),
-    render = (self) => {
+    getInitialState = { self =>
+      QualificateVoteButtonState(
+        isSelected = self.props.wrapped.qualification.selected.getOrElse(false),
+        self.props.wrapped.qualification.count
+      )
+    },
+    componentWillReceiveProps = { (self, props) =>
+      self.setState(
+        QualificateVoteButtonState(
+          isSelected = props.wrapped.qualification.selected.getOrElse(false),
+          count = props.wrapped.qualification.count
+        )
+      )
+    },
+    render = { (self) =>
+      def qualifyVote(key: String): (SyntheticEvent) => Unit = {
+        e =>
+          e.preventDefault()
 
-      def QualificateVote() = (e: SyntheticEvent) => {
-        e.preventDefault()
-        self.setState(_.copy(isSelected = !self.state.isSelected))
-        self.props.wrapped.handleQualificateVote(self.props.wrapped.qualification)
+          if (self.state.isSelected) {
+            self.props.wrapped.removeVoteQualification(key).onComplete {
+              case Failure(_)      =>
+              case Success(result) => self.setState(_.copy(isSelected = result.hasQualified, count = result.count))
+            }
+          } else {
+            self.props.wrapped.qualifyVote(key).onComplete {
+              case Failure(_)      =>
+              case Success(result) => self.setState(_.copy(isSelected = result.hasQualified, count = result.count))
+            }
+          }
       }
 
       val buttonClasses =
-        Seq(QualificateVoteButtonStyles.button.htmlClass, self.props.wrapped.vote.key match {
+        Seq(QualificateVoteButtonStyles.button.htmlClass, self.props.wrapped.voteKey match {
           case "agree" =>
             QualificateVoteButtonStyles.agree.htmlClass + " " + (if (self.state.isSelected)
                                                                    QualificateVoteButtonStyles.agreeActivated.htmlClass
@@ -54,19 +83,19 @@ object QualificateVoteButton {
                                                                    else "")
         }).mkString(" ")
 
-      <.button(^.className := buttonClasses, ^.onClick := QualificateVote())(
+      <.button(^.className := buttonClasses, ^.onClick := qualifyVote(self.props.wrapped.qualification.key))(
         <.span(^.className := QualificateVoteButtonStyles.innerWrapper)(
           <.span(
             ^.className := Seq(TextStyles.smallerText, TextStyles.boldText, QualificateVoteButtonStyles.label),
-            ^.dangerouslySetInnerHTML := (I18n.t(s"content.proposal.${self.props.wrapped.qualification.key}"))
+            ^.dangerouslySetInnerHTML := I18n.t(s"content.proposal.${self.props.wrapped.qualification.key}")
           )(),
           <.span(
             ^.className := Seq(QualificateVoteButtonStyles.votesCounter, TextStyles.mediumText, TextStyles.boldText)
           )(if (!self.state.isSelected) {
-            (I18n.t("content.proposal.plusOne"))
+            I18n.t("content.proposal.plusOne")
           } else {
             <.span(^.className := QualificateVoteButtonStyles.selectedQualificationVotesCounter)(
-              formatToKilo(self.props.wrapped.qualification.count)
+              formatToKilo(self.state.count)
             )
           })
         ),

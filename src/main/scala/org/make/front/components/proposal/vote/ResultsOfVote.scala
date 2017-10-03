@@ -5,7 +5,6 @@ import io.github.shogowada.scalajs.reactjs.VirtualDOM.{<, _}
 import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import org.make.front.components.Components._
 import org.make.front.helpers.NumberFormat._
-import org.make.front.models.{Vote => VoteModel}
 import org.make.front.styles.ThemeStyles
 import org.make.front.styles.base.TextStyles
 import org.make.front.styles.utils._
@@ -17,25 +16,34 @@ import scalacss.internal.mutable.StyleSheet.Inline
 
 object ResultsOfVote {
 
-  case class ResultsOfVoteProps(votes: Seq[VoteModel])
+  case class ResultsOfVoteProps(votes: Map[String, Int])
+  case class ResultsOfVoteState(votesAgree: Int, votesDisagree: Int, votesNeutral: Int)
 
   lazy val reactClass: ReactClass =
-    React.createClass[ResultsOfVoteProps, Unit](
+    React.createClass[ResultsOfVoteProps, ResultsOfVoteState](
       displayName = "ResultsOfVote",
       getInitialState = { self =>
-        },
-      render = (self) => {
+        val votes = self.props.wrapped.votes
+        val votesAgree = votes.getOrElse("agree", 0)
+        val votesDisagree = votes.getOrElse("disagree", 0)
+        val votesNeutral = votes.getOrElse("neutral", 0)
 
-        val voteAgree: VoteModel = self.props.wrapped.votes.find(_.key == "agree").get
-        val voteDisagree: VoteModel = self.props.wrapped.votes.find(_.key == "disagree").get
-        val voteNeutral: VoteModel = self.props.wrapped.votes.find(_.key == "neutral").get
-        val totalOfVotes: Int = voteAgree.count +
-          voteDisagree.count +
-          voteNeutral.count
+        ResultsOfVoteState(votesAgree, votesDisagree, votesNeutral)
+      },
+      componentWillReceiveProps = { (self, props) =>
+        val votes = props.wrapped.votes
+        val votesAgree = votes.getOrElse("agree", 0)
+        val votesDisagree = votes.getOrElse("disagree", 0)
+        val votesNeutral = votes.getOrElse("neutral", 0)
 
-        val partOfAgreeVote: Int = formatToPercent(voteAgree.count, totalOfVotes.toInt)
-        val partOfDisagreeVote: Int = formatToPercent(voteDisagree.count, totalOfVotes.toInt)
-        val partOfNeutralVote: Int = formatToPercent(voteNeutral.count, totalOfVotes.toInt)
+        self.setState(ResultsOfVoteState(votesAgree, votesDisagree, votesNeutral))
+      },
+      render = { self =>
+        val totalOfVotes: Int = self.state.votesAgree + self.state.votesDisagree + self.state.votesNeutral
+
+        val partOfAgreeVote: Int = formatToPercent(self.state.votesAgree, totalOfVotes)
+        val partOfDisagreeVote: Int = formatToPercent(self.state.votesDisagree, totalOfVotes)
+        val partOfNeutralVote: Int = formatToPercent(self.state.votesNeutral, totalOfVotes)
 
         object DynamicResultsOfVoteStyles extends Inline {
           import dsl._
@@ -61,7 +69,7 @@ object ResultsOfVote {
             )(
               <.i(^.className := Seq(FontAwesomeStyles.fa, FontAwesomeStyles.thumbsUp))(),
               " ",
-              <.em(^.className := TextStyles.boldText)(formatToKilo(voteAgree.count)),
+              <.em(^.className := TextStyles.boldText)(formatToKilo(self.state.votesAgree)),
               " (" + partOfAgreeVote + "%)"
             )
           ),
@@ -75,7 +83,7 @@ object ResultsOfVote {
             )(
               <.i(^.className := Seq(FontAwesomeStyles.fa, FontAwesomeStyles.thumbsDown))(),
               " ",
-              <.em(^.className := TextStyles.boldText)(formatToKilo(voteDisagree.count)),
+              <.em(^.className := TextStyles.boldText)(formatToKilo(self.state.votesDisagree)),
               " (" + partOfDisagreeVote + "%)"
             )
           ),
@@ -85,7 +93,7 @@ object ResultsOfVote {
                 ^.className := Seq(FontAwesomeStyles.fa, FontAwesomeStyles.thumbsUp, ResultsOfVoteStyles.neutralIcon)
               )(),
               " ",
-              <.em(^.className := TextStyles.boldText)(formatToKilo(voteNeutral.count)),
+              <.em(^.className := TextStyles.boldText)(formatToKilo(self.state.votesNeutral)),
               " (" + partOfNeutralVote + "%)"
             )
           ),
