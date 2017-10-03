@@ -7,12 +7,12 @@ import io.github.shogowada.scalajs.reactjs.redux.Redux.Dispatch
 import org.make.front.components.AppState
 import org.make.front.components.operation.ResultsInOperation.ResultsInOperationProps
 import org.make.front.models.{
-  ProposalSearchResult,
   Operation   => OperationModel,
   OperationId => OperationIdModel,
   Proposal    => ProposalModel,
   Tag         => TagModel
 }
+import org.make.services.proposal.ProposalResponses.SearchResponse
 import org.make.services.proposal.ProposalService
 import org.make.services.proposal.ProposalService.defaultResultsCount
 
@@ -31,8 +31,8 @@ object ResultsInOperationContainer {
     (_: Dispatch) => { (_: AppState, ownProps: Props[ResultsInOperationContainerProps]) =>
       val operationsIds: Seq[OperationIdModel] = Seq(ownProps.wrapped.currentOperation.id)
 
-      def getProposals(tags: Seq[TagModel], skip: Int): Future[Seq[ProposalModel]] = {
-        val proposals: Future[Seq[ProposalModel]] = ProposalService
+      def getProposals(tags: Seq[TagModel], skip: Int): Future[SearchResponse] = {
+        val proposals: Future[SearchResponse] = ProposalService
           .searchProposals(
             themesIds = Seq(),
             operationsIds = operationsIds,
@@ -45,19 +45,14 @@ object ResultsInOperationContainer {
         proposals
       }
 
-      def nextProposals(currentProposals: Seq[ProposalModel], tags: Seq[TagModel]): Future[ProposalSearchResult] = {
-        getProposals(tags = tags, skip = currentProposals.size).map { proposals =>
-          ProposalSearchResult(
-            proposals = currentProposals ++ proposals,
-            hasMore = proposals.size == defaultResultsCount
-          )
+      def nextProposals(currentProposals: Seq[ProposalModel], tags: Seq[TagModel]): Future[SearchResponse] = {
+        getProposals(tags = tags, skip = currentProposals.size).map { searchResults =>
+          searchResults.copy(results = currentProposals ++ searchResults.results)
         }
       }
 
       def searchOnSelectedTags(selectedTags: Seq[TagModel]) = {
-        getProposals(tags = selectedTags, skip = 0).map { proposals =>
-          ProposalSearchResult(proposals = proposals, hasMore = proposals.size == defaultResultsCount)
-        }
+        getProposals(tags = selectedTags, skip = 0)
       }
 
       ResultsInOperationProps(

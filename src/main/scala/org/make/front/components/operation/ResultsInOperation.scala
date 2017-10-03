@@ -14,11 +14,12 @@ import org.make.front.facades.ReactInfiniteScroller.{
   ReactInfiniteScrollerVirtualDOMElements
 }
 import org.make.front.facades.Unescape.unescape
-import org.make.front.models.{ProposalSearchResult, Proposal => ProposalModel, Tag => TagModel}
+import org.make.front.models.{Proposal => ProposalModel, Tag => TagModel}
 import org.make.front.styles._
 import org.make.front.styles.base.{ColRulesStyles, RowRulesStyles, TextStyles}
 import org.make.front.styles.ui.CTAStyles
 import org.make.front.styles.utils._
+import org.make.services.proposal.ProposalResponses.SearchResponse
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
@@ -28,9 +29,9 @@ import scalacss.internal.mutable.StyleSheet
 object ResultsInOperation {
 
   case class ResultsInOperationProps(
-    onMoreResultsRequested: (Seq[ProposalModel], Seq[TagModel]) => Future[ProposalSearchResult],
-    onTagSelectionChange: (Seq[TagModel])                       => Future[ProposalSearchResult],
-    proposals: Future[ProposalSearchResult],
+    onMoreResultsRequested: (Seq[ProposalModel], Seq[TagModel]) => Future[SearchResponse],
+    onTagSelectionChange: (Seq[TagModel])                       => Future[SearchResponse],
+    proposals: Future[SearchResponse],
     preselectedTags: Seq[TagModel]
   )
 
@@ -45,7 +46,9 @@ object ResultsInOperation {
       getInitialState = { self =>
         self.props.wrapped.proposals.onComplete {
           case Success(searchResult) =>
-            self.setState(_.copy(listProposals = searchResult.proposals, hasMore = searchResult.hasMore))
+            self.setState(
+              _.copy(listProposals = searchResult.results, hasMore = searchResult.total > searchResult.results.size)
+            )
           case Failure(_) => // TODO: handle error
         }
         ResultsInOperationState(
@@ -61,7 +64,9 @@ object ResultsInOperation {
             self.setState(_.copy(hasRequestedMore = true))
             self.props.wrapped.onMoreResultsRequested(self.state.listProposals, self.state.selectedTags).onComplete {
               case Success(searchResult) =>
-                self.setState(_.copy(listProposals = searchResult.proposals, hasMore = searchResult.hasMore))
+                self.setState(
+                  _.copy(listProposals = searchResult.results, hasMore = searchResult.total > searchResult.results.size)
+                )
               case Failure(_) => // TODO: handle error
             }
           }
@@ -79,7 +84,9 @@ object ResultsInOperation {
           self.setState(_.copy(selectedTags = tags))
           self.props.wrapped.onTagSelectionChange(tags).onComplete {
             case Success(searchResult) =>
-              self.setState(_.copy(listProposals = searchResult.proposals, hasMore = searchResult.hasMore))
+              self.setState(
+                _.copy(listProposals = searchResult.results, hasMore = searchResult.total > searchResult.results.size)
+              )
             case Failure(_) => // TODO: handle error
           }
         }

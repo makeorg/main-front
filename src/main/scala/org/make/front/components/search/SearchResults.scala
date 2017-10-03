@@ -7,18 +7,18 @@ import io.github.shogowada.scalajs.reactjs.router.WithRouter
 import org.make.front.components.Components.{RichVirtualDOMElements, _}
 import org.make.front.components.proposal.ProposalWithTags.ProposalWithTagsProps
 import org.make.front.components.search.NoResultToSearch.NoResultToSearchProps
-import org.make.front.components.search.NoResultToSearchStyles.style
 import org.make.front.facades.ReactInfiniteScroller.{
   ReactInfiniteScrollerVirtualDOMAttributes,
   ReactInfiniteScrollerVirtualDOMElements
 }
 import org.make.front.facades.Unescape.unescape
 import org.make.front.facades.{I18n, Replacements}
-import org.make.front.models.{ProposalSearchResult, Proposal => ProposalModel}
+import org.make.front.models.{Proposal => ProposalModel}
 import org.make.front.styles.ThemeStyles
 import org.make.front.styles.base.{ColRulesStyles, RowRulesStyles, TextStyles}
 import org.make.front.styles.ui.CTAStyles
 import org.make.front.styles.utils._
+import org.make.services.proposal.ProposalResponses.SearchResponse
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
@@ -26,7 +26,7 @@ import scala.util.{Failure, Success}
 import scalacss.DevDefaults._
 object SearchResults {
   final case class SearchResultsProps(
-    onMoreResultsRequested: (Seq[ProposalModel], Option[String]) => Future[ProposalSearchResult],
+    onMoreResultsRequested: (Seq[ProposalModel], Option[String]) => Future[SearchResponse],
     searchValue: Option[String]
   )
 
@@ -59,8 +59,8 @@ object SearchResults {
                   case Success(searchResult) =>
                     self.setState(
                       _.copy(
-                        listProposals = searchResult.proposals,
-                        hasMore = searchResult.hasMore,
+                        listProposals = searchResult.results,
+                        hasMore = searchResult.total > searchResult.results.size,
                         initialLoad = false
                       )
                     )

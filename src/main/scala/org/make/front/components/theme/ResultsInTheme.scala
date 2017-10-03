@@ -19,6 +19,7 @@ import org.make.front.styles._
 import org.make.front.styles.base.{ColRulesStyles, RowRulesStyles, TextStyles}
 import org.make.front.styles.ui.CTAStyles
 import org.make.front.styles.utils._
+import org.make.services.proposal.ProposalResponses.SearchResponse
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
@@ -27,13 +28,11 @@ import scalacss.internal.mutable.StyleSheet
 
 object ResultsInTheme {
 
-  case class ResultsInThemeProps(
-    theme: ThemeModel,
-    onMoreResultsRequested: (Seq[ProposalModel], Seq[TagModel]) => Future[ProposalSearchResult],
-    onTagSelectionChange: (Seq[TagModel])                       => Future[ProposalSearchResult],
-    proposals: Future[ProposalSearchResult],
-    preselectedTags: Seq[TagModel]
-  )
+  case class ResultsInThemeProps(theme: ThemeModel,
+                                 onMoreResultsRequested: (Seq[ProposalModel], Seq[TagModel]) => Future[SearchResponse],
+                                 onTagSelectionChange: (Seq[TagModel])                       => Future[SearchResponse],
+                                 proposals: Future[SearchResponse],
+                                 preselectedTags: Seq[TagModel])
 
   case class ResultsInThemeState(listProposals: Seq[ProposalModel],
                                  selectedTags: Seq[TagModel],
@@ -73,7 +72,11 @@ object ResultsInTheme {
             self.props.wrapped.onMoreResultsRequested(self.state.listProposals, self.state.selectedTags).onComplete {
               case Success(searchResult) =>
                 self.setState(
-                  _.copy(listProposals = searchResult.proposals, hasMore = searchResult.hasMore, initialLoad = false)
+                  _.copy(
+                    listProposals = searchResult.results,
+                    hasMore = searchResult.total > searchResult.results.size,
+                    initialLoad = false
+                  )
                 )
               case Failure(_) => // Let parent handle logging error
             }
@@ -92,7 +95,9 @@ object ResultsInTheme {
           self.setState(_.copy(selectedTags = tags))
           self.props.wrapped.onTagSelectionChange(tags).onComplete {
             case Success(searchResult) =>
-              self.setState(_.copy(listProposals = searchResult.proposals, hasMore = searchResult.hasMore))
+              self.setState(
+                _.copy(listProposals = searchResult.results, hasMore = searchResult.total > searchResult.results.size)
+              )
             case Failure(_) => // Let parent handle logging error
           }
         }

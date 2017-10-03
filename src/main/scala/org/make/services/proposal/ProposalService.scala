@@ -8,7 +8,12 @@ import org.make.core.{CirceClassFormatters, CirceFormatters}
 import org.make.front.facades.I18n
 import org.make.front.models._
 import org.make.services.ApiService
-import org.make.services.proposal.ProposalResponses.{QualificationResponse, RegisterProposalResponse, VoteResponse}
+import org.make.services.proposal.ProposalResponses.{
+  QualificationResponse,
+  RegisterProposalResponse,
+  SearchResponse,
+  VoteResponse
+}
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
@@ -33,9 +38,9 @@ object ProposalService extends ApiService with CirceClassFormatters with CirceFo
                       tagsIds: Seq[TagId] = Seq.empty,
                       sort: Seq[SortOptionRequest],
                       limit: Option[Int],
-                      skip: Option[Int]): Future[Seq[Proposal]] =
+                      skip: Option[Int]): Future[SearchResponse] =
     MakeApiClient
-      .post[Seq[Proposal]](
+      .post[SearchResponse](
         resourceName / "search",
         data = SearchRequest(
           content = content,

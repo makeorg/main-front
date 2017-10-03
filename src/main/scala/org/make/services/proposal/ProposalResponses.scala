@@ -1,6 +1,7 @@
 package org.make.services.proposal
 
 import io.circe.Decoder
+import org.make.front.models.Proposal
 
 object ProposalResponses {
   final case class RegisterProposalResponse(proposalId: String)
@@ -21,4 +22,5 @@ object ProposalResponses {
       Decoder.forProduct3("qualificationKey", "count", "hasQualified")(QualificationResponse.apply)
   }
 
+  case class SearchResponse(total: Int, results: Seq[Proposal])
 }

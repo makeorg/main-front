@@ -11,6 +11,7 @@ import org.make.front.components.search.SearchResults.SearchResultsProps
 import org.make.front.facades.I18n
 import org.make.front.helpers.QueryString
 import org.make.front.models.{ProposalSearchResult, Proposal => ProposalModel}
+import org.make.services.proposal.ProposalResponses.SearchResponse
 import org.make.services.proposal.ProposalService
 import org.make.services.proposal.ProposalService.defaultResultsCount
 
@@ -42,8 +43,7 @@ object SearchResultsContainer {
             .map(URIUtils.decodeURI)
         }
 
-        def getProposals(originalProposals: Seq[ProposalModel],
-                         content: Option[String]): Future[ProposalSearchResult] = {
+        def getProposals(originalProposals: Seq[ProposalModel], content: Option[String]): Future[SearchResponse] = {
           val result = ProposalService
             .searchProposals(
               content = content,
@@ -51,11 +51,8 @@ object SearchResultsContainer {
               limit = Some(defaultResultsCount),
               skip = Some(originalProposals.size)
             )
-            .map { proposals =>
-              ProposalSearchResult(
-                proposals = originalProposals ++ proposals,
-                hasMore = proposals.size == defaultResultsCount
-              )
+            .map { searchResults =>
+              searchResults.copy(results = originalProposals ++ searchResults.results)
             }
 
           result.onComplete {
