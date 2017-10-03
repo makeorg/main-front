@@ -12,7 +12,8 @@ object Home {
       displayName = "Home",
       render = (_) =>
         <("home")()(
-          <.MainIntroComponent.empty,
+          <.IntroComponent.empty,
+          <.ExplanationsComponent.empty,
           <.ShowcaseContainerComponent(
             ^.wrapped := ShowcaseContainerProps(introTranslationKey = "content.homepage.expressYourself")
           )(),

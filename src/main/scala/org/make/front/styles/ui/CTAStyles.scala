@@ -35,6 +35,9 @@ object CTAStyles extends StyleSheet.Inline {
       )
     )
 
+  val negative: StyleA =
+    style(color(ThemeStyles.TextColor.base), backgroundColor(ThemeStyles.BackgroundColor.white))
+
   val basicOnA: StyleA =
     style(paddingTop(9.pxToEm(13)), ThemeStyles.MediaQueries.beyondSmall(paddingTop(12.pxToEm(16))))
 

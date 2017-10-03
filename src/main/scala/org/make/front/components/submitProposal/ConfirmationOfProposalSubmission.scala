@@ -25,7 +25,7 @@ object ConfirmationOfProposalSubmission {
   val reactClass: ReactClass =
     React
       .createClass[ConfirmationOfProposalSubmissionProps, Unit](
-        displayName = "SubmitProposalResult",
+        displayName = "ConfirmationOfProposalSubmission",
         render = { self =>
           <.article(^.className := ConfirmationOfProposalSubmissionStyles.wrapper)(
             <.h1(^.className := Seq(TextStyles.bigTitle, ConfirmationOfProposalSubmissionStyles.title))(

@@ -136,7 +136,8 @@ object Components {
 
     /*********************/
     def HomeComponent: ReactClassElementSpec = self(home.Home.reactClass)
-    def MainIntroComponent: ReactClassElementSpec = self(home.Intro.reactClass)
+    def IntroComponent: ReactClassElementSpec = self(home.Intro.reactClass)
+    def ExplanationsComponent: ReactClassElementSpec = self(home.Explanations.reactClass)
   }
 
 }
