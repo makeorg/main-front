@@ -33,11 +33,18 @@ object SearchResults {
   final case class SearchResultsState(listProposals: Seq[ProposalModel],
                                       initialLoad: Boolean,
                                       hasRequestedMore: Boolean,
-                                      hasMore: Boolean)
+                                      hasMore: Boolean,
+                                      resultsCount: Int)
 
   object SearchResultsState {
     val empty =
-      SearchResultsState(listProposals = Seq.empty, initialLoad = true, hasRequestedMore = false, hasMore = false)
+      SearchResultsState(
+        listProposals = Seq.empty,
+        initialLoad = true,
+        hasRequestedMore = false,
+        hasMore = false,
+        resultsCount = 0
+      )
   }
 
   lazy val reactClass: ReactClass =
@@ -61,7 +68,8 @@ object SearchResults {
                       _.copy(
                         listProposals = searchResult.results,
                         hasMore = searchResult.total > searchResult.results.size,
-                        initialLoad = false
+                        initialLoad = false,
+                        resultsCount = searchResult.total
                       )
                     )
                   case Failure(_) => // parent container will dispatch an error
@@ -111,7 +119,7 @@ object SearchResults {
                     <.h2(
                       ^.className := Seq(TextStyles.mediumText, SearchResultsStyles.searchedExpressionIntro),
                       ^.dangerouslySetInnerHTML := I18n
-                        .t(s"content.search.title", Replacements(("results", self.state.listProposals.size.toString)))
+                        .t(s"content.search.title", Replacements(("results", self.state.resultsCount.toString)))
                     )(),
                     <.h1(^.className := Seq(SearchResultsStyles.searchedExpression, TextStyles.mediumTitle))(
                       unescape("«&nbsp;" + self.props.wrapped.searchValue.getOrElse("") + "&nbsp;»")
