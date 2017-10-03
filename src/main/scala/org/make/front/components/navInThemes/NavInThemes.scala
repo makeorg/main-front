@@ -82,11 +82,14 @@ object NavInThemes {
               <.div(^.className := Seq(NavInThemesStyles.titleWrapper, ColRulesStyles.col))(
                 <.h2(^.className := Seq(TextStyles.mediumTitle))(unescape(I18n.t("content.footer.title")))
               ),
-              <.ul(^.className := Seq(NavInThemesStyles.themesList))(listTheme),
+              if (themes.nonEmpty) {
+                <.ul(^.className := Seq(NavInThemesStyles.themesList))(listTheme)
+              } else {
+                <.p(^.className := NavInThemesStyles.spinnerWrapper)(<.SpinnerComponent.empty)
+              },
               <.style()(NavInThemesStyles.render[String], DynamicNavInThemesStyles.render[String])
             )
           )
-
         }
       )
 }
@@ -121,5 +124,7 @@ object NavInThemesStyles extends StyleSheet.Inline {
   )
 
   val propositionsCounter: StyleA = style(actionsCounter)
+
+  val spinnerWrapper: StyleA = style(marginBottom(ThemeStyles.SpacingValue.small.pxToEm()))
 
 }
