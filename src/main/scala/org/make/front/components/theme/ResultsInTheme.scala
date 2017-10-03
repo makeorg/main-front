@@ -101,14 +101,13 @@ object ResultsInTheme {
           Seq(
             <.InfiniteScroll(
               ^.element := "ul",
+              ^.className := ResultsInThemeStyles.listItems,
               ^.hasMore := (self.state.initialLoad || self.state.hasMore && self.state.hasRequestedMore),
               ^.initialLoad := true,
               ^.pageStart := 1,
               ^.loadMore := onSeeMore,
-              ^.loader := <.SpinnerComponent.empty
-            )(if (proposals.isEmpty) {
-              <.p.empty
-            } else {
+              ^.loader := <.li(^.className := ResultsInThemeStyles.spinnerWrapper)(<.SpinnerComponent.empty)
+            )(if (proposals.nonEmpty) {
               proposals.map(
                 proposal =>
                   <.li(
@@ -158,8 +157,13 @@ object ResultsInThemeStyles extends StyleSheet.Inline {
   val wrapper: StyleA =
     style(paddingTop(ThemeStyles.SpacingValue.medium.pxToEm()), paddingBottom(ThemeStyles.SpacingValue.small.pxToEm()))
 
+  val listItems: StyleA = style(display.flex, flexWrap.wrap)
+
   val item: StyleA =
     style(marginTop(ThemeStyles.SpacingValue.small.pxToEm()), marginBottom(ThemeStyles.SpacingValue.small.pxToEm()))
+
+  val spinnerWrapper: StyleA =
+    style(width(100.%%), margin(ThemeStyles.SpacingValue.small.pxToEm()))
 
   val seeMoreButtonWrapper: StyleA = style(
     marginTop(ThemeStyles.SpacingValue.small.pxToEm()),

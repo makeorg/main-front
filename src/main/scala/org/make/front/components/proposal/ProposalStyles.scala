@@ -12,7 +12,7 @@ object ProposalStyles extends StyleSheet.Inline {
   import dsl._
 
   val wrapper: StyleA =
-    style(backgroundColor(ThemeStyles.BackgroundColor.white))
+    style(height(100.%%), backgroundColor(ThemeStyles.BackgroundColor.white))
 
   val proposalInfosWrapper: StyleA = style(
     margin :=! s"0 ${ThemeStyles.SpacingValue.small.pxToEm().value}",

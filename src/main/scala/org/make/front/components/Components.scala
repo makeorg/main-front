@@ -49,6 +49,7 @@ object Components {
 
     def SearchFormComponent: ReactClassElementSpec = self(search.SearchForm.reactClass)
     def SearchResultsContainerComponent: ReactClassElementSpec = self(search.SearchResultsContainer.reactClass)
+    def NoResultToSearchComponent: ReactClassElementSpec = self(search.NoResultToSearch.reactClass)
 
     def ModalComponent: ReactClassElementSpec = self(modals.Modal.reactClass)
     def FullscreenModalComponent: ReactClassElementSpec = self(modals.FullscreenModal.reactClass)

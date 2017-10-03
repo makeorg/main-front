@@ -88,10 +88,11 @@ object ResultsInOperation {
           Seq(
             <.InfiniteScroll(
               ^.element := "ul",
+              ^.className := ResultsInOperationStyles.listItems,
               ^.hasMore := (self.state.hasMore && self.state.hasRequestedMore),
               ^.initialLoad := false,
               ^.loadMore := (_ => onSeeMore()),
-              ^.loader := <.SpinnerComponent.empty
+              ^.loader := <.li(^.className := ResultsInOperationStyles.spinnerWrapper)(<.SpinnerComponent.empty)
             )(
               proposals.map(
                 proposal =>
@@ -143,10 +144,15 @@ object ResultsInOperationStyles extends StyleSheet.Inline {
   import dsl._
 
   val wrapper: StyleA =
-    style(paddingTop(ThemeStyles.SpacingValue.larger.pxToEm()), paddingBottom(ThemeStyles.SpacingValue.small.pxToEm()))
+    style(paddingTop(ThemeStyles.SpacingValue.medium.pxToEm()), paddingBottom(ThemeStyles.SpacingValue.small.pxToEm()))
+
+  val listItems: StyleA = style(display.flex, flexWrap.wrap)
 
   val item: StyleA =
     style(marginTop(ThemeStyles.SpacingValue.small.pxToEm()), marginBottom(ThemeStyles.SpacingValue.small.pxToEm()))
+
+  val spinnerWrapper: StyleA =
+    style(width(100.%%), margin(ThemeStyles.SpacingValue.small.pxToEm()))
 
   val seeMoreButtonWrapper: StyleA = style(
     marginTop(ThemeStyles.SpacingValue.small.pxToEm()),
