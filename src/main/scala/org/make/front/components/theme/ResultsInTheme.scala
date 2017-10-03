@@ -14,7 +14,7 @@ import org.make.front.facades.ReactInfiniteScroller.{
   ReactInfiniteScrollerVirtualDOMElements
 }
 import org.make.front.facades.Unescape.unescape
-import org.make.front.models.{ProposalSearchResult, Proposal => ProposalModel, Tag => TagModel}
+import org.make.front.models.{ProposalSearchResult, Proposal => ProposalModel, Tag => TagModel, Theme => ThemeModel}
 import org.make.front.styles._
 import org.make.front.styles.base.{ColRulesStyles, RowRulesStyles, TextStyles}
 import org.make.front.styles.ui.CTAStyles
@@ -28,6 +28,7 @@ import scalacss.internal.mutable.StyleSheet
 object ResultsInTheme {
 
   case class ResultsInThemeProps(
+    theme: ThemeModel,
     onMoreResultsRequested: (Seq[ProposalModel], Seq[TagModel]) => Future[ProposalSearchResult],
     onTagSelectionChange: (Seq[TagModel])                       => Future[ProposalSearchResult],
     proposals: Future[ProposalSearchResult],
@@ -137,7 +138,7 @@ object ResultsInTheme {
             <.h2(^.className := TextStyles.bigTitle)(unescape(I18n.t("content.theme.matrix.title")))
           ),
           <.nav(^.className := ColRulesStyles.col)(
-            <.FilterByTagsComponent(^.wrapped := FilterByTagsProps(self.props.wrapped.preselectedTags, onTagsChange))()
+            <.FilterByTagsComponent(^.wrapped := FilterByTagsProps(self.props.wrapped.theme.tags, onTagsChange))()
           ),
           if (self.state.initialLoad || proposalsToDisplay.nonEmpty) {
             proposals(proposalsToDisplay)

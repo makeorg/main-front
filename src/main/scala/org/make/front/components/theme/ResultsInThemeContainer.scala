@@ -77,6 +77,7 @@ object ResultsInThemeContainer {
       }
 
       ResultsInThemeProps(
+        theme = ownProps.wrapped.currentTheme,
         onMoreResultsRequested = nextProposals,
         onTagSelectionChange = searchOnSelectedTags,
         proposals = searchOnSelectedTags(Seq()),
