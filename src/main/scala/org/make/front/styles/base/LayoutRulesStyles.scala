@@ -48,6 +48,12 @@ object RowRulesStyles extends StyleSheet.Inline {
     ThemeStyles.MediaQueries.beyondSmall(paddingRight(gutter), paddingLeft(gutter))
   )
 
+  val evenNarrowerCenteredRow: StyleA = style(
+    row,
+    ThemeStyles.MediaQueries
+      .beyondSmall(maxWidth(500.pxToEm()), marginRight.auto, marginLeft.auto)
+  )
+
   val narrowerCenteredRow: StyleA = style(
     row,
     ThemeStyles.MediaQueries

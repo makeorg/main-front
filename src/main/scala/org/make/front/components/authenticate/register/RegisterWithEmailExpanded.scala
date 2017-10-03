@@ -134,16 +134,16 @@ object RegisterWithEmailExpanded {
             RegisterWithEmailExpandedStyles.ageInputWithIconWrapper
           )
         )(
-          <.select(
-            ^.`type`.text,
+          /*TO-DO: avoid number out of limit*/
+          <.input(
+            ^.`type`.number,
             ^.required := false,
+            ^.min := 1,
+            ^.max := 122,
             ^.placeholder := s"${I18n.t("form.fieldLabelAge")}",
             ^.onChange := updateField("age"),
             ^.value := self.state.fields.getOrElse("age", "")
-          )(
-            <.option(^.value := "")(s"${I18n.t("form.fieldLabelAge")}"),
-            agesChoices.map(age => <.option(^.value := age)(age))
-          )
+          )()
         ),
         if (self.state.errors.getOrElse("age", "") != "") {
           <.p(^.className := InputStyles.errorMessage)(self.state.errors.getOrElse("age", ""))

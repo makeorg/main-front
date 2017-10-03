@@ -47,9 +47,7 @@ object FullscreenModal {
                   )()
                 )
               ),
-              <.div(^.className := RowRulesStyles.centeredRow)(
-                <.article(^.className := ColRulesStyles.col)(self.props.children)
-              )
+              self.props.children
             )
           ),
           <.style()(FullscreenModalStyles.render[String])
@@ -76,11 +74,11 @@ object FullscreenModalStyles extends StyleSheet.Inline {
     style(
       display.tableCell,
       verticalAlign.middle,
-      paddingTop((40 + 50).pxToEm()),
+      paddingTop((50 + 50).pxToEm()),
       paddingBottom(40.pxToEm()),
-      ThemeStyles.MediaQueries.beyondSmall(paddingTop((40 + 80 + 15).pxToEm()), paddingBottom((40 + 15).pxToEm())),
+      ThemeStyles.MediaQueries.beyondSmall(paddingTop((50 + 80 + 15).pxToEm()), paddingBottom((40 + 15).pxToEm())),
       ThemeStyles.MediaQueries
-        .beyondLarge(paddingTop((50 + 80 + 15).pxToEm()), paddingBottom((50 + 15).pxToEm())) // TODO: dynamise calcul
+        .beyondLarge(paddingTop((60 + 80 + 15).pxToEm()), paddingBottom((50 + 15).pxToEm())) // TODO: dynamise calcul
     )
 
   // TODO: avoid to much static values

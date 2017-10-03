@@ -24,48 +24,39 @@ object VoteContainer {
   def selectorFactory: (Dispatch) => (AppState, Props[VoteContainerProps]) => Vote.VoteProps =
     (dispatch: Dispatch) => { (appState: AppState, ownProps: Props[VoteContainerProps]) =>
       def vote(key: String): Future[VoteResponse] = {
-
         val future = ProposalService.vote(proposalId = ownProps.wrapped.proposal.id, key)
-
         future.onComplete {
           case Success(_) => // let child handle new results
           case Failure(_) => dispatch(NotifyError(I18n.t("errors.main")))
         }
-
         future
       }
 
       def unvote(key: String): Future[VoteResponse] = {
         val future = ProposalService.unvote(proposalId = ownProps.wrapped.proposal.id, key)
-
         future.onComplete {
           case Success(_) => // let child handle new results
           case Failure(_) => dispatch(NotifyError(I18n.t("errors.main")))
         }
-
         future
       }
 
       val qualify: (String, String) => Future[QualificationResponse] = { (vote, qualification) =>
         val future = ProposalService.qualifyVote(ownProps.wrapped.proposal.id, vote, qualification)
-
         future.onComplete {
           case Success(_) =>
           case Failure(_) => dispatch(NotifyError(I18n.t("errors.main")))
         }
-
         future
       }
 
       val removeQualification: (String, String) => Future[QualificationResponse] = { (vote, qualification) =>
         val future =
           ProposalService.removeVoteQualification(ownProps.wrapped.proposal.id, vote, qualification)
-
         future.onComplete {
           case Success(_) =>
           case Failure(_) => dispatch(NotifyError(I18n.t("errors.main")))
         }
-
         future
       }
 

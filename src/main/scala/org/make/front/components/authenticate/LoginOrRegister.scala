@@ -11,7 +11,7 @@ import org.make.front.components.authenticate.register.RegisterWithSocialNetwork
 import org.make.front.facades.I18n
 import org.make.front.facades.Unescape.unescape
 import org.make.front.styles._
-import org.make.front.styles.base.TextStyles
+import org.make.front.styles.base.{ColRulesStyles, RowRulesStyles, TextStyles}
 import org.make.front.styles.utils._
 
 import scalacss.DevDefaults._
@@ -45,64 +45,65 @@ object LoginOrRegister {
           self.setState(_.copy(currentView = view))
         }
 
-        <.div(^.className := LoginOrRegisterStyles.wrapper)(if (state.currentView == "login") {
-          Seq(
-            <.LoginWithEmailOrSocialNetworksComponent(
-              ^.wrapped := LoginWithEmailOrSocialNetworksProps(props.onSuccessfulLogin)
-            )(),
-            <.p(^.className := Seq(LoginOrRegisterStyles.text, TextStyles.smallText))(
-              unescape(I18n.t("form.login.oupsI")),
-              <.a(^.className := TextStyles.boldText, ^.onClick := goTo("reset-password"))(
-                unescape(I18n.t("form.login.forgotPassword"))
-              )
-            ),
-            <.p(^.className := Seq(LoginOrRegisterStyles.text, TextStyles.smallText))(
-              unescape(I18n.t("form.login.noAccount")) + " ",
-              <.a(^.className := TextStyles.boldText, ^.onClick := goTo(props.registerView))(
-                unescape(I18n.t("form.login.createAccount"))
-              )
-            )
-          )
-        } else if (state.currentView == "reset-password") {
-          Seq(
-            <.RecoverPasswordContainerComponent(^.wrapped := RecoverPasswordContainerProps(props.onSuccessfulLogin))(),
-            <.p(^.className := Seq(LoginOrRegisterStyles.text, TextStyles.smallText))(
-              unescape(I18n.t("form.passwordRecovery.return")) + " ",
-              <.a(^.className := TextStyles.boldText, ^.onClick := goTo("login"))(
-                unescape(I18n.t("form.passwordRecovery.connectScreen"))
+        <.div(^.className := RowRulesStyles.evenNarrowerCenteredRow)(
+          <.div(^.className := ColRulesStyles.col)(if (state.currentView == "login") {
+            Seq(
+              <.LoginWithEmailOrSocialNetworksComponent(
+                ^.wrapped := LoginWithEmailOrSocialNetworksProps(props.onSuccessfulLogin)
+              )(),
+              <.p(^.className := Seq(LoginOrRegisterStyles.text, TextStyles.smallText))(
+                unescape(I18n.t("form.login.oupsI")),
+                <.a(^.className := TextStyles.boldText, ^.onClick := goTo("reset-password"))(
+                  unescape(I18n.t("form.login.forgotPassword"))
+                )
+              ),
+              <.p(^.className := Seq(LoginOrRegisterStyles.text, TextStyles.smallText))(
+                unescape(I18n.t("form.login.noAccount")) + " ",
+                <.a(^.className := TextStyles.boldText, ^.onClick := goTo(props.registerView))(
+                  unescape(I18n.t("form.login.createAccount"))
+                )
               )
             )
-          )
-        } else if (state.currentView == "register-expanded") {
-          Seq(
-            <.RegisterWithSocialNetworksOrEmailExpandedComponent(
-              ^.wrapped := RegisterWithSocialNetworksOrEmailProps(props.onSuccessfulLogin)
-            )(),
-            <.p(^.className := Seq(LoginOrRegisterStyles.text, TextStyles.smallText))(
-              unescape(I18n.t("form.register.alreadySubscribed")) + " ",
-              <.a(^.className := TextStyles.boldText, ^.onClick := goTo("login"))(unescape(I18n.t("form.connection")))
+          } else if (state.currentView == "reset-password") {
+            Seq(
+              <.RecoverPasswordContainerComponent(
+                ^.wrapped := RecoverPasswordContainerProps(props.onSuccessfulLogin)
+              )(),
+              <.p(^.className := Seq(LoginOrRegisterStyles.text, TextStyles.smallText))(
+                unescape(I18n.t("form.passwordRecovery.return")) + " ",
+                <.a(^.className := TextStyles.boldText, ^.onClick := goTo("login"))(
+                  unescape(I18n.t("form.passwordRecovery.connectScreen"))
+                )
+              )
             )
-          )
-        } else {
-          Seq(
-            <.RegisterWithSocialNetworksOrEmailComponent(
-              ^.wrapped := RegisterWithSocialNetworksOrEmailProps(props.onSuccessfulLogin)
-            )(),
-            <.p(^.className := Seq(LoginOrRegisterStyles.text, TextStyles.smallText))(
-              unescape(I18n.t("form.register.alreadySubscribed")) + " ",
-              <.a(^.className := TextStyles.boldText, ^.onClick := goTo("login"))(unescape(I18n.t("form.connection")))
+          } else if (state.currentView == "register-expanded") {
+            Seq(
+              <.RegisterWithSocialNetworksOrEmailExpandedComponent(
+                ^.wrapped := RegisterWithSocialNetworksOrEmailProps(props.onSuccessfulLogin)
+              )(),
+              <.p(^.className := Seq(LoginOrRegisterStyles.text, TextStyles.smallText))(
+                unescape(I18n.t("form.register.alreadySubscribed")) + " ",
+                <.a(^.className := TextStyles.boldText, ^.onClick := goTo("login"))(unescape(I18n.t("form.connection")))
+              )
             )
-          )
-        }, <.style()(LoginOrRegisterStyles.render[String]))
+          } else {
+            Seq(
+              <.RegisterWithSocialNetworksOrEmailComponent(
+                ^.wrapped := RegisterWithSocialNetworksOrEmailProps(props.onSuccessfulLogin)
+              )(),
+              <.p(^.className := Seq(LoginOrRegisterStyles.text, TextStyles.smallText))(
+                unescape(I18n.t("form.register.alreadySubscribed")) + " ",
+                <.a(^.className := TextStyles.boldText, ^.onClick := goTo("login"))(unescape(I18n.t("form.connection")))
+              )
+            )
+          }, <.style()(LoginOrRegisterStyles.render[String]))
+        )
     })
 }
 
 object LoginOrRegisterStyles extends StyleSheet.Inline {
 
   import dsl._
-
-  val wrapper: StyleA =
-    style()
 
   val text: StyleA =
     style(

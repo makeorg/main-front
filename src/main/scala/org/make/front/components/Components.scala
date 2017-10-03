@@ -4,9 +4,6 @@ import io.github.shogowada.scalajs.reactjs.VirtualDOM.VirtualDOMAttributes.Type.
 import io.github.shogowada.scalajs.reactjs.VirtualDOM.VirtualDOMElements.ReactClassElementSpec
 import io.github.shogowada.scalajs.reactjs.VirtualDOM.{VirtualDOMAttributes, VirtualDOMElements}
 import io.github.shogowada.statictags.{Attribute, BooleanAttributeSpec, SpaceSeparatedStringAttributeSpec}
-import org.make.front.components.proposal.vote.{QualificateVote, VoteButton}
-import org.make.front.components.submitProposal.SubmitProposalResult
-import org.make.front.components.theme.SubmitProposalInRelationToTheme
 
 import scala.scalajs.js
 import scalacss.StyleA
@@ -82,7 +79,8 @@ object Components {
 
     /*********************/
     def SubmitProposalComponent: ReactClassElementSpec = self(submitProposal.SubmitProposal.reactClass)
-    def SubmitProposalResultComponent: ReactClassElementSpec = self(SubmitProposalResult.reactClass)
+    def ConfirmationOfProposalSubmissionComponent: ReactClassElementSpec =
+      self(submitProposal.ConfirmationOfProposalSubmission.reactClass)
     def SubmitProposalFormComponent: ReactClassElementSpec = self(submitProposal.SubmitProposalFormContainer.reactClass)
     def SubmitProposalAndLoginComponent: ReactClassElementSpec =
       self(submitProposal.SubmitProposalAndLoginContainer.reactClass)
@@ -104,9 +102,9 @@ object Components {
 
     /*********************/
     def VoteContainerComponent: ReactClassElementSpec = self(proposal.vote.VoteContainer.reactClass)
-    def VoteButtonComponent: ReactClassElementSpec = self(VoteButton.reactClass)
+    def VoteButtonComponent: ReactClassElementSpec = self(proposal.vote.VoteButton.reactClass)
     def QualificateVoteButtonComponent: ReactClassElementSpec = self(proposal.vote.QualificateVoteButton.reactClass)
-    def QualificateVoteComponent: ReactClassElementSpec = self(QualificateVote.reactClass)
+    def QualificateVoteComponent: ReactClassElementSpec = self(proposal.vote.QualificateVote.reactClass)
     def ResultsOfVoteComponent: ReactClassElementSpec = self(proposal.vote.ResultsOfVote.reactClass)
 
     /*********************/
@@ -123,7 +121,7 @@ object Components {
     /*********************/
     def ThemeHeaderComponent: ReactClassElementSpec = self(theme.ThemeHeader.reactClass)
     def SubmitProposalInRelationToThemeComponent: ReactClassElementSpec =
-      self(SubmitProposalInRelationToTheme.reactClass)
+      self(theme.SubmitProposalInRelationToTheme.reactClass)
     def ResultsInThemeContainerComponent: ReactClassElementSpec = self(theme.ResultsInThemeContainer.reactClass)
     def ResultsInThemeComponent: ReactClassElementSpec = self(theme.ResultsInTheme.reactClass)
 

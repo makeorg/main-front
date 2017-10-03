@@ -10,7 +10,7 @@ import org.make.front.facades.I18n
 import org.make.front.facades.Unescape.unescape
 import org.make.front.models.{GradientColor => GradientColorModel, Theme => ThemeModel}
 import org.make.front.styles.ThemeStyles
-import org.make.front.styles.base.TextStyles
+import org.make.front.styles.base.{TextStyles}
 import org.make.front.styles.utils._
 
 import scalacss.DevDefaults._
@@ -33,7 +33,7 @@ object SubmitProposalInRelationToTheme {
       render = { self =>
         val gradientColor: GradientColorModel = self.state.theme.gradient.getOrElse(GradientColorModel("#FFF", "#FFF"))
 
-        object ThemeStyles extends Inline {
+        object DynamicSubmitProposalInRelationToThemeStyles extends Inline {
           import dsl._
 
           val titleBackground = style(
@@ -45,7 +45,7 @@ object SubmitProposalInRelationToTheme {
 
         val intro: (ReactElement) => ReactElement = {
           element =>
-            <.article()(
+            <.div()(
               <.h2(^.className := SubmitProposalInRelationToThemeStyles.title)(
                 <.span(
                   ^.className := Seq(
@@ -59,13 +59,15 @@ object SubmitProposalInRelationToTheme {
                   ^.className := Seq(
                     TextStyles.veryBigTitle,
                     SubmitProposalInRelationToThemeStyles.theme,
-                    ThemeStyles.titleBackground
+                    DynamicSubmitProposalInRelationToThemeStyles.titleBackground
                   )
                 )(unescape(self.state.theme.title))
               ),
               element,
-              <.style()(SubmitProposalInRelationToThemeStyles.render[String]),
-              <.style()(ThemeStyles.render[String])
+              <.style()(
+                SubmitProposalInRelationToThemeStyles.render[String],
+                DynamicSubmitProposalInRelationToThemeStyles.render[String]
+              )
             )
         }
 
@@ -78,7 +80,6 @@ object SubmitProposalInRelationToTheme {
               onProposalProposed = self.props.wrapped.onProposalProposed
             )
         )()
-
       }
     )
 

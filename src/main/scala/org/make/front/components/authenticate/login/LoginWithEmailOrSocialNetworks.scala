@@ -33,8 +33,10 @@ object LoginWithEmailOrSocialNetworks {
           )
         )(),
         <.div(^.className := LoginWithEmailOrSocialNetworksStyles.separatorWrapper)(
-          <.p(^.className := Seq(LoginWithEmailOrSocialNetworksStyles.separator, TextStyles.mediumText))(
-            I18n.t("form.or")
+          <.div(^.className := Seq(LoginWithEmailOrSocialNetworksStyles.separator))(
+            <.p(^.className := Seq(LoginWithEmailOrSocialNetworksStyles.separatorLabel, TextStyles.mediumText))(
+              I18n.t("form.or")
+            )
           )
         ),
         <.div(^.className := LoginWithEmailOrSocialNetworksStyles.introWrapper)(
@@ -62,10 +64,7 @@ object LoginWithEmailOrSocialNetworksStyles extends StyleSheet.Inline {
     position.relative,
     display.inlineBlock,
     padding :=! s"0 ${20.pxToEm().value}",
-    margin :=! s"${ThemeStyles.SpacingValue.medium.pxToEm().value} 0",
-    ThemeStyles.Font.playfairDisplayItalic,
-    fontStyle.italic,
-    color(ThemeStyles.TextColor.lighter),
+    margin :=! s"${35.pxToEm().value} 0",
     (&.before)(
       content := "''",
       position.absolute,
@@ -87,5 +86,14 @@ object LoginWithEmailOrSocialNetworksStyles extends StyleSheet.Inline {
       backgroundColor(ThemeStyles.BorderColor.veryLight)
     )
   )
+
+  val separatorLabel: StyleA =
+    style(
+      ThemeStyles.Font.playfairDisplayItalic,
+      fontStyle.italic,
+      color(ThemeStyles.TextColor.lighter),
+      lineHeight(20.pxToEm(15)),
+      ThemeStyles.MediaQueries.beyondSmall(lineHeight(20.pxToEm(18)))
+    )
 
 }

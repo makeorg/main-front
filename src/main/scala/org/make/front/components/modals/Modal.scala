@@ -49,7 +49,7 @@ object Modal {
                         )()
                       )
                     ),
-                    <.article(^.className := ModalStyles.article)(self.props.children)
+                    self.props.children
                   )
                 )
               )
@@ -89,9 +89,7 @@ object ModalStyles extends StyleSheet.Inline {
       minHeight(200.pxToEm()),
       marginTop(ThemeStyles.SpacingValue.medium.pxToEm()), // TODO: dynamise calcul, if main intro is first child of page
       marginBottom(ThemeStyles.SpacingValue.medium.pxToEm()),
-      padding :=! s"${ThemeStyles.SpacingValue.largerMedium.pxToEm().value} ${ThemeStyles.SpacingValue.small.pxToEm().value}",
-      ThemeStyles.MediaQueries
-        .beyondSmall(paddingRight(55.pxToEm()), paddingLeft(55.pxToEm())), // TODO: dynamise calcul
+      padding :=! s"${ThemeStyles.SpacingValue.large.pxToEm().value} 0 ${ThemeStyles.SpacingValue.largerMedium.pxToEm().value}",
       backgroundColor(ThemeStyles.BackgroundColor.white),
       boxShadow := "0 2px 4px 0 rgba(0,0,0,0.5)" // TODO: create variable for shadows
     )
@@ -106,7 +104,5 @@ object ModalStyles extends StyleSheet.Inline {
     unsafeChild("svg")(verticalAlign.bottom, opacity(0.1), transition := "opacity .2s ease-in-out"),
     (&.hover)(unsafeChild("svg")(opacity(0.3)))
   )
-
-  val article: StyleA = style(maxWidth(470.pxToEm()), marginRight.auto, marginLeft.auto)
 
 }
