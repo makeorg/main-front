@@ -79,7 +79,7 @@ object Notifications {
                       )()
                     )
                   ),
-                  <.p(^.className := TextStyles.smallText)(notification.message)
+                  <.p(^.className := TextStyles.smallText, ^.dangerouslySetInnerHTML := notification.message)()
                 )
               )
             })
