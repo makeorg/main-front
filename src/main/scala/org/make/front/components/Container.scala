@@ -11,11 +11,16 @@ import org.make.front.components.search.SearchResultsContainer
 import org.make.front.components.theme.ThemeContainer
 import org.make.front.components.operation.{OperationContainer, OperationSSequence, OperationSSequenceContainer}
 
+import scala.scalajs.js.Dynamic
+
 object Container {
 
   lazy val reactClass = WithRouter(
     React.createClass[Unit, Unit](
       displayName = "Container",
+      componentWillUpdate = { (_, _, _) =>
+        Dynamic.global.scrollTo(0, 0)
+      },
       render = (_) =>
         <.Switch()(
           <.Route(
