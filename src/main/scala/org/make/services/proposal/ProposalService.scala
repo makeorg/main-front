@@ -36,6 +36,7 @@ object ProposalService extends ApiService with CirceClassFormatters with CirceFo
                       themesIds: Seq[ThemeId] = Seq.empty,
                       operationsIds: Seq[OperationId] = Seq.empty,
                       tagsIds: Seq[TagId] = Seq.empty,
+                      trending: Option[String] = None,
                       sort: Seq[SortOptionRequest],
                       limit: Option[Int],
                       skip: Option[Int]): Future[SearchResponse] =

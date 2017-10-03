@@ -24,7 +24,9 @@ final case class SortOptionRequest(field: String, mode: Option[Order])
 final case class SearchRequest(themesIds: Option[Seq[String]] = None,
                                operationsIds: Option[Seq[String]] = None,
                                tagsIds: Option[Seq[String]] = None,
+                               labelsIds: Option[Seq[String]] = None,
                                content: Option[String] = None,
+                               trending: Option[String] = None,
                                sort: Seq[SortOptionRequest],
                                limit: Option[Int],
                                skip: Option[Int])

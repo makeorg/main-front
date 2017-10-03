@@ -94,7 +94,8 @@ object Components {
     def ProposalWithThemeComponent: ReactClassElementSpec = self(proposal.ProposalWithTheme.reactClass)
     def ProposalWithTagsComponent: ReactClassElementSpec = self(proposal.ProposalWithTags.reactClass)
 
-    def ShowcaseContainerComponent: ReactClassElementSpec = self(showcase.ShowcaseContainer.reactClass)
+    def TrendingShowcaseContainerComponent: ReactClassElementSpec = self(showcase.TrendingShowcaseContainer.reactClass)
+    def ThemeShowcaseContainerComponent: ReactClassElementSpec = self(showcase.ThemeShowcaseContainer.reactClass)
     def SequenceContainerComponent: ReactClassElementSpec = self(sequence.SequenceContainer.reactClass)
     def OperationSSequenceComponent: ReactClassElementSpec = self(operation.OperationSSequence.reactClass)
     def OperationSSequenceContainerComponent: ReactClassElementSpec =

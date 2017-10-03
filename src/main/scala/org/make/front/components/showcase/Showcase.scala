@@ -12,52 +12,66 @@ import org.make.front.models.{Proposal => ProposalModel}
 import org.make.front.styles._
 import org.make.front.styles.base.{ColRulesStyles, RowRulesStyles, TextStyles}
 import org.make.front.styles.utils._
+import org.make.services.proposal.ProposalResponses.SearchResponse
 
+import scala.concurrent.Future
+import scala.util.{Failure, Success}
 import scalacss.DevDefaults._
+
+import scala.concurrent.ExecutionContext.Implicits.global
 
 object Showcase {
 
-  final case class ShowcaseProps(proposals: Seq[ProposalModel], introTranslationKey: String)
+  final case class ShowcaseProps(proposals: Future[SearchResponse], introTranslationKey: String, title: String)
 
-  lazy val reactClass: ReactClass = React.createClass[ShowcaseProps, Unit](
-    displayName = "Showcase",
-    render = (self) =>
-      <.section(^.className := ShowcaseStyles.wrapper)(
-        <.div(^.className := RowRulesStyles.centeredRow)(
-          <.header(^.className := ColRulesStyles.col)(
-            <.p(^.className := Seq(ShowcaseStyles.intro, TextStyles.mediumText, TextStyles.intro))(
-              unescape(I18n.t(self.props.wrapped.introTranslationKey))
+  final case class ShowcaseState(proposals: Seq[ProposalModel])
+
+  lazy val reactClass: ReactClass =
+    React.createClass[ShowcaseProps, ShowcaseState](displayName = "Showcase", getInitialState = { _ =>
+      ShowcaseState(Seq.empty)
+    }, render = {
+      self =>
+        self.props.wrapped.proposals.onComplete {
+          case Failure(_)       =>
+          case Success(results) => self.setState(_.copy(proposals = results.results))
+        }
+
+        <.section(^.className := ShowcaseStyles.wrapper)(if (self.state.proposals.nonEmpty) {
+          Seq(
+            <.div(^.className := RowRulesStyles.centeredRow)(
+              <.header(^.className := ColRulesStyles.col)(
+                <.p(^.className := Seq(ShowcaseStyles.intro, TextStyles.mediumText, TextStyles.intro))(
+                  unescape(I18n.t(self.props.wrapped.introTranslationKey))
+                ),
+                <.h2(^.className := Seq(ShowcaseStyles.title, TextStyles.bigTitle))(self.props.wrapped.title)
+              ),
+              <.ul()(
+                self.state.proposals.map(
+                  proposal =>
+                    <.li(
+                      ^.className := Seq(
+                        ShowcaseStyles.propasalItem,
+                        ColRulesStyles.col,
+                        ColRulesStyles.colHalfBeyondMedium
+                      )
+                    )(if (proposal.themeId.getOrElse("") != "") {
+                      <.ProposalWithThemeContainerComponent(
+                        ^.wrapped :=
+                          ProposalWithThemeContainerProps(proposal = proposal)
+                      )()
+                    } else {
+                      <.ProposalComponent(
+                        ^.wrapped :=
+                          ProposalProps(proposal = proposal)
+                      )()
+                    })
+                )
+              )
             ),
-            <.h2(^.className := Seq(ShowcaseStyles.title, TextStyles.bigTitle))(
-              unescape(I18n.t("content.homepage.mostPopular"))
-            )
-          ),
-          <.ul()(
-            self.props.wrapped.proposals.map(
-              proposal =>
-                <.li(
-                  ^.className := Seq(
-                    ShowcaseStyles.propasalItem,
-                    ColRulesStyles.col,
-                    ColRulesStyles.colHalfBeyondMedium
-                  )
-                )(if (proposal.themeId.getOrElse("") != "") {
-                  <.ProposalWithThemeContainerComponent(
-                    ^.wrapped :=
-                      ProposalWithThemeContainerProps(proposal = proposal)
-                  )()
-                } else {
-                  <.ProposalComponent(
-                    ^.wrapped :=
-                      ProposalProps(proposal = proposal)
-                  )()
-                })
-            )
+            <.style()(ShowcaseStyles.render[String])
           )
-        ),
-        <.style()(ShowcaseStyles.render[String])
-    )
-  )
+        })
+    })
 
 }
 
