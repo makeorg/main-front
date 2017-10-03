@@ -176,6 +176,7 @@ object SubmitProposalFormStyles extends StyleSheet.Inline {
       paddingLeft(ThemeStyles.SpacingValue.small.pxToEm(13)),
       ThemeStyles.MediaQueries
         .beyondSmall(lineHeight :=! s"${38.pxToEm(16).value}", paddingLeft(ThemeStyles.SpacingValue.small.pxToEm(16))),
+      ThemeStyles.MediaQueries.beyondMedium(lineHeight :=! s"${48.pxToEm(16).value}"),
       color(ThemeStyles.TextColor.lighter),
       whiteSpace.nowrap
     )

@@ -99,7 +99,12 @@ object InputStyles extends StyleSheet.Inline {
         padding :=! s"0 ${25.pxToEm().value}",
         borderRadius(25.pxToEm()),
         unsafeChild("input")(minHeight(48.pxToEm(18)), fontSize(18.pxToEm())),
-        unsafeChild("textarea")(minHeight(48.pxToEm(18)), paddingTop(13.pxToEm(18)), fontSize(18.pxToEm()))
+        unsafeChild("textarea")(
+          height(30.pxToEm(18)),
+          paddingTop(13.pxToEm(18)),
+          paddingBottom(13.pxToEm(18)),
+          fontSize(18.pxToEm())
+        )
       )
     )
 
