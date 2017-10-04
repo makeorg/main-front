@@ -15,6 +15,7 @@ import org.make.front.styles.utils._
 import org.scalajs.dom.raw.HTMLElement
 
 import scalacss.DevDefaults._
+import scalacss.internal.StyleA
 import scalacss.internal.mutable.StyleSheet
 import scalacss.internal.mutable.StyleSheet.Inline
 
@@ -109,8 +110,8 @@ object ThemeHeaderStyles extends StyleSheet.Inline {
       position.relative,
       display.table,
       width(100.%%),
-      height(500.pxToEm()),
-      height :=! s"calc(100% - ${200.pxToEm().value})",
+      height(300.pxToEm()),
+      /*height :=! s"calc(100% - ${200.pxToEm().value})",*/
       backgroundColor(ThemeStyles.BackgroundColor.black), //TODO:gradient
       overflow.hidden
     )
@@ -148,6 +149,7 @@ object ThemeHeaderStyles extends StyleSheet.Inline {
       display.inlineBlock,
       marginBottom(15.pxToEm(30)),
       lineHeight(41.pxToEm(30)),
+      ThemeStyles.MediaQueries.beyondSmall(marginBottom(10.pxToEm(40)), lineHeight(56.pxToEm(40))),
       ThemeStyles.MediaQueries.beyondMedium(marginBottom(10.pxToEm(60)), lineHeight(83.pxToEm(60))),
       color(ThemeStyles.TextColor.white),
       textShadow := s"1px 1px 1px rgb(0, 0, 0)"
@@ -168,6 +170,15 @@ object ThemeHeaderStyles extends StyleSheet.Inline {
   val textLimitInfoWapper: StyleA = style(display.tableCell, verticalAlign.middle)
 
   val textLimitInfo: StyleA =
-    style(padding(1.em), lineHeight.initial, color(ThemeStyles.TextColor.lighter), whiteSpace.nowrap)
+    style(
+      display.inlineBlock,
+      lineHeight :=! s"${28.pxToEm(13).value}",
+      paddingLeft(ThemeStyles.SpacingValue.small.pxToEm(13)),
+      ThemeStyles.MediaQueries
+        .beyondSmall(lineHeight :=! s"${38.pxToEm(16).value}", paddingLeft(ThemeStyles.SpacingValue.small.pxToEm(16))),
+      ThemeStyles.MediaQueries.beyondMedium(lineHeight :=! s"${48.pxToEm(16).value}"),
+      color(ThemeStyles.TextColor.lighter),
+      whiteSpace.nowrap
+    )
 
 }

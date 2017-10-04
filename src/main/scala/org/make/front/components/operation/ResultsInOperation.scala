@@ -95,7 +95,7 @@ object ResultsInOperation {
           Seq(
             <.InfiniteScroll(
               ^.element := "ul",
-              ^.className := ResultsInOperationStyles.listItems,
+              ^.className := ResultsInOperationStyles.itemsList,
               ^.hasMore := (self.state.hasMore && self.state.hasRequestedMore),
               ^.initialLoad := false,
               ^.loadMore := (_ => onSeeMore()),
@@ -153,7 +153,7 @@ object ResultsInOperationStyles extends StyleSheet.Inline {
   val wrapper: StyleA =
     style(paddingTop(ThemeStyles.SpacingValue.medium.pxToEm()), paddingBottom(ThemeStyles.SpacingValue.small.pxToEm()))
 
-  val listItems: StyleA = style(display.flex, flexWrap.wrap)
+  val itemsList: StyleA = style(display.flex, flexWrap.wrap, overflow.hidden)
 
   val item: StyleA =
     style(marginTop(ThemeStyles.SpacingValue.small.pxToEm()), marginBottom(ThemeStyles.SpacingValue.small.pxToEm()))

@@ -52,7 +52,7 @@ object InputStyles extends StyleSheet.Inline {
         placeholder(color(ThemeStyles.TextColor.lighter))
       ),
       unsafeChild("textarea")(
-        height(20.pxToEm(13)),
+        height(16.pxToEm(13)),
         width(100.%%),
         boxSizing.contentBox,
         padding(`0`),

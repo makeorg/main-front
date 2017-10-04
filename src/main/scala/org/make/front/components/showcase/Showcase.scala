@@ -45,7 +45,7 @@ object Showcase {
                 ),
                 <.h2(^.className := Seq(ShowcaseStyles.title, TextStyles.bigTitle))(self.props.wrapped.title)
               ),
-              <.ul()(
+              <.ul(^.className := ShowcaseStyles.propasalsList)(
                 self.state.proposals.map(
                   proposal =>
                     <.li(
@@ -89,6 +89,9 @@ object ShowcaseStyles extends StyleSheet.Inline {
     marginBottom(ThemeStyles.SpacingValue.smaller.pxToEm(15)),
     ThemeStyles.MediaQueries.beyondSmall(marginBottom(ThemeStyles.SpacingValue.smaller.pxToEm(18)))
   )
+
+  val propasalsList: StyleA =
+    style(display.flex, flexWrap.wrap)
 
   val propasalItem: StyleA =
     style(marginTop(ThemeStyles.SpacingValue.small.pxToEm()), marginBottom(ThemeStyles.SpacingValue.small.pxToEm()))

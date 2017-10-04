@@ -172,7 +172,7 @@ object SubmitProposalFormStyles extends StyleSheet.Inline {
   val textLimitInfo: StyleA =
     style(
       display.inlineBlock,
-      lineHeight :=! s"${38.pxToEm(13).value}",
+      lineHeight :=! s"${28.pxToEm(13).value}",
       paddingLeft(ThemeStyles.SpacingValue.small.pxToEm(13)),
       ThemeStyles.MediaQueries
         .beyondSmall(lineHeight :=! s"${38.pxToEm(16).value}", paddingLeft(ThemeStyles.SpacingValue.small.pxToEm(16))),

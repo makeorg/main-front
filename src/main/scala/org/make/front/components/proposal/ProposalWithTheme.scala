@@ -26,24 +26,39 @@ object ProposalWithTheme {
         render = (self) => {
 
           <.article(^.className := ProposalStyles.wrapper)(
-            <.header(^.className := ProposalStyles.proposalInfosWrapper)(
-              <.ProposalInfosComponent(^.wrapped := ProposalInfosProps(proposal = self.props.wrapped.proposal))()
-            ),
-            <.div(^.className := ProposalStyles.contentWrapper)(
-              <.h3(^.className := Seq(TextStyles.mediumText, TextStyles.boldText))(self.props.wrapped.proposal.content),
-              <.VoteContainerComponent(^.wrapped := VoteContainerProps(proposal = self.props.wrapped.proposal))()
-            ),
-            <.footer(^.className := ProposalStyles.footer)(
-              <.p(^.className := Seq(TextStyles.smallerText, ProposalWithThemeStyles.themeInfo))(
-                unescape(I18n.t("content.proposal.postedIn")),
-                <.strong(^.className := Seq(TextStyles.title, ProposalWithThemeStyles.themeName))(
-                  self.props.wrapped.themeName
+            <.div(^.className := ProposalStyles.innerWrapper)(
+              <.div(^.className := ProposalStyles.row)(
+                <.div(^.className := ProposalStyles.cell)(
+                  <.header(^.className := ProposalStyles.proposalInfosWrapper)(
+                    <.ProposalInfosComponent(^.wrapped := ProposalInfosProps(proposal = self.props.wrapped.proposal))()
+                  )
                 )
-              )
+              ),
+              <.div(^.className := Seq(ProposalStyles.row, ProposalStyles.stretchedRow))(
+                <.div(^.className := Seq(ProposalStyles.cell, ProposalStyles.contentWrapper))(
+                  <.h3(^.className := Seq(TextStyles.mediumText, TextStyles.boldText))(
+                    self.props.wrapped.proposal.content
+                  ),
+                  <.VoteContainerComponent(^.wrapped := VoteContainerProps(proposal = self.props.wrapped.proposal))()
+                )
+              ),
+              if (self.props.wrapped.themeName.nonEmpty) {
+                <.div(^.className := ProposalStyles.row)(
+                  <.div(^.className := ProposalStyles.cell)(
+                    <.footer(^.className := ProposalStyles.footer)(
+                      <.p(^.className := Seq(TextStyles.smallerText, ProposalWithThemeStyles.themeInfo))(
+                        unescape(I18n.t("content.proposal.postedIn")),
+                        <.strong(^.className := Seq(TextStyles.title, ProposalWithThemeStyles.themeName))(
+                          self.props.wrapped.themeName
+                        )
+                      )
+                    )
+                  )
+                )
+              }
             ),
             <.style()(ProposalStyles.render[String], ProposalWithThemeStyles.render[String])
           )
-
         }
       )
 }

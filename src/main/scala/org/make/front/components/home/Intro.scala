@@ -55,7 +55,7 @@ object IntroStyles extends StyleSheet.Inline {
       display.table,
       width(100.%%),
       height(500.pxToEm()),
-      height :=! s"calc(100% - ${200.pxToEm().value})",
+      /*height :=! s"calc(100% - ${200.pxToEm().value})",*/
       backgroundColor(ThemeStyles.BackgroundColor.black)
     )
 
