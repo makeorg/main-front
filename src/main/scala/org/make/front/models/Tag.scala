@@ -5,6 +5,10 @@ import org.make.core.StringValue
 
 final case class Tag(tagId: TagId, label: String)
 
+object Tag {
+  implicit val decoder: Decoder[Tag] = Decoder.forProduct2("tagId", "label")(Tag.apply)
+}
+
 final case class TagId(value: String) extends StringValue
 
 object TagId {

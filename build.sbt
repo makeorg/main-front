@@ -8,27 +8,25 @@ scalaVersion := "2.12.1"
 
 /* Npm versions */
 val npmReactVersion = "15.6.1"
-val npmWebpackVersion = "2.6.1"
+val npmWebpackVersion = "3.6.0"
 val npmReactRouterVersion = "4.1.2"
-val npmBulmaVersion = "0.4.4"
 val npmReactAutosuggestVersion = "9.3.1"
-val npmSassLoaderVersion = "6.0.6"
-val npmNodeSassVersion = "4.5.3"
-val npmExtractTextWebpackPluginVersion = "2.1.2"
+val npmExtractTextWebpackPluginVersion = "3.0.0"
 val npmCssLoaderVersion = "0.28.4"
 val npmStyleLoaderVersion = "0.18.2"
 val npmReactModalVersion = "2.2.2"
+val npmReactSlickVersion = "0.15.4"
 val npmReactI18nifyVersion = "1.8.7"
 val npmCleanWebpackPluginVersion = "0.1.16"
 val npmHtmlWebpackPluginVersion = "2.29.0"
 val npmWebpackMd5HashVersion = "0.0.5"
-val npmFrontAwesomeVersion = "4.7.0"
 val npmFileLoaderVersion = "0.11.2"
-val npmNormalizeVersion = "7.0.0"
 val npmHardSourceWebpackVersion = "0.4.9"
 val npmSourceMapLoaderVersion = "0.2.1"
-val npmReactGoogleLogin = "2.9.2"
+val npmReactGoogleLogin = "2.9.3"
 val npmReactFacebookLogin = "3.6.2"
+val npmReactTextareaAutoresize = "5.1.0"
+val npmReactInfiniteScroller = "1.0.15"
 
 /* scala libraries version */
 val scalaJsReactVersion = "0.14.0"
@@ -59,25 +57,27 @@ npmDependencies in Compile ++= Seq(
   "react-router" -> npmReactRouterVersion,
   "react-router-dom" -> npmReactRouterVersion,
   "react-modal" -> npmReactModalVersion,
+  "react-slick" -> npmReactSlickVersion,
   "react-i18nify" -> npmReactI18nifyVersion,
   "react-autosuggest" -> npmReactAutosuggestVersion,
-  "bulma" -> npmBulmaVersion,
-  "sass-loader" -> npmSassLoaderVersion,
-  "node-sass" -> npmNodeSassVersion,
-  "extract-text-webpack-plugin" -> npmExtractTextWebpackPluginVersion,
-  "hard-source-webpack-plugin" -> npmHardSourceWebpackVersion,
-  "css-loader" -> npmCssLoaderVersion,
-  "style-loader" -> npmStyleLoaderVersion,
-  "clean-webpack-plugin" -> npmCleanWebpackPluginVersion,
-  "html-webpack-plugin" -> npmHtmlWebpackPluginVersion,
-  "webpack-md5-hash" -> npmWebpackMd5HashVersion,
-  "webpack" -> npmWebpackVersion,
-  "file-loader" -> npmFileLoaderVersion,
-  "font-awesome" -> npmFrontAwesomeVersion,
-  "normalize-scss" -> npmNormalizeVersion,
+  "react-infinite-scroller " -> npmReactInfiniteScroller,
   "react-google-login" -> npmReactGoogleLogin,
-  "react-facebook-login" -> npmReactFacebookLogin
+  "react-facebook-login" -> npmReactFacebookLogin,
+  "react-textarea-autosize" -> npmReactTextareaAutoresize,
+  "ajv" -> "5.2.2",
+  "clean-webpack-plugin" -> npmCleanWebpackPluginVersion,
+  "css-loader" -> npmCssLoaderVersion,
+  "extract-text-webpack-plugin" -> npmExtractTextWebpackPluginVersion,
+  "file-loader" -> npmFileLoaderVersion,
+  "hard-source-webpack-plugin" -> npmHardSourceWebpackVersion,
+  "html-webpack-plugin" -> npmHtmlWebpackPluginVersion,
+  "style-loader" -> npmStyleLoaderVersion,
+  "webpack-dev-server" -> "2.8.2",
+  "webpack-md5-hash" -> npmWebpackMd5HashVersion,
+  "webpack" -> npmWebpackVersion
 )
+
+npmDevDependencies in Compile ++= Seq("webpack" -> npmWebpackVersion)
 
 npmResolutions in Compile := {
   (npmDependencies in Compile).value.toMap
@@ -85,19 +85,31 @@ npmResolutions in Compile := {
 
 version in webpack := npmWebpackVersion
 
-webpackResources := {
-  baseDirectory.value / "src" / "main" / "static" / "sass" ** "*.sass"
-}
-
-webpackConfigFile in fastOptJS := Some(baseDirectory.value / "make-webpack-dev.config.js")
+webpackConfigFile in fastOptJS := Some(baseDirectory.value / "make-webpack-library.config.js")
+//webpackConfigFile in fastOptJS := Some(baseDirectory.value / "make-webpack-dev.config.js")
 webpackConfigFile in fullOptJS := Some(baseDirectory.value / "make-webpack-prod.config.js")
 
-webpackDevServerPort := 9009
+scalaJSUseMainModuleInitializer := true
 
-emitSourceMaps := false
+webpackDevServerExtraArgs := Seq("--lazy", "--inline")
+webpackDevServerPort := 9009
+webpackBundlingMode := {
+  if (System.getenv("CI_BUILD") == "true") {
+    BundlingMode.Application
+  } else {
+    BundlingMode.LibraryOnly("makeApp")
+  }
+}
+emitSourceMaps := System.getenv("CI_BUILD") != "true"
 
 // Prod settings
-scalacOptions ++= Seq("-Xelide-below", "OFF")
+scalacOptions ++= {
+  if (System.getenv("CI_BUILD") == "true") {
+    Seq("-Xelide-below", "OFF")
+  } else {
+    Seq()
+  }
+}
 
 // Custome task to manage assets
 val prepareAssets = taskKey[Unit]("prepareAssets")

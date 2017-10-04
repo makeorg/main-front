@@ -27,9 +27,8 @@ module.exports.plugins = [
 ];
 
 module.exports.entry = {
-    "make-app": path.join(__dirname, "fastopt-launcher.js"),
-    "main": path.join(__dirname, "main.sass")
-};
+    "make-app": path.join(__dirname, "fastopt-launcher.js")
+    };
 
 module.exports.output = {
     path: pathBuild,
@@ -38,8 +37,8 @@ module.exports.output = {
 
 module.exports.module.rules = [
     {
-        test: /\.sass$/,
-        loader: ExtractTextPlugin.extract(['css-loader', 'sass-loader'])
+        test: /\.css$/,
+        loader: ExtractTextPlugin.extract(['css-loader'])
     },
     {
         "test": new RegExp("\\.js$"),

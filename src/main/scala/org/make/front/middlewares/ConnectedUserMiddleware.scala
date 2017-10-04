@@ -3,29 +3,25 @@ package org.make.front.middlewares
 import io.github.shogowada.scalajs.reactjs.redux.Redux.Dispatch
 import io.github.shogowada.scalajs.reactjs.redux.Store
 import org.make.front.actions._
-import org.make.front.models.AppState
-import org.make.services.user.UserServiceComponent
+import org.make.front.components.AppState
+import org.make.services.user.UserService
+
 import scala.concurrent.ExecutionContext.Implicits.global
 
-class ConnectedUserMiddleware(override val apiBaseUrl: String) extends UserServiceComponent {
+class ConnectedUserMiddleware {
 
   val handle: (Store[AppState]) => (Dispatch) => (Any) => Any = (store: Store[AppState]) => { (dispatch: Dispatch) =>
     {
       case LogoutAction =>
-        userService.logout()
+        UserService.logout()
         // toDo: add a dispatch(ResetStore)
         dispatch(LogoutAction)
       case action: LoggedInAction =>
         dispatch(action)
-        processPendingProposal(store)
       case ReloadUserAction =>
-        userService.getCurrentUser().map(user => dispatch(LoggedInAction(user)))
+        UserService.getCurrentUser().map(user => dispatch(LoggedInAction(user)))
       case action => dispatch(action)
     }
   }
 
-  def processPendingProposal(appState: Store[AppState]): Unit = {
-    appState.getState.technicalState.pendingProposalAction
-      .map(pendingProposalAction => pendingProposalAction.registerProposal())
-  }
 }

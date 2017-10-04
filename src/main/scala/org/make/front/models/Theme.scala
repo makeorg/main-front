@@ -3,14 +3,20 @@ package org.make.front.models
 import io.circe.{Decoder, Encoder, Json}
 import io.github.shogowada.scalajs.reactjs.redux.Store
 import org.make.core.StringValue
+import org.make.front.components.AppState
 
 final case class GradientColor(from: String, to: String)
+
+object GradientColor {
+  implicit val decoder: Decoder[GradientColor] = Decoder.forProduct2("from", "to")(GradientColor.apply)
+}
 
 final case class Theme(id: ThemeId,
                        slug: String,
                        title: String,
                        actionsCount: Int,
                        proposalsCount: Int,
+                       order: Int,
                        color: String,
                        gradient: Option[GradientColor] = None,
                        tags: Seq[Tag] = Seq.empty)

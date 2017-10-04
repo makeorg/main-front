@@ -13,27 +13,32 @@ final case class Proposal(id: ProposalId,
                           status: String,
                           createdAt: ZonedDateTime,
                           updatedAt: Option[ZonedDateTime],
-                          voteAgree: Vote,
-                          voteDisagree: Vote,
-                          voteNeutral: Vote,
-                          proposalContext: ProposalContext,
+                          votes: Seq[Vote],
+                          context: ProposalContext,
                           trending: Option[String],
                           labels: Seq[String],
                           author: Author,
                           country: String,
                           language: String,
                           themeId: Option[ThemeId],
-                          tags: Seq[Tag])
+                          operationId: Option[OperationId],
+                          tags: Seq[Tag]) {
+  def votesAgree: Vote = votes.find(_.key == "agree").getOrElse(Vote(key = "agree", qualifications = Seq.empty))
+  def votesDisagree: Vote =
+    votes.find(_.key == "disagree").getOrElse(Vote(key = "disagree", qualifications = Seq.empty))
+  def votesNeutral: Vote = votes.find(_.key == "neutral").getOrElse(Vote(key = "neutral", qualifications = Seq.empty))
 
-final case class Qualification(key: String, count: Int = 0, selected: Boolean = false)
-final case class Vote(key: String, selected: Boolean = false, count: Int = 0, qualifications: Seq[Qualification])
+}
+
+final case class Qualification(key: String, count: Int = 0, selected: Option[Boolean] = None)
+final case class Vote(key: String, count: Int = 0, qualifications: Seq[Qualification], selected: Option[Boolean] = None)
 
 final case class ProposalContext(operation: Option[String],
                                  source: Option[String],
                                  location: Option[String],
                                  question: Option[String])
 
-final case class Author(firstname: Option[String], postalCode: Option[String], age: Option[Int])
+final case class Author(firstName: Option[String], postalCode: Option[String], age: Option[Int])
 
 final case class ProposalId(value: String) extends StringValue
 
@@ -42,8 +47,4 @@ object ProposalId {
   implicit lazy val proposalIdDecoder: Decoder[ProposalId] = Decoder.decodeString.map(ProposalId(_))
 }
 
-object Proposal {
-  def getPercentageVote(count: Int, totalVote: Int): String = {
-    formatToKilo(count * 100 / totalVote)
-  }
-}
+case class ProposalSearchResult(proposals: Seq[Proposal], hasMore: Boolean)

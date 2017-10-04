@@ -1,10 +1,9 @@
 package org.make.front.facades
 
-import io.github.shogowada.scalajs.reactjs.VirtualDOM.VirtualDOMAttributes.Type.AS_IS
 import io.github.shogowada.scalajs.reactjs.VirtualDOM.VirtualDOMElements.ReactClassElementSpec
 import io.github.shogowada.scalajs.reactjs.VirtualDOM.{VirtualDOMAttributes, VirtualDOMElements}
 import io.github.shogowada.scalajs.reactjs.classes.ReactClass
-import io.github.shogowada.statictags.{Attribute, AttributeSpec, StringAttributeSpec}
+import io.github.shogowada.statictags.StringAttributeSpec
 import org.make.front.facades.Localize.{DateLocalizeOptions, NumberLocalizeOptions}
 import org.make.front.facades.Replacements.Replacements
 
@@ -73,11 +72,6 @@ object NativeLocalize extends ReactClass
 
 object Localize {
 
-  case class OptionAttributes(name: String) extends AttributeSpec {
-    def :=(value: Int): Attribute[Int] =
-      Attribute(name = name, value = value, AS_IS)
-  }
-
   implicit class LocalizeVirtualDOMElements(elements: VirtualDOMElements) {
     lazy val Localize: ReactClassElementSpec = elements(NativeTranslate)
   }
@@ -85,7 +79,7 @@ object Localize {
   implicit class LocalizeVirtualDOMAttributes(attributes: VirtualDOMAttributes) {
     lazy val value = StringAttributeSpec("value")
     lazy val dateFormat = StringAttributeSpec("dateFormat")
-    lazy val options = OptionAttributes("options")
+    lazy val options = NativeIntAttribute("options")
     lazy val dangerousHtml = NativeBooleanAttribute("dangerousHTML")
   }
 

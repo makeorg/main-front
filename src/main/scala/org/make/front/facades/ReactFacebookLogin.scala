@@ -16,8 +16,6 @@ object NativeReactFacebookLogin extends ReactClass
 
 object ReactFacebookLogin {
 
-  type callback = js.Function1[Response, Unit]
-
   @js.native
   trait Data extends js.Object {
     def url: String
@@ -39,11 +37,6 @@ object ReactFacebookLogin {
     def accessToken: String
   }
 
-  case class callbackAttribute(name: String) extends AttributeSpec {
-    def :=(callback: (Response) => Unit): Attribute[callback] =
-      Attribute(name = name, value = callback, AS_IS)
-  }
-
   implicit class ReactFacebookLoginVirtualDOMElements(elements: VirtualDOMElements) {
     lazy val ReactFacebookLogin: ReactClassElementSpec = elements(NativeReactFacebookLogin)
   }
@@ -52,7 +45,7 @@ object ReactFacebookLogin {
     lazy val appId: StringAttributeSpec = StringAttributeSpec("appId")
     lazy val scope: StringAttributeSpec = StringAttributeSpec("scope")
     lazy val fields: StringAttributeSpec = StringAttributeSpec("fields")
-    lazy val callback: callbackAttribute = callbackAttribute("callback")
+    lazy val callback: NativeFunction1Attribute[Response, Unit] = NativeFunction1Attribute("callback")
     lazy val cssClass: SpaceSeparatedStringAttributeSpec = SpaceSeparatedStringAttributeSpec("cssClass")
     lazy val iconClass: StringAttributeSpec = StringAttributeSpec("icon")
     lazy val iconComponent: NativeReactElementAttribute = NativeReactElementAttribute("icon")

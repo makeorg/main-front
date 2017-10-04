@@ -1,12 +1,20 @@
 package org.make.core
 
-import io.circe.{Decoder, Encoder, Json}
 import io.circe.java8.time.TimeInstances
-import org.make.front.models._
+import io.circe.{Decoder, Encoder, Json}
+import org.make.front.models.{
+  Gender        => GenderModel,
+  Profile       => ProfileModel,
+  Role          => RoleModel,
+  Token         => TokenModel,
+  User          => UserModel,
+  Vote          => VoteModel,
+  Qualification => QualificationModel
+}
 import org.make.services.proposal.ProposalResponses.RegisterProposalResponse
 
 trait CirceClassFormatters extends TimeInstances {
-  implicit lazy val userDecoder: Decoder[User] =
+  implicit lazy val userDecoder: Decoder[UserModel] =
     Decoder.forProduct9(
       "userId",
       "email",
@@ -17,25 +25,25 @@ trait CirceClassFormatters extends TimeInstances {
       "lastConnection",
       "roles",
       "profile"
-    )(User.apply)
+    )(UserModel.apply)
 
   implicit lazy val registerProposalResponseDecoder: Decoder[RegisterProposalResponse] =
     Decoder.forProduct1("proposalId")(RegisterProposalResponse.apply)
 
-  implicit lazy val roleEncoder: Encoder[Role] = (role: Role) => Json.fromString(role.shortName)
-  implicit lazy val roleDecoder: Decoder[Role] =
+  implicit lazy val roleEncoder: Encoder[RoleModel] = (role: RoleModel) => Json.fromString(role.shortName)
+  implicit lazy val roleDecoder: Decoder[RoleModel] =
     Decoder.decodeString.emap(
       maybeRole =>
-        Role.matchRole(maybeRole) match {
+        RoleModel.matchRole(maybeRole) match {
           case Some(role) => Right(role)
           case _          => Left(s"$maybeRole is not a role")
       }
     )
 
-  implicit lazy val tokenDecoder: Decoder[Token] =
-    Decoder.forProduct4("token_type", "access_token", "expires_in", "refresh_token")(Token.apply)
+  implicit lazy val tokenDecoder: Decoder[TokenModel] =
+    Decoder.forProduct4("token_type", "access_token", "expires_in", "refresh_token")(TokenModel.apply)
 
-  implicit lazy val profileDecoder: Decoder[Profile] =
+  implicit lazy val profileDecoder: Decoder[ProfileModel] =
     Decoder.forProduct13(
       "dateOfBirth",
       "avatarUrl",
@@ -50,16 +58,21 @@ trait CirceClassFormatters extends TimeInstances {
       "karmaLevel",
       "locale",
       "optInNewsletter"
-    )(Profile.apply)
+    )(ProfileModel.apply)
 
-  implicit lazy val genderEncoder: Encoder[Gender] = (gender: Gender) => Json.fromString(gender.shortName)
-  implicit lazy val genderDecoder: Decoder[Gender] =
+  implicit lazy val genderEncoder: Encoder[GenderModel] = (gender: GenderModel) => Json.fromString(gender.shortName)
+  implicit lazy val genderDecoder: Decoder[GenderModel] =
     Decoder.decodeString.emap(
       maybeGender =>
-        Gender.matchGender(maybeGender) match {
+        GenderModel.matchGender(maybeGender) match {
           case Some(gender) => Right(gender)
           case _            => Left(s"$maybeGender is not a gender")
       }
     )
 
+  implicit lazy val vote: Decoder[VoteModel] =
+    Decoder.forProduct4("key", "count", "qualifications", "selected")(VoteModel.apply)
+
+  implicit lazy val qualification: Decoder[QualificationModel] =
+    Decoder.forProduct3("key", "count", "selected")(QualificationModel.apply)
 }
