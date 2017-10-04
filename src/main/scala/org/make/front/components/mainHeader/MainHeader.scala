@@ -42,9 +42,11 @@ object MainHeader {
                     <.ul(^.className := MainHeaderStyles.menu)(
                       <.li(^.className := MainHeaderStyles.menuItem)(
                         <.p(^.className := Seq(TextStyles.title, TextStyles.smallText))(
-                          <.a(^.href := "/", ^.className := MainHeaderStyles.menuItemLink)(
-                            unescape(I18n.t("content.header.presentation"))
-                          )
+                          <.a(
+                            ^.href := "https://about.make.org/qui-sommes-nous",
+                            ^.target := "_blank",
+                            ^.className := MainHeaderStyles.menuItemLink
+                          )(unescape(I18n.t("content.header.presentation")))
                         )
                       )
                     )

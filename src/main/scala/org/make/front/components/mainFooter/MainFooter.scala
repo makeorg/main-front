@@ -35,7 +35,7 @@ object MainFooter {
                   ),
                   <.div(^.className := MainFooterStyles.menuWrapper)(
                     <.ul(^.className := MainFooterStyles.menu)(
-                      <.li(^.className := Seq(MainFooterStyles.menuItem, MainFooterStyles.emphasizedMenuItem))(
+                      /*<.li(^.className := Seq(MainFooterStyles.menuItem, MainFooterStyles.emphasizedMenuItem))(
                         <.p(^.className := Seq(TextStyles.title, TextStyles.smallText))(
                           <.a(^.href := "/", ^.className := MainFooterStyles.menuItemLink)(
                             <.i(
@@ -48,42 +48,61 @@ object MainFooter {
                             unescape(I18n.t("content.footer.recruitment"))
                           )
                         )
-                      ),
+                      ),*/
                       <.li(^.className := MainFooterStyles.menuItem)(
                         <.p(^.className := Seq(TextStyles.title, TextStyles.smallText))(
-                          <.a(^.href := "/", ^.className := MainFooterStyles.menuItemLink)(
-                            I18n.t("content.footer.jobs")
-                          )
+                          <.a(
+                            ^.href := "https://about.make.org/jobs",
+                            ^.target := "_blank",
+                            ^.className := MainFooterStyles.menuItemLink
+                          )(I18n.t("content.footer.jobs"))
                         )
                       ),
                       <.li(^.className := Seq(MainFooterStyles.menuItem, RWDHideRulesStyles.hideBeyondMedium))(
                         <.p(^.className := Seq(TextStyles.title, TextStyles.smallText))(
-                          <.a(^.href := "/", ^.className := MainFooterStyles.menuItemLink)(
-                            unescape(I18n.t("content.footer.presentation"))
-                          )
+                          <.a(
+                            ^.href := "https://about.make.org/qui-sommes-nous",
+                            ^.target := "_blank",
+                            ^.className := MainFooterStyles.menuItemLink
+                          )(unescape(I18n.t("content.footer.presentation")))
                         )
                       ),
                       <.li(^.className := MainFooterStyles.menuItem)(
                         <.p(^.className := Seq(TextStyles.title, TextStyles.smallText))(
-                          <.a(^.href := "/", ^.className := MainFooterStyles.menuItemLink)(
-                            I18n.t("content.footer.press")
-                          )
+                          <.a(
+                            ^.href := "https://about.make.org/category/presse",
+                            ^.target := "_blank",
+                            ^.className := MainFooterStyles.menuItemLink
+                          )(I18n.t("content.footer.press"))
                         )
                       ),
                       <.li(^.className := MainFooterStyles.menuItem)(
                         <.p(^.className := Seq(TextStyles.title, TextStyles.smallText))(
-                          <.a(^.href := "/", ^.className := MainFooterStyles.menuItemLink)(
-                            I18n.t("content.footer.terms")
-                          )
+                          <.a(
+                            ^.href := "https://about.make.org/conditions-dutilisation",
+                            ^.target := "_blank",
+                            ^.className := MainFooterStyles.menuItemLink
+                          )(I18n.t("content.footer.terms"))
                         )
                       ),
                       <.li(^.className := MainFooterStyles.menuItem)(
                         <.p(^.className := Seq(TextStyles.title, TextStyles.smallText))(
-                          <.a(^.href := "/", ^.className := MainFooterStyles.menuItemLink)(
-                            I18n.t("content.footer.contact")
-                          )
+                          <.a(
+                            ^.href := "https://about.make.org/politique-donnees",
+                            ^.target := "_blank",
+                            ^.className := MainFooterStyles.menuItemLink
+                          )("Politique d'utilisation des données")
                         )
                       ),
+                      <.li(^.className := MainFooterStyles.menuItem)(
+                        <.p(^.className := Seq(TextStyles.title, TextStyles.smallText))(
+                          <.a(
+                            ^.href := "https://about.make.org/contact",
+                            ^.target := "_blank",
+                            ^.className := MainFooterStyles.menuItemLink
+                          )(I18n.t("content.footer.contact"))
+                        )
+                      ) /*,
                       <.li(^.className := MainFooterStyles.menuItem)(
                         <.p(^.className := Seq(TextStyles.title, TextStyles.smallText))(
                           <.a(^.href := "/", ^.className := MainFooterStyles.menuItemLink)(I18n.t("content.footer.faq"))
@@ -95,7 +114,7 @@ object MainFooter {
                             I18n.t("content.footer.sitemap")
                           )
                         )
-                      )
+                      )*/
                     )
                   )
                 )

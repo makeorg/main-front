@@ -33,9 +33,11 @@ object Intro {
                 unescape(I18n.t("content.homepage.subTitle"))
               ),
               <.p(^.className := IntroStyles.ctaWrapper)(
-                <.a(^.href := "/", ^.className := Seq(CTAStyles.basic, CTAStyles.basicOnA))(
-                  unescape(I18n.t("content.homepage.textSeeMore"))
-                )
+                <.a(
+                  ^.href := "https://about.make.org/qui-sommes-nous",
+                  ^.target := "_blank",
+                  ^.className := Seq(CTAStyles.basic, CTAStyles.basicOnA)
+                )(unescape(I18n.t("content.homepage.textSeeMore")))
               ),
               <.style()(IntroStyles.render[String])
             )

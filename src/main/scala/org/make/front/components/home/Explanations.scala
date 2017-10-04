@@ -55,12 +55,12 @@ object Explanations {
                   ^.dangerouslySetInnerHTML := "Et demain, <strong>initiez des actions</strong> concrètes sur le terrain"
                 )()
               )
-            ),
+            ) /*,
             <.p(^.className := IntroStyles.ctaWrapper)(
               <.a(^.href := "/", ^.className := Seq(CTAStyles.basic, CTAStyles.negative, CTAStyles.basicOnA))(
                 "En savoir +"
               )
-            )
+            )*/
           ),
           <.article(
             ^.className := Seq(
@@ -78,9 +78,11 @@ object Explanations {
               "Make.org est une initiative civique, Européenne et indépendante."
             ),
             <.p(^.className := IntroStyles.ctaWrapper)(
-              <.a(^.href := "/", ^.className := Seq(CTAStyles.basic, CTAStyles.negative, CTAStyles.basicOnA))(
-                "En savoir +"
-              )
+              <.a(
+                ^.href := "https://about.make.org/qui-sommes-nous",
+                ^.target := "_blank",
+                ^.className := Seq(CTAStyles.basic, CTAStyles.negative, CTAStyles.basicOnA)
+              )("En savoir +")
             )
           )
         ),
