@@ -85,7 +85,7 @@ object NavInThemes {
               if (themes.nonEmpty) {
                 <.ul(^.className := Seq(NavInThemesStyles.themesList))(listTheme)
               } else {
-                <.p(^.className := NavInThemesStyles.spinnerWrapper)(<.SpinnerComponent.empty)
+                <.div(^.className := NavInThemesStyles.spinnerWrapper)(<.SpinnerComponent.empty)
               },
               <.style()(NavInThemesStyles.render[String], DynamicNavInThemesStyles.render[String])
             )

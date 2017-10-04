@@ -6,6 +6,7 @@ import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import org.make.front.components.Components._
 import org.make.front.components.proposal.Proposal.ProposalProps
 import org.make.front.components.proposal.ProposalWithThemeContainer.ProposalWithThemeContainerProps
+import org.make.front.facades.HexToRgba
 import org.make.front.models.{GradientColor => GradientColorModel, Proposal => ProposalModel, Theme => ThemeModel}
 import org.make.front.styles._
 import org.make.front.styles.base.{ColRulesStyles, RowRulesStyles, TextStyles}
@@ -41,15 +42,15 @@ object ThemeShowcase {
         object DynamicThemeShowcaseStyles extends Inline {
           import dsl._
 
-          val gradient: StyleA = style()
-
-          /*val gradient: (Int) => StyleA =
+          val gradient: (Int) => StyleA =
             styleF.int(Range(index, index + 1)) { index =>
-              styleS(background := s"linear-gradient(130deg, ${gradientValues.from}, ${gradientValues.to})")
-            }*/
+              styleS(
+                background := s"linear-gradient(130deg, ${HexToRgba(gradientValues.from, 0.1F)}, ${HexToRgba(gradientValues.to, 0.1F)})"
+              )
+            }
         }
 
-        <.section(^.className := Seq(ThemeShowcaseStyles.wrapper, DynamicThemeShowcaseStyles.gradient))(
+        <.section(^.className := Seq(ThemeShowcaseStyles.wrapper, DynamicThemeShowcaseStyles.gradient(index)))(
           if (self.state.proposals.nonEmpty) {
             Seq(
               <.div(^.className := RowRulesStyles.centeredRow)(

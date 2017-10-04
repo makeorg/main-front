@@ -15,7 +15,7 @@ object Spinner {
       .createClass[Unit, Unit](
         displayName = "Spinner",
         render = (self) => {
-          <.p(^.className := SpinnerStyles.wrapper)(
+          <.span(^.className := SpinnerStyles.wrapper)(
             <("svg")(
               ^("xmlns") := "http://www.w3.org/2000/svg",
               ^("x") := "0",
@@ -25,8 +25,8 @@ object Spinner {
               ^("viewBox") := "0 0 66 66"
             )(
               <("linearGradient")(^("id") := "gradient")(
-                <("stop")(^("offset") := "0", ^.style := Map("stop-color" -> "#000000", "stop-opacity" -> 0))(),
-                <("stop")(^("offset") := "1", ^.style := Map("stop-color" -> "#000000", "stop-opacity" -> 1))()
+                <("stop")(^("offset") := "0", ^.style := Map("stopColor" -> "#000000", "stopOpacity" -> 0))(),
+                <("stop")(^("offset") := "1", ^.style := Map("stopColor" -> "#000000", "stopOpacity" -> 1))()
               ),
               <("path")(
                 ^("fill") := "url(#gradient)",
@@ -53,6 +53,6 @@ object SpinnerStyles extends StyleSheet.Inline {
 
   import dsl._
 
-  val wrapper: StyleA = style(textAlign.center, opacity(0.3))
+  val wrapper: StyleA = style(display.block, textAlign.center, opacity(0.3))
 
 }
