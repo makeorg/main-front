@@ -21,7 +21,11 @@ object NoPoliticalAction {
 
           <.article(^.className := NoPoliticalActionStyles.wrapper)(
             <.p(^.className := NoPoliticalActionStyles.imageWrapper)(
-              <.img(^.className := NoPoliticalActionStyles.image, ^.src := cone.toString)()
+              <.img(
+                ^.className := NoPoliticalActionStyles.image,
+                ^.src := cone.toString,
+                ^("data-pin-no-hover") := "true"
+              )()
             ),
             <.div(^.className := NoPoliticalActionStyles.contentWrapper)(
               <.p(^.className := Seq(TextStyles.boldText, TextStyles.mediumText, NoPoliticalActionStyles.text))(

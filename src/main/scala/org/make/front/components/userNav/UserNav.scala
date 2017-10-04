@@ -56,7 +56,7 @@ object ConnectedUserNavElement {
       <.li(^.className := UserNavStyles.menuItem)(
         <.button(^.onClick := logout)(
           <.span(^.className := UserNavStyles.avatarWrapper)(
-            <.img(^.src := avatarUrl, ^.className := UserNavStyles.avatar)()
+            <.img(^.src := avatarUrl, ^.className := UserNavStyles.avatar, ^("data-pin-no-hover") := "true")()
           ),
           <.span(
             ^.className := Seq(

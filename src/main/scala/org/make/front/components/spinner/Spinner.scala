@@ -20,8 +20,8 @@ object Spinner {
               ^("xmlns") := "http://www.w3.org/2000/svg",
               ^("x") := "0",
               ^("y") := "0",
-              ^("width") := "66",
-              ^("height") := "66",
+              ^("width") := "40",
+              ^("height") := "40",
               ^("viewBox") := "0 0 66 66"
             )(
               <("linearGradient")(^("id") := "gradient")(

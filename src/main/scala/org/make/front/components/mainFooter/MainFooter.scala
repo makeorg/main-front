@@ -25,7 +25,13 @@ object MainFooter {
               <.div(^.className := ColRulesStyles.col)(
                 <.div(^.className := MainFooterStyles.innerWrapper)(
                   <.p(^.className := MainFooterStyles.logoWrapper)(
-                    <.a(^.href := "/")(<.img(^.className := MainFooterStyles.logo, ^.src := logoMake.toString)())
+                    <.a(^.href := "/")(
+                      <.img(
+                        ^.className := MainFooterStyles.logo,
+                        ^.src := logoMake.toString,
+                        ^("data-pin-no-hover") := "true"
+                      )()
+                    )
                   ),
                   <.div(^.className := MainFooterStyles.menuWrapper)(
                     <.ul(^.className := MainFooterStyles.menu)(

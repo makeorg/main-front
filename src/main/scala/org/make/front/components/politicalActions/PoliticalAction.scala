@@ -26,7 +26,11 @@ object PoliticalAction {
 
           <.article(^.className := PoliticalActionStyles.wrapper)(
             <.p(^.className := PoliticalActionStyles.imageWrapper)(
-              <.img(^.className := PoliticalActionStyles.image, ^.src := politicalAction.imageUrl)()
+              <.img(
+                ^.className := PoliticalActionStyles.image,
+                ^.src := politicalAction.imageUrl,
+                ^("data-pin-no-hover") := "true"
+              )()
             ),
             <.div(^.className := PoliticalActionStyles.contentWrapper)(
               <.p(^.className := Seq(TextStyles.smallerText, PoliticalActionStyles.info))(

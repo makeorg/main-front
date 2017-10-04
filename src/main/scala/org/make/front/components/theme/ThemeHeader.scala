@@ -54,7 +54,11 @@ object ThemeHeader {
 
         <.header(^.className := Seq(ThemeHeaderStyles.wrapper, ThemeSheet.gradientStyle))(
           <.div(^.className := ThemeHeaderStyles.innerWrapper)(
-            <.img(^.className := ThemeHeaderStyles.illustration, ^.src := imageShutterstock.toString)(),
+            <.img(
+              ^.className := ThemeHeaderStyles.illustration,
+              ^.src := imageShutterstock.toString,
+              ^("data-pin-no-hover") := "true"
+            )(),
             <.div(^.className := RowRulesStyles.centeredRow)(
               <.div(^.className := ColRulesStyles.col)(
                 <.h1(^.className := Seq(TextStyles.veryBigTitle, ThemeHeaderStyles.title))(theme.title),

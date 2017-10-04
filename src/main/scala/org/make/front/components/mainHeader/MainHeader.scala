@@ -22,10 +22,15 @@ object MainHeader {
         <.div(^.className := RowRulesStyles.centeredRow)(
           <.div(^.className := ColRulesStyles.col)(
             <.div(^.className := MainHeaderStyles.innerWrapper)(
-              //TODO: h1 if homepage else p
+              /*TODO: h1 if homepage else p*/
               <.h1(^.className := MainHeaderStyles.logoWrapper)(
                 <.a(^.href := "/")(
-                  <.img(^.className := MainHeaderStyles.logo, ^.src := logoMake.toString, ^.title := "Make.org")()
+                  <.img(
+                    ^.className := MainHeaderStyles.logo,
+                    ^.src := logoMake.toString,
+                    ^.title := "Make.org",
+                    ^("data-pin-no-hover") := "true"
+                  )()
                 )
               ),
               <.div(^.className := MainHeaderStyles.searchWrapper)(<.SearchFormComponent()()),
