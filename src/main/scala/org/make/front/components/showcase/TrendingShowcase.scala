@@ -20,37 +20,39 @@ import scalacss.DevDefaults._
 
 import scala.concurrent.ExecutionContext.Implicits.global
 
-object Showcase {
+object TrendingShowcase {
 
-  final case class ShowcaseProps(proposals: Future[SearchResponse], introTranslationKey: String, title: String)
+  final case class TrendingShowcaseProps(proposals: Future[SearchResponse], introTranslationKey: String, title: String)
 
-  final case class ShowcaseState(proposals: Seq[ProposalModel])
+  final case class TrendingShowcaseState(proposals: Seq[ProposalModel])
 
   lazy val reactClass: ReactClass =
-    React.createClass[ShowcaseProps, ShowcaseState](displayName = "Showcase", getInitialState = { _ =>
-      ShowcaseState(Seq.empty)
-    }, render = {
-      self =>
+    React.createClass[TrendingShowcaseProps, TrendingShowcaseState](
+      displayName = "TrendingShowcase",
+      getInitialState = { _ =>
+        TrendingShowcaseState(Seq.empty)
+      },
+      render = { self =>
         self.props.wrapped.proposals.onComplete {
           case Failure(_)       =>
           case Success(results) => self.setState(_.copy(proposals = results.results))
         }
 
-        <.section(^.className := ShowcaseStyles.wrapper)(if (self.state.proposals.nonEmpty) {
+        <.section(^.className := TrendingShowcaseStyles.wrapper)(if (self.state.proposals.nonEmpty) {
           Seq(
             <.div(^.className := RowRulesStyles.centeredRow)(
               <.header(^.className := ColRulesStyles.col)(
-                <.p(^.className := Seq(ShowcaseStyles.intro, TextStyles.mediumText, TextStyles.intro))(
+                <.p(^.className := Seq(TrendingShowcaseStyles.intro, TextStyles.mediumText, TextStyles.intro))(
                   unescape(I18n.t(self.props.wrapped.introTranslationKey))
                 ),
-                <.h2(^.className := Seq(ShowcaseStyles.title, TextStyles.bigTitle))(self.props.wrapped.title)
+                <.h2(^.className := Seq(TrendingShowcaseStyles.title, TextStyles.bigTitle))(self.props.wrapped.title)
               ),
-              <.ul(^.className := ShowcaseStyles.propasalsList)(
+              <.ul(^.className := TrendingShowcaseStyles.propasalsList)(
                 self.state.proposals.map(
                   proposal =>
                     <.li(
                       ^.className := Seq(
-                        ShowcaseStyles.propasalItem,
+                        TrendingShowcaseStyles.propasalItem,
                         ColRulesStyles.col,
                         ColRulesStyles.colHalfBeyondMedium
                       )
@@ -68,14 +70,15 @@ object Showcase {
                 )
               )
             ),
-            <.style()(ShowcaseStyles.render[String])
+            <.style()(TrendingShowcaseStyles.render[String])
           )
         })
-    })
+      }
+    )
 
 }
 
-object ShowcaseStyles extends StyleSheet.Inline {
+object TrendingShowcaseStyles extends StyleSheet.Inline {
   import dsl._
 
   val wrapper: StyleA =

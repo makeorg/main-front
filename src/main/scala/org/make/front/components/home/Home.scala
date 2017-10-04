@@ -16,6 +16,9 @@ object Home {
       render = (_) =>
         <("home")()(
           <.IntroComponent.empty,
+          <.ThemeShowcaseContainerComponent(
+            ^.wrapped := ThemeShowcaseContainerProps(themeSlug = "developpement-durable-energie")
+          )(),
           <.ExplanationsComponent.empty,
           <.TrendingShowcaseContainerComponent(
             ^.wrapped := TrendingShowcaseContainerProps(
@@ -24,9 +27,7 @@ object Home {
               title = unescape(I18n.t("content.homepage.mostPopular"))
             )
           )(),
-          <.ThemeShowcaseContainerComponent(
-            ^.wrapped := ThemeShowcaseContainerProps(introTranslationKey = "content.homepage.expressYourself")
-          )(),
+          <.ThemeShowcaseContainerComponent(^.wrapped := ThemeShowcaseContainerProps(themeSlug = "europe-monde"))(),
           <.NavInThemesContainerComponent.empty
       )
     )

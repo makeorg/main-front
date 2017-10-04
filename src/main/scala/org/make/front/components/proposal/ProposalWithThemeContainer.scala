@@ -20,10 +20,17 @@ object ProposalWithThemeContainer {
         appState.themes.find(_.id == themeId)
       }
 
-      val themeName: Option[String] =
-        ownProps.wrapped.proposal.themeId.flatMap(themeId => searchThemeById(themeId)).map(_.title)
+      val theme: Option[ThemeModel] = ownProps.wrapped.proposal.themeId.flatMap(themeId => searchThemeById(themeId))
 
-      ProposalWithTheme.ProposalWithThemeProps(proposal = ownProps.wrapped.proposal, themeName = themeName.orNull)
+      val themeName: Option[String] = theme.map(_.title)
+
+      val themeSlug: Option[String] = theme.map(_.slug)
+
+      ProposalWithTheme.ProposalWithThemeProps(
+        proposal = ownProps.wrapped.proposal,
+        themeName = themeName.orNull,
+        themeSlug = themeSlug.orNull
+      )
 
     }
 }

@@ -1,8 +1,9 @@
 package org.make.front.components.proposal
 
 import io.github.shogowada.scalajs.reactjs.React
-import io.github.shogowada.scalajs.reactjs.VirtualDOM._
+import io.github.shogowada.scalajs.reactjs.VirtualDOM.{<, _}
 import io.github.shogowada.scalajs.reactjs.classes.ReactClass
+import io.github.shogowada.scalajs.reactjs.router.dom.RouterDOM._
 import org.make.front.components.Components.{RichVirtualDOMElements, _}
 import org.make.front.components.proposal.ProposalInfos.ProposalInfosProps
 import org.make.front.components.proposal.vote.VoteContainer.VoteContainerProps
@@ -17,7 +18,7 @@ import scalacss.internal.mutable.StyleSheet
 
 object ProposalWithTheme {
 
-  final case class ProposalWithThemeProps(proposal: ProposalModel, themeName: String)
+  final case class ProposalWithThemeProps(proposal: ProposalModel, themeName: String, themeSlug: String)
 
   val reactClass: ReactClass =
     React
@@ -42,15 +43,16 @@ object ProposalWithTheme {
                   <.VoteContainerComponent(^.wrapped := VoteContainerProps(proposal = self.props.wrapped.proposal))()
                 )
               ),
-              if (self.props.wrapped.themeName.nonEmpty) {
+              if (self.props.wrapped.themeName.nonEmpty && self.props.wrapped.themeSlug.nonEmpty) {
                 <.div(^.className := ProposalStyles.row)(
                   <.div(^.className := ProposalStyles.cell)(
                     <.footer(^.className := ProposalStyles.footer)(
                       <.p(^.className := Seq(TextStyles.smallerText, ProposalWithThemeStyles.themeInfo))(
                         unescape(I18n.t("content.proposal.postedIn")),
-                        <.strong(^.className := Seq(TextStyles.title, ProposalWithThemeStyles.themeName))(
-                          self.props.wrapped.themeName
-                        )
+                        <.Link(
+                          ^.to := s"/theme/${self.props.wrapped.themeSlug}",
+                          ^.className := Seq(TextStyles.title, ProposalWithThemeStyles.themeName)
+                        )(self.props.wrapped.themeName)
                       )
                     )
                   )

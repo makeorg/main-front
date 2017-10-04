@@ -44,15 +44,15 @@ object ThemeHeader {
         }
 
         val theme: ThemeModel = self.props.wrapped.theme
-        val gradient: GradientColorModel = theme.gradient.getOrElse(GradientColorModel("#FFF", "#FFF"))
+        val gradientValues: GradientColorModel = theme.gradient.getOrElse(GradientColorModel("#FFF", "#FFF"))
 
-        object ThemeSheet extends Inline {
+        object DynamicThemeHeaderStyles extends Inline {
           import dsl._
 
-          val gradientStyle = style(background := s"linear-gradient(130deg, ${gradient.from}, ${gradient.to})")
+          val gradient = style(background := s"linear-gradient(130deg, ${gradientValues.from}, ${gradientValues.to})")
         }
 
-        <.header(^.className := Seq(ThemeHeaderStyles.wrapper, ThemeSheet.gradientStyle))(
+        <.header(^.className := Seq(ThemeHeaderStyles.wrapper, DynamicThemeHeaderStyles.gradient))(
           <.div(^.className := ThemeHeaderStyles.innerWrapper)(
             <.img(
               ^.className := ThemeHeaderStyles.illustration,
@@ -97,8 +97,7 @@ object ThemeHeader {
               )
             )
           ),
-          <.style()(ThemeHeaderStyles.render[String]),
-          <.style()(ThemeSheet.render[String])
+          <.style()(ThemeHeaderStyles.render[String], DynamicThemeHeaderStyles.render[String])
         )
       }
     )
