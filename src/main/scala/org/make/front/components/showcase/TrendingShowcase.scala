@@ -88,9 +88,10 @@ object TrendingShowcaseStyles extends StyleSheet.Inline {
   val wrapper: StyleA =
     style(
       backgroundColor(ThemeStyles.BackgroundColor.blackVeryTransparent),
-      padding :=! s"${ThemeStyles.SpacingValue.large.pxToEm().value} 0}",
+      padding :=! s"${ThemeStyles.SpacingValue.medium.pxToEm().value} 0",
+      borderBottom :=! s"1px solid ${ThemeStyles.BorderColor.white.value}",
       ThemeStyles.MediaQueries.beyondSmall(
-        padding :=! s"${ThemeStyles.SpacingValue.large.pxToEm().value} 0 ${(ThemeStyles.SpacingValue.large - ThemeStyles.SpacingValue.small).pxToEm().value}"
+        padding :=! s"${ThemeStyles.SpacingValue.larger.pxToEm().value} 0 ${(ThemeStyles.SpacingValue.larger - ThemeStyles.SpacingValue.small).pxToEm().value}"
       )
     )
 
