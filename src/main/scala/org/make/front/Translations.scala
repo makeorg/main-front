@@ -31,7 +31,7 @@ object Translations {
       |         "logout": "Se Déconnecter",
       |         "connect": "Se connecter",
       |         "createAccount": "S'inscrire",
-      |         "searchPlaceholder": "Recherchez une proposition&hellip;"
+      |         "searchPlaceholder": "Recherchez une proposition..."
       |       },
       |       "homepage": {
       |
