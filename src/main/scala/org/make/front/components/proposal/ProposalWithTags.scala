@@ -26,29 +26,43 @@ object ProposalWithTags {
         render = (self) => {
 
           <.article(^.className := ProposalStyles.wrapper)(
-            <.header(^.className := ProposalStyles.proposalInfosWrapper)(
-              <.ProposalInfosComponent(^.wrapped := ProposalInfosProps(proposal = self.props.wrapped.proposal))()
-            ),
-            /*<.header(^.className := ProposalStyles.shareOwnProposalWrapper)(
-          <.ShareOwnProposalComponent(^.wrapped := ShareOwnProposalProps(proposal = self.props.wrapped.proposal))()
-          ),*/
-            <.div(^.className := ProposalStyles.contentWrapper)(
-              <.h3(^.className := Seq(TextStyles.mediumText, TextStyles.boldText))(self.props.wrapped.proposal.content),
-              <.VoteContainerComponent(^.wrapped := VoteContainerProps(proposal = self.props.wrapped.proposal))()
-            ),
-            if (self.props.wrapped.proposal.tags.nonEmpty) {
-              <.footer(^.className := ProposalStyles.footer)(
-                <.ul(^.className := ProposalWithTagsStyles.tagList)(
-                  self.props.wrapped.proposal.tags
-                    .map(
-                      tag =>
-                        <.li(^.className := ProposalWithTagsStyles.tagListItem)(
-                          <.span(^.className := TagStyles.basic)(tag.label)
+            <.div(^.className := ProposalStyles.innerWrapper)(
+              <.div(^.className := ProposalStyles.row)(
+                <.div(^.className := ProposalStyles.cell)(
+                  <.header(^.className := ProposalStyles.proposalInfosWrapper)(
+                    <.ProposalInfosComponent(^.wrapped := ProposalInfosProps(proposal = self.props.wrapped.proposal))()
+                  )
+                  /*<.header(^.className := ProposalStyles.shareOwnProposalWrapper)(
+                    <.ShareOwnProposalComponent(^.wrapped := ShareOwnProposalProps(proposal = self.props.wrapped.proposal))()
+                  )*/
+                )
+              ),
+              <.div(^.className := Seq(ProposalStyles.row, ProposalStyles.stretchedRow))(
+                <.div(^.className := Seq(ProposalStyles.cell, ProposalStyles.contentWrapper))(
+                  <.h3(^.className := Seq(TextStyles.mediumText, TextStyles.boldText))(
+                    self.props.wrapped.proposal.content
+                  ),
+                  <.VoteContainerComponent(^.wrapped := VoteContainerProps(proposal = self.props.wrapped.proposal))()
+                )
+              ),
+              if (self.props.wrapped.proposal.tags.nonEmpty) {
+                <.div(^.className := ProposalStyles.row)(
+                  <.div(^.className := ProposalStyles.cell)(
+                    <.footer(^.className := ProposalStyles.footer)(
+                      <.ul(^.className := ProposalWithTagsStyles.tagList)(
+                        self.props.wrapped.proposal.tags
+                          .map(
+                            tag =>
+                              <.li(^.className := ProposalWithTagsStyles.tagListItem)(
+                                <.span(^.className := TagStyles.basic)(tag.label)
+                            )
+                          )
                       )
                     )
+                  )
                 )
-              )
-            },
+              }
+            ),
             <.style()(ProposalStyles.render[String], ProposalWithTagsStyles.render[String])
           )
         }

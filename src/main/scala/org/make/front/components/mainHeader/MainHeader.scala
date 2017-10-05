@@ -22,10 +22,15 @@ object MainHeader {
         <.div(^.className := RowRulesStyles.centeredRow)(
           <.div(^.className := ColRulesStyles.col)(
             <.div(^.className := MainHeaderStyles.innerWrapper)(
-              //TODO: h1 if homepage else p
+              /*TODO: h1 if homepage else p*/
               <.h1(^.className := MainHeaderStyles.logoWrapper)(
                 <.a(^.href := "/")(
-                  <.img(^.className := MainHeaderStyles.logo, ^.src := logoMake.toString, ^.title := "Make.org")()
+                  <.img(
+                    ^.className := MainHeaderStyles.logo,
+                    ^.src := logoMake.toString,
+                    ^.title := "Make.org",
+                    ^("data-pin-no-hover") := "true"
+                  )()
                 )
               ),
               <.div(^.className := MainHeaderStyles.searchWrapper)(<.SearchFormComponent()()),
@@ -37,9 +42,11 @@ object MainHeader {
                     <.ul(^.className := MainHeaderStyles.menu)(
                       <.li(^.className := MainHeaderStyles.menuItem)(
                         <.p(^.className := Seq(TextStyles.title, TextStyles.smallText))(
-                          <.a(^.href := "/", ^.className := MainHeaderStyles.menuItemLink)(
-                            unescape(I18n.t("content.header.presentation"))
-                          )
+                          <.a(
+                            ^.href := "https://about.make.org/qui-sommes-nous",
+                            ^.target := "_blank",
+                            ^.className := MainHeaderStyles.menuItemLink
+                          )(unescape(I18n.t("content.header.presentation")))
                         )
                       )
                     )

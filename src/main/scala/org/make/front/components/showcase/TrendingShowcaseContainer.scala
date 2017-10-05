@@ -9,16 +9,17 @@ import org.make.services.proposal.ProposalService
 
 object TrendingShowcaseContainer {
 
-  final case class TrendingShowcaseContainerProps(introTranslationKey: String, trending: String, title: String)
+  final case class TrendingShowcaseContainerProps(intro: String, trending: String, title: String)
 
-  lazy val reactClass: ReactClass = ReactRedux.connectAdvanced(selectorFactory)(Showcase.reactClass)
+  lazy val reactClass: ReactClass = ReactRedux.connectAdvanced(selectorFactory)(TrendingShowcase.reactClass)
 
-  def selectorFactory: (Dispatch) => (AppState, Props[TrendingShowcaseContainerProps]) => Showcase.ShowcaseProps =
+  def selectorFactory
+    : (Dispatch) => (AppState, Props[TrendingShowcaseContainerProps]) => TrendingShowcase.TrendingShowcaseProps =
     (_: Dispatch) => { (appState: AppState, ownProps: Props[TrendingShowcaseContainerProps]) =>
-      Showcase.ShowcaseProps(
+      TrendingShowcase.TrendingShowcaseProps(
         proposals = ProposalService
           .searchProposals(trending = Some(ownProps.wrapped.trending), limit = Some(2), sort = Seq.empty, skip = None),
-        introTranslationKey = ownProps.wrapped.introTranslationKey,
+        intro = ownProps.wrapped.intro,
         title = ownProps.wrapped.title
       )
     }

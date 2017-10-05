@@ -80,7 +80,8 @@ object ConfirmationOfProposalSubmissionStyles extends StyleSheet.Inline {
     style(
       display.inlineBlock,
       marginBottom(ThemeStyles.SpacingValue.small.pxToEm(20)),
-      ThemeStyles.MediaQueries.beyondSmall(marginBottom(ThemeStyles.SpacingValue.medium.pxToEm(46)))
+      ThemeStyles.MediaQueries.beyondSmall(marginBottom(ThemeStyles.SpacingValue.medium.pxToEm(34))),
+      ThemeStyles.MediaQueries.beyondMedium(marginBottom(ThemeStyles.SpacingValue.medium.pxToEm(46)))
     )
 
   val message: StyleA =

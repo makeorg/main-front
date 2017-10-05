@@ -106,7 +106,7 @@ object ResultsInTheme {
           Seq(
             <.InfiniteScroll(
               ^.element := "ul",
-              ^.className := ResultsInThemeStyles.listItems,
+              ^.className := ResultsInThemeStyles.itemsList,
               ^.hasMore := (self.state.initialLoad || self.state.hasMore && self.state.hasRequestedMore),
               ^.initialLoad := true,
               ^.pageStart := 1,
@@ -162,7 +162,7 @@ object ResultsInThemeStyles extends StyleSheet.Inline {
   val wrapper: StyleA =
     style(paddingTop(ThemeStyles.SpacingValue.medium.pxToEm()), paddingBottom(ThemeStyles.SpacingValue.small.pxToEm()))
 
-  val listItems: StyleA = style(display.flex, flexWrap.wrap)
+  val itemsList: StyleA = style(display.flex, flexWrap.wrap, overflow.hidden)
 
   val item: StyleA =
     style(marginTop(ThemeStyles.SpacingValue.small.pxToEm()), marginBottom(ThemeStyles.SpacingValue.small.pxToEm()))

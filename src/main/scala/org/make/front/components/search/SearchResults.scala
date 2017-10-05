@@ -80,7 +80,7 @@ object SearchResults {
             Seq(
               <.InfiniteScroll(
                 ^.element := "ul",
-                ^.className := SearchResultsStyles.listItems,
+                ^.className := SearchResultsStyles.itemsList,
                 ^.hasMore := (self.state.initialLoad || self.state.hasMore && self.state.hasRequestedMore),
                 ^.initialLoad := true,
                 ^.pageStart := 1,
@@ -169,7 +169,7 @@ object SearchResultsStyles extends StyleSheet.Inline {
         .beyondSmall(marginTop(ThemeStyles.SpacingValue.small.pxToEm(34)))
     )
 
-  val listItems: StyleA = style(display.flex, flexWrap.wrap)
+  val itemsList: StyleA = style(display.flex, flexWrap.wrap, overflow.hidden)
 
   val item: StyleA =
     style(marginTop(ThemeStyles.SpacingValue.small.pxToEm()), marginBottom(ThemeStyles.SpacingValue.small.pxToEm()))

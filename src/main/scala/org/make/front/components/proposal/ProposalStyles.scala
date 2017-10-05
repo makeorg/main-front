@@ -12,7 +12,24 @@ object ProposalStyles extends StyleSheet.Inline {
   import dsl._
 
   val wrapper: StyleA =
-    style(height(100.%%), backgroundColor(ThemeStyles.BackgroundColor.white))
+    style(
+      height(100.%%),
+      minWidth(270.pxToEm()),
+      backgroundColor(ThemeStyles.BackgroundColor.white),
+      boxShadow := "0 1px 1px 0 rgba(0,0,0,0.50)"
+    )
+
+  val innerWrapper: StyleA =
+    style(display.table, width(100.%%), height(100.%%))
+
+  val row: StyleA =
+    style(display.tableRow, height(0.%%))
+
+  val stretchedRow: StyleA =
+    style(height(100.%%))
+
+  val cell: StyleA =
+    style(display.tableCell, verticalAlign.top)
 
   val proposalInfosWrapper: StyleA = style(
     margin :=! s"0 ${ThemeStyles.SpacingValue.small.pxToEm().value}",

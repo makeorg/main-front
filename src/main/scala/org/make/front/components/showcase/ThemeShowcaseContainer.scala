@@ -1,7 +1,5 @@
 package org.make.front.components.showcase
 
-import java.util.concurrent.ThreadLocalRandom
-
 import io.github.shogowada.scalajs.reactjs.React.Props
 import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import io.github.shogowada.scalajs.reactjs.redux.ReactRedux
@@ -14,28 +12,28 @@ import scala.concurrent.Future
 
 object ThemeShowcaseContainer {
 
-  final case class ThemeShowcaseContainerProps(introTranslationKey: String)
+  final case class ThemeShowcaseContainerProps(themeSlug: String)
 
-  lazy val reactClass: ReactClass = ReactRedux.connectAdvanced(selectorFactory)(Showcase.reactClass)
+  lazy val reactClass: ReactClass = ReactRedux.connectAdvanced(selectorFactory)(ThemeShowcase.reactClass)
 
-  def selectorFactory: (Dispatch) => (AppState, Props[ThemeShowcaseContainerProps]) => Showcase.ShowcaseProps =
+  def selectorFactory
+    : (Dispatch) => (AppState, Props[ThemeShowcaseContainerProps]) => ThemeShowcase.ThemeShowcaseProps =
     (_: Dispatch) => { (appState: AppState, ownProps: Props[ThemeShowcaseContainerProps]) =>
       val themes = appState.themes
-      if (themes.nonEmpty) {
-        val theme = themes(ThreadLocalRandom.current().nextInt(themes.size))
-        Showcase.ShowcaseProps(
-          proposals = ProposalService
-            .searchProposals(themesIds = Seq(theme.id), limit = Some(2), sort = Seq.empty, skip = None),
-          introTranslationKey = ownProps.wrapped.introTranslationKey,
-          title = theme.title
-        )
-      } else {
-        Showcase.ShowcaseProps(
-          proposals = Future.successful(SearchResponse(total = 0, results = Seq.empty)),
-          introTranslationKey = ownProps.wrapped.introTranslationKey,
-          title = ""
-        )
-      }
-    }
 
+      val maybeTheme = themes.find(_.slug == ownProps.wrapped.themeSlug)
+      maybeTheme.map { theme =>
+        ThemeShowcase.ThemeShowcaseProps(
+          proposals = ProposalService
+            .searchProposals(themesIds = Seq(theme.id), limit = Some(4), sort = Seq.empty, skip = None),
+          maybeTheme = Some(theme)
+        )
+      }.getOrElse(
+        ThemeShowcase.ThemeShowcaseProps(
+          proposals = Future.successful(SearchResponse(total = 0, results = Seq.empty)),
+          maybeTheme = None
+        )
+      )
+
+    }
 }

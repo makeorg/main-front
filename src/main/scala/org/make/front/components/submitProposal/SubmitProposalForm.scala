@@ -123,7 +123,7 @@ object SubmitProposalForm {
           },
           <.div(^.className := SubmitProposalFormStyles.note)(
             <.p(^.className := TextStyles.mediumText)(unescape(I18n.t("content.proposal.help"))),
-            <.p(^.className := TextStyles.smallText)(unescape(I18n.t("content.proposal.subHelp")))
+            <.p(^.className := TextStyles.smallText, ^.dangerouslySetInnerHTML := I18n.t("content.proposal.subHelp"))()
           ),
           <.button(
             ^.className := Seq(SubmitProposalFormStyles.submitButton, CTAStyles.basic, CTAStyles.basicOnButton),
@@ -150,7 +150,7 @@ object SubmitProposalFormStyles extends StyleSheet.Inline {
     style(
       marginTop(ThemeStyles.SpacingValue.medium.pxToEm()),
       unsafeChild("p + p")(marginTop(1.em)),
-      unsafeChild("a")(textDecoration := "underline"),
+      unsafeChild("a")(textDecoration := "underline", color(ThemeStyles.TextColor.lighter)),
       color(ThemeStyles.TextColor.lighter),
       lineHeight(1.3)
     )
@@ -172,7 +172,7 @@ object SubmitProposalFormStyles extends StyleSheet.Inline {
   val textLimitInfo: StyleA =
     style(
       display.inlineBlock,
-      lineHeight :=! s"${38.pxToEm(13).value}",
+      lineHeight :=! s"${28.pxToEm(13).value}",
       paddingLeft(ThemeStyles.SpacingValue.small.pxToEm(13)),
       ThemeStyles.MediaQueries
         .beyondSmall(lineHeight :=! s"${38.pxToEm(16).value}", paddingLeft(ThemeStyles.SpacingValue.small.pxToEm(16))),

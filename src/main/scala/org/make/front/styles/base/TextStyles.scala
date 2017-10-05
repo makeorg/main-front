@@ -54,12 +54,26 @@ object TextStyles extends StyleSheet.Inline {
     style(title, fontSize(15.pxToEm()), ThemeStyles.MediaQueries.beyondSmall(fontSize(20.pxToEm())))
   val smallTitle: StyleA =
     style(title, fontSize(18.pxToEm()), ThemeStyles.MediaQueries.beyondSmall(fontSize(22.pxToEm())))
+
   val mediumTitle: StyleA =
     style(title, fontSize(20.pxToEm()), ThemeStyles.MediaQueries.beyondSmall(fontSize(34.pxToEm())))
+
   val bigTitle: StyleA =
-    style(title, fontSize(20.pxToEm()), lineHeight(1), ThemeStyles.MediaQueries.beyondSmall(fontSize(46.pxToEm())))
+    style(
+      title,
+      fontSize(20.pxToEm()),
+      lineHeight(1),
+      ThemeStyles.MediaQueries.beyondSmall(fontSize(34.pxToEm())),
+      ThemeStyles.MediaQueries.beyondMedium(fontSize(46.pxToEm()))
+    )
+
   val veryBigTitle: StyleA =
-    style(title, fontSize(30.pxToEm()), ThemeStyles.MediaQueries.beyondMedium(fontSize(60.pxToEm())))
+    style(
+      title,
+      fontSize(30.pxToEm()),
+      ThemeStyles.MediaQueries.beyondSmall(fontSize(40.pxToEm())),
+      ThemeStyles.MediaQueries.beyondMedium(fontSize(60.pxToEm()))
+    )
 
   val label: StyleA =
     style(

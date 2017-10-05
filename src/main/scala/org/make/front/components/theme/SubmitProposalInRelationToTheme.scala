@@ -104,6 +104,7 @@ object SubmitProposalInRelationToThemeStyles extends StyleSheet.Inline {
       display.inlineBlock,
       marginBottom(15.pxToEm(30)),
       lineHeight(41.pxToEm(30)),
+      ThemeStyles.MediaQueries.beyondSmall(marginBottom(10.pxToEm(40)), lineHeight(56.pxToEm(40))),
       ThemeStyles.MediaQueries.beyondMedium(marginBottom(10.pxToEm(60)), lineHeight(83.pxToEm(60)))
     )
 }
