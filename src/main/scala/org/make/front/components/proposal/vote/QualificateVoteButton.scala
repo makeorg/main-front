@@ -33,14 +33,14 @@ object QualificateVoteButton {
     displayName = "QualificateVoteButton",
     getInitialState = { self =>
       QualificateVoteButtonState(
-        isSelected = self.props.wrapped.qualification.selected.getOrElse(false),
+        isSelected = self.props.wrapped.qualification.hasQualified,
         self.props.wrapped.qualification.count
       )
     },
     componentWillReceiveProps = { (self, props) =>
       self.setState(
         QualificateVoteButtonState(
-          isSelected = props.wrapped.qualification.selected.getOrElse(false),
+          isSelected = props.wrapped.qualification.hasQualified,
           count = props.wrapped.qualification.count
         )
       )

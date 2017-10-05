@@ -10,7 +10,7 @@ import org.make.front.components.AppState
 import org.make.front.components.search.SearchResults.SearchResultsProps
 import org.make.front.facades.I18n
 import org.make.front.helpers.QueryString
-import org.make.front.models.{ProposalSearchResult, Proposal => ProposalModel}
+import org.make.front.models.{Proposal => ProposalModel}
 import org.make.services.proposal.ProposalResponses.SearchResponse
 import org.make.services.proposal.ProposalService
 import org.make.services.proposal.ProposalService.defaultResultsCount
