@@ -116,7 +116,7 @@ object ResultsInOperation {
             if (self.state.hasMore && !self.state.hasRequestedMore) {
               <.div(^.className := Seq(ResultsInOperationStyles.seeMoreButtonWrapper, ColRulesStyles.col))(
                 <.button(^.onClick := onSeeMore, ^.className := Seq(CTAStyles.basic, CTAStyles.basicOnButton))(
-                  unescape(I18n.t("content.theme.seeMoreProposals"))
+                  unescape(I18n.t("content.theme.matrix.seeMoreProposals"))
                 )
               )
             }

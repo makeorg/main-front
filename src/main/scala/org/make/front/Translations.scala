@@ -77,7 +77,7 @@ object Translations {
       |       "proposal": {
       |         "agree": "D'accord",
       |         "disagree": "Pas d'accord",
-      |         "blank": "Vote Blanc",
+      |         "blank": "Vote blanc",
       |         "likeIt": "Coup de <i class=\"fa fa-heart\"></i>",
       |         "doable": "Réaliste",
       |         "platitudeAgree": "Platitude",
@@ -99,7 +99,7 @@ object Translations {
       |         "confirmationButtonAnotherProposal": "Faire une nouvelle&nbsp;proposition",
       |         "confirmationContent": "Votre proposition a bien été prise en compte, elle va maintenant être relue par notre service modération.<br>Vous recevrez un email lorsqu'elle aura été&nbsp;validée.",
       |         "isTooLong": "Vous avez dépassé la limite de&nbsp;caractères.",
-      |         "isTooShort": "Votre proposition doit faire au moins %{min}&nbsp;caractères",
+      |         "isTooShort": "Votre proposition doit faire au moins %{min}&nbsp;caractères.",
       |         "titleIntro": "Partagez votre proposition sur le&nbsp;thème",
       |         "titleIntroNoTheme": "Partagez votre proposition",
       |         "help": "Ne vous inquiétez pas, nous corrigerons vos éventuelles fautes&nbsp;d'orthographe.",
@@ -109,13 +109,13 @@ object Translations {
       |       },
       |       "account": {
       |         "validationTitle": "Activation du&nbsp;compte",
-      |         "validationSuccess": "Votre compte vient d'être activé. vous pouvez vous connectez dès&nbsp;maintenant",
-      |         "validationError": "Votre jeton est invalide, votre compte ne peut pas être&nbsp;activé."
+      |         "validationSuccess": "Votre compte vient d'être activé. Vous pouvez vous connecter dès&nbsp;maintenant",
+      |         "validationError": "Ce lien n'est plus valable."
       |       },
       |       "search": {
       |         "title": "<strong>%{results} résultats</strong> pour votre recherche ",
       |         "matrix": {
-      |           "noContent": "Nous n'avons trouvé <strong>aucun résultat</strong> pour votre recherche"
+      |           "noContent": "Nous n'avons trouvé <strong>aucun résultat</strong> pour votre recherche."
       |         },
       |         "proposeIntro": "Soyez la première personne à formuler une proposition à ce sujet !",
       |         "propose": "Proposer"
@@ -142,48 +142,47 @@ object Translations {
       |         "forgotPassword": "oublié mon mot de&nbsp;passe&nbsp;?",
       |         "noAccount": "Je n'ai pas de compte",
       |         "createAccount": "Inscription",
-      |         "errorAuthenticationFailed": "Ce compte ne semble pas exister. Merci de bien vouloir vérifier vos&nbsp;informations.",
+      |         "errorAuthenticationFailed": "Nous ne trouvons pas de compte associé à cet email.",
       |         "proposalIntroFirst": "Nous avons besoin de quelques&nbsp;informations",
       |         "proposalIntroSecond": "Pour valider votre&nbsp;proposition",
-      |         "socialInfo": "Rassurez-vous, nous ne publierons jamais rien sans votre&nbsp;accord.",
       |         "errorSignInFailed": "Quelque chose n'a pas fonctionné. Si le problème persiste n'hésitez pas à nous contacter à <a href=\"mailto:contact@make.org\">contact@make.org</a>."
       |       },
       |       "register": {
       |          "withSocial": "Je m'inscris avec",
-      |          "noPublishedContent": "(Nous n’y posterons jamais en votre&nbsp;nom)",
+      |          "noPublishedContent": "Rassurez-vous, nous ne publierons jamais rien sans votre&nbsp;accord.",
       |          "withForm": "Je m'inscris avec mon adresse&nbsp;email",
       |          "termsAgreed": "En vous inscrivant, vous acceptez nos conditions générales d'utilisation ainsi que de recevoir ponctuellement des emails de&nbsp;Make.org.",
       |          "subscribe": "Je m'inscris",
       |          "alreadySubscribed": "J’ai déjà un compte",
-      |          "noRegister": "Non merci, je souhaite poursuivre %{break} sans compte&nbsp;finalement.",
+      |          "noRegister": "Non merci, je souhaite poursuivre %{break} sans compte.",
       |          "errorRegistrationFailed": "Quelque chose n'a pas fonctionné. Si le problème persiste n'hésitez pas à nous contacter à&nbsp;support@make.org.",
       |          "errorInvalidEmail": "Format d'email non&nbsp;reconnu",
-      |          "errorMinPassword": "Votre mot de passe doit contenir au moins %{min}&nbsp;caractères",
-      |          "errorChoiceAge": "Valeur invalide",
-      |          "errorProfession": "Valeur invalide",
-      |          "errorMaxPostalCode": "Format erronné",
-      |          "errorBlankFirstName": "Le prénom est un champ&nbsp;obligatoire",
-      |          "errorAlreadyExist": "Cet email est déjà&nbsp;enregistré",
-      |          "errorBlankEmail": "L'email est un champ&nbsp;obligatoire",
-      |          "errorBlankPassword": "Le mot de passe est un champ&nbsp;obligatoire"
+      |          "errorMinPassword": "Votre mot de passe doit contenir au moins %{min}&nbsp;caractères.",
+      |          "errorChoiceAge": "Format invalide",
+      |          "errorProfession": "Format invalide",
+      |          "errorMaxPostalCode": "Format invalide",
+      |          "errorBlankFirstName": "Veuillez renseigner ce&nbsp;champ.",
+      |          "errorAlreadyExist": "Ce compte existe déjà, merci de vous&nbsp;connecter.",
+      |          "errorBlankEmail": "Veuillez renseigner ce&nbsp;champ.",
+      |          "errorBlankPassword": "Veuillez renseigner ce&nbsp;champ."
       |       },
       |       "proposal": {
       |         "submit": "Proposer",
-      |         "errorProposalTooShort": "Votre proposition doit contenir au moins %{min} caractères",
-      |         "errorProposalTooLong": "Votre proposition ne doit pas dépasser %{max} caractères",
-      |         "errorSubmitFailed": "Une erreur s'est produite, réessayez dans quelques minutes"
+      |         "errorProposalTooShort": "Votre proposition doit contenir au moins %{min} caractères.",
+      |         "errorProposalTooLong": "Vous avez dépassé la limite de caractères.",
+      |         "errorSubmitFailed": "Une erreur s'est produite, réessayez dans quelques minutes."
       |       },
       |       "passwordRecovery": {
       |         "title": "Je réinitialise mon mot de&nbsp;passe",
       |         "description": "Merci de renseigner l'adresse email liée à votre compte pour recevoir le lien de&nbsp;réinitialisation.",
       |         "fieldLabelEmail": "Votre adresse email",
       |         "sendEmail": "Envoyer",
-      |         "invalidEmail": "Veuillez rentrer un e-mail&nbsp;valide",
-      |         "emailDoesNotExist": "L'e-mail que vous avez rentré n'existe&nbsp;pas",
+      |         "invalidEmail": "Format d'email non&nbsp;reconnu",
+      |         "emailDoesNotExist": "Nous ne trouvons pas de compte associé à cet&nbsp;email.",
       |         "return": "Revenir à ",
       |         "connectScreen": "l'écran de connexion",
       |         "notification": {
-      |           "message" : "Merci, un email vient de vous être envoyé pour vous permettre de mettre à jour votre mot de&nbsp;passe."
+      |           "message" : "Merci, un email vient de vous être envoyé pour réinitialiser votre mot de&nbsp;passe."
       |         }
       |       },
       |       "passwordReset": {
@@ -191,11 +190,11 @@ object Translations {
       |         "description": "Vous pouvez choisir un nouveau mot de&nbsp;passe.",
       |         "validation": "Valider",
       |         "success": {
-      |           "title": "merci, votre mot de passe a bien été&nbsp;changé.",
+      |           "title": "merci, votre mot de passe a bien été mis à&nbsp;jour.",
       |           "description": "Vous pouvez vous connecter dès&nbsp;maintenant."
       |         },
       |         "failed" : {
-      |           "title": "Votre jeton est&nbsp;invalide&nbsp;!"
+      |           "title": "Ce lien n'est plus valable."
       |         }
       |       }
       |     },
@@ -262,7 +261,7 @@ object Translations {
       |       "proposal": {
       |         "agree": "Agree",
       |         "disagree": "Disagree",
-      |         "blank": "Blank Vote",
+      |         "blank": "Blank vote",
       |         "likeIt": "I <i class=\"fa fa-heart\"></i> It",
       |         "doable": "Doable",
       |         "platitudeAgree": "Platitude",
@@ -295,7 +294,7 @@ object Translations {
       |       "account": {
       |         "validationTitle": "Activation du compte",
       |         "validationSuccess": "Votre compte vient d'être activé. vous pouvez vous connectez dès maintenant",
-      |         "validationError": "Votre jeton est invalide, votre compte ne peut pas être activé."
+      |         "validationError": "Ce lien n'est plus valable."
       |       },
       |       "search": {
       |         "title": "<strong>%{results} results</strong> for your search ",
@@ -327,10 +326,9 @@ object Translations {
       |         "forgotPassword": "oublié mon mot de passe&nbsp;?",
       |         "noAccount": "Je n'ai pas de&nbsp;compte",
       |         "createAccount": "Inscription",
-      |         "errorAuthenticationFailed": "Ce compte ne semble pas exister. Merci de bien vouloir vérifier vos&nbsp;informations.",
+      |         "errorAuthenticationFailed": "Nous ne trouvons pas de compte associé à cet&nbsp;email.",
       |         "proposalIntroFirst": "Nous avons besoin de quelques&nbsp;informations",
       |         "proposalIntroSecond": "Pour valider votre&nbsp;proposition",
-      |         "socialInfo": "Rassurez-vous, nous ne publierons jamais rien sans votre&nbsp;accord.",
       |         "errorSignInFailed": "Quelque chose n'a pas fonctionné. Si le problème persiste n'hésitez pas à nous contacter à <a href=\"mailto:contact@make.org\">contact@make.org</a>."
       |       },
       |       "register": {

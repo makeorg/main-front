@@ -130,7 +130,7 @@ object ResultsInTheme {
                 <.button(
                   ^.onClick := (() => { onSeeMore(1) }),
                   ^.className := Seq(CTAStyles.basic, CTAStyles.basicOnButton)
-                )(unescape(I18n.t("content.theme.seeMoreProposals")))
+                )(unescape(I18n.t("content.theme.matrix.seeMoreProposals")))
               )
             }
           )

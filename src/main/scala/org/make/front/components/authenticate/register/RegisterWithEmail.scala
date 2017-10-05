@@ -42,19 +42,19 @@ object RegisterWithEmail {
                 case exception: BadRequestHttpException =>
                   val errors = exception.errors.map {
                     case ValidationError("email", Some(message)) if message.contains("already exist") =>
-                      "email" -> unescape(I18n.t("form.register.errorAlreadyExist"))
+                      "email" -> I18n.t("form.register.errorAlreadyExist")
                     case ValidationError("email", Some(message)) if message.contains("required") =>
-                      "email" -> unescape(I18n.t("form.register.errorBlankEmail"))
+                      "email" -> I18n.t("form.register.errorBlankEmail")
                     case ValidationError("email", _) =>
-                      "email" -> unescape(I18n.t("form.register.errorInvalidEmail"))
+                      "email" -> I18n.t("form.register.errorInvalidEmail")
                     case ValidationError("password", Some(message)) if message.contains("required") =>
-                      "password" -> unescape(I18n.t("form.register.errorBlankPassword"))
+                      "password" -> I18n.t("form.register.errorBlankPassword")
                     case ValidationError("password", _) =>
-                      "password" -> unescape(I18n.t("form.register.errorMinPassword", Replacements("min" -> "8")))
+                      "password" -> I18n.t("form.register.errorMinPassword", Replacements("min" -> "8"))
                     case ValidationError("firstName", Some(message)) if message.contains("required") =>
-                      "firstName" -> unescape(I18n.t("form.register.errorBlankFirstName"))
+                      "firstName" -> I18n.t("form.register.errorBlankFirstName")
                     case ValidationError(_, _) =>
-                      "global" -> unescape(I18n.t("form.register.errorRegistrationFailed"))
+                      "global" -> I18n.t("form.register.errorRegistrationFailed")
                   }.toMap
                   self.setState(_.copy(errors = errors))
 
@@ -85,7 +85,7 @@ object RegisterWithEmail {
           )()
         ),
         if (self.state.errors.getOrElse("email", "") != "") {
-          <.p(^.className := InputStyles.errorMessage)(self.state.errors.getOrElse("email", ""))
+          <.p(^.className := InputStyles.errorMessage)(unescape(self.state.errors.getOrElse("email", "")))
         },
         <.div(^.className := RegisterWithEmailStyles.newPasswordInputComponentWrapper)(
           <.NewPasswordInputComponent(
@@ -98,7 +98,7 @@ object RegisterWithEmail {
           )()
         ),
         if (self.state.errors.getOrElse("password", "") != "") {
-          <.p(^.className := InputStyles.errorMessage)(self.state.errors.getOrElse("password", ""))
+          <.p(^.className := InputStyles.errorMessage)(unescape(self.state.errors.getOrElse("password", "")))
         },
         <.label(
           ^.className := Seq(
@@ -117,10 +117,10 @@ object RegisterWithEmail {
           )()
         ),
         if (self.state.errors.getOrElse("firstName", "") != "") {
-          <.p(^.className := InputStyles.errorMessage)(self.state.errors.getOrElse("firstName", ""))
+          <.p(^.className := InputStyles.errorMessage)(unescape(self.state.errors.getOrElse("firstName", "")))
         },
         if (self.state.errors.getOrElse("global", "") != "") {
-          <.p(^.className := InputStyles.errorMessage)(self.state.errors.getOrElse("firstName", ""))
+          <.p(^.className := InputStyles.errorMessage)(unescape(self.state.errors.getOrElse("firstName", "")))
         },
         if (self.props.wrapped.note != "") {
           <.p(^.className := Seq(RegisterWithEmailStyles.note, TextStyles.smallerText))(self.props.wrapped.note)

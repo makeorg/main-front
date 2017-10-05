@@ -5,7 +5,7 @@ import scalajs.js
 
 @js.native
 @JSImport("hex-to-rgba", JSImport.Default)
-object HexToRgba extends js.Any {
+object HexToRgba extends js.Object {
   def hexToRgba(rgb: String): String = js.native
   def hexToRgba(rgb: String, opacity: Float): String = js.native
 }

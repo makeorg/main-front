@@ -119,7 +119,7 @@ object SubmitProposalForm {
             )
           ),
           if (self.state.errorMessage.isDefined) {
-            <.p(^.className := InputStyles.errorMessage)(self.state.errorMessage.getOrElse(""))
+            <.p(^.className := InputStyles.errorMessage)(unescape(self.state.errorMessage.getOrElse("")))
           },
           <.div(^.className := SubmitProposalFormStyles.note)(
             <.p(^.className := TextStyles.mediumText)(unescape(I18n.t("content.proposal.help"))),
