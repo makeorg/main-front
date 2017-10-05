@@ -5,7 +5,7 @@ import io.github.shogowada.scalajs.reactjs.VirtualDOM._
 import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import org.make.front.components.Components._
 import org.make.front.facades.Unescape.unescape
-import org.make.front.facades.{mainIntroIll, I18n}
+import org.make.front.facades.{home, I18n}
 import org.make.front.styles._
 import org.make.front.styles.base.{ColRulesStyles, RowRulesStyles, TextStyles}
 import org.make.front.styles.ui.CTAStyles
@@ -77,13 +77,14 @@ object IntroStyles extends StyleSheet.Inline {
         left(`0`),
         height(100.%%),
         width(100.%%),
-        backgroundImage := s"url('${mainIntroIll.toString}')",
+        backgroundImage := s"url('${home.toString}')",
         backgroundSize := s"cover",
         backgroundPosition := s"50%",
         backgroundRepeat := s"no-repeat",
         opacity(0.5)
       )
     )
+  /*TODO: media query device pixel ratio*/
 
   val innerSubWrapper: StyleA =
     style(position.relative, zIndex(1))
