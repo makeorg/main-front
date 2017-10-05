@@ -4,7 +4,8 @@ import io.github.shogowada.scalajs.reactjs.React
 import io.github.shogowada.scalajs.reactjs.VirtualDOM._
 import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import io.github.shogowada.scalajs.reactjs.events.FormSyntheticEvent
-import org.make.client.{BadRequestHttpException, ValidationError}
+import org.make.client.BadRequestHttpException
+import org.make.core.validation.{Constraint, EmailConstraint, NotBlankConstraint, PasswordConstraint}
 import org.make.front.Main.CssSettings._
 import org.make.front.components.Components._
 import org.make.front.components.authenticate.NewPasswordInput.NewPasswordInputProps
@@ -33,39 +34,65 @@ object RegisterWithEmail {
         )
       }
 
-      def onSubmit: () => Boolean = {
-        () =>
-          self.props.wrapped.register(self.state).onComplete {
-            case Success(_) => self.setState(RegisterState.empty)
-            case Failure(e) =>
-              e match {
-                case exception: BadRequestHttpException =>
-                  val errors = exception.errors.map {
-                    case ValidationError("email", Some(message)) if message.contains("already exist") =>
-                      "email" -> I18n.t("form.register.errorAlreadyExist")
-                    case ValidationError("email", Some(message)) if message.contains("required") =>
-                      "email" -> I18n.t("form.register.errorBlankEmail")
-                    case ValidationError("email", _) =>
-                      "email" -> I18n.t("form.register.errorInvalidEmail")
-                    case ValidationError("password", Some(message)) if message.contains("required") =>
-                      "password" -> I18n.t("form.register.errorBlankPassword")
-                    case ValidationError("password", _) =>
-                      "password" -> I18n.t("form.register.errorMinPassword", Replacements("min" -> "8"))
-                    case ValidationError("firstName", Some(message)) if message.contains("required") =>
-                      "firstName" -> I18n.t("form.register.errorBlankFirstName")
-                    case ValidationError(_, _) =>
-                      "global" -> I18n.t("form.register.errorRegistrationFailed")
-                  }.toMap
-                  self.setState(_.copy(errors = errors))
+      val fieldsValidation: Seq[(String, Constraint, Map[String, String])] = {
+        Seq(
+          (
+            "email",
+            NotBlankConstraint.&(EmailConstraint),
+            Map(
+              "invalid" -> I18n.t("form.register.errorInvalidEmail"),
+              "notBlank" -> I18n.t("form.register.errorBlankEmail")
+            )
+          ),
+          (
+            "password",
+            NotBlankConstraint.&(PasswordConstraint),
+            Map(
+              "notBlank" -> I18n.t("form.register.errorBlankPassword"),
+              "minMessage" -> I18n
+                .t("form.register.errorMinPassword", Replacements("min" -> PasswordConstraint.min.toString))
+            )
+          ),
+          ("firstName", NotBlankConstraint, Map("notBlank" -> I18n.t("form.register.errorBlankFirstName")))
+        )
+      }
 
-                case _ =>
-                  self.setState(
-                    state =>
-                      state.copy(errors = state.errors + ("global" -> I18n.t("form.register.errorRegistrationFailed")))
-                  )
+      def onSubmit: (FormSyntheticEvent[HTMLInputElement]) => Unit = {
+        event =>
+          event.preventDefault()
+
+          var errors: Map[String, String] = Map.empty
+
+          fieldsValidation.foreach {
+            case (fieldName, constraint, translation) => {
+              val fieldErrors = constraint
+                .validate(self.state.fields.get(fieldName), translation)
+                .map(_.message)
+              if (fieldErrors.nonEmpty) {
+                errors += (fieldName -> fieldErrors.head)
               }
+            }
           }
-          false
+
+          if (errors.nonEmpty) {
+            self.setState(_.copy(errors = errors))
+          } else {
+            self.props.wrapped.register(self.state).onComplete {
+              case Success(_) => self.setState(RegisterState.empty)
+              case Failure(e) =>
+                e match {
+                  case exception: BadRequestHttpException =>
+                    val errors = getErrorsMessagesFromApiErrors(exception.errors).toMap
+                    self.setState(_.copy(errors = errors))
+                  case _ =>
+                    self.setState(
+                      state =>
+                        state
+                          .copy(errors = state.errors + ("global" -> I18n.t("form.register.errorRegistrationFailed")))
+                    )
+                }
+            }
+          }
       }
 
       <.form(^.onSubmit := onSubmit, ^.novalidate := true)(
