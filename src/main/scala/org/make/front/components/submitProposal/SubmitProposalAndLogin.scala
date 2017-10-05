@@ -4,6 +4,8 @@ import io.github.shogowada.scalajs.reactjs.React
 import io.github.shogowada.scalajs.reactjs.VirtualDOM._
 import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import io.github.shogowada.scalajs.reactjs.elements.ReactElement
+import io.github.shogowada.scalajs.reactjs.router.RouterProps._
+import io.github.shogowada.scalajs.reactjs.router.WithRouter
 import org.make.front.components.Components._
 import org.make.front.components.submitProposal.SubmitProposalFormContainer.SubmitProposalFormContainerProps
 import org.make.front.components.submitProposal.ConfirmationOfProposalSubmission.ConfirmationOfProposalSubmissionProps
@@ -35,94 +37,98 @@ object SubmitProposalAndLogin {
   case class SubmitProposalAndLoginProps(intro: (ReactElement) => ReactElement,
                                          maybeTheme: Option[ThemeModel],
                                          maybeOperation: Option[OperationModel],
-                                         onProposalProposed: () => Unit,
-                                         propose: (String)      => Future[_])
+                                         onProposalProposed: ()                    => Unit,
+                                         propose: (String, String, Option[String]) => Future[_])
 
   val reactClass: ReactClass =
-    React.createClass[SubmitProposalAndLoginProps, SubmitProposalAndLoginState](
-      displayName = "SubmitProposalAndLogin",
-      getInitialState = { _ =>
-        SubmitProposalAndLoginState.empty
-      },
-      render = { self =>
-        val props = self.props.wrapped
+    WithRouter(
+      React.createClass[SubmitProposalAndLoginProps, SubmitProposalAndLoginState](
+        displayName = "SubmitProposalAndLogin",
+        getInitialState = { _ =>
+          SubmitProposalAndLoginState.empty
+        },
+        render = { self =>
+          val props = self.props.wrapped
 
-        val onConnectionOk: () => Unit = { () =>
-          props.propose(self.state.proposal).onComplete {
-            case Success(_) => self.setState(_.copy(displayedComponent = "result"))
-            case Failure(_) =>
-              self.setState(
-                _.copy(
-                  displayedComponent = "submit-proposal",
-                  errorMessage = Some(unescape(I18n.t("form.proposal.errorSubmitFailed")))
+          val onConnectionOk: () => Unit = { () =>
+            props
+              .propose(self.state.proposal, self.props.location.pathname, self.props.wrapped.maybeTheme.map(_.id.value))
+              .onComplete {
+                case Success(_) => self.setState(_.copy(displayedComponent = "result"))
+                case Failure(_) =>
+                  self.setState(
+                    _.copy(
+                      displayedComponent = "submit-proposal",
+                      errorMessage = Some(unescape(I18n.t("form.proposal.errorSubmitFailed")))
+                    )
+                  )
+              }
+          }
+
+          val handleSubmitProposal: String => Unit = { proposal =>
+            self.setState(_.copy(displayedComponent = "connect", proposal = proposal))
+          }
+
+          if (self.state.displayedComponent == "submit-proposal") {
+            <.div(^.className := RowRulesStyles.centeredRow)(
+              <.article(^.className := ColRulesStyles.col)(
+                self.props.wrapped.intro(
+                  <.SubmitProposalFormComponent(
+                    ^.wrapped := SubmitProposalFormContainerProps(
+                      maybeTheme = props.maybeTheme,
+                      errorMessage = None,
+                      handleSubmitProposalForm = handleSubmitProposal
+                    )
+                  )()
                 )
               )
-          }
-        }
+            )
+          } else if (self.state.displayedComponent == "connect") {
+            <.section()(
+              <.div(^.className := RowRulesStyles.narrowerCenteredRow)(
+                <.header(^.className := ColRulesStyles.col)(
+                  <.h1(^.className := SubmitProposalAndLoginStyles.title)(
+                    <.span(
+                      ^.className := Seq(TextStyles.mediumText, TextStyles.intro, SubmitProposalAndLoginStyles.intro)
+                    )("Nous avons besoin de quelques informations"),
+                    <.br()(),
+                    <.strong(^.className := TextStyles.bigTitle)("Pour valider votre proposition")
+                  )
+                )
+              ),
+              <.div(^.className := RowRulesStyles.evenNarrowerCenteredRow)(
+                <.div(^.className := ColRulesStyles.col)(
+                  <.hr(^.className := Seq(SubmitProposalAndLoginStyles.separatorLine))()
+                )
+              ),
+              <.RequireAuthenticatedUserComponent(
+                ^.wrapped := RequireAuthenticatedUserContainerProps(
+                  onceConnected = onConnectionOk,
+                  registerView = "register-expanded"
+                )
+              )(),
+              <.style()(SubmitProposalAndLoginStyles.render[String])
+            )
 
-        val handleSubmitProposal: String => Unit = { proposal =>
-          self.setState(_.copy(displayedComponent = "connect", proposal = proposal))
-        }
-
-        if (self.state.displayedComponent == "submit-proposal") {
-          <.div(^.className := RowRulesStyles.centeredRow)(
-            <.article(^.className := ColRulesStyles.col)(
-              self.props.wrapped.intro(
-                <.SubmitProposalFormComponent(
-                  ^.wrapped := SubmitProposalFormContainerProps(
-                    maybeTheme = props.maybeTheme,
-                    errorMessage = None,
-                    handleSubmitProposalForm = handleSubmitProposal
+          } else if (self.state.displayedComponent == "result") {
+            <.div(^.className := RowRulesStyles.centeredRow)(
+              <.div(^.className := ColRulesStyles.col)(
+                <.ConfirmationOfProposalSubmissionComponent(
+                  ^.wrapped := ConfirmationOfProposalSubmissionProps(
+                    maybeTheme = self.props.wrapped.maybeTheme,
+                    onBack = self.props.wrapped.onProposalProposed,
+                    onSubmitAnotherProposal = () => {
+                      self.setState(_.copy(proposal = "", displayedComponent = "submit-proposal", errorMessage = None))
+                    }
                   )
                 )()
               )
             )
-          )
-        } else if (self.state.displayedComponent == "connect") {
-          <.section()(
-            <.div(^.className := RowRulesStyles.narrowerCenteredRow)(
-              <.header(^.className := ColRulesStyles.col)(
-                <.h1(^.className := SubmitProposalAndLoginStyles.title)(
-                  <.span(
-                    ^.className := Seq(TextStyles.mediumText, TextStyles.intro, SubmitProposalAndLoginStyles.intro)
-                  )("Nous avons besoin de quelques informations"),
-                  <.br()(),
-                  <.strong(^.className := TextStyles.bigTitle)("Pour valider votre proposition")
-                )
-              )
-            ),
-            <.div(^.className := RowRulesStyles.evenNarrowerCenteredRow)(
-              <.div(^.className := ColRulesStyles.col)(
-                <.hr(^.className := Seq(SubmitProposalAndLoginStyles.separatorLine))()
-              )
-            ),
-            <.RequireAuthenticatedUserComponent(
-              ^.wrapped := RequireAuthenticatedUserContainerProps(
-                onceConnected = onConnectionOk,
-                registerView = "register-expanded"
-              )
-            )(),
-            <.style()(SubmitProposalAndLoginStyles.render[String])
-          )
-
-        } else if (self.state.displayedComponent == "result") {
-          <.div(^.className := RowRulesStyles.centeredRow)(
-            <.div(^.className := ColRulesStyles.col)(
-              <.ConfirmationOfProposalSubmissionComponent(
-                ^.wrapped := ConfirmationOfProposalSubmissionProps(
-                  maybeTheme = self.props.wrapped.maybeTheme,
-                  onBack = self.props.wrapped.onProposalProposed,
-                  onSubmitAnotherProposal = () => {
-                    self.setState(_.copy(proposal = "", displayedComponent = "submit-proposal", errorMessage = None))
-                  }
-                )
-              )()
-            )
-          )
-        } else {
-          <.div()()
+          } else {
+            <.div()()
+          }
         }
-      }
+      )
     )
 }
 

@@ -7,7 +7,10 @@ import io.github.shogowada.scalajs.reactjs.redux.ReactRedux
 import org.make.front.components.AppState
 import org.make.front.components.submitProposal.SubmitProposalAndLogin.SubmitProposalAndLoginProps
 import org.make.front.models.{Operation => OperationModel, Theme => ThemeModel}
+import org.make.services.proposal.ProposalResponses.RegisterProposalResponse
 import org.make.services.proposal.ProposalService
+
+import scala.concurrent.Future
 
 object SubmitProposalAndLoginContainer {
 
@@ -18,12 +21,15 @@ object SubmitProposalAndLoginContainer {
 
   val reactClass: ReactClass = ReactRedux.connectAdvanced {
     _ => (_: AppState, props: Props[SubmitProposalAndLoginContainerProps]) =>
+      def propose(content: String, location: String, themeId: Option[String] = None): Future[RegisterProposalResponse] =
+        ProposalService.createProposal(content, location, themeId)
+
       SubmitProposalAndLoginProps(
         intro = props.wrapped.intro,
         maybeTheme = props.wrapped.maybeTheme,
         maybeOperation = props.wrapped.maybeOperation,
         onProposalProposed = props.wrapped.onProposalProposed,
-        propose = ProposalService.createProposal
+        propose = propose
       )
   }(SubmitProposalAndLogin.reactClass)
 
