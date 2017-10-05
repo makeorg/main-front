@@ -55,7 +55,7 @@ object Translations {
       |         "title": "Tous les&nbsp;thèmes"
       |       },
       |       "theme": {
-      |         "actionsCount": "%{actions} actions en&nbsp;cours",
+      |         "actionsCount": "%{actions} actions issues de vos propositions",
       |         "proposalsCount": "%{proposals} propositions",
       |         "moreInfos": "En savoir&nbsp;+",
       |         "matrix": {
@@ -63,15 +63,15 @@ object Translations {
       |           "noContent": "Nous n’avons trouvé <strong>aucun résultat</strong> correspondant à votre sélection de&nbsp;tag(s). <br> Vous pouvez sélectionner d’autres combinaisons de&nbsp;tags.",
       |           "filter": {
       |             "tag": {
-      |               "title": "Tags populaire&nbsp;:"
+      |               "title": "Filtrer par tags&nbsp;:"
       |             }
       |           },
       |           "seeMoreProposals": "Voir + de propositions"
       |         }
       |       },
       |       "tag": {
-      |         "showMore": "afficher tous les&nbsp;tags",
-      |         "showLess": "masquer les tags&nbsp;supplémentaires",
+      |         "showMore": "voir tous les&nbsp;tags",
+      |         "showLess": "masquer",
       |         "proposalsCount": "%{proposals} propositions",
       |         "moreInfos": "En savoir&nbsp;+"
       |       },
@@ -248,7 +248,7 @@ object Translations {
       |           "noContent": "Nous n’avons trouvé <strong>aucun résultat</strong> correspondant à votre sélection de&nbsp;tag(s). <br /> Vous pouvez sélectionner d’autres combinaisons de&nbsp;tags.",
       |           "filter": {
       |             "tag": {
-      |               "title": "Tags populaire&nbsp;:"
+      |               "title": "Filter by tags&nbsp;:"
       |             }
       |           }
       |         }
