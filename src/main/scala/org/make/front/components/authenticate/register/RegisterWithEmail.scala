@@ -68,7 +68,7 @@ object RegisterWithEmail {
           false
       }
 
-      <.form(^.onSubmit := onSubmit)(
+      <.form(^.onSubmit := onSubmit, ^.novalidate := true)(
         <.label(
           ^.className := Seq(
             InputStyles.wrapper,

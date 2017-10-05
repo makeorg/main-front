@@ -113,7 +113,7 @@ object LoginWithEmail {
             }
           ).mkString(" ")
 
-          <.form(^.onSubmit := handleSubmit)(
+          <.form(^.onSubmit := handleSubmit, ^.novalidate := true)(
             <.label(^.className := loginWithEmailInputWrapperClasses)(
               <.input(
                 ^.`type`.email,

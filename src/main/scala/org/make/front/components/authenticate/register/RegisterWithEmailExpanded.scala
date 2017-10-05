@@ -77,7 +77,7 @@ object RegisterWithEmailExpanded {
 
       val agesChoices: Seq[Int] = Range(13, 100)
 
-      <.form(^.onSubmit := onSubmit)(
+      <.form(^.onSubmit := onSubmit, ^.novalidate := true)(
         <.label(
           ^.className := Seq(
             InputStyles.wrapper,
