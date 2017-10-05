@@ -31,13 +31,13 @@ object Translations {
       |         "logout": "Se Déconnecter",
       |         "connect": "Se connecter",
       |         "createAccount": "S'inscrire",
-      |         "searchPlaceholder": "Recherchez une proposition..."
+      |         "searchPlaceholder": "Recherchez une proposition&hellip;"
       |       },
       |       "homepage": {
       |
-      |         "baseline": "À la une",
-      |         "title": "Qui sommes-nous&nbsp;?",
-      |         "subTitle": "Make.org est une initiative neutre et&nbsp;indépendante",
+      |         "baseline": "À propos",
+      |         "title": "Proposez, votez, agissons",
+      |         "subTitle": "Make.org est une initiative indépendante au service de l'intérêt&nbsp;général",
       |         "textSeeMore": "En Savoir&nbsp;+",
       |         "expressYourself": "Exprimez-vous&nbsp;!",
       |         "mostPopular": "Les propositions les + populaires sur",

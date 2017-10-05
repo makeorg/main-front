@@ -8,12 +8,8 @@ import scala.scalajs.js.annotation.JSImport
 object logoMake extends js.Object
 
 @js.native
-@JSImport("./images/audience.jpg", "default")
+@JSImport("./images/home-1350x500.jpg", "default")
 object mainIntroIll extends js.Object
-
-@js.native
-@JSImport("./images/shutterstock.jpg", "default")
-object imageShutterstock extends js.Object
 
 @js.native
 @JSImport("./images/cone.svg", "default")

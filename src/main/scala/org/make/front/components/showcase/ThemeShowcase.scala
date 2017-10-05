@@ -71,17 +71,12 @@ object ThemeShowcase {
                           ColRulesStyles.colHalfBeyondMedium,
                           ColRulesStyles.colQuarterBeyondLarge
                         )
-                      )(if (proposal.themeId.getOrElse("") != "") {
-                        <.ProposalWithThemeContainerComponent(
-                          ^.wrapped :=
-                            ProposalWithThemeContainerProps(proposal = proposal)
-                        )()
-                      } else {
+                      )(
                         <.ProposalComponent(
                           ^.wrapped :=
                             ProposalProps(proposal = proposal)
                         )()
-                      })
+                    )
                   )
                 ),
                 if (self.props.wrapped.maybeTheme.nonEmpty) {

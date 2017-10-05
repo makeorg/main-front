@@ -54,11 +54,7 @@ object ThemeHeader {
 
         <.header(^.className := Seq(ThemeHeaderStyles.wrapper, DynamicThemeHeaderStyles.gradient))(
           <.div(^.className := ThemeHeaderStyles.innerWrapper)(
-            <.img(
-              ^.className := ThemeHeaderStyles.illustration,
-              ^.src := imageShutterstock.toString,
-              ^("data-pin-no-hover") := "true"
-            )(),
+            <.img(^.className := ThemeHeaderStyles.illustration, ^.src := "", ^("data-pin-no-hover") := "true")(),
             <.div(^.className := RowRulesStyles.centeredRow)(
               <.div(^.className := ColRulesStyles.col)(
                 <.h1(^.className := Seq(TextStyles.veryBigTitle, ThemeHeaderStyles.title))(theme.title),
@@ -77,7 +73,7 @@ object ThemeHeader {
                         ^.value := "Il faut ",
                         ^.readOnly := true,
                         ^.ref := ((input: HTMLElement) => proposalInput = Some(input)),
-                        ^.onFocus := openProposalModalFromInput()
+                        ^.onFocus := openProposalModalFromInput
                       )()
                     ),
                     <.span(^.className := ThemeHeaderStyles.textLimitInfoWapper)(

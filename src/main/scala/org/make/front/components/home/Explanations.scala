@@ -26,7 +26,7 @@ object Explanations {
             <.h3(^.className := Seq(ExplanationsStyles.intro, TextStyles.mediumText, TextStyles.intro))(
               "la politique ne suffit plus, faisons bouger les lignes ensemble"
             ),
-            <.h2(^.className := TextStyles.mediumTitle)("Votez, proposez, agissez"),
+            <.h2(^.className := TextStyles.mediumTitle)("Votez, proposez, agissons"),
             <.ul()(
               <.li(^.className := ExplanationsStyles.item)(
                 <.span(^.className := Seq(ExplanationsStyles.icon, FontAwesomeStyles.fa, FontAwesomeStyles.thumbsUp))(),
