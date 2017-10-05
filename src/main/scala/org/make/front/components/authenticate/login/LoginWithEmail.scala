@@ -75,8 +75,9 @@ object LoginWithEmail {
             errorEmailMessages.isEmpty && errorPasswordMessages.isEmpty
           }
 
-          val handleSubmit: () => Boolean = {
-            () =>
+          val handleSubmit: (FormSyntheticEvent[HTMLInputElement]) => Unit = {
+            event =>
+              event.preventDefault()
               if (validate()) {
                 props.connectUser(self.state.email, self.state.password).onComplete {
                   case Success(_) => self.setState(LoginWithEmailState.empty)
@@ -93,7 +94,6 @@ object LoginWithEmail {
 
                 }
               }
-              false
           }
           val loginWithEmailInputWrapperClasses = Seq(
             InputStyles.wrapper.htmlClass,
