@@ -85,7 +85,7 @@ object RecoverPassword {
               )()
             ),
             if (self.state.errorMessage != "") {
-              <.p(^.className := InputStyles.errorMessage)(self.state.errorMessage)
+              <.p(^.className := InputStyles.errorMessage)(unescape(self.state.errorMessage))
             },
             <.div(^.className := RecoverPasswordStyles.submitButtonWrapper)(
               <.button(^.className := Seq(CTAStyles.basic, CTAStyles.basicOnButton), ^.`type`.submit)(

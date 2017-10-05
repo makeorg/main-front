@@ -8,8 +8,9 @@ import io.github.shogowada.scalajs.reactjs.elements.ReactElement
 import io.github.shogowada.scalajs.reactjs.events.{FormSyntheticEvent, SyntheticEvent}
 import org.make.core.validation.PasswordConstraint
 import org.make.front.components.Components._
-import org.make.front.facades.Translate.TranslateVirtualDOMElements
+import org.make.front.facades.Translate.{TranslateVirtualDOMAttributes, TranslateVirtualDOMElements}
 import org.make.front.facades.{I18n, Replacements}
+import org.make.front.facades.Unescape.unescape
 import org.make.front.styles.ThemeStyles
 import org.make.front.styles.vendors.FontAwesomeStyles
 import org.scalajs.dom.raw.HTMLInputElement
@@ -60,7 +61,7 @@ object PasswordReset {
   def resetFormElement(self: Self[PasswordResetProps, PasswordResetState]): ReactElement = {
     <.div()(
       <.Translate(^.value := "form.passwordReset.title")(),
-      <.div(^.className := PasswordResetStyles.terms)(I18n.t("form.passwordReset.description")),
+      <.div(^.className := PasswordResetStyles.terms)(unescape(I18n.t("form.passwordReset.description"))),
       <.form(^.onSubmit := handleSubmit(self), ^.novalidate := true)(
         <.div()(
           <.i(^.className := Seq(FontAwesomeStyles.fa, FontAwesomeStyles.lock))(),
@@ -74,7 +75,7 @@ object PasswordReset {
             ^.value := self.state.password
           )()
         ),
-        <.div()(<.span()(self.state.errorMessage)),
+        <.div()(<.span()(unescape(self.state.errorMessage))),
         <.button(^.onClick := handleSubmit(self))(
           <.i(^.className := Seq(FontAwesomeStyles.fa, FontAwesomeStyles.thumbsUp))(),
           <.Translate(^.value := "form.passwordReset.validation")()
@@ -89,8 +90,8 @@ object PasswordReset {
 
   def resetPasswordSuccessElement(self: Self[PasswordResetProps, PasswordResetState]): ReactElement = {
     <.div()(
-      <.Translate(^.value := "form.passwordReset.success.title")(),
-      <.div(^.className := PasswordResetStyles.terms)(I18n.t("form.passwordReset.success.description"))
+      <.Translate(^.value := "form.passwordReset.success.title", ^.dangerousHtml := true)(),
+      <.div(^.className := PasswordResetStyles.terms)(unescape(I18n.t("form.passwordReset.success.description")))
     )
   }
 
@@ -117,7 +118,8 @@ object PasswordReset {
       self.props.wrapped.handleSubmit(self)
     } else {
       self.setState(
-        self.state.copy(errorMessage = I18n.t(errors.head, Replacements(("min", PasswordConstraint.min.toString))))
+        self.state
+          .copy(errorMessage = I18n.t(errors.head, Replacements(("min", PasswordConstraint.min.toString))))
       )
     }
   }
