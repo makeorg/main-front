@@ -55,9 +55,11 @@ object ConnectedUserNavElement {
     <.ul(^.className := UserNavStyles.menu)(
       <.li(^.className := UserNavStyles.menuItem)(
         <.button(^.onClick := logout)(
-          <.span(^.className := UserNavStyles.avatarWrapper)(
+          <.span(^.className := UserNavStyles.avatarWrapper)(if (avatarUrl.nonEmpty) {
             <.img(^.src := avatarUrl, ^.className := UserNavStyles.avatar, ^("data-pin-no-hover") := "true")()
-          ),
+          } else {
+            <.i(^.className := Seq(UserNavStyles.avatarPlaceholder, FontAwesomeStyles.fa, FontAwesomeStyles.user))()
+          }),
           <.span(
             ^.className := Seq(
               UserNavStyles.userNameWrapper,
@@ -137,7 +139,17 @@ object UserNavStyles extends StyleSheet.Inline {
       overflow.hidden,
       backgroundColor(ThemeStyles.BackgroundColor.white),
       borderRadius(50.%%),
-      border :=! s"2px solid ${ThemeStyles.BorderColor.base.value}"
+      border :=! s"2px solid ${ThemeStyles.BorderColor.base.value}",
+      textAlign.center
+    )
+
+  val avatarPlaceholder: StyleA =
+    style(
+      width(100.%%),
+      lineHeight(28.pxToEm(16)),
+      ThemeStyles.MediaQueries.beyondSmall(lineHeight(36.pxToEm(16))),
+      fontSize(16.pxToEm()),
+      color(ThemeStyles.TextColor.lighter)
     )
 
   val avatar: StyleA =
