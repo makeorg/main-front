@@ -40,7 +40,8 @@ object Translations {
       |         "subTitle": "Make.org est une initiative neutre et&nbsp;indépendante",
       |         "textSeeMore": "En Savoir&nbsp;+",
       |         "expressYourself": "Exprimez-vous&nbsp;!",
-      |         "mostPopular": "Les propositions les + populaires sur&nbsp;Make.org"
+      |         "mostPopular": "Les propositions les + populaires sur",
+      |         "mostDebated": "Les propositions les + populaires sur"
       |       },
       |       "footer": {
       |         "presentation": "Qui sommes-nous&nbsp;?",
@@ -103,7 +104,7 @@ object Translations {
       |         "titleIntro": "Partagez votre proposition sur le&nbsp;thème",
       |         "titleIntroNoTheme": "Partagez votre proposition",
       |         "help": "Ne vous inquiétez pas, nous corrigerons vos éventuelles fautes&nbsp;d'orthographe.",
-      |         "subHelp": "Pour en savoir plus sur notre charte de modération, cliquez&nbsp;ici.",
+      |         "subHelp": "Pour en savoir plus sur notre charte de modération, <a href=\"http://www.about.make.org/moderation\" target=\"_blank\">cliquez&nbsp;ici.</a>",
       |         "postedIn": "postée dans ",
       |         "seeMore":"Voir + de résultats"
       |       },

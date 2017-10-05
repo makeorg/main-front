@@ -9,7 +9,7 @@ import org.make.services.proposal.ProposalService
 
 object TrendingShowcaseContainer {
 
-  final case class TrendingShowcaseContainerProps(introTranslationKey: String, trending: String, title: String)
+  final case class TrendingShowcaseContainerProps(intro: String, trending: String, title: String)
 
   lazy val reactClass: ReactClass = ReactRedux.connectAdvanced(selectorFactory)(TrendingShowcase.reactClass)
 
@@ -19,7 +19,7 @@ object TrendingShowcaseContainer {
       TrendingShowcase.TrendingShowcaseProps(
         proposals = ProposalService
           .searchProposals(trending = Some(ownProps.wrapped.trending), limit = Some(2), sort = Seq.empty, skip = None),
-        introTranslationKey = ownProps.wrapped.introTranslationKey,
+        intro = ownProps.wrapped.intro,
         title = ownProps.wrapped.title
       )
     }

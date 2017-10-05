@@ -6,23 +6,21 @@ import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import org.make.front.components.Components._
 import org.make.front.components.proposal.Proposal.ProposalProps
 import org.make.front.components.proposal.ProposalWithThemeContainer.ProposalWithThemeContainerProps
-import org.make.front.facades.I18n
-import org.make.front.facades.Unescape.unescape
+import org.make.front.facades.logoMake
 import org.make.front.models.{Proposal => ProposalModel}
 import org.make.front.styles._
 import org.make.front.styles.base.{ColRulesStyles, RowRulesStyles, TextStyles}
 import org.make.front.styles.utils._
 import org.make.services.proposal.ProposalResponses.SearchResponse
 
+import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 import scala.util.{Failure, Success}
 import scalacss.DevDefaults._
 
-import scala.concurrent.ExecutionContext.Implicits.global
-
 object TrendingShowcase {
 
-  final case class TrendingShowcaseProps(proposals: Future[SearchResponse], introTranslationKey: String, title: String)
+  final case class TrendingShowcaseProps(proposals: Future[SearchResponse], intro: String, title: String)
 
   final case class TrendingShowcaseState(proposals: Seq[ProposalModel])
 
@@ -43,9 +41,16 @@ object TrendingShowcase {
             <.div(^.className := RowRulesStyles.centeredRow)(
               <.header(^.className := ColRulesStyles.col)(
                 <.p(^.className := Seq(TrendingShowcaseStyles.intro, TextStyles.mediumText, TextStyles.intro))(
-                  unescape(I18n.t(self.props.wrapped.introTranslationKey))
+                  self.props.wrapped.intro
                 ),
-                <.h2(^.className := Seq(TrendingShowcaseStyles.title, TextStyles.bigTitle))(self.props.wrapped.title)
+                <.h2(^.className := Seq(TrendingShowcaseStyles.title, TextStyles.mediumTitle))(
+                  self.props.wrapped.title,
+                  <.img(
+                    ^.className := TrendingShowcaseStyles.logo,
+                    ^.src := logoMake.toString,
+                    ^("data-pin-no-hover") := "true"
+                  )()
+                )
               ),
               <.ul(^.className := TrendingShowcaseStyles.propasalsList)(
                 self.state.proposals.map(
@@ -98,5 +103,14 @@ object TrendingShowcaseStyles extends StyleSheet.Inline {
 
   val propasalItem: StyleA =
     style(marginTop(ThemeStyles.SpacingValue.small.pxToEm()), marginBottom(ThemeStyles.SpacingValue.small.pxToEm()))
+
+  val logo: StyleA =
+    style(
+      width.auto,
+      verticalAlign.baseline,
+      height(14.pxToEm(20)),
+      marginLeft(5.pxToEm(20)),
+      ThemeStyles.MediaQueries.beyondSmall(height(25.pxToEm(34)), marginLeft(10.pxToEm(34)))
+    )
 
 }

@@ -1,22 +1,24 @@
 package org.make.front.components.showcase
 
 import io.github.shogowada.scalajs.reactjs.React
-import io.github.shogowada.scalajs.reactjs.VirtualDOM._
+import io.github.shogowada.scalajs.reactjs.VirtualDOM.{<, _}
 import io.github.shogowada.scalajs.reactjs.classes.ReactClass
-import org.make.front.components.Components._
+import io.github.shogowada.scalajs.reactjs.router.dom.RouterDOM._
+import org.make.front.components.Components.{RichVirtualDOMElements, _}
 import org.make.front.components.proposal.Proposal.ProposalProps
 import org.make.front.components.proposal.ProposalWithThemeContainer.ProposalWithThemeContainerProps
 import org.make.front.facades.HexToRgba
 import org.make.front.models.{GradientColor => GradientColorModel, Proposal => ProposalModel, Theme => ThemeModel}
 import org.make.front.styles._
 import org.make.front.styles.base.{ColRulesStyles, RowRulesStyles, TextStyles}
+import org.make.front.styles.ui.CTAStyles
 import org.make.front.styles.utils._
 import org.make.services.proposal.ProposalResponses.SearchResponse
 
+import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 import scala.util.{Failure, Success}
 import scalacss.DevDefaults._
-import scala.concurrent.ExecutionContext.Implicits.global
 import scalacss.internal.mutable.StyleSheet.Inline
 
 object ThemeShowcase {
@@ -81,7 +83,19 @@ object ThemeShowcase {
                         )()
                       })
                   )
-                )
+                ),
+                if (self.props.wrapped.maybeTheme.nonEmpty) {
+                  <.p(^.className := Seq(ColRulesStyles.col, ThemeShowcaseStyles.SeeMoreLinkWrapper))(
+                    <.Link(
+                      ^.className := Seq(CTAStyles.basic, CTAStyles.basicOnA),
+                      ^.to := s"/theme/${self.props.wrapped.maybeTheme.map(_.slug).getOrElse("")}"
+                    )(
+                      "Voir toutes les propositions du thème " + self.props.wrapped.maybeTheme
+                        .map(_.title)
+                        .getOrElse("")
+                    )
+                  )
+                }
               ),
               <.style()(ThemeShowcaseStyles.render[String], DynamicThemeShowcaseStyles.render[String])
             )
@@ -96,7 +110,7 @@ object ThemeShowcaseStyles extends StyleSheet.Inline {
   val wrapper: StyleA =
     style(
       backgroundColor(ThemeStyles.BackgroundColor.blackVeryTransparent),
-      padding :=! s"${ThemeStyles.SpacingValue.medium.pxToEm().value} 0"
+      padding :=! s"${ThemeStyles.SpacingValue.medium.pxToEm().value} 0 ${ThemeStyles.SpacingValue.small.pxToEm().value}"
     )
 
   val title: StyleA = style()
@@ -107,4 +121,9 @@ object ThemeShowcaseStyles extends StyleSheet.Inline {
   val propasalItem: StyleA =
     style(marginTop(ThemeStyles.SpacingValue.small.pxToEm()), marginBottom(ThemeStyles.SpacingValue.small.pxToEm()))
 
+  val SeeMoreLinkWrapper: StyleA = style(
+    marginTop(ThemeStyles.SpacingValue.small.pxToEm()),
+    marginBottom(ThemeStyles.SpacingValue.small.pxToEm()),
+    textAlign.center
+  )
 }
