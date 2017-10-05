@@ -160,19 +160,33 @@ object ResultsInThemeStyles extends StyleSheet.Inline {
   import dsl._
 
   val wrapper: StyleA =
-    style(paddingTop(ThemeStyles.SpacingValue.medium.pxToEm()), paddingBottom(ThemeStyles.SpacingValue.small.pxToEm()))
+    style(
+      paddingTop(ThemeStyles.SpacingValue.medium.pxToEm()),
+      paddingBottom(ThemeStyles.SpacingValue.medium.pxToEm()),
+      ThemeStyles.MediaQueries.beyondSmall(paddingBottom(ThemeStyles.SpacingValue.small.pxToEm()))
+    )
 
-  val itemsList: StyleA = style(display.flex, flexWrap.wrap, overflow.hidden)
+  val itemsList: StyleA = style(display.flex, flexWrap.wrap)
 
   val item: StyleA =
-    style(marginTop(ThemeStyles.SpacingValue.small.pxToEm()), marginBottom(ThemeStyles.SpacingValue.small.pxToEm()))
+    style(
+      marginTop(ThemeStyles.SpacingValue.small.pxToEm()),
+      ThemeStyles.MediaQueries.beyondSmall(marginBottom(ThemeStyles.SpacingValue.small.pxToEm()))
+    )
 
   val spinnerWrapper: StyleA =
-    style(width(100.%%), margin(ThemeStyles.SpacingValue.small.pxToEm()))
+    style(
+      width(100.%%),
+      margin := s"${ThemeStyles.SpacingValue.small.pxToEm().value} ${ThemeStyles.SpacingValue.small.pxToEm().value} 0",
+      ThemeStyles.MediaQueries.beyondSmall(marginBottom(ThemeStyles.SpacingValue.small.pxToEm()))
+    )
 
   val seeMoreButtonWrapper: StyleA = style(
-    marginTop(ThemeStyles.SpacingValue.small.pxToEm()),
-    marginBottom(ThemeStyles.SpacingValue.small.pxToEm()),
+    marginTop(ThemeStyles.SpacingValue.medium.pxToEm()),
+    ThemeStyles.MediaQueries.beyondSmall(
+      marginTop(ThemeStyles.SpacingValue.small.pxToEm()),
+      marginBottom(ThemeStyles.SpacingValue.small.pxToEm())
+    ),
     textAlign.center
   )
 

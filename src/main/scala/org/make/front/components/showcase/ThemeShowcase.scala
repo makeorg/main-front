@@ -105,7 +105,10 @@ object ThemeShowcaseStyles extends StyleSheet.Inline {
   val wrapper: StyleA =
     style(
       backgroundColor(ThemeStyles.BackgroundColor.blackVeryTransparent),
-      padding :=! s"${ThemeStyles.SpacingValue.medium.pxToEm().value} 0 ${ThemeStyles.SpacingValue.small.pxToEm().value}"
+      padding :=! s"${ThemeStyles.SpacingValue.large.pxToEm().value} 0}",
+      ThemeStyles.MediaQueries.beyondSmall(
+        padding :=! s"${ThemeStyles.SpacingValue.large.pxToEm().value} 0 ${(ThemeStyles.SpacingValue.large - ThemeStyles.SpacingValue.small).pxToEm().value}"
+      )
     )
 
   val title: StyleA = style()
@@ -114,7 +117,10 @@ object ThemeShowcaseStyles extends StyleSheet.Inline {
     style(display.flex, flexWrap.wrap)
 
   val propasalItem: StyleA =
-    style(marginTop(ThemeStyles.SpacingValue.small.pxToEm()), marginBottom(ThemeStyles.SpacingValue.small.pxToEm()))
+    style(
+      marginTop(ThemeStyles.SpacingValue.small.pxToEm()),
+      ThemeStyles.MediaQueries.beyondSmall(marginBottom(ThemeStyles.SpacingValue.small.pxToEm()))
+    )
 
   val SeeMoreLinkWrapper: StyleA = style(
     marginTop(ThemeStyles.SpacingValue.small.pxToEm()),
