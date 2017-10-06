@@ -37,7 +37,7 @@ object Translations {
       |
       |         "baseline": "À propos",
       |         "title": "Proposez, votez, agissons",
-      |         "subTitle": "Make.org est une initiative indépendante au service de l'intérêt&nbsp;général",
+      |         "subTitle": "Make.org est une initiative indépendante au service de l'intérêt&nbsp;général.",
       |         "textSeeMore": "En Savoir&nbsp;+",
       |         "expressYourself": "Exprimez-vous&nbsp;!",
       |         "mostPopular": "Les propositions les + populaires sur",
@@ -245,7 +245,7 @@ object Translations {
       |         "moreInfos": "En savoir&nbsp;+",
       |         "matrix": {
       |           "title": "votez sur les propositions",
-      |           "noContent": "Nous n’avons trouvé <strong>aucun résultat</strong> correspondant à votre sélection de&nbsp;tag(s). <br /> Vous pouvez sélectionner d’autres combinaisons de&nbsp;tags.",
+      |           "noContent": "Nous n’avons trouvé <strong>aucun résultat(s)</strong> correspondant à votre sélection de&nbsp;tag(s). <br /> Vous pouvez sélectionner d’autres combinaisons de&nbsp;tags.",
       |           "filter": {
       |             "tag": {
       |               "title": "Filter by tags&nbsp;:"
