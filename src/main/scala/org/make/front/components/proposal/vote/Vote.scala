@@ -23,47 +23,53 @@ object Vote {
                              qualifyVote: (String, String)             => Future[QualificationResponse],
                              removeVoteQualification: (String, String) => Future[QualificationResponse])
 
-  final case class VoteState(activeVoteKey: String)
+  final case class VoteState(votes: Map[String, VoteModel])
 
   lazy val reactClass: ReactClass =
     React
       .createClass[VoteProps, VoteState](
         displayName = "Vote",
-        getInitialState = (_) => VoteState(activeVoteKey = ""),
+        getInitialState = { self =>
+          VoteState(votes = self.props.wrapped.proposal.votes.map(vote => vote.key -> vote).toMap)
+        },
         render = { (self) =>
           def vote(key: String): Future[VoteResponse] = {
             val future = self.props.wrapped.vote(key)
 
             future.onComplete {
-              case Failure(_)      =>
-              case Success(result) => self.setState(_.copy(activeVoteKey = result.voteKey))
+              case Failure(_) =>
+              case Success(result) =>
+                self.setState(state => state.copy(votes = state.votes + (result.voteKey -> result.toVote)))
             }
             future
           }
 
           def unvote(key: String): Future[VoteResponse] = {
-            self.setState(_.copy(activeVoteKey = ""))
             val future = self.props.wrapped.unvote(key)
 
             future.onComplete {
               case Failure(_) =>
-              case Success(_) => self.setState(_.copy(activeVoteKey = ""))
+              case Success(result) =>
+                self.setState(state => state.copy(votes = state.votes + (result.voteKey -> result.toVote)))
             }
             future
           }
 
-          val voteAgree: VoteModel = self.props.wrapped.proposal.votesAgree
-          val voteDisagree: VoteModel = self.props.wrapped.proposal.votesDisagree
-          val voteNeutral: VoteModel = self.props.wrapped.proposal.votesNeutral
+          val voteAgree: VoteModel = self.state.votes("agree")
+          val voteDisagree: VoteModel = self.state.votes("disagree")
+          val voteNeutral: VoteModel = self.state.votes("neutral")
 
-          val votes = self.props.wrapped.proposal.votes.map { vote =>
-            vote.key -> vote.count
-          }.toMap
+          val hasVoted = self.state.votes.values.exists(_.hasVoted)
+
+          val votes = self.state.votes.map {
+            case (key, vote) =>
+              key -> vote.count
+          }
 
           <.ul(^.className := VoteStyles.voteButtonsList)(
             <.li(
               ^.className := VoteStyles
-                .voteButtonItem(self.state.activeVoteKey.nonEmpty && self.state.activeVoteKey != voteAgree.key)
+                .voteButtonItem(hasVoted && !self.state.votes("agree").hasVoted)
             )(
               <.VoteButtonComponent(
                 ^.wrapped := VoteButtonProps(
@@ -79,7 +85,7 @@ object Vote {
             ),
             <.li(
               ^.className := VoteStyles
-                .voteButtonItem(self.state.activeVoteKey.nonEmpty && self.state.activeVoteKey != voteDisagree.key)
+                .voteButtonItem(hasVoted && !self.state.votes("disagree").hasVoted)
             )(
               <.VoteButtonComponent(
                 ^.wrapped := VoteButtonProps(
@@ -95,7 +101,7 @@ object Vote {
             ),
             <.li(
               ^.className := VoteStyles
-                .voteButtonItem(self.state.activeVoteKey.nonEmpty && self.state.activeVoteKey != voteNeutral.key)
+                .voteButtonItem(hasVoted && !self.state.votes("neutral").hasVoted)
             )(
               <.VoteButtonComponent(
                 ^.wrapped := VoteButtonProps(

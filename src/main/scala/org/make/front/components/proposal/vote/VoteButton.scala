@@ -41,43 +41,28 @@ object VoteButton {
   lazy val reactClass: ReactClass =
     React.createClass[VoteButtonProps, VoteButtonState](displayName = "VoteButton", getInitialState = { self =>
       VoteButtonState(
-        isActivated = self.props.wrapped.vote.selected.getOrElse(false),
+        isActivated = self.props.wrapped.vote.hasVoted,
         resultsOfVoteAreDisplayed = false,
         votes = self.props.wrapped.votes,
         qualifications = self.props.wrapped.vote.qualifications
+      )
+    }, componentWillReceiveProps = { (self, props) =>
+      self.setState(
+        VoteButtonState(
+          isActivated = props.wrapped.vote.hasVoted,
+          resultsOfVoteAreDisplayed = false,
+          votes = props.wrapped.votes,
+          qualifications = props.wrapped.vote.qualifications
+        )
       )
     }, render = (self) => {
 
       def voteOrUnvote() = (e: SyntheticEvent) => {
         e.preventDefault()
         if (self.state.isActivated) {
-          self.props.wrapped.handleUnvote(self.props.wrapped.vote.key).onComplete {
-            case Failure(_) =>
-            case Success(result) =>
-              self.setState(
-                state =>
-                  state.copy(
-                    isActivated = false,
-                    resultsOfVoteAreDisplayed = false,
-                    votes = state.votes + (result.voteKey -> result.count),
-                    qualifications = state.qualifications.map(_.copy(selected = Some(false)))
-                )
-              )
-          }
-
+          self.props.wrapped.handleUnvote(self.props.wrapped.vote.key)
         } else {
-          self.props.wrapped.handleVote(self.props.wrapped.vote.key).onComplete {
-            case Failure(_) =>
-            case Success(result) =>
-              self.setState(
-                state =>
-                  state.copy(
-                    isActivated = true,
-                    resultsOfVoteAreDisplayed = false,
-                    votes = state.votes + (result.voteKey -> result.count)
-                )
-              )
-          }
+          self.props.wrapped.handleVote(self.props.wrapped.vote.key)
         }
       }
 
@@ -94,7 +79,7 @@ object VoteButton {
                     Qualification(
                       key = qualifications.qualificationKey,
                       count = qualifications.count,
-                      selected = Some(qualifications.hasQualified)
+                      hasQualified = qualifications.hasQualified
                     )
                   } else {
                     qualification
@@ -119,7 +104,7 @@ object VoteButton {
                     Qualification(
                       key = qualifications.qualificationKey,
                       count = qualifications.count,
-                      selected = Some(qualifications.hasQualified)
+                      hasQualified = qualifications.hasQualified
                     )
                   } else {
                     qualification
@@ -205,19 +190,21 @@ object VoteButton {
         ),
         <.div(^.className := VoteButtonStyles.qualificateVoteAndResultsOfVoteWrapper)(
           <.div(^.className := VoteButtonStyles.qualificateVoteAndResultsOfVoteInnerWrapper(self.state.isActivated))(
-            if (self.state.isActivated && self.state.resultsOfVoteAreDisplayed) {
-              <.div(^.className := VoteButtonStyles.resultsOfVoteWrapper)(
-                <.ResultsOfVoteComponent(^.wrapped := ResultsOfVoteProps(votes = self.state.votes))()
-              )
-            } else {
-              <.QualificateVoteComponent(
-                ^.wrapped := QualificateVoteProps(
-                  qualifications = self.state.qualifications,
-                  voteKey = self.props.wrapped.vote.key,
-                  qualify = qualify,
-                  removeQualification = removeQualification
+            if (self.state.isActivated) {
+              if (self.state.resultsOfVoteAreDisplayed) {
+                <.div(^.className := VoteButtonStyles.resultsOfVoteWrapper)(
+                  <.ResultsOfVoteComponent(^.wrapped := ResultsOfVoteProps(votes = self.state.votes))()
                 )
-              )()
+              } else {
+                <.QualificateVoteComponent(
+                  ^.wrapped := QualificateVoteProps(
+                    qualifications = self.state.qualifications,
+                    voteKey = self.props.wrapped.vote.key,
+                    qualify = qualify,
+                    removeQualification = removeQualification
+                  )
+                )()
+              }
             }
           )
         ),
