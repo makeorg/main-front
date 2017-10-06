@@ -1,20 +1,22 @@
 package org.make.front.components.submitProposal
 
 import io.github.shogowada.scalajs.reactjs.React
-import io.github.shogowada.scalajs.reactjs.VirtualDOM.{^, _}
+import io.github.shogowada.scalajs.reactjs.VirtualDOM.{<, ^, _}
 import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import io.github.shogowada.scalajs.reactjs.events.FormSyntheticEvent
 import org.make.front.components.Components._
 import org.make.front.facades.ReactTextareaAutosize.ReactTooltipVirtualDOMElements
 import org.make.front.facades.Unescape.unescape
-import org.make.front.facades.{I18n, NativeReactTextareaAutosize, Replacements}
+import org.make.front.facades.{I18n, Replacements, _}
 import org.make.front.models.{Theme => ThemeModel}
-import org.make.front.styles._
+import org.make.front.styles.ThemeStyles
 import org.make.front.styles.base.TextStyles
 import org.make.front.styles.ui.{CTAStyles, InputStyles}
 import org.make.front.styles.utils._
 import org.make.front.styles.vendors.FontAwesomeStyles
-import org.scalajs.dom.raw.HTMLInputElement
+import org.scalajs.dom.raw.{HTMLInputElement}
+
+import scalajs.js.Dynamic.{global => g}
 
 import scalacss.DevDefaults._
 import scalacss.internal.StyleA
@@ -40,23 +42,33 @@ object SubmitProposalForm {
         SubmitProposalFormState()
       },
       componentWillReceiveProps = { (self, props) =>
-        val newContent =
-          if (self.state.proposalContent == "") { props.wrapped.bait + " " } else { self.state.proposalContent }
-        self.setState(_.copy(errorMessage = props.wrapped.errorMessage, proposalContent = newContent))
+        self.setState(_.copy(errorMessage = props.wrapped.errorMessage, proposalContent = self.state.proposalContent))
       },
       render = { self =>
         val props = self.props.wrapped
 
-        val handleProposalContentChange: (FormSyntheticEvent[HTMLInputElement]) => Unit = { e =>
+        val handleProposalInputValueChanged: (FormSyntheticEvent[HTMLInputElement]) => Unit = { e =>
           var newProposalContent = e.target.value
 
-          if (!newProposalContent.startsWith(props.bait)) {
-            newProposalContent = s"${props.bait} $newProposalContent"
+          if (!newProposalContent.startsWith(self.props.wrapped.bait)) {
+            self.setState(
+              _.copy(
+                proposalContent = self.props.wrapped.bait + newProposalContent
+                  .substring(self.props.wrapped.bait.length + 1, newProposalContent.length)
+              )
+            )
+          } else {
+            self.setState(_.copy(proposalContent = newProposalContent))
           }
-          self.setState(_.copy(proposalContent = newProposalContent))
         }
 
-        val handleSubmitFormChange: (FormSyntheticEvent[HTMLInputElement]) => Boolean = {
+        def handleProposalInputFocused() = () => {
+          if (self.state.proposalContent.isEmpty) {
+            self.setState(_.copy(proposalContent = self.props.wrapped.bait))
+          }
+        }
+
+        val handleSubmit: (FormSyntheticEvent[HTMLInputElement]) => Boolean = {
           event =>
             event.preventDefault()
             val content = self.state.proposalContent
@@ -92,7 +104,7 @@ object SubmitProposalForm {
             false
         }
 
-        <.form(^.className := SubmitProposalFormStyles.form, ^.onSubmit := handleSubmitFormChange)(
+        <.form(^.className := SubmitProposalFormStyles.form, ^.onSubmit := handleSubmit)(
           <.label(
             ^.className := Seq(
               InputStyles.wrapper,
@@ -104,9 +116,10 @@ object SubmitProposalForm {
             <.span(^.className := SubmitProposalFormStyles.innerWapper)(
               <.span(^.className := SubmitProposalFormStyles.textareaWapper)(
                 <.TextareaAutosize(
-                  ^.value := self.state.proposalContent, /*textarea autosize*/
-                  ^("autoFocus") := true,
-                  ^.onChange := handleProposalContentChange
+                  ^.value := self.state.proposalContent,
+                  ^.placeholder := "Il faut une proposition réaliste et respectueuse de tous",
+                  ^.onFocus := handleProposalInputFocused,
+                  ^.onChange := handleProposalInputValueChanged
                 )()
               ),
               <.span(^.className := SubmitProposalFormStyles.textLimitInfoWapper)(

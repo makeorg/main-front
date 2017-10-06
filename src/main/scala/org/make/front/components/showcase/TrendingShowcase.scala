@@ -80,7 +80,6 @@ object TrendingShowcase {
         })
       }
     )
-
 }
 
 object TrendingShowcaseStyles extends StyleSheet.Inline {
@@ -89,7 +88,11 @@ object TrendingShowcaseStyles extends StyleSheet.Inline {
   val wrapper: StyleA =
     style(
       backgroundColor(ThemeStyles.BackgroundColor.blackVeryTransparent),
-      padding :=! s"${ThemeStyles.SpacingValue.medium.pxToEm().value} 0"
+      padding :=! s"${ThemeStyles.SpacingValue.medium.pxToEm().value} 0",
+      borderBottom :=! s"1px solid ${ThemeStyles.BorderColor.white.value}",
+      ThemeStyles.MediaQueries.beyondSmall(
+        padding :=! s"${ThemeStyles.SpacingValue.larger.pxToEm().value} 0 ${(ThemeStyles.SpacingValue.larger - ThemeStyles.SpacingValue.small).pxToEm().value}"
+      )
     )
 
   val title: StyleA = style()
@@ -102,7 +105,10 @@ object TrendingShowcaseStyles extends StyleSheet.Inline {
     style(display.flex, flexWrap.wrap)
 
   val propasalItem: StyleA =
-    style(marginTop(ThemeStyles.SpacingValue.small.pxToEm()), marginBottom(ThemeStyles.SpacingValue.small.pxToEm()))
+    style(
+      marginTop(ThemeStyles.SpacingValue.small.pxToEm()),
+      ThemeStyles.MediaQueries.beyondSmall(marginBottom(ThemeStyles.SpacingValue.small.pxToEm()))
+    )
 
   val logo: StyleA =
     style(
