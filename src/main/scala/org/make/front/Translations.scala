@@ -55,7 +55,7 @@ object Translations {
       |         "title": "Tous les&nbsp;thèmes"
       |       },
       |       "theme": {
-      |         "actionsCount": "%{actions} actions en&nbsp;cours",
+      |         "actionsCount": "%{actions} actions issues de vos propositions",
       |         "proposalsCount": "%{proposals} propositions",
       |         "moreInfos": "En savoir&nbsp;+",
       |         "matrix": {
@@ -63,31 +63,31 @@ object Translations {
       |           "noContent": "Nous n’avons trouvé <strong>aucun résultat</strong> correspondant à votre sélection de&nbsp;tag(s). <br> Vous pouvez sélectionner d’autres combinaisons de&nbsp;tags.",
       |           "filter": {
       |             "tag": {
-      |               "title": "Tags populaire&nbsp;:"
+      |               "title": "Filtrer par tags&nbsp;:"
       |             }
       |           },
       |           "seeMoreProposals": "Voir + de propositions"
       |         }
       |       },
       |       "tag": {
-      |         "showMore": "afficher tous les&nbsp;tags",
-      |         "showLess": "masquer les tags&nbsp;supplémentaires",
+      |         "showMore": "voir tous les&nbsp;tags",
+      |         "showLess": "masquer",
       |         "proposalsCount": "%{proposals} propositions",
       |         "moreInfos": "En savoir&nbsp;+"
       |       },
       |       "proposal": {
       |         "agree": "D'accord",
       |         "disagree": "Pas d'accord",
-      |         "blank": "Vote blanc",
+      |         "neutral": "Vote blanc",
       |         "likeIt": "Coup de <i class=\"fa fa-heart\"></i>",
       |         "doable": "Réaliste",
-      |         "platitudeAgree": "Platitude",
+      |         "platitudeAgree": "Banalité",
       |         "noWay": "Surtout pas&nbsp;!",
       |         "impossible": "Infaisable",
-      |         "platitudeDisagree": "Platitude",
+      |         "platitudeDisagree": "Banalité",
       |         "doNotUnderstand": "Pas compris",
       |         "noOpinion": "Pas d'avis",
-      |         "doNotCare": "Je m'en moque",
+      |         "doNotCare": "Indifférent",
       |         "fullHeader": "%{firstName}, %{age} ans (%{postalCode})",
       |         "ageHeader": "%{firstName}, %{age} ans",
       |         "postalCodeHeader": "%{firstName} (%{postalCode})",
@@ -248,7 +248,7 @@ object Translations {
       |           "noContent": "Nous n’avons trouvé <strong>aucun résultat</strong> correspondant à votre sélection de&nbsp;tag(s). <br /> Vous pouvez sélectionner d’autres combinaisons de&nbsp;tags.",
       |           "filter": {
       |             "tag": {
-      |               "title": "Tags populaire&nbsp;:"
+      |               "title": "Filter by tags&nbsp;:"
       |             }
       |           }
       |         }
@@ -262,16 +262,16 @@ object Translations {
       |       "proposal": {
       |         "agree": "Agree",
       |         "disagree": "Disagree",
-      |         "blank": "Blank vote",
+      |         "neutral": "Blank vote",
       |         "likeIt": "I <i class=\"fa fa-heart\"></i> It",
-      |         "doable": "Doable",
-      |         "platitudeAgree": "Platitude",
-      |         "noWay": "No way&nbsp;!",
-      |         "impossible": "Impossible",
-      |         "platitudeDisagree": "Platitude",
-      |         "doNotUnderstand": "Did not understand",
+      |         "doable": "Realistic",
+      |         "platitudeAgree": "Commonplace",
+      |         "noWay": "Unrealistic",
+      |         "impossible": "Never ever",
+      |         "platitudeDisagree": "Commonplace",
+      |         "doNotUnderstand": "I don't care",
       |         "noOpinion": "No opinion",
-      |         "doNotCare": "Don't care",
+      |         "doNotCare": "I don't care",
       |         "fullHeader": "%{firstName}, %{age} yo (%{postalCode})",
       |         "ageHeader": "%{firstName}, %{age} yo",
       |         "postalCodeHeader": "%{firstName} (%{postalCode})",
