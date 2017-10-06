@@ -12,7 +12,9 @@ import scala.concurrent.Future
 
 object ThemeShowcaseContainer {
 
-  final case class ThemeShowcaseContainerProps(themeSlug: String)
+  final case class ThemeShowcaseContainerProps(themeSlug: String,
+                                               maybeIntro: Option[String] = None,
+                                               maybeNews: Option[String] = None)
 
   lazy val reactClass: ReactClass = ReactRedux.connectAdvanced(selectorFactory)(ThemeShowcase.reactClass)
 
@@ -26,12 +28,16 @@ object ThemeShowcaseContainer {
         ThemeShowcase.ThemeShowcaseProps(
           proposals = ProposalService
             .searchProposals(themesIds = Seq(theme.id), limit = Some(4), sort = Seq.empty, skip = None),
-          maybeTheme = Some(theme)
+          maybeTheme = Some(theme),
+          maybeIntro = ownProps.wrapped.maybeIntro,
+          maybeNews = ownProps.wrapped.maybeNews
         )
       }.getOrElse(
         ThemeShowcase.ThemeShowcaseProps(
           proposals = Future.successful(SearchResponse(total = 0, results = Seq.empty)),
-          maybeTheme = None
+          maybeTheme = None,
+          maybeIntro = None,
+          maybeNews = None
         )
       )
 

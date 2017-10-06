@@ -105,28 +105,38 @@ object SubmitProposalForm {
         }
 
         <.form(^.className := SubmitProposalFormStyles.form, ^.onSubmit := handleSubmit)(
-          <.label(
-            ^.className := Seq(
-              InputStyles.wrapper,
-              InputStyles.withIcon,
-              InputStyles.biggerWithIcon,
-              SubmitProposalFormStyles.proposalInputWithIconWrapper
-            )
-          )(
-            <.span(^.className := SubmitProposalFormStyles.innerWapper)(
-              <.span(^.className := SubmitProposalFormStyles.textareaWapper)(
-                <.TextareaAutosize(
-                  ^.value := self.state.proposalContent,
-                  ^.placeholder := "Il faut une proposition réaliste et respectueuse de tous",
-                  ^.onFocus := handleProposalInputFocused,
-                  ^.onChange := handleProposalInputValueChanged
+          <.span(^.className := SubmitProposalFormStyles.proposalInputWithSubWrapper)(
+            if (self.state.proposalContent.length >= self.props.wrapped.proposalContentMaxLength) {
+              <.span(^.className := SubmitProposalFormStyles.textLimitReachedAlert)(
+                <.span(
+                  ^.className := TextStyles.smallerText,
+                  ^.dangerouslySetInnerHTML := "Oups&nbsp;! Vous avez dépassé la limite de 140 caractères 😅 Essayez d’être plus concis.e.&nbsp;🙏"
                 )()
-              ),
-              <.span(^.className := SubmitProposalFormStyles.textLimitInfoWapper)(
-                <.span(^.className := Seq(TextStyles.smallText, SubmitProposalFormStyles.textLimitInfo))(
-                  self.state.proposalContent.length,
-                  "/",
-                  props.proposalContentMaxLength
+              )
+            },
+            <.label(
+              ^.className := Seq(
+                InputStyles.wrapper,
+                InputStyles.withIcon,
+                InputStyles.biggerWithIcon,
+                SubmitProposalFormStyles.proposalInputWithIconWrapper
+              )
+            )(
+              <.span(^.className := SubmitProposalFormStyles.innerWapper)(
+                <.span(^.className := SubmitProposalFormStyles.textareaWapper)(
+                  <.TextareaAutosize(
+                    ^.value := self.state.proposalContent,
+                    ^.placeholder := "Il faut une proposition réaliste et respectueuse de tous",
+                    ^.onFocus := handleProposalInputFocused,
+                    ^.onChange := handleProposalInputValueChanged
+                  )()
+                ),
+                <.span(^.className := SubmitProposalFormStyles.textLimitInfoWapper)(
+                  <.span(^.className := Seq(TextStyles.smallText, SubmitProposalFormStyles.textLimitInfo))(
+                    self.state.proposalContent.length,
+                    "/",
+                    props.proposalContentMaxLength
+                  )
                 )
               )
             )
@@ -193,6 +203,43 @@ object SubmitProposalFormStyles extends StyleSheet.Inline {
       color(ThemeStyles.TextColor.lighter),
       whiteSpace.nowrap
     )
+
+  val proposalInputWithSubWrapper: StyleA = style(position.relative, display.block)
+
+  val textLimitReachedAlert: StyleA = style(
+    position.absolute,
+    top(100.%%),
+    right(`0`),
+    width(100.%%),
+    padding := s"${3.pxToEm().value} ${10.pxToEm().value}",
+    marginTop(ThemeStyles.SpacingValue.smaller.pxToEm()),
+    color(ThemeStyles.TextColor.white),
+    backgroundColor(ThemeStyles.BackgroundColor.black),
+    ThemeStyles.MediaQueries
+      .beyondSmall(
+        top.auto,
+        bottom(100.%%),
+        width.auto,
+        marginTop.auto,
+        marginBottom(ThemeStyles.SpacingValue.smaller.pxToEm())
+      ),
+    textAlign.center,
+    (&.after)(
+      content := "''",
+      position.absolute,
+      right(50.pxToEm()),
+      bottom(100.%%),
+      borderBottom :=! s"${5.pxToEm().value} solid ${ThemeStyles.BackgroundColor.black.value}",
+      borderRight :=! s"${5.pxToEm().value} solid transparent",
+      borderLeft :=! s"${5.pxToEm().value} solid transparent",
+      ThemeStyles.MediaQueries.beyondSmall(
+        bottom.auto,
+        top(100.%%),
+        borderBottom.none,
+        borderTop :=! s"${5.pxToEm().value} solid ${ThemeStyles.BackgroundColor.black.value}"
+      )
+    )
+  )
 
   val submitButton: StyleA =
     style(marginTop(ThemeStyles.SpacingValue.medium.pxToEm()))

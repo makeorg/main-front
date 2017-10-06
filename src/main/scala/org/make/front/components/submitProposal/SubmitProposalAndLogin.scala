@@ -84,25 +84,31 @@ object SubmitProposalAndLogin {
               )
             )
           } else if (self.state.displayedComponent == "connect") {
-            <.section()(
-              <.div(^.className := RowRulesStyles.narrowerCenteredRow)(
-                <.header(^.className := ColRulesStyles.col)(
-                  <.h1(^.className := SubmitProposalAndLoginStyles.title)(
-                    <.span(
-                      ^.className := Seq(TextStyles.mediumText, TextStyles.intro, SubmitProposalAndLoginStyles.intro)
-                    )("Nous avons besoin de quelques informations"),
-                    <.br()(),
-                    <.strong(^.className := TextStyles.bigTitle)("Pour valider votre proposition")
+
+            val intro: ReactElement =
+              <.div()(
+                <.div(^.className := RowRulesStyles.narrowerCenteredRow)(
+                  <.header(^.className := ColRulesStyles.col)(
+                    <.h1(^.className := SubmitProposalAndLoginStyles.title)(
+                      <.span(
+                        ^.className := Seq(TextStyles.mediumText, TextStyles.intro, SubmitProposalAndLoginStyles.intro)
+                      )("Nous avons besoin de quelques informations"),
+                      <.br()(),
+                      <.strong(^.className := TextStyles.bigTitle)("Pour valider votre proposition")
+                    )
+                  )
+                ),
+                <.div(^.className := RowRulesStyles.evenNarrowerCenteredRow)(
+                  <.div(^.className := ColRulesStyles.col)(
+                    <.hr(^.className := Seq(SubmitProposalAndLoginStyles.separatorLine))()
                   )
                 )
-              ),
-              <.div(^.className := RowRulesStyles.evenNarrowerCenteredRow)(
-                <.div(^.className := ColRulesStyles.col)(
-                  <.hr(^.className := Seq(SubmitProposalAndLoginStyles.separatorLine))()
-                )
-              ),
+              )
+
+            <.section()(
               <.RequireAuthenticatedUserComponent(
                 ^.wrapped := RequireAuthenticatedUserContainerProps(
+                  intro = intro,
                   onceConnected = onConnectionOk,
                   registerView = "register-expanded"
                 )

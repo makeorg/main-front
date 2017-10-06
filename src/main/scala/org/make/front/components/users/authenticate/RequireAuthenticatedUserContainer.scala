@@ -2,6 +2,7 @@ package org.make.front.components.users.authenticate
 
 import io.github.shogowada.scalajs.reactjs.React.Props
 import io.github.shogowada.scalajs.reactjs.classes.ReactClass
+import io.github.shogowada.scalajs.reactjs.elements.ReactElement
 import io.github.shogowada.scalajs.reactjs.redux.ReactRedux
 import io.github.shogowada.scalajs.reactjs.redux.Redux.Dispatch
 import org.make.front.components.AppState
@@ -9,13 +10,15 @@ import org.make.front.components.users.authenticate.RequireAuthenticatedUser.Req
 
 object RequireAuthenticatedUserContainer {
 
-  case class RequireAuthenticatedUserContainerProps(registerView: String,
+  case class RequireAuthenticatedUserContainerProps(intro: ReactElement,
+                                                    registerView: String,
                                                     defaultView: String = "login",
                                                     onceConnected: () => Unit)
 
   val reactClass: ReactClass = ReactRedux.connectAdvanced {
     _: Dispatch => (state: AppState, props: Props[RequireAuthenticatedUserContainerProps]) =>
       RequireAuthenticatedUserProps(
+        intro = props.wrapped.intro,
         registerView = props.wrapped.registerView,
         defaultView = props.wrapped.defaultView,
         onceConnected = props.wrapped.onceConnected,

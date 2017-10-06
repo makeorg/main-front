@@ -18,7 +18,13 @@ object Home {
           <("home")()(
             <.IntroComponent.empty,
             <.ThemeShowcaseContainerComponent(
-              ^.wrapped := ThemeShowcaseContainerProps(themeSlug = "developpement-durable-energie")
+              ^.wrapped := ThemeShowcaseContainerProps(
+                themeSlug = "developpement-durable-energie",
+                maybeIntro = Some(unescape("Le thème de la&nbsp;semaine")),
+                maybeNews = Some(
+                  "Le gouvernement prépare un nouveau Grenelle<br>de l'environnement, exprimez vos idées sur le&nbsp;sujet."
+                )
+              )
             )(),
             <.ExplanationsComponent.empty,
             <.TrendingShowcaseContainerComponent(
