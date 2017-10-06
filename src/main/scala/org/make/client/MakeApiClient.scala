@@ -18,26 +18,39 @@ import scala.util.{Failure, Success, Try}
 
 object MakeApiClient extends Client {
 
+  var customHeaders: Map[String, String] = Map.empty
   def defaultHeaders: Map[String, String] = {
     Map(
       //TODO: X-Forwarded-For Header is set for dev only. Remove in prod.
       "X-Forwarded-For" -> "0.0.0.0",
       "Accept" -> MediaTypes.`application/json`,
       "Content-Type" -> "application/json;charset=UTF-8"
-    ) ++ MakeApiClient.getToken.map { token =>
-      Map("Authorization" -> s"${token.token_type} ${token.access_token}")
-    }.getOrElse(Map.empty)
+    ) ++
+      customHeaders ++
+      MakeApiClient.getToken.map { token =>
+        Map("Authorization" -> s"${token.token_type} ${token.access_token}")
+      }.getOrElse(Map.empty)
   }
 
   override lazy val baseUrl: String = Configuration.apiUrl
+
   private var token: Option[Token] = None
-  val printer: Printer = Printer.noSpaces
   def getToken: Option[Token] = token
   def setToken(newToken: Token): Unit = token = Some(newToken)
   def removeToken(): Unit = token = None
   def isAuthenticated: Boolean = token.isDefined
+
+  val printer: Printer = Printer.noSpaces
   val maxTimeout: Int = 5000
   val withCredentials: Boolean = true
+
+  val themeIdHeader: String = "x-make-theme-id"
+  val operationHeader: String = "x-make-operation"
+  val sourceHeader: String = "x-make-source"
+  val locationHeader: String = "x-make-location"
+  val questionHeader: String = "x-make-question"
+  val languageHeader: String = "x-make-language"
+  val countryHeader: String = "x-make-country"
 
   private def XHRResponseTo[ENTITY](responseTry: Try[XMLHttpRequest], promise: Promise[Option[ENTITY]])(
     implicit decoder: Decoder[ENTITY]

@@ -24,13 +24,30 @@ object ProposalService extends ApiService with CirceClassFormatters with CirceFo
 
   val defaultResultsCount = 20
 
-  def createProposal(content: String): Future[RegisterProposalResponse] =
-    MakeApiClient
+  def createProposal(content: String,
+                     location: String,
+                     themeId: Option[String] = None,
+                     source: String = "core product",
+                     operation: Option[String] = None,
+                     question: Option[String] = None): Future[RegisterProposalResponse] = {
+    //TODO: set headers everywhere appropriate. For now headers are reset to their previous values with a backup.
+    val backupHeaders = MakeApiClient.customHeaders
+    MakeApiClient.customHeaders ++= Map[String, String](
+      MakeApiClient.sourceHeader -> source,
+      MakeApiClient.locationHeader -> location
+    )
+    themeId.foreach(theme => MakeApiClient.customHeaders += MakeApiClient.themeIdHeader -> theme)
+    operation.foreach(op  => MakeApiClient.customHeaders += MakeApiClient.operationHeader -> op)
+    question.foreach(q    => MakeApiClient.customHeaders += MakeApiClient.questionHeader -> q)
+    val registerProposalResponse = MakeApiClient
       .post[RegisterProposalResponse](
         resourceName,
         data = RegisterProposalRequest(content).asJson.pretty(ApiService.printer)
       )
       .map(_.get)
+    MakeApiClient.customHeaders = backupHeaders
+    registerProposalResponse
+  }
 
   def searchProposals(content: Option[String] = None,
                       themesIds: Seq[ThemeId] = Seq.empty,
