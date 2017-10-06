@@ -113,6 +113,9 @@ object SubmitProposalForm {
               SubmitProposalFormStyles.proposalInputWithIconWrapper
             )
           )(
+            <.p(^.className := SubmitProposalFormStyles.innerWapper)(
+              "Oups&nbsp;! Vous avez dépassé la limite de 140 caractères 😅 Essayez d’être plus concis.e.&nbsp;🙏"
+            ),
             <.span(^.className := SubmitProposalFormStyles.innerWapper)(
               <.span(^.className := SubmitProposalFormStyles.textareaWapper)(
                 <.TextareaAutosize(
