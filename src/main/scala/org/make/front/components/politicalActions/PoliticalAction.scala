@@ -32,7 +32,10 @@ object PoliticalAction {
                 ^("data-pin-no-hover") := "true"
               )()
             ),
-            <.div(^.className := PoliticalActionStyles.contentWrapper)(
+            <.div(^.className := PoliticalActionStyles.contentWrapper)(politicalAction.introduction.map {
+              introduction =>
+                <.p(^.className := Seq(TextStyles.smallerText, PoliticalActionStyles.info))(unescape(introduction))
+            }, politicalAction.date.map { date =>
               <.p(^.className := Seq(TextStyles.smallerText, PoliticalActionStyles.info))(
                 <.i(
                   ^.className := Seq(
@@ -41,20 +44,16 @@ object PoliticalAction {
                     FontAwesomeStyles.calendarOpen
                   )
                 )(),
-                politicalAction.date
-              ),
+                date
+              )
+            }, politicalAction.location.map { location =>
               <.p(^.className := Seq(TextStyles.smallerText, PoliticalActionStyles.info))(
                 <.i(
                   ^.className := Seq(FontAwesomeStyles.fa, PoliticalActionStyles.infoIcon, FontAwesomeStyles.mapMarker)
                 )(),
-                politicalAction.location
-              ),
-              <.p(^.className := Seq(TextStyles.boldText, TextStyles.mediumText, PoliticalActionStyles.text))(
-                politicalAction.text,
-                <.br()(),
-                <.a(^.className := PoliticalActionStyles.seeMore)(unescape(I18n.t("content.theme.moreInfos")))
+                location
               )
-            ),
+            }, <.p(^.className := Seq(TextStyles.boldText, TextStyles.mediumText, PoliticalActionStyles.text))(unescape(politicalAction.text), <.br()(), politicalAction.links.map(links => <.span(^.dangerouslySetInnerHTML := links, ^.className := PoliticalActionStyles.links)()))),
             <.style()(PoliticalActionStyles.render[String])
           )
 
@@ -101,5 +100,8 @@ object PoliticalActionStyles extends StyleSheet.Inline {
   val text: StyleA = style(marginTop(5.pxToEm()))
 
   val seeMore: StyleA = style(color(ThemeStyles.ThemeColor.primary))
+  val links: StyleA = style(unsafeChild("a") {
+    color(ThemeStyles.ThemeColor.primary)
+  })
 
 }

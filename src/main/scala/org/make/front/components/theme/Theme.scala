@@ -4,6 +4,7 @@ import io.github.shogowada.scalajs.reactjs.React
 import io.github.shogowada.scalajs.reactjs.VirtualDOM._
 import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import org.make.front.components.Components._
+import org.make.front.components.politicalActions.PoliticalActionsContainer.PoliticalActionsContainerProps
 import org.make.front.components.theme.ResultsInThemeContainer.ResultsInThemeContainerProps
 import org.make.front.components.theme.ThemeHeader.ThemeHeaderProps
 import org.make.front.models.{Theme => ThemeModel}
@@ -25,7 +26,9 @@ object Theme {
           <("theme")()(
             <.ThemeHeaderComponent(^.wrapped := ThemeHeaderProps(self.props.wrapped.theme))(),
             <.div(^.className := ThemeComponentStyles.contentWrapper)(
-              <.PoliticalActionsContainerComponent()(),
+              <.PoliticalActionsContainerComponent(
+                ^.wrapped := PoliticalActionsContainerProps(Some(self.props.wrapped.theme))
+              )(),
               <.ResultsInThemeContainerComponent(
                 ^.wrapped := ResultsInThemeContainerProps(currentTheme = self.props.wrapped.theme)
               )(),

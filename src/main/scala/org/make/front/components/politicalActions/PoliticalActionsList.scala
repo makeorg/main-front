@@ -21,17 +21,22 @@ object PoliticalActionsList {
 
   final case class PoliticalActionsListProps(politicalActions: Seq[PoliticalActionModel])
 
-  final case class PoliticalActionsListState()
+  final case class PoliticalActionsListState(politicalActions: Seq[PoliticalActionModel])
 
   lazy val reactClass: ReactClass = React.createClass[PoliticalActionsListProps, PoliticalActionsListState](
     displayName = "PoliticalActionsList",
-    getInitialState = (_) => PoliticalActionsListState(),
+    getInitialState = (self) => PoliticalActionsListState(self.props.wrapped.politicalActions),
+    componentWillReceiveProps = { (self, props) =>
+      self.setState(PoliticalActionsListState(props.wrapped.politicalActions))
+    },
     render = { (self) =>
       var previousButton: Option[HTMLElement] = None
       var nextButton: Option[HTMLElement] = None
 
       var slider: Option[Slider] = None
       val size = self.props.wrapped.politicalActions.size
+
+      updateArrowsVisibility(0)
 
       def updateArrowsVisibility(currentSlide: Int): Unit = {
         if (currentSlide == 0) {
@@ -81,22 +86,22 @@ object PoliticalActionsList {
             <.div(^.className := PoliticalActionsListStyles.slideshowWrapper)(
               <.div(^.className := PoliticalActionsListStyles.slideshowContentWrapper)(
                 <.div(^.className := Seq(PoliticalActionsListStyles.slideshow))(
-                  if (self.props.wrapped.politicalActions.isEmpty) {
+                  if (self.state.politicalActions.isEmpty) {
                     <.NoPoliticalActionComponent.empty
                   } else {
-                    <.Slider(
-                      ^.ref := ((s: HTMLElement) => slider = Some(s.asInstanceOf[Slider])),
-                      ^.infinite := false,
-                      ^.arrows := false,
-                      ^.id := "slideshow",
-                      ^.afterChange := updateArrowsVisibility
-                    )(self.props.wrapped.politicalActions.map { politicalAction =>
-                      <.div(^.className := Seq(PoliticalActionsListStyles.slideWrapper))(
-                        <.div(^.className := Seq(PoliticalActionsListStyles.slide))(
-                          <.PoliticalActionComponent(^.wrapped := PoliticalActionProps(politicalAction))()
+                    <.Slider(^.ref := ((s: HTMLElement) => {
+                      slider = Option(s.asInstanceOf[Slider])
+                      slider.foreach(_.slickGoTo(0))
+                      slider
+                    }), ^.infinite := false, ^.arrows := false, ^.id := "slideshow", ^.afterChange := updateArrowsVisibility)(
+                      self.state.politicalActions.map { politicalAction =>
+                        <.div(^.className := Seq(PoliticalActionsListStyles.slideWrapper))(
+                          <.div(^.className := Seq(PoliticalActionsListStyles.slide))(
+                            <.PoliticalActionComponent(^.wrapped := PoliticalActionProps(politicalAction))()
+                          )
                         )
-                      )
-                    })
+                      }
+                    )
                   }
                 )
               ),
