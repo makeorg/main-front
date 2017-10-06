@@ -26,7 +26,7 @@ final case class AppState(configuration: Option[BusinessConfiguration],
                               title = "Comment lutter contre les violences faites aux&nbsp;femmes&nbsp;?"
                             )
                           ),
-                          bait: String = "Il faut",
+                          bait: String = "Il faut ",
                           connectedUser: Option[User],
                           country: String = "FR",
                           language: String = "fr") {
