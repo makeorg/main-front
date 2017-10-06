@@ -106,7 +106,7 @@ object SubmitProposalForm {
 
         <.form(^.className := SubmitProposalFormStyles.form, ^.onSubmit := handleSubmit)(
           <.span(^.className := SubmitProposalFormStyles.proposalInputWithSubWrapper)(
-            if (self.state.proposalContent.length >= self.props.wrapped.proposalContentMaxLength) {
+            if (self.state.proposalContent.length > self.props.wrapped.proposalContentMaxLength) {
               <.span(^.className := SubmitProposalFormStyles.textLimitReachedAlert)(
                 <.span(
                   ^.className := TextStyles.smallerText,

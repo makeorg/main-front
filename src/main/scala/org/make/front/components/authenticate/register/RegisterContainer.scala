@@ -3,8 +3,9 @@ package org.make.front.components.authenticate.register
 import io.github.shogowada.scalajs.reactjs.React.Props
 import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import io.github.shogowada.scalajs.reactjs.redux.{ContainerComponentFactory, ReactRedux}
-import org.make.front.actions.LoggedInAction
+import org.make.front.actions.{LoggedInAction, NotifyInfo}
 import org.make.front.components.AppState
+import org.make.front.facades.I18n
 import org.make.front.models.{User => UserModel}
 import org.make.services.user.UserService
 
@@ -35,6 +36,7 @@ object RegisterContainer {
         future.onComplete {
           case Success(user) =>
             dispatch(LoggedInAction(user))
+            dispatch(NotifyInfo(message = I18n.t("form.register.notification.confirmation")))
             props.wrapped.onSuccessfulRegistration()
           case Failure(_) =>
         }
