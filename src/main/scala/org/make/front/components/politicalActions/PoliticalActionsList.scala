@@ -71,7 +71,7 @@ object PoliticalActionsList {
             <.h2(^.className := TextStyles.bigTitle)(
               unescape(
                 I18n.t(
-                  "content.theme.actionsCount",
+                  "content.theme.matrix.introOfActions",
                   Replacements(("actions", self.props.wrapped.politicalActions.length.toString))
                 )
               )

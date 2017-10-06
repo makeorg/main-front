@@ -55,10 +55,11 @@ object Translations {
       |         "title": "Tous les&nbsp;thèmes"
       |       },
       |       "theme": {
-      |         "actionsCount": "%{actions} actions issues de vos propositions",
+      |         "actionsCount": "%{actions} actions",
       |         "proposalsCount": "%{proposals} propositions",
       |         "moreInfos": "En savoir&nbsp;+",
       |         "matrix": {
+      |           "introOfActions": "%{actions} actions issues de vos propositions",
       |           "title": "votez sur les propositions",
       |           "noContent": "Nous n’avons trouvé <strong>aucun résultat</strong> correspondant à votre sélection de&nbsp;tag(s). <br> Vous pouvez sélectionner d’autres combinaisons de&nbsp;tags.",
       |           "filter": {
@@ -165,7 +166,10 @@ object Translations {
       |          "errorBlankFirstName": "Veuillez renseigner ce&nbsp;champ.",
       |          "errorAlreadyExist": "Ce compte existe déjà, merci de vous&nbsp;connecter.",
       |          "errorBlankEmail": "Veuillez renseigner ce&nbsp;champ.",
-      |          "errorBlankPassword": "Veuillez renseigner ce&nbsp;champ."
+      |          "errorBlankPassword": "Veuillez renseigner ce&nbsp;champ.",
+      |          "notification": {
+      |             "confirmation": "Votre compte a été crée avec succès. Pensez à confirmer votre adresse email grâce au lien qui vous a été envoyé - ceci afin de nous assurer qu'il s'agit bien de vous."
+      |          }
       |       },
       |       "proposal": {
       |         "submit": "Proposer",
