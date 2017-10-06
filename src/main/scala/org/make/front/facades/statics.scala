@@ -4,6 +4,22 @@ import scala.scalajs.js
 import scala.scalajs.js.annotation.JSImport
 
 @js.native
+@JSImport("./images/actions/goodplanet.png", "default")
+object goodplanet extends js.Object
+
+@js.native
+@JSImport("./images/actions/amisdelaterre.png", "default")
+object amisdelaterre extends js.Object
+
+@js.native
+@JSImport("./images/actions/artisansdumonde.png", "default")
+object artisansdumonde extends js.Object
+
+@js.native
+@JSImport("./images/actions/femmesingenieurs.png", "default")
+object femmesingenieurs extends js.Object
+
+@js.native
 @JSImport("./images/logoMake.svg", "default")
 object logoMake extends js.Object
 

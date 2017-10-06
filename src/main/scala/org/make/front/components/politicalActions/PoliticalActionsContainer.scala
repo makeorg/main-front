@@ -6,21 +6,27 @@ import io.github.shogowada.scalajs.reactjs.redux.ReactRedux
 import io.github.shogowada.scalajs.reactjs.redux.Redux.Dispatch
 import org.make.front.actions.LoadPoliticalAction
 import org.make.front.components.AppState
+import org.make.front.models.{Theme => ThemeModel}
 
 object PoliticalActionsContainer {
+
+  case class PoliticalActionsContainerProps(currentTheme: Option[ThemeModel])
 
   lazy val reactClass: ReactClass =
     ReactRedux.connectAdvanced(selectorFactory)(PoliticalActionsList.reactClass)
 
-  def selectorFactory: (Dispatch) => (AppState, Props[Unit]) => PoliticalActionsList.PoliticalActionsListProps =
-    (dispatch: Dispatch) => { (state: AppState, _: Props[Unit]) =>
-      val politicalActionsList = state.politicalActions
+  def selectorFactory: (
+    Dispatch
+  ) => (AppState, Props[PoliticalActionsContainerProps]) => PoliticalActionsList.PoliticalActionsListProps = {
+    (dispatch: Dispatch) =>
+      { (state: AppState, props: Props[PoliticalActionsContainerProps]) =>
+        val politicalActionsList = state.politicalActions
 
-      dispatch(LoadPoliticalAction)
+        dispatch(LoadPoliticalAction)
 
-      if (politicalActionsList.isEmpty)
-        PoliticalActionsList.PoliticalActionsListProps(Seq.empty)
-      else
-        PoliticalActionsList.PoliticalActionsListProps(politicalActionsList)
-    }
+        PoliticalActionsList.PoliticalActionsListProps(
+          politicalActionsList.filter(_.themeSlug == props.wrapped.currentTheme.map(_.slug))
+        )
+      }
+  }
 }
