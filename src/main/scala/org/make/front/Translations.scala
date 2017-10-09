@@ -195,7 +195,7 @@ object Translations {
       |         "description": "Vous pouvez choisir un nouveau mot de&nbsp;passe.",
       |         "validation": "Valider",
       |         "success": {
-      |           "title": "merci, votre mot de passe a bien été mis à&nbsp;jour.",
+      |           "title": "Merci, votre mot de passe a bien été mis à&nbsp;jour.",
       |           "description": "Vous pouvez vous connecter dès&nbsp;maintenant."
       |         },
       |         "failed" : {

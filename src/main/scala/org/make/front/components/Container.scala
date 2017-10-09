@@ -25,7 +25,7 @@ object Container {
         <.Switch()(
           <.Route(
             ^.exact := true,
-            ^.path := "/reset-password/change-password/:userId/:resetToken",
+            ^.path := "/password-recovery/:userId/:resetToken",
             ^.component := ResetPasswordContainer.reactClass
           )(),
           <.Route(

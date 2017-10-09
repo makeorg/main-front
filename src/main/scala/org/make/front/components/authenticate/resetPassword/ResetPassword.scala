@@ -8,10 +8,13 @@ import io.github.shogowada.scalajs.reactjs.elements.ReactElement
 import io.github.shogowada.scalajs.reactjs.events.{FormSyntheticEvent, SyntheticEvent}
 import org.make.core.validation.PasswordConstraint
 import org.make.front.components.Components._
-import org.make.front.facades.Translate.{TranslateVirtualDOMAttributes, TranslateVirtualDOMElements}
-import org.make.front.facades.{I18n, Replacements}
+import org.make.front.components.authenticate.NewPasswordInput.NewPasswordInputProps
 import org.make.front.facades.Unescape.unescape
+import org.make.front.facades.{I18n, Replacements}
 import org.make.front.styles.ThemeStyles
+import org.make.front.styles.base.{ColRulesStyles, RowRulesStyles, TextStyles}
+import org.make.front.styles.ui.{CTAStyles, InputStyles}
+import org.make.front.styles.utils._
 import org.make.front.styles.vendors.FontAwesomeStyles
 import org.scalajs.dom.raw.HTMLInputElement
 
@@ -23,6 +26,7 @@ object PasswordReset {
 
   case class PasswordResetProps(handleSubmit: (Self[PasswordResetProps, PasswordResetState])    => Unit,
                                 checkResetToken: (Self[PasswordResetProps, PasswordResetState]) => Unit)
+
   case class PasswordResetState(password: String,
                                 showPassword: Boolean,
                                 errorMessage: String,
@@ -45,66 +49,106 @@ object PasswordReset {
         self.props.wrapped.checkResetToken(self)
       },
       render = self => {
-        <.div(^.className := PasswordResetStyles.container)(
-          <.div(^.className := Seq(PasswordResetStyles.content))(if (self.state.success) {
-            resetPasswordSuccessElement(self)
-          } else if (self.state.isValidResetToken) {
-            resetFormElement(self)
-          } else {
-            invalidResetTokenElement(self)
-          }),
-          <.style()(PasswordResetStyles.render[String])
+        <.div(^.className := ResetPasswordStyles.wrapper)(
+          <.div(^.className := Seq(RowRulesStyles.centeredRow))(
+            <.div(^.className := ColRulesStyles.col)(
+              <.div(^.className := Seq(ResetPasswordStyles.contentWrapper))(if (self.state.success) {
+                successMessage
+              } else if (self.state.isValidResetToken) {
+                resetPasswordForm(self)
+              } else {
+                invalidToken
+              })
+            )
+          ),
+          <.style()(ResetPasswordStyles.render[String])
         )
       }
     )
 
-  def resetFormElement(self: Self[PasswordResetProps, PasswordResetState]): ReactElement = {
-    <.div()(
-      <.Translate(^.value := "form.passwordReset.title")(),
-      <.div(^.className := PasswordResetStyles.terms)(unescape(I18n.t("form.passwordReset.description"))),
-      <.form(^.onSubmit := handleSubmit(self), ^.novalidate := true)(
-        <.div()(
-          <.i(^.className := Seq(FontAwesomeStyles.fa, FontAwesomeStyles.lock))(),
-          <.i(^.className := PasswordResetStyles.eye(self.state.showPassword), ^.onClick := toggleHidePassword(self))(),
-          <.input(
-            ^.`type` := (if (self.state.showPassword) "text" else "password"),
-            ^.required := true,
-            ^.className := Seq(PasswordResetStyles.input),
-            ^.placeholder := s"${I18n.t("form.fieldLabelPassword")} ${I18n.t("form.required")}",
-            ^.onChange := handlePasswordChange(self),
-            ^.value := self.state.password
-          )()
-        ),
-        <.div()(<.span()(unescape(self.state.errorMessage))),
-        <.button(^.onClick := handleSubmit(self))(
-          <.i(^.className := Seq(FontAwesomeStyles.fa, FontAwesomeStyles.thumbsUp))(),
-          <.Translate(^.value := "form.passwordReset.validation")()
+  def resetPasswordForm(self: Self[PasswordResetProps, PasswordResetState]): Seq[ReactElement] = {
+    Seq(
+      <.div(^.className := Seq(RowRulesStyles.centeredRow))(
+        <.div(^.className := ColRulesStyles.col)(
+          <.h1(^.className := Seq(ResetPasswordStyles.title, TextStyles.mediumTitle))(
+            unescape(I18n.t("form.passwordReset.title"))
+          )
+        )
+      ),
+      <.div(^.className := ResetPasswordStyles.content)(
+        <.div(^.className := Seq(RowRulesStyles.evenNarrowerCenteredRow))(
+          <.div(^.className := ColRulesStyles.col)(
+            <.p(^.className := Seq(ResetPasswordStyles.message, TextStyles.smallText))(
+              unescape(I18n.t("form.passwordReset.description")),
+              <.form(^.onSubmit := handleSubmit(self), ^.novalidate := true)(
+                <.div(^.className := ResetPasswordStyles.newPasswordInputComponentWrapper)(
+                  <.NewPasswordInputComponent(
+                    ^.wrapped := NewPasswordInputProps(
+                      value = self.state.password,
+                      required = true,
+                      placeHolder = s"${I18n.t("form.fieldLabelPassword")} ${I18n.t("form.required")}",
+                      onChange = handlePasswordChange(self)
+                    )
+                  )()
+                ),
+                if (self.state.errorMessage.nonEmpty) {
+                  <.p(^.className := InputStyles.errorMessage)(unescape(self.state.errorMessage))
+                },
+                <.div(^.className := ResetPasswordStyles.submitButtonWrapper)(
+                  <.button(
+                    ^.className := Seq(CTAStyles.basicOnButton, CTAStyles.basic, CTAStyles.moreDiscreet),
+                    ^.`type` := "submit"
+                  )(
+                    <.i(^.className := Seq(FontAwesomeStyles.fa, FontAwesomeStyles.thumbsUp))(),
+                    unescape("&nbsp;"),
+                    I18n.t("form.passwordReset.validation")
+                  )
+                )
+              )
+            )
+          )
         )
       )
     )
   }
 
-  def invalidResetTokenElement(self: Self[PasswordResetProps, PasswordResetState]): ReactElement = {
-    <.div()(<.Translate(^.value := "form.passwordReset.failed.title")())
-  }
-
-  def resetPasswordSuccessElement(self: Self[PasswordResetProps, PasswordResetState]): ReactElement = {
-    <.div()(
-      <.Translate(^.value := "form.passwordReset.success.title", ^.dangerousHtml := true)(),
-      <.div(^.className := PasswordResetStyles.terms)(unescape(I18n.t("form.passwordReset.success.description")))
+  val invalidToken: Seq[ReactElement] = {
+    Seq(
+      <.div(^.className := Seq(RowRulesStyles.evenNarrowerCenteredRow))(
+        <.div(^.className := ColRulesStyles.col)(
+          <.p(^.className := Seq(ResetPasswordStyles.message, TextStyles.smallText))(
+            unescape(I18n.t("form.passwordReset.failed.title"))
+          )
+        )
+      )
     )
   }
+
+  val successMessage =
+    Seq(
+      <.div(^.className := Seq(RowRulesStyles.centeredRow))(
+        <.div(^.className := ColRulesStyles.col)(
+          <.h1(^.className := Seq(ResetPasswordStyles.title, TextStyles.mediumTitle))(
+            unescape(I18n.t("form.passwordReset.success.title"))
+          )
+        )
+      ),
+      <.div(^.className := ResetPasswordStyles.content)(
+        <.div(^.className := Seq(RowRulesStyles.evenNarrowerCenteredRow))(
+          <.div(^.className := ColRulesStyles.col)(
+            <.p(^.className := Seq(ResetPasswordStyles.message, TextStyles.smallText))(
+              unescape(I18n.t("form.passwordReset.success.description"))
+            )
+          )
+        )
+      )
+    )
 
   private def handlePasswordChange(self: Self[PasswordResetProps, PasswordResetState]) =
     (e: FormSyntheticEvent[HTMLInputElement]) => {
       val newPassword = e.target.value
       self.setState(_.copy(password = newPassword))
     }
-
-  private def toggleHidePassword(self: Self[PasswordResetProps, PasswordResetState]) = () => {
-    val showPassword = !self.state.showPassword
-    self.setState(self.state.copy(showPassword = showPassword))
-  }
 
   private def handleSubmit(self: Self[PasswordResetProps, PasswordResetState]) = (e: SyntheticEvent) => {
     self.setState(self.state.copy(errorMessage = ""))
@@ -125,43 +169,40 @@ object PasswordReset {
   }
 }
 
-object PasswordResetStyles extends StyleSheet.Inline {
+object ResetPasswordStyles extends StyleSheet.Inline {
   import dsl._
 
-  val container: StyleA = style(paddingTop(7.rem), paddingBottom(7.rem))
+  val wrapper: StyleA =
+    style(
+      paddingTop((ThemeStyles.SpacingValue.larger + 50).pxToEm()), // TODO: dynamise calcul, if main intro is first child of page
+      ThemeStyles.MediaQueries.beyondSmall(paddingTop((ThemeStyles.SpacingValue.larger + 80).pxToEm())),
+      paddingBottom(ThemeStyles.SpacingValue.larger.pxToEm()),
+      minHeight(100.%%),
+      backgroundColor(ThemeStyles.BackgroundColor.blackVeryTransparent)
+    )
 
-  val terms: StyleA = style(marginBottom(0.8F.rem), fontSize(1.4.rem), color(rgba(0, 0, 0, 0.3)))
+  val contentWrapper: StyleA =
+    style(
+      minHeight(300.pxToEm()),
+      paddingTop((ThemeStyles.SpacingValue.larger).pxToEm()),
+      paddingBottom((ThemeStyles.SpacingValue.larger).pxToEm()),
+      backgroundColor(ThemeStyles.BackgroundColor.white),
+      boxShadow := "0 1px 1px 0 rgba(0,0,0,0.50)"
+    )
 
-  val content: StyleA = style(
-    width(100.%%),
-    backgroundColor(white),
-    maxWidth(114.rem),
-    marginRight.auto,
-    marginLeft.auto,
-    textAlign.center,
-    width(100.%%),
-    height(100.%%),
-    padding(2.rem, 10.rem),
-    boxShadow := "0 1px 1px 0 rgba(0, 0, 0, 0.5)"
-  )
+  val content: StyleA =
+    style(marginTop((ThemeStyles.SpacingValue.medium).pxToEm()))
 
-  val input: StyleA = style(height(4.rem), width(100.%%), (media.all.maxWidth(800.px))(height(3.rem)))
+  val title: StyleA =
+    style(textAlign.center)
 
-  val eye: (Boolean) => StyleA = styleF.bool(
-    typePassword =>
-      if (typePassword) {
-        styleS(
-          (&.hover)(cursor.pointer),
-          addClassName(FontAwesomeStyles.eyeSlash.htmlClass),
-          addClassName(FontAwesomeStyles.fa.htmlClass),
-          color(ThemeStyles.TextColor.lighter)
-        )
-      } else {
-        styleS(
-          (&.hover)(cursor.pointer),
-          addClassName(FontAwesomeStyles.eye.htmlClass),
-          addClassName(FontAwesomeStyles.fa.htmlClass)
-        )
-    }
-  )
+  val message: StyleA =
+    style(textAlign.center, color(ThemeStyles.TextColor.light))
+
+  val newPasswordInputComponentWrapper: StyleA =
+    style(marginTop(ThemeStyles.SpacingValue.medium.pxToEm()))
+
+  val submitButtonWrapper: StyleA =
+    style(marginTop(ThemeStyles.SpacingValue.small.pxToEm()), textAlign.center)
+
 }
