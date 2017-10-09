@@ -23,7 +23,7 @@ object MainHeader {
     displayName = "MainHeader",
     render = (self) =>
       <.header(^.className := MainHeaderStyles.wrapper)(
-        <.CookieAlertComponent.empty,
+        <.CookieAlertContainerComponent.empty,
         <.div(^.className := RowRulesStyles.centeredRow)(
           <.div(^.className := ColRulesStyles.col)(
             <.div(^.className := MainHeaderStyles.innerWrapper)(

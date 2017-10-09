@@ -15,11 +15,13 @@ import scalacss.internal.mutable.StyleSheet
 
 object CookieAlert {
 
-  case class CookieAlertState(isAlertOpened: Boolean)
+  final case class CookieAlertProps()
+
+  final case class CookieAlertState(isAlertOpened: Boolean)
 
   lazy val reactClass: ReactClass =
     React
-      .createClass[Unit, CookieAlertState](
+      .createClass[CookieAlertProps, CookieAlertState](
         displayName = "cookieAlert",
         getInitialState = { _ =>
           CookieAlertState(isAlertOpened = true)
