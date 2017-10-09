@@ -61,9 +61,7 @@ object Notifications {
               <.li(^.className := Seq(NotificationsStyles.item, ColRulesStyles.col))(
                 <.div(^.className := NotificationClasses(notification.level))(
                   <.button(
-                    ^.className := NotificationsStyles.closeModalButton,
-                    ^.key := notification.identifier,
-                    ^.id := notification.identifier,
+                    ^.className := NotificationsStyles.closeButton,
                     ^.onClick := closeNotification(notification.identifier)
                   )(
                     <("svg")(
@@ -124,7 +122,7 @@ object NotificationsStyles extends StyleSheet.Inline {
   val success: StyleA = style()
   val info: StyleA = style()
 
-  val closeModalButton: StyleA = style(
+  val closeButton: StyleA = style(
     position.absolute,
     top(ThemeStyles.SpacingValue.small.pxToEm()),
     right(ThemeStyles.SpacingValue.small.pxToEm()),
