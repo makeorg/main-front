@@ -17,7 +17,7 @@ import org.make.front.models.{
   Sequence      => SequenceModel
 }
 import org.make.front.styles._
-import org.make.front.styles.base.{ColRulesStyles, RowRulesStyles, TextStyles}
+import org.make.front.styles.base.{ColRulesStyles, RWDHideRulesStyles, RowRulesStyles, TextStyles}
 import org.make.front.styles.ui.CTAStyles
 import org.make.front.styles.utils._
 import org.make.front.styles.vendors.FontAwesomeStyles
@@ -25,16 +25,16 @@ import org.make.front.styles.vendors.FontAwesomeStyles
 import scalacss.DevDefaults.{StyleA, _}
 import scalacss.internal.mutable.StyleSheet
 
-object OperationSSequence {
-  final case class OperationSSequenceProps(operation: OperationModel, sequence: SequenceModel)
+object OperationSequence {
+  final case class OperationSequenceProps(operation: OperationModel, sequence: SequenceModel)
 
-  final case class OperationSSequenceState(isProposalModalOpened: Boolean)
+  final case class OperationSequenceState(isProposalModalOpened: Boolean)
 
   lazy val reactClass: ReactClass =
-    React.createClass[OperationSSequenceProps, OperationSSequenceState](
+    React.createClass[OperationSequenceProps, OperationSequenceState](
       displayName = "OperationSSequence",
       getInitialState = { _ =>
-        OperationSSequenceState(isProposalModalOpened = false)
+        OperationSequenceState(isProposalModalOpened = false)
       },
       render = { self =>
         val gradient: GradientColorModel =
@@ -73,7 +73,11 @@ object OperationSSequence {
                           )
                         )(),
                         <.span(
-                          ^.className := Seq(TextStyles.smallText, TextStyles.title),
+                          ^.className := Seq(
+                            TextStyles.smallText,
+                            TextStyles.title,
+                            RWDHideRulesStyles.showBlockBeyondMedium
+                          ),
                           ^.dangerouslySetInnerHTML := "Accéder à<br>l'opération"
                         )()
                       )
@@ -100,7 +104,9 @@ object OperationSSequence {
                         ^.onClick := openProposalModal
                       )(
                         <.i(^.className := Seq(FontAwesomeStyles.pencil, FontAwesomeStyles.fa))(),
-                        unescape("&nbsp;" + I18n.t("content.search.propose"))
+                        <.span(^.className := RWDHideRulesStyles.showInlineBlockBeyondMedium)(
+                          unescape("&nbsp;" + I18n.t("content.search.propose"))
+                        )
                       ),
                       <.FullscreenModalComponent(
                         ^.wrapped := FullscreenModalProps(self.state.isProposalModalOpened, closeProposalModal)
@@ -131,7 +137,7 @@ object OperationSSequenceStyles extends StyleSheet.Inline {
     style(display.table, height(100.%%), width(100.%%))
 
   val contentWrapper: StyleA =
-    style(display.tableRow, height(100.%%))
+    style(display.tableRow, height(100.%%), backgroundColor(ThemeStyles.BackgroundColor.blackVeryTransparent))
 
   val contentInnerWrapper: StyleA =
     style(display.tableCell, verticalAlign.middle)
@@ -149,31 +155,76 @@ object OperationSSequenceStyles extends StyleSheet.Inline {
     )
 
   val headerInnerSubWrapper: StyleA =
-    style(display.table, height(100.pxToEm()), width(100.%%))
+    style(
+      display.table,
+      width(100.%%),
+      ThemeStyles.MediaQueries
+        .beyondMedium(height(100.pxToEm()))
+    )
 
   val backLinkWrapper: StyleA =
-    style(display.tableCell, verticalAlign.middle, width(150.pxToEm()), color(ThemeStyles.TextColor.white))
+    style(
+      display.tableCell,
+      width(0.%%),
+      padding := s"${ThemeStyles.SpacingValue.small.pxToEm().value} 0",
+      verticalAlign.top,
+      color(ThemeStyles.TextColor.white),
+      ThemeStyles.MediaQueries.beyondMedium(width(150.pxToEm()), verticalAlign.middle)
+    )
 
   val backLink: StyleA =
-    style(position.relative, display.inlineBlock, paddingLeft(20.pxToEm()), color(ThemeStyles.TextColor.white))
+    style(
+      position.relative,
+      display.inlineBlock,
+      color(ThemeStyles.TextColor.white),
+      ThemeStyles.MediaQueries
+        .beyondMedium(paddingLeft(20.pxToEm()))
+    )
 
   val backLinkArrow: StyleA =
-    style(position.absolute, top(50.%%), left(`0`), transform := "translateY(-50%)", fontSize(28.pxToEm()))
+    style(
+      paddingRight(ThemeStyles.SpacingValue.small.pxToEm(28)),
+      fontSize(28.pxToEm()),
+      ThemeStyles.MediaQueries
+        .beyondMedium(position.absolute, top(50.%%), left(`0`), paddingRight(`0`), transform := "translateY(-50%)")
+    )
 
   val titleWrapper: StyleA =
-    style(display.tableCell, verticalAlign.middle)
+    style(
+      display.tableCell,
+      verticalAlign.top,
+      padding := s"${ThemeStyles.SpacingValue.small.pxToEm().value} 0",
+      ThemeStyles.MediaQueries.beyondMedium(verticalAlign.middle)
+    )
 
   val title: StyleA =
-    style(textAlign.center, color(ThemeStyles.TextColor.white))
+    style(color(ThemeStyles.TextColor.white), ThemeStyles.MediaQueries.beyondMedium(textAlign.center))
 
   val totalOfPropositions: StyleA =
-    style(textAlign.center, color(ThemeStyles.TextColor.white))
+    style(color(ThemeStyles.TextColor.white), ThemeStyles.MediaQueries.beyondMedium(textAlign.center))
 
   val openProposalModalButtonWrapper: StyleA =
-    style(display.tableCell, verticalAlign.middle, width(150.pxToEm()), textAlign.right)
+    style(
+      display.tableCell,
+      verticalAlign.middle,
+      width(150.pxToEm()),
+      padding := s"${ThemeStyles.SpacingValue.small.pxToEm().value} 0",
+      textAlign.right
+    )
 
   val openProposalModalButton: StyleA =
-    style()
+    style(
+      ThemeStyles.MediaQueries
+        .belowMedium(
+          width(50.pxToEm(25)),
+          height(50.pxToEm(25)),
+          minHeight.auto,
+          maxWidth.none,
+          padding(`0`),
+          fontSize(25.pxToEm()),
+          lineHeight(1)
+        )
+    )
 
   def gradientBackground(from: String, to: String): StyleA =
     style(background := s"linear-gradient(130deg, $from, $to)")

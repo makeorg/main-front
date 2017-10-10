@@ -9,7 +9,7 @@ import org.make.front.components.home.Home
 import org.make.front.components.authenticate.resetPassword.ResetPasswordContainer
 import org.make.front.components.search.SearchResultsContainer
 import org.make.front.components.theme.ThemeContainer
-import org.make.front.components.operation.{OperationContainer, OperationSSequence, OperationSSequenceContainer}
+import org.make.front.components.operation.{OperationContainer, OperationSequence, OperationSequenceContainer}
 
 import scala.scalajs.js.Dynamic
 
@@ -41,7 +41,7 @@ object Container {
           <.Route(
             ^.exact := true,
             ^.path := "/operation/:operationSlug/sequence/:sequenceSlug",
-            ^.component := OperationSSequenceContainer.reactClass
+            ^.component := OperationSequenceContainer.reactClass
           )(),
           <.Route(^.exact := true, ^.path := "/theme/:themeSlug", ^.component := ThemeContainer.reactClass)(),
           <.Route(^.exact := true, ^.path := "/search", ^.component := SearchResultsContainer.reactClass)(),

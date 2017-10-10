@@ -97,9 +97,9 @@ object Components {
     def TrendingShowcaseContainerComponent: ReactClassElementSpec = self(showcase.TrendingShowcaseContainer.reactClass)
     def ThemeShowcaseContainerComponent: ReactClassElementSpec = self(showcase.ThemeShowcaseContainer.reactClass)
     def SequenceContainerComponent: ReactClassElementSpec = self(sequence.SequenceContainer.reactClass)
-    def OperationSSequenceComponent: ReactClassElementSpec = self(operation.OperationSSequence.reactClass)
-    def OperationSSequenceContainerComponent: ReactClassElementSpec =
-      self(operation.OperationSSequenceContainer.reactClass)
+    def OperationSequenceComponent: ReactClassElementSpec = self(operation.OperationSequence.reactClass)
+    def OperationSequenceContainerComponent: ReactClassElementSpec =
+      self(operation.OperationSequenceContainer.reactClass)
 
     /*********************/
     def VoteContainerComponent: ReactClassElementSpec = self(proposal.vote.VoteContainer.reactClass)
