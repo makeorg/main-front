@@ -24,6 +24,10 @@ object ProposalService extends ApiService with CirceClassFormatters with CirceFo
 
   val defaultResultsCount = 20
 
+  def getProposalById(proposalId: ProposalId): Future[Proposal] = {
+    MakeApiClient.get[Proposal](resourceName / proposalId.value).map(_.get)
+  }
+
   def createProposal(content: String,
                      location: String,
                      themeId: Option[String] = None,
@@ -50,6 +54,7 @@ object ProposalService extends ApiService with CirceClassFormatters with CirceFo
   }
 
   def searchProposals(content: Option[String] = None,
+                      slug: Option[String] = None,
                       themesIds: Seq[ThemeId] = Seq.empty,
                       operationsIds: Seq[OperationId] = Seq.empty,
                       tagsIds: Seq[TagId] = Seq.empty,
@@ -62,6 +67,7 @@ object ProposalService extends ApiService with CirceClassFormatters with CirceFo
         resourceName / "search",
         data = SearchRequest(
           content = content,
+          slug = slug,
           themesIds = if (themesIds.nonEmpty) Some(themesIds.map(_.value)) else None,
           operationsIds = if (operationsIds.nonEmpty) Some(operationsIds.map(_.value)) else None,
           tagsIds = if (tagsIds.nonEmpty) Some(tagsIds.map(_.value)) else None,

@@ -5,7 +5,7 @@ import io.github.shogowada.scalajs.reactjs.redux.Store
 import org.make.core.StringValue
 import org.make.front.components.AppState
 
-final case class Operation(id: OperationId,
+final case class Operation(operationId: OperationId,
                            slug: String,
                            title: String,
                            actionsCount: Int,
@@ -23,6 +23,6 @@ object OperationId {
 
 object Operation {
   def getOperationById(id: String, store: Store[AppState]): Operation = {
-    store.getState.operations.find(operation => operation.id.value == id).get
+    store.getState.operations.find(operation => operation.operationId.value == id).get
   }
 }

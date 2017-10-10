@@ -24,6 +24,7 @@ import org.make.front.styles.vendors.FontAwesomeStyles
 
 import scalacss.DevDefaults.{StyleA, _}
 import scalacss.internal.mutable.StyleSheet
+import scalacss.internal.mutable.StyleSheet.Inline
 
 object OperationSequence {
   final case class OperationSequenceProps(operation: OperationModel, sequence: SequenceModel)
@@ -37,7 +38,7 @@ object OperationSequence {
         OperationSequenceState(isProposalModalOpened = false)
       },
       render = { self =>
-        val gradient: GradientColorModel =
+        val gradientValues: GradientColorModel =
           self.props.wrapped.operation.gradient.getOrElse(GradientColorModel("#FFF", "#FFF"))
 
         val closeProposalModal: () => Unit = () => {
@@ -49,25 +50,26 @@ object OperationSequence {
           self.setState(state => state.copy(isProposalModalOpened = true))
         }
 
-        <.section(^.className := OperationSSequenceStyles.wrapper)(
-          <.header(
-            ^.className := Seq(
-              OperationSSequenceStyles.headerWrapper,
-              OperationSSequenceStyles.gradientBackground(gradient.from, gradient.to)
-            )
-          )(
-            <.div(^.className := OperationSSequenceStyles.headerInnerWrapper)(
+        object DynamicOperationSequenceStyles extends Inline {
+          import dsl._
+          val gradient: StyleA =
+            style(background := s"linear-gradient(130deg, ${gradientValues.from}, ${gradientValues.to})")
+        }
+
+        <.section(^.className := OperationSequenceStyles.wrapper)(
+          <.header(^.className := Seq(OperationSequenceStyles.headerWrapper, DynamicOperationSequenceStyles.gradient))(
+            <.div(^.className := OperationSequenceStyles.headerInnerWrapper)(
               <.div(^.className := RowRulesStyles.centeredRow)(
                 <.div(^.className := ColRulesStyles.col)(
-                  <.div(^.className := OperationSSequenceStyles.headerInnerSubWrapper)(
-                    <.p(^.className := Seq(OperationSSequenceStyles.backLinkWrapper))(
+                  <.div(^.className := OperationSequenceStyles.headerInnerSubWrapper)(
+                    <.p(^.className := Seq(OperationSequenceStyles.backLinkWrapper))(
                       <.Link(
-                        ^.className := OperationSSequenceStyles.backLink,
+                        ^.className := OperationSequenceStyles.backLink,
                         ^.to := s"/operation/${self.props.wrapped.operation.slug}"
                       )(
                         <.i(
                           ^.className := Seq(
-                            OperationSSequenceStyles.backLinkArrow,
+                            OperationSequenceStyles.backLinkArrow,
                             FontAwesomeStyles.angleLeft,
                             FontAwesomeStyles.fa
                           )
@@ -82,24 +84,24 @@ object OperationSequence {
                         )()
                       )
                     ),
-                    <.div(^.className := OperationSSequenceStyles.titleWrapper)(
-                      <.h1(^.className := Seq(OperationSSequenceStyles.title, TextStyles.smallTitle))(
+                    <.div(^.className := OperationSequenceStyles.titleWrapper)(
+                      <.h1(^.className := Seq(OperationSequenceStyles.title, TextStyles.smallTitle))(
                         unescape(self.props.wrapped.sequence.title)
                       ),
                       <.p(
                         ^.className := Seq(
-                          OperationSSequenceStyles.totalOfPropositions,
+                          OperationSequenceStyles.totalOfPropositions,
                           TextStyles.smallText,
                           TextStyles.boldText
                         )
-                      )("10 propositions")
+                      )(self.props.wrapped.sequence.proposals.length + " propositions")
                     ),
-                    <.div(^.className := OperationSSequenceStyles.openProposalModalButtonWrapper)(
+                    <.div(^.className := OperationSequenceStyles.openProposalModalButtonWrapper)(
                       <.button(
                         ^.className := Seq(
                           CTAStyles.basic,
                           CTAStyles.basicOnButton,
-                          OperationSSequenceStyles.openProposalModalButton
+                          OperationSequenceStyles.openProposalModalButton
                         ),
                         ^.onClick := openProposalModal
                       )(
@@ -119,22 +121,23 @@ object OperationSequence {
               )
             )
           ),
-          <.div(^.className := OperationSSequenceStyles.contentWrapper)(
-            <.div(^.className := OperationSSequenceStyles.contentInnerWrapper)(
+          <.div(^.className := OperationSequenceStyles.contentWrapper)(
+            <.div(^.className := OperationSequenceStyles.contentInnerWrapper)(
               <.SequenceContainerComponent(^.wrapped := SequenceContainerProps(self.props.wrapped.sequence))()
             )
           ),
-          <.style()(OperationSSequenceStyles.render[String])
+          <.style()(OperationSequenceStyles.render[String], DynamicOperationSequenceStyles.render[String])
         )
       }
     )
 }
-object OperationSSequenceStyles extends StyleSheet.Inline {
+
+object OperationSequenceStyles extends StyleSheet.Inline {
 
   import dsl._
 
   val wrapper: StyleA =
-    style(display.table, height(100.%%), width(100.%%))
+    style(display.table, tableLayout.fixed, height(100.%%), width(100.%%))
 
   val contentWrapper: StyleA =
     style(display.tableRow, height(100.%%), backgroundColor(ThemeStyles.BackgroundColor.blackVeryTransparent))
@@ -225,7 +228,4 @@ object OperationSSequenceStyles extends StyleSheet.Inline {
           lineHeight(1)
         )
     )
-
-  def gradientBackground(from: String, to: String): StyleA =
-    style(background := s"linear-gradient(130deg, $from, $to)")
 }

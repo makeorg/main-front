@@ -29,7 +29,7 @@ object ResultsInOperationContainer {
   def selectorFactory
     : (Dispatch) => (AppState, Props[ResultsInOperationContainerProps]) => ResultsInOperation.ResultsInOperationProps =
     (_: Dispatch) => { (_: AppState, ownProps: Props[ResultsInOperationContainerProps]) =>
-      val operationsIds: Seq[OperationIdModel] = Seq(ownProps.wrapped.currentOperation.id)
+      val operationsIds: Seq[OperationIdModel] = Seq(ownProps.wrapped.currentOperation.operationId)
 
       def getProposals(tags: Seq[TagModel], skip: Int): Future[SearchResponse] = {
         val proposals: Future[SearchResponse] = ProposalService
