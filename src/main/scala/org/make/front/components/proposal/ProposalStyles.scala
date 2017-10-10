@@ -14,7 +14,7 @@ object ProposalStyles extends StyleSheet.Inline {
   val wrapper: StyleA =
     style(
       height(100.%%),
-      minHeight(300.pxToEm()),
+      minHeight(360.pxToEm()),
       minWidth(270.pxToEm()),
       backgroundColor(ThemeStyles.BackgroundColor.white),
       boxShadow := "0 1px 1px 0 rgba(0,0,0,0.50)"
