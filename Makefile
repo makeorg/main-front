@@ -11,8 +11,10 @@ help:
 	@echo "   test-int                       to test the application (integration tests)"
 	@echo "   test-unit                      to test the application (unit tests)"
 
+export SBT_OPTS=-Xms2G -Xmx2G
+
 package-docker-image:
-	sbt publishLocal
+	CI_BUILD=true sbt publishLocal
 
 clean:
 	sbt clean
