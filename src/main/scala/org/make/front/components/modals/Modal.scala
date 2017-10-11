@@ -14,7 +14,7 @@ import scalacss.internal.mutable.StyleSheet
 
 object Modal {
 
-  case class ModalProps(isModalOpened: Boolean, closeCallback: () => _)
+  case class ModalProps(isModalOpened: Boolean, closeCallback: () => Unit)
 
   case class ModalState(isModalOpened: Boolean)
 
@@ -27,7 +27,12 @@ object Modal {
       componentWillReceiveProps =
         (self, props) => self.setState(state => state.copy(isModalOpened = props.wrapped.isModalOpened)),
       render = (self) => {
-        <.ReactModal(^.contentLabel := "", ^.isOpen := self.state.isModalOpened, ^.shouldCloseOnOverlayClick := false)(
+        <.ReactModal(
+          ^.contentLabel := "",
+          ^.isOpen := self.state.isModalOpened,
+          ^.onRequestClose := self.props.wrapped.closeCallback,
+          ^.shouldCloseOnOverlayClick := true
+        )(
           <.div(^.className := ModalStyles.wrapper)(
             <.div(^.className := ModalStyles.innerWrapper)(
               <.div(^.className := ModalStyles.row)(
