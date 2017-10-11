@@ -56,7 +56,6 @@ object PoliticalAction {
             }, <.p(^.className := Seq(TextStyles.boldText, TextStyles.mediumText, PoliticalActionStyles.text))(unescape(politicalAction.text), <.br()(), politicalAction.links.map(links => <.span(^.dangerouslySetInnerHTML := links, ^.className := PoliticalActionStyles.links)()))),
             <.style()(PoliticalActionStyles.render[String])
           )
-
         }
       )
 }

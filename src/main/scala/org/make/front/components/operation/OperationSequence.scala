@@ -123,7 +123,12 @@ object OperationSequence {
           ),
           <.div(^.className := OperationSequenceStyles.contentWrapper)(
             <.div(^.className := OperationSequenceStyles.contentInnerWrapper)(
-              <.SequenceContainerComponent(^.wrapped := SequenceContainerProps(self.props.wrapped.sequence))()
+              <.SequenceContainerComponent(
+                ^.wrapped := SequenceContainerProps(
+                  sequence = self.props.wrapped.sequence,
+                  maybeThemeColor = Some(gradientValues.from)
+                )
+              )()
             )
           ),
           <.style()(OperationSequenceStyles.render[String], DynamicOperationSequenceStyles.render[String])

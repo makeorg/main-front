@@ -91,6 +91,7 @@ object PoliticalActionsList {
                   } else {
                     <.Slider(^.ref := ((s: HTMLElement) => {
                       slider = Option(s.asInstanceOf[Slider])
+                      /*TODO : avoid this non solution*/
                       slider.foreach(_.slickGoTo(0))
                       slider
                     }), ^.infinite := false, ^.arrows := false, ^.afterChange := updateArrowsVisibility)(

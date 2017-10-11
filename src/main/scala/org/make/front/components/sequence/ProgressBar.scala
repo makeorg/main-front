@@ -15,7 +15,7 @@ import scalacss.internal.mutable.StyleSheet.Inline
 
 object ProgressBar {
 
-  final case class ProgressBarProps(value: Int, total: Int, color: String)
+  final case class ProgressBarProps(value: Int, total: Int, maybeThemeColor: Option[String])
 
   final case class ProgressBarState(value: Int, total: Int)
 
@@ -23,10 +23,10 @@ object ProgressBar {
     React.createClass[ProgressBarProps, ProgressBarState](
       displayName = "ProgressBar",
       getInitialState = { self =>
-        ProgressBarState(value = self.props.wrapped.value, total = self.props.wrapped.total)
+        ProgressBarState(value = 0, total = 0)
       },
       componentWillReceiveProps = { (self, props) =>
-        self.setState(ProgressBarState(value = self.props.wrapped.value, total = self.props.wrapped.total))
+        self.setState(ProgressBarState(value = props.wrapped.value, total = props.wrapped.total))
       },
       render = { self =>
         object DynamicProgressBarStyles extends Inline {
@@ -36,27 +36,32 @@ object ProgressBar {
             style(marginLeft := s"${progression.toString}%")
 
           def progressBar(progression: Int, color: String): StyleA =
-            style((&.after)(backgroundColor := s"${color}", width := s"${progression.toString}%"))
+            style((&.after)(backgroundColor :=! color, width := s"${progression.toString}%"))
         }
 
-        val progressionInPercent: Int = NumberFormat.formatToPercent(self.state.value, self.state.total)
-
+        val progressionInPercent: Int = if (self.state.total != 0) {
+          NumberFormat.formatToPercent(self.state.value + 1, self.state.total)
+        } else {
+          0
+        }
         <.div(^.className := ProgressBarStyles.progressBar)(
           <.p(
             ^.className := Seq(
               ProgressBarStyles.progressValue,
               DynamicProgressBarStyles.progressValue(progressionInPercent)
             )
-          )(<.span(^.className := TextStyles.smallText)(self.state.value + "/" + self.state.total)),
+          )(<.span(^.className := TextStyles.smallText)(if (self.state.total != 0) {
+            self.state.value + 1 + "/" + self.state.total
+          } else { "0/0" })),
           <.p(
             ^.className := Seq(
               ProgressBarStyles.progressBarTrack,
-              DynamicProgressBarStyles.progressBar(progressionInPercent, "rgb(237, 24, 68)")
+              DynamicProgressBarStyles
+                .progressBar(progressionInPercent, self.props.wrapped.maybeThemeColor.getOrElse("rgba(0, 0, 0, 0.2)"))
             )
           )(),
           <.style()(ProgressBarStyles.render[String], DynamicProgressBarStyles.render[String])
         )
-
       }
     )
 }
@@ -79,6 +84,7 @@ object ProgressBarStyles extends StyleSheet.Inline {
       color(ThemeStyles.TextColor.light),
       backgroundColor(ThemeStyles.BackgroundColor.white),
       transform := "translateX(-50%)",
+      transition := "margin .2s ease-in-out",
       (&.after)(
         content := "''",
         position.absolute,
@@ -97,7 +103,16 @@ object ProgressBarStyles extends StyleSheet.Inline {
       height(3.px),
       width(100.%%),
       backgroundColor(ThemeStyles.BorderColor.veryLight),
-      (&.after)(content := "''", position.absolute, top(`0`), left(`0`), height(100.%%), width(0.%%))
+      (&.after)(
+        content := "''",
+        position.absolute,
+        top(`0`),
+        left(`0`),
+        height(100.%%),
+        width(0.%%),
+        backgroundColor := s"rgba(0, 0, 0, 0.2)",
+        transition := "width .2s ease-in-out"
+      )
     )
 
 }

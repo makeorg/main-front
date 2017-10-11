@@ -23,17 +23,17 @@ import org.make.front.styles.utils._
 
 object Sequence {
 
-  final case class SequenceProps(sequence: SequenceModel, proposals: Future[Seq[ProposalModel]])
+  final case class SequenceProps(sequence: SequenceModel,
+                                 maybeThemeColor: Option[String],
+                                 proposals: Future[Seq[ProposalModel]])
 
   final case class SequenceState(proposals: Seq[ProposalModel], currentSlideIndex: Int)
 
   lazy val reactClass: ReactClass =
-    React.createClass[SequenceProps, SequenceState](
-      displayName = "Sequence",
-      getInitialState = { self =>
-        SequenceState(proposals = Seq.empty, currentSlideIndex = 0)
-      },
-      render = { self =>
+    React.createClass[SequenceProps, SequenceState](displayName = "Sequence", getInitialState = { self =>
+      SequenceState(proposals = Seq.empty, currentSlideIndex = 0)
+    }, render = {
+      self =>
         self.props.wrapped.proposals.onComplete {
           case Success(proposals) => self.setState(_.copy(proposals = proposals))
           case Failure(_)         =>
@@ -42,7 +42,6 @@ object Sequence {
         var slider: Option[Slider] = None
 
         def updateCurrentSlideIndex(currentSlide: Int): Unit = {
-          scalajs.js.Dynamic.global.console.log(currentSlide.toString)
           self.setState(state => state.copy(currentSlideIndex = currentSlide))
         }
 
@@ -70,7 +69,7 @@ object Sequence {
                     ^.wrapped := ProgressBarProps(
                       value = self.state.currentSlideIndex,
                       total = self.state.proposals.size,
-                      color = "#FF0"
+                      maybeThemeColor = self.props.wrapped.maybeThemeColor
                     )
                   )()
                 )
@@ -80,25 +79,22 @@ object Sequence {
           <.div(^.className := SequenceStyles.slideshowWrapper)(
             <.div(^.className := SequenceStyles.slideshowInnerWrapper)(
               <.div(^.className := Seq(RowRulesStyles.centeredRow))(
-                <.div(^.className := Seq(ColRulesStyles.col))(
+                <.div(^.className := Seq(ColRulesStyles.col))(if (self.state.proposals.nonEmpty) {
                   <.div(^.className := Seq(SequenceStyles.slideshow))(<.Slider(^.ref := ((s: HTMLElement) => {
                     slider = Option(s.asInstanceOf[Slider])
-                    slider.foreach(_.slickGoTo(0))
-                    slider
                   }), ^.infinite := false, ^.arrows := false, ^.afterChange := updateCurrentSlideIndex)(self.state.proposals.map {
                     proposal: ProposalModel =>
                       <.div(^.className := Seq(SequenceStyles.slideWrapper))(
                         <.article(^.className := Seq(SequenceStyles.slide))(proposalContent(proposal))
                       )
                   }))
-                )
+                })
               )
             )
           ),
           <.style()(SequenceStyles.render[String])
         )
-      }
-    )
+    })
 }
 
 object SequenceStyles extends StyleSheet.Inline {
