@@ -7,11 +7,16 @@ import io.github.shogowada.scalajs.reactjs.elements.ReactElement
 import org.make.front.components.Components._
 import org.make.front.components.proposal.vote.VoteContainer.VoteContainerProps
 import org.make.front.components.sequence.ProgressBar.ProgressBarProps
+import org.make.front.components.subscribeToNewsletter.SubscribeToNewsletterFormContainer.SubscribeToNewsletterFormContainerProps
 import org.make.front.facades.ReactSlick.{ReactTooltipVirtualDOMAttributes, ReactTooltipVirtualDOMElements, Slider}
+import org.make.front.facades.Unescape.unescape
 import org.make.front.helpers.ProposalAuthorInfosFormat
 import org.make.front.models.{Proposal => ProposalModel, Sequence => SequenceModel}
 import org.make.front.styles.ThemeStyles
 import org.make.front.styles.base.{ColRulesStyles, RowRulesStyles, TextStyles}
+import org.make.front.styles.ui.CTAStyles
+import org.make.front.styles.utils._
+import org.make.front.styles.vendors.FontAwesomeStyles
 import org.scalajs.dom.raw.HTMLElement
 
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -19,7 +24,6 @@ import scala.concurrent.Future
 import scala.util.{Failure, Success}
 import scalacss.DevDefaults.{StyleA, _}
 import scalacss.internal.mutable.StyleSheet
-import org.make.front.styles.utils._
 
 object Sequence {
 
@@ -45,16 +49,78 @@ object Sequence {
           self.setState(state => state.copy(currentSlideIndex = currentSlide))
         }
 
-        def proposalContent(proposal: ProposalModel): Seq[ReactElement] = Seq(
-          <.header(^.className := ProposalInSlideStyles.infosWrapper)(
-            <.h4(^.className := Seq(TextStyles.mediumText, ProposalInSlideStyles.infos))(
-              ProposalAuthorInfosFormat.apply(proposal)
+        def onSubscribeToNewsletterSuccess(): Unit = {
+          scala.scalajs.js.Dynamic.global.console.log("yo")
+        }
+
+        val intro: Seq[ReactElement] = Seq(
+          <.div(^.className := Seq(RowRulesStyles.row))(
+            <.div(^.className := ColRulesStyles.col)(
+              <.p(^.className := Seq(TextStyles.bigIntro, IntroInSlideStyles.intro))(
+                unescape("Des milliers de citoyens proposent des&nbsp;solutions.")
+              ),
+              <.p(^.className := Seq(TextStyles.biggerMediumText, IntroInSlideStyles.explanation))(
+                unescape("Prenez position sur ces solutions et proposez les&nbsp;vôtres.")
+              ),
+              <.p(^.className := Seq(TextStyles.biggerMediumText, IntroInSlideStyles.explanation))(
+                unescape("Les plus soutenues détermineront nos&nbsp;actions.")
+              ),
+              <.div(^.className := IntroInSlideStyles.ctaWrapper)(
+                <.button(^.className := Seq(CTAStyles.basic, CTAStyles.basicOnButton), ^.onClick := (() => {
+                  slider.foreach(_.slickGoTo(1))
+                }))(
+                  <.i(^.className := Seq(FontAwesomeStyles.fa, FontAwesomeStyles.paperPlaneTransparent))(),
+                  unescape("&nbsp;" + "Démarrer")
+                )
+              )
             )
           ),
-          <.div(^.className := ProposalInSlideStyles.contentWrapper)(
-            <.h3(^.className := Seq(TextStyles.bigText, TextStyles.boldText))(proposal.content),
-            <.div(^.className := ProposalInSlideStyles.voteWrapper)(
-              <.VoteContainerComponent(^.wrapped := VoteContainerProps(proposal = proposal))()
+          <.style()(IntroInSlideStyles.render[String])
+        )
+
+        def conclusion: Seq[ReactElement] = {
+
+          val subscribeToNewsletterFormIntro: String =
+            if (true) {
+              unescape(
+                "Nous vous invitons à saisir votre adresse e-mail pour être informé.e de l’avancée et des résultats de la&nbsp;consultation."
+              )
+            } else {
+              unescape("Nous vous tiendrons informé.e de l’avancée et des résultats de la consultation par&nbsp;mail.")
+            }
+
+          Seq(
+            <.div(^.className := Seq(RowRulesStyles.row))(
+              <.div(^.className := ColRulesStyles.col)(
+                <.p(^.className := Seq(ConclusionInSlideStyles.intro, TextStyles.bigText, TextStyles.boldText))(
+                  unescape("Merci pour votre contribution&nbsp;!")
+                )
+              )
+            ),
+            <.SubscribeToNewsletterFormContainerComponent(
+              ^.wrapped := SubscribeToNewsletterFormContainerProps(
+                intro = Some(subscribeToNewsletterFormIntro),
+                onSubscribeToNewsletterSuccess = onSubscribeToNewsletterSuccess
+              )
+            )(),
+            <.style()(ConclusionInSlideStyles.render[String])
+          )
+        }
+
+        def proposalContent(proposal: ProposalModel): Seq[ReactElement] = Seq(
+          <.div(^.className := Seq(RowRulesStyles.row))(
+            <.div(^.className := ColRulesStyles.col)(
+              <.header(^.className := ProposalInSlideStyles.infosWrapper)(
+                <.h4(^.className := Seq(TextStyles.mediumText, ProposalInSlideStyles.infos))(
+                  ProposalAuthorInfosFormat.apply(proposal)
+                )
+              ),
+              <.div(^.className := ProposalInSlideStyles.contentWrapper)(
+                <.h3(^.className := Seq(TextStyles.bigText, TextStyles.boldText))(proposal.content),
+                <.div(^.className := ProposalInSlideStyles.voteWrapper)(
+                  <.VoteContainerComponent(^.wrapped := VoteContainerProps(proposal = proposal))()
+                )
+              )
             )
           ),
           <.style()(ProposalInSlideStyles.render[String])
@@ -68,7 +134,7 @@ object Sequence {
                   <.ProgressBarComponent(
                     ^.wrapped := ProgressBarProps(
                       value = self.state.currentSlideIndex,
-                      total = self.state.proposals.size,
+                      total = if (self.state.proposals.nonEmpty) { self.state.proposals.size + 2 } else { 0 },
                       maybeThemeColor = self.props.wrapped.maybeThemeColor
                     )
                   )()
@@ -78,16 +144,16 @@ object Sequence {
           ),
           <.div(^.className := SequenceStyles.slideshowWrapper)(
             <.div(^.className := SequenceStyles.slideshowInnerWrapper)(
-              <.div(^.className := Seq(RowRulesStyles.centeredRow))(
-                <.div(^.className := Seq(ColRulesStyles.col))(if (self.state.proposals.nonEmpty) {
-                  <.div(^.className := Seq(SequenceStyles.slideshow))(<.Slider(^.ref := ((s: HTMLElement) => {
+              <.div(^.className := RowRulesStyles.centeredRow)(
+                <.div(^.className := ColRulesStyles.col)(if (self.state.proposals.nonEmpty) {
+                  <.div(^.className := SequenceStyles.slideshow)(<.Slider(^.ref := ((s: HTMLElement) => {
                     slider = Option(s.asInstanceOf[Slider])
-                  }), ^.infinite := false, ^.arrows := false, ^.afterChange := updateCurrentSlideIndex)(self.state.proposals.map {
+                  }), ^.infinite := false, ^.arrows := false, ^.afterChange := updateCurrentSlideIndex)(<.div(^.className := SequenceStyles.slideWrapper)(<.article(^.className := SequenceStyles.slide)(intro)), self.state.proposals.map {
                     proposal: ProposalModel =>
-                      <.div(^.className := Seq(SequenceStyles.slideWrapper))(
-                        <.article(^.className := Seq(SequenceStyles.slide))(proposalContent(proposal))
+                      <.div(^.className := SequenceStyles.slideWrapper)(
+                        <.article(^.className := SequenceStyles.slide)(proposalContent(proposal))
                       )
-                  }))
+                  }, <.div(^.className := SequenceStyles.slideWrapper)(<.article(^.className := SequenceStyles.slide)(conclusion))))
                 })
               )
             )
@@ -131,7 +197,11 @@ object SequenceStyles extends StyleSheet.Inline {
       unsafeChild(".slick-slider")(height(100.%%)),
       unsafeChild(".slick-list")(overflow.visible, height(100.%%)),
       unsafeChild(".slick-track")(height(100.%%)),
-      unsafeChild(".slick-slide")(height(100.%%), transition := "transform .2s ease-in-out", transform := "scale(0.9)"),
+      unsafeChild(".slick-slide")(
+        height(100.%%),
+        transition := "transform .2s ease-in-out",
+        transform := "scale(0.95)"
+      ),
       unsafeChild(".slick-slide.slick-active")(transform := "scale(1)")
     )
 
@@ -141,7 +211,6 @@ object SequenceStyles extends StyleSheet.Inline {
   val slide: StyleA =
     style(
       minHeight(100.%%),
-      padding(ThemeStyles.SpacingValue.small.pxToEm()),
       backgroundColor(ThemeStyles.BackgroundColor.white),
       boxShadow := "0 1px 1px 0 rgba(0,0,0,0.50)"
     )
@@ -154,7 +223,7 @@ object ProposalInSlideStyles extends StyleSheet.Inline {
     style(
       textAlign.center,
       position.relative,
-      marginTop(ThemeStyles.SpacingValue.small.pxToEm()),
+      paddingTop(ThemeStyles.SpacingValue.medium.pxToEm()),
       paddingBottom(ThemeStyles.SpacingValue.small.pxToEm()),
       marginBottom(ThemeStyles.SpacingValue.small.pxToEm()),
       (&.after)(
@@ -177,5 +246,26 @@ object ProposalInSlideStyles extends StyleSheet.Inline {
     style(textAlign.center, marginTop(ThemeStyles.SpacingValue.medium.pxToEm()))
 
   val voteWrapper: StyleA =
-    style(marginTop(ThemeStyles.SpacingValue.small.pxToEm()), marginBottom(ThemeStyles.SpacingValue.small.pxToEm()))
+    style(marginTop(ThemeStyles.SpacingValue.small.pxToEm()))
+}
+
+object IntroInSlideStyles extends StyleSheet.Inline {
+  import dsl._
+
+  val intro: StyleA =
+    style(textAlign.center, color(ThemeStyles.TextColor.lighter))
+
+  val explanation: StyleA =
+    style(textAlign.center)
+
+  val ctaWrapper: StyleA =
+    style(textAlign.center)
+
+}
+
+object ConclusionInSlideStyles extends StyleSheet.Inline {
+  import dsl._
+  val intro: StyleA =
+    style(textAlign.center)
+
 }

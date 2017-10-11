@@ -176,7 +176,7 @@ object Translations {
       |         "errorProposalTooLong": "Vous avez dépassé la limite de caractères.",
       |         "errorSubmitFailed": "Une erreur s'est produite, réessayez dans quelques minutes."
       |       },
-      |       "passwordRecovery": {
+      |       "recoverPassword": {
       |         "title": "Je réinitialise mon mot de&nbsp;passe",
       |         "description": "Merci de renseigner l'adresse email liée à votre compte pour recevoir le lien de&nbsp;réinitialisation.",
       |         "fieldLabelEmail": "Votre adresse email",
@@ -187,6 +187,15 @@ object Translations {
       |         "connectScreen": "l'écran de connexion",
       |         "notification": {
       |           "message" : "Merci, un email vient de vous être envoyé pour réinitialiser votre mot de&nbsp;passe."
+      |         }
+      |       },
+      |       "subscribeToNewsletter": {
+      |         "fieldLabelEmail": "votre adresse email",
+      |         "sendEmail": "Envoyer",
+      |         "invalidEmail": "veuillez rentrer un e-mail&nbsp;valide",
+      |         "emailAlreadyExists": "Vous êtiez déja inscrit.e",
+      |         "notification": {
+      |           "message" : "Merci, votre adresse email est bien enregistrée dans notre liste de diffusion. Vous recevrez nos prochains mails&nbsp;d'information."
       |         }
       |       },
       |       "passwordReset": {
@@ -360,7 +369,7 @@ object Translations {
       |         "errorProposalTooLong": "Votre proposition ne doit pas dépasser %{max} caractères",
       |         "errorSubmitFailed": "An error occurred, please try again later"
       |       },
-      |       "passwordRecovery": {
+      |       "recoverPassword": {
       |         "title": "je réinitialise mon mot de&nbsp;passe",
       |         "description": "Merci de renseigner l'adresse email liée à votre compte pour recevoir le lien de&nbsp;réinitialisation.",
       |         "fieldLabelEmail": "votre adresse&nbsp;email",
@@ -371,6 +380,15 @@ object Translations {
       |         "connectScreen": "l'écran de connexion",
       |         "notification": {
       |           "message" : "Merci, un email vient de vous être envoyé pour vous permettre de mettre à jour votre mot de&nbsp;passe."
+      |         }
+      |       },
+      |       "subscribeToNewsletter": {
+      |         "fieldLabelEmail": "votre adresse email",
+      |         "sendEmail": "Envoyer",
+      |         "invalidEmail": "veuillez rentrer un e-mail&nbsp;valide",
+      |         "emailAlreadyExists": "Vous êtiez déja inscrit.e",
+      |         "notification": {
+      |           "message" : "Merci, votre adresse email est bien enregistrée dans notre liste de diffusion. Vous recevrez nos prochains mails&nbsp;d'information."
       |         }
       |       },
       |       "passwordReset": {

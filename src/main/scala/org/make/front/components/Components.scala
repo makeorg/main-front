@@ -52,6 +52,9 @@ object Components {
     def ModalComponent: ReactClassElementSpec = self(modals.Modal.reactClass)
     def FullscreenModalComponent: ReactClassElementSpec = self(modals.FullscreenModal.reactClass)
 
+    def SubscribeToNewsletterFormContainerComponent: ReactClassElementSpec =
+      self(subscribeToNewsletter.SubscribeToNewsletterFormContainer.reactClass)
+
     /*********************/
     def ActivateAccountContainerComponent: ReactClassElementSpec =
       self(activateAccount.ActivateAccountContainer.reactClass)

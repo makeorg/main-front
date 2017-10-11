@@ -70,9 +70,9 @@ object LoginOrRegister {
                 ^.wrapped := RecoverPasswordContainerProps(props.onSuccessfulLogin)
               )(),
               <.p(^.className := Seq(LoginOrRegisterStyles.text, TextStyles.smallText))(
-                unescape(I18n.t("form.passwordRecovery.return")) + " ",
+                unescape(I18n.t("form.recoverPassword.return")) + " ",
                 <.a(^.className := TextStyles.boldText, ^.onClick := goTo("login"))(
-                  unescape(I18n.t("form.passwordRecovery.connectScreen"))
+                  unescape(I18n.t("form.recoverPassword.connectScreen"))
                 )
               )
             )
