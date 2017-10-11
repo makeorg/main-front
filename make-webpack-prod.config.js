@@ -40,7 +40,7 @@ var build = {
         new HtmlWebpackPlugin({
             "title": "Make.org",
             "template": path.join(__dirname, "index.template.ejs"),
-            "apiUrl": "https://api.prod.makeorg.tech",
+            "apiUrl": "API_URL",
             "googleAppId": "810331964280-qtdupbrjusihad3b5da51i5p66qpmhmr.apps.googleusercontent.com",
             "facebookAppId": "317128238675603"
         }),
