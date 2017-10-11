@@ -10,6 +10,7 @@ import org.make.front.styles.base.TextStyles
 import org.make.front.styles.utils._
 
 import scalacss.DevDefaults.{StyleA, _}
+import scalacss.internal.Attr
 import scalacss.internal.mutable.StyleSheet
 import scalacss.internal.mutable.StyleSheet.Inline
 
@@ -20,23 +21,33 @@ object ProgressBar {
   final case class ProgressBarState(value: Int, total: Int)
 
   lazy val reactClass: ReactClass =
-    React.createClass[ProgressBarProps, ProgressBarState](
-      displayName = "ProgressBar",
-      getInitialState = { self =>
-        ProgressBarState(value = 0, total = 0)
-      },
-      componentWillReceiveProps = { (self, props) =>
-        self.setState(ProgressBarState(value = props.wrapped.value, total = props.wrapped.total))
-      },
-      render = { self =>
+    React.createClass[ProgressBarProps, ProgressBarState](displayName = "ProgressBar", getInitialState = { self =>
+      ProgressBarState(value = 0, total = 0)
+    }, componentWillReceiveProps = { (self, props) =>
+      self.setState(ProgressBarState(value = props.wrapped.value, total = props.wrapped.total))
+    }, render = {
+      self =>
         object DynamicProgressBarStyles extends Inline {
           import dsl._
 
           def progressValue(progression: Int): StyleA =
-            style(marginLeft := s"${progression.toString}%")
+            style(marginLeft :=! s"${progression.toString}%")
 
-          def progressBar(progression: Int, color: String): StyleA =
-            style((&.after)(backgroundColor :=! color, width := s"${progression.toString}%"))
+          def limitedProgressValue(maybeThemeColor: Option[String]): (Boolean) => StyleA = styleF.bool(
+            limited =>
+              if (limited && maybeThemeColor.nonEmpty) {
+                styleS(
+                  backgroundColor :=! maybeThemeColor.get,
+                  color(ThemeStyles.TextColor.white),
+                  (&.after)(Attr.real("border-top-color") := maybeThemeColor.get)
+                )
+              } else {
+                styleS()
+            }
+          )
+
+          def progressBar(progression: Int, themeColor: String): StyleA =
+            style((&.after)(backgroundColor := themeColor, width :=! s"${progression.toString}%"))
         }
 
         val progressionInPercent: Int = if (self.state.total != 0) {
@@ -48,7 +59,9 @@ object ProgressBar {
           <.p(
             ^.className := Seq(
               ProgressBarStyles.progressValue,
-              DynamicProgressBarStyles.progressValue(progressionInPercent)
+              DynamicProgressBarStyles.progressValue(progressionInPercent),
+              DynamicProgressBarStyles
+                .limitedProgressValue(self.props.wrapped.maybeThemeColor)(self.state.value + 1 == self.state.total)
             )
           )(<.span(^.className := TextStyles.smallText)(if (self.state.total != 0) {
             self.state.value + 1 + "/" + self.state.total
@@ -62,8 +75,7 @@ object ProgressBar {
           )(),
           <.style()(ProgressBarStyles.render[String], DynamicProgressBarStyles.render[String])
         )
-      }
-    )
+    })
 }
 
 object ProgressBarStyles extends StyleSheet.Inline {
@@ -84,7 +96,7 @@ object ProgressBarStyles extends StyleSheet.Inline {
       color(ThemeStyles.TextColor.light),
       backgroundColor(ThemeStyles.BackgroundColor.white),
       transform := "translateX(-50%)",
-      transition := "margin .2s ease-in-out",
+      transition := "margin .2s ease-in-out, color .2s ease-in-out, background-color .2s ease-in-out",
       (&.after)(
         content := "''",
         position.absolute,
@@ -93,7 +105,8 @@ object ProgressBarStyles extends StyleSheet.Inline {
         marginLeft(-6.pxToEm()),
         borderRight :=! s"${6.pxToEm().value} solid transparent",
         borderTop :=! s"${6.pxToEm().value} solid ${ThemeStyles.BackgroundColor.white.value}",
-        borderLeft :=! s"${6.pxToEm().value} solid transparent"
+        borderLeft :=! s"${6.pxToEm().value} solid transparent",
+        transition := "border-color .2s ease-in-out"
       )
     )
 
