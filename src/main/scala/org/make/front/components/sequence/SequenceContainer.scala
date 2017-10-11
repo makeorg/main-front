@@ -6,11 +6,11 @@ import io.github.shogowada.scalajs.reactjs.redux.ReactRedux
 import io.github.shogowada.scalajs.reactjs.redux.Redux.Dispatch
 import org.make.front.actions.NotifyError
 import org.make.front.components.AppState
-import org.make.front.models.{Proposal => ProposalModel, ProposalId => ProposalIdModel, Sequence => SequenceModel}
+import org.make.front.models.{Proposal, Sequence => SequenceModel}
+import org.make.services.proposal.ProposalResponses.SearchResponse
 import org.make.services.proposal.ProposalService
 
 import scala.concurrent.ExecutionContext.Implicits.global
-
 import scala.concurrent.Future
 import scala.util.{Failure, Success}
 
@@ -24,10 +24,10 @@ object SequenceContainer {
     (dispatch: Dispatch) => { (_: AppState, props: Props[SequenceContainerProps]) =>
       {
 
-        def proposals: Future[Seq[ProposalModel]] = {
+        def proposals: Future[Seq[Proposal]] = {
 
-          val results = Future.traverse(props.wrapped.sequence.proposals) { proposalId: ProposalIdModel =>
-            ProposalService.getProposalById(proposalId = proposalId)
+          val results = Future.traverse(props.wrapped.sequence.proposalsSlugs) { proposalsSlug: String =>
+            ProposalService.searchProposals(slug = Some(proposalsSlug), limit = Some(1), sort = Seq.empty, skip = None)
           }
 
           results.onComplete {
@@ -35,7 +35,7 @@ object SequenceContainer {
             case Failure(e) => dispatch(NotifyError(e.getMessage))
           }
 
-          results
+          results.map(_.flatMap(_.results))
 
         }
 

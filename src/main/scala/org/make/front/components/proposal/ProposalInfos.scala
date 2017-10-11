@@ -5,8 +5,7 @@ import io.github.shogowada.scalajs.reactjs.VirtualDOM._
 import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import io.github.shogowada.scalajs.reactjs.elements.ReactElement
 import org.make.front.components.Components._
-import org.make.front.facades.Unescape.unescape
-import org.make.front.facades.{I18n, Replacements}
+import org.make.front.helpers.ProposalAuthorInfosFormat
 import org.make.front.models.{Proposal => ProposalModel}
 import org.make.front.styles._
 import org.make.front.styles.base.TextStyles
@@ -26,54 +25,6 @@ object ProposalInfos {
       .createClass[ProposalInfosProps, Unit](
         displayName = "ProposalInfos",
         render = (self) => {
-
-          def infos(proposal: ProposalModel): String = {
-
-            (proposal.author.age, proposal.author.postalCode) match {
-
-              case (Some(age), Some(postalCode)) =>
-                unescape(
-                  I18n.t(
-                    "content.proposal.fullHeader",
-                    Replacements(
-                      ("firstName", proposal.author.firstName.getOrElse(I18n.t("anonymous"))),
-                      ("age", s"${age.toString}"),
-                      ("postalCode", s"$postalCode")
-                    )
-                  )
-                )
-
-              case (Some(age), None) =>
-                unescape(
-                  I18n.t(
-                    "content.proposal.ageHeader",
-                    Replacements(
-                      ("firstName", proposal.author.firstName.getOrElse(I18n.t("anonymous"))),
-                      ("age", s"${age.toString}")
-                    )
-                  )
-                )
-
-              case (None, Some(postalCode)) =>
-                unescape(
-                  I18n.t(
-                    "content.proposal.postalCodeHeader",
-                    Replacements(
-                      ("firstName", proposal.author.firstName.getOrElse(I18n.t("anonymous"))),
-                      ("postalCode", s"$postalCode")
-                    )
-                  )
-                )
-
-              case (None, None) =>
-                unescape(
-                  I18n.t(
-                    "content.proposal.tinyHeader",
-                    Replacements(("firstName", proposal.author.firstName.getOrElse(I18n.t("anonymous"))))
-                  )
-                )
-            }
-          }
 
           def label(trending: String): Seq[ReactElement] = {
             trending match {
@@ -117,7 +68,7 @@ object ProposalInfos {
           <.div(^.className := ProposalInfosStyles.wrapper)(
             <.div(^.className := ProposalInfosStyles.infosWrapper)(
               <.h4(^.className := Seq(TextStyles.smallText, ProposalInfosStyles.infos))(
-                infos(self.props.wrapped.proposal)
+                ProposalAuthorInfosFormat.apply(self.props.wrapped.proposal)
               )
             ),
             self.props.wrapped.proposal.trending.map(label).getOrElse(Seq.empty),

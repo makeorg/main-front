@@ -32,11 +32,11 @@ final case class AppState(configuration: Option[BusinessConfigurationModel],
                               sequenceId = SequenceIdModel("1"),
                               slug = "comment-lutter-contre-les-violences-faites-aux-femmes",
                               title = "Comment lutter contre les violences faites aux&nbsp;femmes&nbsp;?",
-                              proposals = Seq(
-                                ProposalIdModel("c2cbfa62-27e4-496f-a463-f4dd045d237c"),
-                                ProposalIdModel("ea77936f-d787-41c6-8e76-1ae2ac5d17bb"),
-                                ProposalIdModel("beda79df-8ff6-420e-82e3-dd0814111159"),
-                                ProposalIdModel("c6526d7e-b39b-4676-9d69-3ccd26660d94")
+                              proposalsSlugs = Seq(
+                                "il-faut-generaliser-les-voitures-en-libre-service-partout-sur-le-territoire-afin-que-les-gens-n-aient-plus-besoin-de-posseder-un-vehicule",
+                                "il-faut-rendre-le-recyclage-plus-simple-selon-les-communes-tel-ou-tel-dechet-est-accepte-ou-refuse-on-ne-s-y-retrouve-plus-on-abandonne",
+                                "il-faut-disposer-des-machines-de-recyclage-du-plastique-qui-permettraient-de-creer-des-objets-par-impression-3d",
+                                "il-faut-developper-les-machines-sportives-reliees-a-une-batterie-pour-produire-son-electricite-sport-energie-motivation"
                               )
                             )
                           ),

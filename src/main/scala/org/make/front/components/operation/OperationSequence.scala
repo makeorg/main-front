@@ -94,7 +94,7 @@ object OperationSequence {
                           TextStyles.smallText,
                           TextStyles.boldText
                         )
-                      )(self.props.wrapped.sequence.proposals.length + " propositions")
+                      )(self.props.wrapped.sequence.proposalsSlugs.size + " propositions")
                     ),
                     <.div(^.className := OperationSequenceStyles.openProposalModalButtonWrapper)(
                       <.button(
@@ -212,7 +212,9 @@ object OperationSequenceStyles extends StyleSheet.Inline {
       verticalAlign.middle,
       width(150.pxToEm()),
       padding := s"${ThemeStyles.SpacingValue.small.pxToEm().value} 0",
-      textAlign.right
+      textAlign.right,
+      ThemeStyles.MediaQueries
+        .belowMedium(width.auto)
     )
 
   val openProposalModalButton: StyleA =
