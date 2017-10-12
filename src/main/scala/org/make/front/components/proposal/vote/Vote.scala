@@ -126,7 +126,7 @@ object VoteStyles extends StyleSheet.Inline {
   import dsl._
 
   val voteButtonsList: StyleA =
-    style(display.table, width(240.pxToEm()), margin :=! "0 auto")
+    style(display.table, height(115.pxToEm()), width(240.pxToEm()), margin :=! "0 auto")
 
   val voteButtonItem: (Boolean) => StyleA = styleF.bool(
     hidden =>

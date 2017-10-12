@@ -9,11 +9,14 @@ import org.make.front.components.operation.IntroOfOperationSequence.IntroOfOpera
 import org.make.front.components.proposal.vote.VoteContainer.VoteContainerProps
 import org.make.front.components.sequence.ProgressBar.ProgressBarProps
 import org.make.front.facades.ReactSlick.{ReactTooltipVirtualDOMAttributes, ReactTooltipVirtualDOMElements, Slider}
+import org.make.front.facades.Unescape.unescape
 import org.make.front.helpers.ProposalAuthorInfosFormat
-import org.make.front.models.{Proposal => ProposalModel, Sequence => SequenceModel}
+import org.make.front.models.{ProposalId, Proposal => ProposalModel, Sequence => SequenceModel}
 import org.make.front.styles.ThemeStyles
 import org.make.front.styles.base.{ColRulesStyles, RowRulesStyles, TextStyles}
+import org.make.front.styles.ui.CTAStyles
 import org.make.front.styles.utils._
+import org.make.front.styles.vendors.FontAwesomeStyles
 import org.scalajs.dom.raw.HTMLElement
 
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -30,18 +33,29 @@ object Sequence {
                                  intro: ReactClass,
                                  conclusion: ReactClass)
 
-  final case class SequenceState(proposals: Seq[ProposalModel], currentSlideIndex: Int)
+  final case class SequenceState(proposals: Seq[ProposalModel], currentSlideIndex: Int, votes: Seq[String])
 
   lazy val reactClass: ReactClass =
-    React.createClass[SequenceProps, SequenceState](displayName = "Sequence", getInitialState = { self =>
-      SequenceState(proposals = Seq.empty, currentSlideIndex = 0)
-    }, render = {
-      self =>
+    React.createClass[SequenceProps, SequenceState](
+      displayName = "Sequence",
+      getInitialState = { _ =>
+        SequenceState(proposals = Seq.empty, currentSlideIndex = 0, votes = Seq(""))
+      },
+      componentWillUpdate = { (self, props, state) =>
+        },
+      componentDidMount = { self =>
         self.props.wrapped.proposals.onComplete {
-          case Success(proposals) => self.setState(_.copy(proposals = proposals))
-          case Failure(_)         =>
+          case Success(proposals) =>
+            self.setState(
+              _.copy(
+                proposals = scala.util.Random.shuffle(proposals.toList),
+                votes = proposals.filter(_.votes.exists(_.hasVoted)).map(_.id.value)
+              )
+            )
+          case Failure(_) =>
         }
-
+      },
+      render = { self =>
         var slider: Option[Slider] = None
 
         def updateCurrentSlideIndex(currentSlide: Int): Unit = {
@@ -50,6 +64,11 @@ object Sequence {
 
         def next: () => Unit = { () =>
           slider.foreach(_.slickNext())
+        }
+
+        def nextOnSuccessfulVote(proposalId: ProposalId): () => Unit = { () =>
+          val nextState = self.state.copy(votes = proposalId.value +: self.state.votes)
+          self.setState(nextState)
         }
 
         def proposalContent(proposal: ProposalModel): Seq[ReactElement] = Seq(
@@ -63,7 +82,26 @@ object Sequence {
               <.div(^.className := ProposalInSlideStyles.contentWrapper)(
                 <.h3(^.className := Seq(TextStyles.bigText, TextStyles.boldText))(proposal.content),
                 <.div(^.className := ProposalInSlideStyles.voteWrapper)(
-                  <.VoteContainerComponent(^.wrapped := VoteContainerProps(proposal = proposal))()
+                  <.VoteContainerComponent(
+                    ^.wrapped := VoteContainerProps(
+                      proposal = proposal,
+                      onSuccessfulVote = nextOnSuccessfulVote(proposal.id)
+                    )
+                  )(),
+                  <.div(^.className := ProposalInSlideStyles.ctaWrapper)(
+                    <.button(
+                      ^.className := Seq(
+                        CTAStyles.basic,
+                        CTAStyles.basicOnButton,
+                        ProposalInSlideStyles.ctaVisibility(self.state.votes.contains(proposal.id.value))
+                      ),
+                      ^.disabled := !self.state.votes.contains(proposal.id.value),
+                      ^.onClick := next
+                    )(
+                      unescape("Proposition suivante" + "&nbsp;"),
+                      <.i(^.className := Seq(FontAwesomeStyles.fa, FontAwesomeStyles.angleRight))()
+                    )
+                  )
                 )
               )
             )
@@ -115,7 +153,8 @@ object Sequence {
           },
           <.style()(SequenceStyles.render[String])
         )
-    })
+      }
+    )
 }
 
 object SequenceStyles extends StyleSheet.Inline {
@@ -167,6 +206,8 @@ object SequenceStyles extends StyleSheet.Inline {
   val slide: StyleA =
     style(
       height(100.%%),
+      paddingTop(ThemeStyles.SpacingValue.medium.pxToEm()),
+      paddingBottom(ThemeStyles.SpacingValue.medium.pxToEm()),
       backgroundColor(ThemeStyles.BackgroundColor.white),
       boxShadow := "0 1px 1px 0 rgba(0,0,0,0.50)"
     )
@@ -185,7 +226,6 @@ object ProposalInSlideStyles extends StyleSheet.Inline {
     style(
       textAlign.center,
       position.relative,
-      paddingTop(ThemeStyles.SpacingValue.medium.pxToEm()),
       paddingBottom(ThemeStyles.SpacingValue.small.pxToEm()),
       marginBottom(ThemeStyles.SpacingValue.small.pxToEm()),
       (&.after)(
@@ -208,5 +248,17 @@ object ProposalInSlideStyles extends StyleSheet.Inline {
     style(textAlign.center, marginTop(ThemeStyles.SpacingValue.medium.pxToEm()))
 
   val voteWrapper: StyleA =
-    style(marginTop(ThemeStyles.SpacingValue.small.pxToEm()), marginBottom(ThemeStyles.SpacingValue.medium.pxToEm()))
+    style(marginTop(ThemeStyles.SpacingValue.small.pxToEm()))
+
+  val ctaWrapper: StyleA =
+    style(textAlign.center, marginTop(ThemeStyles.SpacingValue.medium.pxToEm()))
+
+  val ctaVisibility: (Boolean) => StyleA = styleF.bool(
+    visible =>
+      if (visible) {
+        styleS(visibility.visible)
+      } else {
+        styleS(visibility.hidden)
+    }
+  )
 }

@@ -33,10 +33,15 @@ final case class AppState(configuration: Option[BusinessConfigurationModel],
                               slug = "comment-lutter-contre-les-violences-faites-aux-femmes",
                               title = "Comment lutter contre les violences faites aux&nbsp;femmes&nbsp;?",
                               proposalsSlugs = Seq(
-                                "il-faut-generaliser-les-voitures-en-libre-service-partout-sur-le-territoire-afin-que-les-gens-n-aient-plus-besoin-de-posseder-un-vehicule",
-                                "il-faut-rendre-le-recyclage-plus-simple-selon-les-communes-tel-ou-tel-dechet-est-accepte-ou-refuse-on-ne-s-y-retrouve-plus-on-abandonne",
-                                "il-faut-disposer-des-machines-de-recyclage-du-plastique-qui-permettraient-de-creer-des-objets-par-impression-3d",
-                                "il-faut-developper-les-machines-sportives-reliees-a-une-batterie-pour-produire-son-electricite-sport-energie-motivation"
+                                "il-faut-inventer-un-code-pour-signaler-facilement-que-lon-est-harcelee-exemple-commander-un-cocktail-angel-dans-un-bar",
+                                "il-faut-un-organisme-public-pour-pouvoir-signaler-recenser-et-publier-les-cas-de-harcelement-au-travail-dans-les-entreprises",
+                                "il-faut-une-charte-ethique-pour-toutes-les-publicites-stop-a-lutilisation-de-limage-des-femmes-comme-objet-sexuel",
+                                "il-faut-des-formations-specifiques-pour-les-gendarmes-et-les-policiers-sur-la-prise-en-charge-des-femmes-victimes",
+                                "il-faut-creer-plus-de-lieux-ou-les-femmes-puissent-se-refugier-a-toute-heure-en-cas-durgence",
+                                "il-faut-ameliorer-le-signalement-avec-les-technologies-telephones-equipes-dun-bouton-durgence-appli-pour-signaler-le-harcelement-de-rue",
+                                "il-faut-des-procedures-facilitees-de-depot-de-plaintes-sans-que-les-policiers-dissuadent-ou-minimisent-les-faits",
+                                "il-faut-que-les-bus-deposent-les-femmes-entre-les-arrets-la-nuit-quand-elles-le-demandent",
+                                "il-faut-former-les-jeunes-femmes-aux-techniques-de-self-defense-pour-mieux-se-proteger-et-se-defendre"
                               )
                             )
                           ),
