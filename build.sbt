@@ -64,7 +64,11 @@ npmDependencies in Compile ++= Seq(
   "react-google-login" -> npmReactGoogleLogin,
   "react-facebook-login" -> npmReactFacebookLogin,
   "react-textarea-autosize" -> npmReactTextareaAutoresize,
-  "hex-to-rgba" ->  npmHexToRgba,
+  "hex-to-rgba" ->  npmHexToRgba
+
+)
+
+npmDevDependencies in Compile ++= Seq(
   "ajv" -> "5.2.2",
   "clean-webpack-plugin" -> npmCleanWebpackPluginVersion,
   "css-loader" -> npmCssLoaderVersion,
@@ -78,29 +82,23 @@ npmDependencies in Compile ++= Seq(
   "webpack" -> npmWebpackVersion
 )
 
-npmDevDependencies in Compile ++= Seq("webpack" -> npmWebpackVersion)
-
 npmResolutions in Compile := {
-  (npmDependencies in Compile).value.toMap
+  (npmDependencies in Compile).value.toMap ++ (npmDevDependencies in Compile).value.toMap
 }
 
 version in webpack := npmWebpackVersion
 
 webpackConfigFile in fastOptJS := Some(baseDirectory.value / "make-webpack-library.config.js")
-//webpackConfigFile in fastOptJS := Some(baseDirectory.value / "make-webpack-dev.config.js")
 webpackConfigFile in fullOptJS := Some(baseDirectory.value / "make-webpack-prod.config.js")
 
 scalaJSUseMainModuleInitializer := true
 
 webpackDevServerExtraArgs := Seq("--lazy", "--inline")
 webpackDevServerPort := 9009
-webpackBundlingMode := {
-  if (System.getenv("CI_BUILD") == "true") {
-    BundlingMode.Application
-  } else {
-    BundlingMode.LibraryOnly("makeApp")
-  }
-}
+
+webpackBundlingMode in fastOptJS := BundlingMode.LibraryOnly("makeApp")
+webpackBundlingMode in fullOptJS := BundlingMode.Application
+
 emitSourceMaps := System.getenv("CI_BUILD") != "true"
 
 // Prod settings
@@ -119,10 +117,12 @@ prepareAssets in ThisBuild := {
   IO.copyDirectory(baseDirectory.value / "src" / "main" / "static", npmDirectory, overwrite = true)
   streams.value.log.info("Copy assets to working directory")
 }
+
 fastOptJS in Compile := {
   prepareAssets.value
   (fastOptJS in Compile).value
 }
+
 fullOptJS in Compile := {
   prepareAssets.value
   (fullOptJS in Compile).value
