@@ -15,7 +15,10 @@ import scala.util.{Failure, Success}
 
 object SequenceContainer {
 
-  final case class SequenceContainerProps(sequence: SequenceModel, maybeThemeColor: Option[String])
+  final case class SequenceContainerProps(sequence: SequenceModel,
+                                          maybeThemeColor: Option[String],
+                                          intro: ReactClass,
+                                          conclusion: ReactClass)
 
   lazy val reactClass: ReactClass = ReactRedux.connectAdvanced(selectorFactory)(Sequence.reactClass)
 
@@ -36,7 +39,9 @@ object SequenceContainer {
         Sequence.SequenceProps(
           sequence = props.wrapped.sequence,
           maybeThemeColor = props.wrapped.maybeThemeColor,
-          proposals = proposals
+          proposals = proposals,
+          intro = props.wrapped.intro,
+          conclusion = props.wrapped.conclusion
         )
       }
     }

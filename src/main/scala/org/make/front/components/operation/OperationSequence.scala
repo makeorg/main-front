@@ -126,7 +126,9 @@ object OperationSequence {
               <.SequenceContainerComponent(
                 ^.wrapped := SequenceContainerProps(
                   sequence = self.props.wrapped.sequence,
-                  maybeThemeColor = Some(gradientValues.from)
+                  maybeThemeColor = Some(gradientValues.from),
+                  intro = IntroOfOperationSequence.reactClass,
+                  conclusion = ConclusionOfOperationSequenceContainer.reactClass
                 )
               )()
             )
