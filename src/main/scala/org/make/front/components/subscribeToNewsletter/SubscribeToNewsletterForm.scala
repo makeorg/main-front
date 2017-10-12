@@ -55,6 +55,7 @@ object SubscribeToNewsletterForm {
                 self
                   .setState(
                     self.state.copy(errorMessage = unescape(I18n.t("form.subscribeToNewsletter.emailAlreadyExists")))
+                    /*TODO : specify error message from API*/
                   )
             }
           } else {

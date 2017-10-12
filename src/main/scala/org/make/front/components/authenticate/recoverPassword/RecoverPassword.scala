@@ -52,6 +52,7 @@ object RecoverPassword {
               case Failure(_) =>
                 self
                   .setState(self.state.copy(errorMessage = unescape(I18n.t("form.recoverPassword.emailDoesNotExist"))))
+              /*TODO : specify error message from API*/
             }
           } else {
             self.setState(self.state.copy(errorMessage = unescape(I18n.t(errors.head.message))))

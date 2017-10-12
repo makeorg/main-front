@@ -80,10 +80,11 @@ object UserService extends ApiService with CirceClassFormatters with CirceFormat
   }
 
   def subscribeToNewsletter(email: String): Future[Unit] = {
-    MakeApiClient
-      .post[Unit]()
-      .map { _ =>
-        }
+    Future.successful {}
+//    MakeApiClient
+//      .post[Unit]()
+//      .map { _ =>
+//        }
   }
 
   def resetPasswordCheck(userId: String, resetToken: String): Future[Boolean] = {
