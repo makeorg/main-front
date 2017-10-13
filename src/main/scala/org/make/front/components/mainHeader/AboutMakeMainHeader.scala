@@ -140,6 +140,6 @@ object AboutMakeMainHeaderStyles extends StyleSheet.Inline {
     style(display.inlineBlock, verticalAlign.baseline, margin :=! s"0 ${ThemeStyles.SpacingValue.small.pxToEm().value}")
 
   val menuItemLink: StyleA =
-    style()
+    style(color :=! inherit, transition := "color .2s ease-in-out", (&.hover)(color :=! ThemeStyles.ThemeColor.primary))
 
 }
