@@ -37,8 +37,8 @@ object SubmitProposalAndLogin {
   case class SubmitProposalAndLoginProps(intro: (ReactElement) => ReactElement,
                                          maybeTheme: Option[ThemeModel],
                                          maybeOperation: Option[OperationModel],
-                                         onProposalProposed: ()                    => Unit,
-                                         propose: (String, String, Option[String]) => Future[_])
+                                         onProposalProposed: ()    => Unit,
+                                         propose: (String, String) => Future[_])
 
   val reactClass: ReactClass =
     WithRouter(
@@ -52,7 +52,7 @@ object SubmitProposalAndLogin {
 
           val onConnectionOk: () => Unit = { () =>
             props
-              .propose(self.state.proposal, self.props.location.pathname, self.props.wrapped.maybeTheme.map(_.id.value))
+              .propose(self.state.proposal, self.props.location.pathname)
               .onComplete {
                 case Success(_) => self.setState(_.copy(displayedComponent = "result"))
                 case Failure(_) =>
