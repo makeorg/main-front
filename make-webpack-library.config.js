@@ -14,7 +14,9 @@ module.exports.plugins = [
         "template": path.join(__dirname, "index-library.template.ejs"),
         "apiUrl": "https://api.prod.makeorg.tech",
         "googleAppId": "810331964280-qtdupbrjusihad3b5da51i5p66qpmhmr.apps.googleusercontent.com",
+        "googleAnalyticsId": "UA-97647514-1",
         "facebookAppId": "317128238675603",
+        "facebookPixelId": "260470104426586",
         "inject": false
     }),
     new WebpackMd5Hash(),

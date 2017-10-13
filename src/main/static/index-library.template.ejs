@@ -16,6 +16,11 @@
         };
         var exports = window;
         exports.require = window["makeApp"].require;
+
+        // simulate emitting events to facebook pixel
+        fbq = function(eventType, eventName, eventParameters){
+            console.log("FBEvent type=", eventType, "name=", eventName, "params=", eventParameters)
+        }
     </script>
 </head>
 <body>
