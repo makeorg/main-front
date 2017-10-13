@@ -110,6 +110,7 @@ object SubmitProposalAndLogin {
                 ^.wrapped := RequireAuthenticatedUserContainerProps(
                   intro = intro,
                   onceConnected = onConnectionOk,
+                  defaultView = "register-expanded",
                   registerView = "register-expanded"
                 )
               )(),

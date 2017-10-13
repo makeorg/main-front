@@ -5,7 +5,7 @@ import io.github.shogowada.scalajs.reactjs.redux.Store
 import org.make.core.StringValue
 import org.make.front.components.AppState
 
-final case class Sequence(id: SequenceId, slug: String, title: String)
+final case class Sequence(sequenceId: SequenceId, slug: String, title: String, proposalsSlugs: Seq[String])
 
 final case class SequenceId(value: String) extends StringValue
 
@@ -16,6 +16,6 @@ object SequenceId {
 
 object Sequence {
   def getSequenceById(id: String, store: Store[AppState]): Sequence = {
-    store.getState.sequences.find(sequence => sequence.id.value == id).get
+    store.getState.sequences.find(sequence => sequence.sequenceId.value == id).get
   }
 }

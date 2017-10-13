@@ -6,7 +6,6 @@ import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import io.github.shogowada.scalajs.reactjs.router.dom.RouterDOM._
 import org.make.front.components.Components.{RichVirtualDOMElements, _}
 import org.make.front.components.proposal.Proposal.ProposalProps
-import org.make.front.components.proposal.ProposalWithThemeContainer.ProposalWithThemeContainerProps
 import org.make.front.facades.HexToRgba
 import org.make.front.models.{GradientColor => GradientColorModel, Proposal => ProposalModel, Theme => ThemeModel}
 import org.make.front.styles._

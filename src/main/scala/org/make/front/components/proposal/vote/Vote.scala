@@ -34,6 +34,7 @@ object Vote {
         },
         render = { (self) =>
           def vote(key: String): Future[VoteResponse] = {
+            //facebook.sendEvent(Voted - Location [sequence] ; Nature [Agree, ...], Proposal id, Qualification(s)
             val future = self.props.wrapped.vote(key)
 
             future.onComplete {
@@ -45,6 +46,7 @@ object Vote {
           }
 
           def unvote(key: String): Future[VoteResponse] = {
+            //facebook.sendEvent(Unvoted - Location [sequence] ; Nature [Agree, ...], Proposal id, Qualification(s)
             val future = self.props.wrapped.unvote(key)
 
             future.onComplete {
@@ -126,7 +128,7 @@ object VoteStyles extends StyleSheet.Inline {
   import dsl._
 
   val voteButtonsList: StyleA =
-    style(display.table, width(240.pxToEm()), margin :=! "0 auto")
+    style(display.table, height(115.pxToEm()), width(240.pxToEm()), margin :=! "0 auto")
 
   val voteButtonItem: (Boolean) => StyleA = styleF.bool(
     hidden =>

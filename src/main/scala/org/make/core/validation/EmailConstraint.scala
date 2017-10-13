@@ -3,10 +3,11 @@ package org.make.core.validation
 object EmailConstraint extends Constraint {
   private val emailRegex =
     """^.+\@\S+\.\S+$""".r
-  override def validate(value: Option[String], constraintMessages: Map[String, String] = Map()): Seq[ConstraintError] = {
+  override def validate(value: Option[String],
+                        constraintMessages: Map[String, String] = Map()): Seq[ConstraintError] = {
 
     if (value.getOrElse("").isEmpty) {
-      Seq.empty
+      Seq(ConstraintError(constraintMessages.get("invalid").getOrElse("Invalid email")))
     } else {
       emailRegex
         .findFirstMatchIn(value.get)

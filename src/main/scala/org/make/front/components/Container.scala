@@ -9,7 +9,7 @@ import org.make.front.components.home.Home
 import org.make.front.components.authenticate.resetPassword.ResetPasswordContainer
 import org.make.front.components.search.SearchResultsContainer
 import org.make.front.components.theme.ThemeContainer
-import org.make.front.components.operation.{OperationContainer, OperationSSequence, OperationSSequenceContainer}
+import org.make.front.components.operation.{OperationContainer, OperationSequenceContainer, VFFSequenceContainer}
 
 import scala.scalajs.js.Dynamic
 
@@ -33,18 +33,23 @@ object Container {
             ^.path := "/account-activation/:userId/:verificationToken",
             ^.component := ActivateAccountContainer.reactClass
           )(),
-          <.Route(
+          /*<.Route(
             ^.exact := true,
             ^.path := "/operation/:operationSlug",
             ^.component := OperationContainer.reactClass
           )(),
           <.Route(
             ^.exact := true,
-            ^.path := "/operation/:operationSlug/sequence/:sequenceSlug",
-            ^.component := OperationSSequenceContainer.reactClass
+            ^.path := "/operation/:operationSlug/consultation/:sequenceSlug",
+            ^.component := OperationSequenceContainer.reactClass
+          )(),*/
+          <.Route(
+            ^.exact := true,
+            ^.path := "/consultation/comment-lutter-contre-les-violences-faites-aux-femmes",
+            ^.component := VFFSequenceContainer.reactClass
           )(),
-          <.Route(^.exact := true, ^.path := "/theme/:themeSlug", ^.component := ThemeContainer.reactClass)(),
-          <.Route(^.exact := true, ^.path := "/search", ^.component := SearchResultsContainer.reactClass)(),
+          /*<.Route(^.exact := true, ^.path := "/theme/:themeSlug", ^.component := ThemeContainer.reactClass)(),
+          <.Route(^.exact := true, ^.path := "/search", ^.component := SearchResultsContainer.reactClass)(),*/
           <.Route(^.exact := true, ^.path := "/", ^.component := Home.reactClass)()
       )
     )

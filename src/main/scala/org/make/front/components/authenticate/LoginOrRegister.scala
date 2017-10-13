@@ -31,8 +31,8 @@ object LoginOrRegister {
 
   val reactClass: ReactClass =
     React.createClass[LoginOrRegisterProps, LoginOrRegisterState](displayName = "LoginOrRegister", getInitialState = {
-      _ =>
-        LoginOrRegisterState.empty
+      self =>
+        LoginOrRegisterState(currentView = self.props.wrapped.displayView)
     }, componentWillReceiveProps = { (self, props) =>
       self.setState(_.copy(currentView = props.wrapped.displayView))
     }, render = {
@@ -70,9 +70,9 @@ object LoginOrRegister {
                 ^.wrapped := RecoverPasswordContainerProps(props.onSuccessfulLogin)
               )(),
               <.p(^.className := Seq(LoginOrRegisterStyles.text, TextStyles.smallText))(
-                unescape(I18n.t("form.passwordRecovery.return")) + " ",
+                unescape(I18n.t("form.recoverPassword.return")) + " ",
                 <.a(^.className := TextStyles.boldText, ^.onClick := goTo("login"))(
-                  unescape(I18n.t("form.passwordRecovery.connectScreen"))
+                  unescape(I18n.t("form.recoverPassword.connectScreen"))
                 )
               )
             )

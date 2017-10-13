@@ -11,7 +11,7 @@ object RequireAuthenticatedUser {
 
   case class RequireAuthenticatedUserProps(intro: ReactElement,
                                            registerView: String,
-                                           defaultView: String = "login",
+                                           defaultView: String = "register",
                                            onceConnected: () => Unit,
                                            isConnected: Boolean)
   type RequireAuthenticatedUserState = Unit

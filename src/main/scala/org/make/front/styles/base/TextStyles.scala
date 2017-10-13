@@ -47,6 +47,10 @@ object TextStyles extends StyleSheet.Inline {
 
   val boldText: StyleA = style(ThemeStyles.Font.circularStdBold)
   val intro: StyleA = style(ThemeStyles.Font.playfairDisplayItalic, fontStyle.italic)
+
+  val bigIntro: StyleA =
+    style(intro, fontSize(18.pxToEm()), ThemeStyles.MediaQueries.beyondSmall(fontSize(36.pxToEm())))
+
   val title: StyleA =
     style(ThemeStyles.Font.tradeGothicLTStd, textTransform.uppercase)
 

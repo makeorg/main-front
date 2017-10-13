@@ -14,11 +14,11 @@ import org.make.front.models.{
   Sequence    => SequenceModel
 }
 
-object OperationSSequenceContainer {
+object OperationSequenceContainer {
 
-  lazy val reactClass: ReactClass = ReactRedux.connectAdvanced(selectorFactory)(OperationSSequence.reactClass)
+  lazy val reactClass: ReactClass = ReactRedux.connectAdvanced(selectorFactory)(OperationSequence.reactClass)
 
-  def selectorFactory: (Dispatch) => (AppState, Props[Unit]) => OperationSSequence.OperationSSequenceProps =
+  def selectorFactory: (Dispatch) => (AppState, Props[Unit]) => OperationSequence.OperationSequenceProps =
     (dispatch: Dispatch) => { (state: AppState, props: Props[Unit]) =>
       {
         val operationSlug = props.`match`.params("operationSlug")
@@ -29,13 +29,13 @@ object OperationSSequenceContainer {
 
         if (OperationsList.isEmpty || SequencesList.isEmpty) {
           props.history.push("/")
-          OperationSSequence.OperationSSequenceProps(
+          OperationSequence.OperationSequenceProps(
             OperationModel(OperationIdModel("fake"), "", "", 0, 0, "", None),
-            SequenceModel(SequenceIdModel("fake"), "", "")
+            SequenceModel(SequenceIdModel("fake"), "", "", Seq.empty)
           )
         } else {
           dispatch(LoadConfiguration)
-          OperationSSequence.OperationSSequenceProps(OperationsList.head, SequencesList.head)
+          OperationSequence.OperationSequenceProps(OperationsList.head, SequencesList.head)
         }
       }
     }

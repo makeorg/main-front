@@ -47,6 +47,8 @@ object QualificateVoteButton {
     },
     render = { (self) =>
       def qualifyVote(key: String): (SyntheticEvent) => Unit = {
+        //facebook.sendEvent(Qualified - Location [sequence] ; Type [ , , ], Proposal id, Qualification(s)
+
         e =>
           e.preventDefault()
 

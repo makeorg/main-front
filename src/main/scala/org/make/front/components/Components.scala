@@ -40,6 +40,7 @@ object Components {
     def ContainerComponent: ReactClassElementSpec = self(org.make.front.components.Container.reactClass)
     def NotificationsComponent: ReactClassElementSpec = self(notifications.Notifications.reactClass)
     def MainHeaderComponent: ReactClassElementSpec = self(mainHeader.MainHeader.reactClass)
+    def AboutMakeMainHeaderComponent: ReactClassElementSpec = self(mainHeader.AboutMakeMainHeader.reactClass)
     def MainFooterComponent: ReactClassElementSpec = self(mainFooter.MainFooter.reactClass)
     def NavInThemesContainerComponent: ReactClassElementSpec = self(navInThemes.NavInThemesContainer.reactClass)
     def UserNavComponent: ReactClassElementSpec = self(userNav.UserNav.reactClass)
@@ -51,6 +52,9 @@ object Components {
 
     def ModalComponent: ReactClassElementSpec = self(modals.Modal.reactClass)
     def FullscreenModalComponent: ReactClassElementSpec = self(modals.FullscreenModal.reactClass)
+
+    def SubscribeToNewsletterFormContainerComponent: ReactClassElementSpec =
+      self(subscribeToNewsletter.SubscribeToNewsletterFormContainer.reactClass)
 
     /*********************/
     def ActivateAccountContainerComponent: ReactClassElementSpec =
@@ -97,9 +101,11 @@ object Components {
     def TrendingShowcaseContainerComponent: ReactClassElementSpec = self(showcase.TrendingShowcaseContainer.reactClass)
     def ThemeShowcaseContainerComponent: ReactClassElementSpec = self(showcase.ThemeShowcaseContainer.reactClass)
     def SequenceContainerComponent: ReactClassElementSpec = self(sequence.SequenceContainer.reactClass)
-    def OperationSSequenceComponent: ReactClassElementSpec = self(operation.OperationSSequence.reactClass)
-    def OperationSSequenceContainerComponent: ReactClassElementSpec =
-      self(operation.OperationSSequenceContainer.reactClass)
+    def ProgressBarComponent: ReactClassElementSpec = self(sequence.ProgressBar.reactClass)
+
+    def OperationSequenceComponent: ReactClassElementSpec = self(operation.OperationSequence.reactClass)
+    def OperationSequenceContainerComponent: ReactClassElementSpec =
+      self(operation.OperationSequenceContainer.reactClass)
 
     /*********************/
     def VoteContainerComponent: ReactClassElementSpec = self(proposal.vote.VoteContainer.reactClass)

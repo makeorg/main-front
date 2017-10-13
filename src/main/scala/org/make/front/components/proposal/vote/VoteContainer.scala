@@ -17,7 +17,7 @@ import scala.util.{Failure, Success}
 
 object VoteContainer {
 
-  final case class VoteContainerProps(proposal: ProposalModel)
+  final case class VoteContainerProps(proposal: ProposalModel, onSuccessfulVote: () => Unit = () => {})
 
   lazy val reactClass: ReactClass = ReactRedux.connectAdvanced(selectorFactory)(Vote.reactClass)
 
@@ -26,7 +26,7 @@ object VoteContainer {
       def vote(key: String): Future[VoteResponse] = {
         val future = ProposalService.vote(proposalId = ownProps.wrapped.proposal.id, key)
         future.onComplete {
-          case Success(_) => // let child handle new results
+          case Success(_) => ownProps.wrapped.onSuccessfulVote() // let child handle new results
           case Failure(_) => dispatch(NotifyError(I18n.t("errors.main")))
         }
         future
