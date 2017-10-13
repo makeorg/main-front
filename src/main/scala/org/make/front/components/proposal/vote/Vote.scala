@@ -5,6 +5,7 @@ import io.github.shogowada.scalajs.reactjs.VirtualDOM._
 import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import org.make.front.components.Components._
 import org.make.front.components.proposal.vote.VoteButton.VoteButtonProps
+import org.make.front.facades.FacebookPixel
 import org.make.front.models.{Proposal => ProposalModel, Vote => VoteModel}
 import org.make.front.styles._
 import org.make.front.styles.utils._
@@ -12,6 +13,7 @@ import org.make.services.proposal.ProposalResponses.{QualificationResponse, Vote
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
+import scala.scalajs.js.JSConverters._
 import scala.util.{Failure, Success}
 import scalacss.DevDefaults._
 
@@ -34,7 +36,7 @@ object Vote {
         },
         render = { (self) =>
           def vote(key: String): Future[VoteResponse] = {
-            //facebook.sendEvent(Voted - Location [sequence] ; Nature [Agree, ...], Proposal id, Qualification(s)
+            FacebookPixel.fbq("trackCustom", "click-proposal-vote", Map("location" -> "sequence", "nature" -> key, "proposalId" -> self.props.wrapped.proposal.id.value.toString).toJSDictionary)
             val future = self.props.wrapped.vote(key)
 
             future.onComplete {
@@ -46,7 +48,7 @@ object Vote {
           }
 
           def unvote(key: String): Future[VoteResponse] = {
-            //facebook.sendEvent(Unvoted - Location [sequence] ; Nature [Agree, ...], Proposal id, Qualification(s)
+            FacebookPixel.fbq("trackCustom", "click-proposal-unvote", Map("location" -> "sequence", "nature" -> key, "proposalId" -> self.props.wrapped.proposal.id.value.toString).toJSDictionary)
             val future = self.props.wrapped.unvote(key)
 
             future.onComplete {

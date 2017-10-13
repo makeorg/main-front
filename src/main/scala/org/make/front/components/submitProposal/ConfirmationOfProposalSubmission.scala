@@ -5,7 +5,7 @@ import io.github.shogowada.scalajs.reactjs.VirtualDOM._
 import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import org.make.front.components.Components._
 import org.make.front.facades.Translate.{TranslateVirtualDOMAttributes, TranslateVirtualDOMElements}
-import org.make.front.facades.{I18n, Replacements}
+import org.make.front.facades.{FacebookPixel, I18n, Replacements}
 import org.make.front.models.{Theme => ThemeModel}
 import org.make.front.styles.ThemeStyles
 import org.make.front.styles.base.TextStyles
@@ -13,6 +13,7 @@ import org.make.front.styles.ui.CTAStyles
 import org.make.front.styles.utils._
 import org.make.front.styles.vendors.FontAwesomeStyles
 
+import scala.scalajs.js.JSConverters._
 import scalacss.DevDefaults.{StyleA, _}
 import scalacss.internal.mutable.StyleSheet
 
@@ -57,7 +58,10 @@ object ConfirmationOfProposalSubmission {
             <.br()(),
             <.button(
               ^.className := Seq(ConfirmationOfProposalSubmissionStyles.cta, CTAStyles.basic, CTAStyles.basicOnButton),
-              ^.onClick := self.props.wrapped.onSubmitAnotherProposal
+              ^.onClick := {
+                FacebookPixel.fbq("trackCustom", "click-proposal-submit-form-open", Map("location" -> "end-proposal-form").toJSDictionary)
+                self.props.wrapped.onSubmitAnotherProposal
+              }
             )(
               <.i(^.className := Seq(FontAwesomeStyles.fa, FontAwesomeStyles.lightbulbTransparent))(),
               " ",

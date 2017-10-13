@@ -98,7 +98,7 @@ object SubmitProposalForm {
               )
             } else {
               self.props.wrapped.handleSubmitProposalForm(content)
-              //facebook.sendEvent("Submitted proposal", {})
+              FacebookPixel.fbq("trackCustom", "click-proposal-submit")
             }
             false
         }

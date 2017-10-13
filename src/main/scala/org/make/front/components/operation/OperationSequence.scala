@@ -8,24 +8,21 @@ import org.make.front.components.Components._
 import org.make.front.components.modals.FullscreenModal.FullscreenModalProps
 import org.make.front.components.operation.SubmitProposalInRelationToOperation.SubmitProposalInRelationToOperationProps
 import org.make.front.components.sequence.SequenceContainer.SequenceContainerProps
-import org.make.front.facades.I18n
+import org.make.front.facades.{FacebookPixel, I18n}
 import org.make.front.facades.Unescape.unescape
-import org.make.front.models.{
-  GradientColor => GradientColorModel,
-  Operation     => OperationModel,
-  Sequence      => SequenceModel
-}
+import org.make.front.models.{GradientColor => GradientColorModel, Operation => OperationModel, Sequence => SequenceModel}
 import org.make.front.styles._
 import org.make.front.styles.base.{ColRulesStyles, RWDHideRulesStyles, RowRulesStyles, TextStyles}
 import org.make.front.styles.ui.CTAStyles
 import org.make.front.styles.utils._
 import org.make.front.styles.vendors.FontAwesomeStyles
-
+import scala.scalajs.js.JSConverters._
 import scalacss.DevDefaults.{StyleA, _}
 import scalacss.internal.mutable.StyleSheet
 import scalacss.internal.mutable.StyleSheet.Inline
 
 object OperationSequence {
+
   final case class OperationSequenceProps(operation: OperationModel, sequence: SequenceModel)
 
   final case class OperationSequenceState(isProposalModalOpened: Boolean)
@@ -47,11 +44,13 @@ object OperationSequence {
         val openProposalModal: (MouseSyntheticEvent) => Unit = { event =>
           event.preventDefault()
           self.setState(state => state.copy(isProposalModalOpened = true))
-        //facebook.sendEvent("Clicked proposal submit - location [sequence header]", {})
+          FacebookPixel.fbq("trackCustom", "click-proposal-submit-form-open", Map("location" -> "sequence-header").toJSDictionary)
         }
 
         object DynamicOperationSequenceStyles extends Inline {
+
           import dsl._
+
           val gradient: StyleA =
             style(background := s"linear-gradient(130deg, ${gradientValues.from}, ${gradientValues.to})")
         }

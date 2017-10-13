@@ -8,7 +8,7 @@ import org.make.client.UnauthorizedHttpException
 import org.make.core.validation.NotBlankConstraint
 import org.make.front.Main.CssSettings._
 import org.make.front.components.Components._
-import org.make.front.facades.I18n
+import org.make.front.facades.{FacebookPixel, I18n}
 import org.make.front.facades.Unescape.unescape
 import org.make.front.styles._
 import org.make.front.styles.base.TextStyles
@@ -37,6 +37,9 @@ object LoginWithEmail {
     React
       .createClass[LoginWithEmailProps, LoginWithEmailState](
         displayName = "LoginWithEmail",
+        componentDidMount = {self =>
+          FacebookPixel.fbq("trackCustom", "display-signin-form")
+        },
         getInitialState = (_) => LoginWithEmailState.empty,
         render = { self =>
           val props = self.props.wrapped
@@ -78,9 +81,11 @@ object LoginWithEmail {
           val handleSubmit: (FormSyntheticEvent[HTMLInputElement]) => Unit = {
             event =>
               event.preventDefault()
+
               if (validate()) {
                 props.connectUser(self.state.email, self.state.password).onComplete {
-                  case Success(_) => self.setState(LoginWithEmailState.empty)
+                  case Success(_) =>
+                    self.setState(LoginWithEmailState.empty)
                   case Failure(e) =>
                     e match {
                       case UnauthorizedHttpException =>
