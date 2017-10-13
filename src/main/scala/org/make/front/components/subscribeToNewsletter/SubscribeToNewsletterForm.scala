@@ -24,7 +24,7 @@ import scalacss.internal.mutable.StyleSheet
 
 object SubscribeToNewsletterForm {
 
-  case class SubscribeToNewsletterFormProps(intro: Option[String], handleSubmit: (String) => Future[_])
+  case class SubscribeToNewsletterFormProps(handleSubmit: (String) => Future[_])
 
   case class SubscribeToNewsletterFormState(email: String, errorMessage: String)
 
@@ -72,34 +72,25 @@ object SubscribeToNewsletterForm {
           }
         ).mkString(" ")
 
-        <.div()(
-          <.div(^.className := Seq(RowRulesStyles.row))(
-            <.div(^.className := ColRulesStyles.col)(
-              <.p(^.className := Seq(SubscribeToNewsletterFormStyles.intro, TextStyles.smallText))(
-                self.props.wrapped.intro
-              )
-            )
-          ),
-          <.div(^.className := Seq(RowRulesStyles.evenNarrowerCenteredRow))(
-            <.div(^.className := ColRulesStyles.col)(
-              <.form(^.onSubmit := handleSubmit, ^.novalidate := true)(
-                <.label(^.className := emailInputWrapperClasses)(
-                  <.input(
-                    ^.`type`.email,
-                    ^.required := true,
-                    ^.placeholder := I18n.t("form.subscribeToNewsletter.fieldLabelEmail"),
-                    ^.onChange := updateEmail,
-                    ^.value := self.state.email
-                  )()
-                ),
-                if (self.state.errorMessage != "") {
-                  <.p(^.className := InputStyles.errorMessage)(unescape(self.state.errorMessage))
-                },
-                <.div(^.className := SubscribeToNewsletterFormStyles.submitButtonWrapper)(
-                  <.button(^.className := Seq(CTAStyles.basic, CTAStyles.basicOnButton), ^.`type`.submit)(
-                    <.i(^.className := Seq(FontAwesomeStyles.fa, FontAwesomeStyles.paperPlaneTransparent))(),
-                    unescape("&nbsp;" + I18n.t("form.subscribeToNewsletter.sendEmail"))
-                  )
+        <.div(^.className := Seq(RowRulesStyles.evenNarrowerCenteredRow))(
+          <.div(^.className := ColRulesStyles.col)(
+            <.form(^.onSubmit := handleSubmit, ^.novalidate := true)(
+              <.label(^.className := emailInputWrapperClasses)(
+                <.input(
+                  ^.`type`.email,
+                  ^.required := true,
+                  ^.placeholder := I18n.t("form.subscribeToNewsletter.fieldLabelEmail"),
+                  ^.onChange := updateEmail,
+                  ^.value := self.state.email
+                )()
+              ),
+              if (self.state.errorMessage != "") {
+                <.p(^.className := InputStyles.errorMessage)(unescape(self.state.errorMessage))
+              },
+              <.div(^.className := SubscribeToNewsletterFormStyles.submitButtonWrapper)(
+                <.button(^.className := Seq(CTAStyles.basic, CTAStyles.basicOnButton), ^.`type`.submit)(
+                  <.i(^.className := Seq(FontAwesomeStyles.fa, FontAwesomeStyles.paperPlaneTransparent))(),
+                  unescape("&nbsp;" + I18n.t("form.subscribeToNewsletter.sendEmail"))
                 )
               )
             )
@@ -112,8 +103,6 @@ object SubscribeToNewsletterForm {
 
 object SubscribeToNewsletterFormStyles extends StyleSheet.Inline {
   import dsl._
-
-  val intro: StyleA = style(textAlign.center, color(ThemeStyles.TextColor.lighter))
 
   val emailInputWithIconWrapper: StyleA =
     style(backgroundColor(ThemeStyles.BackgroundColor.lightGrey), (&.before)(content := "'\\f003'"))

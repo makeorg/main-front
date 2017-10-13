@@ -18,8 +18,7 @@ object SubscribeToNewsletterFormContainer {
 
   lazy val reactClass: ReactClass = ReactRedux.connectAdvanced(selectorFactory)(SubscribeToNewsletterForm.reactClass)
 
-  case class SubscribeToNewsletterFormContainerProps(intro: Option[String],
-                                                     onSubscribeToNewsletterSuccess: () => Unit = () => {})
+  case class SubscribeToNewsletterFormContainerProps(onSubscribeToNewsletterSuccess: () => Unit = () => {})
 
   def selectorFactory
     : (Dispatch) => (AppState, Props[SubscribeToNewsletterFormContainerProps]) => SubscribeToNewsletterFormProps =
@@ -35,6 +34,6 @@ object SubscribeToNewsletterFormContainer {
         future
       }
 
-      SubscribeToNewsletterForm.SubscribeToNewsletterFormProps(intro = props.wrapped.intro, handleSubmit = handleSubmit)
+      SubscribeToNewsletterForm.SubscribeToNewsletterFormProps(handleSubmit = handleSubmit)
     }
 }
