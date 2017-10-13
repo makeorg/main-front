@@ -12,7 +12,7 @@ object RequireAuthenticatedUserContainer {
 
   case class RequireAuthenticatedUserContainerProps(intro: ReactElement,
                                                     registerView: String,
-                                                    defaultView: String = "login",
+                                                    defaultView: String = "register",
                                                     onceConnected: () => Unit)
 
   val reactClass: ReactClass = ReactRedux.connectAdvanced {

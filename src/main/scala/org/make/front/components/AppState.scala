@@ -18,7 +18,7 @@ final case class AppState(configuration: Option[BusinessConfigurationModel],
                           operations: Seq[OperationModel] = Seq(
                             OperationModel(
                               operationId = OperationIdModel("1"),
-                              slug = "vff",
+                              slug = "stop-aux-violences-faites-aux-femmes",
                               title = "Comment lutter contre les violences faites aux&nbsp;femmes&nbsp;?",
                               actionsCount = 0,
                               proposalsCount = 0,

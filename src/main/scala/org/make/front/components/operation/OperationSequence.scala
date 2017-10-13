@@ -4,11 +4,10 @@ import io.github.shogowada.scalajs.reactjs.React
 import io.github.shogowada.scalajs.reactjs.VirtualDOM.{<, _}
 import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import io.github.shogowada.scalajs.reactjs.events.MouseSyntheticEvent
-import io.github.shogowada.scalajs.reactjs.router.dom.RouterDOM._
 import org.make.front.components.Components._
 import org.make.front.components.modals.FullscreenModal.FullscreenModalProps
+import org.make.front.components.operation.SubmitProposalInRelationToOperation.SubmitProposalInRelationToOperationProps
 import org.make.front.components.sequence.SequenceContainer.SequenceContainerProps
-import org.make.front.components.submitProposal.SubmitProposal.SubmitProposalProps
 import org.make.front.facades.I18n
 import org.make.front.facades.Unescape.unescape
 import org.make.front.models.{
@@ -63,7 +62,7 @@ object OperationSequence {
                 <.div(^.className := ColRulesStyles.col)(
                   <.div(^.className := OperationSequenceStyles.headerInnerSubWrapper)(
                     <.p(^.className := Seq(OperationSequenceStyles.backLinkWrapper))(
-                      <.Link(
+                      /*<.Link(
                         ^.className := OperationSequenceStyles.backLink,
                         ^.to := s"/operation/${self.props.wrapped.operation.slug}"
                       )(
@@ -82,7 +81,7 @@ object OperationSequence {
                           ),
                           ^.dangerouslySetInnerHTML := "Accéder à<br>l'opération"
                         )()
-                      )
+                      )*/
                     ),
                     <.div(^.className := OperationSequenceStyles.titleWrapper)(
                       <.h1(^.className := Seq(OperationSequenceStyles.title, TextStyles.smallTitle))(
@@ -112,9 +111,16 @@ object OperationSequence {
                       ),
                       <.FullscreenModalComponent(
                         ^.wrapped := FullscreenModalProps(self.state.isProposalModalOpened, closeProposalModal)
-                      )(<.SubmitProposalComponent(^.wrapped := SubmitProposalProps(onProposalProposed = () => {
-                        self.setState(_.copy(isProposalModalOpened = false))
-                      }))())
+                      )(
+                        <.SubmitProposalInRelationToOperationComponent(
+                          ^.wrapped := SubmitProposalInRelationToOperationProps(
+                            operation = self.props.wrapped.operation,
+                            onProposalProposed = () => {
+                              self.setState(_.copy(isProposalModalOpened = false))
+                            }
+                          )
+                        )()
+                      )
                     )
                   )
                 )
