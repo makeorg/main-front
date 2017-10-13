@@ -17,7 +17,9 @@ module.exports.plugins = [
         "template": path.join(__dirname, "index.template.ejs"),
         "apiUrl": "http://localhost:9000",
         "googleAppId": "810331964280-qtdupbrjusihad3b5da51i5p66qpmhmr.apps.googleusercontent.com",
-        "facebookAppId": "317128238675603"
+        "googleAnalyticsId": "UA-97647514-1",
+        "facebookAppId": "317128238675603",
+        "facebookPixelId": "260470104426586"
     }),
     new WebpackMd5Hash(),
     new ExtractTextPlugin({ // define where to save the file
