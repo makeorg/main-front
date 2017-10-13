@@ -33,7 +33,7 @@ object Container {
             ^.path := "/account-activation/:userId/:verificationToken",
             ^.component := ActivateAccountContainer.reactClass
           )(),
-          <.Route(
+          /*<.Route(
             ^.exact := true,
             ^.path := "/operation/:operationSlug",
             ^.component := OperationContainer.reactClass
@@ -42,14 +42,14 @@ object Container {
             ^.exact := true,
             ^.path := "/operation/:operationSlug/consultation/:sequenceSlug",
             ^.component := OperationSequenceContainer.reactClass
-          )(),
+          )(),*/
           <.Route(
             ^.exact := true,
             ^.path := "/consultation/comment-lutter-contre-les-violences-faites-aux-femmes",
             ^.component := VFFSequenceContainer.reactClass
           )(),
-          <.Route(^.exact := true, ^.path := "/theme/:themeSlug", ^.component := ThemeContainer.reactClass)(),
-          <.Route(^.exact := true, ^.path := "/search", ^.component := SearchResultsContainer.reactClass)(),
+          /*<.Route(^.exact := true, ^.path := "/theme/:themeSlug", ^.component := ThemeContainer.reactClass)(),
+          <.Route(^.exact := true, ^.path := "/search", ^.component := SearchResultsContainer.reactClass)(),*/
           <.Route(^.exact := true, ^.path := "/", ^.component := Home.reactClass)()
       )
     )

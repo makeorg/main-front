@@ -80,7 +80,7 @@ object Translations {
       |         "agree": "D'accord",
       |         "disagree": "Pas d'accord",
       |         "neutral": "Vote blanc",
-      |         "likeIt": "Coup de <i class=\"fa fa-heart\"></i>",
+      |         "likeIt": "Remarquable",
       |         "doable": "Réaliste",
       |         "platitudeAgree": "Banalité",
       |         "noWay": "Surtout pas&nbsp;!",

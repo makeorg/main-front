@@ -54,7 +54,11 @@ object SubscribeToNewsletterForm {
               case Failure(_) =>
                 self
                   .setState(
-                    self.state.copy(errorMessage = unescape(I18n.t("form.subscribeToNewsletter.emailAlreadyExists")))
+                    self.state.copy(
+                      errorMessage = unescape(
+                        "Quelque chose n'a pas fonctionné. Si le problème persiste n'hésitez pas à nous contacter à <a href=\"mailto:contact@make.org\">contact@make.org</a>."
+                      )
+                    )
                     /*TODO : specify error message from API*/
                   )
             }
@@ -85,7 +89,10 @@ object SubscribeToNewsletterForm {
                 )()
               ),
               if (self.state.errorMessage != "") {
-                <.p(^.className := InputStyles.errorMessage)(unescape(self.state.errorMessage))
+                <.p(
+                  ^.className := InputStyles.errorMessage,
+                  ^.dangerouslySetInnerHTML := unescape(self.state.errorMessage)
+                )()
               },
               <.div(^.className := SubscribeToNewsletterFormStyles.submitButtonWrapper)(
                 <.button(^.className := Seq(CTAStyles.basic, CTAStyles.basicOnButton), ^.`type`.submit)(

@@ -24,14 +24,12 @@ object AboutMakeMainHeader {
             <.div(^.className := AboutMakeMainHeaderStyles.innerWrapper)(
               /*TODO: h1 if homepage else p*/
               <.h1(^.className := AboutMakeMainHeaderStyles.logoWrapper)(
-                <.a(^.href := "/")(
-                  <.img(
-                    ^.className := AboutMakeMainHeaderStyles.logo,
-                    ^.src := logoMake.toString,
-                    ^.title := "Make.org",
-                    ^("data-pin-no-hover") := "true"
-                  )()
-                )
+                <.img(
+                  ^.className := AboutMakeMainHeaderStyles.logo,
+                  ^.src := logoMake.toString,
+                  ^.title := "Make.org",
+                  ^("data-pin-no-hover") := "true"
+                )()
               ),
               <.div(^.className := AboutMakeMainHeaderStyles.menusWrapper)(
                 <.nav(
