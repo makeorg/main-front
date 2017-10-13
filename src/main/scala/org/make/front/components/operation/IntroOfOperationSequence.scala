@@ -22,6 +22,8 @@ object IntroOfOperationSequence {
     React
       .createClass[IntroOfOperationSequenceProps, Unit](
         displayName = "IntroOfOperationSequence",
+        componentDidMount = { self => /*facebook.sendEvent("Displayed intro screen - no parameters", {}) */
+        },
         render = { self =>
           <.div(^.className := Seq(IntroOfOperationSequenceStyles.wrapper))(
             <.div(^.className := IntroOfOperationSequenceStyles.innerWrapper)(

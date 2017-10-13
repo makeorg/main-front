@@ -27,6 +27,7 @@ object ConclusionOfOperationSequence {
       },
       render = { self =>
         def onSubscribeToNewsletterSuccess(): Unit = {
+          //facebook.sendEvent("Submitted email", {})
           self.setState(_.copy(subscriptionToNewsletterHasSucceed = true))
         }
 

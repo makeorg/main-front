@@ -16,8 +16,6 @@ import org.make.front.styles.utils._
 import org.make.front.styles.vendors.FontAwesomeStyles
 import org.scalajs.dom.raw.{HTMLInputElement}
 
-import scalajs.js.Dynamic.{global => g}
-
 import scalacss.DevDefaults._
 import scalacss.internal.StyleA
 import scalacss.internal.mutable.StyleSheet
@@ -100,6 +98,7 @@ object SubmitProposalForm {
               )
             } else {
               self.props.wrapped.handleSubmitProposalForm(content)
+              //facebook.sendEvent("Submitted proposal", {})
             }
             false
         }

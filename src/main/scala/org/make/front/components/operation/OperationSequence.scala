@@ -47,6 +47,7 @@ object OperationSequence {
         val openProposalModal: (MouseSyntheticEvent) => Unit = { event =>
           event.preventDefault()
           self.setState(state => state.copy(isProposalModalOpened = true))
+        //facebook.sendEvent("Clicked proposal submit - location [sequence header]", {})
         }
 
         object DynamicOperationSequenceStyles extends Inline {

@@ -34,6 +34,7 @@ object Vote {
         },
         render = { (self) =>
           def vote(key: String): Future[VoteResponse] = {
+            //facebook.sendEvent(Voted - Location [sequence] ; Nature [Agree, ...], Proposal id, Qualification(s)
             val future = self.props.wrapped.vote(key)
 
             future.onComplete {
@@ -45,6 +46,7 @@ object Vote {
           }
 
           def unvote(key: String): Future[VoteResponse] = {
+            //facebook.sendEvent(Unvoted - Location [sequence] ; Nature [Agree, ...], Proposal id, Qualification(s)
             val future = self.props.wrapped.unvote(key)
 
             future.onComplete {

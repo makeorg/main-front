@@ -62,8 +62,14 @@ object Sequence {
           self.setState(state => state.copy(currentSlideIndex = currentSlide))
         }
 
-        def next: () => Unit = { () =>
+        def startSequence: () => Unit = { () =>
           slider.foreach(_.slickNext())
+        //facebook.sendEvent("Launched sequence - location [intro screen] ; sequence id", {})
+        }
+
+        def nextProposal: () => Unit = { () =>
+          slider.foreach(_.slickNext())
+        // facebook.sendEvent("Clicked next proposal")
         }
 
         def nextOnSuccessfulVote(proposalId: ProposalId): () => Unit = { () =>
@@ -96,7 +102,7 @@ object Sequence {
                         ProposalInSlideStyles.ctaVisibility(self.state.votes.contains(proposal.id.value))
                       ),
                       ^.disabled := !self.state.votes.contains(proposal.id.value),
-                      ^.onClick := next
+                      ^.onClick := nextProposal
                     )(
                       unescape("Proposition suivante" + "&nbsp;"),
                       <.i(^.className := Seq(FontAwesomeStyles.fa, FontAwesomeStyles.angleRight))()
@@ -132,7 +138,7 @@ object Sequence {
                   <.div(^.className := ColRulesStyles.col)(
                     <.div(^.className := SequenceStyles.slideshow)(<.Slider(^.ref := ((s: HTMLElement) => {
                       slider = Option(s.asInstanceOf[Slider])
-                    }), ^.infinite := false, ^.arrows := false, ^.afterChange := updateCurrentSlideIndex)(<.div(^.className := SequenceStyles.slideWrapper)(<.article(^.className := SequenceStyles.slide)(<(self.props.wrapped.intro)(^.wrapped := IntroOfOperationSequenceProps(clickOnButtonHandler = next))())), self.state.proposals.map {
+                    }), ^.infinite := false, ^.arrows := false, ^.afterChange := updateCurrentSlideIndex)(<.div(^.className := SequenceStyles.slideWrapper)(<.article(^.className := SequenceStyles.slide)(<(self.props.wrapped.intro)(^.wrapped := IntroOfOperationSequenceProps(clickOnButtonHandler = startSequence))())), self.state.proposals.map {
                       proposal: ProposalModel =>
                         <.div(^.className := SequenceStyles.slideWrapper)(
                           <.article(^.className := SequenceStyles.slide)(proposalContent(proposal))

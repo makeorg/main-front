@@ -11,7 +11,6 @@ import org.make.front.styles.utils._
 import org.make.services.proposal.ProposalResponses.QualificationResponse
 
 import scala.concurrent.Future
-import scala.scalajs.js.Dynamic.{global => g}
 import scalacss.DevDefaults._
 import scalacss.internal.StyleA
 import scalacss.internal.mutable.StyleSheet
@@ -40,10 +39,6 @@ object QualificateVote {
           }.toMap))
         },
         render = { self =>
-          def saveVoteQualification(qualification: QualificationModel): Unit = {
-            g.console.log(qualification.toString)
-          }
-
           <.ul()(self.props.wrapped.qualifications.map { qualification =>
             <.li(^.className := QualificateVoteStyles.buttonItem)(
               <.QualificateVoteButtonComponent(
