@@ -21,8 +21,13 @@ object SubmitProposalAndLoginContainer {
 
   val reactClass: ReactClass = ReactRedux.connectAdvanced {
     _ => (_: AppState, props: Props[SubmitProposalAndLoginContainerProps]) =>
-      def propose(content: String, location: String, themeId: Option[String] = None): Future[RegisterProposalResponse] =
-        ProposalService.createProposal(content, location, themeId)
+      def propose(content: String, location: String): Future[RegisterProposalResponse] =
+        ProposalService.createProposal(
+          content,
+          location,
+          themeId = props.wrapped.maybeTheme.map(_.id.value),
+          operation = props.wrapped.maybeOperation.map(_.slug)
+        )
 
       SubmitProposalAndLoginProps(
         intro = props.wrapped.intro,
