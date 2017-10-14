@@ -13,12 +13,11 @@ import org.make.front.styles.base.TextStyles
 import org.make.front.styles.utils._
 import org.make.services.proposal.ProposalResponses.QualificationResponse
 
+import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 import scala.util.{Failure, Success}
 import scalacss.DevDefaults._
 import scalacss.internal.mutable.StyleSheet
-
-import scala.concurrent.ExecutionContext.Implicits.global
 
 object QualificateVoteButton {
 
@@ -47,8 +46,6 @@ object QualificateVoteButton {
     },
     render = { (self) =>
       def qualifyVote(key: String): (SyntheticEvent) => Unit = {
-        //facebook.sendEvent(Qualified - Location [sequence] ; Type [ , , ], Proposal id, Qualification(s)
-
         e =>
           e.preventDefault()
 

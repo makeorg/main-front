@@ -7,7 +7,7 @@ import io.github.shogowada.scalajs.reactjs.events.SyntheticEvent
 import org.make.front.components.Components._
 import org.make.front.components.proposal.vote.QualificateVote.QualificateVoteProps
 import org.make.front.components.proposal.vote.ResultsOfVote.ResultsOfVoteProps
-import org.make.front.facades.I18n
+import org.make.front.facades.{FacebookPixel, I18n}
 import org.make.front.facades.Unescape.unescape
 import org.make.front.helpers.NumberFormat._
 import org.make.front.models.{ProposalId, Qualification, Vote => VoteModel}
@@ -16,6 +16,7 @@ import org.make.front.styles.base.TextStyles
 import org.make.front.styles.utils._
 import org.make.front.styles.vendors.FontAwesomeStyles
 import org.make.services.proposal.ProposalResponses.{QualificationResponse, VoteResponse}
+import scala.scalajs.js.JSConverters._
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
@@ -67,8 +68,9 @@ object VoteButton {
       }
 
       def qualify(key: String): Future[QualificationResponse] = {
-        val future = self.props.wrapped.qualifyVote(self.props.wrapped.vote.key, key)
+        FacebookPixel.fbq("trackCustom", "click-proposal-qualify", Map("location" -> "sequence", "proposalId" -> self.props.wrapped.proposalId.value.toString, "type" -> key, "nature" -> self.props.wrapped.vote.key).toJSDictionary)
 
+        val future = self.props.wrapped.qualifyVote(self.props.wrapped.vote.key, key)
         future.onComplete {
           case Failure(_) =>
           case Success(qualifications) =>

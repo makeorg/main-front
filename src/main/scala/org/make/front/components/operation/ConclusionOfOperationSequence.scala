@@ -5,6 +5,7 @@ import io.github.shogowada.scalajs.reactjs.VirtualDOM.{<, _}
 import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import org.make.front.components.Components._
 import org.make.front.components.subscribeToNewsletter.SubscribeToNewsletterFormContainer.SubscribeToNewsletterFormContainerProps
+import org.make.front.facades.FacebookPixel
 import org.make.front.facades.Unescape.unescape
 import org.make.front.styles.ThemeStyles
 import org.make.front.styles.base.{ColRulesStyles, RowRulesStyles, TextStyles}
@@ -27,7 +28,7 @@ object ConclusionOfOperationSequence {
       },
       render = { self =>
         def onSubscribeToNewsletterSuccess(): Unit = {
-          //facebook.sendEvent("Submitted email", {})
+          FacebookPixel.fbq("trackCustom", "click-email-submit")
           self.setState(_.copy(subscriptionToNewsletterHasSucceed = true))
         }
 

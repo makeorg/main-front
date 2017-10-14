@@ -5,21 +5,16 @@ import io.github.shogowada.scalajs.reactjs.VirtualDOM._
 import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import org.make.client.UnauthorizedHttpException
 import org.make.front.components.Components._
-import org.make.front.facades.I18n
-import org.make.front.facades.ReactFacebookLogin.{
-  ReactFacebookLoginVirtualDOMAttributes,
-  ReactFacebookLoginVirtualDOMElements
-}
-import org.make.front.facades.ReactGoogleLogin.{
-  ReactGoogleLoginVirtualDOMAttributes,
-  ReactGoogleLoginVirtualDOMElements
-}
+import org.make.front.facades.{FacebookPixel, I18n}
+import org.make.front.facades.ReactFacebookLogin.{ReactFacebookLoginVirtualDOMAttributes, ReactFacebookLoginVirtualDOMElements}
+import org.make.front.facades.ReactGoogleLogin.{ReactGoogleLoginVirtualDOMAttributes, ReactGoogleLoginVirtualDOMElements}
 import org.make.front.styles._
 import org.make.front.styles.base.{RowRulesStyles, TextStyles}
 import org.make.front.styles.ui.CTAStyles
 import org.make.front.styles.utils._
 import org.make.front.styles.vendors.FontAwesomeStyles
 import org.scalajs.dom.experimental.Response
+import scala.scalajs.js.JSConverters._
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future

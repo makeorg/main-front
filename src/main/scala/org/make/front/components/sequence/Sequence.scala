@@ -8,6 +8,7 @@ import org.make.front.components.Components._
 import org.make.front.components.operation.IntroOfOperationSequence.IntroOfOperationSequenceProps
 import org.make.front.components.proposal.vote.VoteContainer.VoteContainerProps
 import org.make.front.components.sequence.ProgressBar.ProgressBarProps
+import org.make.front.facades.FacebookPixel
 import org.make.front.facades.ReactSlick.{ReactTooltipVirtualDOMAttributes, ReactTooltipVirtualDOMElements, Slider}
 import org.make.front.facades.Unescape.unescape
 import org.make.front.helpers.ProposalAuthorInfosFormat
@@ -24,6 +25,7 @@ import scala.concurrent.Future
 import scala.util.{Failure, Success}
 import scalacss.DevDefaults.{StyleA, _}
 import scalacss.internal.mutable.StyleSheet
+import scala.scalajs.js.JSConverters._
 
 object Sequence {
 
@@ -64,12 +66,15 @@ object Sequence {
 
         def startSequence: () => Unit = { () =>
           slider.foreach(_.slickNext())
-        //facebook.sendEvent("Launched sequence - location [intro screen] ; sequence id", {})
+          // TODO facebook take sequence id from variable
+        FacebookPixel.fbq("trackCustom",
+          "click-sequence-launch",
+          Map("location" -> "sequence", "sequence-id" -> "1").toJSDictionary)
         }
 
         def nextProposal: () => Unit = { () =>
           slider.foreach(_.slickNext())
-        // facebook.sendEvent("Clicked next proposal")
+          FacebookPixel.fbq("trackCustom", "click-sequence-next-proposal")
         }
 
         def nextOnSuccessfulVote(proposalId: ProposalId): () => Unit = { () =>
