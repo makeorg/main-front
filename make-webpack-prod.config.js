@@ -37,6 +37,11 @@ var build = {
         ]
     },
     plugins: [
+        new webpack.DefinePlugin({
+            'process.env': {
+                'NODE_ENV': JSON.stringify('production')
+            }
+        }),
         new HtmlWebpackPlugin({
             "title": "Make.org",
             "template": path.join(__dirname, "index.template.ejs"),
@@ -50,6 +55,11 @@ var build = {
         new ExtractTextPlugin({ // define where to save the file
             filename: '[name].[chunkhash].bundle.css',
             allChunks: true
+        }),
+        new webpack.optimize.UglifyJsPlugin({
+            compressor: {
+                warnings: false
+            }
         })
     ]
 
