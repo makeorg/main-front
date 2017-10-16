@@ -176,7 +176,7 @@ object Sequence {
                     )()
                   }, <.Slider(^.ref := ((s: HTMLElement) => {
                     slider = Option(s.asInstanceOf[Slider])
-                  }), ^.infinite := false, ^.arrows := false, ^.accessibility := false, ^.swipe := true, ^.beforeChange := updateCurrentSlideIndex)(<.div(^.className := SequenceStyles.slideWrapper)(<.article(^.className := SequenceStyles.slide)(<(self.props.wrapped.intro)(^.wrapped := IntroOfOperationSequenceProps(clickOnButtonHandler = startSequence))())), self.state.displayedProposals.map {
+                  }), ^.infinite := false, ^.arrows := false, ^.accessibility := true, ^.swipe := true, ^.beforeChange := updateCurrentSlideIndex)(<.div(^.className := SequenceStyles.slideWrapper)(<.article(^.className := SequenceStyles.slide)(<(self.props.wrapped.intro)(^.wrapped := IntroOfOperationSequenceProps(clickOnButtonHandler = startSequence))())), self.state.displayedProposals.map {
                     proposal: ProposalModel =>
                       <.div(^.className := SequenceStyles.slideWrapper)(
                         <.article(^.className := SequenceStyles.slide)(proposalContent(proposal))
