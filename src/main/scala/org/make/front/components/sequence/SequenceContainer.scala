@@ -6,8 +6,8 @@ import io.github.shogowada.scalajs.reactjs.redux.ReactRedux
 import io.github.shogowada.scalajs.reactjs.redux.Redux.Dispatch
 import org.make.front.actions.NotifyError
 import org.make.front.components.AppState
-import org.make.front.models.{Proposal, Sequence => SequenceModel}
-import org.make.services.proposal.ProposalService
+import org.make.front.models.{Operation, OperationId, Proposal, Sequence => SequenceModel}
+import org.make.services.proposal.{ContextRequest, ProposalService}
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
@@ -23,17 +23,18 @@ object SequenceContainer {
   lazy val reactClass: ReactClass = ReactRedux.connectAdvanced(selectorFactory)(Sequence.reactClass)
 
   def selectorFactory: (Dispatch) => (AppState, Props[SequenceContainerProps]) => Sequence.SequenceProps =
-    (dispatch: Dispatch) => { (_: AppState, props: Props[SequenceContainerProps]) =>
+    (dispatch: Dispatch) => { (state: AppState, props: Props[SequenceContainerProps]) =>
       {
-        def proposals: Future[Seq[Proposal]] = {
-          val results = Future.traverse(props.wrapped.sequence.proposalsSlugs) { proposalsSlug: String =>
-            ProposalService.searchProposals(slug = Some(proposalsSlug), limit = Some(1), sort = Seq.empty, skip = None)
+        val proposals: Future[Seq[Proposal]] = {
+
+          val vffOperation: Operation = state.operations.filter(_.operationId.value == "vff").head
+          val proposalsResponse = ProposalService.searchProposals(context = Some(ContextRequest(operation = Some(vffOperation.label))))
+
+          proposalsResponse.recover {
+            case e => dispatch(NotifyError(e.getMessage))
           }
-          results.onComplete {
-            case Success(_) =>
-            case Failure(e) => dispatch(NotifyError(e.getMessage))
-          }
-          results.map(_.flatMap(_.results))
+
+          proposalsResponse.map(_.results)
         }
 
         Sequence.SequenceProps(

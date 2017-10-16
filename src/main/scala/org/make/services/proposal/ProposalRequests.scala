@@ -21,6 +21,10 @@ object Order {
 }
 
 final case class SortOptionRequest(field: String, mode: Option[Order])
+final case class ContextRequest(operation: Option[String] = None,
+                                location: Option[String] = None,
+                                source: Option[String] = None,
+                                question: Option[String] = None)
 final case class SearchRequest(themesIds: Option[Seq[String]] = None,
                                operationsIds: Option[Seq[String]] = None,
                                tagsIds: Option[Seq[String]] = None,
@@ -28,9 +32,10 @@ final case class SearchRequest(themesIds: Option[Seq[String]] = None,
                                content: Option[String] = None,
                                slug: Option[String] = None,
                                trending: Option[String] = None,
-                               sort: Seq[SortOptionRequest],
+                               context: Option[ContextRequest] = None,
+                               sort: Seq[SortOptionRequest] = Seq.empty,
                                limit: Option[Int],
-                               skip: Option[Int])
+                               skip: Option[Int] = None)
 
 final case class VoteRequest(voteKey: String)
 final case class QualificationRequest(voteKey: String, qualificationKey: String)

@@ -59,9 +59,10 @@ object ProposalService extends ApiService with CirceClassFormatters with CirceFo
                       operationsIds: Seq[OperationId] = Seq.empty,
                       tagsIds: Seq[TagId] = Seq.empty,
                       trending: Option[String] = None,
-                      sort: Seq[SortOptionRequest],
-                      limit: Option[Int],
-                      skip: Option[Int]): Future[SearchResponse] =
+                      context: Option[ContextRequest] = None,
+                      sort: Seq[SortOptionRequest] = Seq.empty,
+                      limit: Option[Int] = None,
+                      skip: Option[Int] = None): Future[SearchResponse] =
     MakeApiClient
       .post[SearchResponse](
         resourceName / "search",
@@ -71,6 +72,7 @@ object ProposalService extends ApiService with CirceClassFormatters with CirceFo
           themesIds = if (themesIds.nonEmpty) Some(themesIds.map(_.value)) else None,
           operationsIds = if (operationsIds.nonEmpty) Some(operationsIds.map(_.value)) else None,
           tagsIds = if (tagsIds.nonEmpty) Some(tagsIds.map(_.value)) else None,
+          context = context,
           limit = limit,
           skip = skip,
           sort = sort
