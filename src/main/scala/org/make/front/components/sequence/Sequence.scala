@@ -174,8 +174,8 @@ object Sequence {
                       ^.onClick := previous,
                       ^.disabled := self.state.currentSlideIndex == 0
                     )()
-                  }, <.Slider(^.ref := ((s: HTMLElement) => {
-                    slider = Option(s.asInstanceOf[Slider])
+                  }, <.Slider(^.ref := ((slideshow: HTMLElement) => {
+                    slider = Option(slideshow.asInstanceOf[Slider])
                   }), ^.infinite := false, ^.arrows := false, ^.accessibility := true, ^.swipe := true, ^.afterChange := updateCurrentSlideIndex)(<.div(^.className := SequenceStyles.slideWrapper)(<.article(^.className := SequenceStyles.slide)(<(self.props.wrapped.intro)(^.wrapped := IntroOfOperationSequenceProps(clickOnButtonHandler = startSequence))())), self.state.displayedProposals.map {
                     proposal: ProposalModel =>
                       <.div(^.className := SequenceStyles.slideWrapper)(
