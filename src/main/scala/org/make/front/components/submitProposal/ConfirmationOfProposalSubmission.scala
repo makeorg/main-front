@@ -28,6 +28,15 @@ object ConfirmationOfProposalSubmission {
       .createClass[ConfirmationOfProposalSubmissionProps, Unit](
         displayName = "ConfirmationOfProposalSubmission",
         render = { self =>
+          def handleClickOnButton() = () => {
+            FacebookPixel.fbq(
+              "trackCustom",
+              "click-proposal-submit-form-open",
+              Map("location" -> "end-proposal-form").toJSDictionary
+            )
+            self.props.wrapped.onSubmitAnotherProposal
+          }
+
           <.article(^.className := ConfirmationOfProposalSubmissionStyles.wrapper)(
             <.h1(^.className := Seq(TextStyles.bigTitle, ConfirmationOfProposalSubmissionStyles.title))(
               <.i(^.className := Seq(FontAwesomeStyles.fa, FontAwesomeStyles.handPeaceO))(),
@@ -58,10 +67,7 @@ object ConfirmationOfProposalSubmission {
             <.br()(),
             <.button(
               ^.className := Seq(ConfirmationOfProposalSubmissionStyles.cta, CTAStyles.basic, CTAStyles.basicOnButton),
-              ^.onClick := {
-                FacebookPixel.fbq("trackCustom", "click-proposal-submit-form-open", Map("location" -> "end-proposal-form").toJSDictionary)
-                self.props.wrapped.onSubmitAnotherProposal
-              }
+              ^.onClick := handleClickOnButton
             )(
               <.i(^.className := Seq(FontAwesomeStyles.fa, FontAwesomeStyles.lightbulbTransparent))(),
               " ",
