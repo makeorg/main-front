@@ -35,6 +35,7 @@ final case class AppState(configuration: Option[BusinessConfigurationModel],
                               proposalsSlugs = Seq(
                                 "il-faut-inventer-un-code-pour-signaler-facilement-que-lon-est-harcelee-exemple-commander-un-cocktail-angel-dans-un-bar",
                                 "il-faut-un-organisme-public-pour-pouvoir-signaler-recenser-et-publier-les-cas-de-harcelement-au-travail-dans-les-entreprises",
+                                "il-faut-que-les-reseaux-sociaux-creent-des-outils-integres-ex-chatbots-pour-venir-en-aide-aux-ados-victimes-de-cyber-harcelement",
                                 "il-faut-une-charte-ethique-pour-toutes-les-publicites-stop-a-lutilisation-de-limage-des-femmes-comme-objet-sexuel",
                                 "il-faut-des-formations-specifiques-pour-les-gendarmes-et-les-policiers-sur-la-prise-en-charge-des-femmes-victimes",
                                 "il-faut-creer-plus-de-lieux-ou-les-femmes-puissent-se-refugier-a-toute-heure-en-cas-durgence",
