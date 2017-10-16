@@ -8,6 +8,7 @@ import org.make.front.components.AppState
 final case class Operation(operationId: OperationId,
                            slug: String,
                            title: String,
+                           label: String,
                            actionsCount: Int,
                            proposalsCount: Int,
                            color: String,
