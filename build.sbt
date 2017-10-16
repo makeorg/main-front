@@ -29,6 +29,7 @@ val npmReactFacebookLogin = "3.6.2"
 val npmReactTextareaAutoresize = "5.1.0"
 val npmReactInfiniteScroller = "1.0.15"
 val npmHexToRgba = "0.2.0"
+val npmJquery = "3.2.1"
 /* scala libraries version */
 val scalaJsReactVersion = "0.14.0"
 val circeVersion = "0.8.0"
@@ -65,7 +66,8 @@ npmDependencies in Compile ++= Seq(
   "react-google-login" -> npmReactGoogleLogin,
   "react-facebook-login" -> npmReactFacebookLogin,
   "react-textarea-autosize" -> npmReactTextareaAutoresize,
-  "hex-to-rgba" ->  npmHexToRgba
+  "hex-to-rgba" ->  npmHexToRgba,
+  "jquery" -> npmJquery
 
 )
 

@@ -26,7 +26,8 @@ import scalacss.internal.mutable.StyleSheet
 
 object VoteButton {
 
-  case class VoteButtonProps(proposalId: ProposalId,
+  case class VoteButtonProps(updateState: Boolean,
+                             proposalId: ProposalId,
                              votes: Map[String, Int],
                              vote: VoteModel,
                              handleVote: (String)                      => Future[VoteResponse],
@@ -56,8 +57,7 @@ object VoteButton {
           qualifications = props.wrapped.vote.qualifications
         )
       )
-    }, render = (self) => {
-
+    }, render = { (self) =>
       def voteOrUnvote() = (e: SyntheticEvent) => {
         e.preventDefault()
         if (self.state.isActivated) {
@@ -68,26 +68,37 @@ object VoteButton {
       }
 
       def qualify(key: String): Future[QualificationResponse] = {
-        FacebookPixel.fbq("trackCustom", "click-proposal-qualify", Map("location" -> "sequence", "proposalId" -> self.props.wrapped.proposalId.value.toString, "type" -> key, "nature" -> self.props.wrapped.vote.key).toJSDictionary)
+        FacebookPixel.fbq(
+          "trackCustom",
+          "click-proposal-qualify",
+          Map(
+            "location" -> "sequence",
+            "proposalId" -> self.props.wrapped.proposalId.value.toString,
+            "type" -> key,
+            "nature" -> self.props.wrapped.vote.key
+          ).toJSDictionary
+        )
 
         val future = self.props.wrapped.qualifyVote(self.props.wrapped.vote.key, key)
-        future.onComplete {
-          case Failure(_) =>
-          case Success(qualifications) =>
-            self.setState(
-              state =>
-                state.copy(qualifications = state.qualifications.map { qualification =>
-                  if (qualifications.qualificationKey == qualification.key) {
-                    Qualification(
-                      key = qualifications.qualificationKey,
-                      count = qualifications.count,
-                      hasQualified = qualifications.hasQualified
-                    )
-                  } else {
-                    qualification
-                  }
-                })
-            )
+        if (self.props.wrapped.updateState) {
+          future.onComplete {
+            case Failure(_) =>
+            case Success(qualifications) =>
+              self.setState(
+                state =>
+                  state.copy(qualifications = state.qualifications.map { qualification =>
+                    if (qualifications.qualificationKey == qualification.key) {
+                      Qualification(
+                        key = qualifications.qualificationKey,
+                        count = qualifications.count,
+                        hasQualified = qualifications.hasQualified
+                      )
+                    } else {
+                      qualification
+                    }
+                  })
+              )
+          }
         }
 
         future
@@ -96,23 +107,25 @@ object VoteButton {
       def removeQualification(key: String): Future[QualificationResponse] = {
         val future = self.props.wrapped.removeVoteQualification(self.props.wrapped.vote.key, key)
 
-        future.onComplete {
-          case Failure(_) =>
-          case Success(qualifications) =>
-            self.setState(
-              state =>
-                state.copy(qualifications = state.qualifications.map { qualification =>
-                  if (qualifications.qualificationKey == qualification.key) {
-                    Qualification(
-                      key = qualifications.qualificationKey,
-                      count = qualifications.count,
-                      hasQualified = qualifications.hasQualified
-                    )
-                  } else {
-                    qualification
-                  }
-                })
-            )
+        if (self.props.wrapped.updateState) {
+          future.onComplete {
+            case Failure(_) =>
+            case Success(qualifications) =>
+              self.setState(
+                state =>
+                  state.copy(qualifications = state.qualifications.map { qualification =>
+                    if (qualifications.qualificationKey == qualification.key) {
+                      Qualification(
+                        key = qualifications.qualificationKey,
+                        count = qualifications.count,
+                        hasQualified = qualifications.hasQualified
+                      )
+                    } else {
+                      qualification
+                    }
+                  })
+              )
+          }
         }
 
         future
@@ -200,6 +213,7 @@ object VoteButton {
               } else {
                 <.QualificateVoteComponent(
                   ^.wrapped := QualificateVoteProps(
+                    updateState = self.props.wrapped.updateState,
                     qualifications = self.state.qualifications,
                     voteKey = self.props.wrapped.vote.key,
                     qualify = qualify,

@@ -17,7 +17,8 @@ import scalacss.internal.mutable.StyleSheet
 
 object QualificateVote {
 
-  final case class QualificateVoteProps(voteKey: String,
+  final case class QualificateVoteProps(updateState: Boolean,
+                                        voteKey: String,
                                         qualifications: Seq[QualificationModel],
                                         qualify: (String)             => Future[QualificationResponse],
                                         removeQualification: (String) => Future[QualificationResponse])
@@ -39,18 +40,20 @@ object QualificateVote {
           }.toMap))
         },
         render = { self =>
-          <.ul()(self.props.wrapped.qualifications.map { qualification =>
-            <.li(^.className := QualificateVoteStyles.buttonItem)(
-              <.QualificateVoteButtonComponent(
-                ^.wrapped := QualificateVoteButtonProps(
-                  voteKey = self.props.wrapped.voteKey,
-                  qualification = qualification,
-                  qualifyVote = self.props.wrapped.qualify,
-                  removeVoteQualification = self.props.wrapped.removeQualification
-                )
-              )(),
-              <.style()(QualificateVoteStyles.render[String])
-            )
+          <.ul()(self.props.wrapped.qualifications.map {
+            qualification =>
+              <.li(^.className := QualificateVoteStyles.buttonItem)(
+                <.QualificateVoteButtonComponent(
+                  ^.wrapped := QualificateVoteButtonProps(
+                    updateState = self.props.wrapped.updateState,
+                    voteKey = self.props.wrapped.voteKey,
+                    qualification = qualification,
+                    qualifyVote = self.props.wrapped.qualify,
+                    removeVoteQualification = self.props.wrapped.removeQualification
+                  )
+                )(),
+                <.style()(QualificateVoteStyles.render[String])
+              )
           })
         }
       )
