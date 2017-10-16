@@ -226,7 +226,10 @@ object SequenceStyles extends StyleSheet.Inline {
         transition := "transform .2s ease-in-out",
         transform := "scale(0.9)"
       ),
-      unsafeChild(".slick-slide.slick-active")(transform := "scale(1)")
+      unsafeChild(".slick-slide.slick-active")(transform := "scale(1)"),
+      unsafeChild("slick-arrow")(),
+      unsafeChild("slick-prev")(),
+      unsafeChild("slick-next")()
     )
 
   val slideWrapper: StyleA =
