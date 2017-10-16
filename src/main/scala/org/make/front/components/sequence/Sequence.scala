@@ -1,6 +1,7 @@
 package org.make.front.components.sequence
 
 import io.github.shogowada.scalajs.reactjs.React
+import io.github.shogowada.scalajs.reactjs.React.{Props, Self}
 import io.github.shogowada.scalajs.reactjs.VirtualDOM.{<, _}
 import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import io.github.shogowada.scalajs.reactjs.elements.ReactElement
@@ -41,26 +42,33 @@ object Sequence {
                                  currentSlideIndex: Int,
                                  votes: Seq[String])
 
+  private def updateProposals(self: Self[SequenceProps, SequenceState],
+                              props: Props[SequenceProps],
+                              slider: Option[Slider]) = {
+    props.wrapped.proposals.onComplete {
+      case Success(proposals) =>
+        val votes = proposals.filter(_.votes.exists(_.hasVoted)).map(_.id.value)
+        val allProposals = scala.util.Random.shuffle(proposals.toList)
+        val displayedProposals = votes.flatMap { id =>
+          allProposals.find(_.id.value == id)
+        } ++ allProposals.find(proposal => !votes.contains(proposal.id.value))
+        self.setState(_.copy(proposals = allProposals, votes = votes, displayedProposals = displayedProposals))
+        if (votes.nonEmpty) {
+          slider.foreach(_.slickGoTo(votes.size + 1))
+        }
+      case Failure(_) =>
+    }
+  }
+
   lazy val reactClass: ReactClass = {
     var slider: Option[Slider] = None
 
     React.createClass[SequenceProps, SequenceState](displayName = "Sequence", getInitialState = { _ =>
       SequenceState(proposals = Seq.empty, displayedProposals = Seq.empty, currentSlideIndex = 0, votes = Seq(""))
-    }, componentDidMount = {
-      self =>
-        self.props.wrapped.proposals.onComplete {
-          case Success(proposals) =>
-            val votes = proposals.filter(_.votes.exists(_.hasVoted)).map(_.id.value)
-            val allProposals = scala.util.Random.shuffle(proposals.toList)
-            val displayedProposals = votes.flatMap { id =>
-              allProposals.find(_.id.value == id)
-            } ++ allProposals.find(proposal => !votes.contains(proposal.id.value))
-            self.setState(_.copy(proposals = allProposals, votes = votes, displayedProposals = displayedProposals))
-            if (votes.nonEmpty) {
-              slider.foreach(_.slickGoTo(votes.size + 1))
-            }
-          case Failure(_) =>
-        }
+    }, componentWillReceiveProps = { (self, props) =>
+      updateProposals(self, props, slider)
+    }, componentDidMount = { self =>
+      updateProposals(self, self.props, slider)
     }, render = {
       self =>
         def updateCurrentSlideIndex(currentSlide: Int): Unit = {
