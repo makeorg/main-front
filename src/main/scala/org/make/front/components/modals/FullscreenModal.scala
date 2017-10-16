@@ -7,9 +7,11 @@ import org.make.front.components.Components._
 import org.make.front.facades.ReactModal.{ReactModalVirtualDOMAttributes, ReactModalVirtualDOMElements}
 import org.make.front.styles._
 import org.make.front.styles.base.{ColRulesStyles, RowRulesStyles}
+import org.make.front.styles.ui.{ModalStyles => CustomModalStyles}
 import org.make.front.styles.utils._
 
 import scalacss.DevDefaults._
+import scalacss.internal.StyleA
 import scalacss.internal.mutable.StyleSheet
 
 object FullscreenModal {
@@ -28,7 +30,12 @@ object FullscreenModal {
         (self, props) => self.setState(state => state.copy(isModalOpened = props.wrapped.isModalOpened)),
       render = (self) => {
         <.ReactModal(^.contentLabel := "", ^.isOpen := self.state.isModalOpened, ^.shouldCloseOnOverlayClick := false)(
-          <.div(^.className := FullscreenModalStyles.wrapper)(
+          <.div(
+            ^.className := Seq(
+              FullscreenModalStyles.wrapper,
+              FullscreenModalStyles.blockBody(!self.state.isModalOpened)
+            )
+          )(
             <.div(^.className := FullscreenModalStyles.innerWrapper)(
               <.div(^.className := FullscreenModalStyles.closeModalButtonWrapper)(
                 <.div(^.className := RowRulesStyles.centeredRow)(
@@ -75,6 +82,13 @@ object FullscreenModalStyles extends StyleSheet.Inline {
       backgroundColor(ThemeStyles.BackgroundColor.white),
       backgroundImage := "linear-gradient(155deg, #FFFFFF 0%, #ECECEC 100%)"
     )
+
+  val blockBody: (Boolean) => StyleA = styleF.bool(
+    isBlocked =>
+      if (!isBlocked) {
+        styleS(unsafeRoot("html")(overflow.hidden))
+      } else styleS()
+  )
 
   val innerWrapper: StyleA =
     style(
