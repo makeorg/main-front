@@ -33,7 +33,7 @@ object MainHeader {
                   )()
                 )
               ),
-              <.div(^.className := MainHeaderStyles.searchWrapper)(<.SearchFormComponent()()),
+              <.div(^.className := MainHeaderStyles.searchWrapper)(<.SearchFormComponent.empty),
               <.div(^.className := MainHeaderStyles.menusWrapper)(
                 <.div(^.className := MainHeaderStyles.menusInnerWrapper)(
                   <.nav(
@@ -69,8 +69,8 @@ object MainHeaderStyles extends StyleSheet.Inline {
   val wrapper: StyleA =
     style(
       position.fixed,
-      top(0.em),
-      left(0.em),
+      top(`0`),
+      left(`0`),
       width(100.%%),
       zIndex(10),
       backgroundColor(ThemeStyles.BackgroundColor.white),

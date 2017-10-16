@@ -33,7 +33,7 @@ object FullscreenModal {
           <.div(
             ^.className := Seq(
               FullscreenModalStyles.wrapper,
-              FullscreenModalStyles.blockBody(!self.state.isModalOpened)
+              FullscreenModalStyles.preventMainScroll(!self.state.isModalOpened)
             )
           )(
             <.div(^.className := FullscreenModalStyles.innerWrapper)(
@@ -65,7 +65,6 @@ object FullscreenModal {
           ),
           <.style()(FullscreenModalStyles.render[String])
         )
-
       }
     )
 }
@@ -83,9 +82,9 @@ object FullscreenModalStyles extends StyleSheet.Inline {
       backgroundImage := "linear-gradient(155deg, #FFFFFF 0%, #ECECEC 100%)"
     )
 
-  val blockBody: (Boolean) => StyleA = styleF.bool(
-    isBlocked =>
-      if (!isBlocked) {
+  val preventMainScroll: (Boolean) => StyleA = styleF.bool(
+    isPrevented =>
+      if (!isPrevented) {
         styleS(unsafeRoot("html")(overflow.hidden))
       } else styleS()
   )
