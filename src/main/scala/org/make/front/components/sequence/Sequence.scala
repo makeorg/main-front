@@ -60,16 +60,18 @@ object Sequence {
       render = { self =>
         var slider: Option[Slider] = None
 
-        def updateCurrentSlideIndex(currentSlide: Int): Unit = {
+        def updateCurrentSlideIndex(previewSlide: Int, currentSlide: Int): Unit = {
           self.setState(state => state.copy(currentSlideIndex = currentSlide))
         }
 
         def startSequence: () => Unit = { () =>
           slider.foreach(_.slickNext())
           // TODO facebook take sequence id from variable
-        FacebookPixel.fbq("trackCustom",
-          "click-sequence-launch",
-          Map("location" -> "sequence", "sequence-id" -> "1").toJSDictionary)
+          FacebookPixel.fbq(
+            "trackCustom",
+            "click-sequence-launch",
+            Map("location" -> "sequence", "sequence-id" -> "1").toJSDictionary
+          )
         }
 
         def nextProposal: () => Unit = { () =>
@@ -143,7 +145,7 @@ object Sequence {
                   <.div(^.className := ColRulesStyles.col)(
                     <.div(^.className := SequenceStyles.slideshow)(<.Slider(^.ref := ((s: HTMLElement) => {
                       slider = Option(s.asInstanceOf[Slider])
-                    }), ^.infinite := false, ^.arrows := false, ^.afterChange := updateCurrentSlideIndex)(<.div(^.className := SequenceStyles.slideWrapper)(<.article(^.className := SequenceStyles.slide)(<(self.props.wrapped.intro)(^.wrapped := IntroOfOperationSequenceProps(clickOnButtonHandler = startSequence))())), self.state.proposals.map {
+                    }), ^.infinite := false, ^.arrows := false, ^.beforeChange := updateCurrentSlideIndex)(<.div(^.className := SequenceStyles.slideWrapper)(<.article(^.className := SequenceStyles.slide)(<(self.props.wrapped.intro)(^.wrapped := IntroOfOperationSequenceProps(clickOnButtonHandler = startSequence))())), self.state.proposals.map {
                       proposal: ProposalModel =>
                         <.div(^.className := SequenceStyles.slideWrapper)(
                           <.article(^.className := SequenceStyles.slide)(proposalContent(proposal))
