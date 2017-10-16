@@ -72,7 +72,7 @@ object Sequence {
         }
       },
       render = { self =>
-        def updateCurrentSlideIndex( /*previewSlide: Int,*/ currentSlide: Int): Unit = {
+        def updateCurrentSlideIndex(currentSlide: Int): Unit = {
           self.setState(state => state.copy(currentSlideIndex = currentSlide))
         }
 
@@ -221,6 +221,9 @@ object SequenceStyles extends StyleSheet.Inline {
         .beyondLarge(maxWidth(ThemeStyles.containerMaxWidth), marginRight.auto, marginLeft.auto)
     )
 
+  val fullHeight: StyleA =
+    style(height(100.%%))
+
   val progressBarWrapper: StyleA =
     style(display.tableRow)
 
@@ -251,6 +254,7 @@ object SequenceStyles extends StyleSheet.Inline {
   val slideshow: StyleA =
     style(
       position.relative,
+      height(100.%%),
       unsafeChild(".slick-slider")(height(100.%%)),
       unsafeChild(".slick-list")(overflow.visible, height(100.%%)),
       unsafeChild(".slick-track")(height(100.%%), display.flex),
