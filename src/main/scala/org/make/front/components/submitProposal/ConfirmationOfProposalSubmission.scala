@@ -34,7 +34,7 @@ object ConfirmationOfProposalSubmission {
               "click-proposal-submit-form-open",
               Map("location" -> "end-proposal-form").toJSDictionary
             )
-            self.props.wrapped.onSubmitAnotherProposal
+            self.props.wrapped.onSubmitAnotherProposal()
           }
 
           <.article(^.className := ConfirmationOfProposalSubmissionStyles.wrapper)(
