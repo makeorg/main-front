@@ -91,9 +91,9 @@ object SubmitProposalInRelationToOperationStyles extends StyleSheet.Inline {
     style(
       display.inlineBlock,
       marginBottom(15.pxToEm(30)),
-      lineHeight(41.pxToEm(30)),
+      lineHeight(36.pxToEm(30)),
       ThemeStyles.MediaQueries.beyondSmall(marginBottom(10.pxToEm(40)), lineHeight(56.pxToEm(40))),
-      ThemeStyles.MediaQueries.beyondMedium(marginBottom(10.pxToEm(60)), lineHeight(83.pxToEm(60)))
+      ThemeStyles.MediaQueries.beyondMedium(marginBottom(10.pxToEm(60)), lineHeight(70.pxToEm(60)))
     )
 
   def gradientColor(from: String, to: String): StyleA =
