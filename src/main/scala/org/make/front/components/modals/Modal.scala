@@ -33,7 +33,7 @@ object Modal {
           ^.onRequestClose := self.props.wrapped.closeCallback,
           ^.shouldCloseOnOverlayClick := true
         )(
-          <.div(^.className := ModalStyles.wrapper)(
+          <.div(^.className := Seq(ModalStyles.wrapper, ModalStyles.preventMainScroll(!self.state.isModalOpened)))(
             <.div(^.className := ModalStyles.innerWrapper)(
               <.div(^.className := ModalStyles.row)(
                 <.div(^.className := ModalStyles.col)(
@@ -73,6 +73,13 @@ object ModalStyles extends StyleSheet.Inline {
 
   val wrapper: StyleA =
     style(display.table, width(100.%%), height(100.%%))
+
+  val preventMainScroll: (Boolean) => StyleA = styleF.bool(
+    isPrevented =>
+      if (!isPrevented) {
+        styleS(unsafeRoot("html")(overflow.hidden))
+      } else styleS()
+  )
 
   val innerWrapper: StyleA =
     style(
