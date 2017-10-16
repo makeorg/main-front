@@ -10,7 +10,11 @@ import org.make.front.components.operation.SubmitProposalInRelationToOperation.S
 import org.make.front.components.sequence.SequenceContainer.SequenceContainerProps
 import org.make.front.facades.{FacebookPixel, I18n}
 import org.make.front.facades.Unescape.unescape
-import org.make.front.models.{GradientColor => GradientColorModel, Operation => OperationModel, Sequence => SequenceModel}
+import org.make.front.models.{
+  GradientColor => GradientColorModel,
+  Operation     => OperationModel,
+  Sequence      => SequenceModel
+}
 import org.make.front.styles._
 import org.make.front.styles.base.{ColRulesStyles, RWDHideRulesStyles, RowRulesStyles, TextStyles}
 import org.make.front.styles.ui.CTAStyles
@@ -44,7 +48,8 @@ object OperationSequence {
         val openProposalModal: (MouseSyntheticEvent) => Unit = { event =>
           event.preventDefault()
           self.setState(state => state.copy(isProposalModalOpened = true))
-          FacebookPixel.fbq("trackCustom", "click-proposal-submit-form-open", Map("location" -> "sequence-header").toJSDictionary)
+          FacebookPixel
+            .fbq("trackCustom", "click-proposal-submit-form-open", Map("location" -> "sequence-header").toJSDictionary)
         }
 
         object DynamicOperationSequenceStyles extends Inline {
@@ -110,7 +115,10 @@ object OperationSequence {
                         )
                       ),
                       <.FullscreenModalComponent(
-                        ^.wrapped := FullscreenModalProps(self.state.isProposalModalOpened, closeProposalModal)
+                        ^.wrapped := FullscreenModalProps(
+                          isModalOpened = self.state.isProposalModalOpened,
+                          closeCallback = closeProposalModal
+                        )
                       )(
                         <.SubmitProposalInRelationToOperationComponent(
                           ^.wrapped := SubmitProposalInRelationToOperationProps(

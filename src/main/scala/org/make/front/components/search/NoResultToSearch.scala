@@ -60,7 +60,10 @@ object NoResultToSearch {
               unescape("&nbsp;" + I18n.t("content.search.propose"))
             ),
             <.FullscreenModalComponent(
-              ^.wrapped := FullscreenModalProps(self.state.isProposalModalOpened, closeProposalModal)
+              ^.wrapped := FullscreenModalProps(
+                isModalOpened = self.state.isProposalModalOpened,
+                closeCallback = closeProposalModal
+              )
             )(<.SubmitProposalComponent(^.wrapped := SubmitProposalProps(onProposalProposed = () => {
               self.setState(_.copy(isProposalModalOpened = false))
             }))())

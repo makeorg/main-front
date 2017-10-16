@@ -92,7 +92,12 @@ object UnconnectedUserNavElement {
             ^.className := Seq(RWDHideRulesStyles.showInlineBlockBeyondMedium, TextStyles.title, TextStyles.smallText)
           )(I18n.t("content.header.connect"), unescape("&nbsp;/&nbsp;"), I18n.t("content.header.createAccount"))
         ),
-        <.ModalComponent(^.wrapped := ModalProps(self.state.isAuthenticateModalOpened, toggleAuthenticateModal()))(
+        <.ModalComponent(
+          ^.wrapped := ModalProps(
+            isModalOpened = self.state.isAuthenticateModalOpened,
+            closeCallback = toggleAuthenticateModal()
+          )
+        )(
           <.LoginOrRegisterComponent(
             ^.wrapped := LoginOrRegisterProps(displayView = "login", onSuccessfulLogin = () => {
               self.setState(_.copy(isAuthenticateModalOpened = false))

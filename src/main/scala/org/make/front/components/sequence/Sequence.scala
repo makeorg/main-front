@@ -35,37 +35,62 @@ object Sequence {
                                  intro: ReactClass,
                                  conclusion: ReactClass)
 
-  final case class SequenceState(proposals: Seq[ProposalModel], currentSlideIndex: Int, votes: Seq[String])
+  final case class SequenceState(proposals: Seq[ProposalModel],
+                                 displayedProposals: Seq[ProposalModel],
+                                 currentSlideIndex: Int,
+                                 votes: Seq[String])
 
   lazy val reactClass: ReactClass =
     React.createClass[SequenceProps, SequenceState](
       displayName = "Sequence",
       getInitialState = { _ =>
-        SequenceState(proposals = Seq.empty, currentSlideIndex = 0, votes = Seq(""))
+        SequenceState(proposals = Seq.empty, displayedProposals = Seq.empty, currentSlideIndex = 0, votes = Seq(""))
       },
-      componentWillUpdate = { (self, props, state) =>
-        },
+      componentWillUpdate = { (self, _, state) =>
+        if (state.votes.size >= state.displayedProposals.size) {
+          val displayedProposals = self.state.displayedProposals ++ self.state.proposals
+            .find(proposal => !state.votes.contains(proposal.id.value))
+
+          self.setState(_.copy(displayedProposals = displayedProposals))
+        }
+      },
       componentDidMount = { self =>
         self.props.wrapped.proposals.onComplete {
           case Success(proposals) =>
-            self.setState(
-              _.copy(
-                proposals = scala.util.Random.shuffle(proposals.toList),
-                votes = proposals.filter(_.votes.exists(_.hasVoted)).map(_.id.value)
-              )
-            )
+            val votes = proposals.filter(_.votes.exists(_.hasVoted)).map(_.id.value)
+            val allProposals = scala.util.Random.shuffle(proposals.toList)
+            val displayedProposals = votes.flatMap { id =>
+              allProposals.find(_.id.value == id)
+            } ++ allProposals.find(proposal => !votes.contains(proposal.id.value))
+            self.setState(_.copy(proposals = allProposals, votes = votes, displayedProposals = displayedProposals))
           case Failure(_) =>
         }
       },
       render = { self =>
         var slider: Option[Slider] = None
 
-        def updateCurrentSlideIndex(previewSlide: Int, currentSlide: Int): Unit = {
+        def updateCurrentSlideIndex(currentSlide: Int): Unit = {
           self.setState(state => state.copy(currentSlideIndex = currentSlide))
         }
 
-        def startSequence: () => Unit = { () =>
+        def next: () => Unit = { () =>
           slider.foreach(_.slickNext())
+        }
+
+        def previous: () => Unit = { () =>
+          slider.foreach(_.slickPrev())
+        }
+
+        def canScrollNext: Boolean = {
+          if (self.state.votes.size == self.state.proposals.size) {
+            self.state.currentSlideIndex < self.state.proposals.size + 1
+          } else {
+            self.state.currentSlideIndex < self.state.displayedProposals.size
+          }
+        }
+
+        def startSequence: () => Unit = { () =>
+          next()
           // TODO facebook take sequence id from variable
           FacebookPixel.fbq(
             "trackCustom",
@@ -75,13 +100,13 @@ object Sequence {
         }
 
         def nextProposal: () => Unit = { () =>
-          slider.foreach(_.slickNext())
+          next()
           FacebookPixel.fbq("trackCustom", "click-sequence-next-proposal")
         }
 
         def nextOnSuccessfulVote(proposalId: ProposalId): () => Unit = { () =>
-          val nextState = self.state.copy(votes = proposalId.value +: self.state.votes)
-          self.setState(nextState)
+          val votes = self.state.votes ++ Seq(proposalId.value)
+          self.setState(_.copy(votes = votes))
         }
 
         def proposalContent(proposal: ProposalModel): Seq[ReactElement] = Seq(
@@ -125,32 +150,42 @@ object Sequence {
         <.div(^.className := Seq(SequenceStyles.wrapper))(
           <.div(^.className := SequenceStyles.progressBarWrapper)(
             <.div(^.className := SequenceStyles.progressBarInnerWrapper)(
-              <.div(^.className := Seq(RowRulesStyles.centeredRow))(
-                <.div(^.className := Seq(ColRulesStyles.col))(
-                  <.ProgressBarComponent(
-                    ^.wrapped := ProgressBarProps(
-                      value = self.state.currentSlideIndex,
-                      total = if (self.state.proposals.nonEmpty) { self.state.proposals.size + 2 } else { 0 },
-                      maybeThemeColor = self.props.wrapped.maybeThemeColor
-                    )
-                  )()
-                )
+              <.div(^.className := Seq(SequenceStyles.centeredRow))(
+                <.ProgressBarComponent(
+                  ^.wrapped := ProgressBarProps(
+                    value = self.state.currentSlideIndex,
+                    total = if (self.state.proposals.nonEmpty) { self.state.proposals.size + 2 } else { 0 },
+                    maybeThemeColor = self.props.wrapped.maybeThemeColor
+                  )
+                )()
               )
             )
           ),
           if (self.state.proposals.nonEmpty) {
             <.div(^.className := SequenceStyles.slideshowWrapper)(
               <.div(^.className := SequenceStyles.slideshowInnerWrapper)(
-                <.div(^.className := RowRulesStyles.centeredRow)(
+                <.div(^.className := SequenceStyles.centeredRow)(
                   <.div(^.className := ColRulesStyles.col)(
-                    <.div(^.className := SequenceStyles.slideshow)(<.Slider(^.ref := ((s: HTMLElement) => {
+                    <.div(^.className := SequenceStyles.slideshow)(if (self.state.currentSlideIndex > 0) {
+                      <.button(
+                        ^.className := SequenceStyles.showPrevSlideButton,
+                        ^.onClick := previous,
+                        ^.disabled := self.state.currentSlideIndex == 0
+                      )()
+                    }, <.Slider(^.ref := ((s: HTMLElement) => {
                       slider = Option(s.asInstanceOf[Slider])
-                    }), ^.infinite := false, ^.arrows := false, ^.beforeChange := updateCurrentSlideIndex)(<.div(^.className := SequenceStyles.slideWrapper)(<.article(^.className := SequenceStyles.slide)(<(self.props.wrapped.intro)(^.wrapped := IntroOfOperationSequenceProps(clickOnButtonHandler = startSequence))())), self.state.proposals.map {
+                    }), ^.infinite := false, ^.arrows := false, ^.accessibility := false, ^.swipe := true, ^.afterChange := updateCurrentSlideIndex)(<.div(^.className := SequenceStyles.slideWrapper)(<.article(^.className := SequenceStyles.slide)(<(self.props.wrapped.intro)(^.wrapped := IntroOfOperationSequenceProps(clickOnButtonHandler = startSequence))())), self.state.displayedProposals.map {
                       proposal: ProposalModel =>
                         <.div(^.className := SequenceStyles.slideWrapper)(
                           <.article(^.className := SequenceStyles.slide)(proposalContent(proposal))
                         )
-                    }, <.div(^.className := SequenceStyles.slideWrapper)(<.article(^.className := SequenceStyles.slide)(<(self.props.wrapped.conclusion).empty))))
+                    }, if (self.state.votes.size == self.state.proposals.size) {
+                      <.div(^.className := SequenceStyles.slideWrapper)(
+                        <.article(^.className := SequenceStyles.slide)(<(self.props.wrapped.conclusion).empty)
+                      )
+                    }), if (canScrollNext) {
+                      <.button(^.className := SequenceStyles.showNextSlideButton, ^.onClick := next)()
+                    })
                   )
                 )
               )
@@ -158,9 +193,7 @@ object Sequence {
           } else {
             <.div(^.className := SequenceStyles.spinnerWrapper)(
               <.div(^.className := SequenceStyles.spinnerInnerWrapper)(
-                <.div(^.className := RowRulesStyles.centeredRow)(
-                  <.div(^.className := ColRulesStyles.col)(<.SpinnerComponent.empty)
-                )
+                <.div(^.className := SequenceStyles.centeredRow)(<.SpinnerComponent.empty)
               )
             )
           },
@@ -175,6 +208,16 @@ object SequenceStyles extends StyleSheet.Inline {
 
   val wrapper: StyleA =
     style(display.table, tableLayout.fixed, width(100.%%), height(100.%%))
+
+  val centeredRow: StyleA =
+    style(
+      display.block,
+      position.relative,
+      paddingRight(ThemeStyles.SpacingValue.medium.pxToEm()),
+      paddingLeft(ThemeStyles.SpacingValue.medium.pxToEm()),
+      ThemeStyles.MediaQueries
+        .beyondLarge(maxWidth(ThemeStyles.containerMaxWidth), marginRight.auto, marginLeft.auto)
+    )
 
   val progressBarWrapper: StyleA =
     style(display.tableRow)
@@ -201,6 +244,7 @@ object SequenceStyles extends StyleSheet.Inline {
 
   val slideshow: StyleA =
     style(
+      position.relative,
       unsafeChild(".slick-slider")(height(100.%%)),
       unsafeChild(".slick-list")(overflow.visible, height(100.%%)),
       unsafeChild(".slick-track")(height(100.%%), display.flex),
@@ -210,7 +254,10 @@ object SequenceStyles extends StyleSheet.Inline {
         transition := "transform .2s ease-in-out",
         transform := "scale(0.9)"
       ),
-      unsafeChild(".slick-slide.slick-active")(transform := "scale(1)")
+      unsafeChild(".slick-slide.slick-active")(transform := "scale(1)"),
+      unsafeChild("slick-arrow")(),
+      unsafeChild("slick-prev")(),
+      unsafeChild("slick-next")()
     )
 
   val slideWrapper: StyleA =
@@ -224,6 +271,12 @@ object SequenceStyles extends StyleSheet.Inline {
       backgroundColor(ThemeStyles.BackgroundColor.white),
       boxShadow := "0 1px 1px 0 rgba(0,0,0,0.50)"
     )
+
+  val showPrevSlideButton: StyleA =
+    style(position.absolute, top(`0`), right(100.%%), zIndex(1), height(100.%%), width(9999.pxToEm()))
+
+  val showNextSlideButton: StyleA =
+    style(position.absolute, top(`0`), left(100.%%), zIndex(1), height(100.%%), width(9999.pxToEm()))
 
   val spinnerWrapper: StyleA =
     style(display.tableRow, height(100.%%))

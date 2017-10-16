@@ -80,7 +80,10 @@ object OperationHeader {
                 )
               ),
               <.FullscreenModalComponent(
-                ^.wrapped := FullscreenModalProps(self.state.isProposalModalOpened, toggleProposalModal())
+                ^.wrapped := FullscreenModalProps(
+                  isModalOpened = self.state.isProposalModalOpened,
+                  closeCallback = toggleProposalModal()
+                )
               )(
                 <.SubmitProposalInRelationToOperationComponent(
                   ^.wrapped := SubmitProposalInRelationToOperationProps(
