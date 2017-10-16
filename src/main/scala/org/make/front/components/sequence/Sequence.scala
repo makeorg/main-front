@@ -133,47 +133,43 @@ object Sequence {
         <.div(^.className := Seq(SequenceStyles.wrapper))(
           <.div(^.className := SequenceStyles.progressBarWrapper)(
             <.div(^.className := SequenceStyles.progressBarInnerWrapper)(
-              <.div(^.className := Seq(RowRulesStyles.centeredRow))(
-                <.div(^.className := Seq(ColRulesStyles.col))(
-                  <.ProgressBarComponent(
-                    ^.wrapped := ProgressBarProps(
-                      value = self.state.currentSlideIndex,
-                      total = if (self.state.proposals.nonEmpty) { self.state.proposals.size + 2 } else { 0 },
-                      maybeThemeColor = self.props.wrapped.maybeThemeColor
-                    )
-                  )()
-                )
+              <.div(^.className := Seq(SequenceStyles.centeredRow))(
+                <.ProgressBarComponent(
+                  ^.wrapped := ProgressBarProps(
+                    value = self.state.currentSlideIndex,
+                    total = if (self.state.proposals.nonEmpty) { self.state.proposals.size + 2 } else { 0 },
+                    maybeThemeColor = self.props.wrapped.maybeThemeColor
+                  )
+                )()
               )
             )
           ),
           if (self.state.proposals.nonEmpty) {
             <.div(^.className := SequenceStyles.slideshowWrapper)(
               <.div(^.className := SequenceStyles.slideshowInnerWrapper)(
-                <.div(^.className := RowRulesStyles.centeredRow)(
-                  <.div(^.className := ColRulesStyles.col)(
-                    <.div(^.className := SequenceStyles.slideshow)(
-                      <.button(^.className := SequenceStyles.showPrevSlideButton, ^.onClick := previous)(),
-                      <.Slider(^.ref := ((s: HTMLElement) => {
-                        slider = Option(s.asInstanceOf[Slider])
-                      }), ^.infinite := false, ^.arrows := false, ^.accessibility := false, ^.swipe := false, ^.afterChange := updateCurrentSlideIndex)(
-                        <.div(^.className := SequenceStyles.slideWrapper)(
-                          <.article(^.className := SequenceStyles.slide)(
-                            <(self.props.wrapped.intro)(
-                              ^.wrapped := IntroOfOperationSequenceProps(clickOnButtonHandler = startSequence)
-                            )()
-                          )
-                        ),
-                        self.state.proposals.map { proposal: ProposalModel =>
-                          <.div(^.className := SequenceStyles.slideWrapper)(
-                            <.article(^.className := SequenceStyles.slide)(proposalContent(proposal))
-                          )
-                        },
-                        <.div(^.className := SequenceStyles.slideWrapper)(
-                          <.article(^.className := SequenceStyles.slide)(<(self.props.wrapped.conclusion).empty)
+                <.div(^.className := SequenceStyles.centeredRow)(
+                  <.div(^.className := SequenceStyles.slideshow)(
+                    <.button(^.className := SequenceStyles.showPrevSlideButton, ^.onClick := previous)(),
+                    <.Slider(^.ref := ((s: HTMLElement) => {
+                      slider = Option(s.asInstanceOf[Slider])
+                    }), ^.infinite := false, ^.arrows := false, ^.accessibility := false, ^.swipe := false, ^.afterChange := updateCurrentSlideIndex)(
+                      <.div(^.className := SequenceStyles.slideWrapper)(
+                        <.article(^.className := SequenceStyles.slide)(
+                          <(self.props.wrapped.intro)(
+                            ^.wrapped := IntroOfOperationSequenceProps(clickOnButtonHandler = startSequence)
+                          )()
                         )
                       ),
-                      <.button(^.className := SequenceStyles.showNextSlideButton, ^.onClick := next)()
-                    )
+                      self.state.proposals.map { proposal: ProposalModel =>
+                        <.div(^.className := SequenceStyles.slideWrapper)(
+                          <.article(^.className := SequenceStyles.slide)(proposalContent(proposal))
+                        )
+                      },
+                      <.div(^.className := SequenceStyles.slideWrapper)(
+                        <.article(^.className := SequenceStyles.slide)(<(self.props.wrapped.conclusion).empty)
+                      )
+                    ),
+                    <.button(^.className := SequenceStyles.showNextSlideButton, ^.onClick := next)()
                   )
                 )
               )
@@ -181,9 +177,7 @@ object Sequence {
           } else {
             <.div(^.className := SequenceStyles.spinnerWrapper)(
               <.div(^.className := SequenceStyles.spinnerInnerWrapper)(
-                <.div(^.className := RowRulesStyles.centeredRow)(
-                  <.div(^.className := ColRulesStyles.col)(<.SpinnerComponent.empty)
-                )
+                <.div(^.className := SequenceStyles.centeredRow)(<.SpinnerComponent.empty)
               )
             )
           },
@@ -198,6 +192,16 @@ object SequenceStyles extends StyleSheet.Inline {
 
   val wrapper: StyleA =
     style(display.table, tableLayout.fixed, width(100.%%), height(100.%%))
+
+  val centeredRow: StyleA =
+    style(
+      display.block,
+      position.relative,
+      paddingRight(ThemeStyles.SpacingValue.medium.pxToEm()),
+      paddingLeft(ThemeStyles.SpacingValue.medium.pxToEm()),
+      ThemeStyles.MediaQueries
+        .beyondLarge(maxWidth(ThemeStyles.containerMaxWidth), marginRight.auto, marginLeft.auto)
+    )
 
   val progressBarWrapper: StyleA =
     style(display.tableRow)

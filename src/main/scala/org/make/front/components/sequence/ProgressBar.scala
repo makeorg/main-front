@@ -89,7 +89,7 @@ object ProgressBarStyles extends StyleSheet.Inline {
       position.relative,
       display.inlineBlock,
       marginBottom(12.pxToEm()),
-      padding :=! s"0 ${15.pxToEm().value}",
+      padding :=! s"0 ${10.pxToEm().value}",
       lineHeight(24.pxToEm()),
       textAlign.center,
       whiteSpace.nowrap,
