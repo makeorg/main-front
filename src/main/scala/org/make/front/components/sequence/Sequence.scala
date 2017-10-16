@@ -35,25 +35,34 @@ object Sequence {
                                  intro: ReactClass,
                                  conclusion: ReactClass)
 
-  final case class SequenceState(proposals: Seq[ProposalModel], currentSlideIndex: Int, votes: Seq[String])
+  final case class SequenceState(proposals: Seq[ProposalModel],
+                                 displayedProposals: Seq[ProposalModel],
+                                 currentSlideIndex: Int,
+                                 votes: Seq[String])
 
   lazy val reactClass: ReactClass =
     React.createClass[SequenceProps, SequenceState](
       displayName = "Sequence",
       getInitialState = { _ =>
-        SequenceState(proposals = Seq.empty, currentSlideIndex = 0, votes = Seq(""))
+        SequenceState(proposals = Seq.empty, displayedProposals = Seq.empty, currentSlideIndex = 0, votes = Seq(""))
       },
-      componentWillUpdate = { (self, props, state) =>
-        },
+      componentWillUpdate = { (self, _, state) =>
+        if (state.votes.size >= state.displayedProposals.size) {
+          val displayedProposals = self.state.displayedProposals ++ self.state.proposals
+            .find(proposal => !state.votes.contains(proposal.id.value))
+
+          self.setState(_.copy(displayedProposals = displayedProposals))
+        }
+      },
       componentDidMount = { self =>
         self.props.wrapped.proposals.onComplete {
           case Success(proposals) =>
-            self.setState(
-              _.copy(
-                proposals = scala.util.Random.shuffle(proposals.toList),
-                votes = proposals.filter(_.votes.exists(_.hasVoted)).map(_.id.value)
-              )
-            )
+            val votes = proposals.filter(_.votes.exists(_.hasVoted)).map(_.id.value)
+            val allProposals = scala.util.Random.shuffle(proposals.toList)
+            val displayedProposals = votes.flatMap { id =>
+              allProposals.find(_.id.value == id)
+            } ++ allProposals.find(proposal => !votes.contains(proposal.id.value))
+            self.setState(_.copy(proposals = allProposals, votes = votes, displayedProposals = displayedProposals))
           case Failure(_) =>
         }
       },
@@ -72,6 +81,14 @@ object Sequence {
           slider.foreach(_.slickPrev())
         }
 
+        def canScrollNext: Boolean = {
+          if (self.state.votes.size == self.state.proposals.size) {
+            self.state.currentSlideIndex < self.state.proposals.size + 1
+          } else {
+            self.state.currentSlideIndex < self.state.displayedProposals.size
+          }
+        }
+
         def startSequence: () => Unit = { () =>
           next()
           // TODO facebook take sequence id from variable
@@ -88,8 +105,8 @@ object Sequence {
         }
 
         def nextOnSuccessfulVote(proposalId: ProposalId): () => Unit = { () =>
-          val nextState = self.state.copy(votes = proposalId.value +: self.state.votes)
-          self.setState(nextState)
+          val votes = self.state.votes ++ Seq(proposalId.value)
+          self.setState(_.copy(votes = votes))
         }
 
         def proposalContent(proposal: ProposalModel): Seq[ReactElement] = Seq(
@@ -148,28 +165,27 @@ object Sequence {
             <.div(^.className := SequenceStyles.slideshowWrapper)(
               <.div(^.className := SequenceStyles.slideshowInnerWrapper)(
                 <.div(^.className := SequenceStyles.centeredRow)(
-                  <.div(^.className := SequenceStyles.slideshow)(
-                    <.button(^.className := SequenceStyles.showPrevSlideButton, ^.onClick := previous)(),
-                    <.Slider(^.ref := ((s: HTMLElement) => {
+                  <.div(^.className := ColRulesStyles.col)(
+                    <.div(^.className := SequenceStyles.slideshow)(if (self.state.currentSlideIndex > 0) {
+                      <.button(
+                        ^.className := SequenceStyles.showPrevSlideButton,
+                        ^.onClick := previous,
+                        ^.disabled := self.state.currentSlideIndex == 0
+                      )()
+                    }, <.Slider(^.ref := ((s: HTMLElement) => {
                       slider = Option(s.asInstanceOf[Slider])
-                    }), ^.infinite := false, ^.arrows := false, ^.accessibility := false, ^.swipe := false, ^.afterChange := updateCurrentSlideIndex)(
-                      <.div(^.className := SequenceStyles.slideWrapper)(
-                        <.article(^.className := SequenceStyles.slide)(
-                          <(self.props.wrapped.intro)(
-                            ^.wrapped := IntroOfOperationSequenceProps(clickOnButtonHandler = startSequence)
-                          )()
-                        )
-                      ),
-                      self.state.proposals.map { proposal: ProposalModel =>
+                    }), ^.infinite := false, ^.arrows := false, ^.accessibility := false, ^.swipe := true, ^.afterChange := updateCurrentSlideIndex)(<.div(^.className := SequenceStyles.slideWrapper)(<.article(^.className := SequenceStyles.slide)(<(self.props.wrapped.intro)(^.wrapped := IntroOfOperationSequenceProps(clickOnButtonHandler = startSequence))())), self.state.displayedProposals.map {
+                      proposal: ProposalModel =>
                         <.div(^.className := SequenceStyles.slideWrapper)(
                           <.article(^.className := SequenceStyles.slide)(proposalContent(proposal))
                         )
-                      },
+                    }, if (self.state.votes.size == self.state.proposals.size) {
                       <.div(^.className := SequenceStyles.slideWrapper)(
                         <.article(^.className := SequenceStyles.slide)(<(self.props.wrapped.conclusion).empty)
                       )
-                    ),
-                    <.button(^.className := SequenceStyles.showNextSlideButton, ^.onClick := next)()
+                    }), if (canScrollNext) {
+                      <.button(^.className := SequenceStyles.showNextSlideButton, ^.onClick := next)()
+                    })
                   )
                 )
               )
