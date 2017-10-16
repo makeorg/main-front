@@ -60,7 +60,7 @@ object Sequence {
       render = { self =>
         var slider: Option[Slider] = None
 
-        def updateCurrentSlideIndex(previewSlide: Int, currentSlide: Int): Unit = {
+        def updateCurrentSlideIndex(currentSlide: Int): Unit = {
           self.setState(state => state.copy(currentSlideIndex = currentSlide))
         }
 
