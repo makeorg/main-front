@@ -21,7 +21,8 @@ import scalacss.internal.mutable.StyleSheet
 
 object QualificateVoteButton {
 
-  case class QualificateVoteButtonProps(voteKey: String,
+  case class QualificateVoteButtonProps(updateState: Boolean,
+                                        voteKey: String,
                                         qualification: QualificationModel,
                                         qualifyVote: (String)             => Future[QualificationResponse],
                                         removeVoteQualification: (String) => Future[QualificationResponse])
@@ -50,14 +51,21 @@ object QualificateVoteButton {
           e.preventDefault()
 
           if (self.state.isSelected) {
-            self.props.wrapped.removeVoteQualification(key).onComplete {
-              case Failure(_)      =>
-              case Success(result) => self.setState(_.copy(isSelected = result.hasQualified, count = result.count))
+
+            val future = self.props.wrapped.removeVoteQualification(key)
+            if (self.props.wrapped.updateState) {
+              future.onComplete {
+                case Failure(_)      =>
+                case Success(result) => self.setState(_.copy(isSelected = result.hasQualified, count = result.count))
+              }
             }
           } else {
-            self.props.wrapped.qualifyVote(key).onComplete {
-              case Failure(_)      =>
-              case Success(result) => self.setState(_.copy(isSelected = result.hasQualified, count = result.count))
+            val future = self.props.wrapped.qualifyVote(key)
+            if (self.props.wrapped.updateState) {
+              future.onComplete {
+                case Failure(_)      =>
+                case Success(result) => self.setState(_.copy(isSelected = result.hasQualified, count = result.count))
+              }
             }
           }
       }

@@ -18,14 +18,15 @@ import org.make.front.styles.base.{ColRulesStyles, RowRulesStyles, TextStyles}
 import org.make.front.styles.ui.CTAStyles
 import org.make.front.styles.utils._
 import org.make.front.styles.vendors.FontAwesomeStyles
+import org.make.services.proposal.ProposalResponses.{QualificationResponse, VoteResponse}
 import org.scalajs.dom.raw.HTMLElement
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
+import scala.scalajs.js.JSConverters._
 import scala.util.{Failure, Success}
 import scalacss.DevDefaults.{StyleA, _}
 import scalacss.internal.mutable.StyleSheet
-import scala.scalajs.js.JSConverters._
 
 object Sequence {
 
@@ -43,20 +44,10 @@ object Sequence {
   lazy val reactClass: ReactClass = {
     var slider: Option[Slider] = None
 
-    React.createClass[SequenceProps, SequenceState](
-      displayName = "Sequence",
-      getInitialState = { _ =>
-        SequenceState(proposals = Seq.empty, displayedProposals = Seq.empty, currentSlideIndex = 0, votes = Seq(""))
-      },
-      componentWillUpdate = { (self, _, state) =>
-        if (state.votes.size >= state.displayedProposals.size) {
-          val displayedProposals = self.state.displayedProposals ++ self.state.proposals
-            .find(proposal => !state.votes.contains(proposal.id.value))
-
-          self.setState(_.copy(displayedProposals = displayedProposals))
-        }
-      },
-      componentDidMount = { self =>
+    React.createClass[SequenceProps, SequenceState](displayName = "Sequence", getInitialState = { _ =>
+      SequenceState(proposals = Seq.empty, displayedProposals = Seq.empty, currentSlideIndex = 0, votes = Seq(""))
+    }, componentDidMount = {
+      self =>
         self.props.wrapped.proposals.onComplete {
           case Success(proposals) =>
             val votes = proposals.filter(_.votes.exists(_.hasVoted)).map(_.id.value)
@@ -70,8 +61,8 @@ object Sequence {
             }
           case Failure(_) =>
         }
-      },
-      render = { self =>
+    }, render = {
+      self =>
         def updateCurrentSlideIndex(currentSlide: Int): Unit = {
           self.setState(state => state.copy(currentSlideIndex = currentSlide))
         }
@@ -107,9 +98,56 @@ object Sequence {
           FacebookPixel.fbq("trackCustom", "click-sequence-next-proposal")
         }
 
-        def nextOnSuccessfulVote(proposalId: ProposalId): () => Unit = { () =>
-          val votes = self.state.votes ++ Seq(proposalId.value)
-          self.setState(_.copy(votes = votes))
+        def nextOnSuccessfulVote(proposalId: ProposalId): (VoteResponse) => Unit = {
+          (voteResponse) =>
+            def mapProposal(proposal: ProposalModel) = {
+              if (proposal.id == proposalId) {
+                proposal.copy(votes = proposal.votes.map { vote =>
+                  if (vote.key == voteResponse.voteKey) {
+                    voteResponse.toVote
+                  } else {
+                    vote
+                  }
+                })
+              } else {
+                proposal
+              }
+            }
+
+            val votes = self.state.votes ++ Seq(proposalId.value)
+            val updatedProposals = self.state.proposals.map(mapProposal)
+            val updatedDisplayedProposals = self.state.displayedProposals.map(mapProposal) ++ self.state.proposals
+              .find(proposal => !votes.contains(proposal.id.value))
+            self.setState(
+              _.copy(votes = votes, proposals = updatedProposals, displayedProposals = updatedDisplayedProposals)
+            )
+        }
+
+        def onSuccessfulQualification(proposalId: ProposalId): (String, QualificationResponse) => Unit = {
+          (voteKey, qualificationResponse) =>
+            def mapProposal(proposal: ProposalModel) = {
+              if (proposal.id == proposalId) {
+                proposal.copy(votes = proposal.votes.map { vote =>
+                  if (vote.key == voteKey) {
+                    vote.copy(qualifications = vote.qualifications.map { qualification =>
+                      if (qualification.key == qualificationResponse.qualificationKey) {
+                        qualificationResponse.toQualification
+                      } else {
+                        qualification
+                      }
+                    })
+                  } else {
+                    vote
+                  }
+                })
+              } else {
+                proposal
+              }
+            }
+
+            val updatedProposals = self.state.proposals.map(mapProposal)
+            val updatedDisplayedProposals = self.state.displayedProposals.map(mapProposal)
+            self.setState(_.copy(proposals = updatedProposals, displayedProposals = updatedDisplayedProposals))
         }
 
         def proposalContent(proposal: ProposalModel): Seq[ReactElement] = Seq(
@@ -126,7 +164,8 @@ object Sequence {
                   <.VoteContainerComponent(
                     ^.wrapped := VoteContainerProps(
                       proposal = proposal,
-                      onSuccessfulVote = nextOnSuccessfulVote(proposal.id)
+                      onSuccessfulVote = nextOnSuccessfulVote(proposal.id),
+                      onSuccessfulQualification = onSuccessfulQualification(proposal.id)
                     )
                   )(),
                   <.div(^.className := ProposalInSlideStyles.ctaWrapper)(
@@ -200,8 +239,7 @@ object Sequence {
           },
           <.style()(SequenceStyles.render[String])
         )
-      }
-    )
+    })
   }
 }
 

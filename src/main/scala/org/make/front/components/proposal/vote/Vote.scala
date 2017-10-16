@@ -19,7 +19,9 @@ import scalacss.DevDefaults._
 
 object Vote {
 
-  final case class VoteProps(proposal: ProposalModel,
+  // TODO: figure out how to handle that gracefully
+  final case class VoteProps(updateState: Boolean = true,
+                             proposal: ProposalModel,
                              vote: (String)                            => Future[VoteResponse],
                              unvote: (String)                          => Future[VoteResponse],
                              qualifyVote: (String, String)             => Future[QualificationResponse],
@@ -29,32 +31,52 @@ object Vote {
 
   lazy val reactClass: ReactClass =
     React
-      .createClass[VoteProps, VoteState](
-        displayName = "Vote",
-        getInitialState = { self =>
-          VoteState(votes = self.props.wrapped.proposal.votes.map(vote => vote.key -> vote).toMap)
-        },
-        render = { (self) =>
+      .createClass[VoteProps, VoteState](displayName = "Vote", getInitialState = { self =>
+        VoteState(votes = self.props.wrapped.proposal.votes.map(vote => vote.key -> vote).toMap)
+      }, componentWillReceiveProps = { (self, props) =>
+        self.setState(VoteState(votes = props.wrapped.proposal.votes.map(vote => vote.key -> vote).toMap))
+      }, render = {
+        (self) =>
           def vote(key: String): Future[VoteResponse] = {
-            FacebookPixel.fbq("trackCustom", "click-proposal-vote", Map("location" -> "sequence", "nature" -> key, "proposalId" -> self.props.wrapped.proposal.id.value.toString).toJSDictionary)
+            FacebookPixel.fbq(
+              "trackCustom",
+              "click-proposal-vote",
+              Map(
+                "location" -> "sequence",
+                "nature" -> key,
+                "proposalId" -> self.props.wrapped.proposal.id.value.toString
+              ).toJSDictionary
+            )
             val future = self.props.wrapped.vote(key)
 
-            future.onComplete {
-              case Failure(_) =>
-              case Success(result) =>
-                self.setState(state => state.copy(votes = state.votes + (result.voteKey -> result.toVote)))
+            if (self.props.wrapped.updateState) {
+              future.onComplete {
+                case Failure(_) =>
+                case Success(result) =>
+                  self.setState(state => state.copy(votes = state.votes + (result.voteKey -> result.toVote)))
+              }
             }
             future
           }
 
           def unvote(key: String): Future[VoteResponse] = {
-            FacebookPixel.fbq("trackCustom", "click-proposal-unvote", Map("location" -> "sequence", "nature" -> key, "proposalId" -> self.props.wrapped.proposal.id.value.toString).toJSDictionary)
+            FacebookPixel.fbq(
+              "trackCustom",
+              "click-proposal-unvote",
+              Map(
+                "location" -> "sequence",
+                "nature" -> key,
+                "proposalId" -> self.props.wrapped.proposal.id.value.toString
+              ).toJSDictionary
+            )
             val future = self.props.wrapped.unvote(key)
 
-            future.onComplete {
-              case Failure(_) =>
-              case Success(result) =>
-                self.setState(state => state.copy(votes = state.votes + (result.voteKey -> result.toVote)))
+            if (self.props.wrapped.updateState) {
+              future.onComplete {
+                case Failure(_) =>
+                case Success(result) =>
+                  self.setState(state => state.copy(votes = state.votes + (result.voteKey -> result.toVote)))
+              }
             }
             future
           }
@@ -77,6 +99,7 @@ object Vote {
             )(
               <.VoteButtonComponent(
                 ^.wrapped := VoteButtonProps(
+                  updateState = self.props.wrapped.updateState,
                   proposalId = self.props.wrapped.proposal.id,
                   votes = votes,
                   vote = voteAgree,
@@ -93,6 +116,7 @@ object Vote {
             )(
               <.VoteButtonComponent(
                 ^.wrapped := VoteButtonProps(
+                  updateState = self.props.wrapped.updateState,
                   proposalId = self.props.wrapped.proposal.id,
                   votes = votes,
                   vote = voteDisagree,
@@ -109,6 +133,7 @@ object Vote {
             )(
               <.VoteButtonComponent(
                 ^.wrapped := VoteButtonProps(
+                  updateState = self.props.wrapped.updateState,
                   proposalId = self.props.wrapped.proposal.id,
                   votes = votes,
                   vote = voteNeutral,
@@ -121,8 +146,7 @@ object Vote {
             ),
             <.style()(VoteStyles.render[String])
           )
-        }
-      )
+      })
 }
 
 object VoteStyles extends StyleSheet.Inline {
