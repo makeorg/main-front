@@ -168,28 +168,26 @@ object Sequence {
             <.div(^.className := SequenceStyles.slideshowWrapper)(
               <.div(^.className := SequenceStyles.slideshowInnerWrapper)(
                 <.div(^.className := SequenceStyles.centeredRow)(
-                  <.div(^.className := ColRulesStyles.col)(
-                    <.div(^.className := SequenceStyles.slideshow)(if (self.state.currentSlideIndex > 0) {
-                      <.button(
-                        ^.className := SequenceStyles.showPrevSlideButton,
-                        ^.onClick := previous,
-                        ^.disabled := self.state.currentSlideIndex == 0
-                      )()
-                    }, <.Slider(^.ref := ((s: HTMLElement) => {
-                      slider = Option(s.asInstanceOf[Slider])
-                    }), ^.infinite := false, ^.arrows := false, ^.accessibility := false, ^.swipe := true, ^.afterChange := updateCurrentSlideIndex)(<.div(^.className := SequenceStyles.slideWrapper)(<.article(^.className := SequenceStyles.slide)(<(self.props.wrapped.intro)(^.wrapped := IntroOfOperationSequenceProps(clickOnButtonHandler = startSequence))())), self.state.displayedProposals.map {
-                      proposal: ProposalModel =>
-                        <.div(^.className := SequenceStyles.slideWrapper)(
-                          <.article(^.className := SequenceStyles.slide)(proposalContent(proposal))
-                        )
-                    }, if (self.state.votes.size == self.state.proposals.size) {
+                  <.div(^.className := SequenceStyles.slideshow)(if (self.state.currentSlideIndex > 0) {
+                    <.button(
+                      ^.className := SequenceStyles.showPrevSlideButton,
+                      ^.onClick := previous,
+                      ^.disabled := self.state.currentSlideIndex == 0
+                    )()
+                  }, <.Slider(^.ref := ((slideshow: HTMLElement) => {
+                    slider = Option(slideshow.asInstanceOf[Slider])
+                  }), ^.infinite := false, ^.arrows := false, ^.accessibility := true, ^.swipe := true, ^.afterChange := updateCurrentSlideIndex)(<.div(^.className := SequenceStyles.slideWrapper)(<.article(^.className := SequenceStyles.slide)(<(self.props.wrapped.intro)(^.wrapped := IntroOfOperationSequenceProps(clickOnButtonHandler = startSequence))())), self.state.displayedProposals.map {
+                    proposal: ProposalModel =>
                       <.div(^.className := SequenceStyles.slideWrapper)(
-                        <.article(^.className := SequenceStyles.slide)(<(self.props.wrapped.conclusion).empty)
+                        <.article(^.className := SequenceStyles.slide)(proposalContent(proposal))
                       )
-                    }), if (canScrollNext) {
-                      <.button(^.className := SequenceStyles.showNextSlideButton, ^.onClick := next)()
-                    })
-                  )
+                  }, if (self.state.votes.size == self.state.proposals.size) {
+                    <.div(^.className := SequenceStyles.slideWrapper)(
+                      <.article(^.className := SequenceStyles.slide)(<(self.props.wrapped.conclusion).empty)
+                    )
+                  }), if (canScrollNext) {
+                    <.button(^.className := SequenceStyles.showNextSlideButton, ^.onClick := next)()
+                  })
                 )
               )
             )
@@ -223,6 +221,9 @@ object SequenceStyles extends StyleSheet.Inline {
         .beyondLarge(maxWidth(ThemeStyles.containerMaxWidth), marginRight.auto, marginLeft.auto)
     )
 
+  val fullHeight: StyleA =
+    style(height(100.%%))
+
   val progressBarWrapper: StyleA =
     style(display.tableRow)
 
@@ -253,6 +254,7 @@ object SequenceStyles extends StyleSheet.Inline {
   val slideshow: StyleA =
     style(
       position.relative,
+      height(100.%%),
       unsafeChild(".slick-slider")(height(100.%%)),
       unsafeChild(".slick-list")(overflow.visible, height(100.%%)),
       unsafeChild(".slick-track")(height(100.%%), display.flex),
@@ -262,10 +264,7 @@ object SequenceStyles extends StyleSheet.Inline {
         transition := "transform .2s ease-in-out",
         transform := "scale(0.9)"
       ),
-      unsafeChild(".slick-slide.slick-active")(transform := "scale(1)"),
-      unsafeChild("slick-arrow")(),
-      unsafeChild("slick-prev")(),
-      unsafeChild("slick-next")()
+      unsafeChild(".slick-slide.slick-active")(transform := "scale(1)")
     )
 
   val slideWrapper: StyleA =
@@ -274,6 +273,7 @@ object SequenceStyles extends StyleSheet.Inline {
   val slide: StyleA =
     style(
       height(100.%%),
+      minWidth((240 + ThemeStyles.SpacingValue.medium).pxToEm()),
       paddingTop(ThemeStyles.SpacingValue.medium.pxToEm()),
       paddingBottom(ThemeStyles.SpacingValue.medium.pxToEm()),
       backgroundColor(ThemeStyles.BackgroundColor.white),

@@ -12,7 +12,7 @@ import org.make.front.components.submitProposal.ConfirmationOfProposalSubmission
 import org.make.front.components.users.authenticate.RequireAuthenticatedUserContainer.RequireAuthenticatedUserContainerProps
 import org.make.front.facades.I18n
 import org.make.front.facades.Unescape.unescape
-import org.make.front.models.{Location, Operation => OperationModel, Theme => ThemeModel}
+import org.make.front.models.{Location => LocationModel, Operation => OperationModel, Theme => ThemeModel}
 import org.make.front.styles.ThemeStyles
 import org.make.front.styles.base.{ColRulesStyles, RowRulesStyles, TextStyles}
 import org.make.front.styles.utils._
@@ -37,8 +37,8 @@ object SubmitProposalAndLogin {
   case class SubmitProposalAndLoginProps(intro: (ReactElement) => ReactElement,
                                          maybeTheme: Option[ThemeModel],
                                          maybeOperation: Option[OperationModel],
-                                         onProposalProposed: ()      => Unit,
-                                         propose: (String, Location) => Future[_])
+                                         onProposalProposed: ()           => Unit,
+                                         propose: (String, LocationModel) => Future[_])
 
   val reactClass: ReactClass =
     WithRouter(
@@ -52,8 +52,8 @@ object SubmitProposalAndLogin {
 
           val onConnectionOk: () => Unit = {
             () =>
-              val location: Location =
-                if (self.props.location.pathname == "/") Location.Homepage else Location.ThemePage
+              val location: LocationModel =
+                if (self.props.location.pathname == "/") LocationModel.Homepage else LocationModel.ThemePage
               props.propose(self.state.proposal, location).onComplete {
                 case Success(_) => self.setState(_.copy(displayedComponent = "result"))
                 case Failure(_) =>
@@ -153,6 +153,7 @@ object SubmitProposalAndLoginStyles extends StyleSheet.Inline {
       marginBottom(ThemeStyles.SpacingValue.smaller.pxToEm(15)),
       ThemeStyles.MediaQueries.beyondSmall(marginBottom(ThemeStyles.SpacingValue.smaller.pxToEm(18)))
     )
+
   val separatorLine: StyleA =
     style(
       height(1.px),
@@ -161,5 +162,4 @@ object SubmitProposalAndLoginStyles extends StyleSheet.Inline {
       border.none,
       backgroundColor(ThemeStyles.BorderColor.veryLight)
     )
-
 }

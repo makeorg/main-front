@@ -89,8 +89,8 @@ object PoliticalActionsList {
                   if (self.state.politicalActions.isEmpty) {
                     <.NoPoliticalActionComponent.empty
                   } else {
-                    <.Slider(^.ref := ((s: HTMLElement) => {
-                      slider = Option(s.asInstanceOf[Slider])
+                    <.Slider(^.ref := ((slideshow: HTMLElement) => {
+                      slider = Option(slideshow.asInstanceOf[Slider])
                       /*TODO : avoid this non solution*/
                       slider.foreach(_.slickGoTo(0))
                       slider

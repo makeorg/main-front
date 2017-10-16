@@ -124,6 +124,7 @@ object SubmitProposalForm {
               <.span(^.className := SubmitProposalFormStyles.innerWapper)(
                 <.span(^.className := SubmitProposalFormStyles.textareaWapper)(
                   <.TextareaAutosize(
+                    ^.className := SubmitProposalFormStyles.textarea,
                     ^.value := self.state.proposalContent,
                     ^.placeholder := "Il faut une proposition réaliste et respectueuse de tous",
                     ^.onFocus := handleProposalInputFocused,
@@ -188,6 +189,9 @@ object SubmitProposalFormStyles extends StyleSheet.Inline {
 
   val textareaWapper: StyleA =
     style(display.tableCell, width(100.%%))
+
+  val textarea: StyleA =
+    style(overflow.hidden)
 
   val textLimitInfoWapper: StyleA = style(display.tableCell, verticalAlign.bottom)
 
