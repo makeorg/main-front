@@ -64,8 +64,16 @@ object Sequence {
           self.setState(state => state.copy(currentSlideIndex = currentSlide))
         }
 
-        def startSequence: () => Unit = { () =>
+        def next: () => Unit = { () =>
           slider.foreach(_.slickNext())
+        }
+
+        def previous: () => Unit = { () =>
+          slider.foreach(_.slickPrev())
+        }
+
+        def startSequence: () => Unit = { () =>
+          next()
           // TODO facebook take sequence id from variable
           FacebookPixel.fbq(
             "trackCustom",
@@ -75,7 +83,7 @@ object Sequence {
         }
 
         def nextProposal: () => Unit = { () =>
-          slider.foreach(_.slickNext())
+          next()
           FacebookPixel.fbq("trackCustom", "click-sequence-next-proposal")
         }
 
@@ -144,7 +152,7 @@ object Sequence {
                 <.div(^.className := RowRulesStyles.centeredRow)(
                   <.div(^.className := ColRulesStyles.col)(
                     <.div(^.className := SequenceStyles.slideshow)(
-                      <.button(^.className := SequenceStyles.showPrevSlideButton)(),
+                      <.button(^.className := SequenceStyles.showPrevSlideButton, ^.onClick := previous)(),
                       <.Slider(^.ref := ((s: HTMLElement) => {
                         slider = Option(s.asInstanceOf[Slider])
                       }), ^.infinite := false, ^.arrows := false, ^.accessibility := false, ^.swipe := false, ^.afterChange := updateCurrentSlideIndex)(
@@ -164,7 +172,7 @@ object Sequence {
                           <.article(^.className := SequenceStyles.slide)(<(self.props.wrapped.conclusion).empty)
                         )
                       ),
-                      <.button(^.className := SequenceStyles.showNextSlideButton)()
+                      <.button(^.className := SequenceStyles.showNextSlideButton, ^.onClick := next)()
                     )
                   )
                 )
