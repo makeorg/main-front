@@ -40,7 +40,9 @@ object Sequence {
                                  currentSlideIndex: Int,
                                  votes: Seq[String])
 
-  lazy val reactClass: ReactClass =
+  lazy val reactClass: ReactClass = {
+    var slider: Option[Slider] = None
+
     React.createClass[SequenceProps, SequenceState](
       displayName = "Sequence",
       getInitialState = { _ =>
@@ -63,12 +65,13 @@ object Sequence {
               allProposals.find(_.id.value == id)
             } ++ allProposals.find(proposal => !votes.contains(proposal.id.value))
             self.setState(_.copy(proposals = allProposals, votes = votes, displayedProposals = displayedProposals))
+            if (votes.nonEmpty) {
+              slider.foreach(_.slickGoTo(votes.size + 1))
+            }
           case Failure(_) =>
         }
       },
       render = { self =>
-        var slider: Option[Slider] = None
-
         def updateCurrentSlideIndex(currentSlide: Int): Unit = {
           self.setState(state => state.copy(currentSlideIndex = currentSlide))
         }
@@ -201,6 +204,7 @@ object Sequence {
         )
       }
     )
+  }
 }
 
 object SequenceStyles extends StyleSheet.Inline {
