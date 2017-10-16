@@ -206,7 +206,7 @@ object Sequence {
           if (self.state.proposals.nonEmpty) {
             <.div(^.className := SequenceStyles.slideshowWrapper)(
               <.div(^.className := SequenceStyles.slideshowInnerWrapper)(
-                <.div(^.className := SequenceStyles.centeredRow)(
+                <.div(^.className := Seq(SequenceStyles.centeredRow, SequenceStyles.fullHeight))(
                   <.div(^.className := SequenceStyles.slideshow)(if (self.state.currentSlideIndex > 0) {
                     <.button(
                       ^.className := SequenceStyles.showPrevSlideButton,
@@ -218,7 +218,11 @@ object Sequence {
                   }), ^.infinite := false, ^.arrows := false, ^.accessibility := true, ^.swipe := true, ^.afterChange := updateCurrentSlideIndex)(<.div(^.className := SequenceStyles.slideWrapper)(<.article(^.className := SequenceStyles.slide)(<(self.props.wrapped.intro)(^.wrapped := IntroOfOperationSequenceProps(clickOnButtonHandler = startSequence))())), self.state.displayedProposals.map {
                     proposal: ProposalModel =>
                       <.div(^.className := SequenceStyles.slideWrapper)(
-                        <.article(^.className := SequenceStyles.slide)(proposalContent(proposal))
+                        <.article(^.className := SequenceStyles.slide)(
+                          <.div(^.className := SequenceStyles.slideInnerWrapper)(
+                            <.div(^.className := SequenceStyles.slideInnerSubWrapper)(proposalContent(proposal))
+                          )
+                        )
                       )
                   }, if (self.state.votes.size == self.state.proposals.size) {
                     <.div(^.className := SequenceStyles.slideWrapper)(
@@ -285,7 +289,7 @@ object SequenceStyles extends StyleSheet.Inline {
       display.tableCell,
       verticalAlign.top,
       paddingTop(ThemeStyles.SpacingValue.small.pxToEm()),
-      paddingBottom(ThemeStyles.SpacingValue.medium.pxToEm()),
+      paddingBottom(ThemeStyles.SpacingValue.larger.pxToEm()),
       overflow.hidden
     )
 
@@ -311,11 +315,19 @@ object SequenceStyles extends StyleSheet.Inline {
   val slide: StyleA =
     style(
       height(100.%%),
-      minWidth((240 + ThemeStyles.SpacingValue.medium).pxToEm()),
-      paddingTop(ThemeStyles.SpacingValue.medium.pxToEm()),
-      paddingBottom(ThemeStyles.SpacingValue.medium.pxToEm()),
       backgroundColor(ThemeStyles.BackgroundColor.white),
       boxShadow := "0 1px 1px 0 rgba(0,0,0,0.50)"
+    )
+
+  val slideInnerWrapper: StyleA =
+    style(display.table, height(100.%%), width(100.%%))
+
+  val slideInnerSubWrapper: StyleA =
+    style(
+      display.tableCell,
+      verticalAlign.middle,
+      paddingTop(ThemeStyles.SpacingValue.medium.pxToEm()),
+      paddingBottom(ThemeStyles.SpacingValue.medium.pxToEm())
     )
 
   val showPrevSlideButton: StyleA =
