@@ -30,7 +30,7 @@ object OperationSequenceContainer {
         if (OperationsList.isEmpty || SequencesList.isEmpty) {
           props.history.push("/")
           OperationSequence.OperationSequenceProps(
-            OperationModel(OperationIdModel("fake"), "", "", 0, 0, "", None),
+            OperationModel(OperationIdModel("fake"), "", "", "", 0, 0, "", None),
             SequenceModel(SequenceIdModel("fake"), "", "", Seq.empty)
           )
         } else {

@@ -29,7 +29,7 @@ object ProposalService extends ApiService with CirceClassFormatters with CirceFo
   }
 
   def createProposal(content: String,
-                     location: String,
+                     location: Location,
                      themeId: Option[String] = None,
                      source: String = "core product",
                      operation: Option[String] = None,
@@ -38,7 +38,7 @@ object ProposalService extends ApiService with CirceClassFormatters with CirceFo
     val backupHeaders = MakeApiClient.customHeaders
     MakeApiClient.customHeaders ++= Map[String, String](
       MakeApiClient.sourceHeader -> source,
-      MakeApiClient.locationHeader -> location
+      MakeApiClient.locationHeader -> location.shortName
     )
     themeId.foreach(theme => MakeApiClient.customHeaders += MakeApiClient.themeIdHeader -> theme)
     operation.foreach(op  => MakeApiClient.customHeaders += MakeApiClient.operationHeader -> op)

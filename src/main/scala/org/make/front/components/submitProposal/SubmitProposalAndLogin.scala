@@ -12,7 +12,7 @@ import org.make.front.components.submitProposal.ConfirmationOfProposalSubmission
 import org.make.front.components.users.authenticate.RequireAuthenticatedUserContainer.RequireAuthenticatedUserContainerProps
 import org.make.front.facades.I18n
 import org.make.front.facades.Unescape.unescape
-import org.make.front.models.{Operation => OperationModel, Theme => ThemeModel}
+import org.make.front.models.{Location, Operation => OperationModel, Theme => ThemeModel}
 import org.make.front.styles.ThemeStyles
 import org.make.front.styles.base.{ColRulesStyles, RowRulesStyles, TextStyles}
 import org.make.front.styles.utils._
@@ -37,8 +37,8 @@ object SubmitProposalAndLogin {
   case class SubmitProposalAndLoginProps(intro: (ReactElement) => ReactElement,
                                          maybeTheme: Option[ThemeModel],
                                          maybeOperation: Option[OperationModel],
-                                         onProposalProposed: ()    => Unit,
-                                         propose: (String, String) => Future[_])
+                                         onProposalProposed: ()      => Unit,
+                                         propose: (String, Location) => Future[_])
 
   val reactClass: ReactClass =
     WithRouter(
@@ -50,10 +50,11 @@ object SubmitProposalAndLogin {
         render = { self =>
           val props = self.props.wrapped
 
-          val onConnectionOk: () => Unit = { () =>
-            props
-              .propose(self.state.proposal, self.props.location.pathname)
-              .onComplete {
+          val onConnectionOk: () => Unit = {
+            () =>
+              val location: Location =
+                if (self.props.location.pathname == "/") Location.Homepage else Location.ThemePage
+              props.propose(self.state.proposal, location).onComplete {
                 case Success(_) => self.setState(_.copy(displayedComponent = "result"))
                 case Failure(_) =>
                   self.setState(
