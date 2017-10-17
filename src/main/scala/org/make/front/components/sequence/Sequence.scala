@@ -161,8 +161,8 @@ object Sequence {
         def proposalContent(proposal: ProposalModel): Seq[ReactElement] = Seq(
           <.div(^.className := Seq(RowRulesStyles.row))(
             <.div(^.className := ColRulesStyles.col)(
-              <.header(^.className := ProposalInSlideStyles.infosWrapper)(
-                <.h4(^.className := Seq(TextStyles.mediumText, ProposalInSlideStyles.infos))(
+              <.div(^.className := ProposalInSlideStyles.infosWrapper)(
+                <.p(^.className := Seq(TextStyles.mediumText, ProposalInSlideStyles.infos))(
                   ProposalAuthorInfosFormat.apply(proposal)
                 )
               ),

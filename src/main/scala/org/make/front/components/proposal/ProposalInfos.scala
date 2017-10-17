@@ -67,7 +67,7 @@ object ProposalInfos {
 
           <.div(^.className := ProposalInfosStyles.wrapper)(
             <.div(^.className := ProposalInfosStyles.infosWrapper)(
-              <.h4(^.className := Seq(TextStyles.smallText, ProposalInfosStyles.infos))(
+              <.p(^.className := Seq(TextStyles.smallText, ProposalInfosStyles.infos))(
                 ProposalAuthorInfosFormat.apply(self.props.wrapped.proposal)
               )
             ),

@@ -22,7 +22,7 @@ object Proposal {
         render = (self) => {
 
           <.article(^.className := ProposalStyles.wrapper)(
-            <.header(^.className := ProposalStyles.proposalInfosWrapper)(
+            <.div(^.className := ProposalStyles.proposalInfosWrapper)(
               <.ProposalInfosComponent(^.wrapped := ProposalInfosProps(proposal = self.props.wrapped.proposal))()
             ),
             <.div(^.className := ProposalStyles.contentWrapper)(

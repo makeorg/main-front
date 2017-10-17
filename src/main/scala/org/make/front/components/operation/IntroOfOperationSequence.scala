@@ -22,47 +22,46 @@ object IntroOfOperationSequence {
   lazy val reactClass: ReactClass =
     React
       .createClass[IntroOfOperationSequenceProps, Unit](
-      displayName = "IntroOfOperationSequence",
-      componentDidMount = { _ =>
-        FacebookPixel.fbq("trackCustom", "display-sequence-intro")
-      },
-      render = { self =>
-        <.div(^.className := Seq(IntroOfOperationSequenceStyles.wrapper))(
-          <.div(^.className := IntroOfOperationSequenceStyles.innerWrapper)(
-            <.div(^.className := Seq(RowRulesStyles.row))(
-              <.div(^.className := ColRulesStyles.col)(
-                <.div(^.className := IntroOfOperationSequenceStyles.introWrapper)(
-                  <.p(^.className := Seq(TextStyles.bigIntro, IntroOfOperationSequenceStyles.intro))(
-                    unescape("Des milliers de citoyens proposent des&nbsp;solutions.")
-                  )
-                ),
-                <.div(^.className := IntroOfOperationSequenceStyles.explanationWrapper)(
-                  <.p(^.className := Seq(TextStyles.biggerMediumText, IntroOfOperationSequenceStyles.explanation))(
-                    unescape("Prenez position sur ces solutions et proposez les&nbsp;vôtres.")
-                  )
-                ),
-                <.div(^.className := IntroOfOperationSequenceStyles.explanationWrapper)(
-                  <.p(^.className := Seq(TextStyles.biggerMediumText, IntroOfOperationSequenceStyles.explanation))(
-                    unescape("Les plus soutenues détermineront nos&nbsp;actions.")
-                  )
-                ),
-                <.div(^.className := IntroOfOperationSequenceStyles.ctaWrapper)(
-                  <.button(
-                    ^.className := Seq(CTAStyles.basic, CTAStyles.basicOnButton),
-                    ^.onClick := self.props.wrapped.clickOnButtonHandler
-                  )(
-                    <.i(^.className := Seq(FontAwesomeStyles.fa, FontAwesomeStyles.paperPlaneTransparent))(),
-                    unescape("&nbsp;" + "Démarrer")
+        displayName = "IntroOfOperationSequence",
+        componentDidMount = { _ =>
+          FacebookPixel.fbq("trackCustom", "display-sequence-intro")
+        },
+        render = { self =>
+          <.div(^.className := Seq(IntroOfOperationSequenceStyles.wrapper))(
+            <.div(^.className := IntroOfOperationSequenceStyles.innerWrapper)(
+              <.div(^.className := Seq(RowRulesStyles.row))(
+                <.div(^.className := ColRulesStyles.col)(
+                  <.div(^.className := IntroOfOperationSequenceStyles.introWrapper)(
+                    <.h2(^.className := Seq(TextStyles.bigIntro, IntroOfOperationSequenceStyles.intro))(
+                      unescape("Des milliers de citoyens proposent des&nbsp;solutions.")
+                    )
+                  ),
+                  <.div(^.className := IntroOfOperationSequenceStyles.explanationWrapper)(
+                    <.p(^.className := Seq(TextStyles.biggerMediumText, IntroOfOperationSequenceStyles.explanation))(
+                      unescape("Prenez position sur ces solutions et proposez les&nbsp;vôtres.")
+                    )
+                  ),
+                  <.div(^.className := IntroOfOperationSequenceStyles.explanationWrapper)(
+                    <.p(^.className := Seq(TextStyles.biggerMediumText, IntroOfOperationSequenceStyles.explanation))(
+                      unescape("Les plus soutenues détermineront nos&nbsp;actions.")
+                    )
+                  ),
+                  <.div(^.className := IntroOfOperationSequenceStyles.ctaWrapper)(
+                    <.button(
+                      ^.className := Seq(CTAStyles.basic, CTAStyles.basicOnButton),
+                      ^.onClick := self.props.wrapped.clickOnButtonHandler
+                    )(
+                      <.i(^.className := Seq(FontAwesomeStyles.fa, FontAwesomeStyles.paperPlaneTransparent))(),
+                      unescape("&nbsp;" + "Démarrer")
+                    )
                   )
                 )
               )
-            )
-          ),
-          <.style()(IntroOfOperationSequenceStyles.render[String])
-        )
-      }
-    )
-
+            ),
+            <.style()(IntroOfOperationSequenceStyles.render[String])
+          )
+        }
+      )
 }
 
 object IntroOfOperationSequenceStyles extends StyleSheet.Inline {

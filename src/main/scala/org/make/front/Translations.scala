@@ -34,7 +34,6 @@ object Translations {
       |         "searchPlaceholder": "Recherchez une proposition..."
       |       },
       |       "homepage": {
-      |
       |         "baseline": "À propos",
       |         "title": "Proposez, votez, agissons",
       |         "subTitle": "Make.org est une initiative indépendante au service de l'intérêt&nbsp;général.",
@@ -192,7 +191,7 @@ object Translations {
       |       "subscribeToNewsletter": {
       |         "fieldLabelEmail": "votre adresse email",
       |         "sendEmail": "Envoyer",
-      |         "invalidEmail": "veuillez rentrer un e-mail&nbsp;valide",
+      |         "invalidEmail": "Veuillez renseigner ce&nbsp;champ.",
       |         "emailAlreadyExists": "Vous êtiez déja inscrit.e",
       |         "notification": {
       |           "message" : "Merci, votre adresse email est bien enregistrée dans notre liste de diffusion. Vous recevrez nos prochains mails&nbsp;d'information."

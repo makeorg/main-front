@@ -191,9 +191,9 @@ object OperationSequenceStyles extends StyleSheet.Inline {
       display.tableCell,
       width(0.%%),
       padding := s"${ThemeStyles.SpacingValue.small.pxToEm().value} 0",
-      verticalAlign.top,
+      verticalAlign.middle,
       color(ThemeStyles.TextColor.white),
-      ThemeStyles.MediaQueries.beyondMedium(width(150.pxToEm()), verticalAlign.middle)
+      ThemeStyles.MediaQueries.beyondMedium(width(150.pxToEm()))
     )
 
   val backLink: StyleA =
@@ -225,7 +225,12 @@ object OperationSequenceStyles extends StyleSheet.Inline {
     style(color(ThemeStyles.TextColor.white), ThemeStyles.MediaQueries.beyondMedium(textAlign.center))
 
   val totalOfPropositions: StyleA =
-    style(color(ThemeStyles.TextColor.white), ThemeStyles.MediaQueries.beyondMedium(textAlign.center))
+    style(
+      color(ThemeStyles.TextColor.white),
+      ThemeStyles.MediaQueries
+        .belowMedium(lineHeight(1)),
+      ThemeStyles.MediaQueries.beyondMedium(textAlign.center)
+    )
 
   val openProposalModalButtonWrapper: StyleA =
     style(
@@ -235,7 +240,7 @@ object OperationSequenceStyles extends StyleSheet.Inline {
       padding := s"${ThemeStyles.SpacingValue.small.pxToEm().value} 0",
       textAlign.right,
       ThemeStyles.MediaQueries
-        .belowMedium(width.auto)
+        .belowMedium(verticalAlign.top, width.auto)
     )
 
   val openProposalModalButton: StyleA =

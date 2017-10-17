@@ -29,7 +29,7 @@ object ProposalWithTags {
             <.div(^.className := ProposalStyles.innerWrapper)(
               <.div(^.className := ProposalStyles.row)(
                 <.div(^.className := ProposalStyles.cell)(
-                  <.header(^.className := ProposalStyles.proposalInfosWrapper)(
+                  <.div(^.className := ProposalStyles.proposalInfosWrapper)(
                     <.ProposalInfosComponent(^.wrapped := ProposalInfosProps(proposal = self.props.wrapped.proposal))()
                   )
                   /*<.header(^.className := ProposalStyles.shareOwnProposalWrapper)(

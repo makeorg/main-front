@@ -22,8 +22,7 @@ object AboutMakeMainHeader {
         <.div(^.className := RowRulesStyles.centeredRow)(
           <.div(^.className := ColRulesStyles.col)(
             <.div(^.className := AboutMakeMainHeaderStyles.innerWrapper)(
-              /*TODO: h1 if homepage else p*/
-              <.h1(^.className := AboutMakeMainHeaderStyles.logoWrapper)(
+              <.p(^.className := AboutMakeMainHeaderStyles.logoWrapper)(
                 <.img(
                   ^.className := AboutMakeMainHeaderStyles.logo,
                   ^.src := logoMake.toString,
