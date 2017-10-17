@@ -115,9 +115,12 @@ object UserService extends ApiService with CirceClassFormatters with CirceFormat
       }
   }
 
-  def validateAccount(userId: String, verificationToken: String): Future[Unit] = {
-    MakeApiClient.post[Unit](resourceName / userId / "validate" / verificationToken).map { _ =>
-      }
+  def validateAccount(userId: String, verificationToken: String, operation: Option[OperationId]): Future[Unit] = {
+    val headers = MakeApiClient.defaultHeaders ++ operation.map(op => MakeApiClient.operationHeader -> op.value)
+
+    MakeApiClient.post[Unit](resourceName / userId / "validate" / verificationToken, headers = headers).map { _ =>
+      {}
+    }
   }
 
   def logout(): Future[Unit] =
