@@ -49,6 +49,7 @@ object Sequence {
       case Success(proposals) =>
         val votes = proposals.filter(_.votes.exists(_.hasVoted)).map(_.id.value)
         val allProposals = scala.util.Random.shuffle(proposals.toList)
+        val index = if (votes.nonEmpty) { votes.size + 1 } else { 0 }
         val displayedProposals = votes.flatMap { id =>
           allProposals.find(_.id.value == id)
         } ++ allProposals.find(proposal => !votes.contains(proposal.id.value))
@@ -57,11 +58,11 @@ object Sequence {
             proposals = allProposals,
             votes = votes,
             displayedProposals = displayedProposals,
-            currentSlideIndex = votes.size + 1
+            currentSlideIndex = index
           )
         )
         if (votes.nonEmpty) {
-          slider.foreach(_.slickGoTo(votes.size + 1))
+          slider.foreach(_.slickGoTo(index))
         }
       case Failure(_) =>
     }
