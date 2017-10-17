@@ -23,7 +23,8 @@ object OperationId {
 }
 
 object Operation {
-  def getOperationById(id: String, store: Store[AppState]): Operation = {
-    store.getState.operations.find(operation => operation.operationId.value == id).get
+  def getOperationById(id: String, store: Store[AppState]): Option[Operation] = {
+    store.getState.operations.find(operation => operation.operationId.value == id)
   }
 }
+
