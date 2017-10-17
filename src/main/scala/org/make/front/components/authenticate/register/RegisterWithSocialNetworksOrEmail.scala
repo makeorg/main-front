@@ -8,6 +8,7 @@ import org.make.front.components.authenticate.AuthenticateWithSocialNetworksCont
 import org.make.front.components.authenticate.register.RegisterContainer.RegisterUserProps
 import org.make.front.facades.I18n
 import org.make.front.facades.Unescape.unescape
+import org.make.front.models.OperationId
 import org.make.front.styles._
 import org.make.front.styles.base.TextStyles
 import org.make.front.styles.utils._
@@ -17,7 +18,8 @@ import scalacss.internal.mutable.StyleSheet
 
 object RegisterWithSocialNetworksOrEmail {
 
-  case class RegisterWithSocialNetworksOrEmailProps(onSuccessfulLogin: () => Unit = () => {})
+  case class RegisterWithSocialNetworksOrEmailProps(operation: Option[OperationId],
+                                                    onSuccessfulLogin: () => Unit = () => {})
 
   val regular: ReactClass = React.createClass[RegisterWithSocialNetworksOrEmailProps, Unit](
     displayName = "RegisterWithSocialNetworksOrEmail",
@@ -43,7 +45,8 @@ object RegisterWithSocialNetworksOrEmail {
         <.RegisterWithEmailComponent(
           ^.wrapped := RegisterUserProps(
             note = unescape(I18n.t("form.register.termsAgreed")),
-            onSuccessfulRegistration = self.props.wrapped.onSuccessfulLogin
+            onSuccessfulRegistration = self.props.wrapped.onSuccessfulLogin,
+            operation = self.props.wrapped.operation
           )
         )(),
         <.style()(RegisterWithSocialNetworksOrEmailStyles.render[String])
@@ -73,7 +76,8 @@ object RegisterWithSocialNetworksOrEmail {
       <.RegisterWithEmailExpandedComponent(
         ^.wrapped := RegisterUserProps(
           note = unescape(I18n.t("form.register.termsAgreed")),
-          onSuccessfulRegistration = self.props.wrapped.onSuccessfulLogin
+          onSuccessfulRegistration = self.props.wrapped.onSuccessfulLogin,
+          operation = self.props.wrapped.operation
         )
       )(),
       <.style()(RegisterWithSocialNetworksOrEmailStyles.render[String])

@@ -10,6 +10,7 @@ import org.make.front.components.authenticate.recoverPassword.RecoverPasswordCon
 import org.make.front.components.authenticate.register.RegisterWithSocialNetworksOrEmail.RegisterWithSocialNetworksOrEmailProps
 import org.make.front.facades.I18n
 import org.make.front.facades.Unescape.unescape
+import org.make.front.models.OperationId
 import org.make.front.styles._
 import org.make.front.styles.base.{ColRulesStyles, RowRulesStyles, TextStyles}
 import org.make.front.styles.utils._
@@ -20,7 +21,8 @@ import scalacss.internal.mutable.StyleSheet
 
 object LoginOrRegister {
 
-  case class LoginOrRegisterProps(registerView: String = "register",
+  case class LoginOrRegisterProps(operation: Option[OperationId],
+                                  registerView: String = "register",
                                   displayView: String,
                                   onSuccessfulLogin: () => Unit = () => {})
   case class LoginOrRegisterState(currentView: String = "login")
@@ -79,7 +81,10 @@ object LoginOrRegister {
           } else if (state.currentView == "register-expanded") {
             Seq(
               <.RegisterWithSocialNetworksOrEmailExpandedComponent(
-                ^.wrapped := RegisterWithSocialNetworksOrEmailProps(props.onSuccessfulLogin)
+                ^.wrapped := RegisterWithSocialNetworksOrEmailProps(
+                  operation = self.props.wrapped.operation,
+                  onSuccessfulLogin = props.onSuccessfulLogin
+                )
               )(),
               <.p(^.className := Seq(LoginOrRegisterStyles.text, TextStyles.smallText))(
                 unescape(I18n.t("form.register.alreadySubscribed")) + " ",
@@ -89,7 +94,10 @@ object LoginOrRegister {
           } else {
             Seq(
               <.RegisterWithSocialNetworksOrEmailComponent(
-                ^.wrapped := RegisterWithSocialNetworksOrEmailProps(props.onSuccessfulLogin)
+                ^.wrapped := RegisterWithSocialNetworksOrEmailProps(
+                  operation = self.props.wrapped.operation,
+                  onSuccessfulLogin = props.onSuccessfulLogin
+                )
               )(),
               <.p(^.className := Seq(LoginOrRegisterStyles.text, TextStyles.smallText))(
                 unescape(I18n.t("form.register.alreadySubscribed")) + " ",

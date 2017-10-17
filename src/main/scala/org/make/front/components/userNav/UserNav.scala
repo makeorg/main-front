@@ -101,7 +101,7 @@ object UnconnectedUserNavElement {
           <.LoginOrRegisterComponent(
             ^.wrapped := LoginOrRegisterProps(displayView = "login", onSuccessfulLogin = () => {
               self.setState(_.copy(isAuthenticateModalOpened = false))
-            })
+            }, operation = None)
           )()
         )
       )

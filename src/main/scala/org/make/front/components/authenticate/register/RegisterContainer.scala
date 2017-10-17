@@ -6,7 +6,7 @@ import io.github.shogowada.scalajs.reactjs.redux.{ContainerComponentFactory, Rea
 import org.make.front.actions.{LoggedInAction, NotifyInfo}
 import org.make.front.components.AppState
 import org.make.front.facades.I18n
-import org.make.front.models.{User => UserModel}
+import org.make.front.models.{OperationId, User => UserModel}
 import org.make.services.user.UserService
 
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -15,7 +15,9 @@ import scala.util.{Failure, Success}
 
 object RegisterContainer {
 
-  case class RegisterUserProps(note: String, onSuccessfulRegistration: () => Unit = () => {})
+  case class RegisterUserProps(note: String,
+                               onSuccessfulRegistration: () => Unit = () => {},
+                               operation: Option[OperationId])
 
   def selector: ContainerComponentFactory[RegisterProps] = ReactRedux.connectAdvanced {
     dispatch => (_: AppState, props: Props[RegisterUserProps]) =>
@@ -27,7 +29,8 @@ object RegisterContainer {
             firstName = state.fields("firstName"),
             profession = state.fields.get("profession"),
             postalCode = state.fields.get("postalCode"),
-            age = state.fields.get("age").map(_.toInt)
+            age = state.fields.get("age").map(_.toInt),
+            operation = props.wrapped.operation
           )
           .flatMap { _ =>
             UserService.login(state.fields("email"), state.fields("password"))

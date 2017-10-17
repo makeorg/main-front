@@ -8,7 +8,7 @@ import org.make.client.MakeApiClient
 import org.make.core.URI._
 import org.make.core.{CirceClassFormatters, CirceFormatters}
 import org.make.front.facades.I18n
-import org.make.front.models.User
+import org.make.front.models.{OperationId, User}
 import org.make.services.ApiService
 
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -26,8 +26,10 @@ object UserService extends ApiService with CirceClassFormatters with CirceFormat
                    firstName: String,
                    profession: Option[String],
                    age: Option[Int],
-                   postalCode: Option[String]): Future[User] = {
+                   postalCode: Option[String],
+                   operation: Option[OperationId]): Future[User] = {
 
+    val headers = MakeApiClient.defaultHeaders ++ operation.map(op => MakeApiClient.operationHeader -> op.value)
     MakeApiClient
       .post[User](
         resourceName,
@@ -40,7 +42,8 @@ object UserService extends ApiService with CirceClassFormatters with CirceFormat
           dateOfBirth = age.map(age => {
             LocalDate.of(LocalDate.now.getYear - age, 1, 1)
           })
-        ).asJson.pretty(ApiService.printer)
+        ).asJson.pretty(ApiService.printer),
+        headers = headers
       )
       .map(_.get)
   }

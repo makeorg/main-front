@@ -109,6 +109,7 @@ object SubmitProposalAndLogin {
             <.section()(
               <.RequireAuthenticatedUserComponent(
                 ^.wrapped := RequireAuthenticatedUserContainerProps(
+                  operation = self.props.wrapped.maybeOperation.map(_.operationId),
                   intro = intro,
                   onceConnected = onConnectionOk,
                   defaultView = "register-expanded",
