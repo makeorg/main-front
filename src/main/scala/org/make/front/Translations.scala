@@ -104,7 +104,7 @@ object Translations {
       |         "titleIntro": "Partagez votre proposition sur le&nbsp;thème",
       |         "titleIntroNoTheme": "Partagez votre proposition",
       |         "help": "Ne vous inquiétez pas, nous corrigerons vos éventuelles fautes&nbsp;d'orthographe.",
-      |         "subHelp": "Pour en savoir plus sur notre charte de modération, <a href=\"http://www.about.make.org/moderation\" target=\"_blank\">cliquez&nbsp;ici.</a>",
+      |         "subHelp": "Pour en savoir plus sur notre charte de modération, <a href=\"https://about.make.org/moderation\" target=\"_blank\">cliquez&nbsp;ici.</a>",
       |         "postedIn": "postée dans ",
       |         "seeMore":"Voir + de résultats"
       |       },
