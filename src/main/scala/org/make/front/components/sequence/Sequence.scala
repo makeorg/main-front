@@ -130,10 +130,19 @@ object Sequence {
               }
             }
 
-            val votes = self.state.votes ++ Seq(proposalId.value)
+            val votes = if (self.state.votes.contains(proposalId.value)) {
+              self.state.votes
+            } else {
+              self.state.votes ++ Seq(proposalId.value)
+            }
             val updatedProposals = self.state.proposals.map(mapProposal)
-            val updatedDisplayedProposals = self.state.displayedProposals.map(mapProposal) ++ self.state.proposals
-              .find(proposal => !votes.contains(proposal.id.value))
+            val updatedDisplayedProposals = if (votes.size == self.state.displayedProposals.size) {
+              self.state.displayedProposals.map(mapProposal) ++ self.state.proposals
+                .find(proposal => !votes.contains(proposal.id.value))
+            } else {
+              self.state.displayedProposals.map(mapProposal)
+            }
+
             self.setState(
               _.copy(votes = votes, proposals = updatedProposals, displayedProposals = updatedDisplayedProposals)
             )
