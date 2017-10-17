@@ -44,7 +44,7 @@ object Sequence {
 
   private def updateProposals(self: Self[SequenceProps, SequenceState],
                               props: Props[SequenceProps],
-                              slider: Option[Slider]) = {
+                              slider: Option[Slider]): Unit = {
     props.wrapped.proposals.onComplete {
       case Success(proposals) =>
         val votes = proposals.filter(_.votes.exists(_.hasVoted)).map(_.id.value)
@@ -52,7 +52,14 @@ object Sequence {
         val displayedProposals = votes.flatMap { id =>
           allProposals.find(_.id.value == id)
         } ++ allProposals.find(proposal => !votes.contains(proposal.id.value))
-        self.setState(_.copy(proposals = allProposals, votes = votes, displayedProposals = displayedProposals))
+        self.setState(
+          _.copy(
+            proposals = allProposals,
+            votes = votes,
+            displayedProposals = displayedProposals,
+            currentSlideIndex = votes.size + 1
+          )
+        )
         if (votes.nonEmpty) {
           slider.foreach(_.slickGoTo(votes.size + 1))
         }
@@ -215,30 +222,48 @@ object Sequence {
             <.div(^.className := SequenceStyles.slideshowWrapper)(
               <.div(^.className := SequenceStyles.slideshowInnerWrapper)(
                 <.div(^.className := Seq(SequenceStyles.centeredRow, SequenceStyles.fullHeight))(
-                  <.div(^.className := SequenceStyles.slideshow)(if (self.state.currentSlideIndex > 0) {
-                    <.button(
-                      ^.className := SequenceStyles.showPrevSlideButton,
-                      ^.onClick := previous,
-                      ^.disabled := self.state.currentSlideIndex == 0
-                    )()
-                  }, <.Slider(^.ref := ((slideshow: HTMLElement) => {
-                    slider = Option(slideshow.asInstanceOf[Slider])
-                  }), ^.infinite := false, ^.arrows := false, ^.accessibility := true, ^.swipe := true, ^.afterChange := updateCurrentSlideIndex)(<.div(^.className := SequenceStyles.slideWrapper)(<.article(^.className := SequenceStyles.slide)(<(self.props.wrapped.intro)(^.wrapped := IntroOfOperationSequenceProps(clickOnButtonHandler = startSequence))())), self.state.displayedProposals.map {
-                    proposal: ProposalModel =>
+                  <.div(^.className := SequenceStyles.slideshow)(
+                    if (self.state.currentSlideIndex > 0)
+                      <.button(
+                        ^.className := SequenceStyles.showPrevSlideButton,
+                        ^.onClick := previous,
+                        ^.disabled := self.state.currentSlideIndex == 0
+                      )(),
+                    <.Slider(
+                      ^.ref := ((slideshow: HTMLElement) => slider = Option(slideshow.asInstanceOf[Slider])),
+                      ^.infinite := false,
+                      ^.arrows := false,
+                      ^.accessibility := true,
+                      ^.swipe := true,
+                      ^.afterChange := updateCurrentSlideIndex,
+                      ^.initialSlide := self.state.currentSlideIndex
+                    )(
                       <.div(^.className := SequenceStyles.slideWrapper)(
                         <.article(^.className := SequenceStyles.slide)(
-                          <.div(^.className := SequenceStyles.slideInnerWrapper)(
-                            <.div(^.className := SequenceStyles.slideInnerSubWrapper)(proposalContent(proposal))
+                          <(self.props.wrapped.intro)(
+                            ^.wrapped := IntroOfOperationSequenceProps(clickOnButtonHandler = startSequence)
+                          )()
+                        )
+                      ),
+                      self.state.displayedProposals.map { proposal: ProposalModel =>
+                        <.div(^.className := SequenceStyles.slideWrapper)(
+                          <.article(^.className := SequenceStyles.slide)(
+                            <.div(^.className := SequenceStyles.slideInnerWrapper)(
+                              <.div(^.className := SequenceStyles.slideInnerSubWrapper)(proposalContent(proposal))
+                            )
                           )
                         )
-                      )
-                  }, if (self.state.votes.size == self.state.proposals.size) {
-                    <.div(^.className := SequenceStyles.slideWrapper)(
-                      <.article(^.className := SequenceStyles.slide)(<(self.props.wrapped.conclusion).empty)
-                    )
-                  }), if (canScrollNext) {
-                    <.button(^.className := SequenceStyles.showNextSlideButton, ^.onClick := next)()
-                  })
+                      },
+                      if (self.state.votes.size == self.state.proposals.size) {
+                        <.div(^.className := SequenceStyles.slideWrapper)(
+                          <.article(^.className := SequenceStyles.slide)(<(self.props.wrapped.conclusion).empty)
+                        )
+                      }
+                    ),
+                    if (canScrollNext) {
+                      <.button(^.className := SequenceStyles.showNextSlideButton, ^.onClick := next)()
+                    }
+                  )
                 )
               )
             )
