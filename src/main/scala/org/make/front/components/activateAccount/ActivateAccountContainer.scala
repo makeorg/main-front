@@ -44,16 +44,15 @@ object ActivateAccountContainer {
       def handleValidateAccount(child: Self[ActivateAccountProps, Unit]): Unit = {
         UserService.validateAccount(userId, verificationToken, operationId).onComplete {
           case Success(_) => {
-            dispatch(NotifySuccess(message = I18n.t("content.account.validationSuccess")))
+            dispatch(NotifySuccess(message = I18n.t("activate-account.notifications.success")))
             child.props.history.push("/")
           }
           case Failure(e) => {
-            dispatch(NotifyError(message = I18n.t("content.account.validationError")))
+            dispatch(NotifyError(message = I18n.t("activate-account.notifications.failure")))
             child.props.history.push("/")
           }
         }
       }
-
       ActivateAccount.ActivateAccountProps(handleValidateAccount)
     }
 }

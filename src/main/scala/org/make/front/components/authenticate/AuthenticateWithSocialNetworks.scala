@@ -5,16 +5,21 @@ import io.github.shogowada.scalajs.reactjs.VirtualDOM._
 import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import org.make.client.UnauthorizedHttpException
 import org.make.front.components.Components._
-import org.make.front.facades.{FacebookPixel, I18n}
-import org.make.front.facades.ReactFacebookLogin.{ReactFacebookLoginVirtualDOMAttributes, ReactFacebookLoginVirtualDOMElements}
-import org.make.front.facades.ReactGoogleLogin.{ReactGoogleLoginVirtualDOMAttributes, ReactGoogleLoginVirtualDOMElements}
+import org.make.front.facades.I18n
+import org.make.front.facades.ReactFacebookLogin.{
+  ReactFacebookLoginVirtualDOMAttributes,
+  ReactFacebookLoginVirtualDOMElements
+}
+import org.make.front.facades.ReactGoogleLogin.{
+  ReactGoogleLoginVirtualDOMAttributes,
+  ReactGoogleLoginVirtualDOMElements
+}
 import org.make.front.styles._
 import org.make.front.styles.base.{RowRulesStyles, TextStyles}
 import org.make.front.styles.ui.CTAStyles
 import org.make.front.styles.utils._
 import org.make.front.styles.vendors.FontAwesomeStyles
 import org.scalajs.dom.experimental.Response
-import scala.scalajs.js.JSConverters._
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
@@ -46,8 +51,8 @@ object AuthenticateWithSocialNetworks {
           result.onComplete {
             case Success(_) => self.setState(AuthenticateWithSocialNetworksState())
             case Failure(UnauthorizedHttpException) =>
-              self.setState(state => state.copy(errorMessages = Seq("form.login.errorAuthenticationFailed")))
-            case Failure(_) => self.setState(state => state.copy(errorMessages = Seq("form.login.errorSignInFailed")))
+              self.setState(state => state.copy(errorMessages = Seq("authenticate.no-account-found")))
+            case Failure(_) => self.setState(state => state.copy(errorMessages = Seq("authenticate.failure")))
           }
         }
 
@@ -62,7 +67,7 @@ object AuthenticateWithSocialNetworks {
         }
 
         val googleCallbackFailure: (Response) => Unit = { _ =>
-          self.setState(self.state.copy(errorMessages = Seq(I18n.t("form.login.errorAuthenticationFailed"))))
+          self.setState(self.state.copy(errorMessages = Seq(I18n.t("authenticate.no-account-found"))))
         }
 
         <.div()(
@@ -77,7 +82,7 @@ object AuthenticateWithSocialNetworks {
                 CTAStyles.basicOnButton,
                 AuthenticateWithSocialNetworksStyles.facebookConnectButton
               ),
-              ^.iconClass := s"${FontAwesomeStyles.fa.htmlClass} ${FontAwesomeStyles.facebook.htmlClass}",
+              ^.iconClass := s"${FontAwesomeStyles.facebook.htmlClass}",
               ^.textButton := " facebook"
             )()
           ),
@@ -93,7 +98,7 @@ object AuthenticateWithSocialNetworks {
                 CTAStyles.basicOnButton,
                 AuthenticateWithSocialNetworksStyles.googlePlusConnectButton
               )
-            )(<.i(^.className := Seq(FontAwesomeStyles.fa, FontAwesomeStyles.googlePlus))(), " google+")
+            )(<.i(^.className := FontAwesomeStyles.googlePlus)(), " google+")
           ),
           if (self.props.wrapped.note != "") {
             <.div(^.className := AuthenticateWithSocialNetworksStyles.noteWrapper)(

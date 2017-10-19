@@ -31,6 +31,5 @@ object ProposalWithThemeContainer {
         themeName = themeName.orNull,
         themeSlug = themeSlug.orNull
       )
-
     }
 }

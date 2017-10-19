@@ -76,7 +76,7 @@ object PoliticalActionsList {
             <.h2(^.className := TextStyles.bigTitle)(
               unescape(
                 I18n.t(
-                  "content.theme.matrix.introOfActions",
+                  "political-actions.intro",
                   Replacements(("actions", self.props.wrapped.politicalActions.length.toString))
                 )
               )
@@ -108,21 +108,13 @@ object PoliticalActionsList {
               ),
               <.nav(^.className := Seq(PoliticalActionsListStyles.slideshowNav))(
                 <.button(
-                  ^.className := Seq(
-                    FontAwesomeStyles.fa,
-                    FontAwesomeStyles.angleLeft,
-                    PoliticalActionsListStyles.slideshowArrow
-                  ),
+                  ^.className := Seq(FontAwesomeStyles.angleLeft, PoliticalActionsListStyles.slideshowArrow),
                   ^.ref := ((e: HTMLElement) => { previousButton = Some(e) }),
                   ^.disabled := true,
                   ^.onClick := previous
                 )(),
                 <.button(
-                  ^.className := Seq(
-                    FontAwesomeStyles.fa,
-                    FontAwesomeStyles.angleRight,
-                    PoliticalActionsListStyles.slideshowArrow
-                  ),
+                  ^.className := Seq(FontAwesomeStyles.angleRight, PoliticalActionsListStyles.slideshowArrow),
                   ^.ref := ((e: HTMLElement) => { nextButton = Some(e) }),
                   ^.disabled := size < 2,
                   ^.onClick := next

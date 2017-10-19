@@ -9,7 +9,7 @@ import org.make.front.components.Components._
 import org.make.front.components.operation.IntroOfOperationSequence.IntroOfOperationSequenceProps
 import org.make.front.components.proposal.vote.VoteContainer.VoteContainerProps
 import org.make.front.components.sequence.ProgressBar.ProgressBarProps
-import org.make.front.facades.FacebookPixel
+import org.make.front.facades.{FacebookPixel, I18n}
 import org.make.front.facades.ReactSlick.{ReactTooltipVirtualDOMAttributes, ReactTooltipVirtualDOMElements, Slider}
 import org.make.front.facades.Unescape.unescape
 import org.make.front.helpers.ProposalAuthorInfosFormat
@@ -203,8 +203,8 @@ object Sequence {
                       ^.disabled := !self.state.votes.contains(proposal.id.value),
                       ^.onClick := nextProposal
                     )(
-                      unescape("Proposition suivante" + "&nbsp;"),
-                      <.i(^.className := Seq(FontAwesomeStyles.fa, FontAwesomeStyles.angleRight))()
+                      unescape(I18n.t("sequence.next-cta") + "&nbsp;"),
+                      <.i(^.className := FontAwesomeStyles.angleRight)()
                     )
                   )
                 )

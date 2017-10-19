@@ -6,32 +6,7 @@ import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import org.make.front.components.Components._
 import org.make.front.components.modals.FullscreenModal.FullscreenModalProps
 import org.make.front.components.theme.SubmitProposalInRelationToTheme.SubmitProposalInRelationToThemeProps
-import org.make.front.facades.{
-  home,
-  home2x,
-  themeAgricultureRuralite,
-  themeAgricultureRuralite2x,
-  themeDemocratieViePolitique,
-  themeDemocratieViePolitique2x,
-  themeEconomieEmploiTravail,
-  themeEconomieEmploiTravail2x,
-  themeEducation,
-  themeEducation2x,
-  themeEuropeMonde,
-  themeEuropeMonde2x,
-  themeLogement,
-  themeLogement2x,
-  themeNumeriqueCulture,
-  themeNumeriqueCulture2x,
-  themeSanteAlimentation,
-  themeSanteAlimentation2x,
-  themeSecuriteJustice,
-  themeSecuriteJustice2x,
-  themeTransportsDeplacement,
-  themeTransportsDeplacement2x,
-  themeVivreEnsembleSolidarite,
-  themeVivreEnsembleSolidarite2x
-}
+import org.make.front.facades._
 import org.make.front.models.{GradientColor => GradientColorModel, Theme => ThemeModel}
 import org.make.front.styles.ThemeStyles
 import org.make.front.styles.base.{ColRulesStyles, RowRulesStyles, TextStyles}
@@ -130,14 +105,16 @@ object ThemeHeader {
                     <.span(^.className := ThemeHeaderStyles.inputSubInnerWrapper)(
                       <.input(
                         ^.`type`.text,
-                        ^.value := "Il faut ",
+                        ^.value := I18n.t("theme.proposal-form-in-header.bait"),
                         ^.readOnly := true,
                         ^.ref := ((input: HTMLElement) => proposalInput = Some(input)),
                         ^.onFocus := openProposalModalFromInput
                       )()
                     ),
                     <.span(^.className := ThemeHeaderStyles.textLimitInfoWapper)(
-                      <.span(^.className := Seq(TextStyles.smallText, ThemeHeaderStyles.textLimitInfo))("8/140")
+                      <.span(^.className := Seq(TextStyles.smallText, ThemeHeaderStyles.textLimitInfo))(
+                        I18n.t("theme.proposal-form-in-header.limit-of-chars-info")
+                      )
                     )
                   )
                 ),

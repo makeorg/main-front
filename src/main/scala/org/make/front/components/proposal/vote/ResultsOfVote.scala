@@ -3,12 +3,14 @@ package org.make.front.components.proposal.vote
 import io.github.shogowada.scalajs.reactjs.React
 import io.github.shogowada.scalajs.reactjs.VirtualDOM.{<, _}
 import io.github.shogowada.scalajs.reactjs.classes.ReactClass
+import io.github.shogowada.scalajs.reactjs.elements.ReactElement
 import org.make.front.components.Components._
+import org.make.front.facades.Unescape.unescape
+import org.make.front.facades.{I18n, Replacements}
 import org.make.front.helpers.NumberFormat._
 import org.make.front.styles.ThemeStyles
 import org.make.front.styles.base.TextStyles
 import org.make.front.styles.utils._
-import org.make.front.styles.vendors.FontAwesomeStyles
 
 import scalacss.DevDefaults._
 import scalacss.internal.mutable.StyleSheet
@@ -41,61 +43,62 @@ object ResultsOfVote {
       render = { self =>
         val totalOfVotes: Int = self.state.votesAgree + self.state.votesDisagree + self.state.votesNeutral
 
-        val partOfAgreeVote: Int = formatToPercent(self.state.votesAgree, totalOfVotes)
-        val partOfDisagreeVote: Int = formatToPercent(self.state.votesDisagree, totalOfVotes)
-        val partOfNeutralVote: Int = formatToPercent(self.state.votesNeutral, totalOfVotes)
+        val partOfAgreeVotes: Int = formatToPercent(self.state.votesAgree, totalOfVotes)
+        val partOfDisagreeVotes: Int = formatToPercent(self.state.votesDisagree, totalOfVotes)
+        val partOfNeutralVotes: Int = formatToPercent(self.state.votesNeutral, totalOfVotes)
 
         object DynamicResultsOfVoteStyles extends Inline {
           import dsl._
 
           val resultsOfAgreeVote: StyleA =
-            style((&.after)(width(partOfAgreeVote.%%)))
+            style((&.after)(width(partOfAgreeVotes.%%)))
 
           val resultsOfDisagreeVote: StyleA =
-            style((&.after)(width(partOfDisagreeVote.%%)))
+            style((&.after)(width(partOfDisagreeVotes.%%)))
 
           val resultsOfNeutralVote: StyleA =
-            style((&.after)(width(partOfNeutralVote.%%)))
+            style((&.after)(width(partOfNeutralVotes.%%)))
+        }
+
+        def resultsItem(specificClasses: String, totalOfVotes: Int, partOfVotes: Int): ReactElement = {
+          <.li(^.className := ResultsOfVoteStyles.item)(
+            <.p(^.className := Seq(ResultsOfVoteStyles.results.htmlClass, specificClasses).mkString(" "))(
+              <.i()(),
+              " ",
+              <.em(^.className := TextStyles.boldText)(formatToKilo(totalOfVotes)),
+              " ",
+              unescape(
+                I18n
+                  .t("proposal.vote.partOfVotes", Replacements(("value", partOfVotes.toString)))
+              )
+            )
+          )
         }
 
         <.ul(^.className := ResultsOfVoteStyles.wrapper)(
-          <.li(^.className := ResultsOfVoteStyles.item)(
-            <.p(
-              ^.className := Seq(
-                ResultsOfVoteStyles.results,
-                ResultsOfVoteStyles.resultsOfAgreeVote,
-                DynamicResultsOfVoteStyles.resultsOfAgreeVote
-              )
-            )(
-              <.i(^.className := Seq(FontAwesomeStyles.fa, FontAwesomeStyles.thumbsUp))(),
-              " ",
-              <.em(^.className := TextStyles.boldText)(formatToKilo(self.state.votesAgree)),
-              " (" + partOfAgreeVote + "%)"
-            )
+          resultsItem(
+            Seq(
+              ResultsOfVoteStyles.resultsOfAgreeVote.htmlClass,
+              DynamicResultsOfVoteStyles.resultsOfAgreeVote.htmlClass
+            ).mkString(" "),
+            self.state.votesAgree,
+            partOfAgreeVotes
           ),
-          <.li(^.className := ResultsOfVoteStyles.item)(
-            <.p(
-              ^.className := Seq(
-                ResultsOfVoteStyles.results,
-                ResultsOfVoteStyles.resultsOfDisagreeVote,
-                DynamicResultsOfVoteStyles.resultsOfDisagreeVote
-              )
-            )(
-              <.i(^.className := Seq(FontAwesomeStyles.fa, FontAwesomeStyles.thumbsDown))(),
-              " ",
-              <.em(^.className := TextStyles.boldText)(formatToKilo(self.state.votesDisagree)),
-              " (" + partOfDisagreeVote + "%)"
-            )
+          resultsItem(
+            Seq(
+              ResultsOfVoteStyles.resultsOfDisagreeVote.htmlClass,
+              DynamicResultsOfVoteStyles.resultsOfDisagreeVote.htmlClass
+            ).mkString(" "),
+            self.state.votesDisagree,
+            partOfDisagreeVotes
           ),
-          <.li(^.className := ResultsOfVoteStyles.item)(
-            <.p(^.className := Seq(ResultsOfVoteStyles.results, DynamicResultsOfVoteStyles.resultsOfNeutralVote))(
-              <.i(
-                ^.className := Seq(FontAwesomeStyles.fa, FontAwesomeStyles.thumbsUp, ResultsOfVoteStyles.neutralIcon)
-              )(),
-              " ",
-              <.em(^.className := TextStyles.boldText)(formatToKilo(self.state.votesNeutral)),
-              " (" + partOfNeutralVote + "%)"
-            )
+          resultsItem(
+            Seq(
+              ResultsOfVoteStyles.resultsOfNeutralVote.htmlClass,
+              DynamicResultsOfVoteStyles.resultsOfNeutralVote.htmlClass
+            ).mkString(" "),
+            self.state.votesNeutral,
+            partOfNeutralVotes
           ),
           <.style()(ResultsOfVoteStyles.render[String], DynamicResultsOfVoteStyles.render[String])
         )
@@ -129,11 +132,21 @@ object ResultsOfVoteStyles extends StyleSheet.Inline {
     )
 
   val resultsOfAgreeVote: StyleA =
-    style((&.after)(backgroundColor(ThemeStyles.ThemeColor.positive)))
+    style(
+      (&.after)(backgroundColor(ThemeStyles.ThemeColor.positive)),
+      unsafeChild("i")((&.before)(content := "'\\F087'", ThemeStyles.Font.fontAwesome))
+    )
 
   val resultsOfDisagreeVote: StyleA =
-    style((&.after)(backgroundColor(ThemeStyles.ThemeColor.negative)))
+    style(
+      (&.after)(backgroundColor(ThemeStyles.ThemeColor.negative)),
+      unsafeChild("i")((&.before)(content := "'\\F088'", ThemeStyles.Font.fontAwesome))
+    )
 
-  val neutralIcon: StyleA = style((&.before)(display.block, transform := s"rotate(-90deg)"))
-
+  val resultsOfNeutralVote: StyleA = style(
+    unsafeChild("i")(
+      display.inlineBlock,
+      (&.before)(content := "'\\F087'", display.block, ThemeStyles.Font.fontAwesome, transform := s"rotate(-90deg)")
+    )
+  )
 }

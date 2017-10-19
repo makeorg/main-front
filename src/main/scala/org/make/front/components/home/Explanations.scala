@@ -4,6 +4,8 @@ import io.github.shogowada.scalajs.reactjs.React
 import io.github.shogowada.scalajs.reactjs.VirtualDOM._
 import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import org.make.front.components.Components._
+import org.make.front.facades.I18n
+import org.make.front.facades.Unescape.unescape
 import org.make.front.styles._
 import org.make.front.styles.base.{ColRulesStyles, RowRulesStyles, TextStyles}
 import org.make.front.styles.ui.CTAStyles
@@ -24,41 +26,35 @@ object Explanations {
             ^.className := Seq(ExplanationsStyles.article, ColRulesStyles.col, ColRulesStyles.colHalfBeyondMedium)
           )(
             <.h3(^.className := Seq(ExplanationsStyles.intro, TextStyles.mediumText, TextStyles.intro))(
-              "la politique ne suffit plus, faisons bouger les lignes ensemble"
+              unescape(I18n.t("home.explanations.article-1.intro"))
             ),
-            <.h2(^.className := TextStyles.mediumTitle)("Votez, proposez, agissons"),
+            <.h2(^.className := TextStyles.mediumTitle)(unescape(I18n.t("home.explanations.article-1.title"))),
             <.ul()(
               <.li(^.className := ExplanationsStyles.item)(
-                <.span(^.className := Seq(ExplanationsStyles.icon, FontAwesomeStyles.fa, FontAwesomeStyles.thumbsUp))(),
+                <.span(^.className := Seq(ExplanationsStyles.icon, FontAwesomeStyles.thumbsUp))(),
                 <.p(
                   ^.className := TextStyles.mediumText,
-                  ^.dangerouslySetInnerHTML := "<strong>Votez</strong> pour les propositions que vous défendez"
+                  ^.dangerouslySetInnerHTML := I18n.t("home.explanations.article-1.item-1")
                 )()
               ),
               <.li(^.className := ExplanationsStyles.item)(
-                <.span(
-                  ^.className := Seq(
-                    ExplanationsStyles.icon,
-                    FontAwesomeStyles.fa,
-                    FontAwesomeStyles.lightbulbTransparent
-                  )
-                )(),
+                <.span(^.className := Seq(ExplanationsStyles.icon, FontAwesomeStyles.lightbulbTransparent))(),
                 <.p(
                   ^.className := TextStyles.mediumText,
-                  ^.dangerouslySetInnerHTML := "<strong>Proposez</strong> vos idées sur des thèmes qui vous inspirent"
+                  ^.dangerouslySetInnerHTML := I18n.t("home.explanations.article-1.item-2")
                 )()
               ),
               <.li(^.className := ExplanationsStyles.item)(
-                <.span(^.className := Seq(ExplanationsStyles.icon, FontAwesomeStyles.fa, FontAwesomeStyles.group))(),
+                <.span(^.className := Seq(ExplanationsStyles.icon, FontAwesomeStyles.group))(),
                 <.p(
                   ^.className := TextStyles.mediumText,
-                  ^.dangerouslySetInnerHTML := "Et demain, <strong>initiez des actions</strong> concrètes sur le terrain"
+                  ^.dangerouslySetInnerHTML := I18n.t("home.explanations.article-1.item-3")
                 )()
               )
             ) /*,
             <.p(^.className := IntroStyles.ctaWrapper)(
-              <.a(^.href := "/", ^.className := Seq(CTAStyles.basic, CTAStyles.negative, CTAStyles.basicOnA))(
-                "En savoir +"
+              <.a(^.href := I18n.t("home.explanations.article-1.see-more-link"), ^.className := Seq(CTAStyles.basic, CTAStyles.negative, CTAStyles.basicOnA))(
+                unescape(I18n.t("home.explanations.article-1.see-more"))
               )
             )*/
           ),
@@ -71,18 +67,18 @@ object Explanations {
             )
           )(
             <.h3(^.className := Seq(ExplanationsStyles.intro, TextStyles.mediumText, TextStyles.intro))(
-              "qui sommes-nous ?"
+              unescape(I18n.t("home.explanations.article-2.intro"))
             ),
-            <.h2(^.className := TextStyles.mediumTitle)("Make.org, neutre & indépendant"),
+            <.h2(^.className := TextStyles.mediumTitle)(unescape(I18n.t("home.explanations.article-2.title"))),
             <.p(^.className := Seq(ExplanationsStyles.paragraph, TextStyles.mediumText))(
-              "Make.org est une initiative civique, Européenne et indépendante."
+              unescape(I18n.t("home.explanations.article-2.text"))
             ),
             <.p(^.className := IntroStyles.ctaWrapper)(
               <.a(
-                ^.href := "https://about.make.org/qui-sommes-nous",
+                ^.href := I18n.t("home.explanations.article-2.see-more-link"),
                 ^.target := "_blank",
                 ^.className := Seq(CTAStyles.basic, CTAStyles.negative, CTAStyles.basicOnA)
-              )("En savoir +")
+              )(unescape(I18n.t("home.explanations.article-2.see-more")))
             )
           )
         ),

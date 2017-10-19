@@ -30,6 +30,17 @@ object VFFIntro {
 
           val gradient: GradientColorModel = operation.gradient.getOrElse(GradientColorModel("#FFF", "#FFF"))
 
+          final case class PartnerModel(name: String, imageUrl: String, imageWidth: Int)
+
+          val partners: Seq[PartnerModel] = Seq(
+            PartnerModel(name = "Expedia", imageUrl = expediaLogo.toString, imageWidth = 96),
+            PartnerModel(name = "L'Oréal", imageUrl = lOrealLogo.toString, imageWidth = 89),
+            PartnerModel(name = "Axa", imageUrl = axaLogo.toString, imageWidth = 30),
+            PartnerModel(name = "Île de France", imageUrl = ileDeFranceLogo.toString, imageWidth = 98),
+            PartnerModel(name = "Elle", imageUrl = elleLogo.toString, imageWidth = 55),
+            PartnerModel(name = "Women's Forum", imageUrl = womenSForumLogo.toString, imageWidth = 118)
+          )
+
           <.div(
             ^.className := Seq(VFFIntroStyles.wrapper, VFFIntroStyles.gradientBackground(gradient.from, gradient.to))
           )(
@@ -38,12 +49,12 @@ object VFFIntro {
                 <.div(^.className := RowRulesStyles.centeredRow)(
                   <.div(^.className := ColRulesStyles.col)(
                     <.div(^.className := VFFIntroStyles.titleWrapper)(
-                      <.p(^.className := Seq(TextStyles.label))("Grande cause Make.org"),
+                      <.p(^.className := Seq(TextStyles.label))(unescape(I18n.t("operation.vff-header.label"))),
                       <.p(^.className := Seq(VFFIntroStyles.logoWrapper))(
-                        <.img(^.src := vffLogo.toString, ^.title := "Stop aux violences faites aux femmes")()
+                        <.img(^.src := vffLogo.toString, ^.title := unescape(I18n.t("operation.vff-header.title")))()
                       ),
                       <.p(^.className := Seq(VFFIntroStyles.infos, TextStyles.label))(
-                        "Consultation ouverte du 25 nov. 2017 au 8 mars 2018"
+                        unescape(I18n.t("operation.vff-header.period"))
                       )
                     ),
                     <.div(^.className := VFFIntroStyles.separatorWrapper)(
@@ -51,60 +62,25 @@ object VFFIntro {
                         <.hr(^.className := Seq(VFFIntroStyles.separatorLine, VFFIntroStyles.separatorLineToTheLeft))()
                       ),
                       <.div(^.className := VFFIntroStyles.separatorTextWrapper)(
-                        <.p(^.className := Seq(VFFIntroStyles.separator, TextStyles.smallerText))("avec")
+                        <.p(^.className := Seq(VFFIntroStyles.separator, TextStyles.smallerText))(
+                          unescape(I18n.t("operation.vff-header.partners.intro"))
+                        )
                       ),
                       <.div(^.className := VFFIntroStyles.separatorLineWrapper)(
                         <.hr(^.className := Seq(VFFIntroStyles.separatorLine, VFFIntroStyles.separatorLineToTheRight))()
                       )
                     ),
                     <.ul(^.className := VFFIntroStyles.partnersList)(
-                      <.li(^.className := VFFIntroStyles.partnerItem)(
-                        <.img(
-                          ^.src := expediaLogo.toString,
-                          ^("width") := "96",
-                          ^.title := "Expedia",
-                          ^.className := VFFIntroStyles.partnerLogo
-                        )()
-                      ),
-                      <.li(^.className := VFFIntroStyles.partnerItem)(
-                        <.img(
-                          ^.src := lOrealLogo.toString,
-                          ^("width") := "89",
-                          ^.title := "L'Oréal",
-                          ^.className := VFFIntroStyles.partnerLogo
-                        )()
-                      ),
-                      <.li(^.className := VFFIntroStyles.partnerItem)(
-                        <.img(
-                          ^.src := axaLogo.toString,
-                          ^("width") := "30",
-                          ^.title := "Axa",
-                          ^.className := VFFIntroStyles.partnerLogo
-                        )()
-                      ),
-                      <.li(^.className := VFFIntroStyles.partnerItem)(
-                        <.img(
-                          ^.src := ileDeFranceLogo.toString,
-                          ^("width") := "98",
-                          ^.title := "Île de France",
-                          ^.className := VFFIntroStyles.partnerLogo
-                        )()
-                      ),
-                      <.li(^.className := VFFIntroStyles.partnerItem)(
-                        <.img(
-                          ^.src := elleLogo.toString,
-                          ^("width") := "55",
-                          ^.title := "Elle",
-                          ^.className := VFFIntroStyles.partnerLogo
-                        )()
-                      ),
-                      <.li(^.className := VFFIntroStyles.partnerItem)(
-                        <.img(
-                          ^.src := womenSForumLogo.toString,
-                          ^("width") := "118",
-                          ^.title := "Women's Forum",
-                          ^.className := VFFIntroStyles.partnerLogo
-                        )()
+                      partners.map(
+                        partner =>
+                          <.li(^.className := VFFIntroStyles.partnerItem)(
+                            <.img(
+                              ^.src := partner.imageUrl,
+                              ^("width") := partner.imageWidth.toString,
+                              ^.title := partner.name,
+                              ^.className := VFFIntroStyles.partnerLogo
+                            )()
+                        )
                       )
                     )
                   )
@@ -118,16 +94,16 @@ object VFFIntro {
                     <.img(^.src := vffIll.toString, ^.className := VFFIntroStyles.explanationIll)()
                   ),
                   <.div(^.className := Seq(ColRulesStyles.col, ColRulesStyles.colTwoThirdsBeyondSmall))(
-                    <.p(^.className := TextStyles.label)(unescape("Pourquoi cette consultation&nbsp;?")),
+                    <.p(^.className := TextStyles.label)(unescape(I18n.t("operation.vff-header.article.title"))),
                     <.p(^.className := Seq(VFFIntroStyles.explanation, TextStyles.smallText))(
-                      unescape(
-                        "Chaque année, 216 000 femmes âgées de 18 à 75 ans sont victimes de violences physiques et/ou sexuelles de la part de leur ancien ou actuel partenaire intime (mari, concubin, pacsé, petit-ami…). Agissons&nbsp;!"
-                      )
+                      unescape(I18n.t("operation.vff-header.article.content"))
                     ),
                     <.p(^.className := VFFIntroStyles.ctaWrapper)(
-                      <.a(^.href := "/", ^.className := Seq(CTAStyles.basic, CTAStyles.basicOnA))(
-                        unescape("En savoir +")
-                      )
+                      <.a(
+                        ^.href := I18n.t("operation.vff-header.article.see-more.link"),
+                        ^.className := Seq(CTAStyles.basic, CTAStyles.basicOnA),
+                        ^.target := "_blank"
+                      )(unescape(I18n.t("operation.vff-header.article.see-more.label")))
                     )
                   )
                 )

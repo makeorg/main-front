@@ -59,16 +59,16 @@ object NavInThemes {
                     <.p(^.className := Seq(NavInThemesStyles.actionsCounter, TextStyles.smallText))(
                       unescape(
                         I18n.t(
-                          "content.theme.actionsCount",
-                          Replacements(("actions", NumberFormat.formatToKilo(theme.actionsCount)))
+                          "nav-in-themes.total-of-actions",
+                          Replacements(("total", NumberFormat.formatToKilo(theme.actionsCount)))
                         )
                       )
                     ),
                     <.p(^.className := Seq(NavInThemesStyles.propositionsCounter, TextStyles.smallText))(
                       unescape(
                         I18n.t(
-                          "content.theme.proposalsCount",
-                          Replacements(("proposals", NumberFormat.formatToKilo(theme.proposalsCount)))
+                          "nav-in-themes.total-of-proposals",
+                          Replacements(("total", NumberFormat.formatToKilo(theme.proposalsCount)))
                         )
                       )
                     )
@@ -80,7 +80,7 @@ object NavInThemes {
           <.nav(^.className := NavInThemesStyles.wrapper)(
             <.div(^.className := RowRulesStyles.centeredRow)(
               <.div(^.className := Seq(NavInThemesStyles.titleWrapper, ColRulesStyles.col))(
-                <.h2(^.className := Seq(TextStyles.mediumTitle))(unescape(I18n.t("content.footer.title")))
+                <.h2(^.className := Seq(TextStyles.mediumTitle))(unescape(I18n.t("nav-in-themes.title")))
               ),
               if (themes.nonEmpty) {
                 <.ul(^.className := Seq(NavInThemesStyles.themesList))(listTheme)

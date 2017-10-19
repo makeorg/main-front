@@ -6,6 +6,7 @@ import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import org.make.front.components.Components._
 import org.make.front.components.modals.FullscreenModal.FullscreenModalProps
 import org.make.front.components.operation.SubmitProposalInRelationToOperation.SubmitProposalInRelationToOperationProps
+import org.make.front.facades.I18n
 import org.make.front.facades.Unescape.unescape
 import org.make.front.models.{Operation => OperationModel}
 import org.make.front.styles._
@@ -56,7 +57,7 @@ object OperationHeader {
                   OperationHeaderStyles.proposalInputIntro,
                   OperationHeaderStyles.coloredProposalInputIntro(operation.color)
                 )
-              )("partagez vos propositions"),
+              )(unescape(I18n.t("operation.proposal-form-in-header.intro"))),
               <.p(
                 ^.className := Seq(
                   InputStyles.wrapper,
@@ -69,13 +70,15 @@ object OperationHeader {
                   <.span(^.className := OperationHeaderStyles.inputSubInnerWrapper)(
                     <.input(
                       ^.`type`.text,
-                      ^.value := "Il faut ",
+                      ^.value := I18n.t("operation.proposal-form-in-header.bait"),
                       ^.ref := ((input: HTMLElement) => proposalInput = Some(input)),
                       ^.onFocus := openProposalModalFromInput()
                     )()
                   ),
                   <.span(^.className := OperationHeaderStyles.textLimitInfoWapper)(
-                    <.span(^.className := Seq(TextStyles.smallText, OperationHeaderStyles.textLimitInfo))("8/140")
+                    <.span(^.className := Seq(TextStyles.smallText, OperationHeaderStyles.textLimitInfo))(
+                      I18n.t("operation.proposal-form-in-header.limit-of-chars-info")
+                    )
                   )
                 )
               ),

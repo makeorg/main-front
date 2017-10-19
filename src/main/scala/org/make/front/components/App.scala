@@ -26,8 +26,8 @@ object App {
             TagStyles.render[String],
             ModalStyles.render[String]
           ),
-          <.AboutMakeMainHeaderComponent.empty,
-          //<.MainHeaderComponent.empty,
+          //<.AboutMakeMainHeaderComponent.empty,
+          <.MainHeaderComponent.empty,
           <.NotificationsComponent.empty,
           <.ContainerComponent.empty,
           <.MainFooterComponent.empty,

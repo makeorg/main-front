@@ -71,7 +71,7 @@ object PasswordReset {
       <.div(^.className := Seq(RowRulesStyles.centeredRow))(
         <.div(^.className := ColRulesStyles.col)(
           <.h1(^.className := Seq(ResetPasswordStyles.title, TextStyles.mediumTitle))(
-            unescape(I18n.t("form.passwordReset.title"))
+            unescape(I18n.t("authenticate.reset-password.title"))
           )
         )
       ),
@@ -79,14 +79,15 @@ object PasswordReset {
         <.div(^.className := Seq(RowRulesStyles.evenNarrowerCenteredRow))(
           <.div(^.className := ColRulesStyles.col)(
             <.p(^.className := Seq(ResetPasswordStyles.message, TextStyles.smallText))(
-              unescape(I18n.t("form.passwordReset.description")),
+              unescape(I18n.t("authenticate.reset-password.info")),
               <.form(^.onSubmit := handleSubmit(self), ^.novalidate := true)(
                 <.div(^.className := ResetPasswordStyles.newPasswordInputComponentWrapper)(
                   <.NewPasswordInputComponent(
                     ^.wrapped := NewPasswordInputProps(
                       value = self.state.password,
                       required = true,
-                      placeHolder = s"${I18n.t("form.fieldLabelPassword")} ${I18n.t("form.required")}",
+                      placeHolder =
+                        s"${I18n.t("authenticate.inputs.password.placeholder")} ${I18n.t("authenticate.inputs.required")}",
                       onChange = handlePasswordChange(self)
                     )
                   )()
@@ -99,9 +100,8 @@ object PasswordReset {
                     ^.className := Seq(CTAStyles.basicOnButton, CTAStyles.basic, CTAStyles.moreDiscreet),
                     ^.`type` := "submit"
                   )(
-                    <.i(^.className := Seq(FontAwesomeStyles.fa, FontAwesomeStyles.thumbsUp))(),
-                    unescape("&nbsp;"),
-                    I18n.t("form.passwordReset.validation")
+                    <.i(^.className := Seq(FontAwesomeStyles.thumbsUp))(),
+                    unescape("&nbsp;" + I18n.t("authenticate.reset-password.send-cta"))
                   )
                 )
               )
@@ -117,7 +117,7 @@ object PasswordReset {
       <.div(^.className := Seq(RowRulesStyles.evenNarrowerCenteredRow))(
         <.div(^.className := ColRulesStyles.col)(
           <.p(^.className := Seq(ResetPasswordStyles.message, TextStyles.smallText))(
-            unescape(I18n.t("form.passwordReset.failed.title"))
+            unescape(I18n.t("authenticate.reset-password.failure.title"))
           )
         )
       )
@@ -129,7 +129,7 @@ object PasswordReset {
       <.div(^.className := Seq(RowRulesStyles.centeredRow))(
         <.div(^.className := ColRulesStyles.col)(
           <.h1(^.className := Seq(ResetPasswordStyles.title, TextStyles.mediumTitle))(
-            unescape(I18n.t("form.passwordReset.success.title"))
+            unescape(I18n.t("authenticate.reset-password.success.title"))
           )
         )
       ),
@@ -137,7 +137,7 @@ object PasswordReset {
         <.div(^.className := Seq(RowRulesStyles.evenNarrowerCenteredRow))(
           <.div(^.className := ColRulesStyles.col)(
             <.p(^.className := Seq(ResetPasswordStyles.message, TextStyles.smallText))(
-              unescape(I18n.t("form.passwordReset.success.description"))
+              unescape(I18n.t("authenticate.reset-password.success.info"))
             )
           )
         )
@@ -155,7 +155,7 @@ object PasswordReset {
     e.preventDefault()
 
     val errors: Seq[String] = PasswordConstraint
-      .validate(Some(self.state.password), Map("minMessage" -> "form.register.errorMinPassword"))
+      .validate(Some(self.state.password), Map("minMessage" -> "authenticate.inputs.password.format-error"))
       .map(_.message)
 
     if (errors.isEmpty) {
@@ -184,14 +184,14 @@ object ResetPasswordStyles extends StyleSheet.Inline {
   val contentWrapper: StyleA =
     style(
       minHeight(300.pxToEm()),
-      paddingTop((ThemeStyles.SpacingValue.larger).pxToEm()),
-      paddingBottom((ThemeStyles.SpacingValue.larger).pxToEm()),
+      paddingTop(ThemeStyles.SpacingValue.larger.pxToEm()),
+      paddingBottom(ThemeStyles.SpacingValue.larger.pxToEm()),
       backgroundColor(ThemeStyles.BackgroundColor.white),
       boxShadow := "0 1px 1px 0 rgba(0,0,0,0.50)"
     )
 
   val content: StyleA =
-    style(marginTop((ThemeStyles.SpacingValue.medium).pxToEm()))
+    style(marginTop(ThemeStyles.SpacingValue.medium.pxToEm()))
 
   val title: StyleA =
     style(textAlign.center)

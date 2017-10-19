@@ -23,7 +23,7 @@ object ShareOwnProposal {
         render = (self) => {
 
           <.div(^.className := ShareOwnProposalStyles.wrapper)(
-            <.h4(^.className := Seq(TextStyles.smallText, ShareOwnProposalStyles.intro))("Ma proposition"),
+            <.h4(^.className := Seq(TextStyles.smallText, ShareOwnProposalStyles.intro))("proposal.created-by-user"),
             <.div(^.className := ShareOwnProposalStyles.shareButtonsListWrapper)(
               <.ul(^.className := ShareOwnProposalStyles.shareButtonsList)(
                 <.li(^.className := ShareOwnProposalStyles.shareButtonItem)(

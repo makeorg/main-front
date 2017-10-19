@@ -109,7 +109,7 @@ object SearchResults {
                   <.button(^.onClick := { () =>
                     onSeeMore(1)
                   }, ^.className := Seq(CTAStyles.basic, CTAStyles.basicOnButton))(
-                    unescape(I18n.t("content.theme.matrix.seeMoreProposals"))
+                    unescape(I18n.t("search.results.see-more"))
                   )
                 )
               }
@@ -124,7 +124,7 @@ object SearchResults {
                     <.h2(
                       ^.className := Seq(TextStyles.mediumText, SearchResultsStyles.searchedExpressionIntro),
                       ^.dangerouslySetInnerHTML := I18n
-                        .t(s"content.search.title", Replacements(("results", self.state.resultsCount.toString)))
+                        .t("search.results.intro", Replacements(("total", self.state.resultsCount.toString)))
                     )(),
                     <.h1(^.className := Seq(SearchResultsStyles.searchedExpression, TextStyles.mediumTitle))(
                       unescape("«&nbsp;" + self.props.wrapped.searchValue.getOrElse("") + "&nbsp;»")

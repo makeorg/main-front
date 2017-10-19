@@ -29,7 +29,7 @@ object SubmitProposal {
       render = { self =>
         <.article()(
           <.h2(^.className := Seq(TextStyles.mediumText, TextStyles.intro, SubmitProposalStyles.intro))(
-            unescape(I18n.t("content.proposal.titleIntroNoTheme"))
+            unescape(I18n.t("submit-proposal.intro"))
           ),
           <.SubmitProposalAndLoginComponent(
             ^.wrapped :=

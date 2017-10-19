@@ -48,7 +48,7 @@ object ProposalWithTheme {
                   <.div(^.className := ProposalStyles.cell)(
                     <.footer(^.className := ProposalStyles.footer)(
                       <.p(^.className := Seq(TextStyles.smallerText, ProposalWithThemeStyles.themeInfo))(
-                        unescape(I18n.t("content.proposal.postedIn")),
+                        unescape(I18n.t("proposal.associated-with-the-theme")),
                         <.Link(
                           ^.to := s"/theme/${self.props.wrapped.themeSlug}",
                           ^.className := Seq(TextStyles.title, ProposalWithThemeStyles.themeName)

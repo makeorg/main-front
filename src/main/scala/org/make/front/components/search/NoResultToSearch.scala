@@ -41,13 +41,13 @@ object NoResultToSearch {
             <.p(^.className := NoResultToSearchStyles.sadSmiley)("😞"),
             <.h2(
               ^.className := Seq(TextStyles.mediumText, NoResultToSearchStyles.searchedExpressionIntro),
-              ^.dangerouslySetInnerHTML := I18n.t(s"content.search.matrix.noContent")
+              ^.dangerouslySetInnerHTML := I18n.t("search.no-results.intro")
             )(),
             <.h1(^.className := Seq(NoResultToSearchStyles.searchedExpression, TextStyles.mediumTitle))(
               unescape("«&nbsp;" + self.props.wrapped.searchValue.getOrElse("") + "&nbsp;»")
             ),
             <.hr(^.className := NoResultToSearchStyles.messageSeparator)(),
-            <.p(^.className := Seq(TextStyles.mediumText))(I18n.t("content.search.proposeIntro")),
+            <.p(^.className := Seq(TextStyles.mediumText))(unescape(I18n.t("search.no-results.prompting-to-propose"))),
             <.button(
               ^.className := Seq(
                 NoResultToSearchStyles.openProposalModalButton,
@@ -56,8 +56,8 @@ object NoResultToSearch {
               ),
               ^.onClick := openProposalModal
             )(
-              <.i(^.className := Seq(FontAwesomeStyles.pencil, FontAwesomeStyles.fa))(),
-              unescape("&nbsp;" + I18n.t("content.search.propose"))
+              <.i(^.className := Seq(FontAwesomeStyles.pencil))(),
+              unescape("&nbsp;" + I18n.t("search.no-results.propose-cta"))
             ),
             <.FullscreenModalComponent(
               ^.wrapped := FullscreenModalProps(

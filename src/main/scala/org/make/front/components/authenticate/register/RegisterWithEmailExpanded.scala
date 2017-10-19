@@ -24,10 +24,9 @@ import scalacss.DevDefaults.StyleA
 object RegisterWithEmailExpanded {
 
   val reactClass: ReactClass =
-    React.createClass[RegisterProps, RegisterState](
-      displayName = "RegisterWithEmailExpanded",
-      componentDidMount = {self =>
-      FacebookPixel.fbq("trackCustom", "display-signup-form")
+    React.createClass[RegisterProps, RegisterState](displayName = "RegisterWithEmailExpanded", componentDidMount = {
+      self =>
+        FacebookPixel.fbq("trackCustom", "display-signup-form")
     }, getInitialState = { _ =>
       RegisterState(Map(), Map())
     }, render = {
@@ -45,20 +44,27 @@ object RegisterWithEmailExpanded {
               "email",
               NotBlankConstraint.&(EmailConstraint),
               Map(
-                "invalid" -> I18n.t("form.register.errorInvalidEmail"),
-                "notBlank" -> I18n.t("form.register.errorBlankEmail")
+                "invalid" -> I18n.t("authenticate.inputs.email.format-error"),
+                "notBlank" -> I18n.t("authenticate.inputs.email.empty-field-error")
               )
             ),
             (
               "password",
               NotBlankConstraint.&(PasswordConstraint),
               Map(
-                "notBlank" -> I18n.t("form.register.errorBlankPassword"),
+                "notBlank" -> I18n.t("authenticate.inputs.password.empty-field-error"),
                 "minMessage" -> I18n
-                  .t("form.register.errorMinPassword", Replacements("min" -> PasswordConstraint.min.toString))
+                  .t(
+                    "authenticate.inputs.password.format-error",
+                    Replacements("min" -> PasswordConstraint.min.toString)
+                  )
               )
             ),
-            ("firstName", NotBlankConstraint, Map("notBlank" -> I18n.t("form.register.errorBlankFirstName")))
+            (
+              "firstName",
+              NotBlankConstraint,
+              Map("notBlank" -> I18n.t("authenticate.inputs.first-name.empty-field-error"))
+            )
           )
         }
 
@@ -92,10 +98,9 @@ object RegisterWithEmailExpanded {
                     self.setState(
                       state =>
                         state
-                          .copy(errors = state.errors + ("global" -> I18n.t("form.register.errorRegistrationFailed")))
+                          .copy(errors = state.errors + ("global" -> I18n.t("authenticate.failure")))
                     )
                 }
-
             }
           }
         }
@@ -111,7 +116,7 @@ object RegisterWithEmailExpanded {
             <.input(
               ^.`type`.email,
               ^.required := true,
-              ^.placeholder := s"${I18n.t("form.fieldLabelEmail")} ${I18n.t("form.required")}",
+              ^.placeholder := s"${I18n.t("authenticate.inputs.email.placeholder")} ${I18n.t("authenticate.inputs.required")}",
               ^.onChange := updateField("email"),
               ^.value := self.state.fields.getOrElse("email", "")
             )()
@@ -124,7 +129,8 @@ object RegisterWithEmailExpanded {
               ^.wrapped := NewPasswordInputProps(
                 value = self.state.fields.getOrElse("password", ""),
                 required = true,
-                placeHolder = s"${I18n.t("form.fieldLabelPassword")} ${I18n.t("form.required")}",
+                placeHolder =
+                  s"${I18n.t("authenticate.inputs.password.placeholder")} ${I18n.t("authenticate.inputs.required")}",
                 onChange = updateField("password")
               )
             )()
@@ -142,7 +148,7 @@ object RegisterWithEmailExpanded {
             <.input(
               ^.`type`.text,
               ^.required := true,
-              ^.placeholder := s"${I18n.t("form.fieldLabelFirstName")} ${I18n.t("form.required")}",
+              ^.placeholder := s"${I18n.t("authenticate.inputs.first-name.placeholder")} ${I18n.t("authenticate.inputs.required")}",
               ^.onChange := updateField("firstName"),
               ^.value := self.state.fields.getOrElse("firstName", "")
             )()
@@ -163,7 +169,7 @@ object RegisterWithEmailExpanded {
               ^.required := false,
               ^.min := 13,
               ^.max := 128,
-              ^.placeholder := s"${I18n.t("form.fieldLabelAge")}",
+              ^.placeholder := s"${I18n.t("authenticate.inputs.age.placeholder")}",
               ^.onChange := updateField("age"),
               ^.value := self.state.fields.getOrElse("age", "")
             )()
@@ -181,7 +187,7 @@ object RegisterWithEmailExpanded {
             <.input(
               ^.`type`.text,
               ^.required := false,
-              ^.placeholder := s"${I18n.t("form.fieldPostalCode")}",
+              ^.placeholder := s"${I18n.t("authenticate.inputs.postal-code.placeholder")}",
               ^.onChange := updateField("postalCode"),
               ^.value := self.state.fields.getOrElse("postalCode", "")
             )()
@@ -199,7 +205,7 @@ object RegisterWithEmailExpanded {
             <.input(
               ^.`type`.text,
               ^.required := false,
-              ^.placeholder := s"${I18n.t("form.fieldProfession")}",
+              ^.placeholder := s"${I18n.t("authenticate.inputs.job.placeholder")}",
               ^.onChange := updateField("profession"),
               ^.value := self.state.fields.getOrElse("profession", "")
             )()
@@ -217,12 +223,11 @@ object RegisterWithEmailExpanded {
           },
           <.div(^.className := RegisterWithEmailExpandedStyles.submitButtonWrapper)(
             <.button(^.className := Seq(CTAStyles.basicOnButton, CTAStyles.basic), ^.`type` := "submit")(
-              I18n.t("form.register.subscribe")
+              I18n.t("authenticate.register.send-cta")
             )
           ),
           <.style()(RegisterWithEmailExpandedStyles.render[String])
         )
-
     })
 }
 

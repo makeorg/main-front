@@ -8,8 +8,8 @@ import org.make.front.components.Components._
 import org.make.front.components.modals.FullscreenModal.FullscreenModalProps
 import org.make.front.components.operation.SubmitProposalInRelationToOperation.SubmitProposalInRelationToOperationProps
 import org.make.front.components.sequence.SequenceContainer.SequenceContainerProps
-import org.make.front.facades.{FacebookPixel, I18n}
 import org.make.front.facades.Unescape.unescape
+import org.make.front.facades.{FacebookPixel, I18n, Replacements}
 import org.make.front.models.{
   GradientColor => GradientColorModel,
   Operation     => OperationModel,
@@ -20,6 +20,7 @@ import org.make.front.styles.base.{ColRulesStyles, RWDHideRulesStyles, RowRulesS
 import org.make.front.styles.ui.CTAStyles
 import org.make.front.styles.utils._
 import org.make.front.styles.vendors.FontAwesomeStyles
+
 import scala.scalajs.js.JSConverters._
 import scalacss.DevDefaults.{StyleA, _}
 import scalacss.internal.mutable.StyleSheet
@@ -74,8 +75,7 @@ object OperationSequence {
                         <.i(
                           ^.className := Seq(
                             OperationSequenceStyles.backLinkArrow,
-                            FontAwesomeStyles.angleLeft,
-                            FontAwesomeStyles.fa
+                            FontAwesomeStyles.angleLeft
                           )
                         )(),
                         <.span(
@@ -84,7 +84,7 @@ object OperationSequence {
                             TextStyles.title,
                             RWDHideRulesStyles.showBlockBeyondMedium
                           ),
-                          ^.dangerouslySetInnerHTML := "Accéder à<br>l'opération"
+                          ^.dangerouslySetInnerHTML := I18n.t("operation.sequence.header.back-cta")
                         )()
                       )*/
                     ),
@@ -98,7 +98,15 @@ object OperationSequence {
                           TextStyles.smallText,
                           TextStyles.boldText
                         )
-                      )(self.props.wrapped.sequence.proposalsSlugs.size + " propositions")
+                      )(
+                        unescape(
+                          I18n
+                            .t(
+                              "operation.sequence.header.total-of-proposals",
+                              Replacements(("total", self.props.wrapped.sequence.proposalsSlugs.size.toString))
+                            )
+                        )
+                      )
                     ),
                     <.div(^.className := OperationSequenceStyles.openProposalModalButtonWrapper)(
                       <.button(
@@ -109,9 +117,9 @@ object OperationSequence {
                         ),
                         ^.onClick := openProposalModal
                       )(
-                        <.i(^.className := Seq(FontAwesomeStyles.pencil, FontAwesomeStyles.fa))(),
+                        <.i(^.className := Seq(FontAwesomeStyles.pencil))(),
                         <.span(^.className := RWDHideRulesStyles.showInlineBlockBeyondMedium)(
-                          unescape("&nbsp;" + I18n.t("content.search.propose"))
+                          unescape("&nbsp;" + I18n.t("operation.sequence.header.propose-cta"))
                         )
                       ),
                       <.FullscreenModalComponent(

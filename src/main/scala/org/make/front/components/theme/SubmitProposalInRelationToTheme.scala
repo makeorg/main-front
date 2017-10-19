@@ -10,7 +10,7 @@ import org.make.front.facades.I18n
 import org.make.front.facades.Unescape.unescape
 import org.make.front.models.{GradientColor => GradientColorModel, Theme => ThemeModel}
 import org.make.front.styles.ThemeStyles
-import org.make.front.styles.base.{TextStyles}
+import org.make.front.styles.base.TextStyles
 import org.make.front.styles.utils._
 
 import scalacss.DevDefaults._
@@ -53,7 +53,7 @@ object SubmitProposalInRelationToTheme {
                     TextStyles.intro,
                     SubmitProposalInRelationToThemeStyles.intro
                   )
-                )(unescape(I18n.t("content.proposal.titleIntro"))),
+                )(unescape(I18n.t("theme.submit-proposal.intro"))),
                 <.br()(),
                 <.strong(
                   ^.className := Seq(

@@ -7,7 +7,7 @@ import io.github.shogowada.scalajs.reactjs.events.SyntheticEvent
 import org.make.front.components.Components._
 import org.make.front.components.proposal.vote.QualificateVote.QualificateVoteProps
 import org.make.front.components.proposal.vote.ResultsOfVote.ResultsOfVoteProps
-import org.make.front.facades.{FacebookPixel, I18n}
+import org.make.front.facades.{FacebookPixel, I18n, Replacements}
 import org.make.front.facades.Unescape.unescape
 import org.make.front.helpers.NumberFormat._
 import org.make.front.models.{ProposalId, Qualification, Vote => VoteModel}
@@ -16,8 +16,8 @@ import org.make.front.styles.base.TextStyles
 import org.make.front.styles.utils._
 import org.make.front.styles.vendors.FontAwesomeStyles
 import org.make.services.proposal.ProposalResponses.{QualificationResponse, VoteResponse}
-import scala.scalajs.js.JSConverters._
 
+import scala.scalajs.js.JSConverters._
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 import scala.util.{Failure, Success}
@@ -177,7 +177,7 @@ object VoteButton {
           <.button(^.className := buttonClasses, ^.onClick := voteOrUnvote())(
             <.span(^.className := VoteButtonStyles.label)(
               <.span(^.className := TextStyles.smallerText)(
-                unescape(I18n.t(s"content.proposal.${self.props.wrapped.vote.key}"))
+                unescape(I18n.t(s"proposal.vote.${self.props.wrapped.vote.key}.label"))
               )
             )
           ),
@@ -189,15 +189,15 @@ object VoteButton {
             Seq(
               <.p(^.className := totalOfVotesClasses)(formatToKilo(currentVotes)),
               <.p(^.className := Seq(VoteButtonStyles.partOfVotes))(
-                "(" +
-                  formatToPercent(currentVotes, totalOfVotes) + "%)"
+                unescape(
+                  I18n.t(
+                    "proposal.vote.partOfVotes",
+                    Replacements(("value", formatToPercent(currentVotes, totalOfVotes).toString))
+                  )
+                )
               ),
               <.button(
-                ^.className := Seq(
-                  VoteButtonStyles.resultsOfVoteAccessButton,
-                  FontAwesomeStyles.fa,
-                  FontAwesomeStyles.barChart
-                ),
+                ^.className := Seq(VoteButtonStyles.resultsOfVoteAccessButton, FontAwesomeStyles.barChart),
                 ^.onClick := toggleResultsOfVote()
               )()
             )

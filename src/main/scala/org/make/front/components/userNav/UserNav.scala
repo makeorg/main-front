@@ -58,7 +58,7 @@ object ConnectedUserNavElement {
           <.span(^.className := UserNavStyles.avatarWrapper)(if (avatarUrl.nonEmpty) {
             <.img(^.src := avatarUrl, ^.className := UserNavStyles.avatar, ^("data-pin-no-hover") := "true")()
           } else {
-            <.i(^.className := Seq(UserNavStyles.avatarPlaceholder, FontAwesomeStyles.fa, FontAwesomeStyles.user))()
+            <.i(^.className := Seq(UserNavStyles.avatarPlaceholder, FontAwesomeStyles.user))()
           }),
           <.span(
             ^.className := Seq(
@@ -87,10 +87,10 @@ object UnconnectedUserNavElement {
     <.ul(^.className := UserNavStyles.menu)(
       <.li(^.className := UserNavStyles.menuItem)(
         <.button(^.onClick := openAuthenticateModal, ^.className := Seq(UserNavStyles.menuItemLink))(
-          <.i(^.className := Seq(UserNavStyles.menuItemIcon, FontAwesomeStyles.fa, FontAwesomeStyles.user))(),
+          <.i(^.className := Seq(UserNavStyles.menuItemIcon, FontAwesomeStyles.user))(),
           <.span(
             ^.className := Seq(RWDHideRulesStyles.showInlineBlockBeyondMedium, TextStyles.title, TextStyles.smallText)
-          )(I18n.t("content.header.connect"), unescape("&nbsp;/&nbsp;"), I18n.t("content.header.createAccount"))
+          )(I18n.t("user-nav.login"), unescape("&nbsp;/&nbsp;"), I18n.t("user-nav.register"))
         ),
         <.ModalComponent(
           ^.wrapped := ModalProps(

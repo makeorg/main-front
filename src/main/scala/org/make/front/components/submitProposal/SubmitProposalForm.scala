@@ -76,7 +76,7 @@ object SubmitProposalForm {
                   errorMessage = Some(
                     unescape(
                       I18n.t(
-                        "form.proposal.errorProposalTooLong",
+                        "submit-proposal.form.errors.limit-of-chars-exceeded",
                         Replacements("max" -> self.props.wrapped.proposalContentMaxLength.toString)
                       )
                     )
@@ -89,7 +89,7 @@ object SubmitProposalForm {
                   errorMessage = Some(
                     unescape(
                       I18n.t(
-                        "form.proposal.errorProposalTooShort",
+                        "submit-proposal.form.errors.not-enough-chars",
                         Replacements("min" -> self.props.wrapped.proposalContentMinLength.toString)
                       )
                     )
@@ -109,7 +109,7 @@ object SubmitProposalForm {
               <.span(^.className := SubmitProposalFormStyles.textLimitReachedAlert)(
                 <.span(
                   ^.className := TextStyles.smallerText,
-                  ^.dangerouslySetInnerHTML := "Oups&nbsp;! Vous avez dépassé la limite de 140 caractères 😅 Essayez d’être plus concis.e.&nbsp;🙏"
+                  ^.dangerouslySetInnerHTML := I18n.t("submit-proposal.form.limit-of-chars-reached-alert")
                 )()
               )
             },
@@ -126,7 +126,7 @@ object SubmitProposalForm {
                   <.TextareaAutosize(
                     ^.className := SubmitProposalFormStyles.textarea,
                     ^.value := self.state.proposalContent,
-                    ^.placeholder := "Il faut une proposition réaliste et respectueuse de tous",
+                    ^.placeholder := I18n.t("submit-proposal.form.proposal-input-placeholder"),
                     ^.onFocus := handleProposalInputFocused,
                     ^.onChange := handleProposalInputValueChanged
                   )()
@@ -145,16 +145,18 @@ object SubmitProposalForm {
             <.p(^.className := InputStyles.errorMessage)(unescape(self.state.errorMessage.getOrElse("")))
           },
           <.div(^.className := SubmitProposalFormStyles.note)(
-            <.p(^.className := TextStyles.mediumText)(unescape(I18n.t("content.proposal.help"))),
-            <.p(^.className := TextStyles.smallText, ^.dangerouslySetInnerHTML := I18n.t("content.proposal.subHelp"))()
+            <.p(^.className := TextStyles.mediumText)(unescape(I18n.t("submit-proposal.form.info"))),
+            <.p(
+              ^.className := TextStyles.smallText,
+              ^.dangerouslySetInnerHTML := I18n.t("submit-proposal.form.moderation-charter")
+            )()
           ),
           <.button(
             ^.className := Seq(SubmitProposalFormStyles.submitButton, CTAStyles.basic, CTAStyles.basicOnButton),
             ^.`type`.submit
           )(
-            <.i(^.className := Seq(FontAwesomeStyles.fa, FontAwesomeStyles.pencil))(),
-            unescape("&nbsp;"),
-            unescape(I18n.t("form.proposal.submit"))
+            <.i(^.className := FontAwesomeStyles.pencil)(),
+            unescape("&nbsp;" + I18n.t("submit-proposal.form.validate-cta"))
           ),
           <.style()(SubmitProposalFormStyles.render[String])
         )

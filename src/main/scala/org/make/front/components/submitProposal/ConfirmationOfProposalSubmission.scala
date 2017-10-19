@@ -5,6 +5,7 @@ import io.github.shogowada.scalajs.reactjs.VirtualDOM._
 import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import org.make.front.components.Components._
 import org.make.front.facades.Translate.{TranslateVirtualDOMAttributes, TranslateVirtualDOMElements}
+import org.make.front.facades.Unescape.unescape
 import org.make.front.facades.{FacebookPixel, I18n, Replacements}
 import org.make.front.models.{Theme => ThemeModel}
 import org.make.front.styles.ThemeStyles
@@ -39,39 +40,36 @@ object ConfirmationOfProposalSubmission {
 
           <.article(^.className := ConfirmationOfProposalSubmissionStyles.wrapper)(
             <.h1(^.className := Seq(TextStyles.bigTitle, ConfirmationOfProposalSubmissionStyles.title))(
-              <.i(^.className := Seq(FontAwesomeStyles.fa, FontAwesomeStyles.handPeaceO))(),
-              " ",
-              <.span(^.dangerouslySetInnerHTML := I18n.t("content.proposal.confirmationThanks"))()
+              <.i(^.className := FontAwesomeStyles.handPeaceO)(),
+              unescape("&nbsp;"),
+              <.span(^.dangerouslySetInnerHTML := I18n.t("submit-proposal.confirmation.title"))()
             ),
             <.p(
               ^.className := Seq(TextStyles.mediumText, ConfirmationOfProposalSubmissionStyles.message),
-              ^.dangerouslySetInnerHTML := I18n.t("content.proposal.confirmationContent")
+              ^.dangerouslySetInnerHTML := I18n.t("submit-proposal.confirmation.info")
             )(),
             <.button(
               ^.className := Seq(ConfirmationOfProposalSubmissionStyles.cta, CTAStyles.basic, CTAStyles.basicOnButton),
               ^.onClick := (() => {
                 self.props.wrapped.onBack()
               })
-            )(
-              <.i(^.className := Seq(FontAwesomeStyles.fa, FontAwesomeStyles.handOLeft))(),
-              " ",
-              self.props.wrapped.maybeTheme.map { theme =>
+            )(<.i(^.className := FontAwesomeStyles.handOLeft)(), unescape("&nbsp;"), self.props.wrapped.maybeTheme.map {
+              theme =>
                 <.span(
                   ^.dangerouslySetInnerHTML := I18n
-                    .t("content.proposal.confirmationButtonBackTheme", Replacements(("theme", theme.title)))
+                    .t("submit-proposal.confirmation.back-to-theme-cta", Replacements(("theme", theme.title)))
                 )()
-              }.getOrElse {
-                <.span(^.dangerouslySetInnerHTML := I18n.t("content.proposal.confirmationButtonBack"))()
-              }
-            ),
+            }.getOrElse {
+              <.span(^.dangerouslySetInnerHTML := I18n.t("submit-proposal.confirmation.back-cta"))()
+            }),
             <.br()(),
             <.button(
               ^.className := Seq(ConfirmationOfProposalSubmissionStyles.cta, CTAStyles.basic, CTAStyles.basicOnButton),
               ^.onClick := handleClickOnButton
             )(
-              <.i(^.className := Seq(FontAwesomeStyles.fa, FontAwesomeStyles.lightbulbTransparent))(),
-              " ",
-              <.Translate(^.value := "content.proposal.confirmationButtonAnotherProposal", ^.dangerousHtml := true)()
+              <.i(^.className := FontAwesomeStyles.lightbulbTransparent)(),
+              unescape("&nbsp;"),
+              <.Translate(^.value := "submit-proposal.confirmation.new-proposal-cta", ^.dangerousHtml := true)()
             ),
             <.style()(ConfirmationOfProposalSubmissionStyles.render[String])
           )

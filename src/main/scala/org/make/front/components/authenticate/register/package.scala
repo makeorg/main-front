@@ -24,25 +24,28 @@ package object register {
   def getErrorsMessagesFromApiErrors(errors: Seq[ValidationError]): Seq[(String, String)] = {
     errors.map {
       case ValidationError("email", Some(message)) if message.contains("already exist") =>
-        "email" -> I18n.t("form.register.errorAlreadyExist")
+        "email" -> I18n.t("authenticate.register.errors.already-exists")
       case ValidationError("email", Some(message)) if message.contains("required") =>
-        "email" -> I18n.t("form.register.errorBlankEmail")
+        "email" -> I18n.t("authenticate.inputs.email.empty-field-error")
       case ValidationError("email", _) =>
-        "email" -> I18n.t("form.register.errorInvalidEmail")
+        "email" -> I18n.t("authenticate.inputs.email.format-error")
       case ValidationError("password", Some(message)) if message.contains("required") =>
-        "password" -> I18n.t("form.register.errorBlankPassword")
+        "password" -> I18n.t("authenticate.inputs.password.empty-field-error")
       case ValidationError("password", _) =>
-        "password" -> I18n.t("form.register.errorMinPassword", Replacements("min" -> PasswordConstraint.min.toString))
+        "password" -> I18n.t(
+          "authenticate.inputs.password.format-error",
+          Replacements("min" -> PasswordConstraint.min.toString)
+        )
       case ValidationError("firstName", Some(message)) if message.contains("required") =>
-        "firstName" -> I18n.t("form.register.errorBlankFirstName")
+        "firstName" -> I18n.t("authenticate.inputs.first-name.empty-field-error")
       case ValidationError("age", _) =>
-        "age" -> I18n.t("form.register.errorChoiceAge")
+        "age" -> I18n.t("authenticate.inputs.age.format-error")
       case ValidationError("postalCode", _) =>
-        "postalCode" -> I18n.t("form.register.errorMaxPostalCode")
+        "postalCode" -> I18n.t("authenticate.inputs.postal-code.format-error")
       case ValidationError("profession", _) =>
-        "profession" -> I18n.t("form.register.errorProfession")
+        "profession" -> I18n.t("authenticate.inputs.job.format-error")
       case ValidationError(_, _) =>
-        "global" -> I18n.t("form.register.errorRegistrationFailed")
+        "global" -> I18n.t("authenticate.failure")
     }
   }
 }

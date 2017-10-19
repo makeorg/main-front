@@ -27,13 +27,12 @@ object SubscribeToNewsletterFormContainer {
         val future = UserService.subscribeToNewsletter(email)
         future.onComplete {
           case Success(_) =>
-            dispatch(NotifyInfo(message = I18n.t("form.subscribeToNewsletter.notification.message")))
+            dispatch(NotifyInfo(message = I18n.t("subscribe-to-newsletter.notifications.success")))
             props.wrapped.onSubscribeToNewsletterSuccess()
           case Failure(_) =>
         }
         future
       }
-
       SubscribeToNewsletterForm.SubscribeToNewsletterFormProps(handleSubmit = handleSubmit)
     }
 }

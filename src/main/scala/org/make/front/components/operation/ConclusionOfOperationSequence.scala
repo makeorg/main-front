@@ -5,7 +5,7 @@ import io.github.shogowada.scalajs.reactjs.VirtualDOM.{<, _}
 import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import org.make.front.components.Components._
 import org.make.front.components.subscribeToNewsletter.SubscribeToNewsletterFormContainer.SubscribeToNewsletterFormContainerProps
-import org.make.front.facades.FacebookPixel
+import org.make.front.facades.{FacebookPixel, I18n}
 import org.make.front.facades.Unescape.unescape
 import org.make.front.styles.ThemeStyles
 import org.make.front.styles.base.{ColRulesStyles, RowRulesStyles, TextStyles}
@@ -43,18 +43,14 @@ object ConclusionOfOperationSequence {
                       TextStyles.bigText,
                       TextStyles.boldText
                     )
-                  )(unescape("Merci pour votre contribution&nbsp;!"))
+                  )(unescape(I18n.t("operation.sequence.conclusion.title")))
                 ),
                 <.div(^.className := ConclusionOfOperationSequenceStyles.messageWrapper)(
                   <.p(^.className := Seq(ConclusionOfOperationSequenceStyles.message, TextStyles.smallText))(
                     if (self.props.wrapped.isConnected || self.state.subscriptionToNewsletterHasSucceed) {
-                      unescape(
-                        "Nous vous tiendrons informé.e de l’avancée et des résultats de la consultation par&nbsp;mail."
-                      )
+                      unescape(I18n.t("operation.sequence.conclusion.info"))
                     } else {
-                      unescape(
-                        "Nous vous invitons à saisir votre adresse e-mail pour être informé.e de l’avancée et des résultats de la&nbsp;consultation."
-                      )
+                      unescape(I18n.t("operation.sequence.conclusion.prompting-to-subscribe-to-newsletter"))
                     }
                   )
                 )

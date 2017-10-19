@@ -26,7 +26,7 @@ object RecoverPasswordContainer {
         val future = UserService.resetPasswordRequest(email)
         future.onComplete {
           case Success(_) =>
-            dispatch(NotifyInfo(message = I18n.t("form.recoverPassword.notification.message")))
+            dispatch(NotifyInfo(message = I18n.t("authenticate.recover-password.notifications.success")))
             props.wrapped.onRecoverPasswordSuccess()
           case Failure(_) =>
         }
