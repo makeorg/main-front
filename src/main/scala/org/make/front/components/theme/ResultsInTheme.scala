@@ -124,7 +124,7 @@ object ResultsInTheme {
                     )
                   )(<.ProposalWithTagsComponent(^.wrapped := ProposalWithTagsProps(proposal = proposal))())
               )
-            }),
+            } else { <.span.empty }),
             if (self.state.hasMore && !self.state.hasRequestedMore) {
               <.div(^.className := Seq(ResultsInThemeStyles.seeMoreButtonWrapper, ColRulesStyles.col))(
                 <.button(

@@ -43,7 +43,8 @@ object ProposalWithTheme {
                   <.VoteContainerComponent(^.wrapped := VoteContainerProps(proposal = self.props.wrapped.proposal))()
                 )
               ),
-              if (self.props.wrapped.themeName.nonEmpty && self.props.wrapped.themeSlug.nonEmpty) {
+              if (Option(self.props.wrapped.themeName).exists(_.nonEmpty) && Option(self.props.wrapped.themeSlug)
+                    .exists(_.nonEmpty)) {
                 <.div(^.className := ProposalStyles.row)(
                   <.div(^.className := ProposalStyles.cell)(
                     <.footer(^.className := ProposalStyles.footer)(

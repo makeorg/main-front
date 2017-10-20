@@ -103,7 +103,7 @@ object SearchResults {
                       )()
                   )
                 )
-              }),
+              } else { <.span.empty }),
               if (self.state.hasMore && !self.state.hasRequestedMore) {
                 <.div(^.className := Seq(SearchResultsStyles.seeMoreButtonWrapper, ColRulesStyles.col))(
                   <.button(^.onClick := { () =>
