@@ -228,7 +228,7 @@ object Sequence {
                         var i: Int = 0
                         proposal: ProposalModel =>
                           i = i + 1
-                          Seq(if (i == (self.state.displayedProposals.size / 2) + 2) {
+                          Seq(if (i == (self.state.displayedProposals.size / 2) + 1) {
                             <.div(^.className := SequenceStyles.slideWrapper)(
                               <.article(^.className := SequenceStyles.slide)(
                                 <.div(^.className := SequenceStyles.slideInnerWrapper)(

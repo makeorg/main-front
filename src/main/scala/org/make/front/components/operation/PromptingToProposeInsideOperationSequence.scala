@@ -44,44 +44,39 @@ object PromptingToProposeInsideOperationSequence {
           }
 
           <.div(^.className := Seq(RowRulesStyles.row, PromptingToProposeInsideOperationSequenceStyles.wrapper))(
-            <.div(^.className := ColRulesStyles.col)(
+            <.div(^.className := Seq(ColRulesStyles.col, PromptingToProposeInsideOperationSequenceStyles.titleWrapper))(
               <.p(^.className := Seq(TextStyles.bigText, TextStyles.boldText))(
                 unescape(I18n.t("operation.sequence.prompting-to-propose.intro"))
-              ),
-              <.div(
-                ^.className := Seq(
-                  PromptingToProposeInsideOperationSequenceStyles.ctaWrapper,
-                  PromptingToProposeInsideOperationSequenceStyles.proposeCtaWrapper
+              )
+            ),
+            <.div(^.className := Seq(PromptingToProposeInsideOperationSequenceStyles.ctaWrapper))(
+              <.button(^.className := Seq(CTAStyles.basic, CTAStyles.basicOnButton), ^.onClick := openProposalModal)(
+                <.i(^.className := Seq(FontAwesomeStyles.paperPlaneTransparent))(),
+                unescape("&nbsp;" + I18n.t("operation.sequence.prompting-to-propose.propose-cta"))
+              )
+            ),
+            <.FullscreenModalComponent(
+              ^.wrapped := FullscreenModalProps(
+                isModalOpened = self.state.isProposalModalOpened,
+                closeCallback = closeProposalModal
+              )
+            )(
+              <.SubmitProposalInRelationToOperationComponent(
+                ^.wrapped := SubmitProposalInRelationToOperationProps(
+                  operation = self.props.wrapped.operation,
+                  onProposalProposed = () => {
+                    self.setState(_.copy(isProposalModalOpened = false))
+                  }
                 )
+              )()
+            ),
+            <.div(^.className := PromptingToProposeInsideOperationSequenceStyles.ctaWrapper)(
+              <.button(
+                ^.className := Seq(CTAStyles.basic, CTAStyles.basicOnButton, CTAStyles.moreDiscreet),
+                ^.onClick := self.props.wrapped.clickOnButtonHandler
               )(
-                <.button(^.className := Seq(CTAStyles.basic, CTAStyles.basicOnButton), ^.onClick := openProposalModal)(
-                  <.i(^.className := Seq(FontAwesomeStyles.paperPlaneTransparent))(),
-                  unescape("&nbsp;" + I18n.t("operation.sequence.prompting-to-propose.propose-cta"))
-                )
-              ),
-              <.FullscreenModalComponent(
-                ^.wrapped := FullscreenModalProps(
-                  isModalOpened = self.state.isProposalModalOpened,
-                  closeCallback = closeProposalModal
-                )
-              )(
-                <.SubmitProposalInRelationToOperationComponent(
-                  ^.wrapped := SubmitProposalInRelationToOperationProps(
-                    operation = self.props.wrapped.operation,
-                    onProposalProposed = () => {
-                      self.setState(_.copy(isProposalModalOpened = false))
-                    }
-                  )
-                )()
-              ),
-              <.div(^.className := PromptingToProposeInsideOperationSequenceStyles.ctaWrapper)(
-                <.button(
-                  ^.className := Seq(CTAStyles.basic, CTAStyles.basicOnButton, CTAStyles.moreDiscreet),
-                  ^.onClick := self.props.wrapped.clickOnButtonHandler
-                )(
-                  <.i(^.className := Seq(FontAwesomeStyles.stepForward))(),
-                  unescape("&nbsp;" + I18n.t("operation.sequence.prompting-to-propose.next-cta"))
-                )
+                <.i(^.className := Seq(FontAwesomeStyles.stepForward))(),
+                unescape("&nbsp;" + I18n.t("operation.sequence.prompting-to-propose.next-cta"))
               )
             ),
             <.style()(PromptingToProposeInsideOperationSequenceStyles.render[String])
@@ -98,10 +93,13 @@ object PromptingToProposeInsideOperationSequenceStyles extends StyleSheet.Inline
   val wrapper: StyleA =
     style(textAlign.center)
 
-  val ctaWrapper: StyleA =
-    style(display.inlineBlock, marginTop(ThemeStyles.SpacingValue.medium.pxToEm()))
+  val titleWrapper: StyleA =
+    style(marginBottom(ThemeStyles.SpacingValue.small.pxToEm()))
 
-  val proposeCtaWrapper: StyleA =
-    style(marginRight(ThemeStyles.SpacingValue.medium.pxToEm()))
+  val ctaWrapper: StyleA =
+    style(
+      display.inlineBlock,
+      margin := s"${ThemeStyles.SpacingValue.small.pxToEm().value} ${ThemeStyles.SpacingValue.small.pxToEm().value} 0"
+    )
 
 }
