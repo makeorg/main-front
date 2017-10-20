@@ -18,31 +18,28 @@ import scalacss.internal.mutable.StyleSheet.Inline
 
 object ResultsOfVote {
 
-  case class ResultsOfVoteProps(votes: Map[String, Int])
+  case class ResultsOfVoteProps(votes: Map[String, Int], index: Int)
   case class ResultsOfVoteState(votesAgree: Int, votesDisagree: Int, votesNeutral: Int)
 
+  object ResultsOfVoteState {
+    def apply(votes: Map[String, Int]): ResultsOfVoteState = {
+      val votesAgree = votes.getOrElse("agree", 0)
+      val votesDisagree = votes.getOrElse("disagree", 0)
+      val votesNeutral = votes.getOrElse("neutral", 0)
+      ResultsOfVoteState(votesAgree, votesDisagree, votesNeutral)
+    }
+  }
+
   lazy val reactClass: ReactClass =
-    React.createClass[ResultsOfVoteProps, ResultsOfVoteState](
-      displayName = "ResultsOfVote",
-      getInitialState = { self =>
-        val votes = self.props.wrapped.votes
-        val votesAgree = votes.getOrElse("agree", 0)
-        val votesDisagree = votes.getOrElse("disagree", 0)
-        val votesNeutral = votes.getOrElse("neutral", 0)
-
-        ResultsOfVoteState(votesAgree, votesDisagree, votesNeutral)
-      },
-      componentWillReceiveProps = { (self, props) =>
-        val votes = props.wrapped.votes
-        val votesAgree = votes.getOrElse("agree", 0)
-        val votesDisagree = votes.getOrElse("disagree", 0)
-        val votesNeutral = votes.getOrElse("neutral", 0)
-
-        self.setState(ResultsOfVoteState(votesAgree, votesDisagree, votesNeutral))
-      },
-      render = { self =>
+    React.createClass[ResultsOfVoteProps, ResultsOfVoteState](displayName = "ResultsOfVote", getInitialState = { self =>
+      ResultsOfVoteState(self.props.wrapped.votes)
+    }, componentWillReceiveProps = { (self, props) =>
+      self.setState(ResultsOfVoteState(props.wrapped.votes))
+    }, render = {
+      self =>
         val totalOfVotes: Int = self.state.votesAgree + self.state.votesDisagree + self.state.votesNeutral
 
+        val index: Int = self.props.wrapped.index
         val partOfAgreeVotes: Int = formatToPercent(self.state.votesAgree, totalOfVotes)
         val partOfDisagreeVotes: Int = formatToPercent(self.state.votesDisagree, totalOfVotes)
         val partOfNeutralVotes: Int = formatToPercent(self.state.votesNeutral, totalOfVotes)
@@ -50,14 +47,14 @@ object ResultsOfVote {
         object DynamicResultsOfVoteStyles extends Inline {
           import dsl._
 
-          val resultsOfAgreeVote: StyleA =
-            style((&.after)(width(partOfAgreeVotes.%%)))
+          val resultsOfAgreeVote: Int => StyleA =
+            styleF.int(Range(index, index + 1))(_ => styleS((&.after)(width(partOfAgreeVotes.%%))))
 
-          val resultsOfDisagreeVote: StyleA =
-            style((&.after)(width(partOfDisagreeVotes.%%)))
+          val resultsOfDisagreeVote: Int => StyleA =
+            styleF.int(Range(index, index + 1))(_ => styleS((&.after)(width(partOfDisagreeVotes.%%))))
 
-          val resultsOfNeutralVote: StyleA =
-            style((&.after)(width(partOfNeutralVotes.%%)))
+          val resultsOfNeutralVote: Int => StyleA =
+            styleF.int(Range(index, index + 1))(_ => styleS((&.after)(width(partOfNeutralVotes.%%))))
         }
 
         def resultsItem(specificClasses: String, totalOfVotes: Int, partOfVotes: Int): ReactElement = {
@@ -79,7 +76,7 @@ object ResultsOfVote {
           resultsItem(
             Seq(
               ResultsOfVoteStyles.resultsOfAgreeVote.htmlClass,
-              DynamicResultsOfVoteStyles.resultsOfAgreeVote.htmlClass
+              DynamicResultsOfVoteStyles.resultsOfAgreeVote(index).htmlClass
             ).mkString(" "),
             self.state.votesAgree,
             partOfAgreeVotes
@@ -87,7 +84,7 @@ object ResultsOfVote {
           resultsItem(
             Seq(
               ResultsOfVoteStyles.resultsOfDisagreeVote.htmlClass,
-              DynamicResultsOfVoteStyles.resultsOfDisagreeVote.htmlClass
+              DynamicResultsOfVoteStyles.resultsOfDisagreeVote(index).htmlClass
             ).mkString(" "),
             self.state.votesDisagree,
             partOfDisagreeVotes
@@ -95,15 +92,14 @@ object ResultsOfVote {
           resultsItem(
             Seq(
               ResultsOfVoteStyles.resultsOfNeutralVote.htmlClass,
-              DynamicResultsOfVoteStyles.resultsOfNeutralVote.htmlClass
+              DynamicResultsOfVoteStyles.resultsOfNeutralVote(index).htmlClass
             ).mkString(" "),
             self.state.votesNeutral,
             partOfNeutralVotes
           ),
           <.style()(ResultsOfVoteStyles.render[String], DynamicResultsOfVoteStyles.render[String])
         )
-      }
-    )
+    })
 
 }
 
@@ -124,7 +120,6 @@ object ResultsOfVoteStyles extends StyleSheet.Inline {
       (&.after)(
         content := "' '",
         display.block,
-        width(100.%%),
         height(5.pxToEm(12)),
         marginTop(2.pxToEm(12)),
         backgroundColor(ThemeStyles.TextColor.white)

@@ -18,7 +18,7 @@ import scalacss.internal.mutable.StyleSheet
 
 object ProposalWithTheme {
 
-  final case class ProposalWithThemeProps(proposal: ProposalModel, themeName: String, themeSlug: String)
+  final case class ProposalWithThemeProps(proposal: ProposalModel, themeName: String, themeSlug: String, index: Int)
 
   val reactClass: ReactClass =
     React
@@ -40,7 +40,12 @@ object ProposalWithTheme {
                   <.h3(^.className := Seq(TextStyles.mediumText, TextStyles.boldText))(
                     self.props.wrapped.proposal.content
                   ),
-                  <.VoteContainerComponent(^.wrapped := VoteContainerProps(proposal = self.props.wrapped.proposal))()
+                  <.VoteContainerComponent(
+                    ^.wrapped := VoteContainerProps(
+                      proposal = self.props.wrapped.proposal,
+                      index = self.props.wrapped.index
+                    )
+                  )()
                 )
               ),
               if (Option(self.props.wrapped.themeName).exists(_.nonEmpty) && Option(self.props.wrapped.themeSlug)

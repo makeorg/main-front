@@ -19,8 +19,8 @@ import scalacss.DevDefaults._
 
 object Vote {
 
-  // TODO: figure out how to handle that gracefully
-  final case class VoteProps(updateState: Boolean = true,
+  final case class VoteProps(index: Int,
+                             updateState: Boolean = true,
                              proposal: ProposalModel,
                              vote: (String)                            => Future[VoteResponse],
                              unvote: (String)                          => Future[VoteResponse],
@@ -106,7 +106,8 @@ object Vote {
                   handleVote = vote,
                   handleUnvote = unvote,
                   qualifyVote = self.props.wrapped.qualifyVote,
-                  removeVoteQualification = self.props.wrapped.removeVoteQualification
+                  removeVoteQualification = self.props.wrapped.removeVoteQualification,
+                  index = self.props.wrapped.index
                 )
               )()
             ),
@@ -123,7 +124,8 @@ object Vote {
                   handleVote = vote,
                   handleUnvote = unvote,
                   qualifyVote = self.props.wrapped.qualifyVote,
-                  removeVoteQualification = self.props.wrapped.removeVoteQualification
+                  removeVoteQualification = self.props.wrapped.removeVoteQualification,
+                  index = self.props.wrapped.index
                 )
               )()
             ),
@@ -140,7 +142,8 @@ object Vote {
                   handleVote = vote,
                   handleUnvote = unvote,
                   qualifyVote = self.props.wrapped.qualifyVote,
-                  removeVoteQualification = self.props.wrapped.removeVoteQualification
+                  removeVoteQualification = self.props.wrapped.removeVoteQualification,
+                  index = self.props.wrapped.index
                 )
               )()
             ),

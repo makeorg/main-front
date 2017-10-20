@@ -9,7 +9,7 @@ import org.make.front.models.{Proposal => ProposalModel, Theme => ThemeModel, Th
 
 object ProposalWithThemeContainer {
 
-  final case class ProposalWithThemeContainerProps(proposal: ProposalModel)
+  final case class ProposalWithThemeContainerProps(proposal: ProposalModel, index: Int)
 
   lazy val reactClass: ReactClass = ReactRedux.connectAdvanced(selectorFactory)(ProposalWithTheme.reactClass)
 
@@ -29,7 +29,8 @@ object ProposalWithThemeContainer {
       ProposalWithTheme.ProposalWithThemeProps(
         proposal = ownProps.wrapped.proposal,
         themeName = themeName.orNull,
-        themeSlug = themeSlug.orNull
+        themeSlug = themeSlug.orNull,
+        index = ownProps.wrapped.index
       )
     }
 }

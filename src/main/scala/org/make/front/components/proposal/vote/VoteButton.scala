@@ -26,7 +26,8 @@ import scalacss.internal.mutable.StyleSheet
 
 object VoteButton {
 
-  case class VoteButtonProps(updateState: Boolean,
+  case class VoteButtonProps(index: Int,
+                             updateState: Boolean,
                              proposalId: ProposalId,
                              votes: Map[String, Int],
                              vote: VoteModel,
@@ -208,7 +209,9 @@ object VoteButton {
             if (self.state.isActivated) {
               if (self.state.resultsOfVoteAreDisplayed) {
                 <.div(^.className := VoteButtonStyles.resultsOfVoteWrapper)(
-                  <.ResultsOfVoteComponent(^.wrapped := ResultsOfVoteProps(votes = self.state.votes))()
+                  <.ResultsOfVoteComponent(
+                    ^.wrapped := ResultsOfVoteProps(votes = self.state.votes, index = self.props.wrapped.index)
+                  )()
                 )
               } else {
                 <.QualificateVoteComponent(

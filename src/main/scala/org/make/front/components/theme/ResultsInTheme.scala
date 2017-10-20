@@ -4,6 +4,7 @@ import io.github.shogowada.scalajs.reactjs.React
 import io.github.shogowada.scalajs.reactjs.VirtualDOM._
 import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import io.github.shogowada.scalajs.reactjs.elements.ReactElement
+import org.make.core.Counter
 import org.make.front.Main.CssSettings._
 import org.make.front.components.Components._
 import org.make.front.components.proposal.ProposalWithTags.ProposalWithTagsProps
@@ -113,6 +114,7 @@ object ResultsInTheme {
               ^.loadMore := onSeeMore,
               ^.loader := <.li(^.className := ResultsInThemeStyles.spinnerWrapper)(<.SpinnerComponent.empty)
             )(if (proposals.nonEmpty) {
+              val counter = new Counter()
               proposals.map(
                 proposal =>
                   <.li(
@@ -122,7 +124,11 @@ object ResultsInTheme {
                       ColRulesStyles.colHalfBeyondMedium,
                       ColRulesStyles.colQuarterBeyondLarge
                     )
-                  )(<.ProposalWithTagsComponent(^.wrapped := ProposalWithTagsProps(proposal = proposal))())
+                  )(
+                    <.ProposalWithTagsComponent(
+                      ^.wrapped := ProposalWithTagsProps(proposal = proposal, index = counter.getAndIncrement())
+                    )()
+                )
               )
             } else { <.span.empty }),
             if (self.state.hasMore && !self.state.hasRequestedMore) {
