@@ -26,7 +26,7 @@ object AboutMakeMainHeader {
                 <.img(
                   ^.className := AboutMakeMainHeaderStyles.logo,
                   ^.src := logoMake.toString,
-                  ^.title := "Make.org",
+                  ^.title := I18n.t("about-make-main-header.title"),
                   ^("data-pin-no-hover") := "true"
                 )()
               ),
@@ -38,49 +38,16 @@ object AboutMakeMainHeader {
                   )
                 )(
                   <.ul()(
-                    <.li(^.className := AboutMakeMainHeaderStyles.menuItem)(
-                      <.p(^.className := Seq(TextStyles.title, TextStyles.smallText))(
-                        <.a(
-                          ^.href := "https://about.make.org/qui-sommes-nous",
-                          ^.target := "_blank",
-                          ^.className := AboutMakeMainHeaderStyles.menuItemLink
-                        )(unescape(I18n.t("content.header.presentation")))
-                      )
-                    ),
-                    <.li(^.className := AboutMakeMainHeaderStyles.menuItem)(
-                      <.p(^.className := Seq(TextStyles.title, TextStyles.smallText))(
-                        <.a(
-                          ^.href := "https://about.make.org",
-                          ^.target := "_blank",
-                          ^.className := AboutMakeMainHeaderStyles.menuItemLink
-                        )(unescape("Notre actu"))
-                      )
-                    ),
-                    <.li(^.className := AboutMakeMainHeaderStyles.menuItem)(
-                      <.p(^.className := Seq(TextStyles.title, TextStyles.smallText))(
-                        <.a(
-                          ^.href := "https://about.make.org/category/videos",
-                          ^.target := "_blank",
-                          ^.className := AboutMakeMainHeaderStyles.menuItemLink
-                        )(unescape("Notre équipe"))
-                      )
-                    ),
-                    <.li(^.className := AboutMakeMainHeaderStyles.menuItem)(
-                      <.p(^.className := Seq(TextStyles.title, TextStyles.smallText))(
-                        <.a(
-                          ^.href := "https://about.make.org/category/presse",
-                          ^.target := "_blank",
-                          ^.className := AboutMakeMainHeaderStyles.menuItemLink
-                        )(unescape("Presse"))
-                      )
-                    ),
-                    <.li(^.className := AboutMakeMainHeaderStyles.menuItem)(
-                      <.p(^.className := Seq(TextStyles.title, TextStyles.smallText))(
-                        <.a(
-                          ^.href := "https://about.make.org/jobs",
-                          ^.target := "_blank",
-                          ^.className := AboutMakeMainHeaderStyles.menuItemLink
-                        )(unescape("Nous rejoindre"))
+                    Range(1, 6).map(
+                      item =>
+                        <.li(^.className := AboutMakeMainHeaderStyles.menuItem)(
+                          <.p(^.className := Seq(TextStyles.title, TextStyles.smallText))(
+                            <.a(
+                              ^.href := I18n.t(s"about-make-main-header.menu.item-$item.link"),
+                              ^.target := "_blank",
+                              ^.className := AboutMakeMainHeaderStyles.menuItemLink
+                            )(unescape(I18n.t(s"about-make-main-header.menu.item-$item.label")))
+                          )
                       )
                     )
                   )

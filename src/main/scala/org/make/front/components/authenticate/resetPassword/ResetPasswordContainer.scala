@@ -34,11 +34,10 @@ object ResetPasswordContainer {
           case Success(_) =>
             self.setState(self.state.copy(success = true))
           case Failure(e) =>
-            self.setState(self.state.copy(errorMessage = I18n.t("form.passwordReset.changeFailed")))
+            self.setState(self.state.copy(errorMessage = I18n.t("authenticate.reset-password.notifications.failure")))
         }
       }
 
       PasswordReset.PasswordResetProps(handleSubmit, checkResetToken)
     }
-
 }

@@ -4,7 +4,7 @@ import io.github.shogowada.scalajs.reactjs.React
 import io.github.shogowada.scalajs.reactjs.VirtualDOM.{<, _}
 import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import org.make.front.components.Components._
-import org.make.front.facades.FacebookPixel
+import org.make.front.facades.{FacebookPixel, I18n}
 import org.make.front.facades.Unescape.unescape
 import org.make.front.styles.ThemeStyles
 import org.make.front.styles.base.{ColRulesStyles, RowRulesStyles, TextStyles}
@@ -31,19 +31,19 @@ object IntroOfOperationSequence {
             <.div(^.className := IntroOfOperationSequenceStyles.innerWrapper)(
               <.div(^.className := Seq(RowRulesStyles.row))(
                 <.div(^.className := ColRulesStyles.col)(
-                  <.div(^.className := IntroOfOperationSequenceStyles.introWrapper)(
-                    <.h2(^.className := Seq(TextStyles.bigIntro, IntroOfOperationSequenceStyles.intro))(
-                      unescape("Des milliers de citoyens proposent des&nbsp;solutions.")
+                  <.div(^.className := IntroOfOperationSequenceStyles.titleWrapper)(
+                    <.p(^.className := Seq(TextStyles.bigIntro, IntroOfOperationSequenceStyles.title))(
+                      unescape(I18n.t("operation.sequence.introduction.title"))
                     )
                   ),
                   <.div(^.className := IntroOfOperationSequenceStyles.explanationWrapper)(
                     <.p(^.className := Seq(TextStyles.biggerMediumText, IntroOfOperationSequenceStyles.explanation))(
-                      unescape("Prenez position sur ces solutions et proposez les&nbsp;vôtres.")
+                      unescape(I18n.t("operation.sequence.introduction.explanation-1"))
                     )
                   ),
                   <.div(^.className := IntroOfOperationSequenceStyles.explanationWrapper)(
                     <.p(^.className := Seq(TextStyles.biggerMediumText, IntroOfOperationSequenceStyles.explanation))(
-                      unescape("Les plus soutenues détermineront nos&nbsp;actions.")
+                      unescape(I18n.t("operation.sequence.introduction.explanation-2"))
                     )
                   ),
                   <.div(^.className := IntroOfOperationSequenceStyles.ctaWrapper)(
@@ -51,8 +51,8 @@ object IntroOfOperationSequence {
                       ^.className := Seq(CTAStyles.basic, CTAStyles.basicOnButton),
                       ^.onClick := self.props.wrapped.clickOnButtonHandler
                     )(
-                      <.i(^.className := Seq(FontAwesomeStyles.fa, FontAwesomeStyles.paperPlaneTransparent))(),
-                      unescape("&nbsp;" + "Démarrer")
+                      <.i(^.className := Seq(FontAwesomeStyles.paperPlaneTransparent))(),
+                      unescape("&nbsp;" + I18n.t("operation.sequence.introduction.cta"))
                     )
                   )
                 )
@@ -62,6 +62,7 @@ object IntroOfOperationSequence {
           )
         }
       )
+
 }
 
 object IntroOfOperationSequenceStyles extends StyleSheet.Inline {
@@ -74,10 +75,10 @@ object IntroOfOperationSequenceStyles extends StyleSheet.Inline {
   val innerWrapper: StyleA =
     style(display.tableCell, verticalAlign.middle)
 
-  val introWrapper: StyleA =
+  val titleWrapper: StyleA =
     style(marginBottom(ThemeStyles.SpacingValue.medium.pxToEm()))
 
-  val intro: StyleA =
+  val title: StyleA =
     style(textAlign.center, color(ThemeStyles.TextColor.lighter))
 
   val explanationWrapper: StyleA =

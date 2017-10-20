@@ -14,7 +14,7 @@ import org.make.front.facades.ReactInfiniteScroller.{
   ReactInfiniteScrollerVirtualDOMElements
 }
 import org.make.front.facades.Unescape.unescape
-import org.make.front.models.{ProposalSearchResult, Proposal => ProposalModel, Tag => TagModel, Theme => ThemeModel}
+import org.make.front.models.{Proposal => ProposalModel, Tag => TagModel, Theme => ThemeModel}
 import org.make.front.styles._
 import org.make.front.styles.base.{ColRulesStyles, RowRulesStyles, TextStyles}
 import org.make.front.styles.ui.CTAStyles
@@ -87,7 +87,7 @@ object ResultsInTheme {
             <.p(^.className := ResultsInThemeStyles.noResultsSmiley)("😞"),
             <.p(
               ^.className := Seq(TextStyles.mediumText, ResultsInThemeStyles.noResultsMessage),
-              ^.dangerouslySetInnerHTML := I18n.t("content.theme.matrix.noContent")
+              ^.dangerouslySetInnerHTML := I18n.t("theme.results.no-results")
             )()
           )
 
@@ -130,7 +130,7 @@ object ResultsInTheme {
                 <.button(
                   ^.onClick := (() => { onSeeMore(1) }),
                   ^.className := Seq(CTAStyles.basic, CTAStyles.basicOnButton)
-                )(unescape(I18n.t("content.theme.matrix.seeMoreProposals")))
+                )(unescape(I18n.t("theme.results.see-more")))
               )
             }
           )
@@ -139,7 +139,7 @@ object ResultsInTheme {
 
         <.section(^.className := Seq(RowRulesStyles.centeredRow, ResultsInThemeStyles.wrapper))(
           <.header(^.className := ColRulesStyles.col)(
-            <.h2(^.className := TextStyles.bigTitle)(unescape(I18n.t("content.theme.matrix.title")))
+            <.h2(^.className := TextStyles.bigTitle)(unescape(I18n.t("theme.results.title")))
           ),
           <.nav(^.className := ColRulesStyles.col)(
             <.FilterByTagsComponent(^.wrapped := FilterByTagsProps(self.props.wrapped.theme.tags, onTagsChange))()

@@ -83,7 +83,7 @@ object TagsList {
                 <.button(
                   ^.className := Seq(TagStyles.basic, TagsListStyles.showMoreTags),
                   ^.onClick := onClickShowMoreTags(self)
-                )(unescape(I18n.t(if (self.state.showMore) "content.tag.showLess" else "content.tag.showMore")))
+                )(unescape(I18n.t(if (self.state.showMore) "tags.list.show-less" else "tags.list.show-all")))
               )
             },
             <.style()(TagsListStyles.render[String])

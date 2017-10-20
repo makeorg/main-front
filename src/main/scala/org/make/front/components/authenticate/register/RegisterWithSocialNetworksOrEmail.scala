@@ -26,25 +26,27 @@ object RegisterWithSocialNetworksOrEmail {
     render = { self =>
       <.div()(
         <.div(^.className := RegisterWithSocialNetworksOrEmailStyles.introWrapper)(
-          <.p(^.className := TextStyles.smallTitle)(unescape(I18n.t("form.register.withSocial")))
+          <.p(^.className := TextStyles.smallTitle)(
+            unescape(I18n.t("authenticate.register.with-social-networks-intro"))
+          )
         ),
         <.AuthenticateWithSocialNetworksComponent(
           ^.wrapped := AuthenticateWithSocialNetworksContainerProps(
-            note = unescape(I18n.t("form.register.noPublishedContent")),
+            note = unescape(I18n.t("authenticate.register.caution")),
             onSuccessfulLogin = self.props.wrapped.onSuccessfulLogin
           )
         )(),
         <.div(^.className := RegisterWithSocialNetworksOrEmailStyles.separatorWrapper)(
           <.p(^.className := Seq(RegisterWithSocialNetworksOrEmailStyles.separator, TextStyles.mediumText))(
-            I18n.t("form.or")
+            I18n.t("authenticate.register.separator")
           )
         ),
         <.div(^.className := RegisterWithSocialNetworksOrEmailStyles.introWrapper)(
-          <.p(^.className := TextStyles.smallTitle)(unescape(I18n.t("form.register.withForm")))
+          <.p(^.className := TextStyles.smallTitle)(unescape(I18n.t("authenticate.register.with-email-intro")))
         ),
         <.RegisterWithEmailComponent(
           ^.wrapped := RegisterUserProps(
-            note = unescape(I18n.t("form.register.termsAgreed")),
+            note = unescape(I18n.t("authenticate.register.terms")),
             onSuccessfulRegistration = self.props.wrapped.onSuccessfulLogin,
             operation = self.props.wrapped.operation
           )
@@ -57,25 +59,25 @@ object RegisterWithSocialNetworksOrEmail {
   val expanded: ReactClass = React.createClass[RegisterWithSocialNetworksOrEmailProps, Unit](render = { self =>
     <.div()(
       <.div(^.className := RegisterWithSocialNetworksOrEmailStyles.introWrapper)(
-        <.p(^.className := TextStyles.smallTitle)(unescape(I18n.t("form.register.withSocial")))
+        <.p(^.className := TextStyles.smallTitle)(unescape(I18n.t("authenticate.register.with-social-networks-intro")))
       ),
       <.AuthenticateWithSocialNetworksComponent(
         ^.wrapped := AuthenticateWithSocialNetworksContainerProps(
-          note = unescape(I18n.t("form.register.noPublishedContent")),
+          note = unescape(I18n.t("authenticate.register.caution")),
           onSuccessfulLogin = self.props.wrapped.onSuccessfulLogin
         )
       )(),
       <.div(^.className := RegisterWithSocialNetworksOrEmailStyles.separatorWrapper)(
         <.p(^.className := Seq(RegisterWithSocialNetworksOrEmailStyles.separator, TextStyles.mediumText))(
-          I18n.t("form.or")
+          I18n.t("authenticate.register.separator")
         )
       ),
       <.div(^.className := RegisterWithSocialNetworksOrEmailStyles.introWrapper)(
-        <.p(^.className := TextStyles.smallTitle)(unescape(I18n.t("form.register.withForm")))
+        <.p(^.className := TextStyles.smallTitle)(unescape(I18n.t("authenticate.register.with-email-intro")))
       ),
       <.RegisterWithEmailExpandedComponent(
         ^.wrapped := RegisterUserProps(
-          note = unescape(I18n.t("form.register.termsAgreed")),
+          note = unescape(I18n.t("authenticate.register.terms")),
           onSuccessfulRegistration = self.props.wrapped.onSuccessfulLogin,
           operation = self.props.wrapped.operation
         )
@@ -83,7 +85,6 @@ object RegisterWithSocialNetworksOrEmail {
       <.style()(RegisterWithSocialNetworksOrEmailStyles.render[String])
     )
   })
-
 }
 
 object RegisterWithSocialNetworksOrEmailStyles extends StyleSheet.Inline {

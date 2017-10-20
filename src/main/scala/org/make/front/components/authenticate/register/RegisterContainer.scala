@@ -39,7 +39,7 @@ object RegisterContainer {
         future.onComplete {
           case Success(user) =>
             dispatch(LoggedInAction(user))
-            dispatch(NotifyInfo(message = I18n.t("form.register.notification.confirmation")))
+            dispatch(NotifyInfo(message = I18n.t("authenticate.register.notifications.success")))
             props.wrapped.onSuccessfulRegistration()
           case Failure(_) =>
         }

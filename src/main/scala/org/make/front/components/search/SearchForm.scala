@@ -90,7 +90,7 @@ object SearchForm {
                     value = self.state.value,
                     onChange = onChange,
                     inputType = "search",
-                    placeholder = I18n.t("content.header.searchPlaceholder")
+                    placeholder = I18n.t("search.form.placeholder")
                   ),
                   ^.theme := autoSuggestTheme
                 )(),

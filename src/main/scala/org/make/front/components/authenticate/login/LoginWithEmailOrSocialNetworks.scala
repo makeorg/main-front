@@ -24,7 +24,7 @@ object LoginWithEmailOrSocialNetworks {
     render = { self =>
       <.div()(
         <.div(^.className := LoginWithEmailOrSocialNetworksStyles.introWrapper)(
-          <.p(^.className := TextStyles.smallTitle)(unescape(I18n.t("form.login.socialConnect")))
+          <.p(^.className := TextStyles.smallTitle)(unescape(I18n.t("authenticate.login.with-social-networks-intro")))
         ),
         <.AuthenticateWithSocialNetworksComponent(
           ^.wrapped := AuthenticateWithSocialNetworksContainerProps(
@@ -35,12 +35,12 @@ object LoginWithEmailOrSocialNetworks {
         <.div(^.className := LoginWithEmailOrSocialNetworksStyles.separatorWrapper)(
           <.div(^.className := Seq(LoginWithEmailOrSocialNetworksStyles.separator))(
             <.p(^.className := Seq(LoginWithEmailOrSocialNetworksStyles.separatorLabel, TextStyles.mediumText))(
-              I18n.t("form.or")
+              I18n.t("authenticate.login.separator")
             )
           )
         ),
         <.div(^.className := LoginWithEmailOrSocialNetworksStyles.introWrapper)(
-          <.p(^.className := TextStyles.smallTitle)(unescape(I18n.t("form.login.stdConnect")))
+          <.p(^.className := TextStyles.smallTitle)(unescape(I18n.t("authenticate.login.with-email-intro")))
         ),
         <.LoginWithEmailComponent(
           ^.wrapped := LoginWithEmailContainerProps(note = "", onSuccessfulLogin = self.props.wrapped.onSuccessfulLogin)
@@ -49,7 +49,6 @@ object LoginWithEmailOrSocialNetworks {
       )
     }
   )
-
 }
 
 object LoginWithEmailOrSocialNetworksStyles extends StyleSheet.Inline {
@@ -95,5 +94,4 @@ object LoginWithEmailOrSocialNetworksStyles extends StyleSheet.Inline {
       lineHeight(20.pxToEm(15)),
       ThemeStyles.MediaQueries.beyondSmall(lineHeight(20.pxToEm(18)))
     )
-
 }

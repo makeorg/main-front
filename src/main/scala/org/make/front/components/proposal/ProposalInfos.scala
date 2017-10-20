@@ -51,7 +51,7 @@ object ProposalInfos {
                 Seq(
                   <.div(^.className := ProposalInfosStyles.labelWrapper)(
                     <.p(^.className := ProposalInfosStyles.label)(
-                      <.i(^.className := Seq(FontAwesomeStyles.fa, FontAwesomeStyles.lineChart))()
+                      <.i(^.className := Seq(FontAwesomeStyles.lineChart))()
                     )
                   )
                 )

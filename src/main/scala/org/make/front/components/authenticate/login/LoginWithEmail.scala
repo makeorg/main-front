@@ -35,13 +35,11 @@ object LoginWithEmail {
 
   val reactClass: ReactClass =
     React
-      .createClass[LoginWithEmailProps, LoginWithEmailState](
-        displayName = "LoginWithEmail",
-        componentDidMount = {self =>
+      .createClass[LoginWithEmailProps, LoginWithEmailState](displayName = "LoginWithEmail", componentDidMount = {
+        self =>
           FacebookPixel.fbq("trackCustom", "display-signin-form")
-        },
-        getInitialState = (_) => LoginWithEmailState.empty,
-        render = { self =>
+      }, getInitialState = (_) => LoginWithEmailState.empty, render = {
+        self =>
           val props = self.props.wrapped
 
           val updateEmail: (FormSyntheticEvent[HTMLInputElement]) => Unit = { event =>
@@ -56,7 +54,10 @@ object LoginWithEmail {
 
           def validate(): Boolean = {
             val errorEmailMessages: Option[String] = NotBlankConstraint
-              .validate(Some(self.state.email), Map("notBlank" -> unescape(I18n.t("form.register.errorBlankEmail"))))
+              .validate(
+                Some(self.state.email),
+                Map("notBlank" -> unescape(I18n.t("authenticate.inputs.email.format-error")))
+              )
               .map(_.message)
               .toList match {
               case head :: _ => Some(head)
@@ -65,7 +66,7 @@ object LoginWithEmail {
             val errorPasswordMessages: Option[String] = NotBlankConstraint
               .validate(
                 Some(self.state.password),
-                Map("notBlank" -> unescape(I18n.t("form.register.errorBlankPassword")))
+                Map("notBlank" -> unescape(I18n.t("authenticate.inputs.password.empty-field-error")))
               )
               .map(_.message)
               .toList match {
@@ -89,12 +90,11 @@ object LoginWithEmail {
                   case Failure(e) =>
                     e match {
                       case UnauthorizedHttpException =>
-                        self.setState(
-                          _.copy(emailErrorMessage = Some(unescape(I18n.t("form.login.errorAuthenticationFailed"))))
-                        )
+                        self
+                          .setState(_.copy(emailErrorMessage = Some(unescape(I18n.t("authenticate.no-account-found")))))
                       case _ =>
                         self
-                          .setState(_.copy(emailErrorMessage = Some(unescape(I18n.t("form.login.errorSignInFailed")))))
+                          .setState(_.copy(emailErrorMessage = Some(unescape(I18n.t("authenticate.failure")))))
                     }
 
                 }
@@ -123,7 +123,7 @@ object LoginWithEmail {
               <.input(
                 ^.`type`.email,
                 ^.required := true,
-                ^.placeholder := I18n.t("form.fieldLabelEmail"),
+                ^.placeholder := I18n.t("authenticate.inputs.email.placeholder"),
                 ^.onChange := updateEmail
               )()
             ),
@@ -134,7 +134,7 @@ object LoginWithEmail {
               <.input(
                 ^.`type`.password,
                 ^.required := true,
-                ^.placeholder := I18n.t("form.fieldLabelPassword"),
+                ^.placeholder := I18n.t("authenticate.inputs.password.placeholder"),
                 ^.onChange := updatePassword
               )()
             ),
@@ -146,13 +146,12 @@ object LoginWithEmail {
             },
             <.div(^.className := LoginWithEmailStyles.submitButtonWrapper)(
               <.button(^.className := Seq(CTAStyles.basic, CTAStyles.basicOnButton), ^.`type`.submit)(
-                unescape(I18n.t("form.login.submitButton"))
+                unescape(I18n.t("authenticate.login.send-cta"))
               )
             ),
             <.style()(LoginWithEmailStyles.render[String])
           )
-        }
-      )
+      })
 }
 
 object LoginWithEmailStyles extends StyleSheet.Inline {

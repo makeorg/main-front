@@ -94,12 +94,14 @@ object QualificateVoteButton {
         <.span(^.className := QualificateVoteButtonStyles.innerWrapper)(
           <.span(
             ^.className := Seq(TextStyles.smallerText, TextStyles.boldText, QualificateVoteButtonStyles.label),
-            ^.dangerouslySetInnerHTML := I18n.t(s"content.proposal.${self.props.wrapped.qualification.key}")
+            ^.dangerouslySetInnerHTML := I18n.t(
+              s"proposal.vote.${self.props.wrapped.voteKey}.qualifications.${self.props.wrapped.qualification.key}"
+            )
           )(),
           <.span(
             ^.className := Seq(QualificateVoteButtonStyles.votesCounter, TextStyles.mediumText, TextStyles.boldText)
           )(if (!self.state.isSelected) {
-            I18n.t("content.proposal.plusOne")
+            I18n.t("proposal.qualificate-vote.increment")
           } else {
             <.span(^.className := QualificateVoteButtonStyles.selectedQualificationVotesCounter)(
               formatToKilo(self.state.count)
@@ -110,7 +112,6 @@ object QualificateVoteButton {
       )
     }
   )
-
 }
 
 object QualificateVoteButtonStyles extends StyleSheet.Inline {

@@ -3,6 +3,7 @@ package org.make.front.components.mainFooter
 import io.github.shogowada.scalajs.reactjs.React
 import io.github.shogowada.scalajs.reactjs.VirtualDOM.{<, _}
 import io.github.shogowada.scalajs.reactjs.classes.ReactClass
+import io.github.shogowada.scalajs.reactjs.elements.ReactElement
 import org.make.front.components.Components._
 import org.make.front.facades.Unescape.unescape
 import org.make.front.facades.{logoMake, I18n}
@@ -20,6 +21,7 @@ object MainFooter {
       .createClass[Unit, Unit](
         displayName = "MainFooter",
         render = self => {
+
           <.footer(^.className := MainFooterStyles.wrapper)(
             <.div(^.className := RowRulesStyles.centeredRow)(
               <.div(^.className := ColRulesStyles.col)(
@@ -37,84 +39,40 @@ object MainFooter {
                     <.ul(^.className := MainFooterStyles.menu)(
                       /*<.li(^.className := Seq(MainFooterStyles.menuItem, MainFooterStyles.emphasizedMenuItem))(
                         <.p(^.className := Seq(TextStyles.title, TextStyles.smallText))(
-                          <.a(^.href := "/", ^.className := MainFooterStyles.menuItemLink)(
+                          <.a(
+                            ^.href := I18n.t("main-footer.menu.item-1.link"),
+                            ^.className := MainFooterStyles.menuItemLink
+                          )(
                             <.i(
                               ^.className := Seq(
                                 MainFooterStyles.menuItemIcon,
-                                FontAwesomeStyles.fa,
                                 FontAwesomeStyles.bullhorn
                               )
                             )(),
-                            unescape(I18n.t("content.footer.recruitment"))
+                            unescape(I18n.t("main-footer.menu.item-1.label"))
                           )
                         )
                       ),*/
-                      <.li(^.className := MainFooterStyles.menuItem)(
-                        <.p(^.className := Seq(TextStyles.title, TextStyles.smallText))(
-                          <.a(
-                            ^.href := "https://about.make.org/jobs",
-                            ^.target := "_blank",
-                            ^.className := MainFooterStyles.menuItemLink
-                          )(I18n.t("content.footer.jobs"))
+                      Range(2, 8).map(
+                        item =>
+                          <.li(^.className := MainFooterStyles.menuItem)(
+                            <.p(
+                              ^.className := Seq(
+                                TextStyles.title.htmlClass,
+                                TextStyles.smallText.htmlClass,
+                                if (item == 3) {
+                                  RWDHideRulesStyles.hideBeyondMedium.htmlClass
+                                }
+                              ).mkString(" ")
+                            )(
+                              <.a(
+                                ^.href := I18n.t(s"main-footer.menu.item-$item.link"),
+                                ^.target := "_blank",
+                                ^.className := MainFooterStyles.menuItemLink
+                              )(unescape(I18n.t(s"main-footer.menu.item-$item.label")))
+                            )
                         )
-                      ),
-                      <.li(^.className := Seq(MainFooterStyles.menuItem, RWDHideRulesStyles.hideBeyondMedium))(
-                        <.p(^.className := Seq(TextStyles.title, TextStyles.smallText))(
-                          <.a(
-                            ^.href := "https://about.make.org/qui-sommes-nous",
-                            ^.target := "_blank",
-                            ^.className := MainFooterStyles.menuItemLink
-                          )(unescape(I18n.t("content.footer.presentation")))
-                        )
-                      ),
-                      <.li(^.className := MainFooterStyles.menuItem)(
-                        <.p(^.className := Seq(TextStyles.title, TextStyles.smallText))(
-                          <.a(
-                            ^.href := "https://about.make.org/category/presse",
-                            ^.target := "_blank",
-                            ^.className := MainFooterStyles.menuItemLink
-                          )(I18n.t("content.footer.press"))
-                        )
-                      ),
-                      <.li(^.className := MainFooterStyles.menuItem)(
-                        <.p(^.className := Seq(TextStyles.title, TextStyles.smallText))(
-                          <.a(
-                            ^.href := "https://about.make.org/conditions-dutilisation",
-                            ^.target := "_blank",
-                            ^.className := MainFooterStyles.menuItemLink
-                          )(I18n.t("content.footer.terms"))
-                        )
-                      ),
-                      <.li(^.className := MainFooterStyles.menuItem)(
-                        <.p(^.className := Seq(TextStyles.title, TextStyles.smallText))(
-                          <.a(
-                            ^.href := "https://about.make.org/politique-donnees",
-                            ^.target := "_blank",
-                            ^.className := MainFooterStyles.menuItemLink
-                          )("Politique d'utilisation des données")
-                        )
-                      ),
-                      <.li(^.className := MainFooterStyles.menuItem)(
-                        <.p(^.className := Seq(TextStyles.title, TextStyles.smallText))(
-                          <.a(
-                            ^.href := "https://about.make.org/contact",
-                            ^.target := "_blank",
-                            ^.className := MainFooterStyles.menuItemLink
-                          )(I18n.t("content.footer.contact"))
-                        )
-                      ) /*,
-                      <.li(^.className := MainFooterStyles.menuItem)(
-                        <.p(^.className := Seq(TextStyles.title, TextStyles.smallText))(
-                          <.a(^.href := "/", ^.className := MainFooterStyles.menuItemLink)(I18n.t("content.footer.faq"))
-                        )
-                      ),
-                      <.li(^.className := MainFooterStyles.menuItem)(
-                        <.p(^.className := Seq(TextStyles.title, TextStyles.smallText))(
-                          <.a(^.href := "/", ^.className := MainFooterStyles.menuItemLink)(
-                            I18n.t("content.footer.sitemap")
-                          )
-                        )
-                      )*/
+                      )
                     )
                   )
                 )

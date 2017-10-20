@@ -28,7 +28,7 @@ object MainHeader {
                   <.img(
                     ^.className := MainHeaderStyles.logo,
                     ^.src := logoMake.toString,
-                    ^.title := "Make.org",
+                    ^.title := I18n.t("main-header.title"),
                     ^("data-pin-no-hover") := "true"
                   )()
                 )
@@ -43,10 +43,10 @@ object MainHeader {
                       <.li(^.className := MainHeaderStyles.menuItem)(
                         <.p(^.className := Seq(TextStyles.title, TextStyles.smallText))(
                           <.a(
-                            ^.href := "https://about.make.org/qui-sommes-nous",
+                            ^.href := I18n.t("main-header.menu.item-1.link"),
                             ^.target := "_blank",
                             ^.className := MainHeaderStyles.menuItemLink
-                          )(unescape(I18n.t("content.header.presentation")))
+                          )(unescape(I18n.t("main-header.menu.item-1.label")))
                         )
                       )
                     )

@@ -60,7 +60,7 @@ object SubmitProposalAndLogin {
                   self.setState(
                     _.copy(
                       displayedComponent = "submit-proposal",
-                      errorMessage = Some(unescape(I18n.t("form.proposal.errorSubmitFailed")))
+                      errorMessage = Some(unescape(I18n.t("submit-proposal.error")))
                     )
                   )
               }

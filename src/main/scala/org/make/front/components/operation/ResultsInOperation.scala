@@ -76,7 +76,7 @@ object ResultsInOperation {
             <.p(^.className := ResultsInOperationStyles.noResultsSmiley)("😞"),
             <.p(
               ^.className := Seq(TextStyles.mediumText, ResultsInOperationStyles.noResultsMessage),
-              ^.dangerouslySetInnerHTML := I18n.t("content.theme.matrix.noContent")
+              ^.dangerouslySetInnerHTML := I18n.t("operation.results.no-results")
             )()
           )
 
@@ -116,7 +116,7 @@ object ResultsInOperation {
             if (self.state.hasMore && !self.state.hasRequestedMore) {
               <.div(^.className := Seq(ResultsInOperationStyles.seeMoreButtonWrapper, ColRulesStyles.col))(
                 <.button(^.onClick := onSeeMore, ^.className := Seq(CTAStyles.basic, CTAStyles.basicOnButton))(
-                  unescape(I18n.t("content.theme.matrix.seeMoreProposals"))
+                  unescape(I18n.t("operation.results.see-more"))
                 )
               )
             }
@@ -126,7 +126,7 @@ object ResultsInOperation {
 
         <.section(^.className := Seq(RowRulesStyles.centeredRow, ResultsInOperationStyles.wrapper))(
           <.header(^.className := ColRulesStyles.col)(
-            <.h2(^.className := TextStyles.bigTitle)(unescape(I18n.t("content.theme.matrix.title")))
+            <.h2(^.className := TextStyles.bigTitle)(unescape(I18n.t("operation.results.title")))
           ),
           if (self.props.wrapped.preselectedTags.nonEmpty) {
             <.nav(^.className := ColRulesStyles.col)(

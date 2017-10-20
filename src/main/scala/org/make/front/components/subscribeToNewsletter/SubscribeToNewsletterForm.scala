@@ -45,7 +45,7 @@ object SubscribeToNewsletterForm {
           e.preventDefault()
           val errors: Seq[ConstraintError] =
             EmailConstraint
-              .validate(Some(self.state.email), Map("invalid" -> "form.subscribeToNewsletter.invalidEmail"))
+              .validate(Some(self.state.email), Map("invalid" -> "subscribe-to-newsletter.invalid-email"))
 
           if (errors.isEmpty) {
             self.setState(self.state.copy(errorMessage = ""))
@@ -54,11 +54,7 @@ object SubscribeToNewsletterForm {
               case Failure(_) =>
                 self
                   .setState(
-                    self.state.copy(
-                      errorMessage = unescape(
-                        "Quelque chose n'a pas fonctionné. Si le problème persiste n'hésitez pas à nous contacter à <a href=\"mailto:contact@make.org\">contact@make.org</a>."
-                      )
-                    )
+                    self.state.copy(errorMessage = unescape(I18n.t("subscribe-to-newsletter.error")))
                     /*TODO : specify error message from API*/
                   )
             }
@@ -83,7 +79,7 @@ object SubscribeToNewsletterForm {
                 <.input(
                   ^.`type`.email,
                   ^.required := true,
-                  ^.placeholder := I18n.t("form.subscribeToNewsletter.fieldLabelEmail"),
+                  ^.placeholder := I18n.t("subscribe-to-newsletter.email-input-placeholder"),
                   ^.onChange := updateEmail,
                   ^.value := self.state.email
                 )()
@@ -96,8 +92,8 @@ object SubscribeToNewsletterForm {
               },
               <.div(^.className := SubscribeToNewsletterFormStyles.submitButtonWrapper)(
                 <.button(^.className := Seq(CTAStyles.basic, CTAStyles.basicOnButton), ^.`type`.submit)(
-                  <.i(^.className := Seq(FontAwesomeStyles.fa, FontAwesomeStyles.paperPlaneTransparent))(),
-                  unescape("&nbsp;" + I18n.t("form.subscribeToNewsletter.sendEmail"))
+                  <.i(^.className := FontAwesomeStyles.paperPlaneTransparent)(),
+                  unescape("&nbsp;" + I18n.t("subscribe-to-newsletter.send-cta"))
                 )
               )
             )

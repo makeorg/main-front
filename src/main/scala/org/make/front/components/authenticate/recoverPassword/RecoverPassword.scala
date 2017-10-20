@@ -43,7 +43,7 @@ object RecoverPassword {
         val handleSubmit = (e: SyntheticEvent) => {
           e.preventDefault()
           val errors: Seq[ConstraintError] =
-            EmailConstraint.validate(Some(self.state.email), Map("invalid" -> "form.recoverPassword.invalidEmail"))
+            EmailConstraint.validate(Some(self.state.email), Map("invalid" -> "authenticate.inputs.email.format-error"))
 
           if (errors.isEmpty) {
             self.setState(self.state.copy(errorMessage = ""))
@@ -51,7 +51,10 @@ object RecoverPassword {
               case Success(_) =>
               case Failure(_) =>
                 self
-                  .setState(self.state.copy(errorMessage = unescape(I18n.t("form.recoverPassword.emailDoesNotExist"))))
+                  .setState(
+                    self.state
+                      .copy(errorMessage = unescape(I18n.t("authenticate.recover-password.errors.mail-not-found")))
+                  )
               /*TODO : specify error message from API*/
             }
           } else {
@@ -70,17 +73,17 @@ object RecoverPassword {
 
         <.div()(
           <.div(^.className := RecoverPasswordStyles.introWrapper)(
-            <.p(^.className := TextStyles.smallTitle)(unescape(I18n.t("form.recoverPassword.title")))
+            <.p(^.className := TextStyles.smallTitle)(unescape(I18n.t("authenticate.recover-password.title")))
           ),
           <.p(^.className := Seq(RecoverPasswordStyles.text, TextStyles.smallText))(
-            unescape(I18n.t("form.recoverPassword.description"))
+            unescape(I18n.t("authenticate.recover-password.info"))
           ),
           <.form(^.onSubmit := handleSubmit, ^.novalidate := true)(
             <.label(^.className := emailInputWrapperClasses)(
               <.input(
                 ^.`type`.email,
                 ^.required := true,
-                ^.placeholder := I18n.t("form.recoverPassword.fieldLabelEmail"),
+                ^.placeholder := I18n.t("authenticate.inputs.email.placeholder"),
                 ^.onChange := updateEmail,
                 ^.value := self.state.email
               )()
@@ -90,8 +93,8 @@ object RecoverPassword {
             },
             <.div(^.className := RecoverPasswordStyles.submitButtonWrapper)(
               <.button(^.className := Seq(CTAStyles.basic, CTAStyles.basicOnButton), ^.`type`.submit)(
-                <.i(^.className := Seq(FontAwesomeStyles.fa, FontAwesomeStyles.paperPlaneTransparent))(),
-                unescape("&nbsp;" + I18n.t("form.recoverPassword.sendEmail"))
+                <.i(^.className := Seq(FontAwesomeStyles.paperPlaneTransparent))(),
+                unescape("&nbsp;" + I18n.t("authenticate.recover-password.send-cta"))
               )
             )
           ),

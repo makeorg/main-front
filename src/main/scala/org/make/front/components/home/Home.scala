@@ -6,7 +6,7 @@ import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import org.make.front.components.Components._
 import org.make.front.components.showcase.ThemeShowcaseContainer.ThemeShowcaseContainerProps
 import org.make.front.components.showcase.TrendingShowcaseContainer.TrendingShowcaseContainerProps
-import org.make.front.facades.{I18n}
+import org.make.front.facades.I18n
 import org.make.front.facades.Unescape.unescape
 
 object Home {
@@ -20,18 +20,16 @@ object Home {
             <.ThemeShowcaseContainerComponent(
               ^.wrapped := ThemeShowcaseContainerProps(
                 themeSlug = "developpement-durable-energie",
-                maybeIntro = Some(unescape("Le thème de la&nbsp;semaine")),
-                maybeNews = Some(
-                  "Le gouvernement prépare un nouveau Grenelle<br>de l'environnement, exprimez vos idées sur le&nbsp;sujet."
-                )
+                maybeIntro = Some(unescape(I18n.t("home.showcase-1.intro"))),
+                maybeNews = Some(I18n.t("home.showcase-1.news"))
               )
             )(),
             <.ExplanationsComponent.empty,
             <.TrendingShowcaseContainerComponent(
               ^.wrapped := TrendingShowcaseContainerProps(
                 trending = "trending",
-                intro = unescape(I18n.t("content.homepage.expressYourself")),
-                title = unescape(I18n.t("content.homepage.mostPopular"))
+                intro = unescape(I18n.t("home.showcase-2.intro")),
+                title = unescape(I18n.t("home.showcase-2.title"))
               )
             )(),
             <.ThemeShowcaseContainerComponent(
@@ -40,8 +38,8 @@ object Home {
             <.TrendingShowcaseContainerComponent(
               ^.wrapped := TrendingShowcaseContainerProps(
                 trending = "hot",
-                intro = unescape("départagez-les&nbsp;!"),
-                title = unescape(I18n.t("content.homepage.mostDebated"))
+                intro = unescape(I18n.t("home.showcase-3.intro")),
+                title = unescape(I18n.t("home.showcase-3.title"))
               )
             )(),
             <.ThemeShowcaseContainerComponent(
@@ -51,5 +49,4 @@ object Home {
           )
         }
       )
-
 }

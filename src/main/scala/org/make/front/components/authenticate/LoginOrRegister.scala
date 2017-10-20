@@ -54,15 +54,15 @@ object LoginOrRegister {
                 ^.wrapped := LoginWithEmailOrSocialNetworksProps(props.onSuccessfulLogin)
               )(),
               <.p(^.className := Seq(LoginOrRegisterStyles.text, TextStyles.smallText))(
-                unescape(I18n.t("form.login.oupsI")),
+                unescape(I18n.t("authenticate.forgot-password.intro") + " "),
                 <.a(^.className := TextStyles.boldText, ^.onClick := goTo("reset-password"))(
-                  unescape(I18n.t("form.login.forgotPassword"))
+                  unescape(I18n.t("authenticate.forgot-password.link-support"))
                 )
               ),
               <.p(^.className := Seq(LoginOrRegisterStyles.text, TextStyles.smallText))(
-                unescape(I18n.t("form.login.noAccount")) + " ",
+                unescape(I18n.t("authenticate.switch-to-register-screen.intro") + " "),
                 <.a(^.className := TextStyles.boldText, ^.onClick := goTo(props.registerView))(
-                  unescape(I18n.t("form.login.createAccount"))
+                  unescape(I18n.t("authenticate.switch-to-register-screen.link-support"))
                 )
               )
             )
@@ -72,9 +72,9 @@ object LoginOrRegister {
                 ^.wrapped := RecoverPasswordContainerProps(props.onSuccessfulLogin)
               )(),
               <.p(^.className := Seq(LoginOrRegisterStyles.text, TextStyles.smallText))(
-                unescape(I18n.t("form.recoverPassword.return")) + " ",
+                unescape(I18n.t("authenticate.back-to-login-screen.intro") + " "),
                 <.a(^.className := TextStyles.boldText, ^.onClick := goTo("login"))(
-                  unescape(I18n.t("form.recoverPassword.connectScreen"))
+                  unescape(I18n.t("authenticate.back-to-login-screen.link-support"))
                 )
               )
             )
@@ -87,8 +87,10 @@ object LoginOrRegister {
                 )
               )(),
               <.p(^.className := Seq(LoginOrRegisterStyles.text, TextStyles.smallText))(
-                unescape(I18n.t("form.register.alreadySubscribed")) + " ",
-                <.a(^.className := TextStyles.boldText, ^.onClick := goTo("login"))(unescape(I18n.t("form.connection")))
+                unescape(I18n.t("authenticate.switch-to-login-screen.intro") + " "),
+                <.a(^.className := TextStyles.boldText, ^.onClick := goTo("login"))(
+                  unescape(I18n.t("authenticate.switch-to-login-screen.link-support"))
+                )
               )
             )
           } else {
@@ -100,8 +102,10 @@ object LoginOrRegister {
                 )
               )(),
               <.p(^.className := Seq(LoginOrRegisterStyles.text, TextStyles.smallText))(
-                unescape(I18n.t("form.register.alreadySubscribed")) + " ",
-                <.a(^.className := TextStyles.boldText, ^.onClick := goTo("login"))(unescape(I18n.t("form.connection")))
+                unescape(I18n.t("authenticate.switch-to-login-screen.intro") + " "),
+                <.a(^.className := TextStyles.boldText, ^.onClick := goTo("login"))(
+                  unescape(I18n.t("authenticate.switch-to-login-screen.link-support"))
+                )
               )
             )
           }, <.style()(LoginOrRegisterStyles.render[String]))
@@ -120,5 +124,4 @@ object LoginOrRegisterStyles extends StyleSheet.Inline {
       color(ThemeStyles.TextColor.lighter),
       unsafeChild("a")(color(ThemeStyles.ThemeColor.primary))
     )
-
 }

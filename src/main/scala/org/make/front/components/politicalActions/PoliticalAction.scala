@@ -37,20 +37,12 @@ object PoliticalAction {
                 <.p(^.className := Seq(TextStyles.smallerText, PoliticalActionStyles.info))(unescape(introduction))
             }, politicalAction.date.map { date =>
               <.p(^.className := Seq(TextStyles.smallerText, PoliticalActionStyles.info))(
-                <.i(
-                  ^.className := Seq(
-                    FontAwesomeStyles.fa,
-                    PoliticalActionStyles.infoIcon,
-                    FontAwesomeStyles.calendarOpen
-                  )
-                )(),
+                <.i(^.className := Seq(PoliticalActionStyles.infoIcon, FontAwesomeStyles.calendarOpen))(),
                 date
               )
             }, politicalAction.location.map { location =>
               <.p(^.className := Seq(TextStyles.smallerText, PoliticalActionStyles.info))(
-                <.i(
-                  ^.className := Seq(FontAwesomeStyles.fa, PoliticalActionStyles.infoIcon, FontAwesomeStyles.mapMarker)
-                )(),
+                <.i(^.className := Seq(PoliticalActionStyles.infoIcon, FontAwesomeStyles.mapMarker))(),
                 location
               )
             }, <.p(^.className := Seq(TextStyles.boldText, TextStyles.mediumText, PoliticalActionStyles.text))(unescape(politicalAction.text), <.br()(), politicalAction.links.map(links => <.span(^.dangerouslySetInnerHTML := links, ^.className := PoliticalActionStyles.links)()))),

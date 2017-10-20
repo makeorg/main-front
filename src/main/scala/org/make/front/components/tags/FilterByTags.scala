@@ -48,8 +48,8 @@ object FilterByTags {
 
         <.div()(
           <.p(^.className := Seq(FilterByTagsStyles.intro))(
-            <.i(^.className := Seq(FilterByTagsStyles.illInIntro, FontAwesomeStyles.fa, FontAwesomeStyles.lineChart))(),
-            unescape(I18n.t("content.theme.matrix.filter.tag.title"))
+            <.i(^.className := Seq(FilterByTagsStyles.illInIntro, FontAwesomeStyles.lineChart))(),
+            unescape(I18n.t("tags.filter.intro"))
           ),
           <.nav(^.className := FilterByTagsStyles.tagsList)(<.TagsListComponent(^.wrapped := tagsListProps)()),
           <.style()(FilterByTagsStyles.render[String])

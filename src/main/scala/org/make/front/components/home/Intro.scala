@@ -24,20 +24,20 @@ object Intro {
           <.div(^.className := Seq(IntroStyles.innerSubWrapper, RowRulesStyles.centeredRow))(
             <.div(^.className := ColRulesStyles.col)(
               <.div(^.className := IntroStyles.labelWrapper)(
-                <.p(^.className := TextStyles.label)(unescape(I18n.t("content.homepage.baseline")))
+                <.p(^.className := TextStyles.label)(unescape(I18n.t("home.intro.baseline")))
               ),
               <.h2(^.className := Seq(IntroStyles.title, TextStyles.veryBigText, TextStyles.boldText))(
-                unescape(I18n.t("content.homepage.title"))
+                unescape(I18n.t("home.intro.title"))
               ),
               <.h3(^.className := Seq(TextStyles.mediumText, IntroStyles.subTitle))(
-                unescape(I18n.t("content.homepage.subTitle"))
+                unescape(I18n.t("home.intro.subtitle"))
               ),
               <.p(^.className := IntroStyles.ctaWrapper)(
                 <.a(
-                  ^.href := "https://about.make.org/qui-sommes-nous",
+                  ^.href := I18n.t("home.intro.see-more-link"),
                   ^.target := "_blank",
                   ^.className := Seq(CTAStyles.basic, CTAStyles.basicOnA)
-                )(unescape(I18n.t("content.homepage.textSeeMore")))
+                )(unescape(I18n.t("home.intro.see-more")))
               ),
               <.style()(IntroStyles.render[String])
             )

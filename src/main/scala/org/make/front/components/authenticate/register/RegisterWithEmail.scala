@@ -10,7 +10,7 @@ import org.make.front.Main.CssSettings._
 import org.make.front.components.Components._
 import org.make.front.components.authenticate.NewPasswordInput.NewPasswordInputProps
 import org.make.front.facades.Unescape.unescape
-import org.make.front.facades.{FacebookPixel, I18n, Replacements}
+import org.make.front.facades.{I18n, Replacements}
 import org.make.front.styles._
 import org.make.front.styles.base.TextStyles
 import org.make.front.styles.ui.{CTAStyles, InputStyles}
@@ -40,20 +40,24 @@ object RegisterWithEmail {
             "email",
             NotBlankConstraint.&(EmailConstraint),
             Map(
-              "invalid" -> I18n.t("form.register.errorInvalidEmail"),
-              "notBlank" -> I18n.t("form.register.errorBlankEmail")
+              "invalid" -> I18n.t("authenticate.inputs.email.format-error"),
+              "notBlank" -> I18n.t("authenticate.inputs.email.empty-field-error")
             )
           ),
           (
             "password",
             NotBlankConstraint.&(PasswordConstraint),
             Map(
-              "notBlank" -> I18n.t("form.register.errorBlankPassword"),
+              "notBlank" -> I18n.t("authenticate.inputs.password.empty-field-error"),
               "minMessage" -> I18n
-                .t("form.register.errorMinPassword", Replacements("min" -> PasswordConstraint.min.toString))
+                .t("authenticate.inputs.password.format-error", Replacements("min" -> PasswordConstraint.min.toString))
             )
           ),
-          ("firstName", NotBlankConstraint, Map("notBlank" -> I18n.t("form.register.errorBlankFirstName")))
+          (
+            "firstName",
+            NotBlankConstraint,
+            Map("notBlank" -> I18n.t("authenticate.inputs.first-name.empty-field-error"))
+          )
         )
       }
 
@@ -88,7 +92,7 @@ object RegisterWithEmail {
                     self.setState(
                       state =>
                         state
-                          .copy(errors = state.errors + ("global" -> I18n.t("form.register.errorRegistrationFailed")))
+                          .copy(errors = state.errors + ("global" -> I18n.t("authenticate.failure")))
                     )
                 }
             }
@@ -106,7 +110,7 @@ object RegisterWithEmail {
           <.input(
             ^.`type`.email,
             ^.required := true,
-            ^.placeholder := s"${I18n.t("form.fieldLabelEmail")} ${I18n.t("form.required")}",
+            ^.placeholder := s"${I18n.t("authenticate.inputs.email.placeholder")} ${I18n.t("authenticate.inputs.required")}",
             ^.onChange := updateField("email"),
             ^.value := self.state.fields.getOrElse("email", "")
           )()
@@ -119,7 +123,8 @@ object RegisterWithEmail {
             ^.wrapped := NewPasswordInputProps(
               value = self.state.fields.getOrElse("password", ""),
               required = true,
-              placeHolder = s"${I18n.t("form.fieldLabelPassword")} ${I18n.t("form.required")}",
+              placeHolder =
+                s"${I18n.t("authenticate.inputs.password.placeholder")} ${I18n.t("authenticate.inputs.required")}",
               onChange = updateField("password")
             )
           )()
@@ -138,7 +143,7 @@ object RegisterWithEmail {
             ^.`type`.text,
             ^.required := true,
             ^.className := Seq(InputStyles.withIcon),
-            ^.placeholder := s"${I18n.t("form.fieldLabelFirstName")} ${I18n.t("form.required")}",
+            ^.placeholder := s"${I18n.t("authenticate.inputs.first-name.placeholder")} ${I18n.t("authenticate.inputs.required")}",
             ^.onChange := updateField("firstName"),
             ^.value := self.state.fields.getOrElse("firstName", "")
           )()
@@ -154,14 +159,12 @@ object RegisterWithEmail {
         },
         <.div(^.className := RegisterWithEmailStyles.submitButtonWrapper)(
           <.button(^.className := Seq(CTAStyles.basicOnButton, CTAStyles.basic), ^.`type` := "submit")(
-            I18n.t("form.register.subscribe")
+            I18n.t("authenticate.register.send-cta")
           )
         ),
         <.style()(RegisterWithEmailStyles.render[String])
       )
-
     })
-
 }
 
 object RegisterWithEmailStyles extends StyleSheet.Inline {
