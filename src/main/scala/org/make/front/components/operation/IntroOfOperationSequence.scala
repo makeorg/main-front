@@ -27,34 +27,30 @@ object IntroOfOperationSequence {
           FacebookPixel.fbq("trackCustom", "display-sequence-intro")
         },
         render = { self =>
-          <.div(^.className := Seq(IntroOfOperationSequenceStyles.wrapper))(
-            <.div(^.className := IntroOfOperationSequenceStyles.innerWrapper)(
-              <.div(^.className := Seq(RowRulesStyles.row))(
-                <.div(^.className := ColRulesStyles.col)(
-                  <.div(^.className := IntroOfOperationSequenceStyles.titleWrapper)(
-                    <.p(^.className := Seq(TextStyles.bigIntro, IntroOfOperationSequenceStyles.title))(
-                      unescape(I18n.t("operation.sequence.introduction.title"))
-                    )
-                  ),
-                  <.div(^.className := IntroOfOperationSequenceStyles.explanationWrapper)(
-                    <.p(^.className := Seq(TextStyles.biggerMediumText, IntroOfOperationSequenceStyles.explanation))(
-                      unescape(I18n.t("operation.sequence.introduction.explanation-1"))
-                    )
-                  ),
-                  <.div(^.className := IntroOfOperationSequenceStyles.explanationWrapper)(
-                    <.p(^.className := Seq(TextStyles.biggerMediumText, IntroOfOperationSequenceStyles.explanation))(
-                      unescape(I18n.t("operation.sequence.introduction.explanation-2"))
-                    )
-                  ),
-                  <.div(^.className := IntroOfOperationSequenceStyles.ctaWrapper)(
-                    <.button(
-                      ^.className := Seq(CTAStyles.basic, CTAStyles.basicOnButton),
-                      ^.onClick := self.props.wrapped.clickOnButtonHandler
-                    )(
-                      <.i(^.className := Seq(FontAwesomeStyles.paperPlaneTransparent))(),
-                      unescape("&nbsp;" + I18n.t("operation.sequence.introduction.cta"))
-                    )
-                  )
+          <.div(^.className := Seq(RowRulesStyles.row))(
+            <.div(^.className := ColRulesStyles.col)(
+              <.div(^.className := IntroOfOperationSequenceStyles.titleWrapper)(
+                <.p(^.className := Seq(TextStyles.bigIntro, IntroOfOperationSequenceStyles.title))(
+                  unescape(I18n.t("operation.sequence.introduction.title"))
+                )
+              ),
+              <.div(^.className := IntroOfOperationSequenceStyles.explanationWrapper)(
+                <.p(^.className := Seq(TextStyles.biggerMediumText, IntroOfOperationSequenceStyles.explanation))(
+                  unescape(I18n.t("operation.sequence.introduction.explanation-1"))
+                )
+              ),
+              <.div(^.className := IntroOfOperationSequenceStyles.explanationWrapper)(
+                <.p(^.className := Seq(TextStyles.biggerMediumText, IntroOfOperationSequenceStyles.explanation))(
+                  unescape(I18n.t("operation.sequence.introduction.explanation-2"))
+                )
+              ),
+              <.div(^.className := IntroOfOperationSequenceStyles.ctaWrapper)(
+                <.button(
+                  ^.className := Seq(CTAStyles.basic, CTAStyles.basicOnButton),
+                  ^.onClick := self.props.wrapped.clickOnButtonHandler
+                )(
+                  <.i(^.className := Seq(FontAwesomeStyles.paperPlaneTransparent))(),
+                  unescape("&nbsp;" + I18n.t("operation.sequence.introduction.cta"))
                 )
               )
             ),
@@ -68,12 +64,6 @@ object IntroOfOperationSequence {
 object IntroOfOperationSequenceStyles extends StyleSheet.Inline {
 
   import dsl._
-
-  val wrapper: StyleA =
-    style(display.table, width(100.%%), height(100.%%))
-
-  val innerWrapper: StyleA =
-    style(display.tableCell, verticalAlign.middle)
 
   val titleWrapper: StyleA =
     style(marginBottom(ThemeStyles.SpacingValue.medium.pxToEm()))

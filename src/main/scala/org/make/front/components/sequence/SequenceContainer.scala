@@ -6,7 +6,12 @@ import io.github.shogowada.scalajs.reactjs.redux.ReactRedux
 import io.github.shogowada.scalajs.reactjs.redux.Redux.Dispatch
 import org.make.front.actions.NotifyError
 import org.make.front.components.AppState
-import org.make.front.models.{Operation => OperationModel, Proposal => ProposalModel, Sequence => SequenceModel}
+import org.make.front.models.{
+  Operation => OperationModel,
+  Theme     => ThemeModel,
+  Proposal  => ProposalModel,
+  Sequence  => SequenceModel
+}
 import org.make.services.proposal.{ContextRequest, ProposalService}
 
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -16,8 +21,11 @@ object SequenceContainer {
 
   final case class SequenceContainerProps(sequence: SequenceModel,
                                           maybeThemeColor: Option[String],
+                                          maybeTheme: Option[ThemeModel] = None,
+                                          maybeOperation: Option[OperationModel] = None,
                                           intro: ReactClass,
-                                          conclusion: ReactClass)
+                                          conclusion: ReactClass,
+                                          promptingToPropose: ReactClass)
 
   lazy val reactClass: ReactClass = ReactRedux.connectAdvanced(selectorFactory)(Sequence.reactClass)
 
@@ -40,9 +48,12 @@ object SequenceContainer {
         Sequence.SequenceProps(
           sequence = props.wrapped.sequence,
           maybeThemeColor = props.wrapped.maybeThemeColor,
+          maybeTheme = props.wrapped.maybeTheme,
+          maybeOperation = props.wrapped.maybeOperation,
           proposals = proposals,
           intro = props.wrapped.intro,
-          conclusion = props.wrapped.conclusion
+          conclusion = props.wrapped.conclusion,
+          promptingToPropose = props.wrapped.promptingToPropose
         )
       }
     }

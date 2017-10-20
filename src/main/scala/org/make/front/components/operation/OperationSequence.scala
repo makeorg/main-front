@@ -157,8 +157,10 @@ object OperationSequence {
                 ^.wrapped := SequenceContainerProps(
                   sequence = self.props.wrapped.sequence,
                   maybeThemeColor = Some(gradientValues.from),
+                  maybeOperation = Some(self.props.wrapped.operation),
                   intro = IntroOfOperationSequence.reactClass,
-                  conclusion = ConclusionOfOperationSequenceContainer.reactClass
+                  conclusion = ConclusionOfOperationSequenceContainer.reactClass,
+                  promptingToPropose = PromptingToProposeInsideOperationSequence.reactClass
                 )
               )()
             )

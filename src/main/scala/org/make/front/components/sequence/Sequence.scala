@@ -6,10 +6,16 @@ import io.github.shogowada.scalajs.reactjs.VirtualDOM.{<, _}
 import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import org.make.front.components.Components._
 import org.make.front.components.operation.IntroOfOperationSequence.IntroOfOperationSequenceProps
+import org.make.front.components.operation.PromptingToProposeInsideOperationSequence.PromptingToProposeInsideOperationSequenceProps
 import org.make.front.components.sequence.ProgressBar.ProgressBarProps
 import org.make.front.components.sequence.ProposalInsideSequence.ProposalInsideSequenceProps
 import org.make.front.facades.{FacebookPixel, I18n}
 import org.make.front.facades.ReactSlick.{ReactTooltipVirtualDOMAttributes, ReactTooltipVirtualDOMElements, Slider}
+import org.make.front.models.{
+  Theme       => ThemeModel,
+  Operation   => OperationModel,
+  OperationId => OperationIdModel
+}
 import org.make.front.models.{Proposal => ProposalModel, ProposalId => ProposalIdModel, Sequence => SequenceModel}
 import org.make.front.styles.ThemeStyles
 import org.make.front.styles.utils._
@@ -27,9 +33,12 @@ object Sequence {
 
   final case class SequenceProps(sequence: SequenceModel,
                                  maybeThemeColor: Option[String],
+                                 maybeTheme: Option[ThemeModel],
+                                 maybeOperation: Option[OperationModel],
                                  proposals: Future[Seq[ProposalModel]],
                                  intro: ReactClass,
-                                 conclusion: ReactClass)
+                                 conclusion: ReactClass,
+                                 promptingToPropose: ReactClass)
 
   final case class SequenceState(proposals: Seq[ProposalModel],
                                  displayedProposals: Seq[ProposalModel],
@@ -169,6 +178,7 @@ object Sequence {
             self.setState(_.copy(proposals = updatedProposals, displayedProposals = updatedDisplayedProposals))
         }
 
+
         <.div(^.className := Seq(SequenceStyles.wrapper))(
           <.div(^.className := SequenceStyles.progressBarWrapper)(
             <.div(^.className := SequenceStyles.progressBarInnerWrapper)(
@@ -176,7 +186,7 @@ object Sequence {
                 <.ProgressBarComponent(
                   ^.wrapped := ProgressBarProps(
                     value = self.state.currentSlideIndex,
-                    total = if (self.state.proposals.nonEmpty) { self.state.proposals.size + 2 } else { 0 },
+                    total = if (self.state.proposals.nonEmpty) { self.state.proposals.size + 3 } else { 0 },
                     maybeThemeColor = self.props.wrapped.maybeThemeColor
                   )
                 )()
@@ -205,13 +215,38 @@ object Sequence {
                     )(
                       <.div(^.className := SequenceStyles.slideWrapper)(
                         <.article(^.className := SequenceStyles.slide)(
-                          <(self.props.wrapped.intro)(
-                            ^.wrapped := IntroOfOperationSequenceProps(clickOnButtonHandler = startSequence)
-                          )()
+                          <.div(^.className := SequenceStyles.slideInnerWrapper)(
+                            <.div(^.className := SequenceStyles.slideInnerSubWrapper)(
+                              <(self.props.wrapped.intro)(
+                                ^.wrapped := IntroOfOperationSequenceProps(clickOnButtonHandler = startSequence)
+                              )()
+                            )
+                          )
                         )
                       ),
                       self.state.displayedProposals.map {
+                        var i: Int = 0
                         proposal: ProposalModel =>
+                          i = i + 1
+                          Seq(if (i == (self.state.displayedProposals.size / 2) + 2) {
+                            <.div(^.className := SequenceStyles.slideWrapper)(
+                              <.article(^.className := SequenceStyles.slide)(
+                                <.div(^.className := SequenceStyles.slideInnerWrapper)(
+                                  <.div(^.className := SequenceStyles.slideInnerSubWrapper)(
+                                    <(self.props.wrapped.promptingToPropose)(
+                                      ^.wrapped := PromptingToProposeInsideOperationSequenceProps(
+                                        operation = self.props.wrapped.maybeOperation
+                                          .getOrElse(
+                                            OperationModel(OperationIdModel("fake"), "", "", "", 0, 0, "", None)
+                                          ),
+                                        clickOnButtonHandler = nextProposal
+                                      )
+                                    )()
+                                  )
+                                )
+                              )
+                            )
+                          },
                           <.div(^.className := SequenceStyles.slideWrapper)(
                             <.article(^.className := SequenceStyles.slide)(
                               <.div(^.className := SequenceStyles.slideInnerWrapper)(
@@ -232,11 +267,17 @@ object Sequence {
                                 )
                               )
                             )
-                          )
-                      },
+                          ))},
+
                       if (self.state.votes.size == self.state.proposals.size) {
                         <.div(^.className := SequenceStyles.slideWrapper)(
-                          <.article(^.className := SequenceStyles.slide)(<(self.props.wrapped.conclusion).empty)
+                          <.article(^.className := SequenceStyles.slide)(
+                            <.div(^.className := SequenceStyles.slideInnerWrapper)(
+                              <.div(^.className := SequenceStyles.slideInnerSubWrapper)(
+                                <(self.props.wrapped.conclusion).empty
+                              )
+                            )
+                          )
                         )
                       }
                     ),

@@ -255,6 +255,11 @@ object Translations {
       |          "explanation-2": "Les plus soutenues détermineront nos&nbsp;actions.",
       |          "cta": "Démarrer"
       |        },
+      |        "prompting-to-propose": {
+      |           "intro": "Et vous, avez-vous une solution à proposer sur ce&nbsp;sujet&nbsp;?",
+      |           "propose-cta": "Proposer",
+      |           "next-cta": "Pas encore, je continue à voter"
+      |        },
       |        "conclusion": {
       |          "title": "Merci pour votre contribution&nbsp;!",
       |          "info": "Nous vous tiendrons informé.e de l’avancée et des résultats de la consultation par&nbsp;mail.",
