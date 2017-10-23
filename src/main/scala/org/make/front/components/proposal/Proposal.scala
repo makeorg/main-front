@@ -13,7 +13,7 @@ import scalacss.DevDefaults._
 
 object Proposal {
 
-  final case class ProposalProps(proposal: ProposalModel)
+  final case class ProposalProps(proposal: ProposalModel, index: Int)
 
   val reactClass: ReactClass =
     React
@@ -27,7 +27,12 @@ object Proposal {
             ),
             <.div(^.className := ProposalStyles.contentWrapper)(
               <.h3(^.className := Seq(TextStyles.mediumText, TextStyles.boldText))(self.props.wrapped.proposal.content),
-              <.VoteContainerComponent(^.wrapped := VoteContainerProps(proposal = self.props.wrapped.proposal))()
+              <.VoteContainerComponent(
+                ^.wrapped := VoteContainerProps(
+                  proposal = self.props.wrapped.proposal,
+                  index = self.props.wrapped.index
+                )
+              )()
             ),
             <.style()(ProposalStyles.render[String])
           )

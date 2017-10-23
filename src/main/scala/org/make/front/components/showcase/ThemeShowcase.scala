@@ -4,6 +4,7 @@ import io.github.shogowada.scalajs.reactjs.React
 import io.github.shogowada.scalajs.reactjs.VirtualDOM.{<, _}
 import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import io.github.shogowada.scalajs.reactjs.router.dom.RouterDOM._
+import org.make.core.Counter
 import org.make.front.components.Components.{RichVirtualDOMElements, _}
 import org.make.front.components.proposal.Proposal.ProposalProps
 import org.make.front.facades.HexToRgba
@@ -54,6 +55,8 @@ object ThemeShowcase {
             }
         }
 
+        val counter = Counter.showcaseCounter
+
         <.section(^.className := Seq(ThemeShowcaseStyles.wrapper, DynamicThemeShowcaseStyles.gradient(index)))(
           if (self.state.proposals.nonEmpty) {
             Seq(
@@ -83,7 +86,7 @@ object ThemeShowcase {
                       )(
                         <.ProposalComponent(
                           ^.wrapped :=
-                            ProposalProps(proposal = proposal)
+                            ProposalProps(proposal = proposal, index = counter.getAndIncrement())
                         )()
                     )
                   )

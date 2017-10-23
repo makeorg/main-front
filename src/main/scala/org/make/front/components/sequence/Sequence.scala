@@ -190,7 +190,8 @@ object Sequence {
                     ^.wrapped := VoteContainerProps(
                       proposal = proposal,
                       onSuccessfulVote = nextOnSuccessfulVote(proposal.id),
-                      onSuccessfulQualification = onSuccessfulQualification(proposal.id)
+                      onSuccessfulQualification = onSuccessfulQualification(proposal.id),
+                      index = self.state.currentSlideIndex
                     )
                   )(),
                   <.div(^.className := ProposalInSlideStyles.ctaWrapper)(

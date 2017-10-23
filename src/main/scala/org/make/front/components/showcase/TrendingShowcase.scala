@@ -3,6 +3,7 @@ package org.make.front.components.showcase
 import io.github.shogowada.scalajs.reactjs.React
 import io.github.shogowada.scalajs.reactjs.VirtualDOM._
 import io.github.shogowada.scalajs.reactjs.classes.ReactClass
+import org.make.core.Counter
 import org.make.front.components.Components._
 import org.make.front.components.proposal.Proposal.ProposalProps
 import org.make.front.components.proposal.ProposalWithThemeContainer.ProposalWithThemeContainerProps
@@ -36,6 +37,8 @@ object TrendingShowcase {
           case Success(results) => self.setState(_.copy(proposals = results.results))
         }
 
+        val counter = Counter.showcaseCounter
+
         <.section(^.className := TrendingShowcaseStyles.wrapper)(if (self.state.proposals.nonEmpty) {
           Seq(
             <.div(^.className := RowRulesStyles.centeredRow)(
@@ -64,12 +67,12 @@ object TrendingShowcase {
                     )(if (proposal.themeId.isDefined) {
                       <.ProposalWithThemeContainerComponent(
                         ^.wrapped :=
-                          ProposalWithThemeContainerProps(proposal = proposal)
+                          ProposalWithThemeContainerProps(proposal = proposal, index = counter.getAndIncrement())
                       )()
                     } else {
                       <.ProposalComponent(
                         ^.wrapped :=
-                          ProposalProps(proposal = proposal)
+                          ProposalProps(proposal = proposal, index = counter.getAndIncrement())
                       )()
                     })
                 )

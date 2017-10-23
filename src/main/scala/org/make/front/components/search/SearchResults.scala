@@ -4,6 +4,7 @@ import io.github.shogowada.scalajs.reactjs.React
 import io.github.shogowada.scalajs.reactjs.VirtualDOM.{<, _}
 import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import io.github.shogowada.scalajs.reactjs.router.WithRouter
+import org.make.core.Counter
 import org.make.front.components.Components.{RichVirtualDOMElements, _}
 import org.make.front.components.proposal.ProposalWithThemeContainer.ProposalWithThemeContainerProps
 import org.make.front.components.search.NoResultToSearch.NoResultToSearchProps
@@ -87,6 +88,7 @@ object SearchResults {
                 ^.loadMore := onSeeMore,
                 ^.loader := <.li(^.className := SearchResultsStyles.spinnerWrapper)(<.SpinnerComponent.empty)
               )(if (proposals.nonEmpty) {
+                val counter = new Counter()
                 proposals.map(
                   proposal =>
                     <.li(
@@ -99,7 +101,7 @@ object SearchResults {
                     )(
                       <.ProposalWithThemeContainerComponent(
                         ^.wrapped :=
-                          ProposalWithThemeContainerProps(proposal = proposal)
+                          ProposalWithThemeContainerProps(proposal = proposal, index = counter.getAndIncrement())
                       )()
                   )
                 )

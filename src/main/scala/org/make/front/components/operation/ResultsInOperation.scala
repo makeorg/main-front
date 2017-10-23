@@ -4,6 +4,7 @@ import io.github.shogowada.scalajs.reactjs.React
 import io.github.shogowada.scalajs.reactjs.VirtualDOM._
 import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import io.github.shogowada.scalajs.reactjs.elements.ReactElement
+import org.make.core.Counter
 import org.make.front.Main.CssSettings._
 import org.make.front.components.Components._
 import org.make.front.components.proposal.ProposalWithTags.ProposalWithTagsProps
@@ -100,19 +101,22 @@ object ResultsInOperation {
               ^.initialLoad := false,
               ^.loadMore := (_ => onSeeMore()),
               ^.loader := <.li(^.className := ResultsInOperationStyles.spinnerWrapper)(<.SpinnerComponent.empty)
-            )(
-              proposals.map(
-                proposal =>
-                  <.li(
-                    ^.className := Seq(
-                      ResultsInOperationStyles.item,
-                      ColRulesStyles.col,
-                      ColRulesStyles.colHalfBeyondMedium,
-                      ColRulesStyles.colQuarterBeyondLarge
-                    )
-                  )(<.ProposalWithTagsComponent(^.wrapped := ProposalWithTagsProps(proposal = proposal))())
-              )
-            ),
+            )(proposals.map {
+              val counter = new Counter()
+              proposal =>
+                <.li(
+                  ^.className := Seq(
+                    ResultsInOperationStyles.item,
+                    ColRulesStyles.col,
+                    ColRulesStyles.colHalfBeyondMedium,
+                    ColRulesStyles.colQuarterBeyondLarge
+                  )
+                )(
+                  <.ProposalWithTagsComponent(
+                    ^.wrapped := ProposalWithTagsProps(proposal = proposal, index = counter.getAndIncrement())
+                  )()
+                )
+            }),
             if (self.state.hasMore && !self.state.hasRequestedMore) {
               <.div(^.className := Seq(ResultsInOperationStyles.seeMoreButtonWrapper, ColRulesStyles.col))(
                 <.button(^.onClick := onSeeMore, ^.className := Seq(CTAStyles.basic, CTAStyles.basicOnButton))(

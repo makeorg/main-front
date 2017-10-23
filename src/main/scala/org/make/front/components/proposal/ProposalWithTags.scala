@@ -17,7 +17,7 @@ import scalacss.internal.mutable.StyleSheet
 
 object ProposalWithTags {
 
-  final case class ProposalWithTagsProps(proposal: ProposalModel)
+  final case class ProposalWithTagsProps(proposal: ProposalModel, index: Int)
 
   val reactClass: ReactClass =
     React
@@ -42,7 +42,12 @@ object ProposalWithTags {
                   <.h3(^.className := Seq(TextStyles.mediumText, TextStyles.boldText))(
                     self.props.wrapped.proposal.content
                   ),
-                  <.VoteContainerComponent(^.wrapped := VoteContainerProps(proposal = self.props.wrapped.proposal))()
+                  <.VoteContainerComponent(
+                    ^.wrapped := VoteContainerProps(
+                      proposal = self.props.wrapped.proposal,
+                      index = self.props.wrapped.index
+                    )
+                  )()
                 )
               ),
               if (self.props.wrapped.proposal.tags.nonEmpty) {

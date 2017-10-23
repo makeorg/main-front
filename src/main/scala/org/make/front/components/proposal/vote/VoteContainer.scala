@@ -17,7 +17,8 @@ import scala.util.{Failure, Success}
 
 object VoteContainer {
 
-  final case class VoteContainerProps(proposal: ProposalModel,
+  final case class VoteContainerProps(index: Int,
+                                      proposal: ProposalModel,
                                       onSuccessfulVote: (VoteResponse)                           => Unit = (_)    => {},
                                       onSuccessfulQualification: (String, QualificationResponse) => Unit = (_, _) => {})
 
@@ -68,7 +69,8 @@ object VoteContainer {
         vote = vote,
         unvote = unvote,
         qualifyVote = qualify,
-        removeVoteQualification = removeQualification
+        removeVoteQualification = removeQualification,
+        index = ownProps.wrapped.index
       )
     }
 }
