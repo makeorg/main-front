@@ -2,13 +2,14 @@ package org.make.front.models
 
 import org.make.core.Counter
 
+import scala.collection.mutable
 import scala.scalajs.js
 
 @js.native
 trait BusinessConfigurationResponse extends js.Object {
   val proposalMinLength: Int
   val proposalMaxLength: Int
-  val themes: Seq[BusinessConfigurationTheme]
+  val themes: js.Array[BusinessConfigurationTheme]
   val newVisitorCookieDefinition: String
 }
 
@@ -24,24 +25,27 @@ case class BusinessConfiguration(proposalMinLength: Int,
 
 object BusinessConfiguration {
   def apply(businessConfigurationResponse: BusinessConfigurationResponse) : BusinessConfiguration = {
+    val seqThemes: mutable.Seq[BusinessConfigurationTheme] = businessConfigurationResponse.themes
+
     BusinessConfiguration(
       proposalMinLength = businessConfigurationResponse.proposalMinLength,
       proposalMaxLength = businessConfigurationResponse.proposalMaxLength,
-      themes = businessConfigurationResponse.themes,
-      newVisitorCookieDefinition = businessConfigurationResponse.newVisitorCookieDefinition)
+      themes = seqThemes,
+      newVisitorCookieDefinition = businessConfigurationResponse.newVisitorCookieDefinition
+    )
   }
 }
 
 @js.native
 trait BusinessConfigurationTheme extends js.Object {
-  val themeId: ThemeId
-  val translations: Seq[ThemeTranslation]
+  val themeId: String
+  val translations: js.Array[ThemeTranslation]
   val actionsCount: Int
   val proposalsCount: Int
   val country: String
   val color: String
-  val gradient: Option[GradientColor]
-  val tags: Seq[Tag]
+  val gradient: js.UndefOr[GradientColor]
+  val tags: js.Array[Tag]
 
   def title(language: String): Option[String] = translations.find(_.language == language).map(_.title)
   def slug(language: String): Option[String] = translations.find(_.language == language).map(_.slug)
@@ -51,51 +55,26 @@ trait BusinessConfigurationTheme extends js.Object {
       slug  <- slug(locale)
     } yield {
       Theme(
-        id = themeId,
+        id = ThemeId(themeId),
         slug = slug,
         title = title,
         actionsCount = actionsCount,
         proposalsCount = proposalsCount,
+        country = locale,
         color = color,
-        gradient = gradient,
-        tags = tags,
+        gradient = gradient.toOption,
+        tags = tags.asInstanceOf[mutable.Seq[Tag]],
         order = counter.getAndIncrement()
       )
     }
   }
+
 }
 
-object BusinessConfigurationTheme {
-  def apply(themeId: ThemeId,
-            translations: Seq[ThemeTranslation],
-            actionsCount: Int,
-            proposalsCount: Int,
-            country: String,
-            color: String,
-            gradient: js.UndefOr[GradientColor],
-            tags: Seq[Tag] = Seq.empty): BusinessConfigurationTheme = {
-    js.Dynamic.literal(
-      themeId = themeId,
-      translations = translations,
-      actionsCount = actionsCount,
-      proposalsCount = proposalsCount,
-      country = country,
-      color = color,
-      gradient = gradient,
-      tags = tags
-    ).asInstanceOf[BusinessConfigurationTheme ]
-  }
-}
 
 @js.native
 trait ThemeTranslation extends js.Object {
   val slug: String
   val title: String
   val language: String
-}
-
-object ThemeTranslation {
-  def apply(slug: String, title: String, language: String): ThemeTranslation = {
-    js.Dynamic.literal(slug = slug, title = title, language = language).asInstanceOf[ThemeTranslation]
-  }
 }

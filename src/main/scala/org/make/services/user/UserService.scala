@@ -2,12 +2,9 @@ package org.make.services.user
 
 import java.time.LocalDate
 
-import io.circe.generic.auto._
-import io.circe.syntax._
 import org.make.client.MakeApiClient
 import org.make.client.models.UserResponse
 import org.make.core.URI._
-import org.make.core.{CirceClassFormatters, CirceFormatters}
 import org.make.front.facades.I18n
 import org.make.front.models.{OperationId, User}
 import org.make.services.ApiService
@@ -15,7 +12,7 @@ import org.make.services.ApiService
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
-object UserService extends ApiService with CirceClassFormatters with CirceFormatters {
+object UserService extends ApiService {
 
   override val resourceName: String = "user"
 
@@ -43,7 +40,7 @@ object UserService extends ApiService with CirceClassFormatters with CirceFormat
           dateOfBirth = age.map(age => {
             LocalDate.of(LocalDate.now.getYear - age, 1, 1)
           })
-        ).asJson.pretty(ApiService.printer),
+        ).toString,
         headers = headers
       )
       .map(User.apply)
@@ -77,7 +74,7 @@ object UserService extends ApiService with CirceClassFormatters with CirceFormat
     MakeApiClient
       .post[UserResponse](
         resourceName / "reset-password" / "request-reset",
-        data = Map("email" -> email).asJson.pretty(ApiService.printer)
+        data = Map("email" -> email).toString
       )
       .map { _ => }
   }
@@ -85,7 +82,7 @@ object UserService extends ApiService with CirceClassFormatters with CirceFormat
   def subscribeToNewsletter(email: String): Future[Unit] = {
     Future.successful {}
     MakeApiClient
-      .post[UserResponse](resourceName / "newsletter", data = Map("email" -> email).asJson.pretty(ApiService.printer))
+      .post[UserResponse](resourceName / "newsletter", data = Map("email" -> email).toString)
       .map { _ =>
         }
   }
@@ -105,7 +102,7 @@ object UserService extends ApiService with CirceClassFormatters with CirceFormat
     MakeApiClient
       .post[UserResponse](
         resourceName / "reset-password" / "change-password" / userId,
-        data = Map("resetToken" -> resetToken, "password" -> password).asJson.pretty(ApiService.printer)
+        data = Map("resetToken" -> resetToken, "password" -> password).toString
       )
       .map { _ =>
         true

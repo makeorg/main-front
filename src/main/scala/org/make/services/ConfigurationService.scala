@@ -9,9 +9,9 @@ import org.make.core.URI._
 import scala.concurrent.ExecutionContext.Implicits.global
 
 object ConfigurationService {
-
   def fetchConfiguration(): Future[BusinessConfiguration] = {
-    MakeApiClient.get[BusinessConfigurationResponse]("configurations" / "front").map(BusinessConfiguration.apply)
+    MakeApiClient.get[BusinessConfigurationResponse]("configurations" / "front").map{resposne =>
+      BusinessConfiguration(resposne)
+    }
   }
-
 }

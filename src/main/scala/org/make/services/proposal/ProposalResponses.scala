@@ -1,7 +1,5 @@
 package org.make.services.proposal
 
-import java.time.ZonedDateTime
-
 import org.make.front.models._
 
 import scala.scalajs.js
@@ -27,23 +25,23 @@ object SearchResult {
 
 @js.native
 trait ProposalResponse extends js.Object {
-  val id: ProposalId
-  val userId: UserId
+  val id: String
+  val userId: String
   val content: String
   val slug: String
   val status: String
-  val createdAt: ZonedDateTime
-  val updatedAt: Option[ZonedDateTime]
-  val votes: Seq[Vote]
+  val createdAt: String
+  val updatedAt: js.UndefOr[String]
+  val votes: js.Array[Vote]
   val context: ProposalContext
-  val trending: Option[String]
-  val labels: Seq[String]
+  val trending: js.UndefOr[String]
+  val labels: js.Array[String]
   val author: Author
   val country: String
   val language: String
-  val themeId: Option[ThemeId]
-  val operationId: Option[OperationId]
-  val tags: Seq[Tag]
+  val themeId: js.UndefOr[String]
+  val operationId: js.UndefOr[String]
+  val tags: js.Array[Tag]
   val myProposal: Boolean
 }
 
@@ -51,7 +49,7 @@ trait ProposalResponse extends js.Object {
 trait VoteResponse extends js.Object {
   val voteKey: String
   val count: Int
-  val qualifications: Seq[QualificationResponse]
+  val qualifications: js.Array[QualificationResponse]
   val hasVoted: Boolean
 }
 

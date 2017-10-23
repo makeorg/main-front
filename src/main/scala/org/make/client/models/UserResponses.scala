@@ -1,6 +1,5 @@
 package org.make.client.models
 
-import java.time.ZonedDateTime
 
 import org.make.front.models.{Profile, Role, UserId}
 
@@ -8,20 +7,20 @@ import scala.scalajs.js
 
 @js.native
 trait UserResponse extends js.Object {
-  val userId: UserId
+  val userId: String
   val email: String
-  val firstName: Option[String]
-  val lastName: Option[String]
+  val firstName: js.UndefOr[String]
+  val lastName: js.UndefOr[String]
   val enabled: Boolean
   val verified: Boolean
-  val lastConnection: ZonedDateTime
-  val roles: Seq[Role]
-  val profile: Option[Profile]
+  val lastConnection: String
+  val roles: js.Array[Role]
+  val profile: js.UndefOr[Profile]
 }
 
 @js.native
 trait AuthorResponse extends js.Object {
-  val firstName: Option[String]
-  val postalCode: Option[String]
-  val age: Option[Int]
+  val firstName: js.UndefOr[String]
+  val postalCode: js.UndefOr[String]
+  val age: js.UndefOr[Int]
 }

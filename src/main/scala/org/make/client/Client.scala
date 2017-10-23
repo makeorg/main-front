@@ -1,11 +1,10 @@
 package org.make.client
 
-import io.circe.generic.auto._
-import io.circe.syntax._
 import org.scalajs.dom.ext.Ajax.InputData
 
 import scala.concurrent.Future
 import scala.scalajs.js
+import js.JSConverters._
 
 trait Client {
   def baseUrl: String
@@ -38,7 +37,7 @@ case class ValidationError(field: String, message: Option[String])
 
 trait ValidationFailedHttpException extends HttpException {
   val errors: Seq[ValidationError]
-  override def getMessage: String = { errors.asJson.toString }
+  override def getMessage: String = { errors.toJSArray.toString }
 }
 
 case class BadRequestHttpException(override val errors: Seq[ValidationError]) extends ValidationFailedHttpException

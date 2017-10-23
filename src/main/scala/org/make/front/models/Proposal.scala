@@ -5,6 +5,7 @@ import java.time.ZonedDateTime
 import org.make.client.models.AuthorResponse
 import org.make.services.proposal.{ProposalResponse, QualificationResponse, RegisterProposalResponse, VoteResponse}
 
+import scala.collection.mutable
 import scala.scalajs.js
 
 //todo Add connected user info about proposal
@@ -36,23 +37,27 @@ final case class Proposal(id: ProposalId,
 
 object Proposal {
   def apply(proposalResponse: ProposalResponse): Proposal = {
-    Proposal(id = proposalResponse.id,
-            userId = proposalResponse.userId,
+    val seqVotes: mutable.Seq[Vote] = proposalResponse.votes
+    val seqLabels: mutable.Seq[String] = proposalResponse.labels
+    val seqTags: mutable.Seq[Tag] = proposalResponse.tags
+
+    Proposal(id = ProposalId(proposalResponse.id),
+            userId = UserId(proposalResponse.userId),
             content = proposalResponse.content,
             slug = proposalResponse.slug,
             status = proposalResponse.status,
-            createdAt = proposalResponse.createdAt,
-            updatedAt = proposalResponse.updatedAt,
-            votes = proposalResponse.votes,
+            createdAt = ZonedDateTime.parse(proposalResponse.createdAt),
+            updatedAt = Some(ZonedDateTime.parse(proposalResponse.updatedAt.get)),
+            votes = seqVotes,
             context = proposalResponse.context,
-            trending = proposalResponse.trending,
-            labels = proposalResponse.labels,
+            trending = proposalResponse.trending.toOption,
+            labels = seqLabels,
             author = proposalResponse.author,
             country = proposalResponse.country,
             language = proposalResponse.language,
-            themeId = proposalResponse.themeId,
-            operationId = proposalResponse.operationId,
-            tags = proposalResponse.tags,
+            themeId = Some(ThemeId(proposalResponse.themeId.get)),
+            operationId = Some(OperationId(proposalResponse.operationId.get)),
+            tags = seqTags,
             myProposal = proposalResponse.myProposal)
   }
 }
@@ -88,6 +93,7 @@ object Qualification {
   }
 }
 
+@js.native
 trait ProposalContext extends js.Object {
   val operation: js.UndefOr[String]
   val source: js.UndefOr[String]
@@ -114,9 +120,9 @@ final case class Author(firstName: Option[String], postalCode: Option[String], a
 object Author {
   def apply(authorResponse: AuthorResponse): Author = {
     Author(
-      firstName = authorResponse.firstName,
-      postalCode = authorResponse.postalCode,
-      age = authorResponse.age)
+      firstName = authorResponse.firstName.toOption,
+      postalCode = authorResponse.postalCode.toOption,
+      age = authorResponse.age.toOption)
   }
 }
 

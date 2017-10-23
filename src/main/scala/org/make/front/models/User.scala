@@ -2,8 +2,6 @@ package org.make.front.models
 
 import java.time.ZonedDateTime
 
-import io.circe._
-import org.make.core.StringValue
 import org.make.client.models.UserResponse
 
 import scala.scalajs.js
@@ -56,15 +54,15 @@ case class User(userId: UserId,
 object User {
   def apply(userResponse: UserResponse): User = {
     User(
-      userId = userResponse.userId,
+      userId = UserId(userResponse.userId),
       email = userResponse.email,
-      firstName = userResponse.firstName,
-      lastName = userResponse.lastName,
+      firstName = userResponse.firstName.toOption,
+      lastName = userResponse.lastName.toOption,
       enabled = userResponse.enabled,
       verified = userResponse.verified,
-      lastConnection = userResponse.lastConnection,
+      lastConnection = ZonedDateTime.parse(userResponse.lastConnection),
       roles = userResponse.roles,
-      profile = userResponse.profile)
+      profile = userResponse.profile.toOption)
   }
 }
 trait UserId extends js.Object {

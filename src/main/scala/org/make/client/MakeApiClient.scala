@@ -1,9 +1,5 @@
 package org.make.client
 
-import io.circe.generic.auto._
-import io.circe.parser._
-import io.circe.syntax._
-import io.circe.{Decoder, Printer}
 import io.github.shogowada.statictags.MediaTypes
 import org.make.core.URI._
 import org.make.front.facades.Configuration
@@ -12,6 +8,7 @@ import org.scalajs.dom.XMLHttpRequest
 import org.scalajs.dom.ext.Ajax.InputData
 import org.scalajs.dom.ext.{Ajax, AjaxException}
 
+import scalajs.js.Dynamic.{global => g}
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.{Future, Promise}
 import scala.scalajs.js
@@ -41,7 +38,6 @@ object MakeApiClient extends Client {
   def removeToken(): Unit = token = None
   def isAuthenticated: Boolean = token.isDefined
 
-  val printer: Printer = Printer.noSpaces
   val maxTimeout: Int = 5000
   val withCredentials: Boolean = true
 
@@ -199,7 +195,7 @@ object MakeApiClient extends Client {
                                       token: String): Future[Boolean] = {
     post[Token](
       "user" / "login" / "social",
-      data = Map("provider" -> provider, "token" -> token).asJson.pretty(MakeApiClient.printer)
+      data = Map("provider" -> provider, "token" -> token).toString
     ).map { newToken =>
       MakeApiClient.setToken(Option(newToken))
       MakeApiClient.isAuthenticated

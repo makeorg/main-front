@@ -1,19 +1,15 @@
 package org.make.services.proposal
 
-import io.circe.generic.auto._
-import io.circe.syntax._
 import org.make.client.MakeApiClient
 import org.make.core.URI._
-import org.make.core.{CirceClassFormatters, CirceFormatters}
 import org.make.front.facades.I18n
 import org.make.front.models._
 import org.make.services.ApiService
-import org.make.services.proposal.{QualificationResponse, VoteResponse, RegisterProposalResponse}
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
-object ProposalService extends ApiService with CirceClassFormatters with CirceFormatters {
+object ProposalService extends ApiService {
 
   override val resourceName: String = "proposals"
 
@@ -41,7 +37,7 @@ object ProposalService extends ApiService with CirceClassFormatters with CirceFo
     val registerProposalResponse = MakeApiClient
       .post[RegisterProposalResponse](
         resourceName,
-        data = RegisterProposalRequest(content).asJson.pretty(ApiService.printer)
+        data = RegisterProposalRequest(content).toString
       )
       .map(RegisterProposal.apply)
     MakeApiClient.customHeaders = backupHeaders
@@ -73,7 +69,7 @@ object ProposalService extends ApiService with CirceClassFormatters with CirceFo
           limit = limit,
           skip = skip,
           sort = sort
-        ).asJson.pretty(ApiService.printer)
+        ).toString
       )
       .map(SearchResult.apply)
   }
@@ -82,7 +78,7 @@ object ProposalService extends ApiService with CirceClassFormatters with CirceFo
     MakeApiClient
       .post[VoteResponse](
         apiEndpoint = resourceName / proposalId.value / "vote",
-        data = VoteRequest(voteValue).asJson.pretty(ApiService.printer)
+        data = VoteRequest(voteValue).toString
       )
       .map(Vote.apply)
   }
@@ -91,7 +87,7 @@ object ProposalService extends ApiService with CirceClassFormatters with CirceFo
     MakeApiClient
       .post[VoteResponse](
         apiEndpoint = resourceName / proposalId.value / "unvote",
-        data = VoteRequest(oldVoteValue).asJson.pretty(ApiService.printer)
+        data = VoteRequest(oldVoteValue).toString
       )
       .map(Vote.apply)
   }
@@ -100,7 +96,7 @@ object ProposalService extends ApiService with CirceClassFormatters with CirceFo
     MakeApiClient
       .post[QualificationResponse](
         apiEndpoint = resourceName / proposalId.value / "qualification",
-        data = QualificationRequest(voteKey = vote, qualificationKey = qualification).asJson.pretty(ApiService.printer)
+        data = QualificationRequest(voteKey = vote, qualificationKey = qualification).toString
       )
       .map(Qualification.apply)
   }
@@ -111,7 +107,7 @@ object ProposalService extends ApiService with CirceClassFormatters with CirceFo
     MakeApiClient
       .post[QualificationResponse](
         apiEndpoint = resourceName / proposalId.value / "unqualification",
-        data = QualificationRequest(voteKey = vote, qualificationKey = qualification).asJson.pretty(ApiService.printer)
+        data = QualificationRequest(voteKey = vote, qualificationKey = qualification).toString
       )
       .map(Qualification.apply)
   }

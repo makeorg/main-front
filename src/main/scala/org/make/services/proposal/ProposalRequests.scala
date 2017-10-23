@@ -1,6 +1,5 @@
 package org.make.services.proposal
 
-import io.circe.{Decoder, Encoder, Json}
 import org.make.front.models.Source
 
 final case class RegisterProposalRequest(content: String)
@@ -10,10 +9,6 @@ case object OrderAsc extends Order { override val shortName: String = "ASC" }
 case object OrderDesc extends Order { override val shortName: String = "DESC" }
 
 object Order {
-  implicit lazy val orderEncoder: Encoder[Order] = (order: Order) => Json.fromString(order.shortName)
-  implicit lazy val orderDecoder: Decoder[Order] = Decoder.decodeString.map(
-    order => matchOrder(order).getOrElse(throw new IllegalArgumentException(s"$order is not a Order"))
-  )
 
   val orders: Map[String, Order] = Map(OrderAsc.shortName -> OrderAsc, OrderDesc.shortName -> OrderDesc)
 

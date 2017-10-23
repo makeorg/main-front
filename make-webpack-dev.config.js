@@ -15,7 +15,7 @@ module.exports.plugins = [
     new HtmlWebpackPlugin({
         "title": "Make.org",
         "template": path.join(__dirname, "index.template.ejs"),
-        "apiUrl": "http://localhost:9000",
+        "apiUrl": "https://api.preprod.makeorg.tech",
         "googleAppId": "810331964280-qtdupbrjusihad3b5da51i5p66qpmhmr.apps.googleusercontent.com",
         "googleAnalyticsId": "UA-97647514-1",
         "facebookAppId": "317128238675603",

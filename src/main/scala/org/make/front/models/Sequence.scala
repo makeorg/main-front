@@ -1,7 +1,6 @@
 package org.make.front.models
 
 import io.github.shogowada.scalajs.reactjs.redux.Store
-import org.make.core.StringValue
 import org.make.front.components.AppState
 
 final case class Sequence(sequenceId: SequenceId, slug: String, title: String)
