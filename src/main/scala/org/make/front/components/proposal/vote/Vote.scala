@@ -27,8 +27,8 @@ object Vote {
                              unvote: (String)                          => Future[VoteResponse],
                              qualifyVote: (String, String)             => Future[QualificationResponse],
                              removeVoteQualification: (String, String) => Future[QualificationResponse],
-                             guideToVote: Option[String],
-                             guideToQualification: Option[String])
+                             guideToVote: Option[String] = Some(""),
+                             guideToQualification: Option[String] = Some(""))
 
   final case class VoteState(votes: Map[String, VoteModel])
 

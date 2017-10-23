@@ -22,7 +22,7 @@ import org.make.front.styles.utils._
 import org.make.front.styles.vendors.FontAwesomeStyles
 
 import scala.scalajs.js.JSConverters._
-import scalacss.internal.StyleA
+import scalacss.DevDefaults.{StyleA, _}
 import scalacss.internal.mutable.StyleSheet
 import scalacss.internal.mutable.StyleSheet.Inline
 

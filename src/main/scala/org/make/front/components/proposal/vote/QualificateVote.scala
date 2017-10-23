@@ -24,7 +24,7 @@ object QualificateVote {
                                         qualifications: Seq[QualificationModel],
                                         qualify: (String)             => Future[QualificationResponse],
                                         removeQualification: (String) => Future[QualificationResponse],
-                                        guide: Option[String] = null)
+                                        guide: Option[String] = Some(""))
 
   final case class QualificateVoteState(qualifications: Map[String, QualificationModel])
 
@@ -57,7 +57,7 @@ object QualificateVote {
                 )(),
                 <.style()(QualificateVoteStyles.render[String])
               )
-          }), if (self.props.wrapped.guide.nonEmpty) {
+          }), if (self.props.wrapped.guide.getOrElse("") != "") {
             <.p(^.className := QualificateVoteStyles.guide)(
               <.span(
                 ^.className := TextStyles.smallerText,

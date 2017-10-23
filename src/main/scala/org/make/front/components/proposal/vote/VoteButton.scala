@@ -36,8 +36,8 @@ object VoteButton {
                              handleUnvote: (String)                    => Future[VoteResponse],
                              qualifyVote: (String, String)             => Future[QualificationResponse],
                              removeVoteQualification: (String, String) => Future[QualificationResponse],
-                             guideToVote: Option[String] = null,
-                             guideToQualification: Option[String] = null)
+                             guideToVote: Option[String] = Some(""),
+                             guideToQualification: Option[String] = Some(""))
 
   case class VoteButtonState(isActivated: Boolean,
                              isHovered: Boolean,
@@ -196,21 +196,20 @@ object VoteButton {
             <.span(
               ^.className := Seq(
                 VoteButtonStyles.label,
-                VoteButtonStyles.labelDisplay(!self.state.isActivated),
-                VoteButtonStyles.labelVisibility(!self.state.isActivated && self.state.isHovered)
+                VoteButtonStyles
+                  .labelDisplay(self.props.wrapped.guideToVote.getOrElse("") == "" && !self.state.isActivated),
+                VoteButtonStyles.labelVisibility(
+                  self.props.wrapped.guideToVote.getOrElse("") == "" && !self.state.isActivated && self.state.isHovered
+                )
               )
             )(
               <.span(^.className := TextStyles.smallerText)(
                 unescape(I18n.t(s"proposal.vote.${self.props.wrapped.vote.key}.label"))
               )
             ),
-            if (self.props.wrapped.guideToVote.nonEmpty) {
+            if (self.props.wrapped.guideToVote.getOrElse("") != "") {
               <.span(
-                ^.className := Seq(
-                  VoteButtonStyles.label,
-                  VoteButtonStyles.labelDisplay(!self.state.isActivated),
-                  VoteButtonStyles.labelVisibility(false)
-                )
+                ^.className := Seq(VoteButtonStyles.label, VoteButtonStyles.labelDisplay(!self.state.isActivated))
               )(
                 <.span(
                   ^.className := TextStyles.smallerText,
