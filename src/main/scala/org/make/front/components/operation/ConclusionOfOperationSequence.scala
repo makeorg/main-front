@@ -27,7 +27,7 @@ object ConclusionOfOperationSequence {
         ConclusionOfOperationSequenceState(subscriptionToNewsletterHasSucceed = false)
       },
       render = { self =>
-        def onSubscribeToNewsletterSuccess(): Unit = {
+        def onSubscribeToNewsletterSuccess(): () => Unit = { () =>
           FacebookPixel.fbq("trackCustom", "click-email-submit")
           self.setState(_.copy(subscriptionToNewsletterHasSucceed = true))
         }
@@ -59,7 +59,7 @@ object ConclusionOfOperationSequence {
             if (!self.props.wrapped.isConnected && !self.state.subscriptionToNewsletterHasSucceed) {
               <.SubscribeToNewsletterFormContainerComponent(
                 ^.wrapped := SubscribeToNewsletterFormContainerProps(
-                  onSubscribeToNewsletterSuccess = onSubscribeToNewsletterSuccess
+                  onSubscribeToNewsletterSuccess = onSubscribeToNewsletterSuccess()
                 )
               )()
             }

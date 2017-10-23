@@ -216,7 +216,7 @@ object SubmitProposalFormStyles extends StyleSheet.Inline {
     top(100.%%),
     right(`0`),
     width(100.%%),
-    padding := s"${3.pxToEm().value} ${10.pxToEm().value}",
+    padding :=! s"${3.pxToEm().value} ${10.pxToEm().value}",
     marginTop(ThemeStyles.SpacingValue.smaller.pxToEm()),
     color(ThemeStyles.TextColor.white),
     backgroundColor(ThemeStyles.BackgroundColor.black),

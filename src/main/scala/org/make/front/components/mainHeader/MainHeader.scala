@@ -3,6 +3,10 @@ package org.make.front.components.mainHeader
 import io.github.shogowada.scalajs.reactjs.React
 import io.github.shogowada.scalajs.reactjs.VirtualDOM._
 import io.github.shogowada.scalajs.reactjs.classes.ReactClass
+import io.github.shogowada.scalajs.reactjs.router.dom.RouterDOM.{
+  RouterDOMVirtualDOMElements,
+  RouterVirtualDOMAttributes
+}
 import org.make.front.components.Components._
 import org.make.front.facades.Unescape.unescape
 import org.make.front.facades.{logoMake, I18n}
@@ -24,7 +28,7 @@ object MainHeader {
             <.div(^.className := MainHeaderStyles.innerWrapper)(
               /*TODO: h1 if homepage else p*/
               <.h1(^.className := MainHeaderStyles.logoWrapper)(
-                <.a(^.href := "/")(
+                <.Link(^.to := "/")(
                   <.img(
                     ^.className := MainHeaderStyles.logo,
                     ^.src := logoMake.toString,

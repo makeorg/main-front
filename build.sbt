@@ -109,7 +109,7 @@ scalacOptions ++= {
   if (System.getenv("CI_BUILD") == "true") {
     Seq("-Xelide-below", "OFF")
   } else {
-    Seq()
+    Seq("-deprecation")
   }
 }
 
