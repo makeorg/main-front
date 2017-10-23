@@ -12,7 +12,7 @@ import org.make.front.components.tags.FilterByTags.FilterByTagsProps
 import org.make.front.facades.I18n
 import org.make.front.facades.ReactInfiniteScroller.{ReactInfiniteScrollerVirtualDOMAttributes, ReactInfiniteScrollerVirtualDOMElements}
 import org.make.front.facades.Unescape.unescape
-import org.make.front.models.{Proposal, Tag => TagModel, Theme => ThemeModel}
+import org.make.front.models.{Proposal, Tag => TagModel, TranslatedTheme => TranslatedThemeModel}
 import org.make.front.styles._
 import org.make.front.styles.base.{ColRulesStyles, RowRulesStyles, TextStyles}
 import org.make.front.styles.ui.CTAStyles
@@ -26,7 +26,7 @@ import scalacss.internal.mutable.StyleSheet
 
 object ResultsInTheme {
 
-  case class ResultsInThemeProps(theme: ThemeModel,
+  case class ResultsInThemeProps(theme: TranslatedThemeModel,
                                  onMoreResultsRequested: (Seq[Proposal], Seq[TagModel]) => Future[SearchResult],
                                  onTagSelectionChange: (Seq[TagModel])                       => Future[SearchResult],
                                  proposals: Future[SearchResult],

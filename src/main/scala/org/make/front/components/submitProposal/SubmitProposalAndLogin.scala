@@ -12,7 +12,10 @@ import org.make.front.components.submitProposal.ConfirmationOfProposalSubmission
 import org.make.front.components.users.authenticate.RequireAuthenticatedUserContainer.RequireAuthenticatedUserContainerProps
 import org.make.front.facades.I18n
 import org.make.front.facades.Unescape.unescape
-import org.make.front.models.{Location => LocationModel, Operation => OperationModel, Theme => ThemeModel}
+import org.make.front.models.{
+  Location => LocationModel,
+  Operation => OperationModel,
+  TranslatedTheme => TranslatedThemeModel}
 import org.make.front.styles.ThemeStyles
 import org.make.front.styles.base.{ColRulesStyles, RowRulesStyles, TextStyles}
 import org.make.front.styles.utils._
@@ -35,7 +38,7 @@ object SubmitProposalAndLogin {
   }
 
   case class SubmitProposalAndLoginProps(intro: (ReactElement) => ReactElement,
-                                         maybeTheme: Option[ThemeModel],
+                                         maybeTheme: Option[TranslatedThemeModel],
                                          maybeOperation: Option[OperationModel],
                                          onProposalProposed: ()           => Unit,
                                          propose: (String, LocationModel) => Future[_])

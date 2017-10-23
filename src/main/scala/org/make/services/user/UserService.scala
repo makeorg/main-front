@@ -11,6 +11,8 @@ import org.make.services.ApiService
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
+import scala.scalajs.js
+import scala.scalajs.js.JSON
 
 object UserService extends ApiService {
 
@@ -31,16 +33,20 @@ object UserService extends ApiService {
     MakeApiClient
       .post[UserResponse](
         resourceName,
-        data = RegisterUserRequest(
-          email = email,
-          firstName = firstName,
-          password = password,
-          profession = profession,
-          postalCode = postalCode,
-          dateOfBirth = age.map(age => {
-            LocalDate.of(LocalDate.now.getYear - age, 1, 1)
-          })
-        ).toString,
+        data = JSON.stringify(
+          JsRegisterUserRequest(
+            RegisterUserRequest(
+              email = email,
+              firstName = firstName,
+              password = password,
+              profession = profession,
+              postalCode = postalCode,
+              dateOfBirth = age.map(age =>
+                LocalDate.of(LocalDate.now.getYear - age, 1, 1)
+              )
+            )
+          )
+        ),
         headers = headers
       )
       .map(User.apply)
@@ -74,7 +80,7 @@ object UserService extends ApiService {
     MakeApiClient
       .post[UserResponse](
         resourceName / "reset-password" / "request-reset",
-        data = Map("email" -> email).toString
+        data = JSON.stringify(js.Dictionary("email" -> email))
       )
       .map { _ => }
   }
@@ -82,7 +88,7 @@ object UserService extends ApiService {
   def subscribeToNewsletter(email: String): Future[Unit] = {
     Future.successful {}
     MakeApiClient
-      .post[UserResponse](resourceName / "newsletter", data = Map("email" -> email).toString)
+      .post[UserResponse](resourceName / "newsletter", data = JSON.stringify(js.Dictionary("email" -> email)))
       .map { _ =>
         }
   }
@@ -102,7 +108,7 @@ object UserService extends ApiService {
     MakeApiClient
       .post[UserResponse](
         resourceName / "reset-password" / "change-password" / userId,
-        data = Map("resetToken" -> resetToken, "password" -> password).toString
+        data = JSON.stringify(js.Dictionary("resetToken" -> resetToken, "password" -> password))
       )
       .map { _ =>
         true

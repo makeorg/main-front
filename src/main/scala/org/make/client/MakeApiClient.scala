@@ -8,10 +8,10 @@ import org.scalajs.dom.XMLHttpRequest
 import org.scalajs.dom.ext.Ajax.InputData
 import org.scalajs.dom.ext.{Ajax, AjaxException}
 
-import scalajs.js.Dynamic.{global => g}
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.{Future, Promise}
 import scala.scalajs.js
+import scala.scalajs.js.JSON
 import scala.util.{Failure, Success, Try}
 
 object MakeApiClient extends Client {
@@ -52,11 +52,11 @@ object MakeApiClient extends Client {
   private def XHRResponseTo[ENTITY <: js.Object](responseTry: Try[XMLHttpRequest], promise: Promise[ENTITY]): Promise[ENTITY] = {
     responseTry match {
       case Success(response) =>
-        promise.success(response.asInstanceOf[ENTITY])
+        promise.success(scala.scalajs.js.JSON.parse(response.responseText).asInstanceOf[ENTITY])
       case Failure(AjaxException(response: XMLHttpRequest)) =>
         response.status match {
           case 400 =>
-            promise.failure(BadRequestHttpException(response.asInstanceOf[Seq[ValidationError]]))
+            promise.failure(BadRequestHttpException(scala.scalajs.js.JSON.parse(response.responseText).asInstanceOf[Seq[ValidationError]]))
           case 401 => promise.failure(UnauthorizedHttpException)
           case 403 => promise.failure(ForbiddenHttpException)
           case 404 => promise.failure(NotFoundHttpException)
@@ -195,7 +195,7 @@ object MakeApiClient extends Client {
                                       token: String): Future[Boolean] = {
     post[Token](
       "user" / "login" / "social",
-      data = Map("provider" -> provider, "token" -> token).toString
+      data = JSON.stringify(js.Dictionary("provider" -> provider, "token" -> token))
     ).map { newToken =>
       MakeApiClient.setToken(Option(newToken))
       MakeApiClient.isAuthenticated

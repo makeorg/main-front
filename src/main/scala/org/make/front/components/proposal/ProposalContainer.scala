@@ -8,7 +8,7 @@ import io.github.shogowada.scalajs.reactjs.router.RouterProps._
 import org.make.front.actions.NotifyError
 import org.make.front.components.AppState
 import org.make.front.facades.I18n
-import org.make.front.models.{Proposal => ProposalModel, Theme => ThemeModel}
+import org.make.front.models.{Proposal => ProposalModel, TranslatedTheme => TranslatedThemeModel}
 import org.make.services.proposal.ProposalService
 
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -36,7 +36,7 @@ object ProposalContainer {
                 if (proposalsResponse.results.nonEmpty) {
                   val proposal = proposalsResponse.results.head
 
-                  val maybeTheme: Option[ThemeModel] =
+                  val maybeTheme: Option[TranslatedThemeModel] =
                     proposal.themeId.flatMap(themeId => state.themes.find(_.id == themeId))
 
                   maybeTheme.map { theme =>

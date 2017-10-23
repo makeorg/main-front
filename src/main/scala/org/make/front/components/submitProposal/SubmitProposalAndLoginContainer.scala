@@ -6,7 +6,11 @@ import io.github.shogowada.scalajs.reactjs.elements.ReactElement
 import io.github.shogowada.scalajs.reactjs.redux.ReactRedux
 import org.make.front.components.AppState
 import org.make.front.components.submitProposal.SubmitProposalAndLogin.SubmitProposalAndLoginProps
-import org.make.front.models.{RegisterProposal, Location => LocationModel, Operation => OperationModel, Theme => ThemeModel}
+import org.make.front.models.{
+  RegisterProposal,
+  Location => LocationModel,
+  Operation => OperationModel,
+  TranslatedTheme => TranslatedThemeModel}
 import org.make.services.proposal.ProposalService
 
 import scala.concurrent.Future
@@ -14,7 +18,7 @@ import scala.concurrent.Future
 object SubmitProposalAndLoginContainer {
 
   case class SubmitProposalAndLoginContainerProps(intro: (ReactElement) => ReactElement = identity,
-                                                  maybeTheme: Option[ThemeModel],
+                                                  maybeTheme: Option[TranslatedThemeModel],
                                                   maybeOperation: Option[OperationModel],
                                                   onProposalProposed: () => Unit)
 

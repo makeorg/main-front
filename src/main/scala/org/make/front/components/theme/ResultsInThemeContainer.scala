@@ -8,7 +8,7 @@ import org.make.front.actions.NotifyError
 import org.make.front.components.AppState
 import org.make.front.components.theme.ResultsInTheme.ResultsInThemeProps
 import org.make.front.facades.I18n
-import org.make.front.models.{Proposal, Tag => TagModel, Theme => ThemeModel, ThemeId => ThemeIdModel}
+import org.make.front.models.{Proposal, Tag => TagModel, TranslatedTheme => TranslatedThemeModel, ThemeId => ThemeIdModel}
 import org.make.services.proposal.{ProposalService, SearchResult, SearchResultResponse}
 import org.make.services.proposal.ProposalService.defaultResultsCount
 
@@ -18,8 +18,8 @@ import scala.util.{Failure, Success}
 
 object ResultsInThemeContainer {
 
-  case class ResultsInThemeContainerProps(currentTheme: ThemeModel)
-  case class ResultsInThemeContainerState(currentTheme: ThemeModel, results: Seq[Proposal])
+  case class ResultsInThemeContainerProps(currentTheme: TranslatedThemeModel)
+  case class ResultsInThemeContainerState(currentTheme: TranslatedThemeModel, results: Seq[Proposal])
 
   lazy val reactClass: ReactClass = ReactRedux.connectAdvanced(selectorFactory)(ResultsInTheme.reactClass)
 

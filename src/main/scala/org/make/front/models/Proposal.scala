@@ -1,7 +1,5 @@
 package org.make.front.models
 
-import java.time.ZonedDateTime
-
 import org.make.client.models.AuthorResponse
 import org.make.services.proposal.{ProposalResponse, QualificationResponse, RegisterProposalResponse, VoteResponse}
 
@@ -14,8 +12,8 @@ final case class Proposal(id: ProposalId,
                           content: String,
                           slug: String,
                           status: String,
-                          createdAt: ZonedDateTime,
-                          updatedAt: Option[ZonedDateTime],
+                          createdAt: String,
+                          updatedAt: Option[String],
                           votes: Seq[Vote],
                           context: ProposalContext,
                           trending: Option[String],
@@ -37,26 +35,26 @@ final case class Proposal(id: ProposalId,
 
 object Proposal {
   def apply(proposalResponse: ProposalResponse): Proposal = {
-    val seqVotes: mutable.Seq[Vote] = proposalResponse.votes
+    val seqVotes: mutable.Seq[Vote] = proposalResponse.votes.map(Vote.apply)
     val seqLabels: mutable.Seq[String] = proposalResponse.labels
-    val seqTags: mutable.Seq[Tag] = proposalResponse.tags
+    val seqTags: Seq[Tag] = proposalResponse.tags.map(Tag.apply)
 
     Proposal(id = ProposalId(proposalResponse.id),
             userId = UserId(proposalResponse.userId),
             content = proposalResponse.content,
             slug = proposalResponse.slug,
             status = proposalResponse.status,
-            createdAt = ZonedDateTime.parse(proposalResponse.createdAt),
-            updatedAt = Some(ZonedDateTime.parse(proposalResponse.updatedAt.get)),
+            createdAt = proposalResponse.createdAt,
+            updatedAt = proposalResponse.updatedAt.toOption,
             votes = seqVotes,
-            context = proposalResponse.context,
+            context = ProposalContext(proposalResponse.context),
             trending = proposalResponse.trending.toOption,
             labels = seqLabels,
-            author = proposalResponse.author,
+            author = Author(proposalResponse.author),
             country = proposalResponse.country,
             language = proposalResponse.language,
-            themeId = Some(ThemeId(proposalResponse.themeId.get)),
-            operationId = Some(OperationId(proposalResponse.operationId.get)),
+            themeId = proposalResponse.themeId.toOption.map(ThemeId.apply),
+            operationId = proposalResponse.operationId.toOption.map(OperationId.apply),
             tags = seqTags,
             myProposal = proposalResponse.myProposal)
   }
@@ -93,26 +91,28 @@ object Qualification {
   }
 }
 
+final case class ProposalContext(operation: Option[String],
+                                 source: Option[String],
+                                 location: Option[String],
+                                 question: Option[String])
+
+object ProposalContext {
+  def apply(proposalContextResponse: ProposalContextResponse): ProposalContext = {
+    ProposalContext(
+      operation = proposalContextResponse.operation.toOption,
+      source = proposalContextResponse.source.toOption,
+      location = proposalContextResponse.location.toOption,
+      question = proposalContextResponse.question.toOption
+    )
+  }
+}
+
 @js.native
-trait ProposalContext extends js.Object {
+trait ProposalContextResponse extends js.Object {
   val operation: js.UndefOr[String]
   val source: js.UndefOr[String]
   val location: js.UndefOr[String]
   val question: js.UndefOr[String]
-}
-
-object ProposalContext {
-  def apply(operation: js.UndefOr[String],
-            source: js.UndefOr[String],
-            location: js.UndefOr[String],
-            question: js.UndefOr[String]): ProposalContext = {
-    js.Dynamic.literal(
-      operation = operation,
-      source = source,
-      location = location,
-      question = question
-    ).asInstanceOf[ProposalContext]
-  }
 }
 
 final case class Author(firstName: Option[String], postalCode: Option[String], age: Option[Int])
@@ -126,14 +126,6 @@ object Author {
   }
 }
 
-trait ProposalId extends js.Object {
-  val value: String
-}
-
-object ProposalId {
-  def apply(value: String): ProposalId = {
-    js.Dynamic.literal(value = value).asInstanceOf[ProposalId]
-  }
-}
+final case class ProposalId(value: String)
 
 case class ProposalSearchResult(proposals: Seq[Proposal], hasMore: Boolean)

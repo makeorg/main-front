@@ -8,7 +8,7 @@ import org.make.front.components.Components._
 import org.make.front.facades.Unescape.unescape
 import org.make.front.facades.{I18n, Replacements}
 import org.make.front.helpers.NumberFormat
-import org.make.front.models.{Theme => ThemeModel}
+import org.make.front.models.{TranslatedTheme => TranslatedThemeModel}
 import org.make.front.styles._
 import org.make.front.styles.base.{ColRulesStyles, RowRulesStyles, TextStyles}
 import org.make.front.styles.utils._
@@ -18,7 +18,7 @@ import scalacss.internal.mutable.StyleSheet.Inline
 
 object NavInThemes {
 
-  case class WrappedProps(themes: Seq[ThemeModel])
+  case class WrappedProps(themes: Seq[TranslatedThemeModel])
 
   lazy val reactClass: ReactClass =
     React
@@ -26,7 +26,7 @@ object NavInThemes {
         displayName = "NavInThemes",
         render = self => {
 
-          val themes: Seq[ThemeModel] = self.props.wrapped.themes
+          val themes: Seq[TranslatedThemeModel] = self.props.wrapped.themes
           val colors: Map[Int, String] = themes.map(theme => theme.order -> theme.color).toMap
 
           object DynamicNavInThemesStyles extends Inline {

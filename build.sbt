@@ -46,7 +46,7 @@ libraryDependencies ++= Seq(
   "io.github.shogowada"          %%% "scalajs-reactjs-redux"          % scalaJsReactVersion, // Optional. For react-redux facade
   "io.github.shogowada"          %%% "scalajs-reactjs-redux-devtools" % scalaJsReactVersion, // Optional. For redux-devtools facade
   "com.github.japgolly.scalacss" %%% "core"                           % scalaCssCoreVersion,
-  "io.circe"                     %%% "circe-java8"                    % "0.8.0"
+  "io.github.cquiroz"            %%% "scala-java-time"                % "2.0.0-M12"
 )
 
 npmDependencies in Compile ++= Seq(

@@ -2,12 +2,18 @@ package org.make.front.models
 
 import java.time.LocalDate
 
+import org.make.client.models.{GenderResponse, ProfileResponse}
+
 sealed trait Gender {
   def shortName: String
 }
 
 object Gender {
   val genders: Map[String, Gender] = Map(Male.shortName -> Male, Female.shortName -> Female, Other.shortName -> Other)
+
+  def apply(genderResponse: GenderResponse): Gender = {
+    genders.get(genderResponse.shortName).get
+  }
 
   def matchGender(gender: String): Option[Gender] = {
     val maybeGender = genders.get(gender)
@@ -42,6 +48,24 @@ case class Profile(dateOfBirth: Option[LocalDate],
                    optInNewsletter: Boolean = false)
 
 object Profile {
+  def apply(profileResponse: ProfileResponse): Profile = {
+    Profile(
+      dateOfBirth = profileResponse.dateOfBirth.toOption.map(LocalDate.parse(_)),
+      avatarUrl = profileResponse.avatarUrl.toOption,
+      profession = profileResponse.profession.toOption,
+      phoneNumber = profileResponse.phoneNumber.toOption,
+      twitterId = profileResponse.twitterId.toOption,
+      facebookId = profileResponse.facebookId.toOption,
+      googleId = profileResponse.googleId.toOption,
+      gender = profileResponse.gender.toOption.map(Gender.apply),
+      genderName = profileResponse.genderName.toOption,
+      departmentNumber = profileResponse.departmentNumber.toOption,
+      karmaLevel = profileResponse.karmaLevel.toOption,
+      locale = profileResponse.locale.toOption,
+      optInNewsletter = profileResponse.optInNewsletter
+    )
+  }
+
   def isEmpty(profile: Profile): Boolean = profile match {
     case Profile(None, None, None, None, None, None, None, None, None, None, None, None, false) => true
     case _                                                                                      => false

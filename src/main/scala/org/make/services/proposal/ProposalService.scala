@@ -8,6 +8,7 @@ import org.make.services.ApiService
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
+import scala.scalajs.js.JSON
 
 object ProposalService extends ApiService {
 
@@ -58,7 +59,7 @@ object ProposalService extends ApiService {
     MakeApiClient
       .post[SearchResultResponse](
         resourceName / "search",
-        data = SearchRequest(
+        data = JSON.stringify(JsSearchRequest(SearchRequest(
           content = content,
           slug = slug,
           themesIds = if (themesIds.nonEmpty) Some(themesIds.map(_.value)) else None,
@@ -69,7 +70,7 @@ object ProposalService extends ApiService {
           limit = limit,
           skip = skip,
           sort = sort
-        ).toString
+        )))
       )
       .map(SearchResult.apply)
   }
@@ -78,7 +79,7 @@ object ProposalService extends ApiService {
     MakeApiClient
       .post[VoteResponse](
         apiEndpoint = resourceName / proposalId.value / "vote",
-        data = VoteRequest(voteValue).toString
+        data = JSON.stringify(JsVoteRequest(VoteRequest(voteValue)))
       )
       .map(Vote.apply)
   }
@@ -87,7 +88,7 @@ object ProposalService extends ApiService {
     MakeApiClient
       .post[VoteResponse](
         apiEndpoint = resourceName / proposalId.value / "unvote",
-        data = VoteRequest(oldVoteValue).toString
+        data = JSON.stringify(JsVoteRequest(VoteRequest(oldVoteValue)))
       )
       .map(Vote.apply)
   }
@@ -96,7 +97,9 @@ object ProposalService extends ApiService {
     MakeApiClient
       .post[QualificationResponse](
         apiEndpoint = resourceName / proposalId.value / "qualification",
-        data = QualificationRequest(voteKey = vote, qualificationKey = qualification).toString
+        data = JSON.stringify(
+          JsQualificationRequest(QualificationRequest(voteKey = vote, qualificationKey = qualification))
+        )
       )
       .map(Qualification.apply)
   }
@@ -107,7 +110,9 @@ object ProposalService extends ApiService {
     MakeApiClient
       .post[QualificationResponse](
         apiEndpoint = resourceName / proposalId.value / "unqualification",
-        data = QualificationRequest(voteKey = vote, qualificationKey = qualification).toString
+        data = JSON.stringify(
+          JsQualificationRequest(QualificationRequest(voteKey = vote, qualificationKey = qualification))
+        )
       )
       .map(Qualification.apply)
   }

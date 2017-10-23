@@ -18,6 +18,10 @@ object Role {
     RoleCitizen.shortName -> RoleCitizen
   )
 
+  def apply(roleName: String): Role = {
+    roles(roleName)
+  }
+
   def matchRole(role: String): Option[Role] = {
     val maybeRole = roles.get(role)
     maybeRole
@@ -50,9 +54,9 @@ case class User(userId: UserId,
                 roles: Seq[Role],
                 profile: Option[Profile])
 
-
 object User {
   def apply(userResponse: UserResponse): User = {
+    val seqRoles: Seq[String] = userResponse.roles
     User(
       userId = UserId(userResponse.userId),
       email = userResponse.email,
@@ -61,10 +65,12 @@ object User {
       enabled = userResponse.enabled,
       verified = userResponse.verified,
       lastConnection = ZonedDateTime.parse(userResponse.lastConnection),
-      roles = userResponse.roles,
-      profile = userResponse.profile.toOption)
+      roles = seqRoles.map(Role.apply),
+      profile = userResponse.profile.toOption.map(Profile.apply))
   }
 }
+
+@js.native
 trait UserId extends js.Object {
   val value: String
 }

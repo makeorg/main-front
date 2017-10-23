@@ -7,7 +7,7 @@ import org.make.front.components.Components._
 import org.make.front.components.modals.FullscreenModal.FullscreenModalProps
 import org.make.front.components.theme.SubmitProposalInRelationToTheme.SubmitProposalInRelationToThemeProps
 import org.make.front.facades._
-import org.make.front.models.{GradientColor => GradientColorModel, Theme => ThemeModel}
+import org.make.front.models.{GradientColor => GradientColorModel, TranslatedTheme => TranslatedThemeModel}
 import org.make.front.styles.ThemeStyles
 import org.make.front.styles.base.{ColRulesStyles, RowRulesStyles, TextStyles}
 import org.make.front.styles.ui.InputStyles
@@ -28,7 +28,7 @@ object ThemeHeader {
                                      IllUrl: String = "",
                                      IllUrl2x: String = "")
 
-  def themeIllustrations(theme: ThemeModel): ThemeIllustrationsModel = {
+  def themeIllustrations(theme: TranslatedThemeModel): ThemeIllustrationsModel = {
     theme.slug match {
       case "developpement-durable-energie" =>
         ThemeIllustrationsModel(
@@ -150,7 +150,7 @@ object ThemeHeader {
     }
   }
 
-  case class ThemeHeaderProps(theme: ThemeModel)
+  case class ThemeHeaderProps(theme: TranslatedThemeModel)
 
   case class ThemeHeaderState(isProposalModalOpened: Boolean, themeIllustrations: ThemeIllustrationsModel)
 
