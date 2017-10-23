@@ -1,6 +1,5 @@
 package org.make.front.models
 
-import io.circe.{Decoder, Encoder, Json}
 import io.github.shogowada.scalajs.reactjs.redux.Store
 import org.make.core.StringValue
 import org.make.front.components.AppState
@@ -9,10 +8,6 @@ final case class Sequence(sequenceId: SequenceId, slug: String, title: String)
 
 final case class SequenceId(value: String) extends StringValue
 
-object SequenceId {
-  implicit lazy val operationIdEncoder: Encoder[SequenceId] = (a: SequenceId) => Json.fromString(a.value)
-  implicit lazy val operationIdDecoder: Decoder[SequenceId] = Decoder.decodeString.map(SequenceId(_))
-}
 
 object Sequence {
   def getSequenceById(id: String, store: Store[AppState]): Sequence = {

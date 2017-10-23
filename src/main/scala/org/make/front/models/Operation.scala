@@ -5,6 +5,8 @@ import io.github.shogowada.scalajs.reactjs.redux.Store
 import org.make.core.StringValue
 import org.make.front.components.AppState
 
+import scala.scalajs.js
+
 final case class Operation(operationId: OperationId,
                            slug: String,
                            title: String,
@@ -15,11 +17,14 @@ final case class Operation(operationId: OperationId,
                            gradient: Option[GradientColor] = None,
                            tags: Seq[Tag] = Seq.empty)
 
-final case class OperationId(value: String) extends StringValue
+trait OperationId extends js.Object {
+  val value: String
+}
 
 object OperationId {
-  implicit lazy val operationIdEncoder: Encoder[OperationId] = (a: OperationId) => Json.fromString(a.value)
-  implicit lazy val operationIdDecoder: Decoder[OperationId] = Decoder.decodeString.map(OperationId(_))
+  def apply(value: String): OperationId = {
+    js.Dynamic.literal(value = value).asInstanceOf[OperationId]
+  }
 }
 // @todo: use a sealaed trait and case object like Source and Location
 object Operation {

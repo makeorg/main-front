@@ -21,6 +21,7 @@ object ProposalTileWithTheme {
 
   final case class ProposalTileWithThemeProps(proposal: ProposalModel, themeName: String, themeSlug: String, index: Int)
 
+
   val reactClass: ReactClass =
     React
       .createClass[ProposalTileWithThemeProps, Unit](

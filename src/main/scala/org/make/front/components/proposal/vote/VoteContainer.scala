@@ -7,9 +7,8 @@ import io.github.shogowada.scalajs.reactjs.redux.Redux.Dispatch
 import org.make.front.actions.NotifyError
 import org.make.front.components.AppState
 import org.make.front.facades.I18n
-import org.make.front.models.{Proposal => ProposalModel}
-import org.make.services.proposal.ProposalResponses.{QualificationResponse, VoteResponse}
-import org.make.services.proposal.ProposalService
+import org.make.front.models.{Proposal => ProposalModel, Qualification => QualificationModel, Vote => VoteModel}
+import org.make.services.proposal.{ProposalService, QualificationResponse, VoteResponse}
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
@@ -19,8 +18,8 @@ object VoteContainer {
 
   final case class VoteContainerProps(index: Int,
                                       proposal: ProposalModel,
-                                      onSuccessfulVote: (VoteResponse)                           => Unit = (_)    => {},
-                                      onSuccessfulQualification: (String, QualificationResponse) => Unit = (_, _) => {},
+                                      onSuccessfulVote: (VoteModel)                           => Unit = (_)    => {},
+                                      onSuccessfulQualification: (String, QualificationModel) => Unit = (_, _) => {},
                                       guideToVote: Option[String] = None,
                                       guideToQualification: Option[String] = None)
 
@@ -28,7 +27,7 @@ object VoteContainer {
 
   def selectorFactory: (Dispatch) => (AppState, Props[VoteContainerProps]) => Vote.VoteProps =
     (dispatch: Dispatch) => { (_: AppState, ownProps: Props[VoteContainerProps]) =>
-      def vote(key: String): Future[VoteResponse] = {
+      def vote(key: String): Future[VoteModel] = {
         val future = ProposalService.vote(proposalId = ownProps.wrapped.proposal.id, key)
 
         future.onComplete {
@@ -38,7 +37,7 @@ object VoteContainer {
         future
       }
 
-      def unvote(key: String): Future[VoteResponse] = {
+      def unvote(key: String): Future[VoteModel] = {
         val future = ProposalService.unvote(proposalId = ownProps.wrapped.proposal.id, key)
         future.onComplete {
           case Success(response) => ownProps.wrapped.onSuccessfulVote(response) // let child handle new results
@@ -47,7 +46,7 @@ object VoteContainer {
         future
       }
 
-      val qualify: (String, String) => Future[QualificationResponse] = { (vote, qualification) =>
+      val qualify: (String, String) => Future[QualificationModel] = { (vote, qualification) =>
         val future = ProposalService.qualifyVote(ownProps.wrapped.proposal.id, vote, qualification)
         future.onComplete {
           case Success(response) => ownProps.wrapped.onSuccessfulQualification(vote, response)
@@ -56,7 +55,7 @@ object VoteContainer {
         future
       }
 
-      val removeQualification: (String, String) => Future[QualificationResponse] = { (vote, qualification) =>
+      val removeQualification: (String, String) => Future[QualificationModel] = { (vote, qualification) =>
         val future =
           ProposalService.removeVoteQualification(ownProps.wrapped.proposal.id, vote, qualification)
         future.onComplete {

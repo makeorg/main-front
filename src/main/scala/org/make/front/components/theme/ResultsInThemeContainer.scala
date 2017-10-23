@@ -8,9 +8,8 @@ import org.make.front.actions.NotifyError
 import org.make.front.components.AppState
 import org.make.front.components.theme.ResultsInTheme.ResultsInThemeProps
 import org.make.front.facades.I18n
-import org.make.front.models.{Proposal => ProposalModel, Tag => TagModel, Theme => ThemeModel, ThemeId => ThemeIdModel}
-import org.make.services.proposal.ProposalResponses.SearchResponse
-import org.make.services.proposal.ProposalService
+import org.make.front.models.{Proposal, Tag => TagModel, Theme => ThemeModel, ThemeId => ThemeIdModel}
+import org.make.services.proposal.{ProposalService, SearchResult, SearchResultResponse}
 import org.make.services.proposal.ProposalService.defaultResultsCount
 
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -20,7 +19,7 @@ import scala.util.{Failure, Success}
 object ResultsInThemeContainer {
 
   case class ResultsInThemeContainerProps(currentTheme: ThemeModel)
-  case class ResultsInThemeContainerState(currentTheme: ThemeModel, results: Seq[ProposalModel])
+  case class ResultsInThemeContainerState(currentTheme: ThemeModel, results: Seq[Proposal])
 
   lazy val reactClass: ReactClass = ReactRedux.connectAdvanced(selectorFactory)(ResultsInTheme.reactClass)
 
@@ -29,8 +28,8 @@ object ResultsInThemeContainer {
     (dispatch: Dispatch) => { (_: AppState, ownProps: Props[ResultsInThemeContainerProps]) =>
       val themesIds: Seq[ThemeIdModel] = Seq(ownProps.wrapped.currentTheme.id)
 
-      def getProposals(tags: Seq[TagModel], skip: Int): Future[SearchResponse] = {
-        val proposals: Future[SearchResponse] = ProposalService
+      def getProposals(tags: Seq[TagModel], skip: Int): Future[SearchResult] = {
+        val proposals: Future[SearchResult] = ProposalService
           .searchProposals(
             themesIds = themesIds,
             tagsIds = tags.map(_.tagId),
@@ -42,7 +41,7 @@ object ResultsInThemeContainer {
         proposals
       }
 
-      def nextProposals(currentProposals: Seq[ProposalModel], tags: Seq[TagModel]): Future[SearchResponse] = {
+      def nextProposals(currentProposals: Seq[Proposal], tags: Seq[TagModel]): Future[SearchResult] = {
         val result = getProposals(tags = tags, skip = currentProposals.size).map { results =>
           results.copy(results = currentProposals ++ results.results)
         }
@@ -55,7 +54,7 @@ object ResultsInThemeContainer {
         result
       }
 
-      def searchOnSelectedTags(selectedTags: Seq[TagModel]): Future[SearchResponse] = {
+      def searchOnSelectedTags(selectedTags: Seq[TagModel]): Future[SearchResult] = {
         val result = getProposals(tags = selectedTags, skip = 0)
 
         result.onComplete {

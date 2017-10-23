@@ -8,18 +8,15 @@ import org.make.core.Counter
 import org.make.front.components.Components.{RichVirtualDOMElements, _}
 import org.make.front.components.proposal.ProposalTileWithThemeContainer.ProposalTileWithThemeContainerProps
 import org.make.front.components.search.NoResultToSearch.NoResultToSearchProps
-import org.make.front.facades.ReactInfiniteScroller.{
-  ReactInfiniteScrollerVirtualDOMAttributes,
-  ReactInfiniteScrollerVirtualDOMElements
-}
+import org.make.front.facades.ReactInfiniteScroller.{ReactInfiniteScrollerVirtualDOMAttributes, ReactInfiniteScrollerVirtualDOMElements}
 import org.make.front.facades.Unescape.unescape
 import org.make.front.facades.{I18n, Replacements}
-import org.make.front.models.{Proposal => ProposalModel}
+import org.make.front.models.Proposal
 import org.make.front.styles.ThemeStyles
 import org.make.front.styles.base.{ColRulesStyles, RowRulesStyles, TextStyles}
 import org.make.front.styles.ui.CTAStyles
 import org.make.front.styles.utils._
-import org.make.services.proposal.ProposalResponses.SearchResponse
+import org.make.services.proposal.{SearchResult, SearchResultResponse}
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
@@ -27,11 +24,11 @@ import scala.util.{Failure, Success}
 import scalacss.DevDefaults._
 object SearchResults {
   final case class SearchResultsProps(
-    onMoreResultsRequested: (Seq[ProposalModel], Option[String]) => Future[SearchResponse],
+    onMoreResultsRequested: (Seq[Proposal], Option[String]) => Future[SearchResult],
     searchValue: Option[String]
   )
 
-  final case class SearchResultsState(listProposals: Seq[ProposalModel],
+  final case class SearchResultsState(listProposals: Seq[Proposal],
                                       initialLoad: Boolean,
                                       hasRequestedMore: Boolean,
                                       hasMore: Boolean,
@@ -77,7 +74,7 @@ object SearchResults {
                 }
           }
 
-          def proposals(proposals: Seq[ProposalModel]) =
+          def proposals(proposals: Seq[Proposal]) =
             Seq(
               <.InfiniteScroll(
                 ^.element := "ul",
@@ -117,7 +114,7 @@ object SearchResults {
               }
             )
 
-          val proposalsToDisplay: Seq[ProposalModel] = self.state.listProposals
+          val proposalsToDisplay: Seq[Proposal] = self.state.listProposals
           <("search-results")()(if (self.state.initialLoad || proposalsToDisplay.nonEmpty) {
             <.section(^.className := Seq(SearchResultsStyles.resultsWrapper))(
               <.div(^.className := Seq(SearchResultsStyles.resultsInnerWrapper, RowRulesStyles.centeredRow))(

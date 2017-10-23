@@ -5,6 +5,7 @@ import java.time.LocalDate
 import io.circe.generic.auto._
 import io.circe.syntax._
 import org.make.client.MakeApiClient
+import org.make.client.models.UserResponse
 import org.make.core.URI._
 import org.make.core.{CirceClassFormatters, CirceFormatters}
 import org.make.front.facades.I18n
@@ -19,7 +20,7 @@ object UserService extends ApiService with CirceClassFormatters with CirceFormat
   override val resourceName: String = "user"
 
   def getUserById(id: String): Future[Option[User]] =
-    MakeApiClient.get[User](resourceName / id).recover { case _: Exception => None }
+    MakeApiClient.get[UserResponse](resourceName / id).map(user => Option(User(user))).recover { case _: Exception => None }
 
   def registerUser(email: String,
                    password: String,
@@ -31,7 +32,7 @@ object UserService extends ApiService with CirceClassFormatters with CirceFormat
 
     val headers = MakeApiClient.defaultHeaders ++ operation.map(op => MakeApiClient.operationHeader -> op.value)
     MakeApiClient
-      .post[User](
+      .post[UserResponse](
         resourceName,
         data = RegisterUserRequest(
           email = email,
@@ -45,7 +46,7 @@ object UserService extends ApiService with CirceClassFormatters with CirceFormat
         ).asJson.pretty(ApiService.printer),
         headers = headers
       )
-      .map(_.get)
+      .map(User.apply)
   }
 
   def login(username: String, password: String): Future[User] = {
@@ -56,7 +57,7 @@ object UserService extends ApiService with CirceClassFormatters with CirceFormat
   }
 
   def getCurrentUser(): Future[User] = {
-    MakeApiClient.get[User](resourceName / "me").map(_.get)
+    MakeApiClient.get[UserResponse](resourceName / "me").map(User.apply)
   }
 
   def loginGoogle(token: String): Future[User] = {
@@ -74,25 +75,24 @@ object UserService extends ApiService with CirceClassFormatters with CirceFormat
 
   def resetPasswordRequest(email: String): Future[Unit] = {
     MakeApiClient
-      .post[Unit](
+      .post[UserResponse](
         resourceName / "reset-password" / "request-reset",
         data = Map("email" -> email).asJson.pretty(ApiService.printer)
       )
-      .map { _ =>
-        }
+      .map { _ => }
   }
 
   def subscribeToNewsletter(email: String): Future[Unit] = {
     Future.successful {}
     MakeApiClient
-      .post[Unit](resourceName / "newsletter", data = Map("email" -> email).asJson.pretty(ApiService.printer))
+      .post[UserResponse](resourceName / "newsletter", data = Map("email" -> email).asJson.pretty(ApiService.printer))
       .map { _ =>
         }
   }
 
   def resetPasswordCheck(userId: String, resetToken: String): Future[Boolean] = {
     MakeApiClient
-      .post[Unit](resourceName / "reset-password" / "check-validity" / userId / resetToken)
+      .post[UserResponse](resourceName / "reset-password" / "check-validity" / userId / resetToken)
       .map { _ =>
         true
       }
@@ -103,7 +103,7 @@ object UserService extends ApiService with CirceClassFormatters with CirceFormat
 
   def resetPasswordChange(userId: String, resetToken: String, password: String): Future[Boolean] = {
     MakeApiClient
-      .post[Unit](
+      .post[UserResponse](
         resourceName / "reset-password" / "change-password" / userId,
         data = Map("resetToken" -> resetToken, "password" -> password).asJson.pretty(ApiService.printer)
       )
@@ -118,7 +118,7 @@ object UserService extends ApiService with CirceClassFormatters with CirceFormat
   def validateAccount(userId: String, verificationToken: String, operation: Option[OperationId]): Future[Unit] = {
     val headers = MakeApiClient.defaultHeaders ++ operation.map(op => MakeApiClient.operationHeader -> op.value)
 
-    MakeApiClient.post[Unit](resourceName / userId / "validate" / verificationToken, headers = headers).map { _ =>
+    MakeApiClient.post[UserResponse](resourceName / userId / "validate" / verificationToken, headers = headers).map { _ =>
       {}
     }
   }

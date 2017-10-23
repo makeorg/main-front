@@ -13,17 +13,10 @@ import org.make.front.components.sequence.ProposalInsideSequence.ProposalInsideS
 import org.make.front.facades.FacebookPixel
 import org.make.front.facades.ReactSlick.{ReactTooltipVirtualDOMAttributes, ReactTooltipVirtualDOMElements, Slider}
 import org.make.front.helpers.AbTesting
-import org.make.front.models.{
-  Operation   => OperationModel,
-  OperationId => OperationIdModel,
-  Proposal    => ProposalModel,
-  ProposalId  => ProposalIdModel,
-  Sequence    => SequenceModel,
-  Theme       => ThemeModel
-}
+import org.make.front.models.{Qualification => QualificationModel, Vote => VoteModel, Operation => OperationModel, OperationId => OperationIdModel, Proposal => ProposalModel, ProposalId => ProposalIdModel, Sequence => SequenceModel, Theme => ThemeModel}
 import org.make.front.styles.ThemeStyles
 import org.make.front.styles.utils._
-import org.make.services.proposal.ProposalResponses.{QualificationResponse, VoteResponse}
+import org.make.services.proposal.{QualificationResponse, VoteResponse}
 import org.scalajs.dom.raw.HTMLElement
 
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -64,8 +57,8 @@ object Sequence {
   }
 
   class ProposalSlide(proposal: ProposalModel,
-                      onSuccessfulVote: (ProposalIdModel)        => (VoteResponse) => Unit,
-                      onSuccessfulQualification: ProposalIdModel => (String, QualificationResponse) => Unit,
+                      onSuccessfulVote: (ProposalIdModel)        => (VoteModel) => Unit,
+                      onSuccessfulQualification: ProposalIdModel => (String, QualificationModel) => Unit,
                       canScrollNext: (Int)                       => Boolean,
                       nextProposal: ()                           => Unit)
       extends Slide {
@@ -111,12 +104,12 @@ object Sequence {
     }
 
     def onSuccessfulVote(proposalId: ProposalIdModel,
-                         self: Self[SequenceProps, SequenceState]): (VoteResponse) => Unit = { (voteResponse) =>
+                         self: Self[SequenceProps, SequenceState]): (VoteModel) => Unit = { (voteModel) =>
       def mapProposal(proposal: ProposalModel) = {
         if (proposal.id == proposalId) {
           proposal.copy(votes = proposal.votes.map { vote =>
-            if (vote.key == voteResponse.voteKey) {
-              voteResponse.toVote
+            if (vote.key == voteModel.key) {
+              voteModel
             } else {
               vote
             }
@@ -130,7 +123,7 @@ object Sequence {
       val updatedProposals = self.state.proposals.map(mapProposal)
       val isLastSlideDisplayed: Boolean = self.state.currentSlideIndex == self.state.displayedSlidesCount - 1
 
-      val displayedSlidesCount = if (isLastSlideDisplayed && voteResponse.hasVoted) {
+      val displayedSlidesCount = if (isLastSlideDisplayed && voteModel.hasVoted) {
         self.state.displayedSlidesCount + 1
       } else {
         self.state.displayedSlidesCount
@@ -141,15 +134,15 @@ object Sequence {
     }
 
     def onSuccessfulQualification(proposalId: ProposalIdModel,
-                                  self: Self[SequenceProps, SequenceState]): (String, QualificationResponse) => Unit = {
-      (voteKey, qualificationResponse) =>
+                                  self: Self[SequenceProps, SequenceState]): (String, QualificationModel) => Unit = {
+      (voteKey, qualificationModel) =>
         def mapProposal(proposal: ProposalModel) = {
           if (proposal.id == proposalId) {
             proposal.copy(votes = proposal.votes.map { vote =>
               if (vote.key == voteKey) {
                 vote.copy(qualifications = vote.qualifications.map { qualification =>
-                  if (qualification.key == qualificationResponse.qualificationKey) {
-                    qualificationResponse.toQualification
+                  if (qualification.key == qualificationModel.key) {
+                    qualificationModel
                   } else {
                     qualification
                   }

@@ -8,11 +8,11 @@ import org.make.front.components.Components._
 import org.make.front.components.proposal.ProposalTile.ProposalTileProps
 import org.make.front.components.proposal.ProposalTileWithThemeContainer.ProposalTileWithThemeContainerProps
 import org.make.front.facades.logoMake
-import org.make.front.models.{Proposal => ProposalModel}
+import org.make.front.models.Proposal
 import org.make.front.styles._
 import org.make.front.styles.base.{ColRulesStyles, RowRulesStyles, TextStyles}
 import org.make.front.styles.utils._
-import org.make.services.proposal.ProposalResponses.SearchResponse
+import org.make.services.proposal.{SearchResult, SearchResultResponse}
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
@@ -21,9 +21,9 @@ import scalacss.DevDefaults._
 
 object TrendingShowcase {
 
-  final case class TrendingShowcaseProps(proposals: Future[SearchResponse], intro: String, title: String)
+  final case class TrendingShowcaseProps(proposals: Future[SearchResult], intro: String, title: String)
 
-  final case class TrendingShowcaseState(proposals: Seq[ProposalModel])
+  final case class TrendingShowcaseState(proposals: Seq[Proposal])
 
   lazy val reactClass: ReactClass =
     React.createClass[TrendingShowcaseProps, TrendingShowcaseState](

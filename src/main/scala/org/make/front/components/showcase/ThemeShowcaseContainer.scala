@@ -6,8 +6,7 @@ import io.github.shogowada.scalajs.reactjs.redux.ReactRedux
 import io.github.shogowada.scalajs.reactjs.redux.Redux.Dispatch
 import org.make.front.components.AppState
 import org.make.front.models.Label
-import org.make.services.proposal.ProposalResponses.SearchResponse
-import org.make.services.proposal.ProposalService
+import org.make.services.proposal.{ProposalService, SearchResult}
 
 import scala.concurrent.Future
 
@@ -41,7 +40,7 @@ object ThemeShowcaseContainer {
         )
       }.getOrElse(
         ThemeShowcase.ThemeShowcaseProps(
-          proposals = Future.successful(SearchResponse(total = 0, results = Seq.empty)),
+          proposals = Future.successful(SearchResult(total = 0, results = Seq.empty)),
           maybeTheme = None,
           maybeIntro = None,
           maybeNews = None

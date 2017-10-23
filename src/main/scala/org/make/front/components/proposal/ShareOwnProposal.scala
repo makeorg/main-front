@@ -6,7 +6,7 @@ import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import org.make.front.components.Components._
 import org.make.front.facades.I18n
 import org.make.front.facades.Unescape.unescape
-import org.make.front.models.{Proposal => ProposalModel}
+import org.make.front.models.Proposal
 import org.make.front.styles._
 import org.make.front.styles.base.TextStyles
 import org.make.front.styles.utils._
@@ -16,7 +16,7 @@ import scalacss.internal.mutable.StyleSheet
 
 object ShareOwnProposal {
 
-  final case class ShareOwnProposalProps(proposal: ProposalModel)
+  final case class ShareOwnProposalProps(proposal: Proposal)
 
   val reactClass: ReactClass =
     React

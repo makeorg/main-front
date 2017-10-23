@@ -13,7 +13,7 @@ import org.make.front.styles._
 import org.make.front.styles.base.{ColRulesStyles, RowRulesStyles, TextStyles}
 import org.make.front.styles.ui.CTAStyles
 import org.make.front.styles.utils._
-import org.make.services.proposal.ProposalResponses.SearchResponse
+import org.make.services.proposal.SearchResult
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
@@ -23,7 +23,7 @@ import scalacss.internal.mutable.StyleSheet.Inline
 
 object ThemeShowcase {
 
-  final case class ThemeShowcaseProps(proposals: Future[SearchResponse],
+  final case class ThemeShowcaseProps(proposals: Future[SearchResult],
                                       maybeTheme: Option[ThemeModel],
                                       maybeIntro: Option[String],
                                       maybeNews: Option[String])

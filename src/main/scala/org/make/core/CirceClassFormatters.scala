@@ -6,29 +6,10 @@ import org.make.front.models.{
   Gender        => GenderModel,
   Profile       => ProfileModel,
   Role          => RoleModel,
-  Token         => TokenModel,
-  User          => UserModel,
-  Vote          => VoteModel,
-  Qualification => QualificationModel
+  Token         => TokenModel
 }
-import org.make.services.proposal.ProposalResponses.RegisterProposalResponse
 
 trait CirceClassFormatters extends TimeInstances {
-  implicit lazy val userDecoder: Decoder[UserModel] =
-    Decoder.forProduct9(
-      "userId",
-      "email",
-      "firstName",
-      "lastName",
-      "enabled",
-      "verified",
-      "lastConnection",
-      "roles",
-      "profile"
-    )(UserModel.apply)
-
-  implicit lazy val registerProposalResponseDecoder: Decoder[RegisterProposalResponse] =
-    Decoder.forProduct1("proposalId")(RegisterProposalResponse.apply)
 
   implicit lazy val roleEncoder: Encoder[RoleModel] = (role: RoleModel) => Json.fromString(role.shortName)
   implicit lazy val roleDecoder: Decoder[RoleModel] =
@@ -69,10 +50,4 @@ trait CirceClassFormatters extends TimeInstances {
           case _            => Left(s"$maybeGender is not a gender")
       }
     )
-
-  implicit lazy val vote: Decoder[VoteModel] =
-    Decoder.forProduct4("key", "count", "qualifications", "hasVoted")(VoteModel.apply)
-
-  implicit lazy val qualification: Decoder[QualificationModel] =
-    Decoder.forProduct3("key", "count", "hasQualified")(QualificationModel.apply)
 }

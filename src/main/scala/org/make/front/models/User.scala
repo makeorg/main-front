@@ -4,6 +4,9 @@ import java.time.ZonedDateTime
 
 import io.circe._
 import org.make.core.StringValue
+import org.make.client.models.UserResponse
+
+import scala.scalajs.js
 
 sealed trait Role {
   def shortName: String
@@ -49,11 +52,27 @@ case class User(userId: UserId,
                 roles: Seq[Role],
                 profile: Option[Profile])
 
-case class UserId(value: String) extends StringValue
+
+object User {
+  def apply(userResponse: UserResponse): User = {
+    User(
+      userId = userResponse.userId,
+      email = userResponse.email,
+      firstName = userResponse.firstName,
+      lastName = userResponse.lastName,
+      enabled = userResponse.enabled,
+      verified = userResponse.verified,
+      lastConnection = userResponse.lastConnection,
+      roles = userResponse.roles,
+      profile = userResponse.profile)
+  }
+}
+trait UserId extends js.Object {
+  val value: String
+}
 
 object UserId {
-  implicit lazy val userIdEncoder: Encoder[UserId] = (a: UserId) => Json.fromString(a.value)
-  implicit lazy val userIdDecoder: Decoder[UserId] =
-    Decoder.decodeString.map(UserId(_))
-
+  def apply(value: String): UserId = {
+    js.Dynamic.literal(value = value).asInstanceOf[UserId]
+  }
 }

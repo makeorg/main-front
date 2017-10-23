@@ -14,6 +14,7 @@ import org.scalajs.dom.ext.{Ajax, AjaxException}
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.{Future, Promise}
+import scala.scalajs.js
 import scala.util.{Failure, Success, Try}
 
 object MakeApiClient extends Client {
@@ -36,7 +37,7 @@ object MakeApiClient extends Client {
 
   private var token: Option[Token] = None
   def getToken: Option[Token] = token
-  def setToken(newToken: Token): Unit = token = Some(newToken)
+  def setToken(newToken: Option[Token]): Unit = token = newToken
   def removeToken(): Unit = token = None
   def isAuthenticated: Boolean = token.isDefined
 
@@ -52,23 +53,14 @@ object MakeApiClient extends Client {
   val languageHeader: String = "x-make-language"
   val countryHeader: String = "x-make-country"
 
-  private def XHRResponseTo[ENTITY](responseTry: Try[XMLHttpRequest], promise: Promise[Option[ENTITY]])(
-    implicit decoder: Decoder[ENTITY]
-  ): Promise[Option[ENTITY]] = {
+  private def XHRResponseTo[ENTITY <: js.Object](responseTry: Try[XMLHttpRequest], promise: Promise[ENTITY]): Promise[ENTITY] = {
     responseTry match {
-      case Success(response) if response.status == 204 => promise.success(None)
       case Success(response) =>
-        parse(response.responseText).flatMap(_.as[ENTITY]) match {
-          case Left(error)           => promise.failure(error)
-          case Right(parsedResponse) => promise.success(Some(parsedResponse))
-        }
+        promise.success(response.asInstanceOf[ENTITY])
       case Failure(AjaxException(response: XMLHttpRequest)) =>
         response.status match {
           case 400 =>
-            parse(response.responseText).flatMap(_.as[Seq[ValidationError]]) match {
-              case Left(error)     => promise.failure(error)
-              case Right(messages) => promise.failure(BadRequestHttpException(messages))
-            }
+            promise.failure(BadRequestHttpException(response.asInstanceOf[Seq[ValidationError]]))
           case 401 => promise.failure(UnauthorizedHttpException)
           case 403 => promise.failure(ForbiddenHttpException)
           case 404 => promise.failure(NotFoundHttpException)
@@ -82,12 +74,12 @@ object MakeApiClient extends Client {
   private def urlFrom(apiEndpoint: String, urlParams: Seq[(String, Any)] = Seq.empty): String =
     (baseUrl / apiEndpoint).addParams(urlParams)
 
-  override def get[ENTITY](
+  override def get[ENTITY <: js.Object](
     apiEndpoint: String = "",
     urlParams: Seq[(String, Any)] = Seq.empty,
     headers: Map[String, String] = Map.empty
-  )(implicit decoder: Decoder[ENTITY]): Future[Option[ENTITY]] = {
-    val promiseReturn = Promise[Option[ENTITY]]()
+  ): Future[ENTITY] = {
+    val promiseReturn = Promise[ENTITY]()
     Ajax
       .get(
         url = urlFrom(apiEndpoint, urlParams),
@@ -99,13 +91,13 @@ object MakeApiClient extends Client {
     promiseReturn.future
   }
 
-  override def post[ENTITY](
+  override def post[ENTITY <: js.Object](
     apiEndpoint: String = "",
     urlParams: Seq[(String, Any)] = Seq.empty,
     data: InputData = "",
     headers: Map[String, String] = Map.empty
-  )(implicit decoder: Decoder[ENTITY]): Future[Option[ENTITY]] = {
-    val promiseReturn = Promise[Option[ENTITY]]()
+  ): Future[ENTITY] = {
+    val promiseReturn = Promise[ENTITY]()
     Ajax
       .post(
         url = urlFrom(apiEndpoint, urlParams),
@@ -118,11 +110,11 @@ object MakeApiClient extends Client {
     promiseReturn.future
   }
 
-  override def put[ENTITY](apiEndpoint: String,
+  override def put[ENTITY <: js.Object](apiEndpoint: String,
                            urlParams: Seq[(String, Any)],
                            data: InputData,
-                           headers: Map[String, String])(implicit decoder: Decoder[ENTITY]): Future[Option[ENTITY]] = {
-    val promiseReturn = Promise[Option[ENTITY]]()
+                           headers: Map[String, String]): Future[ENTITY] = {
+    val promiseReturn = Promise[ENTITY]()
     Ajax
       .put(
         url = urlFrom(apiEndpoint, urlParams),
@@ -135,13 +127,13 @@ object MakeApiClient extends Client {
     promiseReturn.future
   }
 
-  override def patch[ENTITY](
+  override def patch[ENTITY <: js.Object](
     apiEndpoint: String,
     urlParams: Seq[(String, Any)],
     data: InputData,
     headers: Map[String, String]
-  )(implicit decoder: Decoder[ENTITY]): Future[Option[ENTITY]] = {
-    val promiseReturn = Promise[Option[ENTITY]]()
+  ): Future[ENTITY] = {
+    val promiseReturn = Promise[ENTITY]()
     Ajax
       .apply(
         method = "PATCH",
@@ -156,13 +148,13 @@ object MakeApiClient extends Client {
     promiseReturn.future
   }
 
-  override def delete[ENTITY](
+  override def delete[ENTITY <: js.Object](
     apiEndpoint: String,
     urlParams: Seq[(String, Any)],
     data: InputData,
     headers: Map[String, String]
-  )(implicit decoder: Decoder[ENTITY]): Future[Option[ENTITY]] = {
-    val promiseReturn = Promise[Option[ENTITY]]()
+  ): Future[ENTITY] = {
+    val promiseReturn = Promise[ENTITY]()
     Ajax
       .delete(
         url = urlFrom(apiEndpoint, urlParams),
@@ -175,7 +167,7 @@ object MakeApiClient extends Client {
     promiseReturn.future
   }
 
-  def authenticate(username: String, password: String)(implicit decoder: Decoder[Token]): Future[Boolean] = {
+  def authenticate(username: String, password: String): Future[Boolean] = {
     if (MakeApiClient.isAuthenticated) {
       Future.successful(true)
     } else {
@@ -184,18 +176,18 @@ object MakeApiClient extends Client {
   }
 
   private def askForAccessToken(username: String,
-                                password: String)(implicit decoder: Decoder[Token]): Future[Boolean] = {
+                                password: String): Future[Boolean] = {
     post[Token](
       "oauth" / "make_access_token",
       data = "".paramsToString(Seq("username" -> username, "password" -> password, "grant_type" -> "password")),
       headers = Map("Content-Type" -> MediaTypes.`application/x-www-form-urlencoded`)
     ).map { newToken =>
-      MakeApiClient.setToken(newToken.get)
+      MakeApiClient.setToken(Option(newToken))
       MakeApiClient.isAuthenticated
     }
   }
 
-  def authenticateSocial(provider: String, token: String)(implicit decoder: Decoder[Token]): Future[Boolean] = {
+  def authenticateSocial(provider: String, token: String): Future[Boolean] = {
     if (MakeApiClient.isAuthenticated) {
       Future.successful(true)
     } else {
@@ -204,12 +196,12 @@ object MakeApiClient extends Client {
   }
 
   private def askForAccessTokenSocial(provider: String,
-                                      token: String)(implicit decoder: Decoder[Token]): Future[Boolean] = {
+                                      token: String): Future[Boolean] = {
     post[Token](
       "user" / "login" / "social",
       data = Map("provider" -> provider, "token" -> token).asJson.pretty(MakeApiClient.printer)
     ).map { newToken =>
-      MakeApiClient.setToken(newToken.get)
+      MakeApiClient.setToken(Option(newToken))
       MakeApiClient.isAuthenticated
     }
   }

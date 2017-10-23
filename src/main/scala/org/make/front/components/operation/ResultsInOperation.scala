@@ -10,17 +10,14 @@ import org.make.front.components.Components._
 import org.make.front.components.proposal.ProposalTileWithTags.ProposalTileWithTagsProps
 import org.make.front.components.tags.FilterByTags.FilterByTagsProps
 import org.make.front.facades.I18n
-import org.make.front.facades.ReactInfiniteScroller.{
-  ReactInfiniteScrollerVirtualDOMAttributes,
-  ReactInfiniteScrollerVirtualDOMElements
-}
+import org.make.front.facades.ReactInfiniteScroller.{ReactInfiniteScrollerVirtualDOMAttributes, ReactInfiniteScrollerVirtualDOMElements}
 import org.make.front.facades.Unescape.unescape
-import org.make.front.models.{Proposal => ProposalModel, Tag => TagModel}
+import org.make.front.models.{Proposal, Tag => TagModel}
 import org.make.front.styles._
 import org.make.front.styles.base.{ColRulesStyles, RowRulesStyles, TextStyles}
 import org.make.front.styles.ui.CTAStyles
 import org.make.front.styles.utils._
-import org.make.services.proposal.ProposalResponses.SearchResponse
+import org.make.services.proposal.{SearchResult, SearchResultResponse}
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
@@ -30,13 +27,13 @@ import scalacss.internal.mutable.StyleSheet
 object ResultsInOperation {
 
   case class ResultsInOperationProps(
-    onMoreResultsRequested: (Seq[ProposalModel], Seq[TagModel]) => Future[SearchResponse],
-    onTagSelectionChange: (Seq[TagModel])                       => Future[SearchResponse],
-    proposals: Future[SearchResponse],
+    onMoreResultsRequested: (Seq[Proposal], Seq[TagModel]) => Future[SearchResult],
+    onTagSelectionChange: (Seq[TagModel])                       => Future[SearchResult],
+    proposals: Future[SearchResult],
     preselectedTags: Seq[TagModel]
   )
 
-  case class ResultsInOperationState(listProposals: Seq[ProposalModel],
+  case class ResultsInOperationState(listProposals: Seq[Proposal],
                                      selectedTags: Seq[TagModel],
                                      hasRequestedMore: Boolean,
                                      hasMore: Boolean)
@@ -92,7 +89,7 @@ object ResultsInOperation {
           }
         }
 
-        def proposals(proposals: Seq[ProposalModel]) =
+        def proposals(proposals: Seq[Proposal]) =
           Seq(
             <.InfiniteScroll(
               ^.element := "ul",
@@ -126,7 +123,7 @@ object ResultsInOperation {
             }
           )
 
-        val proposalsToDisplay: Seq[ProposalModel] = self.state.listProposals
+        val proposalsToDisplay: Seq[Proposal] = self.state.listProposals
 
         <.section(^.className := Seq(RowRulesStyles.centeredRow, ResultsInOperationStyles.wrapper))(
           <.header(^.className := ColRulesStyles.col)(

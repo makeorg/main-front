@@ -8,13 +8,13 @@ import org.make.front.components.proposal.vote.VoteContainer.VoteContainerProps
 import org.make.front.facades.I18n
 import org.make.front.facades.Unescape.unescape
 import org.make.front.helpers.ProposalAuthorInfosFormat
-import org.make.front.models.{Proposal => ProposalModel}
+import org.make.front.models.{Proposal => ProposalModel, Qualification => QualificationModel, Vote => VoteModel}
 import org.make.front.styles.ThemeStyles
 import org.make.front.styles.base.{ColRulesStyles, RowRulesStyles, TextStyles}
 import org.make.front.styles.ui.CTAStyles
 import org.make.front.styles.utils._
 import org.make.front.styles.vendors.FontAwesomeStyles
-import org.make.services.proposal.ProposalResponses.{QualificationResponse, VoteResponse}
+import org.make.services.proposal.{QualificationResponse, VoteResponse}
 
 import scalacss.DevDefaults.{StyleA, _}
 import scalacss.internal.mutable.StyleSheet
@@ -22,8 +22,8 @@ import scalacss.internal.mutable.StyleSheet
 object ProposalInsideSequence {
 
   final case class ProposalInsideSequenceProps(proposal: ProposalModel,
-                                               handleSuccessfulVote: (VoteResponse)                           => Unit = (_) => {},
-                                               handleSuccessfulQualification: (String, QualificationResponse) => Unit =
+                                               handleSuccessfulVote: (VoteModel)                           => Unit = (_) => {},
+                                               handleSuccessfulQualification: (String, QualificationModel) => Unit =
                                                  (_, _) => {},
                                                handleClickOnCta: () => Unit,
                                                hasBeenVoted: Boolean,

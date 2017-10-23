@@ -1,14 +1,20 @@
 package org.make.front.models
 
-import io.circe.{Decoder, Encoder, Json}
 import io.github.shogowada.scalajs.reactjs.redux.Store
-import org.make.core.StringValue
 import org.make.front.components.AppState
 
-final case class GradientColor(from: String, to: String)
+import scala.scalajs.js
+
+@js.native
+trait GradientColor extends js.Object {
+  val from: String
+  val to: String
+}
 
 object GradientColor {
-  implicit val decoder: Decoder[GradientColor] = Decoder.forProduct2("from", "to")(GradientColor.apply)
+  def apply(from: String, to: String): GradientColor = {
+    js.Dynamic.literal(from = from, to = to).asInstanceOf[GradientColor]
+  }
 }
 
 final case class Theme(id: ThemeId,
@@ -21,11 +27,15 @@ final case class Theme(id: ThemeId,
                        gradient: Option[GradientColor] = None,
                        tags: Seq[Tag] = Seq.empty)
 
-final case class ThemeId(value: String) extends StringValue
+@js.native
+trait ThemeId extends js.Object {
+  val value: String
+}
 
 object ThemeId {
-  implicit lazy val themeIdEncoder: Encoder[ThemeId] = (a: ThemeId) => Json.fromString(a.value)
-  implicit lazy val themeIdDecoder: Decoder[ThemeId] = Decoder.decodeString.map(ThemeId(_))
+  def apply(value: String): ThemeId = {
+    js.Dynamic.literal(value = value).asInstanceOf[ThemeId]
+  }
 }
 
 object Theme {

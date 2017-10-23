@@ -8,12 +8,7 @@ import org.make.core.{CirceClassFormatters, CirceFormatters}
 import org.make.front.facades.I18n
 import org.make.front.models._
 import org.make.services.ApiService
-import org.make.services.proposal.ProposalResponses.{
-  QualificationResponse,
-  RegisterProposalResponse,
-  SearchResponse,
-  VoteResponse
-}
+import org.make.services.proposal.{QualificationResponse, VoteResponse, RegisterProposalResponse}
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
@@ -25,7 +20,7 @@ object ProposalService extends ApiService with CirceClassFormatters with CirceFo
   val defaultResultsCount = 20
 
   def getProposalById(proposalId: ProposalId): Future[Proposal] = {
-    MakeApiClient.get[Proposal](resourceName / proposalId.value).map(_.get)
+    MakeApiClient.get[ProposalResponse](resourceName / proposalId.value).map(Proposal.apply)
   }
 
   def createProposal(content: String,
@@ -33,7 +28,7 @@ object ProposalService extends ApiService with CirceClassFormatters with CirceFo
                      themeId: Option[String] = None,
                      source: String = Source.Core.name,
                      operation: Option[String] = None,
-                     question: Option[String] = None): Future[RegisterProposalResponse] = {
+                     question: Option[String] = None): Future[RegisterProposal] = {
     //TODO: set headers everywhere appropriate. For now headers are reset to their previous values with a backup.
     val backupHeaders = MakeApiClient.customHeaders
     MakeApiClient.customHeaders ++= Map[String, String](
@@ -48,7 +43,7 @@ object ProposalService extends ApiService with CirceClassFormatters with CirceFo
         resourceName,
         data = RegisterProposalRequest(content).asJson.pretty(ApiService.printer)
       )
-      .map(_.get)
+      .map(RegisterProposal.apply)
     MakeApiClient.customHeaders = backupHeaders
     registerProposalResponse
   }
@@ -63,9 +58,9 @@ object ProposalService extends ApiService with CirceClassFormatters with CirceFo
                       context: Option[ContextRequest] = Some(ContextRequest()),
                       sort: Seq[SortOptionRequest] = Seq.empty,
                       limit: Option[Int] = None,
-                      skip: Option[Int] = None): Future[SearchResponse] =
+                      skip: Option[Int] = None): Future[SearchResult] = {
     MakeApiClient
-      .post[SearchResponse](
+      .post[SearchResultResponse](
         resourceName / "search",
         data = SearchRequest(
           content = content,
@@ -80,44 +75,45 @@ object ProposalService extends ApiService with CirceClassFormatters with CirceFo
           sort = sort
         ).asJson.pretty(ApiService.printer)
       )
-      .map(_.get)
+      .map(SearchResult.apply)
+  }
 
-  def vote(proposalId: ProposalId, voteValue: String): Future[VoteResponse] = {
+  def vote(proposalId: ProposalId, voteValue: String): Future[Vote] = {
     MakeApiClient
       .post[VoteResponse](
         apiEndpoint = resourceName / proposalId.value / "vote",
         data = VoteRequest(voteValue).asJson.pretty(ApiService.printer)
       )
-      .map(_.get)
+      .map(Vote.apply)
   }
 
-  def unvote(proposalId: ProposalId, oldVoteValue: String): Future[VoteResponse] = {
+  def unvote(proposalId: ProposalId, oldVoteValue: String): Future[Vote] = {
     MakeApiClient
       .post[VoteResponse](
         apiEndpoint = resourceName / proposalId.value / "unvote",
         data = VoteRequest(oldVoteValue).asJson.pretty(ApiService.printer)
       )
-      .map(_.get)
+      .map(Vote.apply)
   }
 
-  def qualifyVote(proposalId: ProposalId, vote: String, qualification: String): Future[QualificationResponse] = {
+  def qualifyVote(proposalId: ProposalId, vote: String, qualification: String): Future[Qualification] = {
     MakeApiClient
       .post[QualificationResponse](
         apiEndpoint = resourceName / proposalId.value / "qualification",
         data = QualificationRequest(voteKey = vote, qualificationKey = qualification).asJson.pretty(ApiService.printer)
       )
-      .map(_.get)
+      .map(Qualification.apply)
   }
 
   def removeVoteQualification(proposalId: ProposalId,
                               vote: String,
-                              qualification: String): Future[QualificationResponse] = {
+                              qualification: String): Future[Qualification] = {
     MakeApiClient
       .post[QualificationResponse](
         apiEndpoint = resourceName / proposalId.value / "unqualification",
         data = QualificationRequest(voteKey = vote, qualificationKey = qualification).asJson.pretty(ApiService.printer)
       )
-      .map(_.get)
+      .map(Qualification.apply)
   }
 
   final case class UnexpectedException(message: String = I18n.t("errors.unexpected")) extends Exception(message)

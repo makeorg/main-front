@@ -1,36 +1,65 @@
 package org.make.services.proposal
 
-import io.circe.Decoder
-import org.make.front.models.{Proposal, Qualification, Vote}
+import java.time.ZonedDateTime
 
-object ProposalResponses {
-  final case class RegisterProposalResponse(proposalId: String)
-  final case class VoteResponse(voteKey: String,
-                                count: Int = 0,
-                                qualifications: Seq[QualificationResponse],
-                                hasVoted: Boolean) {
-    def toVote: Vote =
-      Vote(key = voteKey, count = count, qualifications = qualifications.map(_.toQualification), hasVoted = hasVoted)
-  }
-  object VoteResponse {
-    implicit val decoder: Decoder[VoteResponse] =
-      Decoder.forProduct4("voteKey", "count", "qualifications", "hasVoted")(VoteResponse.apply)
-  }
+import org.make.front.models._
 
-  final case class QualificationResponse(qualificationKey: String, count: Int = 0, hasQualified: Boolean) {
-    def toQualification: Qualification =
-      Qualification(key = qualificationKey, count = count, hasQualified = hasQualified)
-  }
+import scala.scalajs.js
 
-  object QualificationResponse {
-    implicit val decoder: Decoder[QualificationResponse] =
-      Decoder.forProduct3("qualificationKey", "count", "hasQualified")(QualificationResponse.apply)
-  }
-
-  case class SearchResponse(total: Int, results: Seq[Proposal])
-
-  object SearchResponse {
-    implicit val decoder: Decoder[SearchResponse] = Decoder.forProduct2("total", "results")(SearchResponse.apply)
-  }
-
+@js.native
+trait RegisterProposalResponse extends js.Object {
+  val proposalId: String
 }
+
+@js.native
+trait SearchResultResponse extends js.Object {
+  val total: Int
+  val results: Seq[ProposalResponse]
+}
+
+case class SearchResult(total: Int, results: Seq[Proposal])
+
+object SearchResult {
+  def apply(searchResultResponse: SearchResultResponse): SearchResult = {
+    SearchResult(total = searchResultResponse.total, results = searchResultResponse.results.map(Proposal.apply))
+  }
+}
+
+@js.native
+trait ProposalResponse extends js.Object {
+  val id: ProposalId
+  val userId: UserId
+  val content: String
+  val slug: String
+  val status: String
+  val createdAt: ZonedDateTime
+  val updatedAt: Option[ZonedDateTime]
+  val votes: Seq[Vote]
+  val context: ProposalContext
+  val trending: Option[String]
+  val labels: Seq[String]
+  val author: Author
+  val country: String
+  val language: String
+  val themeId: Option[ThemeId]
+  val operationId: Option[OperationId]
+  val tags: Seq[Tag]
+  val myProposal: Boolean
+}
+
+@js.native
+trait VoteResponse extends js.Object {
+  val voteKey: String
+  val count: Int
+  val qualifications: Seq[QualificationResponse]
+  val hasVoted: Boolean
+}
+
+@js.native
+trait QualificationResponse extends js.Object {
+  val qualificationKey: String
+  val count: Int
+  val hasQualified: Boolean
+}
+
+
