@@ -34,9 +34,8 @@ object OperationHeader {
 
         var proposalInput: Option[HTMLElement] = None
 
-        def toggleProposalModal() = () => {
-          self.setState(state => state.copy(isProposalModalOpened = !self.state.isProposalModalOpened))
-
+        val closeProposalModal: () => Unit = () => {
+          self.setState(state => state.copy(isProposalModalOpened = false))
         }
 
         def openProposalModalFromInput() = () => {
@@ -85,15 +84,13 @@ object OperationHeader {
               <.FullscreenModalComponent(
                 ^.wrapped := FullscreenModalProps(
                   isModalOpened = self.state.isProposalModalOpened,
-                  closeCallback = toggleProposalModal()
+                  closeCallback = closeProposalModal
                 )
               )(
                 <.SubmitProposalInRelationToOperationComponent(
                   ^.wrapped := SubmitProposalInRelationToOperationProps(
                     operation = operation,
-                    onProposalProposed = () => {
-                      self.setState(_.copy(isProposalModalOpened = false))
-                    }
+                    onProposalProposed = closeProposalModal
                   )
                 )()
               )

@@ -139,9 +139,7 @@ object OperationSequence {
                         <.SubmitProposalInRelationToOperationComponent(
                           ^.wrapped := SubmitProposalInRelationToOperationProps(
                             operation = self.props.wrapped.operation,
-                            onProposalProposed = () => {
-                              self.setState(_.copy(isProposalModalOpened = false))
-                            }
+                            onProposalProposed = closeProposalModal
                           )
                         )()
                       )

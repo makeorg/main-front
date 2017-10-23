@@ -16,6 +16,7 @@ import org.make.front.styles.utils._
 import scalacss.DevDefaults._
 import scalacss.internal.Attr
 import scalacss.internal.mutable.StyleSheet
+import scalacss.internal.mutable.StyleSheet.Inline
 
 object SubmitProposalInRelationToOperation {
 
@@ -30,8 +31,18 @@ object SubmitProposalInRelationToOperation {
         SubmitProposalInRelationToOperationState(operation = self.props.wrapped.operation)
       },
       render = { self =>
-        val gradientColor: GradientColorModel =
+        val gradientValues: GradientColorModel =
           self.state.operation.gradient.getOrElse(GradientColorModel("#FFF", "#FFF"))
+
+        object DynamicSubmitProposalInRelationToOperationStyles extends Inline {
+          import dsl._
+
+          val titleBackground = style(
+            background := s"-webkit-linear-gradient(94deg, ${gradientValues.from}, ${gradientValues.to})",
+            Attr.real("-webkit-background-clip") := "text",
+            Attr.real("-webkit-text-fill-color") := "transparent"
+          )
+        }
 
         val intro: (ReactElement) => ReactElement = {
           element =>
@@ -49,12 +60,15 @@ object SubmitProposalInRelationToOperation {
                   ^.className := Seq(
                     TextStyles.veryBigTitle,
                     SubmitProposalInRelationToOperationStyles.operation,
-                    SubmitProposalInRelationToOperationStyles.gradientColor(gradientColor.from, gradientColor.to)
+                    DynamicSubmitProposalInRelationToOperationStyles.titleBackground
                   )
                 )(unescape(self.state.operation.title))
               ),
               element,
-              <.style()(SubmitProposalInRelationToOperationStyles.render[String])
+              <.style()(
+                SubmitProposalInRelationToOperationStyles.render[String],
+                DynamicSubmitProposalInRelationToOperationStyles.render[String]
+              )
             )
 
         }
@@ -95,13 +109,6 @@ object SubmitProposalInRelationToOperationStyles extends StyleSheet.Inline {
       lineHeight(36.pxToEm(30)),
       ThemeStyles.MediaQueries.beyondSmall(marginBottom(10.pxToEm(40)), lineHeight(56.pxToEm(40))),
       ThemeStyles.MediaQueries.beyondMedium(marginBottom(10.pxToEm(60)), lineHeight(70.pxToEm(60)))
-    )
-
-  def gradientColor(from: String, to: String): StyleA =
-    style(
-      background := s"-webkit-linear-gradient(94deg, $from, $to)",
-      Attr.real("-webkit-background-clip") := "text",
-      Attr.real("-webkit-text-fill-color") := "transparent"
     )
 
 }
