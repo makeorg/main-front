@@ -26,7 +26,9 @@ object ProposalInsideSequence {
                                                handleSuccessfulQualification: (String, QualificationResponse) => Unit =
                                                  (_, _) => {},
                                                handleClickOnCta: () => Unit,
-                                               hasBeenVoted: Boolean)
+                                               hasBeenVoted: Boolean,
+                                               guideToVote: Option[String] = Some(""),
+                                               guideToQualification: Option[String] = Some(""))
 
   final case class ProposalInsideSequenceState(hasBeenVoted: Boolean)
 
@@ -55,8 +57,8 @@ object ProposalInsideSequence {
                     proposal = self.props.wrapped.proposal,
                     onSuccessfulVote = self.props.wrapped.handleSuccessfulVote,
                     onSuccessfulQualification = self.props.wrapped.handleSuccessfulQualification,
-                    guideToVote = Some(I18n.t("sequence.guide.vote")),
-                    guideToQualification = Some(I18n.t("sequence.guide.qualification"))
+                    guideToVote = self.props.wrapped.guideToVote,
+                    guideToQualification = self.props.wrapped.guideToQualification
                   )
                 )(),
                 <.div(^.className := ProposalInsideSequenceStyles.ctaWrapper)(

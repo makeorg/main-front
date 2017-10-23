@@ -8,7 +8,7 @@ import org.make.front.components.Components._
 import org.make.front.components.operation.IntroOfOperationSequence.IntroOfOperationSequenceProps
 import org.make.front.components.sequence.ProgressBar.ProgressBarProps
 import org.make.front.components.sequence.ProposalInsideSequence.ProposalInsideSequenceProps
-import org.make.front.facades.FacebookPixel
+import org.make.front.facades.{FacebookPixel, I18n}
 import org.make.front.facades.ReactSlick.{ReactTooltipVirtualDOMAttributes, ReactTooltipVirtualDOMElements, Slider}
 import org.make.front.models.{Proposal => ProposalModel, ProposalId => ProposalIdModel, Sequence => SequenceModel}
 import org.make.front.styles.ThemeStyles
@@ -222,7 +222,10 @@ object Sequence {
                                       handleSuccessfulVote = nextOnSuccessfulVote(proposal.id),
                                       handleSuccessfulQualification = onSuccessfulQualification(proposal.id),
                                       handleClickOnCta = nextProposal,
-                                      hasBeenVoted = self.state.votes.contains(proposal.id.value)
+                                      hasBeenVoted = self.state.votes.contains(proposal.id.value),
+                                      /*TODO : guides if first slide*/
+                                      guideToVote = Some(I18n.t("sequence.guide.vote")),
+                                      guideToQualification = Some(I18n.t("sequence.guide.qualification"))
                                     )
                                   )()
                                 )
