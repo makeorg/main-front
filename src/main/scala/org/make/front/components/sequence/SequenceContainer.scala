@@ -6,7 +6,7 @@ import io.github.shogowada.scalajs.reactjs.redux.ReactRedux
 import io.github.shogowada.scalajs.reactjs.redux.Redux.Dispatch
 import org.make.front.actions.NotifyError
 import org.make.front.components.AppState
-import org.make.front.models.{Operation, Proposal, Sequence => SequenceModel}
+import org.make.front.models.{Operation => OperationModel, Proposal => ProposalModel, Sequence => SequenceModel}
 import org.make.services.proposal.{ContextRequest, ProposalService}
 
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -24,9 +24,9 @@ object SequenceContainer {
   def selectorFactory: (Dispatch) => (AppState, Props[SequenceContainerProps]) => Sequence.SequenceProps =
     (dispatch: Dispatch) => { (state: AppState, props: Props[SequenceContainerProps]) =>
       {
-        val proposals: Future[Seq[Proposal]] = {
+        val proposals: Future[Seq[ProposalModel]] = {
 
-          val vffOperation: Operation = state.operations.filter(_.operationId.value == "vff").head
+          val vffOperation: OperationModel = state.operations.filter(_.operationId.value == "vff").head
           val proposalsResponse =
             ProposalService.searchProposals(context = Some(ContextRequest(operation = Some(vffOperation.label))))
 

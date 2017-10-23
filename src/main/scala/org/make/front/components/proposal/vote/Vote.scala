@@ -19,13 +19,16 @@ import scalacss.DevDefaults._
 
 object Vote {
 
+  // TODO: figure out how to handle that gracefully
   final case class VoteProps(index: Int,
                              updateState: Boolean = true,
                              proposal: ProposalModel,
                              vote: (String)                            => Future[VoteResponse],
                              unvote: (String)                          => Future[VoteResponse],
                              qualifyVote: (String, String)             => Future[QualificationResponse],
-                             removeVoteQualification: (String, String) => Future[QualificationResponse])
+                             removeVoteQualification: (String, String) => Future[QualificationResponse],
+                             guideToVote: Option[String],
+                             guideToQualification: Option[String])
 
   final case class VoteState(votes: Map[String, VoteModel])
 
@@ -107,7 +110,8 @@ object Vote {
                   handleUnvote = unvote,
                   qualifyVote = self.props.wrapped.qualifyVote,
                   removeVoteQualification = self.props.wrapped.removeVoteQualification,
-                  index = self.props.wrapped.index
+                  index = self.props.wrapped.index,
+                  guideToQualification = self.props.wrapped.guideToQualification
                 )
               )()
             ),
@@ -125,6 +129,8 @@ object Vote {
                   handleUnvote = unvote,
                   qualifyVote = self.props.wrapped.qualifyVote,
                   removeVoteQualification = self.props.wrapped.removeVoteQualification,
+                  guideToVote = self.props.wrapped.guideToVote,
+                  guideToQualification = self.props.wrapped.guideToQualification,
                   index = self.props.wrapped.index
                 )
               )()
@@ -143,6 +149,7 @@ object Vote {
                   handleUnvote = unvote,
                   qualifyVote = self.props.wrapped.qualifyVote,
                   removeVoteQualification = self.props.wrapped.removeVoteQualification,
+                  guideToQualification = self.props.wrapped.guideToQualification,
                   index = self.props.wrapped.index
                 )
               )()

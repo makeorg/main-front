@@ -20,7 +20,9 @@ object VoteContainer {
   final case class VoteContainerProps(index: Int,
                                       proposal: ProposalModel,
                                       onSuccessfulVote: (VoteResponse)                           => Unit = (_)    => {},
-                                      onSuccessfulQualification: (String, QualificationResponse) => Unit = (_, _) => {})
+                                      onSuccessfulQualification: (String, QualificationResponse) => Unit = (_, _) => {},
+                                      guideToVote: Option[String] = null,
+                                      guideToQualification: Option[String] = null)
 
   lazy val reactClass: ReactClass = ReactRedux.connectAdvanced(selectorFactory)(Vote.reactClass)
 
@@ -70,6 +72,8 @@ object VoteContainer {
         unvote = unvote,
         qualifyVote = qualify,
         removeVoteQualification = removeQualification,
+        guideToVote = ownProps.wrapped.guideToVote,
+        guideToQualification = ownProps.wrapped.guideToQualification,
         index = ownProps.wrapped.index
       )
     }

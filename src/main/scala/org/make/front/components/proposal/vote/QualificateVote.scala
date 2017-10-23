@@ -7,6 +7,8 @@ import org.make.front.components.Components._
 import org.make.front.components.proposal.vote.QualificateVoteButton.QualificateVoteButtonProps
 import org.make.front.models.{Qualification => QualificationModel}
 import org.make.front.styles._
+import org.make.front.styles.base.TextStyles
+import org.make.front.styles.ui.TooltipStyles
 import org.make.front.styles.utils._
 import org.make.services.proposal.ProposalResponses.QualificationResponse
 
@@ -21,7 +23,8 @@ object QualificateVote {
                                         voteKey: String,
                                         qualifications: Seq[QualificationModel],
                                         qualify: (String)             => Future[QualificationResponse],
-                                        removeQualification: (String) => Future[QualificationResponse])
+                                        removeQualification: (String) => Future[QualificationResponse],
+                                        guide: Option[String] = null)
 
   final case class QualificateVoteState(qualifications: Map[String, QualificationModel])
 
@@ -40,7 +43,7 @@ object QualificateVote {
           }.toMap))
         },
         render = { self =>
-          <.ul()(self.props.wrapped.qualifications.map {
+          <.div(^.className := QualificateVoteStyles.wrapper)(<.ul()(self.props.wrapped.qualifications.map {
             qualification =>
               <.li(^.className := QualificateVoteStyles.buttonItem)(
                 <.QualificateVoteButtonComponent(
@@ -54,6 +57,13 @@ object QualificateVote {
                 )(),
                 <.style()(QualificateVoteStyles.render[String])
               )
+          }), if (self.props.wrapped.guide.nonEmpty) {
+            <.p(^.className := QualificateVoteStyles.guide)(
+              <.span(
+                ^.className := TextStyles.smallerText,
+                ^.dangerouslySetInnerHTML := self.props.wrapped.guide.getOrElse("")
+              )()
+            )
           })
         }
       )
@@ -63,7 +73,32 @@ object QualificateVoteStyles extends StyleSheet.Inline {
 
   import dsl._
 
-  val buttonItem: StyleA =
-    style(marginTop({ ThemeStyles.SpacingValue.smaller / 2 }.pxToEm()), &.firstChild(marginTop(`0`)))
+  val wrapper: StyleA =
+    style(position.relative)
 
+  val buttonItem: StyleA =
+    style(marginTop((ThemeStyles.SpacingValue.smaller / 2).pxToEm()), &.firstChild(marginTop(`0`)))
+
+  val guide: StyleA =
+    style(
+      TooltipStyles.topPositioned,
+      ThemeStyles.MediaQueries.beyondMedium(
+        top(50.%%),
+        transform := "translateY(-50%)",
+        left(100.%%),
+        marginBottom(`0`),
+        marginLeft(ThemeStyles.SpacingValue.smaller.pxToEm()),
+        bottom.inherit,
+        right.auto,
+        (&.after)(
+          top(50.%%),
+          transform := "translateY(-50%)",
+          right(100.%%),
+          bottom.auto,
+          borderTop :=! s"${5.pxToEm().value} solid transparent",
+          borderBottom :=! s"${5.pxToEm().value} solid transparent",
+          borderRight :=! s"${5.pxToEm().value} solid ${ThemeStyles.BackgroundColor.darkGrey.value}"
+        )
+      )
+    )
 }

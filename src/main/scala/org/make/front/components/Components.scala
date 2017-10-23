@@ -108,6 +108,7 @@ object Components {
     def LabelShowcaseContainerComponent: ReactClassElementSpec = self(showcase.LabelShowcaseContainer.reactClass)
     def SequenceContainerComponent: ReactClassElementSpec = self(sequence.SequenceContainer.reactClass)
     def ProgressBarComponent: ReactClassElementSpec = self(sequence.ProgressBar.reactClass)
+    def ProposalInsideSequenceComponent: ReactClassElementSpec = self(sequence.ProposalInsideSequence.reactClass)
 
     def OperationSequenceComponent: ReactClassElementSpec = self(operation.OperationSequence.reactClass)
     def OperationSequenceContainerComponent: ReactClassElementSpec =

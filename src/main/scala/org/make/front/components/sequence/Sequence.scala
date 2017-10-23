@@ -4,21 +4,15 @@ import io.github.shogowada.scalajs.reactjs.React
 import io.github.shogowada.scalajs.reactjs.React.{Props, Self}
 import io.github.shogowada.scalajs.reactjs.VirtualDOM.{<, _}
 import io.github.shogowada.scalajs.reactjs.classes.ReactClass
-import io.github.shogowada.scalajs.reactjs.elements.ReactElement
 import org.make.front.components.Components._
 import org.make.front.components.operation.IntroOfOperationSequence.IntroOfOperationSequenceProps
-import org.make.front.components.proposal.vote.VoteContainer.VoteContainerProps
 import org.make.front.components.sequence.ProgressBar.ProgressBarProps
-import org.make.front.facades.{FacebookPixel, I18n}
+import org.make.front.components.sequence.ProposalInsideSequence.ProposalInsideSequenceProps
+import org.make.front.facades.FacebookPixel
 import org.make.front.facades.ReactSlick.{ReactTooltipVirtualDOMAttributes, ReactTooltipVirtualDOMElements, Slider}
-import org.make.front.facades.Unescape.unescape
-import org.make.front.helpers.ProposalAuthorInfosFormat
-import org.make.front.models.{ProposalId, Proposal => ProposalModel, Sequence => SequenceModel}
+import org.make.front.models.{Proposal => ProposalModel, ProposalId => ProposalIdModel, Sequence => SequenceModel}
 import org.make.front.styles.ThemeStyles
-import org.make.front.styles.base.{ColRulesStyles, RowRulesStyles, TextStyles}
-import org.make.front.styles.ui.CTAStyles
 import org.make.front.styles.utils._
-import org.make.front.styles.vendors.FontAwesomeStyles
 import org.make.services.proposal.ProposalResponses.{QualificationResponse, VoteResponse}
 import org.scalajs.dom.raw.HTMLElement
 
@@ -114,7 +108,7 @@ object Sequence {
           FacebookPixel.fbq("trackCustom", "click-sequence-next-proposal")
         }
 
-        def nextOnSuccessfulVote(proposalId: ProposalId): (VoteResponse) => Unit = {
+        def nextOnSuccessfulVote(proposalId: ProposalIdModel): (VoteResponse) => Unit = {
           (voteResponse) =>
             def mapProposal(proposal: ProposalModel) = {
               if (proposal.id == proposalId) {
@@ -148,7 +142,7 @@ object Sequence {
             )
         }
 
-        def onSuccessfulQualification(proposalId: ProposalId): (String, QualificationResponse) => Unit = {
+        def onSuccessfulQualification(proposalId: ProposalIdModel): (String, QualificationResponse) => Unit = {
           (voteKey, qualificationResponse) =>
             def mapProposal(proposal: ProposalModel) = {
               if (proposal.id == proposalId) {
@@ -174,46 +168,6 @@ object Sequence {
             val updatedDisplayedProposals = self.state.displayedProposals.map(mapProposal)
             self.setState(_.copy(proposals = updatedProposals, displayedProposals = updatedDisplayedProposals))
         }
-
-        def proposalContent(proposal: ProposalModel): Seq[ReactElement] = Seq(
-          <.div(^.className := Seq(RowRulesStyles.row))(
-            <.div(^.className := ColRulesStyles.col)(
-              <.div(^.className := ProposalInSlideStyles.infosWrapper)(
-                <.p(^.className := Seq(TextStyles.mediumText, ProposalInSlideStyles.infos))(
-                  ProposalAuthorInfosFormat.apply(proposal)
-                )
-              ),
-              <.div(^.className := ProposalInSlideStyles.contentWrapper)(
-                <.h3(^.className := Seq(TextStyles.bigText, TextStyles.boldText))(proposal.content),
-                <.div(^.className := ProposalInSlideStyles.voteWrapper)(
-                  <.VoteContainerComponent(
-                    ^.wrapped := VoteContainerProps(
-                      proposal = proposal,
-                      onSuccessfulVote = nextOnSuccessfulVote(proposal.id),
-                      onSuccessfulQualification = onSuccessfulQualification(proposal.id),
-                      index = self.state.currentSlideIndex
-                    )
-                  )(),
-                  <.div(^.className := ProposalInSlideStyles.ctaWrapper)(
-                    <.button(
-                      ^.className := Seq(
-                        CTAStyles.basic,
-                        CTAStyles.basicOnButton,
-                        ProposalInSlideStyles.ctaVisibility(self.state.votes.contains(proposal.id.value))
-                      ),
-                      ^.disabled := !self.state.votes.contains(proposal.id.value),
-                      ^.onClick := nextProposal
-                    )(
-                      unescape(I18n.t("sequence.next-cta") + "&nbsp;"),
-                      <.i(^.className := FontAwesomeStyles.angleRight)()
-                    )
-                  )
-                )
-              )
-            )
-          ),
-          <.style()(ProposalInSlideStyles.render[String])
-        )
 
         <.div(^.className := Seq(SequenceStyles.wrapper))(
           <.div(^.className := SequenceStyles.progressBarWrapper)(
@@ -256,14 +210,25 @@ object Sequence {
                           )()
                         )
                       ),
-                      self.state.displayedProposals.map { proposal: ProposalModel =>
-                        <.div(^.className := SequenceStyles.slideWrapper)(
-                          <.article(^.className := SequenceStyles.slide)(
-                            <.div(^.className := SequenceStyles.slideInnerWrapper)(
-                              <.div(^.className := SequenceStyles.slideInnerSubWrapper)(proposalContent(proposal))
+                      self.state.displayedProposals.map {
+                        proposal: ProposalModel =>
+                          <.div(^.className := SequenceStyles.slideWrapper)(
+                            <.article(^.className := SequenceStyles.slide)(
+                              <.div(^.className := SequenceStyles.slideInnerWrapper)(
+                                <.div(^.className := SequenceStyles.slideInnerSubWrapper)(
+                                  <.ProposalInsideSequenceComponent(
+                                    ^.wrapped := ProposalInsideSequenceProps(
+                                      proposal = proposal,
+                                      handleSuccessfulVote = nextOnSuccessfulVote(proposal.id),
+                                      handleSuccessfulQualification = onSuccessfulQualification(proposal.id),
+                                      handleClickOnCta = nextProposal,
+                                      hasBeenVoted = self.state.votes.contains(proposal.id.value)
+                                    )
+                                  )()
+                                )
+                              )
                             )
                           )
-                        )
                       },
                       if (self.state.votes.size == self.state.proposals.size) {
                         <.div(^.className := SequenceStyles.slideWrapper)(
@@ -359,6 +324,7 @@ object SequenceStyles extends StyleSheet.Inline {
   val slide: StyleA =
     style(
       height(100.%%),
+      minWidth(270.pxToEm()),
       backgroundColor(ThemeStyles.BackgroundColor.white),
       boxShadow := "0 1px 1px 0 rgba(0,0,0,0.50)"
     )
@@ -385,48 +351,4 @@ object SequenceStyles extends StyleSheet.Inline {
 
   val spinnerInnerWrapper: StyleA =
     style(display.tableCell, verticalAlign.middle)
-}
-
-object ProposalInSlideStyles extends StyleSheet.Inline {
-  import dsl._
-
-  val infosWrapper: StyleA =
-    style(
-      textAlign.center,
-      position.relative,
-      paddingBottom(ThemeStyles.SpacingValue.small.pxToEm()),
-      marginBottom(ThemeStyles.SpacingValue.small.pxToEm()),
-      (&.after)(
-        content := "''",
-        position.absolute,
-        top(100.%%),
-        left(50.%%),
-        transform := s"translateX(-50%)",
-        marginTop(-0.5.px),
-        height(1.px),
-        width(90.pxToEm()),
-        backgroundColor(ThemeStyles.BorderColor.lighter)
-      )
-    )
-
-  val infos: StyleA =
-    style(color(ThemeStyles.TextColor.light))
-
-  val contentWrapper: StyleA =
-    style(textAlign.center, marginTop(ThemeStyles.SpacingValue.medium.pxToEm()), overflow.hidden)
-
-  val voteWrapper: StyleA =
-    style(marginTop(ThemeStyles.SpacingValue.small.pxToEm()))
-
-  val ctaWrapper: StyleA =
-    style(textAlign.center, marginTop(ThemeStyles.SpacingValue.medium.pxToEm()))
-
-  val ctaVisibility: (Boolean) => StyleA = styleF.bool(
-    visible =>
-      if (visible) {
-        styleS(visibility.visible)
-      } else {
-        styleS(visibility.hidden)
-    }
-  )
 }

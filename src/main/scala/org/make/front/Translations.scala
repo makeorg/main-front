@@ -202,7 +202,13 @@ object Translations {
       |      }
       |    },
       |    "sequence": {
+      |      "proposal": {
       |      "next-cta": "Proposition suivante"
+      |      },
+      |      "guide": {
+      |        "vote": "Utilisez les boutons pour voter<br>et passer à la proposition suivante.",
+      |        "qualification": "Si vous le souhaitez, vous pouvez préciser votre vote. (Sinon, passez à la proposition suivante.)"
+      |      }
       |    },
       |    "operation": {
       |      "vff-header": {
@@ -238,7 +244,10 @@ object Translations {
       |        "header": {
       |           "total-of-proposals": "%{total} propositions",
       |           "back-cta": "Accéder à<br>l'opération",
-      |           "propose-cta": "Proposer"
+      |           "propose-cta": "Proposer",
+      |           "guide": {
+      |             "propose-cta": "Proposez une solution à tout moment en cliquant sur ce bouton."
+      |           }
       |        },
       |        "introduction": {
       |          "title": "Des milliers de citoyens proposent des&nbsp;solutions.",
