@@ -53,7 +53,7 @@ object MainFooter {
                           )
                         )
                       ),*/
-                      Range(2, 8).map(
+                      Range(2, 9).map(
                         item =>
                           <.li(^.className := MainFooterStyles.menuItem)(
                             <.p(

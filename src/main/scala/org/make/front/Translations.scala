@@ -388,22 +388,26 @@ object Translations {
       |          "link": "https://about.make.org/category/presse"
       |        },
       |        "item-5": {
+      |          "label": "Mentions légales",
+      |          "link": "https://about.make.org/mentions-legales"
+      |        },
+      |        "item-6": {
       |          "label": "Conditions d'utilisation",
       |          "link": "https://about.make.org/conditions-dutilisation"
       |        },
-      |        "item-6": {
+      |        "item-7": {
       |          "label": "Politique d'utilisation des données",
       |          "link": "https://about.make.org/politique-donnees"
       |        },
-      |        "item-7": {
+      |        "item-8": {
       |          "label": "Contact",
       |          "link": "https://about.make.org/contact"
       |        },
-      |        "item-8": {
+      |        "item-9": {
       |          "label": "f.a.q.",
       |          "link": "/"
       |        },
-      |        "item-9": {
+      |        "item-10": {
       |          "label": "sitemap",
       |          "link": "/"
       |        }

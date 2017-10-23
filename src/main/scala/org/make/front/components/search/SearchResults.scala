@@ -6,7 +6,7 @@ import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import io.github.shogowada.scalajs.reactjs.router.WithRouter
 import org.make.core.Counter
 import org.make.front.components.Components.{RichVirtualDOMElements, _}
-import org.make.front.components.proposal.ProposalWithThemeContainer.ProposalWithThemeContainerProps
+import org.make.front.components.proposal.ProposalTileWithThemeContainer.ProposalTileWithThemeContainerProps
 import org.make.front.components.search.NoResultToSearch.NoResultToSearchProps
 import org.make.front.facades.ReactInfiniteScroller.{
   ReactInfiniteScrollerVirtualDOMAttributes,
@@ -99,9 +99,9 @@ object SearchResults {
                         ColRulesStyles.colQuarterBeyondLarge
                       )
                     )(
-                      <.ProposalWithThemeContainerComponent(
+                      <.ProposalTileWithThemeContainerComponent(
                         ^.wrapped :=
-                          ProposalWithThemeContainerProps(proposal = proposal, index = counter.getAndIncrement())
+                          ProposalTileWithThemeContainerProps(proposal = proposal, index = counter.getAndIncrement())
                       )()
                   )
                 )

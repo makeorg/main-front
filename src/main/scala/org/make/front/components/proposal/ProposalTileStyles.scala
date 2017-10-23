@@ -7,7 +7,7 @@ import org.make.front.styles.utils._
 import scalacss.DevDefaults.StyleA
 import scalacss.internal.mutable.StyleSheet
 
-object ProposalStyles extends StyleSheet.Inline {
+object ProposalTileStyles extends StyleSheet.Inline {
 
   import dsl._
 

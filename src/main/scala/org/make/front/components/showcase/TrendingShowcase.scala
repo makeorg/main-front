@@ -5,8 +5,8 @@ import io.github.shogowada.scalajs.reactjs.VirtualDOM._
 import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import org.make.core.Counter
 import org.make.front.components.Components._
-import org.make.front.components.proposal.Proposal.ProposalProps
-import org.make.front.components.proposal.ProposalWithThemeContainer.ProposalWithThemeContainerProps
+import org.make.front.components.proposal.ProposalTile.ProposalTileProps
+import org.make.front.components.proposal.ProposalTileWithThemeContainer.ProposalTileWithThemeContainerProps
 import org.make.front.facades.logoMake
 import org.make.front.models.{Proposal => ProposalModel}
 import org.make.front.styles._
@@ -65,12 +65,12 @@ object TrendingShowcase {
                         ColRulesStyles.colHalfBeyondMedium
                       )
                     )(if (proposal.themeId.isDefined) {
-                      <.ProposalWithThemeContainerComponent(
+                      <.ProposalTileWithThemeContainerComponent(
                         ^.wrapped :=
-                          ProposalWithThemeContainerProps(proposal = proposal, index = counter.getAndIncrement())
+                          ProposalTileWithThemeContainerProps(proposal = proposal, index = counter.getAndIncrement())
                       )()
                     } else {
-                      <.ProposalComponent(
+                      <.ProposalTileComponent(
                         ^.wrapped :=
                           ProposalProps(proposal = proposal, index = counter.getAndIncrement())
                       )()

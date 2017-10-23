@@ -7,7 +7,7 @@ import io.github.shogowada.scalajs.reactjs.elements.ReactElement
 import org.make.core.Counter
 import org.make.front.Main.CssSettings._
 import org.make.front.components.Components._
-import org.make.front.components.proposal.ProposalWithTags.ProposalWithTagsProps
+import org.make.front.components.proposal.ProposalTileWithTags.ProposalTileWithTagsProps
 import org.make.front.components.tags.FilterByTags.FilterByTagsProps
 import org.make.front.facades.I18n
 import org.make.front.facades.ReactInfiniteScroller.{
@@ -125,8 +125,8 @@ object ResultsInTheme {
                       ColRulesStyles.colQuarterBeyondLarge
                     )
                   )(
-                    <.ProposalWithTagsComponent(
-                      ^.wrapped := ProposalWithTagsProps(proposal = proposal, index = counter.getAndIncrement())
+                    <.ProposalTileWithTagsComponent(
+                      ^.wrapped := ProposalTileWithTagsProps(proposal = proposal, index = counter.getAndIncrement())
                     )()
                 )
               )
