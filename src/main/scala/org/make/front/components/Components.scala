@@ -98,8 +98,9 @@ object Components {
     def ProposalWithThemeComponent: ReactClassElementSpec = self(proposal.ProposalWithTheme.reactClass)
     def ProposalWithTagsComponent: ReactClassElementSpec = self(proposal.ProposalWithTags.reactClass)
 
-    def TrendingShowcaseContainerComponent: ReactClassElementSpec = self(showcase.TrendingShowcaseContainer.reactClass)
+    def TrendingShowcaseContainerComponent: ReactClassElementSpec = self(showcase.LabelShowcaseContainer.reactClass)
     def ThemeShowcaseContainerComponent: ReactClassElementSpec = self(showcase.ThemeShowcaseContainer.reactClass)
+    def LabelShowcaseContainerComponent: ReactClassElementSpec = self(showcase.LabelShowcaseContainer.reactClass)
     def SequenceContainerComponent: ReactClassElementSpec = self(sequence.SequenceContainer.reactClass)
     def ProgressBarComponent: ReactClassElementSpec = self(sequence.ProgressBar.reactClass)
 

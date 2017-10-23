@@ -7,18 +7,23 @@ import io.github.shogowada.scalajs.reactjs.redux.Redux.Dispatch
 import org.make.front.components.AppState
 import org.make.services.proposal.ProposalService
 
-object TrendingShowcaseContainer {
+object LabelShowcaseContainer {
 
-  final case class TrendingShowcaseContainerProps(intro: String, trending: String, title: String)
+  final case class LabelShowcaseContainerProps(intro: String, label: String, title: String)
 
   lazy val reactClass: ReactClass = ReactRedux.connectAdvanced(selectorFactory)(TrendingShowcase.reactClass)
 
   def selectorFactory
-    : (Dispatch) => (AppState, Props[TrendingShowcaseContainerProps]) => TrendingShowcase.TrendingShowcaseProps =
-    (_: Dispatch) => { (_: AppState, ownProps: Props[TrendingShowcaseContainerProps]) =>
+    : (Dispatch) => (AppState, Props[LabelShowcaseContainerProps]) => TrendingShowcase.TrendingShowcaseProps =
+    (_: Dispatch) => { (_: AppState, ownProps: Props[LabelShowcaseContainerProps]) =>
       TrendingShowcase.TrendingShowcaseProps(
         proposals = ProposalService
-          .searchProposals(trending = Some(ownProps.wrapped.trending), limit = Some(2), sort = Seq.empty, skip = None),
+          .searchProposals(
+            labelsIds = Some(Seq(ownProps.wrapped.label)),
+            limit = Some(2),
+            sort = Seq.empty,
+            skip = None
+          ),
         intro = ownProps.wrapped.intro,
         title = ownProps.wrapped.title
       )

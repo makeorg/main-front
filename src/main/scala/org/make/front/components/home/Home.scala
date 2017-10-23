@@ -4,6 +4,7 @@ import io.github.shogowada.scalajs.reactjs.React
 import io.github.shogowada.scalajs.reactjs.VirtualDOM._
 import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import org.make.front.components.Components._
+import org.make.front.components.showcase.LabelShowcaseContainer.LabelShowcaseContainerProps
 import org.make.front.components.showcase.ThemeShowcaseContainer.ThemeShowcaseContainerProps
 import org.make.front.components.showcase.TrendingShowcaseContainer.TrendingShowcaseContainerProps
 import org.make.front.facades.I18n
@@ -25,9 +26,9 @@ object Home {
               )
             )(),
             <.ExplanationsComponent.empty,
-            <.TrendingShowcaseContainerComponent(
-              ^.wrapped := TrendingShowcaseContainerProps(
-                trending = "trending",
+            <.LabelShowcaseContainerComponent(
+              ^.wrapped := LabelShowcaseContainerProps(
+                label = "star",
                 intro = unescape(I18n.t("home.showcase-2.intro")),
                 title = unescape(I18n.t("home.showcase-2.title"))
               )

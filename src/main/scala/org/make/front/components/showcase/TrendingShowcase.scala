@@ -61,7 +61,7 @@ object TrendingShowcase {
                         ColRulesStyles.col,
                         ColRulesStyles.colHalfBeyondMedium
                       )
-                    )(if (proposal.themeId.getOrElse("") != "") {
+                    )(if (proposal.themeId.isDefined) {
                       <.ProposalWithThemeContainerComponent(
                         ^.wrapped :=
                           ProposalWithThemeContainerProps(proposal = proposal)
