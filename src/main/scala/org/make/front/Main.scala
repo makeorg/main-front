@@ -23,11 +23,11 @@ import scala.scalajs.js.JSApp
 import scalacss.defaults.Exports
 import scalacss.internal.mutable.Settings
 
-object Main extends JSApp {
+object Main {
 
   val CssSettings: Exports with Settings = scalacss.devOrProdDefaults
 
-  override def main(): Unit = {
+  def main(args: Array[String]): Unit = {
     Translations.loadTranslations()
     I18n.setLocale("fr")
 

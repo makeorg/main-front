@@ -141,10 +141,10 @@ object ThemeShowcaseStyles extends StyleSheet.Inline {
     style(
       display.inlineBlock,
       float.left,
-      padding := s"${2.pxToEm(13).value} ${(ThemeStyles.SpacingValue.small / 2).pxToEm(13).value}",
+      padding :=! s"${2.pxToEm(13).value} ${(ThemeStyles.SpacingValue.small / 2).pxToEm(13).value}",
       lineHeight(15.pxToEm(13)),
       ThemeStyles.MediaQueries.beyondSmall(
-        padding := s"${2.pxToEm(14).value} ${(ThemeStyles.SpacingValue.small / 2).pxToEm(14).value}",
+        padding :=! s"${2.pxToEm(14).value} ${(ThemeStyles.SpacingValue.small / 2).pxToEm(14).value}",
         lineHeight(15.pxToEm(14))
       ),
       color(ThemeStyles.TextColor.white),

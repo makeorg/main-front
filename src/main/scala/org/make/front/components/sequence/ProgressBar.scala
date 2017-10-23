@@ -47,7 +47,7 @@ object ProgressBar {
           )
 
           def progressBar(progression: Int, themeColor: String): StyleA =
-            style((&.after)(backgroundColor := themeColor, width :=! s"${progression.toString}%"))
+            style((&.after)(backgroundColor :=! themeColor, width :=! s"${progression.toString}%"))
         }
 
         val progressionInPercent: Int = if (self.state.total != 0) {
@@ -123,7 +123,7 @@ object ProgressBarStyles extends StyleSheet.Inline {
         left(`0`),
         height(100.%%),
         width(0.%%),
-        backgroundColor := s"rgba(0, 0, 0, 0.2)" /*,
+        backgroundColor :=! s"rgba(0, 0, 0, 0.2)" /*,
         transition := "width .2s ease-in-out"*/
       )
     )
