@@ -134,7 +134,7 @@ object SubmitProposalAndLogin {
               )
             )
           } else {
-            <.div()()
+            <.div.empty
           }
         }
       )

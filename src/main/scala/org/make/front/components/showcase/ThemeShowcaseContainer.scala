@@ -40,6 +40,5 @@ object ThemeShowcaseContainer {
           maybeNews = None
         )
       )
-
     }
 }

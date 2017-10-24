@@ -93,11 +93,12 @@ object Components {
     /*********************/
     def ProposalInfosComponent: ReactClassElementSpec = self(proposal.ProposalInfos.reactClass)
     def ShareOwnProposalComponent: ReactClassElementSpec = self(proposal.ShareOwnProposal.reactClass)
-    def ProposalComponent: ReactClassElementSpec = self(proposal.Proposal.reactClass)
-    def ProposalWithThemeContainerComponent: ReactClassElementSpec =
-      self(proposal.ProposalWithThemeContainer.reactClass)
-    def ProposalWithThemeComponent: ReactClassElementSpec = self(proposal.ProposalWithTheme.reactClass)
-    def ProposalWithTagsComponent: ReactClassElementSpec = self(proposal.ProposalWithTags.reactClass)
+    def ShareProposalComponent: ReactClassElementSpec = self(proposal.ShareProposal.reactClass)
+    def ProposalTileComponent: ReactClassElementSpec = self(proposal.ProposalTile.reactClass)
+    def ProposalTileWithThemeContainerComponent: ReactClassElementSpec =
+      self(proposal.ProposalTileWithThemeContainer.reactClass)
+    def ProposalTileWithThemeComponent: ReactClassElementSpec = self(proposal.ProposalTileWithTheme.reactClass)
+    def ProposalTileWithTagsComponent: ReactClassElementSpec = self(proposal.ProposalTileWithTags.reactClass)
 
     def TrendingShowcaseContainerComponent: ReactClassElementSpec = self(TrendingShowcaseContainer.reactClass)
     def ThemeShowcaseContainerComponent: ReactClassElementSpec = self(showcase.ThemeShowcaseContainer.reactClass)

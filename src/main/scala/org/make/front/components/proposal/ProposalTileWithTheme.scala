@@ -16,29 +16,30 @@ import org.make.front.styles.base.TextStyles
 import scalacss.DevDefaults._
 import scalacss.internal.mutable.StyleSheet
 
-object ProposalWithTheme {
+object ProposalTileWithTheme {
 
-  final case class ProposalWithThemeProps(proposal: ProposalModel, themeName: String, themeSlug: String, index: Int)
+  final case class ProposalTileWithThemeProps(proposal: ProposalModel, themeName: String, themeSlug: String, index: Int)
 
   val reactClass: ReactClass =
     React
-      .createClass[ProposalWithThemeProps, Unit](
-        displayName = "ProposalWithTheme",
+      .createClass[ProposalTileWithThemeProps, Unit](
+        displayName = "ProposalTileWithTheme",
         render = (self) => {
-
-          <.article(^.className := ProposalStyles.wrapper)(
-            <.div(^.className := ProposalStyles.innerWrapper)(
-              <.div(^.className := ProposalStyles.row)(
-                <.div(^.className := ProposalStyles.cell)(
-                  <.div(^.className := ProposalStyles.proposalInfosWrapper)(
+          <.article(^.className := ProposalTileStyles.wrapper)(
+            <.div(^.className := ProposalTileStyles.innerWrapper)(
+              <.div(^.className := ProposalTileStyles.row)(
+                <.div(^.className := ProposalTileStyles.cell)(
+                  <.div(^.className := ProposalTileStyles.proposalInfosWrapper)(
                     <.ProposalInfosComponent(^.wrapped := ProposalInfosProps(proposal = self.props.wrapped.proposal))()
                   )
                 )
               ),
-              <.div(^.className := Seq(ProposalStyles.row, ProposalStyles.stretchedRow))(
-                <.div(^.className := Seq(ProposalStyles.cell, ProposalStyles.contentWrapper))(
+              <.div(^.className := Seq(ProposalTileStyles.row, ProposalTileStyles.stretchedRow))(
+                <.div(^.className := Seq(ProposalTileStyles.cell, ProposalTileStyles.contentWrapper))(
                   <.h3(^.className := Seq(TextStyles.mediumText, TextStyles.boldText))(
-                    self.props.wrapped.proposal.content
+                    <.Link(^.to := s"/proposal/${self.props.wrapped.proposal.slug}")(
+                      self.props.wrapped.proposal.content
+                    )
                   ),
                   <.VoteContainerComponent(
                     ^.wrapped := VoteContainerProps(
@@ -50,14 +51,14 @@ object ProposalWithTheme {
               ),
               if (Option(self.props.wrapped.themeName).exists(_.nonEmpty) && Option(self.props.wrapped.themeSlug)
                     .exists(_.nonEmpty)) {
-                <.div(^.className := ProposalStyles.row)(
-                  <.div(^.className := ProposalStyles.cell)(
-                    <.footer(^.className := ProposalStyles.footer)(
-                      <.p(^.className := Seq(TextStyles.smallerText, ProposalWithThemeStyles.themeInfo))(
+                <.div(^.className := ProposalTileStyles.row)(
+                  <.div(^.className := ProposalTileStyles.cell)(
+                    <.footer(^.className := ProposalTileStyles.footer)(
+                      <.p(^.className := Seq(TextStyles.smallerText, ProposalTileWithThemeStyles.themeInfo))(
                         unescape(I18n.t("proposal.associated-with-the-theme")),
                         <.Link(
                           ^.to := s"/theme/${self.props.wrapped.themeSlug}",
-                          ^.className := Seq(TextStyles.title, ProposalWithThemeStyles.themeName)
+                          ^.className := Seq(TextStyles.title, ProposalTileWithThemeStyles.themeName)
                         )(self.props.wrapped.themeName)
                       )
                     )
@@ -65,13 +66,13 @@ object ProposalWithTheme {
                 )
               }
             ),
-            <.style()(ProposalStyles.render[String], ProposalWithThemeStyles.render[String])
+            <.style()(ProposalTileStyles.render[String], ProposalTileWithThemeStyles.render[String])
           )
         }
       )
 }
 
-object ProposalWithThemeStyles extends StyleSheet.Inline {
+object ProposalTileWithThemeStyles extends StyleSheet.Inline {
 
   import dsl._
 

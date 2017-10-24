@@ -6,12 +6,11 @@ import io.github.shogowada.scalajs.reactjs.redux.ReactRedux
 import io.github.shogowada.scalajs.reactjs.redux.Redux.Dispatch
 import org.make.front.actions.NotifyError
 import org.make.front.components.AppState
-import org.make.front.models.{Operation, OperationId, Proposal, Sequence => SequenceModel}
+import org.make.front.models.{Operation, Proposal, Sequence => SequenceModel}
 import org.make.services.proposal.{ContextRequest, ProposalService}
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
-import scala.util.{Failure, Success}
 
 object SequenceContainer {
 
@@ -28,7 +27,8 @@ object SequenceContainer {
         val proposals: Future[Seq[Proposal]] = {
 
           val vffOperation: Operation = state.operations.filter(_.operationId.value == "vff").head
-          val proposalsResponse = ProposalService.searchProposals(context = Some(ContextRequest(operation = Some(vffOperation.label))))
+          val proposalsResponse =
+            ProposalService.searchProposals(context = Some(ContextRequest(operation = Some(vffOperation.label))))
 
           proposalsResponse.recover {
             case e => dispatch(NotifyError(e.getMessage))

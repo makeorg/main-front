@@ -62,11 +62,11 @@ object OperationSequence {
         }
 
         <.section(^.className := OperationSequenceStyles.wrapper)(
-          <.header(^.className := Seq(OperationSequenceStyles.headerWrapper, DynamicOperationSequenceStyles.gradient))(
-            <.div(^.className := OperationSequenceStyles.headerInnerWrapper)(
+          <.div(^.className := Seq(OperationSequenceStyles.headerWrapper, DynamicOperationSequenceStyles.gradient))(
+            <.div(^.className := OperationSequenceStyles.headerSubWrapper)(
               <.div(^.className := RowRulesStyles.centeredRow)(
                 <.div(^.className := ColRulesStyles.col)(
-                  <.div(^.className := OperationSequenceStyles.headerInnerSubWrapper)(
+                  <.header(^.className := OperationSequenceStyles.header)(
                     <.p(^.className := Seq(OperationSequenceStyles.backLinkWrapper))(
                       /*<.Link(
                         ^.className := OperationSequenceStyles.backLink,
@@ -177,7 +177,7 @@ object OperationSequenceStyles extends StyleSheet.Inline {
   val headerWrapper: StyleA =
     style(display.tableRow)
 
-  val headerInnerWrapper: StyleA =
+  val headerSubWrapper: StyleA =
     style(
       display.tableCell,
       verticalAlign.middle,
@@ -186,7 +186,7 @@ object OperationSequenceStyles extends StyleSheet.Inline {
         .beyondSmall(paddingTop(80.pxToEm()))
     )
 
-  val headerInnerSubWrapper: StyleA =
+  val header: StyleA =
     style(
       display.table,
       width(100.%%),

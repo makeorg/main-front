@@ -7,15 +7,16 @@ import io.github.shogowada.scalajs.reactjs.redux.Redux.Dispatch
 import org.make.front.components.AppState
 import org.make.front.models.{Proposal => ProposalModel, Theme => ThemeModel, ThemeId => ThemeIdModel}
 
-object ProposalWithThemeContainer {
+object ProposalTileWithThemeContainer {
 
-  final case class ProposalWithThemeContainerProps(proposal: ProposalModel, index: Int)
+  final case class ProposalTileWithThemeContainerProps(proposal: ProposalModel, index: Int)
 
-  lazy val reactClass: ReactClass = ReactRedux.connectAdvanced(selectorFactory)(ProposalWithTheme.reactClass)
+  lazy val reactClass: ReactClass = ReactRedux.connectAdvanced(selectorFactory)(ProposalTileWithTheme.reactClass)
 
   def selectorFactory
-    : (Dispatch) => (AppState, Props[ProposalWithThemeContainerProps]) => ProposalWithTheme.ProposalWithThemeProps =
-    (_: Dispatch) => { (appState: AppState, ownProps: Props[ProposalWithThemeContainerProps]) =>
+    : (Dispatch) => (AppState,
+                     Props[ProposalTileWithThemeContainerProps]) => ProposalTileWithTheme.ProposalTileWithThemeProps =
+    (_: Dispatch) => { (appState: AppState, ownProps: Props[ProposalTileWithThemeContainerProps]) =>
       def searchThemeById(themeId: ThemeIdModel): Option[ThemeModel] = {
         appState.themes.find(_.id == themeId)
       }
@@ -26,7 +27,7 @@ object ProposalWithThemeContainer {
 
       val themeSlug: Option[String] = theme.map(_.slug)
 
-      ProposalWithTheme.ProposalWithThemeProps(
+      ProposalTileWithTheme.ProposalTileWithThemeProps(
         proposal = ownProps.wrapped.proposal,
         themeName = themeName.orNull,
         themeSlug = themeSlug.orNull,

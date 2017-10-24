@@ -7,7 +7,7 @@ import org.make.front.styles.utils._
 import scalacss.DevDefaults.StyleA
 import scalacss.internal.mutable.StyleSheet
 
-object ProposalStyles extends StyleSheet.Inline {
+object ProposalTileStyles extends StyleSheet.Inline {
 
   import dsl._
 
@@ -21,7 +21,7 @@ object ProposalStyles extends StyleSheet.Inline {
     )
 
   val innerWrapper: StyleA =
-    style(display.table, width(100.%%), height(100.%%))
+    style(display.table, tableLayout.fixed, width(100.%%), height(100.%%))
 
   val row: StyleA =
     style(display.tableRow, height(0.%%))
@@ -46,7 +46,7 @@ object ProposalStyles extends StyleSheet.Inline {
   )
 
   val contentWrapper: StyleA =
-    style(padding(ThemeStyles.SpacingValue.small.pxToEm()))
+    style(padding(ThemeStyles.SpacingValue.small.pxToEm()), overflow.hidden)
 
   val footer: StyleA = style(
     margin :=! s"0 ${ThemeStyles.SpacingValue.small.pxToEm().value}",

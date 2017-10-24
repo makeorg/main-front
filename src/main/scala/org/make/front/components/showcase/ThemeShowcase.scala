@@ -6,7 +6,7 @@ import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import io.github.shogowada.scalajs.reactjs.router.dom.RouterDOM._
 import org.make.core.Counter
 import org.make.front.components.Components.{RichVirtualDOMElements, _}
-import org.make.front.components.proposal.Proposal.ProposalProps
+import org.make.front.components.proposal.ProposalTile.ProposalTileProps
 import org.make.front.facades.HexToRgba
 import org.make.front.models.{GradientColor => GradientColorModel, Proposal => ProposalModel, Theme => ThemeModel}
 import org.make.front.styles._
@@ -84,9 +84,9 @@ object ThemeShowcase {
                           ColRulesStyles.colQuarterBeyondLarge
                         )
                       )(
-                        <.ProposalComponent(
+                        <.ProposalTileComponent(
                           ^.wrapped :=
-                            ProposalProps(proposal = proposal, index = counter.getAndIncrement())
+                            ProposalTileProps(proposal = proposal, index = counter.getAndIncrement())
                         )()
                     )
                   )
@@ -118,7 +118,6 @@ object ThemeShowcaseStyles extends StyleSheet.Inline {
     style(
       backgroundColor(ThemeStyles.BackgroundColor.blackVeryTransparent),
       padding :=! s"${ThemeStyles.SpacingValue.medium.pxToEm().value} 0",
-      borderBottom :=! s"1px solid ${ThemeStyles.BorderColor.white.value}",
       ThemeStyles.MediaQueries.beyondSmall(
         padding :=! s"${ThemeStyles.SpacingValue.larger.pxToEm().value} 0 ${(ThemeStyles.SpacingValue.larger - ThemeStyles.SpacingValue.small).pxToEm().value}"
       )

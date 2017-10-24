@@ -12,6 +12,6 @@ object RedirectToVFFSequence {
       .createClass[Unit, Unit](displayName = "RedirectToVFFSequence", componentWillMount = { self =>
         self.props.history.push("/consultation/comment-lutter-contre-les-violences-faites-aux-femmes")
       }, render = (self) => {
-        <.div()()
+        <.div.empty
       })
 }

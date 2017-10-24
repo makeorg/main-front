@@ -13,6 +13,6 @@ object ActivateAccount {
     React.createClass[ActivateAccountProps, Unit](displayName = "ActivateAccount", componentWillMount = { self =>
       self.props.wrapped.handleValidateAccount(self)
     }, render = self => {
-      <.div()()
+      <.div.empty
     })
 }

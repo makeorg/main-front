@@ -413,7 +413,7 @@ object ProposalInSlideStyles extends StyleSheet.Inline {
     style(color(ThemeStyles.TextColor.light))
 
   val contentWrapper: StyleA =
-    style(textAlign.center, marginTop(ThemeStyles.SpacingValue.medium.pxToEm()))
+    style(textAlign.center, marginTop(ThemeStyles.SpacingValue.medium.pxToEm()), overflow.hidden)
 
   val voteWrapper: StyleA =
     style(marginTop(ThemeStyles.SpacingValue.small.pxToEm()))

@@ -1,10 +1,12 @@
 package org.make.front.components.proposal
 
 import io.github.shogowada.scalajs.reactjs.React
-import io.github.shogowada.scalajs.reactjs.VirtualDOM._
+import io.github.shogowada.scalajs.reactjs.VirtualDOM.{<, _}
 import io.github.shogowada.scalajs.reactjs.classes.ReactClass
+import io.github.shogowada.scalajs.reactjs.router.dom.RouterDOM._
 import org.make.front.components.Components.{RichVirtualDOMElements, _}
 import org.make.front.components.proposal.ProposalInfos.ProposalInfosProps
+import org.make.front.components.proposal.ShareOwnProposal.ShareOwnProposalProps
 import org.make.front.components.proposal.vote.VoteContainer.VoteContainerProps
 import org.make.front.models.{Proposal => ProposalModel}
 import org.make.front.styles._
@@ -15,32 +17,38 @@ import org.make.front.styles.utils._
 import scalacss.DevDefaults._
 import scalacss.internal.mutable.StyleSheet
 
-object ProposalWithTags {
+object ProposalTileWithTags {
 
-  final case class ProposalWithTagsProps(proposal: ProposalModel, index: Int)
+  final case class ProposalTileWithTagsProps(proposal: ProposalModel, index: Int)
 
   val reactClass: ReactClass =
     React
-      .createClass[ProposalWithTagsProps, Unit](
-        displayName = "ProposalWithTags",
+      .createClass[ProposalTileWithTagsProps, Unit](
+        displayName = "ProposalTileWithTags",
         render = (self) => {
 
-          <.article(^.className := ProposalStyles.wrapper)(
-            <.div(^.className := ProposalStyles.innerWrapper)(
-              <.div(^.className := ProposalStyles.row)(
-                <.div(^.className := ProposalStyles.cell)(
-                  <.div(^.className := ProposalStyles.proposalInfosWrapper)(
+          <.article(^.className := ProposalTileStyles.wrapper)(
+            <.div(^.className := ProposalTileStyles.innerWrapper)(
+              <.div(^.className := ProposalTileStyles.row)(
+                <.div(^.className := ProposalTileStyles.cell)(
+                  <.div(^.className := ProposalTileStyles.proposalInfosWrapper)(
                     <.ProposalInfosComponent(^.wrapped := ProposalInfosProps(proposal = self.props.wrapped.proposal))()
-                  )
-                  /*<.header(^.className := ProposalStyles.shareOwnProposalWrapper)(
-                    <.ShareOwnProposalComponent(^.wrapped := ShareOwnProposalProps(proposal = self.props.wrapped.proposal))()
-                  )*/
+                  ),
+                  if (self.props.wrapped.proposal.myProposal) {
+                    <.div(^.className := ProposalTileStyles.shareOwnProposalWrapper)(
+                      <.ShareOwnProposalComponent(
+                        ^.wrapped := ShareOwnProposalProps(proposal = self.props.wrapped.proposal)
+                      )()
+                    )
+                  }
                 )
               ),
-              <.div(^.className := Seq(ProposalStyles.row, ProposalStyles.stretchedRow))(
-                <.div(^.className := Seq(ProposalStyles.cell, ProposalStyles.contentWrapper))(
+              <.div(^.className := Seq(ProposalTileStyles.row, ProposalTileStyles.stretchedRow))(
+                <.div(^.className := Seq(ProposalTileStyles.cell, ProposalTileStyles.contentWrapper))(
                   <.h3(^.className := Seq(TextStyles.mediumText, TextStyles.boldText))(
-                    self.props.wrapped.proposal.content
+                    <.Link(^.to := s"/proposal/${self.props.wrapped.proposal.slug}")(
+                      self.props.wrapped.proposal.content
+                    )
                   ),
                   <.VoteContainerComponent(
                     ^.wrapped := VoteContainerProps(
@@ -51,14 +59,14 @@ object ProposalWithTags {
                 )
               ),
               if (self.props.wrapped.proposal.tags.nonEmpty) {
-                <.div(^.className := ProposalStyles.row)(
-                  <.div(^.className := ProposalStyles.cell)(
-                    <.footer(^.className := ProposalStyles.footer)(
-                      <.ul(^.className := ProposalWithTagsStyles.tagList)(
+                <.div(^.className := ProposalTileStyles.row)(
+                  <.div(^.className := ProposalTileStyles.cell)(
+                    <.footer(^.className := ProposalTileStyles.footer)(
+                      <.ul(^.className := ProposalTileWithTagsStyles.tagList)(
                         self.props.wrapped.proposal.tags
                           .map(
                             tag =>
-                              <.li(^.className := ProposalWithTagsStyles.tagListItem)(
+                              <.li(^.className := ProposalTileWithTagsStyles.tagListItem)(
                                 <.span(^.className := TagStyles.basic)(tag.label)
                             )
                           )
@@ -68,13 +76,13 @@ object ProposalWithTags {
                 )
               }
             ),
-            <.style()(ProposalStyles.render[String], ProposalWithTagsStyles.render[String])
+            <.style()(ProposalTileStyles.render[String], ProposalTileWithTagsStyles.render[String])
           )
         }
       )
 }
 
-object ProposalWithTagsStyles extends StyleSheet.Inline {
+object ProposalTileWithTagsStyles extends StyleSheet.Inline {
 
   import dsl._
 

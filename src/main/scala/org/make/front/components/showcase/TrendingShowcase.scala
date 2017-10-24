@@ -5,8 +5,8 @@ import io.github.shogowada.scalajs.reactjs.VirtualDOM._
 import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import org.make.core.Counter
 import org.make.front.components.Components._
-import org.make.front.components.proposal.Proposal.ProposalProps
-import org.make.front.components.proposal.ProposalWithThemeContainer.ProposalWithThemeContainerProps
+import org.make.front.components.proposal.ProposalTile.ProposalTileProps
+import org.make.front.components.proposal.ProposalTileWithThemeContainer.ProposalTileWithThemeContainerProps
 import org.make.front.facades.logoMake
 import org.make.front.models.{Proposal => ProposalModel}
 import org.make.front.styles._
@@ -65,14 +65,14 @@ object TrendingShowcase {
                         ColRulesStyles.colHalfBeyondMedium
                       )
                     )(if (proposal.themeId.isDefined) {
-                      <.ProposalWithThemeContainerComponent(
+                      <.ProposalTileWithThemeContainerComponent(
                         ^.wrapped :=
-                          ProposalWithThemeContainerProps(proposal = proposal, index = counter.getAndIncrement())
+                          ProposalTileWithThemeContainerProps(proposal = proposal, index = counter.getAndIncrement())
                       )()
                     } else {
-                      <.ProposalComponent(
+                      <.ProposalTileComponent(
                         ^.wrapped :=
-                          ProposalProps(proposal = proposal, index = counter.getAndIncrement())
+                          ProposalTileProps(proposal = proposal, index = counter.getAndIncrement())
                       )()
                     })
                 )
@@ -92,7 +92,6 @@ object TrendingShowcaseStyles extends StyleSheet.Inline {
     style(
       backgroundColor(ThemeStyles.BackgroundColor.blackVeryTransparent),
       padding :=! s"${ThemeStyles.SpacingValue.medium.pxToEm().value} 0",
-      borderBottom :=! s"1px solid ${ThemeStyles.BorderColor.white.value}",
       ThemeStyles.MediaQueries.beyondSmall(
         padding :=! s"${ThemeStyles.SpacingValue.larger.pxToEm().value} 0 ${(ThemeStyles.SpacingValue.larger - ThemeStyles.SpacingValue.small).pxToEm().value}"
       )
@@ -121,5 +120,4 @@ object TrendingShowcaseStyles extends StyleSheet.Inline {
       marginLeft(5.pxToEm(20)),
       ThemeStyles.MediaQueries.beyondSmall(height(25.pxToEm(34)), marginLeft(10.pxToEm(34)))
     )
-
 }
