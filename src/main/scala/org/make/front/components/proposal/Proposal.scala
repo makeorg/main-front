@@ -36,10 +36,9 @@ object Proposal {
         ProposalState(proposal = null, themeName = None, themeSlug = None)
       },
       componentWillReceiveProps = { (self, props) =>
-        self.props.wrapped.futureProposalAndThemeInfos.onComplete {
+        props.wrapped.futureProposalAndThemeInfos.onComplete {
           case Failure(_) =>
           case Success(futureProposalAndThemeInfos) =>
-            scalajs.js.Dynamic.global.console.log(futureProposalAndThemeInfos.toString())
             self.setState(
               _.copy(
                 proposal = futureProposalAndThemeInfos.proposal,

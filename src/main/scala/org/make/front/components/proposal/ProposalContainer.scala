@@ -8,7 +8,7 @@ import io.github.shogowada.scalajs.reactjs.router.RouterProps._
 import org.make.front.actions.NotifyError
 import org.make.front.components.AppState
 import org.make.front.facades.I18n
-import org.make.front.models.{Proposal => ProposalModel, Theme => ThemeModel, ThemeId => ThemeIdModel}
+import org.make.front.models.{Proposal => ProposalModel, Theme => ThemeModel}
 import org.make.services.proposal.ProposalService
 
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -40,23 +40,16 @@ object ProposalContainer {
                     proposal.themeId.flatMap(themeId => state.themes.find(_.id == themeId))
 
                   maybeTheme.map { theme =>
-                    val themeName: String = theme.title
-                    val themeSlug: String = theme.slug
-
-                    scalajs.js.Dynamic.global.console.log(themeName.toString())
-
                     ProposalAndThemeInfosModel(
                       proposal = proposal,
-                      themeName = Some(themeName),
-                      themeSlug = Some(themeSlug)
+                      themeName = Some(theme.title),
+                      themeSlug = Some(theme.slug)
                     )
-
                   }.getOrElse(ProposalAndThemeInfosModel(proposal = proposal, themeName = None, themeSlug = None))
 
                 } else {
                   ProposalAndThemeInfosModel(proposal = null, themeName = None, themeSlug = None)
                 }
-
               }
 
           proposalsResponse.onComplete {
@@ -65,11 +58,9 @@ object ProposalContainer {
           }
 
           proposalsResponse
-
         }
 
         Proposal.ProposalProps(futureProposalAndThemeInfos = futureProposalAndThemeInfos)
-
       }
     }
 }
