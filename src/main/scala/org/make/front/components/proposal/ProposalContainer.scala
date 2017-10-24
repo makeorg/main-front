@@ -6,9 +6,11 @@ import io.github.shogowada.scalajs.reactjs.redux.ReactRedux
 import io.github.shogowada.scalajs.reactjs.redux.Redux.Dispatch
 import io.github.shogowada.scalajs.reactjs.router.RouterProps._
 import org.make.front.actions.NotifyError
-import org.make.front.components.AppState
-import org.make.front.models.{Proposal => ProposalModel}
 import org.make.services.proposal.ProposalService
+import org.make.front.components.AppState
+
+import org.make.front.models.{Proposal => ProposalModel, Theme => ThemeModel, ThemeId => ThemeIdModel}
+import scala.util.{Failure, Success}
 
 import scala.concurrent.ExecutionContext.Implicits.global
 
@@ -22,7 +24,7 @@ object ProposalContainer {
     (dispatch: Dispatch) => { (state: AppState, props: Props[Unit]) =>
       {
 
-        val proposal: Future[ProposalModel] = {
+        val futureProposal: Future[ProposalModel] = {
 
           val proposalSlug = props.`match`.params("proposalSlug")
 
@@ -36,7 +38,20 @@ object ProposalContainer {
           proposalsResponse.map(_.results.head)
         }
 
-        Proposal.ProposalProps(proposal = proposal)
+        def searchThemeById(themeId: ThemeIdModel): Option[ThemeModel] = {
+          state.themes.find(_.id == themeId)
+        }
+
+        futureProposal.onComplete {
+          case Failure(_) =>
+          case Success(proposal) =>
+            val theme: Option[ThemeModel] = proposal.themeId.flatMap(themeId => searchThemeById(themeId))
+            val themeName: Option[String] = theme.map(_.title)
+            val themeSlug: Option[String] = theme.map(_.slug)
+        }
+
+        Proposal.ProposalProps(futureProposal = futureProposal, themeName = Some(""), themeSlug = Some(""))
+
       }
     }
 }

@@ -19,7 +19,7 @@ object ProposalTile {
   val reactClass: ReactClass =
     React
       .createClass[ProposalTileProps, Unit](
-        displayName = "Proposal",
+        displayName = "ProposalTile",
         render = (self) => {
 
           <.article(^.className := ProposalTileStyles.wrapper)(

@@ -24,7 +24,7 @@ object ProposalTileWithTags {
   val reactClass: ReactClass =
     React
       .createClass[ProposalTileWithTagsProps, Unit](
-        displayName = "ProposalWithTags",
+        displayName = "ProposalTileWithTags",
         render = (self) => {
 
           <.article(^.className := ProposalTileStyles.wrapper)(

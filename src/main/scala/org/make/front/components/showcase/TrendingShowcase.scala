@@ -92,7 +92,6 @@ object TrendingShowcaseStyles extends StyleSheet.Inline {
     style(
       backgroundColor(ThemeStyles.BackgroundColor.blackVeryTransparent),
       padding :=! s"${ThemeStyles.SpacingValue.medium.pxToEm().value} 0",
-      borderBottom :=! s"1px solid ${ThemeStyles.BorderColor.white.value}",
       ThemeStyles.MediaQueries.beyondSmall(
         padding :=! s"${ThemeStyles.SpacingValue.larger.pxToEm().value} 0 ${(ThemeStyles.SpacingValue.larger - ThemeStyles.SpacingValue.small).pxToEm().value}"
       )
@@ -121,5 +120,4 @@ object TrendingShowcaseStyles extends StyleSheet.Inline {
       marginLeft(5.pxToEm(20)),
       ThemeStyles.MediaQueries.beyondSmall(height(25.pxToEm(34)), marginLeft(10.pxToEm(34)))
     )
-
 }

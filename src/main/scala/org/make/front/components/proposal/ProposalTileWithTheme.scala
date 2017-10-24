@@ -23,7 +23,7 @@ object ProposalTileWithTheme {
   val reactClass: ReactClass =
     React
       .createClass[ProposalTileWithThemeProps, Unit](
-        displayName = "ProposalWithTheme",
+        displayName = "ProposalTileWithTheme",
         render = (self) => {
 
           <.article(^.className := ProposalTileStyles.wrapper)(
