@@ -19,7 +19,7 @@ import scalacss.internal.mutable.StyleSheet
 
 object ProposalTileWithTags {
 
-  final case class ProposalTileWithTagsProps(proposal: ProposalModel)
+  final case class ProposalTileWithTagsProps(proposal: ProposalModel, index: Int)
 
   val reactClass: ReactClass =
     React
@@ -28,50 +28,53 @@ object ProposalTileWithTags {
         render = (self) => {
 
           <.article(^.className := ProposalTileStyles.wrapper)(
-            <.Link(^.to := s"/proposal/${self.props.wrapped.proposal.slug}")(
-              <.div(^.className := ProposalTileStyles.innerWrapper)(
+            <.div(^.className := ProposalTileStyles.innerWrapper)(
+              <.div(^.className := ProposalTileStyles.row)(
+                <.div(^.className := ProposalTileStyles.cell)(
+                  <.div(^.className := ProposalTileStyles.proposalInfosWrapper)(
+                    <.ProposalInfosComponent(^.wrapped := ProposalInfosProps(proposal = self.props.wrapped.proposal))()
+                  ),
+                  if (self.props.wrapped.proposal.myProposal) {
+                    <.div(^.className := ProposalTileStyles.shareOwnProposalWrapper)(
+                      <.ShareOwnProposalComponent(
+                        ^.wrapped := ShareOwnProposalProps(proposal = self.props.wrapped.proposal)
+                      )()
+                    )
+                  }
+                )
+              ),
+              <.div(^.className := Seq(ProposalTileStyles.row, ProposalTileStyles.stretchedRow))(
+                <.div(^.className := Seq(ProposalTileStyles.cell, ProposalTileStyles.contentWrapper))(
+                  <.h3(^.className := Seq(TextStyles.mediumText, TextStyles.boldText))(
+                    <.Link(^.to := s"/proposal/${self.props.wrapped.proposal.slug}")(
+                      self.props.wrapped.proposal.content
+                    )
+                  ),
+                  <.VoteContainerComponent(
+                    ^.wrapped := VoteContainerProps(
+                      proposal = self.props.wrapped.proposal,
+                      index = self.props.wrapped.index
+                    )
+                  )()
+                )
+              ),
+              if (self.props.wrapped.proposal.tags.nonEmpty) {
                 <.div(^.className := ProposalTileStyles.row)(
                   <.div(^.className := ProposalTileStyles.cell)(
-                    <.div(^.className := ProposalTileStyles.proposalInfosWrapper)(
-                      <.ProposalInfosComponent(
-                        ^.wrapped := ProposalInfosProps(proposal = self.props.wrapped.proposal)
-                      )()
-                    ),
-                    if (self.props.wrapped.proposal.myProposal) {
-                      <.div(^.className := ProposalTileStyles.shareOwnProposalWrapper)(
-                        <.ShareOwnProposalComponent(
-                          ^.wrapped := ShareOwnProposalProps(proposal = self.props.wrapped.proposal)
-                        )()
-                      )
-                    }
-                  )
-                ),
-                <.div(^.className := Seq(ProposalTileStyles.row, ProposalTileStyles.stretchedRow))(
-                  <.div(^.className := Seq(ProposalTileStyles.cell, ProposalTileStyles.contentWrapper))(
-                    <.h3(^.className := Seq(TextStyles.mediumText, TextStyles.boldText))(
-                      self.props.wrapped.proposal.content
-                    ),
-                    <.VoteContainerComponent(^.wrapped := VoteContainerProps(proposal = self.props.wrapped.proposal))()
-                  )
-                ),
-                if (self.props.wrapped.proposal.tags.nonEmpty) {
-                  <.div(^.className := ProposalTileStyles.row)(
-                    <.div(^.className := ProposalTileStyles.cell)(
-                      <.footer(^.className := ProposalTileStyles.footer)(
-                        <.ul(^.className := ProposalTileWithTagsStyles.tagList)(
-                          self.props.wrapped.proposal.tags
-                            .map(
-                              tag =>
-                                <.li(^.className := ProposalTileWithTagsStyles.tagListItem)(
-                                  <.span(^.className := TagStyles.basic)(tag.label)
-                              )
+                    <.footer(^.className := ProposalTileStyles.footer)(
+                      <.ul(^.className := ProposalTileWithTagsStyles.tagList)(
+                        self.props.wrapped.proposal.tags
+                          .map(
+                            tag =>
+                              <.li(^.className := ProposalTileWithTagsStyles.tagListItem)(
+                                <.span(^.className := TagStyles.basic)(tag.label)
                             )
-                        )
+                          )
                       )
                     )
                   )
-                }
-              )
+                )
+              }
             ),
             <.style()(ProposalTileStyles.render[String], ProposalTileWithTagsStyles.render[String])
           )

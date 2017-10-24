@@ -72,7 +72,7 @@ object TrendingShowcase {
                     } else {
                       <.ProposalTileComponent(
                         ^.wrapped :=
-                          ProposalProps(proposal = proposal, index = counter.getAndIncrement())
+                          ProposalTileProps(proposal = proposal, index = counter.getAndIncrement())
                       )()
                     })
                 )

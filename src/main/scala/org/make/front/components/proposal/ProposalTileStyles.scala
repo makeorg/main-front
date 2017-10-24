@@ -21,7 +21,7 @@ object ProposalTileStyles extends StyleSheet.Inline {
     )
 
   val innerWrapper: StyleA =
-    style(display.table, width(100.%%), height(100.%%))
+    style(display.table, tableLayout.fixed, width(100.%%), height(100.%%))
 
   val row: StyleA =
     style(display.tableRow, height(0.%%))

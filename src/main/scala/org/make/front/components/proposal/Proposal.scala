@@ -25,7 +25,7 @@ import scalacss.internal.mutable.StyleSheet
 
 object Proposal {
 
-  final case class ProposalProps(futureProposalAndThemeInfos: Future[ProposalAndThemeInfosModel], index: Int)
+  final case class ProposalProps(futureProposalAndThemeInfos: Future[ProposalAndThemeInfosModel])
 
   final case class ProposalState(proposal: ProposalModel, themeName: Option[String], themeSlug: Option[String])
 
@@ -72,10 +72,7 @@ object Proposal {
                                   ),
                                   <.div(^.className := ProposalStyles.voteWrapper)(
                                     <.VoteContainerComponent(
-                                      ^.wrapped := VoteContainerProps(
-                                        proposal = self.state.proposal,
-                                        index = self.props.wrapped.index
-                                      )
+                                      ^.wrapped := VoteContainerProps(proposal = self.state.proposal, index = 1)
                                     )()
                                   )
                                 ),

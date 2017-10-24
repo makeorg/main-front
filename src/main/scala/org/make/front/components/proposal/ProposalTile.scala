@@ -14,7 +14,7 @@ import scalacss.DevDefaults._
 
 object ProposalTile {
 
-  final case class ProposalTileProps(proposal: ProposalModel)
+  final case class ProposalTileProps(proposal: ProposalModel, index: Int)
 
   val reactClass: ReactClass =
     React
@@ -23,18 +23,21 @@ object ProposalTile {
         render = (self) => {
 
           <.article(^.className := ProposalTileStyles.wrapper)(
-            <.Link(^.to := s"/proposal/${self.props.wrapped.proposal.slug}")(
-              <.div(^.className := ProposalTileStyles.proposalInfosWrapper)(
-                <.ProposalInfosComponent(^.wrapped := ProposalInfosProps(proposal = self.props.wrapped.proposal))()
+            <.div(^.className := ProposalTileStyles.proposalInfosWrapper)(
+              <.ProposalInfosComponent(^.wrapped := ProposalInfosProps(proposal = self.props.wrapped.proposal))()
+            ),
+            <.div(^.className := ProposalTileStyles.contentWrapper)(
+              <.h3(^.className := Seq(TextStyles.mediumText, TextStyles.boldText))(
+                <.Link(^.to := s"/proposal/${self.props.wrapped.proposal.slug}")(self.props.wrapped.proposal.content)
               ),
-              <.div(^.className := ProposalTileStyles.contentWrapper)(
-                <.h3(^.className := Seq(TextStyles.mediumText, TextStyles.boldText))(
-                  self.props.wrapped.proposal.content
-                ),
-                <.VoteContainerComponent(^.wrapped := VoteContainerProps(proposal = self.props.wrapped.proposal))()
-              ),
-              <.style()(ProposalTileStyles.render[String])
-            )
+              <.VoteContainerComponent(
+                ^.wrapped := VoteContainerProps(
+                  proposal = self.props.wrapped.proposal,
+                  index = self.props.wrapped.index
+                )
+              )()
+            ),
+            <.style()(ProposalTileStyles.render[String])
           )
         }
       )
