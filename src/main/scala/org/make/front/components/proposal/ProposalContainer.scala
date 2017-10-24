@@ -33,24 +33,29 @@ object ProposalContainer {
             ProposalService
               .searchProposals(slug = Some(proposalSlug), limit = Some(1), sort = Seq.empty, skip = None)
               .map { proposalsResponse =>
-                val proposal = proposalsResponse.results.head
+                if (proposalsResponse.results.nonEmpty) {
+                  val proposal = proposalsResponse.results.head
 
-                val maybeTheme: Option[ThemeModel] =
-                  proposal.themeId.flatMap(themeId => state.themes.find(_.id == themeId))
+                  val maybeTheme: Option[ThemeModel] =
+                    proposal.themeId.flatMap(themeId => state.themes.find(_.id == themeId))
 
-                maybeTheme.map { theme =>
-                  val themeName: String = theme.title
-                  val themeSlug: String = theme.slug
+                  maybeTheme.map { theme =>
+                    val themeName: String = theme.title
+                    val themeSlug: String = theme.slug
 
-                  scalajs.js.Dynamic.global.console.log(themeName.toString())
+                    scalajs.js.Dynamic.global.console.log(themeName.toString())
 
-                  ProposalAndThemeInfosModel(
-                    proposal = proposal,
-                    themeName = Some(themeName),
-                    themeSlug = Some(themeSlug)
-                  )
+                    ProposalAndThemeInfosModel(
+                      proposal = proposal,
+                      themeName = Some(themeName),
+                      themeSlug = Some(themeSlug)
+                    )
 
-                }.getOrElse(ProposalAndThemeInfosModel(proposal = proposal, themeName = Some(""), themeSlug = Some("")))
+                  }.getOrElse(ProposalAndThemeInfosModel(proposal = proposal, themeName = None, themeSlug = None))
+
+                } else {
+                  ProposalAndThemeInfosModel(proposal = null, themeName = None, themeSlug = None)
+                }
 
               }
 

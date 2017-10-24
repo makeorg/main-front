@@ -33,7 +33,7 @@ object Proposal {
     React.createClass[ProposalProps, ProposalState](
       displayName = "Proposal",
       getInitialState = { _ =>
-        ProposalState(proposal = null, themeName = Some(""), themeSlug = Some(""))
+        ProposalState(proposal = null, themeName = None, themeSlug = None)
       },
       componentWillReceiveProps = { (self, props) =>
         self.props.wrapped.futureProposalAndThemeInfos.onComplete {
