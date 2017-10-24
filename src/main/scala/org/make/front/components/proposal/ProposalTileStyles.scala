@@ -46,7 +46,7 @@ object ProposalTileStyles extends StyleSheet.Inline {
   )
 
   val contentWrapper: StyleA =
-    style(padding(ThemeStyles.SpacingValue.small.pxToEm()))
+    style(padding(ThemeStyles.SpacingValue.small.pxToEm()), overflow.hidden)
 
   val footer: StyleA = style(
     margin :=! s"0 ${ThemeStyles.SpacingValue.small.pxToEm().value}",

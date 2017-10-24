@@ -6,17 +6,18 @@ import io.github.shogowada.scalajs.reactjs.redux.ReactRedux
 import io.github.shogowada.scalajs.reactjs.redux.Redux.Dispatch
 import io.github.shogowada.scalajs.reactjs.router.RouterProps._
 import org.make.front.actions.NotifyError
-import org.make.services.proposal.ProposalService
 import org.make.front.components.AppState
-
+import org.make.front.facades.I18n
 import org.make.front.models.{Proposal => ProposalModel, Theme => ThemeModel, ThemeId => ThemeIdModel}
-import scala.util.{Failure, Success}
+import org.make.services.proposal.ProposalService
 
 import scala.concurrent.ExecutionContext.Implicits.global
-
 import scala.concurrent.Future
+import scala.util.{Failure, Success}
 
 object ProposalContainer {
+
+  case class ProposalAndThemeInfosModel(proposal: ProposalModel, themeName: Option[String], themeSlug: Option[String])
 
   lazy val reactClass: ReactClass = ReactRedux.connectAdvanced(selectorFactory)(Proposal.reactClass)
 
@@ -24,33 +25,45 @@ object ProposalContainer {
     (dispatch: Dispatch) => { (state: AppState, props: Props[Unit]) =>
       {
 
-        val futureProposal: Future[ProposalModel] = {
+        val futureProposalAndThemeInfos: Future[ProposalAndThemeInfosModel] = {
 
           val proposalSlug = props.`match`.params("proposalSlug")
 
           val proposalsResponse =
-            ProposalService.searchProposals(slug = Some(proposalSlug), limit = Some(1), sort = Seq.empty, skip = None)
+            ProposalService
+              .searchProposals(slug = Some(proposalSlug), limit = Some(1), sort = Seq.empty, skip = None)
+              .map { proposalsResponse =>
+                val proposal = proposalsResponse.results.head
 
-          proposalsResponse.recover {
-            case e => dispatch(NotifyError(e.getMessage))
+                val maybeTheme: Option[ThemeModel] =
+                  proposal.themeId.flatMap(themeId => state.themes.find(_.id == themeId))
+
+                maybeTheme.map { theme =>
+                  val themeName: String = theme.title
+                  val themeSlug: String = theme.slug
+
+                  scalajs.js.Dynamic.global.console.log(themeName.toString())
+
+                  ProposalAndThemeInfosModel(
+                    proposal = proposal,
+                    themeName = Some(themeName),
+                    themeSlug = Some(themeSlug)
+                  )
+
+                }.getOrElse(ProposalAndThemeInfosModel(proposal = proposal, themeName = Some(""), themeSlug = Some("")))
+
+              }
+
+          proposalsResponse.onComplete {
+            case Success(_) => // let child handle new results
+            case Failure(_) => dispatch(NotifyError(I18n.t("errors.main")))
           }
 
-          proposalsResponse.map(_.results.head)
+          proposalsResponse
+
         }
 
-        def searchThemeById(themeId: ThemeIdModel): Option[ThemeModel] = {
-          state.themes.find(_.id == themeId)
-        }
-
-        futureProposal.onComplete {
-          case Failure(_) =>
-          case Success(proposal) =>
-            val theme: Option[ThemeModel] = proposal.themeId.flatMap(themeId => searchThemeById(themeId))
-            val themeName: Option[String] = theme.map(_.title)
-            val themeSlug: Option[String] = theme.map(_.slug)
-        }
-
-        Proposal.ProposalProps(futureProposal = futureProposal, themeName = Some(""), themeSlug = Some(""))
+        Proposal.ProposalProps(futureProposalAndThemeInfos = futureProposalAndThemeInfos)
 
       }
     }

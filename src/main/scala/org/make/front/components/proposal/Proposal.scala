@@ -3,10 +3,14 @@ package org.make.front.components.proposal
 import io.github.shogowada.scalajs.reactjs.React
 import io.github.shogowada.scalajs.reactjs.VirtualDOM.{<, ^, _}
 import io.github.shogowada.scalajs.reactjs.classes.ReactClass
-import org.make.front.components.Components._
+import io.github.shogowada.scalajs.reactjs.router.dom.RouterDOM._
+import org.make.front.components.Components.{RichVirtualDOMElements, _}
+import org.make.front.components.proposal.ProposalContainer.ProposalAndThemeInfosModel
 import org.make.front.components.proposal.ShareProposal.ShareProposalProps
 import org.make.front.components.proposal.vote.VoteContainer.VoteContainerProps
 import org.make.front.components.showcase.ThemeShowcaseContainer.ThemeShowcaseContainerProps
+import org.make.front.facades.I18n
+import org.make.front.facades.Unescape.unescape
 import org.make.front.helpers.ProposalAuthorInfosFormat
 import org.make.front.models.{Proposal => ProposalModel}
 import org.make.front.styles.ThemeStyles
@@ -21,10 +25,7 @@ import scalacss.internal.mutable.StyleSheet
 
 object Proposal {
 
-  final case class ProposalProps(futureProposal: Future[ProposalModel],
-                                 themeName: Option[String],
-                                 themeSlug: Option[String],
-                                 index: Int)
+  final case class ProposalProps(futureProposalAndThemeInfos: Future[ProposalAndThemeInfosModel], index: Int)
 
   final case class ProposalState(proposal: ProposalModel, themeName: Option[String], themeSlug: Option[String])
 
@@ -32,13 +33,20 @@ object Proposal {
     React.createClass[ProposalProps, ProposalState](
       displayName = "Proposal",
       getInitialState = { _ =>
-        ProposalState(proposal = null, themeName = None, themeSlug = None)
+        ProposalState(proposal = null, themeName = Some(""), themeSlug = Some(""))
       },
       componentWillReceiveProps = { (self, props) =>
-        self.props.wrapped.futureProposal.onComplete {
+        self.props.wrapped.futureProposalAndThemeInfos.onComplete {
           case Failure(_) =>
-          case Success(proposal) =>
-            self.setState(_.copy(proposal = proposal))
+          case Success(futureProposalAndThemeInfos) =>
+            scalajs.js.Dynamic.global.console.log(futureProposalAndThemeInfos.toString())
+            self.setState(
+              _.copy(
+                proposal = futureProposalAndThemeInfos.proposal,
+                themeName = futureProposalAndThemeInfos.themeName,
+                themeSlug = futureProposalAndThemeInfos.themeSlug
+              )
+            )
         }
       },
       render = { self =>
@@ -72,7 +80,15 @@ object Proposal {
                                     )()
                                   )
                                 ),
-                                self.state.themeName
+                                if (self.state.themeSlug.nonEmpty) {
+                                  <.p(^.className := Seq(TextStyles.mediumText, ProposalStyles.themeInfo))(
+                                    unescape(I18n.t("proposal.associated-with-the-theme")),
+                                    <.Link(
+                                      ^.to := s"/theme/${self.state.themeSlug.getOrElse("")}",
+                                      ^.className := Seq(TextStyles.title, ProposalStyles.themeName)
+                                    )(self.state.themeName.getOrElse(""))
+                                  )
+                                }
                               )
                             )
                           )
@@ -92,7 +108,7 @@ object Proposal {
                 )
               )
             ),
-            if (self.state.proposal.themeId.nonEmpty) {
+            if (self.state.themeSlug.nonEmpty) {
               <.ThemeShowcaseContainerComponent(
                 ^.wrapped := ThemeShowcaseContainerProps(themeSlug = self.state.themeSlug.getOrElse(""))
               )()
@@ -156,7 +172,6 @@ object ProposalStyles extends StyleSheet.Inline {
       textAlign.center,
       position.relative,
       paddingBottom(ThemeStyles.SpacingValue.small.pxToEm()),
-      marginBottom(ThemeStyles.SpacingValue.small.pxToEm()),
       (&.after)(
         content := "''",
         position.absolute,
@@ -174,22 +189,33 @@ object ProposalStyles extends StyleSheet.Inline {
     style(color(ThemeStyles.TextColor.light))
 
   val contentWrapper: StyleA =
-    style(textAlign.center, marginTop(ThemeStyles.SpacingValue.medium.pxToEm()))
+    style(textAlign.center, marginTop(ThemeStyles.SpacingValue.medium.pxToEm()), overflow.hidden)
 
   val voteWrapper: StyleA =
     style(marginTop(ThemeStyles.SpacingValue.small.pxToEm()))
 
-  val ctaWrapper: StyleA =
-    style(textAlign.center, marginTop(ThemeStyles.SpacingValue.medium.pxToEm()))
+  val themeInfo: StyleA =
+    style(
+      textAlign.center,
+      position.relative,
+      paddingTop(ThemeStyles.SpacingValue.small.pxToEm()),
+      marginTop(ThemeStyles.SpacingValue.medium.pxToEm()),
+      color(ThemeStyles.TextColor.light),
+      (&.after)(
+        content := "''",
+        position.absolute,
+        bottom(100.%%),
+        left(50.%%),
+        transform := s"translateX(-50%)",
+        marginTop(-0.5.px),
+        height(1.px),
+        width(90.pxToEm()),
+        backgroundColor(ThemeStyles.BorderColor.lighter)
+      )
+    )
 
-  val ctaVisibility: (Boolean) => StyleA = styleF.bool(
-    visible =>
-      if (visible) {
-        styleS(visibility.visible)
-      } else {
-        styleS(visibility.hidden)
-    }
-  )
+  val themeName: StyleA =
+    style(color(ThemeStyles.ThemeColor.primary))
 
   val shareArticleWrapper: StyleA =
     style(display.tableRow)
