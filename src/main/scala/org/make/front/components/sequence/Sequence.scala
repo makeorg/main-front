@@ -4,6 +4,7 @@ import io.github.shogowada.scalajs.reactjs.React
 import io.github.shogowada.scalajs.reactjs.React.{Props, Self}
 import io.github.shogowada.scalajs.reactjs.VirtualDOM.{<, _}
 import io.github.shogowada.scalajs.reactjs.classes.ReactClass
+import io.github.shogowada.scalajs.reactjs.elements.ReactElement
 import org.make.front.components.Components._
 import org.make.front.components.operation.IntroOfOperationSequence.IntroOfOperationSequenceProps
 import org.make.front.components.operation.PromptingToProposeInsideOperationSequence.PromptingToProposeInsideOperationSequenceProps
@@ -43,142 +44,229 @@ object Sequence {
                                  promptingToPropose: ReactClass)
 
   final case class SequenceState(proposals: Seq[ProposalModel],
-                                 displayedProposals: Seq[ProposalModel],
-                                 currentSlideIndex: Int,
-                                 votes: Seq[String])
+                                 slides: Seq[Slide],
+                                 displayedSlidesCount: Int,
+                                 currentSlideIndex: Int)
 
-  private def updateProposals(self: Self[SequenceProps, SequenceState],
-                              props: Props[SequenceProps],
-                              slider: Option[Slider]): Unit = {
-    props.wrapped.proposals.onComplete {
-      case Success(proposals) =>
-        val votes = proposals.filter(_.votes.exists(_.hasVoted)).map(_.id.value)
-        val allProposals = scala.util.Random.shuffle(proposals.toList)
-        val index = if (votes.nonEmpty) { votes.size + 1 } else { 0 }
-        val displayedProposals = votes.flatMap { id =>
-          allProposals.find(_.id.value == id)
-        } ++ allProposals.find(proposal => !votes.contains(proposal.id.value))
-        self.setState(
-          _.copy(
-            proposals = allProposals,
-            votes = votes,
-            displayedProposals = displayedProposals,
-            currentSlideIndex = index
-          )
+  trait Slide {
+    def component(index: Int): ReactElement
+    def optional: Boolean
+  }
+
+  class EmptyElementSlide(element: ReactClass, override val optional: Boolean = false) extends Slide {
+    override def component(index: Int): ReactElement = <(element).empty
+  }
+
+  class BasicSlide(element: ReactClass, props: Any, override val optional: Boolean = false) extends Slide {
+    override def component(index: Int): ReactElement =
+      <(element)(^.wrapped := props)()
+  }
+
+  class ProposalSlide(proposal: ProposalModel,
+                      onSuccessfulVote: (ProposalIdModel)        => (VoteResponse) => Unit,
+                      onSuccessfulQualification: ProposalIdModel => (String, QualificationResponse) => Unit,
+                      canScrollNext: (Int)                       => Boolean,
+                      nextProposal: ()                           => Unit)
+      extends Slide {
+
+    override def component(slideIndex: Int): ReactElement =
+      <.ProposalInsideSequenceComponent(
+        ^.wrapped := ProposalInsideSequenceProps(
+          proposal = proposal,
+          handleSuccessfulVote = onSuccessfulVote(proposal.id),
+          handleSuccessfulQualification = onSuccessfulQualification(proposal.id),
+          handleClickOnCta = nextProposal,
+          hasBeenVoted = canScrollNext(slideIndex),
+          /*TODO : guides if first slide*/
+          guideToVote = Some(I18n.t("sequence.guide.vote")),
+          guideToQualification = Some(I18n.t("sequence.guide.qualification")),
+          index = slideIndex
         )
-        if (votes.nonEmpty) {
-          slider.foreach(_.slickGoTo(index))
-        }
-      case Failure(_) =>
-    }
+      )()
+
+    override val optional: Boolean = false
   }
 
   lazy val reactClass: ReactClass = {
     var slider: Option[Slider] = None
 
+    def next: () => Unit = { () =>
+      slider.foreach(_.slickNext())
+    }
+
+    def nextProposal: () => Unit = { () =>
+      next()
+      FacebookPixel.fbq("trackCustom", "click-sequence-next-proposal")
+    }
+
+    def previous: () => Unit = { () =>
+      slider.foreach(_.slickPrev())
+    }
+
+    def sortProposal(proposals: Seq[ProposalModel]): Seq[ProposalModel] = {
+      scala.util.Random.shuffle(proposals)
+    }
+
+    def onSuccessfulVote(proposalId: ProposalIdModel,
+                         self: Self[SequenceProps, SequenceState]): (VoteResponse) => Unit = { (voteResponse) =>
+      def mapProposal(proposal: ProposalModel) = {
+        if (proposal.id == proposalId) {
+          proposal.copy(votes = proposal.votes.map { vote =>
+            if (vote.key == voteResponse.voteKey) {
+              voteResponse.toVote
+            } else {
+              vote
+            }
+          })
+        } else {
+          proposal
+        }
+      }
+
+      val updatedProposals = self.state.proposals.map(mapProposal)
+      var maxIndex = Math.max(self.state.displayedSlidesCount, self.state.currentSlideIndex)
+      if (self.state.slides(maxIndex).optional) {
+        maxIndex += 1
+      }
+      val slides = createSlides(self, updatedProposals)
+      self.setState(_.copy(slides = slides, proposals = updatedProposals, displayedSlidesCount = maxIndex + 1))
+    }
+
+    def onSuccessfulQualification(proposalId: ProposalIdModel,
+                                  self: Self[SequenceProps, SequenceState]): (String, QualificationResponse) => Unit = {
+      (voteKey, qualificationResponse) =>
+        def mapProposal(proposal: ProposalModel) = {
+          if (proposal.id == proposalId) {
+            proposal.copy(votes = proposal.votes.map { vote =>
+              if (vote.key == voteKey) {
+                vote.copy(qualifications = vote.qualifications.map { qualification =>
+                  if (qualification.key == qualificationResponse.qualificationKey) {
+                    qualificationResponse.toQualification
+                  } else {
+                    qualification
+                  }
+                })
+              } else {
+                vote
+              }
+            })
+          } else {
+            proposal
+          }
+        }
+
+        val updatedProposals = self.state.proposals.map(mapProposal)
+        val slides = createSlides(self, updatedProposals)
+        self.setState(_.copy(slides = slides, proposals = updatedProposals))
+    }
+
+    def createSlides(self: Self[SequenceProps, SequenceState], allProposals: Seq[ProposalModel]): Seq[Slide] = {
+
+      def startSequence: () => Unit = { () =>
+        next()
+        // TODO facebook take sequence id from variable
+        FacebookPixel.fbq(
+          "trackCustom",
+          "click-sequence-launch",
+          Map("location" -> "sequence", "sequence-id" -> "1").toJSDictionary
+        )
+      }
+
+      val intro = new BasicSlide(
+        element = self.props.wrapped.intro,
+        props = IntroOfOperationSequenceProps(clickOnButtonHandler = startSequence),
+        optional = true
+      )
+      val pleasePropose = new Slide() {
+        override def component(index: Int): ReactElement =
+          <(self.props.wrapped.promptingToPropose)(
+            ^.wrapped := PromptingToProposeInsideOperationSequenceProps(
+              operation = self.props.wrapped.maybeOperation
+                .getOrElse(OperationModel(OperationIdModel("fake"), "", "", "", 0, 0, "", None)),
+              clickOnButtonHandler = nextProposal
+            )
+          )()
+
+        override val optional = true
+      }
+      val conclusion = new EmptyElementSlide(self.props.wrapped.conclusion)
+
+      val slides = Seq(intro) ++ allProposals.map({ proposal =>
+        new ProposalSlide(
+          proposal,
+          onSuccessfulVote(_, self),
+          onSuccessfulQualification(_, self),
+          canScrollNext = (slideIndex) => {
+            slideIndex + 1 < self.state.displayedSlidesCount
+          },
+          nextProposal = nextProposal
+        )
+      }) ++ Seq(conclusion)
+
+      val cardIndex: Int = pushToProposalIndex(slides)
+      slides.take(cardIndex) ++ Seq(pleasePropose) ++ slides.drop(cardIndex)
+    }
+
+    def pushToProposalIndex(slides: Seq[Slide]): Int = {
+      slides.size / 2
+    }
+
+    def onNewProps(self: Self[SequenceProps, SequenceState],
+                   props: Props[SequenceProps],
+                   slider: Option[Slider]): Unit = {
+
+      props.wrapped.proposals.onComplete {
+        case Success(proposals) =>
+          val votedProposals = proposals.filter(_.votes.exists(_.hasVoted))
+          val otherProposals = sortProposal(proposals.filter(_.votes.forall(!_.hasVoted)))
+
+          val allProposals = votedProposals ++ otherProposals
+          val slides = createSlides(self, allProposals)
+          val cardIndex: Int = slides.indexWhere(_.optional)
+
+          val extraSlides: Int = {
+            if (otherProposals.isEmpty) {
+              3
+            } else if (votedProposals.size > cardIndex - 1) {
+              2
+            } else {
+              1
+            }
+          }
+          val index: Int = votedProposals.size + extraSlides
+          val maxNavigableIndex: Int = index + 1
+          self.setState(
+            _.copy(
+              slides = slides,
+              proposals = allProposals,
+              currentSlideIndex = index,
+              displayedSlidesCount = maxNavigableIndex
+            )
+          )
+
+        case Failure(_) =>
+      }
+    }
+
     React.createClass[SequenceProps, SequenceState](displayName = "Sequence", getInitialState = { _ =>
-      SequenceState(proposals = Seq.empty, displayedProposals = Seq.empty, currentSlideIndex = 0, votes = Seq(""))
+      SequenceState(slides = Seq.empty, displayedSlidesCount = 0, currentSlideIndex = 0, proposals = Seq.empty)
     }, componentWillReceiveProps = { (self, props) =>
-      updateProposals(self, props, slider)
+      onNewProps(self, props, slider)
     }, componentDidMount = { self =>
-      updateProposals(self, self.props, slider)
+      onNewProps(self, self.props, slider)
+    }, componentWillUpdate = { (_, _, state) =>
+      slider.foreach(_.slickGoTo(state.currentSlideIndex))
     }, render = {
       self =>
         def updateCurrentSlideIndex(currentSlide: Int): Unit = {
           self.setState(state => state.copy(currentSlideIndex = currentSlide))
         }
 
-        def next: () => Unit = { () =>
-          slider.foreach(_.slickNext())
-        }
-
-        def previous: () => Unit = { () =>
-          slider.foreach(_.slickPrev())
-        }
-
         def canScrollNext: Boolean = {
-          if (self.state.votes.size == self.state.proposals.size) {
-            self.state.currentSlideIndex < self.state.proposals.size + 1
-          } else {
-            self.state.currentSlideIndex < self.state.displayedProposals.size
-          }
+          self.state.currentSlideIndex + 1 < self.state.displayedSlidesCount
         }
 
-        def startSequence: () => Unit = { () =>
-          next()
-          // TODO facebook take sequence id from variable
-          FacebookPixel.fbq(
-            "trackCustom",
-            "click-sequence-launch",
-            Map("location" -> "sequence", "sequence-id" -> "1").toJSDictionary
-          )
-        }
-
-        def nextProposal: () => Unit = { () =>
-          next()
-          FacebookPixel.fbq("trackCustom", "click-sequence-next-proposal")
-        }
-
-        def nextOnSuccessfulVote(proposalId: ProposalIdModel): (VoteResponse) => Unit = {
-          (voteResponse) =>
-            def mapProposal(proposal: ProposalModel) = {
-              if (proposal.id == proposalId) {
-                proposal.copy(votes = proposal.votes.map { vote =>
-                  if (vote.key == voteResponse.voteKey) {
-                    voteResponse.toVote
-                  } else {
-                    vote
-                  }
-                })
-              } else {
-                proposal
-              }
-            }
-
-            val votes = if (self.state.votes.contains(proposalId.value)) {
-              self.state.votes
-            } else {
-              self.state.votes ++ Seq(proposalId.value)
-            }
-            val updatedProposals = self.state.proposals.map(mapProposal)
-            val updatedDisplayedProposals = if (votes.size == self.state.displayedProposals.size) {
-              self.state.displayedProposals.map(mapProposal) ++ self.state.proposals
-                .find(proposal => !votes.contains(proposal.id.value))
-            } else {
-              self.state.displayedProposals.map(mapProposal)
-            }
-
-            self.setState(
-              _.copy(votes = votes, proposals = updatedProposals, displayedProposals = updatedDisplayedProposals)
-            )
-        }
-
-        def onSuccessfulQualification(proposalId: ProposalIdModel): (String, QualificationResponse) => Unit = {
-          (voteKey, qualificationResponse) =>
-            def mapProposal(proposal: ProposalModel) = {
-              if (proposal.id == proposalId) {
-                proposal.copy(votes = proposal.votes.map { vote =>
-                  if (vote.key == voteKey) {
-                    vote.copy(qualifications = vote.qualifications.map { qualification =>
-                      if (qualification.key == qualificationResponse.qualificationKey) {
-                        qualificationResponse.toQualification
-                      } else {
-                        qualification
-                      }
-                    })
-                  } else {
-                    vote
-                  }
-                })
-              } else {
-                proposal
-              }
-            }
-
-            val updatedProposals = self.state.proposals.map(mapProposal)
-            val updatedDisplayedProposals = self.state.displayedProposals.map(mapProposal)
-            self.setState(_.copy(proposals = updatedProposals, displayedProposals = updatedDisplayedProposals))
-        }
+        val visibleSlides = self.state.slides.take(self.state.displayedSlidesCount)
 
         <.div(^.className := Seq(SequenceStyles.wrapper))(
           <.div(^.className := SequenceStyles.progressBarWrapper)(
@@ -194,7 +282,8 @@ object Sequence {
               )
             )
           ),
-          if (self.state.proposals.nonEmpty) {
+          if (visibleSlides.nonEmpty) {
+            var counter: Int = -1
             <.div(^.className := SequenceStyles.slideshowWrapper)(
               <.div(^.className := SequenceStyles.slideshowInnerWrapper)(
                 <.div(^.className := Seq(SequenceStyles.centeredRow, SequenceStyles.fullHeight))(
@@ -213,73 +302,16 @@ object Sequence {
                       ^.swipe := true,
                       ^.afterChange := updateCurrentSlideIndex,
                       ^.initialSlide := self.state.currentSlideIndex
-                    )(
+                    )(visibleSlides.map { slide =>
+                      counter += 1
                       <.div(^.className := SequenceStyles.slideWrapper)(
                         <.article(^.className := SequenceStyles.slide)(
                           <.div(^.className := SequenceStyles.slideInnerWrapper)(
-                            <.div(^.className := SequenceStyles.slideInnerSubWrapper)(
-                              <(self.props.wrapped.intro)(
-                                ^.wrapped := IntroOfOperationSequenceProps(clickOnButtonHandler = startSequence)
-                              )()
-                            )
+                            <.div(^.className := SequenceStyles.slideInnerSubWrapper)(slide.component(counter))
                           )
                         )
-                      ),
-                      self.state.displayedProposals.map {
-                        proposal: ProposalModel =>
-                          Seq(
-                            <.div(^.className := SequenceStyles.slideWrapper)(
-                              <.article(^.className := SequenceStyles.slide)(
-                                <.div(^.className := SequenceStyles.slideInnerWrapper)(
-                                  <.div(^.className := SequenceStyles.slideInnerSubWrapper)(
-                                    <(self.props.wrapped.promptingToPropose)(
-                                      ^.wrapped := PromptingToProposeInsideOperationSequenceProps(
-                                        operation = self.props.wrapped.maybeOperation
-                                          .getOrElse(
-                                            OperationModel(OperationIdModel("fake"), "", "", "", 0, 0, "", None)
-                                          ),
-                                        clickOnButtonHandler = nextProposal
-                                      )
-                                    )()
-                                  )
-                                )
-                              )
-                            ),
-                            <.div(^.className := SequenceStyles.slideWrapper)(
-                              <.article(^.className := SequenceStyles.slide)(
-                                <.div(^.className := SequenceStyles.slideInnerWrapper)(
-                                  <.div(^.className := SequenceStyles.slideInnerSubWrapper)(
-                                    <.ProposalInsideSequenceComponent(
-                                      ^.wrapped := ProposalInsideSequenceProps(
-                                        proposal = proposal,
-                                        handleSuccessfulVote = nextOnSuccessfulVote(proposal.id),
-                                        handleSuccessfulQualification = onSuccessfulQualification(proposal.id),
-                                        handleClickOnCta = nextProposal,
-                                        hasBeenVoted = self.state.votes.contains(proposal.id.value),
-                                        /*TODO : guides if first slide*/
-                                        guideToVote = Some(I18n.t("sequence.guide.vote")),
-                                        guideToQualification = Some(I18n.t("sequence.guide.qualification")),
-                                        index = self.state.currentSlideIndex
-                                      )
-                                    )()
-                                  )
-                                )
-                              )
-                            )
-                          )
-                      },
-                      if (self.state.votes.size == self.state.proposals.size) {
-                        <.div(^.className := SequenceStyles.slideWrapper)(
-                          <.article(^.className := SequenceStyles.slide)(
-                            <.div(^.className := SequenceStyles.slideInnerWrapper)(
-                              <.div(^.className := SequenceStyles.slideInnerSubWrapper)(
-                                <(self.props.wrapped.conclusion).empty
-                              )
-                            )
-                          )
-                        )
-                      }
-                    ),
+                      )
+                    }),
                     if (canScrollNext) {
                       <.button(^.className := SequenceStyles.showNextSlideButton, ^.onClick := next)()
                     }
