@@ -225,7 +225,8 @@ object Sequence {
                                       hasBeenVoted = self.state.votes.contains(proposal.id.value),
                                       /*TODO : guides if first slide*/
                                       guideToVote = Some(I18n.t("sequence.guide.vote")),
-                                      guideToQualification = Some(I18n.t("sequence.guide.qualification"))
+                                      guideToQualification = Some(I18n.t("sequence.guide.qualification")),
+                                      index = self.state.currentSlideIndex
                                     )
                                   )()
                                 )

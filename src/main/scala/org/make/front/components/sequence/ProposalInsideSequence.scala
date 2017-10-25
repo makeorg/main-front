@@ -28,7 +28,8 @@ object ProposalInsideSequence {
                                                handleClickOnCta: () => Unit,
                                                hasBeenVoted: Boolean,
                                                guideToVote: Option[String] = Some(""),
-                                               guideToQualification: Option[String] = Some(""))
+                                               guideToQualification: Option[String] = Some(""),
+                                               index: Int)
 
   final case class ProposalInsideSequenceState(hasBeenVoted: Boolean)
 
@@ -58,7 +59,8 @@ object ProposalInsideSequence {
                     onSuccessfulVote = self.props.wrapped.handleSuccessfulVote,
                     onSuccessfulQualification = self.props.wrapped.handleSuccessfulQualification,
                     guideToVote = self.props.wrapped.guideToVote,
-                    guideToQualification = self.props.wrapped.guideToQualification
+                    guideToQualification = self.props.wrapped.guideToQualification,
+                    index = self.props.wrapped.index
                   )
                 )(),
                 <.div(^.className := ProposalInsideSequenceStyles.ctaWrapper)(
