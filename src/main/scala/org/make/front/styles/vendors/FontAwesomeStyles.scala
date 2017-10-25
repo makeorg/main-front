@@ -45,4 +45,7 @@ object FontAwesomeStyles extends StyleSheet.Inline {
   val mapMarker: StyleA = style(addClassName("fa fa-map-marker"))
   val handOLeft: StyleA = style(addClassName("fa fa-hand-o-left"))
   val handPeaceO: StyleA = style(addClassName("fa fa-hand-peace-o"))
+
+  val signOut: StyleA = style(addClassName("fa fa-sign-out"))
+
 }

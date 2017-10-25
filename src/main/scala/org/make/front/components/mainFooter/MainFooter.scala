@@ -3,6 +3,10 @@ package org.make.front.components.mainFooter
 import io.github.shogowada.scalajs.reactjs.React
 import io.github.shogowada.scalajs.reactjs.VirtualDOM.{<, _}
 import io.github.shogowada.scalajs.reactjs.classes.ReactClass
+import io.github.shogowada.scalajs.reactjs.router.dom.RouterDOM.{
+  RouterDOMVirtualDOMElements,
+  RouterVirtualDOMAttributes
+}
 import io.github.shogowada.scalajs.reactjs.elements.ReactElement
 import org.make.front.components.Components._
 import org.make.front.facades.Unescape.unescape
@@ -27,7 +31,7 @@ object MainFooter {
               <.div(^.className := ColRulesStyles.col)(
                 <.div(^.className := MainFooterStyles.innerWrapper)(
                   <.p(^.className := MainFooterStyles.logoWrapper)(
-                    <.a(^.href := "/")(
+                    <.Link(^.to := "/")(
                       <.img(
                         ^.className := MainFooterStyles.logo,
                         ^.src := logoMake.toString,

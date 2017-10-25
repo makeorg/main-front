@@ -2,16 +2,20 @@ package org.make.front.components.userNav
 
 import io.github.shogowada.scalajs.reactjs.React
 import io.github.shogowada.scalajs.reactjs.React.Self
-import io.github.shogowada.scalajs.reactjs.VirtualDOM._
+import io.github.shogowada.scalajs.reactjs.VirtualDOM.{<, ^, _}
 import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import io.github.shogowada.scalajs.reactjs.elements.ReactElement
+import io.github.shogowada.scalajs.reactjs.router.dom.RouterDOM.{
+  RouterDOMVirtualDOMElements,
+  RouterVirtualDOMAttributes
+}
 import org.make.front.components.Components._
 import org.make.front.components.authenticate.LoginOrRegister.LoginOrRegisterProps
 import org.make.front.components.modals.Modal.ModalProps
 import org.make.front.components.userNav.UserNav.{UserNavProps, UserNavState}
 import org.make.front.facades.I18n
 import org.make.front.facades.Unescape.unescape
-import org.make.front.styles._
+import org.make.front.styles.ThemeStyles
 import org.make.front.styles.base.{RWDHideRulesStyles, TextStyles}
 import org.make.front.styles.utils._
 import org.make.front.styles.vendors.FontAwesomeStyles
@@ -54,7 +58,7 @@ object ConnectedUserNavElement {
   def apply(userFirstName: String, avatarUrl: String, logout: () => Unit): ReactElement =
     <.ul(^.className := UserNavStyles.menu)(
       <.li(^.className := UserNavStyles.menuItem)(
-        <.button(^.onClick := logout)(
+        <.Link(^.to := s"/profile")(
           <.span(^.className := UserNavStyles.avatarWrapper)(if (avatarUrl.nonEmpty) {
             <.img(^.src := avatarUrl, ^.className := UserNavStyles.avatar, ^("data-pin-no-hover") := "true")()
           } else {
