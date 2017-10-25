@@ -93,7 +93,7 @@ object Proposal {
                     )
                   )
                 )
-              ),
+              ) /*,
               <.div(^.className := Seq(ProposalStyles.shareArticleWrapper))(
                 <.div(^.className := Seq(ProposalStyles.shareArticleSubWrapper))(
                   <.div(^.className := RowRulesStyles.centeredRow)(
@@ -102,7 +102,7 @@ object Proposal {
                     )
                   )
                 )
-              )
+              )*/
             ),
             if (self.state.themeSlug.nonEmpty) {
               <.ThemeShowcaseContainerComponent(
@@ -142,7 +142,7 @@ object ProposalStyles extends StyleSheet.Inline {
       verticalAlign.middle,
       paddingTop((ThemeStyles.SpacingValue.larger + 50).pxToEm()),
       ThemeStyles.MediaQueries.beyondSmall(paddingTop((ThemeStyles.SpacingValue.larger + 80).pxToEm())),
-      paddingBottom(ThemeStyles.SpacingValue.medium.pxToEm())
+      paddingBottom(ThemeStyles.SpacingValue.larger.pxToEm()) /*TODO: restaure medium with reactivation of sharing part*/
     )
 
   val article: StyleA =

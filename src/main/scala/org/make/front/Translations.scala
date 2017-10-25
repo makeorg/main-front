@@ -125,6 +125,7 @@ object Translations {
       |    },
       |    "proposal": {
       |      "created-by-user": "Ma proposition",
+      |      "share-intro": "Soutenez cette proposition en la partageant&nbsp;:",
       |      "associated-with-the-theme": "postée dans ",
       |      "author-infos": {
       |        "age": ", %{age} ans",
