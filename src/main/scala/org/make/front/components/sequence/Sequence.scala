@@ -11,12 +11,8 @@ import org.make.front.components.sequence.ProgressBar.ProgressBarProps
 import org.make.front.components.sequence.ProposalInsideSequence.ProposalInsideSequenceProps
 import org.make.front.facades.{FacebookPixel, I18n}
 import org.make.front.facades.ReactSlick.{ReactTooltipVirtualDOMAttributes, ReactTooltipVirtualDOMElements, Slider}
-import org.make.front.models.{
-  Theme       => ThemeModel,
-  Operation   => OperationModel,
-  OperationId => OperationIdModel
-}
-import org.make.front.models.{Proposal => ProposalModel, ProposalId => ProposalIdModel, Sequence => SequenceModel}
+import org.make.front.models.{Theme    => ThemeModel, Operation     => OperationModel, OperationId => OperationIdModel}
+import org.make.front.models.{Proposal => ProposalModel, ProposalId => ProposalIdModel, Sequence   => SequenceModel}
 import org.make.front.styles.ThemeStyles
 import org.make.front.styles.utils._
 import org.make.services.proposal.ProposalResponses.{QualificationResponse, VoteResponse}
@@ -178,7 +174,6 @@ object Sequence {
             self.setState(_.copy(proposals = updatedProposals, displayedProposals = updatedDisplayedProposals))
         }
 
-
         <.div(^.className := Seq(SequenceStyles.wrapper))(
           <.div(^.className := SequenceStyles.progressBarWrapper)(
             <.div(^.className := SequenceStyles.progressBarInnerWrapper)(
@@ -225,10 +220,8 @@ object Sequence {
                         )
                       ),
                       self.state.displayedProposals.map {
-                        var i: Int = 0
                         proposal: ProposalModel =>
-                          i = i + 1
-                          Seq(if (i == (self.state.displayedProposals.size / 2) + 1) {
+                          Seq(
                             <.div(^.className := SequenceStyles.slideWrapper)(
                               <.article(^.className := SequenceStyles.slide)(
                                 <.div(^.className := SequenceStyles.slideInnerWrapper)(
@@ -245,30 +238,30 @@ object Sequence {
                                   )
                                 )
                               )
-                            )
-                          },
-                          <.div(^.className := SequenceStyles.slideWrapper)(
-                            <.article(^.className := SequenceStyles.slide)(
-                              <.div(^.className := SequenceStyles.slideInnerWrapper)(
-                                <.div(^.className := SequenceStyles.slideInnerSubWrapper)(
-                                  <.ProposalInsideSequenceComponent(
-                                    ^.wrapped := ProposalInsideSequenceProps(
-                                      proposal = proposal,
-                                      handleSuccessfulVote = nextOnSuccessfulVote(proposal.id),
-                                      handleSuccessfulQualification = onSuccessfulQualification(proposal.id),
-                                      handleClickOnCta = nextProposal,
-                                      hasBeenVoted = self.state.votes.contains(proposal.id.value),
-                                      /*TODO : guides if first slide*/
-                                      guideToVote = Some(I18n.t("sequence.guide.vote")),
-                                      guideToQualification = Some(I18n.t("sequence.guide.qualification")),
-                                      index = self.state.currentSlideIndex
-                                    )
-                                  )()
+                            ),
+                            <.div(^.className := SequenceStyles.slideWrapper)(
+                              <.article(^.className := SequenceStyles.slide)(
+                                <.div(^.className := SequenceStyles.slideInnerWrapper)(
+                                  <.div(^.className := SequenceStyles.slideInnerSubWrapper)(
+                                    <.ProposalInsideSequenceComponent(
+                                      ^.wrapped := ProposalInsideSequenceProps(
+                                        proposal = proposal,
+                                        handleSuccessfulVote = nextOnSuccessfulVote(proposal.id),
+                                        handleSuccessfulQualification = onSuccessfulQualification(proposal.id),
+                                        handleClickOnCta = nextProposal,
+                                        hasBeenVoted = self.state.votes.contains(proposal.id.value),
+                                        /*TODO : guides if first slide*/
+                                        guideToVote = Some(I18n.t("sequence.guide.vote")),
+                                        guideToQualification = Some(I18n.t("sequence.guide.qualification")),
+                                        index = self.state.currentSlideIndex
+                                      )
+                                    )()
+                                  )
                                 )
                               )
                             )
-                          ))},
-
+                          )
+                      },
                       if (self.state.votes.size == self.state.proposals.size) {
                         <.div(^.className := SequenceStyles.slideWrapper)(
                           <.article(^.className := SequenceStyles.slide)(

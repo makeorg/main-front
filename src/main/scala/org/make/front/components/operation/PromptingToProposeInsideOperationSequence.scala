@@ -97,7 +97,7 @@ object PromptingToProposeInsideOperationSequenceStyles extends StyleSheet.Inline
   val ctaWrapper: StyleA =
     style(
       display.inlineBlock,
-      margin := s"${ThemeStyles.SpacingValue.small.pxToEm().value} ${ThemeStyles.SpacingValue.small.pxToEm().value} 0"
+      margin :=! s"${ThemeStyles.SpacingValue.small.pxToEm().value} ${ThemeStyles.SpacingValue.small.pxToEm().value} 0"
     )
 
 }
