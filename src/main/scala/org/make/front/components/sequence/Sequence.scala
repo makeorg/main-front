@@ -78,8 +78,8 @@ object Sequence {
           handleClickOnCta = nextProposal,
           hasBeenVoted = canScrollNext(slideIndex),
           /*TODO : guides if first slide*/
-          guideToVote = Some(I18n.t("sequence.guide.vote")),
-          guideToQualification = Some(I18n.t("sequence.guide.qualification")),
+          /*guideToVote = Some(I18n.t("sequence.guide.vote")),
+          guideToQualification = Some(I18n.t("sequence.guide.qualification")),*/
           index = slideIndex
         )
       )()

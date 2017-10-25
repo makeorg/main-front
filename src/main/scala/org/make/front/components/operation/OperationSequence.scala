@@ -39,6 +39,8 @@ object OperationSequence {
         OperationSequenceState(isProposalModalOpened = false)
       },
       render = { self =>
+        val guidedState: Boolean = false
+
         val gradientValues: GradientColorModel =
           self.props.wrapped.operation.gradient.getOrElse(GradientColorModel("#FFF", "#FFF"))
 
@@ -114,7 +116,8 @@ object OperationSequence {
                           ^.className := Seq(
                             CTAStyles.basic,
                             CTAStyles.basicOnButton,
-                            OperationSequenceStyles.openProposalModalButton
+                            OperationSequenceStyles.openProposalModalButton,
+                            OperationSequenceStyles.openProposalModalButtonExplained(guidedState)
                           ),
                           ^.onClick := openProposalModal
                         )(
@@ -123,12 +126,14 @@ object OperationSequence {
                             unescape("&nbsp;" + I18n.t("operation.sequence.header.propose-cta"))
                           )
                         ),
-                        <.p(^.className := OperationSequenceStyles.guideToPropose)(
-                          <.span(
-                            ^.className := TextStyles.smallerText,
-                            ^.dangerouslySetInnerHTML := I18n.t("operation.sequence.header.guide.propose-cta")
-                          )()
-                        )
+                        if (guidedState) {
+                          <.p(^.className := OperationSequenceStyles.guideToPropose)(
+                            <.span(
+                              ^.className := TextStyles.smallerText,
+                              ^.dangerouslySetInnerHTML := I18n.t("operation.sequence.header.guide.propose-cta")
+                            )()
+                          )
+                        }
                       ),
                       <.FullscreenModalComponent(
                         ^.wrapped := FullscreenModalProps(
@@ -261,7 +266,6 @@ object OperationSequenceStyles extends StyleSheet.Inline {
 
   val openProposalModalButton: StyleA =
     style(
-      boxShadow := s"0 1px 1px rgba(0, 0, 0, 0.5), 0 0 20px 0 rgba(255,255,255,0.50)",
       ThemeStyles.MediaQueries
         .belowMedium(
           width(50.pxToEm(25)),
@@ -273,6 +277,15 @@ object OperationSequenceStyles extends StyleSheet.Inline {
           lineHeight(1)
         )
     )
+
+  val openProposalModalButtonExplained: (Boolean) => StyleA = styleF.bool(
+    explained =>
+      if (explained) {
+        styleS(boxShadow := s"0 1px 1px rgba(0, 0, 0, 0.5), 0 0 20px 0 rgba(255,255,255,0.50)")
+      } else {
+        styleS()
+    }
+  )
 
   val openProposalModalButtonInnerWrapper: StyleA =
     style(
