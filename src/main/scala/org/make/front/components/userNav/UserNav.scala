@@ -27,7 +27,7 @@ object UserNav {
                           avatarUrl: Option[String],
                           logout: () => Unit)
 
-  case class UserNavState(avatarUrl: String, isAuthenticateModalOpened: Boolean)
+  case class UserNavState(avatarUrl: String, isAuthenticateModalOpened: Boolean, loginOrRegisterView: String = "login")
 
   lazy val reactClass: ReactClass =
     React.createClass[UserNavProps, UserNavState](
@@ -76,8 +76,12 @@ object ConnectedUserNavElement {
 object UnconnectedUserNavElement {
   def apply(self: Self[UserNavProps, UserNavState]): ReactElement = {
 
-    def openAuthenticateModal() = () => {
-      self.setState(state => state.copy(isAuthenticateModalOpened = true))
+    def openLoginAuthenticateModal() = () => {
+      self.setState(state => state.copy(isAuthenticateModalOpened = true, loginOrRegisterView = "login"))
+    }
+
+    def openRegisterAuthenticateModal() = () => {
+      self.setState(state => state.copy(isAuthenticateModalOpened = true, loginOrRegisterView = "register"))
     }
 
     def toggleAuthenticateModal() = () => {
@@ -86,11 +90,17 @@ object UnconnectedUserNavElement {
 
     <.ul(^.className := UserNavStyles.menu)(
       <.li(^.className := UserNavStyles.menuItem)(
-        <.button(^.onClick := openAuthenticateModal, ^.className := Seq(UserNavStyles.menuItemLink))(
+        <.button(^.onClick := openLoginAuthenticateModal, ^.className := Seq(UserNavStyles.menuItemLink))(
           <.i(^.className := Seq(UserNavStyles.menuItemIcon, FontAwesomeStyles.user))(),
           <.span(
             ^.className := Seq(RWDHideRulesStyles.showInlineBlockBeyondMedium, TextStyles.title, TextStyles.smallText)
-          )(I18n.t("user-nav.login"), unescape("&nbsp;/&nbsp;"), I18n.t("user-nav.register"))
+          )(I18n.t("user-nav.login"))
+        ),
+        <.span()(unescape("&nbsp;/&nbsp;")),
+        <.button(^.onClick := openRegisterAuthenticateModal, ^.className := Seq(UserNavStyles.menuItemLink))(
+          <.span(
+            ^.className := Seq(RWDHideRulesStyles.showInlineBlockBeyondMedium, TextStyles.title, TextStyles.smallText)
+          )(I18n.t("user-nav.register"))
         ),
         <.ModalComponent(
           ^.wrapped := ModalProps(
@@ -99,7 +109,7 @@ object UnconnectedUserNavElement {
           )
         )(
           <.LoginOrRegisterComponent(
-            ^.wrapped := LoginOrRegisterProps(displayView = "login", onSuccessfulLogin = () => {
+            ^.wrapped := LoginOrRegisterProps(displayView = self.state.loginOrRegisterView, onSuccessfulLogin = () => {
               self.setState(_.copy(isAuthenticateModalOpened = false))
             }, operation = None)
           )()
