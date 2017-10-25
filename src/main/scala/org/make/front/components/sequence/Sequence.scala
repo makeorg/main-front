@@ -9,10 +9,16 @@ import org.make.front.components.operation.IntroOfOperationSequence.IntroOfOpera
 import org.make.front.components.operation.PromptingToProposeInsideOperationSequence.PromptingToProposeInsideOperationSequenceProps
 import org.make.front.components.sequence.ProgressBar.ProgressBarProps
 import org.make.front.components.sequence.ProposalInsideSequence.ProposalInsideSequenceProps
-import org.make.front.facades.{FacebookPixel, I18n}
 import org.make.front.facades.ReactSlick.{ReactTooltipVirtualDOMAttributes, ReactTooltipVirtualDOMElements, Slider}
-import org.make.front.models.{Theme    => ThemeModel, Operation     => OperationModel, OperationId => OperationIdModel}
-import org.make.front.models.{Proposal => ProposalModel, ProposalId => ProposalIdModel, Sequence   => SequenceModel}
+import org.make.front.facades.{FacebookPixel, I18n}
+import org.make.front.models.{
+  Operation   => OperationModel,
+  OperationId => OperationIdModel,
+  Proposal    => ProposalModel,
+  ProposalId  => ProposalIdModel,
+  Sequence    => SequenceModel,
+  Theme       => ThemeModel
+}
 import org.make.front.styles.ThemeStyles
 import org.make.front.styles.utils._
 import org.make.services.proposal.ProposalResponses.{QualificationResponse, VoteResponse}
