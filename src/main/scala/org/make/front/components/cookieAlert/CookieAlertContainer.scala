@@ -14,6 +14,6 @@ object CookieAlertContainer {
 
   def selectorFactory: (Dispatch) => (AppState, Props[CookieAlertContainerProps]) => CookieAlert.CookieAlertProps =
     (_: Dispatch) => { (appState: AppState, ownProps: Props[CookieAlertContainerProps]) =>
-      CookieAlert.CookieAlertProps()
+      CookieAlert.CookieAlertProps(isAlertOpened = true, closeCallback = () => {})
     }
 }

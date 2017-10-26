@@ -15,7 +15,7 @@ import scalacss.internal.mutable.StyleSheet
 
 object CookieAlert {
 
-  final case class CookieAlertProps()
+  final case class CookieAlertProps(isAlertOpened: Boolean, closeCallback: () => Unit)
 
   final case class CookieAlertState(isAlertOpened: Boolean)
 
@@ -26,10 +26,15 @@ object CookieAlert {
         getInitialState = { _ =>
           CookieAlertState(isAlertOpened = true)
         },
+        componentWillReceiveProps = { (self, props) =>
+          self.setState(_.copy(isAlertOpened = props.wrapped.isAlertOpened))
+
+        },
         render = (self) => {
           def close(): (MouseSyntheticEvent) => Unit = { event =>
             event.preventDefault()
-            self.setState(state => state.copy(isAlertOpened = false))
+            self.setState(_.copy(isAlertOpened = false))
+            self.props.wrapped.closeCallback()
           }
 
           if (self.state.isAlertOpened) {
