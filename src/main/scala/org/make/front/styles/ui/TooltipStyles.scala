@@ -16,7 +16,7 @@ object TooltipStyles extends StyleSheet.Inline {
     width(100.%%),
     right(50.%%),
     transform := "translateX(50%)",
-    padding :=! s"${3.pxToEm().value} ${10.pxToEm().value}",
+    padding(10.pxToEm()),
     textAlign.center,
     color(ThemeStyles.TextColor.white),
     backgroundColor(ThemeStyles.BackgroundColor.darkGrey),
