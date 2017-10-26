@@ -28,6 +28,9 @@ object ConfirmationOfProposalSubmission {
     React
       .createClass[ConfirmationOfProposalSubmissionProps, Unit](
         displayName = "ConfirmationOfProposalSubmission",
+        componentDidMount = { _ =>
+          FacebookPixel.fbq("trackCustom", "display-proposal-submit-validation")
+        },
         render = { self =>
           def handleClickOnButton() = () => {
             FacebookPixel.fbq(
