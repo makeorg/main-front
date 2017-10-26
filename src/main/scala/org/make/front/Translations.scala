@@ -119,6 +119,10 @@ object Translations {
       |      "login": "Se connecter",
       |      "register": "S'inscrire"
       |    },
+      |    "user-profile": {
+      |      "title": "Mes infos personnelles",
+      |      "disconnect-cta": "Je me déconnecte"
+      |    },
       |    "proposal": {
       |      "created-by-user": "Ma proposition",
       |      "associated-with-the-theme": "postée dans ",

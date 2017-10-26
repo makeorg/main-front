@@ -16,6 +16,7 @@ import org.make.front.components.operation.{
   VFFSequenceContainer
 }
 import org.make.front.components.proposal.ProposalContainer
+import org.make.front.components.userProfile.UserProfileContainer
 
 import scala.scalajs.js.Dynamic
 
@@ -40,6 +41,7 @@ object Container {
             ^.component := ActivateAccountContainer.reactClass
           )(),
           <.Route(^.exact := true, ^.path := "/proposal/:proposalSlug", ^.component := ProposalContainer.reactClass)(),
+          <.Route(^.exact := true, ^.path := "/profile", ^.component := UserProfileContainer.reactClass)(),
           <.Route(
             ^.exact := true,
             ^.path := "/operation/:operationSlug",

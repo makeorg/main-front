@@ -57,6 +57,9 @@ object Components {
     def SubscribeToNewsletterFormContainerComponent: ReactClassElementSpec =
       self(subscribeToNewsletter.SubscribeToNewsletterFormContainer.reactClass)
 
+    def UserProfileComponent: ReactClassElementSpec =
+      self(userProfile.UserProfile.reactClass)
+
     /*********************/
     def ActivateAccountContainerComponent: ReactClassElementSpec =
       self(activateAccount.ActivateAccountContainer.reactClass)
