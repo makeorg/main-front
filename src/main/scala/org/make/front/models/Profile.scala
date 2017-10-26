@@ -2,7 +2,7 @@ package org.make.front.models
 
 import java.time.LocalDate
 
-import org.make.client.models.{GenderResponse, ProfileResponse}
+import org.make.client.models.ProfileResponse
 
 sealed trait Gender {
   def shortName: String
@@ -10,10 +10,6 @@ sealed trait Gender {
 
 object Gender {
   val genders: Map[String, Gender] = Map(Male.shortName -> Male, Female.shortName -> Female, Other.shortName -> Other)
-
-  def apply(genderResponse: GenderResponse): Gender = {
-    genders.get(genderResponse.shortName).get
-  }
 
   def matchGender(gender: String): Option[Gender] = {
     val maybeGender = genders.get(gender)
@@ -50,14 +46,24 @@ case class Profile(dateOfBirth: Option[LocalDate],
 object Profile {
   def apply(profileResponse: ProfileResponse): Profile = {
     Profile(
-      dateOfBirth = profileResponse.dateOfBirth.toOption.map(LocalDate.parse(_)),
+      dateOfBirth = profileResponse.dateOfBirth.toOption.flatMap { dateOfBirth =>
+        dateOfBirth match {
+          case _ if Option(dateOfBirth).forall(_.isEmpty) => None
+          case _ => Some(LocalDate.parse(dateOfBirth))
+        }
+      },
       avatarUrl = profileResponse.avatarUrl.toOption,
       profession = profileResponse.profession.toOption,
       phoneNumber = profileResponse.phoneNumber.toOption,
       twitterId = profileResponse.twitterId.toOption,
       facebookId = profileResponse.facebookId.toOption,
       googleId = profileResponse.googleId.toOption,
-      gender = profileResponse.gender.toOption.map(Gender.apply),
+      gender = profileResponse.genderName.toOption.flatMap { gender =>
+        gender match {
+          case _ if Option(gender).forall(_.isEmpty) => None
+          case _ => Gender.matchGender(gender)
+        }
+      },
       genderName = profileResponse.genderName.toOption,
       departmentNumber = profileResponse.departmentNumber.toOption,
       karmaLevel = profileResponse.karmaLevel.toOption,

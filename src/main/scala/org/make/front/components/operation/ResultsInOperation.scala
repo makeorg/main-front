@@ -28,7 +28,7 @@ object ResultsInOperation {
 
   case class ResultsInOperationProps(
     onMoreResultsRequested: (Seq[Proposal], Seq[TagModel]) => Future[SearchResult],
-    onTagSelectionChange: (Seq[TagModel])                       => Future[SearchResult],
+    onTagSelectionChange: (Seq[TagModel])                  => Future[SearchResult],
     proposals: Future[SearchResult],
     preselectedTags: Seq[TagModel]
   )

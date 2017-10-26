@@ -24,7 +24,6 @@ trait ProfileResponse extends js.Object {
   val twitterId: js.UndefOr[String]
   val facebookId: js.UndefOr[String]
   val googleId: js.UndefOr[String]
-  val gender: js.UndefOr[GenderResponse]
   val genderName: js.UndefOr[String]
   val departmentNumber: js.UndefOr[String]
   val karmaLevel: js.UndefOr[Int]
@@ -32,10 +31,6 @@ trait ProfileResponse extends js.Object {
   val optInNewsletter: Boolean
 }
 
-@js.native
-trait GenderResponse extends js.Object {
-  val shortName: String
-}
 @js.native
 trait AuthorResponse extends js.Object {
   val firstName: js.UndefOr[String]

@@ -10,7 +10,7 @@ import org.make.front.components.proposal.vote.ResultsOfVote.ResultsOfVoteProps
 import org.make.front.facades.Unescape.unescape
 import org.make.front.facades.{FacebookPixel, I18n, Replacements}
 import org.make.front.helpers.NumberFormat._
-import org.make.front.models.{ProposalId, Qualification, Vote}
+import org.make.front.models.{ProposalId, Qualification, Vote => VoteModel}
 import org.make.front.styles._
 import org.make.front.styles.base.TextStyles
 import org.make.front.styles.ui.TooltipStyles
@@ -30,9 +30,9 @@ object VoteButton {
                              updateState: Boolean,
                              proposalId: ProposalId,
                              votes: Map[String, Int],
-                             vote: Vote,
-                             handleVote: (String)                      => Future[Vote],
-                             handleUnvote: (String)                    => Future[Vote],
+                             vote: VoteModel,
+                             handleVote: (String)                      => Future[VoteModel],
+                             handleUnvote: (String)                    => Future[VoteModel],
                              qualifyVote: (String, String)             => Future[Qualification],
                              removeVoteQualification: (String, String) => Future[Qualification],
                              guideToVote: Option[String] = None,

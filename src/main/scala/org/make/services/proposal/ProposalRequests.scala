@@ -134,8 +134,6 @@ object JsVoteRequest {
   }
 }
 
-final case class QualificationRequest(voteKey: String, qualificationKey: String)
-
 @js.native
 trait JsQualificationRequest extends js.Object {
   val voteKey: String

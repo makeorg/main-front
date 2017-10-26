@@ -6,13 +6,14 @@ import org.make.front.models.Proposal
 object ProposalAuthorInfosFormat {
 
   def apply(proposal: Proposal): String = {
-    val age: String = if (proposal.author.age.isDefined) {
+    val age: String = if (proposal.author.age.get != 0) {
       I18n
         .t("proposal.author-infos.age", Replacements(("age", s"${proposal.author.age.getOrElse("")}")))
     } else {
       ""
     }
-    val postalCode: String = if (proposal.author.postalCode.isDefined) {
+
+    val postalCode: String = if (proposal.author.postalCode.get != null) {
       I18n
         .t(
           "proposal.author-infos.postal-code",

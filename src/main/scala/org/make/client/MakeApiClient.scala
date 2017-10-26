@@ -3,7 +3,7 @@ package org.make.client
 import io.github.shogowada.statictags.MediaTypes
 import org.make.core.URI._
 import org.make.front.facades.Configuration
-import org.make.front.models.Token
+import org.make.front.models.{Token, TokenResponse}
 import org.scalajs.dom.XMLHttpRequest
 import org.scalajs.dom.ext.Ajax.InputData
 import org.scalajs.dom.ext.{Ajax, AjaxException}
@@ -64,6 +64,8 @@ object MakeApiClient extends Client {
           case 502 => promise.failure(BadGatewayHttpException)
           case _   => promise.failure(NotImplementedHttpException)
         }
+      case Failure(e) =>
+        promise.failure(InternalServerHttpException)
     }
   }
 
@@ -173,11 +175,11 @@ object MakeApiClient extends Client {
 
   private def askForAccessToken(username: String,
                                 password: String): Future[Boolean] = {
-    post[Token](
+    post[TokenResponse](
       "oauth" / "make_access_token",
       data = "".paramsToString(Seq("username" -> username, "password" -> password, "grant_type" -> "password")),
       headers = Map("Content-Type" -> MediaTypes.`application/x-www-form-urlencoded`)
-    ).map { newToken =>
+    ).map(Token.apply).map { newToken =>
       MakeApiClient.setToken(Option(newToken))
       MakeApiClient.isAuthenticated
     }
@@ -193,10 +195,10 @@ object MakeApiClient extends Client {
 
   private def askForAccessTokenSocial(provider: String,
                                       token: String): Future[Boolean] = {
-    post[Token](
+    post[TokenResponse](
       "user" / "login" / "social",
       data = JSON.stringify(js.Dictionary("provider" -> provider, "token" -> token))
-    ).map { newToken =>
+    ).map(Token.apply).map{ newToken =>
       MakeApiClient.setToken(Option(newToken))
       MakeApiClient.isAuthenticated
     }

@@ -2,7 +2,7 @@ package org.make.front.models
 
 import io.github.shogowada.scalajs.reactjs.redux.Store
 import org.make.front.components.AppState
-import scala.collection.mutable
+
 import scala.scalajs.js
 
 @js.native
@@ -14,7 +14,7 @@ trait SequenceResponse extends js.Object {
 
 
 }
-final case class Sequence(sequenceId: SequenceId, slug: String, title: String, proposalsSlugs: Seq[String]) {
+final case class Sequence(sequenceId: SequenceId, slug: String, title: String) {
   def getSequenceById(id: String, store: Store[AppState]): Sequence = {
     store.getState.sequences.find(sequence => sequence.sequenceId.value == id).get
   }
@@ -22,17 +22,15 @@ final case class Sequence(sequenceId: SequenceId, slug: String, title: String, p
 
 object Sequence {
   def apply(sequenceResponse: SequenceResponse): Sequence = {
-    val seqProposalsSlugs: mutable.Seq[String] = sequenceResponse.proposalsSlugs
-
     Sequence(
       sequenceId = SequenceId(sequenceResponse.sequenceId),
       slug = sequenceResponse.slug,
-      title = sequenceResponse.title,
-      proposalsSlugs = seqProposalsSlugs
+      title = sequenceResponse.title
     )
   }
 }
 
+@js.native
 trait SequenceId extends js.Object {
   val value: String
 }

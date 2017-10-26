@@ -6,7 +6,7 @@ import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import io.github.shogowada.scalajs.reactjs.elements.ReactElement
 import org.make.front.components.Components._
 import org.make.front.helpers.ProposalAuthorInfosFormat
-import org.make.front.models.Proposal
+import org.make.front.models.{Proposal => ProposalModel}
 import org.make.front.styles._
 import org.make.front.styles.base.TextStyles
 import org.make.front.styles.utils._
@@ -18,7 +18,7 @@ import scalacss.internal.mutable.StyleSheet
 
 object ProposalInfos {
 
-  final case class ProposalInfosProps(proposal: Proposal)
+  final case class ProposalInfosProps(proposal: ProposalModel)
 
   val reactClass: ReactClass =
     React
