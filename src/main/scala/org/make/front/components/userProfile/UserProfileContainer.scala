@@ -14,16 +14,16 @@ object UserProfileContainer {
 
   def selectorFactory: (Dispatch) => (AppState, Props[Unit]) => UserProfile.UserProfileProps =
     (dispatch: Dispatch) => { (state: AppState, props: Props[Unit]) =>
-      def logout() = () => {
+      def logout: () => Unit = { () =>
         dispatch(LogoutAction)
         props.history.push("/")
       }
 
       if (state.connectedUser.isDefined) {
-        UserProfile.UserProfileProps(user = state.connectedUser, logout = logout())
+        UserProfile.UserProfileProps(user = state.connectedUser, logout = logout)
       } else {
         props.history.push("/")
-        UserProfile.UserProfileProps(user = None, logout = logout())
+        UserProfile.UserProfileProps(user = None, logout = () => {})
       }
     }
 }
