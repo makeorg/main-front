@@ -9,7 +9,6 @@ object FontAwesomeStyles extends StyleSheet.Inline {
   val remove: StyleA = style(addClassName("fa fa-remove"))
   val bullhorn: StyleA = style(addClassName("fa fa-bullhorn"))
   val thumbsUp: StyleA = style(addClassName("fa fa-thumbs-o-up"))
-
   val thumbsDown: StyleA = style(addClassName("fa fa-thumbs-o-down"))
   val lightbulbTransparent: StyleA = style(addClassName("fa fa-lightbulb-o"))
   val search: StyleA = style(addClassName("fa fa-search"))
@@ -33,7 +32,6 @@ object FontAwesomeStyles extends StyleSheet.Inline {
   val rotateLeft: StyleA = style(addClassName("fa fa-rotate-left"))
   val child: StyleA = style(addClassName("fa fa-child"))
   val suitCase: StyleA = style(addClassName("fa fa-suitcase"))
-
   val facebook: StyleA = style(addClassName("fa fa-facebook"))
   val twitter: StyleA = style(addClassName("fa fa-twitter"))
   val googlePlus: StyleA = style(addClassName("fa fa-google-plus"))
@@ -45,7 +43,7 @@ object FontAwesomeStyles extends StyleSheet.Inline {
   val mapMarker: StyleA = style(addClassName("fa fa-map-marker"))
   val handOLeft: StyleA = style(addClassName("fa fa-hand-o-left"))
   val handPeaceO: StyleA = style(addClassName("fa fa-hand-peace-o"))
-
+  val stepForward: StyleA = style(addClassName("fa fa-step-forward"))
   val signOut: StyleA = style(addClassName("fa fa-sign-out"))
 
 }

@@ -31,13 +31,13 @@ object SubmitProposalInRelationToTheme {
         SubmitProposalInRelationToThemeState(theme = self.props.wrapped.theme)
       },
       render = { self =>
-        val gradientColor: GradientColorModel = self.state.theme.gradient.getOrElse(GradientColorModel("#FFF", "#FFF"))
+        val gradientValues: GradientColorModel = self.state.theme.gradient.getOrElse(GradientColorModel("#FFF", "#FFF"))
 
         object DynamicSubmitProposalInRelationToThemeStyles extends Inline {
           import dsl._
 
           val titleBackground = style(
-            background := s"-webkit-linear-gradient(94deg, ${gradientColor.from}, ${gradientColor.to})",
+            background := s"-webkit-linear-gradient(94deg, ${gradientValues.from}, ${gradientValues.to})",
             Attr.real("-webkit-background-clip") := "text",
             Attr.real("-webkit-text-fill-color") := "transparent"
           )

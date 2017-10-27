@@ -11,10 +11,10 @@ import org.make.front.facades.{I18n, Replacements, _}
 import org.make.front.models.{Theme => ThemeModel}
 import org.make.front.styles.ThemeStyles
 import org.make.front.styles.base.TextStyles
-import org.make.front.styles.ui.{CTAStyles, InputStyles}
+import org.make.front.styles.ui.{CTAStyles, InputStyles, TooltipStyles}
 import org.make.front.styles.utils._
 import org.make.front.styles.vendors.FontAwesomeStyles
-import org.scalajs.dom.raw.{HTMLInputElement}
+import org.scalajs.dom.raw.HTMLInputElement
 
 import scalacss.DevDefaults._
 import scalacss.internal.StyleA
@@ -212,14 +212,11 @@ object SubmitProposalFormStyles extends StyleSheet.Inline {
   val proposalInputWithSubWrapper: StyleA = style(position.relative, display.block)
 
   val textLimitReachedAlert: StyleA = style(
-    position.absolute,
+    TooltipStyles.base,
     top(100.%%),
     right(`0`),
-    width(100.%%),
-    padding :=! s"${3.pxToEm().value} ${10.pxToEm().value}",
+    transform := "none",
     marginTop(ThemeStyles.SpacingValue.smaller.pxToEm()),
-    color(ThemeStyles.TextColor.white),
-    backgroundColor(ThemeStyles.BackgroundColor.black),
     ThemeStyles.MediaQueries
       .beyondSmall(
         top.auto,
@@ -228,15 +225,11 @@ object SubmitProposalFormStyles extends StyleSheet.Inline {
         marginTop.auto,
         marginBottom(ThemeStyles.SpacingValue.smaller.pxToEm())
       ),
-    textAlign.center,
     (&.after)(
-      content := "''",
-      position.absolute,
       right(50.pxToEm()),
+      transform := "none",
       bottom(100.%%),
       borderBottom :=! s"${5.pxToEm().value} solid ${ThemeStyles.BackgroundColor.black.value}",
-      borderRight :=! s"${5.pxToEm().value} solid transparent",
-      borderLeft :=! s"${5.pxToEm().value} solid transparent",
       ThemeStyles.MediaQueries.beyondSmall(
         bottom.auto,
         top(100.%%),

@@ -6,6 +6,7 @@ import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import io.github.shogowada.scalajs.reactjs.router.dom.RouterDOM._
 import org.make.front.components.Components.{RichVirtualDOMElements, _}
 import org.make.front.components.proposal.ProposalInfos.ProposalInfosProps
+import org.make.front.components.proposal.ShareOwnProposal.ShareOwnProposalProps
 import org.make.front.components.proposal.vote.VoteContainer.VoteContainerProps
 import org.make.front.facades.I18n
 import org.make.front.facades.Unescape.unescape
@@ -28,11 +29,17 @@ object ProposalTileWithTheme {
           <.article(^.className := ProposalTileStyles.wrapper)(
             <.div(^.className := ProposalTileStyles.innerWrapper)(
               <.div(^.className := ProposalTileStyles.row)(
-                <.div(^.className := ProposalTileStyles.cell)(
+                <.div(^.className := ProposalTileStyles.cell)(if (self.props.wrapped.proposal.myProposal) {
+                  <.div(^.className := ProposalTileStyles.shareOwnProposalWrapper)(
+                    <.ShareOwnProposalComponent(
+                      ^.wrapped := ShareOwnProposalProps(proposal = self.props.wrapped.proposal)
+                    )()
+                  )
+                } else {
                   <.div(^.className := ProposalTileStyles.proposalInfosWrapper)(
                     <.ProposalInfosComponent(^.wrapped := ProposalInfosProps(proposal = self.props.wrapped.proposal))()
                   )
-                )
+                })
               ),
               <.div(^.className := Seq(ProposalTileStyles.row, ProposalTileStyles.stretchedRow))(
                 <.div(^.className := Seq(ProposalTileStyles.cell, ProposalTileStyles.contentWrapper))(

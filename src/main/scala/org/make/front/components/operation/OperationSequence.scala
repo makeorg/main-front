@@ -17,7 +17,7 @@ import org.make.front.models.{
 }
 import org.make.front.styles._
 import org.make.front.styles.base.{ColRulesStyles, RWDHideRulesStyles, RowRulesStyles, TextStyles}
-import org.make.front.styles.ui.CTAStyles
+import org.make.front.styles.ui.{CTAStyles, TooltipStyles}
 import org.make.front.styles.utils._
 import org.make.front.styles.vendors.FontAwesomeStyles
 
@@ -39,6 +39,8 @@ object OperationSequence {
         OperationSequenceState(isProposalModalOpened = false)
       },
       render = { self =>
+        val guidedState: Boolean = false
+
         val gradientValues: GradientColorModel =
           self.props.wrapped.operation.gradient.getOrElse(GradientColorModel("#FFF", "#FFF"))
 
@@ -109,18 +111,29 @@ object OperationSequence {
                       )
                     ),
                     <.div(^.className := OperationSequenceStyles.openProposalModalButtonWrapper)(
-                      <.button(
-                        ^.className := Seq(
-                          CTAStyles.basic,
-                          CTAStyles.basicOnButton,
-                          OperationSequenceStyles.openProposalModalButton
+                      <.div(^.className := OperationSequenceStyles.openProposalModalButtonInnerWrapper)(
+                        <.button(
+                          ^.className := Seq(
+                            CTAStyles.basic,
+                            CTAStyles.basicOnButton,
+                            OperationSequenceStyles.openProposalModalButton,
+                            OperationSequenceStyles.openProposalModalButtonExplained(guidedState)
+                          ),
+                          ^.onClick := openProposalModal
+                        )(
+                          <.i(^.className := Seq(FontAwesomeStyles.pencil))(),
+                          <.span(^.className := RWDHideRulesStyles.showInlineBlockBeyondMedium)(
+                            unescape("&nbsp;" + I18n.t("operation.sequence.header.propose-cta"))
+                          )
                         ),
-                        ^.onClick := openProposalModal
-                      )(
-                        <.i(^.className := Seq(FontAwesomeStyles.pencil))(),
-                        <.span(^.className := RWDHideRulesStyles.showInlineBlockBeyondMedium)(
-                          unescape("&nbsp;" + I18n.t("operation.sequence.header.propose-cta"))
-                        )
+                        if (guidedState) {
+                          <.p(^.className := OperationSequenceStyles.guideToPropose)(
+                            <.span(
+                              ^.className := TextStyles.smallerText,
+                              ^.dangerouslySetInnerHTML := I18n.t("operation.sequence.header.guide.propose-cta")
+                            )()
+                          )
+                        }
                       ),
                       <.FullscreenModalComponent(
                         ^.wrapped := FullscreenModalProps(
@@ -131,9 +144,7 @@ object OperationSequence {
                         <.SubmitProposalInRelationToOperationComponent(
                           ^.wrapped := SubmitProposalInRelationToOperationProps(
                             operation = self.props.wrapped.operation,
-                            onProposalProposed = () => {
-                              self.setState(_.copy(isProposalModalOpened = false))
-                            }
+                            onProposalProposed = closeProposalModal
                           )
                         )()
                       )
@@ -149,8 +160,10 @@ object OperationSequence {
                 ^.wrapped := SequenceContainerProps(
                   sequence = self.props.wrapped.sequence,
                   maybeThemeColor = Some(gradientValues.from),
+                  maybeOperation = Some(self.props.wrapped.operation),
                   intro = IntroOfOperationSequence.reactClass,
-                  conclusion = ConclusionOfOperationSequenceContainer.reactClass
+                  conclusion = ConclusionOfOperationSequenceContainer.reactClass,
+                  promptingToPropose = PromptingToProposeInsideOperationSequence.reactClass
                 )
               )()
             )
@@ -263,5 +276,30 @@ object OperationSequenceStyles extends StyleSheet.Inline {
           fontSize(25.pxToEm()),
           lineHeight(1)
         )
+    )
+
+  val openProposalModalButtonExplained: (Boolean) => StyleA = styleF.bool(
+    explained =>
+      if (explained) {
+        styleS(boxShadow := s"0 1px 1px rgba(0, 0, 0, 0.5), 0 0 20px 0 rgba(255,255,255,0.50)")
+      } else {
+        styleS()
+    }
+  )
+
+  val openProposalModalButtonInnerWrapper: StyleA =
+    style(
+      position.relative,
+      ThemeStyles.MediaQueries
+        .beyondMedium(display.inlineBlock)
+    )
+
+  val guideToPropose: StyleA =
+    style(
+      TooltipStyles.bottomPositioned,
+      ThemeStyles.MediaQueries
+        .belowMedium(width(160.pxToEm()), right(`0`), transform := "none", (&.after)(right(25.pxToEm()))),
+      ThemeStyles.MediaQueries
+        .beyondMedium(width :=! s"calc(100% + ${40.pxToEm().value})", marginLeft :=! s"calc(0% - ${20.pxToEm().value})")
     )
 }

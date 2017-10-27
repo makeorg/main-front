@@ -32,38 +32,32 @@ object ConclusionOfOperationSequence {
           self.setState(_.copy(subscriptionToNewsletterHasSucceed = true))
         }
 
-        <.div(^.className := Seq(ConclusionOfOperationSequenceStyles.wrapper))(
-          <.div(^.className := ConclusionOfOperationSequenceStyles.innerWrapper)(
-            <.div(^.className := Seq(RowRulesStyles.row))(
-              <.div(^.className := ColRulesStyles.col)(
-                <.div(^.className := ConclusionOfOperationSequenceStyles.introWrapper)(
-                  <.p(
-                    ^.className := Seq(
-                      ConclusionOfOperationSequenceStyles.intro,
-                      TextStyles.bigText,
-                      TextStyles.boldText
-                    )
-                  )(unescape(I18n.t("operation.sequence.conclusion.title")))
-                ),
-                <.div(^.className := ConclusionOfOperationSequenceStyles.messageWrapper)(
-                  <.p(^.className := Seq(ConclusionOfOperationSequenceStyles.message, TextStyles.smallText))(
-                    if (self.props.wrapped.isConnected || self.state.subscriptionToNewsletterHasSucceed) {
-                      unescape(I18n.t("operation.sequence.conclusion.info"))
-                    } else {
-                      unescape(I18n.t("operation.sequence.conclusion.prompting-to-subscribe-to-newsletter"))
-                    }
-                  )
+        <.div()(
+          <.div(^.className := Seq(RowRulesStyles.row))(
+            <.div(^.className := ColRulesStyles.col)(
+              <.div(^.className := ConclusionOfOperationSequenceStyles.introWrapper)(
+                <.p(
+                  ^.className := Seq(ConclusionOfOperationSequenceStyles.intro, TextStyles.bigText, TextStyles.boldText)
+                )(unescape(I18n.t("operation.sequence.conclusion.title")))
+              ),
+              <.div(^.className := ConclusionOfOperationSequenceStyles.messageWrapper)(
+                <.p(^.className := Seq(ConclusionOfOperationSequenceStyles.message, TextStyles.smallText))(
+                  if (self.props.wrapped.isConnected || self.state.subscriptionToNewsletterHasSucceed) {
+                    unescape(I18n.t("operation.sequence.conclusion.info"))
+                  } else {
+                    unescape(I18n.t("operation.sequence.conclusion.prompting-to-subscribe-to-newsletter"))
+                  }
                 )
               )
-            ),
-            if (!self.props.wrapped.isConnected && !self.state.subscriptionToNewsletterHasSucceed) {
-              <.SubscribeToNewsletterFormContainerComponent(
-                ^.wrapped := SubscribeToNewsletterFormContainerProps(
-                  onSubscribeToNewsletterSuccess = onSubscribeToNewsletterSuccess()
-                )
-              )()
-            }
+            )
           ),
+          if (!self.props.wrapped.isConnected && !self.state.subscriptionToNewsletterHasSucceed) {
+            <.SubscribeToNewsletterFormContainerComponent(
+              ^.wrapped := SubscribeToNewsletterFormContainerProps(
+                onSubscribeToNewsletterSuccess = onSubscribeToNewsletterSuccess()
+              )
+            )()
+          },
           <.style()(ConclusionOfOperationSequenceStyles.render[String])
         )
       }
@@ -72,12 +66,6 @@ object ConclusionOfOperationSequence {
 
 object ConclusionOfOperationSequenceStyles extends StyleSheet.Inline {
   import dsl._
-
-  val wrapper: StyleA =
-    style(display.table, width(100.%%), height(100.%%))
-
-  val innerWrapper: StyleA =
-    style(display.tableCell, verticalAlign.middle)
 
   val intro: StyleA =
     style(textAlign.center)

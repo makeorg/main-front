@@ -4,6 +4,8 @@ import io.github.shogowada.scalajs.reactjs.React
 import io.github.shogowada.scalajs.reactjs.VirtualDOM._
 import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import org.make.front.components.Components._
+import org.make.front.facades.I18n
+import org.make.front.facades.Unescape.unescape
 import org.make.front.models.{Proposal => ProposalModel}
 import org.make.front.styles._
 import org.make.front.styles.base.TextStyles
@@ -23,8 +25,10 @@ object ShareOwnProposal {
         render = (self) => {
 
           <.div(^.className := ShareOwnProposalStyles.wrapper)(
-            <.h4(^.className := Seq(TextStyles.smallText, ShareOwnProposalStyles.intro))("proposal.created-by-user"),
-            <.div(^.className := ShareOwnProposalStyles.shareButtonsListWrapper)(
+            <.h4(^.className := Seq(TextStyles.smallText, ShareOwnProposalStyles.intro))(
+              unescape(I18n.t("proposal.created-by-user"))
+            ),
+            /*<.div(^.className := ShareOwnProposalStyles.shareButtonsListWrapper)(
               <.ul(^.className := ShareOwnProposalStyles.shareButtonsList)(
                 <.li(^.className := ShareOwnProposalStyles.shareButtonItem)(
                   <.button(
@@ -59,7 +63,7 @@ object ShareOwnProposal {
                   )()
                 )
               )
-            ),
+            ),*/
             <.style()(ShareOwnProposalStyles.render[String])
           )
         }

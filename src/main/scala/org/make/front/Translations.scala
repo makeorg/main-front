@@ -125,6 +125,7 @@ object Translations {
       |    },
       |    "proposal": {
       |      "created-by-user": "Ma proposition",
+      |      "share-intro": "Soutenez cette proposition en la partageant&nbsp;:",
       |      "associated-with-the-theme": "postée dans ",
       |      "author-infos": {
       |        "age": ", %{age} ans",
@@ -202,7 +203,13 @@ object Translations {
       |      }
       |    },
       |    "sequence": {
+      |      "proposal": {
       |      "next-cta": "Proposition suivante"
+      |      },
+      |      "guide": {
+      |        "vote": "Utilisez les boutons pour voter<br>et passer à la proposition suivante.",
+      |        "qualification": "Si vous le souhaitez, vous pouvez préciser votre vote. (Sinon, passez à la proposition suivante.)"
+      |      }
       |    },
       |    "operation": {
       |      "vff-header": {
@@ -238,13 +245,21 @@ object Translations {
       |        "header": {
       |           "total-of-proposals": "%{total} propositions",
       |           "back-cta": "Accéder à<br>l'opération",
-      |           "propose-cta": "Proposer"
+      |           "propose-cta": "Proposer",
+      |           "guide": {
+      |             "propose-cta": "Proposez une solution à tout moment en cliquant sur ce bouton."
+      |           }
       |        },
       |        "introduction": {
       |          "title": "Des milliers de citoyens proposent des&nbsp;solutions.",
       |          "explanation-1": "Prenez position sur ces solutions et proposez les&nbsp;vôtres.",
       |          "explanation-2": "Les plus soutenues détermineront nos&nbsp;actions.",
       |          "cta": "Démarrer"
+      |        },
+      |        "prompting-to-propose": {
+      |           "intro": "Et vous, avez-vous une solution à proposer sur ce&nbsp;sujet&nbsp;?",
+      |           "propose-cta": "Proposer",
+      |           "next-cta": "Pas encore, je continue à voter"
       |        },
       |        "conclusion": {
       |          "title": "Merci pour votre contribution&nbsp;!",

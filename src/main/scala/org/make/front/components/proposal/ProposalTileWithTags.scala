@@ -30,18 +30,17 @@ object ProposalTileWithTags {
           <.article(^.className := ProposalTileStyles.wrapper)(
             <.div(^.className := ProposalTileStyles.innerWrapper)(
               <.div(^.className := ProposalTileStyles.row)(
-                <.div(^.className := ProposalTileStyles.cell)(
+                <.div(^.className := ProposalTileStyles.cell)(if (self.props.wrapped.proposal.myProposal) {
+                  <.div(^.className := ProposalTileStyles.shareOwnProposalWrapper)(
+                    <.ShareOwnProposalComponent(
+                      ^.wrapped := ShareOwnProposalProps(proposal = self.props.wrapped.proposal)
+                    )()
+                  )
+                } else {
                   <.div(^.className := ProposalTileStyles.proposalInfosWrapper)(
                     <.ProposalInfosComponent(^.wrapped := ProposalInfosProps(proposal = self.props.wrapped.proposal))()
-                  ),
-                  if (self.props.wrapped.proposal.myProposal) {
-                    <.div(^.className := ProposalTileStyles.shareOwnProposalWrapper)(
-                      <.ShareOwnProposalComponent(
-                        ^.wrapped := ShareOwnProposalProps(proposal = self.props.wrapped.proposal)
-                      )()
-                    )
-                  }
-                )
+                  )
+                })
               ),
               <.div(^.className := Seq(ProposalTileStyles.row, ProposalTileStyles.stretchedRow))(
                 <.div(^.className := Seq(ProposalTileStyles.cell, ProposalTileStyles.contentWrapper))(
