@@ -178,7 +178,7 @@ object Sequence {
         optional = true
       )
 
-      /*val pleasePropose = new Slide() {
+      /*val promptingToPropose = new Slide() {
         override def component(index: Int): ReactElement =
           <(self.props.wrapped.promptingToPropose)(
             ^.wrapped := PromptingToProposeInsideOperationSequenceProps(
@@ -206,7 +206,7 @@ object Sequence {
       }) ++ Seq(conclusion)
 
       val cardIndex: Int = pushToProposalIndex(slides)
-      slides.take(cardIndex) /*++ Seq(pleasePropose)*/ ++ slides.drop(cardIndex)
+      slides.take(cardIndex) /*++ Seq(promptingToPropose)*/ ++ slides.drop(cardIndex)
     }
 
     def pushToProposalIndex(slides: Seq[Slide]): Int = {

@@ -36,8 +36,8 @@ object VoteButton {
                              handleUnvote: (String)                    => Future[VoteResponse],
                              qualifyVote: (String, String)             => Future[QualificationResponse],
                              removeVoteQualification: (String, String) => Future[QualificationResponse],
-                             guideToVote: Option[String] = Some(""),
-                             guideToQualification: Option[String] = Some(""))
+                             guideToVote: Option[String] = None,
+                             guideToQualification: Option[String] = None)
 
   case class VoteButtonState(isActivated: Boolean,
                              isHovered: Boolean,

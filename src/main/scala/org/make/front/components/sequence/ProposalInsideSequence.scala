@@ -27,8 +27,8 @@ object ProposalInsideSequence {
                                                  (_, _) => {},
                                                handleClickOnCta: () => Unit,
                                                hasBeenVoted: Boolean,
-                                               guideToVote: Option[String] = Some(""),
-                                               guideToQualification: Option[String] = Some(""),
+                                               guideToVote: Option[String] = None,
+                                               guideToQualification: Option[String] = None,
                                                index: Int)
 
   final case class ProposalInsideSequenceState(hasBeenVoted: Boolean)

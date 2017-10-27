@@ -24,7 +24,7 @@ object QualificateVote {
                                         qualifications: Seq[QualificationModel],
                                         qualify: (String)             => Future[QualificationResponse],
                                         removeQualification: (String) => Future[QualificationResponse],
-                                        guide: Option[String] = Some(""))
+                                        guide: Option[String] = None)
 
   final case class QualificateVoteState(qualifications: Map[String, QualificationModel])
 

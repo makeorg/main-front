@@ -21,8 +21,8 @@ object VoteContainer {
                                       proposal: ProposalModel,
                                       onSuccessfulVote: (VoteResponse)                           => Unit = (_)    => {},
                                       onSuccessfulQualification: (String, QualificationResponse) => Unit = (_, _) => {},
-                                      guideToVote: Option[String] = Some(""),
-                                      guideToQualification: Option[String] = Some(""))
+                                      guideToVote: Option[String] = None,
+                                      guideToQualification: Option[String] = None)
 
   lazy val reactClass: ReactClass = ReactRedux.connectAdvanced(selectorFactory)(Vote.reactClass)
 
