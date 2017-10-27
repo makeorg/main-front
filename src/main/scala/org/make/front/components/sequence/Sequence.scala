@@ -178,7 +178,7 @@ object Sequence {
         optional = true
       )
 
-      /*val promptingToPropose = new Slide() {
+      val promptingToPropose = new Slide() {
         override def component(index: Int): ReactElement =
           <(self.props.wrapped.promptingToPropose)(
             ^.wrapped := PromptingToProposeInsideOperationSequenceProps(
@@ -189,7 +189,7 @@ object Sequence {
           )()
 
         override val optional = true
-      }*/
+      }
 
       val conclusion = new EmptyElementSlide(self.props.wrapped.conclusion)
 
@@ -206,6 +206,7 @@ object Sequence {
       }) ++ Seq(conclusion)
 
       val cardIndex: Int = pushToProposalIndex(slides)
+      /*TODO : reactive promptingToPropose slide when necessary, or dev new solution for track list*/
       slides.take(cardIndex) /*++ Seq(promptingToPropose)*/ ++ slides.drop(cardIndex)
     }
 
