@@ -17,10 +17,10 @@ final case class AppState(configuration: Option[BusinessConfigurationModel],
                           politicalActions: Seq[PoliticalActionModel],
                           operations: Seq[OperationModel] = Seq(
                             OperationModel(
-                              operationId = OperationIdModel("vff"),
+                              operationId = OperationIdModel(OperationModel.vff),
                               slug = "stop-aux-violences-faites-aux-femmes",
                               title = "Comment lutter contre les violences faites aux&nbsp;femmes&nbsp;?",
-                              label = "vff",
+                              label = OperationModel.vff,
                               actionsCount = 0,
                               proposalsCount = 0,
                               color = "#660779",

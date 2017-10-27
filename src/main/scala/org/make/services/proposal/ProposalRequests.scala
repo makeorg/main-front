@@ -1,6 +1,7 @@
 package org.make.services.proposal
 
 import io.circe.{Decoder, Encoder, Json}
+import org.make.front.models.Source
 
 final case class RegisterProposalRequest(content: String)
 sealed trait Order { val shortName: String }
@@ -23,7 +24,7 @@ object Order {
 final case class SortOptionRequest(field: String, mode: Option[Order])
 final case class ContextRequest(operation: Option[String] = Some(""),
                                 location: Option[String] = None,
-                                source: Option[String] = Some("core"),
+                                source: Option[String] = Some(Source.Core.name),
                                 question: Option[String] = None)
 final case class SearchRequest(themesIds: Option[Seq[String]] = None,
                                operationsIds: Option[Seq[String]] = None,
