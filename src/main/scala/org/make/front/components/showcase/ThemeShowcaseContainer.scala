@@ -22,7 +22,6 @@ object ThemeShowcaseContainer {
     : (Dispatch) => (AppState, Props[ThemeShowcaseContainerProps]) => ThemeShowcase.ThemeShowcaseProps =
     (_: Dispatch) => { (appState: AppState, ownProps: Props[ThemeShowcaseContainerProps]) =>
       val themes = appState.themes
-
       val maybeTheme = themes.find(_.slug == ownProps.wrapped.themeSlug)
       maybeTheme.map { theme =>
         ThemeShowcase.ThemeShowcaseProps(
