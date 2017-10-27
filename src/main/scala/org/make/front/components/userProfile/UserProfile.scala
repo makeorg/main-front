@@ -250,9 +250,9 @@ object UserProfileStyles extends StyleSheet.Inline {
   val avatarPlaceholder: StyleA =
     style(
       width(100.%%),
-      lineHeight(76.pxToEm(16)),
-      ThemeStyles.MediaQueries.beyondSmall(lineHeight(150.pxToEm(16))),
-      fontSize(16.pxToEm()),
+      lineHeight(76.pxToEm(32)),
+      ThemeStyles.MediaQueries.beyondSmall(lineHeight(150.pxToEm(64)), fontSize(64.pxToEm())),
+      fontSize(32.pxToEm()),
       color(ThemeStyles.TextColor.lighter)
     )
 
