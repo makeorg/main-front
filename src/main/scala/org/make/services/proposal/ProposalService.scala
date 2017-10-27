@@ -31,14 +31,14 @@ object ProposalService extends ApiService with CirceClassFormatters with CirceFo
   def createProposal(content: String,
                      location: Location,
                      themeId: Option[String] = None,
-                     source: String = "core product",
+                     source: String = Source.Core.name,
                      operation: Option[String] = None,
                      question: Option[String] = None): Future[RegisterProposalResponse] = {
     //TODO: set headers everywhere appropriate. For now headers are reset to their previous values with a backup.
     val backupHeaders = MakeApiClient.customHeaders
     MakeApiClient.customHeaders ++= Map[String, String](
       MakeApiClient.sourceHeader -> source,
-      MakeApiClient.locationHeader -> location.shortName
+      MakeApiClient.locationHeader -> location.name
     )
     themeId.foreach(theme => MakeApiClient.customHeaders += MakeApiClient.themeIdHeader -> theme)
     operation.foreach(op  => MakeApiClient.customHeaders += MakeApiClient.operationHeader -> op)
