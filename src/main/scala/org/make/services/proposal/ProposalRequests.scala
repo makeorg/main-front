@@ -21,9 +21,9 @@ object Order {
 }
 
 final case class SortOptionRequest(field: String, mode: Option[Order])
-final case class ContextRequest(operation: Option[String] = None,
+final case class ContextRequest(operation: Option[String] = Some(""),
                                 location: Option[String] = None,
-                                source: Option[String] = None,
+                                source: Option[String] = Some("core"),
                                 question: Option[String] = None)
 final case class SearchRequest(themesIds: Option[Seq[String]] = None,
                                operationsIds: Option[Seq[String]] = None,
