@@ -355,7 +355,13 @@ object VoteButtonStyles extends StyleSheet.Inline {
     )
   )
 
-  val label: StyleA = style(TooltipStyles.bottomPositioned, width.auto, whiteSpace.nowrap)
+  val label: StyleA = style(
+    TooltipStyles.bottomPositioned,
+    paddingTop(3.pxToEm()),
+    paddingBottom(3.pxToEm()),
+    width.auto,
+    whiteSpace.nowrap
+  )
 
   val labelVisibility: (Boolean) => StyleA = styleF.bool(
     visible =>
