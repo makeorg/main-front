@@ -177,7 +177,8 @@ object Sequence {
         props = IntroOfOperationSequenceProps(clickOnButtonHandler = startSequence),
         optional = true
       )
-      val pleasePropose = new Slide() {
+
+      /*val pleasePropose = new Slide() {
         override def component(index: Int): ReactElement =
           <(self.props.wrapped.promptingToPropose)(
             ^.wrapped := PromptingToProposeInsideOperationSequenceProps(
@@ -188,7 +189,8 @@ object Sequence {
           )()
 
         override val optional = true
-      }
+      }*/
+
       val conclusion = new EmptyElementSlide(self.props.wrapped.conclusion)
 
       val slides = Seq(intro) ++ allProposals.map({ proposal =>
@@ -204,7 +206,7 @@ object Sequence {
       }) ++ Seq(conclusion)
 
       val cardIndex: Int = pushToProposalIndex(slides)
-      slides.take(cardIndex) ++ Seq(pleasePropose) ++ slides.drop(cardIndex)
+      slides.take(cardIndex) /*++ Seq(pleasePropose)*/ ++ slides.drop(cardIndex)
     }
 
     def pushToProposalIndex(slides: Seq[Slide]): Int = {
@@ -275,7 +277,7 @@ object Sequence {
                 <.ProgressBarComponent(
                   ^.wrapped := ProgressBarProps(
                     value = self.state.currentSlideIndex,
-                    total = if (self.state.proposals.nonEmpty) { self.state.proposals.size + 3 } else { 0 },
+                    total = if (self.state.proposals.nonEmpty) { self.state.proposals.size + 2 } else { 0 },
                     maybeThemeColor = self.props.wrapped.maybeThemeColor
                   )
                 )()
