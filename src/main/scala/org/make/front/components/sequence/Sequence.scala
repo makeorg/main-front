@@ -10,8 +10,9 @@ import org.make.front.components.operation.IntroOfOperationSequence.IntroOfOpera
 import org.make.front.components.operation.PromptingToProposeInsideOperationSequence.PromptingToProposeInsideOperationSequenceProps
 import org.make.front.components.sequence.ProgressBar.ProgressBarProps
 import org.make.front.components.sequence.ProposalInsideSequence.ProposalInsideSequenceProps
+import org.make.front.facades.FacebookPixel
 import org.make.front.facades.ReactSlick.{ReactTooltipVirtualDOMAttributes, ReactTooltipVirtualDOMElements, Slider}
-import org.make.front.facades.{FacebookPixel, I18n}
+import org.make.front.helpers.AbTesting
 import org.make.front.models.{
   Operation   => OperationModel,
   OperationId => OperationIdModel,
@@ -68,6 +69,8 @@ object Sequence {
                       canScrollNext: (Int)                       => Boolean,
                       nextProposal: ()                           => Unit)
       extends Slide {
+
+    val voted: Boolean = proposal.votes.exists(_.hasVoted)
 
     override def component(slideIndex: Int): ReactElement =
       <.ProposalInsideSequenceComponent(
@@ -168,13 +171,18 @@ object Sequence {
         FacebookPixel.fbq(
           "trackCustom",
           "click-sequence-launch",
-          Map("location" -> "sequence", "sequence-id" -> "1").toJSDictionary
+          Map("location" -> "sequence", "sequence-id" -> "1", "test-intro" -> AbTesting.introTesting.name).toJSDictionary
         )
       }
 
       val intro = new BasicSlide(
         element = self.props.wrapped.intro,
-        props = IntroOfOperationSequenceProps(clickOnButtonHandler = startSequence),
+        props = IntroOfOperationSequenceProps(
+          clickOnButtonHandler = startSequence,
+          title = AbTesting.introTesting.title,
+          explanation1 = AbTesting.introTesting.explanation1,
+          explanation2 = AbTesting.introTesting.explanation2
+        ),
         optional = true
       )
 
@@ -193,7 +201,7 @@ object Sequence {
 
       val conclusion = new EmptyElementSlide(self.props.wrapped.conclusion)
 
-      val slides = Seq(intro) ++ allProposals.map({ proposal =>
+      val slides = (if (AbTesting.introTesting.isIntroNull) Seq() else Seq(intro)) ++ allProposals.map({ proposal =>
         new ProposalSlide(
           proposal,
           onSuccessfulVote(_, self),
@@ -205,9 +213,11 @@ object Sequence {
         )
       }) ++ Seq(conclusion)
 
-      val cardIndex: Int = pushToProposalIndex(slides)
+      //val cardIndex: Int = pushToProposalIndex(slides)
       /*TODO : reactive promptingToPropose slide when necessary, or dev new solution for track list*/
-      slides.take(cardIndex) /*++ Seq(promptingToPropose)*/ ++ slides.drop(cardIndex)
+      //slides.take(cardIndex) /*++ Seq(promptingToPropose)*/ ++ slides.drop(cardIndex)
+
+      slides
     }
 
     def pushToProposalIndex(slides: Seq[Slide]): Int = {
@@ -222,28 +232,27 @@ object Sequence {
         case Success(proposals) =>
           val votedProposals = proposals.filter(_.votes.exists(_.hasVoted))
           val otherProposals = sortProposal(proposals.filter(_.votes.forall(!_.hasVoted)))
-
           val allProposals = votedProposals ++ otherProposals
-          val slides = createSlides(self, allProposals)
-          val cardIndex: Int = slides.indexWhere(_.optional)
-
-          val extraSlides: Int = {
-            if (otherProposals.isEmpty) {
-              3
-            } else if (votedProposals.size > cardIndex - 1) {
-              2
-            } else {
-              1
-            }
+          val slides: Seq[Slide] = createSlides(self, allProposals)
+          // toDo: Manage optional card adding to middle of slides
+          //val firstOptionalSlideIndex: Int = slides.indexWhere(_.optional)
+          val firstNonVotedSlideIndex: Int = slides.indexWhere { slide =>
+            slide.isInstanceOf[ProposalSlide] && slide.asInstanceOf[ProposalSlide].voted
           }
-          val index: Int = votedProposals.size + extraSlides
-          val maxNavigableIndex: Int = index + 1
+          val isAllProposalsVoted = otherProposals.isEmpty
+          val lastSlideIndex: Int = slides.size - 1
+          val indexToReach =
+            if (isAllProposalsVoted) lastSlideIndex
+            else if (firstNonVotedSlideIndex == -1) 0
+            else firstNonVotedSlideIndex
+          val displayedSlidesCount: Int = indexToReach + 2
+
           self.setState(
             _.copy(
               slides = slides,
               proposals = allProposals,
-              currentSlideIndex = index,
-              displayedSlidesCount = maxNavigableIndex
+              currentSlideIndex = indexToReach,
+              displayedSlidesCount = displayedSlidesCount
             )
           )
 
@@ -251,16 +260,24 @@ object Sequence {
       }
     }
 
-    React.createClass[SequenceProps, SequenceState](displayName = "Sequence", getInitialState = { _ =>
-      SequenceState(slides = Seq.empty, displayedSlidesCount = 0, currentSlideIndex = 0, proposals = Seq.empty)
-    }, componentWillReceiveProps = { (self, props) =>
-      onNewProps(self, props, slider)
-    }, componentDidMount = { self =>
-      onNewProps(self, self.props, slider)
-    }, componentWillUpdate = { (_, _, state) =>
-      slider.foreach(_.slickGoTo(state.currentSlideIndex))
-    }, render = {
-      self =>
+    React.createClass[SequenceProps, SequenceState](
+      displayName = "Sequence",
+      getInitialState = { _ =>
+        SequenceState(slides = Seq.empty, displayedSlidesCount = 0, currentSlideIndex = 0, proposals = Seq.empty)
+      },
+      componentWillReceiveProps = { (self, props) =>
+        onNewProps(self, props, slider)
+      },
+      componentDidMount = { self =>
+        onNewProps(self, self.props, slider)
+        FacebookPixel
+          .fbq("trackCustom", "display-sequence", Map("test-intro" -> AbTesting.introTesting.name).toJSDictionary)
+
+      },
+      componentWillUpdate = { (_, _, state) =>
+        slider.foreach(_.slickGoTo(state.currentSlideIndex))
+      },
+      render = { self =>
         def updateCurrentSlideIndex(currentSlide: Int): Unit = {
           self.setState(state => state.copy(currentSlideIndex = currentSlide))
         }
@@ -278,7 +295,7 @@ object Sequence {
                 <.ProgressBarComponent(
                   ^.wrapped := ProgressBarProps(
                     value = self.state.currentSlideIndex,
-                    total = if (self.state.proposals.nonEmpty) { self.state.proposals.size + 2 } else { 0 },
+                    total = self.state.slides.size,
                     maybeThemeColor = self.props.wrapped.maybeThemeColor
                   )
                 )()
@@ -331,7 +348,8 @@ object Sequence {
           },
           <.style()(SequenceStyles.render[String])
         )
-    })
+      }
+    )
   }
 }
 

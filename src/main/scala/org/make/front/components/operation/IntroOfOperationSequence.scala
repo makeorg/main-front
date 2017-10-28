@@ -17,7 +17,12 @@ import scalacss.internal.mutable.StyleSheet
 
 object IntroOfOperationSequence {
 
-  final case class IntroOfOperationSequenceProps(clickOnButtonHandler: () => Unit)
+  final case class IntroOfOperationSequenceProps(
+    clickOnButtonHandler: () => Unit,
+    title: Option[String] = Some(unescape(I18n.t("operation.sequence.introduction.title"))),
+    explanation1: Option[String] = Some(unescape(I18n.t("operation.sequence.introduction.explanation-1"))),
+    explanation2: Option[String] = Some(unescape(I18n.t("operation.sequence.introduction.explanation-2")))
+  )
 
   lazy val reactClass: ReactClass =
     React
@@ -28,32 +33,20 @@ object IntroOfOperationSequence {
         },
         render = { self =>
           <.div(^.className := Seq(RowRulesStyles.row))(
-            <.div(^.className := ColRulesStyles.col)(
+            <.div(^.className := ColRulesStyles.col)(self.props.wrapped.title.map { title =>
               <.div(^.className := IntroOfOperationSequenceStyles.titleWrapper)(
-                <.p(^.className := Seq(TextStyles.bigIntro, IntroOfOperationSequenceStyles.title))(
-                  unescape(I18n.t("operation.sequence.introduction.title"))
-                )
-              ),
-              <.div(^.className := IntroOfOperationSequenceStyles.explanationWrapper)(
-                <.p(^.className := Seq(TextStyles.biggerMediumText, IntroOfOperationSequenceStyles.explanation))(
-                  unescape(I18n.t("operation.sequence.introduction.explanation-1"))
-                )
-              ),
-              <.div(^.className := IntroOfOperationSequenceStyles.explanationWrapper)(
-                <.p(^.className := Seq(TextStyles.biggerMediumText, IntroOfOperationSequenceStyles.explanation))(
-                  unescape(I18n.t("operation.sequence.introduction.explanation-2"))
-                )
-              ),
-              <.div(^.className := IntroOfOperationSequenceStyles.ctaWrapper)(
-                <.button(
-                  ^.className := Seq(CTAStyles.basic, CTAStyles.basicOnButton),
-                  ^.onClick := self.props.wrapped.clickOnButtonHandler
-                )(
-                  <.i(^.className := Seq(FontAwesomeStyles.paperPlaneTransparent))(),
-                  unescape("&nbsp;" + I18n.t("operation.sequence.introduction.cta"))
-                )
+                <.p(^.className := Seq(TextStyles.bigIntro, IntroOfOperationSequenceStyles.title))(title)
               )
-            ),
+            }, self.props.wrapped.explanation1.map { text =>
+              <.div(^.className := IntroOfOperationSequenceStyles.explanationWrapper)(
+                <.p(^.className := Seq(TextStyles.biggerMediumText, IntroOfOperationSequenceStyles.explanation))(text)
+              )
+
+            }, self.props.wrapped.explanation2.map { text =>
+              <.div(^.className := IntroOfOperationSequenceStyles.explanationWrapper)(
+                <.p(^.className := Seq(TextStyles.biggerMediumText, IntroOfOperationSequenceStyles.explanation))(text)
+              )
+            }, <.div(^.className := IntroOfOperationSequenceStyles.ctaWrapper)(<.button(^.className := Seq(CTAStyles.basic, CTAStyles.basicOnButton), ^.onClick := self.props.wrapped.clickOnButtonHandler)(<.i(^.className := Seq(FontAwesomeStyles.paperPlaneTransparent))(), unescape("&nbsp;" + I18n.t("operation.sequence.introduction.cta"))))),
             <.style()(IntroOfOperationSequenceStyles.render[String])
           )
         }
