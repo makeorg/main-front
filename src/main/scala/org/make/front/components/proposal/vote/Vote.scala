@@ -6,6 +6,7 @@ import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import org.make.front.components.Components._
 import org.make.front.components.proposal.vote.VoteButton.VoteButtonProps
 import org.make.front.facades.FacebookPixel
+import org.make.front.helpers.AbTesting
 import org.make.front.models.{Proposal => ProposalModel, Vote => VoteModel}
 import org.make.front.styles._
 import org.make.front.styles.utils._
@@ -47,7 +48,8 @@ object Vote {
               Map(
                 "location" -> "sequence",
                 "nature" -> key,
-                "proposalId" -> self.props.wrapped.proposal.id.value.toString
+                "proposalId" -> self.props.wrapped.proposal.id.value.toString,
+                "test-intro" -> AbTesting.introTesting.name
               ).toJSDictionary
             )
             val future = self.props.wrapped.vote(key)
