@@ -48,9 +48,11 @@ object TrendingShowcase {
                 ),
                 <.h2(^.className := Seq(TrendingShowcaseStyles.title, TextStyles.mediumTitle))(
                   self.props.wrapped.title,
+                  <.span(^.style := Map("display" -> "none"))("Make.org"),
                   <.img(
                     ^.className := TrendingShowcaseStyles.logo,
                     ^.src := logoMake.toString,
+                    ^.alt := "Make.org",
                     ^("data-pin-no-hover") := "true"
                   )()
                 )

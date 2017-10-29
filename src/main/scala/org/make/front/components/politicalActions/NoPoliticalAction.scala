@@ -4,7 +4,8 @@ import io.github.shogowada.scalajs.reactjs.React
 import io.github.shogowada.scalajs.reactjs.VirtualDOM._
 import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import org.make.front.components.Components._
-import org.make.front.facades.cone
+import org.make.front.facades.Unescape.unescape
+import org.make.front.facades.{cone, I18n}
 import org.make.front.styles._
 import org.make.front.styles.base.TextStyles
 import org.make.front.styles.utils._
@@ -29,10 +30,10 @@ object NoPoliticalAction {
             ),
             <.div(^.className := NoPoliticalActionStyles.contentWrapper)(
               <.p(^.className := Seq(TextStyles.boldText, TextStyles.mediumText, NoPoliticalActionStyles.text))(
-                "Nous n’avons pas d’action à vous proposer sur ce thème pour le moment, mais nous y travaillons !"
+                unescape(I18n.t("no-political-action.intro"))
               ),
               <.p(^.className := Seq(TextStyles.boldText, TextStyles.mediumText, NoPoliticalActionStyles.text))(
-                "Rendez-vous très prochainement pour agir ensemble !"
+                unescape(I18n.t("no-political-action.text"))
               )
             ),
             <.style()(NoPoliticalActionStyles.render[String])

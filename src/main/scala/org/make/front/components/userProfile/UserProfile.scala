@@ -43,6 +43,7 @@ object UserProfile {
                         <.img(
                           ^.src := self.props.wrapped.user.flatMap(_.profile).flatMap(_.avatarUrl).getOrElse(""),
                           ^.className := UserProfileStyles.avatar,
+                          ^.alt := self.props.wrapped.user.flatMap(_.firstName).getOrElse(""),
                           ^("data-pin-no-hover") := "true"
                         )()
                       } else {

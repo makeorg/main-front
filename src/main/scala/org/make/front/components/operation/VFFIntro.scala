@@ -51,7 +51,7 @@ object VFFIntro {
                     <.div(^.className := VFFIntroStyles.titleWrapper)(
                       <.p(^.className := Seq(TextStyles.label))(unescape(I18n.t("operation.vff-header.label"))),
                       <.p(^.className := Seq(VFFIntroStyles.logoWrapper))(
-                        <.img(^.src := vffLogo.toString, ^.title := unescape(I18n.t("operation.vff-header.title")))()
+                        <.img(^.src := vffLogo.toString, ^.alt := unescape(I18n.t("operation.vff-header.title")))()
                       ),
                       <.p(^.className := Seq(VFFIntroStyles.infos, TextStyles.label))(
                         unescape(I18n.t("operation.vff-header.period"))
@@ -76,8 +76,8 @@ object VFFIntro {
                           <.li(^.className := VFFIntroStyles.partnerItem)(
                             <.img(
                               ^.src := partner.imageUrl,
+                              ^.alt := partner.name,
                               ^("width") := partner.imageWidth.toString,
-                              ^.title := partner.name,
                               ^.className := VFFIntroStyles.partnerLogo
                             )()
                         )
@@ -91,7 +91,11 @@ object VFFIntro {
               <.div(^.className := VFFIntroStyles.explanationInnerWrapper)(
                 <.div(^.className := RowRulesStyles.narrowerCenteredRow)(
                   <.div(^.className := Seq(ColRulesStyles.col, ColRulesStyles.colThirdBeyondSmall))(
-                    <.img(^.src := vffIll.toString, ^.className := VFFIntroStyles.explanationIll)()
+                    <.img(
+                      ^.src := vffIll.toString,
+                      ^.alt := unescape(I18n.t("operation.vff-header.title")),
+                      ^.className := VFFIntroStyles.explanationIll
+                    )()
                   ),
                   <.div(^.className := Seq(ColRulesStyles.col, ColRulesStyles.colTwoThirdsBeyondSmall))(
                     <.p(^.className := TextStyles.label)(unescape(I18n.t("operation.vff-header.article.title"))),

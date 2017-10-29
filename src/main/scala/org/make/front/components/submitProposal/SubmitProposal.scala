@@ -3,6 +3,7 @@ package org.make.front.components.submitProposal
 import io.github.shogowada.scalajs.reactjs.React
 import io.github.shogowada.scalajs.reactjs.VirtualDOM._
 import io.github.shogowada.scalajs.reactjs.classes.ReactClass
+import io.github.shogowada.scalajs.reactjs.elements.ReactElement
 import org.make.front.components.Components._
 import org.make.front.components.submitProposal.SubmitProposalAndLoginContainer.SubmitProposalAndLoginContainerProps
 import org.make.front.facades.I18n
@@ -27,20 +28,25 @@ object SubmitProposal {
         SubmitProposalState()
       },
       render = { self =>
-        <.article()(
-          <.h2(^.className := Seq(TextStyles.mediumText, TextStyles.intro, SubmitProposalStyles.intro))(
-            unescape(I18n.t("submit-proposal.intro"))
-          ),
-          <.SubmitProposalAndLoginComponent(
-            ^.wrapped :=
-              SubmitProposalAndLoginContainerProps(
-                maybeTheme = None,
-                maybeOperation = None,
-                onProposalProposed = self.props.wrapped.onProposalProposed
-              )
-          )(),
-          <.style()(SubmitProposalStyles.render[String])
-        )
+        val intro: (ReactElement) => ReactElement = { element =>
+          <.div()(
+            <.p(^.className := Seq(TextStyles.mediumText, TextStyles.intro, SubmitProposalStyles.intro))(
+              unescape(I18n.t("submit-proposal.intro"))
+            ),
+            element,
+            <.style()(SubmitProposalStyles.render[String])
+          )
+        }
+
+        <.SubmitProposalAndLoginComponent(
+          ^.wrapped :=
+            SubmitProposalAndLoginContainerProps(
+              intro = intro,
+              maybeTheme = None,
+              maybeOperation = None,
+              onProposalProposed = self.props.wrapped.onProposalProposed
+            )
+        )()
       }
     )
 }

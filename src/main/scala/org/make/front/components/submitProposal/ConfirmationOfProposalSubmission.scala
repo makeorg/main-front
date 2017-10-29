@@ -42,7 +42,7 @@ object ConfirmationOfProposalSubmission {
           }
 
           <.article(^.className := ConfirmationOfProposalSubmissionStyles.wrapper)(
-            <.h1(^.className := Seq(TextStyles.bigTitle, ConfirmationOfProposalSubmissionStyles.title))(
+            <.p(^.className := Seq(TextStyles.bigTitle, ConfirmationOfProposalSubmissionStyles.title))(
               <.i(^.className := FontAwesomeStyles.handPeaceO)(),
               unescape("&nbsp;"),
               <.span(^.dangerouslySetInnerHTML := I18n.t("submit-proposal.confirmation.title"))()

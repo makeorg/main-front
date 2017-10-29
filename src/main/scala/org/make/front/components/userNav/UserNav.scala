@@ -60,7 +60,12 @@ object ConnectedUserNavElement {
       <.li(^.className := UserNavStyles.menuItem)(
         <.Link(^.to := s"/profile")(
           <.span(^.className := UserNavStyles.avatarWrapper)(if (avatarUrl.nonEmpty) {
-            <.img(^.src := avatarUrl, ^.className := UserNavStyles.avatar, ^("data-pin-no-hover") := "true")()
+            <.img(
+              ^.src := avatarUrl,
+              ^.alt := userFirstName,
+              ^.className := UserNavStyles.avatar,
+              ^("data-pin-no-hover") := "true"
+            )()
           } else {
             <.i(^.className := Seq(UserNavStyles.avatarPlaceholder, FontAwesomeStyles.user))()
           }),

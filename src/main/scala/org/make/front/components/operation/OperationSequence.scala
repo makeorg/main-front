@@ -94,7 +94,7 @@ object OperationSequence {
                       <.h1(^.className := Seq(OperationSequenceStyles.title, TextStyles.smallTitle))(
                         unescape(self.props.wrapped.sequence.title)
                       ),
-                      <.p(
+                      <.h2(
                         ^.className := Seq(
                           OperationSequenceStyles.totalOfPropositions,
                           TextStyles.smallText,

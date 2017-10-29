@@ -123,12 +123,12 @@ object SearchResults {
               <.div(^.className := Seq(SearchResultsStyles.resultsInnerWrapper, RowRulesStyles.centeredRow))(
                 if (!self.state.initialLoad) {
                   <.header(^.className := Seq(SearchResultsStyles.resultsHeader, ColRulesStyles.col))(
-                    <.h2(
+                    <.h1(
                       ^.className := Seq(TextStyles.mediumText, SearchResultsStyles.searchedExpressionIntro),
                       ^.dangerouslySetInnerHTML := I18n
                         .t("search.results.intro", Replacements(("total", self.state.resultsCount.toString)))
                     )(),
-                    <.h1(^.className := Seq(SearchResultsStyles.searchedExpression, TextStyles.mediumTitle))(
+                    <.h2(^.className := Seq(SearchResultsStyles.searchedExpression, TextStyles.mediumTitle))(
                       unescape("«&nbsp;" + self.props.wrapped.searchValue.getOrElse("") + "&nbsp;»")
                     )
                   )

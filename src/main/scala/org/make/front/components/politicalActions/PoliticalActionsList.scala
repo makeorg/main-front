@@ -82,28 +82,28 @@ object PoliticalActionsList {
               )
             )
           ),
-          <.div(^.className := ColRulesStyles.col)(
+          <.div(^.className := ColRulesStyles.col)(if (self.state.politicalActions.isEmpty) {
+            <.div(^.className := PoliticalActionsListStyles.noPoliticalActionsWrapper)(
+              <.NoPoliticalActionComponent.empty
+            )
+          } else {
             <.div(^.className := PoliticalActionsListStyles.slideshowWrapper)(
               <.div(^.className := PoliticalActionsListStyles.slideshowContentWrapper)(
                 <.div(^.className := Seq(PoliticalActionsListStyles.slideshow))(
-                  if (self.state.politicalActions.isEmpty) {
-                    <.NoPoliticalActionComponent.empty
-                  } else {
-                    <.Slider(^.ref := ((slideshow: HTMLElement) => {
-                      slider = Option(slideshow.asInstanceOf[Slider])
-                      /*TODO : avoid this non solution*/
-                      slider.foreach(_.slickGoTo(0))
-                      slider
-                    }), ^.infinite := false, ^.arrows := false, ^.afterChange := updateArrowsVisibility)(
-                      self.state.politicalActions.map { politicalAction =>
-                        <.div(^.className := Seq(PoliticalActionsListStyles.slideWrapper))(
-                          <.div(^.className := Seq(PoliticalActionsListStyles.slide))(
-                            <.PoliticalActionComponent(^.wrapped := PoliticalActionProps(politicalAction))()
-                          )
+                  <.Slider(^.ref := ((slideshow: HTMLElement) => {
+                    slider = Option(slideshow.asInstanceOf[Slider])
+                    /*TODO : avoid this non solution*/
+                    slider.foreach(_.slickGoTo(0))
+                    slider
+                  }), ^.infinite := false, ^.arrows := false, ^.afterChange := updateArrowsVisibility)(
+                    self.state.politicalActions.map { politicalAction =>
+                      <.div(^.className := Seq(PoliticalActionsListStyles.slideWrapper))(
+                        <.div(^.className := Seq(PoliticalActionsListStyles.slide))(
+                          <.PoliticalActionComponent(^.wrapped := PoliticalActionProps(politicalAction))()
                         )
-                      }
-                    )
-                  }
+                      )
+                    }
+                  )
                 )
               ),
               <.nav(^.className := Seq(PoliticalActionsListStyles.slideshowNav))(
@@ -121,13 +121,12 @@ object PoliticalActionsList {
                 )()
               )
             )
-          )
+          })
         ),
         <.style()(PoliticalActionsListStyles.render[String])
       )
     }
   )
-
 }
 
 object PoliticalActionsListStyles extends StyleSheet.Inline {
@@ -162,6 +161,9 @@ object PoliticalActionsListStyles extends StyleSheet.Inline {
         boxShadow := "0 1px 1px 0 rgba(0,0,0,0.50)"
       )
     )
+
+  val noPoliticalActionsWrapper: StyleA =
+    style(backgroundColor(ThemeStyles.BackgroundColor.white), boxShadow := "0 1px 1px 0 rgba(0,0,0,0.50)")
 
   val slideshowContentWrapper: StyleA =
     style(ThemeStyles.MediaQueries.beyondMedium(display.tableCell, width(100.%%)))
@@ -205,5 +207,4 @@ object PoliticalActionsListStyles extends StyleSheet.Inline {
           boxShadow := "0 1px 1px 0 rgba(0,0,0,0.50)"
         )
     )
-
 }

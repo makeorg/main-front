@@ -41,13 +41,80 @@ object ThemeHeader {
           proposalInput.foreach(_.blur())
         }
 
-        val theme: ThemeModel = self.props.wrapped.theme
-        val gradientValues: GradientColorModel = theme.gradient.getOrElse(GradientColorModel("#FFF", "#FFF"))
+        val gradientValues: GradientColorModel =
+          self.props.wrapped.theme.gradient.getOrElse(GradientColorModel("#FFF", "#FFF"))
 
         object DynamicThemeHeaderStyles extends Inline {
           import dsl._
 
           val gradient = style(background := s"linear-gradient(130deg, ${gradientValues.from}, ${gradientValues.to})")
+        }
+
+        var imageSrc: String = ""
+        var imageSrcset: String = ""
+
+        val SmallIllUrl: String = self.props.wrapped.theme.slug match {
+          case "developpement-durable-energie" => themeAgricultureRuraliteSmall.toString
+          case "agriculture-ruralite"          => themeAgricultureRuraliteSmall.toString
+          case "democratie-vie-politique"      => themeDemocratieViePolitiqueSmall.toString
+          case "economie-emploi-travail"       => themeEconomieEmploiTravailSmall.toString
+          case "education"                     => themeEducationSmall.toString
+          case "europe-monde"                  => themeEuropeMondeSmall.toString
+          case "logement"                      => themeLogementSmall.toString
+          case "numerique-culture"             => themeNumeriqueCultureSmall.toString
+          case "sante-alimentation"            => themeSanteAlimentationSmall.toString
+          case "securite-justice"              => themeSecuriteJusticeSmall.toString
+          case "transports-deplacement"        => themeTransportsDeplacementSmall.toString
+          case "vivre-ensemble-solidarites"    => themeVivreEnsembleSolidariteSmall.toString
+          case _                               => homeSmall.toString
+        }
+
+        val SmallIllUrl2x: String = self.props.wrapped.theme.slug match {
+          case "developpement-durable-energie" => themeAgricultureRuraliteSmall2x.toString
+          case "agriculture-ruralite"          => themeAgricultureRuraliteSmall2x.toString
+          case "democratie-vie-politique"      => themeDemocratieViePolitiqueSmall2x.toString
+          case "economie-emploi-travail"       => themeEconomieEmploiTravailSmall2x.toString
+          case "education"                     => themeEducationSmall2x.toString
+          case "europe-monde"                  => themeEuropeMondeSmall2x.toString
+          case "logement"                      => themeLogementSmall2x.toString
+          case "numerique-culture"             => themeNumeriqueCultureSmall2x.toString
+          case "sante-alimentation"            => themeSanteAlimentationSmall2x.toString
+          case "securite-justice"              => themeSecuriteJusticeSmall2x.toString
+          case "transports-deplacement"        => themeTransportsDeplacementSmall2x.toString
+          case "vivre-ensemble-solidarites"    => themeVivreEnsembleSolidariteSmall2x.toString
+          case _                               => homeSmall2x.toString
+        }
+
+        val MediumIllUrl: String = self.props.wrapped.theme.slug match {
+          case "developpement-durable-energie" => themeAgricultureRuraliteMedium.toString
+          case "agriculture-ruralite"          => themeAgricultureRuraliteMedium.toString
+          case "democratie-vie-politique"      => themeDemocratieViePolitiqueMedium.toString
+          case "economie-emploi-travail"       => themeEconomieEmploiTravailMedium.toString
+          case "education"                     => themeEducationMedium.toString
+          case "europe-monde"                  => themeEuropeMondeMedium.toString
+          case "logement"                      => themeLogementMedium.toString
+          case "numerique-culture"             => themeNumeriqueCultureMedium.toString
+          case "sante-alimentation"            => themeSanteAlimentationMedium.toString
+          case "securite-justice"              => themeSecuriteJusticeMedium.toString
+          case "transports-deplacement"        => themeTransportsDeplacementMedium.toString
+          case "vivre-ensemble-solidarites"    => themeVivreEnsembleSolidariteMedium.toString
+          case _                               => homeMedium.toString
+        }
+
+        val MediumIllUrl2x: String = self.props.wrapped.theme.slug match {
+          case "developpement-durable-energie" => themeAgricultureRuraliteMedium2x.toString
+          case "agriculture-ruralite"          => themeAgricultureRuraliteMedium2x.toString
+          case "democratie-vie-politique"      => themeDemocratieViePolitiqueMedium2x.toString
+          case "economie-emploi-travail"       => themeEconomieEmploiTravailMedium2x.toString
+          case "education"                     => themeEducationMedium2x.toString
+          case "europe-monde"                  => themeEuropeMondeMedium2x.toString
+          case "logement"                      => themeLogementMedium2x.toString
+          case "numerique-culture"             => themeNumeriqueCultureMedium2x.toString
+          case "sante-alimentation"            => themeSanteAlimentationMedium2x.toString
+          case "securite-justice"              => themeSecuriteJusticeMedium2x.toString
+          case "transports-deplacement"        => themeTransportsDeplacementMedium2x.toString
+          case "vivre-ensemble-solidarites"    => themeVivreEnsembleSolidariteMedium2x.toString
+          case _                               => homeMedium2x.toString
         }
 
         val IllUrl: String = self.props.wrapped.theme.slug match {
@@ -82,17 +149,23 @@ object ThemeHeader {
           case _                               => home2x.toString
         }
 
+        imageSrc = IllUrl
+        imageSrcset = SmallIllUrl + " 400w, " + SmallIllUrl2x + " 800w, " + MediumIllUrl + " 840w, " + MediumIllUrl2x + " 1680w, " + IllUrl + " 1350w, " + IllUrl2x + " 2700w"
+
         <.header(^.className := Seq(ThemeHeaderStyles.wrapper, DynamicThemeHeaderStyles.gradient))(
           <.div(^.className := ThemeHeaderStyles.innerWrapper)(
             <.img(
               ^.className := ThemeHeaderStyles.illustration,
-              ^.src := IllUrl,
-              ^("srcset") := IllUrl2x + " 2x",
+              ^.src := imageSrc,
+              ^("srcset") := imageSrcset,
+              ^.alt := self.props.wrapped.theme.title,
               ^("data-pin-no-hover") := "true"
             )(),
             <.div(^.className := RowRulesStyles.centeredRow)(
               <.div(^.className := ColRulesStyles.col)(
-                <.h1(^.className := Seq(TextStyles.veryBigTitle, ThemeHeaderStyles.title))(theme.title),
+                <.h1(^.className := Seq(TextStyles.veryBigTitle, ThemeHeaderStyles.title))(
+                  self.props.wrapped.theme.title
+                ),
                 <.p(
                   ^.className := Seq(
                     InputStyles.wrapper,
@@ -125,9 +198,12 @@ object ThemeHeader {
                   )
                 )(
                   <.SubmitProposalInRelationToThemeComponent(
-                    ^.wrapped := SubmitProposalInRelationToThemeProps(theme = theme, onProposalProposed = () => {
-                      self.setState(_.copy(isProposalModalOpened = false))
-                    })
+                    ^.wrapped := SubmitProposalInRelationToThemeProps(
+                      theme = self.props.wrapped.theme,
+                      onProposalProposed = () => {
+                        self.setState(_.copy(isProposalModalOpened = false))
+                      }
+                    )
                   )()
                 )
               )

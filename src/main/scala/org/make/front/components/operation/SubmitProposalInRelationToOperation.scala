@@ -46,8 +46,8 @@ object SubmitProposalInRelationToOperation {
 
         val intro: (ReactElement) => ReactElement = {
           element =>
-            <.article()(
-              <.h2(^.className := SubmitProposalInRelationToOperationStyles.title)(
+            <.div()(
+              <.p(^.className := SubmitProposalInRelationToOperationStyles.title)(
                 <.span(
                   ^.className := Seq(
                     TextStyles.mediumText,
@@ -70,7 +70,6 @@ object SubmitProposalInRelationToOperation {
                 DynamicSubmitProposalInRelationToOperationStyles.render[String]
               )
             )
-
         }
 
         <.SubmitProposalAndLoginComponent(
