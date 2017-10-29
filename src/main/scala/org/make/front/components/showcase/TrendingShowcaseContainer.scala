@@ -5,6 +5,7 @@ import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import io.github.shogowada.scalajs.reactjs.redux.ReactRedux
 import io.github.shogowada.scalajs.reactjs.redux.Redux.Dispatch
 import org.make.front.components.AppState
+import org.make.front.models.Label
 import org.make.services.proposal.ProposalService
 
 object TrendingShowcaseContainer {
@@ -18,7 +19,7 @@ object TrendingShowcaseContainer {
     (_: Dispatch) => { (_: AppState, ownProps: Props[TrendingShowcaseContainerProps]) =>
       TrendingShowcase.TrendingShowcaseProps(
         proposals = ProposalService
-          .searchProposals(trending = Some(ownProps.wrapped.trending), limit = Some(2), sort = Seq.empty, skip = None),
+          .searchProposals(labelsIds = Some(Seq(Label.Star.name)), limit = Some(2), sort = Seq.empty, skip = None),
         intro = ownProps.wrapped.intro,
         title = ownProps.wrapped.title
       )
