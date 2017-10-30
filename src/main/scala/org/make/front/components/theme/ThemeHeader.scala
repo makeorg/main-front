@@ -21,15 +21,152 @@ import scalacss.internal.mutable.StyleSheet.Inline
 
 object ThemeHeader {
 
+  case class ThemeIllsModel(SmallIllUrl: String = "",
+                            SmallIllUrl2x: String = "",
+                            MediumIllUrl: String = "",
+                            MediumIllUrl2x: String = "",
+                            IllUrl: String = "",
+                            IllUrl2x: String = "")
+
+  def themeIlls(theme: ThemeModel): ThemeIllsModel = {
+    theme.slug match {
+      case "developpement-durable-energie" =>
+        ThemeIllsModel(
+          SmallIllUrl = themeAgricultureRuraliteSmall.toString,
+          SmallIllUrl2x = themeAgricultureRuraliteSmall2x.toString,
+          MediumIllUrl = themeAgricultureRuraliteMedium.toString,
+          MediumIllUrl2x = themeAgricultureRuraliteMedium2x.toString,
+          IllUrl = themeAgricultureRuralite.toString,
+          IllUrl2x = themeAgricultureRuralite2x.toString
+        )
+      case "agriculture-ruralite" =>
+        ThemeIllsModel(
+          SmallIllUrl = themeAgricultureRuraliteSmall.toString,
+          SmallIllUrl2x = themeAgricultureRuraliteSmall2x.toString,
+          MediumIllUrl = themeAgricultureRuraliteMedium.toString,
+          MediumIllUrl2x = themeAgricultureRuraliteMedium2x.toString,
+          IllUrl = themeAgricultureRuralite.toString,
+          IllUrl2x = themeAgricultureRuralite2x.toString
+        )
+      case "democratie-vie-politique" =>
+        ThemeIllsModel(
+          SmallIllUrl = themeDemocratieViePolitiqueSmall.toString,
+          SmallIllUrl2x = themeDemocratieViePolitiqueSmall2x.toString,
+          MediumIllUrl = themeDemocratieViePolitiqueMedium.toString,
+          MediumIllUrl2x = themeDemocratieViePolitiqueMedium2x.toString,
+          IllUrl = themeDemocratieViePolitique.toString,
+          IllUrl2x = themeDemocratieViePolitique2x.toString
+        )
+      case "economie-emploi-travail" =>
+        ThemeIllsModel(
+          SmallIllUrl = themeEconomieEmploiTravailSmall.toString,
+          SmallIllUrl2x = themeEconomieEmploiTravailSmall2x.toString,
+          MediumIllUrl = themeEconomieEmploiTravailMedium.toString,
+          MediumIllUrl2x = themeEconomieEmploiTravailMedium2x.toString,
+          IllUrl = themeEconomieEmploiTravail.toString,
+          IllUrl2x = themeEconomieEmploiTravail2x.toString
+        )
+      case "education" =>
+        ThemeIllsModel(
+          SmallIllUrl = themeEducationSmall.toString,
+          SmallIllUrl2x = themeEducationSmall2x.toString,
+          MediumIllUrl = themeEducationMedium.toString,
+          MediumIllUrl2x = themeEducationMedium2x.toString,
+          IllUrl = themeEducation.toString,
+          IllUrl2x = themeEducation2x.toString
+        )
+      case "europe-monde" =>
+        ThemeIllsModel(
+          SmallIllUrl = themeEuropeMondeSmall.toString,
+          SmallIllUrl2x = themeEuropeMondeSmall2x.toString,
+          MediumIllUrl = themeEuropeMondeMedium.toString,
+          MediumIllUrl2x = themeEuropeMondeMedium2x.toString,
+          IllUrl = themeEuropeMonde.toString,
+          IllUrl2x = themeEuropeMonde2x.toString
+        )
+      case "logement" =>
+        ThemeIllsModel(
+          SmallIllUrl = themeLogementSmall.toString,
+          SmallIllUrl2x = themeLogementSmall2x.toString,
+          MediumIllUrl = themeLogementMedium.toString,
+          MediumIllUrl2x = themeLogementMedium2x.toString,
+          IllUrl = themeLogement.toString,
+          IllUrl2x = themeLogement2x.toString
+        )
+      case "numerique-culture" =>
+        ThemeIllsModel(
+          SmallIllUrl = themeNumeriqueCultureSmall.toString,
+          SmallIllUrl2x = themeNumeriqueCultureSmall2x.toString,
+          MediumIllUrl = themeNumeriqueCultureMedium.toString,
+          MediumIllUrl2x = themeNumeriqueCultureMedium2x.toString,
+          IllUrl = themeNumeriqueCulture.toString,
+          IllUrl2x = themeNumeriqueCulture2x.toString
+        )
+      case "sante-alimentation" =>
+        ThemeIllsModel(
+          SmallIllUrl = themeSanteAlimentationSmall.toString,
+          SmallIllUrl2x = themeSanteAlimentationSmall2x.toString,
+          MediumIllUrl = themeSanteAlimentationMedium.toString,
+          MediumIllUrl2x = themeSanteAlimentationMedium2x.toString,
+          IllUrl = themeSanteAlimentation.toString,
+          IllUrl2x = themeSanteAlimentation2x.toString
+        )
+      case "securite-justice" =>
+        ThemeIllsModel(
+          SmallIllUrl = themeSecuriteJusticeSmall.toString,
+          SmallIllUrl2x = themeSecuriteJusticeSmall2x.toString,
+          MediumIllUrl = themeSecuriteJusticeMedium.toString,
+          MediumIllUrl2x = themeSecuriteJusticeMedium2x.toString,
+          IllUrl = themeSecuriteJustice.toString,
+          IllUrl2x = themeSecuriteJustice2x.toString
+        )
+      case "transports-deplacement" =>
+        ThemeIllsModel(
+          SmallIllUrl = themeTransportsDeplacementSmall.toString,
+          SmallIllUrl2x = themeTransportsDeplacementSmall2x.toString,
+          MediumIllUrl = themeTransportsDeplacementMedium.toString,
+          MediumIllUrl2x = themeTransportsDeplacementMedium2x.toString,
+          IllUrl = themeTransportsDeplacement.toString,
+          IllUrl2x = themeTransportsDeplacement2x.toString
+        )
+      case "vivre-ensemble-solidarites" =>
+        ThemeIllsModel(
+          SmallIllUrl = themeVivreEnsembleSolidariteSmall.toString,
+          SmallIllUrl2x = themeVivreEnsembleSolidariteSmall2x.toString,
+          MediumIllUrl = themeVivreEnsembleSolidariteMedium.toString,
+          MediumIllUrl2x = themeVivreEnsembleSolidariteMedium2x.toString,
+          IllUrl = themeVivreEnsembleSolidarite.toString,
+          IllUrl2x = themeVivreEnsembleSolidarite2x.toString
+        )
+      case _ =>
+        ThemeIllsModel(
+          SmallIllUrl = homeSmall.toString,
+          SmallIllUrl2x = homeSmall2x.toString,
+          MediumIllUrl = homeMedium.toString,
+          MediumIllUrl2x = homeMedium2x.toString,
+          IllUrl = home.toString,
+          IllUrl2x = home2x.toString
+        )
+    }
+  }
+
   case class ThemeHeaderProps(theme: ThemeModel)
 
-  case class ThemeHeaderState(isProposalModalOpened: Boolean)
+  case class ThemeHeaderState(isProposalModalOpened: Boolean, themeIlls: ThemeIllsModel)
 
   lazy val reactClass: ReactClass =
-    React.createClass[ThemeHeaderProps, ThemeHeaderState](displayName = "ThemeHeader", getInitialState = { _ =>
-      ThemeHeaderState(isProposalModalOpened = false)
-    }, render = {
-      self =>
+    React.createClass[ThemeHeaderProps, ThemeHeaderState](
+      displayName = "ThemeHeader",
+      getInitialState = { _ =>
+        ThemeHeaderState(isProposalModalOpened = false, themeIlls = ThemeIllsModel())
+      },
+      componentDidMount = { (self) =>
+        self.setState(_.copy(themeIlls = themeIlls(self.props.wrapped.theme)))
+      },
+      componentWillReceiveProps = { (self, nextProps) =>
+        self.setState(_.copy(themeIlls = themeIlls(nextProps.wrapped.theme)))
+      },
+      render = { self =>
         var proposalInput: Option[HTMLElement] = None
 
         def toggleProposalModal() = () => {
@@ -50,107 +187,9 @@ object ThemeHeader {
           val gradient = style(background := s"linear-gradient(130deg, ${gradientValues.from}, ${gradientValues.to})")
         }
 
-        var imageSrc: String = ""
-        var imageSrcset: String = ""
-
-        val SmallIllUrl: String = self.props.wrapped.theme.slug match {
-          case "developpement-durable-energie" => themeAgricultureRuraliteSmall.toString
-          case "agriculture-ruralite"          => themeAgricultureRuraliteSmall.toString
-          case "democratie-vie-politique"      => themeDemocratieViePolitiqueSmall.toString
-          case "economie-emploi-travail"       => themeEconomieEmploiTravailSmall.toString
-          case "education"                     => themeEducationSmall.toString
-          case "europe-monde"                  => themeEuropeMondeSmall.toString
-          case "logement"                      => themeLogementSmall.toString
-          case "numerique-culture"             => themeNumeriqueCultureSmall.toString
-          case "sante-alimentation"            => themeSanteAlimentationSmall.toString
-          case "securite-justice"              => themeSecuriteJusticeSmall.toString
-          case "transports-deplacement"        => themeTransportsDeplacementSmall.toString
-          case "vivre-ensemble-solidarites"    => themeVivreEnsembleSolidariteSmall.toString
-          case _                               => homeSmall.toString
-        }
-
-        val SmallIllUrl2x: String = self.props.wrapped.theme.slug match {
-          case "developpement-durable-energie" => themeAgricultureRuraliteSmall2x.toString
-          case "agriculture-ruralite"          => themeAgricultureRuraliteSmall2x.toString
-          case "democratie-vie-politique"      => themeDemocratieViePolitiqueSmall2x.toString
-          case "economie-emploi-travail"       => themeEconomieEmploiTravailSmall2x.toString
-          case "education"                     => themeEducationSmall2x.toString
-          case "europe-monde"                  => themeEuropeMondeSmall2x.toString
-          case "logement"                      => themeLogementSmall2x.toString
-          case "numerique-culture"             => themeNumeriqueCultureSmall2x.toString
-          case "sante-alimentation"            => themeSanteAlimentationSmall2x.toString
-          case "securite-justice"              => themeSecuriteJusticeSmall2x.toString
-          case "transports-deplacement"        => themeTransportsDeplacementSmall2x.toString
-          case "vivre-ensemble-solidarites"    => themeVivreEnsembleSolidariteSmall2x.toString
-          case _                               => homeSmall2x.toString
-        }
-
-        val MediumIllUrl: String = self.props.wrapped.theme.slug match {
-          case "developpement-durable-energie" => themeAgricultureRuraliteMedium.toString
-          case "agriculture-ruralite"          => themeAgricultureRuraliteMedium.toString
-          case "democratie-vie-politique"      => themeDemocratieViePolitiqueMedium.toString
-          case "economie-emploi-travail"       => themeEconomieEmploiTravailMedium.toString
-          case "education"                     => themeEducationMedium.toString
-          case "europe-monde"                  => themeEuropeMondeMedium.toString
-          case "logement"                      => themeLogementMedium.toString
-          case "numerique-culture"             => themeNumeriqueCultureMedium.toString
-          case "sante-alimentation"            => themeSanteAlimentationMedium.toString
-          case "securite-justice"              => themeSecuriteJusticeMedium.toString
-          case "transports-deplacement"        => themeTransportsDeplacementMedium.toString
-          case "vivre-ensemble-solidarites"    => themeVivreEnsembleSolidariteMedium.toString
-          case _                               => homeMedium.toString
-        }
-
-        val MediumIllUrl2x: String = self.props.wrapped.theme.slug match {
-          case "developpement-durable-energie" => themeAgricultureRuraliteMedium2x.toString
-          case "agriculture-ruralite"          => themeAgricultureRuraliteMedium2x.toString
-          case "democratie-vie-politique"      => themeDemocratieViePolitiqueMedium2x.toString
-          case "economie-emploi-travail"       => themeEconomieEmploiTravailMedium2x.toString
-          case "education"                     => themeEducationMedium2x.toString
-          case "europe-monde"                  => themeEuropeMondeMedium2x.toString
-          case "logement"                      => themeLogementMedium2x.toString
-          case "numerique-culture"             => themeNumeriqueCultureMedium2x.toString
-          case "sante-alimentation"            => themeSanteAlimentationMedium2x.toString
-          case "securite-justice"              => themeSecuriteJusticeMedium2x.toString
-          case "transports-deplacement"        => themeTransportsDeplacementMedium2x.toString
-          case "vivre-ensemble-solidarites"    => themeVivreEnsembleSolidariteMedium2x.toString
-          case _                               => homeMedium2x.toString
-        }
-
-        val IllUrl: String = self.props.wrapped.theme.slug match {
-          case "developpement-durable-energie" => themeAgricultureRuralite.toString
-          case "agriculture-ruralite"          => themeAgricultureRuralite.toString
-          case "democratie-vie-politique"      => themeDemocratieViePolitique.toString
-          case "economie-emploi-travail"       => themeEconomieEmploiTravail.toString
-          case "education"                     => themeEducation.toString
-          case "europe-monde"                  => themeEuropeMonde.toString
-          case "logement"                      => themeLogement.toString
-          case "numerique-culture"             => themeNumeriqueCulture.toString
-          case "sante-alimentation"            => themeSanteAlimentation.toString
-          case "securite-justice"              => themeSecuriteJustice.toString
-          case "transports-deplacement"        => themeTransportsDeplacement.toString
-          case "vivre-ensemble-solidarites"    => themeVivreEnsembleSolidarite.toString
-          case _                               => home.toString
-        }
-
-        val IllUrl2x: String = self.props.wrapped.theme.slug match {
-          case "developpement-durable-energie" => themeAgricultureRuralite2x.toString
-          case "agriculture-ruralite"          => themeAgricultureRuralite2x.toString
-          case "democratie-vie-politique"      => themeDemocratieViePolitique2x.toString
-          case "economie-emploi-travail"       => themeEconomieEmploiTravail2x.toString
-          case "education"                     => themeEducation2x.toString
-          case "europe-monde"                  => themeEuropeMonde2x.toString
-          case "logement"                      => themeLogement2x.toString
-          case "numerique-culture"             => themeNumeriqueCulture2x.toString
-          case "sante-alimentation"            => themeSanteAlimentation2x.toString
-          case "securite-justice"              => themeSecuriteJustice2x.toString
-          case "transports-deplacement"        => themeTransportsDeplacement2x.toString
-          case "vivre-ensemble-solidarites"    => themeVivreEnsembleSolidarite2x.toString
-          case _                               => home2x.toString
-        }
-
-        imageSrc = IllUrl
-        imageSrcset = SmallIllUrl + " 400w, " + SmallIllUrl2x + " 800w, " + MediumIllUrl + " 840w, " + MediumIllUrl2x + " 1680w, " + IllUrl + " 1350w, " + IllUrl2x + " 2700w"
+        val imageSrc: String = self.state.themeIlls.IllUrl
+        val imageSrcset
+          : String = self.state.themeIlls.SmallIllUrl + " 400w, " + self.state.themeIlls.SmallIllUrl2x + " 800w, " + self.state.themeIlls.MediumIllUrl + " 840w, " + self.state.themeIlls.MediumIllUrl2x + " 1680w, " + self.state.themeIlls.IllUrl + " 1350w, " + self.state.themeIlls.IllUrl2x + " 2700w"
 
         <.header(^.className := Seq(ThemeHeaderStyles.wrapper, DynamicThemeHeaderStyles.gradient))(
           <.div(^.className := ThemeHeaderStyles.innerWrapper)(
@@ -211,7 +250,8 @@ object ThemeHeader {
           ),
           <.style()(ThemeHeaderStyles.render[String], DynamicThemeHeaderStyles.render[String])
         )
-    })
+      }
+    )
 
 }
 
