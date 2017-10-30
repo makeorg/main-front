@@ -126,13 +126,18 @@ object Sequence {
         }
       }
 
+      // toDo: should be fixed with all cases
       val updatedProposals = self.state.proposals.map(mapProposal)
-      var maxIndex = Math.max(self.state.displayedSlidesCount, self.state.currentSlideIndex)
-      if (self.state.slides(maxIndex).optional) {
-        maxIndex += 1
+      val isLastSlideDisplayed: Boolean = self.state.currentSlideIndex == self.state.displayedSlidesCount - 1
+
+      val displayedSlidesCount = if (isLastSlideDisplayed && voteResponse.hasVoted) {
+        self.state.displayedSlidesCount + 1
+      } else {
+        self.state.displayedSlidesCount
       }
+
       val slides = createSlides(self, updatedProposals)
-      self.setState(_.copy(slides = slides, proposals = updatedProposals, displayedSlidesCount = maxIndex + 1))
+      self.setState(_.copy(slides = slides, proposals = updatedProposals, displayedSlidesCount = displayedSlidesCount))
     }
 
     def onSuccessfulQualification(proposalId: ProposalIdModel,
