@@ -5,7 +5,7 @@ import io.github.shogowada.scalajs.reactjs.VirtualDOM._
 import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import org.make.front.components.Components._
 import org.make.front.facades.Unescape.unescape
-import org.make.front.facades.{home, I18n}
+import org.make.front.facades._
 import org.make.front.styles._
 import org.make.front.styles.base.{ColRulesStyles, RowRulesStyles, TextStyles}
 import org.make.front.styles.ui.CTAStyles
@@ -21,6 +21,13 @@ object Intro {
     render = (_) =>
       <.section(^.className := IntroStyles.wrapper)(
         <.div(^.className := IntroStyles.innerWrapper)(
+          <.img(
+            ^.className := IntroStyles.illustration,
+            ^.src := home.toString,
+            ^("srcset") := homeSmall.toString + " 400w, " + homeSmall2x.toString + " 800w, " + homeMedium.toString + " 840w, " + homeMedium2x.toString + " 1680w, " + home.toString + " 1350w, " + home2x.toString + " 2700w",
+            ^.alt := "Make.org",
+            ^("data-pin-no-hover") := "true"
+          )(),
           <.div(^.className := Seq(IntroStyles.innerSubWrapper, RowRulesStyles.centeredRow))(
             <.div(^.className := ColRulesStyles.col)(
               <.div(^.className := IntroStyles.labelWrapper)(
@@ -70,21 +77,23 @@ object IntroStyles extends StyleSheet.Inline {
       ThemeStyles.MediaQueries.beyondSmall(paddingTop((ThemeStyles.SpacingValue.larger + 80).pxToEm())),
       paddingBottom(ThemeStyles.SpacingValue.larger.pxToEm()),
       textAlign.center,
-      (&.before)(
-        content := "''",
-        position.absolute,
-        top(`0`),
-        left(`0`),
-        height(100.%%),
-        width(100.%%),
-        backgroundImage := s"url('${home.toString}')",
-        backgroundSize := s"cover",
-        backgroundPosition := s"50%",
-        backgroundRepeat := s"no-repeat",
-        opacity(0.5)
-      )
+      overflow.hidden
     )
-  /*TODO: media query device pixel ratio*/
+
+  val illustration: StyleA =
+    style(
+      position.absolute,
+      top(`0`),
+      left(50.%%),
+      height.auto,
+      maxHeight.none,
+      minHeight(100.%%),
+      width.auto,
+      maxWidth.none,
+      minWidth(100.%%),
+      transform := s"translate(-50%, 0%)",
+      opacity(0.5)
+    )
 
   val innerSubWrapper: StyleA =
     style(position.relative, zIndex(1))

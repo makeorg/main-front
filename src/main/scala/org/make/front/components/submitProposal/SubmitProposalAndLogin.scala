@@ -72,7 +72,7 @@ object SubmitProposalAndLogin {
 
           if (self.state.displayedComponent == "submit-proposal") {
             <.div(^.className := RowRulesStyles.centeredRow)(
-              <.article(^.className := ColRulesStyles.col)(
+              <.div(^.className := ColRulesStyles.col)(
                 self.props.wrapped.intro(
                   <.SubmitProposalFormComponent(
                     ^.wrapped := SubmitProposalFormContainerProps(
@@ -89,8 +89,8 @@ object SubmitProposalAndLogin {
             val intro: ReactElement =
               <.div()(
                 <.div(^.className := RowRulesStyles.narrowerCenteredRow)(
-                  <.header(^.className := ColRulesStyles.col)(
-                    <.h1(^.className := SubmitProposalAndLoginStyles.title)(
+                  <.div(^.className := ColRulesStyles.col)(
+                    <.p(^.className := SubmitProposalAndLoginStyles.title)(
                       <.span(
                         ^.className := Seq(TextStyles.mediumText, TextStyles.intro, SubmitProposalAndLoginStyles.intro)
                       )("Nous avons besoin de quelques informations"),
@@ -106,7 +106,7 @@ object SubmitProposalAndLogin {
                 )
               )
 
-            <.section()(
+            <.div()(
               <.RequireAuthenticatedUserComponent(
                 ^.wrapped := RequireAuthenticatedUserContainerProps(
                   operation = self.props.wrapped.maybeOperation.map(_.operationId),

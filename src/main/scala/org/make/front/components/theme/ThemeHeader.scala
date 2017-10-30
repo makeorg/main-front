@@ -21,15 +21,152 @@ import scalacss.internal.mutable.StyleSheet.Inline
 
 object ThemeHeader {
 
+  case class ThemeIllustrationsModel(SmallIllUrl: String = "",
+                                     SmallIllUrl2x: String = "",
+                                     MediumIllUrl: String = "",
+                                     MediumIllUrl2x: String = "",
+                                     IllUrl: String = "",
+                                     IllUrl2x: String = "")
+
+  def themeIllustrations(theme: ThemeModel): ThemeIllustrationsModel = {
+    theme.slug match {
+      case "developpement-durable-energie" =>
+        ThemeIllustrationsModel(
+          SmallIllUrl = themeAgricultureRuraliteSmall.toString,
+          SmallIllUrl2x = themeAgricultureRuraliteSmall2x.toString,
+          MediumIllUrl = themeAgricultureRuraliteMedium.toString,
+          MediumIllUrl2x = themeAgricultureRuraliteMedium2x.toString,
+          IllUrl = themeAgricultureRuralite.toString,
+          IllUrl2x = themeAgricultureRuralite2x.toString
+        )
+      case "agriculture-ruralite" =>
+        ThemeIllustrationsModel(
+          SmallIllUrl = themeAgricultureRuraliteSmall.toString,
+          SmallIllUrl2x = themeAgricultureRuraliteSmall2x.toString,
+          MediumIllUrl = themeAgricultureRuraliteMedium.toString,
+          MediumIllUrl2x = themeAgricultureRuraliteMedium2x.toString,
+          IllUrl = themeAgricultureRuralite.toString,
+          IllUrl2x = themeAgricultureRuralite2x.toString
+        )
+      case "democratie-vie-politique" =>
+        ThemeIllustrationsModel(
+          SmallIllUrl = themeDemocratieViePolitiqueSmall.toString,
+          SmallIllUrl2x = themeDemocratieViePolitiqueSmall2x.toString,
+          MediumIllUrl = themeDemocratieViePolitiqueMedium.toString,
+          MediumIllUrl2x = themeDemocratieViePolitiqueMedium2x.toString,
+          IllUrl = themeDemocratieViePolitique.toString,
+          IllUrl2x = themeDemocratieViePolitique2x.toString
+        )
+      case "economie-emploi-travail" =>
+        ThemeIllustrationsModel(
+          SmallIllUrl = themeEconomieEmploiTravailSmall.toString,
+          SmallIllUrl2x = themeEconomieEmploiTravailSmall2x.toString,
+          MediumIllUrl = themeEconomieEmploiTravailMedium.toString,
+          MediumIllUrl2x = themeEconomieEmploiTravailMedium2x.toString,
+          IllUrl = themeEconomieEmploiTravail.toString,
+          IllUrl2x = themeEconomieEmploiTravail2x.toString
+        )
+      case "education" =>
+        ThemeIllustrationsModel(
+          SmallIllUrl = themeEducationSmall.toString,
+          SmallIllUrl2x = themeEducationSmall2x.toString,
+          MediumIllUrl = themeEducationMedium.toString,
+          MediumIllUrl2x = themeEducationMedium2x.toString,
+          IllUrl = themeEducation.toString,
+          IllUrl2x = themeEducation2x.toString
+        )
+      case "europe-monde" =>
+        ThemeIllustrationsModel(
+          SmallIllUrl = themeEuropeMondeSmall.toString,
+          SmallIllUrl2x = themeEuropeMondeSmall2x.toString,
+          MediumIllUrl = themeEuropeMondeMedium.toString,
+          MediumIllUrl2x = themeEuropeMondeMedium2x.toString,
+          IllUrl = themeEuropeMonde.toString,
+          IllUrl2x = themeEuropeMonde2x.toString
+        )
+      case "logement" =>
+        ThemeIllustrationsModel(
+          SmallIllUrl = themeLogementSmall.toString,
+          SmallIllUrl2x = themeLogementSmall2x.toString,
+          MediumIllUrl = themeLogementMedium.toString,
+          MediumIllUrl2x = themeLogementMedium2x.toString,
+          IllUrl = themeLogement.toString,
+          IllUrl2x = themeLogement2x.toString
+        )
+      case "numerique-culture" =>
+        ThemeIllustrationsModel(
+          SmallIllUrl = themeNumeriqueCultureSmall.toString,
+          SmallIllUrl2x = themeNumeriqueCultureSmall2x.toString,
+          MediumIllUrl = themeNumeriqueCultureMedium.toString,
+          MediumIllUrl2x = themeNumeriqueCultureMedium2x.toString,
+          IllUrl = themeNumeriqueCulture.toString,
+          IllUrl2x = themeNumeriqueCulture2x.toString
+        )
+      case "sante-alimentation" =>
+        ThemeIllustrationsModel(
+          SmallIllUrl = themeSanteAlimentationSmall.toString,
+          SmallIllUrl2x = themeSanteAlimentationSmall2x.toString,
+          MediumIllUrl = themeSanteAlimentationMedium.toString,
+          MediumIllUrl2x = themeSanteAlimentationMedium2x.toString,
+          IllUrl = themeSanteAlimentation.toString,
+          IllUrl2x = themeSanteAlimentation2x.toString
+        )
+      case "securite-justice" =>
+        ThemeIllustrationsModel(
+          SmallIllUrl = themeSecuriteJusticeSmall.toString,
+          SmallIllUrl2x = themeSecuriteJusticeSmall2x.toString,
+          MediumIllUrl = themeSecuriteJusticeMedium.toString,
+          MediumIllUrl2x = themeSecuriteJusticeMedium2x.toString,
+          IllUrl = themeSecuriteJustice.toString,
+          IllUrl2x = themeSecuriteJustice2x.toString
+        )
+      case "transports-deplacement" =>
+        ThemeIllustrationsModel(
+          SmallIllUrl = themeTransportsDeplacementSmall.toString,
+          SmallIllUrl2x = themeTransportsDeplacementSmall2x.toString,
+          MediumIllUrl = themeTransportsDeplacementMedium.toString,
+          MediumIllUrl2x = themeTransportsDeplacementMedium2x.toString,
+          IllUrl = themeTransportsDeplacement.toString,
+          IllUrl2x = themeTransportsDeplacement2x.toString
+        )
+      case "vivre-ensemble-solidarites" =>
+        ThemeIllustrationsModel(
+          SmallIllUrl = themeVivreEnsembleSolidariteSmall.toString,
+          SmallIllUrl2x = themeVivreEnsembleSolidariteSmall2x.toString,
+          MediumIllUrl = themeVivreEnsembleSolidariteMedium.toString,
+          MediumIllUrl2x = themeVivreEnsembleSolidariteMedium2x.toString,
+          IllUrl = themeVivreEnsembleSolidarite.toString,
+          IllUrl2x = themeVivreEnsembleSolidarite2x.toString
+        )
+      case _ =>
+        ThemeIllustrationsModel(
+          SmallIllUrl = homeSmall.toString,
+          SmallIllUrl2x = homeSmall2x.toString,
+          MediumIllUrl = homeMedium.toString,
+          MediumIllUrl2x = homeMedium2x.toString,
+          IllUrl = home.toString,
+          IllUrl2x = home2x.toString
+        )
+    }
+  }
+
   case class ThemeHeaderProps(theme: ThemeModel)
 
-  case class ThemeHeaderState(isProposalModalOpened: Boolean)
+  case class ThemeHeaderState(isProposalModalOpened: Boolean, themeIllustrations: ThemeIllustrationsModel)
 
   lazy val reactClass: ReactClass =
-    React.createClass[ThemeHeaderProps, ThemeHeaderState](displayName = "ThemeHeader", getInitialState = { _ =>
-      ThemeHeaderState(isProposalModalOpened = false)
-    }, render = {
-      self =>
+    React.createClass[ThemeHeaderProps, ThemeHeaderState](
+      displayName = "ThemeHeader",
+      getInitialState = { _ =>
+        ThemeHeaderState(isProposalModalOpened = false, themeIllustrations = ThemeIllustrationsModel())
+      },
+      componentDidMount = { (self) =>
+        self.setState(_.copy(themeIllustrations = themeIllustrations(self.props.wrapped.theme)))
+      },
+      componentWillReceiveProps = { (self, nextProps) =>
+        self.setState(_.copy(themeIllustrations = themeIllustrations(nextProps.wrapped.theme)))
+      },
+      render = { self =>
         var proposalInput: Option[HTMLElement] = None
 
         def toggleProposalModal() = () => {
@@ -41,8 +178,8 @@ object ThemeHeader {
           proposalInput.foreach(_.blur())
         }
 
-        val theme: ThemeModel = self.props.wrapped.theme
-        val gradientValues: GradientColorModel = theme.gradient.getOrElse(GradientColorModel("#FFF", "#FFF"))
+        val gradientValues: GradientColorModel =
+          self.props.wrapped.theme.gradient.getOrElse(GradientColorModel("#FFF", "#FFF"))
 
         object DynamicThemeHeaderStyles extends Inline {
           import dsl._
@@ -50,49 +187,24 @@ object ThemeHeader {
           val gradient = style(background := s"linear-gradient(130deg, ${gradientValues.from}, ${gradientValues.to})")
         }
 
-        val IllUrl: String = self.props.wrapped.theme.slug match {
-          case "developpement-durable-energie" => themeAgricultureRuralite.toString
-          case "agriculture-ruralite"          => themeAgricultureRuralite.toString
-          case "democratie-vie-politique"      => themeDemocratieViePolitique.toString
-          case "economie-emploi-travail"       => themeEconomieEmploiTravail.toString
-          case "education"                     => themeEducation.toString
-          case "europe-monde"                  => themeEuropeMonde.toString
-          case "logement"                      => themeLogement.toString
-          case "numerique-culture"             => themeNumeriqueCulture.toString
-          case "sante-alimentation"            => themeSanteAlimentation.toString
-          case "securite-justice"              => themeSecuriteJustice.toString
-          case "transports-deplacement"        => themeTransportsDeplacement.toString
-          case "vivre-ensemble-solidarites"    => themeVivreEnsembleSolidarite.toString
-          case _                               => home.toString
-        }
-
-        val IllUrl2x: String = self.props.wrapped.theme.slug match {
-          case "developpement-durable-energie" => themeAgricultureRuralite2x.toString
-          case "agriculture-ruralite"          => themeAgricultureRuralite2x.toString
-          case "democratie-vie-politique"      => themeDemocratieViePolitique2x.toString
-          case "economie-emploi-travail"       => themeEconomieEmploiTravail2x.toString
-          case "education"                     => themeEducation2x.toString
-          case "europe-monde"                  => themeEuropeMonde2x.toString
-          case "logement"                      => themeLogement2x.toString
-          case "numerique-culture"             => themeNumeriqueCulture2x.toString
-          case "sante-alimentation"            => themeSanteAlimentation2x.toString
-          case "securite-justice"              => themeSecuriteJustice2x.toString
-          case "transports-deplacement"        => themeTransportsDeplacement2x.toString
-          case "vivre-ensemble-solidarites"    => themeVivreEnsembleSolidarite2x.toString
-          case _                               => home2x.toString
-        }
+        val imageSrc: String = self.state.themeIllustrations.IllUrl
+        val imageSrcset
+          : String = self.state.themeIllustrations.SmallIllUrl + " 400w, " + self.state.themeIllustrations.SmallIllUrl2x + " 800w, " + self.state.themeIllustrations.MediumIllUrl + " 840w, " + self.state.themeIllustrations.MediumIllUrl2x + " 1680w, " + self.state.themeIllustrations.IllUrl + " 1350w, " + self.state.themeIllustrations.IllUrl2x + " 2700w"
 
         <.header(^.className := Seq(ThemeHeaderStyles.wrapper, DynamicThemeHeaderStyles.gradient))(
           <.div(^.className := ThemeHeaderStyles.innerWrapper)(
             <.img(
               ^.className := ThemeHeaderStyles.illustration,
-              ^.src := IllUrl,
-              ^("srcset") := IllUrl2x + " 2x",
+              ^.src := imageSrc,
+              ^("srcset") := imageSrcset,
+              ^.alt := self.props.wrapped.theme.title,
               ^("data-pin-no-hover") := "true"
             )(),
             <.div(^.className := RowRulesStyles.centeredRow)(
               <.div(^.className := ColRulesStyles.col)(
-                <.h1(^.className := Seq(TextStyles.veryBigTitle, ThemeHeaderStyles.title))(theme.title),
+                <.h1(^.className := Seq(TextStyles.veryBigTitle, ThemeHeaderStyles.title))(
+                  self.props.wrapped.theme.title
+                ),
                 <.p(
                   ^.className := Seq(
                     InputStyles.wrapper,
@@ -125,9 +237,12 @@ object ThemeHeader {
                   )
                 )(
                   <.SubmitProposalInRelationToThemeComponent(
-                    ^.wrapped := SubmitProposalInRelationToThemeProps(theme = theme, onProposalProposed = () => {
-                      self.setState(_.copy(isProposalModalOpened = false))
-                    })
+                    ^.wrapped := SubmitProposalInRelationToThemeProps(
+                      theme = self.props.wrapped.theme,
+                      onProposalProposed = () => {
+                        self.setState(_.copy(isProposalModalOpened = false))
+                      }
+                    )
                   )()
                 )
               )
@@ -135,7 +250,8 @@ object ThemeHeader {
           ),
           <.style()(ThemeHeaderStyles.render[String], DynamicThemeHeaderStyles.render[String])
         )
-    })
+      }
+    )
 
 }
 

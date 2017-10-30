@@ -189,6 +189,10 @@ object Translations {
       |    "political-actions": {
       |      "intro": "%{actions} actions issues de vos propositions"
       |    },
+      |    "no-political-action": {
+      |      "intro": "Nous n’avons pas d’action à vous proposer sur ce thème pour le moment, mais nous y&nbsp;travaillons&nbsp;!",
+      |      "text": "Rendez-vous très prochainement pour agir&nbsp;ensemble&nbsp;!"
+      |    },
       |    "theme": {
       |      "results": {
       |         "title": "Votez sur les&nbsp;propositions",

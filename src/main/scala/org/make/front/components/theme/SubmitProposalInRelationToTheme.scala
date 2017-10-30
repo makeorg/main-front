@@ -46,7 +46,7 @@ object SubmitProposalInRelationToTheme {
         val intro: (ReactElement) => ReactElement = {
           element =>
             <.div()(
-              <.h2(^.className := SubmitProposalInRelationToThemeStyles.title)(
+              <.p(^.className := SubmitProposalInRelationToThemeStyles.title)(
                 <.span(
                   ^.className := Seq(
                     TextStyles.mediumText,

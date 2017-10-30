@@ -21,6 +21,7 @@ object Home {
         displayName = "Home",
         render = { self =>
           <("home")()(
+            <.h1(^.style := Map("display" -> "none"))("Make.org"),
             <.IntroComponent.empty,
             <.div(^.className := HomeStyles.item)(
               <.ThemeShowcaseContainerComponent(

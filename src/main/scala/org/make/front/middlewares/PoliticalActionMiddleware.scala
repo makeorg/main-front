@@ -24,6 +24,7 @@ object PoliticalActionMiddleware {
       PoliticalAction(
         themeSlug = Some("developpement-durable-energie"),
         imageUrl = goodplanet.toString,
+        imageTitle = Some("Fondation Goodplanet"),
         date = None,
         location = None,
         links = Some(
@@ -38,6 +39,7 @@ object PoliticalActionMiddleware {
       PoliticalAction(
         themeSlug = Some("developpement-durable-energie"),
         imageUrl = amisdelaterre.toString,
+        imageTitle = Some("Amis de la terre"),
         date = None,
         location = None,
         links = Some("""<a href="http://www.amisdelaterre.org/-groupes-.html" target="_blank">J'agis !</a>"""),
@@ -49,6 +51,7 @@ object PoliticalActionMiddleware {
       PoliticalAction(
         themeSlug = Some("economie-emploi-travail"),
         imageUrl = artisansdumonde.toString,
+        imageTitle = Some("Artisans du monde"),
         date = None,
         location = None,
         links = Some(
@@ -61,6 +64,7 @@ object PoliticalActionMiddleware {
       PoliticalAction(
         themeSlug = Some("economie-emploi-travail"),
         imageUrl = femmesingenieurs.toString,
+        imageTitle = Some("Femmes ingénieures"),
         date = None,
         location = None,
         links = Some(

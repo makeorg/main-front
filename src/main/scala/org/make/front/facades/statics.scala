@@ -4,24 +4,40 @@ import scala.scalajs.js
 import scala.scalajs.js.annotation.JSImport
 
 @js.native
-@JSImport("./images/actions/goodplanet.png", "default")
+@JSImport("./images/actions/goodplanet.svg", "default")
 object goodplanet extends js.Object
 
 @js.native
-@JSImport("./images/actions/amisdelaterre.png", "default")
+@JSImport("./images/actions/amis-de-la-terre.png", "default")
 object amisdelaterre extends js.Object
 
 @js.native
-@JSImport("./images/actions/artisansdumonde.png", "default")
+@JSImport("./images/actions/artisans-du-monde.jpg", "default")
 object artisansdumonde extends js.Object
 
 @js.native
-@JSImport("./images/actions/femmesingenieurs.png", "default")
+@JSImport("./images/actions/femmes-ingenieurs.png", "default")
 object femmesingenieurs extends js.Object
 
 @js.native
 @JSImport("./images/logoMake.svg", "default")
 object logoMake extends js.Object
+
+@js.native
+@JSImport("./images/home-400x500.jpg", "default")
+object homeSmall extends js.Object
+
+@js.native
+@JSImport("./images/home-400x500@2x.jpg", "default")
+object homeSmall2x extends js.Object
+
+@js.native
+@JSImport("./images/home-840x500.jpg", "default")
+object homeMedium extends js.Object
+
+@js.native
+@JSImport("./images/home-840x500@2x.jpg", "default")
+object homeMedium2x extends js.Object
 
 @js.native
 @JSImport("./images/home-1350x500.jpg", "default")
@@ -30,6 +46,182 @@ object home extends js.Object
 @js.native
 @JSImport("./images/home-1350x500@2x.jpg", "default")
 object home2x extends js.Object
+
+@js.native
+@JSImport("./images/themes/agriculture-ruralite-400x300.jpg", "default")
+object themeAgricultureRuraliteSmall extends js.Object
+
+@js.native
+@JSImport("./images/themes/democratie-vie-politique-400x300.jpg", "default")
+object themeDemocratieViePolitiqueSmall extends js.Object
+
+@js.native
+@JSImport("./images/themes/economie-emploi-travail-400x300.jpg", "default")
+object themeEconomieEmploiTravailSmall extends js.Object
+
+@js.native
+@JSImport("./images/themes/education-400x300.jpg", "default")
+object themeEducationSmall extends js.Object
+
+@js.native
+@JSImport("./images/themes/europe-monde-400x300.jpg", "default")
+object themeEuropeMondeSmall extends js.Object
+
+@js.native
+@JSImport("./images/themes/logement-400x300.jpg", "default")
+object themeLogementSmall extends js.Object
+
+@js.native
+@JSImport("./images/themes/numerique-culture-400x300.jpg", "default")
+object themeNumeriqueCultureSmall extends js.Object
+
+@js.native
+@JSImport("./images/themes/sante-alimentation-400x300.jpg", "default")
+object themeSanteAlimentationSmall extends js.Object
+
+@js.native
+@JSImport("./images/themes/securite-justice-400x300.jpg", "default")
+object themeSecuriteJusticeSmall extends js.Object
+
+@js.native
+@JSImport("./images/themes/transports-deplacement-400x300.jpg", "default")
+object themeTransportsDeplacementSmall extends js.Object
+
+@js.native
+@JSImport("./images/themes/vivre-ensemble-solidarites-400x300.jpg", "default")
+object themeVivreEnsembleSolidariteSmall extends js.Object
+
+@js.native
+@JSImport("./images/themes/agriculture-ruralite-400x300@2x.jpg", "default")
+object themeAgricultureRuraliteSmall2x extends js.Object
+
+@js.native
+@JSImport("./images/themes/democratie-vie-politique-400x300@2x.jpg", "default")
+object themeDemocratieViePolitiqueSmall2x extends js.Object
+
+@js.native
+@JSImport("./images/themes/economie-emploi-travail-400x300@2x.jpg", "default")
+object themeEconomieEmploiTravailSmall2x extends js.Object
+
+@js.native
+@JSImport("./images/themes/education-400x300@2x.jpg", "default")
+object themeEducationSmall2x extends js.Object
+
+@js.native
+@JSImport("./images/themes/europe-monde-400x300@2x.jpg", "default")
+object themeEuropeMondeSmall2x extends js.Object
+
+@js.native
+@JSImport("./images/themes/logement-400x300@2x.jpg", "default")
+object themeLogementSmall2x extends js.Object
+
+@js.native
+@JSImport("./images/themes/numerique-culture-400x300@2x.jpg", "default")
+object themeNumeriqueCultureSmall2x extends js.Object
+
+@js.native
+@JSImport("./images/themes/sante-alimentation-400x300@2x.jpg", "default")
+object themeSanteAlimentationSmall2x extends js.Object
+
+@js.native
+@JSImport("./images/themes/securite-justice-400x300@2x.jpg", "default")
+object themeSecuriteJusticeSmall2x extends js.Object
+
+@js.native
+@JSImport("./images/themes/transports-deplacement-400x300@2x.jpg", "default")
+object themeTransportsDeplacementSmall2x extends js.Object
+
+@js.native
+@JSImport("./images/themes/vivre-ensemble-solidarites-400x300@2x.jpg", "default")
+object themeVivreEnsembleSolidariteSmall2x extends js.Object
+
+@js.native
+@JSImport("./images/themes/agriculture-ruralite-840x400.jpg", "default")
+object themeAgricultureRuraliteMedium extends js.Object
+
+@js.native
+@JSImport("./images/themes/democratie-vie-politique-840x400.jpg", "default")
+object themeDemocratieViePolitiqueMedium extends js.Object
+
+@js.native
+@JSImport("./images/themes/economie-emploi-travail-840x400.jpg", "default")
+object themeEconomieEmploiTravailMedium extends js.Object
+
+@js.native
+@JSImport("./images/themes/education-840x400.jpg", "default")
+object themeEducationMedium extends js.Object
+
+@js.native
+@JSImport("./images/themes/europe-monde-840x400.jpg", "default")
+object themeEuropeMondeMedium extends js.Object
+
+@js.native
+@JSImport("./images/themes/logement-840x400.jpg", "default")
+object themeLogementMedium extends js.Object
+
+@js.native
+@JSImport("./images/themes/numerique-culture-840x400.jpg", "default")
+object themeNumeriqueCultureMedium extends js.Object
+
+@js.native
+@JSImport("./images/themes/sante-alimentation-840x400.jpg", "default")
+object themeSanteAlimentationMedium extends js.Object
+
+@js.native
+@JSImport("./images/themes/securite-justice-840x400.jpg", "default")
+object themeSecuriteJusticeMedium extends js.Object
+
+@js.native
+@JSImport("./images/themes/transports-deplacement-840x400.jpg", "default")
+object themeTransportsDeplacementMedium extends js.Object
+
+@js.native
+@JSImport("./images/themes/vivre-ensemble-solidarites-840x400.jpg", "default")
+object themeVivreEnsembleSolidariteMedium extends js.Object
+
+@js.native
+@JSImport("./images/themes/agriculture-ruralite-840x400@2x.jpg", "default")
+object themeAgricultureRuraliteMedium2x extends js.Object
+
+@js.native
+@JSImport("./images/themes/democratie-vie-politique-840x400@2x.jpg", "default")
+object themeDemocratieViePolitiqueMedium2x extends js.Object
+
+@js.native
+@JSImport("./images/themes/economie-emploi-travail-840x400@2x.jpg", "default")
+object themeEconomieEmploiTravailMedium2x extends js.Object
+
+@js.native
+@JSImport("./images/themes/education-840x400@2x.jpg", "default")
+object themeEducationMedium2x extends js.Object
+
+@js.native
+@JSImport("./images/themes/europe-monde-840x400@2x.jpg", "default")
+object themeEuropeMondeMedium2x extends js.Object
+
+@js.native
+@JSImport("./images/themes/logement-840x400@2x.jpg", "default")
+object themeLogementMedium2x extends js.Object
+
+@js.native
+@JSImport("./images/themes/numerique-culture-840x400@2x.jpg", "default")
+object themeNumeriqueCultureMedium2x extends js.Object
+
+@js.native
+@JSImport("./images/themes/sante-alimentation-840x400@2x.jpg", "default")
+object themeSanteAlimentationMedium2x extends js.Object
+
+@js.native
+@JSImport("./images/themes/securite-justice-840x400@2x.jpg", "default")
+object themeSecuriteJusticeMedium2x extends js.Object
+
+@js.native
+@JSImport("./images/themes/transports-deplacement-840x400@2x.jpg", "default")
+object themeTransportsDeplacementMedium2x extends js.Object
+
+@js.native
+@JSImport("./images/themes/vivre-ensemble-solidarites-840x400@2x.jpg", "default")
+object themeVivreEnsembleSolidariteMedium2x extends js.Object
 
 @js.native
 @JSImport("./images/themes/agriculture-ruralite-1350x500.jpg", "default")
@@ -74,6 +266,7 @@ object themeTransportsDeplacement extends js.Object
 @js.native
 @JSImport("./images/themes/vivre-ensemble-solidarites-1350x500.jpg", "default")
 object themeVivreEnsembleSolidarite extends js.Object
+
 @js.native
 @JSImport("./images/themes/agriculture-ruralite-1350x500@2x.jpg", "default")
 object themeAgricultureRuralite2x extends js.Object

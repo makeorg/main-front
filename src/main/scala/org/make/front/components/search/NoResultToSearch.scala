@@ -39,11 +39,11 @@ object NoResultToSearch {
         <.div(^.className := Seq(NoResultToSearchStyles.wrapper, RowRulesStyles.centeredRow))(
           <.div(^.className := ColRulesStyles.col)(
             <.p(^.className := NoResultToSearchStyles.sadSmiley)("😞"),
-            <.h2(
+            <.h1(
               ^.className := Seq(TextStyles.mediumText, NoResultToSearchStyles.searchedExpressionIntro),
               ^.dangerouslySetInnerHTML := I18n.t("search.no-results.intro")
             )(),
-            <.h1(^.className := Seq(NoResultToSearchStyles.searchedExpression, TextStyles.mediumTitle))(
+            <.h2(^.className := Seq(NoResultToSearchStyles.searchedExpression, TextStyles.mediumTitle))(
               unescape("«&nbsp;" + self.props.wrapped.searchValue.getOrElse("") + "&nbsp;»")
             ),
             <.hr(^.className := NoResultToSearchStyles.messageSeparator)(),

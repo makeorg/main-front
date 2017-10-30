@@ -67,7 +67,7 @@ object Proposal {
                                   )
                                 ),
                                 <.div(^.className := ProposalStyles.contentWrapper)(
-                                  <.h3(^.className := Seq(TextStyles.bigText, TextStyles.boldText))(
+                                  <.h1(^.className := Seq(TextStyles.bigText, TextStyles.boldText))(
                                     self.state.proposal.content
                                   ),
                                   <.div(^.className := ProposalStyles.voteWrapper)(

@@ -3,7 +3,6 @@ import io.github.shogowada.scalajs.reactjs.React
 import io.github.shogowada.scalajs.reactjs.VirtualDOM._
 import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import org.make.front.components.Components._
-import org.make.front.facades.I18n
 import org.make.front.facades.Unescape.unescape
 import org.make.front.models.{PoliticalAction => PoliticalActionModel}
 import org.make.front.styles._
@@ -29,6 +28,7 @@ object PoliticalAction {
               <.img(
                 ^.className := PoliticalActionStyles.image,
                 ^.src := politicalAction.imageUrl,
+                ^.alt := politicalAction.imageTitle.getOrElse(""),
                 ^("data-pin-no-hover") := "true"
               )()
             ),
@@ -77,7 +77,7 @@ object PoliticalActionStyles extends StyleSheet.Inline {
         .beyondMedium(paddingLeft(ThemeStyles.SpacingValue.small.pxToEm()))
     )
 
-  val image: StyleA = style(display :=! s"inline!important", maxWidth(60.pxToEm()))
+  val image: StyleA = style(display :=! s"inline!important", maxHeight(80.pxToEm()))
 
   val info: StyleA = style(
     display.inlineBlock,

@@ -23,17 +23,16 @@ object MainHeader {
     displayName = "MainHeader",
     render = (self) =>
       <.header(^.className := MainHeaderStyles.wrapper)(
-        <.CookieAlertContainerComponent.empty,
         <.div(^.className := RowRulesStyles.centeredRow)(
           <.div(^.className := ColRulesStyles.col)(
             <.div(^.className := MainHeaderStyles.innerWrapper)(
-              /*TODO: h1 if homepage else p*/
-              <.h1(^.className := MainHeaderStyles.logoWrapper)(
+              <.p(^.className := MainHeaderStyles.logoWrapper)(
                 <.Link(^.to := "/")(
                   <.img(
                     ^.className := MainHeaderStyles.logo,
                     ^.src := logoMake.toString,
                     ^.title := I18n.t("main-header.title"),
+                    ^.alt := I18n.t("main-header.title"),
                     ^("data-pin-no-hover") := "true"
                   )()
                 )

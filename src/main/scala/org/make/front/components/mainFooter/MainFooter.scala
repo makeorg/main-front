@@ -35,6 +35,7 @@ object MainFooter {
                       <.img(
                         ^.className := MainFooterStyles.logo,
                         ^.src := logoMake.toString,
+                        ^.alt := "Make.org",
                         ^("data-pin-no-hover") := "true"
                       )()
                     )

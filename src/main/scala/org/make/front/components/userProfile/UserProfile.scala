@@ -43,6 +43,7 @@ object UserProfile {
                         <.img(
                           ^.src := self.props.wrapped.user.flatMap(_.profile).flatMap(_.avatarUrl).getOrElse(""),
                           ^.className := UserProfileStyles.avatar,
+                          ^.alt := self.props.wrapped.user.flatMap(_.firstName).getOrElse(""),
                           ^("data-pin-no-hover") := "true"
                         )()
                       } else {
@@ -119,58 +120,68 @@ object UserProfile {
                             )
                           )
                         ),
-                        <.div(^.className := UserProfileStyles.infoFieldWrapper)(
-                          <.div(^.className := UserProfileStyles.infoFieldLabelWrapper)(
-                            <.p(^.className := TextStyles.smallText)(
-                              I18n.t("authenticate.inputs.postal-code.placeholder")
-                            )
-                          ),
-                          <.div(^.className := UserProfileStyles.infoFieldInputWrapper)(
-                            <.div(
-                              ^.className := Seq(
-                                InputStyles.wrapper,
-                                InputStyles.withIcon,
-                                UserProfileStyles.postalCodeInputWithIconWrapper
+                        if (self.props.wrapped.user
+                              .flatMap(_.profile)
+                              .flatMap(_.departmentNumber)
+                              .isDefined) {
+                          <.div(^.className := UserProfileStyles.infoFieldWrapper)(
+                            <.div(^.className := UserProfileStyles.infoFieldLabelWrapper)(
+                              <.p(^.className := TextStyles.smallText)(
+                                I18n.t("authenticate.inputs.postal-code.placeholder")
                               )
-                            )(
-                              <.input(
-                                ^.`type`.text,
-                                ^.required := false,
-                                ^.placeholder := s"${I18n.t("authenticate.inputs.postal-code.placeholder")}",
-                                ^.value := self.props.wrapped.user
-                                  .flatMap(_.profile)
-                                  .flatMap(_.departmentNumber)
-                                  .getOrElse(""),
-                                ^.readOnly := true
-                              )()
+                            ),
+                            <.div(^.className := UserProfileStyles.infoFieldInputWrapper)(
+                              <.div(
+                                ^.className := Seq(
+                                  InputStyles.wrapper,
+                                  InputStyles.withIcon,
+                                  UserProfileStyles.postalCodeInputWithIconWrapper
+                                )
+                              )(
+                                <.input(
+                                  ^.`type`.text,
+                                  ^.required := false,
+                                  ^.placeholder := s"${I18n.t("authenticate.inputs.postal-code.placeholder")}",
+                                  ^.value := self.props.wrapped.user
+                                    .flatMap(_.profile)
+                                    .flatMap(_.departmentNumber)
+                                    .getOrElse(""),
+                                  ^.readOnly := true
+                                )()
+                              )
                             )
                           )
-                        ),
-                        <.div(^.className := UserProfileStyles.infoFieldWrapper)(
-                          <.div(^.className := UserProfileStyles.infoFieldLabelWrapper)(
-                            <.p(^.className := TextStyles.smallText)(I18n.t("authenticate.inputs.job.placeholder"))
-                          ),
-                          <.div(^.className := UserProfileStyles.infoFieldInputWrapper)(
-                            <.div(
-                              ^.className := Seq(
-                                InputStyles.wrapper,
-                                InputStyles.withIcon,
-                                UserProfileStyles.professionInputWithIconWrapper
+                        },
+                        if (self.props.wrapped.user
+                              .flatMap(_.profile)
+                              .flatMap(_.profession)
+                              .isDefined) {
+                          <.div(^.className := UserProfileStyles.infoFieldWrapper)(
+                            <.div(^.className := UserProfileStyles.infoFieldLabelWrapper)(
+                              <.p(^.className := TextStyles.smallText)(I18n.t("authenticate.inputs.job.placeholder"))
+                            ),
+                            <.div(^.className := UserProfileStyles.infoFieldInputWrapper)(
+                              <.div(
+                                ^.className := Seq(
+                                  InputStyles.wrapper,
+                                  InputStyles.withIcon,
+                                  UserProfileStyles.professionInputWithIconWrapper
+                                )
+                              )(
+                                <.input(
+                                  ^.`type`.text,
+                                  ^.required := false,
+                                  ^.placeholder := s"${I18n.t("authenticate.inputs.job.placeholder")}",
+                                  ^.value := self.props.wrapped.user
+                                    .flatMap(_.profile)
+                                    .flatMap(_.profession)
+                                    .getOrElse(""),
+                                  ^.readOnly := true
+                                )()
                               )
-                            )(
-                              <.input(
-                                ^.`type`.text,
-                                ^.required := false,
-                                ^.placeholder := s"${I18n.t("authenticate.inputs.job.placeholder")}",
-                                ^.value := self.props.wrapped.user
-                                  .flatMap(_.profile)
-                                  .flatMap(_.profession)
-                                  .getOrElse(""),
-                                ^.readOnly := true
-                              )()
                             )
                           )
-                        )
+                        }
                       )
                     )
                   )
@@ -291,33 +302,33 @@ object UserProfileStyles extends StyleSheet.Inline {
     style(ThemeStyles.MediaQueries.beyondSmall(display.tableCell))
 
   val emailInputWithIconWrapper: StyleA =
-    style(backgroundColor(ThemeStyles.BackgroundColor.lightGrey), (&.before)(Attr.real("content") := "'\\f003'"))
+    style(borderColor.transparent, (&.before)(Attr.real("content") := "'\\f003'"))
 
   val firstNameInputWithIconWrapper: StyleA =
     style(
-      (&.before)(Attr.real("content") := "'\\f007'"),
       marginTop(ThemeStyles.SpacingValue.small.pxToEm()),
-      backgroundColor(ThemeStyles.BackgroundColor.lightGrey)
+      borderColor.transparent,
+      (&.before)(Attr.real("content") := "'\\f007'")
     )
 
   val ageInputWithIconWrapper: StyleA =
     style(
       marginTop(ThemeStyles.SpacingValue.small.pxToEm()),
-      backgroundColor(ThemeStyles.BackgroundColor.lightGrey),
+      borderColor.transparent,
       (&.before)(Attr.real("content") := "'\\f1ae'")
     )
 
   val postalCodeInputWithIconWrapper: StyleA =
     style(
       marginTop(ThemeStyles.SpacingValue.small.pxToEm()),
-      backgroundColor(ThemeStyles.BackgroundColor.lightGrey),
+      borderColor.transparent,
       (&.before)(Attr.real("content") := "'\\f041'")
     )
 
   val professionInputWithIconWrapper: StyleA =
     style(
       marginTop(ThemeStyles.SpacingValue.small.pxToEm()),
-      backgroundColor(ThemeStyles.BackgroundColor.lightGrey),
+      borderColor.transparent,
       (&.before)(Attr.real("content") := "'\\f0f2'")
     )
 }
