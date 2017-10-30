@@ -36,7 +36,10 @@ object SequenceContainer {
 
           val vffOperation: OperationModel = state.operations.filter(_.operationId.value == "vff").head
           val proposalsResponse =
-            ProposalService.searchProposals(context = Some(ContextRequest(operation = Some(vffOperation.label))))
+            ProposalService.searchProposals(
+              context = Some(ContextRequest(operation = Some(vffOperation.label))),
+              limit = Some(20)
+            )
 
           proposalsResponse.recover {
             case e => dispatch(NotifyError(e.getMessage))

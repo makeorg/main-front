@@ -31,7 +31,7 @@ object OperationSequenceContainer {
           props.history.push("/")
           OperationSequence.OperationSequenceProps(
             OperationModel(OperationIdModel("fake"), "", "", "", 0, 0, "", None),
-            SequenceModel(SequenceIdModel("fake"), "", "", Seq.empty)
+            SequenceModel(SequenceIdModel("fake"), "", "")
           )
         } else {
           dispatch(LoadConfiguration)
