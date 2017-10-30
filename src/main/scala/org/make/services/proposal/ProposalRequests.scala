@@ -22,7 +22,7 @@ object Order {
 }
 
 final case class SortOptionRequest(field: String, mode: Option[Order])
-final case class ContextRequest(operation: Option[String] = Some(""),
+final case class ContextRequest(operation: Option[String] = None,
                                 location: Option[String] = None,
                                 source: Option[String] = Some(Source.Core.name),
                                 question: Option[String] = None)
