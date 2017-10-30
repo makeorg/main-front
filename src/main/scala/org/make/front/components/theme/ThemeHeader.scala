@@ -21,17 +21,17 @@ import scalacss.internal.mutable.StyleSheet.Inline
 
 object ThemeHeader {
 
-  case class ThemeIllsModel(SmallIllUrl: String = "",
-                            SmallIllUrl2x: String = "",
-                            MediumIllUrl: String = "",
-                            MediumIllUrl2x: String = "",
-                            IllUrl: String = "",
-                            IllUrl2x: String = "")
+  case class ThemeIllustrationsModel(SmallIllUrl: String = "",
+                                     SmallIllUrl2x: String = "",
+                                     MediumIllUrl: String = "",
+                                     MediumIllUrl2x: String = "",
+                                     IllUrl: String = "",
+                                     IllUrl2x: String = "")
 
-  def themeIlls(theme: ThemeModel): ThemeIllsModel = {
+  def themeIllustrations(theme: ThemeModel): ThemeIllustrationsModel = {
     theme.slug match {
       case "developpement-durable-energie" =>
-        ThemeIllsModel(
+        ThemeIllustrationsModel(
           SmallIllUrl = themeAgricultureRuraliteSmall.toString,
           SmallIllUrl2x = themeAgricultureRuraliteSmall2x.toString,
           MediumIllUrl = themeAgricultureRuraliteMedium.toString,
@@ -40,7 +40,7 @@ object ThemeHeader {
           IllUrl2x = themeAgricultureRuralite2x.toString
         )
       case "agriculture-ruralite" =>
-        ThemeIllsModel(
+        ThemeIllustrationsModel(
           SmallIllUrl = themeAgricultureRuraliteSmall.toString,
           SmallIllUrl2x = themeAgricultureRuraliteSmall2x.toString,
           MediumIllUrl = themeAgricultureRuraliteMedium.toString,
@@ -49,7 +49,7 @@ object ThemeHeader {
           IllUrl2x = themeAgricultureRuralite2x.toString
         )
       case "democratie-vie-politique" =>
-        ThemeIllsModel(
+        ThemeIllustrationsModel(
           SmallIllUrl = themeDemocratieViePolitiqueSmall.toString,
           SmallIllUrl2x = themeDemocratieViePolitiqueSmall2x.toString,
           MediumIllUrl = themeDemocratieViePolitiqueMedium.toString,
@@ -58,7 +58,7 @@ object ThemeHeader {
           IllUrl2x = themeDemocratieViePolitique2x.toString
         )
       case "economie-emploi-travail" =>
-        ThemeIllsModel(
+        ThemeIllustrationsModel(
           SmallIllUrl = themeEconomieEmploiTravailSmall.toString,
           SmallIllUrl2x = themeEconomieEmploiTravailSmall2x.toString,
           MediumIllUrl = themeEconomieEmploiTravailMedium.toString,
@@ -67,7 +67,7 @@ object ThemeHeader {
           IllUrl2x = themeEconomieEmploiTravail2x.toString
         )
       case "education" =>
-        ThemeIllsModel(
+        ThemeIllustrationsModel(
           SmallIllUrl = themeEducationSmall.toString,
           SmallIllUrl2x = themeEducationSmall2x.toString,
           MediumIllUrl = themeEducationMedium.toString,
@@ -76,7 +76,7 @@ object ThemeHeader {
           IllUrl2x = themeEducation2x.toString
         )
       case "europe-monde" =>
-        ThemeIllsModel(
+        ThemeIllustrationsModel(
           SmallIllUrl = themeEuropeMondeSmall.toString,
           SmallIllUrl2x = themeEuropeMondeSmall2x.toString,
           MediumIllUrl = themeEuropeMondeMedium.toString,
@@ -85,7 +85,7 @@ object ThemeHeader {
           IllUrl2x = themeEuropeMonde2x.toString
         )
       case "logement" =>
-        ThemeIllsModel(
+        ThemeIllustrationsModel(
           SmallIllUrl = themeLogementSmall.toString,
           SmallIllUrl2x = themeLogementSmall2x.toString,
           MediumIllUrl = themeLogementMedium.toString,
@@ -94,7 +94,7 @@ object ThemeHeader {
           IllUrl2x = themeLogement2x.toString
         )
       case "numerique-culture" =>
-        ThemeIllsModel(
+        ThemeIllustrationsModel(
           SmallIllUrl = themeNumeriqueCultureSmall.toString,
           SmallIllUrl2x = themeNumeriqueCultureSmall2x.toString,
           MediumIllUrl = themeNumeriqueCultureMedium.toString,
@@ -103,7 +103,7 @@ object ThemeHeader {
           IllUrl2x = themeNumeriqueCulture2x.toString
         )
       case "sante-alimentation" =>
-        ThemeIllsModel(
+        ThemeIllustrationsModel(
           SmallIllUrl = themeSanteAlimentationSmall.toString,
           SmallIllUrl2x = themeSanteAlimentationSmall2x.toString,
           MediumIllUrl = themeSanteAlimentationMedium.toString,
@@ -112,7 +112,7 @@ object ThemeHeader {
           IllUrl2x = themeSanteAlimentation2x.toString
         )
       case "securite-justice" =>
-        ThemeIllsModel(
+        ThemeIllustrationsModel(
           SmallIllUrl = themeSecuriteJusticeSmall.toString,
           SmallIllUrl2x = themeSecuriteJusticeSmall2x.toString,
           MediumIllUrl = themeSecuriteJusticeMedium.toString,
@@ -121,7 +121,7 @@ object ThemeHeader {
           IllUrl2x = themeSecuriteJustice2x.toString
         )
       case "transports-deplacement" =>
-        ThemeIllsModel(
+        ThemeIllustrationsModel(
           SmallIllUrl = themeTransportsDeplacementSmall.toString,
           SmallIllUrl2x = themeTransportsDeplacementSmall2x.toString,
           MediumIllUrl = themeTransportsDeplacementMedium.toString,
@@ -130,7 +130,7 @@ object ThemeHeader {
           IllUrl2x = themeTransportsDeplacement2x.toString
         )
       case "vivre-ensemble-solidarites" =>
-        ThemeIllsModel(
+        ThemeIllustrationsModel(
           SmallIllUrl = themeVivreEnsembleSolidariteSmall.toString,
           SmallIllUrl2x = themeVivreEnsembleSolidariteSmall2x.toString,
           MediumIllUrl = themeVivreEnsembleSolidariteMedium.toString,
@@ -139,7 +139,7 @@ object ThemeHeader {
           IllUrl2x = themeVivreEnsembleSolidarite2x.toString
         )
       case _ =>
-        ThemeIllsModel(
+        ThemeIllustrationsModel(
           SmallIllUrl = homeSmall.toString,
           SmallIllUrl2x = homeSmall2x.toString,
           MediumIllUrl = homeMedium.toString,
@@ -152,19 +152,19 @@ object ThemeHeader {
 
   case class ThemeHeaderProps(theme: ThemeModel)
 
-  case class ThemeHeaderState(isProposalModalOpened: Boolean, themeIlls: ThemeIllsModel)
+  case class ThemeHeaderState(isProposalModalOpened: Boolean, themeIllustrations: ThemeIllustrationsModel)
 
   lazy val reactClass: ReactClass =
     React.createClass[ThemeHeaderProps, ThemeHeaderState](
       displayName = "ThemeHeader",
       getInitialState = { _ =>
-        ThemeHeaderState(isProposalModalOpened = false, themeIlls = ThemeIllsModel())
+        ThemeHeaderState(isProposalModalOpened = false, themeIllustrations = ThemeIllustrationsModel())
       },
       componentDidMount = { (self) =>
-        self.setState(_.copy(themeIlls = themeIlls(self.props.wrapped.theme)))
+        self.setState(_.copy(themeIllustrations = themeIllustrations(self.props.wrapped.theme)))
       },
       componentWillReceiveProps = { (self, nextProps) =>
-        self.setState(_.copy(themeIlls = themeIlls(nextProps.wrapped.theme)))
+        self.setState(_.copy(themeIllustrations = themeIllustrations(nextProps.wrapped.theme)))
       },
       render = { self =>
         var proposalInput: Option[HTMLElement] = None
@@ -187,9 +187,9 @@ object ThemeHeader {
           val gradient = style(background := s"linear-gradient(130deg, ${gradientValues.from}, ${gradientValues.to})")
         }
 
-        val imageSrc: String = self.state.themeIlls.IllUrl
+        val imageSrc: String = self.state.themeIllustrations.IllUrl
         val imageSrcset
-          : String = self.state.themeIlls.SmallIllUrl + " 400w, " + self.state.themeIlls.SmallIllUrl2x + " 800w, " + self.state.themeIlls.MediumIllUrl + " 840w, " + self.state.themeIlls.MediumIllUrl2x + " 1680w, " + self.state.themeIlls.IllUrl + " 1350w, " + self.state.themeIlls.IllUrl2x + " 2700w"
+          : String = self.state.themeIllustrations.SmallIllUrl + " 400w, " + self.state.themeIllustrations.SmallIllUrl2x + " 800w, " + self.state.themeIllustrations.MediumIllUrl + " 840w, " + self.state.themeIllustrations.MediumIllUrl2x + " 1680w, " + self.state.themeIllustrations.IllUrl + " 1350w, " + self.state.themeIllustrations.IllUrl2x + " 2700w"
 
         <.header(^.className := Seq(ThemeHeaderStyles.wrapper, DynamicThemeHeaderStyles.gradient))(
           <.div(^.className := ThemeHeaderStyles.innerWrapper)(
