@@ -105,7 +105,14 @@ object UnconnectedUserNavElement {
             ^.className := Seq(RWDHideRulesStyles.showInlineBlockBeyondMedium, TextStyles.title, TextStyles.smallText)
           )(I18n.t("user-nav.login"))
         ),
-        <.span()(unescape("&nbsp;/&nbsp;")),
+        <.span(
+          ^.className := Seq(
+            UserNavStyles.slash,
+            RWDHideRulesStyles.showInlineBlockBeyondMedium,
+            TextStyles.title,
+            TextStyles.smallText
+          )
+        )(unescape("&nbsp;/&nbsp;")),
         <.button(^.onClick := openRegisterAuthenticateModal, ^.className := Seq(UserNavStyles.menuItemLink))(
           <.span(
             ^.className := Seq(RWDHideRulesStyles.showInlineBlockBeyondMedium, TextStyles.title, TextStyles.smallText)
@@ -189,6 +196,9 @@ object UserNavStyles extends StyleSheet.Inline {
       maxWidth.none,
       maxHeight.none
     )
+
+  val slash: StyleA =
+    style(color(ThemeStyles.TextColor.lighter))
 
   val userNameWrapper: StyleA =
     style(display.inlineBlock, verticalAlign.middle, marginLeft(ThemeStyles.SpacingValue.smaller.pxToEm()))
