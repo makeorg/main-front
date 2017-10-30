@@ -237,15 +237,19 @@ object Sequence {
           // toDo: Manage optional card adding to middle of slides
           //val firstOptionalSlideIndex: Int = slides.indexWhere(_.optional)
           val firstNonVotedSlideIndex: Int = slides.indexWhere { slide =>
-            slide.isInstanceOf[ProposalSlide] && slide.asInstanceOf[ProposalSlide].voted
+            slide.isInstanceOf[ProposalSlide] && !slide.asInstanceOf[ProposalSlide].voted
           }
-          val isAllProposalsVoted = otherProposals.isEmpty
+          val hasVotedProposals: Boolean = votedProposals.nonEmpty
           val lastSlideIndex: Int = slides.size - 1
           val indexToReach =
-            if (isAllProposalsVoted) lastSlideIndex
-            else if (firstNonVotedSlideIndex == -1) 0
+            if (!hasVotedProposals) 0
+            else if (firstNonVotedSlideIndex == -1) lastSlideIndex
             else firstNonVotedSlideIndex
-          val displayedSlidesCount: Int = indexToReach + 2
+          val showNextSlide: Boolean = slides(indexToReach).optional || (slides(indexToReach)
+            .isInstanceOf[ProposalSlide] &&
+            slides(indexToReach).asInstanceOf[ProposalSlide].voted)
+
+          val displayedSlidesCount: Int = if (showNextSlide) indexToReach + 2 else indexToReach + 1
 
           self.setState(
             _.copy(
