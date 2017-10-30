@@ -103,10 +103,7 @@ object OperationSequence {
                       )(
                         unescape(
                           I18n
-                            .t(
-                              "operation.sequence.header.total-of-proposals",
-                              Replacements(("total", self.props.wrapped.sequence.proposalsSlugs.size.toString))
-                            )
+                            .t("operation.sequence.header.total-of-proposals", Replacements(("total", "20")))
                         )
                       )
                     ),
