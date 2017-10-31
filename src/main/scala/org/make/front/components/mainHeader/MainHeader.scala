@@ -27,15 +27,13 @@ object MainHeader {
           <.div(^.className := ColRulesStyles.col)(
             <.div(^.className := MainHeaderStyles.innerWrapper)(
               <.p(^.className := MainHeaderStyles.logoWrapper)(
-                <.Link(^.to := "/")(
-                  <.img(
-                    ^.className := MainHeaderStyles.logo,
-                    ^.src := logoMake.toString,
-                    ^.title := I18n.t("main-header.title"),
-                    ^.alt := I18n.t("main-header.title"),
-                    ^("data-pin-no-hover") := "true"
-                  )()
-                )
+                <.img(
+                  ^.className := MainHeaderStyles.logo,
+                  ^.src := logoMake.toString,
+                  ^.title := I18n.t("main-header.title"),
+                  ^.alt := I18n.t("main-header.title"),
+                  ^("data-pin-no-hover") := "true"
+                )()
               ),
               <.div(^.className := MainHeaderStyles.searchWrapper)(<.SearchFormComponent.empty),
               <.div(^.className := MainHeaderStyles.menusWrapper)(
