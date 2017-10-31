@@ -130,7 +130,7 @@ object ProposalStyles extends StyleSheet.Inline {
       display.table,
       width(100.%%),
       height(100.%%),
-      height :=! s"calc(100% - ${100.pxToEm()})",
+      height :=! s"calc(100% - ${100.pxToEm().value})",
       backgroundColor(ThemeStyles.BackgroundColor.blackVeryTransparent)
     )
 
