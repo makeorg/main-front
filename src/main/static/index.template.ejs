@@ -11,6 +11,12 @@
     <title><%= htmlWebpackPlugin.options.title %></title>
     <meta content="<%= htmlWebpackPlugin.options.title %>" property="og:title">
     <meta content="width=device-width, initial-scale=1" name="viewport">
+    <script>
+      var target = "https://stopvff.make.org/#/consultation/comment-lutter-contre-les-violences-faites-aux-femmes"
+      if(document.location.href != target && /http(s)?:\/\/(www\.)?stopvff\.+/.test(document.location)) {
+        window.location = target;
+      }
+    </script>
     <link href="https://fonts.googleapis.com/css?family=Playfair+Display:400i" rel="stylesheet">
     <script language="javascript">
         var configuration = {
@@ -47,8 +53,6 @@
       gtag('config', '<%= htmlWebpackPlugin.options.googleAnalyticsId %>');
     </script>
     <!-- END Global site tag (gtag.js) - Google Analytics -->
-
-
 </head>
 <body>
 <div id="make-app"></div>
