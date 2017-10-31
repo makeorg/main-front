@@ -49,11 +49,11 @@ object AbTesting {
     explanation1 = abTestingMode match {
       case 0 => defaultExplanation1
       case 1 => defaultExplanation1
-      case 2 => defaultExplanation1
+      case 2 => Some("Votez sur ces solutions et proposez les vôtres.")
     },
     explanation2 = abTestingMode match {
       case 0 => defaultExplanation2
-      case 1 => Some("Votez sur ces solutions et proposez les vôtres.")
+      case 1 => defaultExplanation2
       case 2 => Some("Les plus soutenues détermineront nos actions.")
     }
   )
