@@ -27,7 +27,7 @@ object App {
             ModalStyles.render[String],
             TooltipStyles.render[String]
           ),
-          <.MainHeaderComponent.empty,
+          <.AboutMakeMainHeaderComponent.empty,
           <.NotificationsComponent.empty,
           <.ContainerComponent.empty,
           <.MainFooterComponent.empty,

@@ -31,14 +31,12 @@ object MainFooter {
               <.div(^.className := ColRulesStyles.col)(
                 <.div(^.className := MainFooterStyles.innerWrapper)(
                   <.p(^.className := MainFooterStyles.logoWrapper)(
-                    <.Link(^.to := "/")(
-                      <.img(
-                        ^.className := MainFooterStyles.logo,
-                        ^.src := logoMake.toString,
-                        ^.alt := "Make.org",
-                        ^("data-pin-no-hover") := "true"
-                      )()
-                    )
+                    <.img(
+                      ^.className := MainFooterStyles.logo,
+                      ^.src := logoMake.toString,
+                      ^.alt := "Make.org",
+                      ^("data-pin-no-hover") := "true"
+                    )()
                   ),
                   <.div(^.className := MainFooterStyles.menuWrapper)(
                     <.ul(^.className := MainFooterStyles.menu)(
