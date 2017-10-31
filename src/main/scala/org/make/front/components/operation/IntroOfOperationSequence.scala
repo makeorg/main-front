@@ -28,9 +28,6 @@ object IntroOfOperationSequence {
     React
       .createClass[IntroOfOperationSequenceProps, Unit](
         displayName = "IntroOfOperationSequence",
-        componentDidMount = { _ =>
-          FacebookPixel.fbq("trackCustom", "display-sequence-intro")
-        },
         render = { self =>
           <.div(^.className := Seq(RowRulesStyles.row))(
             <.div(^.className := ColRulesStyles.col)(self.props.wrapped.title.map { title =>
