@@ -38,51 +38,52 @@ object TrendingShowcase {
         }
 
         val counter = Counter.showcaseCounter
-
-        <.section(^.className := TrendingShowcaseStyles.wrapper)(if (self.state.proposals.nonEmpty) {
-          Seq(
-            <.div(^.className := RowRulesStyles.centeredRow)(
-              <.header(^.className := ColRulesStyles.col)(
-                <.p(^.className := Seq(TrendingShowcaseStyles.intro, TextStyles.mediumText, TextStyles.intro))(
-                  self.props.wrapped.intro
+        if (self.state.proposals.nonEmpty) {
+          <.section(^.className := TrendingShowcaseStyles.wrapper)(
+            Seq(
+              <.div(^.className := RowRulesStyles.centeredRow)(
+                <.header(^.className := ColRulesStyles.col)(
+                  <.p(^.className := Seq(TrendingShowcaseStyles.intro, TextStyles.mediumText, TextStyles.intro))(
+                    self.props.wrapped.intro
+                  ),
+                  <.h2(^.className := Seq(TrendingShowcaseStyles.title, TextStyles.mediumTitle))(
+                    self.props.wrapped.title,
+                    <.span(^.style := Map("display" -> "none"))("Make.org"),
+                    <.img(
+                      ^.className := TrendingShowcaseStyles.logo,
+                      ^.src := logoMake.toString,
+                      ^.alt := "Make.org",
+                      ^("data-pin-no-hover") := "true"
+                    )()
+                  )
                 ),
-                <.h2(^.className := Seq(TrendingShowcaseStyles.title, TextStyles.mediumTitle))(
-                  self.props.wrapped.title,
-                  <.span(^.style := Map("display" -> "none"))("Make.org"),
-                  <.img(
-                    ^.className := TrendingShowcaseStyles.logo,
-                    ^.src := logoMake.toString,
-                    ^.alt := "Make.org",
-                    ^("data-pin-no-hover") := "true"
-                  )()
+                <.ul(^.className := TrendingShowcaseStyles.propasalsList)(
+                  self.state.proposals.map(
+                    proposal =>
+                      <.li(
+                        ^.className := Seq(
+                          TrendingShowcaseStyles.propasalItem,
+                          ColRulesStyles.col,
+                          ColRulesStyles.colHalfBeyondMedium
+                        )
+                      )(if (proposal.themeId.isDefined) {
+                        <.ProposalTileWithThemeContainerComponent(
+                          ^.wrapped :=
+                            ProposalTileWithThemeContainerProps(proposal = proposal, index = counter.getAndIncrement())
+                        )()
+                      } else {
+                        <.ProposalTileComponent(
+                          ^.wrapped :=
+                            ProposalTileProps(proposal = proposal, index = counter.getAndIncrement())
+                        )()
+                      })
+                  )
                 )
               ),
-              <.ul(^.className := TrendingShowcaseStyles.propasalsList)(
-                self.state.proposals.map(
-                  proposal =>
-                    <.li(
-                      ^.className := Seq(
-                        TrendingShowcaseStyles.propasalItem,
-                        ColRulesStyles.col,
-                        ColRulesStyles.colHalfBeyondMedium
-                      )
-                    )(if (proposal.themeId.isDefined) {
-                      <.ProposalTileWithThemeContainerComponent(
-                        ^.wrapped :=
-                          ProposalTileWithThemeContainerProps(proposal = proposal, index = counter.getAndIncrement())
-                      )()
-                    } else {
-                      <.ProposalTileComponent(
-                        ^.wrapped :=
-                          ProposalTileProps(proposal = proposal, index = counter.getAndIncrement())
-                      )()
-                    })
-                )
-              )
-            ),
-            <.style()(TrendingShowcaseStyles.render[String])
+              <.style()(TrendingShowcaseStyles.render[String])
+            )
           )
-        })
+        } else <.div.empty
       }
     )
 }

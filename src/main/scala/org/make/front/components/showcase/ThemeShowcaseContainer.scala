@@ -24,10 +24,17 @@ object ThemeShowcaseContainer {
     (_: Dispatch) => { (appState: AppState, ownProps: Props[ThemeShowcaseContainerProps]) =>
       val themes = appState.themes
       val maybeTheme = themes.find(_.slug == ownProps.wrapped.themeSlug)
+
       maybeTheme.map { theme =>
         ThemeShowcase.ThemeShowcaseProps(
           proposals = ProposalService
-            .searchProposals(themesIds = Seq(theme.id), labelsIds = Some(Seq(Label.Star.name)), limit = Some(4), sort = Seq.empty, skip = None),
+            .searchProposals(
+              themesIds = Seq(theme.id),
+              labelsIds = Some(Seq(Label.Star.name)),
+              limit = Some(4),
+              sort = Seq.empty,
+              skip = None
+            ),
           maybeTheme = Some(theme),
           maybeIntro = ownProps.wrapped.maybeIntro,
           maybeNews = ownProps.wrapped.maybeNews

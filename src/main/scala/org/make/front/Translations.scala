@@ -63,6 +63,9 @@ object Translations {
       |        "title": "Les propositions les + populaires sur"
       |      }
       |    },
+      |    "theme-showcase": {
+      |        "see-all": "Voir toutes les propositions du thème %{themeName}"
+      |      },
       |    "nav-in-themes": {
       |      "title": "Tous les&nbsp;thèmes",
       |      "total-of-actions": "%{total} actions",

@@ -7,7 +7,7 @@ import io.github.shogowada.scalajs.reactjs.router.dom.RouterDOM._
 import org.make.core.Counter
 import org.make.front.components.Components.{RichVirtualDOMElements, _}
 import org.make.front.components.proposal.ProposalTile.ProposalTileProps
-import org.make.front.facades.HexToRgba
+import org.make.front.facades.{HexToRgba, I18n, Replacements}
 import org.make.front.models.{GradientColor => GradientColorModel, Proposal => ProposalModel, Theme => ThemeModel}
 import org.make.front.styles._
 import org.make.front.styles.base.{ColRulesStyles, RowRulesStyles, TextStyles}
@@ -57,8 +57,8 @@ object ThemeShowcase {
 
         val counter = Counter.showcaseCounter
 
-        <.section(^.className := Seq(ThemeShowcaseStyles.wrapper, DynamicThemeShowcaseStyles.gradient(index)))(
-          if (self.state.proposals.nonEmpty) {
+        if (self.state.proposals.nonEmpty) {
+          <.section(^.className := Seq(ThemeShowcaseStyles.wrapper, DynamicThemeShowcaseStyles.gradient(index)))(
             Seq(
               <.div(^.className := RowRulesStyles.centeredRow)(
                 <.header(^.className := ColRulesStyles.col)(if (self.props.wrapped.maybeIntro.nonEmpty) {
@@ -97,17 +97,26 @@ object ThemeShowcase {
                       ^.className := Seq(CTAStyles.basic, CTAStyles.basicOnA),
                       ^.to := s"/theme/${self.props.wrapped.maybeTheme.map(_.slug).getOrElse("")}"
                     )(
-                      "Voir toutes les propositions du thème " + self.props.wrapped.maybeTheme
-                        .map(_.title)
-                        .getOrElse("")
+                      I18n
+                        .t(
+                          "theme-showcase.see-all",
+                          Replacements(
+                            (
+                              "themeName",
+                              self.props.wrapped.maybeTheme
+                                .map(_.title)
+                                .getOrElse("")
+                            )
+                          )
+                        )
                     )
                   )
                 }
               ),
               <.style()(ThemeShowcaseStyles.render[String], DynamicThemeShowcaseStyles.render[String])
             )
-          }
-        )
+          )
+        } else <.div.empty
     })
 }
 
