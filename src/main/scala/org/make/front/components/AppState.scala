@@ -1,16 +1,15 @@
 package org.make.front.components
 
 import org.make.front.models.{
-  SequenceId            => SequenceIdModel,
-  Operation             => OperationModel,
-  Sequence              => SequenceModel,
   BusinessConfiguration => BusinessConfigurationModel,
-  PoliticalAction       => PoliticalActionModel,
-  OperationId           => OperationIdModel,
   GradientColor         => GradientColorModel,
-  ProposalId            => ProposalIdModel,
-  User                  => UserModel,
-  Theme                 => ThemeModel
+  Operation             => OperationModel,
+  OperationId           => OperationIdModel,
+  PoliticalAction       => PoliticalActionModel,
+  Sequence              => SequenceModel,
+  SequenceId            => SequenceIdModel,
+  Theme                 => ThemeModel,
+  User                  => UserModel
 }
 
 final case class AppState(configuration: Option[BusinessConfigurationModel],

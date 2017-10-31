@@ -20,47 +20,37 @@ object Home {
       .createClass[Unit, Unit](
         displayName = "Home",
         render = { self =>
-          <("home")()(
+          <("home")(^.className := HomeStyles.wrapper)(
             <.h1(^.style := Map("display" -> "none"))("Make.org"),
             <.IntroComponent.empty,
-            <.div(^.className := HomeStyles.item)(
-              <.ThemeShowcaseContainerComponent(
-                ^.wrapped := ThemeShowcaseContainerProps(
-                  themeSlug = "developpement-durable-energie",
-                  maybeIntro = Some(unescape(I18n.t("home.showcase-1.intro"))),
-                  maybeNews = Some(I18n.t("home.showcase-1.news"))
-                )
-              )()
-            ),
-            <.div(^.className := HomeStyles.item)(<.ExplanationsComponent.empty),
-            <.div(^.className := HomeStyles.item)(
-              <.TrendingShowcaseContainerComponent(
-                ^.wrapped := TrendingShowcaseContainerProps(
-                  trending = "trending",
-                  intro = unescape(I18n.t("home.showcase-2.intro")),
-                  title = unescape(I18n.t("home.showcase-2.title"))
-                )
-              )()
-            ),
-            <.div(^.className := HomeStyles.item)(
-              <.ThemeShowcaseContainerComponent(
-                ^.wrapped := ThemeShowcaseContainerProps(themeSlug = "economie-emploi-travail")
-              )()
-            ),
-            <.div(^.className := HomeStyles.item)(
-              <.TrendingShowcaseContainerComponent(
-                ^.wrapped := TrendingShowcaseContainerProps(
-                  trending = "hot",
-                  intro = unescape(I18n.t("home.showcase-3.intro")),
-                  title = unescape(I18n.t("home.showcase-3.title"))
-                )
-              )()
-            ),
-            <.div(^.className := HomeStyles.item)(
-              <.ThemeShowcaseContainerComponent(
-                ^.wrapped := ThemeShowcaseContainerProps(themeSlug = "vivre-ensemble-solidarites")
-              )()
-            ),
+            <.ThemeShowcaseContainerComponent(
+              ^.wrapped := ThemeShowcaseContainerProps(
+                themeSlug = "developpement-durable-energie",
+                maybeIntro = Some(unescape(I18n.t("home.showcase-1.intro"))),
+                maybeNews = Some(I18n.t("home.showcase-1.news"))
+              )
+            )(),
+            <.ExplanationsComponent.empty,
+            <.TrendingShowcaseContainerComponent(
+              ^.wrapped := TrendingShowcaseContainerProps(
+                trending = "trending",
+                intro = unescape(I18n.t("home.showcase-2.intro")),
+                title = unescape(I18n.t("home.showcase-2.title"))
+              )
+            )(),
+            <.ThemeShowcaseContainerComponent(
+              ^.wrapped := ThemeShowcaseContainerProps(themeSlug = "economie-emploi-travail")
+            )(),
+            <.TrendingShowcaseContainerComponent(
+              ^.wrapped := TrendingShowcaseContainerProps(
+                trending = "hot",
+                intro = unescape(I18n.t("home.showcase-3.intro")),
+                title = unescape(I18n.t("home.showcase-3.title"))
+              )
+            )(),
+            <.ThemeShowcaseContainerComponent(
+              ^.wrapped := ThemeShowcaseContainerProps(themeSlug = "vivre-ensemble-solidarites")
+            )(),
             <.NavInThemesContainerComponent.empty,
             <.style()(HomeStyles.render[String])
           )
@@ -72,7 +62,6 @@ object HomeStyles extends StyleSheet.Inline {
 
   import dsl._
 
-  val item: StyleA =
-    style(display.block, boxSizing.contentBox, borderBottom :=! s"1px solid ${ThemeStyles.BorderColor.white.value}")
-
+  val wrapper: StyleA =
+    style(unsafeChild("> section")(borderBottom :=! s"1px solid ${ThemeStyles.BorderColor.white.value}"))
 }
