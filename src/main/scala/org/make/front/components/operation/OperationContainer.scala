@@ -20,7 +20,7 @@ object OperationContainer {
         val OperationsList: Seq[OperationModel] = state.operations.filter(_.slug == slug)
         if (OperationsList.isEmpty) {
           props.history.push("/")
-          Operation.OperationProps(OperationModel(OperationIdModel("fake"), "", "", "", 0, 0, "", None))
+          Operation.OperationProps(OperationModel(OperationIdModel("fake"), "", "", "", "", 0, 0, "", None))
         } else {
           dispatch(LoadConfiguration)
           Operation.OperationProps(OperationsList.head)

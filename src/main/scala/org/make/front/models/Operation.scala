@@ -6,6 +6,7 @@ import org.make.core.StringValue
 import org.make.front.components.AppState
 
 final case class Operation(operationId: OperationId,
+                           url: String,
                            slug: String,
                            title: String,
                            label: String,

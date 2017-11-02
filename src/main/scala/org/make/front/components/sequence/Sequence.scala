@@ -196,7 +196,7 @@ object Sequence {
           <(self.props.wrapped.promptingToPropose)(
             ^.wrapped := PromptingToProposeInsideOperationSequenceProps(
               operation = self.props.wrapped.maybeOperation
-                .getOrElse(OperationModel(OperationIdModel("fake"), "", "", "", 0, 0, "", None)),
+                .getOrElse(OperationModel(OperationIdModel("fake"), "", "", "", "", 0, 0, "", None)),
               clickOnButtonHandler = nextProposal
             )
           )()
