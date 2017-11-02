@@ -49,14 +49,14 @@ object Proposal {
         }
       },
       render = { self =>
-        if (self.state.proposal != null) {
-          <("proposal")()(
-            <.div(^.className := ProposalStyles.wrapper)(
-              <.div(^.className := ProposalStyles.row)(
-                <.div(^.className := ProposalStyles.cell)(<.MainHeaderComponent.empty)
-              ),
-              <.div(^.className := Seq(ProposalStyles.row, ProposalStyles.fullHeight))(
-                <.div(^.className := Seq(ProposalStyles.cell, ProposalStyles.articleCell))(
+        <("proposal")()(
+          <.div(^.className := ProposalStyles.wrapper(self.state.proposal != null))(
+            <.div(^.className := ProposalStyles.row)(
+              <.div(^.className := ProposalStyles.cell)(<.MainHeaderComponent.empty)
+            ),
+            <.div(^.className := Seq(ProposalStyles.row, ProposalStyles.fullHeight))(
+              <.div(^.className := Seq(ProposalStyles.cell, ProposalStyles.articleCell))(
+                if (self.state.proposal != null) {
                   <.div(^.className := Seq(RowRulesStyles.centeredRow, ProposalStyles.fullHeight))(
                     <.div(^.className := Seq(ColRulesStyles.col, ProposalStyles.fullHeight))(
                       <.article(^.className := ProposalStyles.article)(
@@ -95,8 +95,11 @@ object Proposal {
                       )
                     )
                   )
-                )
-              ) /*,
+                } else {
+                  <.SpinnerComponent.empty
+                }
+              )
+            ) /*,
               <.div(^.className := Seq(ProposalStyles.row))(
                 <.div(^.className := Seq(ProposalStyles.cell, ProposalStyles.shareArticleCell))(
                   <.div(^.className := RowRulesStyles.centeredRow)(
@@ -106,18 +109,15 @@ object Proposal {
                   )
                 )
               )*/
-            ),
-            if (self.state.themeSlug.nonEmpty) {
-              <.ThemeShowcaseContainerComponent(
-                ^.wrapped := ThemeShowcaseContainerProps(themeSlug = self.state.themeSlug.getOrElse(""))
-              )()
-            },
-            <.NavInThemesContainerComponent.empty,
-            <.style()(ProposalStyles.render[String])
-          )
-        } else {
-          <.div.empty
-        }
+          ),
+          if (self.state.themeSlug.nonEmpty) {
+            <.ThemeShowcaseContainerComponent(
+              ^.wrapped := ThemeShowcaseContainerProps(themeSlug = self.state.themeSlug.getOrElse(""))
+            )()
+          },
+          <.NavInThemesContainerComponent.empty,
+          <.style()(ProposalStyles.render[String])
+        )
       }
     )
 }
@@ -128,14 +128,25 @@ object ProposalStyles extends StyleSheet.Inline {
   val fullHeight: StyleA =
     style(height(100.%%))
 
-  val wrapper: StyleA =
-    style(
-      display.table,
-      width(100.%%),
-      height(100.%%),
-      height :=! s"calc(100% - ${100.pxToEm().value})",
-      backgroundColor(ThemeStyles.BackgroundColor.blackVeryTransparent)
-    )
+  val wrapper: (Boolean) => StyleA = styleF.bool(
+    isLoaded =>
+      if (isLoaded) {
+        styleS(
+          display.table,
+          width(100.%%),
+          height(100.%%),
+          height :=! s"calc(100% - ${100.pxToEm().value})",
+          backgroundColor(ThemeStyles.BackgroundColor.blackVeryTransparent)
+        )
+      } else {
+        styleS(
+          display.table,
+          width(100.%%),
+          height(100.%%),
+          backgroundColor(ThemeStyles.BackgroundColor.blackVeryTransparent)
+        )
+    }
+  )
 
   val row: StyleA =
     style(display.tableRow)
