@@ -1,6 +1,7 @@
 package org.make.front.components.operation
 
 import io.github.shogowada.scalajs.reactjs.React
+import io.github.shogowada.scalajs.reactjs.React.{Props, Self}
 import io.github.shogowada.scalajs.reactjs.VirtualDOM.{<, _}
 import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import io.github.shogowada.scalajs.reactjs.events.MouseSyntheticEvent
@@ -10,33 +11,39 @@ import org.make.front.components.operation.SubmitProposalInRelationToOperation.S
 import org.make.front.components.sequence.SequenceContainer.SequenceContainerProps
 import org.make.front.facades.Unescape.unescape
 import org.make.front.facades.{FacebookPixel, I18n, Replacements}
-import org.make.front.models.{
-  GradientColor => GradientColorModel,
-  Operation     => OperationModel,
-  Sequence      => SequenceModel
-}
+import org.make.front.models.{GradientColor => GradientColorModel, Operation => OperationModel, Sequence => SequenceModel}
 import org.make.front.styles._
 import org.make.front.styles.base.{ColRulesStyles, RWDHideRulesStyles, RowRulesStyles, TextStyles}
 import org.make.front.styles.ui.{CTAStyles, TooltipStyles}
 import org.make.front.styles.utils._
 import org.make.front.styles.vendors.FontAwesomeStyles
 
+import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.Future
 import scala.scalajs.js.JSConverters._
+import scala.util.{Failure, Success}
 import scalacss.DevDefaults.{StyleA, _}
 import scalacss.internal.mutable.StyleSheet
 import scalacss.internal.mutable.StyleSheet.Inline
 
 object OperationSequence {
 
-  final case class OperationSequenceProps(operation: OperationModel, sequence: SequenceModel)
+  final case class OperationSequenceProps(operation: OperationModel, sequence: SequenceModel, numberOfProposals: Future[Int])
 
-  final case class OperationSequenceState(isProposalModalOpened: Boolean)
+  final case class OperationSequenceState(isProposalModalOpened: Boolean, numberOfroposals: Int)
 
   lazy val reactClass: ReactClass =
     React.createClass[OperationSequenceProps, OperationSequenceState](
       displayName = "OperationSSequence",
       getInitialState = { _ =>
-        OperationSequenceState(isProposalModalOpened = false)
+        OperationSequenceState(isProposalModalOpened = false, numberOfroposals = 0)
+      },
+      componentWillReceiveProps = { (self: Self[OperationSequenceProps, OperationSequenceState], props: Props[OperationSequenceProps]) =>
+        props.wrapped.numberOfProposals.onComplete {
+          case Success(numberOfroposals) =>
+            self.setState(_.copy(numberOfroposals = numberOfroposals))
+          case Failure(_) =>
+        }
       },
       render = { self =>
         val guidedState: Boolean = false
@@ -103,7 +110,7 @@ object OperationSequence {
                       )(
                         unescape(
                           I18n
-                            .t("operation.sequence.header.total-of-proposals", Replacements(("total", "20")))
+                            .t("operation.sequence.header.total-of-proposals", Replacements(("total", self.state.numberOfroposals.toString)))
                         )
                       )
                     ),
