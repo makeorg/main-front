@@ -24,13 +24,13 @@ object ProposalTileStyles extends StyleSheet.Inline {
     style(display.table, tableLayout.fixed, width(100.%%), height(100.%%))
 
   val row: StyleA =
-    style(display.tableRow, height(0.%%))
-
-  val stretchedRow: StyleA =
-    style(height(100.%%))
+    style(display.tableRow)
 
   val cell: StyleA =
     style(display.tableCell, verticalAlign.top)
+
+  val cellAlignedAtTheBottom: StyleA =
+    style(display.tableCell, verticalAlign.bottom)
 
   val proposalInfosWrapper: StyleA = style(
     margin :=! s"0 ${ThemeStyles.SpacingValue.small.pxToEm().value}",
@@ -44,6 +44,8 @@ object ProposalTileStyles extends StyleSheet.Inline {
       .value} ${ThemeStyles.SpacingValue.smaller.pxToEm().value} ${ThemeStyles.SpacingValue.small.pxToEm().value}",
     backgroundColor(ThemeStyles.BackgroundColor.blackMoreTransparent)
   )
+
+  val proposalLinkOnTitle: StyleA = style(color(ThemeStyles.TextColor.base))
 
   val contentWrapper: StyleA =
     style(padding(ThemeStyles.SpacingValue.small.pxToEm()), overflow.hidden)

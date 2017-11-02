@@ -20,7 +20,8 @@ object Home {
       .createClass[Unit, Unit](
         displayName = "Home",
         render = { self =>
-          <("home")(^.className := HomeStyles.wrapper)(
+          <.div(^.className := HomeStyles.wrapper)(
+            <.MainHeaderComponent.empty,
             <.h1(^.style := Map("display" -> "none"))("Make.org"),
             <.IntroComponent.empty,
             <.ThemeShowcaseContainerComponent(

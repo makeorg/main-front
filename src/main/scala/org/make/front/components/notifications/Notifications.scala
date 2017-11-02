@@ -55,35 +55,32 @@ object Notifications {
             case Success => NotificationsStyles.success.htmlClass
             case Info    => NotificationsStyles.info.htmlClass
           }).mkString(" ")
-        <.div(^.className := Seq(NotificationsStyles.wrapper))(
-          <.ul(^.className := Seq(NotificationsStyles.list, RowRulesStyles.centeredRow))(
-            self.state.notifications.map(notification => {
-              <.li(^.className := Seq(NotificationsStyles.item, ColRulesStyles.col))(
-                <.div(^.className := NotificationClasses(notification.level))(
-                  <.button(
-                    ^.className := NotificationsStyles.closeButton,
-                    ^.onClick := closeNotification(notification.identifier)
-                  )(
-                    <("svg")(
-                      ^("xmlns") := "http://www.w3.org/2000/svg",
-                      ^("x") := "0px",
-                      ^("y") := "0px",
-                      ^("width") := "20",
-                      ^("height") := "20",
-                      ^("viewBox") := "0 0 25 25"
-                    )(
-                      <("path")(
-                        ^("d") := "M12.5,9.3L3.9,0.7l0,0c-0.3-0.3-0.8-0.3-1.1,0L0.7,2.9c-0.3,0.3-0.3,0.8,0,1.1l8.6,8.6l-8.6,8.6 c-0.3,0.3-0.3,0.8,0,1.1l2.1,2.1c0.3,0.3,0.8,0.3,1.1,0l8.6-8.6l8.6,8.6c0.3,0.3,0.8,0.3,1.1,0l2.1-2.1c0.3-0.3,0.3-0.8,0-1.1 l-8.6-8.6l8.6-8.6l0,0c0.3-0.3,0.3-0.8,0-1.1l-2.1-2.1c-0.3-0.3-0.8-0.3-1.1,0L12.5,9.3z"
-                      )()
-                    )
-                  ),
-                  <.p(^.className := TextStyles.smallText, ^.dangerouslySetInnerHTML := notification.message)()
+
+        <.ul(^.className := RowRulesStyles.centeredRow)(self.state.notifications.map(notification => {
+          <.li(^.className := Seq(NotificationsStyles.item, ColRulesStyles.col))(
+            <.div(^.className := NotificationClasses(notification.level))(
+              <.button(
+                ^.className := NotificationsStyles.closeButton,
+                ^.onClick := closeNotification(notification.identifier)
+              )(
+                <("svg")(
+                  ^("xmlns") := "http://www.w3.org/2000/svg",
+                  ^("x") := "0px",
+                  ^("y") := "0px",
+                  ^("width") := "20",
+                  ^("height") := "20",
+                  ^("viewBox") := "0 0 25 25"
+                )(
+                  <("path")(
+                    ^("d") := "M12.5,9.3L3.9,0.7l0,0c-0.3-0.3-0.8-0.3-1.1,0L0.7,2.9c-0.3,0.3-0.3,0.8,0,1.1l8.6,8.6l-8.6,8.6 c-0.3,0.3-0.3,0.8,0,1.1l2.1,2.1c0.3,0.3,0.8,0.3,1.1,0l8.6-8.6l8.6,8.6c0.3,0.3,0.8,0.3,1.1,0l2.1-2.1c0.3-0.3,0.3-0.8,0-1.1 l-8.6-8.6l8.6-8.6l0,0c0.3-0.3,0.3-0.8,0-1.1l-2.1-2.1c-0.3-0.3-0.8-0.3-1.1,0L12.5,9.3z"
+                  )()
                 )
-              )
-            })
-          ),
-          <.style()(NotificationsStyles.render[String])
-        )
+              ),
+              <.p(^.className := TextStyles.smallText, ^.dangerouslySetInnerHTML := notification.message)()
+            )
+          )
+        }), <.style()(NotificationsStyles.render[String]))
+
       }
     )
 }
@@ -91,17 +88,6 @@ object Notifications {
 object NotificationsStyles extends StyleSheet.Inline {
 
   import dsl._
-
-  val wrapper: StyleA = style(
-    position.fixed,
-    zIndex(10),
-    top((50).pxToEm()), // TODO: dynamise calcul, if main intro is first child of page
-    ThemeStyles.MediaQueries.beyondSmall(top((80).pxToEm())),
-    left(`0`),
-    width(100.%%)
-  )
-
-  val list: StyleA = style()
 
   val item: StyleA = style(margin :=! s"${ThemeStyles.SpacingValue.smaller.pxToEm().value} 0 0")
 
