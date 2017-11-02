@@ -380,7 +380,7 @@ object Translations {
       |        "with-social-networks-intro": "Je m'inscris avec",
       |        "separator": "ou",
       |        "with-email-intro": "Je m'inscris avec mon adresse&nbsp;email",
-      |        "terms": "En vous inscrivant, vous acceptez nos conditions générales d'utilisation ainsi que de recevoir ponctuellement des emails de&nbsp;Make.org.",
+      |        "terms": "En vous inscrivant, vous acceptez nos <a href=\"https://about.make.org/conditions-dutilisation\" target=\"_blank\">conditions générales d'utilisation</a> ainsi que de recevoir ponctuellement des emails de&nbsp;Make.org.",
       |        "send-cta": "Je m'inscris",
       |        "errors": {
       |          "already-exists": "Ce compte existe déjà, merci de vous&nbsp;connecter."
