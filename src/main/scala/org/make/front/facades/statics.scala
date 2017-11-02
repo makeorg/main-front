@@ -4,6 +4,110 @@ import scala.scalajs.js
 import scala.scalajs.js.annotation.JSImport
 
 @js.native
+@JSImport("./images/actions/le-refuge.png", "default")
+object lerefuge extends js.Object
+
+@js.native
+@JSImport("./images/actions/concours-affiche-arcade-taninges.jpg", "default")
+object concoursaffichearcadetaninges extends js.Object
+
+@js.native
+@JSImport("./images/actions/sos-racisme.png", "default")
+object sosracisme extends js.Object
+
+@js.native
+@JSImport("./images/actions/sakado.jpg", "default")
+object sakado extends js.Object
+
+@js.native
+@JSImport("./images/actions/ni-putes-ni-soumises.png", "default")
+object niputesnisoumises extends js.Object
+
+@js.native
+@JSImport("./images/actions/sans-a.jpg", "default")
+object sansa extends js.Object
+
+@js.native
+@JSImport("./images/actions/cartooningforpeace.jpg", "default")
+object cartooningforpeace extends js.Object
+
+@js.native
+@JSImport("./images/actions/emmaus.png", "default")
+object emmaus extends js.Object
+
+@js.native
+@JSImport("./images/actions/maison-des-potes.jpg", "default")
+object maisondespotes extends js.Object
+
+@js.native
+@JSImport("./images/actions/anticor.jpg", "default")
+object anticor extends js.Object
+
+@js.native
+@JSImport("./images/actions/association-pour-1-democratie-directe.png", "default")
+object associationpour1democratiedirecte extends js.Object
+
+@js.native
+@JSImport("./images/actions/oxfam-france.png", "default")
+object oxfamfrance extends js.Object
+
+@js.native
+@JSImport("./images/actions/genepi.png", "default")
+object genepi extends js.Object
+
+@js.native
+@JSImport("./images/actions/handicap-international.png", "default")
+object handicapinternational extends js.Object
+
+@js.native
+@JSImport("./images/actions/solidarite-sida.png", "default")
+object solidaritesida extends js.Object
+
+@js.native
+@JSImport("./images/actions/rempart.jpg", "default")
+object rempart extends js.Object
+
+@js.native
+@JSImport("./images/actions/sesame.jpg", "default")
+object sesame extends js.Object
+
+@js.native
+@JSImport("./images/actions/jetdencre.gif", "default")
+object jetdencre extends js.Object
+
+@js.native
+@JSImport("./images/actions/association-francaise-des-femmes-ingenieurs.png", "default")
+object associationfrancaisedesfemmesingenieurs extends js.Object
+
+@js.native
+@JSImport("./images/actions/solidarites-nouvelles-pour-le-logement.jpg", "default")
+object solidaritesnouvellespourlelogement extends js.Object
+
+@js.native
+@JSImport("./images/actions/le-chainon-manquant.png", "default")
+object lechainonmanquant extends js.Object
+
+@js.native
+@JSImport("./images/actions/fnh.png", "default")
+object fnh extends js.Object
+
+@js.native
+@JSImport("./images/actions/anper.jpg", "default")
+object anper extends js.Object
+
+@js.native
+@JSImport("./images/actions/familles-rurales.jpg", "default")
+object famillesrurales extends js.Object
+
+@js.native
+@JSImport("./images/actions/andes.png", "default")
+object andes extends js.Object
+
+@js.native
+@JSImport("./images/actions/alimenterre-affiche-10-ans.jpg", "default")
+object alimenterre extends js.Object
+
+@js.native
 @JSImport("./images/actions/goodplanet.svg", "default")
 object goodplanet extends js.Object
 
