@@ -25,7 +25,7 @@ object Home {
             <.IntroComponent.empty,
             <.ThemeShowcaseContainerComponent(
               ^.wrapped := ThemeShowcaseContainerProps(
-                themeSlug = "developpement-durable-energie",
+                themeSlug = "sante-alimentation",
                 maybeIntro = Some(unescape(I18n.t("home.showcase-1.intro"))),
                 maybeNews = Some(I18n.t("home.showcase-1.news"))
               )
