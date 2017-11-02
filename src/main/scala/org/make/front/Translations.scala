@@ -51,8 +51,8 @@ object Translations {
       |        }
       |      },
       |      "showcase-1": {
-      |        "intro": "qui sommes-nous&nbsp;?",
-      |        "news": "Le gouvernement prépare un nouveau Grenelle<br>de l'environnement, exprimez vos idées sur le&nbsp;sujet."
+      |        "intro": "le thème du mois&nbsp;",
+      |        "news": "Budget de la Sécurité sociale, États généraux de l'Alimentation, glyphosate&nbsp;: la santé et l'alimentation sont au coeur de l'actualité, à vous de vous exprimer."
       |      },
       |      "showcase-2": {
       |        "intro": "Exprimez-vous&nbsp;!",
@@ -60,7 +60,7 @@ object Translations {
       |      },
       |      "showcase-3": {
       |        "intro": "départagez-les&nbsp;!",
-      |        "title": "Les propositions les + populaires sur"
+      |        "title": "Les propositions les + débattues sur"
       |      }
       |    },
       |    "theme-showcase": {
