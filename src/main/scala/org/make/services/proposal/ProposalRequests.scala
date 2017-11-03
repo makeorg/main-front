@@ -6,6 +6,20 @@ import js.JSConverters._
 import scala.scalajs.js.UndefOr
 
 final case class RegisterProposalRequest(content: String)
+
+@js.native
+trait JsRegisterProposalRequest extends js.Object {
+  val content: String
+}
+
+object JsRegisterProposalRequest {
+  def apply(registerProposalRequest: RegisterProposalRequest): JsRegisterProposalRequest = {
+    js.Dynamic.literal(
+      content = registerProposalRequest.content
+    ).asInstanceOf[JsRegisterProposalRequest]
+  }
+}
+
 sealed trait Order { val shortName: String }
 
 case object OrderAsc extends Order { override val shortName: String = "ASC" }
