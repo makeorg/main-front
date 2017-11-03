@@ -6,6 +6,7 @@ import org.make.front.components.AppState
 import scala.scalajs.js
 
 final case class Operation(operationId: OperationId,
+                           url: String,
                            slug: String,
                            title: String,
                            label: String,

@@ -16,7 +16,9 @@
       var targetUrl = "https://stopvff.make.org/" + targetHash
 
       if(/http(s)?:\/\/(www\.)?stopvff\.+/.test(document.location)) {
-        if(document.location.hash != targetHash) {
+        if (!/\/#\/account-activation\/.+/.test(document.location.hash) &&
+            document.location.hash != targetHash
+         ) {
             window.location = targetUrl
         }
       }

@@ -9,7 +9,7 @@ import org.make.front.actions.{NotifyError, NotifySuccess}
 import org.make.front.components.AppState
 import org.make.front.components.activateAccount.ActivateAccount.ActivateAccountProps
 import org.make.front.facades.I18n
-import org.make.front.models.OperationId
+import org.make.front.models.{Operation, OperationId}
 import org.make.services.user.UserService
 
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -23,7 +23,7 @@ object ActivateAccountContainer {
     (dispatch: Dispatch) => { (_: AppState, props: Props[Unit]) =>
       val userId = props.`match`.params("userId")
       val verificationToken = props.`match`.params("verificationToken")
-      val operationId = {
+      val operationId: Option[OperationId] = {
         val search = if (props.location.search.startsWith("?")) {
           props.location.search.substring(1)
         } else {
@@ -45,11 +45,20 @@ object ActivateAccountContainer {
         UserService.validateAccount(userId, verificationToken, operationId).onComplete {
           case Success(_) => {
             dispatch(NotifySuccess(message = I18n.t("activate-account.notifications.success")))
-            child.props.history.push("/")
+
+            if (operationId.isDefined &&  operationId.get.value == Operation.vff) {
+              child.props.history.push("/consultation/comment-lutter-contre-les-violences-faites-aux-femmes")
+            } else {
+              child.props.history.push("/")
+            }
           }
           case Failure(e) => {
             dispatch(NotifyError(message = I18n.t("activate-account.notifications.failure")))
-            child.props.history.push("/")
+            if (operationId.isDefined && operationId.get.value == Operation.vff) {
+              child.props.history.push("/consultation/comment-lutter-contre-les-violences-faites-aux-femmes")
+            } else {
+              child.props.history.push("/")
+            }
           }
         }
       }
