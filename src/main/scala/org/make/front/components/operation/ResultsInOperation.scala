@@ -127,7 +127,7 @@ object ResultsInOperation {
 
         <.section(^.className := Seq(RowRulesStyles.centeredRow, ResultsInOperationStyles.wrapper))(
           <.header(^.className := ColRulesStyles.col)(
-            <.h2(^.className := TextStyles.bigTitle)(unescape(I18n.t("operation.results.title")))
+            <.h2(^.className := TextStyles.mediumTitle)(unescape(I18n.t("operation.results.title")))
           ),
           if (self.props.wrapped.preselectedTags.nonEmpty) {
             <.nav(^.className := ColRulesStyles.col)(

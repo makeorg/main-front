@@ -44,43 +44,41 @@ object VFFIntro {
           <.div(
             ^.className := Seq(VFFIntroStyles.wrapper, VFFIntroStyles.gradientBackground(gradient.from, gradient.to))
           )(
-            <.div(^.className := VFFIntroStyles.presentationWrapper)(
-              <.div(^.className := VFFIntroStyles.presentationInnerWrapper)(
-                <.div(^.className := RowRulesStyles.centeredRow)(
-                  <.div(^.className := ColRulesStyles.col)(
-                    <.div(^.className := VFFIntroStyles.titleWrapper)(
-                      <.p(^.className := Seq(TextStyles.label))(unescape(I18n.t("operation.vff-header.label"))),
-                      <.p(^.className := Seq(VFFIntroStyles.logoWrapper))(
-                        <.img(^.src := vffLogo.toString, ^.alt := unescape(I18n.t("operation.vff-header.title")))()
-                      ),
-                      <.p(^.className := Seq(VFFIntroStyles.infos, TextStyles.label))(
-                        unescape(I18n.t("operation.vff-header.period"))
+            <.div(^.className := VFFIntroStyles.presentationInnerWrapper)(
+              <.div(^.className := RowRulesStyles.centeredRow)(
+                <.div(^.className := ColRulesStyles.col)(
+                  <.div(^.className := VFFIntroStyles.titleWrapper)(
+                    <.p(^.className := Seq(TextStyles.label))(unescape(I18n.t("operation.vff-header.label"))),
+                    <.p(^.className := Seq(VFFIntroStyles.logoWrapper))(
+                      <.img(^.src := vffLogo.toString, ^.alt := unescape(I18n.t("operation.vff-header.title")))()
+                    ),
+                    <.p(^.className := Seq(VFFIntroStyles.infos, TextStyles.label))(
+                      unescape(I18n.t("operation.vff-header.period"))
+                    )
+                  ),
+                  <.div(^.className := VFFIntroStyles.separatorWrapper)(
+                    <.div(^.className := VFFIntroStyles.separatorLineWrapper)(
+                      <.hr(^.className := Seq(VFFIntroStyles.separatorLine, VFFIntroStyles.separatorLineToTheLeft))()
+                    ),
+                    <.div(^.className := VFFIntroStyles.separatorTextWrapper)(
+                      <.p(^.className := Seq(VFFIntroStyles.separator, TextStyles.smallerText))(
+                        unescape(I18n.t("operation.vff-header.partners.intro"))
                       )
                     ),
-                    <.div(^.className := VFFIntroStyles.separatorWrapper)(
-                      <.div(^.className := VFFIntroStyles.separatorLineWrapper)(
-                        <.hr(^.className := Seq(VFFIntroStyles.separatorLine, VFFIntroStyles.separatorLineToTheLeft))()
-                      ),
-                      <.div(^.className := VFFIntroStyles.separatorTextWrapper)(
-                        <.p(^.className := Seq(VFFIntroStyles.separator, TextStyles.smallerText))(
-                          unescape(I18n.t("operation.vff-header.partners.intro"))
-                        )
-                      ),
-                      <.div(^.className := VFFIntroStyles.separatorLineWrapper)(
-                        <.hr(^.className := Seq(VFFIntroStyles.separatorLine, VFFIntroStyles.separatorLineToTheRight))()
-                      )
-                    ),
-                    <.ul(^.className := VFFIntroStyles.partnersList)(
-                      partners.map(
-                        partner =>
-                          <.li(^.className := VFFIntroStyles.partnerItem)(
-                            <.img(
-                              ^.src := partner.imageUrl,
-                              ^.alt := partner.name,
-                              ^("width") := partner.imageWidth.toString,
-                              ^.className := VFFIntroStyles.partnerLogo
-                            )()
-                        )
+                    <.div(^.className := VFFIntroStyles.separatorLineWrapper)(
+                      <.hr(^.className := Seq(VFFIntroStyles.separatorLine, VFFIntroStyles.separatorLineToTheRight))()
+                    )
+                  ),
+                  <.ul(^.className := VFFIntroStyles.partnersList)(
+                    partners.map(
+                      partner =>
+                        <.li(^.className := VFFIntroStyles.partnerItem)(
+                          <.img(
+                            ^.src := partner.imageUrl,
+                            ^.alt := partner.name,
+                            ^("width") := partner.imageWidth.toString,
+                            ^.className := VFFIntroStyles.partnerLogo
+                          )()
                       )
                     )
                   )
@@ -88,27 +86,25 @@ object VFFIntro {
               )
             ),
             <.div(^.className := VFFIntroStyles.explanationWrapper)(
-              <.div(^.className := VFFIntroStyles.explanationInnerWrapper)(
-                <.div(^.className := RowRulesStyles.narrowerCenteredRow)(
-                  <.div(^.className := Seq(ColRulesStyles.col, ColRulesStyles.colThirdBeyondSmall))(
-                    <.img(
-                      ^.src := vffIll.toString,
-                      ^.alt := unescape(I18n.t("operation.vff-header.title")),
-                      ^.className := VFFIntroStyles.explanationIll
-                    )()
+              <.div(^.className := RowRulesStyles.narrowerCenteredRow)(
+                <.div(^.className := Seq(ColRulesStyles.col, ColRulesStyles.colThirdBeyondSmall))(
+                  <.img(
+                    ^.src := vffIll.toString,
+                    ^.alt := unescape(I18n.t("operation.vff-header.title")),
+                    ^.className := VFFIntroStyles.explanationIll
+                  )()
+                ),
+                <.div(^.className := Seq(ColRulesStyles.col, ColRulesStyles.colTwoThirdsBeyondSmall))(
+                  <.p(^.className := TextStyles.label)(unescape(I18n.t("operation.vff-header.article.title"))),
+                  <.p(^.className := Seq(VFFIntroStyles.explanation, TextStyles.smallText))(
+                    unescape(I18n.t("operation.vff-header.article.content"))
                   ),
-                  <.div(^.className := Seq(ColRulesStyles.col, ColRulesStyles.colTwoThirdsBeyondSmall))(
-                    <.p(^.className := TextStyles.label)(unescape(I18n.t("operation.vff-header.article.title"))),
-                    <.p(^.className := Seq(VFFIntroStyles.explanation, TextStyles.smallText))(
-                      unescape(I18n.t("operation.vff-header.article.content"))
-                    ),
-                    <.p(^.className := VFFIntroStyles.ctaWrapper)(
-                      <.a(
-                        ^.href := I18n.t("operation.vff-header.article.see-more.link"),
-                        ^.className := Seq(CTAStyles.basic, CTAStyles.basicOnA),
-                        ^.target := "_blank"
-                      )(unescape(I18n.t("operation.vff-header.article.see-more.label")))
-                    )
+                  <.p(^.className := VFFIntroStyles.ctaWrapper)(
+                    <.a(
+                      ^.href := I18n.t("operation.vff-header.article.see-more.link"),
+                      ^.className := Seq(CTAStyles.basic, CTAStyles.basicOnA),
+                      ^.target := "_blank"
+                    )(unescape(I18n.t("operation.vff-header.article.see-more.label")))
                   )
                 )
               )
@@ -127,25 +123,12 @@ object VFFIntroStyles extends StyleSheet.Inline {
     style(background := s"linear-gradient(130deg, $from, $to)")
 
   val wrapper: StyleA =
-    style(
-      position.relative,
-      display.table,
-      width(100.%%),
-      height(500.pxToEm()),
-      height :=! s"calc(100% - ${200.pxToEm().value})",
-      backgroundColor(ThemeStyles.BackgroundColor.black), //TODO:gradient
-      overflow.hidden
-    )
-
-  val presentationWrapper: StyleA =
-    style(display.tableRow, height(100.%%))
+    style(backgroundColor(ThemeStyles.BackgroundColor.black))
 
   val presentationInnerWrapper: StyleA =
     style(
-      display.tableCell,
-      verticalAlign.middle,
-      paddingTop((ThemeStyles.SpacingValue.medium + 50).pxToEm()), // TODO: dynamise calcul, if main intro is first child of page
-      ThemeStyles.MediaQueries.beyondSmall(paddingTop((ThemeStyles.SpacingValue.larger + 80).pxToEm())),
+      paddingTop((ThemeStyles.SpacingValue.medium).pxToEm()),
+      ThemeStyles.MediaQueries.beyondSmall(paddingTop((ThemeStyles.SpacingValue.larger).pxToEm())),
       paddingBottom(ThemeStyles.SpacingValue.small.pxToEm())
     )
 
@@ -200,10 +183,10 @@ object VFFIntroStyles extends StyleSheet.Inline {
   val partnerLogo: StyleA = style()
 
   val explanationWrapper: StyleA =
-    style(display.tableRow, backgroundColor(ThemeStyles.BackgroundColor.blackMoreTransparent))
-
-  val explanationInnerWrapper: StyleA =
-    style(display.tableCell, padding :=! s"${ThemeStyles.SpacingValue.medium.pxToEm().value} 0")
+    style(
+      padding :=! s"${ThemeStyles.SpacingValue.medium.pxToEm().value} 0",
+      backgroundColor(ThemeStyles.BackgroundColor.blackMoreTransparent)
+    )
 
   val explanationIll: StyleA =
     style(width(100.%%), ThemeStyles.MediaQueries.belowSmall(marginBottom(ThemeStyles.SpacingValue.small.pxToEm())))

@@ -29,7 +29,6 @@ object CookieAlert {
         },
         componentWillReceiveProps = { (self, props) =>
           self.setState(_.copy(isAlertOpened = props.wrapped.isAlertOpened))
-
         },
         render = (self) => {
           def close(): (MouseSyntheticEvent) => Unit = { event =>
