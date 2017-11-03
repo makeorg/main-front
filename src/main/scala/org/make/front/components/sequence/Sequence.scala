@@ -6,22 +6,27 @@ import io.github.shogowada.scalajs.reactjs.VirtualDOM.{<, _}
 import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import io.github.shogowada.scalajs.reactjs.elements.ReactElement
 import org.make.front.components.Components._
-import org.make.front.components.operation.IntroOfOperationSequence.IntroOfOperationSequenceProps
 import org.make.front.components.operation.PromptingToProposeInsideOperationSequence.PromptingToProposeInsideOperationSequenceProps
 import org.make.front.components.sequence.ProgressBar.ProgressBarProps
 import org.make.front.components.sequence.ProposalInsideSequence.ProposalInsideSequenceProps
 import org.make.front.facades.FacebookPixel
 import org.make.front.facades.ReactSlick.{ReactTooltipVirtualDOMAttributes, ReactTooltipVirtualDOMElements, Slider}
-import org.make.front.helpers.AbTesting
-import org.make.front.models.{Qualification => QualificationModel, Vote => VoteModel, Operation => OperationModel, OperationId => OperationIdModel, Proposal => ProposalModel, ProposalId => ProposalIdModel, Sequence => SequenceModel, Theme => ThemeModel}
+import org.make.front.models.{
+  Operation     => OperationModel,
+  OperationId   => OperationIdModel,
+  Proposal      => ProposalModel,
+  ProposalId    => ProposalIdModel,
+  Qualification => QualificationModel,
+  Sequence      => SequenceModel,
+  Theme         => ThemeModel,
+  Vote          => VoteModel
+}
 import org.make.front.styles.ThemeStyles
 import org.make.front.styles.utils._
-import org.make.services.proposal.{QualificationResponse, VoteResponse}
 import org.scalajs.dom.raw.HTMLElement
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
-import scala.scalajs.js.JSConverters._
 import scala.util.{Failure, Success}
 import scalacss.DevDefaults.{StyleA, _}
 import scalacss.internal.mutable.StyleSheet
@@ -103,34 +108,36 @@ object Sequence {
       scala.util.Random.shuffle(proposals)
     }
 
-    def onSuccessfulVote(proposalId: ProposalIdModel,
-                         self: Self[SequenceProps, SequenceState]): (VoteModel) => Unit = { (voteModel) =>
-      def mapProposal(proposal: ProposalModel) = {
-        if (proposal.id == proposalId) {
-          proposal.copy(votes = proposal.votes.map { vote =>
-            if (vote.key == voteModel.key) {
-              voteModel
-            } else {
-              vote
-            }
-          })
-        } else {
-          proposal
+    def onSuccessfulVote(proposalId: ProposalIdModel, self: Self[SequenceProps, SequenceState]): (VoteModel) => Unit = {
+      (voteModel) =>
+        def mapProposal(proposal: ProposalModel) = {
+          if (proposal.id == proposalId) {
+            proposal.copy(votes = proposal.votes.map { vote =>
+              if (vote.key == voteModel.key) {
+                voteModel
+              } else {
+                vote
+              }
+            })
+          } else {
+            proposal
+          }
         }
-      }
 
-      // toDo: should be fixed with all cases
-      val updatedProposals = self.state.proposals.map(mapProposal)
-      val isLastSlideDisplayed: Boolean = self.state.currentSlideIndex == self.state.displayedSlidesCount - 1
+        // toDo: should be fixed with all cases
+        val updatedProposals = self.state.proposals.map(mapProposal)
+        val isLastSlideDisplayed: Boolean = self.state.currentSlideIndex == self.state.displayedSlidesCount - 1
 
-      val displayedSlidesCount = if (isLastSlideDisplayed && voteModel.hasVoted) {
-        self.state.displayedSlidesCount + 1
-      } else {
-        self.state.displayedSlidesCount
-      }
+        val displayedSlidesCount = if (isLastSlideDisplayed && voteModel.hasVoted) {
+          self.state.displayedSlidesCount + 1
+        } else {
+          self.state.displayedSlidesCount
+        }
 
-      val slides = createSlides(self, updatedProposals)
-      self.setState(_.copy(slides = slides, proposals = updatedProposals, displayedSlidesCount = displayedSlidesCount))
+        val slides = createSlides(self, updatedProposals)
+        self.setState(
+          _.copy(slides = slides, proposals = updatedProposals, displayedSlidesCount = displayedSlidesCount)
+        )
     }
 
     def onSuccessfulQualification(proposalId: ProposalIdModel,
@@ -165,24 +172,7 @@ object Sequence {
 
       def startSequence: () => Unit = { () =>
         next()
-        // TODO facebook take sequence id from variable
-        FacebookPixel.fbq(
-          "trackCustom",
-          "click-sequence-launch",
-          Map("location" -> "sequence", "sequence-id" -> "1", "test-intro" -> AbTesting.introTesting.name).toJSDictionary
-        )
       }
-
-      val intro = new BasicSlide(
-        element = self.props.wrapped.intro,
-        props = IntroOfOperationSequenceProps(
-          clickOnButtonHandler = startSequence,
-          title = AbTesting.introTesting.title,
-          explanation1 = AbTesting.introTesting.explanation1,
-          explanation2 = AbTesting.introTesting.explanation2
-        ),
-        optional = true
-      )
 
       val promptingToPropose = new Slide() {
         override def component(index: Int): ReactElement =
@@ -199,7 +189,7 @@ object Sequence {
 
       val conclusion = new EmptyElementSlide(self.props.wrapped.conclusion)
 
-      val slides = (if (AbTesting.introTesting.isIntroNull) Seq() else Seq(intro)) ++ allProposals.map({ proposal =>
+      val slides = allProposals.map({ proposal =>
         new ProposalSlide(
           proposal,
           onSuccessfulVote(_, self),
@@ -273,7 +263,7 @@ object Sequence {
       componentDidMount = { self =>
         onNewProps(self, self.props, slider)
         FacebookPixel
-          .fbq("trackCustom", "display-sequence", Map("test-intro" -> AbTesting.introTesting.name).toJSDictionary)
+          .fbq("trackCustom", "display-sequence")
 
       },
       componentWillUpdate = { (_, _, state) =>
