@@ -71,11 +71,8 @@ object OperationSequence {
         }
 
         <.section(^.className := OperationSequenceStyles.wrapper)(
-          <.div(^.className := Seq(OperationSequenceStyles.row))(
-            <.div(^.className := OperationSequenceStyles.cell)(<.MainHeaderComponent.empty)
-          ),
-          <.div(^.className := Seq(OperationSequenceStyles.row, DynamicOperationSequenceStyles.gradient))(
-            <.div(^.className := OperationSequenceStyles.cell)(
+          <.div(^.className := Seq(OperationSequenceStyles.headerWrapper, DynamicOperationSequenceStyles.gradient))(
+            <.div(^.className := OperationSequenceStyles.headerSubWrapper)(
               <.div(^.className := RowRulesStyles.centeredRow)(
                 <.div(^.className := ColRulesStyles.col)(
                   <.header(^.className := OperationSequenceStyles.header)(
@@ -161,8 +158,8 @@ object OperationSequence {
               )
             )
           ),
-          <.div(^.className := Seq(OperationSequenceStyles.row, OperationSequenceStyles.contentRow))(
-            <.div(^.className := OperationSequenceStyles.cell)(
+          <.div(^.className := OperationSequenceStyles.contentWrapper)(
+            <.div(^.className := OperationSequenceStyles.contentInnerWrapper)(
               <.SequenceContainerComponent(
                 ^.wrapped := SequenceContainerProps(
                   sequence = self.props.wrapped.sequence,
@@ -188,14 +185,23 @@ object OperationSequenceStyles extends StyleSheet.Inline {
   val wrapper: StyleA =
     style(display.table, tableLayout.fixed, height(100.%%), width(100.%%))
 
-  val row: StyleA =
-    style(display.tableRow)
+  val contentWrapper: StyleA =
+    style(display.tableRow, height(100.%%), backgroundColor(ThemeStyles.BackgroundColor.blackVeryTransparent))
 
-  val cell: StyleA =
+  val contentInnerWrapper: StyleA =
     style(display.tableCell, verticalAlign.middle)
 
-  val contentRow: StyleA =
-    style(display.tableRow, height(100.%%), backgroundColor(ThemeStyles.BackgroundColor.blackVeryTransparent))
+  val headerWrapper: StyleA =
+    style(display.tableRow)
+
+  val headerSubWrapper: StyleA =
+    style(
+      display.tableCell,
+      verticalAlign.middle,
+      paddingTop(50.pxToEm()), // TODO: dynamise calcul, if main intro is first child of page
+      ThemeStyles.MediaQueries
+        .beyondSmall(paddingTop(80.pxToEm()))
+    )
 
   val header: StyleA =
     style(

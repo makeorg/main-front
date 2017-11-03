@@ -23,8 +23,7 @@ object Theme {
       .createClass[ThemeProps, Unit](
         displayName = "Theme",
         render = (self) => {
-          <.div()(
-            <.MainHeaderComponent.empty,
+          <("theme")()(
             <.ThemeHeaderComponent(^.wrapped := ThemeHeaderProps(self.props.wrapped.theme))(),
             <.div(^.className := ThemeComponentStyles.contentWrapper)(
               <.PoliticalActionsContainerComponent(

@@ -16,14 +16,12 @@ import org.make.front.styles.ThemeStyles
 import org.make.front.styles.base.{ColRulesStyles, RowRulesStyles, TextStyles}
 import org.make.front.styles.ui.CTAStyles
 import org.make.front.styles.utils._
-import org.make.services.proposal.SearchResult
+import org.make.services.proposal.{SearchResult, SearchResultResponse}
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 import scala.util.{Failure, Success}
 import scalacss.DevDefaults._
-import scalacss.internal.StyleA
-
 object SearchResults {
   final case class SearchResultsProps(
     onMoreResultsRequested: (Seq[Proposal], Option[String]) => Future[SearchResult],
@@ -116,40 +114,34 @@ object SearchResults {
               }
             )
 
-
           val proposalsToDisplay: Seq[Proposal] = self.state.listProposals
-
-          val hasResults: Boolean = self.state.initialLoad || proposalsToDisplay.nonEmpty
-          <("search-results")()(
-            <.div(^.className := SearchResultsStyles.wrapper(hasResults))(<.MainHeaderComponent.empty, if (hasResults) {
-              Seq(
-                <.div(^.className := Seq(SearchResultsStyles.resultsWrapper, RowRulesStyles.centeredRow))(
-                  if (!self.state.initialLoad) {
-                    <.header(^.className := Seq(SearchResultsStyles.resultsHeader, ColRulesStyles.col))(
-                      <.h1(
-                        ^.className := Seq(TextStyles.mediumText, SearchResultsStyles.searchedExpressionIntro),
-                        ^.dangerouslySetInnerHTML := I18n
-                          .t("search.results.intro", Replacements(("total", self.state.resultsCount.toString)))
-                      )(),
-                      <.h2(^.className := Seq(SearchResultsStyles.searchedExpression, TextStyles.mediumTitle))(
-                        unescape("«&nbsp;" + self.props.wrapped.searchValue.getOrElse("") + "&nbsp;»")
-                      )
+          <("search-results")()(if (self.state.initialLoad || proposalsToDisplay.nonEmpty) {
+            <.section(^.className := Seq(SearchResultsStyles.resultsWrapper))(
+              <.div(^.className := Seq(SearchResultsStyles.resultsInnerWrapper, RowRulesStyles.centeredRow))(
+                if (!self.state.initialLoad) {
+                  <.header(^.className := Seq(SearchResultsStyles.resultsHeader, ColRulesStyles.col))(
+                    <.h1(
+                      ^.className := Seq(TextStyles.mediumText, SearchResultsStyles.searchedExpressionIntro),
+                      ^.dangerouslySetInnerHTML := I18n
+                        .t("search.results.intro", Replacements(("total", self.state.resultsCount.toString)))
+                    )(),
+                    <.h2(^.className := Seq(SearchResultsStyles.searchedExpression, TextStyles.mediumTitle))(
+                      unescape("«&nbsp;" + self.props.wrapped.searchValue.getOrElse("") + "&nbsp;»")
                     )
-                  },
-                  proposals(proposalsToDisplay)
-                )
-              )
-
-            } else {
+                  )
+                },
+                proposals(proposalsToDisplay)
+              ),
+              <.NavInThemesContainerComponent.empty
+            )
+          } else {
+            <.section(^.className := SearchResultsStyles.noResultsWrapper)(
               <.NoResultToSearchComponent(
                 ^.wrapped := NoResultToSearchProps(searchValue = self.props.wrapped.searchValue)
-              )()
-            }),
-            <.div(^.className := SearchResultsStyles.navInThemesWrapper(hasResults))(
+              )(),
               <.NavInThemesContainerComponent.empty
-            ),
-            <.style()(SearchResultsStyles.render[String])
-          )
+            )
+          }, <.style()(SearchResultsStyles.render[String]))
       })
     )
 }
@@ -158,25 +150,14 @@ object SearchResultsStyles extends StyleSheet.Inline {
 
   import dsl._
 
-  val wrapper: (Boolean) => StyleA = styleF.bool(
-    hasResults =>
-      if (hasResults) {
-        styleS(minHeight(100.%%), backgroundColor(ThemeStyles.BackgroundColor.blackVeryTransparent))
-      } else {
-        styleS(minHeight(100.%%))
-    }
-  )
-
-  val navInThemesWrapper: (Boolean) => StyleA = styleF.bool(
-    hasResults =>
-      if (hasResults) {
-        styleS(backgroundColor(ThemeStyles.BackgroundColor.blackVeryTransparent))
-      } else {
-        styleS()
-    }
-  )
-
   val resultsWrapper: StyleA =
+    style(
+      backgroundColor(ThemeStyles.BackgroundColor.blackVeryTransparent),
+      paddingTop(50.pxToEm()), // TODO: dynamise calcul, if main intro is first child of page
+      ThemeStyles.MediaQueries.beyondSmall(paddingTop(80.pxToEm()))
+    )
+
+  val resultsInnerWrapper: StyleA =
     style(
       paddingTop(ThemeStyles.SpacingValue.medium.pxToEm()),
       paddingBottom(ThemeStyles.SpacingValue.medium.pxToEm()),
@@ -220,4 +201,9 @@ object SearchResultsStyles extends StyleSheet.Inline {
     textAlign.center
   )
 
+  val noResultsWrapper: StyleA = style(
+    minHeight(100.%%),
+    paddingTop(50.pxToEm()), // TODO: dynamise calcul, if main intro is first child of page
+    ThemeStyles.MediaQueries.beyondSmall(paddingTop(80.pxToEm()))
+  )
 }

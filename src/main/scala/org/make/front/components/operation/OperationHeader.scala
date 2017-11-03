@@ -110,8 +110,12 @@ object OperationHeaderStyles extends StyleSheet.Inline {
   val wrapper: StyleA =
     style(
       display.block,
-      padding :=! s"${ThemeStyles.SpacingValue.medium.pxToEm().value} 0",
-      ThemeStyles.MediaQueries.beyondSmall(padding :=! s"${ThemeStyles.SpacingValue.larger.pxToEm().value} 0"),
+      paddingTop(ThemeStyles.SpacingValue.medium.pxToEm()), // TODO: dynamise calcul, if main intro is first child of page
+      paddingBottom(ThemeStyles.SpacingValue.medium.pxToEm()),
+      ThemeStyles.MediaQueries.beyondSmall(
+        paddingTop(ThemeStyles.SpacingValue.larger.pxToEm()),
+        paddingBottom(ThemeStyles.SpacingValue.larger.pxToEm())
+      ),
       backgroundColor(ThemeStyles.BackgroundColor.blackMoreTransparent)
     )
 
@@ -141,4 +145,5 @@ object OperationHeaderStyles extends StyleSheet.Inline {
 
   val textLimitInfo: StyleA =
     style(padding(1.em), lineHeight.initial, color(ThemeStyles.TextColor.lighter), whiteSpace.nowrap)
+
 }
