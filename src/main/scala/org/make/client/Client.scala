@@ -33,7 +33,19 @@ trait Client {
 
 trait HttpException extends Exception
 
+@js.native
+trait JsValidationError extends js.Object {
+  val field: String
+  val message: js.UndefOr[String]
+}
+
 case class ValidationError(field: String, message: Option[String])
+
+object ValidationError {
+  def apply(jsValidationError: JsValidationError): ValidationError = {
+    ValidationError(field = jsValidationError.field, message = jsValidationError.message.toOption)
+  }
+}
 
 trait ValidationFailedHttpException extends HttpException {
   val errors: Seq[ValidationError]

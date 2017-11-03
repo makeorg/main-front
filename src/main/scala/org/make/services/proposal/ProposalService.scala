@@ -38,7 +38,7 @@ object ProposalService extends ApiService {
     val registerProposalResponse = MakeApiClient
       .post[RegisterProposalResponse](
         resourceName,
-        data = RegisterProposalRequest(content).toString
+        data = JSON.stringify(JsRegisterProposalRequest(RegisterProposalRequest(content)))
       )
       .map(RegisterProposal.apply)
     MakeApiClient.customHeaders = backupHeaders

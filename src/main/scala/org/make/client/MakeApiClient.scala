@@ -65,7 +65,8 @@ object MakeApiClient extends Client {
 
     responseTry match {
       case Success(response) =>
-        promise.success(scala.scalajs.js.JSON.parse(response.responseText).asInstanceOf[ENTITY])
+        promise.success(JSON.parse(response.responseText).asInstanceOf[ENTITY])
+
       case Failure(ajaxException: AjaxException) if ajaxException.isTimeout => {
         requestDataToRetry match {
           case Some(requestData) if tries > 0 => {
@@ -85,14 +86,12 @@ object MakeApiClient extends Client {
           case _ => promise.failure(TimeoutHttpException)
         }
       }
+
       case Failure(AjaxException(response: XMLHttpRequest)) =>
         response.status match {
           case 400 =>
-            promise.failure(
-              BadRequestHttpException(
-                scala.scalajs.js.JSON.parse(response.responseText).asInstanceOf[Seq[ValidationError]]
-              )
-            )
+            val errors: Seq[JsValidationError] = JSON.parse(response.responseText).asInstanceOf[js.Array[JsValidationError]]
+            promise.failure(BadRequestHttpException(errors.map(ValidationError.apply)))
           case 401 => promise.failure(UnauthorizedHttpException)
           case 403 => promise.failure(ForbiddenHttpException)
           case 404 => promise.failure(NotFoundHttpException)
@@ -100,8 +99,6 @@ object MakeApiClient extends Client {
           case 502 => promise.failure(BadGatewayHttpException)
           case _   => promise.failure(NotImplementedHttpException)
         }
-      case Failure(e) =>
-        promise.failure(InternalServerHttpException)
     }
   }
 
