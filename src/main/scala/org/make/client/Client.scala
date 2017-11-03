@@ -47,3 +47,4 @@ case object NotFoundHttpException extends HttpException
 case object InternalServerHttpException extends HttpException
 case object BadGatewayHttpException extends HttpException
 case object NotImplementedHttpException extends HttpException
+case object TimeoutHttpException extends HttpException

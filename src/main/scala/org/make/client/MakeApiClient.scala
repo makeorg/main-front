@@ -38,7 +38,7 @@ object MakeApiClient extends Client {
   def removeToken(): Unit = token = None
   def isAuthenticated: Boolean = token.isDefined
 
-  val maxTimeout: Int = 5000
+  val maxTimeout: Int = 3000
   val withCredentials: Boolean = true
 
   val themeIdHeader: String = "x-make-theme-id"
@@ -48,15 +48,51 @@ object MakeApiClient extends Client {
   val questionHeader: String = "x-make-question"
   val languageHeader: String = "x-make-language"
   val countryHeader: String = "x-make-country"
+  val retryAfterTimeout: Int = 4
 
-  private def XHRResponseTo[ENTITY <: js.Object](responseTry: Try[XMLHttpRequest], promise: Promise[ENTITY]): Promise[ENTITY] = {
+  case class RequestData(method: String,
+                         url: String,
+                         data: InputData = null,
+                         timeout: Int = 0,
+                         headers: Map[String, String] = Map.empty,
+                         withCredentials: Boolean = false,
+                         responseType: String = "")
+
+  private def XHRResponseTo[ENTITY <: js.Object](responseTry: Try[XMLHttpRequest],
+                                                 promise: Promise[ENTITY],
+                                                 requestDataToRetry: Option[RequestData] = None,
+                                                 tries: Int = 0): Promise[ENTITY] = {
+
     responseTry match {
       case Success(response) =>
         promise.success(scala.scalajs.js.JSON.parse(response.responseText).asInstanceOf[ENTITY])
+      case Failure(ajaxException: AjaxException) if ajaxException.isTimeout => {
+        requestDataToRetry match {
+          case Some(requestData) if tries > 0 => {
+            Ajax
+              .apply(
+                method = requestData.method,
+                url = requestData.url,
+                data = requestData.data,
+                timeout = requestData.timeout,
+                headers = requestData.headers,
+                withCredentials = requestData.withCredentials,
+                responseType = requestData.responseType
+              )
+              .onComplete(responseTry => XHRResponseTo(responseTry, promise, requestDataToRetry, tries - 1))
+            promise
+          }
+          case _ => promise.failure(TimeoutHttpException)
+        }
+      }
       case Failure(AjaxException(response: XMLHttpRequest)) =>
         response.status match {
           case 400 =>
-            promise.failure(BadRequestHttpException(scala.scalajs.js.JSON.parse(response.responseText).asInstanceOf[Seq[ValidationError]]))
+            promise.failure(
+              BadRequestHttpException(
+                scala.scalajs.js.JSON.parse(response.responseText).asInstanceOf[Seq[ValidationError]]
+              )
+            )
           case 401 => promise.failure(UnauthorizedHttpException)
           case 403 => promise.failure(ForbiddenHttpException)
           case 404 => promise.failure(NotFoundHttpException)
@@ -72,96 +108,116 @@ object MakeApiClient extends Client {
   private def urlFrom(apiEndpoint: String, urlParams: Seq[(String, Any)] = Seq.empty): String =
     (baseUrl / apiEndpoint).addParams(urlParams)
 
-  override def get[ENTITY <: js.Object](
-    apiEndpoint: String = "",
-    urlParams: Seq[(String, Any)] = Seq.empty,
-    headers: Map[String, String] = Map.empty
-  ): Future[ENTITY] = {
+  override def get[ENTITY <: js.Object](apiEndpoint: String = "",
+                                        urlParams: Seq[(String, Any)] = Seq.empty,
+                                        headers: Map[String, String] = Map.empty): Future[ENTITY] = {
     val promiseReturn = Promise[ENTITY]()
-    Ajax
-      .get(
-        url = urlFrom(apiEndpoint, urlParams),
-        timeout = maxTimeout,
-        headers = defaultHeaders ++ headers,
-        withCredentials = withCredentials
-      )
-      .onComplete(responseTry => XHRResponseTo(responseTry, promiseReturn))
+    val requestData = RequestData(
+      method = "GET",
+      url = urlFrom(apiEndpoint, urlParams),
+      timeout = maxTimeout,
+      withCredentials = withCredentials,
+      headers = defaultHeaders ++ headers
+    )
+
+    ajaxApply(requestData).onComplete(
+      responseTry => XHRResponseTo(responseTry, promiseReturn, Some(requestData), retryAfterTimeout)
+    )
+
     promiseReturn.future
   }
 
-  override def post[ENTITY <: js.Object](
-    apiEndpoint: String = "",
-    urlParams: Seq[(String, Any)] = Seq.empty,
-    data: InputData = "",
-    headers: Map[String, String] = Map.empty
-  ): Future[ENTITY] = {
-    val promiseReturn = Promise[ENTITY]()
+  private def ajaxApply(requestData: RequestData): Future[XMLHttpRequest] = {
     Ajax
-      .post(
-        url = urlFrom(apiEndpoint, urlParams),
-        data = data,
-        timeout = maxTimeout,
-        headers = defaultHeaders ++ headers,
-        withCredentials = withCredentials
+      .apply(
+        method = requestData.method,
+        url = requestData.url,
+        data = requestData.data,
+        timeout = requestData.timeout,
+        headers = requestData.headers,
+        withCredentials = requestData.withCredentials,
+        responseType = requestData.responseType
       )
-      .onComplete(responseTry => XHRResponseTo(responseTry, promiseReturn))
+  }
+
+  override def post[ENTITY <: js.Object](apiEndpoint: String = "",
+                                         urlParams: Seq[(String, Any)] = Seq.empty,
+                                         data: InputData = "",
+                                         headers: Map[String, String] = Map.empty): Future[ENTITY] = {
+    val promiseReturn = Promise[ENTITY]()
+    val requestData = RequestData(
+      method = "POST",
+      url = urlFrom(apiEndpoint, urlParams),
+      data = data,
+      timeout = maxTimeout,
+      withCredentials = withCredentials,
+      headers = defaultHeaders ++ headers
+    )
+
+    ajaxApply(requestData).onComplete(
+      responseTry => XHRResponseTo(responseTry, promiseReturn, Some(requestData), retryAfterTimeout)
+    )
     promiseReturn.future
   }
 
   override def put[ENTITY <: js.Object](apiEndpoint: String,
-                           urlParams: Seq[(String, Any)],
-                           data: InputData,
-                           headers: Map[String, String]): Future[ENTITY] = {
+                                        urlParams: Seq[(String, Any)],
+                                        data: InputData,
+                                        headers: Map[String, String]): Future[ENTITY] = {
     val promiseReturn = Promise[ENTITY]()
-    Ajax
-      .put(
-        url = urlFrom(apiEndpoint, urlParams),
-        data = data,
-        timeout = maxTimeout,
-        headers = defaultHeaders ++ headers,
-        withCredentials = withCredentials
-      )
-      .onComplete(responseTry => XHRResponseTo(responseTry, promiseReturn))
+    val requestData = RequestData(
+      method = "PUT",
+      url = urlFrom(apiEndpoint, urlParams),
+      data = data,
+      timeout = maxTimeout,
+      withCredentials = withCredentials,
+      headers = defaultHeaders ++ headers
+    )
+    ajaxApply(requestData).onComplete(
+      responseTry => XHRResponseTo(responseTry, promiseReturn, Some(requestData), retryAfterTimeout)
+    )
     promiseReturn.future
   }
 
-  override def patch[ENTITY <: js.Object](
-    apiEndpoint: String,
-    urlParams: Seq[(String, Any)],
-    data: InputData,
-    headers: Map[String, String]
-  ): Future[ENTITY] = {
+  override def patch[ENTITY <: js.Object](apiEndpoint: String,
+                                          urlParams: Seq[(String, Any)],
+                                          data: InputData,
+                                          headers: Map[String, String]): Future[ENTITY] = {
     val promiseReturn = Promise[ENTITY]()
-    Ajax
-      .apply(
-        method = "PATCH",
-        url = urlFrom(apiEndpoint, urlParams),
-        data = data,
-        timeout = maxTimeout,
-        headers = defaultHeaders ++ headers,
-        withCredentials = withCredentials,
-        responseType = ""
-      )
-      .onComplete(responseTry => XHRResponseTo(responseTry, promiseReturn))
+
+    val requestData = RequestData(
+      method = "PATCH",
+      url = urlFrom(apiEndpoint, urlParams),
+      data = data,
+      timeout = maxTimeout,
+      headers = defaultHeaders ++ headers,
+      withCredentials = withCredentials
+    )
+
+    ajaxApply(requestData).onComplete(
+      responseTry => XHRResponseTo(responseTry, promiseReturn, Some(requestData), retryAfterTimeout)
+    )
     promiseReturn.future
   }
 
-  override def delete[ENTITY <: js.Object](
-    apiEndpoint: String,
-    urlParams: Seq[(String, Any)],
-    data: InputData,
-    headers: Map[String, String]
-  ): Future[ENTITY] = {
+  override def delete[ENTITY <: js.Object](apiEndpoint: String,
+                                           urlParams: Seq[(String, Any)],
+                                           data: InputData,
+                                           headers: Map[String, String]): Future[ENTITY] = {
     val promiseReturn = Promise[ENTITY]()
-    Ajax
-      .delete(
-        url = urlFrom(apiEndpoint, urlParams),
-        data = data,
-        timeout = maxTimeout,
-        headers = defaultHeaders ++ headers,
-        withCredentials = withCredentials
-      )
-      .onComplete(responseTry => XHRResponseTo(responseTry, promiseReturn))
+
+    val requestData = RequestData(
+      method = "DELETE",
+      url = urlFrom(apiEndpoint, urlParams),
+      data = data,
+      timeout = maxTimeout,
+      headers = defaultHeaders ++ headers,
+      withCredentials = withCredentials
+    )
+    ajaxApply(requestData).onComplete(
+      responseTry => XHRResponseTo(responseTry, promiseReturn, Some(requestData), retryAfterTimeout)
+    )
+
     promiseReturn.future
   }
 
@@ -173,8 +229,7 @@ object MakeApiClient extends Client {
     }
   }
 
-  private def askForAccessToken(username: String,
-                                password: String): Future[Boolean] = {
+  private def askForAccessToken(username: String, password: String): Future[Boolean] = {
     post[TokenResponse](
       "oauth" / "make_access_token",
       data = "".paramsToString(Seq("username" -> username, "password" -> password, "grant_type" -> "password")),
@@ -193,12 +248,11 @@ object MakeApiClient extends Client {
     }
   }
 
-  private def askForAccessTokenSocial(provider: String,
-                                      token: String): Future[Boolean] = {
+  private def askForAccessTokenSocial(provider: String, token: String): Future[Boolean] = {
     post[TokenResponse](
       "user" / "login" / "social",
       data = JSON.stringify(js.Dictionary("provider" -> provider, "token" -> token))
-    ).map(Token.apply).map{ newToken =>
+    ).map(Token.apply).map { newToken =>
       MakeApiClient.setToken(Option(newToken))
       MakeApiClient.isAuthenticated
     }
