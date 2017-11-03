@@ -2,8 +2,9 @@ package org.make.front.models
 
 import java.time.ZonedDateTime
 
-import io.circe._
-import org.make.core.StringValue
+import org.make.client.models.UserResponse
+
+import scala.scalajs.js
 
 sealed trait Role {
   def shortName: String
@@ -16,6 +17,10 @@ object Role {
     RolePolitical.shortName -> RolePolitical,
     RoleCitizen.shortName -> RoleCitizen
   )
+
+  def apply(roleName: String): Role = {
+    roles(roleName)
+  }
 
   def matchRole(role: String): Option[Role] = {
     val maybeRole = roles.get(role)
@@ -49,11 +54,29 @@ case class User(userId: UserId,
                 roles: Seq[Role],
                 profile: Option[Profile])
 
-case class UserId(value: String) extends StringValue
+object User {
+  def apply(userResponse: UserResponse): User = {
+    val seqRoles: Seq[String] = userResponse.roles
+    User(
+      userId = UserId(userResponse.userId),
+      email = userResponse.email,
+      firstName = userResponse.firstName.toOption,
+      lastName = userResponse.lastName.toOption,
+      enabled = userResponse.enabled,
+      verified = userResponse.verified,
+      lastConnection = ZonedDateTime.parse(userResponse.lastConnection),
+      roles = seqRoles.map(Role.apply),
+      profile = userResponse.profile.toOption.map(Profile.apply))
+  }
+}
+
+@js.native
+trait UserId extends js.Object {
+  val value: String
+}
 
 object UserId {
-  implicit lazy val userIdEncoder: Encoder[UserId] = (a: UserId) => Json.fromString(a.value)
-  implicit lazy val userIdDecoder: Decoder[UserId] =
-    Decoder.decodeString.map(UserId(_))
-
+  def apply(value: String): UserId = {
+    js.Dynamic.literal(value = value).asInstanceOf[UserId]
+  }
 }

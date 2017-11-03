@@ -8,9 +8,8 @@ import io.github.shogowada.scalajs.reactjs.redux.Store
 import org.make.front.actions.{LoadConfiguration, NotifyError, SetConfiguration}
 import org.make.front.components.AppState
 import org.make.front.facades.I18n
-import org.make.front.models._
 import org.make.services.ConfigurationService
-
+import scalajs.js.Dynamic.{global => g}
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.util.{Failure, Success}
 

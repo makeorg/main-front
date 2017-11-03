@@ -7,8 +7,8 @@ import io.github.shogowada.scalajs.reactjs.events.SyntheticEvent
 import org.make.front.components.Components._
 import org.make.front.components.proposal.vote.QualificateVote.QualificateVoteProps
 import org.make.front.components.proposal.vote.ResultsOfVote.ResultsOfVoteProps
-import org.make.front.facades.{FacebookPixel, I18n, Replacements}
 import org.make.front.facades.Unescape.unescape
+import org.make.front.facades.{FacebookPixel, I18n, Replacements}
 import org.make.front.helpers.NumberFormat._
 import org.make.front.models.{ProposalId, Qualification, Vote => VoteModel}
 import org.make.front.styles._
@@ -16,11 +16,10 @@ import org.make.front.styles.base.TextStyles
 import org.make.front.styles.ui.TooltipStyles
 import org.make.front.styles.utils._
 import org.make.front.styles.vendors.FontAwesomeStyles
-import org.make.services.proposal.ProposalResponses.{QualificationResponse, VoteResponse}
 
-import scala.scalajs.js.JSConverters._
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
+import scala.scalajs.js.JSConverters._
 import scala.util.{Failure, Success}
 import scalacss.DevDefaults._
 import scalacss.internal.mutable.StyleSheet
@@ -32,10 +31,10 @@ object VoteButton {
                              proposalId: ProposalId,
                              votes: Map[String, Int],
                              vote: VoteModel,
-                             handleVote: (String)                      => Future[VoteResponse],
-                             handleUnvote: (String)                    => Future[VoteResponse],
-                             qualifyVote: (String, String)             => Future[QualificationResponse],
-                             removeVoteQualification: (String, String) => Future[QualificationResponse],
+                             handleVote: (String)                      => Future[VoteModel],
+                             handleUnvote: (String)                    => Future[VoteModel],
+                             qualifyVote: (String, String)             => Future[Qualification],
+                             removeVoteQualification: (String, String) => Future[Qualification],
                              guideToVote: Option[String] = None,
                              guideToQualification: Option[String] = None)
 
@@ -84,7 +83,7 @@ object VoteButton {
         self.setState(_.copy(isHovered = false))
       }
 
-      def qualify(key: String): Future[QualificationResponse] = {
+      def qualify(key: String): Future[Qualification] = {
         FacebookPixel.fbq(
           "trackCustom",
           "click-proposal-qualify",
@@ -104,9 +103,9 @@ object VoteButton {
               self.setState(
                 state =>
                   state.copy(qualifications = state.qualifications.map { qualification =>
-                    if (qualifications.qualificationKey == qualification.key) {
+                    if (qualifications.key == qualification.key) {
                       Qualification(
-                        key = qualifications.qualificationKey,
+                        key = qualifications.key,
                         count = qualifications.count,
                         hasQualified = qualifications.hasQualified
                       )
@@ -121,7 +120,7 @@ object VoteButton {
         future
 
       }
-      def removeQualification(key: String): Future[QualificationResponse] = {
+      def removeQualification(key: String): Future[Qualification] = {
         val future = self.props.wrapped.removeVoteQualification(self.props.wrapped.vote.key, key)
 
         if (self.props.wrapped.updateState) {
@@ -131,9 +130,9 @@ object VoteButton {
               self.setState(
                 state =>
                   state.copy(qualifications = state.qualifications.map { qualification =>
-                    if (qualifications.qualificationKey == qualification.key) {
+                    if (qualifications.key == qualification.key) {
                       Qualification(
-                        key = qualifications.qualificationKey,
+                        key = qualifications.key,
                         count = qualifications.count,
                         hasQualified = qualifications.hasQualified
                       )

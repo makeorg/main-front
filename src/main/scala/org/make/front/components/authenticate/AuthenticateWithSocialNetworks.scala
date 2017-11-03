@@ -49,7 +49,8 @@ object AuthenticateWithSocialNetworks {
         // @toDo: manage specific errors
         def handleCallback(result: Future[_]): Unit = {
           result.onComplete {
-            case Success(_) => self.setState(AuthenticateWithSocialNetworksState())
+            case Success(_) =>
+              self.setState(AuthenticateWithSocialNetworksState())
             case Failure(UnauthorizedHttpException) =>
               self.setState(state => state.copy(errorMessages = Seq("authenticate.no-account-found")))
             case Failure(_) => self.setState(state => state.copy(errorMessages = Seq("authenticate.failure")))

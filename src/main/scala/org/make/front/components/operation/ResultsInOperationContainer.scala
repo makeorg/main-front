@@ -9,11 +9,14 @@ import org.make.front.components.operation.ResultsInOperation.ResultsInOperation
 import org.make.front.models.{
   Operation   => OperationModel,
   OperationId => OperationIdModel,
-  Proposal    => ProposalModel,
+  Proposal,
   Tag         => TagModel
 }
-import org.make.services.proposal.ProposalResponses.SearchResponse
-import org.make.services.proposal.ProposalService
+import org.make.services.proposal.{
+  SearchResultResponse,
+  SearchResult,
+  ProposalService
+}
 import org.make.services.proposal.ProposalService.defaultResultsCount
 
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -22,7 +25,7 @@ import scala.concurrent.Future
 object ResultsInOperationContainer {
 
   case class ResultsInOperationContainerProps(currentOperation: OperationModel)
-  case class ResultsInOperationContainerState(currentOperation: OperationModel, results: Seq[ProposalModel])
+  case class ResultsInOperationContainerState(currentOperation: OperationModel, results: Seq[Proposal])
 
   lazy val reactClass: ReactClass = ReactRedux.connectAdvanced(selectorFactory)(ResultsInOperation.reactClass)
 
@@ -31,8 +34,8 @@ object ResultsInOperationContainer {
     (_: Dispatch) => { (_: AppState, ownProps: Props[ResultsInOperationContainerProps]) =>
       val operationsIds: Seq[OperationIdModel] = Seq(ownProps.wrapped.currentOperation.operationId)
 
-      def getProposals(tags: Seq[TagModel], skip: Int): Future[SearchResponse] = {
-        val proposals: Future[SearchResponse] = ProposalService
+      def getProposals(tags: Seq[TagModel], skip: Int): Future[SearchResult] = {
+        val proposals: Future[SearchResult] = ProposalService
           .searchProposals(
             themesIds = Seq(),
             operationsIds = operationsIds,
@@ -45,7 +48,7 @@ object ResultsInOperationContainer {
         proposals
       }
 
-      def nextProposals(currentProposals: Seq[ProposalModel], tags: Seq[TagModel]): Future[SearchResponse] = {
+      def nextProposals(currentProposals: Seq[Proposal], tags: Seq[TagModel]): Future[SearchResult] = {
         getProposals(tags = tags, skip = currentProposals.size).map { searchResults =>
           searchResults.copy(results = currentProposals ++ searchResults.results)
         }

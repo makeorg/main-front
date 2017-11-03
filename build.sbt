@@ -33,7 +33,6 @@ val npmJquery = "3.2.1"
 val npmJsCookie = "2.1.4"
 /* scala libraries version */
 val scalaJsReactVersion = "0.14.0"
-val circeVersion = "0.8.0"
 val scalajsDomVersion = "0.9.1"
 val scalaCssCoreVersion = "0.5.3"
 
@@ -47,11 +46,7 @@ libraryDependencies ++= Seq(
   "io.github.shogowada"          %%% "scalajs-reactjs-redux"          % scalaJsReactVersion, // Optional. For react-redux facade
   "io.github.shogowada"          %%% "scalajs-reactjs-redux-devtools" % scalaJsReactVersion, // Optional. For redux-devtools facade
   "com.github.japgolly.scalacss" %%% "core"                           % scalaCssCoreVersion,
-  "io.circe"                     %%% "circe-core"                     % circeVersion,
-  "io.circe"                     %%% "circe-java8"                    % circeVersion,
-  "io.circe"                     %%% "circe-generic"                  % circeVersion,
-  "io.circe"                     %%% "circe-parser"                   % circeVersion,
-  "io.circe"                     %%% "circe-scalajs"                  % circeVersion
+  "io.github.cquiroz"            %%% "scala-java-time"                % "2.0.0-M12"
 )
 
 npmDependencies in Compile ++= Seq(

@@ -24,7 +24,9 @@ object AuthenticateWithSocialNetworksContainer {
     .connectAdvanced[AppState, AuthenticateWithSocialNetworksContainerProps, AuthenticateWithSocialNetworksProps] {
       dispatch => (state, props) =>
         def signInGoogle(response: Response): Future[UserModel] = {
-          handleFutureApiSignInResponse(UserService.loginGoogle(response.asInstanceOf[GoogleAuthResponse].tokenId))
+          handleFutureApiSignInResponse(
+            UserService.loginGoogle(response.asInstanceOf[GoogleAuthResponse].tokenId)
+          )
         }
 
         def signInFacebook(response: Response): Future[UserModel] = {
@@ -38,7 +40,7 @@ object AuthenticateWithSocialNetworksContainer {
             case Success(user) =>
               dispatch(LoggedInAction(user))
               props.wrapped.onSuccessfulLogin()
-            case Failure(_) =>
+            case Failure(e) => throw e
           }
           futureUser
         }

@@ -5,7 +5,7 @@ import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import io.github.shogowada.scalajs.reactjs.redux.ReactRedux
 import io.github.shogowada.scalajs.reactjs.redux.Redux.Dispatch
 import org.make.front.components.AppState
-import org.make.front.models.{Proposal => ProposalModel, Theme => ThemeModel, ThemeId => ThemeIdModel}
+import org.make.front.models.{Proposal => ProposalModel, TranslatedTheme => TranslatedThemeModel, ThemeId => ThemeIdModel}
 
 object ProposalTileWithThemeContainer {
 
@@ -17,11 +17,11 @@ object ProposalTileWithThemeContainer {
     : (Dispatch) => (AppState,
                      Props[ProposalTileWithThemeContainerProps]) => ProposalTileWithTheme.ProposalTileWithThemeProps =
     (_: Dispatch) => { (appState: AppState, ownProps: Props[ProposalTileWithThemeContainerProps]) =>
-      def searchThemeById(themeId: ThemeIdModel): Option[ThemeModel] = {
+      def searchThemeById(themeId: ThemeIdModel): Option[TranslatedThemeModel] = {
         appState.themes.find(_.id == themeId)
       }
 
-      val theme: Option[ThemeModel] = ownProps.wrapped.proposal.themeId.flatMap(themeId => searchThemeById(themeId))
+      val theme: Option[TranslatedThemeModel] = ownProps.wrapped.proposal.themeId.flatMap(themeId => searchThemeById(themeId))
 
       val themeName: Option[String] = theme.map(_.title)
 

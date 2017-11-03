@@ -2,6 +2,8 @@ package org.make.front.models
 
 import java.time.LocalDate
 
+import org.make.client.models.ProfileResponse
+
 sealed trait Gender {
   def shortName: String
 }
@@ -42,6 +44,34 @@ case class Profile(dateOfBirth: Option[LocalDate],
                    optInNewsletter: Boolean = false)
 
 object Profile {
+  def apply(profileResponse: ProfileResponse): Profile = {
+    Profile(
+      dateOfBirth = profileResponse.dateOfBirth.toOption.flatMap { dateOfBirth =>
+        dateOfBirth match {
+          case _ if Option(dateOfBirth).forall(_.isEmpty) => None
+          case _ => Some(LocalDate.parse(dateOfBirth))
+        }
+      },
+      avatarUrl = profileResponse.avatarUrl.toOption,
+      profession = profileResponse.profession.toOption,
+      phoneNumber = profileResponse.phoneNumber.toOption,
+      twitterId = profileResponse.twitterId.toOption,
+      facebookId = profileResponse.facebookId.toOption,
+      googleId = profileResponse.googleId.toOption,
+      gender = profileResponse.genderName.toOption.flatMap { gender =>
+        gender match {
+          case _ if Option(gender).forall(_.isEmpty) => None
+          case _ => Gender.matchGender(gender)
+        }
+      },
+      genderName = profileResponse.genderName.toOption,
+      departmentNumber = profileResponse.departmentNumber.toOption,
+      karmaLevel = profileResponse.karmaLevel.toOption,
+      locale = profileResponse.locale.toOption,
+      optInNewsletter = profileResponse.optInNewsletter
+    )
+  }
+
   def isEmpty(profile: Profile): Boolean = profile match {
     case Profile(None, None, None, None, None, None, None, None, None, None, None, None, false) => true
     case _                                                                                      => false

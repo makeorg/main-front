@@ -7,7 +7,7 @@ import org.make.front.components.Components._
 import org.make.front.facades.Translate.{TranslateVirtualDOMAttributes, TranslateVirtualDOMElements}
 import org.make.front.facades.Unescape.unescape
 import org.make.front.facades.{FacebookPixel, I18n, Replacements}
-import org.make.front.models.{Theme => ThemeModel}
+import org.make.front.models.{TranslatedTheme => TranslatedThemeModel}
 import org.make.front.styles.ThemeStyles
 import org.make.front.styles.base.TextStyles
 import org.make.front.styles.ui.CTAStyles
@@ -20,7 +20,7 @@ import scalacss.internal.mutable.StyleSheet
 
 object ConfirmationOfProposalSubmission {
 
-  case class ConfirmationOfProposalSubmissionProps(maybeTheme: Option[ThemeModel],
+  case class ConfirmationOfProposalSubmissionProps(maybeTheme: Option[TranslatedThemeModel],
                                                    onBack: ()                  => _,
                                                    onSubmitAnotherProposal: () => _)
 

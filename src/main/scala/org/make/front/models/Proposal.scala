@@ -1,10 +1,10 @@
 package org.make.front.models
 
-import java.time.ZonedDateTime
+import org.make.client.models.AuthorResponse
+import org.make.services.proposal.{ProposalResponse, QualificationResponse, RegisterProposalResponse, VoteResponse}
 
-import io.circe.{Decoder, Encoder, Json}
-import org.make.core.StringValue
-import io.circe.java8.time._
+import scala.collection.mutable
+import scala.scalajs.js
 
 //todo Add connected user info about proposal
 final case class Proposal(id: ProposalId,
@@ -12,8 +12,8 @@ final case class Proposal(id: ProposalId,
                           content: String,
                           slug: String,
                           status: String,
-                          createdAt: ZonedDateTime,
-                          updatedAt: Option[ZonedDateTime],
+                          createdAt: String,
+                          updatedAt: Option[String],
                           votes: Seq[Vote],
                           context: ProposalContext,
                           trending: Option[String],
@@ -31,45 +31,64 @@ final case class Proposal(id: ProposalId,
     votes.find(_.key == "disagree").getOrElse(Vote(key = "disagree", qualifications = Seq.empty, hasVoted = false))
   def votesNeutral: Vote =
     votes.find(_.key == "neutral").getOrElse(Vote(key = "neutral", qualifications = Seq.empty, hasVoted = false))
-
 }
 
 object Proposal {
-  implicit val decoder: Decoder[Proposal] =
-    Decoder.forProduct18(
-      "id",
-      "userId",
-      "content",
-      "slug",
-      "status",
-      "createdAt",
-      "updatedAt",
-      "votes",
-      "context",
-      "trending",
-      "labels",
-      "author",
-      "country",
-      "language",
-      "themeId",
-      "operationId",
-      "tags",
-      "myProposal"
-    )(Proposal.apply)
+  def apply(proposalResponse: ProposalResponse): Proposal = {
+    val seqVotes: mutable.Seq[Vote] = proposalResponse.votes.map(Vote.apply)
+    val seqLabels: mutable.Seq[String] = proposalResponse.labels
+    val seqTags: Seq[Tag] = proposalResponse.tags.map(Tag.apply)
+
+    Proposal(id = ProposalId(proposalResponse.id),
+            userId = UserId(proposalResponse.userId),
+            content = proposalResponse.content,
+            slug = proposalResponse.slug,
+            status = proposalResponse.status,
+            createdAt = proposalResponse.createdAt,
+            updatedAt = proposalResponse.updatedAt.toOption,
+            votes = seqVotes,
+            context = ProposalContext(proposalResponse.context),
+            trending = proposalResponse.trending.toOption,
+            labels = seqLabels,
+            author = Author(proposalResponse.author),
+            country = proposalResponse.country,
+            language = proposalResponse.language,
+            themeId = proposalResponse.themeId.toOption.map(ThemeId.apply),
+            operationId = proposalResponse.operationId.toOption.map(OperationId.apply),
+            tags = seqTags,
+            myProposal = proposalResponse.myProposal)
+  }
 }
 
-final case class Qualification(key: String, count: Int = 0, hasQualified: Boolean)
+case class RegisterProposal(proposalId: ProposalId)
 
-object Qualification {
-  implicit val decoder: Decoder[Qualification] =
-    Decoder.forProduct3("qualificationKey", "count", "hasQualified")(Qualification.apply)
+object RegisterProposal {
+  def apply(registerProposalResponse: RegisterProposalResponse): RegisterProposal = {
+    RegisterProposal(proposalId = ProposalId(registerProposalResponse.proposalId))
+  }
 }
 
 final case class Vote(key: String, count: Int = 0, qualifications: Seq[Qualification], hasVoted: Boolean)
 
 object Vote {
-  implicit val decoder: Decoder[Vote] =
-    Decoder.forProduct4("voteKey", "count", "qualifications", "hasVoted")(Vote.apply)
+  def apply(voteResponse: VoteResponse): Vote = {
+    Vote(
+      key = voteResponse.voteKey,
+      count = voteResponse.count,
+      qualifications = voteResponse.qualifications.map(Qualification.apply),
+      hasVoted = voteResponse.hasVoted)
+  }
+}
+
+final case class Qualification(key: String, count: Int = 0, hasQualified: Boolean)
+
+object Qualification {
+  def apply(qualificationResponse: QualificationResponse): Qualification = {
+    Qualification(
+      key =  qualificationResponse.qualificationKey,
+      count = qualificationResponse.count,
+      hasQualified = qualificationResponse.hasQualified)
+  }
 }
 
 final case class ProposalContext(operation: Option[String],
@@ -78,21 +97,35 @@ final case class ProposalContext(operation: Option[String],
                                  question: Option[String])
 
 object ProposalContext {
-  implicit val decoder: Decoder[ProposalContext] =
-    Decoder.forProduct4("operation", "source", "location", "question")(ProposalContext.apply)
+  def apply(proposalContextResponse: ProposalContextResponse): ProposalContext = {
+    ProposalContext(
+      operation = proposalContextResponse.operation.toOption,
+      source = proposalContextResponse.source.toOption,
+      location = proposalContextResponse.location.toOption,
+      question = proposalContextResponse.question.toOption
+    )
+  }
+}
+
+@js.native
+trait ProposalContextResponse extends js.Object {
+  val operation: js.UndefOr[String]
+  val source: js.UndefOr[String]
+  val location: js.UndefOr[String]
+  val question: js.UndefOr[String]
 }
 
 final case class Author(firstName: Option[String], postalCode: Option[String], age: Option[Int])
 
 object Author {
-  implicit val decoder: Decoder[Author] = Decoder.forProduct3("firstName", "postalCode", "age")(Author.apply)
+  def apply(authorResponse: AuthorResponse): Author = {
+    Author(
+      firstName = authorResponse.firstName.toOption,
+      postalCode = authorResponse.postalCode.toOption,
+      age = authorResponse.age.toOption)
+  }
 }
 
-final case class ProposalId(value: String) extends StringValue
-
-object ProposalId {
-  implicit lazy val proposalIdEncoder: Encoder[ProposalId] = (a: ProposalId) => Json.fromString(a.value)
-  implicit lazy val proposalIdDecoder: Decoder[ProposalId] = Decoder.decodeString.map(ProposalId(_))
-}
+final case class ProposalId(value: String)
 
 case class ProposalSearchResult(proposals: Seq[Proposal], hasMore: Boolean)

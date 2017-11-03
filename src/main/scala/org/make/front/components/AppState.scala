@@ -8,7 +8,7 @@ import org.make.front.models.{
   PoliticalAction       => PoliticalActionModel,
   Sequence              => SequenceModel,
   SequenceId            => SequenceIdModel,
-  Theme                 => ThemeModel,
+  TranslatedTheme       => TranslatedThemeModel,
   User                  => UserModel
 }
 
@@ -39,8 +39,8 @@ final case class AppState(configuration: Option[BusinessConfigurationModel],
                           country: String = "FR",
                           language: String = "fr") {
 
-  def themes: Seq[ThemeModel] = configuration.map(_.themesForLocale(country, language)).getOrElse(Seq.empty)
-  def findTheme(slug: String): Option[ThemeModel] = themes.find(_.slug == slug)
+  def themes: Seq[TranslatedThemeModel] = configuration.map(_.themesForLocale(country, language)).getOrElse(Seq.empty)
+  def findTheme(slug: String): Option[TranslatedThemeModel] = themes.find(_.slug == slug)
 
   def findOperation(slug: String): Option[OperationModel] = operations.find(_.slug == slug)
 

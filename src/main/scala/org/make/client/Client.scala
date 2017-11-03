@@ -1,39 +1,34 @@
 package org.make.client
 
-import io.circe.Decoder
-import io.circe.generic.auto._
-import io.circe.syntax._
 import org.scalajs.dom.ext.Ajax.InputData
 
 import scala.concurrent.Future
+import scala.scalajs.js
+import js.JSConverters._
 
 trait Client {
   def baseUrl: String
 
-  def get[ENTITY](apiEndpoint: String, urlParams: Seq[(String, Any)], headers: Map[String, String])(
-    implicit decoder: Decoder[ENTITY]
-  ): Future[Option[ENTITY]]
+  def get[ENTITY <: js.Object](apiEndpoint: String, urlParams: Seq[(String, Any)], headers: Map[String, String]): Future[ENTITY]
 
-  def post[ENTITY](apiEndpoint: String, urlParams: Seq[(String, Any)], data: InputData, headers: Map[String, String])(
-    implicit decoder: Decoder[ENTITY]
-  ): Future[Option[ENTITY]]
+  def post[ENTITY <: js.Object](apiEndpoint: String, urlParams: Seq[(String, Any)], data: InputData, headers: Map[String, String]): Future[ENTITY]
 
-  def put[ENTITY](apiEndpoint: String,
+  def put[ENTITY <: js.Object](apiEndpoint: String,
                   urlParams: Seq[(String, Any)],
                   data: InputData,
-                  headers: Map[String, String] = Map.empty)(implicit decoder: Decoder[ENTITY]): Future[Option[ENTITY]]
+                  headers: Map[String, String] = Map.empty): Future[ENTITY]
 
-  def patch[ENTITY](apiEndpoint: String,
+  def patch[ENTITY <: js.Object](apiEndpoint: String,
                     urlParams: Seq[(String, Any)],
                     data: InputData,
-                    headers: Map[String, String] = Map.empty)(implicit decoder: Decoder[ENTITY]): Future[Option[ENTITY]]
+                    headers: Map[String, String] = Map.empty): Future[ENTITY]
 
-  def delete[ENTITY](
+  def delete[ENTITY <: js.Object](
     apiEndpoint: String,
     urlParams: Seq[(String, Any)],
     data: InputData,
     headers: Map[String, String] = Map.empty
-  )(implicit decoder: Decoder[ENTITY]): Future[Option[ENTITY]]
+  ): Future[ENTITY]
 }
 
 trait HttpException extends Exception
@@ -42,7 +37,7 @@ case class ValidationError(field: String, message: Option[String])
 
 trait ValidationFailedHttpException extends HttpException {
   val errors: Seq[ValidationError]
-  override def getMessage: String = { errors.asJson.toString }
+  override def getMessage: String = { errors.toJSArray.toString }
 }
 
 case class BadRequestHttpException(override val errors: Seq[ValidationError]) extends ValidationFailedHttpException

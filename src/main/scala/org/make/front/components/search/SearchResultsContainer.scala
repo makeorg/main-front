@@ -10,9 +10,8 @@ import org.make.front.components.AppState
 import org.make.front.components.search.SearchResults.SearchResultsProps
 import org.make.front.facades.I18n
 import org.make.front.helpers.QueryString
-import org.make.front.models.{Proposal => ProposalModel}
-import org.make.services.proposal.ProposalResponses.SearchResponse
-import org.make.services.proposal.ProposalService
+import org.make.front.models.Proposal
+import org.make.services.proposal.{ProposalService, SearchResult, SearchResultResponse}
 import org.make.services.proposal.ProposalService.defaultResultsCount
 
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -43,7 +42,7 @@ object SearchResultsContainer {
             .map(URIUtils.decodeURI)
         }
 
-        def getProposals(originalProposals: Seq[ProposalModel], content: Option[String]): Future[SearchResponse] = {
+        def getProposals(originalProposals: Seq[Proposal], content: Option[String]): Future[SearchResult] = {
           val result = ProposalService
             .searchProposals(
               content = content,

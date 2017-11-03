@@ -6,13 +6,8 @@ import io.github.shogowada.scalajs.reactjs.redux.ReactRedux
 import io.github.shogowada.scalajs.reactjs.redux.Redux.Dispatch
 import org.make.front.actions.NotifyError
 import org.make.front.components.AppState
-import org.make.front.models.{
-  Operation => OperationModel,
-  Theme     => ThemeModel,
-  Proposal  => ProposalModel,
-  Sequence  => SequenceModel
-}
-import org.make.services.proposal.{ContextRequest, ProposalService}
+import org.make.front.models.{Operation => OperationModel, Proposal => ProposalModel, Sequence => SequenceModel, Theme => ThemeModel}
+import org.make.services.proposal.{ContextRequest, ProposalService, SearchResult}
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
@@ -35,7 +30,7 @@ object SequenceContainer {
         val proposals: Future[Seq[ProposalModel]] = {
 
           val vffOperation: OperationModel = state.operations.filter(_.operationId.value == "vff").head
-          val proposalsResponse =
+          val proposalsResponse: Future[SearchResult] =
             ProposalService.searchProposals(
               context = Some(ContextRequest(operation = Some(vffOperation.label))),
               limit = Some(20)

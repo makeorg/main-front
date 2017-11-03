@@ -6,11 +6,11 @@ import io.github.shogowada.scalajs.reactjs.redux.ReactRedux
 import io.github.shogowada.scalajs.reactjs.redux.Redux.Dispatch
 import org.make.front.actions.LoadPoliticalAction
 import org.make.front.components.AppState
-import org.make.front.models.{Theme => ThemeModel}
+import org.make.front.models.{TranslatedTheme => TranslatedThemeModel}
 
 object PoliticalActionsContainer {
 
-  case class PoliticalActionsContainerProps(currentTheme: Option[ThemeModel])
+  case class PoliticalActionsContainerProps(currentTheme: Option[TranslatedThemeModel])
 
   lazy val reactClass: ReactClass =
     ReactRedux.connectAdvanced(selectorFactory)(PoliticalActionsList.reactClass)

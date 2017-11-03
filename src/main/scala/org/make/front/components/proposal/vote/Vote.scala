@@ -7,10 +7,13 @@ import org.make.front.components.Components._
 import org.make.front.components.proposal.vote.VoteButton.VoteButtonProps
 import org.make.front.facades.FacebookPixel
 import org.make.front.helpers.AbTesting
-import org.make.front.models.{Proposal => ProposalModel, Vote => VoteModel}
+import org.make.front.models.{
+  Proposal => ProposalModel,
+  Vote => VoteModel,
+  Qualification => QualificationModel
+}
 import org.make.front.styles._
 import org.make.front.styles.utils._
-import org.make.services.proposal.ProposalResponses.{QualificationResponse, VoteResponse}
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
@@ -24,10 +27,10 @@ object Vote {
   final case class VoteProps(index: Int,
                              updateState: Boolean = true,
                              proposal: ProposalModel,
-                             vote: (String)                            => Future[VoteResponse],
-                             unvote: (String)                          => Future[VoteResponse],
-                             qualifyVote: (String, String)             => Future[QualificationResponse],
-                             removeVoteQualification: (String, String) => Future[QualificationResponse],
+                             vote: (String)                            => Future[VoteModel],
+                             unvote: (String)                          => Future[VoteModel],
+                             qualifyVote: (String, String)             => Future[QualificationModel],
+                             removeVoteQualification: (String, String) => Future[QualificationModel],
                              guideToVote: Option[String] = None,
                              guideToQualification: Option[String] = None)
 
@@ -41,7 +44,7 @@ object Vote {
         self.setState(VoteState(votes = props.wrapped.proposal.votes.map(vote => vote.key -> vote).toMap))
       }, render = {
         (self) =>
-          def vote(key: String): Future[VoteResponse] = {
+          def vote(key: String): Future[VoteModel] = {
             FacebookPixel.fbq(
               "trackCustom",
               "click-proposal-vote",
@@ -58,13 +61,13 @@ object Vote {
               future.onComplete {
                 case Failure(_) =>
                 case Success(result) =>
-                  self.setState(state => state.copy(votes = state.votes + (result.voteKey -> result.toVote)))
+                  self.setState(state => state.copy(votes = state.votes + (result.key -> result)))
               }
             }
             future
           }
 
-          def unvote(key: String): Future[VoteResponse] = {
+          def unvote(key: String): Future[VoteModel] = {
             FacebookPixel.fbq(
               "trackCustom",
               "click-proposal-unvote",
@@ -80,7 +83,7 @@ object Vote {
               future.onComplete {
                 case Failure(_) =>
                 case Success(result) =>
-                  self.setState(state => state.copy(votes = state.votes + (result.voteKey -> result.toVote)))
+                  self.setState(state => state.copy(votes = state.votes + (result.key -> result)))
               }
             }
             future

@@ -8,7 +8,7 @@ import org.make.front.components.Components._
 import org.make.front.facades.ReactTextareaAutosize.ReactTooltipVirtualDOMElements
 import org.make.front.facades.Unescape.unescape
 import org.make.front.facades.{I18n, Replacements, _}
-import org.make.front.models.{Theme => ThemeModel}
+import org.make.front.models.{TranslatedTheme => TranslatedThemeModel}
 import org.make.front.styles.ThemeStyles
 import org.make.front.styles.base.TextStyles
 import org.make.front.styles.ui.{CTAStyles, InputStyles, TooltipStyles}
@@ -29,7 +29,7 @@ object SubmitProposalForm {
   case class SubmitProposalFormProps(bait: String,
                                      proposalContentMaxLength: Int,
                                      proposalContentMinLength: Int,
-                                     maybeTheme: Option[ThemeModel],
+                                     maybeTheme: Option[TranslatedThemeModel],
                                      errorMessage: Option[String] = None,
                                      handleSubmitProposalForm: (String) => Unit)
 

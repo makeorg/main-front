@@ -4,11 +4,11 @@ import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import io.github.shogowada.scalajs.reactjs.redux.ReactRedux
 import org.make.front.components.AppState
 import org.make.front.components.submitProposal.SubmitProposalForm.SubmitProposalFormProps
-import org.make.front.models.Theme
+import org.make.front.models.{TranslatedTheme => TranslatedThemeModel}
 
 object SubmitProposalFormContainer {
 
-  case class SubmitProposalFormContainerProps(maybeTheme: Option[Theme],
+  case class SubmitProposalFormContainerProps(maybeTheme: Option[TranslatedThemeModel],
                                               errorMessage: Option[String],
                                               handleSubmitProposalForm: (String) => Unit)
 

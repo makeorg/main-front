@@ -8,7 +8,7 @@ import org.make.front.components.Components._
 import org.make.front.components.submitProposal.SubmitProposalAndLoginContainer.SubmitProposalAndLoginContainerProps
 import org.make.front.facades.I18n
 import org.make.front.facades.Unescape.unescape
-import org.make.front.models.{GradientColor => GradientColorModel, Theme => ThemeModel}
+import org.make.front.models.{GradientColor => GradientColorModel, TranslatedTheme => TranslatedThemeModel}
 import org.make.front.styles.ThemeStyles
 import org.make.front.styles.base.TextStyles
 import org.make.front.styles.utils._
@@ -20,9 +20,9 @@ import scalacss.internal.mutable.StyleSheet.Inline
 
 object SubmitProposalInRelationToTheme {
 
-  case class SubmitProposalInRelationToThemeProps(theme: ThemeModel, onProposalProposed: () => Unit)
+  case class SubmitProposalInRelationToThemeProps(theme: TranslatedThemeModel, onProposalProposed: () => Unit)
 
-  case class SubmitProposalInRelationToThemeState(theme: ThemeModel)
+  case class SubmitProposalInRelationToThemeState(theme: TranslatedThemeModel)
 
   lazy val reactClass: ReactClass =
     React.createClass[SubmitProposalInRelationToThemeProps, SubmitProposalInRelationToThemeState](

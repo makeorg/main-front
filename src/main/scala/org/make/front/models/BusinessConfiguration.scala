@@ -1,76 +1,57 @@
 package org.make.front.models
 
-import io.circe.Decoder
 import org.make.core.Counter
+import org.make.services.proposal.TagResponse
+
+import scala.collection.mutable
+import scala.scalajs.js
+
+@js.native
+trait BusinessConfigurationResponse extends js.Object {
+  val proposalMinLength: Int
+  val proposalMaxLength: Int
+  val themes: js.Array[ThemeResponse]
+  val newVisitorCookieDefinition: String
+}
 
 case class BusinessConfiguration(proposalMinLength: Int,
                                  proposalMaxLength: Int,
-                                 themes: Seq[BusinessConfigurationTheme],
+                                 themes: Seq[Theme],
                                  newVisitorCookieDefinition: String) {
-
-  def themesForLocale(country: String, locale: String): Seq[Theme] = {
+  def themesForLocale(country: String, locale: String): Seq[TranslatedTheme] = {
     val counter = new Counter()
-    themes.filter(_.country == country).flatMap(_.toTheme(locale, counter))
+    themes.filter(_.country == country).flatMap(_.toTranslatedTheme(locale, counter))
   }
 }
 
 object BusinessConfiguration {
-  implicit val decoder: Decoder[BusinessConfiguration] =
-    Decoder.forProduct4("proposalMinLength", "proposalMaxLength", "themes", "newVisitorCookieDefinition")(
-      BusinessConfiguration.apply
+  def apply(businessConfigurationResponse: BusinessConfigurationResponse) : BusinessConfiguration = {
+    val seqThemes: mutable.Seq[Theme] = businessConfigurationResponse.themes.map(Theme.apply)
+
+    BusinessConfiguration(
+      proposalMinLength = businessConfigurationResponse.proposalMinLength,
+      proposalMaxLength = businessConfigurationResponse.proposalMaxLength,
+      themes = seqThemes,
+      newVisitorCookieDefinition = businessConfigurationResponse.newVisitorCookieDefinition
     )
-}
-
-final case class BusinessConfigurationTheme(themeId: ThemeId,
-                                            translations: Seq[ThemeTranslation],
-                                            actionsCount: Int,
-                                            proposalsCount: Int,
-                                            country: String,
-                                            color: String,
-                                            gradient: Option[GradientColor] = None,
-                                            tags: Seq[Tag] = Seq.empty) {
-
-  def toTheme(locale: String, counter: Counter): Option[Theme] = {
-    for {
-      title <- title(locale)
-      slug  <- slug(locale)
-    } yield {
-      Theme(
-        id = themeId,
-        slug = slug,
-        title = title,
-        actionsCount = actionsCount,
-        proposalsCount = proposalsCount,
-        color = color,
-        gradient = gradient,
-        tags = tags,
-        order = counter.getAndIncrement()
-      )
-    }
   }
-
-  def title(language: String): Option[String] = translations.find(_.language == language).map(_.title)
-  def slug(language: String): Option[String] = translations.find(_.language == language).map(_.slug)
-
 }
 
-object BusinessConfigurationTheme {
-  implicit val decoder: Decoder[BusinessConfigurationTheme] =
-    Decoder.forProduct8(
-      "themeId",
-      "translations",
-      "actionsCount",
-      "proposalsCount",
-      "country",
-      "color",
-      "gradient",
-      "tags"
-    )(BusinessConfigurationTheme.apply)
+@js.native
+trait ThemeResponse extends js.Object {
+  val themeId: String
+  val translations: js.Array[ThemeTranslationResponse]
+  val actionsCount: Int
+  val proposalsCount: Int
+  val country: String
+  val color: String
+  val gradient: js.UndefOr[GradientColor]
+  val tags: js.Array[TagResponse]
 }
 
-final case class ThemeTranslation(slug: String, title: String, language: String)
-
-object ThemeTranslation {
-  implicit val decoder: Decoder[ThemeTranslation] =
-    Decoder.forProduct3("slug", "title", "language")(ThemeTranslation.apply)
+@js.native
+trait ThemeTranslationResponse extends js.Object {
+  val slug: String
+  val title: String
+  val language: String
 }

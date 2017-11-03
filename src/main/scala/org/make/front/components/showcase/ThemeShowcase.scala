@@ -8,12 +8,12 @@ import org.make.core.Counter
 import org.make.front.components.Components.{RichVirtualDOMElements, _}
 import org.make.front.components.proposal.ProposalTile.ProposalTileProps
 import org.make.front.facades.{HexToRgba, I18n, Replacements}
-import org.make.front.models.{GradientColor => GradientColorModel, Proposal => ProposalModel, Theme => ThemeModel}
+import org.make.front.models.{GradientColor => GradientColorModel, Proposal => ProposalModel, TranslatedTheme => TranslatedThemeModel}
 import org.make.front.styles._
 import org.make.front.styles.base.{ColRulesStyles, RowRulesStyles, TextStyles}
 import org.make.front.styles.ui.CTAStyles
 import org.make.front.styles.utils._
-import org.make.services.proposal.ProposalResponses.SearchResponse
+import org.make.services.proposal.SearchResult
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
@@ -23,8 +23,8 @@ import scalacss.internal.mutable.StyleSheet.Inline
 
 object ThemeShowcase {
 
-  final case class ThemeShowcaseProps(proposals: Future[SearchResponse],
-                                      maybeTheme: Option[ThemeModel],
+  final case class ThemeShowcaseProps(proposals: Future[SearchResult],
+                                      maybeTheme: Option[TranslatedThemeModel],
                                       maybeIntro: Option[String],
                                       maybeNews: Option[String])
 

@@ -7,11 +7,10 @@ import io.github.shogowada.scalajs.reactjs.events.SyntheticEvent
 import org.make.front.components.Components._
 import org.make.front.facades.I18n
 import org.make.front.helpers.NumberFormat.formatToKilo
-import org.make.front.models.{Qualification => QualificationModel}
+import org.make.front.models.Qualification
 import org.make.front.styles._
 import org.make.front.styles.base.TextStyles
 import org.make.front.styles.utils._
-import org.make.services.proposal.ProposalResponses.QualificationResponse
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
@@ -23,9 +22,9 @@ object QualificateVoteButton {
 
   case class QualificateVoteButtonProps(updateState: Boolean,
                                         voteKey: String,
-                                        qualification: QualificationModel,
-                                        qualifyVote: (String)             => Future[QualificationResponse],
-                                        removeVoteQualification: (String) => Future[QualificationResponse])
+                                        qualification: Qualification,
+                                        qualifyVote: (String)             => Future[Qualification],
+                                        removeVoteQualification: (String) => Future[Qualification])
 
   case class QualificateVoteButtonState(isSelected: Boolean, count: Int)
 
