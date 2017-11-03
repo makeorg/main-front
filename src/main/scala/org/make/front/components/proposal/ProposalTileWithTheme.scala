@@ -3,7 +3,6 @@ package org.make.front.components.proposal
 import io.github.shogowada.scalajs.reactjs.React
 import io.github.shogowada.scalajs.reactjs.VirtualDOM.{<, _}
 import io.github.shogowada.scalajs.reactjs.classes.ReactClass
-import io.github.shogowada.scalajs.reactjs.elements.ReactElement
 import io.github.shogowada.scalajs.reactjs.router.dom.RouterDOM._
 import org.make.front.components.Components.{RichVirtualDOMElements, _}
 import org.make.front.components.proposal.ProposalInfos.ProposalInfosProps
@@ -28,42 +27,40 @@ object ProposalTileWithTheme {
       .createClass[ProposalTileWithThemeProps, Unit](
         displayName = "ProposalTileWithTheme",
         render = (self) => {
-
-          val intro: ReactElement = if (self.props.wrapped.proposal.myProposal) {
-            <.div(^.className := ProposalTileStyles.shareOwnProposalWrapper)(
-              <.ShareOwnProposalComponent(^.wrapped := ShareOwnProposalProps(proposal = self.props.wrapped.proposal))()
-            )
-          } else {
-            <.div(^.className := ProposalTileStyles.proposalInfosWrapper)(
-              <.ProposalInfosComponent(^.wrapped := ProposalInfosProps(proposal = self.props.wrapped.proposal))()
-            )
-          }
-
           <.article(^.className := ProposalTileStyles.wrapper)(
             <.div(^.className := ProposalTileStyles.innerWrapper)(
               <.div(^.className := ProposalTileStyles.row)(
-                <.div(^.className := ProposalTileStyles.cell)(
-                  intro,
-                  <.div(^.className := ProposalTileStyles.contentWrapper)(
-                    <.h3(^.className := Seq(TextStyles.mediumText, TextStyles.boldText))(
-                      <.Link(
-                        ^.to := s"/proposal/${self.props.wrapped.proposal.slug}",
-                        ^.className := ProposalTileStyles.proposalLinkOnTitle
-                      )(self.props.wrapped.proposal.content)
-                    ),
-                    <.VoteContainerComponent(
-                      ^.wrapped := VoteContainerProps(
-                        proposal = self.props.wrapped.proposal,
-                        index = self.props.wrapped.index
-                      )
+                <.div(^.className := ProposalTileStyles.cell)(if (self.props.wrapped.proposal.myProposal) {
+                  <.div(^.className := ProposalTileStyles.shareOwnProposalWrapper)(
+                    <.ShareOwnProposalComponent(
+                      ^.wrapped := ShareOwnProposalProps(proposal = self.props.wrapped.proposal)
                     )()
                   )
+                } else {
+                  <.div(^.className := ProposalTileStyles.proposalInfosWrapper)(
+                    <.ProposalInfosComponent(^.wrapped := ProposalInfosProps(proposal = self.props.wrapped.proposal))()
+                  )
+                })
+              ),
+              <.div(^.className := Seq(ProposalTileStyles.row, ProposalTileStyles.stretchedRow))(
+                <.div(^.className := Seq(ProposalTileStyles.cell, ProposalTileStyles.contentWrapper))(
+                  <.h3(^.className := Seq(TextStyles.mediumText, TextStyles.boldText))(
+                    <.Link(^.to := s"/proposal/${self.props.wrapped.proposal.slug}")(
+                      self.props.wrapped.proposal.content
+                    )
+                  ),
+                  <.VoteContainerComponent(
+                    ^.wrapped := VoteContainerProps(
+                      proposal = self.props.wrapped.proposal,
+                      index = self.props.wrapped.index
+                    )
+                  )()
                 )
               ),
               if (Option(self.props.wrapped.themeName).exists(_.nonEmpty) && Option(self.props.wrapped.themeSlug)
                     .exists(_.nonEmpty)) {
                 <.div(^.className := ProposalTileStyles.row)(
-                  <.div(^.className := ProposalTileStyles.cellAlignedAtTheBottom)(
+                  <.div(^.className := ProposalTileStyles.cell)(
                     <.footer(^.className := ProposalTileStyles.footer)(
                       <.p(^.className := Seq(TextStyles.smallerText, ProposalTileWithThemeStyles.themeInfo))(
                         unescape(I18n.t("proposal.associated-with-the-theme")),

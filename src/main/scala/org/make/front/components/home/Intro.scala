@@ -63,7 +63,8 @@ object IntroStyles extends StyleSheet.Inline {
       position.relative,
       display.table,
       width(100.%%),
-      height(440.pxToEm()),
+      height(500.pxToEm()),
+      /*height :=! s"calc(100% - ${200.pxToEm().value})",*/
       backgroundColor(ThemeStyles.BackgroundColor.black)
     )
 
@@ -72,7 +73,9 @@ object IntroStyles extends StyleSheet.Inline {
       position.relative,
       display.tableCell,
       verticalAlign.middle,
-      padding :=! s"${ThemeStyles.SpacingValue.larger.pxToEm().value} 0",
+      paddingTop((ThemeStyles.SpacingValue.larger + 50).pxToEm()), // TODO: dynamise calcul, if main intro is first child of page
+      ThemeStyles.MediaQueries.beyondSmall(paddingTop((ThemeStyles.SpacingValue.larger + 80).pxToEm())),
+      paddingBottom(ThemeStyles.SpacingValue.larger.pxToEm()),
       textAlign.center,
       overflow.hidden
     )

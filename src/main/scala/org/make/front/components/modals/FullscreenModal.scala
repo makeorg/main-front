@@ -3,10 +3,11 @@ package org.make.front.components.modals
 import io.github.shogowada.scalajs.reactjs.React
 import io.github.shogowada.scalajs.reactjs.VirtualDOM._
 import io.github.shogowada.scalajs.reactjs.classes.ReactClass
-import org.make.front.components.Components.{RichVirtualDOMElements, _}
+import org.make.front.components.Components._
 import org.make.front.facades.ReactModal.{ReactModalVirtualDOMAttributes, ReactModalVirtualDOMElements}
 import org.make.front.styles._
 import org.make.front.styles.base.{ColRulesStyles, RowRulesStyles}
+import org.make.front.styles.ui.{ModalStyles => CustomModalStyles}
 import org.make.front.styles.utils._
 
 import scalacss.DevDefaults._
@@ -35,36 +36,31 @@ object FullscreenModal {
               FullscreenModalStyles.preventMainScroll(!self.state.isModalOpened)
             )
           )(
-            <.div(^.className := FullscreenModalStyles.row)(
-              <.div(^.className := FullscreenModalStyles.cell)(<.MainHeaderComponent.empty)
-            ),
-            <.div(^.className := Seq(FullscreenModalStyles.row, FullscreenModalStyles.contentWrapper))(
-              <.div(^.className := Seq(FullscreenModalStyles.cell, FullscreenModalStyles.contentInnerWrapper))(
-                <.div(^.className := FullscreenModalStyles.closeModalButtonWrapper)(
-                  <.div(^.className := RowRulesStyles.centeredRow)(
-                    <.div(^.className := ColRulesStyles.col)(
-                      <.button(
-                        ^.className := FullscreenModalStyles.closeModalButton,
-                        ^.onClick := self.props.wrapped.closeCallback
+            <.div(^.className := FullscreenModalStyles.innerWrapper)(
+              <.div(^.className := FullscreenModalStyles.closeModalButtonWrapper)(
+                <.div(^.className := RowRulesStyles.centeredRow)(
+                  <.div(^.className := ColRulesStyles.col)(
+                    <.button(
+                      ^.className := FullscreenModalStyles.closeModalButton,
+                      ^.onClick := self.props.wrapped.closeCallback
+                    )(
+                      <("svg")(
+                        ^("xmlns") := "http://www.w3.org/2000/svg",
+                        ^("x") := "0px",
+                        ^("y") := "0px",
+                        ^("width") := "25",
+                        ^("height") := "25",
+                        ^("viewBox") := "0 0 25 25"
                       )(
-                        <("svg")(
-                          ^("xmlns") := "http://www.w3.org/2000/svg",
-                          ^("x") := "0px",
-                          ^("y") := "0px",
-                          ^("width") := "25",
-                          ^("height") := "25",
-                          ^("viewBox") := "0 0 25 25"
-                        )(
-                          <("path")(
-                            ^("d") := "M12.5,9.3L3.9,0.7l0,0c-0.3-0.3-0.8-0.3-1.1,0L0.7,2.9c-0.3,0.3-0.3,0.8,0,1.1l8.6,8.6l-8.6,8.6 c-0.3,0.3-0.3,0.8,0,1.1l2.1,2.1c0.3,0.3,0.8,0.3,1.1,0l8.6-8.6l8.6,8.6c0.3,0.3,0.8,0.3,1.1,0l2.1-2.1c0.3-0.3,0.3-0.8,0-1.1 l-8.6-8.6l8.6-8.6l0,0c0.3-0.3,0.3-0.8,0-1.1l-2.1-2.1c-0.3-0.3-0.8-0.3-1.1,0L12.5,9.3z"
-                          )()
-                        )
+                        <("path")(
+                          ^("d") := "M12.5,9.3L3.9,0.7l0,0c-0.3-0.3-0.8-0.3-1.1,0L0.7,2.9c-0.3,0.3-0.3,0.8,0,1.1l8.6,8.6l-8.6,8.6 c-0.3,0.3-0.3,0.8,0,1.1l2.1,2.1c0.3,0.3,0.8,0.3,1.1,0l8.6-8.6l8.6,8.6c0.3,0.3,0.8,0.3,1.1,0l2.1-2.1c0.3-0.3,0.3-0.8,0-1.1 l-8.6-8.6l8.6-8.6l0,0c0.3-0.3,0.3-0.8,0-1.1l-2.1-2.1c-0.3-0.3-0.8-0.3-1.1,0L12.5,9.3z"
+                        )()
                       )
                     )
                   )
-                ),
-                self.props.children
-              )
+                )
+              ),
+              self.props.children
             )
           ),
           <.style()(FullscreenModalStyles.render[String])
@@ -86,12 +82,6 @@ object FullscreenModalStyles extends StyleSheet.Inline {
       backgroundImage := "linear-gradient(155deg, #FFFFFF 0%, #ECECEC 100%)"
     )
 
-  val row: StyleA =
-    style(display.tableRow)
-
-  val cell: StyleA =
-    style(display.tableCell, verticalAlign.middle)
-
   val preventMainScroll: (Boolean) => StyleA = styleF.bool(
     isPrevented =>
       if (!isPrevented) {
@@ -99,25 +89,25 @@ object FullscreenModalStyles extends StyleSheet.Inline {
       } else styleS()
   )
 
-  val contentWrapper: StyleA =
-    style(height(100.%%))
-
-  val contentInnerWrapper: StyleA =
+  val innerWrapper: StyleA =
     style(
-      position.relative,
-      paddingTop(((ThemeStyles.SpacingValue.medium * 2) + 25).pxToEm()),
+      display.tableCell,
+      verticalAlign.middle,
+      paddingTop(((ThemeStyles.SpacingValue.medium * 2) + 50 + 25).pxToEm()),
       paddingBottom(ThemeStyles.SpacingValue.medium.pxToEm()),
-      ThemeStyles.MediaQueries.beyondMedium(paddingTop(((ThemeStyles.SpacingValue.medium * 2) + 35).pxToEm()))
+      ThemeStyles.MediaQueries.beyondSmall(paddingTop(((ThemeStyles.SpacingValue.medium * 2) + 80 + 25).pxToEm())),
+      ThemeStyles.MediaQueries.beyondMedium(paddingTop(((ThemeStyles.SpacingValue.medium * 2) + 80 + 35).pxToEm()))
     )
 
   val closeModalButtonWrapper: StyleA =
     style(
       position.absolute,
-      top((ThemeStyles.SpacingValue.medium).pxToEm()),
+      top((ThemeStyles.SpacingValue.medium + 50).pxToEm()),
       width(100.%%),
-      ThemeStyles.MediaQueries.beyondSmall(top((ThemeStyles.SpacingValue.medium).pxToEm()))
+      ThemeStyles.MediaQueries.beyondSmall(top((ThemeStyles.SpacingValue.medium + 80).pxToEm()))
     )
 
+  // TODO: avoid too much static values
   val closeModalButton: StyleA = style(
     float.right,
     unsafeChild("svg")(verticalAlign.bottom, opacity(0.3), transition := "opacity .2s ease-in-out"),

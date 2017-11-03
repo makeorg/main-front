@@ -142,7 +142,7 @@ object ResultsInTheme {
 
         <.section(^.className := Seq(RowRulesStyles.centeredRow, ResultsInThemeStyles.wrapper))(
           <.header(^.className := ColRulesStyles.col)(
-            <.h2(^.className := TextStyles.mediumTitle)(unescape(I18n.t("theme.results.title")))
+            <.h2(^.className := TextStyles.bigTitle)(unescape(I18n.t("theme.results.title")))
           ),
           <.nav(^.className := ColRulesStyles.col)(
             <.FilterByTagsComponent(^.wrapped := FilterByTagsProps(self.props.wrapped.theme.tags, onTagsChange))()

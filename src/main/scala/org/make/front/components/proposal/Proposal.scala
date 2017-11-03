@@ -49,20 +49,17 @@ object Proposal {
         }
       },
       render = { self =>
-        <("proposal")()(
-          <.div(^.className := ProposalStyles.wrapper(self.state.proposal != null))(
-            <.div(^.className := ProposalStyles.row)(
-              <.div(^.className := ProposalStyles.cell)(<.MainHeaderComponent.empty)
-            ),
-            <.div(^.className := Seq(ProposalStyles.row, ProposalStyles.fullHeight))(
-              <.div(^.className := Seq(ProposalStyles.cell, ProposalStyles.articleCell))(
-                if (self.state.proposal != null) {
+        if (self.state.proposal != null) {
+          <("proposal")()(
+            <.div(^.className := Seq(ProposalStyles.wrapper))(
+              <.div(^.className := Seq(ProposalStyles.articleWrapper))(
+                <.div(^.className := Seq(ProposalStyles.articleSubWrapper))(
                   <.div(^.className := Seq(RowRulesStyles.centeredRow, ProposalStyles.fullHeight))(
                     <.div(^.className := Seq(ColRulesStyles.col, ProposalStyles.fullHeight))(
                       <.article(^.className := ProposalStyles.article)(
                         <.div(^.className := ProposalStyles.articleInnerWrapper)(
                           <.div(^.className := ProposalStyles.articleInnerSubWrapper)(
-                            <.div(^.className := RowRulesStyles.row)(
+                            <.div(^.className := Seq(RowRulesStyles.row))(
                               <.div(^.className := ColRulesStyles.col)(
                                 <.div(^.className := ProposalStyles.infosWrapper)(
                                   <.p(^.className := Seq(TextStyles.mediumText, ProposalStyles.infos))(
@@ -95,13 +92,10 @@ object Proposal {
                       )
                     )
                   )
-                } else {
-                  <.SpinnerComponent.empty
-                }
-              )
-            ) /*,
-              <.div(^.className := Seq(ProposalStyles.row))(
-                <.div(^.className := Seq(ProposalStyles.cell, ProposalStyles.shareArticleCell))(
+                )
+              ) /*,
+              <.div(^.className := Seq(ProposalStyles.shareArticleWrapper))(
+                <.div(^.className := Seq(ProposalStyles.shareArticleSubWrapper))(
                   <.div(^.className := RowRulesStyles.centeredRow)(
                     <.div(^.className := ColRulesStyles.col)(
                       <.ShareProposalComponent(^.wrapped := ShareProposalProps(proposal = self.state.proposal))()
@@ -109,15 +103,18 @@ object Proposal {
                   )
                 )
               )*/
-          ),
-          if (self.state.themeSlug.nonEmpty) {
-            <.ThemeShowcaseContainerComponent(
-              ^.wrapped := ThemeShowcaseContainerProps(themeSlug = self.state.themeSlug.getOrElse(""))
-            )()
-          },
-          <.NavInThemesContainerComponent.empty,
-          <.style()(ProposalStyles.render[String])
-        )
+            ),
+            if (self.state.themeSlug.nonEmpty) {
+              <.ThemeShowcaseContainerComponent(
+                ^.wrapped := ThemeShowcaseContainerProps(themeSlug = self.state.themeSlug.getOrElse(""))
+              )()
+            },
+            <.NavInThemesContainerComponent.empty,
+            <.style()(ProposalStyles.render[String])
+          )
+        } else {
+          <.div.empty
+        }
       }
     )
 }
@@ -128,40 +125,26 @@ object ProposalStyles extends StyleSheet.Inline {
   val fullHeight: StyleA =
     style(height(100.%%))
 
-  val wrapper: (Boolean) => StyleA = styleF.bool(
-    isLoaded =>
-      if (isLoaded) {
-        styleS(
-          display.table,
-          width(100.%%),
-          height(100.%%),
-          height :=! s"calc(100% - ${100.pxToEm().value})",
-          backgroundColor(ThemeStyles.BackgroundColor.blackVeryTransparent)
-        )
-      } else {
-        styleS(
-          display.table,
-          width(100.%%),
-          height(100.%%),
-          backgroundColor(ThemeStyles.BackgroundColor.blackVeryTransparent)
-        )
-    }
-  )
-
-  val row: StyleA =
-    style(display.tableRow)
-
-  val cell: StyleA =
-    style(display.tableCell)
-
-  val articleCell: StyleA =
+  val wrapper: StyleA =
     style(
-      verticalAlign.middle,
-      padding :=! s"${ThemeStyles.SpacingValue.larger.pxToEm().value} 0" /*TODO: restaure medium with reactivation of sharing part*/
+      display.table,
+      width(100.%%),
+      height(100.%%),
+      height :=! s"calc(100% - ${100.pxToEm().value})",
+      backgroundColor(ThemeStyles.BackgroundColor.blackVeryTransparent)
     )
 
-  val shareArticleCell: StyleA =
-    style(paddingBottom(ThemeStyles.SpacingValue.larger.pxToEm()))
+  val articleWrapper: StyleA =
+    style(display.tableRow, height(100.%%))
+
+  val articleSubWrapper: StyleA =
+    style(
+      display.tableCell,
+      verticalAlign.middle,
+      paddingTop((ThemeStyles.SpacingValue.larger + 50).pxToEm()),
+      ThemeStyles.MediaQueries.beyondSmall(paddingTop((ThemeStyles.SpacingValue.larger + 80).pxToEm())),
+      paddingBottom(ThemeStyles.SpacingValue.larger.pxToEm()) /*TODO: restaure medium with reactivation of sharing part*/
+    )
 
   val article: StyleA =
     style(
@@ -230,5 +213,11 @@ object ProposalStyles extends StyleSheet.Inline {
 
   val themeName: StyleA =
     style(color(ThemeStyles.ThemeColor.primary))
+
+  val shareArticleWrapper: StyleA =
+    style(display.tableRow)
+
+  val shareArticleSubWrapper: StyleA =
+    style(display.tableCell, paddingBottom(ThemeStyles.SpacingValue.larger.pxToEm()))
 
 }

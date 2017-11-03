@@ -50,7 +50,6 @@ object PasswordReset {
       },
       render = self => {
         <.div(^.className := ResetPasswordStyles.wrapper)(
-          <.MainHeaderComponent.empty,
           <.div(^.className := Seq(RowRulesStyles.centeredRow))(
             <.div(^.className := ColRulesStyles.col)(
               <.div(^.className := Seq(ResetPasswordStyles.contentWrapper))(if (self.state.success) {
@@ -174,12 +173,17 @@ object ResetPasswordStyles extends StyleSheet.Inline {
   import dsl._
 
   val wrapper: StyleA =
-    style(minHeight(100.%%), backgroundColor(ThemeStyles.BackgroundColor.blackVeryTransparent))
+    style(
+      paddingTop((ThemeStyles.SpacingValue.larger + 50).pxToEm()), // TODO: dynamise calcul, if main intro is first child of page
+      ThemeStyles.MediaQueries.beyondSmall(paddingTop((ThemeStyles.SpacingValue.larger + 80).pxToEm())),
+      paddingBottom(ThemeStyles.SpacingValue.larger.pxToEm()),
+      minHeight(100.%%),
+      backgroundColor(ThemeStyles.BackgroundColor.blackVeryTransparent)
+    )
 
   val contentWrapper: StyleA =
     style(
       minHeight(300.pxToEm()),
-      margin :=! s"${ThemeStyles.SpacingValue.larger.pxToEm().value} 0",
       paddingTop(ThemeStyles.SpacingValue.larger.pxToEm()),
       paddingBottom(ThemeStyles.SpacingValue.larger.pxToEm()),
       backgroundColor(ThemeStyles.BackgroundColor.white),

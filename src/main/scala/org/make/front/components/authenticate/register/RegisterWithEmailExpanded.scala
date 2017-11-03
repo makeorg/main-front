@@ -217,10 +217,9 @@ object RegisterWithEmailExpanded {
             <.p(^.className := InputStyles.errorMessage)(unescape(self.state.errors.getOrElse("global", "")))
           },
           if (self.props.wrapped.note != "") {
-            <.p(
-              ^.className := Seq(RegisterWithEmailExpandedStyles.note, TextStyles.smallerText),
-              ^.dangerouslySetInnerHTML := self.props.wrapped.note
-            )()
+            <.p(^.className := Seq(RegisterWithEmailExpandedStyles.note, TextStyles.smallerText))(
+              self.props.wrapped.note
+            )
           },
           <.div(^.className := RegisterWithEmailExpandedStyles.submitButtonWrapper)(
             <.button(^.className := Seq(CTAStyles.basicOnButton, CTAStyles.basic), ^.`type` := "submit")(
@@ -273,7 +272,7 @@ object RegisterWithEmailExpandedStyles extends StyleSheet.Inline {
     style(
       margin :=! s"${ThemeStyles.SpacingValue.small.pxToEm().value} 0",
       color(ThemeStyles.TextColor.lighter),
-      unsafeChild("a")(textDecoration := "underline", color(ThemeStyles.TextColor.lighter))
+      unsafeChild("a")(color(ThemeStyles.ThemeColor.primary))
     )
 
   val submitButtonWrapper: StyleA =

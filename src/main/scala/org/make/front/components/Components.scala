@@ -42,9 +42,7 @@ object Components {
     def NotificationsComponent: ReactClassElementSpec = self(notifications.Notifications.reactClass)
     def CookieAlertContainerComponent: ReactClassElementSpec = self(cookieAlert.CookieAlertContainer.reactClass)
     def MainHeaderComponent: ReactClassElementSpec = self(mainHeader.MainHeader.reactClass)
-    def CoreMainHeaderComponent: ReactClassElementSpec = self(mainHeader.CoreMainHeader.reactClass)
-    def MainHeaderWithStaticLinksComponent: ReactClassElementSpec =
-      self(mainHeader.MainHeaderWithStaticLinks.reactClass)
+    def AboutMakeMainHeaderComponent: ReactClassElementSpec = self(mainHeader.AboutMakeMainHeader.reactClass)
     def MainFooterComponent: ReactClassElementSpec = self(mainFooter.MainFooter.reactClass)
     def NavInThemesContainerComponent: ReactClassElementSpec = self(navInThemes.NavInThemesContainer.reactClass)
     def UserNavComponent: ReactClassElementSpec = self(userNav.UserNav.reactClass)

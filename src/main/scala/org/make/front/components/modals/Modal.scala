@@ -3,9 +3,10 @@ package org.make.front.components.modals
 import io.github.shogowada.scalajs.reactjs.React
 import io.github.shogowada.scalajs.reactjs.VirtualDOM._
 import io.github.shogowada.scalajs.reactjs.classes.ReactClass
-import org.make.front.components.Components.{RichVirtualDOMElements, _}
+import org.make.front.components.Components._
 import org.make.front.facades.ReactModal.{ReactModalVirtualDOMAttributes, ReactModalVirtualDOMElements}
 import org.make.front.styles._
+import org.make.front.styles.base.{ColRulesStyles, RowRulesStyles}
 import org.make.front.styles.utils._
 
 import scalacss.DevDefaults._
@@ -33,11 +34,10 @@ object Modal {
           ^.shouldCloseOnOverlayClick := true
         )(
           <.div(^.className := Seq(ModalStyles.wrapper, ModalStyles.preventMainScroll(!self.state.isModalOpened)))(
-            <.div(^.className := ModalStyles.row)(<.div(^.className := ModalStyles.cell)(<.MainHeaderComponent.empty)),
-            <.div(^.className := Seq(ModalStyles.row, ModalStyles.contentWrapper))(
-              <.div(^.className := ModalStyles.cell)(
-                <.div(^.className := ModalStyles.centeredRow)(
-                  <.div(^.className := ModalStyles.contentInnerWrapper)(
+            <.div(^.className := ModalStyles.innerWrapper)(
+              <.div(^.className := ModalStyles.row)(
+                <.div(^.className := ModalStyles.col)(
+                  <.div(^.className := ModalStyles.contentWrapper)(
                     <.button(
                       ^.className := ModalStyles.closeModalButton,
                       ^.onClick := self.props.wrapped.closeCallback
@@ -65,7 +65,6 @@ object Modal {
 
       }
     )
-
 }
 
 object ModalStyles extends StyleSheet.Inline {
@@ -82,32 +81,26 @@ object ModalStyles extends StyleSheet.Inline {
       } else styleS()
   )
 
-  val row: StyleA =
-    style(display.tableRow)
+  val innerWrapper: StyleA =
+    style(
+      display.tableCell,
+      verticalAlign.middle,
+      paddingTop(50.pxToEm()), // TODO: dynamise calcul, if main intro is first child of page
+      ThemeStyles.MediaQueries.beyondSmall(paddingTop(80.pxToEm()))
+    )
 
-  val cell: StyleA =
-    style(display.tableCell, verticalAlign.middle)
+  val row: StyleA =
+    style(RowRulesStyles.row, maxWidth(ThemeStyles.modalMaxWidth), marginRight.auto, marginLeft.auto)
+
+  val col: StyleA =
+    style(ColRulesStyles.col)
 
   val contentWrapper: StyleA =
-    style(height(100.%%))
-
-  val centeredRow: StyleA = style(
-    paddingRight(ThemeStyles.SpacingValue.small.pxToEm()),
-    paddingLeft(ThemeStyles.SpacingValue.small.pxToEm()),
-    maxWidth(ThemeStyles.modalMaxWidth),
-    marginRight.auto,
-    marginLeft.auto,
-    ThemeStyles.MediaQueries.beyondSmall(
-      paddingRight(ThemeStyles.SpacingValue.medium.pxToEm()),
-      paddingLeft(ThemeStyles.SpacingValue.medium.pxToEm())
-    )
-  )
-
-  val contentInnerWrapper: StyleA =
     style(
       position.relative,
       minHeight(200.pxToEm()),
-      margin :=! s"${ThemeStyles.SpacingValue.medium.pxToEm().value} 0",
+      marginTop(ThemeStyles.SpacingValue.medium.pxToEm()), // TODO: dynamise calcul, if main intro is first child of page
+      marginBottom(ThemeStyles.SpacingValue.medium.pxToEm()),
       padding :=! s"${ThemeStyles.SpacingValue.large.pxToEm().value} 0 ${ThemeStyles.SpacingValue.largerMedium.pxToEm().value}",
       backgroundColor(ThemeStyles.BackgroundColor.white),
       boxShadow := "0 2px 4px 0 rgba(0,0,0,0.5)" // TODO: create variable for shadows
