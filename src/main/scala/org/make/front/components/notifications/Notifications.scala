@@ -36,7 +36,8 @@ object Notifications {
         val onDismiss: (String) => Unit = { id =>
           self.setState(state => state.copy(notifications = state.notifications.filter(_.identifier != id)))
         }
-        NotificationMiddleware.addNotificationistener(self.state.id, NotificationListener(onNewNotification, onDismiss))
+        NotificationMiddleware
+          .addNotificationListener(self.state.id, NotificationListener(onNewNotification, onDismiss))
       },
       componentWillUnmount = { self =>
         NotificationMiddleware.removeNotificationListener(self.state.id)
