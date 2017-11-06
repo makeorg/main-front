@@ -5,15 +5,15 @@ import scala.scalajs.js.annotation.JSImport
 
 @js.native
 @JSImport("./images/actions/le-refuge.png", "default")
-object lerefuge extends js.Object
+object leRefuge extends js.Object
 
 @js.native
 @JSImport("./images/actions/concours-affiche-arcade-taninges.jpg", "default")
-object concoursaffichearcadetaninges extends js.Object
+object concoursAfficheArcadeTaninges extends js.Object
 
 @js.native
 @JSImport("./images/actions/sos-racisme.png", "default")
-object sosracisme extends js.Object
+object sosRacisme extends js.Object
 
 @js.native
 @JSImport("./images/actions/sakado.jpg", "default")
@@ -21,15 +21,15 @@ object sakado extends js.Object
 
 @js.native
 @JSImport("./images/actions/ni-putes-ni-soumises.png", "default")
-object niputesnisoumises extends js.Object
+object niPutesNiSoumises extends js.Object
 
 @js.native
 @JSImport("./images/actions/sans-a.jpg", "default")
-object sansa extends js.Object
+object sansA extends js.Object
 
 @js.native
-@JSImport("./images/actions/cartooningforpeace.jpg", "default")
-object cartooningforpeace extends js.Object
+@JSImport("./images/actions/cartooning-for-peace.jpg", "default")
+object cartooningForPeace extends js.Object
 
 @js.native
 @JSImport("./images/actions/emmaus.png", "default")
@@ -37,19 +37,19 @@ object emmaus extends js.Object
 
 @js.native
 @JSImport("./images/actions/maison-des-potes.jpg", "default")
-object maisondespotes extends js.Object
+object maisonDesPotes extends js.Object
 
 @js.native
 @JSImport("./images/actions/anticor.jpg", "default")
 object anticor extends js.Object
 
 @js.native
-@JSImport("./images/actions/association-pour-1-democratie-directe.png", "default")
-object associationpour1democratiedirecte extends js.Object
+@JSImport("./images/actions/association-pour-une-democratie-directe.png", "default")
+object associationPourUneDemocratieDirecte extends js.Object
 
 @js.native
 @JSImport("./images/actions/oxfam-france.png", "default")
-object oxfamfrance extends js.Object
+object oxfamFrance extends js.Object
 
 @js.native
 @JSImport("./images/actions/genepi.png", "default")
@@ -57,11 +57,11 @@ object genepi extends js.Object
 
 @js.native
 @JSImport("./images/actions/handicap-international.png", "default")
-object handicapinternational extends js.Object
+object handicapInternational extends js.Object
 
 @js.native
 @JSImport("./images/actions/solidarite-sida.png", "default")
-object solidaritesida extends js.Object
+object solidariteSida extends js.Object
 
 @js.native
 @JSImport("./images/actions/rempart.jpg", "default")
@@ -72,24 +72,24 @@ object rempart extends js.Object
 object sesame extends js.Object
 
 @js.native
-@JSImport("./images/actions/jetdencre.gif", "default")
-object jetdencre extends js.Object
+@JSImport("./images/actions/jet-d-encre.gif", "default")
+object jetDEncre extends js.Object
 
 @js.native
 @JSImport("./images/actions/association-francaise-des-femmes-ingenieurs.png", "default")
-object associationfrancaisedesfemmesingenieurs extends js.Object
+object associationFrancaiseDesFemmesIngenieurs extends js.Object
 
 @js.native
 @JSImport("./images/actions/solidarites-nouvelles-pour-le-logement.jpg", "default")
-object solidaritesnouvellespourlelogement extends js.Object
+object solidaritesNouvellesPourLeLogement extends js.Object
 
 @js.native
 @JSImport("./images/actions/le-chainon-manquant.png", "default")
-object lechainonmanquant extends js.Object
+object leChainonManquant extends js.Object
 
 @js.native
-@JSImport("./images/actions/fnh.png", "default")
-object fnh extends js.Object
+@JSImport("./images/actions/fondation-pour-la-nature-et-l-homme.png", "default")
+object fondationPourLaNatureEtLHomme extends js.Object
 
 @js.native
 @JSImport("./images/actions/anper.jpg", "default")
@@ -97,7 +97,7 @@ object anper extends js.Object
 
 @js.native
 @JSImport("./images/actions/familles-rurales.jpg", "default")
-object famillesrurales extends js.Object
+object famillesRurales extends js.Object
 
 @js.native
 @JSImport("./images/actions/andes.png", "default")
@@ -113,15 +113,15 @@ object goodplanet extends js.Object
 
 @js.native
 @JSImport("./images/actions/amis-de-la-terre.png", "default")
-object amisdelaterre extends js.Object
+object amisDeLaTerre extends js.Object
 
 @js.native
 @JSImport("./images/actions/artisans-du-monde.jpg", "default")
-object artisansdumonde extends js.Object
+object artisansDuMonde extends js.Object
 
 @js.native
 @JSImport("./images/actions/femmes-ingenieurs.png", "default")
-object femmesingenieurs extends js.Object
+object femmesIngenieurs extends js.Object
 
 @js.native
 @JSImport("./images/logoMake.svg", "default")
