@@ -62,10 +62,9 @@ npmDependencies in Compile ++= Seq(
   "react-google-login" -> npmReactGoogleLogin,
   "react-facebook-login" -> npmReactFacebookLogin,
   "react-textarea-autosize" -> npmReactTextareaAutoresize,
-  "hex-to-rgba" ->  npmHexToRgba,
+  "hex-to-rgba" -> npmHexToRgba,
   "jquery" -> npmJquery,
   "js-cookie" -> npmJsCookie
-
 )
 
 npmDevDependencies in Compile ++= Seq(
@@ -115,6 +114,12 @@ val prepareAssets = taskKey[Unit]("prepareAssets")
 prepareAssets in ThisBuild := {
   val npmDirectory = (npmUpdate in Compile).value
   IO.copyDirectory(baseDirectory.value / "src" / "main" / "static", npmDirectory, overwrite = true)
+  IO.copyDirectory(
+    baseDirectory.value / "src" / "main" / "static" / "intro",
+    npmDirectory / "dist" / "intro",
+    overwrite = true
+  )
+  IO.copyFile(baseDirectory.value / "src" / "main" / "static" / "loader.gif", npmDirectory / "dist" / "loader.gif")
   streams.value.log.info("Copy assets to working directory")
 }
 
@@ -134,8 +139,9 @@ enablePlugins(GitHooks)
 
 useYarn := true
 
-
-git.formattedShaVersion := git.gitHeadCommit.value map { sha => sha.take(7) }
+git.formattedShaVersion := git.gitHeadCommit.value.map { sha =>
+  sha.take(7)
+}
 
 version in ThisBuild := {
   if (System.getenv().containsKey("CI_BUILD")) {
