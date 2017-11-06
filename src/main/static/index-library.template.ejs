@@ -25,24 +25,32 @@
     </script>
     <link href="https://fonts.googleapis.com/css?family=Playfair+Display:400i" rel="stylesheet">
     <link rel="stylesheet" href="./styles/main.css" type="text/css" media="all">
-    <script type="application/javascript" src="make-front-fastopt-library.js"></script>
-    <script language="javascript">
-        var configuration = {
-            "apiUrl": "<%= htmlWebpackPlugin.options.apiUrl %>",
-            "googleAppId": "<%= htmlWebpackPlugin.options.googleAppId %>",
-            "facebookAppId": "<%= htmlWebpackPlugin.options.facebookAppId %>"
-        };
-        var exports = window;
-        exports.require = window["makeApp"].require;
-
-        // simulate emitting events to facebook pixel
-        fbq = function(eventType, eventName, eventParameters){
-            console.log("FBEvent type=", eventType, "name=", eventName, "params=", eventParameters)
-        }
-    </script>
 </head>
 <body>
-<div id="make-app"></div>
+<div id="make-app">
+    <style>
+    html, body, #make-app {height: 100%}
+        .loader-wrapper {display: table; width: 100%; height: 100%}
+        .loader-inner-wrapper {display: table-cell; vertical-align: middle; text-align: center}
+    </style>
+    <div class="loader-wrapper"><div class="loader-inner-wrapper"><img src="loader.gif" alt="loading application"/></div></div>
+</div>
+<script type="application/javascript" src="make-front-fastopt-library.js"></script>
+<script language="javascript">
+    var configuration = {
+        "apiUrl": "<%= htmlWebpackPlugin.options.apiUrl %>",
+        "googleAppId": "<%= htmlWebpackPlugin.options.googleAppId %>",
+        "facebookAppId": "<%= htmlWebpackPlugin.options.facebookAppId %>"
+    };
+    var exports = window;
+    exports.require = window["makeApp"].require;
+
+    // simulate emitting events to facebook pixel
+    fbq = function(eventType, eventName, eventParameters){
+        console.log("FBEvent type=", eventType, "name=", eventName, "params=", eventParameters)
+    }
+</script>
+
 <script type="application/javascript" src="make-front-fastopt.js"></script>
 </body>
 </html>

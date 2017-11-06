@@ -61,6 +61,13 @@
     <!-- END Global site tag (gtag.js) - Google Analytics -->
 </head>
 <body>
-<div id="make-app"></div>
+<div id="make-app">
+    <style>
+    html, body, #make-app {height: 100%}
+        .loader-wrapper {display: table; width: 100%; height: 100%}
+        .loader-inner-wrapper {display: table-cell; vertical-align: middle; text-align: center}
+    </style>
+    <div class="loader-wrapper"><div class="loader-inner-wrapper"><img src="loader.gif" alt="loading application"/></div></div>
+</div>
 </body>
 </html>
