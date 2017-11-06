@@ -12,8 +12,8 @@ final case class Proposal(id: ProposalId,
                           content: String,
                           slug: String,
                           status: String,
-                          createdAt: String,
-                          updatedAt: Option[String],
+                          createdAt: js.Date,
+                          updatedAt: Option[js.Date],
                           votes: Seq[Vote],
                           context: ProposalContext,
                           trending: Option[String],
@@ -39,24 +39,26 @@ object Proposal {
     val seqLabels: mutable.Seq[String] = proposalResponse.labels
     val seqTags: Seq[Tag] = proposalResponse.tags.map(Tag.apply)
 
-    Proposal(id = ProposalId(proposalResponse.id),
-            userId = UserId(proposalResponse.userId),
-            content = proposalResponse.content,
-            slug = proposalResponse.slug,
-            status = proposalResponse.status,
-            createdAt = proposalResponse.createdAt,
-            updatedAt = proposalResponse.updatedAt.toOption,
-            votes = seqVotes,
-            context = ProposalContext(proposalResponse.context),
-            trending = proposalResponse.trending.toOption,
-            labels = seqLabels,
-            author = Author(proposalResponse.author),
-            country = proposalResponse.country,
-            language = proposalResponse.language,
-            themeId = proposalResponse.themeId.toOption.map(ThemeId.apply),
-            operationId = proposalResponse.operationId.toOption.map(OperationId.apply),
-            tags = seqTags,
-            myProposal = proposalResponse.myProposal)
+    Proposal(
+      id = ProposalId(proposalResponse.id),
+      userId = UserId(proposalResponse.userId),
+      content = proposalResponse.content,
+      slug = proposalResponse.slug,
+      status = proposalResponse.status,
+      createdAt = new js.Date(proposalResponse.createdAt),
+      updatedAt = proposalResponse.updatedAt.toOption.map(new js.Date(_)),
+      votes = seqVotes,
+      context = ProposalContext(proposalResponse.context),
+      trending = proposalResponse.trending.toOption,
+      labels = seqLabels,
+      author = Author(proposalResponse.author),
+      country = proposalResponse.country,
+      language = proposalResponse.language,
+      themeId = proposalResponse.themeId.toOption.map(ThemeId.apply),
+      operationId = proposalResponse.operationId.toOption.map(OperationId.apply),
+      tags = seqTags,
+      myProposal = proposalResponse.myProposal
+    )
   }
 }
 
@@ -76,7 +78,8 @@ object Vote {
       key = voteResponse.voteKey,
       count = voteResponse.count,
       qualifications = voteResponse.qualifications.map(Qualification.apply),
-      hasVoted = voteResponse.hasVoted)
+      hasVoted = voteResponse.hasVoted
+    )
   }
 }
 
@@ -85,9 +88,10 @@ final case class Qualification(key: String, count: Int = 0, hasQualified: Boolea
 object Qualification {
   def apply(qualificationResponse: QualificationResponse): Qualification = {
     Qualification(
-      key =  qualificationResponse.qualificationKey,
+      key = qualificationResponse.qualificationKey,
       count = qualificationResponse.count,
-      hasQualified = qualificationResponse.hasQualified)
+      hasQualified = qualificationResponse.hasQualified
+    )
   }
 }
 
@@ -122,7 +126,8 @@ object Author {
     Author(
       firstName = authorResponse.firstName.toOption,
       postalCode = authorResponse.postalCode.toOption,
-      age = authorResponse.age.toOption)
+      age = authorResponse.age.toOption
+    )
   }
 }
 
