@@ -46,7 +46,7 @@ object RegisterWithSocialNetworksOrEmail {
         ),
         <.RegisterWithEmailComponent(
           ^.wrapped := RegisterUserProps(
-            note = unescape(I18n.t("authenticate.register.terms")),
+            note = I18n.t("authenticate.register.terms"),
             onSuccessfulRegistration = self.props.wrapped.onSuccessfulLogin,
             operation = self.props.wrapped.operation
           )
@@ -77,7 +77,7 @@ object RegisterWithSocialNetworksOrEmail {
       ),
       <.RegisterWithEmailExpandedComponent(
         ^.wrapped := RegisterUserProps(
-          note = unescape(I18n.t("authenticate.register.terms")),
+          note = I18n.t("authenticate.register.terms"),
           onSuccessfulRegistration = self.props.wrapped.onSuccessfulLogin,
           operation = self.props.wrapped.operation
         )

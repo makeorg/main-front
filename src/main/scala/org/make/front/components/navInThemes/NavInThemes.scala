@@ -107,7 +107,7 @@ object NavInThemesStyles extends StyleSheet.Inline {
 
   val themesList: StyleA = style(display.flex, flexFlow := s"row wrap")
 
-  val themeLink: StyleA = style()
+  val themeLink: StyleA = style(color(ThemeStyles.TextColor.base))
 
   val themeItem: StyleA =
     style(paddingBottom(ThemeStyles.SpacingValue.small.pxToEm()))

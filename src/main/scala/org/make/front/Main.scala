@@ -13,13 +13,13 @@ import org.make.front.facades.{I18n, NativeReactModal}
 import org.make.front.middlewares.{
   ConfigurationMiddleware,
   ConnectedUserMiddleware,
+  CookieAlertMiddleware,
   NotificationMiddleware,
   PoliticalActionMiddleware
 }
 import org.make.front.reducers.Reducer
 import org.scalajs.dom
 
-import scala.scalajs.js.JSApp
 import scalacss.defaults.Exports
 import scalacss.internal.mutable.Settings
 
@@ -56,6 +56,7 @@ object Main {
           ConfigurationMiddleware.handle,
           PoliticalActionMiddleware.handle,
           connectedUserMiddleware.handle,
+          CookieAlertMiddleware.handle,
           NotificationMiddleware.handle
         )
       )

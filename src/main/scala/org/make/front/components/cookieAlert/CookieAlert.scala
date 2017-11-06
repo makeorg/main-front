@@ -1,11 +1,15 @@
 package org.make.front.components.cookieAlert
 
+import java.util.UUID
+
 import io.github.shogowada.scalajs.reactjs.React
 import io.github.shogowada.scalajs.reactjs.VirtualDOM.{<, _}
 import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import io.github.shogowada.scalajs.reactjs.events.MouseSyntheticEvent
 import org.make.front.components.Components._
 import org.make.front.facades.I18n
+import org.make.front.middlewares.CookieAlertMiddleware
+import org.make.front.middlewares.CookieAlertMiddleware.CookieAlertListener
 import org.make.front.styles._
 import org.make.front.styles.base.{ColRulesStyles, RowRulesStyles, TextStyles}
 import org.make.front.styles.utils._
@@ -18,20 +22,31 @@ object CookieAlert {
 
   final case class CookieAlertProps(isAlertOpened: Boolean, closeCallback: () => Unit)
 
-  final case class CookieAlertState(isAlertOpened: Boolean)
+  final case class CookieAlertState(id: String, isAlertOpened: Boolean)
 
   lazy val reactClass: ReactClass =
     React
       .createClass[CookieAlertProps, CookieAlertState](
         displayName = "cookieAlert",
         getInitialState = { _ =>
-          CookieAlertState(isAlertOpened = true)
+          CookieAlertState(UUID.randomUUID().toString, isAlertOpened = true)
+        },
+        componentDidMount = { self =>
+          val onDismissCookieAlert: () => Unit = { () =>
+            self.setState(_.copy(isAlertOpened = false))
+          }
+
+          CookieAlertMiddleware
+            .addCookieAlertListener(self.state.id, CookieAlertListener(onDismissCookieAlert))
+        },
+        componentWillUnmount = { self =>
+          CookieAlertMiddleware.removeCookieAlertListener(self.state.id)
         },
         componentWillReceiveProps = { (self, props) =>
           self.setState(_.copy(isAlertOpened = props.wrapped.isAlertOpened))
-
         },
         render = (self) => {
+
           def close(): (MouseSyntheticEvent) => Unit = { event =>
             event.preventDefault()
             self.setState(_.copy(isAlertOpened = false))

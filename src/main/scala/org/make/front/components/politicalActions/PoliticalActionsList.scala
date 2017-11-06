@@ -73,7 +73,7 @@ object PoliticalActionsList {
       <.section(^.className := PoliticalActionsListStyles.wrapper)(
         <.div(^.className := RowRulesStyles.centeredRow)(
           <.header(^.className := ColRulesStyles.col)(
-            <.h2(^.className := TextStyles.bigTitle)(
+            <.h2(^.className := TextStyles.mediumTitle)(
               unescape(
                 I18n.t(
                   "political-actions.intro",

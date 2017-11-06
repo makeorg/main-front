@@ -252,7 +252,6 @@ object ThemeHeader {
         )
       }
     )
-
 }
 
 object ThemeHeaderStyles extends StyleSheet.Inline {
@@ -265,8 +264,7 @@ object ThemeHeaderStyles extends StyleSheet.Inline {
       display.table,
       width(100.%%),
       height(300.pxToEm()),
-      /*height :=! s"calc(100% - ${200.pxToEm().value})",*/
-      backgroundColor(ThemeStyles.BackgroundColor.black), //TODO:gradient
+      backgroundColor(ThemeStyles.BackgroundColor.black),
       overflow.hidden
     )
 
@@ -275,9 +273,7 @@ object ThemeHeaderStyles extends StyleSheet.Inline {
       position.relative,
       display.tableCell,
       verticalAlign.middle,
-      paddingTop((ThemeStyles.SpacingValue.larger + 50).pxToEm()), // TODO: dynamise calcul, if main intro is first child of page
-      ThemeStyles.MediaQueries.beyondSmall(paddingTop((ThemeStyles.SpacingValue.larger + 80).pxToEm())),
-      paddingBottom(ThemeStyles.SpacingValue.larger.pxToEm()),
+      padding :=! s"${ThemeStyles.SpacingValue.larger.pxToEm().value} 0",
       textAlign.center
     )
 
@@ -334,5 +330,4 @@ object ThemeHeaderStyles extends StyleSheet.Inline {
       color(ThemeStyles.TextColor.lighter),
       whiteSpace.nowrap
     )
-
 }

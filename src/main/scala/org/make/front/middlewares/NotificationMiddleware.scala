@@ -15,7 +15,7 @@ object NotificationMiddleware {
 
   private var listeners: Map[String, NotificationListener] = Map.empty
 
-  def addNotificationistener(id: String, listener: NotificationListener): Unit = {
+  def addNotificationListener(id: String, listener: NotificationListener): Unit = {
     listeners += id -> listener
   }
 
