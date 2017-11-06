@@ -33,7 +33,6 @@ object CookieAlert {
         },
         componentDidMount = { self =>
           val onDismissCookieAlert: () => Unit = { () =>
-            scalajs.js.Dynamic.global.console.log("onDismissCookieAlert " + self.state.id)
             self.setState(_.copy(isAlertOpened = false))
           }
 
