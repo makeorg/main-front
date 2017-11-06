@@ -6,7 +6,7 @@ import io.github.shogowada.scalajs.reactjs.redux.ReactRedux
 import io.github.shogowada.scalajs.reactjs.redux.Redux.Dispatch
 import org.make.front.actions.OnDismissCookieAlert
 import org.make.front.components.AppState
-import org.make.front.facades.Cookies
+import org.make.front.facades.{CookieOpts, Cookies}
 
 object CookieAlertContainer {
 
@@ -18,8 +18,10 @@ object CookieAlertContainer {
     (dispatch: Dispatch) => { (_: AppState, _: Props[CookieAlertContainerProps]) =>
       val isAlertOpened: Boolean = Cookies.get("cookieconsent_status").isEmpty
 
+      scalajs.js.Dynamic.global.console.log(Cookies.get("cookieconsent_status"))
+
       def dismissCookieAlert: () => Unit = { () =>
-        Cookies.set("cookieconsent_status", "dismiss")
+        Cookies.set("cookieconsent_status", "dismiss", opts = CookieOpts(expires = 365))
         dispatch(OnDismissCookieAlert)
       }
 
