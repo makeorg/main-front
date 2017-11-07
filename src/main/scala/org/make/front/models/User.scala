@@ -59,8 +59,8 @@ object User {
     User(
       userId = UserId(userResponse.userId),
       email = userResponse.email,
-      firstName = userResponse.firstName.toOption,
-      lastName = userResponse.lastName.toOption,
+      firstName = Option(userResponse.firstName).flatMap(_.toOption),
+      lastName = Option(userResponse.lastName).flatMap(_.toOption),
       enabled = userResponse.enabled,
       verified = userResponse.verified,
       lastConnection = new js.Date(userResponse.lastConnection),
