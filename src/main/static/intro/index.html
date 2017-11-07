@@ -32,6 +32,23 @@
     */
     a,abbr,acronym,address,applet,article,aside,audio,b,big,blockquote,body,canvas,caption,center,cite,code,dd,del,details,dfn,div,dl,dt,em,embed,fieldset,figcaption,figure,footer,form,h1,h2,h3,h4,h5,h6,header,hgroup,html,i,iframe,img,ins,kbd,label,legend,li,mark,menu,nav,object,ol,output,p,pre,q,ruby,s,samp,section,small,span,strike,strong,sub,summary,sup,table,tbody,td,tfoot,th,thead,time,tr,tt,u,ul,var,video{margin:0;padding:0;border:0;font:inherit;vertical-align:baseline}article,aside,details,figcaption,figure,footer,header,hgroup,menu,nav,section{display:block}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:after,blockquote:before,q:after,q:before{content:'';content:none}table{border-collapse:collapse;border-spacing:0}
 
+    @font-face{
+      font-family:'FontAwesome';
+      src:url('fonts/fontawesome-webfont.eot?v=4.7.0');
+      src:url('fonts/fontawesome-webfont.eot?#iefix&v=4.7.0') format('embedded-opentype'),url('fonts/fontawesome-webfont.woff2?v=4.7.0') format('woff2'),url('fonts/fontawesome-webfont.woff?v=4.7.0') format('woff'),url('fonts/fontawesome-webfont.ttf?v=4.7.0') format('truetype'),url('fonts/fontawesome-webfont.svg?v=4.7.0#fontawesomeregular') format('svg');
+      font-weight:normal;font-style:normal
+    }
+  
+    .fa{
+      display:inline-block;
+      font:normal normal normal 14px/1 FontAwesome;
+      font-size:inherit;
+      text-rendering:auto;
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale
+    } 
+
+    .fa-play:before{content:"\f04b"}
 
     @font-face {
       font-family: TradeGothicLTStdBdCn20;
@@ -170,7 +187,6 @@
       position: relative;
     }
 
-
     .RowRulesStyles-centeredRow {
       display: block;
       position: relative;
@@ -188,7 +204,6 @@
       }
     }
 
-
     @media (min-width:75em) {
       .RowRulesStyles-centeredRow {
         max-width: 75em;
@@ -205,11 +220,6 @@
       padding-left: 0.9375em;
     }
 
-    .TextStyles-smallerText {
-      font-family: CircularStdBook;
-      font-size: 0.8125em;
-      line-height: 1.5384615384615385;
-    }
 
     .TextStyles-smallText {
       font-family: CircularStdBook;
@@ -217,11 +227,6 @@
       line-height: 1.5384615384615385;
     }
 
-    .TextStyles-mediumText {
-      font-family: CircularStdBook;
-      font-size: 0.9375em;
-      line-height: 1.3333333333333333;
-    }
 
     .TextStyles-biggerMediumText {
       font-family: CircularStdBook;
@@ -229,41 +234,8 @@
       line-height: 1.3333333333333333;
     }
 
-    .TextStyles-bigText {
-      font-family: CircularStdBook;
-      font-size: 1.125em;
-    }
-
-    .TextStyles-veryBigText {
-      font-family: CircularStdBook;
-      font-size: 2.75em;
-      line-height: 1;
-    }
-
     .TextStyles-boldText {
       font-family: CircularStdBold;
-    }
-
-    .TextStyles-intro {
-      font-family: Playfair Display;
-      font-style: italic;
-    }
-
-    .TextStyles-bigIntro {
-      font-family: Playfair Display;
-      font-style: italic;
-      font-size: 1.125em;
-    }
-
-    .TextStyles-title {
-      font-family: TradeGothicLTStdBdCn20;
-      text-transform: uppercase;
-    }
-
-    .TextStyles-smallerTitle {
-      font-family: TradeGothicLTStdBdCn20;
-      text-transform: uppercase;
-      font-size: 0.9375em;
     }
 
     .TextStyles-smallTitle {
@@ -272,86 +244,20 @@
       font-size: 1.125em;
     }
 
-    .TextStyles-mediumTitle {
-      font-family: TradeGothicLTStdBdCn20;
-      text-transform: uppercase;
-      font-size: 1.25em;
-    }
-
-    .TextStyles-bigTitle {
-      font-family: TradeGothicLTStdBdCn20;
-      text-transform: uppercase;
-      font-size: 1.25em;
-      line-height: 1;
-    }
-
-    .TextStyles-veryBigTitle {
-      font-family: TradeGothicLTStdBdCn20;
-      text-transform: uppercase;
-      font-size: 1.875em;
-    }
-
-    .TextStyles-label {
-      display: inline-block;
-      padding: 0.3076923076923077em 0.38461538461538464em 0;
-      font-family: TradeGothicLTStdBdCn20;
-      font-size: 0.8125em;
-      line-height: 1.5384615384615385;
-      text-transform: uppercase;
-      color: rgb(255,255,255);
-      background-color: rgb(0,0,0);
-    }
 
     @media (min-width:31.25em) {
-      .TextStyles-smallerText {
-        font-size: 0.875em;
-      }
       .TextStyles-smallText {
         font-size: 1em;
         line-height: 1.25;
       }
-      .TextStyles-mediumText {
-        font-size: 1.125em;
-        line-height: 1.2777777777777777;
-      }
+
       .TextStyles-biggerMediumText {
         font-size: 1.5em;
         line-height: 1.3333333333333333;
       }
-      .TextStyles-bigText {
-        font-size: 1.75em;
-      }
-      .TextStyles-bigIntro {
-        font-size: 2.25em;
-      }
-      .TextStyles-smallerTitle {
-        font-size: 1.25em;
-      }
+
       .TextStyles-smallTitle {
         font-size: 1.375em;
-      }
-      .TextStyles-mediumTitle {
-        font-size: 2.125em;
-      }
-      .TextStyles-bigTitle {
-        font-size: 2.125em;
-      }
-      .TextStyles-veryBigTitle {
-        font-size: 2.5em;
-      }
-      .TextStyles-label {
-        padding: 0.4444444444444444em 0.5555555555555556em 0.16666666666666666em;
-        font-size: 1.125em;
-        line-height: 1.2222222222222223;
-      }
-    }
-
-    @media (min-width:52.5em) {
-      .TextStyles-bigTitle {
-        font-size: 2.875em;
-      }
-      .TextStyles-veryBigTitle {
-        font-size: 3.75em;
       }
     }
 
@@ -362,7 +268,7 @@
       max-width: 100%;
       -moz-box-sizing: border-box;
       box-sizing: border-box;
-      padding: 0 1.1538461538461537em;
+      padding: 0.23076923076923078em 1.1538461538461537em 0;
       -moz-border-radius: 76.84615384615384em;
       border-radius: 76.84615384615384em;
       line-height: normal;
@@ -376,36 +282,13 @@
       font-size: 0.8125em;
     }
 
-    .CTAStyles-negative {
-      color: rgb(0,0,0);
-      background-color: rgb(255,255,255);
-    }
-
-    .CTAStyles-moreDiscreet {
-      background-color: rgba(0,0,0,0.3);
-    }
-
-    .CTAStyles-basicOnA {
-      padding-top: 0.6923076923076923em;
-    }
-
-    .CTAStyles-basicOnButton {
-      padding-top: 0.23076923076923078em;
-    }
-
     @media (min-width:31.25em) {
       .CTAStyles-basic {
         min-height: 2.5em;
-        padding: 0 1.25em;
+        padding: 0.1875em 1.25em 0;
         font-size: 1em;
         -moz-border-radius: 62.4375em;
         border-radius: 62.4375em;
-      }
-      .CTAStyles-basicOnA {
-        padding-top: 0.75em;
-      }
-      .CTAStyles-basicOnButton {
-        padding-top: 0.1875em;
       }
     }
 
@@ -436,24 +319,6 @@
       width: 100%;
     }
 
-    .OperationSequenceStyles-backLinkWrapper {
-      display: table-cell;
-      width: 0%;
-      padding: 0.9375em 0;
-      vertical-align: middle;
-      color: rgb(255,255,255);
-    }
-
-    .OperationSequenceStyles-backLink {
-      position: relative;
-      display: inline-block;
-      color: rgb(255,255,255);
-    }
-
-    .OperationSequenceStyles-backLinkArrow {
-      padding-right: 0.5357142857142857em;
-      font-size: 1.75em;
-    }
 
     .OperationSequenceStyles-titleWrapper {
       display: table-cell;
@@ -469,74 +334,12 @@
       color: rgb(255,255,255);
     }
 
-    .OperationSequenceStyles-openProposalModalButtonWrapper {
-      display: table-cell;
-      vertical-align: middle;
-      width: 9.375em;
-      padding: 0.9375em 0;
-      text-align: right;
-    }
-
-    .OperationSequenceStyles-openProposalModalButtonExplained-t {
-      -moz-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.5), 0 0 20px 0 rgba(255,255,255,0.50);
-      box-shadow: 0 1px 1px rgba(0, 0, 0, 0.5), 0 0 20px 0 rgba(255,255,255,0.50);
-    }
-
-    .OperationSequenceStyles-openProposalModalButtonInnerWrapper {
-      position: relative;
-    }
-
-    .OperationSequenceStyles-guideToPropose::after {
-      content: '';
-      position: absolute;
-      right: 50%;
-      -moz-transform: translateX(50%);
-      -webkit-transform: translateX(50%);
-      -o-transform: translateX(50%);
-      transform: translateX(50%);
-      border-right: 0.3125em solid transparent;
-      border-left: 0.3125em solid transparent;
-      bottom: 100%;
-      border-bottom: 0.3125em solid rgb(51,51,51);
-    }
-
-    .OperationSequenceStyles-guideToPropose {
-      position: absolute;
-      z-index: 1;
-      width: 100%;
-      right: 50%;
-      -moz-transform: translateX(50%);
-      -webkit-transform: translateX(50%);
-      -o-transform: translateX(50%);
-      transform: translateX(50%);
-      padding: 0.625em;
-      text-align: center;
-      color: rgb(255,255,255);
-      background-color: rgb(51,51,51);
-      top: 100%;
-      margin-top: 0.625em;
-    }
 
     @media (min-width:52.5em) {
       .OperationSequenceStyles-header {
         height: 6.25em;
       }
-      .OperationSequenceStyles-backLinkWrapper {
-        width: 9.375em;
-      }
-      .OperationSequenceStyles-backLink {
-        padding-left: 1.25em;
-      }
-      .OperationSequenceStyles-backLinkArrow {
-        position: absolute;
-        top: 50%;
-        left: 0;
-        padding-right: 0;
-        -moz-transform: translateY(-50%);
-        -webkit-transform: translateY(-50%);
-        -o-transform: translateY(-50%);
-        transform: translateY(-50%);
-      }
+
       .OperationSequenceStyles-titleWrapper {
         vertical-align: middle;
       }
@@ -546,42 +349,12 @@
       .OperationSequenceStyles-totalOfPropositions {
         text-align: center;
       }
-      .OperationSequenceStyles-openProposalModalButtonInnerWrapper {
-        display: inline-block;
-      }
-      .OperationSequenceStyles-guideToPropose {
-        width: calc(100% + 2.5em);
-        margin-left: calc(0% - 1.25em);
-      }
+
     }
 
     @media (max-width:52.4375em) {
       .OperationSequenceStyles-totalOfPropositions {
         line-height: 1;
-      }
-      .OperationSequenceStyles-openProposalModalButtonWrapper {
-        vertical-align: top;
-        width: auto;
-      }
-      .OperationSequenceStyles-openProposalModalButton {
-        width: 2em;
-        height: 2em;
-        min-height: auto;
-        max-width: none;
-        padding: 0;
-        font-size: 1.5625em;
-        line-height: 1;
-      }
-      .OperationSequenceStyles-guideToPropose {
-        width: 10em;
-        right: 0;
-        -moz-transform: none;
-        -webkit-transform: none;
-        -o-transform: none;
-        transform: none;
-      }
-      .OperationSequenceStyles-guideToPropose::after {
-        right: 1.5625em;
       }
     }
 
@@ -598,12 +371,6 @@
       box-shadow: 0 1px 4px 0 rgba(0,0,0,.5);
     }
 
-    .MainHeaderWithStaticLinksStyles-notificationsWrapper {
-      position: absolute;
-      top: 100%;
-      left: 0;
-      width: 100%;
-    }
 
     .MainHeaderWithStaticLinksStyles-innerWrapper {
       display: table;
@@ -677,17 +444,6 @@
       height: 100%;
     }
 
-    .SequenceStyles-progressBarWrapper {
-      display: table-row;
-    }
-
-    .SequenceStyles-progressBarInnerWrapper {
-      display: table-cell;
-      vertical-align: bottom;
-      padding-top: 0.9375em;
-      padding-bottom: 0;
-    }
-
     .SequenceStyles-slideshowWrapper {
       display: table-row;
       height: 100%;
@@ -704,44 +460,6 @@
     .SequenceStyles-slideshow {
       position: relative;
       height: 100%;
-    }
-
-    .SequenceStyles-slideshow .slick-slider {
-      height: 100%;
-    }
-
-    .SequenceStyles-slideshow .slick-list {
-      overflow: visible;
-      height: 100%;
-    }
-
-    .SequenceStyles-slideshow .slick-track {
-      height: 100%;
-      display: -moz-flex;
-      display: -webkit-flex;
-      display: -ms-flex;
-      display: -o-flex;
-      display: flex;
-    }
-
-    .SequenceStyles-slideshow .slick-slide {
-      height: auto;
-      min-height: inherit;
-      -o-transition: transform .2s ease-in-out;
-      -webkit-transition: transform .2s ease-in-out;
-      -moz-transition: transform .2s ease-in-out;
-      transition: transform .2s ease-in-out;
-      -moz-transform: scale(0.9);
-      -webkit-transform: scale(0.9);
-      -o-transform: scale(0.9);
-      transform: scale(0.9);
-    }
-
-    .SequenceStyles-slideshow .slick-slide.slick-active {
-      -moz-transform: scale(1);
-      -webkit-transform: scale(1);
-      -o-transform: scale(1);
-      transform: scale(1);
     }
 
     .SequenceStyles-slide {
@@ -822,8 +540,8 @@
                                                             <p class="TextStyles-biggerMediumText IntroOfOperationSequenceStyles-explanation">Les plus soutenues détermineront nos&nbsp;actions.</p>
                                                         </div>
                                                         <div class="IntroOfOperationSequenceStyles-ctaWrapper">
-                                                            <button id="start-sequence" class="CTAStyles-basic CTAStyles-basicOnButton">
-                                                                <i class="fa fa-paper-plane-o"></i>&nbsp;Démarrer
+                                                            <button id="start-sequence" class="CTAStyles-basic">
+                                                                <i class="fa fa-play"></i>&nbsp;Démarrer
                                                             </button>
                                                         </div>
                                                     </div>
