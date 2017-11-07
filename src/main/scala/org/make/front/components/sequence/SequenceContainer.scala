@@ -6,7 +6,12 @@ import io.github.shogowada.scalajs.reactjs.redux.ReactRedux
 import io.github.shogowada.scalajs.reactjs.redux.Redux.Dispatch
 import org.make.front.actions.NotifyError
 import org.make.front.components.AppState
-import org.make.front.models.{Operation => OperationModel, Proposal => ProposalModel, Sequence => SequenceModel, Theme => ThemeModel}
+import org.make.front.models.{
+  Operation => OperationModel,
+  Proposal  => ProposalModel,
+  Sequence  => SequenceModel,
+  Theme     => ThemeModel
+}
 import org.make.services.proposal.{ContextRequest, ProposalService, SearchResult}
 
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -43,6 +48,8 @@ object SequenceContainer {
           proposalsResponse.map(_.results)
         }
 
+        val shouldReload: Boolean = state.connectedUser.nonEmpty
+
         Sequence.SequenceProps(
           sequence = props.wrapped.sequence,
           maybeThemeColor = props.wrapped.maybeThemeColor,
@@ -51,7 +58,8 @@ object SequenceContainer {
           proposals = proposals,
           intro = props.wrapped.intro,
           conclusion = props.wrapped.conclusion,
-          promptingToPropose = props.wrapped.promptingToPropose
+          promptingToPropose = props.wrapped.promptingToPropose,
+          shouldReload = shouldReload
         )
       }
     }
