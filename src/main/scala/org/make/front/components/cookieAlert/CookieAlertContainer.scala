@@ -18,8 +18,6 @@ object CookieAlertContainer {
     (dispatch: Dispatch) => { (_: AppState, _: Props[CookieAlertContainerProps]) =>
       val isAlertOpened: Boolean = Cookies.get("cookieconsent_status").isEmpty
 
-      scalajs.js.Dynamic.global.console.log(Cookies.get("cookieconsent_status"))
-
       def dismissCookieAlert: () => Unit = { () =>
         Cookies.set("cookieconsent_status", "dismiss", opts = CookieOpts(expires = 365))
         dispatch(OnDismissCookieAlert)

@@ -40,7 +40,8 @@ object Sequence {
                                  proposals: Future[Seq[ProposalModel]],
                                  intro: ReactClass,
                                  conclusion: ReactClass,
-                                 promptingToPropose: ReactClass)
+                                 promptingToPropose: ReactClass,
+                                 shouldReload: Boolean)
 
   final case class SequenceState(proposals: Seq[ProposalModel],
                                  slides: Seq[Slide],
@@ -258,7 +259,9 @@ object Sequence {
         SequenceState(slides = Seq.empty, displayedSlidesCount = 0, currentSlideIndex = 0, proposals = Seq.empty)
       },
       componentWillReceiveProps = { (self, props) =>
-        onNewProps(self, props, slider)
+        if (props.wrapped.shouldReload) {
+          onNewProps(self, props, slider)
+        }
       },
       componentDidMount = { self =>
         onNewProps(self, self.props, slider)
