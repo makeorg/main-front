@@ -3,6 +3,7 @@ package org.make.front.components.submitProposal
 import io.github.shogowada.scalajs.reactjs.React
 import io.github.shogowada.scalajs.reactjs.VirtualDOM._
 import io.github.shogowada.scalajs.reactjs.classes.ReactClass
+import org.make.front.Main.CssSettings._
 import org.make.front.components.Components._
 import org.make.front.facades.Translate.{TranslateVirtualDOMAttributes, TranslateVirtualDOMElements}
 import org.make.front.facades.Unescape.unescape
@@ -15,8 +16,6 @@ import org.make.front.styles.utils._
 import org.make.front.styles.vendors.FontAwesomeStyles
 
 import scala.scalajs.js.JSConverters._
-import scalacss.DevDefaults.{StyleA, _}
-import scalacss.internal.mutable.StyleSheet
 
 object ConfirmationOfProposalSubmission {
 

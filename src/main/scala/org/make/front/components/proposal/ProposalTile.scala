@@ -11,8 +11,7 @@ import org.make.front.components.proposal.ShareOwnProposal.ShareOwnProposalProps
 import org.make.front.components.proposal.vote.VoteContainer.VoteContainerProps
 import org.make.front.models.{Proposal => ProposalModel}
 import org.make.front.styles.base.TextStyles
-
-import scalacss.DevDefaults._
+import org.make.front.Main.CssSettings._
 
 object ProposalTile {
 

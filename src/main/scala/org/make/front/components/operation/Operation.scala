@@ -3,15 +3,13 @@ package org.make.front.components.operation
 import io.github.shogowada.scalajs.reactjs.React
 import io.github.shogowada.scalajs.reactjs.VirtualDOM._
 import io.github.shogowada.scalajs.reactjs.classes.ReactClass
+import org.make.front.Main.CssSettings._
 import org.make.front.components.Components._
 import org.make.front.components.operation.OperationHeader.OperationHeaderProps
 import org.make.front.components.operation.ResultsInOperationContainer.ResultsInOperationContainerProps
 import org.make.front.components.operation.VFFIntro.VFFIntroProps
 import org.make.front.models.{Operation => OperationModel}
 import org.make.front.styles.ThemeStyles
-
-import scalacss.DevDefaults._
-import scalacss.internal.mutable.StyleSheet
 
 object Operation {
 

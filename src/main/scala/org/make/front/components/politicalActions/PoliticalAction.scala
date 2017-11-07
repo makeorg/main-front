@@ -1,4 +1,5 @@
 package org.make.front.components.politicalActions
+
 import io.github.shogowada.scalajs.reactjs.React
 import io.github.shogowada.scalajs.reactjs.VirtualDOM._
 import io.github.shogowada.scalajs.reactjs.classes.ReactClass
@@ -9,8 +10,7 @@ import org.make.front.styles._
 import org.make.front.styles.base.TextStyles
 import org.make.front.styles.utils._
 import org.make.front.styles.vendors.FontAwesomeStyles
-
-import scalacss.DevDefaults._
+import org.make.front.Main.CssSettings._
 
 object PoliticalAction {
 

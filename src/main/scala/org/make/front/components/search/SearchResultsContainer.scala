@@ -11,12 +11,12 @@ import org.make.front.components.search.SearchResults.SearchResultsProps
 import org.make.front.facades.I18n
 import org.make.front.helpers.QueryString
 import org.make.front.models.Proposal
-import org.make.services.proposal.{ProposalService, SearchResult, SearchResultResponse}
 import org.make.services.proposal.ProposalService.defaultResultsCount
+import org.make.services.proposal.{ProposalService, SearchResult}
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
-import scala.scalajs.js.URIUtils
+import scalajs.js.URIUtils
 import scala.util.{Failure, Success}
 
 object SearchResultsContainer {

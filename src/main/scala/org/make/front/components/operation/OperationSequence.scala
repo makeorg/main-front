@@ -5,6 +5,7 @@ import io.github.shogowada.scalajs.reactjs.React.{Props, Self}
 import io.github.shogowada.scalajs.reactjs.VirtualDOM.{<, _}
 import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import io.github.shogowada.scalajs.reactjs.events.MouseSyntheticEvent
+import org.make.front.Main.CssSettings._
 import org.make.front.components.Components._
 import org.make.front.components.modals.FullscreenModal.FullscreenModalProps
 import org.make.front.components.operation.SubmitProposalInRelationToOperation.SubmitProposalInRelationToOperationProps
@@ -26,9 +27,6 @@ import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 import scala.scalajs.js.JSConverters._
 import scala.util.{Failure, Success}
-import scalacss.DevDefaults.{StyleA, _}
-import scalacss.internal.mutable.StyleSheet
-import scalacss.internal.mutable.StyleSheet.Inline
 
 object OperationSequence {
 
@@ -69,7 +67,7 @@ object OperationSequence {
             .fbq("trackCustom", "click-proposal-submit-form-open", Map("location" -> "sequence-header").toJSDictionary)
         }
 
-        object DynamicOperationSequenceStyles extends Inline {
+        object DynamicOperationSequenceStyles extends StyleSheet.Inline {
 
           import dsl._
 

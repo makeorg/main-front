@@ -6,6 +6,7 @@ import io.github.shogowada.scalajs.reactjs.React
 import io.github.shogowada.scalajs.reactjs.VirtualDOM.{<, _}
 import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import io.github.shogowada.scalajs.reactjs.events.MouseSyntheticEvent
+import org.make.front.Main.CssSettings._
 import org.make.front.components.Components._
 import org.make.front.middlewares.NotificationMiddleware
 import org.make.front.middlewares.NotificationMiddleware.NotificationListener
@@ -14,9 +15,6 @@ import org.make.front.models.{Notification => NotificationModel, NotificationLev
 import org.make.front.styles._
 import org.make.front.styles.base.{ColRulesStyles, RowRulesStyles, TextStyles}
 import org.make.front.styles.utils._
-
-import scalacss.DevDefaults._
-import scalacss.internal.mutable.StyleSheet
 
 object Notifications {
   type NotificationsProps = Unit

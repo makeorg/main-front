@@ -3,8 +3,6 @@ package org.make.front.styles.base
 import org.make.front.Main.CssSettings._
 import org.make.front.styles.ThemeStyles
 
-import scalacss.internal.StyleA
-
 object RWDHideRulesStyles extends StyleSheet.Inline {
 
   import dsl._

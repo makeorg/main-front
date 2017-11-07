@@ -5,6 +5,7 @@ import io.github.shogowada.scalajs.reactjs.React.{Props, Self}
 import io.github.shogowada.scalajs.reactjs.VirtualDOM.{<, _}
 import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import io.github.shogowada.scalajs.reactjs.elements.ReactElement
+import org.make.front.Main.CssSettings._
 import org.make.front.components.Components._
 import org.make.front.components.operation.PromptingToProposeInsideOperationSequence.PromptingToProposeInsideOperationSequenceProps
 import org.make.front.components.sequence.ProgressBar.ProgressBarProps
@@ -28,8 +29,6 @@ import org.scalajs.dom.raw.HTMLElement
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 import scala.util.{Failure, Success}
-import scalacss.DevDefaults.{StyleA, _}
-import scalacss.internal.mutable.StyleSheet
 
 object Sequence {
 

@@ -3,13 +3,11 @@ package org.make.front.components.modals
 import io.github.shogowada.scalajs.reactjs.React
 import io.github.shogowada.scalajs.reactjs.VirtualDOM._
 import io.github.shogowada.scalajs.reactjs.classes.ReactClass
+import org.make.front.Main.CssSettings._
 import org.make.front.components.Components.{RichVirtualDOMElements, _}
 import org.make.front.facades.ReactModal.{ReactModalVirtualDOMAttributes, ReactModalVirtualDOMElements}
 import org.make.front.styles._
 import org.make.front.styles.utils._
-
-import scalacss.DevDefaults._
-import scalacss.internal.mutable.StyleSheet
 
 object Modal {
 

@@ -3,16 +3,14 @@ package org.make.front.components.sequence
 import io.github.shogowada.scalajs.reactjs.React
 import io.github.shogowada.scalajs.reactjs.VirtualDOM.{<, _}
 import io.github.shogowada.scalajs.reactjs.classes.ReactClass
+import org.make.front.Main.CssSettings._
 import org.make.front.components.Components._
 import org.make.front.helpers.NumberFormat
 import org.make.front.styles.ThemeStyles
 import org.make.front.styles.base.TextStyles
 import org.make.front.styles.utils._
 
-import scalacss.DevDefaults.{StyleA, _}
 import scalacss.internal.Attr
-import scalacss.internal.mutable.StyleSheet
-import scalacss.internal.mutable.StyleSheet.Inline
 
 object ProgressBar {
 
@@ -27,7 +25,7 @@ object ProgressBar {
       self.setState(ProgressBarState(value = props.wrapped.value, total = props.wrapped.total))
     }, render = {
       self =>
-        object DynamicProgressBarStyles extends Inline {
+        object DynamicProgressBarStyles extends StyleSheet.Inline {
           import dsl._
 
           def progressValue(progression: Int): StyleA =

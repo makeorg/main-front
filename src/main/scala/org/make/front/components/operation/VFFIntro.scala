@@ -12,8 +12,7 @@ import org.make.front.styles.base.{ColRulesStyles, RowRulesStyles, TextStyles}
 import org.make.front.styles.ui.CTAStyles
 import org.make.front.styles.utils._
 
-import scalacss.DevDefaults._
-import scalacss.internal.mutable.StyleSheet
+import org.make.front.Main.CssSettings._
 
 object VFFIntro {
 
@@ -127,8 +126,8 @@ object VFFIntroStyles extends StyleSheet.Inline {
 
   val presentationInnerWrapper: StyleA =
     style(
-      paddingTop((ThemeStyles.SpacingValue.medium).pxToEm()),
-      ThemeStyles.MediaQueries.beyondSmall(paddingTop((ThemeStyles.SpacingValue.larger).pxToEm())),
+      paddingTop(ThemeStyles.SpacingValue.medium.pxToEm()),
+      ThemeStyles.MediaQueries.beyondSmall(paddingTop(ThemeStyles.SpacingValue.larger.pxToEm())),
       paddingBottom(ThemeStyles.SpacingValue.small.pxToEm())
     )
 

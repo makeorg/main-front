@@ -3,7 +3,6 @@ package org.make.front.models
 import org.make.client.models.AuthorResponse
 import org.make.services.proposal.{ProposalResponse, QualificationResponse, RegisterProposalResponse, VoteResponse}
 
-import scala.collection.mutable
 import scala.scalajs.js
 
 //todo Add connected user info about proposal
@@ -35,8 +34,8 @@ final case class Proposal(id: ProposalId,
 
 object Proposal {
   def apply(proposalResponse: ProposalResponse): Proposal = {
-    val seqVotes: mutable.Seq[Vote] = proposalResponse.votes.map(Vote.apply)
-    val seqLabels: mutable.Seq[String] = proposalResponse.labels
+    val seqVotes: Seq[Vote] = proposalResponse.votes.map(Vote.apply)
+    val seqLabels: Seq[String] = proposalResponse.labels
     val seqTags: Seq[Tag] = proposalResponse.tags.map(Tag.apply)
 
     Proposal(

@@ -1,9 +1,9 @@
 package org.make.services.proposal
 
 import org.make.front.models.Source
+
 import scala.scalajs.js
-import js.JSConverters._
-import scala.scalajs.js.UndefOr
+import scala.scalajs.js.JSConverters._
 
 final case class RegisterProposalRequest(content: String)
 
@@ -14,9 +14,7 @@ trait JsRegisterProposalRequest extends js.Object {
 
 object JsRegisterProposalRequest {
   def apply(registerProposalRequest: RegisterProposalRequest): JsRegisterProposalRequest = {
-    js.Dynamic.literal(
-      content = registerProposalRequest.content
-    ).asInstanceOf[JsRegisterProposalRequest]
+    js.Dynamic.literal(content = registerProposalRequest.content).asInstanceOf[JsRegisterProposalRequest]
   }
 }
 
@@ -40,9 +38,7 @@ trait JsOrder extends js.Object {
 
 object JsOrder {
   def apply(order: Order): JsOrder = {
-    js.Dynamic.literal(
-      shortName = order.shortName
-    ).asInstanceOf[JsOrder]
+    js.Dynamic.literal(shortName = order.shortName).asInstanceOf[JsOrder]
   }
 }
 
@@ -56,10 +52,9 @@ trait JsSortOptionRequest extends js.Object {
 
 object JsSortOptionRequest {
   def appl(sortOptionRequest: SortOptionRequest): JsSortOptionRequest = {
-    js.Dynamic.literal(
-      field = sortOptionRequest.field,
-      mode = sortOptionRequest.mode.map(JsOrder.apply).orUndefined
-    ).asInstanceOf[JsSortOptionRequest]
+    js.Dynamic
+      .literal(field = sortOptionRequest.field, mode = sortOptionRequest.mode.map(JsOrder.apply).orUndefined)
+      .asInstanceOf[JsSortOptionRequest]
   }
 }
 final case class ContextRequest(operation: Option[String] = None,
@@ -77,26 +72,28 @@ trait JsContextRequest extends js.Object {
 
 object JsContextRequest {
   def apply(contextRequest: ContextRequest): JsContextRequest = {
-    js.Dynamic.literal(
-      operation = contextRequest.operation.orUndefined,
-      location = contextRequest.location.orUndefined,
-      source = contextRequest.source.orUndefined,
-      question = contextRequest.question.orUndefined
-    ).asInstanceOf[JsContextRequest]
+    js.Dynamic
+      .literal(
+        operation = contextRequest.operation.orUndefined,
+        location = contextRequest.location.orUndefined,
+        source = contextRequest.source.orUndefined,
+        question = contextRequest.question.orUndefined
+      )
+      .asInstanceOf[JsContextRequest]
   }
 }
 
 case class SearchRequest(themesIds: Option[Seq[String]] = None,
-                               operationsIds: Option[Seq[String]] = None,
-                               tagsIds: Option[Seq[String]] = None,
-                               labelsIds: Option[Seq[String]] = None,
-                               content: Option[String] = None,
-                               slug: Option[String] = None,
-                               trending: Option[String] = None,
-                               context: Option[ContextRequest] = None,
-                               sort: Seq[SortOptionRequest] = Seq.empty,
-                               limit: Option[Int],
-                               skip: Option[Int] = None)
+                         operationsIds: Option[Seq[String]] = None,
+                         tagsIds: Option[Seq[String]] = None,
+                         labelsIds: Option[Seq[String]] = None,
+                         content: Option[String] = None,
+                         slug: Option[String] = None,
+                         trending: Option[String] = None,
+                         context: Option[ContextRequest] = None,
+                         sort: Seq[SortOptionRequest] = Seq.empty,
+                         limit: Option[Int],
+                         skip: Option[Int] = None)
 
 @js.native
 trait JsSearchRequest extends js.Object {
@@ -116,19 +113,21 @@ trait JsSearchRequest extends js.Object {
 object JsSearchRequest {
   def apply(searchRequest: SearchRequest): JsSearchRequest = {
 
-    js.Dynamic.literal(
-      themesIds = searchRequest.themesIds.map(_.toJSArray).orUndefined,
-      operationsIds = searchRequest.operationsIds.map(_.toJSArray).orUndefined,
-      tagsIds = searchRequest.tagsIds.map(_.toJSArray).orUndefined,
-      labelsIds = searchRequest.labelsIds.map(_.toJSArray).orUndefined,
-      content = searchRequest.content.orUndefined,
-      slug = searchRequest.slug.orUndefined,
-      trending = searchRequest.trending.orUndefined,
-      context = searchRequest.context.map(JsContextRequest.apply).orUndefined,
-      sort = searchRequest.sort,
-      limit = searchRequest.limit.orUndefined,
-      skip = searchRequest.skip.orUndefined
-    ).asInstanceOf[JsSearchRequest]
+    js.Dynamic
+      .literal(
+        themesIds = searchRequest.themesIds.map(_.toJSArray).orUndefined,
+        operationsIds = searchRequest.operationsIds.map(_.toJSArray).orUndefined,
+        tagsIds = searchRequest.tagsIds.map(_.toJSArray).orUndefined,
+        labelsIds = searchRequest.labelsIds.map(_.toJSArray).orUndefined,
+        content = searchRequest.content.orUndefined,
+        slug = searchRequest.slug.orUndefined,
+        trending = searchRequest.trending.orUndefined,
+        context = searchRequest.context.map(JsContextRequest.apply).orUndefined,
+        sort = searchRequest.sort,
+        limit = searchRequest.limit.orUndefined,
+        skip = searchRequest.skip.orUndefined
+      )
+      .asInstanceOf[JsSearchRequest]
   }
 }
 
@@ -142,9 +141,7 @@ trait JsVoteRequest extends js.Object {
 
 object JsVoteRequest {
   def apply(voteRequest: VoteRequest): JsVoteRequest = {
-    js.Dynamic.literal(
-      voteKey = voteRequest.voteKey
-    ).asInstanceOf[JsVoteRequest]
+    js.Dynamic.literal(voteKey = voteRequest.voteKey).asInstanceOf[JsVoteRequest]
   }
 }
 
@@ -156,9 +153,8 @@ trait JsQualificationRequest extends js.Object {
 
 object JsQualificationRequest {
   def apply(qualificationRequest: QualificationRequest): JsQualificationRequest = {
-    js.Dynamic.literal(
-      voteKey = qualificationRequest.voteKey,
-      qualificationKey = qualificationRequest.qualificationKey
-    ).asInstanceOf[JsQualificationRequest]
+    js.Dynamic
+      .literal(voteKey = qualificationRequest.voteKey, qualificationKey = qualificationRequest.qualificationKey)
+      .asInstanceOf[JsQualificationRequest]
   }
 }

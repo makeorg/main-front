@@ -6,16 +6,18 @@ import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import io.github.shogowada.scalajs.reactjs.elements.ReactElement
 import io.github.shogowada.scalajs.reactjs.router.RouterProps._
 import io.github.shogowada.scalajs.reactjs.router.WithRouter
+import org.make.front.Main.CssSettings._
 import org.make.front.components.Components._
-import org.make.front.components.submitProposal.SubmitProposalFormContainer.SubmitProposalFormContainerProps
 import org.make.front.components.submitProposal.ConfirmationOfProposalSubmission.ConfirmationOfProposalSubmissionProps
+import org.make.front.components.submitProposal.SubmitProposalFormContainer.SubmitProposalFormContainerProps
 import org.make.front.components.users.authenticate.RequireAuthenticatedUserContainer.RequireAuthenticatedUserContainerProps
 import org.make.front.facades.I18n
 import org.make.front.facades.Unescape.unescape
 import org.make.front.models.{
-  Location => LocationModel,
-  Operation => OperationModel,
-  TranslatedTheme => TranslatedThemeModel}
+  Location        => LocationModel,
+  Operation       => OperationModel,
+  TranslatedTheme => TranslatedThemeModel
+}
 import org.make.front.styles.ThemeStyles
 import org.make.front.styles.base.{ColRulesStyles, RowRulesStyles, TextStyles}
 import org.make.front.styles.utils._
@@ -23,8 +25,6 @@ import org.make.front.styles.utils._
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 import scala.util.{Failure, Success}
-import scalacss.DevDefaults.{StyleA, _}
-import scalacss.internal.mutable.StyleSheet
 
 object SubmitProposalAndLogin {
 

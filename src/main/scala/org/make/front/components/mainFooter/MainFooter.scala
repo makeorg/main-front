@@ -3,20 +3,14 @@ package org.make.front.components.mainFooter
 import io.github.shogowada.scalajs.reactjs.React
 import io.github.shogowada.scalajs.reactjs.VirtualDOM.{<, _}
 import io.github.shogowada.scalajs.reactjs.classes.ReactClass
-import io.github.shogowada.scalajs.reactjs.router.dom.RouterDOM.{
-  RouterDOMVirtualDOMElements,
-  RouterVirtualDOMAttributes
-}
-import io.github.shogowada.scalajs.reactjs.elements.ReactElement
 import org.make.front.components.Components._
 import org.make.front.facades.Unescape.unescape
 import org.make.front.facades.{logoMake, I18n}
 import org.make.front.styles._
 import org.make.front.styles.base.{ColRulesStyles, RWDHideRulesStyles, RowRulesStyles, TextStyles}
 import org.make.front.styles.utils._
-import org.make.front.styles.vendors.FontAwesomeStyles
 
-import scalacss.DevDefaults._
+import org.make.front.Main.CssSettings._
 
 object MainFooter {
 

@@ -5,6 +5,7 @@ import io.github.shogowada.scalajs.reactjs.VirtualDOM.{<, _}
 import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import io.github.shogowada.scalajs.reactjs.elements.ReactElement
 import io.github.shogowada.scalajs.reactjs.router.dom.RouterDOM._
+import org.make.front.Main.CssSettings._
 import org.make.front.components.Components.{RichVirtualDOMElements, _}
 import org.make.front.components.proposal.ProposalInfos.ProposalInfosProps
 import org.make.front.components.proposal.ShareOwnProposal.ShareOwnProposalProps
@@ -15,13 +16,9 @@ import org.make.front.models.{Proposal => ProposalModel}
 import org.make.front.styles.ThemeStyles
 import org.make.front.styles.base.TextStyles
 
-import scalacss.DevDefaults._
-import scalacss.internal.mutable.StyleSheet
-
 object ProposalTileWithTheme {
 
   final case class ProposalTileWithThemeProps(proposal: ProposalModel, themeName: String, themeSlug: String, index: Int)
-
 
   val reactClass: ReactClass =
     React

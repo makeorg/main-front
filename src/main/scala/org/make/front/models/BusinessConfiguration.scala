@@ -3,7 +3,6 @@ package org.make.front.models
 import org.make.core.Counter
 import org.make.services.proposal.TagResponse
 
-import scala.collection.mutable
 import scala.scalajs.js
 
 @js.native
@@ -25,8 +24,8 @@ case class BusinessConfiguration(proposalMinLength: Int,
 }
 
 object BusinessConfiguration {
-  def apply(businessConfigurationResponse: BusinessConfigurationResponse) : BusinessConfiguration = {
-    val seqThemes: mutable.Seq[Theme] = businessConfigurationResponse.themes.map(Theme.apply)
+  def apply(businessConfigurationResponse: BusinessConfigurationResponse): BusinessConfiguration = {
+    val seqThemes: Seq[Theme] = businessConfigurationResponse.themes.map(Theme.apply)
 
     BusinessConfiguration(
       proposalMinLength = businessConfigurationResponse.proposalMinLength,

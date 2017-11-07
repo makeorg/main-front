@@ -3,6 +3,7 @@ package org.make.front.components.theme
 import io.github.shogowada.scalajs.reactjs.React
 import io.github.shogowada.scalajs.reactjs.VirtualDOM._
 import io.github.shogowada.scalajs.reactjs.classes.ReactClass
+import org.make.front.Main.CssSettings._
 import org.make.front.components.Components._
 import org.make.front.components.modals.FullscreenModal.FullscreenModalProps
 import org.make.front.components.theme.SubmitProposalInRelationToTheme.SubmitProposalInRelationToThemeProps
@@ -13,11 +14,6 @@ import org.make.front.styles.base.{ColRulesStyles, RowRulesStyles, TextStyles}
 import org.make.front.styles.ui.InputStyles
 import org.make.front.styles.utils._
 import org.scalajs.dom.raw.HTMLElement
-
-import scalacss.DevDefaults._
-import scalacss.internal.StyleA
-import scalacss.internal.mutable.StyleSheet
-import scalacss.internal.mutable.StyleSheet.Inline
 
 object ThemeHeader {
 
@@ -181,7 +177,7 @@ object ThemeHeader {
         val gradientValues: GradientColorModel =
           self.props.wrapped.theme.gradient.getOrElse(GradientColorModel("#FFF", "#FFF"))
 
-        object DynamicThemeHeaderStyles extends Inline {
+        object DynamicThemeHeaderStyles extends StyleSheet.Inline {
           import dsl._
 
           val gradient = style(background := s"linear-gradient(130deg, ${gradientValues.from}, ${gradientValues.to})")

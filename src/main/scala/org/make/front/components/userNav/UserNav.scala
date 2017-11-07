@@ -9,6 +9,7 @@ import io.github.shogowada.scalajs.reactjs.router.dom.RouterDOM.{
   RouterDOMVirtualDOMElements,
   RouterVirtualDOMAttributes
 }
+import org.make.front.Main.CssSettings._
 import org.make.front.components.Components._
 import org.make.front.components.authenticate.LoginOrRegister.LoginOrRegisterProps
 import org.make.front.components.modals.Modal.ModalProps
@@ -19,10 +20,6 @@ import org.make.front.styles.ThemeStyles
 import org.make.front.styles.base.{RWDHideRulesStyles, TextStyles}
 import org.make.front.styles.utils._
 import org.make.front.styles.vendors.FontAwesomeStyles
-
-import scalacss.DevDefaults._
-import scalacss.internal.StyleA
-import scalacss.internal.mutable.StyleSheet
 
 object UserNav {
 

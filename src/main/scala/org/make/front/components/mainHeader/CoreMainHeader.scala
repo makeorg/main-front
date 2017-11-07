@@ -7,16 +7,13 @@ import io.github.shogowada.scalajs.reactjs.router.dom.RouterDOM.{
   RouterDOMVirtualDOMElements,
   RouterVirtualDOMAttributes
 }
+import org.make.front.Main.CssSettings._
 import org.make.front.components.Components._
 import org.make.front.facades.Unescape.unescape
 import org.make.front.facades.{logoMake, I18n}
 import org.make.front.styles._
 import org.make.front.styles.base.{ColRulesStyles, RWDHideRulesStyles, RowRulesStyles, TextStyles}
 import org.make.front.styles.utils._
-
-import scalacss.DevDefaults._
-import scalacss.internal.StyleA
-import scalacss.internal.mutable.StyleSheet
 
 object CoreMainHeader {
   lazy val reactClass: ReactClass =

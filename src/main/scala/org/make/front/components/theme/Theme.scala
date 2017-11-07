@@ -3,6 +3,7 @@ package org.make.front.components.theme
 import io.github.shogowada.scalajs.reactjs.React
 import io.github.shogowada.scalajs.reactjs.VirtualDOM._
 import io.github.shogowada.scalajs.reactjs.classes.ReactClass
+import org.make.front.Main.CssSettings._
 import org.make.front.components.Components._
 import org.make.front.components.politicalActions.PoliticalActionsContainer.PoliticalActionsContainerProps
 import org.make.front.components.theme.ResultsInThemeContainer.ResultsInThemeContainerProps
@@ -10,9 +11,6 @@ import org.make.front.components.theme.ThemeHeader.ThemeHeaderProps
 import org.make.front.models.{TranslatedTheme => TranslatedThemeModel}
 import org.make.front.styles.ThemeStyles
 import org.make.front.styles.utils._
-
-import scalacss.DevDefaults._
-import scalacss.internal.mutable.StyleSheet
 
 object Theme {
 

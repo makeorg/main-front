@@ -5,6 +5,7 @@ import io.github.shogowada.scalajs.reactjs.React.Self
 import io.github.shogowada.scalajs.reactjs.VirtualDOM._
 import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import io.github.shogowada.scalajs.reactjs.events.SyntheticEvent
+import org.make.front.Main.CssSettings._
 import org.make.front.components.Components._
 import org.make.front.components.tags.Tag.TagComponentProps
 import org.make.front.facades.I18n
@@ -13,9 +14,6 @@ import org.make.front.models.{Tag => TagModel}
 import org.make.front.styles._
 import org.make.front.styles.ui.TagStyles
 import org.make.front.styles.utils._
-
-import scalacss.DevDefaults._
-import scalacss.internal.mutable.StyleSheet
 
 /**
   * Generates a list of TagComponents
