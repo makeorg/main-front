@@ -21,7 +21,7 @@ object Home {
         displayName = "Home",
         render = { self =>
           <.div(^.className := HomeStyles.wrapper)(
-            <.MainHeaderComponent.empty,
+            <.div(^.className := HomeStyles.mainHeaderWrapper)(<.MainHeaderComponent.empty),
             <.h1(^.style := Map("display" -> "none"))("Make.org"),
             <.IntroComponent.empty,
             <.ThemeShowcaseContainerComponent(
@@ -65,4 +65,7 @@ object HomeStyles extends StyleSheet.Inline {
 
   val wrapper: StyleA =
     style(unsafeChild("> section")(borderBottom :=! s"1px solid ${ThemeStyles.BorderColor.white.value}"))
+
+  val mainHeaderWrapper: StyleA =
+    style(visibility.hidden)
 }

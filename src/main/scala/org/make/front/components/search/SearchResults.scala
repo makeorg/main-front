@@ -8,7 +8,10 @@ import org.make.core.Counter
 import org.make.front.components.Components.{RichVirtualDOMElements, _}
 import org.make.front.components.proposal.ProposalTileWithThemeContainer.ProposalTileWithThemeContainerProps
 import org.make.front.components.search.NoResultToSearch.NoResultToSearchProps
-import org.make.front.facades.ReactInfiniteScroller.{ReactInfiniteScrollerVirtualDOMAttributes, ReactInfiniteScrollerVirtualDOMElements}
+import org.make.front.facades.ReactInfiniteScroller.{
+  ReactInfiniteScrollerVirtualDOMAttributes,
+  ReactInfiniteScrollerVirtualDOMElements
+}
 import org.make.front.facades.Unescape.unescape
 import org.make.front.facades.{I18n, Replacements}
 import org.make.front.models.Proposal
@@ -25,10 +28,8 @@ import scalacss.DevDefaults._
 import scalacss.internal.StyleA
 
 object SearchResults {
-  final case class SearchResultsProps(
-    onMoreResultsRequested: (Seq[Proposal], Option[String]) => Future[SearchResult],
-    searchValue: Option[String]
-  )
+  final case class SearchResultsProps(onMoreResultsRequested: (Seq[Proposal], Option[String]) => Future[SearchResult],
+                                      searchValue: Option[String])
 
   final case class SearchResultsState(listProposals: Seq[Proposal],
                                       initialLoad: Boolean,
@@ -116,35 +117,37 @@ object SearchResults {
               }
             )
 
-
           val proposalsToDisplay: Seq[Proposal] = self.state.listProposals
 
           val hasResults: Boolean = self.state.initialLoad || proposalsToDisplay.nonEmpty
           <("search-results")()(
-            <.div(^.className := SearchResultsStyles.wrapper(hasResults))(<.MainHeaderComponent.empty, if (hasResults) {
-              Seq(
-                <.div(^.className := Seq(SearchResultsStyles.resultsWrapper, RowRulesStyles.centeredRow))(
-                  if (!self.state.initialLoad) {
-                    <.header(^.className := Seq(SearchResultsStyles.resultsHeader, ColRulesStyles.col))(
-                      <.h1(
-                        ^.className := Seq(TextStyles.mediumText, SearchResultsStyles.searchedExpressionIntro),
-                        ^.dangerouslySetInnerHTML := I18n
-                          .t("search.results.intro", Replacements(("total", self.state.resultsCount.toString)))
-                      )(),
-                      <.h2(^.className := Seq(SearchResultsStyles.searchedExpression, TextStyles.mediumTitle))(
-                        unescape("«&nbsp;" + self.props.wrapped.searchValue.getOrElse("") + "&nbsp;»")
+            <.div(^.className := SearchResultsStyles.wrapper(hasResults))(
+              <.div(^.className := SearchResultsStyles.mainHeaderWrapper)(<.MainHeaderComponent.empty),
+              if (hasResults) {
+                Seq(
+                  <.div(^.className := Seq(SearchResultsStyles.resultsWrapper, RowRulesStyles.centeredRow))(
+                    if (!self.state.initialLoad) {
+                      <.header(^.className := Seq(SearchResultsStyles.resultsHeader, ColRulesStyles.col))(
+                        <.h1(
+                          ^.className := Seq(TextStyles.mediumText, SearchResultsStyles.searchedExpressionIntro),
+                          ^.dangerouslySetInnerHTML := I18n
+                            .t("search.results.intro", Replacements(("total", self.state.resultsCount.toString)))
+                        )(),
+                        <.h2(^.className := Seq(SearchResultsStyles.searchedExpression, TextStyles.mediumTitle))(
+                          unescape("«&nbsp;" + self.props.wrapped.searchValue.getOrElse("") + "&nbsp;»")
+                        )
                       )
-                    )
-                  },
-                  proposals(proposalsToDisplay)
+                    },
+                    proposals(proposalsToDisplay)
+                  )
                 )
-              )
 
-            } else {
-              <.NoResultToSearchComponent(
-                ^.wrapped := NoResultToSearchProps(searchValue = self.props.wrapped.searchValue)
-              )()
-            }),
+              } else {
+                <.NoResultToSearchComponent(
+                  ^.wrapped := NoResultToSearchProps(searchValue = self.props.wrapped.searchValue)
+                )()
+              }
+            ),
             <.div(^.className := SearchResultsStyles.navInThemesWrapper(hasResults))(
               <.NavInThemesContainerComponent.empty
             ),
@@ -166,6 +169,9 @@ object SearchResultsStyles extends StyleSheet.Inline {
         styleS(minHeight(100.%%))
     }
   )
+
+  val mainHeaderWrapper: StyleA =
+    style(visibility.hidden)
 
   val navInThemesWrapper: (Boolean) => StyleA = styleF.bool(
     hasResults =>

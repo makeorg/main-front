@@ -50,7 +50,7 @@ object PasswordReset {
       },
       render = self => {
         <.div(^.className := ResetPasswordStyles.wrapper)(
-          <.MainHeaderComponent.empty,
+          <.div(^.className := ResetPasswordStyles.mainHeaderWrapper)(<.MainHeaderComponent.empty),
           <.div(^.className := Seq(RowRulesStyles.centeredRow))(
             <.div(^.className := ColRulesStyles.col)(
               <.div(^.className := Seq(ResetPasswordStyles.contentWrapper))(if (self.state.success) {
@@ -175,6 +175,9 @@ object ResetPasswordStyles extends StyleSheet.Inline {
 
   val wrapper: StyleA =
     style(minHeight(100.%%), backgroundColor(ThemeStyles.BackgroundColor.blackVeryTransparent))
+
+  val mainHeaderWrapper: StyleA =
+    style(visibility.hidden)
 
   val contentWrapper: StyleA =
     style(
