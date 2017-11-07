@@ -54,7 +54,7 @@ object PoliticalActionMiddleware {
        */
       PoliticalAction(
         themeSlug = Some("agriculture-ruralite"),
-        imageUrl = famillesrurales.toString,
+        imageUrl = famillesRurales.toString,
         imageTitle = None,
         date = None,
         location = None,
@@ -97,7 +97,7 @@ object PoliticalActionMiddleware {
       ),
       PoliticalAction(
         themeSlug = Some("developpement-durable-energie"),
-        imageUrl = amisdelaterre.toString,
+        imageUrl = amisDeLaTerre.toString,
         imageTitle = Some("Amis de la terre"),
         date = None,
         location = None,
@@ -109,7 +109,7 @@ object PoliticalActionMiddleware {
       ),
       PoliticalAction(
         themeSlug = Some("developpement-durable-energie"),
-        imageUrl = lechainonmanquant.toString,
+        imageUrl = leChainonManquant.toString,
         imageTitle = None,
         date = None,
         location = None,
@@ -123,7 +123,7 @@ object PoliticalActionMiddleware {
       ),
       PoliticalAction(
         themeSlug = Some("developpement-durable-energie"),
-        imageUrl = fnh.toString,
+        imageUrl = fondationPourLaNatureEtLHomme.toString,
         imageTitle = None,
         date = None,
         location = None,
@@ -137,7 +137,7 @@ object PoliticalActionMiddleware {
       ),
       PoliticalAction(
         themeSlug = Some("developpement-durable-energie"),
-        imageUrl = fnh.toString,
+        imageUrl = fondationPourLaNatureEtLHomme.toString,
         imageTitle = None,
         date = None,
         location = None,
@@ -148,7 +148,7 @@ object PoliticalActionMiddleware {
       ),
       PoliticalAction(
         themeSlug = Some("developpement-durable-energie"),
-        imageUrl = fnh.toString,
+        imageUrl = fondationPourLaNatureEtLHomme.toString,
         imageTitle = None,
         date = None,
         location = None,
@@ -162,7 +162,7 @@ object PoliticalActionMiddleware {
       ),
       PoliticalAction(
         themeSlug = Some("economie-emploi-travail"),
-        imageUrl = solidaritesnouvellespourlelogement.toString,
+        imageUrl = solidaritesNouvellesPourLeLogement.toString,
         imageTitle = None,
         date = None,
         location = None,
@@ -177,7 +177,7 @@ object PoliticalActionMiddleware {
       ),
       PoliticalAction(
         themeSlug = Some("economie-emploi-travail"),
-        imageUrl = associationfrancaisedesfemmesingenieurs.toString,
+        imageUrl = associationFrancaiseDesFemmesIngenieurs.toString,
         imageTitle = None,
         date = None,
         location = None,
@@ -192,7 +192,7 @@ object PoliticalActionMiddleware {
       ),
       PoliticalAction(
         themeSlug = Some("education"),
-        imageUrl = concoursaffichearcadetaninges.toString,
+        imageUrl = concoursAfficheArcadeTaninges.toString,
         imageTitle = None,
         date = None,
         location = None,
@@ -206,7 +206,7 @@ object PoliticalActionMiddleware {
       ),
       PoliticalAction(
         themeSlug = Some("education"),
-        imageUrl = jetdencre.toString,
+        imageUrl = jetDEncre.toString,
         imageTitle = None,
         date = None,
         location = None,
@@ -235,7 +235,7 @@ object PoliticalActionMiddleware {
       ),
       PoliticalAction(
         themeSlug = Some("logement"),
-        imageUrl = solidaritesnouvellespourlelogement.toString,
+        imageUrl = solidaritesNouvellesPourLeLogement.toString,
         imageTitle = None,
         date = None,
         location = None,
@@ -279,7 +279,7 @@ object PoliticalActionMiddleware {
        */
       PoliticalAction(
         themeSlug = Some("sante-alimentation"),
-        imageUrl = solidaritesida.toString,
+        imageUrl = solidariteSida.toString,
         imageTitle = None,
         date = None,
         location = None,
@@ -293,7 +293,7 @@ object PoliticalActionMiddleware {
       ),
       PoliticalAction(
         themeSlug = Some("sante-alimentation"),
-        imageUrl = handicapinternational.toString,
+        imageUrl = handicapInternational.toString,
         imageTitle = None,
         date = None,
         location = None,
@@ -320,7 +320,7 @@ object PoliticalActionMiddleware {
       ),
       PoliticalAction(
         themeSlug = Some("securite-justice"),
-        imageUrl = sansa.toString,
+        imageUrl = sansA.toString,
         imageTitle = None,
         date = None,
         location = None,
@@ -352,7 +352,7 @@ object PoliticalActionMiddleware {
        */
       PoliticalAction(
         themeSlug = Some("democratie-vie-politique"),
-        imageUrl = oxfamfrance.toString,
+        imageUrl = oxfamFrance.toString,
         imageTitle = None,
         date = None,
         location = None,
@@ -364,7 +364,7 @@ object PoliticalActionMiddleware {
       ),
       PoliticalAction(
         themeSlug = Some("democratie-vie-politique"),
-        imageUrl = associationpour1democratiedirecte.toString,
+        imageUrl = associationPourUneDemocratieDirecte.toString,
         imageTitle = None,
         date = None,
         location = None,
@@ -389,7 +389,7 @@ object PoliticalActionMiddleware {
       ),
       PoliticalAction(
         themeSlug = Some("vivre-ensemble-solidarites"),
-        imageUrl = lerefuge.toString,
+        imageUrl = leRefuge.toString,
         imageTitle = None,
         date = None,
         location = None,
@@ -404,7 +404,7 @@ object PoliticalActionMiddleware {
       ),
       PoliticalAction(
         themeSlug = Some("vivre-ensemble-solidarites"),
-        imageUrl = maisondespotes.toString,
+        imageUrl = maisonDesPotes.toString,
         imageTitle = None,
         date = None,
         location = None,
@@ -431,7 +431,7 @@ object PoliticalActionMiddleware {
       ),
       PoliticalAction(
         themeSlug = Some("vivre-ensemble-solidarites"),
-        imageUrl = cartooningforpeace.toString,
+        imageUrl = cartooningForPeace.toString,
         imageTitle = None,
         date = None,
         location = None,
@@ -459,7 +459,7 @@ object PoliticalActionMiddleware {
        */
       PoliticalAction(
         themeSlug = Some("vivre-ensemble-solidarites"),
-        imageUrl = niputesnisoumises.toString,
+        imageUrl = niPutesNiSoumises.toString,
         imageTitle = None,
         date = None,
         location = None,
@@ -487,7 +487,7 @@ object PoliticalActionMiddleware {
       ),
       PoliticalAction(
         themeSlug = Some("vivre-ensemble-solidarites"),
-        imageUrl = sosracisme.toString,
+        imageUrl = sosRacisme.toString,
         imageTitle = None,
         date = None,
         location = None,
