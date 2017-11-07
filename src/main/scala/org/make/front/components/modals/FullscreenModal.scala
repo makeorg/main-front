@@ -36,7 +36,9 @@ object FullscreenModal {
             )
           )(
             <.div(^.className := FullscreenModalStyles.row)(
-              <.div(^.className := FullscreenModalStyles.cell)(<.MainHeaderComponent.empty)
+              <.div(^.className := Seq(FullscreenModalStyles.cell, FullscreenModalStyles.mainHeaderWrapper))(
+                <.MainHeaderComponent.empty
+              )
             ),
             <.div(^.className := Seq(FullscreenModalStyles.row, FullscreenModalStyles.contentWrapper))(
               <.div(^.className := Seq(FullscreenModalStyles.cell, FullscreenModalStyles.contentInnerWrapper))(
@@ -91,6 +93,9 @@ object FullscreenModalStyles extends StyleSheet.Inline {
 
   val cell: StyleA =
     style(display.tableCell, verticalAlign.middle)
+
+  val mainHeaderWrapper: StyleA =
+    style(visibility.hidden)
 
   val preventMainScroll: (Boolean) => StyleA = styleF.bool(
     isPrevented =>

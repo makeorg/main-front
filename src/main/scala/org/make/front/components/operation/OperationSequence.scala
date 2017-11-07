@@ -11,7 +11,11 @@ import org.make.front.components.operation.SubmitProposalInRelationToOperation.S
 import org.make.front.components.sequence.SequenceContainer.SequenceContainerProps
 import org.make.front.facades.Unescape.unescape
 import org.make.front.facades.{FacebookPixel, I18n, Replacements}
-import org.make.front.models.{GradientColor => GradientColorModel, Operation => OperationModel, Sequence => SequenceModel}
+import org.make.front.models.{
+  GradientColor => GradientColorModel,
+  Operation     => OperationModel,
+  Sequence      => SequenceModel
+}
 import org.make.front.styles._
 import org.make.front.styles.base.{ColRulesStyles, RWDHideRulesStyles, RowRulesStyles, TextStyles}
 import org.make.front.styles.ui.{CTAStyles, TooltipStyles}
@@ -28,7 +32,9 @@ import scalacss.internal.mutable.StyleSheet.Inline
 
 object OperationSequence {
 
-  final case class OperationSequenceProps(operation: OperationModel, sequence: SequenceModel, numberOfProposals: Future[Int])
+  final case class OperationSequenceProps(operation: OperationModel,
+                                          sequence: SequenceModel,
+                                          numberOfProposals: Future[Int])
 
   final case class OperationSequenceState(isProposalModalOpened: Boolean, numberOfroposals: Int)
 
@@ -38,12 +44,13 @@ object OperationSequence {
       getInitialState = { _ =>
         OperationSequenceState(isProposalModalOpened = false, numberOfroposals = 0)
       },
-      componentWillReceiveProps = { (self: Self[OperationSequenceProps, OperationSequenceState], props: Props[OperationSequenceProps]) =>
-        props.wrapped.numberOfProposals.onComplete {
-          case Success(numberOfroposals) =>
-            self.setState(_.copy(numberOfroposals = numberOfroposals))
-          case Failure(_) =>
-        }
+      componentWillReceiveProps = {
+        (self: Self[OperationSequenceProps, OperationSequenceState], props: Props[OperationSequenceProps]) =>
+          props.wrapped.numberOfProposals.onComplete {
+            case Success(numberOfroposals) =>
+              self.setState(_.copy(numberOfroposals = numberOfroposals))
+            case Failure(_) =>
+          }
       },
       render = { self =>
         val guidedState: Boolean = false
@@ -72,7 +79,9 @@ object OperationSequence {
 
         <.section(^.className := OperationSequenceStyles.wrapper)(
           <.div(^.className := Seq(OperationSequenceStyles.row))(
-            <.div(^.className := OperationSequenceStyles.cell)(<.MainHeaderComponent.empty)
+            <.div(^.className := Seq(OperationSequenceStyles.cell, OperationSequenceStyles.mainHeaderWrapper))(
+              <.MainHeaderComponent.empty
+            )
           ),
           <.div(^.className := Seq(OperationSequenceStyles.row, DynamicOperationSequenceStyles.gradient))(
             <.div(^.className := OperationSequenceStyles.cell)(
@@ -113,7 +122,10 @@ object OperationSequence {
                       )(
                         unescape(
                           I18n
-                            .t("operation.sequence.header.total-of-proposals", Replacements(("total", self.state.numberOfroposals.toString)))
+                            .t(
+                              "operation.sequence.header.total-of-proposals",
+                              Replacements(("total", self.state.numberOfroposals.toString))
+                            )
                         )
                       )
                     ),
@@ -196,6 +208,9 @@ object OperationSequenceStyles extends StyleSheet.Inline {
 
   val contentRow: StyleA =
     style(display.tableRow, height(100.%%), backgroundColor(ThemeStyles.BackgroundColor.blackVeryTransparent))
+
+  val mainHeaderWrapper: StyleA =
+    style(visibility.hidden)
 
   val header: StyleA =
     style(

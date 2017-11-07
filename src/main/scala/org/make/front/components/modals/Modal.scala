@@ -33,7 +33,9 @@ object Modal {
           ^.shouldCloseOnOverlayClick := true
         )(
           <.div(^.className := Seq(ModalStyles.wrapper, ModalStyles.preventMainScroll(!self.state.isModalOpened)))(
-            <.div(^.className := ModalStyles.row)(<.div(^.className := ModalStyles.cell)(<.MainHeaderComponent.empty)),
+            <.div(^.className := ModalStyles.row)(
+              <.div(^.className := Seq(ModalStyles.cell, ModalStyles.mainHeaderWrapper))(<.MainHeaderComponent.empty)
+            ),
             <.div(^.className := Seq(ModalStyles.row, ModalStyles.contentWrapper))(
               <.div(^.className := ModalStyles.cell)(
                 <.div(^.className := ModalStyles.centeredRow)(
@@ -87,6 +89,9 @@ object ModalStyles extends StyleSheet.Inline {
 
   val cell: StyleA =
     style(display.tableCell, verticalAlign.middle)
+
+  val mainHeaderWrapper: StyleA =
+    style(visibility.hidden)
 
   val contentWrapper: StyleA =
     style(height(100.%%))

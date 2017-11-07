@@ -23,7 +23,7 @@ object Operation {
         displayName = "Operation",
         render = (self) => {
           <("operation")()(
-            <.MainHeaderComponent.empty,
+            <.div(^.className := OperationComponentStyles.mainHeaderWrapper)(<.MainHeaderComponent.empty),
             <.VFFIntroComponent(^.wrapped := VFFIntroProps(operation = self.props.wrapped.operation))(),
             <.OperationHeaderComponent(^.wrapped := OperationHeaderProps(self.props.wrapped.operation))(),
             <.div(^.className := OperationComponentStyles.contentWrapper)(
@@ -40,6 +40,9 @@ object Operation {
 object OperationComponentStyles extends StyleSheet.Inline {
 
   import dsl._
+
+  val mainHeaderWrapper: StyleA =
+    style(visibility.hidden)
 
   val contentWrapper: StyleA =
     style(display.block, backgroundColor(ThemeStyles.BackgroundColor.blackVeryTransparent))

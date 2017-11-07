@@ -52,7 +52,9 @@ object Proposal {
         <("proposal")()(
           <.div(^.className := ProposalStyles.wrapper(self.state.proposal != null))(
             <.div(^.className := ProposalStyles.row)(
-              <.div(^.className := ProposalStyles.cell)(<.MainHeaderComponent.empty)
+              <.div(^.className := Seq(ProposalStyles.cell, ProposalStyles.mainHeaderWrapper))(
+                <.MainHeaderComponent.empty
+              )
             ),
             <.div(^.className := Seq(ProposalStyles.row, ProposalStyles.fullHeight))(
               <.div(^.className := Seq(ProposalStyles.cell, ProposalStyles.articleCell))(
@@ -153,6 +155,9 @@ object ProposalStyles extends StyleSheet.Inline {
 
   val cell: StyleA =
     style(display.tableCell)
+
+  val mainHeaderWrapper: StyleA =
+    style(visibility.hidden)
 
   val articleCell: StyleA =
     style(

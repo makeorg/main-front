@@ -24,7 +24,7 @@ object Theme {
         displayName = "Theme",
         render = (self) => {
           <.div()(
-            <.MainHeaderComponent.empty,
+            <.div(^.className := ThemeComponentStyles.mainHeaderWrapper)(<.MainHeaderComponent.empty),
             <.ThemeHeaderComponent(^.wrapped := ThemeHeaderProps(self.props.wrapped.theme))(),
             <.div(^.className := ThemeComponentStyles.contentWrapper)(
               <.PoliticalActionsContainerComponent(
@@ -44,6 +44,9 @@ object Theme {
 object ThemeComponentStyles extends StyleSheet.Inline {
 
   import dsl._
+
+  val mainHeaderWrapper: StyleA =
+    style(visibility.hidden)
 
   val contentWrapper: StyleA =
     style(

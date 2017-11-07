@@ -13,9 +13,9 @@ import org.make.front.styles.ui.{CTAStyles, InputStyles}
 import org.make.front.styles.utils._
 import org.make.front.styles.vendors.FontAwesomeStyles
 
-import scalacss.internal.{Attr, StyleA}
 import scalacss.DevDefaults._
 import scalacss.internal.mutable.StyleSheet
+import scalacss.internal.{Attr, StyleA}
 
 object UserProfile {
 
@@ -28,7 +28,7 @@ object UserProfile {
         render = (self) => {
 
           <.div(^.className := UserProfileStyles.wrapper)(
-            <.MainHeaderComponent.empty,
+            <.div(^.className := UserProfileStyles.mainHeaderWrapper)(<.MainHeaderComponent.empty),
             <.div(^.className := Seq(RowRulesStyles.centeredRow))(
               <.div(^.className := ColRulesStyles.col)(
                 <.div(^.className := UserProfileStyles.pageWrapper)(
@@ -201,6 +201,9 @@ object UserProfileStyles extends StyleSheet.Inline {
 
   val wrapper: StyleA =
     style(minHeight(100.%%), backgroundColor(ThemeStyles.BackgroundColor.blackVeryTransparent))
+
+  val mainHeaderWrapper: StyleA =
+    style(visibility.hidden)
 
   val pageWrapper: StyleA =
     style(
