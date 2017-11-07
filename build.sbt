@@ -119,7 +119,6 @@ prepareAssets in ThisBuild := {
     npmDirectory / "dist" / "intro",
     overwrite = true
   )
-  IO.copyFile(baseDirectory.value / "src" / "main" / "static" / "loader.gif", npmDirectory / "dist" / "loader.gif")
   streams.value.log.info("Copy assets to working directory")
 }
 
