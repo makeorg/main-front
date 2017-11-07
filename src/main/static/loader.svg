@@ -9,13 +9,5 @@
 	<rect x="-3.6" y="113.3" transform="matrix(0.7071 -0.7071 0.7071 0.7071 -75.7087 46.8599)" class="st1" width="44.7" height="3"/>
 	<rect x="-3.6" y="127.8" transform="matrix(0.7071 -0.7071 0.7071 0.7071 -85.9011 51.1332)" class="st1" width="44.7" height="3"/>
 	<rect x="18" y="120.8" transform="matrix(0.7071 -0.7071 0.7071 0.7071 -74.6677 64.3466)" class="st1" width="44.7" height="3"/>
-	<animateTransform attributeName="transform"
-					  type="translate"
-					  from="2 2"
-					  to="2 2"
-					  begin="0s"
-					  dur="0.3s"
-					  values="2 2; 2 0; 2 1; 1 1; 1 0;"
-					  keySplines="0 0 0 0; 0 0 0 0; 0 0 0 0; 0 0 0 0; 0 0 0 0;"
-					  repeatCount="indefinite"/>
+	<animateTransform attributeName="transform" type="translate" from="2 2" to="1 0" dur="0.3s" values="2 2; 2 0; 2 1; 1 1; 1 0;" keySplines="0 0 0 0; 0 0 0 0; 0 0 0 0; 0 0 0 0; 0 0 0 0;" repeatCount="indefinite"/>
 </svg>
