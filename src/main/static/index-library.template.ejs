@@ -27,7 +27,16 @@
     <link rel="stylesheet" href="./styles/main.css" type="text/css" media="all">
 </head>
 <body>
+<script>
+    // simulate emitting events to facebook pixel
+    window.fbq = function(eventType, eventName, eventParameters){
+        console.log("FBEvent type=", eventType, "name=", eventName, "params=", eventParameters)
+    }
+</script>
 <div id="make-app">
+    <script>
+        fbq('display-sequence-loader', {})
+    </script>
     <style>
     html, body, #make-app {height: 100%}
         .loader-wrapper {display: table; width: 100%; height: 100%}
@@ -44,11 +53,6 @@
     };
     var exports = window;
     exports.require = window["makeApp"].require;
-
-    // simulate emitting events to facebook pixel
-    fbq = function(eventType, eventName, eventParameters){
-        console.log("FBEvent type=", eventType, "name=", eventName, "params=", eventParameters)
-    }
 </script>
 
 <script type="application/javascript" src="make-front-fastopt.js"></script>
