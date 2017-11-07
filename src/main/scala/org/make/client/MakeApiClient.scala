@@ -38,7 +38,7 @@ object MakeApiClient extends Client {
   def removeToken(): Unit = token = None
   def isAuthenticated: Boolean = token.isDefined
 
-  val maxTimeout: Int = 3000
+  val maxTimeout: Int = 9000
   val withCredentials: Boolean = true
 
   val themeIdHeader: String = "x-make-theme-id"
@@ -90,7 +90,8 @@ object MakeApiClient extends Client {
       case Failure(AjaxException(response: XMLHttpRequest)) =>
         response.status match {
           case 400 =>
-            val errors: Seq[JsValidationError] = JSON.parse(response.responseText).asInstanceOf[js.Array[JsValidationError]]
+            val errors: Seq[JsValidationError] =
+              JSON.parse(response.responseText).asInstanceOf[js.Array[JsValidationError]]
             promise.failure(BadRequestHttpException(errors.map(ValidationError.apply)))
           case 401 => promise.failure(UnauthorizedHttpException)
           case 403 => promise.failure(ForbiddenHttpException)
