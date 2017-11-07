@@ -162,8 +162,9 @@ var TagEvents = {
 var Event = {
     Search: {value: 'Search', type: EventType.Default},
     PageView: {value: 'PageView', type: EventType.Default},
-    StartSequence: {value: 'StartSequence', type: EventType.Custom},
+    StartSequence: {value: 'click-sequence-launch', type: EventType.Custom},
     Vote: {value: 'Vote', type: EventType.Custom},
+    DisplaySequenceIntro: {value: 'display-sequence-intro', type: EventType.Custom}
 }
 var DefaultEventData = {
     source: 'Source_VFF'
@@ -181,13 +182,14 @@ function triggerFBEvent(event, params) {
     }
 }
 function redirectHome() {
+    triggerFBEvent(Event.StartSequence, {location: 'intro-vff'})()
     window.location.href = "https://stopvff.make.org"+window.location.search+"#/consultation/comment-lutter-contre-les-violences-faites-aux-femmes"
 }
 triggerFBEvent(Event.PageView, {})() // default page view
-attachEventToElement("#start-sequence", $("#start-sequence"), TagEvents.Click, triggerFBEvent(Event.StartSequence, {}))
 attachEventToElement("#start-sequence", $("#start-sequence"), TagEvents.Click, redirectHome)
 
 
+triggerFBEvent(Event.DisplaySequenceIntro, {})()
 
 </script>
 </body>
