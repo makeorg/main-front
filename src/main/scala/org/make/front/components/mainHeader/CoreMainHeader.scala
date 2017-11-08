@@ -111,7 +111,7 @@ object CoreMainHeaderStyles extends StyleSheet.Inline {
     )
 
   val menusInnerWrapper: StyleA =
-    style(margin(`0`, ThemeStyles.SpacingValue.small.pxToEm()), whiteSpace.nowrap)
+    style(margin(`0`, (ThemeStyles.SpacingValue.small * -1).pxToEm()), whiteSpace.nowrap)
 
   val menuWrapper: StyleA =
     style(display.inlineBlock)
