@@ -269,7 +269,7 @@ object ThemeHeaderStyles extends StyleSheet.Inline {
       position.relative,
       display.tableCell,
       verticalAlign.middle,
-      padding :=! s"${ThemeStyles.SpacingValue.larger.pxToEm().value} 0",
+      padding(ThemeStyles.SpacingValue.larger.pxToEm(), `0`),
       textAlign.center
     )
 
@@ -318,11 +318,11 @@ object ThemeHeaderStyles extends StyleSheet.Inline {
   val textLimitInfo: StyleA =
     style(
       display.inlineBlock,
-      lineHeight :=! s"${28.pxToEm(13).value}",
+      lineHeight(28.pxToEm(13)),
       paddingLeft(ThemeStyles.SpacingValue.small.pxToEm(13)),
       ThemeStyles.MediaQueries
-        .beyondSmall(lineHeight :=! s"${38.pxToEm(16).value}", paddingLeft(ThemeStyles.SpacingValue.small.pxToEm(16))),
-      ThemeStyles.MediaQueries.beyondMedium(lineHeight :=! s"${48.pxToEm(16).value}"),
+        .beyondSmall(lineHeight(38.pxToEm(16)), paddingLeft(ThemeStyles.SpacingValue.small.pxToEm(16))),
+      ThemeStyles.MediaQueries.beyondMedium(lineHeight(48.pxToEm(16))),
       color(ThemeStyles.TextColor.lighter),
       whiteSpace.nowrap
     )

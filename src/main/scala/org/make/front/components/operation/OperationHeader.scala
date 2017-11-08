@@ -108,8 +108,8 @@ object OperationHeaderStyles extends StyleSheet.Inline {
   val wrapper: StyleA =
     style(
       display.block,
-      padding :=! s"${ThemeStyles.SpacingValue.medium.pxToEm().value} 0",
-      ThemeStyles.MediaQueries.beyondSmall(padding :=! s"${ThemeStyles.SpacingValue.larger.pxToEm().value} 0"),
+      padding(ThemeStyles.SpacingValue.medium.pxToEm(), `0`),
+      ThemeStyles.MediaQueries.beyondSmall(padding(ThemeStyles.SpacingValue.larger.pxToEm(), `0`)),
       backgroundColor(ThemeStyles.BackgroundColor.blackMoreTransparent)
     )
 

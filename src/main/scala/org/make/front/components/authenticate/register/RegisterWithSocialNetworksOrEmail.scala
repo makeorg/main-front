@@ -96,8 +96,8 @@ object RegisterWithSocialNetworksOrEmailStyles extends StyleSheet.Inline {
   val separator: StyleA = style(
     position.relative,
     display.inlineBlock,
-    padding :=! s"0 ${20.pxToEm().value}",
-    margin :=! s"${ThemeStyles.SpacingValue.medium.pxToEm().value} 0",
+    padding(`0`, 20.pxToEm()),
+    margin(ThemeStyles.SpacingValue.medium.pxToEm(), `0`),
     ThemeStyles.Font.playfairDisplayItalic,
     fontStyle.italic,
     color(ThemeStyles.TextColor.lighter),

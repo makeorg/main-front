@@ -162,7 +162,7 @@ object SubmitProposalAndLoginStyles extends StyleSheet.Inline {
     style(
       height(1.px),
       width(100.%%),
-      margin :=! s"${30.pxToEm().value} 0 ${44.pxToEm().value}",
+      margin(30.pxToEm(), `0`, 44.pxToEm()),
       border.none,
       backgroundColor(ThemeStyles.BorderColor.veryLight)
     )

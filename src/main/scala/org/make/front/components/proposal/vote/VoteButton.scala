@@ -306,20 +306,23 @@ object VoteButtonStyles extends StyleSheet.Inline {
       verticalAlign.middle,
       width(100.%%),
       height(100.%%),
-      padding :=! s"${ThemeStyles.SpacingValue.smaller.pxToEm().value} ${ThemeStyles.SpacingValue.small.pxToEm().value}",
-      borderRadius :=! s"${ThemeStyles.SpacingValue.small.pxToEm().value} ${ThemeStyles.SpacingValue.small
-        .pxToEm()
-        .value} ${ThemeStyles.SpacingValue.small.pxToEm().value} 0",
+      padding(ThemeStyles.SpacingValue.smaller.pxToEm(), ThemeStyles.SpacingValue.small.pxToEm()),
+      borderRadius(
+        ThemeStyles.SpacingValue.small.pxToEm(),
+        ThemeStyles.SpacingValue.small.pxToEm(),
+        ThemeStyles.SpacingValue.small.pxToEm(),
+        `0`
+      ),
       backgroundColor(rgb(74, 74, 74)),
       (&.after)(
         content := "''",
         position.absolute,
         right(100.%%),
         bottom(0.%%),
-        borderRight :=! s"${5.pxToEm().value} solid ${rgb(74, 74, 74).value}",
-        borderBottom :=! s"${5.pxToEm().value} solid ${rgb(74, 74, 74).value}",
-        borderLeft :=! s"${5.pxToEm().value} solid transparent",
-        borderTop :=! s"${5.pxToEm().value} solid transparent"
+        borderRight(5.pxToEm(), solid, rgb(74, 74, 74)),
+        borderBottom(5.pxToEm(), solid, rgb(74, 74, 74)),
+        borderLeft(5.pxToEm(), solid, transparent),
+        borderTop(5.pxToEm(), solid, transparent)
       )
     )
 
@@ -329,7 +332,7 @@ object VoteButtonStyles extends StyleSheet.Inline {
     width(50.pxToEm()),
     height(50.pxToEm()),
     boxSizing.borderBox,
-    border :=! s"1px solid ${ThemeStyles.TextColor.base.value}",
+    border(1.px, solid, ThemeStyles.TextColor.base),
     borderRadius(50.%%),
     textAlign.center,
     backgroundColor.transparent,
@@ -452,7 +455,7 @@ object VoteButtonStyles extends StyleSheet.Inline {
       marginTop(5.pxToEm(10)),
       boxSizing.borderBox,
       borderRadius(8.pxToEm(10)),
-      padding :=! s"0 ${8.pxToEm(10).value}",
+      padding(`0`, 8.pxToEm(10)),
       fontSize(10.pxToEm()),
       textAlign.center,
       backgroundColor(ThemeStyles.BackgroundColor.blackVeryTransparent)

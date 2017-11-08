@@ -15,7 +15,7 @@ object CTAStyles extends StyleSheet.Inline {
       minHeight(30.pxToEm(13)),
       maxWidth(100.%%),
       boxSizing.borderBox,
-      padding :=! s"0 ${15.pxToEm(13).value}",
+      padding(`0`, 15.pxToEm(13)),
       borderRadius(999.pxToEm(13)),
       lineHeight.normal,
       ThemeStyles.Font.tradeGothicLTStd,
@@ -27,7 +27,7 @@ object CTAStyles extends StyleSheet.Inline {
       fontSize(13.pxToEm()),
       ThemeStyles.MediaQueries.beyondSmall(
         minHeight(40.pxToEm()),
-        padding :=! s"0 ${20.pxToEm().value}",
+        padding(`0`, 20.pxToEm()),
         fontSize(16.pxToEm()),
         borderRadius(999.pxToEm())
       )

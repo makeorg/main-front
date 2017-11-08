@@ -95,12 +95,12 @@ object MainHeaderWithStaticLinksStyles extends StyleSheet.Inline {
     style(display.tableCell, verticalAlign.middle)
 
   val menuWrapper: StyleA =
-    style(display.inlineBlock, margin :=! s"0 -${ThemeStyles.SpacingValue.small.pxToEm().value}")
+    style(display.inlineBlock, margin(`0`, (ThemeStyles.SpacingValue.small * -1).pxToEm()))
 
   val menuItem: StyleA =
-    style(display.inlineBlock, verticalAlign.baseline, margin :=! s"0 ${ThemeStyles.SpacingValue.small.pxToEm().value}")
+    style(display.inlineBlock, verticalAlign.baseline, margin(`0`, ThemeStyles.SpacingValue.small.pxToEm()))
 
   val menuItemLink: StyleA =
-    style(color :=! inherit, transition := "color .2s ease-in-out", (&.hover)(color :=! ThemeStyles.ThemeColor.primary))
+    style(color.inherit, transition := "color .2s ease-in-out", (&.hover)(color(ThemeStyles.ThemeColor.primary)))
 
 }

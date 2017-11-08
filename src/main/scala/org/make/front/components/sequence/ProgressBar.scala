@@ -87,7 +87,7 @@ object ProgressBarStyles extends StyleSheet.Inline {
       position.relative,
       display.inlineBlock,
       marginBottom(12.pxToEm()),
-      padding :=! s"0 ${10.pxToEm().value}",
+      padding(`0`, 10.pxToEm()),
       lineHeight(24.pxToEm()),
       textAlign.center,
       whiteSpace.nowrap,
@@ -101,9 +101,9 @@ object ProgressBarStyles extends StyleSheet.Inline {
         left(50.%%),
         top(100.%%),
         marginLeft(-6.pxToEm()),
-        borderRight :=! s"${6.pxToEm().value} solid transparent",
-        borderTop :=! s"${6.pxToEm().value} solid ${ThemeStyles.BackgroundColor.white.value}",
-        borderLeft :=! s"${6.pxToEm().value} solid transparent" /*,
+        borderRight(6.pxToEm(), solid, transparent),
+        borderTop(6.pxToEm(), solid, ThemeStyles.BackgroundColor.white),
+        borderLeft(6.pxToEm(), solid, transparent) /*,
         transition := "border-color .2s ease-in-out"*/
       )
     )
@@ -121,7 +121,7 @@ object ProgressBarStyles extends StyleSheet.Inline {
         left(`0`),
         height(100.%%),
         width(0.%%),
-        backgroundColor :=! s"rgba(0, 0, 0, 0.2)" /*,
+        backgroundColor(rgba(0, 0, 0, 0.2)) /*,
         transition := "width .2s ease-in-out"*/
       )
     )

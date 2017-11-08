@@ -88,15 +88,18 @@ object NotificationsStyles extends StyleSheet.Inline {
 
   import dsl._
 
-  val item: StyleA = style(margin :=! s"${ThemeStyles.SpacingValue.smaller.pxToEm().value} 0 0")
+  val item: StyleA = style(margin(ThemeStyles.SpacingValue.smaller.pxToEm(), `0`, `0`))
 
   val notification: StyleA =
     style(
       position.relative,
       minHeight(ThemeStyles.SpacingValue.large.pxToEm()),
-      padding :=! s"${ThemeStyles.SpacingValue.small.pxToEm().value} ${ThemeStyles.SpacingValue.large
-        .pxToEm()
-        .value} ${ThemeStyles.SpacingValue.small.pxToEm().value} ${ThemeStyles.SpacingValue.small.pxToEm().value}",
+      padding(
+        ThemeStyles.SpacingValue.small.pxToEm(),
+        ThemeStyles.SpacingValue.large.pxToEm(),
+        ThemeStyles.SpacingValue.small.pxToEm(),
+        ThemeStyles.SpacingValue.small.pxToEm()
+      ),
       borderRadius(10.pxToEm()),
       backgroundColor(ThemeStyles.BackgroundColor.lightGrey),
       overflow.hidden,
@@ -114,5 +117,4 @@ object NotificationsStyles extends StyleSheet.Inline {
     unsafeChild("svg")(verticalAlign.bottom, opacity(0.1), transition := "opacity .2s ease-in-out"),
     (&.hover)(unsafeChild("svg")(opacity(0.3)))
   )
-
 }

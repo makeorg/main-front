@@ -107,11 +107,7 @@ object RecoverPasswordStyles extends StyleSheet.Inline {
   val introWrapper: StyleA = style(marginBottom(ThemeStyles.SpacingValue.small.pxToEm()), textAlign.center)
 
   val text: StyleA =
-    style(
-      textAlign.center,
-      margin :=! s"${ThemeStyles.SpacingValue.small.pxToEm().value} 0",
-      color(ThemeStyles.TextColor.lighter)
-    )
+    style(textAlign.center, margin(ThemeStyles.SpacingValue.small.pxToEm(), `0`), color(ThemeStyles.TextColor.lighter))
 
   val emailInputWithIconWrapper: StyleA =
     style(backgroundColor(ThemeStyles.BackgroundColor.lightGrey), (&.before)(content := "'\\f003'"))

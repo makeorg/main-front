@@ -179,7 +179,7 @@ object ResetPasswordStyles extends StyleSheet.Inline {
   val contentWrapper: StyleA =
     style(
       minHeight(300.pxToEm()),
-      margin :=! s"${ThemeStyles.SpacingValue.larger.pxToEm().value} 0",
+      margin(ThemeStyles.SpacingValue.larger.pxToEm(), `0`),
       paddingTop(ThemeStyles.SpacingValue.larger.pxToEm()),
       paddingBottom(ThemeStyles.SpacingValue.larger.pxToEm()),
       backgroundColor(ThemeStyles.BackgroundColor.white),

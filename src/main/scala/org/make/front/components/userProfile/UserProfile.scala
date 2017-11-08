@@ -207,7 +207,7 @@ object UserProfileStyles extends StyleSheet.Inline {
   val pageWrapper: StyleA =
     style(
       minHeight(300.pxToEm()),
-      margin :=! s"${ThemeStyles.SpacingValue.larger.pxToEm().value} 0",
+      margin(ThemeStyles.SpacingValue.larger.pxToEm(), `0`),
       backgroundColor(ThemeStyles.BackgroundColor.white),
       boxShadow := "0 1px 1px 0 rgba(0,0,0,0.50)",
       ThemeStyles.MediaQueries.beyondSmall(paddingLeft(ColRulesStyles.gutter), paddingRight(ColRulesStyles.gutter)),
@@ -251,7 +251,7 @@ object UserProfileStyles extends StyleSheet.Inline {
       overflow.hidden,
       backgroundColor(ThemeStyles.BackgroundColor.white),
       borderRadius(50.%%),
-      border :=! s"2px solid ${ThemeStyles.BorderColor.base.value}",
+      border(2.px, solid, ThemeStyles.BorderColor.base),
       ThemeStyles.MediaQueries.beyondSmall(width(160.pxToEm()), height(160.pxToEm()), borderWidth(5.px)),
       textAlign.center
     )

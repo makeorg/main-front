@@ -132,7 +132,7 @@ object PoliticalActionsListStyles extends StyleSheet.Inline {
   import dsl._
 
   val wrapper: StyleA =
-    style(padding :=! s"${ThemeStyles.SpacingValue.medium.pxToEm().value} 0", overflow.hidden)
+    style(padding(ThemeStyles.SpacingValue.medium.pxToEm(), `0`), overflow.hidden)
 
   val slideshow: StyleA =
     style(
@@ -192,9 +192,9 @@ object PoliticalActionsListStyles extends StyleSheet.Inline {
   val slideWrapper: StyleA =
     style(
       ThemeStyles.MediaQueries
-        .belowMedium(padding :=! s"0 ${ThemeStyles.SpacingValue.small.pxToEm().value} 0 0"),
+        .belowMedium(padding(`0`, ThemeStyles.SpacingValue.small.pxToEm(), `0`, `0`)),
       ThemeStyles.MediaQueries
-        .belowSmall(padding :=! s"0 ${ThemeStyles.SpacingValue.smaller.pxToEm().value} 0 0")
+        .belowSmall(padding(`0`, ThemeStyles.SpacingValue.smaller.pxToEm(), `0`, `0`))
     )
 
   val slide: StyleA =

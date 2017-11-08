@@ -143,10 +143,10 @@ object UserNavStyles extends StyleSheet.Inline {
     style()
 
   val menuItem: StyleA =
-    style(display.inlineBlock, verticalAlign.baseline, margin :=! s"0 ${ThemeStyles.SpacingValue.small.pxToEm().value}")
+    style(display.inlineBlock, verticalAlign.baseline, margin(`0`, ThemeStyles.SpacingValue.small.pxToEm()))
 
   val menuItemLink: StyleA =
-    style(color :=! ThemeStyles.ThemeColor.primary)
+    style(color(ThemeStyles.ThemeColor.primary))
 
   val menuItemIcon: StyleA =
     style(
@@ -167,7 +167,7 @@ object UserNavStyles extends StyleSheet.Inline {
       overflow.hidden,
       backgroundColor(ThemeStyles.BackgroundColor.white),
       borderRadius(50.%%),
-      border :=! s"2px solid ${ThemeStyles.BorderColor.base.value}",
+      border(2.px, solid, ThemeStyles.BorderColor.base),
       textAlign.center
     )
 

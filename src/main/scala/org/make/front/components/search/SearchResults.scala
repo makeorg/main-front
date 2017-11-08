@@ -212,7 +212,12 @@ object SearchResultsStyles extends StyleSheet.Inline {
   val spinnerWrapper: StyleA =
     style(
       width(100.%%),
-      margin :=! s"${ThemeStyles.SpacingValue.small.pxToEm().value} ${ThemeStyles.SpacingValue.small.pxToEm().value} 0",
+      margin(
+        ThemeStyles.SpacingValue.small.pxToEm(),
+        ThemeStyles.SpacingValue.small.pxToEm(),
+        `0`,
+        ThemeStyles.SpacingValue.small.pxToEm()
+      ),
       ThemeStyles.MediaQueries.beyondSmall(marginBottom(ThemeStyles.SpacingValue.small.pxToEm()))
     )
 

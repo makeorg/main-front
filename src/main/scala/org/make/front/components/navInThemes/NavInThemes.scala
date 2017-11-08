@@ -98,7 +98,7 @@ object NavInThemesStyles extends StyleSheet.Inline {
 
   val wrapper: StyleA = style(
     backgroundColor(ThemeStyles.BackgroundColor.blackVeryTransparent),
-    padding :=! s"${ThemeStyles.SpacingValue.medium.pxToEm().value} 0 ${ThemeStyles.SpacingValue.small.pxToEm().value}"
+    padding(ThemeStyles.SpacingValue.medium.pxToEm(), `0`, ThemeStyles.SpacingValue.small.pxToEm())
   )
 
   val titleWrapper: StyleA = style(marginBottom(ThemeStyles.SpacingValue.small.pxToEm()))
@@ -111,7 +111,7 @@ object NavInThemesStyles extends StyleSheet.Inline {
     style(paddingBottom(ThemeStyles.SpacingValue.small.pxToEm()))
 
   val themeItemContentWrapper: StyleA =
-    style(height(100.%%), paddingLeft :=! ThemeStyles.SpacingValue.smaller.pxToEm(), borderLeft :=! s"5px solid")
+    style(height(100.%%), paddingLeft(ThemeStyles.SpacingValue.smaller.pxToEm()), borderLeft(5.px, solid))
 
   val actionsCounter: StyleA = style(
     display.inlineBlock,

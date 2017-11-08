@@ -81,17 +81,14 @@ object TextStyles extends StyleSheet.Inline {
   val label: StyleA =
     style(
       display.inlineBlock,
-      padding :=! s"${4.pxToEm(13).value} ${5.pxToEm(13).value} 0",
+      padding(4.pxToEm(13), 5.pxToEm(13), `0`),
       ThemeStyles.Font.tradeGothicLTStd,
       fontSize(13.pxToEm()),
       lineHeight(20.0 / 13.0),
       textTransform.uppercase,
       color(ThemeStyles.TextColor.white),
       backgroundColor(ThemeStyles.TextColor.base),
-      ThemeStyles.MediaQueries.beyondSmall(
-        padding :=! s"${8.pxToEm(18).value} ${10.pxToEm(18).value} ${3.pxToEm(18).value}",
-        fontSize(18.pxToEm()),
-        lineHeight(22.0 / 18.0)
-      )
+      ThemeStyles.MediaQueries
+        .beyondSmall(padding(8.pxToEm(18), 10.pxToEm(18), 3.pxToEm(18)), fontSize(18.pxToEm()), lineHeight(22.0 / 18.0))
     )
 }

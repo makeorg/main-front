@@ -70,7 +70,7 @@ object IntroStyles extends StyleSheet.Inline {
       position.relative,
       display.tableCell,
       verticalAlign.middle,
-      padding :=! s"${ThemeStyles.SpacingValue.larger.pxToEm().value} 0",
+      padding(ThemeStyles.SpacingValue.larger.pxToEm(), `0`),
       textAlign.center,
       overflow.hidden
     )

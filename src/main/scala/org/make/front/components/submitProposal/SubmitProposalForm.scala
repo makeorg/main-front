@@ -197,11 +197,11 @@ object SubmitProposalFormStyles extends StyleSheet.Inline {
   val textLimitInfo: StyleA =
     style(
       display.inlineBlock,
-      lineHeight :=! s"${28.pxToEm(13).value}",
+      lineHeight(28.pxToEm(13)),
       paddingLeft(ThemeStyles.SpacingValue.small.pxToEm(13)),
       ThemeStyles.MediaQueries
-        .beyondSmall(lineHeight :=! s"${38.pxToEm(16).value}", paddingLeft(ThemeStyles.SpacingValue.small.pxToEm(16))),
-      ThemeStyles.MediaQueries.beyondMedium(lineHeight :=! s"${48.pxToEm(16).value}"),
+        .beyondSmall(lineHeight(38.pxToEm(16)), paddingLeft(ThemeStyles.SpacingValue.small.pxToEm(16))),
+      ThemeStyles.MediaQueries.beyondMedium(lineHeight(48.pxToEm(16))),
       color(ThemeStyles.TextColor.lighter),
       whiteSpace.nowrap
     )
@@ -226,12 +226,12 @@ object SubmitProposalFormStyles extends StyleSheet.Inline {
       right(50.pxToEm()),
       transform := "none",
       bottom(100.%%),
-      borderBottom :=! s"${5.pxToEm().value} solid ${ThemeStyles.BackgroundColor.black.value}",
+      borderBottom(5.pxToEm(), solid, ThemeStyles.BackgroundColor.black),
       ThemeStyles.MediaQueries.beyondSmall(
         bottom.auto,
         top(100.%%),
         borderBottom.none,
-        borderTop :=! s"${5.pxToEm().value} solid ${ThemeStyles.BackgroundColor.black.value}"
+        borderTop(5.pxToEm(), solid, ThemeStyles.BackgroundColor.black)
       )
     )
   )

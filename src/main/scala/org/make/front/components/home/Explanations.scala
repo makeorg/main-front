@@ -91,7 +91,7 @@ object ExplanationsStyles extends StyleSheet.Inline {
 
   val wrapper: StyleA =
     style(
-      padding :=! s"${ThemeStyles.SpacingValue.medium.pxToEm().value} 0",
+      padding(ThemeStyles.SpacingValue.medium.pxToEm(), `0`),
       backgroundColor(ThemeStyles.ThemeColor.primary),
       color(ThemeStyles.TextColor.white)
     )
@@ -114,11 +114,11 @@ object ExplanationsStyles extends StyleSheet.Inline {
           width(100.%%),
           marginTop(20.pxToEm()),
           marginBottom(ThemeStyles.SpacingValue.small.pxToEm()),
-          backgroundColor :=! "rgba(255, 255, 255, 0.6)"
+          backgroundColor(rgba(255, 255, 255, 0.6))
         )
       ),
       ThemeStyles.MediaQueries.beyondMedium(
-        borderLeft :=! s"1px solid rgba(255, 255, 255, 0.6)",
+        borderLeft(1.px, solid, rgba(255, 255, 255, 0.6)),
         paddingLeft(ThemeStyles.SpacingValue.medium.pxToEm())
       )
     )
@@ -131,7 +131,7 @@ object ExplanationsStyles extends StyleSheet.Inline {
     display.inlineBlock,
     width(100.%%),
     paddingLeft(ThemeStyles.SpacingValue.medium.pxToEm()),
-    margin :=! s"${ThemeStyles.SpacingValue.smaller.pxToEm().value} 0",
+    margin(ThemeStyles.SpacingValue.smaller.pxToEm(), `0`),
     opacity(0.7)
   )
 
@@ -145,12 +145,7 @@ object ExplanationsStyles extends StyleSheet.Inline {
     )
 
   val paragraph: StyleA =
-    style(
-      display.inlineBlock,
-      width(100.%%),
-      margin :=! s"${ThemeStyles.SpacingValue.smaller.pxToEm().value} 0",
-      opacity(0.7)
-    )
+    style(display.inlineBlock, width(100.%%), margin(ThemeStyles.SpacingValue.smaller.pxToEm(), `0`), opacity(0.7))
 
   val ctaWrapper: StyleA =
     style(marginTop(ThemeStyles.SpacingValue.smaller.pxToEm()))

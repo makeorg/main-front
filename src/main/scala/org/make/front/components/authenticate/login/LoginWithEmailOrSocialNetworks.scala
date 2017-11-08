@@ -60,8 +60,8 @@ object LoginWithEmailOrSocialNetworksStyles extends StyleSheet.Inline {
   val separator: StyleA = style(
     position.relative,
     display.inlineBlock,
-    padding :=! s"0 ${20.pxToEm().value}",
-    margin :=! s"${35.pxToEm().value} 0",
+    padding(`0`, 20.pxToEm()),
+    margin(35.pxToEm(), `0`),
     (&.before)(
       content := "''",
       position.absolute,

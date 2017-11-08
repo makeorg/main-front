@@ -23,8 +23,8 @@ object TooltipStyles extends StyleSheet.Inline {
       position.absolute,
       right(50.%%),
       transform := "translateX(50%)",
-      borderRight :=! s"${5.pxToEm().value} solid transparent",
-      borderLeft :=! s"${5.pxToEm().value} solid transparent"
+      borderRight(5.pxToEm(), solid, transparent),
+      borderLeft(5.pxToEm(), solid, transparent)
     )
   )
 
@@ -33,10 +33,7 @@ object TooltipStyles extends StyleSheet.Inline {
       base,
       top(100.%%),
       marginTop(ThemeStyles.SpacingValue.smaller.pxToEm()),
-      (&.after)(
-        bottom(100.%%),
-        borderBottom :=! s"${5.pxToEm().value} solid ${ThemeStyles.BackgroundColor.darkGrey.value}"
-      )
+      (&.after)(bottom(100.%%), borderBottom(5.pxToEm(), solid, ThemeStyles.BackgroundColor.darkGrey))
     )
 
   val topPositioned: StyleA =
@@ -44,7 +41,7 @@ object TooltipStyles extends StyleSheet.Inline {
       base,
       bottom(100.%%),
       marginBottom(ThemeStyles.SpacingValue.smaller.pxToEm()),
-      (&.after)(top(100.%%), borderTop :=! s"${5.pxToEm().value} solid ${ThemeStyles.BackgroundColor.darkGrey.value}")
+      (&.after)(top(100.%%), borderTop(5.pxToEm(), solid, ThemeStyles.BackgroundColor.darkGrey))
     )
 
 }

@@ -110,8 +110,8 @@ object ModalStyles extends StyleSheet.Inline {
     style(
       position.relative,
       minHeight(200.pxToEm()),
-      margin :=! s"${ThemeStyles.SpacingValue.medium.pxToEm().value} 0",
-      padding :=! s"${ThemeStyles.SpacingValue.large.pxToEm().value} 0 ${ThemeStyles.SpacingValue.largerMedium.pxToEm().value}",
+      margin(ThemeStyles.SpacingValue.medium.pxToEm(), `0`),
+      padding(ThemeStyles.SpacingValue.large.pxToEm(), `0`, ThemeStyles.SpacingValue.largerMedium.pxToEm()),
       backgroundColor(ThemeStyles.BackgroundColor.white),
       boxShadow := "0 2px 4px 0 rgba(0,0,0,0.5)" // TODO: create variable for shadows
     )
@@ -122,7 +122,7 @@ object ModalStyles extends StyleSheet.Inline {
     right(`0`),
     height(ThemeStyles.SpacingValue.largerMedium.pxToEm()),
     width(ThemeStyles.SpacingValue.largerMedium.pxToEm()),
-    lineHeight :=! s"${ThemeStyles.SpacingValue.largerMedium.pxToEm().value}",
+    lineHeight(ThemeStyles.SpacingValue.largerMedium.pxToEm()),
     unsafeChild("svg")(verticalAlign.bottom, opacity(0.1), transition := "opacity .2s ease-in-out"),
     (&.hover)(unsafeChild("svg")(opacity(0.3)))
   )
