@@ -82,7 +82,7 @@ object AuthenticateWithSocialNetworks {
                 CTAStyles.basicOnButton,
                 AuthenticateWithSocialNetworksStyles.facebookConnectButton
               ),
-              ^.iconClass := s"${FontAwesomeStyles.facebook.htmlClass}",
+              ^.iconElement := <.i(^.className := FontAwesomeStyles.facebook)(),
               ^.textButton := " facebook"
             )()
           ),

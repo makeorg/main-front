@@ -1,4 +1,4 @@
-package org.make.front.components.operation
+package org.make.front.components.operation.sequence
 
 import io.github.shogowada.scalajs.reactjs.React.Props
 import io.github.shogowada.scalajs.reactjs.classes.ReactClass
@@ -14,9 +14,9 @@ import scala.concurrent.Future
 
 object VFFSequenceContainer {
 
-  lazy val reactClass: ReactClass = ReactRedux.connectAdvanced(selectorFactory)(OperationSequence.reactClass)
+  lazy val reactClass: ReactClass = ReactRedux.connectAdvanced(selectorFactory)(SequenceOfTheOperation.reactClass)
 
-  def selectorFactory: (Dispatch) => (AppState, Props[Unit]) => OperationSequence.OperationSequenceProps =
+  def selectorFactory: (Dispatch) => (AppState, Props[Unit]) => SequenceOfTheOperation.SequenceOfTheOperationProps =
     (dispatch: Dispatch) => { (state: AppState, props: Props[Unit]) =>
       {
 
@@ -40,7 +40,7 @@ object VFFSequenceContainer {
         }
 
         dispatch(LoadConfiguration)
-        OperationSequence.OperationSequenceProps(OperationsList.head, SequencesList.head, numberOfProposals)
+        SequenceOfTheOperation.SequenceOfTheOperationProps(OperationsList.head, SequencesList.head, numberOfProposals)
 
       }
     }

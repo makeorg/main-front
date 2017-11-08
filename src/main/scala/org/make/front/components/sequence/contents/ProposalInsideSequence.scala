@@ -1,4 +1,4 @@
-package org.make.front.components.sequence
+package org.make.front.components.sequence.contents
 
 import io.github.shogowada.scalajs.reactjs.React
 import io.github.shogowada.scalajs.reactjs.VirtualDOM.{<, ^, _}
@@ -15,6 +15,9 @@ import org.make.front.styles.base.{ColRulesStyles, RowRulesStyles, TextStyles}
 import org.make.front.styles.ui.CTAStyles
 import org.make.front.styles.utils._
 import org.make.front.styles.vendors.FontAwesomeStyles
+
+import scalacss.DevDefaults.{StyleA, _}
+import scalacss.internal.mutable.StyleSheet
 
 object ProposalInsideSequence {
 

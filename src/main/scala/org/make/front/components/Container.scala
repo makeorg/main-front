@@ -9,8 +9,11 @@ import org.make.front.components.authenticate.resetPassword.ResetPasswordContain
 import org.make.front.components.home.Home
 import org.make.front.components.operation.VFFSequenceContainer
 import org.make.front.components.proposal.ProposalContainer
+import org.make.front.components.operation.sequence.{SequenceOfTheOperationContainer, VFFSequenceContainer}
 import org.make.front.components.search.SearchResultsContainer
 import org.make.front.components.theme.ThemeContainer
+import org.make.front.components.operation.OperationContainer
+import org.make.front.components.proposal.ProposalContainer
 import org.make.front.components.userProfile.UserProfileContainer
 
 import scala.scalajs.js.Dynamic
@@ -38,7 +41,7 @@ object Container {
           <.Route(^.exact := true, ^.path := "/proposal/:proposalSlug", ^.component := ProposalContainer.reactClass)(),
           <.Route(^.exact := true, ^.path := "/profile", ^.component := UserProfileContainer.reactClass)(),
           /*TODO : reactive later*/
-          /*<.Route(
+          <.Route(
             ^.exact := true,
             ^.path := "/operation/:operationSlug",
             ^.component := OperationContainer.reactClass
@@ -46,8 +49,8 @@ object Container {
           <.Route(
             ^.exact := true,
             ^.path := "/operation/:operationSlug/consultation/:sequenceSlug",
-            ^.component := OperationSequenceContainer.reactClass
-          )(),*/
+            ^.component := SequenceOfTheOperationContainer.reactClass
+          )(),
           <.Route(
             ^.exact := true,
             ^.path := "/consultation/comment-lutter-contre-les-violences-faites-aux-femmes",

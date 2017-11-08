@@ -25,7 +25,8 @@ object SequenceContainer {
                                           maybeOperation: Option[OperationModel] = None,
                                           intro: ReactClass,
                                           conclusion: ReactClass,
-                                          promptingToPropose: ReactClass)
+                                          promptingToPropose: ReactClass,
+                                          promptingToConnect: ReactClass)
 
   lazy val reactClass: ReactClass = ReactRedux.connectAdvanced(selectorFactory)(Sequence.reactClass)
 
@@ -59,6 +60,7 @@ object SequenceContainer {
           intro = props.wrapped.intro,
           conclusion = props.wrapped.conclusion,
           promptingToPropose = props.wrapped.promptingToPropose,
+          promptingToConnect = props.wrapped.promptingToConnect,
           shouldReload = shouldReload
         )
       }
