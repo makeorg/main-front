@@ -86,7 +86,7 @@ object ProposalTileWithTagsStyles extends StyleSheet.Inline {
   import dsl._
 
   val tagList: StyleA =
-    style(lineHeight(0), margin :=! s"-${(ThemeStyles.SpacingValue.smaller / 2).pxToEm().value}")
+    style(lineHeight(0), margin(((ThemeStyles.SpacingValue.smaller / 2) * -1).pxToEm()))
 
   val tagListItem: StyleA =
     style(display.inlineBlock, verticalAlign.middle, margin((ThemeStyles.SpacingValue.smaller / 2).pxToEm()))

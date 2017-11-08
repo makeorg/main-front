@@ -92,9 +92,9 @@ object QualificateVoteStyles extends StyleSheet.Inline {
           transform := "translateY(-50%)",
           right(100.%%),
           bottom.auto,
-          borderTop :=! s"${5.pxToEm().value} solid transparent",
-          borderBottom :=! s"${5.pxToEm().value} solid transparent",
-          borderRight :=! s"${5.pxToEm().value} solid ${ThemeStyles.BackgroundColor.darkGrey.value}"
+          borderTop(5.pxToEm(), solid, transparent),
+          borderBottom(5.pxToEm(), solid, transparent),
+          borderRight(5.pxToEm(), solid, ThemeStyles.BackgroundColor.darkGrey)
         )
       )
     )

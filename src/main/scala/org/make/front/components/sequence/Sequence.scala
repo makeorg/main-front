@@ -396,7 +396,7 @@ object SequenceStyles extends StyleSheet.Inline {
       display.tableCell,
       verticalAlign.bottom,
       paddingTop(ThemeStyles.SpacingValue.small.pxToEm()),
-      paddingBottom.`0`,
+      paddingBottom(`0`),
       ThemeStyles.MediaQueries.beyondSmall(
         paddingTop(ThemeStyles.SpacingValue.medium.pxToEm()),
         paddingBottom(ThemeStyles.SpacingValue.small.pxToEm())

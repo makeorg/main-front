@@ -72,7 +72,12 @@ object PoliticalActionStyles extends StyleSheet.Inline {
     style(
       display.tableCell,
       verticalAlign.top,
-      padding :=! s"${ThemeStyles.SpacingValue.small.pxToEm().value} ${ThemeStyles.SpacingValue.small.pxToEm().value} ${ThemeStyles.SpacingValue.small.pxToEm().value} 0",
+      padding(
+        ThemeStyles.SpacingValue.small.pxToEm(),
+        ThemeStyles.SpacingValue.small.pxToEm(),
+        ThemeStyles.SpacingValue.small.pxToEm(),
+        `0`
+      ),
       ThemeStyles.MediaQueries
         .beyondMedium(paddingLeft(ThemeStyles.SpacingValue.small.pxToEm()))
     )

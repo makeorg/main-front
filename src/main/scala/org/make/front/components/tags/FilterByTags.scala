@@ -67,7 +67,7 @@ object FilterByTagsStyles extends StyleSheet.Inline {
       marginBottom(5.pxToEm(15)),
       ThemeStyles.Font.circularStdBook,
       fontSize(15.pxToEm()),
-      color :=! ThemeStyles.TextColor.light,
+      color(ThemeStyles.TextColor.light),
       ThemeStyles.MediaQueries.beyondSmall(
         float.left,
         marginTop(5.pxToEm()),

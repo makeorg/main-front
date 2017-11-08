@@ -141,7 +141,7 @@ object VFFIntroStyles extends StyleSheet.Inline {
   val separatorWrapper: StyleA =
     style(
       display.table,
-      margin :=! s"${ThemeStyles.SpacingValue.medium.pxToEm().value} 0 ${ThemeStyles.SpacingValue.small.pxToEm().value}",
+      margin(ThemeStyles.SpacingValue.medium.pxToEm(), `0`, ThemeStyles.SpacingValue.small.pxToEm()),
       opacity(0.5)
     )
 
@@ -163,7 +163,7 @@ object VFFIntroStyles extends StyleSheet.Inline {
     background := s"linear-gradient(to right, rgba(255,255,255,1) 0%,rgba(255,255,255,0) 100%)"
   )
 
-  val separatorTextWrapper: StyleA = style(display.tableCell, padding :=! s"0 ${20.pxToEm().value}")
+  val separatorTextWrapper: StyleA = style(display.tableCell, padding(`0`, 20.pxToEm()))
 
   val separator: StyleA = style(color(ThemeStyles.TextColor.white))
 
@@ -183,7 +183,7 @@ object VFFIntroStyles extends StyleSheet.Inline {
 
   val explanationWrapper: StyleA =
     style(
-      padding :=! s"${ThemeStyles.SpacingValue.medium.pxToEm().value} 0",
+      padding(ThemeStyles.SpacingValue.medium.pxToEm(), `0`),
       backgroundColor(ThemeStyles.BackgroundColor.blackMoreTransparent)
     )
 

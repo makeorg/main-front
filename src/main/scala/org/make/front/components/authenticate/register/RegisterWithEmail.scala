@@ -187,7 +187,7 @@ object RegisterWithEmailStyles extends StyleSheet.Inline {
 
   val note: StyleA =
     style(
-      margin :=! s"${ThemeStyles.SpacingValue.small.pxToEm().value} 0",
+      margin(ThemeStyles.SpacingValue.small.pxToEm(), `0`),
       color(ThemeStyles.TextColor.lighter),
       unsafeChild("a")(textDecoration := "underline", color(ThemeStyles.TextColor.lighter))
     )

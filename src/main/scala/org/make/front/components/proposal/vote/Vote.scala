@@ -163,7 +163,7 @@ object VoteStyles extends StyleSheet.Inline {
   import dsl._
 
   val voteButtonsList: StyleA =
-    style(display.table, height(115.pxToEm()), width(240.pxToEm()), margin :=! "0 auto")
+    style(display.table, height(115.pxToEm()), width(240.pxToEm()), margin(`0`, auto))
 
   val voteButtonItem: (Boolean) => StyleA = styleF.bool(
     hidden =>
@@ -174,7 +174,7 @@ object VoteStyles extends StyleSheet.Inline {
           display.tableCell,
           verticalAlign.top,
           textAlign.center,
-          padding :=! s"${ThemeStyles.SpacingValue.small.pxToEm().value} ${ThemeStyles.SpacingValue.small.pxToEm().value} 0"
+          padding(ThemeStyles.SpacingValue.small.pxToEm(), ThemeStyles.SpacingValue.small.pxToEm(), `0`)
         )
     }
   )

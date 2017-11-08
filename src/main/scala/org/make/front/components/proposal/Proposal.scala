@@ -160,7 +160,7 @@ object ProposalStyles extends StyleSheet.Inline {
   val articleCell: StyleA =
     style(
       verticalAlign.middle,
-      padding :=! s"${ThemeStyles.SpacingValue.larger.pxToEm().value} 0" /*TODO: restaure medium with reactivation of sharing part*/
+      padding(ThemeStyles.SpacingValue.larger.pxToEm(), `0`) /*TODO: restaure medium with reactivation of sharing part*/
     )
 
   val shareArticleCell: StyleA =

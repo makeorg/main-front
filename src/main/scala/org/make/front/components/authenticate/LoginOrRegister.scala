@@ -102,7 +102,7 @@ object LoginOrRegisterStyles extends StyleSheet.Inline {
   val text: StyleA =
     style(
       textAlign.center,
-      margin :=! s"${ThemeStyles.SpacingValue.small.pxToEm().value} 0",
+      margin(ThemeStyles.SpacingValue.small.pxToEm(), `0`),
       color(ThemeStyles.TextColor.lighter),
       unsafeChild("a")(color(ThemeStyles.ThemeColor.primary))
     )

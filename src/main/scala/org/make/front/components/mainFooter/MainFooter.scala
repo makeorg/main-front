@@ -104,23 +104,19 @@ object MainFooterStyles extends StyleSheet.Inline {
   val menu: StyleA =
     style(
       textAlign.right,
-      margin :=! s"${ThemeStyles.SpacingValue.medium.pxToEm().value} 0",
-      ThemeStyles.MediaQueries.beyondMedium(margin :=! s"0 -${ThemeStyles.SpacingValue.small.pxToEm().value}")
+      margin(ThemeStyles.SpacingValue.medium.pxToEm(), `0`),
+      ThemeStyles.MediaQueries.beyondMedium(margin(`0`, ThemeStyles.SpacingValue.small.pxToEm() * -1))
     )
 
   val menuItem: StyleA =
     style(
-      margin :=! s"${ThemeStyles.SpacingValue.small.pxToEm().value} 0",
+      margin(ThemeStyles.SpacingValue.small.pxToEm(), `0`),
       ThemeStyles.MediaQueries
-        .beyondMedium(
-          display.inlineBlock,
-          verticalAlign.baseline,
-          margin :=! s"${ThemeStyles.SpacingValue.small.pxToEm().value}"
-        )
+        .beyondMedium(display.inlineBlock, verticalAlign.baseline, margin(ThemeStyles.SpacingValue.small.pxToEm()))
     )
 
   val menuItemLink: StyleA =
-    style(color :=! inherit, transition := "color .2s ease-in-out", (&.hover)(color :=! ThemeStyles.ThemeColor.primary))
+    style(color.inherit, transition := "color .2s ease-in-out", (&.hover)(color(ThemeStyles.ThemeColor.primary)))
 
   val emphasizedMenuItem: StyleA =
     style(color(ThemeStyles.ThemeColor.primary))

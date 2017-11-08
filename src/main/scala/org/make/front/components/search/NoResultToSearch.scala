@@ -96,11 +96,11 @@ object NoResultToSearchStyles extends StyleSheet.Inline {
   val messageSeparator: StyleA = style(
     display.block,
     maxWidth(235.pxToEm()),
-    margin :=! s"${ThemeStyles.SpacingValue.medium.pxToEm().value} auto",
+    margin(ThemeStyles.SpacingValue.medium.pxToEm(), auto),
     border.none,
-    borderTop :=! s"1px solid ${ThemeStyles.BorderColor.veryLight.value}",
+    borderTop(1.px, solid, ThemeStyles.BorderColor.veryLight),
     ThemeStyles.MediaQueries
-      .beyondSmall(maxWidth(470.pxToEm()), margin :=! s"${ThemeStyles.SpacingValue.large.pxToEm().value} auto")
+      .beyondSmall(maxWidth(470.pxToEm()), margin(ThemeStyles.SpacingValue.large.pxToEm(), auto))
   )
 
   val searchedExpressionIntro: StyleA =

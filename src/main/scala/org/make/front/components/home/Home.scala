@@ -61,7 +61,7 @@ object HomeStyles extends StyleSheet.Inline {
   import dsl._
 
   val wrapper: StyleA =
-    style(unsafeChild("> section")(borderBottom :=! s"1px solid ${ThemeStyles.BorderColor.white.value}"))
+    style(unsafeChild("> section")(borderBottom(1.px, solid, ThemeStyles.BorderColor.white)))
 
   val mainHeaderWrapper: StyleA =
     style(visibility.hidden)

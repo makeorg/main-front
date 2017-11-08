@@ -29,16 +29,16 @@ object InputStyles extends StyleSheet.Inline {
       display.block,
       minHeight(30.pxToEm()),
       width(100.%%),
-      padding :=! s"0 ${20.pxToEm().value}",
+      padding(`0`, 20.pxToEm()),
       lineHeight(0),
       backgroundColor(ThemeStyles.BackgroundColor.white),
       boxSizing.borderBox,
-      border :=! s"1px solid ${ThemeStyles.BorderColor.lighter.value}",
+      border(1.px, solid, ThemeStyles.BorderColor.lighter),
       borderRadius(20.pxToEm()),
       overflow.hidden,
       transition := "color .2s ease-in-out, background .2s ease-in-out, border .2s ease-in-out",
       ThemeStyles.MediaQueries
-        .beyondSmall(minHeight(40.pxToEm()), padding :=! s"0 ${20.pxToEm().value}", borderRadius(20.pxToEm())),
+        .beyondSmall(minHeight(40.pxToEm()), padding(`0`, 20.pxToEm()), borderRadius(20.pxToEm())),
       unsafeChild("input")(
         height(28.pxToEm(13)),
         width(100.%%),
@@ -55,17 +55,10 @@ object InputStyles extends StyleSheet.Inline {
         height(16.pxToEm(13)),
         width(100.%%),
         boxSizing.contentBox,
-        padding(`0`),
-        paddingTop(6.pxToEm(13)),
-        paddingBottom(6.pxToEm(13)),
+        padding(6.pxToEm(13), `0`, 6.pxToEm(13)),
         fontSize(13.pxToEm()),
         ThemeStyles.MediaQueries
-          .beyondSmall(
-            height(20.pxToEm(16)),
-            paddingTop(9.pxToEm(16)),
-            paddingBottom(9.pxToEm(16)),
-            fontSize(16.pxToEm())
-          ),
+          .beyondSmall(height(20.pxToEm(16)), padding(9.pxToEm(16), `0`, 9.pxToEm(16)), fontSize(16.pxToEm())),
         ThemeStyles.Font.circularStdBook,
         border.none,
         background := "none",
@@ -96,7 +89,7 @@ object InputStyles extends StyleSheet.Inline {
     style(
       ThemeStyles.MediaQueries.beyondMedium(
         minHeight(50.pxToEm()),
-        padding :=! s"0 ${25.pxToEm().value}",
+        padding(`0`, 25.pxToEm()),
         borderRadius(25.pxToEm()),
         unsafeChild("input")(minHeight(48.pxToEm(18)), fontSize(18.pxToEm())),
         unsafeChild("textarea")(
@@ -118,7 +111,7 @@ object InputStyles extends StyleSheet.Inline {
     style(
       color(ThemeStyles.TextColor.danger),
       borderColor(ThemeStyles.BorderColor.danger),
-      backgroundColor :=! s"${ThemeStyles.BackgroundColor.danger.value} !important"
+      backgroundColor :=! s"${ThemeStyles.BackgroundColor.danger.value}!important"
     )
 
   val errorMessage: StyleA =

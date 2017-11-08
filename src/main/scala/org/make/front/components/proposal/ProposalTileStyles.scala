@@ -30,15 +30,18 @@ object ProposalTileStyles extends StyleSheet.Inline {
     style(display.tableCell, verticalAlign.bottom)
 
   val proposalInfosWrapper: StyleA = style(
-    margin :=! s"0 ${ThemeStyles.SpacingValue.small.pxToEm().value}",
-    padding :=! s"${ThemeStyles.SpacingValue.small.pxToEm().value} 0 ${ThemeStyles.SpacingValue.smaller.pxToEm().value}",
-    borderBottom :=! s"1px solid ${ThemeStyles.BorderColor.veryLight.value}"
+    margin(`0`, ThemeStyles.SpacingValue.small.pxToEm()),
+    padding(ThemeStyles.SpacingValue.small.pxToEm(), `0`, ThemeStyles.SpacingValue.smaller.pxToEm()),
+    borderBottom(1.px, solid, ThemeStyles.BorderColor.veryLight)
   )
 
   val shareOwnProposalWrapper: StyleA = style(
-    padding :=! s"${ThemeStyles.SpacingValue.small.pxToEm().value} ${ThemeStyles.SpacingValue.small
-      .pxToEm()
-      .value} ${ThemeStyles.SpacingValue.smaller.pxToEm().value} ${ThemeStyles.SpacingValue.small.pxToEm().value}",
+    padding(
+      ThemeStyles.SpacingValue.small.pxToEm(),
+      ThemeStyles.SpacingValue.small.pxToEm(),
+      ThemeStyles.SpacingValue.smaller.pxToEm(),
+      ThemeStyles.SpacingValue.small.pxToEm()
+    ),
     backgroundColor(ThemeStyles.BackgroundColor.blackMoreTransparent)
   )
 
@@ -48,9 +51,9 @@ object ProposalTileStyles extends StyleSheet.Inline {
     style(padding(ThemeStyles.SpacingValue.small.pxToEm()), overflow.hidden)
 
   val footer: StyleA = style(
-    margin :=! s"0 ${ThemeStyles.SpacingValue.small.pxToEm().value}",
-    padding :=! s"${ThemeStyles.SpacingValue.smaller.pxToEm().value} 0 ${ThemeStyles.SpacingValue.small.pxToEm().value}",
-    borderTop :=! s"1px solid ${ThemeStyles.BorderColor.veryLight.value}"
+    margin(`0`, ThemeStyles.SpacingValue.small.pxToEm()),
+    padding(ThemeStyles.SpacingValue.smaller.pxToEm(), `0`, ThemeStyles.SpacingValue.small.pxToEm()),
+    borderTop(1.px, solid, ThemeStyles.BorderColor.veryLight)
   )
 
 }

@@ -230,7 +230,7 @@ object SequenceOfTheOperationStyles extends StyleSheet.Inline {
     style(
       display.tableCell,
       width(0.%%),
-      padding :=! s"${ThemeStyles.SpacingValue.small.pxToEm().value} 0",
+      padding(ThemeStyles.SpacingValue.small.pxToEm(), `0`),
       verticalAlign.middle,
       color(ThemeStyles.TextColor.white),
       ThemeStyles.MediaQueries.beyondMedium(width(150.pxToEm()))
@@ -257,7 +257,7 @@ object SequenceOfTheOperationStyles extends StyleSheet.Inline {
     style(
       display.tableCell,
       verticalAlign.top,
-      padding :=! s"${ThemeStyles.SpacingValue.small.pxToEm().value} 0",
+      padding(ThemeStyles.SpacingValue.small.pxToEm(), `0`),
       ThemeStyles.MediaQueries.beyondMedium(verticalAlign.middle)
     )
 
@@ -277,7 +277,7 @@ object SequenceOfTheOperationStyles extends StyleSheet.Inline {
       display.tableCell,
       verticalAlign.middle,
       width(150.pxToEm()),
-      padding :=! s"${ThemeStyles.SpacingValue.small.pxToEm().value} 0",
+      padding(ThemeStyles.SpacingValue.small.pxToEm(), `0`),
       textAlign.right,
       ThemeStyles.MediaQueries
         .belowMedium(verticalAlign.top, width.auto)

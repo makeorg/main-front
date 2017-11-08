@@ -113,8 +113,8 @@ object PromptingToConnectStyles extends StyleSheet.Inline {
   val separator: StyleA = style(
     position.relative,
     display.inlineBlock,
-    padding :=! s"0 ${20.pxToEm().value}",
-    margin :=! s"${ThemeStyles.SpacingValue.small.pxToEm().value} 0",
+    padding(`0`, 20.pxToEm()),
+    margin(ThemeStyles.SpacingValue.small.pxToEm(), `0`),
     ThemeStyles.Font.playfairDisplayItalic,
     fontStyle.italic,
     lineHeight(1),
@@ -144,8 +144,8 @@ object PromptingToConnectStyles extends StyleSheet.Inline {
   val loginScreenAccessWrapper: StyleA =
     style(
       paddingBottom(ThemeStyles.SpacingValue.small.pxToEm()),
-      borderBottom :=! s"1px solid ${ThemeStyles.BorderColor.veryLight.value}",
-      margin :=! s"${ThemeStyles.SpacingValue.small.pxToEm().value} 0"
+      borderBottom(1.px, solid, ThemeStyles.BorderColor.veryLight),
+      margin(ThemeStyles.SpacingValue.small.pxToEm(), `0`)
     )
 
   val loginScreenAccess: StyleA =

@@ -129,9 +129,13 @@ object ThemeShowcaseStyles extends StyleSheet.Inline {
   val wrapper: StyleA =
     style(
       backgroundColor(ThemeStyles.BackgroundColor.blackVeryTransparent),
-      padding :=! s"${ThemeStyles.SpacingValue.medium.pxToEm().value} 0",
+      padding(ThemeStyles.SpacingValue.medium.pxToEm(), `0`),
       ThemeStyles.MediaQueries.beyondSmall(
-        padding :=! s"${ThemeStyles.SpacingValue.larger.pxToEm().value} 0 ${(ThemeStyles.SpacingValue.larger - ThemeStyles.SpacingValue.small).pxToEm().value}"
+        padding(
+          ThemeStyles.SpacingValue.larger.pxToEm(),
+          `0`,
+          (ThemeStyles.SpacingValue.larger - ThemeStyles.SpacingValue.small).pxToEm()
+        )
       )
     )
 
@@ -155,12 +159,10 @@ object ThemeShowcaseStyles extends StyleSheet.Inline {
     style(
       display.inlineBlock,
       float.left,
-      padding :=! s"${2.pxToEm(13).value} ${(ThemeStyles.SpacingValue.small / 2).pxToEm(13).value}",
+      padding(2.pxToEm(13), (ThemeStyles.SpacingValue.small / 2).pxToEm(13)),
       lineHeight(15.pxToEm(13)),
-      ThemeStyles.MediaQueries.beyondSmall(
-        padding :=! s"${2.pxToEm(14).value} ${(ThemeStyles.SpacingValue.small / 2).pxToEm(14).value}",
-        lineHeight(15.pxToEm(14))
-      ),
+      ThemeStyles.MediaQueries
+        .beyondSmall(padding(2.pxToEm(14), (ThemeStyles.SpacingValue.small / 2).pxToEm(14)), lineHeight(15.pxToEm(14))),
       color(ThemeStyles.TextColor.white),
       backgroundColor(ThemeStyles.BackgroundColor.black)
     )

@@ -19,8 +19,8 @@ object TagStyles extends StyleSheet.Inline {
       fontSize(11.pxToEm()),
       lineHeight(18.pxToEm(11)),
       whiteSpace.nowrap,
-      color :=! ThemeStyles.TextColor.white,
-      backgroundColor :=! ThemeStyles.BackgroundColor.blackTransparent,
+      color(ThemeStyles.TextColor.white),
+      backgroundColor(ThemeStyles.BackgroundColor.blackTransparent),
       userSelect := "none",
       (&.before)(
         content := "''",
@@ -29,9 +29,9 @@ object TagStyles extends StyleSheet.Inline {
         right(100.%%),
         width(`0`),
         height(`0`),
-        borderTop :=! s"${9.pxToEm(11).value} solid transparent",
-        borderBottom :=! s"${9.pxToEm(11).value} solid transparent",
-        borderRight :=! s"${5.pxToEm(11).value} solid ${ThemeStyles.BackgroundColor.blackTransparent.value}"
+        borderTop(9.pxToEm(11), solid, transparent),
+        borderBottom(9.pxToEm(11), solid, transparent),
+        borderRight(5.pxToEm(11), solid, ThemeStyles.BackgroundColor.blackTransparent)
       ),
       (&.after)(
         content := "''",
@@ -42,7 +42,7 @@ object TagStyles extends StyleSheet.Inline {
         height(4.pxToEm(11)),
         marginTop(-2.pxToEm(11)),
         borderRadius(50.%%),
-        backgroundColor :=! ThemeStyles.TextColor.white
+        backgroundColor(ThemeStyles.TextColor.white)
       ),
       ThemeStyles.MediaQueries.beyondSmall(
         paddingLeft(11.pxToEm(13)),
@@ -56,9 +56,9 @@ object TagStyles extends StyleSheet.Inline {
     )
 
   val activated: StyleA = style(
-    color :=! ThemeStyles.TextColor.white,
-    backgroundColor :=! ThemeStyles.BackgroundColor.black,
-    (&.before)(borderRightColor :=! ThemeStyles.BackgroundColor.black)
+    color(ThemeStyles.TextColor.white),
+    backgroundColor(ThemeStyles.BackgroundColor.black),
+    (&.before)(borderRightColor(ThemeStyles.BackgroundColor.black))
   )
 
 }
