@@ -52,22 +52,22 @@ object Profile {
           case _                                          => Some(new js.Date(dateOfBirth))
         }
       },
-      avatarUrl = profileResponse.avatarUrl.toOption,
-      profession = profileResponse.profession.toOption,
-      phoneNumber = profileResponse.phoneNumber.toOption,
-      twitterId = profileResponse.twitterId.toOption,
-      facebookId = profileResponse.facebookId.toOption,
-      googleId = profileResponse.googleId.toOption,
-      gender = profileResponse.genderName.toOption.flatMap { gender =>
+      avatarUrl = Option(profileResponse.avatarUrl).flatMap(_.toOption),
+      profession = Option(profileResponse.profession).flatMap(_.toOption),
+      phoneNumber = Option(profileResponse.phoneNumber).flatMap(_.toOption),
+      twitterId = Option(profileResponse.twitterId).flatMap(_.toOption),
+      facebookId = Option(profileResponse.facebookId).flatMap(_.toOption),
+      googleId = Option(profileResponse.googleId).flatMap(_.toOption),
+      gender = Option(profileResponse.genderName).flatMap(_.toOption).flatMap { gender =>
         gender match {
           case _ if Option(gender).forall(_.isEmpty) => None
           case _                                     => Gender.matchGender(gender)
         }
       },
-      genderName = profileResponse.genderName.toOption,
-      departmentNumber = profileResponse.departmentNumber.toOption,
-      karmaLevel = profileResponse.karmaLevel.toOption,
-      locale = profileResponse.locale.toOption,
+      genderName = Option(profileResponse.genderName).flatMap(_.toOption),
+      departmentNumber = Option(profileResponse.departmentNumber).flatMap(_.toOption),
+      karmaLevel = Option(profileResponse.karmaLevel).flatMap(_.toOption),
+      locale = Option(profileResponse.locale).flatMap(_.toOption),
       optInNewsletter = profileResponse.optInNewsletter
     )
   }
