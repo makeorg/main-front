@@ -6,7 +6,7 @@ import io.github.shogowada.scalajs.reactjs.VirtualDOM.{VirtualDOMAttributes, Vir
 import io.github.shogowada.statictags.{Attribute, BooleanAttributeSpec, SpaceSeparatedStringAttributeSpec}
 
 import scala.scalajs.js
-import scalacss.StyleA
+import scalacss.internal.StyleA
 
 object Components {
   implicit class RichSpaceSeparatedStringAttributeSpec(val spec: SpaceSeparatedStringAttributeSpec) extends AnyVal {

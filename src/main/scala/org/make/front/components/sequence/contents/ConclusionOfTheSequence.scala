@@ -12,9 +12,6 @@ import org.make.front.styles.ThemeStyles
 import org.make.front.styles.base.{ColRulesStyles, RowRulesStyles, TextStyles}
 import org.make.front.styles.utils._
 
-import scalacss.DevDefaults.{StyleA, _}
-import scalacss.internal.mutable.StyleSheet
-
 object ConclusionOfTheSequence {
 
   final case class ConclusionOfTheSequenceProps(isConnected: Boolean)

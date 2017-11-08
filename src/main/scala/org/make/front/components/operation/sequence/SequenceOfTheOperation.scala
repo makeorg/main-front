@@ -74,7 +74,7 @@ object SequenceOfTheOperation {
             .fbq("trackCustom", "click-proposal-submit-form-open", Map("location" -> "sequence-header").toJSDictionary)
         }
 
-        object DynamicSequenceOfTheOperationStyles extends Inline {
+        object DynamicSequenceOfTheOperationStyles extends StyleSheet.Inline {
 
           import dsl._
 

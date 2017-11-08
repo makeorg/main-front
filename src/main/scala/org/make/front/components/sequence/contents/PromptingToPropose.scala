@@ -17,9 +17,6 @@ import org.make.front.styles.ui.CTAStyles
 import org.make.front.styles.utils._
 import org.make.front.styles.vendors.FontAwesomeStyles
 
-import scalacss.DevDefaults.{StyleA, _}
-import scalacss.internal.mutable.StyleSheet
-
 object PromptingToProposeSequence {
 
   final case class PromptingToProposeProps(operation: OperationModel, clickOnButtonHandler: () => Unit)

@@ -4,7 +4,7 @@ import org.make.front.Main.CssSettings._
 import org.make.front.styles.ThemeStyles
 import org.make.front.styles.utils._
 
-import scalacss.internal.{StyleA, ValueT}
+import scalacss.internal.ValueT
 
 object ColRulesStyles extends StyleSheet.Inline {
 
