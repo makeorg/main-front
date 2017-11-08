@@ -8,7 +8,7 @@ import org.make.front.actions.NotifyError
 import org.make.front.components.AppState
 import org.make.front.facades.I18n
 import org.make.front.models.{Proposal => ProposalModel, Qualification => QualificationModel, Vote => VoteModel}
-import org.make.services.proposal.{ProposalService, QualificationResponse, VoteResponse}
+import org.make.services.proposal.ProposalService
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future

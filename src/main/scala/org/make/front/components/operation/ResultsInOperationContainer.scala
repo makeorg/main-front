@@ -6,18 +6,9 @@ import io.github.shogowada.scalajs.reactjs.redux.ReactRedux
 import io.github.shogowada.scalajs.reactjs.redux.Redux.Dispatch
 import org.make.front.components.AppState
 import org.make.front.components.operation.ResultsInOperation.ResultsInOperationProps
-import org.make.front.models.{
-  Operation   => OperationModel,
-  OperationId => OperationIdModel,
-  Proposal,
-  Tag         => TagModel
-}
-import org.make.services.proposal.{
-  SearchResultResponse,
-  SearchResult,
-  ProposalService
-}
+import org.make.front.models.{Proposal, Operation => OperationModel, OperationId => OperationIdModel, Tag => TagModel}
 import org.make.services.proposal.ProposalService.defaultResultsCount
+import org.make.services.proposal.{ProposalService, SearchResult}
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future

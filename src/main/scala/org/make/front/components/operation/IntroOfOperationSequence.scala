@@ -3,17 +3,15 @@ package org.make.front.components.operation
 import io.github.shogowada.scalajs.reactjs.React
 import io.github.shogowada.scalajs.reactjs.VirtualDOM.{<, _}
 import io.github.shogowada.scalajs.reactjs.classes.ReactClass
+import org.make.front.Main.CssSettings._
 import org.make.front.components.Components._
-import org.make.front.facades.{FacebookPixel, I18n}
+import org.make.front.facades.I18n
 import org.make.front.facades.Unescape.unescape
 import org.make.front.styles.ThemeStyles
 import org.make.front.styles.base.{ColRulesStyles, RowRulesStyles, TextStyles}
 import org.make.front.styles.ui.CTAStyles
 import org.make.front.styles.utils._
 import org.make.front.styles.vendors.FontAwesomeStyles
-
-import scalacss.DevDefaults.{StyleA, _}
-import scalacss.internal.mutable.StyleSheet
 
 object IntroOfOperationSequence {
 

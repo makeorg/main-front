@@ -9,10 +9,9 @@ import org.scalajs.dom.ext.Ajax.InputData
 import org.scalajs.dom.ext.{Ajax, AjaxException}
 
 import scala.concurrent.ExecutionContext.Implicits.global
-import scala.concurrent.{Future, Promise}
+import scala.concurrent.Future
 import scala.scalajs.js
 import scala.scalajs.js.JSON
-import scala.util.{Failure, Success, Try}
 
 object MakeApiClient extends Client {
 
@@ -58,48 +57,23 @@ object MakeApiClient extends Client {
                          withCredentials: Boolean = false,
                          responseType: String = "")
 
-  private def XHRResponseTo[ENTITY <: js.Object](responseTry: Try[XMLHttpRequest],
-                                                 promise: Promise[ENTITY],
-                                                 requestDataToRetry: Option[RequestData] = None,
-                                                 tries: Int = 0): Promise[ENTITY] = {
-
-    responseTry match {
-      case Success(response) =>
-        promise.success(JSON.parse(response.responseText).asInstanceOf[ENTITY])
-
-      case Failure(ajaxException: AjaxException) if ajaxException.isTimeout => {
-        requestDataToRetry match {
-          case Some(requestData) if tries > 0 => {
-            Ajax
-              .apply(
-                method = requestData.method,
-                url = requestData.url,
-                data = requestData.data,
-                timeout = requestData.timeout,
-                headers = requestData.headers,
-                withCredentials = requestData.withCredentials,
-                responseType = requestData.responseType
-              )
-              .onComplete(responseTry => XHRResponseTo(responseTry, promise, requestDataToRetry, tries - 1))
-            promise
-          }
-          case _ => promise.failure(TimeoutHttpException)
-        }
-      }
-
-      case Failure(AjaxException(response: XMLHttpRequest)) =>
+  private def retryOnFailure[T](fn: => Future[T], retries: Int): Future[T] = {
+    fn.recoverWith {
+      case ajaxException: AjaxException if ajaxException.isTimeout && retries > 0 => retryOnFailure(fn, retries - 1)
+      case AjaxException(response: XMLHttpRequest) =>
         response.status match {
           case 400 =>
             val errors: Seq[JsValidationError] =
               JSON.parse(response.responseText).asInstanceOf[js.Array[JsValidationError]]
-            promise.failure(BadRequestHttpException(errors.map(ValidationError.apply)))
-          case 401 => promise.failure(UnauthorizedHttpException)
-          case 403 => promise.failure(ForbiddenHttpException)
-          case 404 => promise.failure(NotFoundHttpException)
-          case 500 => promise.failure(InternalServerHttpException)
-          case 502 => promise.failure(BadGatewayHttpException)
-          case _   => promise.failure(NotImplementedHttpException)
+            Future.failed(BadRequestHttpException(errors.map(ValidationError.apply)))
+          case 401 => Future.failed(UnauthorizedHttpException)
+          case 403 => Future.failed(ForbiddenHttpException)
+          case 404 => Future.failed(NotFoundHttpException)
+          case 500 => Future.failed(InternalServerHttpException)
+          case 502 => Future.failed(BadGatewayHttpException)
+          case _   => Future.failed(NotImplementedHttpException)
         }
+      case other => Future.failed(other)
     }
   }
 
@@ -109,7 +83,6 @@ object MakeApiClient extends Client {
   override def get[ENTITY <: js.Object](apiEndpoint: String = "",
                                         urlParams: Seq[(String, Any)] = Seq.empty,
                                         headers: Map[String, String] = Map.empty): Future[ENTITY] = {
-    val promiseReturn = Promise[ENTITY]()
     val requestData = RequestData(
       method = "GET",
       url = urlFrom(apiEndpoint, urlParams),
@@ -118,31 +91,25 @@ object MakeApiClient extends Client {
       headers = defaultHeaders ++ headers
     )
 
-    ajaxApply(requestData).onComplete(
-      responseTry => XHRResponseTo(responseTry, promiseReturn, Some(requestData), retryAfterTimeout)
-    )
-
-    promiseReturn.future
+    retryOnFailure(MakeApiClient(requestData), retryAfterTimeout)
   }
 
-  private def ajaxApply(requestData: RequestData): Future[XMLHttpRequest] = {
-    Ajax
-      .apply(
-        method = requestData.method,
-        url = requestData.url,
-        data = requestData.data,
-        timeout = requestData.timeout,
-        headers = requestData.headers,
-        withCredentials = requestData.withCredentials,
-        responseType = requestData.responseType
-      )
+  private def apply[ENTITY <: js.Object](requestData: RequestData): Future[ENTITY] = {
+    Ajax(
+      method = requestData.method,
+      url = requestData.url,
+      data = requestData.data,
+      timeout = requestData.timeout,
+      headers = requestData.headers,
+      withCredentials = requestData.withCredentials,
+      responseType = requestData.responseType
+    ).map(response => JSON.parse(response.responseText).asInstanceOf[ENTITY])
   }
 
   override def post[ENTITY <: js.Object](apiEndpoint: String = "",
                                          urlParams: Seq[(String, Any)] = Seq.empty,
                                          data: InputData = "",
                                          headers: Map[String, String] = Map.empty): Future[ENTITY] = {
-    val promiseReturn = Promise[ENTITY]()
     val requestData = RequestData(
       method = "POST",
       url = urlFrom(apiEndpoint, urlParams),
@@ -152,17 +119,13 @@ object MakeApiClient extends Client {
       headers = defaultHeaders ++ headers
     )
 
-    ajaxApply(requestData).onComplete(
-      responseTry => XHRResponseTo(responseTry, promiseReturn, Some(requestData), retryAfterTimeout)
-    )
-    promiseReturn.future
+    retryOnFailure(MakeApiClient(requestData), retryAfterTimeout)
   }
 
   override def put[ENTITY <: js.Object](apiEndpoint: String,
                                         urlParams: Seq[(String, Any)],
                                         data: InputData,
                                         headers: Map[String, String]): Future[ENTITY] = {
-    val promiseReturn = Promise[ENTITY]()
     val requestData = RequestData(
       method = "PUT",
       url = urlFrom(apiEndpoint, urlParams),
@@ -171,18 +134,14 @@ object MakeApiClient extends Client {
       withCredentials = withCredentials,
       headers = defaultHeaders ++ headers
     )
-    ajaxApply(requestData).onComplete(
-      responseTry => XHRResponseTo(responseTry, promiseReturn, Some(requestData), retryAfterTimeout)
-    )
-    promiseReturn.future
+
+    retryOnFailure(MakeApiClient(requestData), retryAfterTimeout)
   }
 
   override def patch[ENTITY <: js.Object](apiEndpoint: String,
                                           urlParams: Seq[(String, Any)],
                                           data: InputData,
                                           headers: Map[String, String]): Future[ENTITY] = {
-    val promiseReturn = Promise[ENTITY]()
-
     val requestData = RequestData(
       method = "PATCH",
       url = urlFrom(apiEndpoint, urlParams),
@@ -192,18 +151,13 @@ object MakeApiClient extends Client {
       withCredentials = withCredentials
     )
 
-    ajaxApply(requestData).onComplete(
-      responseTry => XHRResponseTo(responseTry, promiseReturn, Some(requestData), retryAfterTimeout)
-    )
-    promiseReturn.future
+    retryOnFailure(MakeApiClient(requestData), retryAfterTimeout)
   }
 
   override def delete[ENTITY <: js.Object](apiEndpoint: String,
                                            urlParams: Seq[(String, Any)],
                                            data: InputData,
                                            headers: Map[String, String]): Future[ENTITY] = {
-    val promiseReturn = Promise[ENTITY]()
-
     val requestData = RequestData(
       method = "DELETE",
       url = urlFrom(apiEndpoint, urlParams),
@@ -212,11 +166,8 @@ object MakeApiClient extends Client {
       headers = defaultHeaders ++ headers,
       withCredentials = withCredentials
     )
-    ajaxApply(requestData).onComplete(
-      responseTry => XHRResponseTo(responseTry, promiseReturn, Some(requestData), retryAfterTimeout)
-    )
 
-    promiseReturn.future
+    retryOnFailure(MakeApiClient(requestData), retryAfterTimeout)
   }
 
   def authenticate(username: String, password: String): Future[Boolean] = {

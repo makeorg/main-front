@@ -14,8 +14,7 @@ import org.make.front.styles.base.{ColRulesStyles, RowRulesStyles, TextStyles}
 import org.make.front.styles.utils._
 import org.make.front.styles.vendors.FontAwesomeStyles
 import org.scalajs.dom.raw.HTMLElement
-
-import scalacss.DevDefaults._
+import org.make.front.Main.CssSettings._
 
 object PoliticalActionsList {
 

@@ -10,7 +10,7 @@ import org.make.front.styles._
 import org.make.front.styles.base.TextStyles
 import org.make.front.styles.utils._
 
-import scalacss.DevDefaults._
+import org.make.front.Main.CssSettings._
 
 object NoPoliticalAction {
 

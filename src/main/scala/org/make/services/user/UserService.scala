@@ -1,7 +1,5 @@
 package org.make.services.user
 
-import java.time.LocalDate
-
 import org.make.client.MakeApiClient
 import org.make.client.models.UserResponse
 import org.make.core.URI._
@@ -19,7 +17,9 @@ object UserService extends ApiService {
   override val resourceName: String = "user"
 
   def getUserById(id: String): Future[Option[User]] =
-    MakeApiClient.get[UserResponse](resourceName / id).map(user => Option(User(user))).recover { case _: Exception => None }
+    MakeApiClient.get[UserResponse](resourceName / id).map(user => Option(User(user))).recover {
+      case _: Exception => None
+    }
 
   def registerUser(email: String,
                    password: String,
@@ -41,9 +41,7 @@ object UserService extends ApiService {
               password = password,
               profession = profession,
               postalCode = postalCode,
-              dateOfBirth = age.map(age =>
-                LocalDate.of(LocalDate.now.getYear - age, 1, 1)
-              )
+              dateOfBirth = age.map(age => s"${new js.Date().getUTCFullYear() - age}-01-01")
             )
           )
         ),
@@ -82,7 +80,8 @@ object UserService extends ApiService {
         resourceName / "reset-password" / "request-reset",
         data = JSON.stringify(js.Dictionary("email" -> email))
       )
-      .map { _ => }
+      .map { _ =>
+        }
   }
 
   def subscribeToNewsletter(email: String): Future[Unit] = {
@@ -121,8 +120,9 @@ object UserService extends ApiService {
   def validateAccount(userId: String, verificationToken: String, operation: Option[OperationId]): Future[Unit] = {
     val headers = MakeApiClient.defaultHeaders ++ operation.map(op => MakeApiClient.operationHeader -> op.value)
 
-    MakeApiClient.post[UserResponse](resourceName / userId / "validate" / verificationToken, headers = headers).map { _ =>
-      {}
+    MakeApiClient.post[UserResponse](resourceName / userId / "validate" / verificationToken, headers = headers).map {
+      _ =>
+        {}
     }
   }
 

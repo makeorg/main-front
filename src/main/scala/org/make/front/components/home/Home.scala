@@ -9,10 +9,7 @@ import org.make.front.components.showcase.TrendingShowcaseContainer.TrendingShow
 import org.make.front.facades.I18n
 import org.make.front.facades.Unescape.unescape
 import org.make.front.styles.ThemeStyles
-
-import scalacss.DevDefaults._
-import scalacss.internal.StyleA
-import scalacss.internal.mutable.StyleSheet
+import org.make.front.Main.CssSettings._
 
 object Home {
   lazy val reactClass: ReactClass =

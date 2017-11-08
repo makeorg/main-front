@@ -5,6 +5,7 @@ import io.github.shogowada.scalajs.reactjs.VirtualDOM.{<, ^, _}
 import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import io.github.shogowada.scalajs.reactjs.events.{FormSyntheticEvent, SyntheticEvent}
 import org.make.core.validation.{ConstraintError, EmailConstraint}
+import org.make.front.Main.CssSettings._
 import org.make.front.components.Components._
 import org.make.front.facades.I18n
 import org.make.front.facades.Unescape.unescape
@@ -18,9 +19,6 @@ import org.scalajs.dom.raw.HTMLInputElement
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 import scala.util.{Failure, Success}
-import scalacss.DevDefaults._
-import scalacss.internal.StyleA
-import scalacss.internal.mutable.StyleSheet
 
 object RecoverPassword {
 

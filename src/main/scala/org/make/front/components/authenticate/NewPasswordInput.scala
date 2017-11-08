@@ -12,9 +12,6 @@ import org.make.front.styles.utils._
 import org.make.front.styles.vendors.FontAwesomeStyles
 import org.scalajs.dom.raw.HTMLInputElement
 
-import scalacss.internal.StyleA
-import scalacss.internal.mutable.StyleSheet
-
 object NewPasswordInput {
 
   final case class NewPasswordInputProps(value: String = "",

@@ -4,6 +4,7 @@ import io.github.shogowada.scalajs.reactjs.React
 import io.github.shogowada.scalajs.reactjs.VirtualDOM._
 import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import io.github.shogowada.scalajs.reactjs.elements.ReactElement
+import org.make.front.Main.CssSettings._
 import org.make.front.components.Components._
 import org.make.front.components.submitProposal.SubmitProposalAndLoginContainer.SubmitProposalAndLoginContainerProps
 import org.make.front.facades.I18n
@@ -13,10 +14,7 @@ import org.make.front.styles._
 import org.make.front.styles.base.TextStyles
 import org.make.front.styles.utils._
 
-import scalacss.DevDefaults._
 import scalacss.internal.Attr
-import scalacss.internal.mutable.StyleSheet
-import scalacss.internal.mutable.StyleSheet.Inline
 
 object SubmitProposalInRelationToOperation {
 
@@ -34,7 +32,7 @@ object SubmitProposalInRelationToOperation {
         val gradientValues: GradientColorModel =
           self.state.operation.gradient.getOrElse(GradientColorModel("#FFF", "#FFF"))
 
-        object DynamicSubmitProposalInRelationToOperationStyles extends Inline {
+        object DynamicSubmitProposalInRelationToOperationStyles extends StyleSheet.Inline {
           import dsl._
 
           val titleBackground = style(

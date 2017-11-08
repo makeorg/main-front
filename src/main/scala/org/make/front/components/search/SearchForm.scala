@@ -7,6 +7,7 @@ import io.github.shogowada.scalajs.reactjs.elements.ReactElement
 import io.github.shogowada.scalajs.reactjs.events.SyntheticEvent
 import io.github.shogowada.scalajs.reactjs.router.RouterProps._
 import io.github.shogowada.scalajs.reactjs.router.WithRouter
+import org.make.front.Main.CssSettings._
 import org.make.front.facades.Autosuggest._
 import org.make.front.facades._
 import org.make.front.helpers.QueryString
@@ -17,8 +18,6 @@ import org.scalajs.dom.raw.FocusEvent
 import scala.scalajs.js
 import scala.scalajs.js.JSConverters._
 import scala.scalajs.js.{Dictionary, Dynamic, URIUtils}
-import scalacss.DevDefaults._
-import scalacss.internal.mutable.StyleSheet
 
 object SearchForm {
   type Self = React.Self[Unit, State]

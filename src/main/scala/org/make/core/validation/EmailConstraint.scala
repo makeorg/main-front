@@ -7,12 +7,12 @@ object EmailConstraint extends Constraint {
                         constraintMessages: Map[String, String] = Map()): Seq[ConstraintError] = {
 
     if (value.getOrElse("").isEmpty) {
-      Seq(ConstraintError(constraintMessages.get("invalid").getOrElse("Invalid email")))
+      Seq(ConstraintError(constraintMessages.getOrElse("invalid", "Invalid email")))
     } else {
       emailRegex
         .findFirstMatchIn(value.get)
         .map(_ => Seq.empty)
-        .getOrElse(Seq(ConstraintError(constraintMessages.get("invalid").getOrElse("Invalid email"))))
+        .getOrElse(Seq(ConstraintError(constraintMessages.getOrElse("invalid", "Invalid email"))))
     }
   }
 

@@ -4,6 +4,7 @@ import io.github.shogowada.scalajs.reactjs.React
 import io.github.shogowada.scalajs.reactjs.VirtualDOM._
 import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import io.github.shogowada.scalajs.reactjs.elements.ReactElement
+import org.make.front.Main.CssSettings._
 import org.make.front.components.Components._
 import org.make.front.helpers.ProposalAuthorInfosFormat
 import org.make.front.models.{Proposal => ProposalModel}
@@ -12,9 +13,7 @@ import org.make.front.styles.base.TextStyles
 import org.make.front.styles.utils._
 import org.make.front.styles.vendors.FontAwesomeStyles
 
-import scalacss.DevDefaults._
 import scalacss.internal.Attr
-import scalacss.internal.mutable.StyleSheet
 
 object ProposalInfos {
 

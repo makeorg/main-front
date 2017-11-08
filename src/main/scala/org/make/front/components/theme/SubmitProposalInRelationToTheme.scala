@@ -13,10 +13,8 @@ import org.make.front.styles.ThemeStyles
 import org.make.front.styles.base.TextStyles
 import org.make.front.styles.utils._
 
-import scalacss.DevDefaults._
+import org.make.front.Main.CssSettings._
 import scalacss.internal.Attr
-import scalacss.internal.mutable.StyleSheet
-import scalacss.internal.mutable.StyleSheet.Inline
 
 object SubmitProposalInRelationToTheme {
 
@@ -33,7 +31,7 @@ object SubmitProposalInRelationToTheme {
       render = { self =>
         val gradientValues: GradientColorModel = self.state.theme.gradient.getOrElse(GradientColorModel("#FFF", "#FFF"))
 
-        object DynamicSubmitProposalInRelationToThemeStyles extends Inline {
+        object DynamicSubmitProposalInRelationToThemeStyles extends StyleSheet.Inline {
           import dsl._
 
           val titleBackground = style(

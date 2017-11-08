@@ -19,7 +19,6 @@ import org.scalajs.dom.raw.HTMLInputElement
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 import scala.util.{Failure, Success}
-import scalacss.DevDefaults.StyleA
 
 object LoginWithEmail {
 

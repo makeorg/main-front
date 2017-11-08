@@ -1,6 +1,6 @@
 package org.make.front.models
 
-import java.time.LocalDate
+import scalajs.js
 
 import org.make.client.models.ProfileResponse
 
@@ -29,7 +29,7 @@ object Gender {
   }
 }
 
-case class Profile(dateOfBirth: Option[LocalDate],
+case class Profile(dateOfBirth: Option[js.Date],
                    avatarUrl: Option[String],
                    profession: Option[String],
                    phoneNumber: Option[String],
@@ -49,7 +49,7 @@ object Profile {
       dateOfBirth = profileResponse.dateOfBirth.toOption.flatMap { dateOfBirth =>
         dateOfBirth match {
           case _ if Option(dateOfBirth).forall(_.isEmpty) => None
-          case _ => Some(LocalDate.parse(dateOfBirth))
+          case _                                          => Some(new js.Date(dateOfBirth))
         }
       },
       avatarUrl = profileResponse.avatarUrl.toOption,
@@ -61,7 +61,7 @@ object Profile {
       gender = profileResponse.genderName.toOption.flatMap { gender =>
         gender match {
           case _ if Option(gender).forall(_.isEmpty) => None
-          case _ => Gender.matchGender(gender)
+          case _                                     => Gender.matchGender(gender)
         }
       },
       genderName = profileResponse.genderName.toOption,
@@ -77,7 +77,7 @@ object Profile {
     case _                                                                                      => false
   }
 
-  def parseProfile(dateOfBirth: Option[LocalDate] = None,
+  def parseProfile(dateOfBirth: Option[js.Date] = None,
                    avatarUrl: Option[String] = None,
                    profession: Option[String] = None,
                    phoneNumber: Option[String] = None,

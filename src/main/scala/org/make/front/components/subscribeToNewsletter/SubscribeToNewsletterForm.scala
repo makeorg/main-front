@@ -18,9 +18,7 @@ import org.scalajs.dom.raw.HTMLInputElement
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 import scala.util.{Failure, Success}
-import scalacss.DevDefaults._
-import scalacss.internal.StyleA
-import scalacss.internal.mutable.StyleSheet
+import org.make.front.Main.CssSettings._
 
 object SubscribeToNewsletterForm {
 

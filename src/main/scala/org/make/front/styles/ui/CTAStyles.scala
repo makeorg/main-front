@@ -4,8 +4,6 @@ import org.make.front.Main.CssSettings._
 import org.make.front.styles._
 import org.make.front.styles.utils._
 
-import scalacss.internal.StyleA
-
 object CTAStyles extends StyleSheet.Inline {
 
   import dsl._

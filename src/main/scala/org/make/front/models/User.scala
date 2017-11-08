@@ -1,11 +1,8 @@
 package org.make.front.models
 
-import java.time.ZonedDateTime
-
-import org.make.client.models.{ProfileResponse, UserResponse}
+import org.make.client.models.UserResponse
 
 import scala.scalajs.js
-import scala.scalajs.js.UndefOr
 
 sealed trait Role {
   def shortName: String
@@ -51,7 +48,7 @@ case class User(userId: UserId,
                 lastName: Option[String],
                 enabled: Boolean,
                 verified: Boolean,
-                lastConnection: ZonedDateTime,
+                lastConnection: js.Date,
                 roles: Seq[Role],
                 profile: Option[Profile])
 
@@ -66,7 +63,7 @@ object User {
       lastName = userResponse.lastName.toOption,
       enabled = userResponse.enabled,
       verified = userResponse.verified,
-      lastConnection = ZonedDateTime.parse(userResponse.lastConnection),
+      lastConnection = new js.Date(userResponse.lastConnection),
       roles = seqRoles.map(Role.apply),
       profile = if (userResponse.profile == null) None else userResponse.profile.toOption.map(Profile.apply)
     )

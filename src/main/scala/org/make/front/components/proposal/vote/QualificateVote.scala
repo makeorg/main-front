@@ -12,9 +12,7 @@ import org.make.front.styles.ui.TooltipStyles
 import org.make.front.styles.utils._
 
 import scala.concurrent.Future
-import scalacss.DevDefaults._
-import scalacss.internal.StyleA
-import scalacss.internal.mutable.StyleSheet
+import org.make.front.Main.CssSettings._
 
 object QualificateVote {
 

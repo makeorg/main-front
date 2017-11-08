@@ -15,8 +15,7 @@ import org.make.front.styles.utils._
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 import scala.util.{Failure, Success}
-import scalacss.DevDefaults._
-import scalacss.internal.mutable.StyleSheet
+import org.make.front.Main.CssSettings._
 
 object QualificateVoteButton {
 

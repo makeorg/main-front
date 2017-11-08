@@ -8,7 +8,11 @@ import org.make.core.Counter
 import org.make.front.components.Components.{RichVirtualDOMElements, _}
 import org.make.front.components.proposal.ProposalTile.ProposalTileProps
 import org.make.front.facades.{HexToRgba, I18n, Replacements}
-import org.make.front.models.{GradientColor => GradientColorModel, Proposal => ProposalModel, TranslatedTheme => TranslatedThemeModel}
+import org.make.front.models.{
+  GradientColor   => GradientColorModel,
+  Proposal        => ProposalModel,
+  TranslatedTheme => TranslatedThemeModel
+}
 import org.make.front.styles._
 import org.make.front.styles.base.{ColRulesStyles, RowRulesStyles, TextStyles}
 import org.make.front.styles.ui.CTAStyles
@@ -18,8 +22,7 @@ import org.make.services.proposal.SearchResult
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 import scala.util.{Failure, Success}
-import scalacss.DevDefaults._
-import scalacss.internal.mutable.StyleSheet.Inline
+import org.make.front.Main.CssSettings._
 
 object ThemeShowcase {
 
@@ -44,7 +47,7 @@ object ThemeShowcase {
           self.props.wrapped.maybeTheme.flatMap(_.gradient).getOrElse(GradientColorModel("#FFF", "#FFF"))
         val index = self.props.wrapped.maybeTheme.map(_.order).getOrElse(9999)
 
-        object DynamicThemeShowcaseStyles extends Inline {
+        object DynamicThemeShowcaseStyles extends StyleSheet.Inline {
           import dsl._
 
           val gradient: (Int) => StyleA =

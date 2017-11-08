@@ -12,9 +12,7 @@ import org.make.front.styles.ThemeStyles
 import org.make.front.styles.base.TextStyles
 import org.make.front.styles.utils._
 
-import scalacss.DevDefaults._
-import scalacss.internal.mutable.StyleSheet
-import scalacss.internal.mutable.StyleSheet.Inline
+import org.make.front.Main.CssSettings._
 
 object ResultsOfVote {
 
@@ -44,7 +42,7 @@ object ResultsOfVote {
         val partOfDisagreeVotes: Int = formatToPercent(self.state.votesDisagree, totalOfVotes)
         val partOfNeutralVotes: Int = formatToPercent(self.state.votesNeutral, totalOfVotes)
 
-        object DynamicResultsOfVoteStyles extends Inline {
+        object DynamicResultsOfVoteStyles extends StyleSheet.Inline {
           import dsl._
 
           val resultsOfAgreeVote: Int => StyleA =

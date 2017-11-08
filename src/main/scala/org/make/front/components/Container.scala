@@ -5,17 +5,12 @@ import io.github.shogowada.scalajs.reactjs.VirtualDOM._
 import io.github.shogowada.scalajs.reactjs.router.WithRouter
 import io.github.shogowada.scalajs.reactjs.router.dom.RouterDOM._
 import org.make.front.components.activateAccount.ActivateAccountContainer
-import org.make.front.components.home.Home
 import org.make.front.components.authenticate.resetPassword.ResetPasswordContainer
+import org.make.front.components.home.Home
+import org.make.front.components.operation.VFFSequenceContainer
+import org.make.front.components.proposal.ProposalContainer
 import org.make.front.components.search.SearchResultsContainer
 import org.make.front.components.theme.ThemeContainer
-import org.make.front.components.operation.{
-  OperationContainer,
-  OperationSequenceContainer,
-  RedirectToVFFSequence,
-  VFFSequenceContainer
-}
-import org.make.front.components.proposal.ProposalContainer
 import org.make.front.components.userProfile.UserProfileContainer
 
 import scala.scalajs.js.Dynamic
