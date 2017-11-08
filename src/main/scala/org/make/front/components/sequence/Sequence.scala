@@ -214,7 +214,7 @@ object Sequence {
 
       val conclusion = new EmptyElementSlide(self.props.wrapped.conclusion)
 
-      val slides = Seq(intro) ++ allProposals.map({ proposal =>
+      val slides = allProposals.map({ proposal =>
         new ProposalSlide(
           proposal,
           onSuccessfulVote(_, self),
@@ -224,10 +224,9 @@ object Sequence {
           },
           nextProposal = nextProposal
         )
-      }) ++ Seq(conclusion)
+      })
 
-      val cardIndex: Int = pushToProposalIndex(slides)
-      slides.take(cardIndex) ++ Seq(promptingToPropose) ++ slides.drop(cardIndex) ++ Seq(promptingToConnect)
+      slides ++ Seq(conclusion)
 
     }
 
