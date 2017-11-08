@@ -7,10 +7,11 @@ import io.github.shogowada.scalajs.reactjs.router.dom.RouterDOM._
 import org.make.front.components.activateAccount.ActivateAccountContainer
 import org.make.front.components.authenticate.resetPassword.ResetPasswordContainer
 import org.make.front.components.home.Home
-import org.make.front.components.operation.VFFSequenceContainer
-import org.make.front.components.proposal.ProposalContainer
+import org.make.front.components.operation.sequence.{SequenceOfTheOperationContainer, VFFSequenceContainer}
 import org.make.front.components.search.SearchResultsContainer
 import org.make.front.components.theme.ThemeContainer
+import org.make.front.components.operation.OperationContainer
+import org.make.front.components.proposal.ProposalContainer
 import org.make.front.components.userProfile.UserProfileContainer
 
 import scala.scalajs.js.Dynamic
@@ -46,7 +47,7 @@ object Container {
           <.Route(
             ^.exact := true,
             ^.path := "/operation/:operationSlug/consultation/:sequenceSlug",
-            ^.component := OperationSequenceContainer.reactClass
+            ^.component := SequenceOfTheOperationContainer.reactClass
           )(),*/
           <.Route(
             ^.exact := true,

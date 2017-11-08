@@ -130,5 +130,4 @@ object InputStyles extends StyleSheet.Inline {
       textAlign.left,
       color(ThemeStyles.TextColor.danger)
     )
-
 }

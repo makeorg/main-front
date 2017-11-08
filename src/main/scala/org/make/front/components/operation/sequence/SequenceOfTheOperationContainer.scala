@@ -1,4 +1,4 @@
-package org.make.front.components.operation
+package org.make.front.components.operation.sequence
 
 import io.github.shogowada.scalajs.reactjs.React.Props
 import io.github.shogowada.scalajs.reactjs.classes.ReactClass
@@ -7,17 +7,22 @@ import io.github.shogowada.scalajs.reactjs.redux.Redux.Dispatch
 import io.github.shogowada.scalajs.reactjs.router.RouterProps._
 import org.make.front.actions.{LoadConfiguration, NotifyError}
 import org.make.front.components.AppState
-import org.make.front.models.{Operation => OperationModel, OperationId => OperationIdModel, Sequence => SequenceModel, SequenceId => SequenceIdModel}
+import org.make.front.models.{
+  Operation   => OperationModel,
+  OperationId => OperationIdModel,
+  Sequence    => SequenceModel,
+  SequenceId  => SequenceIdModel
+}
 import org.make.services.proposal.{ContextRequest, ProposalService}
-import scala.concurrent.ExecutionContext.Implicits.global
 
+import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
-object OperationSequenceContainer {
+object SequenceOfTheOperationContainer {
 
-  lazy val reactClass: ReactClass = ReactRedux.connectAdvanced(selectorFactory)(OperationSequence.reactClass)
+  lazy val reactClass: ReactClass = ReactRedux.connectAdvanced(selectorFactory)(SequenceOfTheOperation.reactClass)
 
-  def selectorFactory: (Dispatch) => (AppState, Props[Unit]) => OperationSequence.OperationSequenceProps =
+  def selectorFactory: (Dispatch) => (AppState, Props[Unit]) => SequenceOfTheOperation.SequenceOfTheOperationProps =
     (dispatch: Dispatch) => { (state: AppState, props: Props[Unit]) =>
       {
         val operationSlug = props.`match`.params("operationSlug")
@@ -28,7 +33,7 @@ object OperationSequenceContainer {
 
         if (OperationsList.isEmpty || SequencesList.isEmpty) {
           props.history.push("/")
-          OperationSequence.OperationSequenceProps(
+          SequenceOfTheOperation.SequenceOfTheOperationProps(
             OperationModel(OperationIdModel("fake"), "", "", "", "", 0, 0, "", None),
             SequenceModel(SequenceIdModel("fake"), "", ""),
             Future.successful(0)
@@ -40,15 +45,15 @@ object OperationSequenceContainer {
                 context = Some(ContextRequest(operation = Some(OperationsList.head.label))),
                 limit = Some(20)
               )
-              proposalsResponse.recover {
-                case e => dispatch(NotifyError(e.getMessage))
-              }
+            proposalsResponse.recover {
+              case e => dispatch(NotifyError(e.getMessage))
+            }
 
-              proposalsResponse.map(_.total)
+            proposalsResponse.map(_.total)
           }
 
           dispatch(LoadConfiguration)
-          OperationSequence.OperationSequenceProps(OperationsList.head, SequencesList.head, numberOfProposals)
+          SequenceOfTheOperation.SequenceOfTheOperationProps(OperationsList.head, SequencesList.head, numberOfProposals)
         }
       }
     }

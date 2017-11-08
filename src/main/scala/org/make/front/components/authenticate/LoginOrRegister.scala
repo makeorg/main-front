@@ -18,7 +18,7 @@ import org.make.front.styles.utils._
 
 object LoginOrRegister {
 
-  case class LoginOrRegisterProps(operation: Option[OperationId],
+  case class LoginOrRegisterProps(operation: Option[OperationId] = None,
                                   registerView: String = "register",
                                   displayView: String,
                                   onSuccessfulLogin: () => Unit = () => {})
@@ -72,21 +72,6 @@ object LoginOrRegister {
                 unescape(I18n.t("authenticate.back-to-login-screen.intro") + " "),
                 <.a(^.className := TextStyles.boldText, ^.onClick := goTo("login"))(
                   unescape(I18n.t("authenticate.back-to-login-screen.link-support"))
-                )
-              )
-            )
-          } else if (state.currentView == "register-expanded") {
-            Seq(
-              <.RegisterWithSocialNetworksOrEmailExpandedComponent(
-                ^.wrapped := RegisterWithSocialNetworksOrEmailProps(
-                  operation = self.props.wrapped.operation,
-                  onSuccessfulLogin = props.onSuccessfulLogin
-                )
-              )(),
-              <.p(^.className := Seq(LoginOrRegisterStyles.text, TextStyles.smallText))(
-                unescape(I18n.t("authenticate.switch-to-login-screen.intro") + " "),
-                <.a(^.className := TextStyles.boldText, ^.onClick := goTo("login"))(
-                  unescape(I18n.t("authenticate.switch-to-login-screen.link-support"))
                 )
               )
             )

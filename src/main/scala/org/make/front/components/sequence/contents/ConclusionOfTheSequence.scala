@@ -1,4 +1,4 @@
-package org.make.front.components.operation
+package org.make.front.components.sequence.contents
 
 import io.github.shogowada.scalajs.reactjs.React
 import io.github.shogowada.scalajs.reactjs.VirtualDOM.{<, _}
@@ -12,17 +12,17 @@ import org.make.front.styles.ThemeStyles
 import org.make.front.styles.base.{ColRulesStyles, RowRulesStyles, TextStyles}
 import org.make.front.styles.utils._
 
-object ConclusionOfOperationSequence {
+object ConclusionOfTheSequence {
 
-  final case class ConclusionOfOperationSequenceProps(isConnected: Boolean)
+  final case class ConclusionOfTheSequenceProps(isConnected: Boolean)
 
-  final case class ConclusionOfOperationSequenceState(subscriptionToNewsletterHasSucceed: Boolean)
+  final case class ConclusionOfTheSequenceState(subscriptionToNewsletterHasSucceed: Boolean)
 
   lazy val reactClass: ReactClass =
-    React.createClass[ConclusionOfOperationSequenceProps, ConclusionOfOperationSequenceState](
-      displayName = "IntroOfOperationSequence",
+    React.createClass[ConclusionOfTheSequenceProps, ConclusionOfTheSequenceState](
+      displayName = "ConclusionOfTheSequence",
       getInitialState = { self =>
-        ConclusionOfOperationSequenceState(subscriptionToNewsletterHasSucceed = false)
+        ConclusionOfTheSequenceState(subscriptionToNewsletterHasSucceed = false)
       },
       render = { self =>
         def onSubscribeToNewsletterSuccess(): () => Unit = { () =>
@@ -33,17 +33,17 @@ object ConclusionOfOperationSequence {
         <.div()(
           <.div(^.className := Seq(RowRulesStyles.row))(
             <.div(^.className := ColRulesStyles.col)(
-              <.div(^.className := ConclusionOfOperationSequenceStyles.introWrapper)(
-                <.p(
-                  ^.className := Seq(ConclusionOfOperationSequenceStyles.intro, TextStyles.bigText, TextStyles.boldText)
-                )(unescape(I18n.t("operation.sequence.conclusion.title")))
+              <.div(^.className := ConclusionOfTheSequenceStyles.introWrapper)(
+                <.p(^.className := Seq(ConclusionOfTheSequenceStyles.intro, TextStyles.bigText, TextStyles.boldText))(
+                  unescape(I18n.t("sequence.conclusion.title"))
+                )
               ),
-              <.div(^.className := ConclusionOfOperationSequenceStyles.messageWrapper)(
-                <.p(^.className := Seq(ConclusionOfOperationSequenceStyles.message, TextStyles.smallText))(
+              <.div(^.className := ConclusionOfTheSequenceStyles.messageWrapper)(
+                <.p(^.className := Seq(ConclusionOfTheSequenceStyles.message, TextStyles.smallText))(
                   if (self.props.wrapped.isConnected || self.state.subscriptionToNewsletterHasSucceed) {
-                    unescape(I18n.t("operation.sequence.conclusion.info"))
+                    unescape(I18n.t("sequence.conclusion.info"))
                   } else {
-                    unescape(I18n.t("operation.sequence.conclusion.prompting-to-subscribe-to-newsletter"))
+                    unescape(I18n.t("sequence.conclusion.prompting-to-subscribe-to-newsletter"))
                   }
                 )
               )
@@ -56,13 +56,13 @@ object ConclusionOfOperationSequence {
               )
             )()
           },
-          <.style()(ConclusionOfOperationSequenceStyles.render[String])
+          <.style()(ConclusionOfTheSequenceStyles.render[String])
         )
       }
     )
 }
 
-object ConclusionOfOperationSequenceStyles extends StyleSheet.Inline {
+object ConclusionOfTheSequenceStyles extends StyleSheet.Inline {
   import dsl._
 
   val intro: StyleA =

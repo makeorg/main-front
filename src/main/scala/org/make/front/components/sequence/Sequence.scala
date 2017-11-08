@@ -7,9 +7,11 @@ import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import io.github.shogowada.scalajs.reactjs.elements.ReactElement
 import org.make.front.Main.CssSettings._
 import org.make.front.components.Components._
-import org.make.front.components.operation.PromptingToProposeInsideOperationSequence.PromptingToProposeInsideOperationSequenceProps
+import org.make.front.components.sequence.contents.PromptingToConnect.PromptingToConnectProps
+import org.make.front.components.sequence.contents.PromptingToProposeSequence.PromptingToProposeProps
 import org.make.front.components.sequence.ProgressBar.ProgressBarProps
-import org.make.front.components.sequence.ProposalInsideSequence.ProposalInsideSequenceProps
+import org.make.front.components.sequence.contents.IntroductionOfTheSequence.IntroductionOfTheSequenceProps
+import org.make.front.components.sequence.contents.ProposalInsideSequence.ProposalInsideSequenceProps
 import org.make.front.facades.FacebookPixel
 import org.make.front.facades.ReactSlick.{ReactTooltipVirtualDOMAttributes, ReactTooltipVirtualDOMElements, Slider}
 import org.make.front.models.{
@@ -40,6 +42,7 @@ object Sequence {
                                  intro: ReactClass,
                                  conclusion: ReactClass,
                                  promptingToPropose: ReactClass,
+                                 promptingToConnect: ReactClass,
                                  shouldReload: Boolean)
 
   final case class SequenceState(proposals: Seq[ProposalModel],
@@ -177,11 +180,33 @@ object Sequence {
       val promptingToPropose = new Slide() {
         override def component(index: Int): ReactElement =
           <(self.props.wrapped.promptingToPropose)(
-            ^.wrapped := PromptingToProposeInsideOperationSequenceProps(
+            ^.wrapped := PromptingToProposeProps(
               operation = self.props.wrapped.maybeOperation
                 .getOrElse(OperationModel(OperationIdModel("fake"), "", "", "", "", 0, 0, "", None)),
               clickOnButtonHandler = nextProposal
             )
+          )()
+
+        override val optional = true
+      }
+
+      val promptingToConnect = new Slide() {
+        override def component(index: Int): ReactElement =
+          <(self.props.wrapped.promptingToConnect)(
+            ^.wrapped := PromptingToConnectProps(
+              operation = self.props.wrapped.maybeOperation
+                .getOrElse(OperationModel(OperationIdModel("fake"), "", "", "", "", 0, 0, "", None)),
+              clickOnButtonHandler = nextProposal
+            )
+          )()
+
+        override val optional = true
+      }
+
+      val intro = new Slide() {
+        override def component(index: Int): ReactElement =
+          <(self.props.wrapped.intro)(
+            ^.wrapped := IntroductionOfTheSequenceProps(clickOnButtonHandler = nextProposal)
           )()
 
         override val optional = true
@@ -199,13 +224,10 @@ object Sequence {
           },
           nextProposal = nextProposal
         )
-      }) ++ Seq(conclusion)
+      })
 
-      //val cardIndex: Int = pushToProposalIndex(slides)
-      /*TODO : reactive promptingToPropose slide when necessary, or dev new solution for track list*/
-      //slides.take(cardIndex) /*++ Seq(promptingToPropose)*/ ++ slides.drop(cardIndex)
+      slides ++ Seq(conclusion)
 
-      slides
     }
 
     def pushToProposalIndex(slides: Seq[Slide]): Int = {

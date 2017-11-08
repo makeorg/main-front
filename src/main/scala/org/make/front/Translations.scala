@@ -212,11 +212,39 @@ object Translations {
       |    },
       |    "sequence": {
       |      "proposal": {
-      |      "next-cta": "Proposition suivante"
+      |        "next-cta": "Proposition suivante"
       |      },
       |      "guide": {
       |        "vote": "Utilisez les boutons pour voter<br>et passer à la proposition suivante.",
       |        "qualification": "Si vous le souhaitez, vous pouvez préciser votre vote. (Sinon, passez à la proposition suivante.)"
+      |      },
+      |      "introduction": {
+      |        "title": "Des milliers de citoyens proposent des&nbsp;solutions.",
+      |        "explanation-1": "Prenez position sur ces solutions et proposez les&nbsp;vôtres.",
+      |        "explanation-2": "Les plus soutenues détermineront nos&nbsp;actions.",
+      |        "cta": "Démarrer"
+      |      },
+      |      "prompting-to-propose": {
+      |         "intro": "Et vous, avez-vous une solution à proposer sur ce&nbsp;sujet&nbsp;?",
+      |         "propose-cta": "Proposer",
+      |         "next-cta": "Pas encore, je continue à voter"
+      |      },
+      |      "prompting-to-connect": {
+      |         "title": "Identifiez-vous pour être informé(e) des résultats de la&nbsp;consultation.",
+      |         "intro": "Je m'identifie avec",
+      |         "caution": "Rassurez-vous, nous ne publierons jamais rien sans votre&nbsp;accord.",
+      |         "separator": "ou",
+      |         "authenticate-with-email-cta": "Je m'identifie avec mon adresse email",
+      |         "login-screen-access": {
+      |           "intro": "J’ai déjà un compte",
+      |           "link-support": "Connexion"
+      |         },
+      |         "next-cta": "Non merci, je ne souhaite pas être informé(e) des résultats"
+      |      },
+      |      "conclusion": {
+      |        "title": "Merci pour votre contribution&nbsp;!",
+      |        "info": "Nous vous tiendrons informé.e de l’avancée et des résultats de la consultation par&nbsp;mail.",
+      |        "prompting-to-subscribe-to-newsletter": "Nous vous invitons à saisir votre adresse e-mail pour être informé.e de l’avancée et des résultats de la&nbsp;consultation."
       |      }
       |    },
       |    "operation": {
@@ -257,22 +285,6 @@ object Translations {
       |           "guide": {
       |             "propose-cta": "Proposez une solution à tout moment en cliquant sur ce bouton."
       |           }
-      |        },
-      |        "introduction": {
-      |          "title": "Des milliers de citoyens proposent des&nbsp;solutions.",
-      |          "explanation-1": "Prenez position sur ces solutions et proposez les&nbsp;vôtres.",
-      |          "explanation-2": "Les plus soutenues détermineront nos&nbsp;actions.",
-      |          "cta": "Démarrer"
-      |        },
-      |        "prompting-to-propose": {
-      |           "intro": "Et vous, avez-vous une solution à proposer sur ce&nbsp;sujet&nbsp;?",
-      |           "propose-cta": "Proposer",
-      |           "next-cta": "Pas encore, je continue à voter"
-      |        },
-      |        "conclusion": {
-      |          "title": "Merci pour votre contribution&nbsp;!",
-      |          "info": "Nous vous tiendrons informé.e de l’avancée et des résultats de la consultation par&nbsp;mail.",
-      |          "prompting-to-subscribe-to-newsletter": "Nous vous invitons à saisir votre adresse e-mail pour être informé.e de l’avancée et des résultats de la&nbsp;consultation."
       |        }
       |      }
       |    },

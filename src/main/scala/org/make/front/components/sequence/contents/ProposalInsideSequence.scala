@@ -1,4 +1,4 @@
-package org.make.front.components.sequence
+package org.make.front.components.sequence.contents
 
 import io.github.shogowada.scalajs.reactjs.React
 import io.github.shogowada.scalajs.reactjs.VirtualDOM.{<, ^, _}

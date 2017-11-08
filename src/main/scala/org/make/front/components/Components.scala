@@ -4,10 +4,9 @@ import io.github.shogowada.scalajs.reactjs.VirtualDOM.VirtualDOMAttributes.Type.
 import io.github.shogowada.scalajs.reactjs.VirtualDOM.VirtualDOMElements.ReactClassElementSpec
 import io.github.shogowada.scalajs.reactjs.VirtualDOM.{VirtualDOMAttributes, VirtualDOMElements}
 import io.github.shogowada.statictags.{Attribute, BooleanAttributeSpec, SpaceSeparatedStringAttributeSpec}
-import org.make.front.components.showcase.TrendingShowcaseContainer
+import org.make.front.Main.CssSettings._
 
 import scala.scalajs.js
-import scalacss.StyleA
 
 object Components {
   implicit class RichSpaceSeparatedStringAttributeSpec(val spec: SpaceSeparatedStringAttributeSpec) extends AnyVal {
@@ -106,16 +105,18 @@ object Components {
     def ProposalTileWithThemeComponent: ReactClassElementSpec = self(proposal.ProposalTileWithTheme.reactClass)
     def ProposalTileWithTagsComponent: ReactClassElementSpec = self(proposal.ProposalTileWithTags.reactClass)
 
-    def TrendingShowcaseContainerComponent: ReactClassElementSpec = self(TrendingShowcaseContainer.reactClass)
+    def TrendingShowcaseContainerComponent: ReactClassElementSpec = self(showcase.TrendingShowcaseContainer.reactClass)
     def ThemeShowcaseContainerComponent: ReactClassElementSpec = self(showcase.ThemeShowcaseContainer.reactClass)
     def LabelShowcaseContainerComponent: ReactClassElementSpec = self(showcase.LabelShowcaseContainer.reactClass)
     def SequenceContainerComponent: ReactClassElementSpec = self(sequence.SequenceContainer.reactClass)
     def ProgressBarComponent: ReactClassElementSpec = self(sequence.ProgressBar.reactClass)
-    def ProposalInsideSequenceComponent: ReactClassElementSpec = self(sequence.ProposalInsideSequence.reactClass)
+    def ProposalInsideSequenceComponent: ReactClassElementSpec =
+      self(sequence.contents.ProposalInsideSequence.reactClass)
 
-    def OperationSequenceComponent: ReactClassElementSpec = self(operation.OperationSequence.reactClass)
-    def OperationSequenceContainerComponent: ReactClassElementSpec =
-      self(operation.OperationSequenceContainer.reactClass)
+    def SequenceOfTheOperationComponent: ReactClassElementSpec =
+      self(operation.sequence.SequenceOfTheOperation.reactClass)
+    def SequenceOfTheOperationContainerComponent: ReactClassElementSpec =
+      self(operation.sequence.SequenceOfTheOperationContainer.reactClass)
 
     /*********************/
     def VoteContainerComponent: ReactClassElementSpec = self(proposal.vote.VoteContainer.reactClass)

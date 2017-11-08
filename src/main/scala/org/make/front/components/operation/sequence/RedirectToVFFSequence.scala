@@ -1,4 +1,4 @@
-package org.make.front.components.operation
+package org.make.front.components.operation.sequence
 
 import io.github.shogowada.scalajs.reactjs.React
 import io.github.shogowada.scalajs.reactjs.VirtualDOM._

@@ -4,6 +4,7 @@ import io.github.shogowada.scalajs.reactjs.React
 import io.github.shogowada.scalajs.reactjs.VirtualDOM._
 import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import io.github.shogowada.scalajs.reactjs.elements.ReactElement
+import org.make.front.Main.CssSettings._
 import org.make.front.components.Components._
 import org.make.front.components.submitProposal.SubmitProposalAndLoginContainer.SubmitProposalAndLoginContainerProps
 import org.make.front.facades.I18n
@@ -13,9 +14,7 @@ import org.make.front.styles.ThemeStyles
 import org.make.front.styles.base.TextStyles
 import org.make.front.styles.utils._
 
-import org.make.front.Main.CssSettings._
 import scalacss.internal.Attr
-
 object SubmitProposalInRelationToTheme {
 
   case class SubmitProposalInRelationToThemeProps(theme: TranslatedThemeModel, onProposalProposed: () => Unit)
@@ -32,6 +31,7 @@ object SubmitProposalInRelationToTheme {
         val gradientValues: GradientColorModel = self.state.theme.gradient.getOrElse(GradientColorModel("#FFF", "#FFF"))
 
         object DynamicSubmitProposalInRelationToThemeStyles extends StyleSheet.Inline {
+
           import dsl._
 
           val titleBackground = style(

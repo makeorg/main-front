@@ -1,6 +1,6 @@
 package org.make.front.styles
 
-import scalacss.internal.DslBase._
+import scalacss.internal.DslBase.DslNum
 import scalacss.internal.Length
 
 package object utils {

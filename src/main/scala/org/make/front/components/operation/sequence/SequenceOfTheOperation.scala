@@ -1,4 +1,4 @@
-package org.make.front.components.operation
+package org.make.front.components.operation.sequence
 
 import io.github.shogowada.scalajs.reactjs.React
 import io.github.shogowada.scalajs.reactjs.React.{Props, Self}
@@ -10,6 +10,12 @@ import org.make.front.components.Components._
 import org.make.front.components.modals.FullscreenModal.FullscreenModalProps
 import org.make.front.components.operation.SubmitProposalInRelationToOperation.SubmitProposalInRelationToOperationProps
 import org.make.front.components.sequence.SequenceContainer.SequenceContainerProps
+import org.make.front.components.sequence.contents.{
+  ConclusionOfTheSequenceContainer,
+  IntroductionOfTheSequence,
+  PromptingToConnect,
+  PromptingToProposeSequence
+}
 import org.make.front.facades.Unescape.unescape
 import org.make.front.facades.{FacebookPixel, I18n, Replacements}
 import org.make.front.models.{
@@ -28,22 +34,23 @@ import scala.concurrent.Future
 import scala.scalajs.js.JSConverters._
 import scala.util.{Failure, Success}
 
-object OperationSequence {
+object SequenceOfTheOperation {
 
-  final case class OperationSequenceProps(operation: OperationModel,
-                                          sequence: SequenceModel,
-                                          numberOfProposals: Future[Int])
+  final case class SequenceOfTheOperationProps(operation: OperationModel,
+                                               sequence: SequenceModel,
+                                               numberOfProposals: Future[Int])
 
-  final case class OperationSequenceState(isProposalModalOpened: Boolean, numberOfroposals: Int)
+  final case class SequenceOfTheOperationState(isProposalModalOpened: Boolean, numberOfroposals: Int)
 
   lazy val reactClass: ReactClass =
-    React.createClass[OperationSequenceProps, OperationSequenceState](
-      displayName = "OperationSSequence",
+    React.createClass[SequenceOfTheOperationProps, SequenceOfTheOperationState](
+      displayName = "SequenceOfTheOperation",
       getInitialState = { _ =>
-        OperationSequenceState(isProposalModalOpened = false, numberOfroposals = 0)
+        SequenceOfTheOperationState(isProposalModalOpened = false, numberOfroposals = 0)
       },
       componentWillReceiveProps = {
-        (self: Self[OperationSequenceProps, OperationSequenceState], props: Props[OperationSequenceProps]) =>
+        (self: Self[SequenceOfTheOperationProps, SequenceOfTheOperationState],
+         props: Props[SequenceOfTheOperationProps]) =>
           props.wrapped.numberOfProposals.onComplete {
             case Success(numberOfroposals) =>
               self.setState(_.copy(numberOfroposals = numberOfroposals))
@@ -67,7 +74,7 @@ object OperationSequence {
             .fbq("trackCustom", "click-proposal-submit-form-open", Map("location" -> "sequence-header").toJSDictionary)
         }
 
-        object DynamicOperationSequenceStyles extends StyleSheet.Inline {
+        object DynamicSequenceOfTheOperationStyles extends StyleSheet.Inline {
 
           import dsl._
 
@@ -75,25 +82,25 @@ object OperationSequence {
             style(background := s"linear-gradient(130deg, ${gradientValues.from}, ${gradientValues.to})")
         }
 
-        <.section(^.className := OperationSequenceStyles.wrapper)(
-          <.div(^.className := Seq(OperationSequenceStyles.row))(
-            <.div(^.className := Seq(OperationSequenceStyles.cell, OperationSequenceStyles.mainHeaderWrapper))(
-              <.MainHeaderComponent.empty
-            )
+        <.section(^.className := SequenceOfTheOperationStyles.wrapper)(
+          <.div(^.className := Seq(SequenceOfTheOperationStyles.row))(
+            <.div(
+              ^.className := Seq(SequenceOfTheOperationStyles.cell, SequenceOfTheOperationStyles.mainHeaderWrapper)
+            )(<.MainHeaderComponent.empty)
           ),
-          <.div(^.className := Seq(OperationSequenceStyles.row, DynamicOperationSequenceStyles.gradient))(
-            <.div(^.className := OperationSequenceStyles.cell)(
+          <.div(^.className := Seq(SequenceOfTheOperationStyles.row, DynamicSequenceOfTheOperationStyles.gradient))(
+            <.div(^.className := SequenceOfTheOperationStyles.cell)(
               <.div(^.className := RowRulesStyles.centeredRow)(
                 <.div(^.className := ColRulesStyles.col)(
-                  <.header(^.className := OperationSequenceStyles.header)(
-                    <.p(^.className := Seq(OperationSequenceStyles.backLinkWrapper))(
+                  <.header(^.className := SequenceOfTheOperationStyles.header)(
+                    <.p(^.className := Seq(SequenceOfTheOperationStyles.backLinkWrapper))(
                       /*<.Link(
-                        ^.className := OperationSequenceStyles.backLink,
+                        ^.className := SequenceOfTheOperationStyles.backLink,
                         ^.to := s"/operation/${self.props.wrapped.operation.slug}"
                       )(
                         <.i(
                           ^.className := Seq(
-                            OperationSequenceStyles.backLinkArrow,
+                            SequenceOfTheOperationStyles.backLinkArrow,
                             FontAwesomeStyles.angleLeft
                           )
                         )(),
@@ -107,13 +114,13 @@ object OperationSequence {
                         )()
                       )*/
                     ),
-                    <.div(^.className := OperationSequenceStyles.titleWrapper)(
-                      <.h1(^.className := Seq(OperationSequenceStyles.title, TextStyles.smallTitle))(
+                    <.div(^.className := SequenceOfTheOperationStyles.titleWrapper)(
+                      <.h1(^.className := Seq(SequenceOfTheOperationStyles.title, TextStyles.smallTitle))(
                         unescape(self.props.wrapped.sequence.title)
                       ),
                       <.h2(
                         ^.className := Seq(
-                          OperationSequenceStyles.totalOfPropositions,
+                          SequenceOfTheOperationStyles.totalOfPropositions,
                           TextStyles.smallText,
                           TextStyles.boldText
                         )
@@ -127,14 +134,14 @@ object OperationSequence {
                         )
                       )
                     ),
-                    <.div(^.className := OperationSequenceStyles.openProposalModalButtonWrapper)(
-                      <.div(^.className := OperationSequenceStyles.openProposalModalButtonInnerWrapper)(
+                    <.div(^.className := SequenceOfTheOperationStyles.openProposalModalButtonWrapper)(
+                      <.div(^.className := SequenceOfTheOperationStyles.openProposalModalButtonInnerWrapper)(
                         <.button(
                           ^.className := Seq(
                             CTAStyles.basic,
                             CTAStyles.basicOnButton,
-                            OperationSequenceStyles.openProposalModalButton,
-                            OperationSequenceStyles.openProposalModalButtonExplained(guidedState)
+                            SequenceOfTheOperationStyles.openProposalModalButton,
+                            SequenceOfTheOperationStyles.openProposalModalButtonExplained(guidedState)
                           ),
                           ^.onClick := openProposalModal
                         )(
@@ -144,7 +151,7 @@ object OperationSequence {
                           )
                         ),
                         if (guidedState) {
-                          <.p(^.className := OperationSequenceStyles.guideToPropose)(
+                          <.p(^.className := SequenceOfTheOperationStyles.guideToPropose)(
                             <.span(
                               ^.className := TextStyles.smallerText,
                               ^.dangerouslySetInnerHTML := I18n.t("operation.sequence.header.guide.propose-cta")
@@ -171,27 +178,28 @@ object OperationSequence {
               )
             )
           ),
-          <.div(^.className := Seq(OperationSequenceStyles.row, OperationSequenceStyles.contentRow))(
-            <.div(^.className := OperationSequenceStyles.cell)(
+          <.div(^.className := Seq(SequenceOfTheOperationStyles.row, SequenceOfTheOperationStyles.contentRow))(
+            <.div(^.className := SequenceOfTheOperationStyles.cell)(
               <.SequenceContainerComponent(
                 ^.wrapped := SequenceContainerProps(
                   sequence = self.props.wrapped.sequence,
                   maybeThemeColor = Some(gradientValues.from),
                   maybeOperation = Some(self.props.wrapped.operation),
-                  intro = IntroOfOperationSequence.reactClass,
-                  conclusion = ConclusionOfOperationSequenceContainer.reactClass,
-                  promptingToPropose = PromptingToProposeInsideOperationSequence.reactClass
+                  intro = IntroductionOfTheSequence.reactClass,
+                  conclusion = ConclusionOfTheSequenceContainer.reactClass,
+                  promptingToPropose = PromptingToProposeSequence.reactClass,
+                  promptingToConnect = PromptingToConnect.reactClass
                 )
               )()
             )
           ),
-          <.style()(OperationSequenceStyles.render[String], DynamicOperationSequenceStyles.render[String])
+          <.style()(SequenceOfTheOperationStyles.render[String], DynamicSequenceOfTheOperationStyles.render[String])
         )
       }
     )
 }
 
-object OperationSequenceStyles extends StyleSheet.Inline {
+object SequenceOfTheOperationStyles extends StyleSheet.Inline {
 
   import dsl._
 
