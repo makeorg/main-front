@@ -101,7 +101,8 @@ emitSourceMaps := System.getenv("CI_BUILD") != "true"
 // Prod settings
 scalacOptions ++= {
   if (System.getenv("CI_BUILD") == "true") {
-    Seq("-Xelide-below", "OFF")
+    // Seq("-Xelide-below", "OFF") do not uglify css until we know how to make it work correctly
+    Seq.empty
   } else {
     Seq("-deprecation")
   }
