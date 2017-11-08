@@ -103,7 +103,11 @@ object MakeApiClient extends Client {
       headers = requestData.headers,
       withCredentials = requestData.withCredentials,
       responseType = requestData.responseType
-    ).map(response => JSON.parse(response.responseText).asInstanceOf[ENTITY])
+    ).map(
+      response =>
+        if (response.responseText.nonEmpty) JSON.parse(response.responseText).asInstanceOf[ENTITY]
+        else response.response.asInstanceOf[ENTITY]
+    )
   }
 
   override def post[ENTITY <: js.Object](apiEndpoint: String = "",
