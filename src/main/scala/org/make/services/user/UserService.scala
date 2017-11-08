@@ -87,7 +87,7 @@ object UserService extends ApiService {
   def subscribeToNewsletter(email: String): Future[Unit] = {
     Future.successful {}
     MakeApiClient
-      .post[UserResponse](resourceName / "newsletter", data = JSON.stringify(js.Dictionary("email" -> email)))
+      .post[js.Object](resourceName / "newsletter", data = JSON.stringify(js.Dictionary("email" -> email)))
       .map { _ =>
         }
   }
