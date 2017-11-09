@@ -9,7 +9,7 @@ import org.make.front.facades.I18n
 import org.make.front.helpers.NumberFormat.formatToKilo
 import org.make.front.models.Qualification
 import org.make.front.styles._
-import org.make.front.styles.base.TextStyles
+import org.make.front.styles.base.{TableLayoutStyles, TextStyles}
 import org.make.front.styles.utils._
 
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -89,15 +89,25 @@ object QualificateVoteButton {
         }).mkString(" ")
 
       <.button(^.className := buttonClasses, ^.onClick := qualifyVote(self.props.wrapped.qualification.key))(
-        <.span(^.className := QualificateVoteButtonStyles.innerWrapper)(
+        <.span(^.className := TableLayoutStyles.fullHeightWrapper)(
           <.span(
-            ^.className := Seq(TextStyles.smallerText, TextStyles.boldText, QualificateVoteButtonStyles.label),
+            ^.className := Seq(
+              TextStyles.smallerText,
+              TextStyles.boldText,
+              TableLayoutStyles.cellVerticalAlignMiddle,
+              QualificateVoteButtonStyles.label
+            ),
             ^.dangerouslySetInnerHTML := I18n.t(
               s"proposal.vote.${self.props.wrapped.voteKey}.qualifications.${self.props.wrapped.qualification.key}"
             )
           )(),
           <.span(
-            ^.className := Seq(QualificateVoteButtonStyles.votesCounter, TextStyles.mediumText, TextStyles.boldText)
+            ^.className := Seq(
+              TableLayoutStyles.cellVerticalAlignMiddle,
+              QualificateVoteButtonStyles.votesCounter,
+              TextStyles.mediumText,
+              TextStyles.boldText
+            )
           )(if (!self.state.isSelected) {
             I18n.t("proposal.qualificate-vote.increment")
           } else {
@@ -170,27 +180,11 @@ object QualificateVoteButtonStyles extends StyleSheet.Inline {
 
   val neutralActivated: StyleA = style(color(ThemeStyles.TextColor.white), backgroundColor(ThemeStyles.TextColor.grey))
 
-  val innerWrapper: StyleA =
-    style(display.table, width(100.%%), height(100.%%))
-
   val label: StyleA =
-    style(
-      display.tableCell,
-      verticalAlign.middle,
-      lineHeight(1),
-      unsafeChild(".fa")(display.inline, color(ThemeStyles.ThemeColor.assertive))
-    )
+    style(lineHeight(1), unsafeChild(".fa")(display.inline, color(ThemeStyles.ThemeColor.assertive)))
 
   val votesCounter: StyleA =
-    style(
-      display.tableCell,
-      verticalAlign.middle,
-      paddingLeft(0.5.em),
-      textAlign.right,
-      lineHeight(1),
-      opacity(1),
-      transition := "opacity .2s ease-in-out"
-    )
+    style(paddingLeft(0.5.em), textAlign.right, lineHeight(1), opacity(1), transition := "opacity .2s ease-in-out")
 
   val selectedQualificationVotesCounter: StyleA = style(opacity(0.5))
 }

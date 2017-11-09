@@ -10,7 +10,7 @@ import org.make.front.facades.Unescape.unescape
 import org.make.front.facades.{I18n, Replacements}
 import org.make.front.models.{PoliticalAction => PoliticalActionModel}
 import org.make.front.styles._
-import org.make.front.styles.base.{ColRulesStyles, RowRulesStyles, TextStyles}
+import org.make.front.styles.base._
 import org.make.front.styles.utils._
 import org.make.front.styles.vendors.FontAwesomeStyles
 import org.scalajs.dom.raw.HTMLElement
@@ -86,8 +86,15 @@ object PoliticalActionsList {
               <.NoPoliticalActionComponent.empty
             )
           } else {
-            <.div(^.className := PoliticalActionsListStyles.slideshowWrapper)(
-              <.div(^.className := PoliticalActionsListStyles.slideshowContentWrapper)(
+            <.div(
+              ^.className := Seq(TableLayoutBeyondMediumStyles.wrapper, PoliticalActionsListStyles.slideshowWrapper)
+            )(
+              <.div(
+                ^.className := Seq(
+                  TableLayoutBeyondMediumStyles.cell,
+                  PoliticalActionsListStyles.slideshowContentWrapper
+                )
+              )(
                 <.div(^.className := Seq(PoliticalActionsListStyles.slideshow))(
                   <.Slider(^.ref := ((slideshow: HTMLElement) => {
                     slider = Option(slideshow.asInstanceOf[Slider])
@@ -105,7 +112,12 @@ object PoliticalActionsList {
                   )
                 )
               ),
-              <.nav(^.className := Seq(PoliticalActionsListStyles.slideshowNav))(
+              <.nav(
+                ^.className := Seq(
+                  TableLayoutBeyondMediumStyles.cellVerticalAlignMiddle,
+                  PoliticalActionsListStyles.slideshowNav
+                )
+              )(
                 <.button(
                   ^.className := Seq(FontAwesomeStyles.angleLeft, PoliticalActionsListStyles.slideshowArrow),
                   ^.ref := ((e: HTMLElement) => { previousButton = Some(e) }),
@@ -153,9 +165,7 @@ object PoliticalActionsListStyles extends StyleSheet.Inline {
   val slideshowWrapper: StyleA =
     style(
       ThemeStyles.MediaQueries.beyondMedium(
-        display.table,
         tableLayout.fixed,
-        width(100.%%),
         backgroundColor(ThemeStyles.BackgroundColor.white),
         boxShadow := "0 1px 1px 0 rgba(0,0,0,0.50)"
       )
@@ -165,13 +175,13 @@ object PoliticalActionsListStyles extends StyleSheet.Inline {
     style(backgroundColor(ThemeStyles.BackgroundColor.white), boxShadow := "0 1px 1px 0 rgba(0,0,0,0.50)")
 
   val slideshowContentWrapper: StyleA =
-    style(ThemeStyles.MediaQueries.beyondMedium(display.tableCell, width(100.%%)))
+    style(ThemeStyles.MediaQueries.beyondMedium(width(100.%%)))
 
   val slideshowNav: StyleA =
     style(
       display.none,
       ThemeStyles.MediaQueries
-        .beyondMedium(display.tableCell, verticalAlign.middle, whiteSpace.nowrap, width(100.pxToEm()))
+        .beyondMedium(whiteSpace.nowrap, width(100.pxToEm()))
     )
 
   val slideshowArrow: StyleA =

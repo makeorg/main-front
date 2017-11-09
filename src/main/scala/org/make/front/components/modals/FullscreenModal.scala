@@ -7,7 +7,7 @@ import org.make.front.Main.CssSettings._
 import org.make.front.components.Components.{RichVirtualDOMElements, _}
 import org.make.front.facades.ReactModal.{ReactModalVirtualDOMAttributes, ReactModalVirtualDOMElements}
 import org.make.front.styles._
-import org.make.front.styles.base.{ColRulesStyles, RowRulesStyles}
+import org.make.front.styles.base.{ColRulesStyles, RowRulesStyles, TableLayoutStyles}
 import org.make.front.styles.utils._
 
 object FullscreenModal {
@@ -28,17 +28,20 @@ object FullscreenModal {
         <.ReactModal(^.contentLabel := "", ^.isOpen := self.state.isModalOpened, ^.shouldCloseOnOverlayClick := false)(
           <.div(
             ^.className := Seq(
+              TableLayoutStyles.fullHeightWrapper,
               FullscreenModalStyles.wrapper,
               FullscreenModalStyles.preventMainScroll(!self.state.isModalOpened)
             )
           )(
-            <.div(^.className := FullscreenModalStyles.row)(
-              <.div(^.className := Seq(FullscreenModalStyles.cell, FullscreenModalStyles.mainHeaderWrapper))(
-                <.MainHeaderComponent.empty
-              )
+            <.div(^.className := TableLayoutStyles.row)(
+              <.div(
+                ^.className := Seq(TableLayoutStyles.cellVerticalAlignMiddle, FullscreenModalStyles.mainHeaderWrapper)
+              )(<.MainHeaderComponent.empty)
             ),
-            <.div(^.className := Seq(FullscreenModalStyles.row, FullscreenModalStyles.contentWrapper))(
-              <.div(^.className := Seq(FullscreenModalStyles.cell, FullscreenModalStyles.contentInnerWrapper))(
+            <.div(^.className := Seq(TableLayoutStyles.row, FullscreenModalStyles.contentWrapper))(
+              <.div(
+                ^.className := Seq(TableLayoutStyles.cellVerticalAlignMiddle, FullscreenModalStyles.contentInnerWrapper)
+              )(
                 <.div(^.className := FullscreenModalStyles.closeModalButtonWrapper)(
                   <.div(^.className := RowRulesStyles.centeredRow)(
                     <.div(^.className := ColRulesStyles.col)(
@@ -78,18 +81,9 @@ object FullscreenModalStyles extends StyleSheet.Inline {
 
   val wrapper: StyleA =
     style(
-      display.table,
-      width(100.%%),
-      height(100.%%),
       backgroundColor(ThemeStyles.BackgroundColor.white),
       backgroundImage := "linear-gradient(155deg, #FFFFFF 0%, #ECECEC 100%)"
     )
-
-  val row: StyleA =
-    style(display.tableRow)
-
-  val cell: StyleA =
-    style(display.tableCell, verticalAlign.middle)
 
   val mainHeaderWrapper: StyleA =
     style(visibility.hidden)

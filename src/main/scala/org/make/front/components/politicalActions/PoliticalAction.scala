@@ -7,7 +7,7 @@ import org.make.front.components.Components._
 import org.make.front.facades.Unescape.unescape
 import org.make.front.models.{PoliticalAction => PoliticalActionModel}
 import org.make.front.styles._
-import org.make.front.styles.base.TextStyles
+import org.make.front.styles.base.{TableLayoutStyles, TextStyles}
 import org.make.front.styles.utils._
 import org.make.front.styles.vendors.FontAwesomeStyles
 import org.make.front.Main.CssSettings._
@@ -23,8 +23,8 @@ object PoliticalAction {
         render = (self) => {
           val politicalAction = self.props.wrapped.politicalAction
 
-          <.article(^.className := PoliticalActionStyles.wrapper)(
-            <.p(^.className := PoliticalActionStyles.imageWrapper)(
+          <.article(^.className := TableLayoutStyles.wrapper)(
+            <.p(^.className := Seq(TableLayoutStyles.cell, PoliticalActionStyles.imageWrapper))(
               <.img(
                 ^.className := PoliticalActionStyles.image,
                 ^.src := politicalAction.imageUrl,
@@ -32,20 +32,30 @@ object PoliticalAction {
                 ^("data-pin-no-hover") := "true"
               )()
             ),
-            <.div(^.className := PoliticalActionStyles.contentWrapper)(politicalAction.introduction.map {
-              introduction =>
+            <.div(^.className := Seq(TableLayoutStyles.cell, PoliticalActionStyles.contentWrapper))(
+              politicalAction.introduction.map { introduction =>
                 <.p(^.className := Seq(TextStyles.smallerText, PoliticalActionStyles.info))(unescape(introduction))
-            }, politicalAction.date.map { date =>
-              <.p(^.className := Seq(TextStyles.smallerText, PoliticalActionStyles.info))(
-                <.i(^.className := Seq(PoliticalActionStyles.infoIcon, FontAwesomeStyles.calendarOpen))(),
-                date
+              },
+              politicalAction.date.map { date =>
+                <.p(^.className := Seq(TextStyles.smallerText, PoliticalActionStyles.info))(
+                  <.i(^.className := Seq(PoliticalActionStyles.infoIcon, FontAwesomeStyles.calendarOpen))(),
+                  date
+                )
+              },
+              politicalAction.location.map { location =>
+                <.p(^.className := Seq(TextStyles.smallerText, PoliticalActionStyles.info))(
+                  <.i(^.className := Seq(PoliticalActionStyles.infoIcon, FontAwesomeStyles.mapMarker))(),
+                  location
+                )
+              },
+              <.p(^.className := Seq(TextStyles.boldText, TextStyles.mediumText, PoliticalActionStyles.text))(
+                unescape(politicalAction.text),
+                <.br()(),
+                politicalAction.links.map(
+                  links => <.span(^.dangerouslySetInnerHTML := links, ^.className := PoliticalActionStyles.links)()
+                )
               )
-            }, politicalAction.location.map { location =>
-              <.p(^.className := Seq(TextStyles.smallerText, PoliticalActionStyles.info))(
-                <.i(^.className := Seq(PoliticalActionStyles.infoIcon, FontAwesomeStyles.mapMarker))(),
-                location
-              )
-            }, <.p(^.className := Seq(TextStyles.boldText, TextStyles.mediumText, PoliticalActionStyles.text))(unescape(politicalAction.text), <.br()(), politicalAction.links.map(links => <.span(^.dangerouslySetInnerHTML := links, ^.className := PoliticalActionStyles.links)()))),
+            ),
             <.style()(PoliticalActionStyles.render[String])
           )
         }
@@ -55,12 +65,8 @@ object PoliticalAction {
 object PoliticalActionStyles extends StyleSheet.Inline {
   import dsl._
 
-  val wrapper: StyleA = style(display.table, width(100.%%))
-
   val imageWrapper: StyleA =
     style(
-      display.tableCell,
-      verticalAlign.top,
       width(70.pxToEm()),
       ThemeStyles.MediaQueries
         .beyondMedium(verticalAlign.middle, width(120.pxToEm())),
@@ -70,8 +76,6 @@ object PoliticalActionStyles extends StyleSheet.Inline {
 
   val contentWrapper: StyleA =
     style(
-      display.tableCell,
-      verticalAlign.top,
       padding(
         ThemeStyles.SpacingValue.small.pxToEm(),
         ThemeStyles.SpacingValue.small.pxToEm(),

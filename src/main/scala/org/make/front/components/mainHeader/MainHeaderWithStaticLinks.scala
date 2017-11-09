@@ -8,7 +8,7 @@ import org.make.front.components.Components._
 import org.make.front.facades.Unescape.unescape
 import org.make.front.facades.{logoMake, I18n}
 import org.make.front.styles._
-import org.make.front.styles.base.{ColRulesStyles, RWDHideRulesStyles, RowRulesStyles, TextStyles}
+import org.make.front.styles.base._
 import org.make.front.styles.utils._
 
 object MainHeaderWithStaticLinks {
@@ -21,8 +21,13 @@ object MainHeaderWithStaticLinks {
             <.CookieAlertContainerComponent.empty,
             <.div(^.className := RowRulesStyles.centeredRow)(
               <.div(^.className := ColRulesStyles.col)(
-                <.div(^.className := MainHeaderWithStaticLinksStyles.innerWrapper)(
-                  <.p(^.className := MainHeaderWithStaticLinksStyles.logoWrapper)(
+                <.div(^.className := Seq(TableLayoutStyles.wrapper, MainHeaderWithStaticLinksStyles.innerWrapper))(
+                  <.p(
+                    ^.className := Seq(
+                      TableLayoutStyles.cellVerticalAlignMiddle,
+                      MainHeaderWithStaticLinksStyles.logoWrapper
+                    )
+                  )(
                     <.img(
                       ^.className := MainHeaderWithStaticLinksStyles.logo,
                       ^.src := logoMake.toString,
@@ -30,7 +35,7 @@ object MainHeaderWithStaticLinks {
                       ^("data-pin-no-hover") := "true"
                     )()
                   ),
-                  <.div(^.className := MainHeaderWithStaticLinksStyles.menusWrapper)(
+                  <.div(^.className := TableLayoutStyles.cellVerticalAlignMiddle)(
                     <.nav(
                       ^.className := Seq(
                         MainHeaderWithStaticLinksStyles.menuWrapper,
@@ -74,25 +79,15 @@ object MainHeaderWithStaticLinksStyles extends StyleSheet.Inline {
     style(position.absolute, top(100.%%), left(`0`), width(100.%%))
 
   val innerWrapper: StyleA =
-    style(
-      display.table,
-      width(100.%%),
-      height(50.pxToEm()),
-      ThemeStyles.MediaQueries.beyondSmall(height(ThemeStyles.mainNavDefaultHeight))
-    )
+    style(height(50.pxToEm()), ThemeStyles.MediaQueries.beyondSmall(height(ThemeStyles.mainNavDefaultHeight)))
 
   val logoWrapper: StyleA =
     style(
-      display.tableCell,
-      verticalAlign.middle,
       width(80.pxToEm()),
       paddingRight(20.pxToEm()),
       ThemeStyles.MediaQueries.beyondSmall(width(100.pxToEm()), paddingRight(40.pxToEm()))
     )
   val logo: StyleA = style(width(50.pxToEm()), maxWidth.none, ThemeStyles.MediaQueries.beyondSmall(width(90.pxToEm())))
-
-  val menusWrapper: StyleA =
-    style(display.tableCell, verticalAlign.middle)
 
   val menuWrapper: StyleA =
     style(display.inlineBlock, margin(`0`, (ThemeStyles.SpacingValue.small * -1).pxToEm()))

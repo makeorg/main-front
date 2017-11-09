@@ -7,6 +7,7 @@ import io.github.shogowada.scalajs.reactjs.events.{FormSyntheticEvent, Synthetic
 import org.make.front.Main.CssSettings._
 import org.make.front.components.Components._
 import org.make.front.styles._
+import org.make.front.styles.base.TableLayoutStyles
 import org.make.front.styles.ui.InputStyles
 import org.make.front.styles.utils._
 import org.make.front.styles.vendors.FontAwesomeStyles
@@ -40,8 +41,8 @@ object NewPasswordInput {
         val props = self.props.wrapped
 
         <.label(^.className := Seq(NewPasswordInputStyles.withIconWrapper, InputStyles.wrapper, InputStyles.withIcon))(
-          <.span(^.className := NewPasswordInputStyles.innerWrapper)(
-            <.span(^.className := NewPasswordInputStyles.inputWrapper)(
+          <.span(^.className := TableLayoutStyles.wrapper)(
+            <.span(^.className := Seq(TableLayoutStyles.cell, NewPasswordInputStyles.inputWrapper))(
               <.input(
                 ^.required := props.required,
                 ^.`type` := self.state.passwordInputType,
@@ -51,7 +52,7 @@ object NewPasswordInput {
                 ^.onChange := props.onChange
               )()
             ),
-            <.span(^.className := NewPasswordInputStyles.switchInputTypeButtonWrapper)(
+            <.span(^.className := Seq(TableLayoutStyles.cell, NewPasswordInputStyles.switchInputTypeButtonWrapper))(
               <.button(
                 ^.className := Seq(
                   NewPasswordInputStyles.switchInputTypeButton(self.state.passwordInputType == "password")
@@ -72,14 +73,11 @@ object NewPasswordInputStyles extends StyleSheet.Inline {
   val withIconWrapper: StyleA =
     style(backgroundColor(ThemeStyles.BackgroundColor.lightGrey), (&.before)(content := "'\\f023'"))
 
-  val innerWrapper: StyleA =
-    style(display.table, width(100.%%))
-
   val inputWrapper: StyleA =
-    style(display.tableCell, width(100.%%))
+    style(width(100.%%))
 
   val switchInputTypeButtonWrapper: StyleA =
-    style(display.tableCell, paddingLeft(ThemeStyles.SpacingValue.smaller.pxToEm()))
+    style(paddingLeft(ThemeStyles.SpacingValue.smaller.pxToEm()))
 
   val switchInputTypeButton: (Boolean) => StyleA = styleF.bool(
     typePassword =>

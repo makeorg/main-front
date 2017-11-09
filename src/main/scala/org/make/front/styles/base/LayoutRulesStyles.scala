@@ -66,3 +66,69 @@ object RowRulesStyles extends StyleSheet.Inline {
       .beyondLarge(maxWidth(ThemeStyles.containerMaxWidth), marginRight.auto, marginLeft.auto)
   )
 }
+
+object TableLayoutStyles extends StyleSheet.Inline {
+
+  import dsl._
+
+  val wrapper: StyleA =
+    style(display.table, width(100.%%))
+
+  val fullHeightWrapper: StyleA =
+    style(wrapper, height(100.%%))
+
+  val row: StyleA =
+    style(display.tableRow)
+
+  val fullHeightRow: StyleA =
+    style(row, height(100.%%))
+
+  val cell: StyleA =
+    style(display.tableCell)
+
+  val cellVerticalAlignMiddle: StyleA =
+    style(cell, verticalAlign.middle)
+
+  val cellVerticalAlignBottom: StyleA =
+    style(cell, verticalAlign.bottom)
+}
+
+object TableLayoutBeyondSmallStyles extends StyleSheet.Inline {
+
+  import dsl._
+
+  val wrapper: StyleA =
+    style(ThemeStyles.MediaQueries.beyondSmall(display.table, width(100.%%)))
+
+  val fullHeightWrapper: StyleA =
+    style(ThemeStyles.MediaQueries.beyondSmall(wrapper, height(100.%%)))
+
+  val row: StyleA =
+    style(ThemeStyles.MediaQueries.beyondSmall(display.tableRow))
+
+  val fullHeightRow: StyleA =
+    style(ThemeStyles.MediaQueries.beyondSmall(row, height(100.%%)))
+
+  val cell: StyleA =
+    style(ThemeStyles.MediaQueries.beyondSmall(display.tableCell))
+
+  val cellVerticalAlignMiddle: StyleA =
+    style(ThemeStyles.MediaQueries.beyondSmall(cell, verticalAlign.middle))
+
+  val cellVerticalAlignBottom: StyleA =
+    style(ThemeStyles.MediaQueries.beyondSmall(cell, verticalAlign.bottom))
+}
+
+object TableLayoutBeyondMediumStyles extends StyleSheet.Inline {
+
+  import dsl._
+
+  val wrapper: StyleA =
+    style(ThemeStyles.MediaQueries.beyondMedium(display.table, width(100.%%)))
+
+  val cell: StyleA =
+    style(ThemeStyles.MediaQueries.beyondMedium(display.tableCell))
+
+  val cellVerticalAlignMiddle: StyleA =
+    style(ThemeStyles.MediaQueries.beyondMedium(cell, verticalAlign.middle))
+}

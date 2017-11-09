@@ -7,6 +7,7 @@ import org.make.front.Main.CssSettings._
 import org.make.front.components.Components.{RichVirtualDOMElements, _}
 import org.make.front.facades.ReactModal.{ReactModalVirtualDOMAttributes, ReactModalVirtualDOMElements}
 import org.make.front.styles._
+import org.make.front.styles.base.TableLayoutStyles
 import org.make.front.styles.utils._
 
 object Modal {
@@ -30,12 +31,19 @@ object Modal {
           ^.onRequestClose := self.props.wrapped.closeCallback,
           ^.shouldCloseOnOverlayClick := true
         )(
-          <.div(^.className := Seq(ModalStyles.wrapper, ModalStyles.preventMainScroll(!self.state.isModalOpened)))(
-            <.div(^.className := ModalStyles.row)(
-              <.div(^.className := Seq(ModalStyles.cell, ModalStyles.mainHeaderWrapper))(<.MainHeaderComponent.empty)
+          <.div(
+            ^.className := Seq(
+              TableLayoutStyles.fullHeightWrapper,
+              ModalStyles.preventMainScroll(!self.state.isModalOpened)
+            )
+          )(
+            <.div(^.className := TableLayoutStyles.row)(
+              <.div(^.className := Seq(TableLayoutStyles.cellVerticalAlignMiddle, ModalStyles.mainHeaderWrapper))(
+                <.MainHeaderComponent.empty
+              )
             ),
-            <.div(^.className := Seq(ModalStyles.row, ModalStyles.contentWrapper))(
-              <.div(^.className := ModalStyles.cell)(
+            <.div(^.className := Seq(TableLayoutStyles.row, ModalStyles.contentWrapper))(
+              <.div(^.className := TableLayoutStyles.cellVerticalAlignMiddle)(
                 <.div(^.className := ModalStyles.centeredRow)(
                   <.div(^.className := ModalStyles.contentInnerWrapper)(
                     <.button(
@@ -72,21 +80,12 @@ object ModalStyles extends StyleSheet.Inline {
 
   import dsl._
 
-  val wrapper: StyleA =
-    style(display.table, width(100.%%), height(100.%%))
-
   val preventMainScroll: (Boolean) => StyleA = styleF.bool(
     isPrevented =>
       if (!isPrevented) {
         styleS(unsafeRoot("html")(overflow.hidden))
       } else styleS()
   )
-
-  val row: StyleA =
-    style(display.tableRow)
-
-  val cell: StyleA =
-    style(display.tableCell, verticalAlign.middle)
 
   val mainHeaderWrapper: StyleA =
     style(visibility.hidden)

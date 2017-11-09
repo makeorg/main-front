@@ -7,9 +7,8 @@ import org.make.front.components.Components._
 import org.make.front.facades.Unescape.unescape
 import org.make.front.facades.{logoMake, I18n}
 import org.make.front.styles._
-import org.make.front.styles.base.{ColRulesStyles, RWDHideRulesStyles, RowRulesStyles, TextStyles}
+import org.make.front.styles.base._
 import org.make.front.styles.utils._
-
 import org.make.front.Main.CssSettings._
 
 object MainFooter {
@@ -23,8 +22,8 @@ object MainFooter {
           <.footer(^.className := MainFooterStyles.wrapper)(
             <.div(^.className := RowRulesStyles.centeredRow)(
               <.div(^.className := ColRulesStyles.col)(
-                <.div(^.className := MainFooterStyles.innerWrapper)(
-                  <.p(^.className := MainFooterStyles.logoWrapper)(
+                <.div(^.className := Seq(TableLayoutStyles.wrapper, MainFooterStyles.innerWrapper))(
+                  <.p(^.className := TableLayoutStyles.cellVerticalAlignMiddle)(
                     <.img(
                       ^.className := MainFooterStyles.logo,
                       ^.src := logoMake.toString,
@@ -32,7 +31,7 @@ object MainFooter {
                       ^("data-pin-no-hover") := "true"
                     )()
                   ),
-                  <.div(^.className := MainFooterStyles.menuWrapper)(
+                  <.div(^.className := TableLayoutStyles.cellVerticalAlignMiddle)(
                     <.ul(^.className := MainFooterStyles.menu)(
                       /*<.li(^.className := Seq(MainFooterStyles.menuItem, MainFooterStyles.emphasizedMenuItem))(
                         <.p(^.className := Seq(TextStyles.title, TextStyles.smallText))(
@@ -90,13 +89,7 @@ object MainFooterStyles extends StyleSheet.Inline {
     style(backgroundColor(ThemeStyles.BackgroundColor.white), boxShadow := s"0 -2px 4px 0 rgba(0,0,0,0.50)")
 
   val innerWrapper: StyleA =
-    style(display.table, width(100.%%), height(ThemeStyles.mainNavDefaultHeight))
-
-  val logoWrapper: StyleA =
-    style(display.tableCell, verticalAlign.middle)
-
-  val menuWrapper: StyleA =
-    style(display.tableCell, verticalAlign.middle)
+    style(height(ThemeStyles.mainNavDefaultHeight))
 
   val logo: StyleA =
     style(width(100.%%), maxWidth(60.pxToEm()))
