@@ -37,7 +37,7 @@ object ProposalContainer {
                   val proposal = proposalsResponse.results.head
 
                   val maybeTheme: Option[TranslatedThemeModel] =
-                    proposal.themeId.flatMap(themeId => state.themes.find(_.id == themeId))
+                    proposal.themeId.flatMap(themeId => state.themes.find(_.id.value == themeId.value))
 
                   maybeTheme.map { theme =>
                     ProposalAndThemeInfosModel(

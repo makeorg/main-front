@@ -18,7 +18,7 @@ object ProposalTileWithThemeContainer {
                      Props[ProposalTileWithThemeContainerProps]) => ProposalTileWithTheme.ProposalTileWithThemeProps =
     (_: Dispatch) => { (appState: AppState, ownProps: Props[ProposalTileWithThemeContainerProps]) =>
       def searchThemeById(themeId: ThemeIdModel): Option[TranslatedThemeModel] = {
-        appState.themes.find(_.id == themeId)
+        appState.themes.find(_.id.value == themeId.value)
       }
 
       val theme: Option[TranslatedThemeModel] = ownProps.wrapped.proposal.themeId.flatMap(themeId => searchThemeById(themeId))

@@ -53,8 +53,8 @@ object Proposal {
       author = Author(proposalResponse.author),
       country = proposalResponse.country,
       language = proposalResponse.language,
-      themeId = proposalResponse.themeId.toOption.map(ThemeId.apply),
-      operationId = proposalResponse.operationId.toOption.map(OperationId.apply),
+      themeId = Option(proposalResponse.themeId).flatMap(_.toOption).map(ThemeId.apply),
+      operationId = Option(proposalResponse.operationId).flatMap(_.toOption).map(OperationId.apply),
       tags = seqTags,
       myProposal = proposalResponse.myProposal
     )
