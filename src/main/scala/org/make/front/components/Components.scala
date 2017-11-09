@@ -62,6 +62,8 @@ object Components {
     def UserProfileComponent: ReactClassElementSpec =
       self(userProfile.UserProfile.reactClass)
 
+    def ShareComponent: ReactClassElementSpec = self(share.ShareProposal.reactClass)
+
     /*********************/
     def ActivateAccountContainerComponent: ReactClassElementSpec =
       self(activateAccount.ActivateAccountContainer.reactClass)
@@ -98,7 +100,7 @@ object Components {
     /*********************/
     def ProposalInfosComponent: ReactClassElementSpec = self(proposal.ProposalInfos.reactClass)
     def ShareOwnProposalComponent: ReactClassElementSpec = self(proposal.ShareOwnProposal.reactClass)
-    def ShareProposalComponent: ReactClassElementSpec = self(proposal.ShareProposal.reactClass)
+
     def ProposalTileComponent: ReactClassElementSpec = self(proposal.ProposalTile.reactClass)
     def ProposalTileWithThemeContainerComponent: ReactClassElementSpec =
       self(proposal.ProposalTileWithThemeContainer.reactClass)

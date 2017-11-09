@@ -39,7 +39,7 @@ object Container {
           <.Route(^.exact := true, ^.path := "/proposal/:proposalSlug", ^.component := ProposalContainer.reactClass)(),
           <.Route(^.exact := true, ^.path := "/profile", ^.component := UserProfileContainer.reactClass)(),
           /*TODO : reactive later*/
-          /*<.Route(
+          <.Route(
             ^.exact := true,
             ^.path := "/operation/:operationSlug",
             ^.component := OperationContainer.reactClass
@@ -48,7 +48,7 @@ object Container {
             ^.exact := true,
             ^.path := "/operation/:operationSlug/consultation/:sequenceSlug",
             ^.component := SequenceOfTheOperationContainer.reactClass
-          )(),*/
+          )(),
           <.Route(
             ^.exact := true,
             ^.path := "/consultation/comment-lutter-contre-les-violences-faites-aux-femmes",

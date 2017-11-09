@@ -1,54 +1,49 @@
-package org.make.front.components.proposal
+package org.make.front.components.share
 
 import io.github.shogowada.scalajs.reactjs.React
 import io.github.shogowada.scalajs.reactjs.VirtualDOM.{<, ^, _}
 import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import org.make.front.Main.CssSettings._
 import org.make.front.components.Components._
-import org.make.front.facades.I18n
-import org.make.front.facades.Unescape.unescape
-import org.make.front.models.{Proposal => ProposalModel}
 import org.make.front.styles.ThemeStyles
 import org.make.front.styles.base.TextStyles
 import org.make.front.styles.utils._
 
 object ShareProposal {
 
-  final case class ShareProposalProps(proposal: ProposalModel)
+  final case class ShareProps(intro: Option[String])
 
   val reactClass: ReactClass =
     React
-      .createClass[ShareProposalProps, Unit](
+      .createClass[ShareProps, Unit](
         displayName = "ShareProposal",
         render = (self) => {
 
-          <.div(^.className := ShareProposalStyles.wrapper)(
-            <.div(^.className := ShareProposalStyles.intro)(
-              <.p(^.className := TextStyles.smallerTitle)(unescape(I18n.t("proposal.share-intro")))
+          <.div(^.className := ShareStyles.wrapper)(
+            <.div(^.className := ShareStyles.intro)(
+              <.p(^.className := TextStyles.smallerTitle)(self.props.wrapped.intro.getOrElse(""))
             ),
-            <.ul(^.className := ShareProposalStyles.list)(
-              <.li(^.className := ShareProposalStyles.item)(
-                <.button(^.className := Seq(ShareProposalStyles.button, ShareProposalStyles.shareWithFacebookButton))()
+            <.ul(^.className := ShareStyles.list)(
+              <.li(^.className := ShareStyles.item)(
+                <.button(^.className := Seq(ShareStyles.button, ShareStyles.shareWithFacebookButton))()
               ),
-              <.li(^.className := ShareProposalStyles.item)(
-                <.button(^.className := Seq(ShareProposalStyles.button, ShareProposalStyles.shareWithTwitterButton))()
+              <.li(^.className := ShareStyles.item)(
+                <.button(^.className := Seq(ShareStyles.button, ShareStyles.shareWithTwitterButton))()
               ),
-              <.li(^.className := ShareProposalStyles.item)(
-                <.button(
-                  ^.className := Seq(ShareProposalStyles.button, ShareProposalStyles.shareWithGooglePlusButton)
-                )()
+              <.li(^.className := ShareStyles.item)(
+                <.button(^.className := Seq(ShareStyles.button, ShareStyles.shareWithGooglePlusButton))()
               ),
-              <.li(^.className := ShareProposalStyles.item)(
-                <.button(^.className := Seq(ShareProposalStyles.button, ShareProposalStyles.shareWithLinkedInButton))()
+              <.li(^.className := ShareStyles.item)(
+                <.button(^.className := Seq(ShareStyles.button, ShareStyles.shareWithLinkedInButton))()
               )
             ),
-            <.style()(ShareProposalStyles.render[String])
+            <.style()(ShareStyles.render[String])
           )
         }
       )
 }
 
-object ShareProposalStyles extends StyleSheet.Inline {
+object ShareStyles extends StyleSheet.Inline {
 
   import dsl._
 
@@ -70,8 +65,8 @@ object ShareProposalStyles extends StyleSheet.Inline {
   val button: StyleA = style(
     display.inlineBlock,
     verticalAlign.middle,
-    width(40.pxToEm()),
-    height(40.pxToEm()),
+    width(30.pxToEm()),
+    height(30.pxToEm()),
     borderRadius(50.%%),
     overflow.hidden,
     boxShadow := s"0 0 0 0 rgba(0, 0, 0, .0)",
@@ -79,13 +74,18 @@ object ShareProposalStyles extends StyleSheet.Inline {
     (&.before)(
       display.inlineBlock,
       width(100.%%),
-      fontSize(18.pxToEm()),
-      lineHeight(40.pxToEm(18)),
+      fontSize(13.pxToEm()),
+      lineHeight(30.pxToEm(13)),
       ThemeStyles.Font.fontAwesome,
       textAlign.center,
       color(ThemeStyles.TextColor.white)
     ),
-    (&.hover)(boxShadow := s"0 ${1.pxToEm().value} ${1.pxToEm().value} 0 rgba(0, 0, 0, .5)")
+    (&.hover)(boxShadow := s"0 1px 1px 0 rgba(0, 0, 0, .5)"),
+    ThemeStyles.MediaQueries.beyondSmall(
+      width(40.pxToEm()),
+      height(40.pxToEm()),
+      (&.before)(fontSize(18.pxToEm()), lineHeight(40.pxToEm(18)))
+    )
   )
 
   val shareWithFacebookButton: StyleA =

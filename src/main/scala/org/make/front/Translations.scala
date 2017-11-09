@@ -229,6 +229,21 @@ object Translations {
       |         "propose-cta": "Proposer",
       |         "next-cta": "Pas encore, je continue à voter"
       |      },
+      |      "prompting-to-continue": {
+      |         "intro": "Merci pour votre contribution. Continuez à vous engager sur cette&nbsp;cause&nbsp;:",
+      |         "continue": {
+      |           "intro": "En poursuivant la consultation&nbsp;:",
+      |           "cta": "Démarrer"
+      |         },
+      |         "learn-more": {
+      |           "intro": "En découvrant l'ensemble de&nbsp;l'opération",
+      |           "continuation": "et toutes les propositions faites par les&nbsp;citoyens&nbsp;:",
+      |           "cta": "En savoir +"
+      |         },
+      |        "share": {
+      |           "intro": "En invitant vos proches à participer à la&nbsp;consultation&nbsp;:"
+      |         }
+      |      },
       |      "prompting-to-connect": {
       |         "title": "Identifiez-vous pour être informé(e) des résultats de la&nbsp;consultation.",
       |         "intro": "Je m'identifie avec",

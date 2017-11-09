@@ -8,6 +8,7 @@ import org.make.front.Main.CssSettings._
 import org.make.front.components.Components.{RichVirtualDOMElements, _}
 import org.make.front.components.proposal.ProposalContainer.ProposalAndThemeInfosModel
 import org.make.front.components.proposal.vote.VoteContainer.VoteContainerProps
+import org.make.front.components.share.ShareProposal.ShareProps
 import org.make.front.components.showcase.ThemeShowcaseContainer.ThemeShowcaseContainerProps
 import org.make.front.facades.I18n
 import org.make.front.facades.Unescape.unescape
@@ -106,16 +107,16 @@ object Proposal {
                   <.SpinnerComponent.empty
                 }
               )
-            ) /*,
-              <.div(^.className := Seq(ProposalStyles.row))(
-                <.div(^.className := Seq(ProposalStyles.cell, ProposalStyles.shareArticleCell))(
-                  <.div(^.className := RowRulesStyles.centeredRow)(
-                    <.div(^.className := ColRulesStyles.col)(
-                      <.ShareProposalComponent(^.wrapped := ShareProposalProps(proposal = self.state.proposal))()
-                    )
+            ),
+            <.div(^.className := Seq(TableLayoutStyles.row))(
+              <.div(^.className := Seq(TableLayoutStyles.cell, ProposalStyles.shareArticleCell))(
+                <.div(^.className := RowRulesStyles.centeredRow)(
+                  <.div(^.className := ColRulesStyles.col)(
+                    <.ShareComponent(^.wrapped := ShareProps(intro = Some(unescape(I18n.t("proposal.share-intro")))))()
                   )
                 )
-              )*/
+              )
+            )
           ),
           if (self.state.themeSlug.nonEmpty) {
             <.ThemeShowcaseContainerComponent(

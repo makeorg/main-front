@@ -48,7 +48,7 @@ object PromptingToProposeSequence {
             ),
             <.div(^.className := Seq(PromptingToProposeStyles.ctaWrapper))(
               <.button(^.className := Seq(CTAStyles.basic, CTAStyles.basicOnButton), ^.onClick := openProposalModal)(
-                <.i(^.className := Seq(FontAwesomeStyles.paperPlaneTransparent))(),
+                <.i(^.className := Seq(FontAwesomeStyles.pencil))(),
                 unescape("&nbsp;" + I18n.t("sequence.prompting-to-propose.propose-cta"))
               ),
               <.FullscreenModalComponent(

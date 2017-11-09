@@ -41,7 +41,7 @@ object IntroductionOfTheSequence {
               <.div(^.className := IntroductionOfTheSequenceStyles.explanationWrapper)(
                 <.p(^.className := Seq(TextStyles.biggerMediumText, IntroductionOfTheSequenceStyles.explanation))(text)
               )
-            }, <.div(^.className := IntroductionOfTheSequenceStyles.ctaWrapper)(<.button(^.className := Seq(CTAStyles.basic, CTAStyles.basicOnButton), ^.onClick := self.props.wrapped.clickOnButtonHandler)(<.i(^.className := Seq(FontAwesomeStyles.paperPlaneTransparent))(), unescape("&nbsp;" + I18n.t("sequence.introduction.cta"))))),
+            }, <.div(^.className := IntroductionOfTheSequenceStyles.ctaWrapper)(<.button(^.className := Seq(CTAStyles.basic, CTAStyles.basicOnButton), ^.onClick := self.props.wrapped.clickOnButtonHandler)(<.i(^.className := Seq(FontAwesomeStyles.play))(), unescape("&nbsp;" + I18n.t("sequence.introduction.cta"))))),
             <.style()(IntroductionOfTheSequenceStyles.render[String])
           )
         }

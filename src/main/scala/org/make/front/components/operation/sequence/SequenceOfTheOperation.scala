@@ -196,7 +196,8 @@ object SequenceOfTheOperation {
                   intro = IntroductionOfTheSequence.reactClass,
                   conclusion = ConclusionOfTheSequenceContainer.reactClass,
                   promptingToPropose = PromptingToProposeSequence.reactClass,
-                  promptingToConnect = PromptingToConnect.reactClass
+                  promptingToConnect = PromptingToConnect.reactClass,
+                  promptingToContinueAfterTheSequence = PromptingToContinueAfterTheSequence.reactClass
                 )
               )()
             )
