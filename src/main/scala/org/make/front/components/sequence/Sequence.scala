@@ -344,9 +344,12 @@ object Sequence {
                       <.div(^.className := SequenceStyles.slideWrapper)(
                         <.article(^.className := SequenceStyles.slide)(
                           <.div(^.className := TableLayoutStyles.fullHeightWrapper)(
-                            <.div(^.className := Seq(TableLayoutStyles.cell, SequenceStyles.slideInnerSubWrapper))(
-                              slide.component(counter)
-                            )
+                            <.div(
+                              ^.className := Seq(
+                                TableLayoutStyles.cellVerticalAlignMiddle,
+                                SequenceStyles.slideInnerSubWrapper
+                              )
+                            )(slide.component(counter))
                           )
                         )
                       )
