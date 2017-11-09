@@ -14,7 +14,7 @@ import org.make.front.facades.I18n
 import org.make.front.facades.Unescape.unescape
 import org.make.front.models.{Proposal => ProposalModel}
 import org.make.front.styles.ThemeStyles
-import org.make.front.styles.base.TextStyles
+import org.make.front.styles.base.{TableLayoutStyles, TextStyles}
 
 object ProposalTileWithTheme {
 
@@ -37,9 +37,9 @@ object ProposalTileWithTheme {
           }
 
           <.article(^.className := ProposalTileStyles.wrapper)(
-            <.div(^.className := ProposalTileStyles.innerWrapper)(
-              <.div(^.className := ProposalTileStyles.row)(
-                <.div(^.className := ProposalTileStyles.cell)(
+            <.div(^.className := Seq(TableLayoutStyles.fullHeightWrapper, ProposalTileStyles.innerWrapper))(
+              <.div(^.className := TableLayoutStyles.row)(
+                <.div(^.className := TableLayoutStyles.cell)(
                   intro,
                   <.div(^.className := ProposalTileStyles.contentWrapper)(
                     <.h3(^.className := Seq(TextStyles.mediumText, TextStyles.boldText))(
@@ -59,8 +59,8 @@ object ProposalTileWithTheme {
               ),
               if (Option(self.props.wrapped.themeName).exists(_.nonEmpty) && Option(self.props.wrapped.themeSlug)
                     .exists(_.nonEmpty)) {
-                <.div(^.className := ProposalTileStyles.row)(
-                  <.div(^.className := ProposalTileStyles.cellAlignedAtTheBottom)(
+                <.div(^.className := TableLayoutStyles.row)(
+                  <.div(^.className := TableLayoutStyles.cellVerticalAlignBottom)(
                     <.footer(^.className := ProposalTileStyles.footer)(
                       <.p(^.className := Seq(TextStyles.smallerText, ProposalTileWithThemeStyles.themeInfo))(
                         unescape(I18n.t("proposal.associated-with-the-theme")),

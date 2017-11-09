@@ -12,7 +12,7 @@ import org.make.front.components.proposal.ShareOwnProposal.ShareOwnProposalProps
 import org.make.front.components.proposal.vote.VoteContainer.VoteContainerProps
 import org.make.front.models.{Proposal => ProposalModel}
 import org.make.front.styles._
-import org.make.front.styles.base.TextStyles
+import org.make.front.styles.base.{TableLayoutStyles, TextStyles}
 import org.make.front.styles.ui.TagStyles
 import org.make.front.styles.utils._
 
@@ -37,9 +37,9 @@ object ProposalTileWithTags {
           }
 
           <.article(^.className := ProposalTileStyles.wrapper)(
-            <.div(^.className := ProposalTileStyles.innerWrapper)(
-              <.div(^.className := ProposalTileStyles.row)(
-                <.div(^.className := ProposalTileStyles.cell)(
+            <.div(^.className := Seq(TableLayoutStyles.fullHeightWrapper, ProposalTileStyles.innerWrapper))(
+              <.div(^.className := TableLayoutStyles.row)(
+                <.div(^.className := TableLayoutStyles.cell)(
                   intro,
                   <.div(^.className := ProposalTileStyles.contentWrapper)(
                     <.h3(^.className := Seq(TextStyles.mediumText, TextStyles.boldText))(
@@ -58,8 +58,8 @@ object ProposalTileWithTags {
                 )
               ),
               if (self.props.wrapped.proposal.tags.nonEmpty) {
-                <.div(^.className := ProposalTileStyles.row)(
-                  <.div(^.className := ProposalTileStyles.cellAlignedAtTheBottom)(
+                <.div(^.className := TableLayoutStyles.row)(
+                  <.div(^.className := TableLayoutStyles.cellVerticalAlignBottom)(
                     <.footer(^.className := ProposalTileStyles.footer)(
                       <.ul(^.className := ProposalTileWithTagsStyles.tagList)(
                         self.props.wrapped.proposal.tags

@@ -11,7 +11,7 @@ import org.make.front.facades.I18n
 import org.make.front.facades.Unescape.unescape
 import org.make.front.models.{Operation => OperationModel}
 import org.make.front.styles._
-import org.make.front.styles.base.{ColRulesStyles, RowRulesStyles, TextStyles}
+import org.make.front.styles.base.{ColRulesStyles, RowRulesStyles, TableLayoutStyles, TextStyles}
 import org.make.front.styles.ui.InputStyles
 import org.make.front.styles.utils._
 import org.scalajs.dom.raw.HTMLElement
@@ -63,8 +63,8 @@ object OperationHeader {
                   OperationHeaderStyles.proposalInputWithIconWrapper
                 )
               )(
-                <.span(^.className := OperationHeaderStyles.inputInnerWrapper)(
-                  <.span(^.className := OperationHeaderStyles.inputSubInnerWrapper)(
+                <.span(^.className := TableLayoutStyles.wrapper)(
+                  <.span(^.className := Seq(TableLayoutStyles.cell, OperationHeaderStyles.inputWrapper))(
                     <.input(
                       ^.`type`.text,
                       ^.value := I18n.t("operation.proposal-form-in-header.bait"),
@@ -72,7 +72,7 @@ object OperationHeader {
                       ^.onFocus := openProposalModalFromInput()
                     )()
                   ),
-                  <.span(^.className := OperationHeaderStyles.textLimitInfoWapper)(
+                  <.span(^.className := TableLayoutStyles.cellVerticalAlignMiddle)(
                     <.span(^.className := Seq(TextStyles.smallText, OperationHeaderStyles.textLimitInfo))(
                       I18n.t("operation.proposal-form-in-header.limit-of-chars-info")
                     )
@@ -130,12 +130,8 @@ object OperationHeaderStyles extends StyleSheet.Inline {
       unsafeChild("input")(ThemeStyles.Font.circularStdBold, cursor.text)
     )
 
-  val inputInnerWrapper: StyleA = style(display.table, width(100.%%))
-
-  val inputSubInnerWrapper: StyleA =
-    style(display.tableCell, width(100.%%))
-
-  val textLimitInfoWapper: StyleA = style(display.tableCell, verticalAlign.middle)
+  val inputWrapper: StyleA =
+    style(width(100.%%))
 
   val textLimitInfo: StyleA =
     style(padding(1.em), lineHeight.initial, color(ThemeStyles.TextColor.lighter), whiteSpace.nowrap)

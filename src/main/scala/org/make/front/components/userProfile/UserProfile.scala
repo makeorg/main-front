@@ -9,7 +9,7 @@ import org.make.front.facades.I18n
 import org.make.front.facades.Unescape.unescape
 import org.make.front.models.{User => UserModel}
 import org.make.front.styles.ThemeStyles
-import org.make.front.styles.base.{ColRulesStyles, RowRulesStyles, TextStyles}
+import org.make.front.styles.base.{ColRulesStyles, RowRulesStyles, TableLayoutBeyondSmallStyles, TextStyles}
 import org.make.front.styles.ui.{CTAStyles, InputStyles}
 import org.make.front.styles.utils._
 import org.make.front.styles.vendors.FontAwesomeStyles
@@ -73,12 +73,15 @@ object UserProfile {
                       )
                     ),
                     <.form(^.novalidate := true)(
-                      <.div(^.className := UserProfileStyles.infosWrapper)(
-                        <.div(^.className := UserProfileStyles.infoFieldWrapper)(
-                          <.div(^.className := UserProfileStyles.infoFieldLabelWrapper)(
-                            <.p(^.className := TextStyles.smallText)(I18n.t("authenticate.inputs.email.placeholder"))
-                          ),
-                          <.div(^.className := UserProfileStyles.infoFieldInputWrapper)(
+                      <.div(^.className := TableLayoutBeyondSmallStyles.wrapper)(
+                        <.div(^.className := TableLayoutBeyondSmallStyles.row)(
+                          <.div(
+                            ^.className := Seq(
+                              TableLayoutBeyondSmallStyles.cell,
+                              UserProfileStyles.infoFieldLabelWrapper
+                            )
+                          )(<.p(^.className := TextStyles.smallText)(I18n.t("authenticate.inputs.email.placeholder"))),
+                          <.div(^.className := TableLayoutBeyondSmallStyles.cell)(
                             <.div(
                               ^.className := Seq(
                                 InputStyles.wrapper,
@@ -96,13 +99,18 @@ object UserProfile {
                             )
                           )
                         ),
-                        <.div(^.className := UserProfileStyles.infoFieldWrapper)(
-                          <.div(^.className := UserProfileStyles.infoFieldLabelWrapper)(
+                        <.div(^.className := TableLayoutBeyondSmallStyles.row)(
+                          <.div(
+                            ^.className := Seq(
+                              TableLayoutBeyondSmallStyles.cell,
+                              UserProfileStyles.infoFieldLabelWrapper
+                            )
+                          )(
                             <.p(^.className := TextStyles.smallText)(
                               I18n.t("authenticate.inputs.first-name.placeholder")
                             )
                           ),
-                          <.div(^.className := UserProfileStyles.infoFieldInputWrapper)(
+                          <.div(^.className := TableLayoutBeyondSmallStyles.cell)(
                             <.div(
                               ^.className := Seq(
                                 InputStyles.wrapper,
@@ -124,13 +132,18 @@ object UserProfile {
                               .flatMap(_.profile)
                               .flatMap(_.departmentNumber)
                               .isDefined) {
-                          <.div(^.className := UserProfileStyles.infoFieldWrapper)(
-                            <.div(^.className := UserProfileStyles.infoFieldLabelWrapper)(
+                          <.div(^.className := TableLayoutBeyondSmallStyles.row)(
+                            <.div(
+                              ^.className := Seq(
+                                TableLayoutBeyondSmallStyles.cell,
+                                UserProfileStyles.infoFieldLabelWrapper
+                              )
+                            )(
                               <.p(^.className := TextStyles.smallText)(
                                 I18n.t("authenticate.inputs.postal-code.placeholder")
                               )
                             ),
-                            <.div(^.className := UserProfileStyles.infoFieldInputWrapper)(
+                            <.div(^.className := TableLayoutBeyondSmallStyles.cell)(
                               <.div(
                                 ^.className := Seq(
                                   InputStyles.wrapper,
@@ -156,11 +169,14 @@ object UserProfile {
                               .flatMap(_.profile)
                               .flatMap(_.profession)
                               .isDefined) {
-                          <.div(^.className := UserProfileStyles.infoFieldWrapper)(
-                            <.div(^.className := UserProfileStyles.infoFieldLabelWrapper)(
-                              <.p(^.className := TextStyles.smallText)(I18n.t("authenticate.inputs.job.placeholder"))
-                            ),
-                            <.div(^.className := UserProfileStyles.infoFieldInputWrapper)(
+                          <.div(^.className := TableLayoutBeyondSmallStyles.row)(
+                            <.div(
+                              ^.className := Seq(
+                                TableLayoutBeyondSmallStyles.cell,
+                                UserProfileStyles.infoFieldLabelWrapper
+                              )
+                            )(<.p(^.className := TextStyles.smallText)(I18n.t("authenticate.inputs.job.placeholder"))),
+                            <.div(^.className := TableLayoutBeyondSmallStyles.cell)(
                               <.div(
                                 ^.className := Seq(
                                   InputStyles.wrapper,
@@ -279,25 +295,15 @@ object UserProfileStyles extends StyleSheet.Inline {
       maxHeight.none
     )
 
-  val infosWrapper: StyleA =
-    style(ThemeStyles.MediaQueries.beyondSmall(display.table, width(100.%%)))
-
-  val infoFieldWrapper: StyleA =
-    style(ThemeStyles.MediaQueries.beyondSmall(display.tableRow))
-
   val infoFieldLabelWrapper: StyleA =
     style(
-      display.none,
+      ThemeStyles.MediaQueries.belowSmall(display.none),
       ThemeStyles.MediaQueries.beyondSmall(
-        display.tableCell,
         color(ThemeStyles.TextColor.lighter),
         textAlign.right,
         paddingRight(ThemeStyles.SpacingValue.small.pxToEm())
       )
     )
-
-  val infoFieldInputWrapper: StyleA =
-    style(ThemeStyles.MediaQueries.beyondSmall(display.tableCell))
 
   val emailInputWithIconWrapper: StyleA =
     style(borderColor.transparent, (&.before)(Attr.real("content") := "'\\f003'"))

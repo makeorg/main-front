@@ -282,7 +282,7 @@ object VoteButtonStyles extends StyleSheet.Inline {
   val buttonAndResultsOfCurrentVoteWrapper: StyleA =
     style(display.tableCell, height(100.%%), verticalAlign.top, width(50.pxToEm()))
 
-  val qualificateVoteAndResultsOfVoteWrapper: StyleA = style(display.tableCell, height(100.%%), verticalAlign.top)
+  val qualificateVoteAndResultsOfVoteWrapper: StyleA = style(display.tableCell, height(100.%%))
 
   val qualificateVoteAndResultsOfVoteInnerWrapper: (Boolean) => StyleA = styleF.bool(
     voted =>

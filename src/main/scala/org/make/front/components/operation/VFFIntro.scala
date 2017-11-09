@@ -8,10 +8,9 @@ import org.make.front.facades.Unescape.unescape
 import org.make.front.facades._
 import org.make.front.models.{GradientColor => GradientColorModel, Operation => OperationModel}
 import org.make.front.styles._
-import org.make.front.styles.base.{ColRulesStyles, RowRulesStyles, TextStyles}
+import org.make.front.styles.base.{ColRulesStyles, RowRulesStyles, TableLayoutStyles, TextStyles}
 import org.make.front.styles.ui.CTAStyles
 import org.make.front.styles.utils._
-
 import org.make.front.Main.CssSettings._
 
 object VFFIntro {
@@ -55,18 +54,18 @@ object VFFIntro {
                       unescape(I18n.t("operation.vff-header.period"))
                     )
                   ),
-                  <.div(^.className := VFFIntroStyles.separatorWrapper)(
-                    <.div(^.className := VFFIntroStyles.separatorLineWrapper)(
-                      <.hr(^.className := Seq(VFFIntroStyles.separatorLine, VFFIntroStyles.separatorLineToTheLeft))()
-                    ),
-                    <.div(^.className := VFFIntroStyles.separatorTextWrapper)(
+                  <.div(^.className := Seq(TableLayoutStyles.wrapper, VFFIntroStyles.separatorWrapper))(
+                    <.div(
+                      ^.className := Seq(TableLayoutStyles.cellVerticalAlignMiddle, VFFIntroStyles.separatorLineWrapper)
+                    )(<.hr(^.className := Seq(VFFIntroStyles.separatorLine, VFFIntroStyles.separatorLineToTheLeft))()),
+                    <.div(^.className := Seq(TableLayoutStyles.cell, VFFIntroStyles.separatorTextWrapper))(
                       <.p(^.className := Seq(VFFIntroStyles.separator, TextStyles.smallerText))(
                         unescape(I18n.t("operation.vff-header.partners.intro"))
                       )
                     ),
-                    <.div(^.className := VFFIntroStyles.separatorLineWrapper)(
-                      <.hr(^.className := Seq(VFFIntroStyles.separatorLine, VFFIntroStyles.separatorLineToTheRight))()
-                    )
+                    <.div(
+                      ^.className := Seq(TableLayoutStyles.cellVerticalAlignMiddle, VFFIntroStyles.separatorLineWrapper)
+                    )(<.hr(^.className := Seq(VFFIntroStyles.separatorLine, VFFIntroStyles.separatorLineToTheRight))())
                   ),
                   <.ul(^.className := VFFIntroStyles.partnersList)(
                     partners.map(
@@ -139,14 +138,10 @@ object VFFIntroStyles extends StyleSheet.Inline {
     style(width(100.%%), textAlign.center, backgroundColor(ThemeStyles.BackgroundColor.blackMoreTransparent))
 
   val separatorWrapper: StyleA =
-    style(
-      display.table,
-      margin(ThemeStyles.SpacingValue.medium.pxToEm(), `0`, ThemeStyles.SpacingValue.small.pxToEm()),
-      opacity(0.5)
-    )
+    style(margin(ThemeStyles.SpacingValue.medium.pxToEm(), `0`, ThemeStyles.SpacingValue.small.pxToEm()), opacity(0.5))
 
   val separatorLineWrapper: StyleA =
-    style(display.tableCell, verticalAlign.middle, width(50.%%), paddingTop(2.pxToEm()))
+    style(width(50.%%), paddingTop(2.pxToEm()))
 
   val separatorLine: StyleA =
     style(height(1.px), width(100.%%), margin(`0`), border.none, backgroundColor(ThemeStyles.BorderColor.white))
@@ -163,7 +158,7 @@ object VFFIntroStyles extends StyleSheet.Inline {
     background := s"linear-gradient(to right, rgba(255,255,255,1) 0%,rgba(255,255,255,0) 100%)"
   )
 
-  val separatorTextWrapper: StyleA = style(display.tableCell, padding(`0`, 20.pxToEm()))
+  val separatorTextWrapper: StyleA = style(padding(`0`, 20.pxToEm()))
 
   val separator: StyleA = style(color(ThemeStyles.TextColor.white))
 

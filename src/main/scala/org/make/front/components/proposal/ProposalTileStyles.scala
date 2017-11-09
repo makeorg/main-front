@@ -18,16 +18,7 @@ object ProposalTileStyles extends StyleSheet.Inline {
     )
 
   val innerWrapper: StyleA =
-    style(display.table, tableLayout.fixed, width(100.%%), height(100.%%))
-
-  val row: StyleA =
-    style(display.tableRow)
-
-  val cell: StyleA =
-    style(display.tableCell, verticalAlign.top)
-
-  val cellAlignedAtTheBottom: StyleA =
-    style(display.tableCell, verticalAlign.bottom)
+    style(tableLayout.fixed)
 
   val proposalInfosWrapper: StyleA = style(
     margin(`0`, ThemeStyles.SpacingValue.small.pxToEm()),

@@ -8,7 +8,7 @@ import org.make.front.components.Components._
 import org.make.front.facades.Unescape.unescape
 import org.make.front.facades._
 import org.make.front.styles._
-import org.make.front.styles.base.{ColRulesStyles, RowRulesStyles, TextStyles}
+import org.make.front.styles.base.{ColRulesStyles, RowRulesStyles, TableLayoutStyles, TextStyles}
 import org.make.front.styles.ui.CTAStyles
 import org.make.front.styles.utils._
 
@@ -17,8 +17,8 @@ object Intro {
   lazy val reactClass: ReactClass = React.createClass[Unit, Unit](
     displayName = "Intro",
     render = (_) =>
-      <.section(^.className := IntroStyles.wrapper)(
-        <.div(^.className := IntroStyles.innerWrapper)(
+      <.section(^.className := Seq(TableLayoutStyles.wrapper, IntroStyles.wrapper))(
+        <.div(^.className := Seq(TableLayoutStyles.cellVerticalAlignMiddle, IntroStyles.innerWrapper))(
           <.img(
             ^.className := IntroStyles.illustration,
             ^.src := home.toString,
@@ -57,23 +57,10 @@ object IntroStyles extends StyleSheet.Inline {
   import dsl._
 
   val wrapper: StyleA =
-    style(
-      position.relative,
-      display.table,
-      width(100.%%),
-      height(440.pxToEm()),
-      backgroundColor(ThemeStyles.BackgroundColor.black)
-    )
+    style(position.relative, height(440.pxToEm()), backgroundColor(ThemeStyles.BackgroundColor.black))
 
   val innerWrapper: StyleA =
-    style(
-      position.relative,
-      display.tableCell,
-      verticalAlign.middle,
-      padding(ThemeStyles.SpacingValue.larger.pxToEm(), `0`),
-      textAlign.center,
-      overflow.hidden
-    )
+    style(position.relative, padding(ThemeStyles.SpacingValue.larger.pxToEm(), `0`), textAlign.center, overflow.hidden)
 
   val illustration: StyleA =
     style(

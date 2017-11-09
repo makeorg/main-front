@@ -9,7 +9,7 @@ import org.make.front.facades.I18n
 import org.make.front.facades.Unescape.unescape
 import org.make.front.models.{Proposal => ProposalModel}
 import org.make.front.styles._
-import org.make.front.styles.base.TextStyles
+import org.make.front.styles.base.{TableLayoutStyles, TextStyles}
 import org.make.front.styles.utils._
 
 object ShareOwnProposal {
@@ -22,11 +22,11 @@ object ShareOwnProposal {
         displayName = "ShareOwnProposal",
         render = (self) => {
 
-          <.div(^.className := ShareOwnProposalStyles.wrapper)(
-            <.h4(^.className := Seq(TextStyles.smallText, ShareOwnProposalStyles.intro))(
+          <.div(^.className := TableLayoutStyles.wrapper)(
+            <.h4(^.className := Seq(TableLayoutStyles.cell, TextStyles.smallText, ShareOwnProposalStyles.intro))(
               unescape(I18n.t("proposal.created-by-user"))
             ),
-            /*<.div(^.className := ShareOwnProposalStyles.shareButtonsListWrapper)(
+            /*<.div(^.className := TableLayoutStyles.cell)(
               <.ul(^.className := ShareOwnProposalStyles.shareButtonsList)(
                 <.li(^.className := ShareOwnProposalStyles.shareButtonItem)(
                   <.button(
@@ -72,13 +72,8 @@ object ShareOwnProposalStyles extends StyleSheet.Inline {
 
   import dsl._
 
-  val wrapper: StyleA =
-    style(display.table, width(100.%%))
-
   val intro: StyleA =
-    style(display.tableCell, verticalAlign.top, color(ThemeStyles.ThemeColor.prominent))
-
-  val shareButtonsListWrapper: StyleA = style(display.tableCell, verticalAlign.top)
+    style(color(ThemeStyles.ThemeColor.prominent))
 
   val shareButtonsList: StyleA = style(textAlign.right, margin(-2.px))
 

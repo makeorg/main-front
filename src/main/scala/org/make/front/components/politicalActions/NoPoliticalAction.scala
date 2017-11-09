@@ -7,9 +7,8 @@ import org.make.front.components.Components._
 import org.make.front.facades.Unescape.unescape
 import org.make.front.facades.{cone, I18n}
 import org.make.front.styles._
-import org.make.front.styles.base.TextStyles
+import org.make.front.styles.base.{TableLayoutStyles, TextStyles}
 import org.make.front.styles.utils._
-
 import org.make.front.Main.CssSettings._
 
 object NoPoliticalAction {
@@ -20,15 +19,17 @@ object NoPoliticalAction {
         displayName = "NoPoliticalAction",
         render = (self) => {
 
-          <.article(^.className := NoPoliticalActionStyles.wrapper)(
-            <.p(^.className := NoPoliticalActionStyles.imageWrapper)(
+          <.article(^.className := TableLayoutStyles.wrapper)(
+            <.p(^.className := Seq(TableLayoutStyles.cell, NoPoliticalActionStyles.imageWrapper))(
               <.img(
                 ^.className := NoPoliticalActionStyles.image,
                 ^.src := cone.toString,
                 ^("data-pin-no-hover") := "true"
               )()
             ),
-            <.div(^.className := NoPoliticalActionStyles.contentWrapper)(
+            <.div(
+              ^.className := Seq(TableLayoutStyles.cellVerticalAlignMiddle, NoPoliticalActionStyles.contentWrapper)
+            )(
               <.p(^.className := Seq(TextStyles.boldText, TextStyles.mediumText, NoPoliticalActionStyles.text))(
                 unescape(I18n.t("no-political-action.intro"))
               ),
@@ -46,12 +47,8 @@ object NoPoliticalAction {
 object NoPoliticalActionStyles extends StyleSheet.Inline {
   import dsl._
 
-  val wrapper: StyleA = style(display.table, width(100.%%))
-
   val imageWrapper: StyleA =
     style(
-      display.tableCell,
-      verticalAlign.top,
       width(70.pxToEm()),
       ThemeStyles.MediaQueries
         .beyondMedium(verticalAlign.middle, width(120.pxToEm())),
@@ -61,8 +58,6 @@ object NoPoliticalActionStyles extends StyleSheet.Inline {
 
   val contentWrapper: StyleA =
     style(
-      display.tableCell,
-      verticalAlign.middle,
       padding(
         ThemeStyles.SpacingValue.small.pxToEm(),
         ThemeStyles.SpacingValue.small.pxToEm(),

@@ -25,6 +25,7 @@ import org.make.front.models.{
   Vote          => VoteModel
 }
 import org.make.front.styles.ThemeStyles
+import org.make.front.styles.base.TableLayoutStyles
 import org.make.front.styles.utils._
 import org.scalajs.dom.raw.HTMLElement
 
@@ -304,9 +305,9 @@ object Sequence {
 
         val visibleSlides = self.state.slides.take(self.state.displayedSlidesCount)
 
-        <.div(^.className := Seq(SequenceStyles.wrapper))(
-          <.div(^.className := SequenceStyles.progressBarWrapper)(
-            <.div(^.className := SequenceStyles.progressBarInnerWrapper)(
+        <.div(^.className := Seq(TableLayoutStyles.fullHeightWrapper, SequenceStyles.wrapper))(
+          <.div(^.className := TableLayoutStyles.row)(
+            <.div(^.className := Seq(TableLayoutStyles.cellVerticalAlignBottom, SequenceStyles.progressBarWrapper))(
               <.div(^.className := Seq(SequenceStyles.centeredRow))(
                 <.ProgressBarComponent(
                   ^.wrapped := ProgressBarProps(
@@ -320,8 +321,8 @@ object Sequence {
           ),
           if (visibleSlides.nonEmpty) {
             var counter: Int = -1
-            <.div(^.className := SequenceStyles.slideshowWrapper)(
-              <.div(^.className := SequenceStyles.slideshowInnerWrapper)(
+            <.div(^.className := TableLayoutStyles.fullHeightRow)(
+              <.div(^.className := Seq(TableLayoutStyles.cell, SequenceStyles.slideshowInnerWrapper))(
                 <.div(^.className := Seq(SequenceStyles.centeredRow, SequenceStyles.fullHeight))(
                   <.div(^.className := SequenceStyles.slideshow)(
                     if (self.state.currentSlideIndex > 0)
@@ -342,8 +343,10 @@ object Sequence {
                       counter += 1
                       <.div(^.className := SequenceStyles.slideWrapper)(
                         <.article(^.className := SequenceStyles.slide)(
-                          <.div(^.className := SequenceStyles.slideInnerWrapper)(
-                            <.div(^.className := SequenceStyles.slideInnerSubWrapper)(slide.component(counter))
+                          <.div(^.className := TableLayoutStyles.fullHeightWrapper)(
+                            <.div(^.className := Seq(TableLayoutStyles.cell, SequenceStyles.slideInnerSubWrapper))(
+                              slide.component(counter)
+                            )
                           )
                         )
                       )
@@ -356,8 +359,8 @@ object Sequence {
               )
             )
           } else {
-            <.div(^.className := SequenceStyles.spinnerWrapper)(
-              <.div(^.className := SequenceStyles.spinnerInnerWrapper)(
+            <.div(^.className := TableLayoutStyles.fullHeightRow)(
+              <.div(^.className := TableLayoutStyles.cellVerticalAlignMiddle)(
                 <.div(^.className := SequenceStyles.centeredRow)(<.SpinnerComponent.empty)
               )
             )
@@ -373,7 +376,7 @@ object SequenceStyles extends StyleSheet.Inline {
   import dsl._
 
   val wrapper: StyleA =
-    style(display.table, tableLayout.fixed, width(100.%%), height(100.%%))
+    style(tableLayout.fixed)
 
   val centeredRow: StyleA =
     style(
@@ -389,12 +392,7 @@ object SequenceStyles extends StyleSheet.Inline {
     style(height(100.%%))
 
   val progressBarWrapper: StyleA =
-    style(display.tableRow)
-
-  val progressBarInnerWrapper: StyleA =
     style(
-      display.tableCell,
-      verticalAlign.bottom,
       paddingTop(ThemeStyles.SpacingValue.small.pxToEm()),
       paddingBottom(`0`),
       ThemeStyles.MediaQueries.beyondSmall(
@@ -403,13 +401,8 @@ object SequenceStyles extends StyleSheet.Inline {
       )
     )
 
-  val slideshowWrapper: StyleA =
-    style(display.tableRow, height(100.%%))
-
   val slideshowInnerWrapper: StyleA =
     style(
-      display.tableCell,
-      verticalAlign.top,
       paddingTop(ThemeStyles.SpacingValue.small.pxToEm()),
       paddingBottom(ThemeStyles.SpacingValue.larger.pxToEm()),
       overflow.hidden
@@ -442,16 +435,8 @@ object SequenceStyles extends StyleSheet.Inline {
       boxShadow := "0 1px 1px 0 rgba(0,0,0,0.50)"
     )
 
-  val slideInnerWrapper: StyleA =
-    style(display.table, height(100.%%), width(100.%%))
-
   val slideInnerSubWrapper: StyleA =
-    style(
-      display.tableCell,
-      verticalAlign.middle,
-      paddingTop(ThemeStyles.SpacingValue.medium.pxToEm()),
-      paddingBottom(ThemeStyles.SpacingValue.medium.pxToEm())
-    )
+    style(paddingTop(ThemeStyles.SpacingValue.medium.pxToEm()), paddingBottom(ThemeStyles.SpacingValue.medium.pxToEm()))
 
   val showPrevSlideButton: StyleA =
     style(position.absolute, top(`0`), right(100.%%), zIndex(1), height(100.%%), width(9999.pxToEm()))
@@ -459,9 +444,4 @@ object SequenceStyles extends StyleSheet.Inline {
   val showNextSlideButton: StyleA =
     style(position.absolute, top(`0`), left(100.%%), zIndex(1), height(100.%%), width(9999.pxToEm()))
 
-  val spinnerWrapper: StyleA =
-    style(display.tableRow, height(100.%%))
-
-  val spinnerInnerWrapper: StyleA =
-    style(display.tableCell, verticalAlign.middle)
 }

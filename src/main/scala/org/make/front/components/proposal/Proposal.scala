@@ -14,7 +14,7 @@ import org.make.front.facades.Unescape.unescape
 import org.make.front.helpers.ProposalAuthorInfosFormat
 import org.make.front.models.{Proposal => ProposalModel}
 import org.make.front.styles.ThemeStyles
-import org.make.front.styles.base.{ColRulesStyles, RowRulesStyles, TextStyles}
+import org.make.front.styles.base.{ColRulesStyles, RowRulesStyles, TableLayoutStyles, TextStyles}
 import org.make.front.styles.utils._
 
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -48,20 +48,27 @@ object Proposal {
       },
       render = { self =>
         <("proposal")()(
-          <.div(^.className := ProposalStyles.wrapper(self.state.proposal != null))(
-            <.div(^.className := ProposalStyles.row)(
-              <.div(^.className := Seq(ProposalStyles.cell, ProposalStyles.mainHeaderWrapper))(
+          <.div(
+            ^.className := Seq(TableLayoutStyles.fullHeightWrapper, ProposalStyles.wrapper(self.state.proposal != null))
+          )(
+            <.div(^.className := TableLayoutStyles.row)(
+              <.div(^.className := Seq(TableLayoutStyles.cell, ProposalStyles.mainHeaderWrapper))(
                 <.MainHeaderComponent.empty
               )
             ),
-            <.div(^.className := Seq(ProposalStyles.row, ProposalStyles.fullHeight))(
-              <.div(^.className := Seq(ProposalStyles.cell, ProposalStyles.articleCell))(
+            <.div(^.className := Seq(TableLayoutStyles.row, ProposalStyles.fullHeight))(
+              <.div(^.className := Seq(TableLayoutStyles.cell, ProposalStyles.articleCell))(
                 if (self.state.proposal != null) {
                   <.div(^.className := Seq(RowRulesStyles.centeredRow, ProposalStyles.fullHeight))(
                     <.div(^.className := Seq(ColRulesStyles.col, ProposalStyles.fullHeight))(
                       <.article(^.className := ProposalStyles.article)(
-                        <.div(^.className := ProposalStyles.articleInnerWrapper)(
-                          <.div(^.className := ProposalStyles.articleInnerSubWrapper)(
+                        <.div(^.className := TableLayoutStyles.fullHeightWrapper)(
+                          <.div(
+                            ^.className := Seq(
+                              TableLayoutStyles.cellVerticalAlignMiddle,
+                              ProposalStyles.articleInnerWrapper
+                            )
+                          )(
                             <.div(^.className := RowRulesStyles.row)(
                               <.div(^.className := ColRulesStyles.col)(
                                 <.div(^.className := ProposalStyles.infosWrapper)(
@@ -132,27 +139,13 @@ object ProposalStyles extends StyleSheet.Inline {
     isLoaded =>
       if (isLoaded) {
         styleS(
-          display.table,
-          width(100.%%),
-          height(100.%%),
           height :=! s"calc(100% - ${100.pxToEm().value})",
           backgroundColor(ThemeStyles.BackgroundColor.blackVeryTransparent)
         )
       } else {
-        styleS(
-          display.table,
-          width(100.%%),
-          height(100.%%),
-          backgroundColor(ThemeStyles.BackgroundColor.blackVeryTransparent)
-        )
+        styleS(backgroundColor(ThemeStyles.BackgroundColor.blackVeryTransparent))
     }
   )
-
-  val row: StyleA =
-    style(display.tableRow)
-
-  val cell: StyleA =
-    style(display.tableCell)
 
   val mainHeaderWrapper: StyleA =
     style(visibility.hidden)
@@ -174,15 +167,7 @@ object ProposalStyles extends StyleSheet.Inline {
     )
 
   val articleInnerWrapper: StyleA =
-    style(display.table, height(100.%%), width(100.%%))
-
-  val articleInnerSubWrapper: StyleA =
-    style(
-      display.tableCell,
-      verticalAlign.middle,
-      paddingTop(ThemeStyles.SpacingValue.medium.pxToEm()),
-      paddingBottom(ThemeStyles.SpacingValue.medium.pxToEm())
-    )
+    style(paddingTop(ThemeStyles.SpacingValue.medium.pxToEm()), paddingBottom(ThemeStyles.SpacingValue.medium.pxToEm()))
 
   val infosWrapper: StyleA =
     style(

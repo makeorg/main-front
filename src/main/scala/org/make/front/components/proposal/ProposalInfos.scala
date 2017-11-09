@@ -9,7 +9,7 @@ import org.make.front.components.Components._
 import org.make.front.helpers.ProposalAuthorInfosFormat
 import org.make.front.models.{Proposal => ProposalModel}
 import org.make.front.styles._
-import org.make.front.styles.base.TextStyles
+import org.make.front.styles.base.{TableLayoutStyles, TextStyles}
 import org.make.front.styles.utils._
 import org.make.front.styles.vendors.FontAwesomeStyles
 
@@ -29,7 +29,7 @@ object ProposalInfos {
             trending match {
               case "hot" =>
                 Seq(
-                  <.div(^.className := ProposalInfosStyles.labelWrapper)(
+                  <.div(^.className := TableLayoutStyles.cellVerticalAlignMiddle)(
                     <.p(^.className := ProposalInfosStyles.label)(
                       <("svg")(
                         ^("xmlns") := "http://www.w3.org/2000/svg",
@@ -48,7 +48,7 @@ object ProposalInfos {
                 )
               case "trending" =>
                 Seq(
-                  <.div(^.className := ProposalInfosStyles.labelWrapper)(
+                  <.div(^.className := TableLayoutStyles.cellVerticalAlignMiddle)(
                     <.p(^.className := ProposalInfosStyles.label)(
                       <.i(^.className := Seq(FontAwesomeStyles.lineChart))()
                     )
@@ -56,7 +56,7 @@ object ProposalInfos {
                 )
               case "new" =>
                 Seq(
-                  <.div(^.className := ProposalInfosStyles.labelWrapper)(
+                  <.div(^.className := TableLayoutStyles.cellVerticalAlignMiddle)(
                     <.p(^.className := ProposalInfosStyles.label)("new")
                   )
                 )
@@ -64,8 +64,8 @@ object ProposalInfos {
             }
           }
 
-          <.div(^.className := ProposalInfosStyles.wrapper)(
-            <.div(^.className := ProposalInfosStyles.infosWrapper)(
+          <.div(^.className := TableLayoutStyles.wrapper)(
+            <.div(^.className := Seq(TableLayoutStyles.cellVerticalAlignMiddle, ProposalInfosStyles.infosWrapper))(
               <.p(^.className := Seq(TextStyles.smallText, ProposalInfosStyles.infos))(
                 ProposalAuthorInfosFormat.apply(self.props.wrapped.proposal)
               )
@@ -82,14 +82,10 @@ object ProposalInfosStyles extends StyleSheet.Inline {
 
   import dsl._
 
-  val wrapper: StyleA = style(display.table, width(100.%%))
-
-  val infosWrapper: StyleA = style(display.tableCell, verticalAlign.middle, width(100.%%))
+  val infosWrapper: StyleA = style(width(100.%%))
 
   val infos: StyleA =
     style(color(ThemeStyles.TextColor.light))
-
-  val labelWrapper: StyleA = style(display.tableCell, verticalAlign.middle)
 
   val label: StyleA = style(
     ThemeStyles.Font.circularStdBold,

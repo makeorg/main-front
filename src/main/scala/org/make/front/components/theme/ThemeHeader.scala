@@ -10,7 +10,7 @@ import org.make.front.components.theme.SubmitProposalInRelationToTheme.SubmitPro
 import org.make.front.facades._
 import org.make.front.models.{GradientColor => GradientColorModel, TranslatedTheme => TranslatedThemeModel}
 import org.make.front.styles.ThemeStyles
-import org.make.front.styles.base.{ColRulesStyles, RowRulesStyles, TextStyles}
+import org.make.front.styles.base.{ColRulesStyles, RowRulesStyles, TableLayoutStyles, TextStyles}
 import org.make.front.styles.ui.InputStyles
 import org.make.front.styles.utils._
 import org.scalajs.dom.raw.HTMLElement
@@ -187,8 +187,10 @@ object ThemeHeader {
         val imageSrcset
           : String = self.state.themeIllustrations.SmallIllUrl + " 400w, " + self.state.themeIllustrations.SmallIllUrl2x + " 800w, " + self.state.themeIllustrations.MediumIllUrl + " 840w, " + self.state.themeIllustrations.MediumIllUrl2x + " 1680w, " + self.state.themeIllustrations.IllUrl + " 1350w, " + self.state.themeIllustrations.IllUrl2x + " 2700w"
 
-        <.header(^.className := Seq(ThemeHeaderStyles.wrapper, DynamicThemeHeaderStyles.gradient))(
-          <.div(^.className := ThemeHeaderStyles.innerWrapper)(
+        <.header(
+          ^.className := Seq(TableLayoutStyles.wrapper, ThemeHeaderStyles.wrapper, DynamicThemeHeaderStyles.gradient)
+        )(
+          <.div(^.className := Seq(TableLayoutStyles.cellVerticalAlignMiddle, ThemeHeaderStyles.innerWrapper))(
             <.img(
               ^.className := ThemeHeaderStyles.illustration,
               ^.src := imageSrc,
@@ -209,8 +211,8 @@ object ThemeHeader {
                     ThemeHeaderStyles.proposalInputWithIconWrapper
                   )
                 )(
-                  <.span(^.className := ThemeHeaderStyles.inputInnerWrapper)(
-                    <.span(^.className := ThemeHeaderStyles.inputSubInnerWrapper)(
+                  <.span(^.className := TableLayoutStyles.wrapper)(
+                    <.span(^.className := Seq(TableLayoutStyles.cell, ThemeHeaderStyles.inputWrapper))(
                       <.input(
                         ^.`type`.text,
                         ^.value := I18n.t("theme.proposal-form-in-header.bait"),
@@ -219,7 +221,7 @@ object ThemeHeader {
                         ^.onFocus := openProposalModalFromInput
                       )()
                     ),
-                    <.span(^.className := ThemeHeaderStyles.textLimitInfoWapper)(
+                    <.span(^.className := TableLayoutStyles.cellVerticalAlignMiddle)(
                       <.span(^.className := Seq(TextStyles.smallText, ThemeHeaderStyles.textLimitInfo))(
                         I18n.t("theme.proposal-form-in-header.limit-of-chars-info")
                       )
@@ -255,23 +257,10 @@ object ThemeHeaderStyles extends StyleSheet.Inline {
   import dsl._
 
   val wrapper: StyleA =
-    style(
-      position.relative,
-      display.table,
-      width(100.%%),
-      height(300.pxToEm()),
-      backgroundColor(ThemeStyles.BackgroundColor.black),
-      overflow.hidden
-    )
+    style(position.relative, height(300.pxToEm()), backgroundColor(ThemeStyles.BackgroundColor.black), overflow.hidden)
 
   val innerWrapper: StyleA =
-    style(
-      position.relative,
-      display.tableCell,
-      verticalAlign.middle,
-      padding(ThemeStyles.SpacingValue.larger.pxToEm(), `0`),
-      textAlign.center
-    )
+    style(position.relative, padding(ThemeStyles.SpacingValue.larger.pxToEm(), `0`), textAlign.center)
 
   val illustration: StyleA =
     style(
@@ -308,12 +297,8 @@ object ThemeHeaderStyles extends StyleSheet.Inline {
       unsafeChild("input")(ThemeStyles.Font.circularStdBold, cursor.text)
     )
 
-  val inputInnerWrapper: StyleA = style(display.table, width(100.%%))
-
-  val inputSubInnerWrapper: StyleA =
-    style(display.tableCell, width(100.%%))
-
-  val textLimitInfoWapper: StyleA = style(display.tableCell, verticalAlign.middle)
+  val inputWrapper: StyleA =
+    style(width(100.%%))
 
   val textLimitInfo: StyleA =
     style(

@@ -11,7 +11,7 @@ import org.make.front.facades.Unescape.unescape
 import org.make.front.facades.{I18n, Replacements, _}
 import org.make.front.models.{TranslatedTheme => TranslatedThemeModel}
 import org.make.front.styles.ThemeStyles
-import org.make.front.styles.base.TextStyles
+import org.make.front.styles.base.{TableLayoutStyles, TextStyles}
 import org.make.front.styles.ui.{CTAStyles, InputStyles, TooltipStyles}
 import org.make.front.styles.utils._
 import org.make.front.styles.vendors.FontAwesomeStyles
@@ -118,8 +118,8 @@ object SubmitProposalForm {
                 SubmitProposalFormStyles.proposalInputWithIconWrapper
               )
             )(
-              <.span(^.className := SubmitProposalFormStyles.innerWapper)(
-                <.span(^.className := SubmitProposalFormStyles.textareaWapper)(
+              <.span(^.className := TableLayoutStyles.wrapper)(
+                <.span(^.className := Seq(TableLayoutStyles.cell, SubmitProposalFormStyles.textareaWapper))(
                   <.TextareaAutosize(
                     ^.className := SubmitProposalFormStyles.textarea,
                     ^.value := self.state.proposalContent,
@@ -128,7 +128,7 @@ object SubmitProposalForm {
                     ^.onChange := handleProposalInputValueChanged
                   )()
                 ),
-                <.span(^.className := SubmitProposalFormStyles.textLimitInfoWapper)(
+                <.span(^.className := TableLayoutStyles.cellVerticalAlignBottom)(
                   <.span(^.className := Seq(TextStyles.smallText, SubmitProposalFormStyles.textLimitInfo))(
                     self.state.proposalContent.length,
                     "/",
@@ -184,15 +184,11 @@ object SubmitProposalFormStyles extends StyleSheet.Inline {
       unsafeChild("textarea")(ThemeStyles.Font.circularStdBold)
     )
 
-  val innerWapper: StyleA = style(display.table, width(100.%%))
-
   val textareaWapper: StyleA =
-    style(display.tableCell, width(100.%%))
+    style(width(100.%%))
 
   val textarea: StyleA =
     style(overflow.hidden)
-
-  val textLimitInfoWapper: StyleA = style(display.tableCell, verticalAlign.bottom)
 
   val textLimitInfo: StyleA =
     style(

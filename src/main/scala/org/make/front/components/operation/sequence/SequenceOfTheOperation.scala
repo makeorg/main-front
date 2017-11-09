@@ -10,12 +10,7 @@ import org.make.front.components.Components._
 import org.make.front.components.modals.FullscreenModal.FullscreenModalProps
 import org.make.front.components.operation.SubmitProposalInRelationToOperation.SubmitProposalInRelationToOperationProps
 import org.make.front.components.sequence.SequenceContainer.SequenceContainerProps
-import org.make.front.components.sequence.contents.{
-  ConclusionOfTheSequenceContainer,
-  IntroductionOfTheSequence,
-  PromptingToConnect,
-  PromptingToProposeSequence
-}
+import org.make.front.components.sequence.contents._
 import org.make.front.facades.Unescape.unescape
 import org.make.front.facades.{FacebookPixel, I18n, Replacements}
 import org.make.front.models.{
@@ -24,7 +19,7 @@ import org.make.front.models.{
   Sequence      => SequenceModel
 }
 import org.make.front.styles._
-import org.make.front.styles.base.{ColRulesStyles, RWDHideRulesStyles, RowRulesStyles, TextStyles}
+import org.make.front.styles.base._
 import org.make.front.styles.ui.{CTAStyles, TooltipStyles}
 import org.make.front.styles.utils._
 import org.make.front.styles.vendors.FontAwesomeStyles
@@ -82,18 +77,26 @@ object SequenceOfTheOperation {
             style(background := s"linear-gradient(130deg, ${gradientValues.from}, ${gradientValues.to})")
         }
 
-        <.section(^.className := SequenceOfTheOperationStyles.wrapper)(
-          <.div(^.className := Seq(SequenceOfTheOperationStyles.row))(
+        <.section(^.className := Seq(TableLayoutStyles.fullHeightWrapper, SequenceOfTheOperationStyles.wrapper))(
+          <.div(^.className := Seq(TableLayoutStyles.row))(
             <.div(
-              ^.className := Seq(SequenceOfTheOperationStyles.cell, SequenceOfTheOperationStyles.mainHeaderWrapper)
+              ^.className := Seq(
+                TableLayoutStyles.cellVerticalAlignMiddle,
+                SequenceOfTheOperationStyles.mainHeaderWrapper
+              )
             )(<.MainHeaderComponent.empty)
           ),
-          <.div(^.className := Seq(SequenceOfTheOperationStyles.row, DynamicSequenceOfTheOperationStyles.gradient))(
-            <.div(^.className := SequenceOfTheOperationStyles.cell)(
+          <.div(^.className := Seq(TableLayoutStyles.row, DynamicSequenceOfTheOperationStyles.gradient))(
+            <.div(^.className := TableLayoutStyles.cellVerticalAlignMiddle)(
               <.div(^.className := RowRulesStyles.centeredRow)(
                 <.div(^.className := ColRulesStyles.col)(
-                  <.header(^.className := SequenceOfTheOperationStyles.header)(
-                    <.p(^.className := Seq(SequenceOfTheOperationStyles.backLinkWrapper))(
+                  <.header(^.className := Seq(TableLayoutStyles.wrapper, SequenceOfTheOperationStyles.header))(
+                    <.p(
+                      ^.className := Seq(
+                        TableLayoutStyles.cellVerticalAlignMiddle,
+                        SequenceOfTheOperationStyles.backLinkWrapper
+                      )
+                    )(
                       /*<.Link(
                         ^.className := SequenceOfTheOperationStyles.backLink,
                         ^.to := s"/operation/${self.props.wrapped.operation.slug}"
@@ -114,7 +117,7 @@ object SequenceOfTheOperation {
                         )()
                       )*/
                     ),
-                    <.div(^.className := SequenceOfTheOperationStyles.titleWrapper)(
+                    <.div(^.className := Seq(TableLayoutStyles.cell, SequenceOfTheOperationStyles.titleWrapper))(
                       <.h1(^.className := Seq(SequenceOfTheOperationStyles.title, TextStyles.smallTitle))(
                         unescape(self.props.wrapped.sequence.title)
                       ),
@@ -134,7 +137,12 @@ object SequenceOfTheOperation {
                         )
                       )
                     ),
-                    <.div(^.className := SequenceOfTheOperationStyles.openProposalModalButtonWrapper)(
+                    <.div(
+                      ^.className := Seq(
+                        TableLayoutStyles.cell,
+                        SequenceOfTheOperationStyles.openProposalModalButtonWrapper
+                      )
+                    )(
                       <.div(^.className := SequenceOfTheOperationStyles.openProposalModalButtonInnerWrapper)(
                         <.button(
                           ^.className := Seq(
@@ -178,8 +186,8 @@ object SequenceOfTheOperation {
               )
             )
           ),
-          <.div(^.className := Seq(SequenceOfTheOperationStyles.row, SequenceOfTheOperationStyles.contentRow))(
-            <.div(^.className := SequenceOfTheOperationStyles.cell)(
+          <.div(^.className := Seq(TableLayoutStyles.fullHeightRow, SequenceOfTheOperationStyles.contentRow))(
+            <.div(^.className := TableLayoutStyles.cellVerticalAlignMiddle)(
               <.SequenceContainerComponent(
                 ^.wrapped := SequenceContainerProps(
                   sequence = self.props.wrapped.sequence,
@@ -204,34 +212,24 @@ object SequenceOfTheOperationStyles extends StyleSheet.Inline {
   import dsl._
 
   val wrapper: StyleA =
-    style(display.table, tableLayout.fixed, height(100.%%), width(100.%%))
-
-  val row: StyleA =
-    style(display.tableRow)
-
-  val cell: StyleA =
-    style(display.tableCell, verticalAlign.middle)
+    style(tableLayout.fixed)
 
   val contentRow: StyleA =
-    style(display.tableRow, height(100.%%), backgroundColor(ThemeStyles.BackgroundColor.blackVeryTransparent))
+    style(backgroundColor(ThemeStyles.BackgroundColor.blackVeryTransparent))
 
   val mainHeaderWrapper: StyleA =
     style(visibility.hidden)
 
   val header: StyleA =
     style(
-      display.table,
-      width(100.%%),
       ThemeStyles.MediaQueries
         .beyondMedium(height(100.pxToEm()))
     )
 
   val backLinkWrapper: StyleA =
     style(
-      display.tableCell,
       width(0.%%),
       padding(ThemeStyles.SpacingValue.small.pxToEm(), `0`),
-      verticalAlign.middle,
       color(ThemeStyles.TextColor.white),
       ThemeStyles.MediaQueries.beyondMedium(width(150.pxToEm()))
     )
@@ -255,8 +253,6 @@ object SequenceOfTheOperationStyles extends StyleSheet.Inline {
 
   val titleWrapper: StyleA =
     style(
-      display.tableCell,
-      verticalAlign.top,
       padding(ThemeStyles.SpacingValue.small.pxToEm(), `0`),
       ThemeStyles.MediaQueries.beyondMedium(verticalAlign.middle)
     )
@@ -274,7 +270,6 @@ object SequenceOfTheOperationStyles extends StyleSheet.Inline {
 
   val openProposalModalButtonWrapper: StyleA =
     style(
-      display.tableCell,
       verticalAlign.middle,
       width(150.pxToEm()),
       padding(ThemeStyles.SpacingValue.small.pxToEm(), `0`),
