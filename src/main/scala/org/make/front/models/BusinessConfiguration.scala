@@ -17,9 +17,9 @@ case class BusinessConfiguration(proposalMinLength: Int,
                                  proposalMaxLength: Int,
                                  themes: Seq[Theme],
                                  newVisitorCookieDefinition: String) {
-  def themesForLocale(country: String, locale: String): Seq[TranslatedTheme] = {
+  def themesForLocale(country: String, language: String): Seq[TranslatedTheme] = {
     val counter = new Counter()
-    themes.filter(_.country == country).flatMap(_.toTranslatedTheme(locale, counter))
+    themes.filter(_.country == country).flatMap(_.toTranslatedTheme(language, counter))
   }
 }
 

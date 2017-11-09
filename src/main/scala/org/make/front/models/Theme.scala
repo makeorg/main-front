@@ -39,10 +39,10 @@ final case class Theme(id: ThemeId,
 
   def title(language: String): Option[String] = translations.find(_.language == language).map(_.title)
   def slug(language: String): Option[String] = translations.find(_.language == language).map(_.slug)
-  def toTranslatedTheme(locale: String, counter: Counter): Option[TranslatedTheme] = {
+  def toTranslatedTheme(language: String, counter: Counter): Option[TranslatedTheme] = {
     for {
-      title <- title(locale)
-      slug  <- slug(locale)
+      title <- title(language)
+      slug  <- slug(language)
     } yield {
       TranslatedTheme(
         id = id,
@@ -50,7 +50,7 @@ final case class Theme(id: ThemeId,
         title = title,
         actionsCount = actionsCount,
         proposalsCount = proposalsCount,
-        country = locale,
+        country =  country,
         color = color,
         gradient = gradient,
         tags = tags,
