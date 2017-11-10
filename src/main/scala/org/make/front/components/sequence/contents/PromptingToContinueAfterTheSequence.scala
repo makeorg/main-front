@@ -8,11 +8,7 @@ import org.make.front.components.Components.{RichVirtualDOMElements, _}
 import org.make.front.components.share.ShareProposal.ShareProps
 import org.make.front.facades.I18n
 import org.make.front.facades.Unescape.unescape
-import org.make.front.models.{
-  GradientColor   => GradientColorModel,
-  Operation       => OperationModel,
-  TranslatedTheme => TranslatedThemeModel
-}
+import org.make.front.models.{GradientColor => GradientColorModel, Operation => OperationModel}
 import org.make.front.styles.ThemeStyles
 import org.make.front.styles.base.{ColRulesStyles, RowRulesStyles, TextStyles, _}
 import org.make.front.styles.ui.CTAStyles
@@ -129,6 +125,12 @@ object PromptingToContinueAfterTheSequence {
                               TextStyles.mediumText
                             )
                           )(unescape(I18n.t("sequence.prompting-to-continue.learn-more.intro"))),
+                          <.p(^.className := PromptingToContinueAfterTheSequenceStyles.learnMoreAccessLogoWrapper)(
+                            <.img(
+                              ^.src := self.props.wrapped.operation.darkerLogoUrl.getOrElse(""),
+                              ^.alt := self.props.wrapped.operation.title
+                            )()
+                          ),
                           <.p(
                             ^.className := Seq(
                               PromptingToContinueAfterTheSequenceStyles.learnMoreAccessIntro,
@@ -136,9 +138,10 @@ object PromptingToContinueAfterTheSequence {
                             )
                           )(unescape(I18n.t("sequence.prompting-to-continue.learn-more.continuation"))),
                           <.p(^.className := PromptingToContinueAfterTheSequenceStyles.ctaWrapper)(
-                            <.Link(^.to := "/", ^.className := Seq(CTAStyles.basic, CTAStyles.basicOnA))(
-                              unescape(I18n.t("sequence.prompting-to-continue.learn-more.cta"))
-                            )
+                            <.Link(
+                              ^.to := s"/operation/${self.props.wrapped.operation.slug}",
+                              ^.className := Seq(CTAStyles.basic, CTAStyles.basicOnA)
+                            )(unescape(I18n.t("sequence.prompting-to-continue.learn-more.cta")))
                           )
                         )
                       )
@@ -184,8 +187,10 @@ object PromptingToContinueAfterTheSequenceStyles extends StyleSheet.Inline {
   val nextSequenceAccessWrapper: StyleA =
     style(
       padding(ThemeStyles.SpacingValue.small.pxToEm(), `0`),
+      marginBottom(ThemeStyles.SpacingValue.smaller.pxToEm()),
       ThemeStyles.MediaQueries.beyondSmall(padding(ThemeStyles.SpacingValue.medium.pxToEm(), `0`)),
-      ThemeStyles.MediaQueries.beyondMedium(textAlign.center)
+      ThemeStyles.MediaQueries.beyondMedium(textAlign.center),
+      boxShadow := "0 1px 1px 0 rgba(0,0,0,0.50)"
     )
 
   val nextSequenceAccessIntro: StyleA =
@@ -210,4 +215,7 @@ object PromptingToContinueAfterTheSequenceStyles extends StyleSheet.Inline {
 
   val learnMoreAccessIntro: StyleA =
     style(color(ThemeStyles.TextColor.lighter))
+
+  val learnMoreAccessLogoWrapper: StyleA =
+    style(margin(ThemeStyles.SpacingValue.smaller.pxToEm(), `0`), maxWidth(240.pxToEm()))
 }

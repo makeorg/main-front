@@ -55,7 +55,10 @@ object VFFIntro {
                   <.div(^.className := VFFIntroStyles.titleWrapper)(
                     <.p(^.className := Seq(TextStyles.label))(unescape(I18n.t("operation.vff-header.label"))),
                     <.p(^.className := Seq(VFFIntroStyles.logoWrapper))(
-                      <.img(^.src := vffLogo.toString, ^.alt := unescape(I18n.t("operation.vff-header.title")))()
+                      <.img(
+                        ^.src := self.props.wrapped.operation.logoUrl.getOrElse(""),
+                        ^.alt := unescape(I18n.t("operation.vff-header.title"))
+                      )()
                     ),
                     <.p(^.className := Seq(VFFIntroStyles.infos, TextStyles.label))(
                       unescape(I18n.t("operation.vff-header.period"))
