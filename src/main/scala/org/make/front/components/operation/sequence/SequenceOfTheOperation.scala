@@ -5,6 +5,7 @@ import io.github.shogowada.scalajs.reactjs.React.{Props, Self}
 import io.github.shogowada.scalajs.reactjs.VirtualDOM.{<, _}
 import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import io.github.shogowada.scalajs.reactjs.events.MouseSyntheticEvent
+import io.github.shogowada.scalajs.reactjs.router.dom.RouterDOM._
 import org.make.front.Main.CssSettings._
 import org.make.front.components.Components._
 import org.make.front.components.modals.FullscreenModal.FullscreenModalProps
@@ -97,15 +98,12 @@ object SequenceOfTheOperation {
                         SequenceOfTheOperationStyles.backLinkWrapper
                       )
                     )(
-                      /*<.Link(
+                      <.Link(
                         ^.className := SequenceOfTheOperationStyles.backLink,
                         ^.to := s"/operation/${self.props.wrapped.operation.slug}"
                       )(
                         <.i(
-                          ^.className := Seq(
-                            SequenceOfTheOperationStyles.backLinkArrow,
-                            FontAwesomeStyles.angleLeft
-                          )
+                          ^.className := Seq(SequenceOfTheOperationStyles.backLinkArrow, FontAwesomeStyles.angleLeft)
                         )(),
                         <.span(
                           ^.className := Seq(
@@ -115,7 +113,7 @@ object SequenceOfTheOperation {
                           ),
                           ^.dangerouslySetInnerHTML := I18n.t("operation.sequence.header.back-cta")
                         )()
-                      )*/
+                      )
                     ),
                     <.div(^.className := Seq(TableLayoutStyles.cell, SequenceOfTheOperationStyles.titleWrapper))(
                       <.h1(^.className := Seq(SequenceOfTheOperationStyles.title, TextStyles.smallTitle))(
@@ -196,7 +194,8 @@ object SequenceOfTheOperation {
                   intro = IntroductionOfTheSequence.reactClass,
                   conclusion = ConclusionOfTheSequenceContainer.reactClass,
                   promptingToPropose = PromptingToProposeSequence.reactClass,
-                  promptingToConnect = PromptingToConnect.reactClass
+                  promptingToConnect = PromptingToConnect.reactClass,
+                  promptingToContinueAfterTheSequence = PromptingToContinueAfterTheSequence.reactClass
                 )
               )()
             )

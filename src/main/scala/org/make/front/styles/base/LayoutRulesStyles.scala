@@ -126,6 +126,9 @@ object TableLayoutBeyondMediumStyles extends StyleSheet.Inline {
   val wrapper: StyleA =
     style(ThemeStyles.MediaQueries.beyondMedium(display.table, width(100.%%)))
 
+  val fullHeightWrapper: StyleA =
+    style(ThemeStyles.MediaQueries.beyondSmall(wrapper, height(100.%%)))
+
   val cell: StyleA =
     style(ThemeStyles.MediaQueries.beyondMedium(display.tableCell))
 

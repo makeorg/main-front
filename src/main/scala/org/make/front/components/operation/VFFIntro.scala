@@ -39,16 +39,26 @@ object VFFIntro {
             PartnerModel(name = "Women's Forum", imageUrl = womenSForumLogo.toString, imageWidth = 118)
           )
 
-          <.div(
-            ^.className := Seq(VFFIntroStyles.wrapper, VFFIntroStyles.gradientBackground(gradient.from, gradient.to))
-          )(
+          val gradientValues: GradientColorModel =
+            self.props.wrapped.operation.gradient.getOrElse(GradientColorModel("#FFF", "#FFF"))
+
+          object DynamicVFFIntroStyles extends StyleSheet.Inline {
+            import dsl._
+
+            val gradient = style(background := s"linear-gradient(130deg, ${gradientValues.from}, ${gradientValues.to})")
+          }
+
+          <.div(^.className := Seq(VFFIntroStyles.wrapper, DynamicVFFIntroStyles.gradient))(
             <.div(^.className := VFFIntroStyles.presentationInnerWrapper)(
               <.div(^.className := RowRulesStyles.centeredRow)(
                 <.div(^.className := ColRulesStyles.col)(
                   <.div(^.className := VFFIntroStyles.titleWrapper)(
                     <.p(^.className := Seq(TextStyles.label))(unescape(I18n.t("operation.vff-header.label"))),
                     <.p(^.className := Seq(VFFIntroStyles.logoWrapper))(
-                      <.img(^.src := vffLogo.toString, ^.alt := unescape(I18n.t("operation.vff-header.title")))()
+                      <.img(
+                        ^.src := self.props.wrapped.operation.logoUrl.getOrElse(""),
+                        ^.alt := unescape(I18n.t("operation.vff-header.title"))
+                      )()
                     ),
                     <.p(^.className := Seq(VFFIntroStyles.infos, TextStyles.label))(
                       unescape(I18n.t("operation.vff-header.period"))
@@ -107,7 +117,7 @@ object VFFIntro {
                 )
               )
             ),
-            <.style()(VFFIntroStyles.render[String])
+            <.style()(VFFIntroStyles.render[String], DynamicVFFIntroStyles.render[String])
           )
         }
       )
@@ -116,9 +126,6 @@ object VFFIntro {
 object VFFIntroStyles extends StyleSheet.Inline {
 
   import dsl._
-
-  def gradientBackground(from: String, to: String): StyleA =
-    style(background := s"linear-gradient(130deg, $from, $to)")
 
   val wrapper: StyleA =
     style(backgroundColor(ThemeStyles.BackgroundColor.black))

@@ -1,5 +1,6 @@
 package org.make.front.components
 
+import org.make.front.facades._
 import org.make.front.models.{
   BusinessConfiguration => BusinessConfigurationModel,
   GradientColor         => GradientColorModel,
@@ -25,7 +26,9 @@ final case class AppState(configuration: Option[BusinessConfigurationModel],
                               proposalsCount = 0,
                               color = "#660779",
                               gradient = Some(GradientColorModel("#AB92CA", "#54325A")),
-                              tags = Seq()
+                              tags = Seq(),
+                              logoUrl = Some(vffLogo.toString),
+                              darkerLogoUrl = Some(vffDarkerLogo.toString)
                             )
                           ),
                           sequences: Seq[SequenceModel] = Seq(

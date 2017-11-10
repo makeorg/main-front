@@ -11,6 +11,7 @@ import org.make.front.components.sequence.contents.PromptingToConnect.PromptingT
 import org.make.front.components.sequence.contents.PromptingToProposeSequence.PromptingToProposeProps
 import org.make.front.components.sequence.ProgressBar.ProgressBarProps
 import org.make.front.components.sequence.contents.IntroductionOfTheSequence.IntroductionOfTheSequenceProps
+import org.make.front.components.sequence.contents.PromptingToContinueAfterTheSequence.PromptingToContinueAfterTheSequenceProps
 import org.make.front.components.sequence.contents.ProposalInsideSequence.ProposalInsideSequenceProps
 import org.make.front.facades.FacebookPixel
 import org.make.front.facades.ReactSlick.{ReactTooltipVirtualDOMAttributes, ReactTooltipVirtualDOMElements, Slider}
@@ -44,6 +45,7 @@ object Sequence {
                                  conclusion: ReactClass,
                                  promptingToPropose: ReactClass,
                                  promptingToConnect: ReactClass,
+                                 promptingToContinueAfterTheSequence: ReactClass,
                                  shouldReload: Boolean)
 
   final case class SequenceState(proposals: Seq[ProposalModel],
@@ -197,7 +199,24 @@ object Sequence {
             ^.wrapped := PromptingToConnectProps(
               operation = self.props.wrapped.maybeOperation
                 .getOrElse(OperationModel(OperationIdModel("fake"), "", "", "", "", 0, 0, "", None)),
-              clickOnButtonHandler = nextProposal
+              clickOnButtonHandler = nextProposal,
+              authenticateHandler = { () =>
+                nextProposal()
+              }
+            )
+          )()
+
+        override val optional = true
+      }
+
+      val PromptingToContinueAfterTheSequence = new Slide() {
+        override def component(index: Int): ReactElement =
+          <(self.props.wrapped.promptingToContinueAfterTheSequence)(
+            ^.wrapped := PromptingToContinueAfterTheSequenceProps(
+              operation = self.props.wrapped.maybeOperation
+                .getOrElse(OperationModel(OperationIdModel("fake"), "", "", "", "", 0, 0, "", None)),
+              clickOnButtonHandler = { () =>
+                }
             )
           )()
 

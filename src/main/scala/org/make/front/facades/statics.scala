@@ -419,43 +419,47 @@ object themeVivreEnsembleSolidarite2x extends js.Object
 object cone extends js.Object
 
 @js.native
-@JSImport("./images/vff.svg", "default")
+@JSImport("./images/operations/vff/stop-aux-violences-faites-aux-femmes.svg", "default")
 object vffLogo extends js.Object
 
 @js.native
-@JSImport("./images/vff-ill.jpg", "default")
+@JSImport("./images/operations/vff/stop-aux-violences-faites-aux-femmes-darker.svg", "default")
+object vffDarkerLogo extends js.Object
+
+@js.native
+@JSImport("./images/operations/vff/vff-ill.jpg", "default")
 object vffIll extends js.Object
 
 @js.native
-@JSImport("./images/vff-partners/kering-foundation.jpg", "default")
+@JSImport("./images/operations/vff/partners/kering-foundation.jpg", "default")
 object keringFoundationLogo extends js.Object
 
 @js.native
-@JSImport("./images/vff-partners/expedia.svg", "default")
+@JSImport("./images/operations/vff/partners/expedia.svg", "default")
 object expediaLogo extends js.Object
 
 @js.native
-@JSImport("./images/vff-partners/l-oreal.svg", "default")
+@JSImport("./images/operations/vff/partners/l-oreal.svg", "default")
 object lOrealLogo extends js.Object
 
 @js.native
-@JSImport("./images/vff-partners/axa.svg", "default")
+@JSImport("./images/operations/vff/partners/axa.svg", "default")
 object axaLogo extends js.Object
 
 @js.native
-@JSImport("./images/vff-partners/fondation-raja.jpg", "default")
+@JSImport("./images/operations/vff/partners/fondation-raja.jpg", "default")
 object fondationRajaLogo extends js.Object
 
 @js.native
-@JSImport("./images/vff-partners/ile-de-france.svg", "default")
+@JSImport("./images/operations/vff/partners/ile-de-france.svg", "default")
 object ileDeFranceLogo extends js.Object
 
 @js.native
-@JSImport("./images/vff-partners/elle.svg", "default")
+@JSImport("./images/operations/vff/partners/elle.svg", "default")
 object elleLogo extends js.Object
 
 @js.native
-@JSImport("./images/vff-partners/women-s-forum.svg", "default")
+@JSImport("./images/operations/vff/partners/women-s-forum.svg", "default")
 object womenSForumLogo extends js.Object
 
 @js.native

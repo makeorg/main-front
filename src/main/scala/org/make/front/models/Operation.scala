@@ -14,7 +14,9 @@ final case class Operation(operationId: OperationId,
                            proposalsCount: Int,
                            color: String,
                            gradient: Option[GradientColor] = None,
-                           tags: Seq[Tag] = Seq.empty)
+                           tags: Seq[Tag] = Seq.empty,
+                           logoUrl: Option[String] = None,
+                           darkerLogoUrl: Option[String] = None)
 @js.native
 trait OperationId extends js.Object {
   val value: String

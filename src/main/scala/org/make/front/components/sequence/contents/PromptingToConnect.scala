@@ -3,10 +3,11 @@ package org.make.front.components.sequence.contents
 import io.github.shogowada.scalajs.reactjs.React
 import io.github.shogowada.scalajs.reactjs.VirtualDOM.{<, _}
 import io.github.shogowada.scalajs.reactjs.classes.ReactClass
-import io.github.shogowada.scalajs.reactjs.events.MouseSyntheticEvent
 import org.make.front.Main.CssSettings._
 import org.make.front.components.Components._
 import org.make.front.components.authenticate.AuthenticateWithSocialNetworksContainer.AuthenticateWithSocialNetworksContainerProps
+import org.make.front.components.authenticate.LoginOrRegister.LoginOrRegisterProps
+import org.make.front.components.modals.Modal.ModalProps
 import org.make.front.facades.I18n
 import org.make.front.facades.Unescape.unescape
 import org.make.front.models.{Operation => OperationModel}
@@ -18,25 +19,30 @@ import org.make.front.styles.vendors.FontAwesomeStyles
 
 object PromptingToConnect {
 
-  final case class PromptingToConnectProps(operation: OperationModel, clickOnButtonHandler: () => Unit)
+  final case class PromptingToConnectProps(operation: OperationModel,
+                                           clickOnButtonHandler: () => Unit,
+                                           authenticateHandler: ()  => Unit)
 
-  final case class PromptingToConnectState(isProposalModalOpened: Boolean)
+  final case class PromptingToConnectState(isAuthenticateModalOpened: Boolean, loginOrRegisterView: String = "login")
 
   lazy val reactClass: ReactClass =
     React
       .createClass[PromptingToConnectProps, PromptingToConnectState](
         displayName = "PromptingToConnect",
         getInitialState = { _ =>
-          PromptingToConnectState(isProposalModalOpened = false)
+          PromptingToConnectState(isAuthenticateModalOpened = false)
         },
         render = { self =>
-          val closeProposalModal: () => Unit = () => {
-            self.setState(state => state.copy(isProposalModalOpened = false))
+          def openLoginAuthenticateModal() = () => {
+            self.setState(state => state.copy(isAuthenticateModalOpened = true, loginOrRegisterView = "login"))
           }
 
-          val openProposalModal: (MouseSyntheticEvent) => Unit = { event =>
-            event.preventDefault()
-            self.setState(state => state.copy(isProposalModalOpened = true))
+          def openRegisterAuthenticateModal() = () => {
+            self.setState(state => state.copy(isAuthenticateModalOpened = true, loginOrRegisterView = "register"))
+          }
+
+          def toggleAuthenticateModal() = () => {
+            self.setState(state => state.copy(isAuthenticateModalOpened = !self.state.isAuthenticateModalOpened))
           }
 
           <.div(^.className := PromptingToConnectStyles.wrapper)(
@@ -55,7 +61,9 @@ object PromptingToConnect {
                 <.AuthenticateWithSocialNetworksComponent(
                   ^.wrapped := AuthenticateWithSocialNetworksContainerProps(
                     note = unescape(I18n.t("sequence.prompting-to-connect.caution")),
-                    onSuccessfulLogin = () => {}
+                    onSuccessfulLogin = () => {
+                      self.props.wrapped.authenticateHandler()
+                    }
                   )
                 )(),
                 <.div(^.className := PromptingToConnectStyles.separatorWrapper)(
@@ -65,15 +73,31 @@ object PromptingToConnect {
                 ),
                 <.button(
                   ^.className := Seq(PromptingToConnectStyles.cta, CTAStyles.basic, CTAStyles.basicOnButton),
-                  ^.onClick := self.props.wrapped.clickOnButtonHandler
+                  ^.onClick := openRegisterAuthenticateModal
                 )(unescape(I18n.t("sequence.prompting-to-connect.authenticate-with-email-cta"))),
                 <.div(^.className := PromptingToConnectStyles.loginScreenAccessWrapper)(
                   <.p(^.className := Seq(PromptingToConnectStyles.loginScreenAccess, TextStyles.smallText))(
                     unescape(I18n.t("sequence.prompting-to-connect.login-screen-access.intro") + " "),
-                    <.a(^.className := TextStyles.boldText)(
+                    <.button(^.className := TextStyles.boldText, ^.onClick := openLoginAuthenticateModal)(
                       unescape(I18n.t("sequence.prompting-to-connect.login-screen-access.link-support"))
                     )
                   )
+                ),
+                <.ModalComponent(
+                  ^.wrapped := ModalProps(
+                    isModalOpened = self.state.isAuthenticateModalOpened,
+                    closeCallback = toggleAuthenticateModal()
+                  )
+                )(
+                  <.LoginOrRegisterComponent(
+                    ^.wrapped := LoginOrRegisterProps(
+                      displayView = self.state.loginOrRegisterView,
+                      onSuccessfulLogin = () => {
+                        self.setState(_.copy(isAuthenticateModalOpened = false))
+                        self.props.wrapped.authenticateHandler()
+                      }
+                    )
+                  )()
                 ),
                 <.button(
                   ^.className := Seq(
@@ -149,7 +173,7 @@ object PromptingToConnectStyles extends StyleSheet.Inline {
     )
 
   val loginScreenAccess: StyleA =
-    style(color(ThemeStyles.TextColor.lighter), unsafeChild("a")(color(ThemeStyles.ThemeColor.primary)))
+    style(color(ThemeStyles.TextColor.lighter), unsafeChild("button")(color(ThemeStyles.ThemeColor.primary)))
 
   val cta: StyleA =
     style(width(100.%%))
