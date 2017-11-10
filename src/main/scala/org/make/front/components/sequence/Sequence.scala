@@ -246,12 +246,8 @@ object Sequence {
         )
       })
 
-      val cardIndex: Int = pushToProposalIndex(slides)
-      /*Seq(intro) ++ slides.take(cardIndex) ++ Seq(promptingToPropose) ++ slides.drop(cardIndex) ++ Seq(conclusion) ++ Seq(
-        promptingToConnect
-      ) ++ Seq(PromptingToContinueAfterTheSequence)*/
+      slides ++ Seq(conclusion)
 
-      Seq(promptingToConnect) ++ Seq(PromptingToContinueAfterTheSequence)
     }
 
     def pushToProposalIndex(slides: Seq[Slide]): Int = {
