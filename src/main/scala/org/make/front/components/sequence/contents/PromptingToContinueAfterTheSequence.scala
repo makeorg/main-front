@@ -53,7 +53,12 @@ object PromptingToContinueAfterTheSequence {
             ),
             <.div(^.className := TableLayoutStyles.fullHeightRow)(
               <.div(^.className := Seq(TableLayoutStyles.cell, RowRulesStyles.row))(
-                <.div(^.className := TableLayoutBeyondMediumStyles.fullHeightWrapper)(
+                <.div(
+                  ^.className := Seq(
+                    PromptingToContinueAfterTheSequenceStyles.contentWrapper,
+                    TableLayoutBeyondMediumStyles.fullHeightWrapper
+                  )
+                )(
                   <.div(
                     ^.className := Seq(
                       TableLayoutBeyondMediumStyles.cell,
@@ -173,8 +178,6 @@ object PromptingToContinueAfterTheSequence {
 object PromptingToContinueAfterTheSequenceStyles extends StyleSheet.Inline {
   import dsl._
 
-  val wrapper: StyleA = style(maxWidth(1060.pxToEm()), margin(`0`, auto))
-
   val intro: StyleA =
     style(textAlign.center)
 
@@ -183,6 +186,8 @@ object PromptingToContinueAfterTheSequenceStyles extends StyleSheet.Inline {
 
   val shareWrapper: StyleA =
     style(marginTop(ThemeStyles.SpacingValue.medium.pxToEm()))
+
+  val contentWrapper: StyleA = style(maxWidth(1030.pxToEm()), margin(`0`, auto))
 
   val nextSequenceAccessWrapper: StyleA =
     style(

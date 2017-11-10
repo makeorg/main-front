@@ -19,7 +19,9 @@ import org.make.front.styles.vendors.FontAwesomeStyles
 
 object PromptingToConnect {
 
-  final case class PromptingToConnectProps(operation: OperationModel, clickOnButtonHandler: () => Unit)
+  final case class PromptingToConnectProps(operation: OperationModel,
+                                           clickOnButtonHandler: () => Unit,
+                                           authenticateHandler: ()  => Unit)
 
   final case class PromptingToConnectState(isAuthenticateModalOpened: Boolean, loginOrRegisterView: String = "login")
 
@@ -59,7 +61,9 @@ object PromptingToConnect {
                 <.AuthenticateWithSocialNetworksComponent(
                   ^.wrapped := AuthenticateWithSocialNetworksContainerProps(
                     note = unescape(I18n.t("sequence.prompting-to-connect.caution")),
-                    onSuccessfulLogin = () => {}
+                    onSuccessfulLogin = () => {
+                      self.props.wrapped.authenticateHandler()
+                    }
                   )
                 )(),
                 <.div(^.className := PromptingToConnectStyles.separatorWrapper)(
@@ -90,6 +94,7 @@ object PromptingToConnect {
                       displayView = self.state.loginOrRegisterView,
                       onSuccessfulLogin = () => {
                         self.setState(_.copy(isAuthenticateModalOpened = false))
+                        self.props.wrapped.authenticateHandler()
                       }
                     )
                   )()

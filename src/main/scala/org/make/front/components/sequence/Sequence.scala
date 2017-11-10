@@ -199,7 +199,10 @@ object Sequence {
             ^.wrapped := PromptingToConnectProps(
               operation = self.props.wrapped.maybeOperation
                 .getOrElse(OperationModel(OperationIdModel("fake"), "", "", "", "", 0, 0, "", None)),
-              clickOnButtonHandler = nextProposal
+              clickOnButtonHandler = nextProposal,
+              authenticateHandler = { () =>
+                nextProposal()
+              }
             )
           )()
 
