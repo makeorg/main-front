@@ -19,7 +19,7 @@ final case class AppState(configuration: Option[BusinessConfigurationModel],
                             OperationModel(
                               operationId = OperationIdModel(OperationModel.vff),
                               url = "consultation/comment-lutter-contre-les-violences-faites-aux-femmes",
-                              slug = "stop-aux-violences-faites-aux-femmes",
+                              slug = "vff",
                               title = "Comment lutter contre les violences faites aux&nbsp;femmes&nbsp;?",
                               label = OperationModel.vff,
                               actionsCount = 0,
