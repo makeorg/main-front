@@ -10,15 +10,16 @@ import org.make.front.Main.CssSettings._
 import org.make.front.components.Components._
 import org.make.front.components.modals.FullscreenModal.FullscreenModalProps
 import org.make.front.components.operation.SubmitProposalInRelationToOperation.SubmitProposalInRelationToOperationProps
+import org.make.front.components.sequence.Sequence.ExtraSlide
 import org.make.front.components.sequence.SequenceContainer.SequenceContainerProps
+import org.make.front.components.sequence.contents.IntroductionOfTheSequence.IntroductionOfTheSequenceProps
+import org.make.front.components.sequence.contents.PromptingToConnect.PromptingToConnectProps
+import org.make.front.components.sequence.contents.PromptingToContinueAfterTheSequence.PromptingToContinueAfterTheSequenceProps
+import org.make.front.components.sequence.contents.PromptingToProposeSequence.PromptingToProposeProps
 import org.make.front.components.sequence.contents._
 import org.make.front.facades.Unescape.unescape
 import org.make.front.facades.{FacebookPixel, I18n, Replacements}
-import org.make.front.models.{
-  GradientColor => GradientColorModel,
-  Operation     => OperationModel,
-  Sequence      => SequenceModel
-}
+import org.make.front.models.{GradientColor => GradientColorModel, Operation => OperationModel, Sequence => SequenceModel}
 import org.make.front.styles._
 import org.make.front.styles.base._
 import org.make.front.styles.ui.{CTAStyles, TooltipStyles}
@@ -187,13 +188,47 @@ object SequenceOfTheOperation {
               <.SequenceContainerComponent(
                 ^.wrapped := SequenceContainerProps(
                   sequence = self.props.wrapped.sequence,
-                  maybeThemeColor = Some(gradientValues.from),
-                  maybeOperation = Some(self.props.wrapped.operation),
-                  intro = IntroductionOfTheSequence.reactClass,
-                  conclusion = ConclusionOfTheSequenceContainer.reactClass,
-                  promptingToPropose = PromptingToProposeSequence.reactClass,
-                  promptingToConnect = PromptingToConnect.reactClass,
-                  promptingToContinueAfterTheSequence = PromptingToContinueAfterTheSequence.reactClass
+                  progressBarColor = Some(gradientValues.from),
+                  extraSlides = Seq(
+                    ExtraSlide(
+                      reactClass = IntroductionOfTheSequence.reactClass,
+                      props = {
+                        (handler: () => Unit) => {IntroductionOfTheSequenceProps(clickOnButtonHandler = handler)}
+                      },
+                      position = _ =>  0
+                    ),
+                    ExtraSlide(
+                      reactClass = PromptingToConnect.reactClass,
+                      props = { handler =>
+                        PromptingToConnectProps(
+                          operation = self.props.wrapped.operation,
+                          clickOnButtonHandler = handler,
+                          authenticateHandler = handler
+                        )
+                      },
+                      position = { slides => slides.length }
+                    ),
+                    ExtraSlide(
+                      reactClass = PromptingToProposeSequence.reactClass,
+                      props = { handler =>
+                        PromptingToProposeProps(
+                          operation = self.props.wrapped.operation,
+                          clickOnButtonHandler = handler,
+                          proposeHandler = handler
+                        )
+                      },
+                      position = { slides => slides.length / 2 }
+                    ),
+                    ExtraSlide(
+                      reactClass = PromptingToContinueAfterTheSequence.reactClass,
+                      props = { handler =>
+                        PromptingToContinueAfterTheSequenceProps(
+                          operation = self.props.wrapped.operation,
+                          clickOnButtonHandler = handler)
+                      },
+                      position = { slides => slides.length }
+                    )
+                  )
                 )
               )()
             )
