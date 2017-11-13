@@ -28,14 +28,14 @@ final case class AppState(configuration: Option[BusinessConfigurationModel],
                               gradient = Some(GradientColorModel("#AB92CA", "#54325A")),
                               tags = Seq(),
                               logoUrl = Some(vffLogo.toString),
-                              darkerLogoUrl = Some(vffDarkerLogo.toString)
-                            )
-                          ),
-                          sequences: Seq[SequenceModel] = Seq(
-                            SequenceModel(
-                              sequenceId = SequenceIdModel("1"),
-                              slug = "comment-lutter-contre-les-violences-faites-aux-femmes",
-                              title = "Comment lutter contre les violences faites aux&nbsp;femmes&nbsp;?"
+                              darkerLogoUrl = Some(vffDarkerLogo.toString),
+                              sequence = Some(
+                                SequenceModel(
+                                  sequenceId = SequenceIdModel("1"),
+                                  slug = "comment-lutter-contre-les-violences-faites-aux-femmes",
+                                  title = "Comment lutter contre les violences faites aux&nbsp;femmes&nbsp;?"
+                                )
+                              )
                             )
                           ),
                           bait: String = "Il faut ",

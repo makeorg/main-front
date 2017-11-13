@@ -12,13 +12,9 @@ trait SequenceResponse extends js.Object {
   val title: String
   val proposalsSlugs: js.Array[String]
 
+}
 
-}
-final case class Sequence(sequenceId: SequenceId, slug: String, title: String) {
-  def getSequenceById(id: String, store: Store[AppState]): Sequence = {
-    store.getState.sequences.find(sequence => sequence.sequenceId.value == id).get
-  }
-}
+final case class Sequence(sequenceId: SequenceId, slug: String, title: String) {}
 
 object Sequence {
   def apply(sequenceResponse: SequenceResponse): Sequence = {
