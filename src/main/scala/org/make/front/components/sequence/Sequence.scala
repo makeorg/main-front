@@ -186,7 +186,9 @@ object Sequence {
             ^.wrapped := PromptingToProposeProps(
               operation = self.props.wrapped.maybeOperation
                 .getOrElse(OperationModel(OperationIdModel("fake"), "", "", "", "", 0, 0, "", None)),
-              clickOnButtonHandler = nextProposal
+              clickOnButtonHandler = { () =>
+                nextProposal()
+              }
             )
           )()
 
@@ -209,7 +211,7 @@ object Sequence {
         override val optional = true
       }
 
-      val PromptingToContinueAfterTheSequence = new Slide() {
+      val promptingToContinueAfterTheSequence = new Slide() {
         override def component(index: Int): ReactElement =
           <(self.props.wrapped.promptingToContinueAfterTheSequence)(
             ^.wrapped := PromptingToContinueAfterTheSequenceProps(
@@ -246,7 +248,11 @@ object Sequence {
         )
       })
 
-      slides ++ Seq(conclusion)
+      val cardIndex: Int = pushToProposalIndex(slides)
+
+      Seq(intro) ++ slides.take(cardIndex) ++ Seq(promptingToPropose) ++ slides.drop(cardIndex) ++ Seq(
+        promptingToConnect
+      ) ++ Seq(promptingToContinueAfterTheSequence) ++ Seq(conclusion)
 
     }
 

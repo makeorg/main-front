@@ -38,20 +38,19 @@ object Container {
           )(),
           <.Route(^.exact := true, ^.path := "/proposal/:proposalSlug", ^.component := ProposalContainer.reactClass)(),
           <.Route(^.exact := true, ^.path := "/profile", ^.component := UserProfileContainer.reactClass)(),
-          /*TODO : reactive later*/
-          /*<.Route(
+          <.Route(
             ^.exact := true,
-            ^.path := "/operation/:operationSlug",
+            ^.path := "/consultation/:operationSlug",
             ^.component := OperationContainer.reactClass
           )(),
           <.Route(
             ^.exact := true,
-            ^.path := "/operation/:operationSlug/consultation/:sequenceSlug",
+            ^.path := "/consultation/:operationSlug/selection/:sequenceSlug",
             ^.component := SequenceOfTheOperationContainer.reactClass
-          )(),*/
+          )(),
           <.Route(
             ^.exact := true,
-            ^.path := "/consultation/comment-lutter-contre-les-violences-faites-aux-femmes",
+            ^.path := "/consultation/vff/selection",
             ^.component := VFFSequenceContainer.reactClass
           )(),
           <.Route(^.exact := true, ^.path := "/theme/:themeSlug", ^.component := ThemeContainer.reactClass)(),
