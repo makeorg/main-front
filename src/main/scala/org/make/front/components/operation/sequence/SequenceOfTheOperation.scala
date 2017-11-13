@@ -89,95 +89,93 @@ object SequenceOfTheOperation {
           ),
           <.div(^.className := Seq(TableLayoutStyles.row, DynamicSequenceOfTheOperationStyles.gradient))(
             <.div(^.className := TableLayoutStyles.cellVerticalAlignMiddle)(
-              <.div(^.className := RowRulesStyles.centeredRow)(
-                <.div(^.className := ColRulesStyles.col)(
-                  <.header(^.className := Seq(TableLayoutStyles.wrapper, SequenceOfTheOperationStyles.header))(
-                    <.p(
-                      ^.className := Seq(
-                        TableLayoutStyles.cellVerticalAlignMiddle,
-                        SequenceOfTheOperationStyles.backLinkWrapper
-                      )
+              <.div(^.className := LayoutRulesStyles.centeredRow)(
+                <.header(^.className := Seq(TableLayoutStyles.wrapper, SequenceOfTheOperationStyles.header))(
+                  <.p(
+                    ^.className := Seq(
+                      TableLayoutStyles.cellVerticalAlignMiddle,
+                      SequenceOfTheOperationStyles.backLinkWrapper
+                    )
+                  )(
+                    <.Link(
+                      ^.className := SequenceOfTheOperationStyles.backLink,
+                      ^.to := s"/operation/${self.props.wrapped.operation.slug}"
                     )(
-                      <.Link(
-                        ^.className := SequenceOfTheOperationStyles.backLink,
-                        ^.to := s"/operation/${self.props.wrapped.operation.slug}"
-                      )(
-                        <.i(
-                          ^.className := Seq(SequenceOfTheOperationStyles.backLinkArrow, FontAwesomeStyles.angleLeft)
-                        )(),
-                        <.span(
-                          ^.className := Seq(
-                            TextStyles.smallText,
-                            TextStyles.title,
-                            RWDHideRulesStyles.showBlockBeyondMedium
-                          ),
-                          ^.dangerouslySetInnerHTML := I18n.t("operation.sequence.header.back-cta")
-                        )()
-                      )
-                    ),
-                    <.div(^.className := Seq(TableLayoutStyles.cell, SequenceOfTheOperationStyles.titleWrapper))(
-                      <.h1(^.className := Seq(SequenceOfTheOperationStyles.title, TextStyles.smallTitle))(
-                        unescape(self.props.wrapped.sequence.title)
-                      ),
-                      <.h2(
+                      <.i(
+                        ^.className := Seq(SequenceOfTheOperationStyles.backLinkArrow, FontAwesomeStyles.angleLeft)
+                      )(),
+                      <.span(
                         ^.className := Seq(
-                          SequenceOfTheOperationStyles.totalOfPropositions,
                           TextStyles.smallText,
-                          TextStyles.boldText
-                        )
-                      )(
-                        unescape(
-                          I18n
-                            .t(
-                              "operation.sequence.header.total-of-proposals",
-                              Replacements(("total", self.state.numberOfroposals.toString))
-                            )
-                        )
-                      )
+                          TextStyles.title,
+                          RWDHideRulesStyles.showBlockBeyondMedium
+                        ),
+                        ^.dangerouslySetInnerHTML := I18n.t("operation.sequence.header.back-cta")
+                      )()
+                    )
+                  ),
+                  <.div(^.className := Seq(TableLayoutStyles.cell, SequenceOfTheOperationStyles.titleWrapper))(
+                    <.h1(^.className := Seq(SequenceOfTheOperationStyles.title, TextStyles.smallTitle))(
+                      unescape(self.props.wrapped.sequence.title)
                     ),
-                    <.div(
+                    <.h2(
                       ^.className := Seq(
-                        TableLayoutStyles.cell,
-                        SequenceOfTheOperationStyles.openProposalModalButtonWrapper
+                        SequenceOfTheOperationStyles.totalOfPropositions,
+                        TextStyles.smallText,
+                        TextStyles.boldText
                       )
                     )(
-                      <.div(^.className := SequenceOfTheOperationStyles.openProposalModalButtonInnerWrapper)(
-                        <.button(
-                          ^.className := Seq(
-                            CTAStyles.basic,
-                            CTAStyles.basicOnButton,
-                            SequenceOfTheOperationStyles.openProposalModalButton,
-                            SequenceOfTheOperationStyles.openProposalModalButtonExplained(guidedState)
-                          ),
-                          ^.onClick := openProposalModal
-                        )(
-                          <.i(^.className := Seq(FontAwesomeStyles.pencil))(),
-                          <.span(^.className := RWDHideRulesStyles.showInlineBlockBeyondMedium)(
-                            unescape("&nbsp;" + I18n.t("operation.sequence.header.propose-cta"))
+                      unescape(
+                        I18n
+                          .t(
+                            "operation.sequence.header.total-of-proposals",
+                            Replacements(("total", self.state.numberOfroposals.toString))
                           )
-                        ),
-                        if (guidedState) {
-                          <.p(^.className := SequenceOfTheOperationStyles.guideToPropose)(
-                            <.span(
-                              ^.className := TextStyles.smallerText,
-                              ^.dangerouslySetInnerHTML := I18n.t("operation.sequence.header.guide.propose-cta")
-                            )()
-                          )
-                        }
-                      ),
-                      <.FullscreenModalComponent(
-                        ^.wrapped := FullscreenModalProps(
-                          isModalOpened = self.state.isProposalModalOpened,
-                          closeCallback = closeProposalModal
-                        )
-                      )(
-                        <.SubmitProposalInRelationToOperationComponent(
-                          ^.wrapped := SubmitProposalInRelationToOperationProps(
-                            operation = self.props.wrapped.operation,
-                            onProposalProposed = closeProposalModal
-                          )
-                        )()
                       )
+                    )
+                  ),
+                  <.div(
+                    ^.className := Seq(
+                      TableLayoutStyles.cell,
+                      SequenceOfTheOperationStyles.openProposalModalButtonWrapper
+                    )
+                  )(
+                    <.div(^.className := SequenceOfTheOperationStyles.openProposalModalButtonInnerWrapper)(
+                      <.button(
+                        ^.className := Seq(
+                          CTAStyles.basic,
+                          CTAStyles.basicOnButton,
+                          SequenceOfTheOperationStyles.openProposalModalButton,
+                          SequenceOfTheOperationStyles.openProposalModalButtonExplained(guidedState)
+                        ),
+                        ^.onClick := openProposalModal
+                      )(
+                        <.i(^.className := Seq(FontAwesomeStyles.pencil))(),
+                        <.span(^.className := RWDHideRulesStyles.showInlineBlockBeyondMedium)(
+                          unescape("&nbsp;" + I18n.t("operation.sequence.header.propose-cta"))
+                        )
+                      ),
+                      if (guidedState) {
+                        <.p(^.className := SequenceOfTheOperationStyles.guideToPropose)(
+                          <.span(
+                            ^.className := TextStyles.smallerText,
+                            ^.dangerouslySetInnerHTML := I18n.t("operation.sequence.header.guide.propose-cta")
+                          )()
+                        )
+                      }
+                    ),
+                    <.FullscreenModalComponent(
+                      ^.wrapped := FullscreenModalProps(
+                        isModalOpened = self.state.isProposalModalOpened,
+                        closeCallback = closeProposalModal
+                      )
+                    )(
+                      <.SubmitProposalInRelationToOperationComponent(
+                        ^.wrapped := SubmitProposalInRelationToOperationProps(
+                          operation = self.props.wrapped.operation,
+                          onProposalProposed = closeProposalModal
+                        )
+                      )()
                     )
                   )
                 )

@@ -20,20 +20,19 @@ object MainFooter {
         render = self => {
 
           <.footer(^.className := MainFooterStyles.wrapper)(
-            <.div(^.className := RowRulesStyles.centeredRow)(
-              <.div(^.className := ColRulesStyles.col)(
-                <.div(^.className := Seq(TableLayoutStyles.wrapper, MainFooterStyles.innerWrapper))(
-                  <.p(^.className := TableLayoutStyles.cellVerticalAlignMiddle)(
-                    <.img(
-                      ^.className := MainFooterStyles.logo,
-                      ^.src := logoMake.toString,
-                      ^.alt := "Make.org",
-                      ^("data-pin-no-hover") := "true"
-                    )()
-                  ),
-                  <.div(^.className := TableLayoutStyles.cellVerticalAlignMiddle)(
-                    <.ul(^.className := MainFooterStyles.menu)(
-                      /*<.li(^.className := Seq(MainFooterStyles.menuItem, MainFooterStyles.emphasizedMenuItem))(
+            <.div(^.className := LayoutRulesStyles.centeredRow)(
+              <.div(^.className := Seq(TableLayoutStyles.wrapper, MainFooterStyles.innerWrapper))(
+                <.p(^.className := TableLayoutStyles.cellVerticalAlignMiddle)(
+                  <.img(
+                    ^.className := MainFooterStyles.logo,
+                    ^.src := logoMake.toString,
+                    ^.alt := "Make.org",
+                    ^("data-pin-no-hover") := "true"
+                  )()
+                ),
+                <.div(^.className := TableLayoutStyles.cellVerticalAlignMiddle)(
+                  <.ul(^.className := MainFooterStyles.menu)(
+                    /*<.li(^.className := Seq(MainFooterStyles.menuItem, MainFooterStyles.emphasizedMenuItem))(
                         <.p(^.className := Seq(TextStyles.title, TextStyles.smallText))(
                           <.a(
                             ^.href := I18n.t("main-footer.menu.item-1.link"),
@@ -49,25 +48,24 @@ object MainFooter {
                           )
                         )
                       ),*/
-                      Range(2, 9).map(
-                        item =>
-                          <.li(^.className := MainFooterStyles.menuItem)(
-                            <.p(
-                              ^.className := Seq(
-                                TextStyles.title.htmlClass,
-                                TextStyles.smallText.htmlClass,
-                                if (item == 3) {
-                                  RWDHideRulesStyles.hideBeyondMedium.htmlClass
-                                }
-                              ).mkString(" ")
-                            )(
-                              <.a(
-                                ^.href := I18n.t(s"main-footer.menu.item-$item.link"),
-                                ^.target := "_blank",
-                                ^.className := MainFooterStyles.menuItemLink
-                              )(unescape(I18n.t(s"main-footer.menu.item-$item.label")))
-                            )
-                        )
+                    Range(2, 9).map(
+                      item =>
+                        <.li(^.className := MainFooterStyles.menuItem)(
+                          <.p(
+                            ^.className := Seq(
+                              TextStyles.title.htmlClass,
+                              TextStyles.smallText.htmlClass,
+                              if (item == 3) {
+                                RWDHideRulesStyles.hideBeyondMedium.htmlClass
+                              }
+                            ).mkString(" ")
+                          )(
+                            <.a(
+                              ^.href := I18n.t(s"main-footer.menu.item-$item.link"),
+                              ^.target := "_blank",
+                              ^.className := MainFooterStyles.menuItemLink
+                            )(unescape(I18n.t(s"main-footer.menu.item-$item.label")))
+                          )
                       )
                     )
                   )
@@ -84,7 +82,6 @@ object MainFooterStyles extends StyleSheet.Inline {
 
   import dsl._
 
-  //TODO: adjust shadow
   val wrapper: StyleA =
     style(backgroundColor(ThemeStyles.BackgroundColor.white), boxShadow := s"0 -2px 4px 0 rgba(0,0,0,0.50)")
 
@@ -98,7 +95,7 @@ object MainFooterStyles extends StyleSheet.Inline {
     style(
       textAlign.right,
       margin(ThemeStyles.SpacingValue.medium.pxToEm(), `0`),
-      ThemeStyles.MediaQueries.beyondMedium(margin(`0`, ThemeStyles.SpacingValue.small.pxToEm() * -1))
+      ThemeStyles.MediaQueries.beyondMedium(margin(`0`, (ThemeStyles.SpacingValue.small.pxToEm() * -1), `0`, `0`))
     )
 
   val menuItem: StyleA =

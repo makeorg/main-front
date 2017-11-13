@@ -12,7 +12,7 @@ import org.make.front.facades.I18n
 import org.make.front.middlewares.CookieAlertMiddleware
 import org.make.front.middlewares.CookieAlertMiddleware.CookieAlertListener
 import org.make.front.styles._
-import org.make.front.styles.base.{ColRulesStyles, RowRulesStyles, TextStyles}
+import org.make.front.styles.base.{ColRulesStyles, LayoutRulesStyles, TextStyles}
 import org.make.front.styles.utils._
 
 object CookieAlert {
@@ -52,27 +52,25 @@ object CookieAlert {
 
           if (self.state.isAlertOpened) {
             <.div(^.className := Seq(CookieAlertStyles.wrapper))(
-              <.div(^.className := Seq(RowRulesStyles.centeredRow, CookieAlertStyles.innerWrapper))(
-                <.div(^.className := ColRulesStyles.col)(
-                  <.button(^.className := CookieAlertStyles.closeButton, ^.onClick := close())(
-                    <("svg")(
-                      ^("xmlns") := "http://www.w3.org/2000/svg",
-                      ^("x") := "0px",
-                      ^("y") := "0px",
-                      ^("width") := "20",
-                      ^("height") := "20",
-                      ^("viewBox") := "0 0 25 25"
-                    )(
-                      <("path")(
-                        ^("d") := "M12.5,9.3L3.9,0.7l0,0c-0.3-0.3-0.8-0.3-1.1,0L0.7,2.9c-0.3,0.3-0.3,0.8,0,1.1l8.6,8.6l-8.6,8.6 c-0.3,0.3-0.3,0.8,0,1.1l2.1,2.1c0.3,0.3,0.8,0.3,1.1,0l8.6-8.6l8.6,8.6c0.3,0.3,0.8,0.3,1.1,0l2.1-2.1c0.3-0.3,0.3-0.8,0-1.1 l-8.6-8.6l8.6-8.6l0,0c0.3-0.3,0.3-0.8,0-1.1l-2.1-2.1c-0.3-0.3-0.8-0.3-1.1,0L12.5,9.3z"
-                      )()
-                    )
-                  ),
-                  <.p(
-                    ^.className := Seq(TextStyles.smallText, CookieAlertStyles.message),
-                    ^.dangerouslySetInnerHTML := I18n.t("cookie-alert")
-                  )()
-                )
+              <.div(^.className := Seq(LayoutRulesStyles.centeredRow, CookieAlertStyles.innerWrapper))(
+                <.button(^.className := CookieAlertStyles.closeButton, ^.onClick := close())(
+                  <("svg")(
+                    ^("xmlns") := "http://www.w3.org/2000/svg",
+                    ^("x") := "0px",
+                    ^("y") := "0px",
+                    ^("width") := "20",
+                    ^("height") := "20",
+                    ^("viewBox") := "0 0 25 25"
+                  )(
+                    <("path")(
+                      ^("d") := "M12.5,9.3L3.9,0.7l0,0c-0.3-0.3-0.8-0.3-1.1,0L0.7,2.9c-0.3,0.3-0.3,0.8,0,1.1l8.6,8.6l-8.6,8.6 c-0.3,0.3-0.3,0.8,0,1.1l2.1,2.1c0.3,0.3,0.8,0.3,1.1,0l8.6-8.6l8.6,8.6c0.3,0.3,0.8,0.3,1.1,0l2.1-2.1c0.3-0.3,0.3-0.8,0-1.1 l-8.6-8.6l8.6-8.6l0,0c0.3-0.3,0.3-0.8,0-1.1l-2.1-2.1c-0.3-0.3-0.8-0.3-1.1,0L12.5,9.3z"
+                    )()
+                  )
+                ),
+                <.p(
+                  ^.className := Seq(TextStyles.smallText, CookieAlertStyles.message),
+                  ^.dangerouslySetInnerHTML := I18n.t("cookie-alert")
+                )()
               ),
               <.style()(CookieAlertStyles.render[String])
             )

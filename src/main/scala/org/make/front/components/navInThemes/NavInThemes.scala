@@ -11,7 +11,7 @@ import org.make.front.facades.{I18n, Replacements}
 import org.make.front.helpers.NumberFormat
 import org.make.front.models.{TranslatedTheme => TranslatedThemeModel}
 import org.make.front.styles._
-import org.make.front.styles.base.{ColRulesStyles, RowRulesStyles, TextStyles}
+import org.make.front.styles.base.{ColRulesStyles, LayoutRulesStyles, TextStyles}
 import org.make.front.styles.utils._
 
 object NavInThemes {
@@ -76,17 +76,17 @@ object NavInThemes {
           }
 
           <.nav(^.className := NavInThemesStyles.wrapper)(
-            <.div(^.className := RowRulesStyles.centeredRow)(
-              <.div(^.className := Seq(NavInThemesStyles.titleWrapper, ColRulesStyles.col))(
-                <.h2(^.className := Seq(TextStyles.mediumTitle))(unescape(I18n.t("nav-in-themes.title")))
-              ),
-              if (themes.nonEmpty) {
-                <.ul(^.className := Seq(NavInThemesStyles.themesList))(listTheme)
-              } else {
-                <.div(^.className := NavInThemesStyles.spinnerWrapper)(<.SpinnerComponent.empty)
-              },
-              <.style()(NavInThemesStyles.render[String], DynamicNavInThemesStyles.render[String])
-            )
+            <.div(^.className := Seq(NavInThemesStyles.titleWrapper, LayoutRulesStyles.centeredRow))(
+              <.h2(^.className := Seq(TextStyles.mediumTitle))(unescape(I18n.t("nav-in-themes.title")))
+            ),
+            if (themes.nonEmpty) {
+              <.ul(^.className := Seq(NavInThemesStyles.themesList, LayoutRulesStyles.centeredRowWithCols))(listTheme)
+            } else {
+              <.div(^.className := Seq(NavInThemesStyles.spinnerWrapper, LayoutRulesStyles.centeredRow))(
+                <.SpinnerComponent.empty
+              )
+            },
+            <.style()(NavInThemesStyles.render[String], DynamicNavInThemesStyles.render[String])
           )
         }
       )

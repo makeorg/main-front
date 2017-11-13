@@ -10,7 +10,7 @@ import org.make.front.facades.I18n
 import org.make.front.facades.Unescape.unescape
 import org.make.front.models.{GradientColor => GradientColorModel, Operation => OperationModel}
 import org.make.front.styles.ThemeStyles
-import org.make.front.styles.base.{ColRulesStyles, RowRulesStyles, TextStyles, _}
+import org.make.front.styles.base.{ColRulesStyles, LayoutRulesStyles, TextStyles, _}
 import org.make.front.styles.ui.CTAStyles
 import org.make.front.styles.utils._
 import org.make.front.styles.vendors.FontAwesomeStyles
@@ -39,8 +39,10 @@ object PromptingToContinueAfterTheSequence {
 
           <.div(^.className := TableLayoutStyles.fullHeightWrapper)(
             <.div(^.className := TableLayoutStyles.row)(
-              <.div(^.className := Seq(TableLayoutStyles.cell, RowRulesStyles.row))(
-                <.div(^.className := Seq(ColRulesStyles.col, PromptingToContinueAfterTheSequenceStyles.introWrapper))(
+              <.div(^.className := Seq(TableLayoutStyles.cell))(
+                <.div(
+                  ^.className := Seq(LayoutRulesStyles.row, PromptingToContinueAfterTheSequenceStyles.introWrapper)
+                )(
                   <.p(
                     ^.className := Seq(
                       PromptingToContinueAfterTheSequenceStyles.intro,
@@ -52,7 +54,7 @@ object PromptingToContinueAfterTheSequence {
               )
             ),
             <.div(^.className := TableLayoutStyles.fullHeightRow)(
-              <.div(^.className := Seq(TableLayoutStyles.cell, RowRulesStyles.row))(
+              <.div(^.className := Seq(TableLayoutStyles.cell, LayoutRulesStyles.rowWithCols))(
                 <.div(
                   ^.className := Seq(
                     PromptingToContinueAfterTheSequenceStyles.contentWrapper,
@@ -74,34 +76,30 @@ object PromptingToContinueAfterTheSequence {
                       )
                     )(
                       <.div(
-                        ^.className := Seq(TableLayoutBeyondMediumStyles.cellVerticalAlignMiddle, RowRulesStyles.row)
+                        ^.className := Seq(TableLayoutBeyondMediumStyles.cellVerticalAlignMiddle, LayoutRulesStyles.row)
                       )(
-                        <.div(^.className := ColRulesStyles.col)(
+                        <.p(
+                          ^.className := Seq(
+                            PromptingToContinueAfterTheSequenceStyles.nextSequenceAccessIntro,
+                            TextStyles.mediumText
+                          )
+                        )(unescape(I18n.t("sequence.prompting-to-continue.continue.intro"))),
+                        <.div(^.className := PromptingToContinueAfterTheSequenceStyles.nextSequenceAccessTitleWrapper)(
                           <.p(
                             ^.className := Seq(
-                              PromptingToContinueAfterTheSequenceStyles.nextSequenceAccessIntro,
-                              TextStyles.mediumText
+                              PromptingToContinueAfterTheSequenceStyles.nextSequenceAccessTitle,
+                              TextStyles.biggerMediumText,
+                              TextStyles.boldText
                             )
-                          )(unescape(I18n.t("sequence.prompting-to-continue.continue.intro"))),
-                          <.div(
-                            ^.className := PromptingToContinueAfterTheSequenceStyles.nextSequenceAccessTitleWrapper
+                          )(unescape("Comment lutter contre les violences faites aux&nbsp;femmes&nbsp;?"))
+                        ),
+                        <.div(^.className := PromptingToContinueAfterTheSequenceStyles.ctaWrapper)(
+                          <.button(
+                            ^.className := Seq(CTAStyles.basic, CTAStyles.basicOnButton),
+                            ^.onClick := self.props.wrapped.clickOnButtonHandler
                           )(
-                            <.p(
-                              ^.className := Seq(
-                                PromptingToContinueAfterTheSequenceStyles.nextSequenceAccessTitle,
-                                TextStyles.biggerMediumText,
-                                TextStyles.boldText
-                              )
-                            )(unescape("Comment lutter contre les violences faites aux&nbsp;femmes&nbsp;?"))
-                          ),
-                          <.div(^.className := PromptingToContinueAfterTheSequenceStyles.ctaWrapper)(
-                            <.button(
-                              ^.className := Seq(CTAStyles.basic, CTAStyles.basicOnButton),
-                              ^.onClick := self.props.wrapped.clickOnButtonHandler
-                            )(
-                              <.i(^.className := Seq(FontAwesomeStyles.play))(),
-                              unescape("&nbsp;" + I18n.t("sequence.prompting-to-continue.continue.cta"))
-                            )
+                            <.i(^.className := Seq(FontAwesomeStyles.play))(),
+                            unescape("&nbsp;" + I18n.t("sequence.prompting-to-continue.continue.cta"))
                           )
                         )
                       )
@@ -121,33 +119,31 @@ object PromptingToContinueAfterTheSequence {
                       )
                     )(
                       <.div(
-                        ^.className := Seq(TableLayoutBeyondMediumStyles.cellVerticalAlignMiddle, RowRulesStyles.row)
+                        ^.className := Seq(TableLayoutBeyondMediumStyles.cellVerticalAlignMiddle, LayoutRulesStyles.row)
                       )(
-                        <.div(^.className := ColRulesStyles.col)(
-                          <.p(
-                            ^.className := Seq(
-                              PromptingToContinueAfterTheSequenceStyles.learnMoreAccessIntro,
-                              TextStyles.mediumText
-                            )
-                          )(unescape(I18n.t("sequence.prompting-to-continue.learn-more.intro"))),
-                          <.p(^.className := PromptingToContinueAfterTheSequenceStyles.learnMoreAccessLogoWrapper)(
-                            <.img(
-                              ^.src := self.props.wrapped.operation.darkerLogoUrl.getOrElse(""),
-                              ^.alt := self.props.wrapped.operation.title
-                            )()
-                          ),
-                          <.p(
-                            ^.className := Seq(
-                              PromptingToContinueAfterTheSequenceStyles.learnMoreAccessIntro,
-                              TextStyles.mediumText
-                            )
-                          )(unescape(I18n.t("sequence.prompting-to-continue.learn-more.continuation"))),
-                          <.p(^.className := PromptingToContinueAfterTheSequenceStyles.ctaWrapper)(
-                            <.Link(
-                              ^.to := s"/operation/${self.props.wrapped.operation.slug}",
-                              ^.className := Seq(CTAStyles.basic, CTAStyles.basicOnA)
-                            )(unescape(I18n.t("sequence.prompting-to-continue.learn-more.cta")))
+                        <.p(
+                          ^.className := Seq(
+                            PromptingToContinueAfterTheSequenceStyles.learnMoreAccessIntro,
+                            TextStyles.mediumText
                           )
+                        )(unescape(I18n.t("sequence.prompting-to-continue.learn-more.intro"))),
+                        <.p(^.className := PromptingToContinueAfterTheSequenceStyles.learnMoreAccessLogoWrapper)(
+                          <.img(
+                            ^.src := self.props.wrapped.operation.darkerLogoUrl.getOrElse(""),
+                            ^.alt := self.props.wrapped.operation.title
+                          )()
+                        ),
+                        <.p(
+                          ^.className := Seq(
+                            PromptingToContinueAfterTheSequenceStyles.learnMoreAccessIntro,
+                            TextStyles.mediumText
+                          )
+                        )(unescape(I18n.t("sequence.prompting-to-continue.learn-more.continuation"))),
+                        <.p(^.className := PromptingToContinueAfterTheSequenceStyles.ctaWrapper)(
+                          <.Link(
+                            ^.to := s"/operation/${self.props.wrapped.operation.slug}",
+                            ^.className := Seq(CTAStyles.basic, CTAStyles.basicOnA)
+                          )(unescape(I18n.t("sequence.prompting-to-continue.learn-more.cta")))
                         )
                       )
                     )
@@ -156,8 +152,10 @@ object PromptingToContinueAfterTheSequence {
               )
             ),
             <.div(^.className := TableLayoutStyles.row)(
-              <.div(^.className := Seq(TableLayoutStyles.cell, RowRulesStyles.row))(
-                <.div(^.className := Seq(ColRulesStyles.col, PromptingToContinueAfterTheSequenceStyles.shareWrapper))(
+              <.div(^.className := Seq(TableLayoutStyles.cell))(
+                <.div(
+                  ^.className := Seq(LayoutRulesStyles.row, PromptingToContinueAfterTheSequenceStyles.shareWrapper)
+                )(
                   <.ShareComponent(
                     ^.wrapped := ShareProps(
                       intro = Some(unescape(I18n.t("sequence.prompting-to-continue.share.intro")))

@@ -9,7 +9,7 @@ import org.make.front.facades.I18n
 import org.make.front.facades.Unescape.unescape
 import org.make.front.models.{User => UserModel}
 import org.make.front.styles.ThemeStyles
-import org.make.front.styles.base.{ColRulesStyles, RowRulesStyles, TableLayoutBeyondSmallStyles, TextStyles}
+import org.make.front.styles.base.{ColRulesStyles, LayoutRulesStyles, TableLayoutBeyondSmallStyles, TextStyles}
 import org.make.front.styles.ui.{CTAStyles, InputStyles}
 import org.make.front.styles.utils._
 import org.make.front.styles.vendors.FontAwesomeStyles
@@ -28,77 +28,101 @@ object UserProfile {
 
           <.div(^.className := UserProfileStyles.wrapper)(
             <.div(^.className := UserProfileStyles.mainHeaderWrapper)(<.MainHeaderComponent.empty),
-            <.div(^.className := Seq(RowRulesStyles.centeredRow))(
-              <.div(^.className := ColRulesStyles.col)(
-                <.div(^.className := UserProfileStyles.pageWrapper)(
-                  <.div(
-                    ^.className := Seq(
-                      UserProfileStyles.avatarAndNavWrapper,
-                      ColRulesStyles.col,
-                      ColRulesStyles.colQuarterBeyondMedium
+            <.div(^.className := Seq(LayoutRulesStyles.centeredRow))(
+              <.div(^.className := UserProfileStyles.pageWrapper)(
+                <.div(
+                  ^.className := Seq(
+                    UserProfileStyles.avatarAndNavWrapper,
+                    ColRulesStyles.col,
+                    ColRulesStyles.colQuarterBeyondMedium
+                  )
+                )(
+                  <.span(^.className := UserProfileStyles.avatarWrapper)(
+                    if (self.props.wrapped.user.flatMap(_.profile).flatMap(_.avatarUrl).nonEmpty) {
+                      <.img(
+                        ^.src := self.props.wrapped.user.flatMap(_.profile).flatMap(_.avatarUrl).getOrElse(""),
+                        ^.className := UserProfileStyles.avatar,
+                        ^.alt := self.props.wrapped.user.flatMap(_.firstName).getOrElse(""),
+                        ^("data-pin-no-hover") := "true"
+                      )()
+                    } else {
+                      <.i(^.className := Seq(UserProfileStyles.avatarPlaceholder, FontAwesomeStyles.user))()
+                    }
+                  ),
+                  <.div(^.className := UserProfileStyles.disconnectButtonWrapper)(
+                    <.button(
+                      ^.className := Seq(CTAStyles.basicOnButton, CTAStyles.basic, CTAStyles.moreDiscreet),
+                      ^.onClick := self.props.wrapped.logout
+                    )(
+                      <.i(^.className := Seq(FontAwesomeStyles.signOut))(),
+                      unescape("&nbsp;" + I18n.t("user-profile.disconnect-cta"))
                     )
-                  )(
-                    <.span(^.className := UserProfileStyles.avatarWrapper)(
-                      if (self.props.wrapped.user.flatMap(_.profile).flatMap(_.avatarUrl).nonEmpty) {
-                        <.img(
-                          ^.src := self.props.wrapped.user.flatMap(_.profile).flatMap(_.avatarUrl).getOrElse(""),
-                          ^.className := UserProfileStyles.avatar,
-                          ^.alt := self.props.wrapped.user.flatMap(_.firstName).getOrElse(""),
-                          ^("data-pin-no-hover") := "true"
-                        )()
-                      } else {
-                        <.i(^.className := Seq(UserProfileStyles.avatarPlaceholder, FontAwesomeStyles.user))()
-                      }
-                    ),
-                    <.div(^.className := UserProfileStyles.disconnectButtonWrapper)(
-                      <.button(
-                        ^.className := Seq(CTAStyles.basicOnButton, CTAStyles.basic, CTAStyles.moreDiscreet),
-                        ^.onClick := self.props.wrapped.logout
-                      )(
-                        <.i(^.className := Seq(FontAwesomeStyles.signOut))(),
-                        unescape("&nbsp;" + I18n.t("user-profile.disconnect-cta"))
-                      )
+                  )
+                ),
+                <.div(
+                  ^.className := Seq(
+                    UserProfileStyles.contentWrapper,
+                    ColRulesStyles.col,
+                    ColRulesStyles.colHalfBeyondMedium
+                  )
+                )(
+                  <.header(^.className := UserProfileStyles.titleWrapper)(
+                    <.h1(^.className := Seq(UserProfileStyles.title, TextStyles.mediumTitle))(
+                      I18n.t("user-profile.title")
                     )
                   ),
-                  <.div(
-                    ^.className := Seq(
-                      UserProfileStyles.contentWrapper,
-                      ColRulesStyles.col,
-                      ColRulesStyles.colHalfBeyondMedium
-                    )
-                  )(
-                    <.header(^.className := UserProfileStyles.titleWrapper)(
-                      <.h1(^.className := Seq(UserProfileStyles.title, TextStyles.mediumTitle))(
-                        I18n.t("user-profile.title")
-                      )
-                    ),
-                    <.form(^.novalidate := true)(
-                      <.div(^.className := TableLayoutBeyondSmallStyles.wrapper)(
-                        <.div(^.className := TableLayoutBeyondSmallStyles.row)(
+                  <.form(^.novalidate := true)(
+                    <.div(^.className := TableLayoutBeyondSmallStyles.wrapper)(
+                      <.div(^.className := TableLayoutBeyondSmallStyles.row)(
+                        <.div(
+                          ^.className := Seq(TableLayoutBeyondSmallStyles.cell, UserProfileStyles.infoFieldLabelWrapper)
+                        )(<.p(^.className := TextStyles.smallText)(I18n.t("authenticate.inputs.email.placeholder"))),
+                        <.div(^.className := TableLayoutBeyondSmallStyles.cell)(
                           <.div(
                             ^.className := Seq(
-                              TableLayoutBeyondSmallStyles.cell,
-                              UserProfileStyles.infoFieldLabelWrapper
+                              InputStyles.wrapper,
+                              InputStyles.withIcon,
+                              UserProfileStyles.emailInputWithIconWrapper
                             )
-                          )(<.p(^.className := TextStyles.smallText)(I18n.t("authenticate.inputs.email.placeholder"))),
-                          <.div(^.className := TableLayoutBeyondSmallStyles.cell)(
-                            <.div(
-                              ^.className := Seq(
-                                InputStyles.wrapper,
-                                InputStyles.withIcon,
-                                UserProfileStyles.emailInputWithIconWrapper
-                              )
-                            )(
-                              <.input(
-                                ^.`type`.email,
-                                ^.required := true,
-                                ^.placeholder := s"${I18n.t("authenticate.inputs.email.placeholder")} ${I18n.t("authenticate.inputs.required")}",
-                                ^.value := self.props.wrapped.user.map(_.email).getOrElse(""),
-                                ^.readOnly := true
-                              )()
-                            )
+                          )(
+                            <.input(
+                              ^.`type`.email,
+                              ^.required := true,
+                              ^.placeholder := s"${I18n.t("authenticate.inputs.email.placeholder")} ${I18n.t("authenticate.inputs.required")}",
+                              ^.value := self.props.wrapped.user.map(_.email).getOrElse(""),
+                              ^.readOnly := true
+                            )()
                           )
+                        )
+                      ),
+                      <.div(^.className := TableLayoutBeyondSmallStyles.row)(
+                        <.div(
+                          ^.className := Seq(TableLayoutBeyondSmallStyles.cell, UserProfileStyles.infoFieldLabelWrapper)
+                        )(
+                          <.p(^.className := TextStyles.smallText)(I18n.t("authenticate.inputs.first-name.placeholder"))
                         ),
+                        <.div(^.className := TableLayoutBeyondSmallStyles.cell)(
+                          <.div(
+                            ^.className := Seq(
+                              InputStyles.wrapper,
+                              InputStyles.withIcon,
+                              UserProfileStyles.firstNameInputWithIconWrapper
+                            )
+                          )(
+                            <.input(
+                              ^.`type`.text,
+                              ^.required := true,
+                              ^.placeholder := s"${I18n.t("authenticate.inputs.first-name.placeholder")} ${I18n.t("authenticate.inputs.required")}",
+                              ^.value := self.props.wrapped.user.flatMap(_.firstName).getOrElse(""),
+                              ^.readOnly := true
+                            )()
+                          )
+                        )
+                      ),
+                      if (self.props.wrapped.user
+                            .flatMap(_.profile)
+                            .flatMap(_.departmentNumber)
+                            .isDefined) {
                         <.div(^.className := TableLayoutBeyondSmallStyles.row)(
                           <.div(
                             ^.className := Seq(
@@ -107,7 +131,7 @@ object UserProfile {
                             )
                           )(
                             <.p(^.className := TextStyles.smallText)(
-                              I18n.t("authenticate.inputs.first-name.placeholder")
+                              I18n.t("authenticate.inputs.postal-code.placeholder")
                             )
                           ),
                           <.div(^.className := TableLayoutBeyondSmallStyles.cell)(
@@ -115,90 +139,56 @@ object UserProfile {
                               ^.className := Seq(
                                 InputStyles.wrapper,
                                 InputStyles.withIcon,
-                                UserProfileStyles.firstNameInputWithIconWrapper
+                                UserProfileStyles.postalCodeInputWithIconWrapper
                               )
                             )(
                               <.input(
                                 ^.`type`.text,
-                                ^.required := true,
-                                ^.placeholder := s"${I18n.t("authenticate.inputs.first-name.placeholder")} ${I18n.t("authenticate.inputs.required")}",
-                                ^.value := self.props.wrapped.user.flatMap(_.firstName).getOrElse(""),
+                                ^.required := false,
+                                ^.placeholder := s"${I18n.t("authenticate.inputs.postal-code.placeholder")}",
+                                ^.value := self.props.wrapped.user
+                                  .flatMap(_.profile)
+                                  .flatMap(_.departmentNumber)
+                                  .getOrElse(""),
                                 ^.readOnly := true
                               )()
                             )
                           )
-                        ),
-                        if (self.props.wrapped.user
-                              .flatMap(_.profile)
-                              .flatMap(_.departmentNumber)
-                              .isDefined) {
-                          <.div(^.className := TableLayoutBeyondSmallStyles.row)(
+                        )
+                      },
+                      if (self.props.wrapped.user
+                            .flatMap(_.profile)
+                            .flatMap(_.profession)
+                            .isDefined) {
+                        <.div(^.className := TableLayoutBeyondSmallStyles.row)(
+                          <.div(
+                            ^.className := Seq(
+                              TableLayoutBeyondSmallStyles.cell,
+                              UserProfileStyles.infoFieldLabelWrapper
+                            )
+                          )(<.p(^.className := TextStyles.smallText)(I18n.t("authenticate.inputs.job.placeholder"))),
+                          <.div(^.className := TableLayoutBeyondSmallStyles.cell)(
                             <.div(
                               ^.className := Seq(
-                                TableLayoutBeyondSmallStyles.cell,
-                                UserProfileStyles.infoFieldLabelWrapper
+                                InputStyles.wrapper,
+                                InputStyles.withIcon,
+                                UserProfileStyles.professionInputWithIconWrapper
                               )
                             )(
-                              <.p(^.className := TextStyles.smallText)(
-                                I18n.t("authenticate.inputs.postal-code.placeholder")
-                              )
-                            ),
-                            <.div(^.className := TableLayoutBeyondSmallStyles.cell)(
-                              <.div(
-                                ^.className := Seq(
-                                  InputStyles.wrapper,
-                                  InputStyles.withIcon,
-                                  UserProfileStyles.postalCodeInputWithIconWrapper
-                                )
-                              )(
-                                <.input(
-                                  ^.`type`.text,
-                                  ^.required := false,
-                                  ^.placeholder := s"${I18n.t("authenticate.inputs.postal-code.placeholder")}",
-                                  ^.value := self.props.wrapped.user
-                                    .flatMap(_.profile)
-                                    .flatMap(_.departmentNumber)
-                                    .getOrElse(""),
-                                  ^.readOnly := true
-                                )()
-                              )
+                              <.input(
+                                ^.`type`.text,
+                                ^.required := false,
+                                ^.placeholder := s"${I18n.t("authenticate.inputs.job.placeholder")}",
+                                ^.value := self.props.wrapped.user
+                                  .flatMap(_.profile)
+                                  .flatMap(_.profession)
+                                  .getOrElse(""),
+                                ^.readOnly := true
+                              )()
                             )
                           )
-                        },
-                        if (self.props.wrapped.user
-                              .flatMap(_.profile)
-                              .flatMap(_.profession)
-                              .isDefined) {
-                          <.div(^.className := TableLayoutBeyondSmallStyles.row)(
-                            <.div(
-                              ^.className := Seq(
-                                TableLayoutBeyondSmallStyles.cell,
-                                UserProfileStyles.infoFieldLabelWrapper
-                              )
-                            )(<.p(^.className := TextStyles.smallText)(I18n.t("authenticate.inputs.job.placeholder"))),
-                            <.div(^.className := TableLayoutBeyondSmallStyles.cell)(
-                              <.div(
-                                ^.className := Seq(
-                                  InputStyles.wrapper,
-                                  InputStyles.withIcon,
-                                  UserProfileStyles.professionInputWithIconWrapper
-                                )
-                              )(
-                                <.input(
-                                  ^.`type`.text,
-                                  ^.required := false,
-                                  ^.placeholder := s"${I18n.t("authenticate.inputs.job.placeholder")}",
-                                  ^.value := self.props.wrapped.user
-                                    .flatMap(_.profile)
-                                    .flatMap(_.profession)
-                                    .getOrElse(""),
-                                  ^.readOnly := true
-                                )()
-                              )
-                            )
-                          )
-                        }
-                      )
+                        )
+                      }
                     )
                   )
                 )
@@ -226,7 +216,10 @@ object UserProfileStyles extends StyleSheet.Inline {
       margin(ThemeStyles.SpacingValue.larger.pxToEm(), `0`),
       backgroundColor(ThemeStyles.BackgroundColor.white),
       boxShadow := "0 1px 1px 0 rgba(0,0,0,0.50)",
-      ThemeStyles.MediaQueries.beyondSmall(paddingLeft(ColRulesStyles.gutter), paddingRight(ColRulesStyles.gutter)),
+      ThemeStyles.MediaQueries.beyondSmall(
+        paddingLeft(ThemeStyles.SpacingValue.small.pxToEm()),
+        paddingRight(ThemeStyles.SpacingValue.small.pxToEm())
+      ),
       ThemeStyles.MediaQueries.beyondMedium(padding(`0`))
     )
 

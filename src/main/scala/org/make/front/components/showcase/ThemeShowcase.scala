@@ -14,7 +14,7 @@ import org.make.front.models.{
   TranslatedTheme => TranslatedThemeModel
 }
 import org.make.front.styles._
-import org.make.front.styles.base.{ColRulesStyles, RowRulesStyles, TextStyles}
+import org.make.front.styles.base.{ColRulesStyles, LayoutRulesStyles, TextStyles}
 import org.make.front.styles.ui.CTAStyles
 import org.make.front.styles.utils._
 import org.make.services.proposal.SearchResult
@@ -63,59 +63,58 @@ object ThemeShowcase {
         if (self.state.proposals.nonEmpty) {
           <.section(^.className := Seq(ThemeShowcaseStyles.wrapper, DynamicThemeShowcaseStyles.gradient(index)))(
             Seq(
-              <.div(^.className := RowRulesStyles.centeredRow)(
-                <.header(^.className := ColRulesStyles.col)(if (self.props.wrapped.maybeIntro.nonEmpty) {
-                  <.p(^.className := Seq(ThemeShowcaseStyles.intro, TextStyles.mediumText, TextStyles.intro))(
-                    self.props.wrapped.maybeIntro
-                  )
-                }, <.h2(^.className := Seq(if (self.props.wrapped.maybeNews.nonEmpty) {
-                  ThemeShowcaseStyles.titleBeforeNews
-                } else { ThemeShowcaseStyles.title }, TextStyles.bigTitle))(self.props.wrapped.maybeTheme.map(_.title).getOrElse("")), if (self.props.wrapped.maybeNews.nonEmpty) {
-                  <.p(
-                    ^.className := Seq(ThemeShowcaseStyles.news, TextStyles.smallerText),
-                    ^.dangerouslySetInnerHTML := self.props.wrapped.maybeNews.getOrElse("")
-                  )()
-                }),
-                <.ul(^.className := ThemeShowcaseStyles.propasalsList)(
-                  self.state.proposals.map(
-                    proposal =>
-                      <.li(
-                        ^.className := Seq(
-                          ThemeShowcaseStyles.propasalItem,
-                          ColRulesStyles.col,
-                          ColRulesStyles.colHalfBeyondMedium,
-                          ColRulesStyles.colQuarterBeyondLarge
-                        )
-                      )(
-                        <.ProposalTileComponent(
-                          ^.wrapped :=
-                            ProposalTileProps(proposal = proposal, index = counter.getAndIncrement())
-                        )()
-                    )
-                  )
-                ),
-                if (self.props.wrapped.maybeTheme.nonEmpty) {
-                  <.p(^.className := Seq(ColRulesStyles.col, ThemeShowcaseStyles.SeeMoreLinkWrapper))(
-                    <.Link(
-                      ^.className := Seq(CTAStyles.basic, CTAStyles.basicOnA),
-                      ^.to := s"/theme/${self.props.wrapped.maybeTheme.map(_.slug).getOrElse("")}"
+              <.header(^.className := LayoutRulesStyles.centeredRow)(
+                if (self.props.wrapped.maybeIntro.nonEmpty) {
+                <.p(^.className := Seq(ThemeShowcaseStyles.intro, TextStyles.mediumText, TextStyles.intro))(
+                  self.props.wrapped.maybeIntro
+                )
+              }, <.h2(^.className := Seq(if (self.props.wrapped.maybeNews.nonEmpty) {
+                ThemeShowcaseStyles.titleBeforeNews
+              } else { ThemeShowcaseStyles.title }, TextStyles.bigTitle))(self.props.wrapped.maybeTheme.map(_.title).getOrElse("")), if (self.props.wrapped.maybeNews.nonEmpty) {
+                <.p(
+                  ^.className := Seq(ThemeShowcaseStyles.news, TextStyles.smallerText),
+                  ^.dangerouslySetInnerHTML := self.props.wrapped.maybeNews.getOrElse("")
+                )()
+              }),
+              <.ul(^.className := Seq(LayoutRulesStyles.centeredRowWithCols, ThemeShowcaseStyles.propasalsList))(
+                self.state.proposals.map(
+                  proposal =>
+                    <.li(
+                      ^.className := Seq(
+                        ThemeShowcaseStyles.propasalItem,
+                        ColRulesStyles.col,
+                        ColRulesStyles.colHalfBeyondMedium,
+                        ColRulesStyles.colQuarterBeyondLarge
+                      )
                     )(
-                      I18n
-                        .t(
-                          "theme-showcase.see-all",
-                          Replacements(
-                            (
-                              "themeName",
-                              self.props.wrapped.maybeTheme
-                                .map(_.title)
-                                .getOrElse("")
-                            )
+                      <.ProposalTileComponent(
+                        ^.wrapped :=
+                          ProposalTileProps(proposal = proposal, index = counter.getAndIncrement())
+                      )()
+                  )
+                )
+              ),
+              if (self.props.wrapped.maybeTheme.nonEmpty) {
+                <.p(^.className := Seq(LayoutRulesStyles.centeredRow, ThemeShowcaseStyles.SeeMoreLinkWrapper))(
+                  <.Link(
+                    ^.className := Seq(CTAStyles.basic, CTAStyles.basicOnA),
+                    ^.to := s"/theme/${self.props.wrapped.maybeTheme.map(_.slug).getOrElse("")}"
+                  )(
+                    I18n
+                      .t(
+                        "theme-showcase.see-all",
+                        Replacements(
+                          (
+                            "themeName",
+                            self.props.wrapped.maybeTheme
+                              .map(_.title)
+                              .getOrElse("")
                           )
                         )
-                    )
+                      )
                   )
-                }
-              ),
+                )
+              },
               <.style()(ThemeShowcaseStyles.render[String], DynamicThemeShowcaseStyles.render[String])
             )
           )
@@ -168,7 +167,7 @@ object ThemeShowcaseStyles extends StyleSheet.Inline {
     )
 
   val propasalsList: StyleA =
-    style(display.flex, flexWrap.wrap)
+    style(display.flex, flexWrap.wrap, width(100.%%))
 
   val propasalItem: StyleA =
     style(

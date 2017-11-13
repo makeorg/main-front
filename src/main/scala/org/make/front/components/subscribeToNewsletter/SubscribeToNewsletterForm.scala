@@ -9,7 +9,7 @@ import org.make.front.components.Components._
 import org.make.front.facades.I18n
 import org.make.front.facades.Unescape.unescape
 import org.make.front.styles._
-import org.make.front.styles.base.{ColRulesStyles, RowRulesStyles, TextStyles}
+import org.make.front.styles.base.{ColRulesStyles, LayoutRulesStyles, TextStyles}
 import org.make.front.styles.ui.{CTAStyles, InputStyles}
 import org.make.front.styles.utils._
 import org.make.front.styles.vendors.FontAwesomeStyles
@@ -70,29 +70,27 @@ object SubscribeToNewsletterForm {
           }
         ).mkString(" ")
 
-        <.div(^.className := Seq(RowRulesStyles.evenNarrowerCenteredRow))(
-          <.div(^.className := ColRulesStyles.col)(
-            <.form(^.onSubmit := handleSubmit, ^.novalidate := true)(
-              <.label(^.className := emailInputWrapperClasses)(
-                <.input(
-                  ^.`type`.email,
-                  ^.required := true,
-                  ^.placeholder := I18n.t("subscribe-to-newsletter.email-input-placeholder"),
-                  ^.onChange := updateEmail,
-                  ^.value := self.state.email
-                )()
-              ),
-              if (self.state.errorMessage != "") {
-                <.p(
-                  ^.className := InputStyles.errorMessage,
-                  ^.dangerouslySetInnerHTML := unescape(self.state.errorMessage)
-                )()
-              },
-              <.div(^.className := SubscribeToNewsletterFormStyles.submitButtonWrapper)(
-                <.button(^.className := Seq(CTAStyles.basic, CTAStyles.basicOnButton), ^.`type`.submit)(
-                  <.i(^.className := FontAwesomeStyles.paperPlaneTransparent)(),
-                  unescape("&nbsp;" + I18n.t("subscribe-to-newsletter.send-cta"))
-                )
+        <.div(^.className := Seq(LayoutRulesStyles.evenNarrowerCenteredRow))(
+          <.form(^.onSubmit := handleSubmit, ^.novalidate := true)(
+            <.label(^.className := emailInputWrapperClasses)(
+              <.input(
+                ^.`type`.email,
+                ^.required := true,
+                ^.placeholder := I18n.t("subscribe-to-newsletter.email-input-placeholder"),
+                ^.onChange := updateEmail,
+                ^.value := self.state.email
+              )()
+            ),
+            if (self.state.errorMessage != "") {
+              <.p(
+                ^.className := InputStyles.errorMessage,
+                ^.dangerouslySetInnerHTML := unescape(self.state.errorMessage)
+              )()
+            },
+            <.div(^.className := SubscribeToNewsletterFormStyles.submitButtonWrapper)(
+              <.button(^.className := Seq(CTAStyles.basic, CTAStyles.basicOnButton), ^.`type`.submit)(
+                <.i(^.className := FontAwesomeStyles.paperPlaneTransparent)(),
+                unescape("&nbsp;" + I18n.t("subscribe-to-newsletter.send-cta"))
               )
             )
           ),

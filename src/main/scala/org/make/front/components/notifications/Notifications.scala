@@ -13,7 +13,7 @@ import org.make.front.middlewares.NotificationMiddleware.NotificationListener
 import org.make.front.models.NotificationLevel._
 import org.make.front.models.{Notification => NotificationModel, NotificationLevel => NotificationLevelModel}
 import org.make.front.styles._
-import org.make.front.styles.base.{ColRulesStyles, RowRulesStyles, TextStyles}
+import org.make.front.styles.base.{ColRulesStyles, LayoutRulesStyles, TextStyles}
 import org.make.front.styles.utils._
 
 object Notifications {
@@ -55,8 +55,8 @@ object Notifications {
             case Info    => NotificationsStyles.info.htmlClass
           }).mkString(" ")
 
-        <.ul(^.className := RowRulesStyles.centeredRow)(self.state.notifications.map(notification => {
-          <.li(^.className := Seq(NotificationsStyles.item, ColRulesStyles.col))(
+        <.ul(^.className := LayoutRulesStyles.centeredRow)(self.state.notifications.map(notification => {
+          <.li(^.className := Seq(NotificationsStyles.item))(
             <.div(^.className := NotificationClasses(notification.level))(
               <.button(
                 ^.className := NotificationsStyles.closeButton,

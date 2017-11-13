@@ -9,7 +9,7 @@ import org.make.front.components.subscribeToNewsletter.SubscribeToNewsletterForm
 import org.make.front.facades.Unescape.unescape
 import org.make.front.facades.{FacebookPixel, I18n}
 import org.make.front.styles.ThemeStyles
-import org.make.front.styles.base.{ColRulesStyles, RowRulesStyles, TextStyles}
+import org.make.front.styles.base.{LayoutRulesStyles, TextStyles}
 import org.make.front.styles.utils._
 
 object ConclusionOfTheSequence {
@@ -31,21 +31,19 @@ object ConclusionOfTheSequence {
         }
 
         <.div()(
-          <.div(^.className := Seq(RowRulesStyles.row))(
-            <.div(^.className := ColRulesStyles.col)(
-              <.div(^.className := ConclusionOfTheSequenceStyles.introWrapper)(
-                <.p(^.className := Seq(ConclusionOfTheSequenceStyles.intro, TextStyles.bigText, TextStyles.boldText))(
-                  unescape(I18n.t("sequence.conclusion.title"))
-                )
-              ),
-              <.div(^.className := ConclusionOfTheSequenceStyles.messageWrapper)(
-                <.p(^.className := Seq(ConclusionOfTheSequenceStyles.message, TextStyles.smallText))(
-                  if (self.props.wrapped.isConnected || self.state.subscriptionToNewsletterHasSucceed) {
-                    unescape(I18n.t("sequence.conclusion.info"))
-                  } else {
-                    unescape(I18n.t("sequence.conclusion.prompting-to-subscribe-to-newsletter"))
-                  }
-                )
+          <.div(^.className := Seq(LayoutRulesStyles.row))(
+            <.div(^.className := ConclusionOfTheSequenceStyles.introWrapper)(
+              <.p(^.className := Seq(ConclusionOfTheSequenceStyles.intro, TextStyles.bigText, TextStyles.boldText))(
+                unescape(I18n.t("sequence.conclusion.title"))
+              )
+            ),
+            <.div(^.className := ConclusionOfTheSequenceStyles.messageWrapper)(
+              <.p(^.className := Seq(ConclusionOfTheSequenceStyles.message, TextStyles.smallText))(
+                if (self.props.wrapped.isConnected || self.state.subscriptionToNewsletterHasSucceed) {
+                  unescape(I18n.t("sequence.conclusion.info"))
+                } else {
+                  unescape(I18n.t("sequence.conclusion.prompting-to-subscribe-to-newsletter"))
+                }
               )
             )
           ),

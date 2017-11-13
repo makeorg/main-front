@@ -11,7 +11,7 @@ import org.make.front.facades.Unescape.unescape
 import org.make.front.helpers.ProposalAuthorInfosFormat
 import org.make.front.models.{Proposal => ProposalModel, Qualification => QualificationModel, Vote => VoteModel}
 import org.make.front.styles.ThemeStyles
-import org.make.front.styles.base.{ColRulesStyles, RowRulesStyles, TextStyles}
+import org.make.front.styles.base.{ColRulesStyles, LayoutRulesStyles, TextStyles}
 import org.make.front.styles.ui.CTAStyles
 import org.make.front.styles.utils._
 import org.make.front.styles.vendors.FontAwesomeStyles
@@ -40,39 +40,37 @@ object ProposalInsideSequence {
         self.setState(ProposalInsideSequenceState(hasBeenVoted = props.wrapped.hasBeenVoted))
       },
       render = { self =>
-        <.div(^.className := Seq(RowRulesStyles.row))(
-          <.div(^.className := ColRulesStyles.col)(
-            <.div(^.className := ProposalInsideSequenceStyles.infosWrapper)(
-              <.p(^.className := Seq(TextStyles.mediumText, ProposalInsideSequenceStyles.infos))(
-                ProposalAuthorInfosFormat.apply(self.props.wrapped.proposal)
-              )
-            ),
-            <.div(^.className := ProposalInsideSequenceStyles.contentWrapper)(
-              <.h3(^.className := Seq(TextStyles.bigText, TextStyles.boldText))(self.props.wrapped.proposal.content),
-              <.div(^.className := ProposalInsideSequenceStyles.voteWrapper)(
-                <.VoteContainerComponent(
-                  ^.wrapped := VoteContainerProps(
-                    proposal = self.props.wrapped.proposal,
-                    onSuccessfulVote = self.props.wrapped.handleSuccessfulVote,
-                    onSuccessfulQualification = self.props.wrapped.handleSuccessfulQualification,
-                    guideToVote = self.props.wrapped.guideToVote,
-                    guideToQualification = self.props.wrapped.guideToQualification,
-                    index = self.props.wrapped.index
-                  )
-                )(),
-                <.div(^.className := ProposalInsideSequenceStyles.ctaWrapper)(
-                  <.button(
-                    ^.className := Seq(
-                      CTAStyles.basic,
-                      CTAStyles.basicOnButton,
-                      ProposalInsideSequenceStyles.ctaVisibility(self.props.wrapped.hasBeenVoted)
-                    ),
-                    ^.disabled := !self.props.wrapped.hasBeenVoted,
-                    ^.onClick := self.props.wrapped.handleClickOnCta
-                  )(
-                    unescape(I18n.t("sequence.proposal.next-cta") + "&nbsp;"),
-                    <.i(^.className := FontAwesomeStyles.angleRight)()
-                  )
+        <.div(^.className := Seq(LayoutRulesStyles.row))(
+          <.div(^.className := ProposalInsideSequenceStyles.infosWrapper)(
+            <.p(^.className := Seq(TextStyles.mediumText, ProposalInsideSequenceStyles.infos))(
+              ProposalAuthorInfosFormat.apply(self.props.wrapped.proposal)
+            )
+          ),
+          <.div(^.className := ProposalInsideSequenceStyles.contentWrapper)(
+            <.h3(^.className := Seq(TextStyles.bigText, TextStyles.boldText))(self.props.wrapped.proposal.content),
+            <.div(^.className := ProposalInsideSequenceStyles.voteWrapper)(
+              <.VoteContainerComponent(
+                ^.wrapped := VoteContainerProps(
+                  proposal = self.props.wrapped.proposal,
+                  onSuccessfulVote = self.props.wrapped.handleSuccessfulVote,
+                  onSuccessfulQualification = self.props.wrapped.handleSuccessfulQualification,
+                  guideToVote = self.props.wrapped.guideToVote,
+                  guideToQualification = self.props.wrapped.guideToQualification,
+                  index = self.props.wrapped.index
+                )
+              )(),
+              <.div(^.className := ProposalInsideSequenceStyles.ctaWrapper)(
+                <.button(
+                  ^.className := Seq(
+                    CTAStyles.basic,
+                    CTAStyles.basicOnButton,
+                    ProposalInsideSequenceStyles.ctaVisibility(self.props.wrapped.hasBeenVoted)
+                  ),
+                  ^.disabled := !self.props.wrapped.hasBeenVoted,
+                  ^.onClick := self.props.wrapped.handleClickOnCta
+                )(
+                  unescape(I18n.t("sequence.proposal.next-cta") + "&nbsp;"),
+                  <.i(^.className := FontAwesomeStyles.angleRight)()
                 )
               )
             )

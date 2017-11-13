@@ -17,7 +17,7 @@ import org.make.front.facades.ReactInfiniteScroller.{
 import org.make.front.facades.Unescape.unescape
 import org.make.front.models.{Proposal, Tag => TagModel, TranslatedTheme => TranslatedThemeModel}
 import org.make.front.styles._
-import org.make.front.styles.base.{ColRulesStyles, RowRulesStyles, TextStyles}
+import org.make.front.styles.base.{ColRulesStyles, LayoutRulesStyles, TextStyles}
 import org.make.front.styles.ui.CTAStyles
 import org.make.front.styles.utils._
 import org.make.services.proposal.SearchResult
@@ -83,7 +83,7 @@ object ResultsInTheme {
         }
 
         val noResults: ReactElement =
-          <.div(^.className := Seq(ColRulesStyles.col, ResultsInThemeStyles.noResults))(
+          <.div(^.className := Seq(ResultsInThemeStyles.noResults, LayoutRulesStyles.centeredRow))(
             <.p(^.className := ResultsInThemeStyles.noResultsSmiley)("😞"),
             <.p(
               ^.className := Seq(TextStyles.mediumText, ResultsInThemeStyles.noResultsMessage),
@@ -106,7 +106,7 @@ object ResultsInTheme {
           Seq(
             <.InfiniteScroll(
               ^.element := "ul",
-              ^.className := ResultsInThemeStyles.itemsList,
+              ^.className := Seq(ResultsInThemeStyles.itemsList, LayoutRulesStyles.centeredRowWithCols),
               ^.hasMore := (self.state.initialLoad || self.state.hasMore && self.state.hasRequestedMore),
               ^.initialLoad := true,
               ^.pageStart := 1,
@@ -129,9 +129,9 @@ object ResultsInTheme {
                     )()
                 )
               )
-            } else { <.span.empty }),
+            } else { <.div.empty }),
             if (self.state.hasMore && !self.state.hasRequestedMore) {
-              <.div(^.className := Seq(ResultsInThemeStyles.seeMoreButtonWrapper, ColRulesStyles.col))(
+              <.div(^.className := Seq(ResultsInThemeStyles.seeMoreButtonWrapper, LayoutRulesStyles.centeredRow))(
                 <.button(
                   ^.onClick := (() => { onSeeMore(1) }),
                   ^.className := Seq(CTAStyles.basic, CTAStyles.basicOnButton)
@@ -142,11 +142,11 @@ object ResultsInTheme {
 
         val proposalsToDisplay: Seq[Proposal] = self.state.listProposals
 
-        <.section(^.className := Seq(RowRulesStyles.centeredRow, ResultsInThemeStyles.wrapper))(
-          <.header(^.className := ColRulesStyles.col)(
+        <.section(^.className := Seq(ResultsInThemeStyles.wrapper))(
+          <.header(^.className := LayoutRulesStyles.centeredRow)(
             <.h2(^.className := TextStyles.mediumTitle)(unescape(I18n.t("theme.results.title")))
           ),
-          <.nav(^.className := ColRulesStyles.col)(
+          <.nav(^.className := LayoutRulesStyles.centeredRow)(
             <.FilterByTagsComponent(^.wrapped := FilterByTagsProps(self.props.wrapped.theme.tags, onTagsChange))()
           ),
           if (self.state.initialLoad || proposalsToDisplay.nonEmpty) {

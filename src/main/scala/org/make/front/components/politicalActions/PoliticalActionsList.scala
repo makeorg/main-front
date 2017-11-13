@@ -70,18 +70,16 @@ object PoliticalActionsList {
       }
 
       <.section(^.className := PoliticalActionsListStyles.wrapper)(
-        <.div(^.className := RowRulesStyles.centeredRow)(
-          <.header(^.className := ColRulesStyles.col)(
-            <.h2(^.className := TextStyles.mediumTitle)(
-              unescape(
-                I18n.t(
-                  "political-actions.intro",
-                  Replacements(("actions", self.props.wrapped.politicalActions.length.toString))
-                )
+        <.header(^.className := LayoutRulesStyles.centeredRow)(
+          <.h2(^.className := TextStyles.mediumTitle)(
+            unescape(
+              I18n.t(
+                "political-actions.intro",
+                Replacements(("actions", self.props.wrapped.politicalActions.length.toString))
               )
             )
           ),
-          <.div(^.className := ColRulesStyles.col)(if (self.state.politicalActions.isEmpty) {
+          if (self.state.politicalActions.isEmpty) {
             <.div(^.className := PoliticalActionsListStyles.noPoliticalActionsWrapper)(
               <.NoPoliticalActionComponent.empty
             )
@@ -132,7 +130,7 @@ object PoliticalActionsList {
                 )()
               )
             )
-          })
+          }
         ),
         <.style()(PoliticalActionsListStyles.render[String])
       )
