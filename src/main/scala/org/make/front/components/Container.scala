@@ -38,6 +38,12 @@ object Container {
           )(),
           <.Route(^.exact := true, ^.path := "/proposal/:proposalSlug", ^.component := ProposalContainer.reactClass)(),
           <.Route(^.exact := true, ^.path := "/profile", ^.component := UserProfileContainer.reactClass)(),
+          /**TO-DO: direct route to sequence*/
+          /*<.Route(
+            ^.exact := true,
+            ^.path := "/consultation/vff/selection",
+            ^.component := VFFSequenceContainer.reactClass
+          )(),*/
           <.Route(
             ^.exact := true,
             ^.path := "/consultation/:operationSlug",
@@ -47,11 +53,6 @@ object Container {
             ^.exact := true,
             ^.path := "/consultation/:operationSlug/selection/:sequenceSlug",
             ^.component := SequenceOfTheOperationContainer.reactClass
-          )(),
-          <.Route(
-            ^.exact := true,
-            ^.path := "/consultation/vff/selection",
-            ^.component := VFFSequenceContainer.reactClass
           )(),
           <.Route(^.exact := true, ^.path := "/theme/:themeSlug", ^.component := ThemeContainer.reactClass)(),
           <.Route(^.exact := true, ^.path := "/search", ^.component := SearchResultsContainer.reactClass)(),
