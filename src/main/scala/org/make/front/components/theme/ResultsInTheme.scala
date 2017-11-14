@@ -165,7 +165,10 @@ object ResultsInThemeStyles extends StyleSheet.Inline {
   import dsl._
 
   val wrapper: StyleA =
-    style(paddingTop(ThemeStyles.SpacingValue.medium.pxToEm()), paddingBottom(ThemeStyles.SpacingValue.medium.pxToEm()))
+    style(
+      ThemeStyles.MediaQueries.beyondSmall(paddingTop(ThemeStyles.SpacingValue.medium.pxToEm())),
+      paddingBottom(ThemeStyles.SpacingValue.medium.pxToEm())
+    )
 
   val itemsList: StyleA = style(display.flex, flexWrap.wrap, width(100.%%))
 
