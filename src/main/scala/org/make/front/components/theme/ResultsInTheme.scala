@@ -142,7 +142,7 @@ object ResultsInTheme {
 
         val proposalsToDisplay: Seq[Proposal] = self.state.listProposals
 
-        <.section(^.className := Seq(ResultsInThemeStyles.wrapper))(
+        <.section(^.className := ResultsInThemeStyles.wrapper)(
           <.header(^.className := LayoutRulesStyles.centeredRow)(
             <.h2(^.className := TextStyles.mediumTitle)(unescape(I18n.t("theme.results.title")))
           ),
@@ -165,7 +165,10 @@ object ResultsInThemeStyles extends StyleSheet.Inline {
   import dsl._
 
   val wrapper: StyleA =
-    style(paddingTop(ThemeStyles.SpacingValue.medium.pxToEm()), paddingBottom(ThemeStyles.SpacingValue.medium.pxToEm()))
+    style(
+      ThemeStyles.MediaQueries.beyondSmall(paddingTop(ThemeStyles.SpacingValue.medium.pxToEm())),
+      paddingBottom(ThemeStyles.SpacingValue.medium.pxToEm())
+    )
 
   val itemsList: StyleA = style(display.flex, flexWrap.wrap, width(100.%%))
 

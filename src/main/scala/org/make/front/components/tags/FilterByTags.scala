@@ -69,12 +69,7 @@ object FilterByTagsStyles extends StyleSheet.Inline {
   val introWrapper: StyleA =
     style(
       float.left,
-      margin(
-        (ThemeStyles.SpacingValue.smaller / 2).pxToEm(),
-        ThemeStyles.SpacingValue.smaller.pxToEm(),
-        (ThemeStyles.SpacingValue.smaller / 2).pxToEm(),
-        `0`
-      )
+      margin((ThemeStyles.SpacingValue.smaller / 2).pxToEm(), ThemeStyles.SpacingValue.smaller.pxToEm(), `0`, `0`)
     )
 
   val intro: StyleA =

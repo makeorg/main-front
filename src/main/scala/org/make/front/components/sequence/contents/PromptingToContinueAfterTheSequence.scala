@@ -141,7 +141,7 @@ object PromptingToContinueAfterTheSequence {
                         )(unescape(I18n.t("sequence.prompting-to-continue.learn-more.continuation"))),
                         <.p(^.className := PromptingToContinueAfterTheSequenceStyles.ctaWrapper)(
                           <.Link(
-                            ^.to := s"/operation/${self.props.wrapped.operation.slug}",
+                            ^.to := s"/consultation/${self.props.wrapped.operation.slug}",
                             ^.className := Seq(CTAStyles.basic, CTAStyles.basicOnA)
                           )(unescape(I18n.t("sequence.prompting-to-continue.learn-more.cta")))
                         )
