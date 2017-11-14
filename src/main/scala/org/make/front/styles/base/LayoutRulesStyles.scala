@@ -6,6 +6,62 @@ import org.make.front.styles.utils._
 
 import scalacss.internal.ValueT
 
+object LayoutRulesStyles extends StyleSheet.Inline {
+
+  import dsl._
+
+  val row: StyleA = style(
+    display.block,
+    position.relative,
+    paddingRight(ThemeStyles.SpacingValue.small.pxToEm()),
+    paddingLeft(ThemeStyles.SpacingValue.small.pxToEm()),
+    ThemeStyles.MediaQueries.beyondSmall(
+      paddingRight(ThemeStyles.SpacingValue.medium.pxToEm()),
+      paddingLeft(ThemeStyles.SpacingValue.medium.pxToEm())
+    )
+  )
+
+  val centeredRow: StyleA = style(
+    row,
+    ThemeStyles.MediaQueries
+      .beyondLarge(maxWidth(ThemeStyles.containerMaxWidth), marginRight.auto, marginLeft.auto)
+  )
+
+  val narrowerCenteredRow: StyleA = style(
+    row,
+    ThemeStyles.MediaQueries
+      .beyondLargeMedium(maxWidth(1000.pxToEm()), marginRight.auto, marginLeft.auto)
+  )
+
+  val evenNarrowerCenteredRow: StyleA = style(
+    row,
+    ThemeStyles.MediaQueries
+      .beyondSmall(maxWidth(500.pxToEm()), marginRight.auto, marginLeft.auto)
+  )
+
+  val rowWithCols: StyleA = style(
+    display.block,
+    position.relative,
+    ThemeStyles.MediaQueries.beyondSmall(
+      paddingRight(ThemeStyles.SpacingValue.small.pxToEm()),
+      paddingLeft(ThemeStyles.SpacingValue.small.pxToEm())
+    )
+  )
+
+  val centeredRowWithCols: StyleA = style(
+    rowWithCols,
+    ThemeStyles.MediaQueries
+      .beyondLarge(maxWidth(ThemeStyles.containerMaxWidth), marginRight.auto, marginLeft.auto)
+  )
+
+  val narrowerCenteredRowWithCols: StyleA = style(
+    rowWithCols,
+    ThemeStyles.MediaQueries
+      .beyondLarge(maxWidth(ThemeStyles.containerMaxWidth), marginRight.auto, marginLeft.auto)
+  )
+
+}
+
 object ColRulesStyles extends StyleSheet.Inline {
 
   import dsl._
@@ -34,37 +90,6 @@ object ColRulesStyles extends StyleSheet.Inline {
   val colTwoThirdsBeyondLarge: StyleA = style(ThemeStyles.MediaQueries.beyondLarge(width(66.6666.%%)))
   val colQuarterBeyondLarge: StyleA = style(ThemeStyles.MediaQueries.beyondLarge(width(25.%%)))
 
-}
-
-object RowRulesStyles extends StyleSheet.Inline {
-
-  import dsl._
-
-  val gutter: ValueT[ValueT.LenPct] = ThemeStyles.SpacingValue.small.pxToEm()
-
-  val row: StyleA = style(
-    display.block,
-    position.relative,
-    ThemeStyles.MediaQueries.beyondSmall(paddingRight(gutter), paddingLeft(gutter))
-  )
-
-  val evenNarrowerCenteredRow: StyleA = style(
-    row,
-    ThemeStyles.MediaQueries
-      .beyondSmall(maxWidth(500.pxToEm()), marginRight.auto, marginLeft.auto)
-  )
-
-  val narrowerCenteredRow: StyleA = style(
-    row,
-    ThemeStyles.MediaQueries
-      .beyondLargeMedium(maxWidth(1000.pxToEm()), marginRight.auto, marginLeft.auto)
-  )
-
-  val centeredRow: StyleA = style(
-    row,
-    ThemeStyles.MediaQueries
-      .beyondLarge(maxWidth(ThemeStyles.containerMaxWidth), marginRight.auto, marginLeft.auto)
-  )
 }
 
 object TableLayoutStyles extends StyleSheet.Inline {

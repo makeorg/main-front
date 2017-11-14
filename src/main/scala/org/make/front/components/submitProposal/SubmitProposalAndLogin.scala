@@ -19,7 +19,7 @@ import org.make.front.models.{
   TranslatedTheme => TranslatedThemeModel
 }
 import org.make.front.styles.ThemeStyles
-import org.make.front.styles.base.{ColRulesStyles, RowRulesStyles, TextStyles}
+import org.make.front.styles.base.{ColRulesStyles, LayoutRulesStyles, TextStyles}
 import org.make.front.styles.utils._
 
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -74,38 +74,32 @@ object SubmitProposalAndLogin {
           }
 
           if (self.state.displayedComponent == "submit-proposal") {
-            <.div(^.className := RowRulesStyles.centeredRow)(
-              <.div(^.className := ColRulesStyles.col)(
-                self.props.wrapped.intro(
-                  <.SubmitProposalFormComponent(
-                    ^.wrapped := SubmitProposalFormContainerProps(
-                      maybeTheme = props.maybeTheme,
-                      errorMessage = None,
-                      handleSubmitProposalForm = handleSubmitProposal
-                    )
-                  )()
-                )
+            <.div(^.className := LayoutRulesStyles.centeredRow)(
+              self.props.wrapped.intro(
+                <.SubmitProposalFormComponent(
+                  ^.wrapped := SubmitProposalFormContainerProps(
+                    maybeTheme = props.maybeTheme,
+                    errorMessage = None,
+                    handleSubmitProposalForm = handleSubmitProposal
+                  )
+                )()
               )
             )
           } else if (self.state.displayedComponent == "connect") {
 
             val intro: ReactElement =
               <.div()(
-                <.div(^.className := RowRulesStyles.narrowerCenteredRow)(
-                  <.div(^.className := ColRulesStyles.col)(
-                    <.p(^.className := SubmitProposalAndLoginStyles.title)(
-                      <.span(
-                        ^.className := Seq(TextStyles.mediumText, TextStyles.intro, SubmitProposalAndLoginStyles.intro)
-                      )("Nous avons besoin de quelques informations"),
-                      <.br()(),
-                      <.strong(^.className := TextStyles.bigTitle)("Pour valider votre proposition")
-                    )
+                <.div(^.className := LayoutRulesStyles.narrowerCenteredRow)(
+                  <.p(^.className := SubmitProposalAndLoginStyles.title)(
+                    <.span(
+                      ^.className := Seq(TextStyles.mediumText, TextStyles.intro, SubmitProposalAndLoginStyles.intro)
+                    )("Nous avons besoin de quelques informations"),
+                    <.br()(),
+                    <.strong(^.className := TextStyles.bigTitle)("Pour valider votre proposition")
                   )
                 ),
-                <.div(^.className := RowRulesStyles.evenNarrowerCenteredRow)(
-                  <.div(^.className := ColRulesStyles.col)(
-                    <.hr(^.className := Seq(SubmitProposalAndLoginStyles.separatorLine))()
-                  )
+                <.div(^.className := LayoutRulesStyles.evenNarrowerCenteredRow)(
+                  <.hr(^.className := Seq(SubmitProposalAndLoginStyles.separatorLine))()
                 )
               )
 
@@ -123,18 +117,16 @@ object SubmitProposalAndLogin {
             )
 
           } else if (self.state.displayedComponent == "result") {
-            <.div(^.className := RowRulesStyles.centeredRow)(
-              <.div(^.className := ColRulesStyles.col)(
-                <.ConfirmationOfProposalSubmissionComponent(
-                  ^.wrapped := ConfirmationOfProposalSubmissionProps(
-                    maybeTheme = self.props.wrapped.maybeTheme,
-                    onBack = self.props.wrapped.onProposalProposed,
-                    onSubmitAnotherProposal = () => {
-                      self.setState(_.copy(proposal = "", displayedComponent = "submit-proposal", errorMessage = None))
-                    }
-                  )
-                )()
-              )
+            <.div(^.className := LayoutRulesStyles.centeredRow)(
+              <.ConfirmationOfProposalSubmissionComponent(
+                ^.wrapped := ConfirmationOfProposalSubmissionProps(
+                  maybeTheme = self.props.wrapped.maybeTheme,
+                  onBack = self.props.wrapped.onProposalProposed,
+                  onSubmitAnotherProposal = () => {
+                    self.setState(_.copy(proposal = "", displayedComponent = "submit-proposal", errorMessage = None))
+                  }
+                )
+              )()
             )
           } else {
             <.div.empty

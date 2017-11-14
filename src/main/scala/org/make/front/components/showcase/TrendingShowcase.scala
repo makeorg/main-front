@@ -11,7 +11,7 @@ import org.make.front.components.proposal.ProposalTileWithThemeContainer.Proposa
 import org.make.front.facades.logoMake
 import org.make.front.models.Proposal
 import org.make.front.styles._
-import org.make.front.styles.base.{ColRulesStyles, RowRulesStyles, TextStyles}
+import org.make.front.styles.base.{ColRulesStyles, LayoutRulesStyles, TextStyles}
 import org.make.front.styles.utils._
 import org.make.services.proposal.SearchResult
 
@@ -41,48 +41,47 @@ object TrendingShowcase {
         if (self.state.proposals.nonEmpty) {
           <.section(^.className := TrendingShowcaseStyles.wrapper)(
             Seq(
-              <.div(^.className := RowRulesStyles.centeredRow)(
-                <.header(^.className := ColRulesStyles.col)(
-                  <.p(^.className := Seq(TrendingShowcaseStyles.intro, TextStyles.mediumText, TextStyles.intro))(
-                    self.props.wrapped.intro
-                  ),
-                  <.h2(^.className := Seq(TrendingShowcaseStyles.title, TextStyles.mediumTitle))(
-                    self.props.wrapped.title,
-                    <.span(^.style := Map("display" -> "none"))("Make.org"),
-                    <.img(
-                      ^.className := TrendingShowcaseStyles.logo,
-                      ^.src := logoMake.toString,
-                      ^.alt := "Make.org",
-                      ^("data-pin-no-hover") := "true"
-                    )()
-                  )
+              <.header(^.className := LayoutRulesStyles.centeredRow)(
+                <.p(^.className := Seq(TrendingShowcaseStyles.intro, TextStyles.mediumText, TextStyles.intro))(
+                  self.props.wrapped.intro
                 ),
-                <.ul(^.className := TrendingShowcaseStyles.propasalsList)(
-                  self.state.proposals.map(
-                    proposal =>
-                      <.li(
-                        ^.className := Seq(
-                          TrendingShowcaseStyles.propasalItem,
-                          ColRulesStyles.col,
-                          ColRulesStyles.colHalfBeyondMedium
-                        )
-                      )(if (proposal.themeId.isDefined) {
-                        <.ProposalTileWithThemeContainerComponent(
-                          ^.wrapped :=
-                            ProposalTileWithThemeContainerProps(proposal = proposal, index = counter.getAndIncrement())
-                        )()
-                      } else {
-                        <.ProposalTileComponent(
-                          ^.wrapped :=
-                            ProposalTileProps(proposal = proposal, index = counter.getAndIncrement())
-                        )()
-                      })
-                  )
+                <.h2(^.className := Seq(TrendingShowcaseStyles.title, TextStyles.mediumTitle))(
+                  self.props.wrapped.title,
+                  <.span(^.style := Map("display" -> "none"))("Make.org"),
+                  <.img(
+                    ^.className := TrendingShowcaseStyles.logo,
+                    ^.src := logoMake.toString,
+                    ^.alt := "Make.org",
+                    ^("data-pin-no-hover") := "true"
+                  )()
                 )
               ),
-              <.style()(TrendingShowcaseStyles.render[String])
-            )
+              <.ul(^.className := Seq(TrendingShowcaseStyles.propasalsList, LayoutRulesStyles.centeredRowWithCols))(
+                self.state.proposals.map(
+                  proposal =>
+                    <.li(
+                      ^.className := Seq(
+                        TrendingShowcaseStyles.propasalItem,
+                        ColRulesStyles.col,
+                        ColRulesStyles.colHalfBeyondMedium
+                      )
+                    )(if (proposal.themeId.isDefined) {
+                      <.ProposalTileWithThemeContainerComponent(
+                        ^.wrapped :=
+                          ProposalTileWithThemeContainerProps(proposal = proposal, index = counter.getAndIncrement())
+                      )()
+                    } else {
+                      <.ProposalTileComponent(
+                        ^.wrapped :=
+                          ProposalTileProps(proposal = proposal, index = counter.getAndIncrement())
+                      )()
+                    })
+                )
+              )
+            ),
+            <.style()(TrendingShowcaseStyles.render[String])
           )
+
         } else <.div.empty
       }
     )

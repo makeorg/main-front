@@ -5,7 +5,7 @@ import io.github.shogowada.scalajs.reactjs.VirtualDOM._
 import io.github.shogowada.scalajs.reactjs.router.WithRouter
 import org.make.front.Main.CssSettings._
 import org.make.front.components.Components.{RichVirtualDOMElements, _}
-import org.make.front.styles.base.{ColRulesStyles, RWDHideRulesStyles, RowRulesStyles, TextStyles, _}
+import org.make.front.styles.base.{ColRulesStyles, RWDHideRulesStyles, LayoutRulesStyles, TextStyles, _}
 import org.make.front.styles.ui._
 
 object App {
@@ -18,7 +18,7 @@ object App {
           <("app-container")(^.className := "App")(
             <.style()(
               Basic.render[String],
-              RowRulesStyles.render[String],
+              LayoutRulesStyles.render[String],
               ColRulesStyles.render[String],
               TableLayoutStyles.render[String],
               TableLayoutBeyondSmallStyles.render[String],
@@ -27,7 +27,6 @@ object App {
               CTAStyles.render[String],
               InputStyles.render[String],
               TagStyles.render[String],
-              ModalStyles.render[String],
               TooltipStyles.render[String]
             ),
             <.div(^.className := AppStyles.fixedMainHeader)(<.MainHeaderComponent.empty),

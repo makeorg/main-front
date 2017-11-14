@@ -11,7 +11,7 @@ import org.make.front.components.submitProposal.SubmitProposal.SubmitProposalPro
 import org.make.front.facades.I18n
 import org.make.front.facades.Unescape.unescape
 import org.make.front.styles.ThemeStyles
-import org.make.front.styles.base.{ColRulesStyles, RowRulesStyles, TextStyles}
+import org.make.front.styles.base.{ColRulesStyles, LayoutRulesStyles, TextStyles}
 import org.make.front.styles.ui.CTAStyles
 import org.make.front.styles.utils._
 import org.make.front.styles.vendors.FontAwesomeStyles
@@ -35,38 +35,38 @@ object NoResultToSearch {
           event.preventDefault()
           self.setState(state => state.copy(isProposalModalOpened = true))
         }
-        <.div(^.className := Seq(NoResultToSearchStyles.wrapper, RowRulesStyles.centeredRow))(
-          <.div(^.className := ColRulesStyles.col)(
-            <.p(^.className := NoResultToSearchStyles.sadSmiley)("😞"),
-            <.h1(
-              ^.className := Seq(TextStyles.mediumText, NoResultToSearchStyles.searchedExpressionIntro),
-              ^.dangerouslySetInnerHTML := I18n.t("search.no-results.intro")
-            )(),
-            <.h2(^.className := Seq(NoResultToSearchStyles.searchedExpression, TextStyles.mediumTitle))(
-              unescape("«&nbsp;" + self.props.wrapped.searchValue.getOrElse("") + "&nbsp;»")
-            ),
-            <.hr(^.className := NoResultToSearchStyles.messageSeparator)(),
-            <.p(^.className := Seq(TextStyles.mediumText))(unescape(I18n.t("search.no-results.prompting-to-propose"))),
-            <.button(
-              ^.className := Seq(
-                NoResultToSearchStyles.openProposalModalButton,
-                CTAStyles.basic,
-                CTAStyles.basicOnButton
-              ),
-              ^.onClick := openProposalModal
-            )(
-              <.i(^.className := Seq(FontAwesomeStyles.pencil))(),
-              unescape("&nbsp;" + I18n.t("search.no-results.propose-cta"))
-            ),
-            <.FullscreenModalComponent(
-              ^.wrapped := FullscreenModalProps(
-                isModalOpened = self.state.isProposalModalOpened,
-                closeCallback = closeProposalModal
-              )
-            )(<.SubmitProposalComponent(^.wrapped := SubmitProposalProps(onProposalProposed = () => {
-              self.setState(_.copy(isProposalModalOpened = false))
-            }))())
+        <.article(^.className := Seq(LayoutRulesStyles.centeredRow, NoResultToSearchStyles.wrapper))(
+          <.p(^.className := NoResultToSearchStyles.sadSmiley)("😞"),
+          <.h1(
+            ^.className := Seq(TextStyles.mediumText, NoResultToSearchStyles.searchedExpressionIntro),
+            ^.dangerouslySetInnerHTML := I18n.t("search.no-results.intro")
+          )(),
+          <.h2(^.className := Seq(TextStyles.mediumTitle, NoResultToSearchStyles.searchedExpression))(
+            unescape("«&nbsp;" + self.props.wrapped.searchValue.getOrElse("") + "&nbsp;»")
           ),
+          <.hr(^.className := NoResultToSearchStyles.messageSeparator)(),
+          <.p(^.className := Seq(TextStyles.mediumText, NoResultToSearchStyles.openProposalModalIntro))(
+            unescape(I18n.t("search.no-results.prompting-to-propose"))
+          ),
+          <.button(
+            ^.className := Seq(
+              NoResultToSearchStyles.openProposalModalButton,
+              CTAStyles.basic,
+              CTAStyles.basicOnButton
+            ),
+            ^.onClick := openProposalModal
+          )(
+            <.i(^.className := Seq(FontAwesomeStyles.pencil))(),
+            unescape("&nbsp;" + I18n.t("search.no-results.propose-cta"))
+          ),
+          <.FullscreenModalComponent(
+            ^.wrapped := FullscreenModalProps(
+              isModalOpened = self.state.isProposalModalOpened,
+              closeCallback = closeProposalModal
+            )
+          )(<.SubmitProposalComponent(^.wrapped := SubmitProposalProps(onProposalProposed = () => {
+            self.setState(_.copy(isProposalModalOpened = false))
+          }))()),
           <.style()(NoResultToSearchStyles.render[String])
         )
       }
@@ -77,18 +77,15 @@ object NoResultToSearchStyles extends StyleSheet.Inline {
 
   import dsl._
 
-  val wrapper: StyleA = style(
-    paddingTop(ThemeStyles.SpacingValue.larger.pxToEm()),
-    paddingBottom(ThemeStyles.SpacingValue.larger.pxToEm()),
-    textAlign.center
-  )
+  val wrapper: StyleA =
+    style(paddingTop(ThemeStyles.SpacingValue.larger.pxToEm()), paddingBottom(ThemeStyles.SpacingValue.larger.pxToEm()))
 
   val sadSmiley: StyleA =
     style(
-      display.inlineBlock,
       marginBottom(ThemeStyles.SpacingValue.small.pxToEm(34)),
       fontSize(34.pxToEm()),
       lineHeight(1),
+      textAlign.center,
       ThemeStyles.MediaQueries
         .beyondSmall(marginBottom(ThemeStyles.SpacingValue.small.pxToEm(48)), fontSize(48.pxToEm()))
     )
@@ -104,15 +101,19 @@ object NoResultToSearchStyles extends StyleSheet.Inline {
   )
 
   val searchedExpressionIntro: StyleA =
-    style(unsafeChild("strong")(ThemeStyles.Font.circularStdBold))
+    style(textAlign.center, unsafeChild("strong")(ThemeStyles.Font.circularStdBold))
 
   val searchedExpression: StyleA =
     style(
       marginTop(ThemeStyles.SpacingValue.small.pxToEm(20)),
+      textAlign.center,
       ThemeStyles.MediaQueries
         .beyondSmall(marginTop(ThemeStyles.SpacingValue.small.pxToEm(34)))
     )
 
+  val openProposalModalIntro: StyleA =
+    style(textAlign.center)
+
   val openProposalModalButton: StyleA =
-    style(marginTop(ThemeStyles.SpacingValue.small.pxToEm()))
+    style(display.block, margin(ThemeStyles.SpacingValue.small.pxToEm(), auto, `0`))
 }

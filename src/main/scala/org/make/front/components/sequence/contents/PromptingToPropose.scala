@@ -12,7 +12,7 @@ import org.make.front.facades.I18n
 import org.make.front.facades.Unescape.unescape
 import org.make.front.models.{Operation => OperationModel}
 import org.make.front.styles.ThemeStyles
-import org.make.front.styles.base.{ColRulesStyles, RowRulesStyles, TextStyles}
+import org.make.front.styles.base.{LayoutRulesStyles, TextStyles}
 import org.make.front.styles.ui.CTAStyles
 import org.make.front.styles.utils._
 import org.make.front.styles.vendors.FontAwesomeStyles
@@ -42,8 +42,8 @@ object PromptingToProposeSequence {
             self.setState(state => state.copy(isProposalModalOpened = true))
           }
 
-          <.div(^.className := Seq(RowRulesStyles.row, PromptingToProposeStyles.wrapper))(
-            <.div(^.className := Seq(ColRulesStyles.col, PromptingToProposeStyles.titleWrapper))(
+          <.div(^.className := Seq(LayoutRulesStyles.row, PromptingToProposeStyles.wrapper))(
+            <.div(^.className := Seq(PromptingToProposeStyles.titleWrapper))(
               <.p(^.className := Seq(TextStyles.bigText, TextStyles.boldText))(
                 unescape(I18n.t("sequence.prompting-to-propose.intro"))
               )

@@ -11,6 +11,7 @@ import org.make.front.facades.I18n
 import org.make.front.facades.Unescape.unescape
 import org.make.front.models.{Tag => TagModel}
 import org.make.front.styles._
+import org.make.front.styles.base.TextStyles
 import org.make.front.styles.utils._
 import org.make.front.styles.vendors.FontAwesomeStyles
 
@@ -44,12 +45,14 @@ object FilterByTags {
           handleSelectedTags = handleSelectedTags
         )
 
-        <.div()(
-          <.p(^.className := Seq(FilterByTagsStyles.intro))(
-            <.i(^.className := Seq(FilterByTagsStyles.illInIntro, FontAwesomeStyles.lineChart))(),
-            unescape(I18n.t("tags.filter.intro"))
+        <.nav(^.className := FilterByTagsStyles.wrapper)(
+          <.div(^.className := FilterByTagsStyles.introWrapper)(
+            <.p(^.className := Seq(FilterByTagsStyles.intro, TextStyles.smallText))(
+              <.i(^.className := Seq(FilterByTagsStyles.illInIntro, FontAwesomeStyles.lineChart))(),
+              unescape(I18n.t("tags.filter.intro"))
+            )
           ),
-          <.nav(^.className := FilterByTagsStyles.tagsList)(<.TagsListComponent(^.wrapped := tagsListProps)()),
+          <.TagsListComponent(^.wrapped := tagsListProps)(),
           <.style()(FilterByTagsStyles.render[String])
         )
       }
@@ -60,25 +63,24 @@ object FilterByTagsStyles extends StyleSheet.Inline {
 
   import dsl._
 
-  val tagsList: StyleA = style()
+  val wrapper: StyleA =
+    style(margin(((ThemeStyles.SpacingValue.smaller / 2) * -1).pxToEm(), `0`))
 
-  val intro: StyleA =
+  val introWrapper: StyleA =
     style(
-      marginBottom(5.pxToEm(15)),
-      ThemeStyles.Font.circularStdBook,
-      fontSize(15.pxToEm()),
-      color(ThemeStyles.TextColor.light),
-      ThemeStyles.MediaQueries.beyondSmall(
-        float.left,
-        marginTop(5.pxToEm()),
-        marginRight(10.pxToEm()),
-        marginBottom(`0`),
-        fontSize(16.pxToEm()),
-        lineHeight(24.pxToEm())
+      float.left,
+      margin(
+        (ThemeStyles.SpacingValue.smaller / 2).pxToEm(),
+        ThemeStyles.SpacingValue.smaller.pxToEm(),
+        (ThemeStyles.SpacingValue.smaller / 2).pxToEm(),
+        `0`
       )
     )
 
+  val intro: StyleA =
+    style(color(ThemeStyles.TextColor.light))
+
   val illInIntro: StyleA =
-    style(verticalAlign.baseline, marginRight(5.pxToEm()))
+    style(verticalAlign.baseline, marginRight((ThemeStyles.SpacingValue.smaller / 2).pxToEm()))
 
 }

@@ -10,7 +10,7 @@ import org.make.front.components.theme.SubmitProposalInRelationToTheme.SubmitPro
 import org.make.front.facades._
 import org.make.front.models.{GradientColor => GradientColorModel, TranslatedTheme => TranslatedThemeModel}
 import org.make.front.styles.ThemeStyles
-import org.make.front.styles.base.{ColRulesStyles, RowRulesStyles, TableLayoutStyles, TextStyles}
+import org.make.front.styles.base.{ColRulesStyles, LayoutRulesStyles, TableLayoutStyles, TextStyles}
 import org.make.front.styles.ui.InputStyles
 import org.make.front.styles.utils._
 import org.scalajs.dom.raw.HTMLElement
@@ -198,51 +198,49 @@ object ThemeHeader {
               ^.alt := self.props.wrapped.theme.title,
               ^("data-pin-no-hover") := "true"
             )(),
-            <.div(^.className := RowRulesStyles.centeredRow)(
-              <.div(^.className := ColRulesStyles.col)(
-                <.h1(^.className := Seq(TextStyles.veryBigTitle, ThemeHeaderStyles.title))(
-                  self.props.wrapped.theme.title
-                ),
-                <.p(
-                  ^.className := Seq(
-                    InputStyles.wrapper,
-                    InputStyles.withIcon,
-                    InputStyles.biggerWithIcon,
-                    ThemeHeaderStyles.proposalInputWithIconWrapper
-                  )
-                )(
-                  <.span(^.className := TableLayoutStyles.wrapper)(
-                    <.span(^.className := Seq(TableLayoutStyles.cell, ThemeHeaderStyles.inputWrapper))(
-                      <.input(
-                        ^.`type`.text,
-                        ^.value := I18n.t("theme.proposal-form-in-header.bait"),
-                        ^.readOnly := true,
-                        ^.ref := ((input: HTMLElement) => proposalInput = Some(input)),
-                        ^.onFocus := openProposalModalFromInput
-                      )()
-                    ),
-                    <.span(^.className := TableLayoutStyles.cellVerticalAlignMiddle)(
-                      <.span(^.className := Seq(TextStyles.smallText, ThemeHeaderStyles.textLimitInfo))(
-                        I18n.t("theme.proposal-form-in-header.limit-of-chars-info")
-                      )
-                    )
-                  )
-                ),
-                <.FullscreenModalComponent(
-                  ^.wrapped := FullscreenModalProps(
-                    isModalOpened = self.state.isProposalModalOpened,
-                    closeCallback = toggleProposalModal()
-                  )
-                )(
-                  <.SubmitProposalInRelationToThemeComponent(
-                    ^.wrapped := SubmitProposalInRelationToThemeProps(
-                      theme = self.props.wrapped.theme,
-                      onProposalProposed = () => {
-                        self.setState(_.copy(isProposalModalOpened = false))
-                      }
-                    )
-                  )()
+            <.div(^.className := LayoutRulesStyles.centeredRow)(
+              <.h1(^.className := Seq(TextStyles.veryBigTitle, ThemeHeaderStyles.title))(
+                self.props.wrapped.theme.title
+              ),
+              <.p(
+                ^.className := Seq(
+                  InputStyles.wrapper,
+                  InputStyles.withIcon,
+                  InputStyles.biggerWithIcon,
+                  ThemeHeaderStyles.proposalInputWithIconWrapper
                 )
+              )(
+                <.span(^.className := TableLayoutStyles.wrapper)(
+                  <.span(^.className := Seq(TableLayoutStyles.cell, ThemeHeaderStyles.inputWrapper))(
+                    <.input(
+                      ^.`type`.text,
+                      ^.value := I18n.t("theme.proposal-form-in-header.bait"),
+                      ^.readOnly := true,
+                      ^.ref := ((input: HTMLElement) => proposalInput = Some(input)),
+                      ^.onFocus := openProposalModalFromInput
+                    )()
+                  ),
+                  <.span(^.className := TableLayoutStyles.cellVerticalAlignMiddle)(
+                    <.span(^.className := Seq(TextStyles.smallText, ThemeHeaderStyles.textLimitInfo))(
+                      I18n.t("theme.proposal-form-in-header.limit-of-chars-info")
+                    )
+                  )
+                )
+              ),
+              <.FullscreenModalComponent(
+                ^.wrapped := FullscreenModalProps(
+                  isModalOpened = self.state.isProposalModalOpened,
+                  closeCallback = toggleProposalModal()
+                )
+              )(
+                <.SubmitProposalInRelationToThemeComponent(
+                  ^.wrapped := SubmitProposalInRelationToThemeProps(
+                    theme = self.props.wrapped.theme,
+                    onProposalProposed = () => {
+                      self.setState(_.copy(isProposalModalOpened = false))
+                    }
+                  )
+                )()
               )
             )
           ),

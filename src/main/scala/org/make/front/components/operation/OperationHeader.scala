@@ -11,7 +11,7 @@ import org.make.front.facades.I18n
 import org.make.front.facades.Unescape.unescape
 import org.make.front.models.{Operation => OperationModel}
 import org.make.front.styles._
-import org.make.front.styles.base.{ColRulesStyles, RowRulesStyles, TableLayoutStyles, TextStyles}
+import org.make.front.styles.base.{ColRulesStyles, LayoutRulesStyles, TableLayoutStyles, TextStyles}
 import org.make.front.styles.ui.InputStyles
 import org.make.front.styles.utils._
 import org.scalajs.dom.raw.HTMLElement
@@ -44,54 +44,52 @@ object OperationHeader {
         val operation: OperationModel = self.props.wrapped.operation
 
         <.header(^.className := OperationHeaderStyles.wrapper)(
-          <.div(^.className := RowRulesStyles.centeredRow)(
-            <.div(^.className := ColRulesStyles.col)(
-              <.h1(^.className := Seq(TextStyles.mediumTitle, OperationHeaderStyles.title))(unescape(operation.title)),
-              <.p(
-                ^.className := Seq(
-                  TextStyles.biggerMediumText,
-                  TextStyles.intro,
-                  OperationHeaderStyles.proposalInputIntro,
-                  OperationHeaderStyles.coloredProposalInputIntro(operation.color)
-                )
-              )(unescape(I18n.t("operation.proposal-form-in-header.intro"))),
-              <.p(
-                ^.className := Seq(
-                  InputStyles.wrapper,
-                  InputStyles.withIcon,
-                  InputStyles.biggerWithIcon,
-                  OperationHeaderStyles.proposalInputWithIconWrapper
-                )
-              )(
-                <.span(^.className := TableLayoutStyles.wrapper)(
-                  <.span(^.className := Seq(TableLayoutStyles.cell, OperationHeaderStyles.inputWrapper))(
-                    <.input(
-                      ^.`type`.text,
-                      ^.value := I18n.t("operation.proposal-form-in-header.bait"),
-                      ^.ref := ((input: HTMLElement) => proposalInput = Some(input)),
-                      ^.onFocus := openProposalModalFromInput()
-                    )()
-                  ),
-                  <.span(^.className := TableLayoutStyles.cellVerticalAlignMiddle)(
-                    <.span(^.className := Seq(TextStyles.smallText, OperationHeaderStyles.textLimitInfo))(
-                      I18n.t("operation.proposal-form-in-header.limit-of-chars-info")
-                    )
-                  )
-                )
-              ),
-              <.FullscreenModalComponent(
-                ^.wrapped := FullscreenModalProps(
-                  isModalOpened = self.state.isProposalModalOpened,
-                  closeCallback = closeProposalModal
-                )
-              )(
-                <.SubmitProposalInRelationToOperationComponent(
-                  ^.wrapped := SubmitProposalInRelationToOperationProps(
-                    operation = operation,
-                    onProposalProposed = closeProposalModal
-                  )
-                )()
+          <.div(^.className := LayoutRulesStyles.centeredRow)(
+            <.h1(^.className := Seq(TextStyles.mediumTitle, OperationHeaderStyles.title))(unescape(operation.title)),
+            <.p(
+              ^.className := Seq(
+                TextStyles.biggerMediumText,
+                TextStyles.intro,
+                OperationHeaderStyles.proposalInputIntro,
+                OperationHeaderStyles.coloredProposalInputIntro(operation.color)
               )
+            )(unescape(I18n.t("operation.proposal-form-in-header.intro"))),
+            <.p(
+              ^.className := Seq(
+                InputStyles.wrapper,
+                InputStyles.withIcon,
+                InputStyles.biggerWithIcon,
+                OperationHeaderStyles.proposalInputWithIconWrapper
+              )
+            )(
+              <.span(^.className := TableLayoutStyles.wrapper)(
+                <.span(^.className := Seq(TableLayoutStyles.cell, OperationHeaderStyles.inputWrapper))(
+                  <.input(
+                    ^.`type`.text,
+                    ^.value := I18n.t("operation.proposal-form-in-header.bait"),
+                    ^.ref := ((input: HTMLElement) => proposalInput = Some(input)),
+                    ^.onFocus := openProposalModalFromInput()
+                  )()
+                ),
+                <.span(^.className := TableLayoutStyles.cellVerticalAlignMiddle)(
+                  <.span(^.className := Seq(TextStyles.smallText, OperationHeaderStyles.textLimitInfo))(
+                    I18n.t("operation.proposal-form-in-header.limit-of-chars-info")
+                  )
+                )
+              )
+            ),
+            <.FullscreenModalComponent(
+              ^.wrapped := FullscreenModalProps(
+                isModalOpened = self.state.isProposalModalOpened,
+                closeCallback = closeProposalModal
+              )
+            )(
+              <.SubmitProposalInRelationToOperationComponent(
+                ^.wrapped := SubmitProposalInRelationToOperationProps(
+                  operation = operation,
+                  onProposalProposed = closeProposalModal
+                )
+              )()
             )
           ),
           <.style()(OperationHeaderStyles.render[String])

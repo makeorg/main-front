@@ -12,7 +12,7 @@ import org.make.front.facades.I18n
 import org.make.front.facades.Unescape.unescape
 import org.make.front.models.{Operation => OperationModel}
 import org.make.front.styles.ThemeStyles
-import org.make.front.styles.base.{ColRulesStyles, RowRulesStyles, TextStyles}
+import org.make.front.styles.base.{ColRulesStyles, LayoutRulesStyles, TextStyles}
 import org.make.front.styles.ui.CTAStyles
 import org.make.front.styles.utils._
 import org.make.front.styles.vendors.FontAwesomeStyles
@@ -46,71 +46,67 @@ object PromptingToConnect {
           }
 
           <.div(^.className := PromptingToConnectStyles.wrapper)(
-            <.div(^.className := RowRulesStyles.row)(
-              <.div(^.className := Seq(ColRulesStyles.col, PromptingToConnectStyles.titleWrapper))(
-                <.p(^.className := Seq(TextStyles.bigText, TextStyles.boldText))(
-                  unescape(I18n.t("sequence.prompting-to-connect.title"))
-                )
+            <.div(^.className := Seq(LayoutRulesStyles.row, PromptingToConnectStyles.titleWrapper))(
+              <.p(^.className := Seq(TextStyles.bigText, TextStyles.boldText))(
+                unescape(I18n.t("sequence.prompting-to-connect.title"))
               )
             ),
-            <.div(^.className := RowRulesStyles.evenNarrowerCenteredRow)(
-              <.div(^.className := ColRulesStyles.col)(
-                <.div(^.className := PromptingToConnectStyles.introWrapper)(
-                  <.p(^.className := TextStyles.smallTitle)(unescape(I18n.t("sequence.prompting-to-connect.intro")))
-                ),
-                <.AuthenticateWithSocialNetworksComponent(
-                  ^.wrapped := AuthenticateWithSocialNetworksContainerProps(
-                    note = unescape(I18n.t("sequence.prompting-to-connect.caution")),
+            <.div(^.className := LayoutRulesStyles.evenNarrowerCenteredRow)(
+              <.div(^.className := PromptingToConnectStyles.introWrapper)(
+                <.p(^.className := TextStyles.smallTitle)(unescape(I18n.t("sequence.prompting-to-connect.intro")))
+              ),
+              <.AuthenticateWithSocialNetworksComponent(
+                ^.wrapped := AuthenticateWithSocialNetworksContainerProps(
+                  note = unescape(I18n.t("sequence.prompting-to-connect.caution")),
+                  onSuccessfulLogin = () => {
+                    self.props.wrapped.authenticateHandler()
+                  }
+                )
+              )(),
+              <.div(^.className := PromptingToConnectStyles.separatorWrapper)(
+                <.p(^.className := Seq(PromptingToConnectStyles.separator, TextStyles.mediumText))(
+                  I18n.t("sequence.prompting-to-connect.separator")
+                )
+              ),
+              <.button(
+                ^.className := Seq(PromptingToConnectStyles.cta, CTAStyles.basic, CTAStyles.basicOnButton),
+                ^.onClick := openRegisterAuthenticateModal
+              )(unescape(I18n.t("sequence.prompting-to-connect.authenticate-with-email-cta"))),
+              <.div(^.className := PromptingToConnectStyles.loginScreenAccessWrapper)(
+                <.p(^.className := Seq(PromptingToConnectStyles.loginScreenAccess, TextStyles.smallText))(
+                  unescape(I18n.t("sequence.prompting-to-connect.login-screen-access.intro") + " "),
+                  <.button(^.className := TextStyles.boldText, ^.onClick := openLoginAuthenticateModal)(
+                    unescape(I18n.t("sequence.prompting-to-connect.login-screen-access.link-support"))
+                  )
+                )
+              ),
+              <.ModalComponent(
+                ^.wrapped := ModalProps(
+                  isModalOpened = self.state.isAuthenticateModalOpened,
+                  closeCallback = toggleAuthenticateModal()
+                )
+              )(
+                <.LoginOrRegisterComponent(
+                  ^.wrapped := LoginOrRegisterProps(
+                    displayView = self.state.loginOrRegisterView,
                     onSuccessfulLogin = () => {
+                      self.setState(_.copy(isAuthenticateModalOpened = false))
                       self.props.wrapped.authenticateHandler()
                     }
                   )
-                )(),
-                <.div(^.className := PromptingToConnectStyles.separatorWrapper)(
-                  <.p(^.className := Seq(PromptingToConnectStyles.separator, TextStyles.mediumText))(
-                    I18n.t("sequence.prompting-to-connect.separator")
-                  )
+                )()
+              ),
+              <.button(
+                ^.className := Seq(
+                  PromptingToConnectStyles.cta,
+                  CTAStyles.basic,
+                  CTAStyles.basicOnButton,
+                  CTAStyles.moreDiscreet
                 ),
-                <.button(
-                  ^.className := Seq(PromptingToConnectStyles.cta, CTAStyles.basic, CTAStyles.basicOnButton),
-                  ^.onClick := openRegisterAuthenticateModal
-                )(unescape(I18n.t("sequence.prompting-to-connect.authenticate-with-email-cta"))),
-                <.div(^.className := PromptingToConnectStyles.loginScreenAccessWrapper)(
-                  <.p(^.className := Seq(PromptingToConnectStyles.loginScreenAccess, TextStyles.smallText))(
-                    unescape(I18n.t("sequence.prompting-to-connect.login-screen-access.intro") + " "),
-                    <.button(^.className := TextStyles.boldText, ^.onClick := openLoginAuthenticateModal)(
-                      unescape(I18n.t("sequence.prompting-to-connect.login-screen-access.link-support"))
-                    )
-                  )
-                ),
-                <.ModalComponent(
-                  ^.wrapped := ModalProps(
-                    isModalOpened = self.state.isAuthenticateModalOpened,
-                    closeCallback = toggleAuthenticateModal()
-                  )
-                )(
-                  <.LoginOrRegisterComponent(
-                    ^.wrapped := LoginOrRegisterProps(
-                      displayView = self.state.loginOrRegisterView,
-                      onSuccessfulLogin = () => {
-                        self.setState(_.copy(isAuthenticateModalOpened = false))
-                        self.props.wrapped.authenticateHandler()
-                      }
-                    )
-                  )()
-                ),
-                <.button(
-                  ^.className := Seq(
-                    PromptingToConnectStyles.cta,
-                    CTAStyles.basic,
-                    CTAStyles.basicOnButton,
-                    CTAStyles.moreDiscreet
-                  ),
-                  ^.onClick := self.props.wrapped.clickOnButtonHandler
-                )(
-                  <.i(^.className := Seq(FontAwesomeStyles.stepForward))(),
-                  unescape("&nbsp;" + I18n.t("sequence.prompting-to-connect.next-cta"))
-                )
+                ^.onClick := self.props.wrapped.clickOnButtonHandler
+              )(
+                <.i(^.className := Seq(FontAwesomeStyles.stepForward))(),
+                unescape("&nbsp;" + I18n.t("sequence.prompting-to-connect.next-cta"))
               )
             ),
             <.style()(PromptingToConnectStyles.render[String])

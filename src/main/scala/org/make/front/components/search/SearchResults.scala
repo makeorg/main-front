@@ -17,7 +17,7 @@ import org.make.front.facades.Unescape.unescape
 import org.make.front.facades.{I18n, Replacements}
 import org.make.front.models.Proposal
 import org.make.front.styles.ThemeStyles
-import org.make.front.styles.base.{ColRulesStyles, RowRulesStyles, TextStyles}
+import org.make.front.styles.base.{ColRulesStyles, LayoutRulesStyles, TableLayoutStyles, TextStyles}
 import org.make.front.styles.ui.CTAStyles
 import org.make.front.styles.utils._
 import org.make.services.proposal.SearchResult
@@ -80,7 +80,7 @@ object SearchResults {
             Seq(
               <.InfiniteScroll(
                 ^.element := "ul",
-                ^.className := SearchResultsStyles.itemsList,
+                ^.className := Seq(SearchResultsStyles.itemsList, LayoutRulesStyles.centeredRowWithCols),
                 ^.hasMore := (self.state.initialLoad || self.state.hasMore && self.state.hasRequestedMore),
                 ^.initialLoad := true,
                 ^.pageStart := 1,
@@ -104,9 +104,9 @@ object SearchResults {
                       )()
                   )
                 )
-              } else { <.span.empty }),
+              } else { <.div.empty }),
               if (self.state.hasMore && !self.state.hasRequestedMore) {
-                <.div(^.className := Seq(SearchResultsStyles.seeMoreButtonWrapper, ColRulesStyles.col))(
+                <.div(^.className := Seq(SearchResultsStyles.seeMoreButtonWrapper, LayoutRulesStyles.centeredRow))(
                   <.button(^.onClick := { () =>
                     onSeeMore(1)
                   }, ^.className := Seq(CTAStyles.basic, CTAStyles.basicOnButton))(
@@ -118,15 +118,23 @@ object SearchResults {
 
           val proposalsToDisplay: Seq[Proposal] = self.state.listProposals
 
-          val hasResults: Boolean = self.state.initialLoad || proposalsToDisplay.nonEmpty
-          <("search-results")()(
-            <.div(^.className := SearchResultsStyles.wrapper(hasResults))(
-              <.div(^.className := SearchResultsStyles.mainHeaderWrapper)(<.MainHeaderComponent.empty),
-              if (hasResults) {
-                Seq(
-                  <.div(^.className := Seq(SearchResultsStyles.resultsWrapper, RowRulesStyles.centeredRow))(
-                    if (!self.state.initialLoad) {
-                      <.header(^.className := Seq(SearchResultsStyles.resultsHeader, ColRulesStyles.col))(
+          <.section(^.className := SearchResultsStyles.wrapper)(
+            <.div(
+              ^.className := Seq(
+                TableLayoutStyles.fullHeightWrapper,
+                SearchResultsStyles.background(proposalsToDisplay.nonEmpty)
+              )
+            )(
+              <.div(^.className := TableLayoutStyles.row)(
+                <.div(^.className := TableLayoutStyles.cell)(
+                  <.div(^.className := SearchResultsStyles.mainHeaderWrapper)(<.MainHeaderComponent.empty)
+                )
+              ),
+              <.div(^.className := TableLayoutStyles.fullHeightRow)(
+                <.div(^.className := TableLayoutStyles.cellVerticalAlignMiddle)(
+                  if (self.state.initialLoad || proposalsToDisplay.nonEmpty) {
+                    Seq(<.div(^.className := Seq(SearchResultsStyles.resultsWrapper))(if (proposalsToDisplay.nonEmpty) {
+                      <.header(^.className := Seq(SearchResultsStyles.resultsHeader, LayoutRulesStyles.centeredRow))(
                         <.h1(
                           ^.className := Seq(TextStyles.mediumText, SearchResultsStyles.searchedExpressionIntro),
                           ^.dangerouslySetInnerHTML := I18n
@@ -136,20 +144,20 @@ object SearchResults {
                           unescape("«&nbsp;" + self.props.wrapped.searchValue.getOrElse("") + "&nbsp;»")
                         )
                       )
-                    },
-                    proposals(proposalsToDisplay)
-                  )
+                    }, proposals(proposalsToDisplay)))
+                  },
+                  if (!self.state.initialLoad && proposalsToDisplay.isEmpty) {
+                    <.NoResultToSearchComponent(
+                      ^.wrapped := NoResultToSearchProps(searchValue = self.props.wrapped.searchValue)
+                    )()
+                  }
                 )
-
-              } else {
-                <.NoResultToSearchComponent(
-                  ^.wrapped := NoResultToSearchProps(searchValue = self.props.wrapped.searchValue)
-                )()
-              }
+              )
             ),
-            <.div(^.className := SearchResultsStyles.navInThemesWrapper(hasResults))(
-              <.NavInThemesContainerComponent.empty
-            ),
+            <.div(
+              ^.className :=
+                SearchResultsStyles.background(proposalsToDisplay.nonEmpty)
+            )(<.NavInThemesContainerComponent.empty),
             <.style()(SearchResultsStyles.render[String])
           )
       })
@@ -160,33 +168,23 @@ object SearchResultsStyles extends StyleSheet.Inline {
 
   import dsl._
 
-  val wrapper: (Boolean) => StyleA = styleF.bool(
+  val wrapper: StyleA =
+    style(display.inherit)
+
+  val background: (Boolean) => StyleA = styleF.bool(
     hasResults =>
       if (hasResults) {
-        styleS(minHeight(100.%%), backgroundColor(ThemeStyles.BackgroundColor.blackVeryTransparent))
+        styleS(backgroundColor(ThemeStyles.BackgroundColor.blackVeryTransparent))
       } else {
-        styleS(minHeight(100.%%))
+        styleS(backgroundColor(ThemeStyles.BackgroundColor.white))
     }
   )
 
   val mainHeaderWrapper: StyleA =
     style(visibility.hidden)
 
-  val navInThemesWrapper: (Boolean) => StyleA = styleF.bool(
-    hasResults =>
-      if (hasResults) {
-        styleS(backgroundColor(ThemeStyles.BackgroundColor.blackVeryTransparent))
-      } else {
-        styleS()
-    }
-  )
-
   val resultsWrapper: StyleA =
-    style(
-      paddingTop(ThemeStyles.SpacingValue.medium.pxToEm()),
-      paddingBottom(ThemeStyles.SpacingValue.medium.pxToEm()),
-      ThemeStyles.MediaQueries.beyondSmall(paddingBottom(ThemeStyles.SpacingValue.small.pxToEm()))
-    )
+    style(paddingTop(ThemeStyles.SpacingValue.medium.pxToEm()), paddingBottom(ThemeStyles.SpacingValue.medium.pxToEm()))
 
   val resultsHeader: StyleA =
     style(textAlign.center)
@@ -212,21 +210,18 @@ object SearchResultsStyles extends StyleSheet.Inline {
   val spinnerWrapper: StyleA =
     style(
       width(100.%%),
+      lineHeight(0),
       margin(
         ThemeStyles.SpacingValue.small.pxToEm(),
         ThemeStyles.SpacingValue.small.pxToEm(),
         `0`,
         ThemeStyles.SpacingValue.small.pxToEm()
-      ),
-      ThemeStyles.MediaQueries.beyondSmall(marginBottom(ThemeStyles.SpacingValue.small.pxToEm()))
+      )
     )
 
   val seeMoreButtonWrapper: StyleA = style(
     marginTop(ThemeStyles.SpacingValue.medium.pxToEm()),
-    ThemeStyles.MediaQueries.beyondSmall(
-      marginTop(ThemeStyles.SpacingValue.small.pxToEm()),
-      marginBottom(ThemeStyles.SpacingValue.small.pxToEm())
-    ),
+    ThemeStyles.MediaQueries.beyondSmall(marginTop(ThemeStyles.SpacingValue.small.pxToEm())),
     textAlign.center
   )
 

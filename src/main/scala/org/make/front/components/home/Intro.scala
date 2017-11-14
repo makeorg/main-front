@@ -8,7 +8,7 @@ import org.make.front.components.Components._
 import org.make.front.facades.Unescape.unescape
 import org.make.front.facades._
 import org.make.front.styles._
-import org.make.front.styles.base.{ColRulesStyles, RowRulesStyles, TableLayoutStyles, TextStyles}
+import org.make.front.styles.base.{ColRulesStyles, LayoutRulesStyles, TableLayoutStyles, TextStyles}
 import org.make.front.styles.ui.CTAStyles
 import org.make.front.styles.utils._
 
@@ -26,26 +26,24 @@ object Intro {
             ^.alt := "Make.org",
             ^("data-pin-no-hover") := "true"
           )(),
-          <.div(^.className := Seq(IntroStyles.innerSubWrapper, RowRulesStyles.centeredRow))(
-            <.div(^.className := ColRulesStyles.col)(
-              <.div(^.className := IntroStyles.labelWrapper)(
-                <.p(^.className := TextStyles.label)(unescape(I18n.t("home.intro.baseline")))
-              ),
-              <.h2(^.className := Seq(IntroStyles.title, TextStyles.veryBigText, TextStyles.boldText))(
-                unescape(I18n.t("home.intro.title"))
-              ),
-              <.h3(^.className := Seq(TextStyles.mediumText, IntroStyles.subTitle))(
-                unescape(I18n.t("home.intro.subtitle"))
-              ),
-              <.p(^.className := IntroStyles.ctaWrapper)(
-                <.a(
-                  ^.href := I18n.t("home.intro.see-more-link"),
-                  ^.target := "_blank",
-                  ^.className := Seq(CTAStyles.basic, CTAStyles.basicOnA)
-                )(unescape(I18n.t("home.intro.see-more")))
-              ),
-              <.style()(IntroStyles.render[String])
-            )
+          <.div(^.className := Seq(IntroStyles.innerSubWrapper, LayoutRulesStyles.centeredRow))(
+            <.div(^.className := IntroStyles.labelWrapper)(
+              <.p(^.className := TextStyles.label)(unescape(I18n.t("home.intro.baseline")))
+            ),
+            <.h2(^.className := Seq(IntroStyles.title, TextStyles.veryBigText, TextStyles.boldText))(
+              unescape(I18n.t("home.intro.title"))
+            ),
+            <.h3(^.className := Seq(TextStyles.mediumText, IntroStyles.subTitle))(
+              unescape(I18n.t("home.intro.subtitle"))
+            ),
+            <.p(^.className := IntroStyles.ctaWrapper)(
+              <.a(
+                ^.href := I18n.t("home.intro.see-more-link"),
+                ^.target := "_blank",
+                ^.className := Seq(CTAStyles.basic, CTAStyles.basicOnA)
+              )(unescape(I18n.t("home.intro.see-more")))
+            ),
+            <.style()(IntroStyles.render[String])
           )
         )
     )

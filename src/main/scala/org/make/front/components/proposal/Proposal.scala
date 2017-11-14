@@ -15,7 +15,7 @@ import org.make.front.facades.Unescape.unescape
 import org.make.front.helpers.ProposalAuthorInfosFormat
 import org.make.front.models.{Proposal => ProposalModel}
 import org.make.front.styles.ThemeStyles
-import org.make.front.styles.base.{ColRulesStyles, RowRulesStyles, TableLayoutStyles, TextStyles}
+import org.make.front.styles.base.{ColRulesStyles, LayoutRulesStyles, TableLayoutStyles, TextStyles}
 import org.make.front.styles.utils._
 
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -60,44 +60,40 @@ object Proposal {
             <.div(^.className := Seq(TableLayoutStyles.row, ProposalStyles.fullHeight))(
               <.div(^.className := Seq(TableLayoutStyles.cell, ProposalStyles.articleCell))(
                 if (self.state.proposal != null) {
-                  <.div(^.className := Seq(RowRulesStyles.centeredRow, ProposalStyles.fullHeight))(
-                    <.div(^.className := Seq(ColRulesStyles.col, ProposalStyles.fullHeight))(
-                      <.article(^.className := ProposalStyles.article)(
-                        <.div(^.className := TableLayoutStyles.fullHeightWrapper)(
-                          <.div(
-                            ^.className := Seq(
-                              TableLayoutStyles.cellVerticalAlignMiddle,
-                              ProposalStyles.articleInnerWrapper
-                            )
-                          )(
-                            <.div(^.className := RowRulesStyles.row)(
-                              <.div(^.className := ColRulesStyles.col)(
-                                <.div(^.className := ProposalStyles.infosWrapper)(
-                                  <.p(^.className := Seq(TextStyles.mediumText, ProposalStyles.infos))(
-                                    ProposalAuthorInfosFormat.apply(self.state.proposal)
-                                  )
-                                ),
-                                <.div(^.className := ProposalStyles.contentWrapper)(
-                                  <.h1(^.className := Seq(TextStyles.bigText, TextStyles.boldText))(
-                                    self.state.proposal.content
-                                  ),
-                                  <.div(^.className := ProposalStyles.voteWrapper)(
-                                    <.VoteContainerComponent(
-                                      ^.wrapped := VoteContainerProps(proposal = self.state.proposal, index = 1)
-                                    )()
-                                  )
-                                ),
-                                if (self.state.themeSlug.nonEmpty) {
-                                  <.p(^.className := Seq(TextStyles.mediumText, ProposalStyles.themeInfo))(
-                                    unescape(I18n.t("proposal.associated-with-the-theme")),
-                                    <.Link(
-                                      ^.to := s"/theme/${self.state.themeSlug.getOrElse("")}",
-                                      ^.className := Seq(TextStyles.title, ProposalStyles.themeName)
-                                    )(self.state.themeName.getOrElse(""))
-                                  )
-                                }
+                  <.div(^.className := Seq(LayoutRulesStyles.centeredRow, ProposalStyles.fullHeight))(
+                    <.article(^.className := ProposalStyles.article)(
+                      <.div(^.className := TableLayoutStyles.fullHeightWrapper)(
+                        <.div(
+                          ^.className := Seq(
+                            TableLayoutStyles.cellVerticalAlignMiddle,
+                            ProposalStyles.articleInnerWrapper
+                          )
+                        )(
+                          <.div(^.className := LayoutRulesStyles.row)(
+                            <.div(^.className := ProposalStyles.infosWrapper)(
+                              <.p(^.className := Seq(TextStyles.mediumText, ProposalStyles.infos))(
+                                ProposalAuthorInfosFormat.apply(self.state.proposal)
                               )
-                            )
+                            ),
+                            <.div(^.className := ProposalStyles.contentWrapper)(
+                              <.h1(^.className := Seq(TextStyles.bigText, TextStyles.boldText))(
+                                self.state.proposal.content
+                              ),
+                              <.div(^.className := ProposalStyles.voteWrapper)(
+                                <.VoteContainerComponent(
+                                  ^.wrapped := VoteContainerProps(proposal = self.state.proposal, index = 1)
+                                )()
+                              )
+                            ),
+                            if (self.state.themeSlug.nonEmpty) {
+                              <.p(^.className := Seq(TextStyles.mediumText, ProposalStyles.themeInfo))(
+                                unescape(I18n.t("proposal.associated-with-the-theme")),
+                                <.Link(
+                                  ^.to := s"/theme/${self.state.themeSlug.getOrElse("")}",
+                                  ^.className := Seq(TextStyles.title, ProposalStyles.themeName)
+                                )(self.state.themeName.getOrElse(""))
+                              )
+                            }
                           )
                         )
                       )
@@ -110,10 +106,8 @@ object Proposal {
             ),
             <.div(^.className := Seq(TableLayoutStyles.row))(
               <.div(^.className := Seq(TableLayoutStyles.cell, ProposalStyles.shareArticleCell))(
-                <.div(^.className := RowRulesStyles.centeredRow)(
-                  <.div(^.className := ColRulesStyles.col)(
-                    <.ShareComponent(^.wrapped := ShareProps(intro = Some(unescape(I18n.t("proposal.share-intro")))))()
-                  )
+                <.div(^.className := LayoutRulesStyles.centeredRow)(
+                  <.ShareComponent(^.wrapped := ShareProps(intro = Some(unescape(I18n.t("proposal.share-intro")))))()
                 )
               )
             )

@@ -23,47 +23,38 @@ object CoreMainHeader {
         render = (self) => {
           <.header(^.className := CoreMainHeaderStyles.wrapper)(
             <.CookieAlertContainerComponent.empty,
-            <.div(^.className := RowRulesStyles.centeredRow)(
-              <.div(^.className := ColRulesStyles.col)(
-                <.div(^.className := Seq(TableLayoutStyles.wrapper, CoreMainHeaderStyles.innerWrapper))(
-                  <.p(^.className := Seq(TableLayoutStyles.cellVerticalAlignMiddle, CoreMainHeaderStyles.logoWrapper))(
-                    <.Link(^.to := "/")(
-                      <.img(
-                        ^.className := CoreMainHeaderStyles.logo,
-                        ^.src := logoMake.toString,
-                        ^.title := I18n.t("main-header.title"),
-                        ^.alt := I18n.t("main-header.title"),
-                        ^("data-pin-no-hover") := "true"
-                      )()
-                    )
-                  ),
-                  <.div(
-                    ^.className := Seq(TableLayoutStyles.cellVerticalAlignMiddle, CoreMainHeaderStyles.searchWrapper)
-                  )(<.SearchFormComponent.empty),
-                  <.div(
-                    ^.className := Seq(TableLayoutStyles.cellVerticalAlignMiddle, CoreMainHeaderStyles.menusWrapper)
-                  )(
-                    <.div(^.className := CoreMainHeaderStyles.menusInnerWrapper)(
-                      <.nav(
-                        ^.className := Seq(
-                          CoreMainHeaderStyles.menuWrapper,
-                          RWDHideRulesStyles.showInlineBlockBeyondMedium
-                        )
-                      )(
-                        <.ul()(
-                          <.li(^.className := CoreMainHeaderStyles.menuItem)(
-                            <.p(^.className := Seq(TextStyles.title, TextStyles.smallText))(
-                              <.a(
-                                ^.href := I18n.t("main-header.menu.item-1.link"),
-                                ^.target := "_blank",
-                                ^.className := CoreMainHeaderStyles.menuItemLink
-                              )(unescape(I18n.t("main-header.menu.item-1.label")))
-                            )
+            <.div(^.className := LayoutRulesStyles.centeredRow)(
+              <.div(^.className := Seq(TableLayoutStyles.wrapper, CoreMainHeaderStyles.innerWrapper))(
+                <.p(^.className := Seq(TableLayoutStyles.cellVerticalAlignMiddle, CoreMainHeaderStyles.logoWrapper))(
+                  <.Link(^.to := "/")(
+                    <.img(
+                      ^.className := CoreMainHeaderStyles.logo,
+                      ^.src := logoMake.toString,
+                      ^.title := I18n.t("main-header.title"),
+                      ^.alt := I18n.t("main-header.title"),
+                      ^("data-pin-no-hover") := "true"
+                    )()
+                  )
+                ),
+                <.div(
+                  ^.className := Seq(TableLayoutStyles.cellVerticalAlignMiddle, CoreMainHeaderStyles.searchWrapper)
+                )(<.SearchFormComponent.empty),
+                <.div(^.className := Seq(TableLayoutStyles.cellVerticalAlignMiddle, CoreMainHeaderStyles.menusWrapper))(
+                  <.div(^.className := CoreMainHeaderStyles.menusInnerWrapper)(
+                    <.nav(^.className := Seq(RWDHideRulesStyles.showInlineBlockBeyondMedium))(
+                      <.ul()(
+                        <.li(^.className := CoreMainHeaderStyles.menuItem)(
+                          <.p(^.className := Seq(TextStyles.title, TextStyles.smallText))(
+                            <.a(
+                              ^.href := I18n.t("main-header.menu.item-1.link"),
+                              ^.target := "_blank",
+                              ^.className := CoreMainHeaderStyles.menuItemLink
+                            )(unescape(I18n.t("main-header.menu.item-1.label")))
                           )
                         )
-                      ),
-                      <.UserNavContainerComponent.empty
-                    )
+                      )
+                    ),
+                    <.UserNavContainerComponent.empty
                   )
                 )
               )
@@ -103,9 +94,6 @@ object CoreMainHeaderStyles extends StyleSheet.Inline {
 
   val menusInnerWrapper: StyleA =
     style(margin(`0`, (ThemeStyles.SpacingValue.small * -1).pxToEm()), whiteSpace.nowrap)
-
-  val menuWrapper: StyleA =
-    style(display.inlineBlock)
 
   val logo: StyleA = style(width(50.pxToEm()), maxWidth.none, ThemeStyles.MediaQueries.beyondSmall(width(90.pxToEm())))
 

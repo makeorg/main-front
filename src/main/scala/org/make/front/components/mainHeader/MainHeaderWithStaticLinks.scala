@@ -19,41 +19,39 @@ object MainHeaderWithStaticLinks {
         render = (self) => {
           <.header(^.className := MainHeaderWithStaticLinksStyles.wrapper)(
             <.CookieAlertContainerComponent.empty,
-            <.div(^.className := RowRulesStyles.centeredRow)(
-              <.div(^.className := ColRulesStyles.col)(
-                <.div(^.className := Seq(TableLayoutStyles.wrapper, MainHeaderWithStaticLinksStyles.innerWrapper))(
-                  <.p(
+            <.div(^.className := LayoutRulesStyles.centeredRow)(
+              <.div(^.className := Seq(TableLayoutStyles.wrapper, MainHeaderWithStaticLinksStyles.innerWrapper))(
+                <.p(
+                  ^.className := Seq(
+                    TableLayoutStyles.cellVerticalAlignMiddle,
+                    MainHeaderWithStaticLinksStyles.logoWrapper
+                  )
+                )(
+                  <.img(
+                    ^.className := MainHeaderWithStaticLinksStyles.logo,
+                    ^.src := logoMake.toString,
+                    ^.title := I18n.t("about-make-main-header.title"),
+                    ^("data-pin-no-hover") := "true"
+                  )()
+                ),
+                <.div(^.className := TableLayoutStyles.cellVerticalAlignMiddle)(
+                  <.nav(
                     ^.className := Seq(
-                      TableLayoutStyles.cellVerticalAlignMiddle,
-                      MainHeaderWithStaticLinksStyles.logoWrapper
+                      MainHeaderWithStaticLinksStyles.menuWrapper,
+                      RWDHideRulesStyles.showInlineBlockBeyondMedium
                     )
                   )(
-                    <.img(
-                      ^.className := MainHeaderWithStaticLinksStyles.logo,
-                      ^.src := logoMake.toString,
-                      ^.title := I18n.t("about-make-main-header.title"),
-                      ^("data-pin-no-hover") := "true"
-                    )()
-                  ),
-                  <.div(^.className := TableLayoutStyles.cellVerticalAlignMiddle)(
-                    <.nav(
-                      ^.className := Seq(
-                        MainHeaderWithStaticLinksStyles.menuWrapper,
-                        RWDHideRulesStyles.showInlineBlockBeyondMedium
-                      )
-                    )(
-                      <.ul()(
-                        Range(1, 6).map(
-                          item =>
-                            <.li(^.className := MainHeaderWithStaticLinksStyles.menuItem)(
-                              <.p(^.className := Seq(TextStyles.title, TextStyles.smallText))(
-                                <.a(
-                                  ^.href := I18n.t(s"about-make-main-header.menu.item-$item.link"),
-                                  ^.target := "_blank",
-                                  ^.className := MainHeaderWithStaticLinksStyles.menuItemLink
-                                )(unescape(I18n.t(s"about-make-main-header.menu.item-$item.label")))
-                              )
-                          )
+                    <.ul()(
+                      Range(1, 6).map(
+                        item =>
+                          <.li(^.className := MainHeaderWithStaticLinksStyles.menuItem)(
+                            <.p(^.className := Seq(TextStyles.title, TextStyles.smallText))(
+                              <.a(
+                                ^.href := I18n.t(s"about-make-main-header.menu.item-$item.link"),
+                                ^.target := "_blank",
+                                ^.className := MainHeaderWithStaticLinksStyles.menuItemLink
+                              )(unescape(I18n.t(s"about-make-main-header.menu.item-$item.label")))
+                            )
                         )
                       )
                     )

@@ -13,7 +13,7 @@ import org.make.front.components.authenticate.NewPasswordInput.NewPasswordInputP
 import org.make.front.facades.Unescape.unescape
 import org.make.front.facades.{I18n, Replacements}
 import org.make.front.styles.ThemeStyles
-import org.make.front.styles.base.{ColRulesStyles, RowRulesStyles, TextStyles}
+import org.make.front.styles.base.{ColRulesStyles, LayoutRulesStyles, TextStyles}
 import org.make.front.styles.ui.{CTAStyles, InputStyles}
 import org.make.front.styles.utils._
 import org.make.front.styles.vendors.FontAwesomeStyles
@@ -48,16 +48,14 @@ object PasswordReset {
       render = self => {
         <.div(^.className := ResetPasswordStyles.wrapper)(
           <.div(^.className := ResetPasswordStyles.mainHeaderWrapper)(<.MainHeaderComponent.empty),
-          <.div(^.className := Seq(RowRulesStyles.centeredRow))(
-            <.div(^.className := ColRulesStyles.col)(
-              <.div(^.className := Seq(ResetPasswordStyles.contentWrapper))(if (self.state.success) {
-                successMessage
-              } else if (self.state.isValidResetToken) {
-                resetPasswordForm(self)
-              } else {
-                invalidToken
-              })
-            )
+          <.div(^.className := Seq(LayoutRulesStyles.centeredRow))(
+            <.div(^.className := Seq(ResetPasswordStyles.contentWrapper))(if (self.state.success) {
+              successMessage
+            } else if (self.state.isValidResetToken) {
+              resetPasswordForm(self)
+            } else {
+              invalidToken
+            })
           ),
           <.style()(ResetPasswordStyles.render[String])
         )
@@ -66,15 +64,13 @@ object PasswordReset {
 
   def resetPasswordForm(self: Self[PasswordResetProps, PasswordResetState]): Seq[ReactElement] = {
     Seq(
-      <.div(^.className := Seq(RowRulesStyles.centeredRow))(
-        <.div(^.className := ColRulesStyles.col)(
-          <.h1(^.className := Seq(ResetPasswordStyles.title, TextStyles.mediumTitle))(
-            unescape(I18n.t("authenticate.reset-password.title"))
-          )
+      <.div(^.className := Seq(LayoutRulesStyles.centeredRow))(
+        <.h1(^.className := Seq(ResetPasswordStyles.title, TextStyles.mediumTitle))(
+          unescape(I18n.t("authenticate.reset-password.title"))
         )
       ),
       <.div(^.className := ResetPasswordStyles.content)(
-        <.div(^.className := Seq(RowRulesStyles.evenNarrowerCenteredRow))(
+        <.div(^.className := Seq(LayoutRulesStyles.evenNarrowerCenteredRow))(
           <.div(^.className := ColRulesStyles.col)(
             <.p(^.className := Seq(ResetPasswordStyles.message, TextStyles.smallText))(
               unescape(I18n.t("authenticate.reset-password.info")),
@@ -112,7 +108,7 @@ object PasswordReset {
 
   val invalidToken: Seq[ReactElement] = {
     Seq(
-      <.div(^.className := Seq(RowRulesStyles.evenNarrowerCenteredRow))(
+      <.div(^.className := Seq(LayoutRulesStyles.evenNarrowerCenteredRow))(
         <.div(^.className := ColRulesStyles.col)(
           <.p(^.className := Seq(ResetPasswordStyles.message, TextStyles.smallText))(
             unescape(I18n.t("authenticate.reset-password.failure.title"))
@@ -124,7 +120,7 @@ object PasswordReset {
 
   val successMessage =
     Seq(
-      <.div(^.className := Seq(RowRulesStyles.centeredRow))(
+      <.div(^.className := Seq(LayoutRulesStyles.centeredRow))(
         <.div(^.className := ColRulesStyles.col)(
           <.h1(^.className := Seq(ResetPasswordStyles.title, TextStyles.mediumTitle))(
             unescape(I18n.t("authenticate.reset-password.success.title"))
@@ -132,7 +128,7 @@ object PasswordReset {
         )
       ),
       <.div(^.className := ResetPasswordStyles.content)(
-        <.div(^.className := Seq(RowRulesStyles.evenNarrowerCenteredRow))(
+        <.div(^.className := Seq(LayoutRulesStyles.evenNarrowerCenteredRow))(
           <.div(^.className := ColRulesStyles.col)(
             <.p(^.className := Seq(ResetPasswordStyles.message, TextStyles.smallText))(
               unescape(I18n.t("authenticate.reset-password.success.info"))

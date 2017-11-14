@@ -131,7 +131,7 @@
     }
     function redirectHome() {
         triggerFBEvent(Event.StartSequence, {location: 'intro-vff'})()
-        window.location.href = "https://stopvff.make.org"+window.location.search+"#/consultation/comment-lutter-contre-les-violences-faites-aux-femmes"
+        window.location.href = "https://make.org"+window.location.search+"#/consultation/vff/selection"
     }
     triggerFBEvent(Event.PageView, {})() // default page view
     attachEventToElement("#start-sequence", $("#start-sequence"), TagEvents.Click, redirectHome)

@@ -17,7 +17,7 @@ import org.make.front.facades.ReactInfiniteScroller.{
 import org.make.front.facades.Unescape.unescape
 import org.make.front.models.{Proposal, Tag => TagModel}
 import org.make.front.styles._
-import org.make.front.styles.base.{ColRulesStyles, RowRulesStyles, TextStyles}
+import org.make.front.styles.base.{ColRulesStyles, LayoutRulesStyles, TextStyles}
 import org.make.front.styles.ui.CTAStyles
 import org.make.front.styles.utils._
 import org.make.services.proposal.SearchResult
@@ -70,7 +70,7 @@ object ResultsInOperation {
           }
 
         val noResults: ReactElement =
-          <.div(^.className := Seq(ColRulesStyles.col, ResultsInOperationStyles.noResults))(
+          <.div(^.className := ResultsInOperationStyles.noResults)(
             <.p(^.className := ResultsInOperationStyles.noResultsSmiley)("😞"),
             <.p(
               ^.className := Seq(TextStyles.mediumText, ResultsInOperationStyles.noResultsMessage),
@@ -93,7 +93,7 @@ object ResultsInOperation {
           Seq(
             <.InfiniteScroll(
               ^.element := "ul",
-              ^.className := ResultsInOperationStyles.itemsList,
+              ^.className := Seq(ResultsInOperationStyles.itemsList, LayoutRulesStyles.centeredRowWithCols),
               ^.hasMore := (self.state.hasMore && self.state.hasRequestedMore),
               ^.initialLoad := false,
               ^.loadMore := (_ => onSeeMore()),
@@ -115,7 +115,7 @@ object ResultsInOperation {
                 )
             }),
             if (self.state.hasMore && !self.state.hasRequestedMore) {
-              <.div(^.className := Seq(ResultsInOperationStyles.seeMoreButtonWrapper, ColRulesStyles.col))(
+              <.div(^.className := Seq(ResultsInOperationStyles.seeMoreButtonWrapper, LayoutRulesStyles.centeredRow))(
                 <.button(^.onClick := onSeeMore, ^.className := Seq(CTAStyles.basic, CTAStyles.basicOnButton))(
                   unescape(I18n.t("operation.results.see-more"))
                 )
@@ -125,12 +125,12 @@ object ResultsInOperation {
 
         val proposalsToDisplay: Seq[Proposal] = self.state.listProposals
 
-        <.section(^.className := Seq(RowRulesStyles.centeredRow, ResultsInOperationStyles.wrapper))(
-          <.header(^.className := ColRulesStyles.col)(
+        <.section(^.className := ResultsInOperationStyles.wrapper)(
+          <.header(^.className := LayoutRulesStyles.centeredRow)(
             <.h2(^.className := TextStyles.mediumTitle)(unescape(I18n.t("operation.results.title")))
           ),
           if (self.props.wrapped.preselectedTags.nonEmpty) {
-            <.nav(^.className := ColRulesStyles.col)(
+            <.nav(^.className := LayoutRulesStyles.centeredRow)(
               <.FilterByTagsComponent(
                 ^.wrapped := FilterByTagsProps(self.props.wrapped.preselectedTags, onTagsChange)
               )()
@@ -152,11 +152,8 @@ object ResultsInOperationStyles extends StyleSheet.Inline {
   import dsl._
 
   val wrapper: StyleA =
-    style(
-      paddingTop(ThemeStyles.SpacingValue.medium.pxToEm()),
-      paddingBottom(ThemeStyles.SpacingValue.medium.pxToEm()),
-      ThemeStyles.MediaQueries.beyondSmall(paddingBottom(ThemeStyles.SpacingValue.small.pxToEm()))
-    )
+    style(paddingTop(ThemeStyles.SpacingValue.medium.pxToEm()), paddingBottom(ThemeStyles.SpacingValue.medium.pxToEm()))
+
   val itemsList: StyleA = style(display.flex, flexWrap.wrap)
 
   val item: StyleA =
@@ -164,19 +161,22 @@ object ResultsInOperationStyles extends StyleSheet.Inline {
       marginTop(ThemeStyles.SpacingValue.small.pxToEm()),
       ThemeStyles.MediaQueries.beyondSmall(marginBottom(ThemeStyles.SpacingValue.small.pxToEm()))
     )
+
   val spinnerWrapper: StyleA =
     style(
       width(100.%%),
-      margin(ThemeStyles.SpacingValue.small.pxToEm(), ThemeStyles.SpacingValue.small.pxToEm(), `0`),
-      ThemeStyles.MediaQueries.beyondSmall(marginBottom(ThemeStyles.SpacingValue.small.pxToEm()))
+      lineHeight(0),
+      margin(
+        ThemeStyles.SpacingValue.small.pxToEm(),
+        ThemeStyles.SpacingValue.small.pxToEm(),
+        `0`,
+        ThemeStyles.SpacingValue.small.pxToEm()
+      )
     )
 
   val seeMoreButtonWrapper: StyleA = style(
     marginTop(ThemeStyles.SpacingValue.medium.pxToEm()),
-    ThemeStyles.MediaQueries.beyondSmall(
-      marginTop(ThemeStyles.SpacingValue.small.pxToEm()),
-      marginBottom(ThemeStyles.SpacingValue.small.pxToEm())
-    ),
+    ThemeStyles.MediaQueries.beyondSmall(marginTop(ThemeStyles.SpacingValue.small.pxToEm())),
     textAlign.center
   )
 

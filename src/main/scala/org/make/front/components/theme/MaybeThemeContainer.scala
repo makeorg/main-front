@@ -7,24 +7,22 @@ import io.github.shogowada.scalajs.reactjs.redux.Redux.Dispatch
 import io.github.shogowada.scalajs.reactjs.router.RouterProps._
 import org.make.front.actions.LoadConfiguration
 import org.make.front.components.AppState
-import org.make.front.models.{ThemeId, TranslatedTheme => TranslatedThemeModel}
 
-object ThemeContainer {
+object MaybeThemeContainer {
 
-  lazy val reactClass: ReactClass = ReactRedux.connectAdvanced(selectorFactory)(Theme.reactClass)
+  lazy val reactClass: ReactClass = ReactRedux.connectAdvanced(selectorFactory)(MaybeTheme.reactClass)
 
-  def selectorFactory: (Dispatch) => (AppState, Props[Unit]) => Theme.ThemeProps =
+  def selectorFactory: (Dispatch) => (AppState, Props[Unit]) => MaybeTheme.MaybeThemeProps =
     (dispatch: Dispatch) => { (state: AppState, props: Props[Unit]) =>
       {
         val slug = props.`match`.params("themeSlug")
-        val themesList: Seq[TranslatedThemeModel] = state.themes.filter(_.slug == slug)
-        if (themesList.isEmpty) {
-          props.history.push("/")
-          Theme.ThemeProps(TranslatedThemeModel(ThemeId("fake"), "", "", 0, 0, "", -1, "", None))
-        } else {
+
+        if (state.configuration.isEmpty) {
           dispatch(LoadConfiguration)
-          Theme.ThemeProps(themesList.head)
         }
+
+        MaybeTheme.MaybeThemeProps(maybeTheme = state.findTheme(slug = slug))
+
       }
     }
 }

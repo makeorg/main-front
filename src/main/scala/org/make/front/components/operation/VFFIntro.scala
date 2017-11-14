@@ -8,7 +8,7 @@ import org.make.front.facades.Unescape.unescape
 import org.make.front.facades._
 import org.make.front.models.{GradientColor => GradientColorModel, Operation => OperationModel}
 import org.make.front.styles._
-import org.make.front.styles.base.{ColRulesStyles, RowRulesStyles, TableLayoutStyles, TextStyles}
+import org.make.front.styles.base.{ColRulesStyles, LayoutRulesStyles, TableLayoutStyles, TextStyles}
 import org.make.front.styles.ui.CTAStyles
 import org.make.front.styles.utils._
 import org.make.front.Main.CssSettings._
@@ -50,51 +50,49 @@ object VFFIntro {
 
           <.div(^.className := Seq(VFFIntroStyles.wrapper, DynamicVFFIntroStyles.gradient))(
             <.div(^.className := VFFIntroStyles.presentationInnerWrapper)(
-              <.div(^.className := RowRulesStyles.centeredRow)(
-                <.div(^.className := ColRulesStyles.col)(
-                  <.div(^.className := VFFIntroStyles.titleWrapper)(
-                    <.p(^.className := Seq(TextStyles.label))(unescape(I18n.t("operation.vff-header.label"))),
-                    <.p(^.className := Seq(VFFIntroStyles.logoWrapper))(
-                      <.img(
-                        ^.src := self.props.wrapped.operation.logoUrl.getOrElse(""),
-                        ^.alt := unescape(I18n.t("operation.vff-header.title"))
-                      )()
-                    ),
-                    <.p(^.className := Seq(VFFIntroStyles.infos, TextStyles.label))(
-                      unescape(I18n.t("operation.vff-header.period"))
+              <.div(^.className := LayoutRulesStyles.centeredRow)(
+                <.div(^.className := VFFIntroStyles.titleWrapper)(
+                  <.p(^.className := Seq(TextStyles.label))(unescape(I18n.t("operation.vff-header.label"))),
+                  <.p(^.className := Seq(VFFIntroStyles.logoWrapper))(
+                    <.img(
+                      ^.src := self.props.wrapped.operation.logoUrl.getOrElse(""),
+                      ^.alt := unescape(I18n.t("operation.vff-header.title"))
+                    )()
+                  ),
+                  <.p(^.className := Seq(VFFIntroStyles.infos, TextStyles.label))(
+                    unescape(I18n.t("operation.vff-header.period"))
+                  )
+                ),
+                <.div(^.className := Seq(TableLayoutStyles.wrapper, VFFIntroStyles.separatorWrapper))(
+                  <.div(
+                    ^.className := Seq(TableLayoutStyles.cellVerticalAlignMiddle, VFFIntroStyles.separatorLineWrapper)
+                  )(<.hr(^.className := Seq(VFFIntroStyles.separatorLine, VFFIntroStyles.separatorLineToTheLeft))()),
+                  <.div(^.className := Seq(TableLayoutStyles.cell, VFFIntroStyles.separatorTextWrapper))(
+                    <.p(^.className := Seq(VFFIntroStyles.separator, TextStyles.smallerText))(
+                      unescape(I18n.t("operation.vff-header.partners.intro"))
                     )
                   ),
-                  <.div(^.className := Seq(TableLayoutStyles.wrapper, VFFIntroStyles.separatorWrapper))(
-                    <.div(
-                      ^.className := Seq(TableLayoutStyles.cellVerticalAlignMiddle, VFFIntroStyles.separatorLineWrapper)
-                    )(<.hr(^.className := Seq(VFFIntroStyles.separatorLine, VFFIntroStyles.separatorLineToTheLeft))()),
-                    <.div(^.className := Seq(TableLayoutStyles.cell, VFFIntroStyles.separatorTextWrapper))(
-                      <.p(^.className := Seq(VFFIntroStyles.separator, TextStyles.smallerText))(
-                        unescape(I18n.t("operation.vff-header.partners.intro"))
-                      )
-                    ),
-                    <.div(
-                      ^.className := Seq(TableLayoutStyles.cellVerticalAlignMiddle, VFFIntroStyles.separatorLineWrapper)
-                    )(<.hr(^.className := Seq(VFFIntroStyles.separatorLine, VFFIntroStyles.separatorLineToTheRight))())
-                  ),
-                  <.ul(^.className := VFFIntroStyles.partnersList)(
-                    partners.map(
-                      partner =>
-                        <.li(^.className := VFFIntroStyles.partnerItem)(
-                          <.img(
-                            ^.src := partner.imageUrl,
-                            ^.alt := partner.name,
-                            ^("width") := partner.imageWidth.toString,
-                            ^.className := VFFIntroStyles.partnerLogo
-                          )()
-                      )
+                  <.div(
+                    ^.className := Seq(TableLayoutStyles.cellVerticalAlignMiddle, VFFIntroStyles.separatorLineWrapper)
+                  )(<.hr(^.className := Seq(VFFIntroStyles.separatorLine, VFFIntroStyles.separatorLineToTheRight))())
+                ),
+                <.ul(^.className := VFFIntroStyles.partnersList)(
+                  partners.map(
+                    partner =>
+                      <.li(^.className := VFFIntroStyles.partnerItem)(
+                        <.img(
+                          ^.src := partner.imageUrl,
+                          ^.alt := partner.name,
+                          ^("width") := partner.imageWidth.toString,
+                          ^.className := VFFIntroStyles.partnerLogo
+                        )()
                     )
                   )
                 )
               )
             ),
             <.div(^.className := VFFIntroStyles.explanationWrapper)(
-              <.div(^.className := RowRulesStyles.narrowerCenteredRow)(
+              <.div(^.className := LayoutRulesStyles.narrowerCenteredRowWithCols)(
                 <.div(^.className := Seq(ColRulesStyles.col, ColRulesStyles.colThirdBeyondSmall))(
                   <.img(
                     ^.src := vffIll.toString,

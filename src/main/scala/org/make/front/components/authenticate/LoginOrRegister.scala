@@ -13,7 +13,7 @@ import org.make.front.facades.I18n
 import org.make.front.facades.Unescape.unescape
 import org.make.front.models.OperationId
 import org.make.front.styles._
-import org.make.front.styles.base.{ColRulesStyles, RowRulesStyles, TextStyles}
+import org.make.front.styles.base.{ColRulesStyles, LayoutRulesStyles, TextStyles}
 import org.make.front.styles.utils._
 
 object LoginOrRegister {
@@ -44,54 +44,50 @@ object LoginOrRegister {
           self.setState(_.copy(currentView = view))
         }
 
-        <.div(^.className := RowRulesStyles.evenNarrowerCenteredRow)(
-          <.div(^.className := ColRulesStyles.col)(if (state.currentView == "login") {
-            Seq(
-              <.LoginWithEmailOrSocialNetworksComponent(
-                ^.wrapped := LoginWithEmailOrSocialNetworksProps(props.onSuccessfulLogin)
-              )(),
-              <.p(^.className := Seq(LoginOrRegisterStyles.text, TextStyles.smallText))(
-                unescape(I18n.t("authenticate.forgot-password.intro") + " "),
-                <.a(^.className := TextStyles.boldText, ^.onClick := goTo("reset-password"))(
-                  unescape(I18n.t("authenticate.forgot-password.link-support"))
-                )
-              ),
-              <.p(^.className := Seq(LoginOrRegisterStyles.text, TextStyles.smallText))(
-                unescape(I18n.t("authenticate.switch-to-register-screen.intro") + " "),
-                <.a(^.className := TextStyles.boldText, ^.onClick := goTo(props.registerView))(
-                  unescape(I18n.t("authenticate.switch-to-register-screen.link-support"))
-                )
+        <.div(^.className := LayoutRulesStyles.evenNarrowerCenteredRow)(if (state.currentView == "login") {
+          Seq(
+            <.LoginWithEmailOrSocialNetworksComponent(
+              ^.wrapped := LoginWithEmailOrSocialNetworksProps(props.onSuccessfulLogin)
+            )(),
+            <.p(^.className := Seq(LoginOrRegisterStyles.text, TextStyles.smallText))(
+              unescape(I18n.t("authenticate.forgot-password.intro") + " "),
+              <.a(^.className := TextStyles.boldText, ^.onClick := goTo("reset-password"))(
+                unescape(I18n.t("authenticate.forgot-password.link-support"))
+              )
+            ),
+            <.p(^.className := Seq(LoginOrRegisterStyles.text, TextStyles.smallText))(
+              unescape(I18n.t("authenticate.switch-to-register-screen.intro") + " "),
+              <.a(^.className := TextStyles.boldText, ^.onClick := goTo(props.registerView))(
+                unescape(I18n.t("authenticate.switch-to-register-screen.link-support"))
               )
             )
-          } else if (state.currentView == "reset-password") {
-            Seq(
-              <.RecoverPasswordContainerComponent(
-                ^.wrapped := RecoverPasswordContainerProps(props.onSuccessfulLogin)
-              )(),
-              <.p(^.className := Seq(LoginOrRegisterStyles.text, TextStyles.smallText))(
-                unescape(I18n.t("authenticate.back-to-login-screen.intro") + " "),
-                <.a(^.className := TextStyles.boldText, ^.onClick := goTo("login"))(
-                  unescape(I18n.t("authenticate.back-to-login-screen.link-support"))
-                )
+          )
+        } else if (state.currentView == "reset-password") {
+          Seq(
+            <.RecoverPasswordContainerComponent(^.wrapped := RecoverPasswordContainerProps(props.onSuccessfulLogin))(),
+            <.p(^.className := Seq(LoginOrRegisterStyles.text, TextStyles.smallText))(
+              unescape(I18n.t("authenticate.back-to-login-screen.intro") + " "),
+              <.a(^.className := TextStyles.boldText, ^.onClick := goTo("login"))(
+                unescape(I18n.t("authenticate.back-to-login-screen.link-support"))
               )
             )
-          } else {
-            Seq(
-              <.RegisterWithSocialNetworksOrEmailComponent(
-                ^.wrapped := RegisterWithSocialNetworksOrEmailProps(
-                  operation = self.props.wrapped.operation,
-                  onSuccessfulLogin = props.onSuccessfulLogin
-                )
-              )(),
-              <.p(^.className := Seq(LoginOrRegisterStyles.text, TextStyles.smallText))(
-                unescape(I18n.t("authenticate.switch-to-login-screen.intro") + " "),
-                <.a(^.className := TextStyles.boldText, ^.onClick := goTo("login"))(
-                  unescape(I18n.t("authenticate.switch-to-login-screen.link-support"))
-                )
+          )
+        } else {
+          Seq(
+            <.RegisterWithSocialNetworksOrEmailComponent(
+              ^.wrapped := RegisterWithSocialNetworksOrEmailProps(
+                operation = self.props.wrapped.operation,
+                onSuccessfulLogin = props.onSuccessfulLogin
+              )
+            )(),
+            <.p(^.className := Seq(LoginOrRegisterStyles.text, TextStyles.smallText))(
+              unescape(I18n.t("authenticate.switch-to-login-screen.intro") + " "),
+              <.a(^.className := TextStyles.boldText, ^.onClick := goTo("login"))(
+                unescape(I18n.t("authenticate.switch-to-login-screen.link-support"))
               )
             )
-          }, <.style()(LoginOrRegisterStyles.render[String]))
-        )
+          )
+        }, <.style()(LoginOrRegisterStyles.render[String]))
     })
 }
 
