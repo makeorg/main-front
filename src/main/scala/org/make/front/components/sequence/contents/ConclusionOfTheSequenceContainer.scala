@@ -7,9 +7,11 @@ import io.github.shogowada.scalajs.reactjs.redux.Redux.Dispatch
 import io.github.shogowada.scalajs.reactjs.router.RouterProps
 import org.make.front.components.AppState
 
+case class ConclusionOfTheSequenceContainerProps()
+
 object ConclusionOfTheSequenceContainer extends RouterProps {
   lazy val reactClass: ReactClass = ReactRedux.connectAdvanced {
-    dispatch: Dispatch => (state: AppState, _: Props[Unit]) =>
+    dispatch: Dispatch => (state: AppState, _: Props[ConclusionOfTheSequenceContainerProps]) =>
       ConclusionOfTheSequence.ConclusionOfTheSequenceProps(isConnected = state.connectedUser.isDefined)
   }(ConclusionOfTheSequence.reactClass)
 }
