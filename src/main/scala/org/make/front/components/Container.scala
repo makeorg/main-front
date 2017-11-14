@@ -7,7 +7,7 @@ import io.github.shogowada.scalajs.reactjs.router.dom.RouterDOM._
 import org.make.front.components.activateAccount.ActivateAccountContainer
 import org.make.front.components.authenticate.resetPassword.ResetPasswordContainer
 import org.make.front.components.home.Home
-import org.make.front.components.operation.sequence.{SequenceOfTheOperationContainer, VFFSequenceContainer}
+import org.make.front.components.operation.sequence.SequenceOfTheOperationContainer
 import org.make.front.components.search.SearchResultsContainer
 import org.make.front.components.theme.ThemeContainer
 import org.make.front.components.operation.OperationContainer
@@ -38,12 +38,6 @@ object Container {
           )(),
           <.Route(^.exact := true, ^.path := "/proposal/:proposalSlug", ^.component := ProposalContainer.reactClass)(),
           <.Route(^.exact := true, ^.path := "/profile", ^.component := UserProfileContainer.reactClass)(),
-          /**TO-DO: direct route to sequence*/
-          /*<.Route(
-            ^.exact := true,
-            ^.path := "/consultation/vff/selection",
-            ^.component := VFFSequenceContainer.reactClass
-          )(),*/
           <.Route(
             ^.exact := true,
             ^.path := "/consultation/:operationSlug",
@@ -51,7 +45,7 @@ object Container {
           )(),
           <.Route(
             ^.exact := true,
-            ^.path := "/consultation/:operationSlug/selection/:sequenceSlug",
+            ^.path := "/consultation/:operationSlug/selection",
             ^.component := SequenceOfTheOperationContainer.reactClass
           )(),
           <.Route(^.exact := true, ^.path := "/theme/:themeSlug", ^.component := ThemeContainer.reactClass)(),

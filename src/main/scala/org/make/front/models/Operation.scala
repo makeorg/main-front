@@ -2,6 +2,7 @@ package org.make.front.models
 
 import io.github.shogowada.scalajs.reactjs.redux.Store
 import org.make.front.components.AppState
+import org.make.front.models.{Sequence => SequenceModel}
 
 import scala.scalajs.js
 
@@ -16,7 +17,8 @@ final case class Operation(operationId: OperationId,
                            gradient: Option[GradientColor] = None,
                            tags: Seq[Tag] = Seq.empty,
                            logoUrl: Option[String] = None,
-                           darkerLogoUrl: Option[String] = None)
+                           darkerLogoUrl: Option[String] = None,
+                           sequence: Option[SequenceModel] = None)
 @js.native
 trait OperationId extends js.Object {
   val value: String

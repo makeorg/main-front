@@ -19,7 +19,9 @@ import org.make.front.styles.vendors.FontAwesomeStyles
 
 object PromptingToProposeSequence {
 
-  final case class PromptingToProposeProps(operation: OperationModel, clickOnButtonHandler: () => Unit)
+  final case class PromptingToProposeProps(operation: OperationModel,
+                                           clickOnButtonHandler: () => Unit,
+                                           proposeHandler: ()       => Unit)
 
   final case class PromptingToProposeState(isProposalModalOpened: Boolean)
 
@@ -60,7 +62,10 @@ object PromptingToProposeSequence {
                 <.SubmitProposalInRelationToOperationComponent(
                   ^.wrapped := SubmitProposalInRelationToOperationProps(
                     operation = self.props.wrapped.operation,
-                    onProposalProposed = closeProposalModal
+                    onProposalProposed = () => {
+                      closeProposalModal()
+                      self.props.wrapped.proposeHandler()
+                    }
                   )
                 )()
               )

@@ -26,34 +26,52 @@ object SequenceOfTheOperationContainer {
     (dispatch: Dispatch) => { (state: AppState, props: Props[Unit]) =>
       {
         val operationSlug = props.`match`.params("operationSlug")
-        val OperationsList: Seq[OperationModel] = state.operations.filter(_.slug == operationSlug)
+        val operationsList: Seq[OperationModel] = state.operations.filter(_.slug == operationSlug)
 
-        val sequenceSlug = props.`match`.params("sequenceSlug")
-        val SequencesList: Seq[SequenceModel] = state.sequences.filter(_.slug == sequenceSlug)
-
-        if (OperationsList.isEmpty || SequencesList.isEmpty) {
-          props.history.push("/")
+        def emptyProps: SequenceOfTheOperation.SequenceOfTheOperationProps = {
           SequenceOfTheOperation.SequenceOfTheOperationProps(
             OperationModel(OperationIdModel("fake"), "", "", "", "", 0, 0, "", None),
             SequenceModel(SequenceIdModel("fake"), "", ""),
             Future.successful(0)
           )
+        }
+
+        if (operationsList.isEmpty) {
+          props.history.push("/")
+          emptyProps
         } else {
-          val numberOfProposals: Future[Int] = {
-            val proposalsResponse =
-              ProposalService.searchProposals(
-                context = Some(ContextRequest(operation = Some(OperationsList.head.label))),
-                limit = Some(20)
-              )
-            proposalsResponse.recover {
-              case e => dispatch(NotifyError(e.getMessage))
+
+          val operation: OperationModel = operationsList.head
+
+          if (operation.sequence.isEmpty) {
+            props.history.push("/")
+            emptyProps
+          } else {
+            val sequence: SequenceModel = operation.sequence.getOrElse(SequenceModel(SequenceIdModel("fake"), "", ""))
+
+            val numberOfProposals: Future[Int] = {
+
+              val proposalsResponse =
+                ProposalService.searchProposals(
+                  context = Some(ContextRequest(operation = Some(operationsList.head.label))),
+                  limit = Some(20)
+                )
+
+              proposalsResponse.recover {
+                case e => dispatch(NotifyError(e.getMessage))
+              }
+
+              proposalsResponse.map(_.total)
             }
 
-            proposalsResponse.map(_.total)
-          }
+            dispatch(LoadConfiguration)
 
-          dispatch(LoadConfiguration)
-          SequenceOfTheOperation.SequenceOfTheOperationProps(OperationsList.head, SequencesList.head, numberOfProposals)
+            SequenceOfTheOperation.SequenceOfTheOperationProps(
+              operation = operation,
+              sequence = sequence,
+              numberOfProposals = numberOfProposals
+            )
+          }
         }
       }
     }

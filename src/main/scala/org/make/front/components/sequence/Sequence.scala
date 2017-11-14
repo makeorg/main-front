@@ -188,6 +188,9 @@ object Sequence {
                 .getOrElse(OperationModel(OperationIdModel("fake"), "", "", "", "", 0, 0, "", None)),
               clickOnButtonHandler = { () =>
                 nextProposal()
+              },
+              proposeHandler = { () =>
+                nextProposal()
               }
             )
           )()
