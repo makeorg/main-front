@@ -28,7 +28,7 @@ object SequenceOfTheOperationContainer {
         val operationSlug = props.`match`.params("operationSlug")
         val operationsList: Seq[OperationModel] = state.operations.filter(_.slug == operationSlug)
 
-        def nullProps: SequenceOfTheOperation.SequenceOfTheOperationProps = {
+        def emptyProps: SequenceOfTheOperation.SequenceOfTheOperationProps = {
           SequenceOfTheOperation.SequenceOfTheOperationProps(
             OperationModel(OperationIdModel("fake"), "", "", "", "", 0, 0, "", None),
             SequenceModel(SequenceIdModel("fake"), "", ""),
@@ -38,14 +38,14 @@ object SequenceOfTheOperationContainer {
 
         if (operationsList.isEmpty) {
           props.history.push("/")
-          nullProps
+          emptyProps
         } else {
 
           val operation: OperationModel = operationsList.head
 
           if (operation.sequence.isEmpty) {
             props.history.push("/")
-            nullProps
+            emptyProps
           } else {
             val sequence: SequenceModel = operation.sequence.getOrElse(SequenceModel(SequenceIdModel("fake"), "", ""))
 

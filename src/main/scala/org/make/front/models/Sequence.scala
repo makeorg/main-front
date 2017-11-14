@@ -14,7 +14,7 @@ trait SequenceResponse extends js.Object {
 
 }
 
-final case class Sequence(sequenceId: SequenceId, slug: String, title: String) {}
+final case class Sequence(sequenceId: SequenceId, slug: String, title: String)
 
 object Sequence {
   def apply(sequenceResponse: SequenceResponse): Sequence = {
