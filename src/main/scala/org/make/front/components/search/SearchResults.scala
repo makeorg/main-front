@@ -104,7 +104,7 @@ object SearchResults {
                       )()
                   )
                 )
-              } else { <.span.empty }),
+              } else { <.div.empty }),
               if (self.state.hasMore && !self.state.hasRequestedMore) {
                 <.div(^.className := Seq(SearchResultsStyles.seeMoreButtonWrapper, LayoutRulesStyles.centeredRow))(
                   <.button(^.onClick := { () =>
@@ -210,21 +210,18 @@ object SearchResultsStyles extends StyleSheet.Inline {
   val spinnerWrapper: StyleA =
     style(
       width(100.%%),
+      lineHeight(0),
       margin(
         ThemeStyles.SpacingValue.small.pxToEm(),
         ThemeStyles.SpacingValue.small.pxToEm(),
         `0`,
         ThemeStyles.SpacingValue.small.pxToEm()
-      ),
-      ThemeStyles.MediaQueries.beyondSmall(marginBottom(ThemeStyles.SpacingValue.small.pxToEm()))
+      )
     )
 
   val seeMoreButtonWrapper: StyleA = style(
     marginTop(ThemeStyles.SpacingValue.medium.pxToEm()),
-    ThemeStyles.MediaQueries.beyondSmall(
-      marginTop(ThemeStyles.SpacingValue.small.pxToEm()),
-      marginBottom(ThemeStyles.SpacingValue.small.pxToEm())
-    ),
+    ThemeStyles.MediaQueries.beyondSmall(marginTop(ThemeStyles.SpacingValue.small.pxToEm())),
     textAlign.center
   )
 

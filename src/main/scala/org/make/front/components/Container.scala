@@ -9,7 +9,7 @@ import org.make.front.components.authenticate.resetPassword.ResetPasswordContain
 import org.make.front.components.home.Home
 import org.make.front.components.operation.sequence.SequenceOfTheOperationContainer
 import org.make.front.components.search.SearchResultsContainer
-import org.make.front.components.theme.ThemeContainer
+import org.make.front.components.theme.MaybeThemeContainer
 import org.make.front.components.operation.OperationContainer
 import org.make.front.components.proposal.ProposalContainer
 import org.make.front.components.userProfile.UserProfileContainer
@@ -48,7 +48,7 @@ object Container {
             ^.path := "/consultation/:operationSlug/selection",
             ^.component := SequenceOfTheOperationContainer.reactClass
           )(),
-          <.Route(^.exact := true, ^.path := "/theme/:themeSlug", ^.component := ThemeContainer.reactClass)(),
+          <.Route(^.exact := true, ^.path := "/theme/:themeSlug", ^.component := MaybeThemeContainer.reactClass)(),
           <.Route(^.exact := true, ^.path := "/search", ^.component := SearchResultsContainer.reactClass)(),
           <.Route(^.exact := true, ^.path := "/", ^.component := Home.reactClass)()
       )

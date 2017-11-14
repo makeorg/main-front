@@ -11,18 +11,6 @@
     <title><%= htmlWebpackPlugin.options.title %></title>
     <meta content="<%= htmlWebpackPlugin.options.title %>" property="og:title">
     <meta content="width=device-width, initial-scale=1" name="viewport">
-    <script>
-      var targetHash = "#/consultation/comment-lutter-contre-les-violences-faites-aux-femmes"
-      var targetUrl = "https://stopvff.make.org/" + targetHash
-
-      if(/http(s)?:\/\/(www\.)?stopvff\.+/.test(document.location)) {
-        if (!/#\/account-activation\/.+/.test(document.location.hash) &&
-            document.location.hash != targetHash
-         ) {
-            window.location = targetUrl
-        }
-      }
-    </script>
     <link href="https://fonts.googleapis.com/css?family=Playfair+Display:400i" rel="stylesheet">
     <link rel="stylesheet" href="./styles/main.css" type="text/css" media="all">
 </head>

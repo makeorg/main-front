@@ -146,7 +146,7 @@ object ResultsInTheme {
           <.header(^.className := LayoutRulesStyles.centeredRow)(
             <.h2(^.className := TextStyles.mediumTitle)(unescape(I18n.t("theme.results.title")))
           ),
-          <.nav(^.className := LayoutRulesStyles.centeredRow)(
+          <.div(^.className := LayoutRulesStyles.centeredRow)(
             <.FilterByTagsComponent(^.wrapped := FilterByTagsProps(self.props.wrapped.theme.tags, onTagsChange))()
           ),
           if (self.state.initialLoad || proposalsToDisplay.nonEmpty) {
@@ -165,13 +165,9 @@ object ResultsInThemeStyles extends StyleSheet.Inline {
   import dsl._
 
   val wrapper: StyleA =
-    style(
-      paddingTop(ThemeStyles.SpacingValue.medium.pxToEm()),
-      paddingBottom(ThemeStyles.SpacingValue.medium.pxToEm()),
-      ThemeStyles.MediaQueries.beyondSmall(paddingBottom(ThemeStyles.SpacingValue.small.pxToEm()))
-    )
+    style(paddingTop(ThemeStyles.SpacingValue.medium.pxToEm()), paddingBottom(ThemeStyles.SpacingValue.medium.pxToEm()))
 
-  val itemsList: StyleA = style(display.flex, flexWrap.wrap)
+  val itemsList: StyleA = style(display.flex, flexWrap.wrap, width(100.%%))
 
   val item: StyleA =
     style(
@@ -182,16 +178,18 @@ object ResultsInThemeStyles extends StyleSheet.Inline {
   val spinnerWrapper: StyleA =
     style(
       width(100.%%),
-      margin(ThemeStyles.SpacingValue.small.pxToEm(), ThemeStyles.SpacingValue.small.pxToEm(), `0`),
-      ThemeStyles.MediaQueries.beyondSmall(marginBottom(ThemeStyles.SpacingValue.small.pxToEm()))
+      lineHeight(0),
+      margin(
+        ThemeStyles.SpacingValue.small.pxToEm(),
+        ThemeStyles.SpacingValue.small.pxToEm(),
+        `0`,
+        ThemeStyles.SpacingValue.small.pxToEm()
+      )
     )
 
   val seeMoreButtonWrapper: StyleA = style(
     marginTop(ThemeStyles.SpacingValue.medium.pxToEm()),
-    ThemeStyles.MediaQueries.beyondSmall(
-      marginTop(ThemeStyles.SpacingValue.small.pxToEm()),
-      marginBottom(ThemeStyles.SpacingValue.small.pxToEm())
-    ),
+    ThemeStyles.MediaQueries.beyondSmall(marginTop(ThemeStyles.SpacingValue.small.pxToEm())),
     textAlign.center
   )
 

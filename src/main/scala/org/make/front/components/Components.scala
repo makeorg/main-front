@@ -127,6 +127,9 @@ object Components {
     def QualificateVoteComponent: ReactClassElementSpec = self(proposal.vote.QualificateVote.reactClass)
     def ResultsOfVoteComponent: ReactClassElementSpec = self(proposal.vote.ResultsOfVote.reactClass)
 
+    def ThemeComponent: ReactClassElementSpec =
+      self(theme.Theme.reactClass)
+
     /*********************/
     def PoliticalActionsContainerComponent: ReactClassElementSpec =
       self(politicalActions.PoliticalActionsContainer.reactClass)
