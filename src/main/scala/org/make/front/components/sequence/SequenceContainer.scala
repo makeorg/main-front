@@ -30,7 +30,7 @@ object SequenceContainer {
           val proposalsResponse: Future[SearchResult] =
             ProposalService.searchProposals(
               context = Some(ContextRequest(operation = Some(vffOperation.label))),
-              limit = Some(20)
+              limit = Some(12)
             )
 
           proposalsResponse.recover {
