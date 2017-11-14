@@ -25,16 +25,19 @@ import org.make.services.proposal.SearchResult
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 import scala.util.{Failure, Success}
+import org.make.front.models.{Operation => OperationModel}
 
 object ResultsInOperation {
 
-  case class ResultsInOperationProps(onMoreResultsRequested: (Seq[Proposal], Seq[TagModel]) => Future[SearchResult],
+  case class ResultsInOperationProps(operation: OperationModel,
+                                     onMoreResultsRequested: (Seq[Proposal], Seq[TagModel]) => Future[SearchResult],
                                      onTagSelectionChange: (Seq[TagModel])                  => Future[SearchResult],
                                      proposals: Future[SearchResult],
                                      preselectedTags: Seq[TagModel])
 
   case class ResultsInOperationState(listProposals: Seq[Proposal],
                                      selectedTags: Seq[TagModel],
+                                     initialLoad: Boolean,
                                      hasRequestedMore: Boolean,
                                      hasMore: Boolean)
 
@@ -42,32 +45,43 @@ object ResultsInOperation {
     React.createClass[ResultsInOperationProps, ResultsInOperationState](
       displayName = "ResultsInOperation",
       getInitialState = { self =>
-        self.props.wrapped.proposals.onComplete {
-          case Success(searchResult) =>
-            self.setState(
-              _.copy(listProposals = searchResult.results, hasMore = searchResult.total > searchResult.results.size)
-            )
-          case Failure(_) => // TODO: handle error
-        }
         ResultsInOperationState(
           selectedTags = self.props.wrapped.preselectedTags,
           listProposals = Seq(),
+          initialLoad = true,
           hasRequestedMore = false,
           hasMore = false
         )
       },
+      componentWillReceiveProps = { (self, nextProps) =>
+        self.setState(
+          ResultsInOperationState(
+            selectedTags = nextProps.wrapped.preselectedTags,
+            listProposals = Seq(),
+            initialLoad = true,
+            hasRequestedMore = false,
+            hasMore = false
+          )
+        )
+      },
       render = { (self) =>
-        val onSeeMore: () => Unit =
-          () => {
-            self.setState(_.copy(hasRequestedMore = true))
+        val onSeeMore: (Int) => Unit = {
+          _ =>
+            if (!self.state.initialLoad) {
+              self.setState(_.copy(hasRequestedMore = true))
+            }
             self.props.wrapped.onMoreResultsRequested(self.state.listProposals, self.state.selectedTags).onComplete {
               case Success(searchResult) =>
                 self.setState(
-                  _.copy(listProposals = searchResult.results, hasMore = searchResult.total > searchResult.results.size)
+                  _.copy(
+                    listProposals = searchResult.results,
+                    hasMore = searchResult.total > searchResult.results.size,
+                    initialLoad = false
+                  )
                 )
-              case Failure(_) => // TODO: handle error
+              case Failure(_) => // Let parent handle logging error
             }
-          }
+        }
 
         val noResults: ReactElement =
           <.div(^.className := ResultsInOperationStyles.noResults)(
@@ -85,7 +99,7 @@ object ResultsInOperation {
               self.setState(
                 _.copy(listProposals = searchResult.results, hasMore = searchResult.total > searchResult.results.size)
               )
-            case Failure(_) => // TODO: handle error
+            case Failure(_) => // Let parent handle logging error
           }
         }
 
@@ -94,31 +108,34 @@ object ResultsInOperation {
             <.InfiniteScroll(
               ^.element := "ul",
               ^.className := Seq(ResultsInOperationStyles.itemsList, LayoutRulesStyles.centeredRowWithCols),
-              ^.hasMore := (self.state.hasMore && self.state.hasRequestedMore),
+              ^.hasMore := (self.state.initialLoad || self.state.hasMore && self.state.hasRequestedMore),
               ^.initialLoad := false,
-              ^.loadMore := (_ => onSeeMore()),
+              ^.loadMore := onSeeMore,
               ^.loader := <.li(^.className := ResultsInOperationStyles.spinnerWrapper)(<.SpinnerComponent.empty)
-            )(proposals.map {
+            )(if (proposals.nonEmpty) {
               val counter = new Counter()
-              proposal =>
-                <.li(
-                  ^.className := Seq(
-                    ResultsInOperationStyles.item,
-                    ColRulesStyles.col,
-                    ColRulesStyles.colHalfBeyondMedium,
-                    ColRulesStyles.colQuarterBeyondLarge
-                  )
-                )(
-                  <.ProposalTileWithTagsComponent(
-                    ^.wrapped := ProposalTileWithTagsProps(proposal = proposal, index = counter.getAndIncrement())
-                  )()
+              proposals.map(
+                proposal =>
+                  <.li(
+                    ^.className := Seq(
+                      ResultsInOperationStyles.item,
+                      ColRulesStyles.col,
+                      ColRulesStyles.colHalfBeyondMedium,
+                      ColRulesStyles.colQuarterBeyondLarge
+                    )
+                  )(
+                    <.ProposalTileWithTagsComponent(
+                      ^.wrapped := ProposalTileWithTagsProps(proposal = proposal, index = counter.getAndIncrement())
+                    )()
                 )
-            }),
+              )
+            } else { <.div.empty }),
             if (self.state.hasMore && !self.state.hasRequestedMore) {
               <.div(^.className := Seq(ResultsInOperationStyles.seeMoreButtonWrapper, LayoutRulesStyles.centeredRow))(
-                <.button(^.onClick := onSeeMore, ^.className := Seq(CTAStyles.basic, CTAStyles.basicOnButton))(
-                  unescape(I18n.t("operation.results.see-more"))
-                )
+                <.button(
+                  ^.onClick := (() => { onSeeMore(1) }),
+                  ^.className := Seq(CTAStyles.basic, CTAStyles.basicOnButton)
+                )(unescape(I18n.t("operation.results.see-more")))
               )
             }
           )
@@ -129,14 +146,10 @@ object ResultsInOperation {
           <.header(^.className := LayoutRulesStyles.centeredRow)(
             <.h2(^.className := TextStyles.mediumTitle)(unescape(I18n.t("operation.results.title")))
           ),
-          if (self.props.wrapped.preselectedTags.nonEmpty) {
-            <.nav(^.className := LayoutRulesStyles.centeredRow)(
-              <.FilterByTagsComponent(
-                ^.wrapped := FilterByTagsProps(self.props.wrapped.preselectedTags, onTagsChange)
-              )()
-            )
-          },
-          if (proposalsToDisplay.nonEmpty) {
+          <.nav(^.className := LayoutRulesStyles.centeredRow)(
+            <.FilterByTagsComponent(^.wrapped := FilterByTagsProps(self.props.wrapped.preselectedTags, onTagsChange))()
+          ),
+          if (self.state.initialLoad || proposalsToDisplay.nonEmpty) {
             proposals(proposalsToDisplay)
           } else {
             noResults
@@ -154,7 +167,7 @@ object ResultsInOperationStyles extends StyleSheet.Inline {
   val wrapper: StyleA =
     style(paddingTop(ThemeStyles.SpacingValue.medium.pxToEm()), paddingBottom(ThemeStyles.SpacingValue.medium.pxToEm()))
 
-  val itemsList: StyleA = style(display.flex, flexWrap.wrap)
+  val itemsList: StyleA = style(display.flex, flexWrap.wrap, width(100.%%))
 
   val item: StyleA =
     style(

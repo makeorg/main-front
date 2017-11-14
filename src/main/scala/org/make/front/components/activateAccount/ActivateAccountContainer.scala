@@ -45,8 +45,8 @@ object ActivateAccountContainer {
         UserService.validateAccount(userId, verificationToken, operationId).onComplete {
           case Success(_) => {
 
-            if (operationId.isDefined &&  operationId.get.value == Operation.vff) {
-              child.props.history.push("/consultation/comment-lutter-contre-les-violences-faites-aux-femmes")
+            if (operationId.isDefined && operationId.get.value == Operation.vff) {
+              child.props.history.push("/consultation/vff/selection")
             } else {
               child.props.history.push("/")
             }
@@ -55,7 +55,7 @@ object ActivateAccountContainer {
           }
           case Failure(e) => {
             if (operationId.isDefined && operationId.get.value == Operation.vff) {
-              child.props.history.push("/consultation/comment-lutter-contre-les-violences-faites-aux-femmes")
+              child.props.history.push("/consultation/vff/selection")
             } else {
               child.props.history.push("/")
             }

@@ -142,7 +142,7 @@ object ResultsInTheme {
 
         val proposalsToDisplay: Seq[Proposal] = self.state.listProposals
 
-        <.section(^.className := Seq(ResultsInThemeStyles.wrapper))(
+        <.section(^.className := ResultsInThemeStyles.wrapper)(
           <.header(^.className := LayoutRulesStyles.centeredRow)(
             <.h2(^.className := TextStyles.mediumTitle)(unescape(I18n.t("theme.results.title")))
           ),

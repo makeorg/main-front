@@ -49,7 +49,7 @@ object ThemeComponentStyles extends StyleSheet.Inline {
   val contentWrapper: StyleA =
     style(
       display.block,
-      paddingTop(ThemeStyles.SpacingValue.medium.pxToEm()),
+      ThemeStyles.MediaQueries.beyondSmall(paddingTop(ThemeStyles.SpacingValue.medium.pxToEm())),
       backgroundColor(ThemeStyles.BackgroundColor.blackVeryTransparent)
     )
 }

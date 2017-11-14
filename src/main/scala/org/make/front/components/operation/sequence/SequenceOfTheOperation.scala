@@ -19,7 +19,11 @@ import org.make.front.components.sequence.contents.PromptingToProposeSequence.Pr
 import org.make.front.components.sequence.contents._
 import org.make.front.facades.Unescape.unescape
 import org.make.front.facades.{FacebookPixel, I18n, Replacements}
-import org.make.front.models.{GradientColor => GradientColorModel, Operation => OperationModel, Sequence => SequenceModel}
+import org.make.front.models.{
+  GradientColor => GradientColorModel,
+  Operation     => OperationModel,
+  Sequence      => SequenceModel
+}
 import org.make.front.styles._
 import org.make.front.styles.base._
 import org.make.front.styles.ui.{CTAStyles, TooltipStyles}
@@ -100,7 +104,7 @@ object SequenceOfTheOperation {
                   )(
                     <.Link(
                       ^.className := SequenceOfTheOperationStyles.backLink,
-                      ^.to := s"/operation/${self.props.wrapped.operation.slug}"
+                      ^.to := s"/consultation/${self.props.wrapped.operation.slug}"
                     )(
                       <.i(
                         ^.className := Seq(SequenceOfTheOperationStyles.backLinkArrow, FontAwesomeStyles.angleLeft)
@@ -189,46 +193,33 @@ object SequenceOfTheOperation {
                 ^.wrapped := SequenceContainerProps(
                   sequence = self.props.wrapped.sequence,
                   progressBarColor = Some(gradientValues.from),
-                  extraSlides = Seq(
-                    ExtraSlide(
-                      reactClass = IntroductionOfTheSequence.reactClass,
-                      props = {
-                        (handler: () => Unit) => {IntroductionOfTheSequenceProps(clickOnButtonHandler = handler)}
-                      },
-                      position = _ =>  0
-                    ),
-                    ExtraSlide(
-                      reactClass = PromptingToConnect.reactClass,
-                      props = { handler =>
-                        PromptingToConnectProps(
-                          operation = self.props.wrapped.operation,
-                          clickOnButtonHandler = handler,
-                          authenticateHandler = handler
-                        )
-                      },
-                      position = { slides => slides.length }
-                    ),
-                    ExtraSlide(
-                      reactClass = PromptingToProposeSequence.reactClass,
-                      props = { handler =>
-                        PromptingToProposeProps(
-                          operation = self.props.wrapped.operation,
-                          clickOnButtonHandler = handler,
-                          proposeHandler = handler
-                        )
-                      },
-                      position = { slides => slides.length / 2 }
-                    ),
-                    ExtraSlide(
-                      reactClass = PromptingToContinueAfterTheSequence.reactClass,
-                      props = { handler =>
-                        PromptingToContinueAfterTheSequenceProps(
-                          operation = self.props.wrapped.operation,
-                          clickOnButtonHandler = handler)
-                      },
-                      position = { slides => slides.length }
+                  extraSlides = Seq(ExtraSlide(reactClass = IntroductionOfTheSequence.reactClass, props = {
+                    (handler: () => Unit) =>
+                      { IntroductionOfTheSequenceProps(clickOnButtonHandler = handler) }
+                  }, position = _ => 0), ExtraSlide(reactClass = PromptingToConnect.reactClass, props = { handler =>
+                    PromptingToConnectProps(
+                      operation = self.props.wrapped.operation,
+                      clickOnButtonHandler = handler,
+                      authenticateHandler = handler
                     )
-                  )
+                  }, position = { slides =>
+                    slides.length
+                  }), ExtraSlide(reactClass = PromptingToProposeSequence.reactClass, props = { handler =>
+                    PromptingToProposeProps(
+                      operation = self.props.wrapped.operation,
+                      clickOnButtonHandler = handler,
+                      proposeHandler = handler
+                    )
+                  }, position = { slides =>
+                    slides.length / 2
+                  }), ExtraSlide(reactClass = PromptingToContinueAfterTheSequence.reactClass, props = { handler =>
+                    PromptingToContinueAfterTheSequenceProps(
+                      operation = self.props.wrapped.operation,
+                      clickOnButtonHandler = handler
+                    )
+                  }, position = { slides =>
+                    slides.length
+                  }))
                 )
               )()
             )
