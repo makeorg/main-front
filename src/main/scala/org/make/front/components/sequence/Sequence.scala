@@ -11,7 +11,7 @@ import org.make.front.components.sequence.ProgressBar.ProgressBarProps
 import org.make.front.components.sequence.contents.ProposalInsideSequence.ProposalInsideSequenceProps
 import org.make.front.facades.FacebookPixel
 import org.make.front.facades.ReactSlick.{ReactTooltipVirtualDOMAttributes, ReactTooltipVirtualDOMElements, Slider}
-import org.make.front.models.{Proposal => ProposalModel, ProposalId => ProposalIdModel, Qualification => QualificationModel, Sequence => SequenceModel, Theme => ThemeModel, Vote => VoteModel}
+import org.make.front.models.{Proposal => ProposalModel, ProposalId => ProposalIdModel, Qualification => QualificationModel, Sequence => SequenceModel, Vote => VoteModel}
 import org.make.front.styles.ThemeStyles
 import org.make.front.styles.base.TableLayoutStyles
 import org.make.front.styles.utils._
@@ -19,8 +19,8 @@ import org.scalajs.dom.raw.HTMLElement
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
+import scala.scalajs.js
 import scala.util.{Failure, Success}
-
 object Sequence {
 
   final case class ExtraSlide(reactClass: ReactClass, props: (() => Unit) => Any, position: (Seq[Slide]) => Int)
@@ -80,6 +80,23 @@ object Sequence {
   lazy val reactClass: ReactClass = {
     var slider: Option[Slider] = None
 
+    def maxScrollableIndex(slides: List[Slide]): Int = {
+      slides match {
+        case Nil => 0
+        case head :: tail if head.isInstanceOf[ProposalSlide] => if(head.asInstanceOf[ProposalSlide].voted) {
+          1 + maxScrollableIndex(tail)
+        } else {
+          0
+        }
+        case head :: tail => if (head.optional) {
+          1 + maxScrollableIndex(tail)
+        } else {
+          0
+        }
+
+      }
+    }
+
     def next: () => Unit = { () =>
       slider.foreach(_.slickNext())
     }
@@ -91,10 +108,6 @@ object Sequence {
 
     def previous: () => Unit = { () =>
       slider.foreach(_.slickPrev())
-    }
-
-    def sortProposal(proposals: Seq[ProposalModel]): Seq[ProposalModel] = {
-      scala.util.Random.shuffle(proposals)
     }
 
     def onSuccessfulVote(proposalId: ProposalIdModel, self: Self[SequenceProps, SequenceState]): (VoteModel) => Unit = {
@@ -132,7 +145,7 @@ object Sequence {
     def onSuccessfulQualification(proposalId: ProposalIdModel,
                                   self: Self[SequenceProps, SequenceState]): (String, QualificationModel) => Unit = {
       (voteKey, qualificationModel) =>
-        def mapProposal(proposal: ProposalModel) = {
+        def mapProposal(proposal: ProposalModel): ProposalModel = {
           if (proposal.id == proposalId) {
             proposal.copy(votes = proposal.votes.map { vote =>
               if (vote.key == voteKey) {
@@ -181,41 +194,36 @@ object Sequence {
       slides
     }
 
-    def pushToProposalIndex(slides: Seq[Slide]): Int = {
-      slides.size / 2
-    }
-
     def onNewProps(self: Self[SequenceProps, SequenceState],
                    props: Props[SequenceProps],
                    slider: Option[Slider]): Unit = {
 
       props.wrapped.proposals().onComplete {
         case Success(proposals) =>
-          val votedProposals = proposals.filter(_.votes.exists(_.hasVoted))
-          val otherProposals = sortProposal(proposals.filter(_.votes.forall(!_.hasVoted)))
-          val allProposals = votedProposals ++ otherProposals
-          val slides: Seq[Slide] = createSlides(self, allProposals)
-          // toDo: Manage optional card adding to middle of slides
-          //val firstOptionalSlideIndex: Int = slides.indexWhere(_.optional)
+          val slides: Seq[Slide] = createSlides(self, proposals)
           val firstNonVotedSlideIndex: Int = slides.indexWhere { slide =>
             slide.isInstanceOf[ProposalSlide] && !slide.asInstanceOf[ProposalSlide].voted
           }
-          val hasVotedProposals: Boolean = votedProposals.nonEmpty
+          val hasVotedProposals: Boolean = proposals.headOption.exists(_.votes.exists(_.hasVoted))
           val lastSlideIndex: Int = slides.size - 1
           val indexToReach =
             if (!hasVotedProposals) 0
             else if (firstNonVotedSlideIndex == -1) lastSlideIndex
             else firstNonVotedSlideIndex
-          val showNextSlide: Boolean = slides(indexToReach).optional || (slides(indexToReach)
+          val currentSlideIsOptional: Boolean = slides(indexToReach).optional || (slides(indexToReach)
             .isInstanceOf[ProposalSlide] &&
             slides(indexToReach).asInstanceOf[ProposalSlide].voted)
 
-          val displayedSlidesCount: Int = if (showNextSlide) indexToReach + 2 else indexToReach + 1
+          val displayedSlidesCount: Int = if (currentSlideIsOptional) {
+            indexToReach + 2
+          } else {
+            indexToReach + 1
+          }
 
           self.setState(
             _.copy(
               slides = slides,
-              proposals = allProposals,
+              proposals = proposals,
               currentSlideIndex = indexToReach,
               displayedSlidesCount = displayedSlidesCount
             )
@@ -250,10 +258,21 @@ object Sequence {
         }
 
         def canScrollNext: Boolean = {
-          self.state.currentSlideIndex + 1 < self.state.displayedSlidesCount
+          val currentSlideIndex = self.state.currentSlideIndex
+          val slides = self.state.slides
+          if (currentSlideIndex + 1 < slides.length) {
+            slides(currentSlideIndex) match {
+              case slide if slide.isInstanceOf[ProposalSlide] => slide.asInstanceOf[ProposalSlide].voted
+              case slide                                      => slide.optional
+            }
+          } else {
+            false
+          }
+
         }
 
-        val visibleSlides = self.state.slides.take(self.state.displayedSlidesCount)
+        def maxIndex = maxScrollableIndex(self.state.slides.toList)
+        org.scalajs.dom.console.log("max index is", maxIndex)
 
         <.div(^.className := Seq(TableLayoutStyles.fullHeightWrapper, SequenceStyles.wrapper))(
           <.div(^.className := TableLayoutStyles.row)(
@@ -269,7 +288,7 @@ object Sequence {
               )
             )
           ),
-          if (visibleSlides.nonEmpty) {
+          if (self.state.slides.nonEmpty) {
             var counter: Int = -1
             <.div(^.className := TableLayoutStyles.fullHeightRow)(
               <.div(^.className := Seq(TableLayoutStyles.cell, SequenceStyles.slideshowInnerWrapper))(
@@ -282,14 +301,26 @@ object Sequence {
                         ^.disabled := self.state.currentSlideIndex == 0
                       )(),
                     <.Slider(
-                      ^.ref := ((slideshow: HTMLElement) => slider = Option(slideshow.asInstanceOf[Slider])),
+                      ^.ref := {(slideshow: HTMLElement) =>
+                        slider = Option(slideshow.asInstanceOf[Slider])
+                        slider.foreach { s =>
+                          val oldSlideHandler: js.Function1[Int, Unit] = s.innerSlider.slideHandler
+                          s.innerSlider.slideHandler = { index =>
+                            if(index > maxIndex) {
+                              oldSlideHandler(maxIndex)
+                            } else {
+                              oldSlideHandler(index)
+                            }
+                          }
+                        }
+                      },
                       ^.infinite := false,
                       ^.arrows := false,
                       ^.accessibility := true,
                       ^.swipe := true,
                       ^.afterChange := updateCurrentSlideIndex,
                       ^.initialSlide := self.state.currentSlideIndex
-                    )(visibleSlides.map { slide =>
+                    )(self.state.slides.map { slide =>
                       counter += 1
                       <.div(^.className := SequenceStyles.slideWrapper)(
                         <.article(^.className := SequenceStyles.slide)(
@@ -304,8 +335,11 @@ object Sequence {
                         )
                       )
                     }),
-                    if (canScrollNext) {
-                      <.button(^.className := SequenceStyles.showNextSlideButton, ^.onClick := next)()
+                    if(canScrollNext) {
+                      <.button(
+                        ^.className := SequenceStyles.showNextSlideButton,
+                        ^.onClick := next
+                      )()
                     }
                   )
                 )

@@ -37,7 +37,10 @@ object SequenceContainer {
             case e => dispatch(NotifyError(e.getMessage))
           }
 
-          proposalsResponse.map(_.results)
+          proposalsResponse.map(_.results).map { proposals =>
+            val (voted, notVoted) = proposals.span(_.votes.exists(_.hasVoted))
+            voted ++ notVoted
+          }
         }
 
         val shouldReload: Boolean = state.connectedUser.nonEmpty
