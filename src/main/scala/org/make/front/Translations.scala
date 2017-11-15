@@ -271,7 +271,7 @@ object Translations {
       |        },
       |        "article": {
       |          "title": "Pourquoi cette consultation&nbsp;?",
-      |          "content": "Chaque année, 216 000 femmes âgées de 18 à 75 ans sont victimes de violences physiques et/ou sexuelles de la part de leur ancien ou actuel partenaire intime (mari, concubin, pacsé, petit-ami…). Agissons&nbsp;!",
+      |          "content": "Les violences faites aux femmes sont au coeur de l’actualité politique et médiatique. Les mentalités sont en train de changer. Mais pour autant tout commence maintenant. À nous de transformer cette prise de conscience généralisée en actions concrètes et d’apporter une réponse décisive face à ce&nbsp;fléau.",
       |          "see-more": {
       |            "label": "En savoir +",
       |            "link": "https://stopvff.make.org/about-vff"

@@ -431,36 +431,82 @@ object vffDarkerLogo extends js.Object
 object vffIll extends js.Object
 
 @js.native
-@JSImport("./images/operations/vff/partners/kering-foundation.jpg", "default")
+@JSImport("./images/operations/vff/partners/kering-foundation.svg", "default")
 object keringFoundationLogo extends js.Object
 
 @js.native
-@JSImport("./images/operations/vff/partners/expedia.svg", "default")
-object expediaLogo extends js.Object
-
-@js.native
-@JSImport("./images/operations/vff/partners/l-oreal.svg", "default")
-object lOrealLogo extends js.Object
-
-@js.native
-@JSImport("./images/operations/vff/partners/axa.svg", "default")
-object axaLogo extends js.Object
-
-@js.native
-@JSImport("./images/operations/vff/partners/fondation-raja.jpg", "default")
-object fondationRajaLogo extends js.Object
+@JSImport("./images/operations/vff/partners/facebook.svg", "default")
+object facebookLogo extends js.Object
 
 @js.native
 @JSImport("./images/operations/vff/partners/ile-de-france.svg", "default")
 object ileDeFranceLogo extends js.Object
 
 @js.native
+@JSImport("./images/operations/vff/partners/face.svg", "default")
+object faceLogo extends js.Object
+@js.native
+@JSImport("./images/operations/vff/partners/l-obs.svg", "default")
+object lObsLogo extends js.Object
+@js.native
 @JSImport("./images/operations/vff/partners/elle.svg", "default")
 object elleLogo extends js.Object
 
 @js.native
-@JSImport("./images/operations/vff/partners/women-s-forum.svg", "default")
-object womenSForumLogo extends js.Object
+@JSImport("./images/operations/vff/partners/tf1.png", "default")
+object tf1Logo extends js.Object
+
+@js.native
+@JSImport("./images/operations/vff/partners/rtl-girls.svg", "default")
+object rtlGirlsLogo extends js.Object
+
+@js.native
+@JSImport("./images/operations/vff/partners/osez-le-feminisme.png", "default")
+object osezLeFeminismeLogo extends js.Object
+
+@js.native
+@JSImport("./images/operations/vff/partners/solidarite-femmes.png", "default")
+object solidariteFemmesLogo extends js.Object
+
+@js.native
+@JSImport("./images/operations/vff/partners/adn.png", "default")
+object adnLogo extends js.Object
+
+@js.native
+@JSImport("./images/operations/vff/partners/gams.svg", "default")
+object gamsLogo extends js.Object
+
+@js.native
+@JSImport("./images/operations/vff/partners/femmes-solidaires.png", "default")
+object femmesSolidairesLogo extends js.Object
+
+@js.native
+@JSImport("./images/operations/vff/partners/la-cimade.svg", "default")
+object laCimadeLogo extends js.Object
+
+@js.native
+@JSImport("./images/operations/vff/partners/femmes-de-la-terre.png", "default")
+object femmesDeLaTerreLogo extends js.Object
+
+@js.native
+@JSImport("./images/operations/vff/partners/ni-putes-ni-soumises.png", "default")
+object niPutesNiSoumisesLogo extends js.Object
+
+@js.native
+@JSImport("./images/operations/vff/partners/chiennes-de-garde.png", "default")
+object chiennesDeGardeLogo extends js.Object
+
+@js.native
+@JSImport("./images/operations/vff/partners/une-femme-un-toit.png", "default")
+object uneFemmeUnToitLogo extends js.Object
+
+@js.native
+@JSImport("./images/operations/vff/partners/irts.png", "default")
+object irtsLogo extends js.Object
+
+@js.native
+@JSImport("./images/operations/vff/partners/hands-away.png", "default")
+object handsAwayLogo extends js.Object
 
 @js.native
 @JSImport("./fonts/CircularStd-Book.woff2", "default")
