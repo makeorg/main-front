@@ -114,8 +114,8 @@ prepareAssets in ThisBuild := {
   val npmDirectory = (npmUpdate in Compile).value
   IO.copyDirectory(baseDirectory.value / "src" / "main" / "static", npmDirectory, overwrite = true)
   IO.copyDirectory(
-    baseDirectory.value / "src" / "main" / "static" / "intro",
-    npmDirectory / "dist" / "intro",
+    baseDirectory.value / "src" / "main" / "static" / "consultation",
+    npmDirectory / "dist" / "consultation",
     overwrite = true
   )
   streams.value.log.info("Copy assets to working directory")
