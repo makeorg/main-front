@@ -2,6 +2,8 @@ package org.make.front.components
 
 import org.make.front.facades._
 import org.make.front.models.{
+  Tag                   => TagModel,
+  TagId                 => TagIdModel,
   BusinessConfiguration => BusinessConfigurationModel,
   GradientColor         => GradientColorModel,
   Operation             => OperationModel,
@@ -26,7 +28,33 @@ final case class AppState(configuration: Option[BusinessConfigurationModel],
                               proposalsCount = 0,
                               color = "#660779",
                               gradient = Some(GradientColorModel("#AB92CA", "#54325A")),
-                              tags = Seq(),
+                              tags = Seq(
+                                TagModel(tagId = TagIdModel("signalement"), label = "signalement"),
+                                TagModel(tagId = TagIdModel("police-&-justice"), label = "police & justice"),
+                                TagModel(tagId = TagIdModel("monde-du-travail"), label = "monde du travail"),
+                                TagModel(tagId = TagIdModel("transports"), label = "transports"),
+                                TagModel(tagId = TagIdModel("action-publique"), label = "action publique"),
+                                TagModel(tagId = TagIdModel("hebergement"), label = "hébergement"),
+                                TagModel(
+                                  tagId = TagIdModel("education-&-sensibilisation"),
+                                  label = "éducation & sensibilisation"
+                                ),
+                                TagModel(tagId = TagIdModel("soutien-psychologique"), label = "soutien psychologique"),
+                                TagModel(
+                                  tagId = TagIdModel("independance-financiere"),
+                                  label = "indépendance financière"
+                                ),
+                                TagModel(tagId = TagIdModel("agissements-sexistes"), label = "agissements sexistes"),
+                                TagModel(tagId = TagIdModel("mutilations"), label = "mutilations"),
+                                TagModel(tagId = TagIdModel("violences-sexuelles"), label = "violences sexuelles"),
+                                TagModel(tagId = TagIdModel("harcelement"), label = "harcèlement"),
+                                TagModel(tagId = TagIdModel("traditions-nefastes"), label = "traditions néfastes"),
+                                TagModel(tagId = TagIdModel("image-de-la-femme"), label = "image de la femme"),
+                                TagModel(tagId = TagIdModel("violences-conjugales"), label = "violences conjugales"),
+                                TagModel(tagId = TagIdModel("prevention"), label = "prévention"),
+                                TagModel(tagId = TagIdModel("protection"), label = "protection"),
+                                TagModel(tagId = TagIdModel("reponses"), label = "réponses")
+                              ),
                               logoUrl = Some(vffLogo.toString),
                               darkerLogoUrl = Some(vffDarkerLogo.toString),
                               sequence = Some(

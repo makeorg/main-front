@@ -103,14 +103,14 @@ object Proposal {
                   <.SpinnerComponent.empty
                 }
               )
-            ),
+            ) /*,
             <.div(^.className := Seq(TableLayoutStyles.row))(
               <.div(^.className := Seq(TableLayoutStyles.cell, ProposalStyles.shareArticleCell))(
                 <.div(^.className := LayoutRulesStyles.centeredRow)(
                   <.ShareComponent(^.wrapped := ShareProps(intro = Some(unescape(I18n.t("proposal.share-intro")))))()
                 )
               )
-            )
+            )*/
           ),
           if (self.state.themeSlug.nonEmpty) {
             <.ThemeShowcaseContainerComponent(

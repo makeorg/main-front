@@ -237,7 +237,6 @@ object Translations {
       |         },
       |         "learn-more": {
       |           "intro": "En découvrant l'ensemble de&nbsp;l'opération",
-      |           "continuation": "et toutes les propositions faites par les&nbsp;citoyens&nbsp;:",
       |           "cta": "En savoir +"
       |         },
       |        "share": {
@@ -275,7 +274,7 @@ object Translations {
       |          "content": "Chaque année, 216 000 femmes âgées de 18 à 75 ans sont victimes de violences physiques et/ou sexuelles de la part de leur ancien ou actuel partenaire intime (mari, concubin, pacsé, petit-ami…). Agissons&nbsp;!",
       |          "see-more": {
       |            "label": "En savoir +",
-      |            "link": "/"
+      |            "link": "https://stopvff.make.org/about-vff"
       |          }
       |        }
       |      },

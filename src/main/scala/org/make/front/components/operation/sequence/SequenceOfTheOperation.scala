@@ -14,7 +14,7 @@ import org.make.front.components.sequence.Sequence.ExtraSlide
 import org.make.front.components.sequence.SequenceContainer.SequenceContainerProps
 import org.make.front.components.sequence.contents.IntroductionOfTheSequence.IntroductionOfTheSequenceProps
 import org.make.front.components.sequence.contents.PromptingToConnect.PromptingToConnectProps
-import org.make.front.components.sequence.contents.PromptingToContinueAfterTheSequence.PromptingToContinueAfterTheSequenceProps
+import org.make.front.components.sequence.contents.PromptingToGoBackToOperation.PromptingToGoBackToOperationProps
 import org.make.front.components.sequence.contents.PromptingToProposeSequence.PromptingToProposeProps
 import org.make.front.components.sequence.contents._
 import org.make.front.facades.Unescape.unescape
@@ -212,8 +212,8 @@ object SequenceOfTheOperation {
                     )
                   }, position = { slides =>
                     slides.length / 2
-                  }), ExtraSlide(reactClass = PromptingToContinueAfterTheSequence.reactClass, props = { handler =>
-                    PromptingToContinueAfterTheSequenceProps(
+                  }), ExtraSlide(reactClass = PromptingToGoBackToOperation.reactClass, props = { handler =>
+                    PromptingToGoBackToOperationProps(
                       operation = self.props.wrapped.operation,
                       clickOnButtonHandler = handler
                     )
