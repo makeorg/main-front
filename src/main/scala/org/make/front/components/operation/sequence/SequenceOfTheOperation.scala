@@ -37,24 +37,26 @@ import scala.util.{Failure, Success}
 
 object SequenceOfTheOperation {
 
-  final case class SequenceOfTheOperationProps(operation: OperationModel,
+  final case class SequenceOfTheOperationProps(maybeFirstProposalSlug: Option[String],
+                                               isConnected: Boolean,
+                                               operation: OperationModel,
                                                sequence: SequenceModel,
                                                numberOfProposals: Future[Int])
 
-  final case class SequenceOfTheOperationState(isProposalModalOpened: Boolean, numberOfroposals: Int)
+  final case class SequenceOfTheOperationState(isProposalModalOpened: Boolean, numberOfProposals: Int)
 
   lazy val reactClass: ReactClass =
     React.createClass[SequenceOfTheOperationProps, SequenceOfTheOperationState](
       displayName = "SequenceOfTheOperation",
       getInitialState = { _ =>
-        SequenceOfTheOperationState(isProposalModalOpened = false, numberOfroposals = 0)
+        SequenceOfTheOperationState(isProposalModalOpened = false, numberOfProposals = 0)
       },
       componentWillReceiveProps = {
         (self: Self[SequenceOfTheOperationProps, SequenceOfTheOperationState],
          props: Props[SequenceOfTheOperationProps]) =>
           props.wrapped.numberOfProposals.onComplete {
-            case Success(numberOfroposals) =>
-              self.setState(_.copy(numberOfroposals = numberOfroposals))
+            case Success(numberOfProposals) =>
+              self.setState(_.copy(numberOfProposals = numberOfProposals))
             case Failure(_) =>
           }
       },
@@ -134,7 +136,7 @@ object SequenceOfTheOperation {
                         I18n
                           .t(
                             "operation.sequence.header.total-of-proposals",
-                            Replacements(("total", self.state.numberOfroposals.toString))
+                            Replacements(("total", self.state.numberOfProposals.toString))
                           )
                       )
                     )
@@ -193,6 +195,7 @@ object SequenceOfTheOperation {
                 ^.wrapped := SequenceContainerProps(
                   sequence = self.props.wrapped.sequence,
                   progressBarColor = Some(gradientValues.from),
+                  maybeFirstProposalSlug = self.props.wrapped.maybeFirstProposalSlug,
                   extraSlides = Seq(ExtraSlide(reactClass = IntroductionOfTheSequence.reactClass, props = {
                     (handler: () => Unit) =>
                       { IntroductionOfTheSequenceProps(clickOnButtonHandler = handler) }
@@ -204,12 +207,13 @@ object SequenceOfTheOperation {
                     )
                   }, position = { slides =>
                     slides.length
-                  }), ExtraSlide(reactClass = PromptingToProposeSequence.reactClass, props = { handler =>
-                    PromptingToProposeProps(
-                      operation = self.props.wrapped.operation,
-                      clickOnButtonHandler = handler,
-                      proposeHandler = handler
-                    )
+                  }, displayed = !self.props.wrapped.isConnected), ExtraSlide(reactClass = PromptingToProposeSequence.reactClass, props = {
+                    handler =>
+                      PromptingToProposeProps(
+                        operation = self.props.wrapped.operation,
+                        clickOnButtonHandler = handler,
+                        proposeHandler = handler
+                      )
                   }, position = { slides =>
                     slides.length / 2
                   }), ExtraSlide(reactClass = PromptingToGoBackToOperation.reactClass, props = { handler =>

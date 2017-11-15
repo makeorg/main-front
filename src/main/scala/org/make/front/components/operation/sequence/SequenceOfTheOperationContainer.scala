@@ -26,34 +26,28 @@ object SequenceOfTheOperationContainer {
     (dispatch: Dispatch) => { (state: AppState, props: Props[Unit]) =>
       {
         val operationSlug = props.`match`.params("operationSlug")
-        val operationsList: Seq[OperationModel] = state.operations.filter(_.slug == operationSlug)
+        val search = org.scalajs.dom.window.location.search
+        val firstProposalSlug = (if (search.startsWith("?")) { search.substring(1) } else { search })
+          .split("&")
+          .map(_.split("="))
+          .find {
+            case Array("firstProposal", _) => true
+            case _                         => false
+          }
+          .flatMap {
+            case Array(_, value) => Some(value)
+            case _               => None
+          }
 
-        def emptyProps: SequenceOfTheOperation.SequenceOfTheOperationProps = {
-          SequenceOfTheOperation.SequenceOfTheOperationProps(
-            OperationModel(OperationIdModel("fake"), "", "", "", "", 0, 0, "", None),
-            SequenceModel(SequenceIdModel("fake"), "", ""),
-            Future.successful(0)
-          )
-        }
+        val maybeOperation: Option[OperationModel] = state.operations.find(_.slug == operationSlug)
 
-        if (operationsList.isEmpty) {
-          props.history.push("/")
-          emptyProps
-        } else {
-
-          val operation: OperationModel = operationsList.head
-
-          if (operation.sequence.isEmpty) {
-            props.history.push("/")
-            emptyProps
-          } else {
-            val sequence: SequenceModel = operation.sequence.getOrElse(SequenceModel(SequenceIdModel("fake"), "", ""))
-
+        maybeOperation.flatMap { operation =>
+          operation.sequence.map { sequence =>
             val numberOfProposals: Future[Int] = {
 
               val proposalsResponse =
                 ProposalService.searchProposals(
-                  context = Some(ContextRequest(operation = Some(operationsList.head.label))),
+                  context = Some(ContextRequest(operation = Some(maybeOperation.head.label))),
                   limit = Some(20)
                 )
 
@@ -67,11 +61,22 @@ object SequenceOfTheOperationContainer {
             dispatch(LoadConfiguration)
 
             SequenceOfTheOperation.SequenceOfTheOperationProps(
+              maybeFirstProposalSlug = firstProposalSlug,
+              isConnected = state.connectedUser.isDefined,
               operation = operation,
               sequence = sequence,
               numberOfProposals = numberOfProposals
             )
           }
+        }.getOrElse {
+          props.history.push("/")
+          SequenceOfTheOperation.SequenceOfTheOperationProps(
+            maybeFirstProposalSlug = None,
+            isConnected = false,
+            OperationModel(OperationIdModel("fake"), "", "", "", "", 0, 0, "", None),
+            SequenceModel(SequenceIdModel("fake"), "", ""),
+            Future.successful(0)
+          )
         }
       }
     }
