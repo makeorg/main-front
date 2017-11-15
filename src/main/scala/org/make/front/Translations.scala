@@ -2,8 +2,8 @@ package org.make.front
 
 import org.make.front.facades.I18n.setTranslations
 
-import scala.scalajs.js.JSON
 import scala.scalajs.js
+import scala.scalajs.js.JSON
 
 object Translations {
 
@@ -62,6 +62,15 @@ object Translations {
       |        "intro": "départagez-les&nbsp;!",
       |        "title": "Les propositions les + débattues sur"
       |      }
+      |    },
+      |    "vffhome": {
+      |     "intro": {
+      |       "baseline": "Grande cause make.org",
+      |       "title" : "Stop aux violences faites aux femmes",
+      |       "subtitle" : "Make.org a decidé de lancer sa première Grande Cause en la consacrant à la lutte contre les Violences faites aux femmes.",
+      |       "see-more": "participer",
+      |       "see-more-link": "https://about.make.org/qui-sommes-nous"
+      |     }
       |    },
       |    "theme-showcase": {
       |        "see-all": "Voir toutes les propositions du thème %{themeName}"

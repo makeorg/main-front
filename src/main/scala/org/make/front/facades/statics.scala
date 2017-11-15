@@ -463,6 +463,30 @@ object elleLogo extends js.Object
 object womenSForumLogo extends js.Object
 
 @js.native
+@JSImport("./images/operations/vff/vff-home-400x500.jpg", "default")
+object vffhomeSmall extends js.Object
+
+@js.native
+@JSImport("./images/operations/vff/vff-home-400x500@2x.jpg", "default")
+object vffhomeSmall2x extends js.Object
+
+@js.native
+@JSImport("./images/operations/vff/vff-home-840x500.jpg", "default")
+object vffhomeMedium extends js.Object
+
+@js.native
+@JSImport("./images/operations/vff/vff-home-840x500@2x.jpg", "default")
+object vffhomeMedium2x extends js.Object
+
+@js.native
+@JSImport("./images/operations/vff/vff-home-1350x500.jpg", "default")
+object vffhome extends js.Object
+
+@js.native
+@JSImport("./images/operations/vff/vff-home-1350x500@2x.jpg", "default")
+object vffhome2x extends js.Object
+
+@js.native
 @JSImport("./fonts/CircularStd-Book.woff2", "default")
 object circularStdBookWoff2 extends js.Object
 
