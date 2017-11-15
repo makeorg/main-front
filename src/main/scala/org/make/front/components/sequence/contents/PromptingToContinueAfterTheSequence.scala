@@ -91,7 +91,7 @@ object PromptingToContinueAfterTheSequence {
                               TextStyles.biggerMediumText,
                               TextStyles.boldText
                             )
-                          )(self.props.wrapped.operation.sequence.map(_.title).getOrElse(""))
+                          )(unescape(self.props.wrapped.operation.sequence.map(_.title).getOrElse("")))
                         ),
                         <.div(^.className := PromptingToContinueAfterTheSequenceStyles.ctaWrapper)(
                           <.button(
