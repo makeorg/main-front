@@ -1,6 +1,7 @@
 package org.make.client
 
 import io.github.shogowada.statictags.MediaTypes
+import org.scalajs.dom
 import org.make.core.URI._
 import org.make.front.facades.Configuration
 import org.make.front.models.{Token, TokenResponse}
@@ -18,11 +19,11 @@ object MakeApiClient extends Client {
   var customHeaders: Map[String, String] = Map.empty
   def defaultHeaders: Map[String, String] = {
     Map(
-      //TODO: X-Forwarded-For Header is set for dev only. Remove in prod.
-      "X-Forwarded-For" -> "0.0.0.0",
       "Accept" -> MediaTypes.`application/json`,
-      "Content-Type" -> "application/json;charset=UTF-8"
+      "Content-Type" -> "application/json;charset=UTF-8",
+      "x-hostname" -> dom.window.location.hostname
     ) ++
+      Map("x-get-parameters" -> dom.window.location.search.drop(1)).filter { case (_, value) => value.nonEmpty } ++
       customHeaders ++
       MakeApiClient.getToken.map { token =>
         Map("Authorization" -> s"${token.token_type} ${token.access_token}")
