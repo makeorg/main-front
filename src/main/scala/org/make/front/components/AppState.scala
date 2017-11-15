@@ -30,13 +30,13 @@ final case class AppState(configuration: Option[BusinessConfigurationModel],
                               gradient = Some(GradientColorModel("#AB92CA", "#54325A")),
                               tags = Seq(
                                 TagModel(tagId = TagIdModel("signalement"), label = "signalement"),
-                                TagModel(tagId = TagIdModel("police-&-justice"), label = "police & justice"),
+                                TagModel(tagId = TagIdModel("police-justice"), label = "police & justice"),
                                 TagModel(tagId = TagIdModel("monde-du-travail"), label = "monde du travail"),
                                 TagModel(tagId = TagIdModel("transports"), label = "transports"),
                                 TagModel(tagId = TagIdModel("action-publique"), label = "action publique"),
                                 TagModel(tagId = TagIdModel("hebergement"), label = "hébergement"),
                                 TagModel(
-                                  tagId = TagIdModel("education-&-sensibilisation"),
+                                  tagId = TagIdModel("education-sensibilisation"),
                                   label = "éducation & sensibilisation"
                                 ),
                                 TagModel(tagId = TagIdModel("soutien-psychologique"), label = "soutien psychologique"),
