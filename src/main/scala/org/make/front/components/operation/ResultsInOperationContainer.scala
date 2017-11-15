@@ -10,7 +10,7 @@ import org.make.front.components.operation.ResultsInOperation.ResultsInOperation
 import org.make.front.facades.I18n
 import org.make.front.models.{Proposal, Operation => OperationModel, OperationId => OperationIdModel, Tag => TagModel}
 import org.make.services.proposal.ProposalService.defaultResultsCount
-import org.make.services.proposal.{ProposalService, SearchResult}
+import org.make.services.proposal.{ContextRequest, ProposalService, SearchResult}
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
@@ -36,7 +36,8 @@ object ResultsInOperationContainer {
             content = None,
             sort = Seq.empty,
             limit = Some(defaultResultsCount),
-            skip = Some(skip)
+            skip = Some(skip),
+            context = Some(ContextRequest(operation = Some("vff")))
           )
         proposals
       }

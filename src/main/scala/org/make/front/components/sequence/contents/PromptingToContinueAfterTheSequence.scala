@@ -91,7 +91,7 @@ object PromptingToContinueAfterTheSequence {
                               TextStyles.biggerMediumText,
                               TextStyles.boldText
                             )
-                          )(unescape("Comment lutter contre les violences faites aux&nbsp;femmes&nbsp;?"))
+                          )(unescape(self.props.wrapped.operation.sequence.map(_.title).getOrElse("")))
                         ),
                         <.div(^.className := PromptingToContinueAfterTheSequenceStyles.ctaWrapper)(
                           <.button(
@@ -133,12 +133,6 @@ object PromptingToContinueAfterTheSequence {
                             ^.alt := self.props.wrapped.operation.title
                           )()
                         ),
-                        <.p(
-                          ^.className := Seq(
-                            PromptingToContinueAfterTheSequenceStyles.learnMoreAccessIntro,
-                            TextStyles.mediumText
-                          )
-                        )(unescape(I18n.t("sequence.prompting-to-continue.learn-more.continuation"))),
                         <.p(^.className := PromptingToContinueAfterTheSequenceStyles.ctaWrapper)(
                           <.Link(
                             ^.to := s"/consultation/${self.props.wrapped.operation.slug}",

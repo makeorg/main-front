@@ -147,7 +147,7 @@ object ResultsInOperation {
             <.h2(^.className := TextStyles.mediumTitle)(unescape(I18n.t("operation.results.title")))
           ),
           <.nav(^.className := LayoutRulesStyles.centeredRow)(
-            <.FilterByTagsComponent(^.wrapped := FilterByTagsProps(self.props.wrapped.preselectedTags, onTagsChange))()
+            <.FilterByTagsComponent(^.wrapped := FilterByTagsProps(self.props.wrapped.operation.tags, onTagsChange))()
           ),
           if (self.state.initialLoad || proposalsToDisplay.nonEmpty) {
             proposals(proposalsToDisplay)
