@@ -9,9 +9,15 @@ import org.make.front.Main.CssSettings._
 import org.make.front.components.Components._
 import org.make.front.components.sequence.ProgressBar.ProgressBarProps
 import org.make.front.components.sequence.contents.ProposalInsideSequence.ProposalInsideSequenceProps
-import org.make.front.facades.FacebookPixel
+import org.make.front.facades.{FacebookPixel, I18n}
 import org.make.front.facades.ReactSlick.{ReactTooltipVirtualDOMAttributes, ReactTooltipVirtualDOMElements, Slider}
-import org.make.front.models.{Proposal => ProposalModel, ProposalId => ProposalIdModel, Qualification => QualificationModel, Sequence => SequenceModel, Vote => VoteModel}
+import org.make.front.models.{
+  Proposal      => ProposalModel,
+  ProposalId    => ProposalIdModel,
+  Qualification => QualificationModel,
+  Sequence      => SequenceModel,
+  Vote          => VoteModel
+}
 import org.make.front.styles.ThemeStyles
 import org.make.front.styles.base.TableLayoutStyles
 import org.make.front.styles.utils._
@@ -83,16 +89,18 @@ object Sequence {
     def maxScrollableIndex(slides: List[Slide]): Int = {
       slides match {
         case Nil => 0
-        case head :: tail if head.isInstanceOf[ProposalSlide] => if(head.asInstanceOf[ProposalSlide].voted) {
-          1 + maxScrollableIndex(tail)
-        } else {
-          0
-        }
-        case head :: tail => if (head.optional) {
-          1 + maxScrollableIndex(tail)
-        } else {
-          0
-        }
+        case head :: tail if head.isInstanceOf[ProposalSlide] =>
+          if (head.asInstanceOf[ProposalSlide].voted) {
+            1 + maxScrollableIndex(tail)
+          } else {
+            0
+          }
+        case head :: tail =>
+          if (head.optional) {
+            1 + maxScrollableIndex(tail)
+          } else {
+            0
+          }
 
       }
     }
@@ -300,46 +308,37 @@ object Sequence {
                         ^.onClick := previous,
                         ^.disabled := self.state.currentSlideIndex == 0
                       )(),
-                    <.Slider(
-                      ^.ref := {(slideshow: HTMLElement) =>
-                        slider = Option(slideshow.asInstanceOf[Slider])
-                        slider.foreach { s =>
-                          val oldSlideHandler: js.Function1[Int, Unit] = s.innerSlider.slideHandler
-                          s.innerSlider.slideHandler = { index =>
-                            if(index > maxIndex) {
-                              oldSlideHandler(maxIndex)
-                            } else {
-                              oldSlideHandler(index)
-                            }
+                    <.Slider(^.ref := { (slideshow: HTMLElement) =>
+                      slider = Option(slideshow.asInstanceOf[Slider])
+                      slider.foreach { s =>
+                        val oldSlideHandler: js.Function1[Int, Unit] = s.innerSlider.slideHandler
+                        s.innerSlider.slideHandler = { index =>
+                          if (index > maxIndex) {
+                            oldSlideHandler(maxIndex)
+                          } else {
+                            oldSlideHandler(index)
                           }
                         }
-                      },
-                      ^.infinite := false,
-                      ^.arrows := false,
-                      ^.accessibility := true,
-                      ^.swipe := true,
-                      ^.afterChange := updateCurrentSlideIndex,
-                      ^.initialSlide := self.state.currentSlideIndex
-                    )(self.state.slides.map { slide =>
-                      counter += 1
-                      <.div(^.className := SequenceStyles.slideWrapper)(
-                        <.article(^.className := SequenceStyles.slide)(
-                          <.div(^.className := TableLayoutStyles.fullHeightWrapper)(
-                            <.div(
-                              ^.className := Seq(
-                                TableLayoutStyles.cellVerticalAlignMiddle,
-                                SequenceStyles.slideInnerSubWrapper
-                              )
-                            )(slide.component(counter))
+                      }
+                    }, ^.infinite := false, ^.arrows := false, ^.accessibility := true, ^.swipe := true, ^.afterChange := updateCurrentSlideIndex, ^.initialSlide := self.state.currentSlideIndex)(
+                      self.state.slides.map { slide =>
+                        counter += 1
+                        <.div(^.className := SequenceStyles.slideWrapper)(
+                          <.article(^.className := SequenceStyles.slide)(
+                            <.div(^.className := TableLayoutStyles.fullHeightWrapper)(
+                              <.div(
+                                ^.className := Seq(
+                                  TableLayoutStyles.cellVerticalAlignMiddle,
+                                  SequenceStyles.slideInnerSubWrapper
+                                )
+                              )(slide.component(counter))
+                            )
                           )
                         )
-                      )
-                    }),
-                    if(canScrollNext) {
-                      <.button(
-                        ^.className := SequenceStyles.showNextSlideButton,
-                        ^.onClick := next
-                      )()
+                      }
+                    ),
+                    if (canScrollNext) {
+                      <.button(^.className := SequenceStyles.showNextSlideButton, ^.onClick := next)()
                     }
                   )
                 )

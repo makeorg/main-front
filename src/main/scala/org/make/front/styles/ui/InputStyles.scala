@@ -111,7 +111,7 @@ object InputStyles extends StyleSheet.Inline {
     style(
       color(ThemeStyles.TextColor.danger),
       borderColor(ThemeStyles.BorderColor.danger),
-      backgroundColor :=! s"${ThemeStyles.BackgroundColor.danger.value}!important"
+      backgroundColor(ThemeStyles.BackgroundColor.danger).important
     )
 
   val errorMessage: StyleA =

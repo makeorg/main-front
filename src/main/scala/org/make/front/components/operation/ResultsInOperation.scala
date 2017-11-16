@@ -146,7 +146,7 @@ object ResultsInOperation {
           <.header(^.className := LayoutRulesStyles.centeredRow)(
             <.h2(^.className := TextStyles.mediumTitle)(unescape(I18n.t("operation.results.title")))
           ),
-          <.nav(^.className := LayoutRulesStyles.centeredRow)(
+          <.div(^.className := Seq(ResultsInOperationStyles.tagsNavWrapper, LayoutRulesStyles.centeredRow))(
             <.FilterByTagsComponent(^.wrapped := FilterByTagsProps(self.props.wrapped.operation.tags, onTagsChange))()
           ),
           if (self.state.initialLoad || proposalsToDisplay.nonEmpty) {
@@ -170,6 +170,9 @@ object ResultsInOperationStyles extends StyleSheet.Inline {
       ThemeStyles.MediaQueries.beyondSmall(paddingTop(ThemeStyles.SpacingValue.large.pxToEm())),
       paddingBottom(ThemeStyles.SpacingValue.medium.pxToEm())
     )
+
+  val tagsNavWrapper: StyleA =
+    style(marginTop(ThemeStyles.SpacingValue.smaller.pxToEm()), marginBottom(ThemeStyles.SpacingValue.small.pxToEm()))
 
   val itemsList: StyleA = style(display.flex, flexWrap.wrap, width(100.%%))
 
