@@ -159,11 +159,11 @@ object Components {
 
     /*********************/
     def HomeComponent: ReactClassElementSpec = self(home.Home.reactClass)
-    def IntroComponent: ReactClassElementSpec = self(home.Intro.reactClass)
+    def WelcomeComponent: ReactClassElementSpec = self(home.Welcome.reactClass)
     def ExplanationsComponent: ReactClassElementSpec = self(home.Explanations.reactClass)
 
     /*********************/
-    def IntroVffComponent: ReactClassElementSpec = self(home.IntroVff.reactClass)
+    def WelcomeVFFComponent: ReactClassElementSpec = self(home.WelcomeVFF.reactClass)
 
   }
 

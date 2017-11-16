@@ -464,27 +464,27 @@ object womenSForumLogo extends js.Object
 
 @js.native
 @JSImport("./images/operations/vff/vff-home-400x500.jpg", "default")
-object vffhomeSmall extends js.Object
+object vffHomeSmall extends js.Object
 
 @js.native
 @JSImport("./images/operations/vff/vff-home-400x500@2x.jpg", "default")
-object vffhomeSmall2x extends js.Object
+object vffHomeSmall2x extends js.Object
 
 @js.native
 @JSImport("./images/operations/vff/vff-home-840x500.jpg", "default")
-object vffhomeMedium extends js.Object
+object vffHomeMedium extends js.Object
 
 @js.native
 @JSImport("./images/operations/vff/vff-home-840x500@2x.jpg", "default")
-object vffhomeMedium2x extends js.Object
+object vffHomeMedium2x extends js.Object
 
 @js.native
 @JSImport("./images/operations/vff/vff-home-1350x500.jpg", "default")
-object vffhome extends js.Object
+object vffHome extends js.Object
 
 @js.native
 @JSImport("./images/operations/vff/vff-home-1350x500@2x.jpg", "default")
-object vffhome2x extends js.Object
+object vffHome2x extends js.Object
 
 @js.native
 @JSImport("./fonts/CircularStd-Book.woff2", "default")

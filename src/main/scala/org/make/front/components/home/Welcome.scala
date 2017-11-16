@@ -12,45 +12,45 @@ import org.make.front.styles.base.{ColRulesStyles, LayoutRulesStyles, TableLayou
 import org.make.front.styles.ui.CTAStyles
 import org.make.front.styles.utils._
 
-object IntroVff {
+object Welcome {
 
   lazy val reactClass: ReactClass = React.createClass[Unit, Unit](
-    displayName = "IntroVff",
+    displayName = "Welcome",
     render = (_) =>
-      <.section(^.className := Seq(TableLayoutStyles.wrapper, VffIntroStyles.wrapper))(
-        <.div(^.className := Seq(TableLayoutStyles.cellVerticalAlignMiddle, VffIntroStyles.innerWrapper))(
+      <.section(^.className := Seq(TableLayoutStyles.wrapper, WelcomeStyles.wrapper))(
+        <.div(^.className := Seq(TableLayoutStyles.cellVerticalAlignMiddle, WelcomeStyles.innerWrapper))(
           <.img(
-            ^.className := VffIntroStyles.illustration,
-            ^.src := vffhome.toString,
-            ^("srcset") := vffhomeSmall.toString + " 400w, " + vffhomeSmall2x.toString + " 800w, " + vffhomeMedium.toString + " 840w, " + vffhomeMedium2x.toString + " 1680w, " + vffhome.toString + " 1350w, " + vffhome2x.toString + " 2700w",
+            ^.className := WelcomeStyles.illustration,
+            ^.src := home.toString,
+            ^("srcset") := homeSmall.toString + " 400w, " + homeSmall2x.toString + " 800w, " + homeMedium.toString + " 840w, " + homeMedium2x.toString + " 1680w, " + home.toString + " 1350w, " + home2x.toString + " 2700w",
             ^.alt := "Make.org",
             ^("data-pin-no-hover") := "true"
           )(),
-          <.div(^.className := Seq(VffIntroStyles.innerSubWrapper, LayoutRulesStyles.centeredRow))(
-            <.div(^.className := VffIntroStyles.labelWrapper)(
-              <.p(^.className := TextStyles.label)(unescape(I18n.t("vffhome.intro.baseline")))
+          <.div(^.className := Seq(WelcomeStyles.innerSubWrapper, LayoutRulesStyles.centeredRow))(
+            <.div(^.className := WelcomeStyles.labelWrapper)(
+              <.p(^.className := TextStyles.label)(unescape(I18n.t("home.intro.baseline")))
             ),
-            <.h2(^.className := Seq(VffIntroStyles.title, TextStyles.veryBigText, TextStyles.boldText))(
-              unescape(I18n.t("vffhome.intro.title"))
+            <.h2(^.className := Seq(WelcomeStyles.title, TextStyles.veryBigText, TextStyles.boldText))(
+              unescape(I18n.t("home.intro.title"))
             ),
-            <.h3(^.className := Seq(TextStyles.mediumText, VffIntroStyles.subTitle))(
-              unescape(I18n.t("vffhome.intro.subtitle"))
+            <.h3(^.className := Seq(TextStyles.mediumText, WelcomeStyles.subTitle))(
+              unescape(I18n.t("home.intro.subtitle"))
             ),
-            <.p(^.className := VffIntroStyles.ctaWrapper)(
+            <.p(^.className := WelcomeStyles.ctaWrapper)(
               <.a(
-                ^.href := I18n.t("vffhome.intro.see-more-link"),
+                ^.href := I18n.t("home.intro.see-more-link"),
                 ^.target := "_blank",
                 ^.className := Seq(CTAStyles.basic, CTAStyles.basicOnA)
-              )(unescape(I18n.t("vffhome.intro.see-more")))
+              )(unescape(I18n.t("home.intro.see-more")))
             ),
-            <.style()(VffIntroStyles.render[String])
+            <.style()(WelcomeStyles.render[String])
           )
         )
     )
   )
 }
 
-object VffIntroStyles extends StyleSheet.Inline {
+object WelcomeStyles extends StyleSheet.Inline {
 
   import dsl._
 
@@ -58,7 +58,7 @@ object VffIntroStyles extends StyleSheet.Inline {
     style(position.relative, height(440.pxToEm()), backgroundColor(ThemeStyles.BackgroundColor.black))
 
   val innerWrapper: StyleA =
-    style(position.relative, padding(112.pxToEm(), `0`, `0`, `0`), textAlign.center, overflow.hidden)
+    style(position.relative, padding(ThemeStyles.SpacingValue.larger.pxToEm(), `0`), textAlign.center, overflow.hidden)
 
   val illustration: StyleA =
     style(
@@ -71,8 +71,8 @@ object VffIntroStyles extends StyleSheet.Inline {
       width.auto,
       maxWidth.none,
       minWidth(100.%%),
-      transform := s"translate(-50%, -22%)",
-      opacity(0.7)
+      transform := s"translate(-50%, 0%)",
+      opacity(0.5)
     )
 
   val innerSubWrapper: StyleA =

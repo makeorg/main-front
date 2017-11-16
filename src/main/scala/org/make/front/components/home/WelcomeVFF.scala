@@ -12,45 +12,45 @@ import org.make.front.styles.base.{ColRulesStyles, LayoutRulesStyles, TableLayou
 import org.make.front.styles.ui.CTAStyles
 import org.make.front.styles.utils._
 
-object Intro {
+object WelcomeVFF {
 
   lazy val reactClass: ReactClass = React.createClass[Unit, Unit](
-    displayName = "Intro",
+    displayName = "WelcomeVFF",
     render = (_) =>
-      <.section(^.className := Seq(TableLayoutStyles.wrapper, IntroStyles.wrapper))(
-        <.div(^.className := Seq(TableLayoutStyles.cellVerticalAlignMiddle, IntroStyles.innerWrapper))(
+      <.section(^.className := Seq(TableLayoutStyles.wrapper, WelcomeVFFStyles.wrapper))(
+        <.div(^.className := Seq(TableLayoutStyles.cellVerticalAlignMiddle, WelcomeVFFStyles.innerWrapper))(
           <.img(
-            ^.className := IntroStyles.illustration,
-            ^.src := home.toString,
-            ^("srcset") := homeSmall.toString + " 400w, " + homeSmall2x.toString + " 800w, " + homeMedium.toString + " 840w, " + homeMedium2x.toString + " 1680w, " + home.toString + " 1350w, " + home2x.toString + " 2700w",
+            ^.className := WelcomeVFFStyles.illustration,
+            ^.src := vffHome.toString,
+            ^("srcset") := vffHomeSmall.toString + " 400w, " + vffHomeSmall2x.toString + " 800w, " + vffHomeMedium.toString + " 840w, " + vffHomeMedium2x.toString + " 1680w, " + vffHome.toString + " 1350w, " + vffHome2x.toString + " 2700w",
             ^.alt := "Make.org",
             ^("data-pin-no-hover") := "true"
           )(),
-          <.div(^.className := Seq(IntroStyles.innerSubWrapper, LayoutRulesStyles.centeredRow))(
-            <.div(^.className := IntroStyles.labelWrapper)(
-              <.p(^.className := TextStyles.label)(unescape(I18n.t("home.intro.baseline")))
+          <.div(^.className := Seq(WelcomeVFFStyles.innerSubWrapper, LayoutRulesStyles.centeredRow))(
+            <.div(^.className := WelcomeVFFStyles.labelWrapper)(
+              <.p(^.className := TextStyles.label)(unescape(I18n.t("vffhome.intro.baseline")))
             ),
-            <.h2(^.className := Seq(IntroStyles.title, TextStyles.veryBigText, TextStyles.boldText))(
-              unescape(I18n.t("home.intro.title"))
+            <.h2(^.className := Seq(WelcomeVFFStyles.title, TextStyles.veryBigText, TextStyles.boldText))(
+              unescape(I18n.t("vffhome.intro.title"))
             ),
-            <.h3(^.className := Seq(TextStyles.mediumText, IntroStyles.subTitle))(
-              unescape(I18n.t("home.intro.subtitle"))
+            <.h3(^.className := Seq(TextStyles.mediumText, WelcomeVFFStyles.subTitle))(
+              unescape(I18n.t("vffhome.intro.subtitle"))
             ),
-            <.p(^.className := IntroStyles.ctaWrapper)(
+            <.p(^.className := WelcomeVFFStyles.ctaWrapper)(
               <.a(
-                ^.href := I18n.t("home.intro.see-more-link"),
+                ^.href := I18n.t("vffhome.intro.see-more-link"),
                 ^.target := "_blank",
                 ^.className := Seq(CTAStyles.basic, CTAStyles.basicOnA)
-              )(unescape(I18n.t("home.intro.see-more")))
+              )(unescape(I18n.t("vffhome.intro.see-more")))
             ),
-            <.style()(IntroStyles.render[String])
+            <.style()(WelcomeVFFStyles.render[String])
           )
         )
     )
   )
 }
 
-object IntroStyles extends StyleSheet.Inline {
+object WelcomeVFFStyles extends StyleSheet.Inline {
 
   import dsl._
 
@@ -63,7 +63,7 @@ object IntroStyles extends StyleSheet.Inline {
   val illustration: StyleA =
     style(
       position.absolute,
-      top(`0`),
+      top(50.%%),
       left(50.%%),
       height.auto,
       maxHeight.none,
@@ -71,8 +71,8 @@ object IntroStyles extends StyleSheet.Inline {
       width.auto,
       maxWidth.none,
       minWidth(100.%%),
-      transform := s"translate(-50%, 0%)",
-      opacity(0.5)
+      transform := s"translate(-50%, -50%)",
+      opacity(0.7)
     )
 
   val innerSubWrapper: StyleA =

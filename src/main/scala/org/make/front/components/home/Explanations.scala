@@ -71,7 +71,7 @@ object Explanations {
             <.p(^.className := Seq(ExplanationsStyles.paragraph, TextStyles.mediumText))(
               unescape(I18n.t("home.explanations.article-2.text"))
             ),
-            <.p(^.className := IntroStyles.ctaWrapper)(
+            <.p(^.className := WelcomeStyles.ctaWrapper)(
               <.a(
                 ^.href := I18n.t("home.explanations.article-2.see-more-link"),
                 ^.target := "_blank",
