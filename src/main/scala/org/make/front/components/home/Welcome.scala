@@ -21,27 +21,27 @@ object Welcome {
         <.div(^.className := Seq(TableLayoutStyles.cellVerticalAlignMiddle, WelcomeStyles.innerWrapper))(
           <.img(
             ^.className := WelcomeStyles.illustration,
-            ^.src := home.toString,
-            ^("srcset") := homeSmall.toString + " 400w, " + homeSmall2x.toString + " 800w, " + homeMedium.toString + " 840w, " + homeMedium2x.toString + " 1680w, " + home.toString + " 1350w, " + home2x.toString + " 2700w",
+            ^.src := welcome.toString,
+            ^("srcset") := welcomeSmall.toString + " 400w, " + welcomeSmall2x.toString + " 800w, " + welcomeMedium.toString + " 840w, " + welcomeMedium2x.toString + " 1680w, " + welcome.toString + " 1350w, " + welcome2x.toString + " 2700w",
             ^.alt := "Make.org",
             ^("data-pin-no-hover") := "true"
           )(),
           <.div(^.className := Seq(WelcomeStyles.innerSubWrapper, LayoutRulesStyles.centeredRow))(
             <.div(^.className := WelcomeStyles.labelWrapper)(
-              <.p(^.className := TextStyles.label)(unescape(I18n.t("home.intro.baseline")))
+              <.p(^.className := TextStyles.label)(unescape(I18n.t("welcome.intro.baseline")))
             ),
             <.h2(^.className := Seq(WelcomeStyles.title, TextStyles.veryBigText, TextStyles.boldText))(
-              unescape(I18n.t("home.intro.title"))
+              unescape(I18n.t("welcome.intro.title"))
             ),
             <.h3(^.className := Seq(TextStyles.mediumText, WelcomeStyles.subTitle))(
-              unescape(I18n.t("home.intro.subtitle"))
+              unescape(I18n.t("welcome.intro.subtitle"))
             ),
             <.p(^.className := WelcomeStyles.ctaWrapper)(
               <.a(
-                ^.href := I18n.t("home.intro.see-more-link"),
+                ^.href := I18n.t("welcome.intro.see-more-link"),
                 ^.target := "_blank",
                 ^.className := Seq(CTAStyles.basic, CTAStyles.basicOnA)
-              )(unescape(I18n.t("home.intro.see-more")))
+              )(unescape(I18n.t("welcome.intro.see-more")))
             ),
             <.style()(WelcomeStyles.render[String])
           )

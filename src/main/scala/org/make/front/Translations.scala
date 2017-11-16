@@ -24,7 +24,7 @@ object Translations {
       |      "tryAgain": "Si le problème persiste n'hésitez pas à nous contacter à&nbsp;support@make.org."
       |    },
       |    "cookie-alert": "En poursuivant votre navigation sur notre site, vous acceptez l'installation et l'utilisation de cookies sur votre poste, dans le respect de notre <a href=\"https://about.make.org/politique-donnees\" target=\"_blank\">politique de protection de votre vie privée</a>.",
-      |    "home": {
+      |    "welcome": {
       |      "intro": {
       |        "baseline": "À propos",
       |        "title": "Proposez, votez, agissons",
@@ -63,7 +63,7 @@ object Translations {
       |        "title": "Les propositions les + débattues sur"
       |      }
       |    },
-      |    "vffhome": {
+      |    "welcome-vff": {
       |     "intro": {
       |       "baseline": "Grande cause make.org",
       |       "title" : "Stop aux violences faites aux&nbsp;femmes",

@@ -129,27 +129,27 @@ object logoMake extends js.Object
 
 @js.native
 @JSImport("./images/home-400x500.jpg", "default")
-object homeSmall extends js.Object
+object welcomeSmall extends js.Object
 
 @js.native
 @JSImport("./images/home-400x500@2x.jpg", "default")
-object homeSmall2x extends js.Object
+object welcomeSmall2x extends js.Object
 
 @js.native
 @JSImport("./images/home-840x500.jpg", "default")
-object homeMedium extends js.Object
+object welcomeMedium extends js.Object
 
 @js.native
 @JSImport("./images/home-840x500@2x.jpg", "default")
-object homeMedium2x extends js.Object
+object welcomeMedium2x extends js.Object
 
 @js.native
 @JSImport("./images/home-1350x500.jpg", "default")
-object home extends js.Object
+object welcome extends js.Object
 
 @js.native
 @JSImport("./images/home-1350x500@2x.jpg", "default")
-object home2x extends js.Object
+object welcome2x extends js.Object
 
 @js.native
 @JSImport("./images/themes/agriculture-ruralite-400x300.jpg", "default")
@@ -464,27 +464,27 @@ object womenSForumLogo extends js.Object
 
 @js.native
 @JSImport("./images/operations/vff/vff-home-400x500.jpg", "default")
-object vffHomeSmall extends js.Object
+object welcomeVffSmall extends js.Object
 
 @js.native
 @JSImport("./images/operations/vff/vff-home-400x500@2x.jpg", "default")
-object vffHomeSmall2x extends js.Object
+object welcomeVffSmall2x extends js.Object
 
 @js.native
 @JSImport("./images/operations/vff/vff-home-840x500.jpg", "default")
-object vffHomeMedium extends js.Object
+object welcomeVffMedium extends js.Object
 
 @js.native
 @JSImport("./images/operations/vff/vff-home-840x500@2x.jpg", "default")
-object vffHomeMedium2x extends js.Object
+object welcomeVffMedium2x extends js.Object
 
 @js.native
 @JSImport("./images/operations/vff/vff-home-1350x500.jpg", "default")
-object vffHome extends js.Object
+object welcomeVff extends js.Object
 
 @js.native
 @JSImport("./images/operations/vff/vff-home-1350x500@2x.jpg", "default")
-object vffHome2x extends js.Object
+object welcomeVff2x extends js.Object
 
 @js.native
 @JSImport("./fonts/CircularStd-Book.woff2", "default")

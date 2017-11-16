@@ -21,27 +21,27 @@ object WelcomeVFF {
         <.div(^.className := Seq(TableLayoutStyles.cellVerticalAlignMiddle, WelcomeVFFStyles.innerWrapper))(
           <.img(
             ^.className := WelcomeVFFStyles.illustration,
-            ^.src := vffHome.toString,
-            ^("srcset") := vffHomeSmall.toString + " 400w, " + vffHomeSmall2x.toString + " 800w, " + vffHomeMedium.toString + " 840w, " + vffHomeMedium2x.toString + " 1680w, " + vffHome.toString + " 1350w, " + vffHome2x.toString + " 2700w",
+            ^.src := welcomeVff.toString,
+            ^("srcset") := welcomeVffSmall.toString + " 400w, " + welcomeVffSmall2x.toString + " 800w, " + welcomeVffMedium.toString + " 840w, " + welcomeVffMedium2x.toString + " 1680w, " + welcomeVff.toString + " 1350w, " + welcomeVff2x.toString + " 2700w",
             ^.alt := "Make.org",
             ^("data-pin-no-hover") := "true"
           )(),
           <.div(^.className := Seq(WelcomeVFFStyles.innerSubWrapper, LayoutRulesStyles.centeredRow))(
             <.div(^.className := WelcomeVFFStyles.labelWrapper)(
-              <.p(^.className := TextStyles.label)(unescape(I18n.t("vffhome.intro.baseline")))
+              <.p(^.className := TextStyles.label)(unescape(I18n.t("welcome-vff.intro.baseline")))
             ),
             <.h2(^.className := Seq(WelcomeVFFStyles.title, TextStyles.veryBigText, TextStyles.boldText))(
-              unescape(I18n.t("vffhome.intro.title"))
+              unescape(I18n.t("welcome-vff.intro.title"))
             ),
             <.h3(^.className := Seq(TextStyles.mediumText, WelcomeVFFStyles.subTitle))(
-              unescape(I18n.t("vffhome.intro.subtitle"))
+              unescape(I18n.t("welcome-vff.intro.subtitle"))
             ),
             <.p(^.className := WelcomeVFFStyles.ctaWrapper)(
               <.a(
-                ^.href := I18n.t("vffhome.intro.see-more-link"),
+                ^.href := I18n.t("welcome-vff.intro.see-more-link"),
                 ^.target := "_blank",
                 ^.className := Seq(CTAStyles.basic, CTAStyles.basicOnA)
-              )(unescape(I18n.t("vffhome.intro.see-more")))
+              )(unescape(I18n.t("welcome-vff.intro.see-more")))
             ),
             <.style()(WelcomeVFFStyles.render[String])
           )
