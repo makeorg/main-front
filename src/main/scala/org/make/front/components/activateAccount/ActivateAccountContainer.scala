@@ -46,7 +46,7 @@ object ActivateAccountContainer {
           case Success(_) => {
 
             if (operationId.isDefined && operationId.get.value == Operation.vff) {
-              child.props.history.push("/consultation/vff/selection")
+              child.props.history.push("/consultation/vff")
             } else {
               child.props.history.push("/")
             }
@@ -55,7 +55,7 @@ object ActivateAccountContainer {
           }
           case Failure(e) => {
             if (operationId.isDefined && operationId.get.value == Operation.vff) {
-              child.props.history.push("/consultation/vff/selection")
+              child.props.history.push("/consultation/vff")
             } else {
               child.props.history.push("/")
             }
