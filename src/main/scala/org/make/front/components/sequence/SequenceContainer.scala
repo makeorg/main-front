@@ -15,11 +15,16 @@ import scala.concurrent.Future
 
 object SequenceContainer {
 
-  final case class SequenceContainerProps(sequence: SequenceModel,
+  final case class SequenceContainerProps(maybeFirstProposalSlug: Option[String],
+                                          sequence: SequenceModel,
                                           progressBarColor: Option[String],
                                           extraSlides: Seq[ExtraSlide])
 
   lazy val reactClass: ReactClass = ReactRedux.connectAdvanced(selectorFactory)(Sequence.reactClass)
+
+  def sortProposals(proposals: Seq[ProposalModel]): Seq[ProposalModel] = {
+    scala.util.Random.shuffle(proposals)
+  }
 
   def selectorFactory: (Dispatch) => (AppState, Props[SequenceContainerProps]) => Sequence.SequenceProps =
     (dispatch: Dispatch) => { (state: AppState, props: Props[SequenceContainerProps]) =>
@@ -37,9 +42,27 @@ object SequenceContainer {
             case e => dispatch(NotifyError(e.getMessage))
           }
 
-          proposalsResponse.map(_.results).map { proposals =>
-            val (voted, notVoted) = proposals.span(_.votes.exists(_.hasVoted))
-            voted ++ notVoted
+          proposalsResponse.map(_.results).flatMap { proposals =>
+            val voted = proposals.filter(_.votes.exists(_.hasVoted))
+            val notVoted = proposals.filter(_.votes.forall(!_.hasVoted))
+            val sortedUnvotedProposals = sortProposals(notVoted)
+
+            props.wrapped.maybeFirstProposalSlug.map { slug =>
+              if (proposals.exists(_.slug == slug)) {
+                val reOrderedUnvoted = if (sortedUnvotedProposals.exists(_.slug == slug)) {
+                  sortedUnvotedProposals.filter(_.slug == slug) ++ sortedUnvotedProposals.filter(_.slug != slug)
+                } else {
+                  sortedUnvotedProposals
+                }
+                Future.successful(voted ++ reOrderedUnvoted)
+              } else {
+                ProposalService.searchProposals(slug = Some(slug)).map { searchResult =>
+                  voted ++ searchResult.results.take(1) ++ sortedUnvotedProposals
+                }
+              }
+
+            }.getOrElse(Future.successful(voted ++ sortedUnvotedProposals))
+
           }
         }
 

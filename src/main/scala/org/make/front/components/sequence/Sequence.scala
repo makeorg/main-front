@@ -29,7 +29,10 @@ import scala.scalajs.js
 import scala.util.{Failure, Success}
 object Sequence {
 
-  final case class ExtraSlide(reactClass: ReactClass, props: (() => Unit) => Any, position: (Seq[Slide]) => Int)
+  final case class ExtraSlide(reactClass: ReactClass,
+                              props: (() => Unit) => Any,
+                              position: (Seq[Slide]) => Int,
+                              displayed: Boolean = true)
 
   final case class SequenceProps(sequence: SequenceModel,
                                  progressBarColor: Option[String],
@@ -193,10 +196,12 @@ object Sequence {
       })
 
       self.props.wrapped.extraSlides.foreach { extraSlide =>
-        val position = extraSlide.position(slides)
-        slides = slides.take(position) ++
-          Seq(new BasicSlide(extraSlide.reactClass, extraSlide.props(next), optional = true)) ++
-          slides.drop(position)
+        if (extraSlide.displayed) {
+          val position = extraSlide.position(slides)
+          slides = slides.take(position) ++
+            Seq(new BasicSlide(extraSlide.reactClass, extraSlide.props(next), optional = true)) ++
+            slides.drop(position)
+        }
       }
 
       slides
@@ -280,7 +285,6 @@ object Sequence {
         }
 
         def maxIndex = maxScrollableIndex(self.state.slides.toList)
-        org.scalajs.dom.console.log("max index is", maxIndex)
 
         <.div(^.className := Seq(TableLayoutStyles.fullHeightWrapper, SequenceStyles.wrapper))(
           <.div(^.className := TableLayoutStyles.row)(
