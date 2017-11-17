@@ -20,7 +20,7 @@ object Home {
           <.div(^.className := HomeStyles.wrapper)(
             <.div(^.className := HomeStyles.mainHeaderWrapper)(<.MainHeaderComponent.empty),
             <.h1(^.style := Map("display" -> "none"))("Make.org"),
-            <.IntroComponent.empty,
+            <.WelcomeVFFComponent.empty,
             <.ThemeShowcaseContainerComponent(
               ^.wrapped := ThemeShowcaseContainerProps(
                 themeSlug = "sante-alimentation",

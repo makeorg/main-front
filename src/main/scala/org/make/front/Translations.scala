@@ -2,8 +2,8 @@ package org.make.front
 
 import org.make.front.facades.I18n.setTranslations
 
-import scala.scalajs.js.JSON
 import scala.scalajs.js
+import scala.scalajs.js.JSON
 
 object Translations {
 
@@ -24,7 +24,7 @@ object Translations {
       |      "tryAgain": "Si le problème persiste n'hésitez pas à nous contacter à&nbsp;support@make.org."
       |    },
       |    "cookie-alert": "En poursuivant votre navigation sur notre site, vous acceptez l'installation et l'utilisation de cookies sur votre poste, dans le respect de notre <a href=\"https://about.make.org/politique-donnees\" target=\"_blank\">politique de protection de votre vie privée</a>.",
-      |    "home": {
+      |    "welcome": {
       |      "intro": {
       |        "baseline": "À propos",
       |        "title": "Proposez, votez, agissons",
@@ -62,6 +62,15 @@ object Translations {
       |        "intro": "départagez-les&nbsp;!",
       |        "title": "Les propositions les + débattues sur"
       |      }
+      |    },
+      |    "welcome-vff": {
+      |     "intro": {
+      |       "baseline": "Grande cause make.org",
+      |       "title" : "Stop aux violences faites aux&nbsp;femmes",
+      |       "subtitle" : "Make.org a decidé de lancer sa première Grande Cause en la consacrant à la lutte contre les Violences faites aux&nbsp;femmes.",
+      |       "see-more": "participer",
+      |       "see-more-link": "https://about.make.org/qui-sommes-nous"
+      |     }
       |    },
       |    "theme-showcase": {
       |        "see-all": "Voir toutes les propositions du thème %{themeName}"

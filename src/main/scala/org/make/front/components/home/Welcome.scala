@@ -12,45 +12,45 @@ import org.make.front.styles.base.{ColRulesStyles, LayoutRulesStyles, TableLayou
 import org.make.front.styles.ui.CTAStyles
 import org.make.front.styles.utils._
 
-object Intro {
+object Welcome {
 
   lazy val reactClass: ReactClass = React.createClass[Unit, Unit](
-    displayName = "Intro",
+    displayName = "Welcome",
     render = (_) =>
-      <.section(^.className := Seq(TableLayoutStyles.wrapper, IntroStyles.wrapper))(
-        <.div(^.className := Seq(TableLayoutStyles.cellVerticalAlignMiddle, IntroStyles.innerWrapper))(
+      <.section(^.className := Seq(TableLayoutStyles.wrapper, WelcomeStyles.wrapper))(
+        <.div(^.className := Seq(TableLayoutStyles.cellVerticalAlignMiddle, WelcomeStyles.innerWrapper))(
           <.img(
-            ^.className := IntroStyles.illustration,
-            ^.src := home.toString,
-            ^("srcset") := homeSmall.toString + " 400w, " + homeSmall2x.toString + " 800w, " + homeMedium.toString + " 840w, " + homeMedium2x.toString + " 1680w, " + home.toString + " 1350w, " + home2x.toString + " 2700w",
+            ^.className := WelcomeStyles.illustration,
+            ^.src := welcome.toString,
+            ^("srcset") := welcomeSmall.toString + " 400w, " + welcomeSmall2x.toString + " 800w, " + welcomeMedium.toString + " 840w, " + welcomeMedium2x.toString + " 1680w, " + welcome.toString + " 1350w, " + welcome2x.toString + " 2700w",
             ^.alt := "Make.org",
             ^("data-pin-no-hover") := "true"
           )(),
-          <.div(^.className := Seq(IntroStyles.innerSubWrapper, LayoutRulesStyles.centeredRow))(
-            <.div(^.className := IntroStyles.labelWrapper)(
-              <.p(^.className := TextStyles.label)(unescape(I18n.t("home.intro.baseline")))
+          <.div(^.className := Seq(WelcomeStyles.innerSubWrapper, LayoutRulesStyles.centeredRow))(
+            <.div(^.className := WelcomeStyles.labelWrapper)(
+              <.p(^.className := TextStyles.label)(unescape(I18n.t("welcome.intro.baseline")))
             ),
-            <.h2(^.className := Seq(IntroStyles.title, TextStyles.veryBigText, TextStyles.boldText))(
-              unescape(I18n.t("home.intro.title"))
+            <.h2(^.className := Seq(WelcomeStyles.title, TextStyles.veryBigText, TextStyles.boldText))(
+              unescape(I18n.t("welcome.intro.title"))
             ),
-            <.h3(^.className := Seq(TextStyles.mediumText, IntroStyles.subTitle))(
-              unescape(I18n.t("home.intro.subtitle"))
+            <.h3(^.className := Seq(TextStyles.mediumText, WelcomeStyles.subTitle))(
+              unescape(I18n.t("welcome.intro.subtitle"))
             ),
-            <.p(^.className := IntroStyles.ctaWrapper)(
+            <.p(^.className := WelcomeStyles.ctaWrapper)(
               <.a(
-                ^.href := I18n.t("home.intro.see-more-link"),
+                ^.href := I18n.t("welcome.intro.see-more-link"),
                 ^.target := "_blank",
                 ^.className := Seq(CTAStyles.basic, CTAStyles.basicOnA)
-              )(unescape(I18n.t("home.intro.see-more")))
+              )(unescape(I18n.t("welcome.intro.see-more")))
             ),
-            <.style()(IntroStyles.render[String])
+            <.style()(WelcomeStyles.render[String])
           )
         )
     )
   )
 }
 
-object IntroStyles extends StyleSheet.Inline {
+object WelcomeStyles extends StyleSheet.Inline {
 
   import dsl._
 
