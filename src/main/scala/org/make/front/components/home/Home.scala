@@ -24,16 +24,16 @@ object Home {
             <.ThemeShowcaseContainerComponent(
               ^.wrapped := ThemeShowcaseContainerProps(
                 themeSlug = "sante-alimentation",
-                maybeIntro = Some(unescape(I18n.t("home.showcase-1.intro"))),
-                maybeNews = Some(I18n.t("home.showcase-1.news"))
+                maybeIntro = Some(unescape(I18n.t("welcome.showcase-1.intro"))),
+                maybeNews = Some(I18n.t("welcome.showcase-1.news"))
               )
             )(),
             <.ExplanationsComponent.empty,
             <.TrendingShowcaseContainerComponent(
               ^.wrapped := TrendingShowcaseContainerProps(
                 trending = "trending",
-                intro = unescape(I18n.t("home.showcase-2.intro")),
-                title = unescape(I18n.t("home.showcase-2.title"))
+                intro = unescape(I18n.t("welcome.showcase-2.intro")),
+                title = unescape(I18n.t("welcome.showcase-2.title"))
               )
             )(),
             <.ThemeShowcaseContainerComponent(
@@ -42,8 +42,8 @@ object Home {
             <.TrendingShowcaseContainerComponent(
               ^.wrapped := TrendingShowcaseContainerProps(
                 trending = "hot",
-                intro = unescape(I18n.t("home.showcase-3.intro")),
-                title = unescape(I18n.t("home.showcase-3.title"))
+                intro = unescape(I18n.t("welcome.showcase-3.intro")),
+                title = unescape(I18n.t("welcome.showcase-3.title"))
               )
             )(),
             <.ThemeShowcaseContainerComponent(
