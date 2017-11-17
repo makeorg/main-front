@@ -24,35 +24,35 @@ object Explanations {
             ^.className := Seq(ExplanationsStyles.article, ColRulesStyles.col, ColRulesStyles.colHalfBeyondMedium)
           )(
             <.h3(^.className := Seq(ExplanationsStyles.intro, TextStyles.mediumText, TextStyles.intro))(
-              unescape(I18n.t("home.explanations.article-1.intro"))
+              unescape(I18n.t("welcome.explanations.article-1.intro"))
             ),
-            <.h2(^.className := TextStyles.mediumTitle)(unescape(I18n.t("home.explanations.article-1.title"))),
+            <.h2(^.className := TextStyles.mediumTitle)(unescape(I18n.t("welcome.explanations.article-1.title"))),
             <.ul()(
               <.li(^.className := ExplanationsStyles.item)(
                 <.span(^.className := Seq(ExplanationsStyles.icon, FontAwesomeStyles.thumbsUp))(),
                 <.p(
                   ^.className := TextStyles.mediumText,
-                  ^.dangerouslySetInnerHTML := I18n.t("home.explanations.article-1.item-1")
+                  ^.dangerouslySetInnerHTML := I18n.t("welcome.explanations.article-1.item-1")
                 )()
               ),
               <.li(^.className := ExplanationsStyles.item)(
                 <.span(^.className := Seq(ExplanationsStyles.icon, FontAwesomeStyles.lightbulbTransparent))(),
                 <.p(
                   ^.className := TextStyles.mediumText,
-                  ^.dangerouslySetInnerHTML := I18n.t("home.explanations.article-1.item-2")
+                  ^.dangerouslySetInnerHTML := I18n.t("welcome.explanations.article-1.item-2")
                 )()
               ),
               <.li(^.className := ExplanationsStyles.item)(
                 <.span(^.className := Seq(ExplanationsStyles.icon, FontAwesomeStyles.group))(),
                 <.p(
                   ^.className := TextStyles.mediumText,
-                  ^.dangerouslySetInnerHTML := I18n.t("home.explanations.article-1.item-3")
+                  ^.dangerouslySetInnerHTML := I18n.t("welcome.explanations.article-1.item-3")
                 )()
               )
             ) /*,
             <.p(^.className := IntroStyles.ctaWrapper)(
-              <.a(^.href := I18n.t("home.explanations.article-1.see-more-link"), ^.className := Seq(CTAStyles.basic, CTAStyles.negative, CTAStyles.basicOnA))(
-                unescape(I18n.t("home.explanations.article-1.see-more"))
+              <.a(^.href := I18n.t("welcome.explanations.article-1.see-more-link"), ^.className := Seq(CTAStyles.basic, CTAStyles.negative, CTAStyles.basicOnA))(
+                unescape(I18n.t("welcome.explanations.article-1.see-more"))
               )
             )*/
           ),
@@ -65,18 +65,18 @@ object Explanations {
             )
           )(
             <.h3(^.className := Seq(ExplanationsStyles.intro, TextStyles.mediumText, TextStyles.intro))(
-              unescape(I18n.t("home.explanations.article-2.intro"))
+              unescape(I18n.t("welcome.explanations.article-2.intro"))
             ),
-            <.h2(^.className := TextStyles.mediumTitle)(unescape(I18n.t("home.explanations.article-2.title"))),
+            <.h2(^.className := TextStyles.mediumTitle)(unescape(I18n.t("welcome.explanations.article-2.title"))),
             <.p(^.className := Seq(ExplanationsStyles.paragraph, TextStyles.mediumText))(
-              unescape(I18n.t("home.explanations.article-2.text"))
+              unescape(I18n.t("welcome.explanations.article-2.text"))
             ),
             <.p(^.className := WelcomeStyles.ctaWrapper)(
               <.a(
-                ^.href := I18n.t("home.explanations.article-2.see-more-link"),
+                ^.href := I18n.t("welcome.explanations.article-2.see-more-link"),
                 ^.target := "_blank",
                 ^.className := Seq(CTAStyles.basic, CTAStyles.negative, CTAStyles.basicOnA)
-              )(unescape(I18n.t("home.explanations.article-2.see-more")))
+              )(unescape(I18n.t("welcome.explanations.article-2.see-more")))
             )
           )
         ),
