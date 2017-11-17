@@ -86,7 +86,7 @@ object PoliticalActionStyles extends StyleSheet.Inline {
         .beyondMedium(paddingLeft(ThemeStyles.SpacingValue.small.pxToEm()))
     )
 
-  val image: StyleA = style(display :=! s"inline!important", maxHeight(80.pxToEm()))
+  val image: StyleA = style(display.inline.important, maxHeight(80.pxToEm()))
 
   val info: StyleA = style(
     display.inlineBlock,

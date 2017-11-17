@@ -193,7 +193,7 @@ object PoliticalActionsListStyles extends StyleSheet.Inline {
         opacity(0.1),
         transition := "opacity .2s ease-in-out",
         (&.hover)(opacity(1)),
-        (&.disabled)(opacity :=! "0!important")
+        (&.disabled)(opacity(0).important)
       )
     )
 
