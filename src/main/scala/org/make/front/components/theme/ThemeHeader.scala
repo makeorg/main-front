@@ -136,12 +136,12 @@ object ThemeHeader {
         )
       case _ =>
         ThemeIllustrationsModel(
-          SmallIllUrl = homeSmall.toString,
-          SmallIllUrl2x = homeSmall2x.toString,
-          MediumIllUrl = homeMedium.toString,
-          MediumIllUrl2x = homeMedium2x.toString,
-          IllUrl = home.toString,
-          IllUrl2x = home2x.toString
+          SmallIllUrl = welcomeSmall.toString,
+          SmallIllUrl2x = welcomeSmall2x.toString,
+          MediumIllUrl = welcomeMedium.toString,
+          MediumIllUrl2x = welcomeMedium2x.toString,
+          IllUrl = welcome.toString,
+          IllUrl2x = welcome2x.toString
         )
     }
   }
