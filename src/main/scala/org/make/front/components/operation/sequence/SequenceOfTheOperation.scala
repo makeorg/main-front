@@ -20,6 +20,7 @@ import org.make.front.components.sequence.contents._
 import org.make.front.facades.Unescape.unescape
 import org.make.front.facades.{FacebookPixel, I18n, Replacements}
 import org.make.front.models.{
+  ProposalId,
   GradientColor => GradientColorModel,
   Operation     => OperationModel,
   Sequence      => SequenceModel
@@ -40,7 +41,7 @@ object SequenceOfTheOperation {
   final case class SequenceOfTheOperationProps(maybeFirstProposalSlug: Option[String],
                                                isConnected: Boolean,
                                                operation: OperationModel,
-                                               sequence: Future[SequenceModel],
+                                               sequence: (Seq[ProposalId]) => Future[SequenceModel],
                                                numberOfProposals: Future[Int])
 
   final case class SequenceOfTheOperationState(isProposalModalOpened: Boolean,
@@ -63,7 +64,7 @@ object SequenceOfTheOperation {
           }
       },
       render = { self =>
-        self.props.wrapped.sequence.onComplete {
+        self.props.wrapped.sequence(Seq.empty).onComplete {
           case Failure(_)        =>
           case Success(sequence) => self.setState(_.copy(sequenceTitle = sequence.title))
         }
@@ -82,8 +83,6 @@ object SequenceOfTheOperation {
           FacebookPixel
             .fbq("trackCustom", "click-proposal-submit-form-open", Map("location" -> "sequence-header").toJSDictionary)
         }
-
-        def getSequenceTitle() = {}
 
         object DynamicSequenceOfTheOperationStyles extends StyleSheet.Inline {
 

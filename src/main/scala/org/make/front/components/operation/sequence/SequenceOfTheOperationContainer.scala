@@ -62,7 +62,7 @@ object SequenceOfTheOperationContainer {
               maybeFirstProposalSlug = firstProposalSlug,
               isConnected = state.connectedUser.isDefined,
               operation = operation,
-              sequence = Future.successful(sequence), // toDo: sequence should be dynamic
+              sequence = (includes) => SequenceService.startSequenceBySlug(sequence.slug, includes),
               numberOfProposals = numberOfProposals
             )
           }
@@ -72,7 +72,7 @@ object SequenceOfTheOperationContainer {
             maybeFirstProposalSlug = None,
             isConnected = false,
             OperationModel(OperationIdModel("fake"), "", "", "", "", 0, 0, "", None),
-            Future.successful(SequenceModel(SequenceIdModel("fake"), "", "")),
+            (_) => Future.successful(SequenceModel(SequenceIdModel("fake"), "", "")),
             Future.successful(0)
           )
         }

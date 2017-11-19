@@ -12,7 +12,7 @@ object Sequence {
       sequenceId = SequenceId(sequenceResponse.id),
       slug = sequenceResponse.slug,
       title = sequenceResponse.title,
-      proposals = sequenceResponse.proposals.map(Proposal.apply(_))
+      proposals = sequenceResponse.proposals.map(Proposal.apply)
     )
   }
 }

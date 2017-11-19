@@ -6,22 +6,18 @@ import io.github.shogowada.scalajs.reactjs.redux.ReactRedux
 import io.github.shogowada.scalajs.reactjs.redux.Redux.Dispatch
 import org.make.front.components.AppState
 import org.make.front.components.sequence.Sequence.ExtraSlide
-import org.make.front.models.{Proposal => ProposalModel, Sequence => SequenceModel}
+import org.make.front.models.{ProposalId, Sequence => SequenceModel}
 
 import scala.concurrent.Future
 
 object SequenceContainer {
 
   final case class SequenceContainerProps(maybeFirstProposalSlug: Option[String],
-                                          sequence: Future[SequenceModel],
+                                          sequence: (Seq[ProposalId]) => Future[SequenceModel],
                                           progressBarColor: Option[String],
                                           extraSlides: Seq[ExtraSlide])
 
   lazy val reactClass: ReactClass = ReactRedux.connectAdvanced(selectorFactory)(Sequence.reactClass)
-
-  def sortProposals(proposals: Seq[ProposalModel]): Seq[ProposalModel] = {
-    scala.util.Random.shuffle(proposals)
-  }
 
   def selectorFactory: (Dispatch) => (AppState, Props[SequenceContainerProps]) => Sequence.SequenceProps =
     (dispatch: Dispatch) => { (state: AppState, props: Props[SequenceContainerProps]) =>

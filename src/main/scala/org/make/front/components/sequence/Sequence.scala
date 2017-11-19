@@ -34,7 +34,7 @@ object Sequence {
                               position: (Seq[Slide]) => Int,
                               displayed: Boolean = true)
 
-  final case class SequenceProps(sequence: Future[SequenceModel],
+  final case class SequenceProps(sequence: (Seq[ProposalIdModel]) => Future[SequenceModel],
                                  progressBarColor: Option[String],
                                  shouldReload: Boolean,
                                  extraSlides: Seq[ExtraSlide])
@@ -210,7 +210,9 @@ object Sequence {
                    props: Props[SequenceProps],
                    slider: Option[Slider]): Unit = {
 
-      props.wrapped.sequence.onComplete {
+      val votedProposalIds = self.state.proposals.filter(_.votes.exists(_.hasVoted)).map(_.id)
+
+      props.wrapped.sequence(votedProposalIds).onComplete {
         case Success(sequence) =>
           val slides: Seq[Slide] = createSlides(self, sequence.proposals)
           val firstNonVotedSlideIndex: Int = slides.indexWhere { slide =>

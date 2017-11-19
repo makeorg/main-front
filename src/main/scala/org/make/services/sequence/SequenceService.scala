@@ -13,6 +13,6 @@ object SequenceService extends ApiService {
   override val resourceName: String = "sequences"
 
   def startSequenceBySlug(slug: String, includes: Seq[ProposalId]): Future[Sequence] = {
-    MakeApiClient.get[SequenceResponse](resourceName / slug, includes.map(("include", _))).map(Sequence.apply)
+    MakeApiClient.get[SequenceResponse](resourceName / slug, includes.map("include" -> _.value)).map(Sequence.apply)
   }
 }
