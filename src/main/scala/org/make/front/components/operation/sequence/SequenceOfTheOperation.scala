@@ -40,10 +40,12 @@ object SequenceOfTheOperation {
   final case class SequenceOfTheOperationProps(maybeFirstProposalSlug: Option[String],
                                                isConnected: Boolean,
                                                operation: OperationModel,
-                                               sequence: SequenceModel,
+                                               sequence: Future[SequenceModel],
                                                numberOfProposals: Future[Int])
 
-  final case class SequenceOfTheOperationState(isProposalModalOpened: Boolean, numberOfProposals: Int)
+  final case class SequenceOfTheOperationState(isProposalModalOpened: Boolean,
+                                               numberOfProposals: Int,
+                                               sequenceTitle: String = "")
 
   lazy val reactClass: ReactClass =
     React.createClass[SequenceOfTheOperationProps, SequenceOfTheOperationState](
@@ -61,6 +63,10 @@ object SequenceOfTheOperation {
           }
       },
       render = { self =>
+        self.props.wrapped.sequence.onComplete {
+          case Failure(_)        =>
+          case Success(sequence) => self.setState(_.copy(sequenceTitle = sequence.title))
+        }
         val guidedState: Boolean = false
 
         val gradientValues: GradientColorModel =
@@ -76,6 +82,8 @@ object SequenceOfTheOperation {
           FacebookPixel
             .fbq("trackCustom", "click-proposal-submit-form-open", Map("location" -> "sequence-header").toJSDictionary)
         }
+
+        def getSequenceTitle() = {}
 
         object DynamicSequenceOfTheOperationStyles extends StyleSheet.Inline {
 
@@ -123,7 +131,7 @@ object SequenceOfTheOperation {
                   ),
                   <.div(^.className := Seq(TableLayoutStyles.cell, SequenceOfTheOperationStyles.titleWrapper))(
                     <.h1(^.className := Seq(SequenceOfTheOperationStyles.title, TextStyles.smallTitle))(
-                      unescape(self.props.wrapped.sequence.title)
+                      unescape(self.state.sequenceTitle)
                     ),
                     <.h2(
                       ^.className := Seq(

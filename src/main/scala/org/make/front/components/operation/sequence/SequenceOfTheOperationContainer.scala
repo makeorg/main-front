@@ -13,7 +13,7 @@ import org.make.front.models.{
   Sequence    => SequenceModel,
   SequenceId  => SequenceIdModel
 }
-import org.make.services.proposal.{ContextRequest, ProposalService}
+import org.make.services.sequence.SequenceService
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
@@ -45,17 +45,15 @@ object SequenceOfTheOperationContainer {
           operation.sequence.map { sequence =>
             val numberOfProposals: Future[Int] = {
 
-              val proposalsResponse =
-                ProposalService.searchProposals(
-                  context = Some(ContextRequest(operation = Some(maybeOperation.head.label))),
-                  limit = Some(20)
-                )
+              val includes = Seq.empty
+              val sequenceResponse =
+                SequenceService.startSequenceBySlug(sequence.slug, includes)
 
-              proposalsResponse.recover {
+              sequenceResponse.recover {
                 case e => dispatch(NotifyError(e.getMessage))
               }
 
-              proposalsResponse.map(_.total)
+              sequenceResponse.map(_.proposals.size)
             }
 
             dispatch(LoadConfiguration)
@@ -64,7 +62,7 @@ object SequenceOfTheOperationContainer {
               maybeFirstProposalSlug = firstProposalSlug,
               isConnected = state.connectedUser.isDefined,
               operation = operation,
-              sequence = sequence,
+              sequence = Future.successful(sequence), // toDo: sequence should be dynamic
               numberOfProposals = numberOfProposals
             )
           }
@@ -74,7 +72,7 @@ object SequenceOfTheOperationContainer {
             maybeFirstProposalSlug = None,
             isConnected = false,
             OperationModel(OperationIdModel("fake"), "", "", "", "", 0, 0, "", None),
-            SequenceModel(SequenceIdModel("fake"), "", ""),
+            Future.successful(SequenceModel(SequenceIdModel("fake"), "", "")),
             Future.successful(0)
           )
         }

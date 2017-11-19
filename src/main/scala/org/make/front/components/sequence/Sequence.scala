@@ -9,7 +9,7 @@ import org.make.front.Main.CssSettings._
 import org.make.front.components.Components._
 import org.make.front.components.sequence.ProgressBar.ProgressBarProps
 import org.make.front.components.sequence.contents.ProposalInsideSequence.ProposalInsideSequenceProps
-import org.make.front.facades.{FacebookPixel, I18n}
+import org.make.front.facades.FacebookPixel
 import org.make.front.facades.ReactSlick.{ReactTooltipVirtualDOMAttributes, ReactTooltipVirtualDOMElements, Slider}
 import org.make.front.models.{
   Proposal      => ProposalModel,
@@ -34,9 +34,8 @@ object Sequence {
                               position: (Seq[Slide]) => Int,
                               displayed: Boolean = true)
 
-  final case class SequenceProps(sequence: SequenceModel,
+  final case class SequenceProps(sequence: Future[SequenceModel],
                                  progressBarColor: Option[String],
-                                 proposals: () => Future[Seq[ProposalModel]],
                                  shouldReload: Boolean,
                                  extraSlides: Seq[ExtraSlide])
 
@@ -211,13 +210,13 @@ object Sequence {
                    props: Props[SequenceProps],
                    slider: Option[Slider]): Unit = {
 
-      props.wrapped.proposals().onComplete {
-        case Success(proposals) =>
-          val slides: Seq[Slide] = createSlides(self, proposals)
+      props.wrapped.sequence.onComplete {
+        case Success(sequence) =>
+          val slides: Seq[Slide] = createSlides(self, sequence.proposals)
           val firstNonVotedSlideIndex: Int = slides.indexWhere { slide =>
             slide.isInstanceOf[ProposalSlide] && !slide.asInstanceOf[ProposalSlide].voted
           }
-          val hasVotedProposals: Boolean = proposals.headOption.exists(_.votes.exists(_.hasVoted))
+          val hasVotedProposals: Boolean = sequence.proposals.headOption.exists(_.votes.exists(_.hasVoted))
           val lastSlideIndex: Int = slides.size - 1
           val indexToReach =
             if (!hasVotedProposals) 0
@@ -236,7 +235,7 @@ object Sequence {
           self.setState(
             _.copy(
               slides = slides,
-              proposals = proposals,
+              proposals = sequence.proposals,
               currentSlideIndex = indexToReach,
               displayedSlidesCount = displayedSlidesCount
             )
