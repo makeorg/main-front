@@ -274,7 +274,7 @@ object Sequence {
         def canScrollNext: Boolean = {
           val currentSlideIndex = self.state.currentSlideIndex
           val slides = self.state.slides
-          if (currentSlideIndex + 1 < slides.length) {
+          if (currentSlideIndex + 1 < slides.size) {
             slides(currentSlideIndex) match {
               case slide if slide.isInstanceOf[ProposalSlide] => slide.asInstanceOf[ProposalSlide].voted
               case slide                                      => slide.optional

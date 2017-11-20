@@ -75,7 +75,7 @@ object PoliticalActionsList {
             unescape(
               I18n.t(
                 "political-actions.intro",
-                Replacements(("actions", self.props.wrapped.politicalActions.length.toString))
+                Replacements(("actions", self.props.wrapped.politicalActions.size.toString))
               )
             )
           ),

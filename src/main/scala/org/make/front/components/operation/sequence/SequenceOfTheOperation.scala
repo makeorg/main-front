@@ -213,7 +213,7 @@ object SequenceOfTheOperation {
                       authenticateHandler = handler
                     )
                   }, position = { slides =>
-                    slides.length
+                    slides.size
                   }, displayed = !self.props.wrapped.isConnected), ExtraSlide(reactClass = PromptingToProposeSequence.reactClass, props = {
                     handler =>
                       PromptingToProposeProps(
@@ -222,14 +222,14 @@ object SequenceOfTheOperation {
                         proposeHandler = handler
                       )
                   }, position = { slides =>
-                    slides.length / 2
+                    slides.size / 2
                   }), ExtraSlide(reactClass = PromptingToGoBackToOperation.reactClass, props = { handler =>
                     PromptingToGoBackToOperationProps(
                       operation = self.props.wrapped.operation,
                       clickOnButtonHandler = handler
                     )
                   }, position = { slides =>
-                    slides.length
+                    slides.size
                   }))
                 )
               )()
