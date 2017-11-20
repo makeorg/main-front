@@ -1,27 +1,18 @@
 package org.make.front.models
 
-import io.github.shogowada.scalajs.reactjs.redux.Store
-import org.make.front.components.AppState
+import org.make.services.sequence.SequenceResponse
 
 import scala.scalajs.js
 
-@js.native
-trait SequenceResponse extends js.Object {
-  val sequenceId: String
-  val slug: String
-  val title: String
-  val proposalsSlugs: js.Array[String]
-
-}
-
-final case class Sequence(sequenceId: SequenceId, slug: String, title: String)
+final case class Sequence(sequenceId: SequenceId, slug: String, title: String, proposals: Seq[Proposal] = Seq.empty)
 
 object Sequence {
   def apply(sequenceResponse: SequenceResponse): Sequence = {
     Sequence(
-      sequenceId = SequenceId(sequenceResponse.sequenceId),
+      sequenceId = SequenceId(sequenceResponse.id),
       slug = sequenceResponse.slug,
-      title = sequenceResponse.title
+      title = sequenceResponse.title,
+      proposals = sequenceResponse.proposals.map(Proposal.apply)
     )
   }
 }

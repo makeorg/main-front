@@ -20,6 +20,7 @@ import org.make.front.components.sequence.contents._
 import org.make.front.facades.Unescape.unescape
 import org.make.front.facades.{FacebookPixel, I18n, Replacements}
 import org.make.front.models.{
+  ProposalId,
   GradientColor => GradientColorModel,
   Operation     => OperationModel,
   Sequence      => SequenceModel
@@ -40,10 +41,12 @@ object SequenceOfTheOperation {
   final case class SequenceOfTheOperationProps(maybeFirstProposalSlug: Option[String],
                                                isConnected: Boolean,
                                                operation: OperationModel,
-                                               sequence: SequenceModel,
+                                               sequence: (Seq[ProposalId]) => Future[SequenceModel],
                                                numberOfProposals: Future[Int])
 
-  final case class SequenceOfTheOperationState(isProposalModalOpened: Boolean, numberOfProposals: Int)
+  final case class SequenceOfTheOperationState(isProposalModalOpened: Boolean,
+                                               numberOfProposals: Int,
+                                               sequenceTitle: String = "")
 
   lazy val reactClass: ReactClass =
     React.createClass[SequenceOfTheOperationProps, SequenceOfTheOperationState](
@@ -61,6 +64,10 @@ object SequenceOfTheOperation {
           }
       },
       render = { self =>
+        self.props.wrapped.sequence(Seq.empty).onComplete {
+          case Failure(_)        =>
+          case Success(sequence) => self.setState(_.copy(sequenceTitle = sequence.title))
+        }
         val guidedState: Boolean = false
 
         val gradientValues: GradientColorModel =
@@ -123,7 +130,7 @@ object SequenceOfTheOperation {
                   ),
                   <.div(^.className := Seq(TableLayoutStyles.cell, SequenceOfTheOperationStyles.titleWrapper))(
                     <.h1(^.className := Seq(SequenceOfTheOperationStyles.title, TextStyles.smallTitle))(
-                      unescape(self.props.wrapped.sequence.title)
+                      unescape(self.state.sequenceTitle)
                     ),
                     <.h2(
                       ^.className := Seq(

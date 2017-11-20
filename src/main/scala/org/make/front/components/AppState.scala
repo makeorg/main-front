@@ -61,7 +61,8 @@ final case class AppState(configuration: Option[BusinessConfigurationModel],
                                 SequenceModel(
                                   sequenceId = SequenceIdModel("1"),
                                   slug = "comment-lutter-contre-les-violences-faites-aux-femmes",
-                                  title = "Comment lutter contre les violences faites aux&nbsp;femmes&nbsp;?"
+                                  title = "Comment lutter contre les violences faites aux&nbsp;femmes&nbsp;?",
+                                  proposals = Seq.empty
                                 )
                               )
                             )
