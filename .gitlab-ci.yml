@@ -26,7 +26,7 @@ build:
 deploy:
   stage: deploy
   only:
-    - master
+    - preproduction
   script:
     - >
       curl -D - -X "POST"
