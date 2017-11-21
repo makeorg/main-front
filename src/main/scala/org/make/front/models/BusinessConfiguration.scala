@@ -10,12 +10,14 @@ trait BusinessConfigurationResponse extends js.Object {
   val proposalMinLength: Int
   val proposalMaxLength: Int
   val themes: js.Array[ThemeResponse]
+  val tagsVFF: js.Array[TagResponse]
   val newVisitorCookieDefinition: String
 }
 
 case class BusinessConfiguration(proposalMinLength: Int,
                                  proposalMaxLength: Int,
                                  themes: Seq[Theme],
+                                 tagsVFF: Seq[Tag],
                                  newVisitorCookieDefinition: String) {
   def themesForLocale(country: String, language: String): Seq[TranslatedTheme] = {
     val counter = new Counter()
@@ -31,6 +33,7 @@ object BusinessConfiguration {
       proposalMinLength = businessConfigurationResponse.proposalMinLength,
       proposalMaxLength = businessConfigurationResponse.proposalMaxLength,
       themes = seqThemes,
+      tagsVFF = businessConfigurationResponse.tagsVFF.map(Tag.apply),
       newVisitorCookieDefinition = businessConfigurationResponse.newVisitorCookieDefinition
     )
   }

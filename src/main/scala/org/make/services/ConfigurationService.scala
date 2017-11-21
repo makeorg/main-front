@@ -10,8 +10,8 @@ import scala.concurrent.ExecutionContext.Implicits.global
 
 object ConfigurationService {
   def fetchConfiguration(): Future[BusinessConfiguration] = {
-    MakeApiClient.get[BusinessConfigurationResponse]("configurations" / "front").map{resposne =>
-      BusinessConfiguration(resposne)
+    MakeApiClient.get[BusinessConfigurationResponse]("configurations" / "front").map { response =>
+      BusinessConfiguration(response)
     }
   }
 }
