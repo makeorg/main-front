@@ -188,7 +188,16 @@ object Sequence {
           onSuccessfulVote(_, self),
           onSuccessfulQualification(_, self),
           canScrollNext = (slideIndex) => {
-            slideIndex + 1 < self.state.displayedSlidesCount
+            val currentSlideIndex = slideIndex
+            val slides = self.state.slides
+            if (currentSlideIndex + 1 < slides.size) {
+              slides(currentSlideIndex) match {
+                case slide if slide.isInstanceOf[ProposalSlide] => slide.asInstanceOf[ProposalSlide].voted
+                case slide                                      => slide.optional
+              }
+            } else {
+              false
+            }
           },
           nextProposal = nextProposal
         )
