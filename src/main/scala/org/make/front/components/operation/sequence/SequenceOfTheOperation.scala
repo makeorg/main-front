@@ -203,34 +203,35 @@ object SequenceOfTheOperation {
                   sequence = self.props.wrapped.sequence,
                   progressBarColor = Some(gradientValues.from),
                   maybeFirstProposalSlug = self.props.wrapped.maybeFirstProposalSlug,
-                  extraSlides = Seq(ExtraSlide(reactClass = IntroductionOfTheSequence.reactClass, props = {
-                    (handler: () => Unit) =>
-                      { IntroductionOfTheSequenceProps(clickOnButtonHandler = handler) }
-                  }, position = _ => 0), ExtraSlide(reactClass = PromptingToConnect.reactClass, props = { handler =>
-                    PromptingToConnectProps(
-                      operation = self.props.wrapped.operation,
-                      clickOnButtonHandler = handler,
-                      authenticateHandler = handler
-                    )
-                  }, position = { slides =>
-                    slides.size
-                  }, displayed = !self.props.wrapped.isConnected), ExtraSlide(reactClass = PromptingToProposeSequence.reactClass, props = {
-                    handler =>
-                      PromptingToProposeProps(
+                  extraSlides =
+                    Seq(ExtraSlide(displayed = false, reactClass = IntroductionOfTheSequence.reactClass, props = {
+                      (handler: () => Unit) =>
+                        { IntroductionOfTheSequenceProps(clickOnButtonHandler = handler) }
+                    }, position = _ => 0), ExtraSlide(reactClass = PromptingToConnect.reactClass, props = { handler =>
+                      PromptingToConnectProps(
                         operation = self.props.wrapped.operation,
                         clickOnButtonHandler = handler,
-                        proposeHandler = handler
+                        authenticateHandler = handler
                       )
-                  }, position = { slides =>
-                    slides.size / 2
-                  }), ExtraSlide(reactClass = PromptingToGoBackToOperation.reactClass, props = { handler =>
-                    PromptingToGoBackToOperationProps(
-                      operation = self.props.wrapped.operation,
-                      clickOnButtonHandler = handler
-                    )
-                  }, position = { slides =>
-                    slides.size
-                  }))
+                    }, position = { slides =>
+                      slides.size
+                    }, displayed = !self.props.wrapped.isConnected), ExtraSlide(displayed = false, reactClass = PromptingToProposeSequence.reactClass, props = {
+                      handler =>
+                        PromptingToProposeProps(
+                          operation = self.props.wrapped.operation,
+                          clickOnButtonHandler = handler,
+                          proposeHandler = handler
+                        )
+                    }, position = { slides =>
+                      slides.size / 2
+                    }), ExtraSlide(reactClass = PromptingToGoBackToOperation.reactClass, props = { handler =>
+                      PromptingToGoBackToOperationProps(
+                        operation = self.props.wrapped.operation,
+                        clickOnButtonHandler = handler
+                      )
+                    }, position = { slides =>
+                      slides.size
+                    }))
                 )
               )()
             )
