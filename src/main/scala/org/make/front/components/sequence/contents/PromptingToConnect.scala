@@ -92,7 +92,8 @@ object PromptingToConnect {
                     onSuccessfulLogin = () => {
                       self.setState(_.copy(isAuthenticateModalOpened = false))
                       self.props.wrapped.authenticateHandler()
-                    }
+                    },
+                    operation = Some(self.props.wrapped.operation.operationId)
                   )
                 )()
               ),
