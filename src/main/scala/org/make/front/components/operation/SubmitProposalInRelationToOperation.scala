@@ -7,13 +7,14 @@ import io.github.shogowada.scalajs.reactjs.elements.ReactElement
 import org.make.front.Main.CssSettings._
 import org.make.front.components.Components._
 import org.make.front.components.submitProposal.SubmitProposalAndLoginContainer.SubmitProposalAndLoginContainerProps
-import org.make.front.facades.I18n
+import org.make.front.facades.{FacebookPixel, I18n}
 import org.make.front.facades.Unescape.unescape
-import org.make.front.models.{GradientColor => GradientColorModel, Operation => OperationModel}
+import org.make.front.models.{Location, GradientColor => GradientColorModel, Operation => OperationModel}
 import org.make.front.styles._
 import org.make.front.styles.base.TextStyles
 import org.make.front.styles.utils._
 
+import scala.scalajs.js
 import scalacss.internal.Attr
 
 object SubmitProposalInRelationToOperation {
@@ -25,6 +26,14 @@ object SubmitProposalInRelationToOperation {
   lazy val reactClass: ReactClass =
     React.createClass[SubmitProposalInRelationToOperationProps, SubmitProposalInRelationToOperationState](
       displayName = "SubmitProposalInRelationToOperation",
+      componentDidMount = { _ =>
+        FacebookPixel
+          .fbq(
+            "trackCustom",
+            "click-proposal-submit-form-open",
+            js.Dictionary("location" -> Location.OperationPage.name)
+          )
+      },
       getInitialState = { self =>
         SubmitProposalInRelationToOperationState(operation = self.props.wrapped.operation)
       },

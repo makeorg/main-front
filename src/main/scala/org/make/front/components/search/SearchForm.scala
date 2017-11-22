@@ -69,6 +69,7 @@ object SearchForm {
               // TODO: handle theme context : search with more weight to proposals from the same theme
               def onSubmit: (SyntheticEvent) => Unit = (e: SyntheticEvent) => {
                 e.preventDefault()
+                FacebookPixel.fbq("trackCustom", "click-search", js.Dictionary("query" -> self.state.value))
                 val currentValue: String = URIUtils.encodeURI(self.state.value)
                 self.props.history.push(s"/search?q=$currentValue")
               }

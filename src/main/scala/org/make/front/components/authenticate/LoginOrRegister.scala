@@ -13,7 +13,7 @@ import org.make.front.facades.I18n
 import org.make.front.facades.Unescape.unescape
 import org.make.front.models.OperationId
 import org.make.front.styles._
-import org.make.front.styles.base.{ColRulesStyles, LayoutRulesStyles, TextStyles}
+import org.make.front.styles.base.{LayoutRulesStyles, TextStyles}
 import org.make.front.styles.utils._
 
 object LoginOrRegister {

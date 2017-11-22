@@ -6,7 +6,6 @@ import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import org.make.client.UnauthorizedHttpException
 import org.make.front.Main.CssSettings._
 import org.make.front.components.Components._
-import org.make.front.facades.I18n
 import org.make.front.facades.ReactFacebookLogin.{
   ReactFacebookLoginVirtualDOMAttributes,
   ReactFacebookLoginVirtualDOMElements
@@ -15,8 +14,9 @@ import org.make.front.facades.ReactGoogleLogin.{
   ReactGoogleLoginVirtualDOMAttributes,
   ReactGoogleLoginVirtualDOMElements
 }
+import org.make.front.facades.{FacebookPixel, I18n}
 import org.make.front.styles._
-import org.make.front.styles.base.{LayoutRulesStyles, TextStyles}
+import org.make.front.styles.base.TextStyles
 import org.make.front.styles.ui.CTAStyles
 import org.make.front.styles.utils._
 import org.make.front.styles.vendors.FontAwesomeStyles
@@ -24,6 +24,7 @@ import org.scalajs.dom.experimental.Response
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
+import scala.scalajs.js
 import scala.util.{Failure, Success}
 
 object AuthenticateWithSocialNetworks {
@@ -46,9 +47,10 @@ object AuthenticateWithSocialNetworks {
       },
       render = { self =>
         // @toDo: manage specific errors
-        def handleCallback(result: Future[_]): Unit = {
+        def handleCallback(result: Future[_], provider: String): Unit = {
           result.onComplete {
             case Success(_) =>
+              FacebookPixel.fbq("trackCustom", "authen-social-success", js.Dictionary("source" -> provider))
               self.setState(AuthenticateWithSocialNetworksState())
             case Failure(UnauthorizedHttpException) =>
               self.setState(state => state.copy(errorMessages = Seq("authenticate.no-account-found")))
@@ -58,12 +60,12 @@ object AuthenticateWithSocialNetworks {
 
         val facebookCallbackResponse: (Response) => Unit = { response =>
           self.setState(self.state.copy(errorMessages = Seq.empty))
-          handleCallback(self.props.wrapped.signInFacebook(response))
+          handleCallback(self.props.wrapped.signInFacebook(response), "Facebook")
         }
 
         val googleCallbackResponse: (Response) => Unit = { response =>
           self.setState(self.state.copy(errorMessages = Seq.empty))
-          handleCallback(self.props.wrapped.signInGoogle(response))
+          handleCallback(self.props.wrapped.signInGoogle(response), "Google")
         }
 
         val googleCallbackFailure: (Response) => Unit = { _ =>

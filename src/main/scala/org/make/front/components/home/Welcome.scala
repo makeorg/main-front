@@ -8,7 +8,7 @@ import org.make.front.components.Components._
 import org.make.front.facades.Unescape.unescape
 import org.make.front.facades._
 import org.make.front.styles._
-import org.make.front.styles.base.{ColRulesStyles, LayoutRulesStyles, TableLayoutStyles, TextStyles}
+import org.make.front.styles.base.{LayoutRulesStyles, TableLayoutStyles, TextStyles}
 import org.make.front.styles.ui.CTAStyles
 import org.make.front.styles.utils._
 
@@ -16,7 +16,11 @@ object Welcome {
 
   lazy val reactClass: ReactClass = React.createClass[Unit, Unit](
     displayName = "Welcome",
-    render = (_) =>
+    render = { _ =>
+      def onclick: () => Unit = { () =>
+        FacebookPixel.fbq("trackCustom", "click-button-whoweare")
+        scalajs.js.Dynamic.global.window.open(I18n.t("welcome.intro.see-more-link"), "_blank")
+      }
       <.section(^.className := Seq(TableLayoutStyles.wrapper, WelcomeStyles.wrapper))(
         <.div(^.className := Seq(TableLayoutStyles.cellVerticalAlignMiddle, WelcomeStyles.innerWrapper))(
           <.img(
@@ -37,16 +41,15 @@ object Welcome {
               unescape(I18n.t("welcome.intro.subtitle"))
             ),
             <.p(^.className := WelcomeStyles.ctaWrapper)(
-              <.a(
-                ^.href := I18n.t("welcome.intro.see-more-link"),
-                ^.target := "_blank",
-                ^.className := Seq(CTAStyles.basic, CTAStyles.basicOnA)
-              )(unescape(I18n.t("welcome.intro.see-more")))
+              <.button(^.onClick := onclick, ^.className := Seq(CTAStyles.basic, CTAStyles.basicOnButton))(
+                unescape(I18n.t("welcome.intro.see-more"))
+              )
             ),
             <.style()(WelcomeStyles.render[String])
           )
         )
-    )
+      )
+    }
   )
 }
 

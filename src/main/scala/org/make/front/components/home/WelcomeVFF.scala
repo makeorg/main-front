@@ -16,7 +16,11 @@ object WelcomeVFF {
 
   lazy val reactClass: ReactClass = React.createClass[Unit, Unit](
     displayName = "WelcomeVFF",
-    render = (_) =>
+    render = { _ =>
+      def onclick: () => Unit = { () =>
+        FacebookPixel.fbq("trackCustom", "click-button-learn-more")
+        scalajs.js.Dynamic.global.window.open(I18n.t("welcome-vff.intro.see-more-link"), "_blank")
+      }
       <.section(^.className := Seq(TableLayoutStyles.wrapper, WelcomeVFFStyles.wrapper))(
         <.div(^.className := Seq(TableLayoutStyles.cellVerticalAlignMiddle, WelcomeVFFStyles.innerWrapper))(
           <.img(
@@ -37,16 +41,15 @@ object WelcomeVFF {
               unescape(I18n.t("welcome-vff.intro.subtitle"))
             ),
             <.p(^.className := WelcomeVFFStyles.ctaWrapper)(
-              <.a(
-                ^.href := I18n.t("welcome-vff.intro.see-more-link"),
-                ^.target := "_blank",
-                ^.className := Seq(CTAStyles.basic, CTAStyles.basicOnA)
-              )(unescape(I18n.t("welcome-vff.intro.see-more")))
+              <.button(^.onClick := onclick, ^.className := Seq(CTAStyles.basic, CTAStyles.basicOnA))(
+                unescape(I18n.t("welcome-vff.intro.see-more"))
+              )
             ),
             <.style()(WelcomeVFFStyles.render[String])
           )
         )
-    )
+      )
+    }
   )
 }
 
