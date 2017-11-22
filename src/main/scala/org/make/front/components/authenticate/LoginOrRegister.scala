@@ -73,20 +73,21 @@ object LoginOrRegister {
             )
           )
         } else {
-          Seq(
+          Seq(if (self.props.wrapped.registerView == "register") {
             <.RegisterWithSocialNetworksOrEmailComponent(
               ^.wrapped := RegisterWithSocialNetworksOrEmailProps(
                 operation = self.props.wrapped.operation,
                 onSuccessfulLogin = props.onSuccessfulLogin
               )
-            )(),
-            <.p(^.className := Seq(LoginOrRegisterStyles.text, TextStyles.smallText))(
-              unescape(I18n.t("authenticate.switch-to-login-screen.intro") + " "),
-              <.a(^.className := TextStyles.boldText, ^.onClick := goTo("login"))(
-                unescape(I18n.t("authenticate.switch-to-login-screen.link-support"))
+            )()
+          } else {
+            <.RegisterWithSocialNetworksOrEmailExpandedComponent(
+              ^.wrapped := RegisterWithSocialNetworksOrEmailProps(
+                operation = self.props.wrapped.operation,
+                onSuccessfulLogin = props.onSuccessfulLogin
               )
-            )
-          )
+            )()
+          }, <.p(^.className := Seq(LoginOrRegisterStyles.text, TextStyles.smallText))(unescape(I18n.t("authenticate.switch-to-login-screen.intro") + " "), <.a(^.className := TextStyles.boldText, ^.onClick := goTo("login"))(unescape(I18n.t("authenticate.switch-to-login-screen.link-support")))))
         }, <.style()(LoginOrRegisterStyles.render[String]))
     })
 }
