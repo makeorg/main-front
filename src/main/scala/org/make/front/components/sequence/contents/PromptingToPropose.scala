@@ -8,7 +8,7 @@ import org.make.front.Main.CssSettings._
 import org.make.front.components.Components._
 import org.make.front.components.modals.FullscreenModal.FullscreenModalProps
 import org.make.front.components.operation.SubmitProposalInRelationToOperation.SubmitProposalInRelationToOperationProps
-import org.make.front.facades.I18n
+import org.make.front.facades.{FacebookPixel, I18n}
 import org.make.front.facades.Unescape.unescape
 import org.make.front.models.{Operation => OperationModel}
 import org.make.front.styles.ThemeStyles
@@ -16,6 +16,8 @@ import org.make.front.styles.base.{LayoutRulesStyles, TextStyles}
 import org.make.front.styles.ui.CTAStyles
 import org.make.front.styles.utils._
 import org.make.front.styles.vendors.FontAwesomeStyles
+
+import scala.scalajs.js
 
 object PromptingToProposeSequence {
 
@@ -29,6 +31,10 @@ object PromptingToProposeSequence {
     React
       .createClass[PromptingToProposeProps, PromptingToProposeState](
         displayName = "PromptingToPropose",
+        componentDidMount = { _ =>
+          FacebookPixel
+            .fbq("trackCustom", "click-proposal-submit-form-open", js.Dictionary("location" -> "proposal_push_card"))
+        },
         getInitialState = { _ =>
           PromptingToProposeState(isProposalModalOpened = false)
         },
@@ -40,6 +46,11 @@ object PromptingToProposeSequence {
           val openProposalModal: (MouseSyntheticEvent) => Unit = { event =>
             event.preventDefault()
             self.setState(state => state.copy(isProposalModalOpened = true))
+          }
+
+          val onNextProposal: () => Unit = { () =>
+            self.props.wrapped.clickOnButtonHandler()
+            FacebookPixel.fbq("trackCustom", "click-proposal-push-card-ignore")
           }
 
           <.div(^.className := Seq(LayoutRulesStyles.row, PromptingToProposeStyles.wrapper))(
@@ -73,7 +84,7 @@ object PromptingToProposeSequence {
             <.div(^.className := PromptingToProposeStyles.ctaWrapper)(
               <.button(
                 ^.className := Seq(CTAStyles.basic, CTAStyles.basicOnButton, CTAStyles.moreDiscreet),
-                ^.onClick := self.props.wrapped.clickOnButtonHandler
+                ^.onClick := onNextProposal
               )(
                 <.i(^.className := Seq(FontAwesomeStyles.stepForward))(),
                 unescape("&nbsp;" + I18n.t("sequence.prompting-to-propose.next-cta"))

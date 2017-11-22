@@ -8,9 +8,12 @@ import org.make.front.components.Components._
 import org.make.front.components.politicalActions.PoliticalActionsContainer.PoliticalActionsContainerProps
 import org.make.front.components.theme.ResultsInThemeContainer.ResultsInThemeContainerProps
 import org.make.front.components.theme.ThemeHeader.ThemeHeaderProps
+import org.make.front.facades.FacebookPixel
 import org.make.front.models.{TranslatedTheme => TranslatedThemeModel}
 import org.make.front.styles.ThemeStyles
 import org.make.front.styles.utils._
+
+import scala.scalajs.js
 
 object Theme {
 
@@ -20,6 +23,10 @@ object Theme {
     React
       .createClass[ThemeProps, Unit](
         displayName = "Theme",
+        componentDidMount = { self =>
+          FacebookPixel
+            .fbq("trackCustom", "display-page-theme", js.Dictionary("themeId" -> self.props.wrapped.theme.id.value))
+        },
         render = (self) => {
           <.div()(
             <.div(^.className := ThemeComponentStyles.mainHeaderWrapper)(<.MainHeaderComponent.empty),

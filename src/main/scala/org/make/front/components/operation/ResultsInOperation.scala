@@ -9,13 +9,13 @@ import org.make.front.Main.CssSettings._
 import org.make.front.components.Components._
 import org.make.front.components.proposal.ProposalTileWithTags.ProposalTileWithTagsProps
 import org.make.front.components.tags.FilterByTags.FilterByTagsProps
-import org.make.front.facades.I18n
+import org.make.front.facades.{FacebookPixel, I18n}
 import org.make.front.facades.ReactInfiniteScroller.{
   ReactInfiniteScrollerVirtualDOMAttributes,
   ReactInfiniteScrollerVirtualDOMElements
 }
 import org.make.front.facades.Unescape.unescape
-import org.make.front.models.{Proposal, Tag => TagModel}
+import org.make.front.models.{Location, Proposal, Operation => OperationModel, Tag => TagModel}
 import org.make.front.styles._
 import org.make.front.styles.base.{ColRulesStyles, LayoutRulesStyles, TextStyles}
 import org.make.front.styles.ui.CTAStyles
@@ -24,8 +24,8 @@ import org.make.services.proposal.SearchResult
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
+import scala.scalajs.js
 import scala.util.{Failure, Success}
-import org.make.front.models.{Operation => OperationModel}
 
 object ResultsInOperation {
 
@@ -92,15 +92,42 @@ object ResultsInOperation {
             )()
           )
 
-        val onTagsChange: (Seq[TagModel]) => Unit = { tags =>
-          self.setState(_.copy(selectedTags = tags))
-          self.props.wrapped.onTagSelectionChange(tags).onComplete {
-            case Success(searchResult) =>
-              self.setState(
-                _.copy(listProposals = searchResult.results, hasMore = searchResult.total > searchResult.results.size)
+        val onTagsChange: (Seq[TagModel]) => Unit = {
+          tags =>
+            val previousSelectedTags = self.state.selectedTags
+            val changedTags = if (previousSelectedTags.size > tags.size) {
+              val tagsAsStrings = tags.map(_.tagId.value)
+              previousSelectedTags.filter(tag => !tagsAsStrings.contains(tag.tagId.value))
+            } else {
+              val tagsAsStrings = previousSelectedTags.map(_.tagId.value)
+              tags.filter(tag => !tagsAsStrings.contains(tag.tagId.value))
+            }
+
+            val action = if (previousSelectedTags.size > tags.size) {
+              "deselect"
+            } else {
+              "select"
+            }
+            changedTags.foreach { tag =>
+              FacebookPixel.fbq(
+                "trackCustom",
+                "click-tag-action",
+                js.Dictionary(
+                  "nature" -> action,
+                  "name" -> tag.label,
+                  "operation" -> self.props.wrapped.operation.operationId.value
+                )
               )
-            case Failure(_) => // Let parent handle logging error
-          }
+            }
+
+            self.setState(_.copy(selectedTags = tags))
+            self.props.wrapped.onTagSelectionChange(tags).onComplete {
+              case Success(searchResult) =>
+                self.setState(
+                  _.copy(listProposals = searchResult.results, hasMore = searchResult.total > searchResult.results.size)
+                )
+              case Failure(_) => // Let parent handle logging error
+            }
         }
 
         def proposals(proposals: Seq[Proposal]) =
@@ -132,10 +159,16 @@ object ResultsInOperation {
             } else { <.div.empty }),
             if (self.state.hasMore && !self.state.hasRequestedMore) {
               <.div(^.className := Seq(ResultsInOperationStyles.seeMoreButtonWrapper, LayoutRulesStyles.centeredRow))(
-                <.button(
-                  ^.onClick := (() => { onSeeMore(1) }),
-                  ^.className := Seq(CTAStyles.basic, CTAStyles.basicOnButton)
-                )(unescape(I18n.t("operation.results.see-more")))
+                <.button(^.onClick := (() => {
+                  onSeeMore(1)
+                  FacebookPixel.fbq(
+                    "trackCustom",
+                    "click-proposal-viewmore",
+                    js.Dictionary("location" -> Location.OperationPage.name)
+                  )
+                }), ^.className := Seq(CTAStyles.basic, CTAStyles.basicOnButton))(
+                  unescape(I18n.t("operation.results.see-more"))
+                )
               )
             }
           )
