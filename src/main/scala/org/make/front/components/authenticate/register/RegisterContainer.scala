@@ -5,7 +5,7 @@ import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import io.github.shogowada.scalajs.reactjs.redux.{ContainerComponentFactory, ReactRedux}
 import org.make.front.actions.{LoggedInAction, NotifyInfo}
 import org.make.front.components.AppState
-import org.make.front.facades.I18n
+import org.make.front.facades.{FacebookPixel, I18n}
 import org.make.front.models.{OperationId, User => UserModel}
 import org.make.services.user.UserService
 
@@ -38,6 +38,7 @@ object RegisterContainer {
 
         future.onComplete {
           case Success(user) =>
+            FacebookPixel.fbq("trackCustom", "signup-email-success")
             dispatch(LoggedInAction(user))
             dispatch(NotifyInfo(message = I18n.t("authenticate.register.notifications.success")))
             props.wrapped.onSuccessfulRegistration()

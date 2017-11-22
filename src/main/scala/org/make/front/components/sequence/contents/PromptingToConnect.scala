@@ -8,7 +8,7 @@ import org.make.front.components.Components._
 import org.make.front.components.authenticate.AuthenticateWithSocialNetworksContainer.AuthenticateWithSocialNetworksContainerProps
 import org.make.front.components.authenticate.LoginOrRegister.LoginOrRegisterProps
 import org.make.front.components.modals.Modal.ModalProps
-import org.make.front.facades.I18n
+import org.make.front.facades.{FacebookPixel, I18n}
 import org.make.front.facades.Unescape.unescape
 import org.make.front.models.{Operation => OperationModel}
 import org.make.front.styles.ThemeStyles
@@ -29,6 +29,9 @@ object PromptingToConnect {
     React
       .createClass[PromptingToConnectProps, PromptingToConnectState](
         displayName = "PromptingToConnect",
+        componentDidMount = { _ =>
+          FacebookPixel.fbq("trackCustom", "display-sign-up-card")
+        },
         getInitialState = { _ =>
           PromptingToConnectState(isAuthenticateModalOpened = false)
         },
@@ -43,6 +46,11 @@ object PromptingToConnect {
 
           def toggleAuthenticateModal() = () => {
             self.setState(state => state.copy(isAuthenticateModalOpened = !self.state.isAuthenticateModalOpened))
+          }
+
+          val skipSignup: () => Unit = { () =>
+            FacebookPixel.fbq("trackCustom", "skip-sign-up-card")
+            self.props.wrapped.clickOnButtonHandler()
           }
 
           <.div(^.className := PromptingToConnectStyles.wrapper)(
@@ -92,7 +100,8 @@ object PromptingToConnect {
                     onSuccessfulLogin = () => {
                       self.setState(_.copy(isAuthenticateModalOpened = false))
                       self.props.wrapped.authenticateHandler()
-                    }
+                    },
+                    operation = Some(self.props.wrapped.operation.operationId)
                   )
                 )()
               ),
@@ -103,7 +112,7 @@ object PromptingToConnect {
                   CTAStyles.basicOnButton,
                   CTAStyles.moreDiscreet
                 ),
-                ^.onClick := self.props.wrapped.clickOnButtonHandler
+                ^.onClick := skipSignup
               )(
                 <.i(^.className := Seq(FontAwesomeStyles.stepForward))(),
                 unescape("&nbsp;" + I18n.t("sequence.prompting-to-connect.next-cta"))

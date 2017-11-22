@@ -6,6 +6,7 @@ import io.github.shogowada.scalajs.reactjs.redux.ReactRedux
 import org.make.front.actions.LoggedInAction
 import org.make.front.components.AppState
 import org.make.front.components.authenticate.login.LoginWithEmail.LoginWithEmailProps
+import org.make.front.facades.FacebookPixel
 import org.make.services.user.UserService
 
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -22,6 +23,7 @@ object LoginWithEmailContainer {
         val result = UserService.login(email, password)
         result.onComplete {
           case Success(user) =>
+            FacebookPixel.fbq("trackCustom", "signin-email-success")
             dispatch(LoggedInAction(user))
             props.wrapped.onSuccessfulLogin()
           case Failure(_) =>

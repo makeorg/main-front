@@ -277,6 +277,16 @@ object Sequence {
       },
       render = { self =>
         def updateCurrentSlideIndex(currentSlide: Int): Unit = {
+          val oldSlideIndex = self.state.currentSlideIndex
+          // If user went back, log it
+          if (currentSlide < oldSlideIndex) {
+            FacebookPixel.fbq(
+              "trackCustom",
+              "click-sequence-previous-card",
+              js.Dictionary("initial-position" -> oldSlideIndex.toString, "target-position" -> currentSlide.toString)
+            )
+          }
+
           self.setState(state => state.copy(currentSlideIndex = currentSlide))
         }
 
