@@ -29,9 +29,6 @@ object PromptingToConnect {
     React
       .createClass[PromptingToConnectProps, PromptingToConnectState](
         displayName = "PromptingToConnect",
-        componentDidMount = { _ =>
-          FacebookPixel.fbq("trackCustom", "display-sign-up-card")
-        },
         getInitialState = { _ =>
           PromptingToConnectState(isAuthenticateModalOpened = false)
         },

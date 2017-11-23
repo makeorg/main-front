@@ -31,10 +31,6 @@ object PromptingToProposeSequence {
     React
       .createClass[PromptingToProposeProps, PromptingToProposeState](
         displayName = "PromptingToPropose",
-        componentDidMount = { _ =>
-          FacebookPixel
-            .fbq("trackCustom", "click-proposal-submit-form-open", js.Dictionary("location" -> "proposal_push_card"))
-        },
         getInitialState = { _ =>
           PromptingToProposeState(isProposalModalOpened = false)
         },
