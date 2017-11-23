@@ -17,7 +17,7 @@ object ProposalAuthorInfosFormat {
       I18n
         .t(
           "proposal.author-infos.postal-code",
-          Replacements(("postalCode", s"${proposal.author.postalCode.getOrElse("")}"))
+          Replacements(("postalCode", s"${proposal.author.postalCode.getOrElse("").substring(0, 2)}"))
         )
     } else {
       ""
