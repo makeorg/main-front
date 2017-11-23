@@ -22,9 +22,6 @@ object PromptingToGoBackToOperation {
     React
       .createClass[PromptingToGoBackToOperationProps, PromptingToGoBackToOperationState](
         displayName = "PromptingToGoBackToOperation",
-        componentDidMount = { _ =>
-          FacebookPixel.fbq("trackCustom", "display-finale-card")
-        },
         getInitialState = { _ =>
           PromptingToGoBackToOperationState()
         },

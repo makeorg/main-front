@@ -32,7 +32,8 @@ object Sequence {
   final case class ExtraSlide(reactClass: ReactClass,
                               props: (() => Unit) => Any,
                               position: (Seq[Slide]) => Int,
-                              displayed: Boolean = true)
+                              displayed: Boolean = true,
+                              maybeTracker: Option[String] = None)
 
   final case class SequenceProps(sequence: (Seq[ProposalIdModel]) => Future[SequenceModel],
                                  progressBarColor: Option[String],
@@ -47,13 +48,19 @@ object Sequence {
   trait Slide {
     def component(index: Int): ReactElement
     def optional: Boolean
+    def maybeTracker: Option[String] = None
   }
 
   class EmptyElementSlide(element: ReactClass, override val optional: Boolean = false) extends Slide {
     override def component(index: Int): ReactElement = <(element).empty
   }
 
-  class BasicSlide(element: ReactClass, props: Any, override val optional: Boolean = false) extends Slide {
+  class BasicSlide(element: ReactClass,
+                   props: Any,
+                   override val optional: Boolean = false,
+                   override val maybeTracker: Option[String] = None)
+      extends Slide {
+
     override def component(index: Int): ReactElement =
       <(element)(^.wrapped := props)()
   }
@@ -207,7 +214,14 @@ object Sequence {
         if (extraSlide.displayed) {
           val position = extraSlide.position(slides)
           slides = slides.take(position) ++
-            Seq(new BasicSlide(extraSlide.reactClass, extraSlide.props(next), optional = true)) ++
+            Seq(
+              new BasicSlide(
+                element = extraSlide.reactClass,
+                props = extraSlide.props(next),
+                optional = true,
+                maybeTracker = extraSlide.maybeTracker
+              )
+            ) ++
             slides.drop(position)
         }
       }
@@ -262,7 +276,7 @@ object Sequence {
         SequenceState(slides = Seq.empty, displayedSlidesCount = 0, currentSlideIndex = 0, proposals = Seq.empty)
       },
       componentWillReceiveProps = { (self, props) =>
-        if (props.wrapped.shouldReload) {
+        if (props.wrapped.shouldReload && props.wrapped.shouldReload != self.props.wrapped.shouldReload) {
           onNewProps(self, props, slider)
         }
       },
@@ -286,8 +300,10 @@ object Sequence {
               js.Dictionary("initial-position" -> oldSlideIndex.toString, "target-position" -> currentSlide.toString)
             )
           }
-
           self.setState(state => state.copy(currentSlideIndex = currentSlide))
+          self.state.slides(self.state.currentSlideIndex).maybeTracker.map { tracker =>
+            FacebookPixel.fbq("trackCustom", tracker)
+          }
         }
 
         def canScrollNext: Boolean = {

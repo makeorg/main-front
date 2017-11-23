@@ -41,33 +41,33 @@ object SequenceOfTheOperation {
   final case class SequenceOfTheOperationProps(maybeFirstProposalSlug: Option[String],
                                                isConnected: Boolean,
                                                operation: OperationModel,
-                                               sequence: (Seq[ProposalId]) => Future[SequenceModel],
-                                               numberOfProposals: Future[Int])
+                                               sequence: (Seq[ProposalId]) => Future[SequenceModel])
 
   final case class SequenceOfTheOperationState(isProposalModalOpened: Boolean,
                                                numberOfProposals: Int,
                                                sequenceTitle: String = "")
 
-  lazy val reactClass: ReactClass =
+  lazy val reactClass: ReactClass = {
+    def sequence(
+      self: Self[SequenceOfTheOperationProps, SequenceOfTheOperationState]
+    )(proposals: Seq[ProposalId]): Future[SequenceModel] = {
+      self.props.wrapped.sequence(proposals).map { seq =>
+        self.setState(_.copy(numberOfProposals = seq.proposals.size))
+        seq
+      }
+    }
     React.createClass[SequenceOfTheOperationProps, SequenceOfTheOperationState](
       displayName = "SequenceOfTheOperation",
       getInitialState = { _ =>
         SequenceOfTheOperationState(isProposalModalOpened = false, numberOfProposals = 0)
       },
-      componentWillReceiveProps = {
-        (self: Self[SequenceOfTheOperationProps, SequenceOfTheOperationState],
-         props: Props[SequenceOfTheOperationProps]) =>
-          props.wrapped.numberOfProposals.onComplete {
-            case Success(numberOfProposals) =>
-              self.setState(_.copy(numberOfProposals = numberOfProposals))
-            case Failure(_) =>
-          }
-      },
-      render = { self =>
+      componentDidMount = { (self) =>
         self.props.wrapped.sequence(Seq.empty).onComplete {
           case Failure(_)        =>
           case Success(sequence) => self.setState(_.copy(sequenceTitle = sequence.title))
         }
+      },
+      render = { self =>
         val guidedState: Boolean = false
 
         val gradientValues: GradientColorModel =
@@ -200,22 +200,23 @@ object SequenceOfTheOperation {
             <.div(^.className := TableLayoutStyles.cellVerticalAlignMiddle)(
               <.SequenceContainerComponent(
                 ^.wrapped := SequenceContainerProps(
-                  sequence = self.props.wrapped.sequence,
+                  sequence = sequence(self),
                   progressBarColor = Some(gradientValues.from),
                   maybeFirstProposalSlug = self.props.wrapped.maybeFirstProposalSlug,
                   extraSlides =
                     Seq(ExtraSlide(displayed = false, reactClass = IntroductionOfTheSequence.reactClass, props = {
                       (handler: () => Unit) =>
                         { IntroductionOfTheSequenceProps(clickOnButtonHandler = handler) }
-                    }, position = _ => 0), ExtraSlide(reactClass = PromptingToConnect.reactClass, props = { handler =>
-                      PromptingToConnectProps(
-                        operation = self.props.wrapped.operation,
-                        clickOnButtonHandler = handler,
-                        authenticateHandler = handler
-                      )
+                    }, position = _ => 0), ExtraSlide(maybeTracker = Some("display-sign-up-card"), reactClass = PromptingToConnect.reactClass, props = {
+                      handler =>
+                        PromptingToConnectProps(
+                          operation = self.props.wrapped.operation,
+                          clickOnButtonHandler = handler,
+                          authenticateHandler = handler
+                        )
                     }, position = { slides =>
                       slides.size
-                    }, displayed = !self.props.wrapped.isConnected), ExtraSlide(displayed = false, reactClass = PromptingToProposeSequence.reactClass, props = {
+                    }, displayed = !self.props.wrapped.isConnected), ExtraSlide(maybeTracker = Some("click-proposal-submit-form-open"), displayed = false, reactClass = PromptingToProposeSequence.reactClass, props = {
                       handler =>
                         PromptingToProposeProps(
                           operation = self.props.wrapped.operation,
@@ -224,11 +225,12 @@ object SequenceOfTheOperation {
                         )
                     }, position = { slides =>
                       slides.size / 2
-                    }), ExtraSlide(reactClass = PromptingToGoBackToOperation.reactClass, props = { handler =>
-                      PromptingToGoBackToOperationProps(
-                        operation = self.props.wrapped.operation,
-                        clickOnButtonHandler = handler
-                      )
+                    }), ExtraSlide(maybeTracker = Some("display-finale-card"), reactClass = PromptingToGoBackToOperation.reactClass, props = {
+                      handler =>
+                        PromptingToGoBackToOperationProps(
+                          operation = self.props.wrapped.operation,
+                          clickOnButtonHandler = handler
+                        )
                     }, position = { slides =>
                       slides.size
                     }))
@@ -240,6 +242,7 @@ object SequenceOfTheOperation {
         )
       }
     )
+  }
 }
 
 object SequenceOfTheOperationStyles extends StyleSheet.Inline {

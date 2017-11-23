@@ -17,11 +17,12 @@ object ProposalAuthorInfosFormat {
       I18n
         .t(
           "proposal.author-infos.postal-code",
-          Replacements(("postalCode", s"${proposal.author.postalCode.getOrElse("")}"))
+          Replacements(("postalCode", s"${proposal.author.postalCode.map(_.substring(0, 2)).getOrElse("")}"))
         )
     } else {
       ""
     }
-    proposal.author.firstName.getOrElse(I18n.t("proposal.author-infos.anonymous")) + age + postalCode
+
+    proposal.author.firstName.getOrElse(I18n.t("proposal.author-infos.anonymous")).toLowerCase.capitalize + age + postalCode
   }
 }
