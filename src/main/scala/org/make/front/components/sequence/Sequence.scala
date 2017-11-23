@@ -262,7 +262,7 @@ object Sequence {
         SequenceState(slides = Seq.empty, displayedSlidesCount = 0, currentSlideIndex = 0, proposals = Seq.empty)
       },
       componentWillReceiveProps = { (self, props) =>
-        if (props.wrapped.shouldReload) {
+        if (props.wrapped.shouldReload && props.wrapped.shouldReload != self.props.wrapped.shouldReload) {
           onNewProps(self, props, slider)
         }
       },

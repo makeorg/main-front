@@ -43,27 +43,14 @@ object SequenceOfTheOperationContainer {
 
         maybeOperation.flatMap { operation =>
           operation.sequence.map { sequence =>
-            val numberOfProposals: Future[Int] = {
-
-              val includes = Seq.empty
-              val sequenceResponse =
-                SequenceService.startSequenceBySlug(sequence.slug, includes)
-
-              sequenceResponse.recover {
-                case e => dispatch(NotifyError(e.getMessage))
-              }
-
-              sequenceResponse.map(_.proposals.size)
-            }
-
             dispatch(LoadConfiguration)
+            scalajs.js.Dynamic.global.console.log("SequenceOfTheOperationProps")
 
             SequenceOfTheOperation.SequenceOfTheOperationProps(
               maybeFirstProposalSlug = firstProposalSlug,
               isConnected = state.connectedUser.isDefined,
               operation = operation,
-              sequence = (includes) => SequenceService.startSequenceBySlug(sequence.slug, includes),
-              numberOfProposals = numberOfProposals
+              sequence = (includes) => SequenceService.startSequenceBySlug(sequence.slug, includes)
             )
           }
         }.getOrElse {
@@ -72,8 +59,7 @@ object SequenceOfTheOperationContainer {
             maybeFirstProposalSlug = None,
             isConnected = false,
             OperationModel(OperationIdModel("fake"), "", "", "", "", 0, 0, "", None),
-            (_) => Future.successful(SequenceModel(SequenceIdModel("fake"), "", "")),
-            Future.successful(0)
+            (_) => Future.successful(SequenceModel(SequenceIdModel("fake"), "", ""))
           )
         }
       }
