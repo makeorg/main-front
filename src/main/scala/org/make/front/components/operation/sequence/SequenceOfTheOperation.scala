@@ -207,15 +207,16 @@ object SequenceOfTheOperation {
                     Seq(ExtraSlide(displayed = false, reactClass = IntroductionOfTheSequence.reactClass, props = {
                       (handler: () => Unit) =>
                         { IntroductionOfTheSequenceProps(clickOnButtonHandler = handler) }
-                    }, position = _ => 0), ExtraSlide(reactClass = PromptingToConnect.reactClass, props = { handler =>
-                      PromptingToConnectProps(
-                        operation = self.props.wrapped.operation,
-                        clickOnButtonHandler = handler,
-                        authenticateHandler = handler
-                      )
+                    }, position = _ => 0), ExtraSlide(maybeTracker = Some("display-sign-up-card"), reactClass = PromptingToConnect.reactClass, props = {
+                      handler =>
+                        PromptingToConnectProps(
+                          operation = self.props.wrapped.operation,
+                          clickOnButtonHandler = handler,
+                          authenticateHandler = handler
+                        )
                     }, position = { slides =>
                       slides.size
-                    }, displayed = !self.props.wrapped.isConnected), ExtraSlide(displayed = false, reactClass = PromptingToProposeSequence.reactClass, props = {
+                    }, displayed = !self.props.wrapped.isConnected), ExtraSlide(maybeTracker = Some("click-proposal-submit-form-open"), displayed = false, reactClass = PromptingToProposeSequence.reactClass, props = {
                       handler =>
                         PromptingToProposeProps(
                           operation = self.props.wrapped.operation,
@@ -224,11 +225,12 @@ object SequenceOfTheOperation {
                         )
                     }, position = { slides =>
                       slides.size / 2
-                    }), ExtraSlide(reactClass = PromptingToGoBackToOperation.reactClass, props = { handler =>
-                      PromptingToGoBackToOperationProps(
-                        operation = self.props.wrapped.operation,
-                        clickOnButtonHandler = handler
-                      )
+                    }), ExtraSlide(maybeTracker = Some("display-finale-card"), reactClass = PromptingToGoBackToOperation.reactClass, props = {
+                      handler =>
+                        PromptingToGoBackToOperationProps(
+                          operation = self.props.wrapped.operation,
+                          clickOnButtonHandler = handler
+                        )
                     }, position = { slides =>
                       slides.size
                     }))
