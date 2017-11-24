@@ -5,12 +5,16 @@ import io.github.shogowada.scalajs.reactjs.VirtualDOM.{<, _}
 import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import io.github.shogowada.scalajs.reactjs.router.dom.RouterDOM._
 import org.make.core.Counter
+import org.make.front.Main.CssSettings._
 import org.make.front.components.Components.{RichVirtualDOMElements, _}
 import org.make.front.components.proposal.ProposalTile.ProposalTileProps
 import org.make.front.facades.{HexToRgba, I18n, Replacements}
 import org.make.front.models.{
-  GradientColor   => GradientColorModel,
-  Proposal        => ProposalModel,
+  GradientColor => GradientColorModel,
+  Location => LocationModel,
+  Operation => OperationModel,
+  Proposal => ProposalModel,
+  Sequence => SequenceModel,
   TranslatedTheme => TranslatedThemeModel
 }
 import org.make.front.styles._
@@ -22,14 +26,16 @@ import org.make.services.proposal.SearchResult
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 import scala.util.{Failure, Success}
-import org.make.front.Main.CssSettings._
 
 object ThemeShowcase {
 
   final case class ThemeShowcaseProps(proposals: Future[SearchResult],
                                       maybeTheme: Option[TranslatedThemeModel],
                                       maybeIntro: Option[String],
-                                      maybeNews: Option[String])
+                                      maybeNews: Option[String],
+                                      maybeOperation: Option[OperationModel],
+                                      maybeSequence: Option[SequenceModel],
+                                      maybeLocation: Option[LocationModel] )
 
   final case class ThemeShowcaseState(proposals: Seq[ProposalModel])
 
@@ -89,7 +95,13 @@ object ThemeShowcase {
                     )(
                       <.ProposalTileComponent(
                         ^.wrapped :=
-                          ProposalTileProps(proposal = proposal, index = counter.getAndIncrement())
+                          ProposalTileProps(
+                            proposal = proposal,
+                            index = counter.getAndIncrement(),
+                            maybeTheme = self.props.wrapped.maybeTheme,
+                            maybeOperation = self.props.wrapped.maybeOperation,
+                            maybeSequence = self.props.wrapped.maybeSequence,
+                            maybeLocation = self.props.wrapped.maybeLocation)
                       )()
                   )
                 )

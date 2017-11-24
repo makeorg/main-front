@@ -9,7 +9,12 @@ import org.make.front.components.politicalActions.PoliticalActionsContainer.Poli
 import org.make.front.components.theme.ResultsInThemeContainer.ResultsInThemeContainerProps
 import org.make.front.components.theme.ThemeHeader.ThemeHeaderProps
 import org.make.front.facades.FacebookPixel
-import org.make.front.models.{TranslatedTheme => TranslatedThemeModel}
+import org.make.front.models.{
+  Location        => LocationModel,
+  Operation       => OperationModel,
+  Sequence        => SequenceModel,
+  TranslatedTheme => TranslatedThemeModel
+}
 import org.make.front.styles.ThemeStyles
 import org.make.front.styles.utils._
 
@@ -17,7 +22,10 @@ import scala.scalajs.js
 
 object Theme {
 
-  final case class ThemeProps(theme: TranslatedThemeModel)
+  final case class ThemeProps(theme: TranslatedThemeModel,
+                              maybeOperation: Option[OperationModel],
+                              maybeSequence: Option[SequenceModel],
+                              maybeLocation: Option[LocationModel])
 
   lazy val reactClass: ReactClass =
     React
@@ -36,7 +44,12 @@ object Theme {
                 ^.wrapped := PoliticalActionsContainerProps(Some(self.props.wrapped.theme))
               )(),
               <.ResultsInThemeContainerComponent(
-                ^.wrapped := ResultsInThemeContainerProps(currentTheme = self.props.wrapped.theme)
+                ^.wrapped := ResultsInThemeContainerProps(
+                  currentTheme = self.props.wrapped.theme,
+                  maybeOperation = self.props.wrapped.maybeOperation,
+                  maybeSequence = self.props.wrapped.maybeSequence,
+                  maybeLocation = self.props.wrapped.maybeLocation
+                )
               )(),
               <.NavInThemesContainerComponent.empty
             ),

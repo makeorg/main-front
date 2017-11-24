@@ -9,13 +9,20 @@ import org.make.front.Main.CssSettings._
 import org.make.front.components.Components._
 import org.make.front.components.proposal.ProposalTileWithTags.ProposalTileWithTagsProps
 import org.make.front.components.tags.FilterByTags.FilterByTagsProps
-import org.make.front.facades.{FacebookPixel, I18n}
 import org.make.front.facades.ReactInfiniteScroller.{
   ReactInfiniteScrollerVirtualDOMAttributes,
   ReactInfiniteScrollerVirtualDOMElements
 }
 import org.make.front.facades.Unescape.unescape
-import org.make.front.models.{Location, Proposal, Operation => OperationModel, Tag => TagModel}
+import org.make.front.facades.{FacebookPixel, I18n}
+import org.make.front.models.{
+  Proposal,
+  Location        => LocationModel,
+  Operation       => OperationModel,
+  Sequence        => SequenceModel,
+  Tag             => TagModel,
+  TranslatedTheme => TranslatedThemeModel
+}
 import org.make.front.styles._
 import org.make.front.styles.base.{ColRulesStyles, LayoutRulesStyles, TextStyles}
 import org.make.front.styles.ui.CTAStyles
@@ -33,7 +40,10 @@ object ResultsInOperation {
                                      onMoreResultsRequested: (Seq[Proposal], Seq[TagModel]) => Future[SearchResult],
                                      onTagSelectionChange: (Seq[TagModel])                  => Future[SearchResult],
                                      proposals: Future[SearchResult],
-                                     preselectedTags: Seq[TagModel])
+                                     preselectedTags: Seq[TagModel],
+                                     maybeTheme: Option[TranslatedThemeModel],
+                                     maybeSequence: Option[SequenceModel],
+                                     maybeLocation: Option[LocationModel])
 
   case class ResultsInOperationState(listProposals: Seq[Proposal],
                                      selectedTags: Seq[TagModel],
@@ -155,7 +165,11 @@ object ResultsInOperation {
                       ^.wrapped := ProposalTileWithTagsProps(
                         proposal = proposal,
                         index = counter.getAndIncrement(),
-                        locationFacebook = Some("page-operation")
+                        locationFacebook = Some("page-operation"),
+                        maybeTheme = self.props.wrapped.maybeTheme,
+                        maybeOperation = Some(self.props.wrapped.operation),
+                        maybeSequence = self.props.wrapped.maybeSequence,
+                        maybeLocation = self.props.wrapped.maybeLocation
                       )
                     )()
                 )
@@ -168,7 +182,9 @@ object ResultsInOperation {
                   FacebookPixel.fbq(
                     "trackCustom",
                     "click-proposal-viewmore",
-                    js.Dictionary("location" -> Location.OperationPage(self.props.wrapped.operation.operationId).name)
+                    js.Dictionary(
+                      "location" -> LocationModel.OperationPage(self.props.wrapped.operation.operationId).name
+                    )
                   )
                 }), ^.className := Seq(CTAStyles.basic, CTAStyles.basicOnButton))(
                   unescape(I18n.t("operation.results.see-more"))

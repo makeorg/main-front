@@ -24,8 +24,8 @@ object PromptingToProposeSequence {
   final case class PromptingToProposeProps(operation: OperationModel,
                                            clickOnButtonHandler: () => Unit,
                                            proposeHandler: ()       => Unit,
-                                           maybeSequence: Option[SequenceModel] /* = None*/,
-                                           maybeLocation: Option[LocationModel] /* = None*/ )
+                                           maybeSequence: Option[SequenceModel],
+                                           maybeLocation: Option[LocationModel])
 
   final case class PromptingToProposeState(isProposalModalOpened: Boolean)
 

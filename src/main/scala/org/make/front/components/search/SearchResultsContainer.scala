@@ -64,6 +64,8 @@ object SearchResultsContainer {
         SearchResults.SearchResultsProps(
           onMoreResultsRequested = getProposals,
           searchValue = searchValue,
+          maybeSequence = None,
+          maybeOperation = None,
           maybeLocation = Some(Location.SearchResultsPage)
         )
       }

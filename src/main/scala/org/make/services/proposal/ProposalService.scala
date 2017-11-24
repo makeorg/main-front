@@ -24,12 +24,12 @@ object ProposalService extends ApiService {
                      location: Location,
                      themeId: Option[String] = None,
                      source: String = Source.Core.name,
-                     operation: Option[String] = None,
+                     operation: Option[Operation] = None,
                      question: Option[String] = None): Future[RegisterProposal] = {
     var headers =
       Map[String, String](MakeApiClient.sourceHeader -> source, MakeApiClient.locationHeader -> location.name)
     themeId.foreach(theme => headers += MakeApiClient.themeIdHeader -> theme)
-    operation.foreach(op  => headers += MakeApiClient.operationHeader -> op)
+    operation.foreach(op  => headers += MakeApiClient.operationHeader -> op.label)
     question.foreach(q    => headers += MakeApiClient.questionHeader -> q)
     MakeApiClient
       .post[RegisterProposalResponse](
@@ -74,40 +74,86 @@ object ProposalService extends ApiService {
       .map(SearchResult.apply)
   }
 
-  def vote(proposalId: ProposalId, voteValue: String): Future[Vote] = {
+  def vote(proposalId: ProposalId,
+           voteValue: String,
+           location: Location,
+           source: String = Source.Core.name,
+           operation: Option[Operation] = None,
+           question: Option[String] = None): Future[Vote] = {
+    var headers =
+      Map[String, String](MakeApiClient.sourceHeader -> source, MakeApiClient.locationHeader -> location.name)
+    operation.foreach(op => headers += MakeApiClient.operationHeader -> op.label)
+    question.foreach(q   => headers += MakeApiClient.questionHeader -> q)
+
     MakeApiClient
       .post[VoteResponse](
         apiEndpoint = resourceName / proposalId.value / "vote",
-        data = JSON.stringify(JsVoteRequest(VoteRequest(voteValue)))
+        data = JSON.stringify(JsVoteRequest(VoteRequest(voteValue))),
+        headers = headers
       )
       .map(Vote.apply)
   }
 
-  def unvote(proposalId: ProposalId, oldVoteValue: String): Future[Vote] = {
+  def unvote(proposalId: ProposalId,
+             oldVoteValue: String,
+             location: Location,
+             source: String = Source.Core.name,
+             operation: Option[Operation] = None,
+             question: Option[String] = None): Future[Vote] = {
+    var headers =
+      Map[String, String](MakeApiClient.sourceHeader -> source, MakeApiClient.locationHeader -> location.name)
+    operation.foreach(op => headers += MakeApiClient.operationHeader -> op.label)
+    question.foreach(q   => headers += MakeApiClient.questionHeader -> q)
+
     MakeApiClient
       .post[VoteResponse](
         apiEndpoint = resourceName / proposalId.value / "unvote",
-        data = JSON.stringify(JsVoteRequest(VoteRequest(oldVoteValue)))
+        data = JSON.stringify(JsVoteRequest(VoteRequest(oldVoteValue))),
+        headers = headers
       )
       .map(Vote.apply)
   }
 
-  def qualifyVote(proposalId: ProposalId, vote: String, qualification: String): Future[Qualification] = {
+  def qualifyVote(proposalId: ProposalId,
+                  vote: String,
+                  qualification: String,
+                  location: Location,
+                  source: String = Source.Core.name,
+                  operation: Option[Operation] = None,
+                  question: Option[String] = None): Future[Qualification] = {
+    var headers =
+      Map[String, String](MakeApiClient.sourceHeader -> source, MakeApiClient.locationHeader -> location.name)
+    operation.foreach(op => headers += MakeApiClient.operationHeader -> op.label)
+    question.foreach(q   => headers += MakeApiClient.questionHeader -> q)
+
     MakeApiClient
       .post[QualificationResponse](
         apiEndpoint = resourceName / proposalId.value / "qualification",
-        data =
-          JSON.stringify(JsQualificationRequest(QualificationRequest(voteKey = vote, qualificationKey = qualification)))
+        data = JSON
+          .stringify(JsQualificationRequest(QualificationRequest(voteKey = vote, qualificationKey = qualification))),
+        headers = headers
       )
       .map(Qualification.apply)
   }
 
-  def removeVoteQualification(proposalId: ProposalId, vote: String, qualification: String): Future[Qualification] = {
+  def removeVoteQualification(proposalId: ProposalId,
+                              vote: String,
+                              qualification: String,
+                              location: Location,
+                              source: String = Source.Core.name,
+                              operation: Option[Operation] = None,
+                              question: Option[String] = None): Future[Qualification] = {
+    var headers =
+      Map[String, String](MakeApiClient.sourceHeader -> source, MakeApiClient.locationHeader -> location.name)
+    operation.foreach(op => headers += MakeApiClient.operationHeader -> op.label)
+    question.foreach(q   => headers += MakeApiClient.questionHeader -> q)
+
     MakeApiClient
       .post[QualificationResponse](
         apiEndpoint = resourceName / proposalId.value / "unqualification",
-        data =
-          JSON.stringify(JsQualificationRequest(QualificationRequest(voteKey = vote, qualificationKey = qualification)))
+        data = JSON
+          .stringify(JsQualificationRequest(QualificationRequest(voteKey = vote, qualificationKey = qualification))),
+        headers = headers
       )
       .map(Qualification.apply)
   }

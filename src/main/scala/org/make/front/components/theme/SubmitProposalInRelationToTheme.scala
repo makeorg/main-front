@@ -4,6 +4,7 @@ import io.github.shogowada.scalajs.reactjs.React
 import io.github.shogowada.scalajs.reactjs.VirtualDOM._
 import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import io.github.shogowada.scalajs.reactjs.elements.ReactElement
+import io.github.shogowada.scalajs.reactjs.router.WithRouter
 import org.make.front.Main.CssSettings._
 import org.make.front.components.Components._
 import org.make.front.components.submitProposal.SubmitProposalAndLoginContainer.SubmitProposalAndLoginContainerProps
@@ -20,80 +21,82 @@ object SubmitProposalInRelationToTheme {
 
   case class SubmitProposalInRelationToThemeProps(theme: TranslatedThemeModel,
                                                   onProposalProposed: () => Unit,
-                                                  maybeLocation: Option[Location] /* = None*/ )
+                                                  maybeLocation: Option[Location])
 
   case class SubmitProposalInRelationToThemeState(theme: TranslatedThemeModel)
 
   lazy val reactClass: ReactClass =
-    React.createClass[SubmitProposalInRelationToThemeProps, SubmitProposalInRelationToThemeState](
-      displayName = "SubmitProposalInRelationToTheme",
-      getInitialState = { self =>
-        SubmitProposalInRelationToThemeState(theme = self.props.wrapped.theme)
-      },
-      componentDidMount = { self =>
-        FacebookPixel
-          .fbq(
-            "trackCustom",
-            "click-proposal-submit-form-open",
-            js.Dictionary("location" -> Location.ThemePage(self.props.wrapped.theme.id).name)
-          )
-      },
-      render = { self =>
-        val gradientValues: GradientColorModel = self.state.theme.gradient.getOrElse(GradientColorModel("#FFF", "#FFF"))
+    WithRouter(
+      React.createClass[SubmitProposalInRelationToThemeProps, SubmitProposalInRelationToThemeState](
+        displayName = "SubmitProposalInRelationToTheme",
+        getInitialState = { self =>
+          SubmitProposalInRelationToThemeState(theme = self.props.wrapped.theme)
+        },
+        componentDidMount = { self =>
+          FacebookPixel
+            .fbq(
+              "trackCustom",
+              "click-proposal-submit-form-open",
+              js.Dictionary("location" -> Location.ThemePage(self.props.wrapped.theme.id).name)
+            )
+        },
+        render = { self =>
+          val gradientValues: GradientColorModel =
+            self.state.theme.gradient.getOrElse(GradientColorModel("#FFF", "#FFF"))
 
-        object DynamicSubmitProposalInRelationToThemeStyles extends StyleSheet.Inline {
+          object DynamicSubmitProposalInRelationToThemeStyles extends StyleSheet.Inline {
 
-          import dsl._
+            import dsl._
 
-          val titleBackground = style(
-            background := s"-webkit-linear-gradient(94deg, ${gradientValues.from}, ${gradientValues.to})",
-            Attr.real("-webkit-background-clip") := "text",
-            Attr.real("-webkit-text-fill-color") := "transparent"
-          )
-        }
+            val titleBackground = style(
+              background := s"-webkit-linear-gradient(94deg, ${gradientValues.from}, ${gradientValues.to})",
+              Attr.real("-webkit-background-clip") := "text",
+              Attr.real("-webkit-text-fill-color") := "transparent"
+            )
+          }
 
-        val intro: (ReactElement) => ReactElement = {
-          element =>
-            <.div()(
-              <.p(^.className := SubmitProposalInRelationToThemeStyles.title)(
-                <.span(
-                  ^.className := Seq(
-                    TextStyles.mediumText,
-                    TextStyles.intro,
-                    SubmitProposalInRelationToThemeStyles.intro
-                  )
-                )(unescape(I18n.t("theme.submit-proposal.intro"))),
-                <.br()(),
-                <.strong(
-                  ^.className := Seq(
-                    TextStyles.veryBigTitle,
-                    SubmitProposalInRelationToThemeStyles.theme,
-                    DynamicSubmitProposalInRelationToThemeStyles.titleBackground
-                  )
-                )(unescape(self.state.theme.title))
-              ),
-              element,
-              <.style()(
-                SubmitProposalInRelationToThemeStyles.render[String],
-                DynamicSubmitProposalInRelationToThemeStyles.render[String]
+          val intro: (ReactElement) => ReactElement = {
+            element =>
+              <.div()(
+                <.p(^.className := SubmitProposalInRelationToThemeStyles.title)(
+                  <.span(
+                    ^.className := Seq(
+                      TextStyles.mediumText,
+                      TextStyles.intro,
+                      SubmitProposalInRelationToThemeStyles.intro
+                    )
+                  )(unescape(I18n.t("theme.submit-proposal.intro"))),
+                  <.br()(),
+                  <.strong(
+                    ^.className := Seq(
+                      TextStyles.veryBigTitle,
+                      SubmitProposalInRelationToThemeStyles.theme,
+                      DynamicSubmitProposalInRelationToThemeStyles.titleBackground
+                    )
+                  )(unescape(self.state.theme.title))
+                ),
+                element,
+                <.style()(
+                  SubmitProposalInRelationToThemeStyles.render[String],
+                  DynamicSubmitProposalInRelationToThemeStyles.render[String]
+                )
               )
-            )
+          }
+
+          <.SubmitProposalAndLoginComponent(
+            ^.wrapped :=
+              SubmitProposalAndLoginContainerProps(
+                intro = intro,
+                onProposalProposed = self.props.wrapped.onProposalProposed,
+                maybeTheme = Some(self.props.wrapped.theme),
+                maybeOperation = None,
+                maybeSequence = None,
+                maybeLocation = self.props.wrapped.maybeLocation
+              )
+          )()
         }
-
-        <.SubmitProposalAndLoginComponent(
-          ^.wrapped :=
-            SubmitProposalAndLoginContainerProps(
-              intro = intro,
-              onProposalProposed = self.props.wrapped.onProposalProposed,
-              maybeTheme = Some(self.props.wrapped.theme),
-              maybeOperation = None,
-              maybeSequence = None,
-              maybeLocation = self.props.wrapped.maybeLocation
-            )
-        )()
-      }
+      )
     )
-
 }
 
 object SubmitProposalInRelationToThemeStyles extends StyleSheet.Inline {

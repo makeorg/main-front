@@ -23,11 +23,12 @@ object OperationContainer {
           Operation.OperationProps(
             OperationModel(OperationIdModel("fake"), "", "", "", "", 0, 0, "", None),
             None,
+            None,
             Some(Location.Homepage)
           )
         } else {
           dispatch(LoadConfiguration)
-          Operation.OperationProps(OperationsList.head, None, None)
+          Operation.OperationProps(OperationsList.head, None, None, None)
         }
       }
     }

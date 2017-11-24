@@ -4,6 +4,7 @@ import io.github.shogowada.scalajs.reactjs.React
 import io.github.shogowada.scalajs.reactjs.VirtualDOM._
 import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import io.github.shogowada.scalajs.reactjs.elements.ReactElement
+import io.github.shogowada.scalajs.reactjs.router.WithRouter
 import org.make.front.Main.CssSettings._
 import org.make.front.components.Components._
 import org.make.front.components.submitProposal.SubmitProposalAndLoginContainer.SubmitProposalAndLoginContainerProps
@@ -21,34 +22,36 @@ object SubmitProposal {
   case class SubmitProposalState()
 
   lazy val reactClass: ReactClass =
-    React.createClass[SubmitProposalProps, SubmitProposalState](
-      displayName = "SubmitProposal",
-      getInitialState = { _ =>
-        SubmitProposalState()
-      },
-      render = { self =>
-        val intro: (ReactElement) => ReactElement = { element =>
-          <.div()(
-            <.p(^.className := Seq(TextStyles.mediumText, TextStyles.intro, SubmitProposalStyles.intro))(
-              unescape(I18n.t("submit-proposal.intro"))
-            ),
-            element,
-            <.style()(SubmitProposalStyles.render[String])
-          )
-        }
-
-        <.SubmitProposalAndLoginComponent(
-          ^.wrapped :=
-            SubmitProposalAndLoginContainerProps(
-              intro = intro,
-              onProposalProposed = self.props.wrapped.onProposalProposed,
-              maybeTheme = None,
-              maybeOperation = None,
-              maybeSequence = None,
-              maybeLocation = self.props.wrapped.maybeLocation
+    WithRouter(
+      React.createClass[SubmitProposalProps, SubmitProposalState](
+        displayName = "SubmitProposal",
+        getInitialState = { _ =>
+          SubmitProposalState()
+        },
+        render = { self =>
+          val intro: (ReactElement) => ReactElement = { element =>
+            <.div()(
+              <.p(^.className := Seq(TextStyles.mediumText, TextStyles.intro, SubmitProposalStyles.intro))(
+                unescape(I18n.t("submit-proposal.intro"))
+              ),
+              element,
+              <.style()(SubmitProposalStyles.render[String])
             )
-        )()
-      }
+          }
+
+          <.SubmitProposalAndLoginComponent(
+            ^.wrapped :=
+              SubmitProposalAndLoginContainerProps(
+                intro = intro,
+                onProposalProposed = self.props.wrapped.onProposalProposed,
+                maybeTheme = None,
+                maybeOperation = None,
+                maybeSequence = None,
+                maybeLocation = self.props.wrapped.maybeLocation
+              )
+          )()
+        }
+      )
     )
 }
 

@@ -3,15 +3,24 @@ package org.make.front.components.sequence.contents
 import io.github.shogowada.scalajs.reactjs.React
 import io.github.shogowada.scalajs.reactjs.VirtualDOM.{<, ^, _}
 import io.github.shogowada.scalajs.reactjs.classes.ReactClass
+import io.github.shogowada.scalajs.reactjs.router.WithRouter
 import org.make.front.Main.CssSettings._
 import org.make.front.components.Components._
 import org.make.front.components.proposal.vote.VoteContainer.VoteContainerProps
 import org.make.front.facades.I18n
 import org.make.front.facades.Unescape.unescape
 import org.make.front.helpers.ProposalAuthorInfosFormat
-import org.make.front.models.{Proposal => ProposalModel, Qualification => QualificationModel, Vote => VoteModel}
+import org.make.front.models.{
+  Location        => LocationModel,
+  Operation       => OperationModel,
+  Proposal        => ProposalModel,
+  Qualification   => QualificationModel,
+  Sequence        => SequenceModel,
+  TranslatedTheme => TranslatedThemeModel,
+  Vote            => VoteModel
+}
 import org.make.front.styles.ThemeStyles
-import org.make.front.styles.base.{ColRulesStyles, LayoutRulesStyles, TextStyles}
+import org.make.front.styles.base.{LayoutRulesStyles, TextStyles}
 import org.make.front.styles.ui.CTAStyles
 import org.make.front.styles.utils._
 import org.make.front.styles.vendors.FontAwesomeStyles
@@ -26,59 +35,69 @@ object ProposalInsideSequence {
                                                hasBeenVoted: Boolean,
                                                guideToVote: Option[String] = None,
                                                guideToQualification: Option[String] = None,
-                                               index: Int)
+                                               index: Int,
+                                               maybeTheme: Option[TranslatedThemeModel],
+                                               maybeOperation: Option[OperationModel],
+                                               maybeSequence: Option[SequenceModel],
+                                               maybeLocation: Option[LocationModel])
 
   final case class ProposalInsideSequenceState(hasBeenVoted: Boolean)
 
   lazy val reactClass: ReactClass =
-    React.createClass[ProposalInsideSequenceProps, ProposalInsideSequenceState](
-      displayName = "ProposalInsideSequence",
-      getInitialState = { self =>
-        ProposalInsideSequenceState(hasBeenVoted = false)
-      },
-      componentWillReceiveProps = { (self, props) =>
-        self.setState(ProposalInsideSequenceState(hasBeenVoted = props.wrapped.hasBeenVoted))
-      },
-      render = { self =>
-        <.div(^.className := Seq(LayoutRulesStyles.row))(
-          <.div(^.className := ProposalInsideSequenceStyles.infosWrapper)(
-            <.p(^.className := Seq(TextStyles.mediumText, ProposalInsideSequenceStyles.infos))(
-              ProposalAuthorInfosFormat.apply(self.props.wrapped.proposal)
-            )
-          ),
-          <.div(^.className := ProposalInsideSequenceStyles.contentWrapper)(
-            <.h3(^.className := Seq(TextStyles.bigText, TextStyles.boldText))(self.props.wrapped.proposal.content),
-            <.div(^.className := ProposalInsideSequenceStyles.voteWrapper)(
-              <.VoteContainerComponent(
-                ^.wrapped := VoteContainerProps(
-                  proposal = self.props.wrapped.proposal,
-                  onSuccessfulVote = self.props.wrapped.handleSuccessfulVote,
-                  onSuccessfulQualification = self.props.wrapped.handleSuccessfulQualification,
-                  guideToVote = self.props.wrapped.guideToVote,
-                  guideToQualification = self.props.wrapped.guideToQualification,
-                  index = self.props.wrapped.index,
-                  locationFBTracking = Some("sequence-proposal-card")
-                )
-              )(),
-              <.div(^.className := ProposalInsideSequenceStyles.ctaWrapper)(
-                <.button(
-                  ^.className := Seq(
-                    CTAStyles.basic,
-                    CTAStyles.basicOnButton,
-                    ProposalInsideSequenceStyles.ctaVisibility(self.props.wrapped.hasBeenVoted)
-                  ),
-                  ^.disabled := !self.props.wrapped.hasBeenVoted,
-                  ^.onClick := self.props.wrapped.handleClickOnCta
-                )(
-                  unescape(I18n.t("sequence.proposal.next-cta") + "&nbsp;"),
-                  <.i(^.className := FontAwesomeStyles.angleRight)()
+    WithRouter(
+      React.createClass[ProposalInsideSequenceProps, ProposalInsideSequenceState](
+        displayName = "ProposalInsideSequence",
+        getInitialState = { self =>
+          ProposalInsideSequenceState(hasBeenVoted = false)
+        },
+        componentWillReceiveProps = { (self, props) =>
+          self.setState(ProposalInsideSequenceState(hasBeenVoted = props.wrapped.hasBeenVoted))
+        },
+        render = { self =>
+          <.div(^.className := Seq(LayoutRulesStyles.row))(
+            <.div(^.className := ProposalInsideSequenceStyles.infosWrapper)(
+              <.p(^.className := Seq(TextStyles.mediumText, ProposalInsideSequenceStyles.infos))(
+                ProposalAuthorInfosFormat.apply(self.props.wrapped.proposal)
+              )
+            ),
+            <.div(^.className := ProposalInsideSequenceStyles.contentWrapper)(
+              <.h3(^.className := Seq(TextStyles.bigText, TextStyles.boldText))(self.props.wrapped.proposal.content),
+              <.div(^.className := ProposalInsideSequenceStyles.voteWrapper)(
+                <.VoteContainerComponent(
+                  ^.wrapped := VoteContainerProps(
+                    proposal = self.props.wrapped.proposal,
+                    onSuccessfulVote = self.props.wrapped.handleSuccessfulVote,
+                    onSuccessfulQualification = self.props.wrapped.handleSuccessfulQualification,
+                    guideToVote = self.props.wrapped.guideToVote,
+                    guideToQualification = self.props.wrapped.guideToQualification,
+                    index = self.props.wrapped.index,
+                    locationFBTracking = Some("sequence-proposal-card"),
+                    maybeTheme = self.props.wrapped.maybeTheme,
+                    maybeOperation = self.props.wrapped.maybeOperation,
+                    maybeSequence = self.props.wrapped.maybeSequence,
+                    maybeLocation = self.props.wrapped.maybeLocation
+                  )
+                )(),
+                <.div(^.className := ProposalInsideSequenceStyles.ctaWrapper)(
+                  <.button(
+                    ^.className := Seq(
+                      CTAStyles.basic,
+                      CTAStyles.basicOnButton,
+                      ProposalInsideSequenceStyles.ctaVisibility(self.props.wrapped.hasBeenVoted)
+                    ),
+                    ^.disabled := !self.props.wrapped.hasBeenVoted,
+                    ^.onClick := self.props.wrapped.handleClickOnCta
+                  )(
+                    unescape(I18n.t("sequence.proposal.next-cta") + "&nbsp;"),
+                    <.i(^.className := FontAwesomeStyles.angleRight)()
+                  )
                 )
               )
-            )
-          ),
-          <.style()(ProposalInsideSequenceStyles.render[String])
-        )
-      }
+            ),
+            <.style()(ProposalInsideSequenceStyles.render[String])
+          )
+        }
+      )
     )
 }
 

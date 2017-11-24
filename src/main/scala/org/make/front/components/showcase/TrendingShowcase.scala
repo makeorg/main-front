@@ -9,7 +9,13 @@ import org.make.front.components.Components._
 import org.make.front.components.proposal.ProposalTile.ProposalTileProps
 import org.make.front.components.proposal.ProposalTileWithThemeContainer.ProposalTileWithThemeContainerProps
 import org.make.front.facades.logoMake
-import org.make.front.models.Proposal
+import org.make.front.models.{
+  Proposal,
+  Location        => LocationModel,
+  Operation       => OperationModel,
+  Sequence        => SequenceModel,
+  TranslatedTheme => TranslatedThemeModel
+}
 import org.make.front.styles._
 import org.make.front.styles.base.{ColRulesStyles, LayoutRulesStyles, TextStyles}
 import org.make.front.styles.utils._
@@ -21,7 +27,13 @@ import scala.util.{Failure, Success}
 
 object TrendingShowcase {
 
-  final case class TrendingShowcaseProps(proposals: Future[SearchResult], intro: String, title: String)
+  final case class TrendingShowcaseProps(proposals: Future[SearchResult],
+                                         intro: String,
+                                         title: String,
+                                         maybeTheme: Option[TranslatedThemeModel],
+                                         maybeOperation: Option[OperationModel],
+                                         maybeSequence: Option[SequenceModel],
+                                         maybeLocation: Option[LocationModel])
 
   final case class TrendingShowcaseState(proposals: Seq[Proposal])
 
@@ -68,12 +80,25 @@ object TrendingShowcase {
                     )(if (proposal.themeId.isDefined) {
                       <.ProposalTileWithThemeContainerComponent(
                         ^.wrapped :=
-                          ProposalTileWithThemeContainerProps(proposal = proposal, index = counter.getAndIncrement())
+                          ProposalTileWithThemeContainerProps(
+                            proposal = proposal,
+                            index = counter.getAndIncrement(),
+                            maybeOperation = self.props.wrapped.maybeOperation,
+                            maybeSequence = self.props.wrapped.maybeSequence,
+                            maybeLocation = self.props.wrapped.maybeLocation
+                          )
                       )()
                     } else {
                       <.ProposalTileComponent(
                         ^.wrapped :=
-                          ProposalTileProps(proposal = proposal, index = counter.getAndIncrement())
+                          ProposalTileProps(
+                            proposal = proposal,
+                            index = counter.getAndIncrement(),
+                            maybeTheme = self.props.wrapped.maybeTheme,
+                            maybeOperation = self.props.wrapped.maybeOperation,
+                            maybeSequence = self.props.wrapped.maybeSequence,
+                            maybeLocation = self.props.wrapped.maybeLocation
+                          )
                       )()
                     })
                 )

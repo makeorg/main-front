@@ -52,6 +52,8 @@ object SequenceOfTheOperationContainer {
               isConnected = state.connectedUser.isDefined,
               operation = operation,
               sequence = (includes) => SequenceService.startSequenceBySlug(sequence.slug, includes),
+              maybeTheme = None,
+              maybeOperation = None,
               maybeLocation = None
             )
           }
@@ -62,6 +64,8 @@ object SequenceOfTheOperationContainer {
             isConnected = false,
             OperationModel(OperationIdModel("fake"), "", "", "", "", 0, 0, "", None),
             (_) => Future.successful(SequenceModel(SequenceIdModel("fake"), "", "")),
+            maybeTheme = None,
+            maybeOperation = maybeOperation,
             maybeLocation = Some(LocationModel.Homepage)
           )
         }
