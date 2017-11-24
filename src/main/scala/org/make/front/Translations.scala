@@ -16,7 +16,7 @@ object Translations {
       |{
       |  "fr": {
       |    "errors": {
-      |      "main": "Une erreur est&nbsp;survenue",
+      |      "main": "Oups ! Nous rencontrons quelques difficultés avec le chargement de cette page. Merci de bien vouloir la&nbsp;recharger.",
       |      "noToken": "Token absent",
       |      "loginFailed": "La connexion a&nbsp;échoué",
       |      "apiFailure": "Échec de l'appel&nbsp;API",
