@@ -3,12 +3,13 @@ package org.make.front.components.home
 import io.github.shogowada.scalajs.reactjs.React
 import io.github.shogowada.scalajs.reactjs.VirtualDOM._
 import io.github.shogowada.scalajs.reactjs.classes.ReactClass
+import io.github.shogowada.scalajs.reactjs.events.SyntheticEvent
 import org.make.front.Main.CssSettings._
 import org.make.front.components.Components._
 import org.make.front.facades.Unescape.unescape
 import org.make.front.facades._
 import org.make.front.styles._
-import org.make.front.styles.base.{ColRulesStyles, LayoutRulesStyles, TableLayoutStyles, TextStyles}
+import org.make.front.styles.base.{LayoutRulesStyles, TableLayoutStyles, TextStyles}
 import org.make.front.styles.ui.CTAStyles
 import org.make.front.styles.utils._
 
@@ -18,7 +19,7 @@ object WelcomeVFF {
     displayName = "WelcomeVFF",
     render = { _ =>
       def onclick: () => Unit = { () =>
-        FacebookPixel.fbq("trackCustom", "click-button-learn-more")
+        FacebookPixel.fbq("trackCustom", "click-homepage-header")
         scalajs.js.Dynamic.global.window.open(I18n.t("welcome-vff.intro.see-more-link"), "_blank")
       }
       <.section(^.className := Seq(TableLayoutStyles.wrapper, WelcomeVFFStyles.wrapper))(

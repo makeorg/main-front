@@ -152,7 +152,11 @@ object ResultsInOperation {
                     )
                   )(
                     <.ProposalTileWithTagsComponent(
-                      ^.wrapped := ProposalTileWithTagsProps(proposal = proposal, index = counter.getAndIncrement())
+                      ^.wrapped := ProposalTileWithTagsProps(
+                        proposal = proposal,
+                        index = counter.getAndIncrement(),
+                        locationFacebook = Some("page-operation")
+                      )
                     )()
                 )
               )
