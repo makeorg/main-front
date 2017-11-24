@@ -3,7 +3,7 @@ package org.make.front.components.authenticate
 import io.github.shogowada.scalajs.reactjs.React
 import io.github.shogowada.scalajs.reactjs.VirtualDOM._
 import io.github.shogowada.scalajs.reactjs.classes.ReactClass
-import org.make.client.UnauthorizedHttpException
+import org.make.client.{BadRequestHttpException, UnauthorizedHttpException}
 import org.make.front.Main.CssSettings._
 import org.make.front.components.Components._
 import org.make.front.facades.ReactFacebookLogin.{
@@ -54,6 +54,8 @@ object AuthenticateWithSocialNetworks {
               self.setState(AuthenticateWithSocialNetworksState())
             case Failure(UnauthorizedHttpException) =>
               self.setState(state => state.copy(errorMessages = Seq("authenticate.no-account-found")))
+            case Failure(BadRequestHttpException(_)) =>
+              self.setState(state => state.copy(errorMessages = Seq("authenticate.no-email-found")))
             case Failure(_) => self.setState(state => state.copy(errorMessages = Seq("authenticate.failure")))
           }
         }

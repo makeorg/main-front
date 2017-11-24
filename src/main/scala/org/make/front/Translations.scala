@@ -353,6 +353,7 @@ object Translations {
       |        "link-support": "l'écran de connexion"
       |      },
       |      "no-account-found": "Nous ne trouvons pas de compte associé à cet email.",
+      |      "no-email-found": "Oups ! Nous ne parvenons pas à vous connecter. Merci de bien vouloir réessayer avec un mail valide.",
       |      "failure": "Quelque chose n'a pas fonctionné. Si le problème persiste n'hésitez pas à nous contacter à <a href=\"mailto:contact@make.org\">contact@make.org</a>",
       |      "inputs": {
       |        "required": "(obligatoire)",
