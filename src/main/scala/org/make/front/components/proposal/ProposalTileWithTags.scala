@@ -18,7 +18,9 @@ import org.make.front.styles.utils._
 
 object ProposalTileWithTags {
 
-  final case class ProposalTileWithTagsProps(proposal: ProposalModel, index: Int)
+  final case class ProposalTileWithTagsProps(proposal: ProposalModel,
+                                             index: Int,
+                                             locationFacebook: Option[String] = None)
 
   val reactClass: ReactClass =
     React
@@ -51,7 +53,8 @@ object ProposalTileWithTags {
                     <.VoteContainerComponent(
                       ^.wrapped := VoteContainerProps(
                         proposal = self.props.wrapped.proposal,
-                        index = self.props.wrapped.index
+                        index = self.props.wrapped.index,
+                        locationFBTracking = self.props.wrapped.locationFacebook
                       )
                     )()
                   )

@@ -23,6 +23,10 @@ object VFFIntro {
         displayName = "VFFIntro",
         render = (self) => {
 
+          def onClick: () => Unit = { () =>
+            FacebookPixel.fbq("trackCustom", "click-button-learn-more")
+          }
+
           val operation: OperationModel =
             self.props.wrapped.operation
 
@@ -137,6 +141,7 @@ object VFFIntro {
                   ),
                   <.p(^.className := VFFIntroStyles.ctaWrapper)(
                     <.a(
+                      ^.onClick := onClick,
                       ^.href := I18n.t("operation.vff-header.article.see-more.link"),
                       ^.className := Seq(CTAStyles.basic, CTAStyles.basicOnA),
                       ^.target := "_blank"

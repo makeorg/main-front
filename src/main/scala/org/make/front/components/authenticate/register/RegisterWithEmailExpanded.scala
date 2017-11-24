@@ -18,6 +18,7 @@ import org.make.front.styles.utils._
 import org.scalajs.dom.raw.HTMLInputElement
 
 import scala.concurrent.ExecutionContext.Implicits.global
+import scala.scalajs.js
 import scala.util.{Failure, Success}
 
 object RegisterWithEmailExpanded {
@@ -25,7 +26,7 @@ object RegisterWithEmailExpanded {
   val reactClass: ReactClass =
     React.createClass[RegisterProps, RegisterState](displayName = "RegisterWithEmailExpanded", componentDidMount = {
       self =>
-        FacebookPixel.fbq("trackCustom", "display-signup-form")
+        FacebookPixel.fbq("trackCustom", "display-signup-form", js.Dictionary("signup-type" -> "standard"))
     }, getInitialState = { _ =>
       RegisterState(Map(), Map())
     }, render = {
