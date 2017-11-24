@@ -21,7 +21,8 @@ object VoteContainer {
                                       onSuccessfulVote: (VoteModel)                           => Unit = (_)    => {},
                                       onSuccessfulQualification: (String, QualificationModel) => Unit = (_, _) => {},
                                       guideToVote: Option[String] = None,
-                                      guideToQualification: Option[String] = None)
+                                      guideToQualification: Option[String] = None,
+                                      locationFBTracking: Option[String] = None)
 
   lazy val reactClass: ReactClass = ReactRedux.connectAdvanced(selectorFactory)(Vote.reactClass)
 
@@ -73,7 +74,8 @@ object VoteContainer {
         removeVoteQualification = removeQualification,
         guideToVote = ownProps.wrapped.guideToVote,
         guideToQualification = ownProps.wrapped.guideToQualification,
-        index = ownProps.wrapped.index
+        index = ownProps.wrapped.index,
+        locationFacebook = ownProps.wrapped.locationFBTracking
       )
     }
 }

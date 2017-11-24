@@ -12,6 +12,9 @@ import org.make.front.facades.FacebookPixel
 import org.make.front.models.{Operation => OperationModel}
 import org.make.front.styles.ThemeStyles
 
+import scala.scalajs.js
+import org.make.front.models.{Operation => OperationModel}
+
 object Operation {
 
   final case class OperationProps(operation: OperationModel)
@@ -20,9 +23,13 @@ object Operation {
     React
       .createClass[OperationProps, Unit](
         displayName = "Operation",
-        componentDidMount = { _ =>
+        componentDidMount = { self =>
           FacebookPixel
-            .fbq("trackCustom", "display-page-operation")
+            .fbq(
+              "trackCustom",
+              "display-page-operation",
+              js.Dictionary("id" -> self.props.wrapped.operation.operationId.value)
+            )
         },
         render = (self) => {
           <("operation")()(

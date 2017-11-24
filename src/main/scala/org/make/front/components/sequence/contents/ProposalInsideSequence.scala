@@ -56,7 +56,8 @@ object ProposalInsideSequence {
                   onSuccessfulQualification = self.props.wrapped.handleSuccessfulQualification,
                   guideToVote = self.props.wrapped.guideToVote,
                   guideToQualification = self.props.wrapped.guideToQualification,
-                  index = self.props.wrapped.index
+                  index = self.props.wrapped.index,
+                  locationFBTracking = Some("sequence-proposal-card")
                 )
               )(),
               <.div(^.className := ProposalInsideSequenceStyles.ctaWrapper)(

@@ -27,7 +27,8 @@ object Vote {
                              qualifyVote: (String, String)             => Future[QualificationModel],
                              removeVoteQualification: (String, String) => Future[QualificationModel],
                              guideToVote: Option[String] = None,
-                             guideToQualification: Option[String] = None)
+                             guideToQualification: Option[String] = None,
+                             locationFacebook: Option[String] = None)
 
   final case class VoteState(votes: Map[String, VoteModel])
 
@@ -44,7 +45,7 @@ object Vote {
               "trackCustom",
               "click-proposal-vote",
               Map(
-                "location" -> "sequence",
+                "location" -> self.props.wrapped.locationFacebook.getOrElse(""),
                 "nature" -> key,
                 "proposalId" -> self.props.wrapped.proposal.id.value.toString
               ).toJSDictionary
