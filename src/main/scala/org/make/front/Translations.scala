@@ -16,7 +16,7 @@ object Translations {
       |{
       |  "fr": {
       |    "errors": {
-      |      "main": "Une erreur est&nbsp;survenue",
+      |      "main": "Oups ! Nous rencontrons quelques difficultés avec le chargement de cette page. Merci de bien vouloir la&nbsp;recharger.",
       |      "noToken": "Token absent",
       |      "loginFailed": "La connexion a&nbsp;échoué",
       |      "apiFailure": "Échec de l'appel&nbsp;API",
@@ -66,8 +66,8 @@ object Translations {
       |    "welcome-vff": {
       |     "intro": {
       |       "baseline": "Grande cause make.org",
-      |       "title" : "Stop aux violences faites aux&nbsp;femmes",
-      |       "subtitle" : "Make.org a decidé de lancer sa première Grande Cause en la consacrant à la lutte contre les Violences faites aux&nbsp;femmes.",
+      |       "title" : "Stop aux Violences Faites aux&nbsp;Femmes",
+      |       "subtitle" : "Make.org a décidé de lancer sa première Grande Cause en la consacrant à la lutte contre les Violences faites aux&nbsp;femmes.",
       |       "see-more": "participer",
       |       "see-more-link": "https://stopvff.make.org/about-vff"
       |     }
@@ -353,6 +353,7 @@ object Translations {
       |        "link-support": "l'écran de connexion"
       |      },
       |      "no-account-found": "Nous ne trouvons pas de compte associé à cet email.",
+      |      "no-email-found": "Oups ! Nous ne parvenons pas à vous connecter. Merci de bien vouloir réessayer avec un mail valide.",
       |      "failure": "Quelque chose n'a pas fonctionné. Si le problème persiste n'hésitez pas à nous contacter à <a href=\"mailto:contact@make.org\">contact@make.org</a>",
       |      "inputs": {
       |        "required": "(obligatoire)",
