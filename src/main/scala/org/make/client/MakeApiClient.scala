@@ -16,7 +16,6 @@ import scala.scalajs.js.JSON
 
 object MakeApiClient extends Client {
 
-  var customHeaders: Map[String, String] = Map.empty
   def defaultHeaders: Map[String, String] = {
     Map(
       "Accept" -> MediaTypes.`application/json`,
@@ -24,7 +23,6 @@ object MakeApiClient extends Client {
       "x-hostname" -> dom.window.location.hostname
     ) ++
       Map("x-get-parameters" -> dom.window.location.search.drop(1)).filter { case (_, value) => value.nonEmpty } ++
-      customHeaders ++
       MakeApiClient.getToken.map { token =>
         Map("Authorization" -> s"${token.token_type} ${token.access_token}")
       }.getOrElse(Map.empty)

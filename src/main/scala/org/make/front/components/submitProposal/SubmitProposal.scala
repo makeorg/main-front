@@ -9,13 +9,14 @@ import org.make.front.components.Components._
 import org.make.front.components.submitProposal.SubmitProposalAndLoginContainer.SubmitProposalAndLoginContainerProps
 import org.make.front.facades.I18n
 import org.make.front.facades.Unescape.unescape
+import org.make.front.models.Location
 import org.make.front.styles._
 import org.make.front.styles.base.TextStyles
 import org.make.front.styles.utils._
 
 object SubmitProposal {
 
-  case class SubmitProposalProps(onProposalProposed: () => Unit)
+  case class SubmitProposalProps(onProposalProposed: () => Unit, maybeLocation: Option[Location])
 
   case class SubmitProposalState()
 
@@ -40,9 +41,11 @@ object SubmitProposal {
           ^.wrapped :=
             SubmitProposalAndLoginContainerProps(
               intro = intro,
+              onProposalProposed = self.props.wrapped.onProposalProposed,
               maybeTheme = None,
               maybeOperation = None,
-              onProposalProposed = self.props.wrapped.onProposalProposed
+              maybeSequence = None,
+              maybeLocation = self.props.wrapped.maybeLocation
             )
         )()
       }

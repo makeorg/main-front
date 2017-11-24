@@ -7,9 +7,14 @@ import io.github.shogowada.scalajs.reactjs.elements.ReactElement
 import org.make.front.Main.CssSettings._
 import org.make.front.components.Components._
 import org.make.front.components.submitProposal.SubmitProposalAndLoginContainer.SubmitProposalAndLoginContainerProps
-import org.make.front.facades.{FacebookPixel, I18n}
 import org.make.front.facades.Unescape.unescape
-import org.make.front.models.{Location, GradientColor => GradientColorModel, Operation => OperationModel}
+import org.make.front.facades.{FacebookPixel, I18n}
+import org.make.front.models.{
+  Location,
+  GradientColor => GradientColorModel,
+  Operation     => OperationModel,
+  Sequence      => SequenceModel
+}
 import org.make.front.styles._
 import org.make.front.styles.base.TextStyles
 import org.make.front.styles.utils._
@@ -19,19 +24,22 @@ import scalacss.internal.Attr
 
 object SubmitProposalInRelationToOperation {
 
-  case class SubmitProposalInRelationToOperationProps(operation: OperationModel, onProposalProposed: () => Unit)
+  case class SubmitProposalInRelationToOperationProps(operation: OperationModel,
+                                                      onProposalProposed: () => Unit,
+                                                      maybeSequence: Option[SequenceModel] /* = None*/,
+                                                      maybeLocation: Option[Location] /* = None*/ )
 
   case class SubmitProposalInRelationToOperationState(operation: OperationModel)
 
   lazy val reactClass: ReactClass =
     React.createClass[SubmitProposalInRelationToOperationProps, SubmitProposalInRelationToOperationState](
       displayName = "SubmitProposalInRelationToOperation",
-      componentDidMount = { _ =>
+      componentDidMount = { self =>
         FacebookPixel
           .fbq(
             "trackCustom",
             "click-proposal-submit-form-open",
-            js.Dictionary("location" -> Location.OperationPage.name)
+            js.Dictionary("location" -> Location.OperationPage(self.props.wrapped.operation.operationId).name)
           )
       },
       getInitialState = { self =>
@@ -83,9 +91,11 @@ object SubmitProposalInRelationToOperation {
           ^.wrapped :=
             SubmitProposalAndLoginContainerProps(
               intro = intro,
+              onProposalProposed = self.props.wrapped.onProposalProposed,
               maybeTheme = None,
               maybeOperation = Some(self.props.wrapped.operation),
-              onProposalProposed = self.props.wrapped.onProposalProposed
+              maybeSequence = self.props.wrapped.maybeSequence,
+              maybeLocation = self.props.wrapped.maybeLocation
             )
         )()
 

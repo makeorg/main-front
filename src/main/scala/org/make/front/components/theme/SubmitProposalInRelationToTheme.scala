@@ -7,8 +7,8 @@ import io.github.shogowada.scalajs.reactjs.elements.ReactElement
 import org.make.front.Main.CssSettings._
 import org.make.front.components.Components._
 import org.make.front.components.submitProposal.SubmitProposalAndLoginContainer.SubmitProposalAndLoginContainerProps
-import org.make.front.facades.{FacebookPixel, I18n}
 import org.make.front.facades.Unescape.unescape
+import org.make.front.facades.{FacebookPixel, I18n}
 import org.make.front.models.{Location, GradientColor => GradientColorModel, TranslatedTheme => TranslatedThemeModel}
 import org.make.front.styles.ThemeStyles
 import org.make.front.styles.base.TextStyles
@@ -18,7 +18,9 @@ import scala.scalajs.js
 import scalacss.internal.Attr
 object SubmitProposalInRelationToTheme {
 
-  case class SubmitProposalInRelationToThemeProps(theme: TranslatedThemeModel, onProposalProposed: () => Unit)
+  case class SubmitProposalInRelationToThemeProps(theme: TranslatedThemeModel,
+                                                  onProposalProposed: () => Unit,
+                                                  maybeLocation: Option[Location] /* = None*/ )
 
   case class SubmitProposalInRelationToThemeState(theme: TranslatedThemeModel)
 
@@ -28,9 +30,13 @@ object SubmitProposalInRelationToTheme {
       getInitialState = { self =>
         SubmitProposalInRelationToThemeState(theme = self.props.wrapped.theme)
       },
-      componentDidMount = { _ =>
+      componentDidMount = { self =>
         FacebookPixel
-          .fbq("trackCustom", "click-proposal-submit-form-open", js.Dictionary("location" -> Location.ThemePage.name))
+          .fbq(
+            "trackCustom",
+            "click-proposal-submit-form-open",
+            js.Dictionary("location" -> Location.ThemePage(self.props.wrapped.theme.id).name)
+          )
       },
       render = { self =>
         val gradientValues: GradientColorModel = self.state.theme.gradient.getOrElse(GradientColorModel("#FFF", "#FFF"))
@@ -78,9 +84,11 @@ object SubmitProposalInRelationToTheme {
           ^.wrapped :=
             SubmitProposalAndLoginContainerProps(
               intro = intro,
+              onProposalProposed = self.props.wrapped.onProposalProposed,
               maybeTheme = Some(self.props.wrapped.theme),
               maybeOperation = None,
-              onProposalProposed = self.props.wrapped.onProposalProposed
+              maybeSequence = None,
+              maybeLocation = self.props.wrapped.maybeLocation
             )
         )()
       }

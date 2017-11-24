@@ -10,15 +10,16 @@ import org.make.front.components.modals.FullscreenModal.FullscreenModalProps
 import org.make.front.components.submitProposal.SubmitProposal.SubmitProposalProps
 import org.make.front.facades.I18n
 import org.make.front.facades.Unescape.unescape
+import org.make.front.models.Location
 import org.make.front.styles.ThemeStyles
-import org.make.front.styles.base.{ColRulesStyles, LayoutRulesStyles, TextStyles}
+import org.make.front.styles.base.{LayoutRulesStyles, TextStyles}
 import org.make.front.styles.ui.CTAStyles
 import org.make.front.styles.utils._
 import org.make.front.styles.vendors.FontAwesomeStyles
 
 object NoResultToSearch {
 
-  final case class NoResultToSearchProps(searchValue: Option[String])
+  final case class NoResultToSearchProps(searchValue: Option[String], maybeLocation: Option[Location])
 
   final case class NoResultToSearchState(isProposalModalOpened: Boolean)
 
@@ -66,7 +67,7 @@ object NoResultToSearch {
             )
           )(<.SubmitProposalComponent(^.wrapped := SubmitProposalProps(onProposalProposed = () => {
             self.setState(_.copy(isProposalModalOpened = false))
-          }))()),
+          }, maybeLocation = self.props.wrapped.maybeLocation))()),
           <.style()(NoResultToSearchStyles.render[String])
         )
       }

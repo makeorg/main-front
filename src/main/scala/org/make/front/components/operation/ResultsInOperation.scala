@@ -168,7 +168,7 @@ object ResultsInOperation {
                   FacebookPixel.fbq(
                     "trackCustom",
                     "click-proposal-viewmore",
-                    js.Dictionary("location" -> Location.OperationPage.name)
+                    js.Dictionary("location" -> Location.OperationPage(self.props.wrapped.operation.operationId).name)
                   )
                 }), ^.className := Seq(CTAStyles.basic, CTAStyles.basicOnButton))(
                   unescape(I18n.t("operation.results.see-more"))

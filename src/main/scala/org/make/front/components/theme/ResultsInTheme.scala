@@ -159,7 +159,11 @@ object ResultsInTheme {
                 <.button(^.onClick := (() => {
                   onSeeMore(1)
                   FacebookPixel
-                    .fbq("trackCustom", "click-proposal-viewmore", js.Dictionary("location" -> Location.ThemePage.name))
+                    .fbq(
+                      "trackCustom",
+                      "click-proposal-viewmore",
+                      js.Dictionary("location" -> Location.ThemePage(self.props.wrapped.theme.id).name)
+                    )
                 }), ^.className := Seq(CTAStyles.basic, CTAStyles.basicOnButton))(
                   unescape(I18n.t("theme.results.see-more"))
                 )

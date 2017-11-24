@@ -29,7 +29,8 @@ import scala.util.{Failure, Success}
 
 object SearchResults {
   final case class SearchResultsProps(onMoreResultsRequested: (Seq[Proposal], Option[String]) => Future[SearchResult],
-                                      searchValue: Option[String])
+                                      searchValue: Option[String],
+                                      maybeLocation: Option[Location])
 
   final case class SearchResultsState(listProposals: Seq[Proposal],
                                       initialLoad: Boolean,
@@ -156,7 +157,10 @@ object SearchResults {
                   },
                   if (!self.state.initialLoad && proposalsToDisplay.isEmpty) {
                     <.NoResultToSearchComponent(
-                      ^.wrapped := NoResultToSearchProps(searchValue = self.props.wrapped.searchValue)
+                      ^.wrapped := NoResultToSearchProps(
+                        searchValue = self.props.wrapped.searchValue,
+                        maybeLocation = self.props.wrapped.maybeLocation
+                      )
                     )()
                   }
                 )

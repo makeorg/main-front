@@ -26,23 +26,18 @@ object ProposalService extends ApiService {
                      source: String = Source.Core.name,
                      operation: Option[String] = None,
                      question: Option[String] = None): Future[RegisterProposal] = {
-    //TODO: set headers everywhere appropriate. For now headers are reset to their previous values with a backup.
-    val backupHeaders = MakeApiClient.customHeaders
-    MakeApiClient.customHeaders ++= Map[String, String](
-      MakeApiClient.sourceHeader -> source,
-      MakeApiClient.locationHeader -> location.name
-    )
-    themeId.foreach(theme => MakeApiClient.customHeaders += MakeApiClient.themeIdHeader -> theme)
-    operation.foreach(op  => MakeApiClient.customHeaders += MakeApiClient.operationHeader -> op)
-    question.foreach(q    => MakeApiClient.customHeaders += MakeApiClient.questionHeader -> q)
-    val registerProposalResponse = MakeApiClient
+    var headers =
+      Map[String, String](MakeApiClient.sourceHeader -> source, MakeApiClient.locationHeader -> location.name)
+    themeId.foreach(theme => headers += MakeApiClient.themeIdHeader -> theme)
+    operation.foreach(op  => headers += MakeApiClient.operationHeader -> op)
+    question.foreach(q    => headers += MakeApiClient.questionHeader -> q)
+    MakeApiClient
       .post[RegisterProposalResponse](
         resourceName,
-        data = JSON.stringify(JsRegisterProposalRequest(RegisterProposalRequest(content)))
+        data = JSON.stringify(JsRegisterProposalRequest(RegisterProposalRequest(content))),
+        headers = headers
       )
       .map(RegisterProposal.apply)
-    MakeApiClient.customHeaders = backupHeaders
-    registerProposalResponse
   }
 
   def searchProposals(content: Option[String] = None,
@@ -59,18 +54,22 @@ object ProposalService extends ApiService {
     MakeApiClient
       .post[SearchResultResponse](
         resourceName / "search",
-        data = JSON.stringify(JsSearchRequest(SearchRequest(
-          content = content,
-          slug = slug,
-          themesIds = if (themesIds.nonEmpty) Some(themesIds.map(_.value)) else None,
-          operationsIds = if (operationsIds.nonEmpty) Some(operationsIds.map(_.value)) else None,
-          tagsIds = if (tagsIds.nonEmpty) Some(tagsIds.map(_.value)) else None,
-          labelsIds = labelsIds,
-          context = context,
-          limit = limit,
-          skip = skip,
-          sort = sort
-        )))
+        data = JSON.stringify(
+          JsSearchRequest(
+            SearchRequest(
+              content = content,
+              slug = slug,
+              themesIds = if (themesIds.nonEmpty) Some(themesIds.map(_.value)) else None,
+              operationsIds = if (operationsIds.nonEmpty) Some(operationsIds.map(_.value)) else None,
+              tagsIds = if (tagsIds.nonEmpty) Some(tagsIds.map(_.value)) else None,
+              labelsIds = labelsIds,
+              context = context,
+              limit = limit,
+              skip = skip,
+              sort = sort
+            )
+          )
+        )
       )
       .map(SearchResult.apply)
   }
@@ -97,22 +96,18 @@ object ProposalService extends ApiService {
     MakeApiClient
       .post[QualificationResponse](
         apiEndpoint = resourceName / proposalId.value / "qualification",
-        data = JSON.stringify(
-          JsQualificationRequest(QualificationRequest(voteKey = vote, qualificationKey = qualification))
-        )
+        data =
+          JSON.stringify(JsQualificationRequest(QualificationRequest(voteKey = vote, qualificationKey = qualification)))
       )
       .map(Qualification.apply)
   }
 
-  def removeVoteQualification(proposalId: ProposalId,
-                              vote: String,
-                              qualification: String): Future[Qualification] = {
+  def removeVoteQualification(proposalId: ProposalId, vote: String, qualification: String): Future[Qualification] = {
     MakeApiClient
       .post[QualificationResponse](
         apiEndpoint = resourceName / proposalId.value / "unqualification",
-        data = JSON.stringify(
-          JsQualificationRequest(QualificationRequest(voteKey = vote, qualificationKey = qualification))
-        )
+        data =
+          JSON.stringify(JsQualificationRequest(QualificationRequest(voteKey = vote, qualificationKey = qualification)))
       )
       .map(Qualification.apply)
   }

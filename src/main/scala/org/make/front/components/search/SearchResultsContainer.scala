@@ -10,7 +10,7 @@ import org.make.front.components.AppState
 import org.make.front.components.search.SearchResults.SearchResultsProps
 import org.make.front.facades.I18n
 import org.make.front.helpers.QueryString
-import org.make.front.models.Proposal
+import org.make.front.models.{Location, Proposal}
 import org.make.services.proposal.ProposalService.defaultResultsCount
 import org.make.services.proposal.{ProposalService, SearchResult}
 
@@ -61,7 +61,11 @@ object SearchResultsContainer {
 
           result
         }
-        SearchResults.SearchResultsProps(onMoreResultsRequested = getProposals, searchValue = searchValue)
+        SearchResults.SearchResultsProps(
+          onMoreResultsRequested = getProposals,
+          searchValue = searchValue,
+          maybeLocation = Some(Location.SearchResultsPage)
+        )
       }
     }
 }

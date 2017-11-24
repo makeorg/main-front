@@ -1,7 +1,7 @@
 package org.make.front.components.operation.sequence
 
 import io.github.shogowada.scalajs.reactjs.React
-import io.github.shogowada.scalajs.reactjs.React.{Props, Self}
+import io.github.shogowada.scalajs.reactjs.React.Self
 import io.github.shogowada.scalajs.reactjs.VirtualDOM.{<, _}
 import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import io.github.shogowada.scalajs.reactjs.events.MouseSyntheticEvent
@@ -20,6 +20,7 @@ import org.make.front.components.sequence.contents._
 import org.make.front.facades.Unescape.unescape
 import org.make.front.facades.{FacebookPixel, I18n, Replacements}
 import org.make.front.models.{
+  Location,
   ProposalId,
   GradientColor => GradientColorModel,
   Operation     => OperationModel,
@@ -41,11 +42,13 @@ object SequenceOfTheOperation {
   final case class SequenceOfTheOperationProps(maybeFirstProposalSlug: Option[String],
                                                isConnected: Boolean,
                                                operation: OperationModel,
-                                               sequence: (Seq[ProposalId]) => Future[SequenceModel])
+                                               sequence: (Seq[ProposalId]) => Future[SequenceModel],
+                                               maybeLocation: Option[Location] /* = None*/ )
 
   final case class SequenceOfTheOperationState(isProposalModalOpened: Boolean,
                                                numberOfProposals: Int,
-                                               sequenceTitle: String = "")
+                                               sequenceTitle: String = "",
+                                               sequence: Option[SequenceModel] = None)
 
   lazy val reactClass: ReactClass = {
     def sequence(
@@ -63,8 +66,9 @@ object SequenceOfTheOperation {
       },
       componentDidMount = { (self) =>
         self.props.wrapped.sequence(Seq.empty).onComplete {
-          case Failure(_)        =>
-          case Success(sequence) => self.setState(_.copy(sequenceTitle = sequence.title))
+          case Failure(_) =>
+          case Success(sequence) =>
+            self.setState(_.copy(sequenceTitle = sequence.title, sequence = Some(sequence)))
         }
       },
       render = { self =>
@@ -187,7 +191,9 @@ object SequenceOfTheOperation {
                       <.SubmitProposalInRelationToOperationComponent(
                         ^.wrapped := SubmitProposalInRelationToOperationProps(
                           operation = self.props.wrapped.operation,
-                          onProposalProposed = closeProposalModal
+                          onProposalProposed = closeProposalModal,
+                          maybeSequence = self.state.sequence,
+                          maybeLocation = self.props.wrapped.maybeLocation
                         )
                       )()
                     )
@@ -221,7 +227,9 @@ object SequenceOfTheOperation {
                         PromptingToProposeProps(
                           operation = self.props.wrapped.operation,
                           clickOnButtonHandler = handler,
-                          proposeHandler = handler
+                          proposeHandler = handler,
+                          maybeSequence = self.state.sequence,
+                          maybeLocation = self.props.wrapped.maybeLocation
                         )
                     }, position = { slides =>
                       slides.size / 2

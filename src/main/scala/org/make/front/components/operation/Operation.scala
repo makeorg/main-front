@@ -9,7 +9,7 @@ import org.make.front.components.operation.OperationHeader.OperationHeaderProps
 import org.make.front.components.operation.ResultsInOperationContainer.ResultsInOperationContainerProps
 import org.make.front.components.operation.VFFIntro.VFFIntroProps
 import org.make.front.facades.FacebookPixel
-import org.make.front.models.{Operation => OperationModel}
+import org.make.front.models.{Location => LocationModel, Operation => OperationModel, Sequence => SequenceModel}
 import org.make.front.styles.ThemeStyles
 
 import scala.scalajs.js
@@ -17,7 +17,9 @@ import org.make.front.models.{Operation => OperationModel}
 
 object Operation {
 
-  final case class OperationProps(operation: OperationModel)
+  final case class OperationProps(operation: OperationModel,
+                                  maybeSequence: Option[SequenceModel],
+                                  maybeLocation: Option[LocationModel])
 
   lazy val reactClass: ReactClass =
     React
@@ -35,7 +37,13 @@ object Operation {
           <("operation")()(
             <.div(^.className := OperationComponentStyles.mainHeaderWrapper)(<.MainHeaderComponent.empty),
             <.VFFIntroComponent(^.wrapped := VFFIntroProps(operation = self.props.wrapped.operation))(),
-            <.OperationHeaderComponent(^.wrapped := OperationHeaderProps(self.props.wrapped.operation))(),
+            <.OperationHeaderComponent(
+              ^.wrapped := OperationHeaderProps(
+                self.props.wrapped.operation,
+                maybeSequence = self.props.wrapped.maybeSequence,
+                maybeLocation = self.props.wrapped.maybeLocation
+              )
+            )(),
             <.div(^.className := OperationComponentStyles.contentWrapper)(
               <.ResultsInOperationContainerComponent(
                 ^.wrapped := ResultsInOperationContainerProps(currentOperation = self.props.wrapped.operation)
