@@ -66,8 +66,8 @@ object Translations {
       |    "welcome-vff": {
       |     "intro": {
       |       "baseline": "Grande cause make.org",
-      |       "title" : "Stop aux violences faites aux&nbsp;femmes",
-      |       "subtitle" : "Make.org a decidé de lancer sa première Grande Cause en la consacrant à la lutte contre les Violences faites aux&nbsp;femmes.",
+      |       "title" : "Stop aux Violences Faites aux&nbsp;Femmes",
+      |       "subtitle" : "Make.org a décidé de lancer sa première Grande Cause en la consacrant à la lutte contre les Violences faites aux&nbsp;femmes.",
       |       "see-more": "participer",
       |       "see-more-link": "https://stopvff.make.org/about-vff"
       |     }

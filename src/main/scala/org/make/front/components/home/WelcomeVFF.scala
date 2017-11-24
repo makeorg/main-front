@@ -41,7 +41,7 @@ object WelcomeVFF {
               unescape(I18n.t("welcome-vff.intro.subtitle"))
             ),
             <.p(^.className := WelcomeVFFStyles.ctaWrapper)(
-              <.button(^.onClick := onclick, ^.className := Seq(CTAStyles.basic, CTAStyles.basicOnA))(
+              <.button(^.onClick := onclick, ^.className := Seq(CTAStyles.basic, CTAStyles.basicOnButton))(
                 unescape(I18n.t("welcome-vff.intro.see-more"))
               )
             ),
