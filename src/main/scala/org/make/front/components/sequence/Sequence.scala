@@ -256,6 +256,7 @@ object Sequence {
 
       props.wrapped.sequence(votedProposalIds).onComplete {
         case Success(sequence) =>
+          self.setState(_.copy(maybeSequence = Some(sequence)))
           val slides: Seq[Slide] = createSlides(self, sequence.proposals)
           val firstNonVotedSlideIndex: Int = slides.indexWhere { slide =>
             slide.isInstanceOf[ProposalSlide] && !slide.asInstanceOf[ProposalSlide].voted
@@ -281,8 +282,7 @@ object Sequence {
               slides = slides,
               proposals = sequence.proposals,
               currentSlideIndex = indexToReach,
-              displayedSlidesCount = displayedSlidesCount,
-              maybeSequence = Some(sequence)
+              displayedSlidesCount = displayedSlidesCount
             )
           )
 
