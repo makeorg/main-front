@@ -16,7 +16,9 @@ import org.make.front.models.{
   Operation       => OperationModel,
   Proposal        => ProposalModel,
   Sequence        => SequenceModel,
-  TranslatedTheme => TranslatedThemeModel
+  TranslatedTheme => TranslatedThemeModel,
+  Qualification   => QualificationModel,
+  Vote            => VoteModel
 }
 import org.make.front.styles._
 import org.make.front.styles.base.{TableLayoutStyles, TextStyles}
@@ -27,11 +29,14 @@ object ProposalTileWithTags {
 
   final case class ProposalTileWithTagsProps(proposal: ProposalModel,
                                              index: Int,
+                                             handleSuccessfulVote: (VoteModel)  => Unit = (_) => {},
+                                             handleSuccessfulQualification: (String, QualificationModel) => Unit = (_, _) => {},
                                              locationFacebook: Option[String] = None,
                                              maybeTheme: Option[TranslatedThemeModel],
                                              maybeOperation: Option[OperationModel],
                                              maybeSequence: Option[SequenceModel],
                                              maybeLocation: Option[LocationModel])
+
 
   val reactClass: ReactClass =
     WithRouter(
@@ -67,6 +72,8 @@ object ProposalTileWithTags {
                       <.VoteContainerComponent(
                         ^.wrapped := VoteContainerProps(
                           proposal = self.props.wrapped.proposal,
+                          onSuccessfulVote = self.props.wrapped.handleSuccessfulVote,
+                          onSuccessfulQualification = self.props.wrapped.handleSuccessfulQualification,
                           index = self.props.wrapped.index,
                           locationFBTracking = self.props.wrapped.locationFacebook,
                           maybeTheme = self.props.wrapped.maybeTheme,

@@ -1,6 +1,7 @@
 package org.make.front.components.operation
 
 import io.github.shogowada.scalajs.reactjs.React
+import io.github.shogowada.scalajs.reactjs.React.Self
 import io.github.shogowada.scalajs.reactjs.VirtualDOM._
 import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import io.github.shogowada.scalajs.reactjs.elements.ReactElement
@@ -9,19 +10,19 @@ import org.make.front.Main.CssSettings._
 import org.make.front.components.Components._
 import org.make.front.components.proposal.ProposalTileWithTags.ProposalTileWithTagsProps
 import org.make.front.components.tags.FilterByTags.FilterByTagsProps
-import org.make.front.facades.ReactInfiniteScroller.{
-  ReactInfiniteScrollerVirtualDOMAttributes,
-  ReactInfiniteScrollerVirtualDOMElements
-}
+import org.make.front.facades.ReactInfiniteScroller.{ReactInfiniteScrollerVirtualDOMAttributes, ReactInfiniteScrollerVirtualDOMElements}
 import org.make.front.facades.Unescape.unescape
 import org.make.front.facades.{FacebookPixel, I18n}
 import org.make.front.models.{
-  Proposal,
   Location        => LocationModel,
   Operation       => OperationModel,
+  Proposal        => ProposalModel,
+  ProposalId      => ProposalIdModel,
+  Qualification   => QualificationModel,
   Sequence        => SequenceModel,
   Tag             => TagModel,
-  TranslatedTheme => TranslatedThemeModel
+  TranslatedTheme => TranslatedThemeModel,
+  Vote            => VoteModel
 }
 import org.make.front.styles._
 import org.make.front.styles.base.{ColRulesStyles, LayoutRulesStyles, TextStyles}
@@ -37,7 +38,7 @@ import scala.util.{Failure, Success}
 object ResultsInOperation {
 
   case class ResultsInOperationProps(operation: OperationModel,
-                                     onMoreResultsRequested: (Seq[Proposal], Seq[TagModel]) => Future[SearchResult],
+                                     onMoreResultsRequested: (Seq[ProposalModel], Seq[TagModel]) => Future[SearchResult],
                                      onTagSelectionChange: (Seq[TagModel])                  => Future[SearchResult],
                                      proposals: Future[SearchResult],
                                      preselectedTags: Seq[TagModel],
@@ -45,13 +46,64 @@ object ResultsInOperation {
                                      maybeSequence: Option[SequenceModel],
                                      maybeLocation: Option[LocationModel])
 
-  case class ResultsInOperationState(listProposals: Seq[Proposal],
+  case class ResultsInOperationState(listProposals: Seq[ProposalModel],
                                      selectedTags: Seq[TagModel],
                                      initialLoad: Boolean,
                                      hasRequestedMore: Boolean,
                                      hasMore: Boolean)
 
-  lazy val reactClass: ReactClass =
+  lazy val reactClass: ReactClass = {
+    def onSuccessfulVote(proposalId: ProposalIdModel, self: Self[ResultsInOperationProps, ResultsInOperationState]): (VoteModel) => Unit = {
+      (voteModel) =>
+        def mapProposal(proposal: ProposalModel): ProposalModel = {
+          if (proposal.id == proposalId) {
+            proposal.copy(votes = proposal.votes.map { vote =>
+              if (vote.key == voteModel.key) {
+                voteModel
+              } else {
+                vote
+              }
+            })
+          } else {
+            proposal
+          }
+        }
+
+        val updatedProposals = self.state.listProposals.map(mapProposal)
+        self.setState(
+          _.copy(listProposals = updatedProposals)
+        )
+    }
+
+    def onSuccessfulQualification(proposalId: ProposalIdModel,
+                                  self: Self[ResultsInOperationProps, ResultsInOperationState]): (String, QualificationModel) => Unit = {
+      (voteKey, qualificationModel) =>
+        def mapProposal(proposal: ProposalModel): ProposalModel = {
+          if (proposal.id == proposalId) {
+            proposal.copy(votes = proposal.votes.map { vote =>
+              if (vote.key == voteKey) {
+                vote.copy(qualifications = vote.qualifications.map { qualification =>
+                  if (qualification.key == qualificationModel.key) {
+                    qualificationModel
+                  } else {
+                    qualification
+                  }
+                })
+              } else {
+                vote
+              }
+            })
+          } else {
+            proposal
+          }
+        }
+
+        val updatedProposals = self.state.listProposals.map(mapProposal)
+        self.setState(
+          _.copy(listProposals = updatedProposals)
+        )
+    }
+
     React.createClass[ResultsInOperationProps, ResultsInOperationState](
       displayName = "ResultsInOperation",
       getInitialState = { self =>
@@ -140,7 +192,7 @@ object ResultsInOperation {
             }
         }
 
-        def proposals(proposals: Seq[Proposal]) =
+        def proposals(proposals: Seq[ProposalModel]) =
           Seq(
             <.InfiniteScroll(
               ^.element := "ul",
@@ -164,6 +216,8 @@ object ResultsInOperation {
                     <.ProposalTileWithTagsComponent(
                       ^.wrapped := ProposalTileWithTagsProps(
                         proposal = proposal,
+                        handleSuccessfulVote = onSuccessfulVote(proposal.id, self),
+                        handleSuccessfulQualification = onSuccessfulQualification(proposal.id, self),
                         index = counter.getAndIncrement(),
                         locationFacebook = Some("page-operation"),
                         maybeTheme = self.props.wrapped.maybeTheme,
@@ -193,7 +247,7 @@ object ResultsInOperation {
             }
           )
 
-        val proposalsToDisplay: Seq[Proposal] = self.state.listProposals
+        val proposalsToDisplay: Seq[ProposalModel] = self.state.listProposals
 
         <.section(^.className := ResultsInOperationStyles.wrapper)(
           <.header(^.className := LayoutRulesStyles.centeredRow)(
@@ -211,6 +265,7 @@ object ResultsInOperation {
         )
       }
     )
+  }
 }
 
 object ResultsInOperationStyles extends StyleSheet.Inline {
