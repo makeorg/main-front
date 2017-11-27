@@ -8,29 +8,43 @@ import org.make.front.components.AppState
 import org.make.front.components.submitProposal.SubmitProposalAndLogin.SubmitProposalAndLoginProps
 import org.make.front.models.{
   RegisterProposal,
-  Location => LocationModel,
-  Operation => OperationModel,
-  TranslatedTheme => TranslatedThemeModel}
+  Location        => LocationModel,
+  Operation       => OperationModel,
+  Sequence        => SequenceModel,
+  TranslatedTheme => TranslatedThemeModel
+}
 import org.make.services.proposal.ProposalService
 
 import scala.concurrent.Future
+import org.scalajs.dom
 
 object SubmitProposalAndLoginContainer {
 
-  case class SubmitProposalAndLoginContainerProps(intro: (ReactElement) => ReactElement = identity,
+  case class SubmitProposalAndLoginContainerProps(intro: (ReactElement)  => ReactElement = identity,
+                                                  onProposalProposed: () => Unit,
                                                   maybeTheme: Option[TranslatedThemeModel],
                                                   maybeOperation: Option[OperationModel],
-                                                  onProposalProposed: () => Unit)
+                                                  maybeSequence: Option[SequenceModel],
+                                                  maybeLocation: Option[LocationModel])
 
   val reactClass: ReactClass = ReactRedux.connectAdvanced {
     _ => (_: AppState, props: Props[SubmitProposalAndLoginContainerProps]) =>
-      def propose(content: String, location: LocationModel): Future[RegisterProposal] =
+      def propose(content: String): Future[RegisterProposal] = {
+        val location = LocationModel.firstByPrecedence(
+          location = props.wrapped.maybeLocation,
+          sequence = props.wrapped.maybeSequence.map(sequence => LocationModel.Sequence(sequence.sequenceId)),
+          themePage = props.wrapped.maybeTheme.map(theme      => LocationModel.ThemePage(theme.id)),
+          operationPage =
+            props.wrapped.maybeOperation.map(operation => LocationModel.OperationPage(operation.operationId)),
+          fallback = LocationModel.UnknownLocation(dom.window.location.href)
+        )
         ProposalService.createProposal(
           content,
-          location = props.wrapped.maybeOperation.map(_ => LocationModel.Sequence).getOrElse(location),
+          location = location,
           themeId = props.wrapped.maybeTheme.map(_.id.value),
-          operation = props.wrapped.maybeOperation.map(_.label)
+          operation = props.wrapped.maybeOperation
         )
+      }
 
       SubmitProposalAndLoginProps(
         intro = props.wrapped.intro,

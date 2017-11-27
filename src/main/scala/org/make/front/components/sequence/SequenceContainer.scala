@@ -8,11 +8,18 @@ import org.make.front.actions.NotifyError
 import org.make.front.components.AppState
 import org.make.front.components.sequence.Sequence.ExtraSlide
 import org.make.front.facades.I18n
-import org.make.front.models.{ProposalId, Proposal => ProposalModel, Sequence => SequenceModel}
+import org.make.front.models.{
+  ProposalId,
+  Location        => LocationModel,
+  Operation       => OperationModel,
+  Proposal        => ProposalModel,
+  Sequence        => SequenceModel,
+  TranslatedTheme => TranslatedThemeModel
+}
 import org.make.services.proposal.ProposalService
 
-import scala.concurrent.Future
 import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.Future
 import scala.util.Failure
 
 object SequenceContainer {
@@ -20,7 +27,10 @@ object SequenceContainer {
   final case class SequenceContainerProps(maybeFirstProposalSlug: Option[String],
                                           sequence: (Seq[ProposalId]) => Future[SequenceModel],
                                           progressBarColor: Option[String],
-                                          extraSlides: Seq[ExtraSlide])
+                                          extraSlides: Seq[ExtraSlide],
+                                          maybeTheme: Option[TranslatedThemeModel],
+                                          maybeOperation: Option[OperationModel],
+                                          maybeLocation: Option[LocationModel])
 
   lazy val reactClass: ReactClass = ReactRedux.connectAdvanced(selectorFactory)(Sequence.reactClass)
 
@@ -63,7 +73,10 @@ object SequenceContainer {
           sequence = loadSequence,
           progressBarColor = props.wrapped.progressBarColor,
           extraSlides = props.wrapped.extraSlides,
-          shouldReload = shouldReload
+          shouldReload = shouldReload,
+          maybeTheme = props.wrapped.maybeTheme,
+          maybeOperation = props.wrapped.maybeOperation,
+          maybeLocation = props.wrapped.maybeLocation
         )
       }
     }

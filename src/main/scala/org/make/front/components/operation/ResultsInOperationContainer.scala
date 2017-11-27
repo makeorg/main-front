@@ -8,7 +8,15 @@ import org.make.front.actions.NotifyError
 import org.make.front.components.AppState
 import org.make.front.components.operation.ResultsInOperation.ResultsInOperationProps
 import org.make.front.facades.I18n
-import org.make.front.models.{Proposal, Operation => OperationModel, OperationId => OperationIdModel, Tag => TagModel}
+import org.make.front.models.{
+  Proposal,
+  Location        => LocationModel,
+  Operation       => OperationModel,
+  OperationId     => OperationIdModel,
+  Sequence        => SequenceModel,
+  Tag             => TagModel,
+  TranslatedTheme => TranslatedThemeModel
+}
 import org.make.services.proposal.ProposalService.defaultResultsCount
 import org.make.services.proposal.{ContextRequest, ProposalService, SearchResult}
 
@@ -18,15 +26,18 @@ import scala.util.{Failure, Success}
 
 object ResultsInOperationContainer {
 
-  case class ResultsInOperationContainerProps(currentOperation: OperationModel)
+  case class ResultsInOperationContainerProps(currentOperation: OperationModel,
+                                              maybeTheme: Option[TranslatedThemeModel],
+                                              maybeSequence: Option[SequenceModel],
+                                              maybeLocation: Option[LocationModel])
   case class ResultsInOperationContainerState(currentOperation: OperationModel, results: Seq[Proposal])
 
   lazy val reactClass: ReactClass = ReactRedux.connectAdvanced(selectorFactory)(ResultsInOperation.reactClass)
 
   def selectorFactory
     : (Dispatch) => (AppState, Props[ResultsInOperationContainerProps]) => ResultsInOperation.ResultsInOperationProps =
-    (dispatch: Dispatch) => { (_: AppState, ownProps: Props[ResultsInOperationContainerProps]) =>
-      val operationsIds: Seq[OperationIdModel] = Seq(ownProps.wrapped.currentOperation.operationId)
+    (dispatch: Dispatch) => { (_: AppState, props: Props[ResultsInOperationContainerProps]) =>
+      val operationsIds: Seq[OperationIdModel] = Seq(props.wrapped.currentOperation.operationId)
 
       def getProposals(tags: Seq[TagModel], skip: Int): Future[SearchResult] = {
         val proposals: Future[SearchResult] = ProposalService
@@ -67,11 +78,14 @@ object ResultsInOperationContainer {
       }
 
       ResultsInOperationProps(
-        operation = ownProps.wrapped.currentOperation,
+        operation = props.wrapped.currentOperation,
         onMoreResultsRequested = nextProposals,
         onTagSelectionChange = searchOnSelectedTags,
         proposals = searchOnSelectedTags(Seq()),
-        preselectedTags = Seq()
+        preselectedTags = Seq(),
+        maybeTheme = props.wrapped.maybeTheme,
+        maybeSequence = props.wrapped.maybeSequence,
+        maybeLocation = props.wrapped.maybeLocation
       )
     }
 }

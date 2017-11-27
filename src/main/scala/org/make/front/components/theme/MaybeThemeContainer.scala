@@ -21,7 +21,12 @@ object MaybeThemeContainer {
           dispatch(LoadConfiguration)
         }
 
-        MaybeTheme.MaybeThemeProps(maybeTheme = state.findTheme(slug = slug))
+        MaybeTheme.MaybeThemeProps(
+          maybeTheme = state.findTheme(slug = slug),
+          maybeOperation = None,
+          maybeSequence = None,
+          maybeLocation = None
+        )
 
       }
     }

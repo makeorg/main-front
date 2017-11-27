@@ -9,16 +9,18 @@ import org.make.front.components.modals.FullscreenModal.FullscreenModalProps
 import org.make.front.components.operation.SubmitProposalInRelationToOperation.SubmitProposalInRelationToOperationProps
 import org.make.front.facades.I18n
 import org.make.front.facades.Unescape.unescape
-import org.make.front.models.{Operation => OperationModel}
+import org.make.front.models.{Location => LocationModel, Operation => OperationModel, Sequence => SequenceModel}
 import org.make.front.styles._
-import org.make.front.styles.base.{ColRulesStyles, LayoutRulesStyles, TableLayoutStyles, TextStyles}
+import org.make.front.styles.base.{LayoutRulesStyles, TableLayoutStyles, TextStyles}
 import org.make.front.styles.ui.InputStyles
 import org.make.front.styles.utils._
 import org.scalajs.dom.raw.HTMLElement
 
 object OperationHeader {
 
-  case class OperationHeaderProps(operation: OperationModel)
+  case class OperationHeaderProps(operation: OperationModel,
+                                  maybeSequence: Option[SequenceModel],
+                                  maybeLocation: Option[LocationModel])
 
   case class OperationHeaderState(isProposalModalOpened: Boolean)
 
@@ -87,7 +89,9 @@ object OperationHeader {
               <.SubmitProposalInRelationToOperationComponent(
                 ^.wrapped := SubmitProposalInRelationToOperationProps(
                   operation = operation,
-                  onProposalProposed = closeProposalModal
+                  onProposalProposed = closeProposalModal,
+                  maybeSequence = self.props.wrapped.maybeSequence,
+                  maybeLocation = self.props.wrapped.maybeLocation
                 )
               )()
             )

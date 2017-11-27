@@ -10,7 +10,7 @@ import org.make.front.components.modals.FullscreenModal.FullscreenModalProps
 import org.make.front.components.operation.SubmitProposalInRelationToOperation.SubmitProposalInRelationToOperationProps
 import org.make.front.facades.{FacebookPixel, I18n}
 import org.make.front.facades.Unescape.unescape
-import org.make.front.models.{Operation => OperationModel}
+import org.make.front.models.{Operation => OperationModel, Location => LocationModel, Sequence => SequenceModel}
 import org.make.front.styles.ThemeStyles
 import org.make.front.styles.base.{LayoutRulesStyles, TextStyles}
 import org.make.front.styles.ui.CTAStyles
@@ -23,7 +23,9 @@ object PromptingToProposeSequence {
 
   final case class PromptingToProposeProps(operation: OperationModel,
                                            clickOnButtonHandler: () => Unit,
-                                           proposeHandler: ()       => Unit)
+                                           proposeHandler: ()       => Unit,
+                                           maybeSequence: Option[SequenceModel],
+                                           maybeLocation: Option[LocationModel])
 
   final case class PromptingToProposeState(isProposalModalOpened: Boolean)
 
@@ -72,7 +74,9 @@ object PromptingToProposeSequence {
                     onProposalProposed = () => {
                       closeProposalModal()
                       self.props.wrapped.proposeHandler()
-                    }
+                    },
+                    maybeSequence = self.props.wrapped.maybeSequence,
+                    maybeLocation = self.props.wrapped.maybeLocation
                   )
                 )()
               )

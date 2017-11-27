@@ -5,12 +5,20 @@ import io.github.shogowada.scalajs.reactjs.VirtualDOM._
 import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import org.make.front.components.Components._
 import org.make.front.components.theme.Theme.ThemeProps
-import org.make.front.models.{TranslatedTheme => TranslatedThemeModel}
+import org.make.front.models.{
+  Location        => LocationModel,
+  Operation       => OperationModel,
+  Sequence        => SequenceModel,
+  TranslatedTheme => TranslatedThemeModel
+}
 import org.make.front.styles.base.TableLayoutStyles
 
 object MaybeTheme {
 
-  final case class MaybeThemeProps(maybeTheme: Option[TranslatedThemeModel] = None)
+  final case class MaybeThemeProps(maybeTheme: Option[TranslatedThemeModel] = None,
+                                   maybeOperation: Option[OperationModel],
+                                   maybeSequence: Option[SequenceModel],
+                                   maybeLocation: Option[LocationModel])
 
   lazy val reactClass: ReactClass =
     React
@@ -18,7 +26,14 @@ object MaybeTheme {
         displayName = "MaybeTheme",
         render = { self =>
           self.props.wrapped.maybeTheme.map { theme =>
-            <.ThemeComponent(^.wrapped := ThemeProps(theme = theme))()
+            <.ThemeComponent(
+              ^.wrapped := ThemeProps(
+                theme = theme,
+                maybeOperation = self.props.wrapped.maybeOperation,
+                maybeSequence = self.props.wrapped.maybeSequence,
+                maybeLocation = self.props.wrapped.maybeLocation
+              )
+            )()
           }.getOrElse(
             <.div(^.className := TableLayoutStyles.fullHeightWrapper)(
               <.div(^.className := TableLayoutStyles.row)(
