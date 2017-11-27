@@ -5,7 +5,7 @@ import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import io.github.shogowada.scalajs.reactjs.redux.ReactRedux
 import io.github.shogowada.scalajs.reactjs.redux.Redux.Dispatch
 import org.make.front.components.AppState
-import org.make.front.models.Label
+import org.make.front.models.{Label, Location => LocationModel, Operation => OperationModel, Sequence => SequenceModel}
 import org.make.services.proposal.{ProposalService, SearchResult}
 
 import scala.concurrent.Future
@@ -14,15 +14,18 @@ object ThemeShowcaseContainer {
 
   final case class ThemeShowcaseContainerProps(themeSlug: String,
                                                maybeIntro: Option[String] = None,
-                                               maybeNews: Option[String] = None)
+                                               maybeNews: Option[String] = None,
+                                               maybeOperation: Option[OperationModel],
+                                               maybeSequence: Option[SequenceModel],
+                                               maybeLocation: Option[LocationModel])
 
   lazy val reactClass: ReactClass = ReactRedux.connectAdvanced(selectorFactory)(ThemeShowcase.reactClass)
 
   def selectorFactory
     : (Dispatch) => (AppState, Props[ThemeShowcaseContainerProps]) => ThemeShowcase.ThemeShowcaseProps =
-    (_: Dispatch) => { (appState: AppState, ownProps: Props[ThemeShowcaseContainerProps]) =>
+    (_: Dispatch) => { (appState: AppState, props: Props[ThemeShowcaseContainerProps]) =>
       val themes = appState.themes
-      val maybeTheme = themes.find(_.slug == ownProps.wrapped.themeSlug)
+      val maybeTheme = themes.find(_.slug == props.wrapped.themeSlug)
 
       maybeTheme.map { theme =>
         ThemeShowcase.ThemeShowcaseProps(
@@ -35,15 +38,21 @@ object ThemeShowcaseContainer {
               skip = None
             ),
           maybeTheme = Some(theme),
-          maybeIntro = ownProps.wrapped.maybeIntro,
-          maybeNews = ownProps.wrapped.maybeNews
+          maybeIntro = props.wrapped.maybeIntro,
+          maybeNews = props.wrapped.maybeNews,
+          maybeOperation = props.wrapped.maybeOperation,
+          maybeSequence = props.wrapped.maybeSequence,
+          maybeLocation = props.wrapped.maybeLocation
         )
       }.getOrElse(
         ThemeShowcase.ThemeShowcaseProps(
           proposals = Future.successful(SearchResult(total = 0, results = Seq.empty)),
           maybeTheme = None,
           maybeIntro = None,
-          maybeNews = None
+          maybeNews = None,
+          maybeOperation = None,
+          maybeSequence = None,
+          maybeLocation = None
         )
       )
     }

@@ -12,11 +12,14 @@ import org.make.front.components.sequence.contents.ProposalInsideSequence.Propos
 import org.make.front.facades.FacebookPixel
 import org.make.front.facades.ReactSlick.{ReactTooltipVirtualDOMAttributes, ReactTooltipVirtualDOMElements, Slider}
 import org.make.front.models.{
-  Proposal      => ProposalModel,
-  ProposalId    => ProposalIdModel,
-  Qualification => QualificationModel,
-  Sequence      => SequenceModel,
-  Vote          => VoteModel
+  Location        => LocationModel,
+  Operation       => OperationModel,
+  Proposal        => ProposalModel,
+  ProposalId      => ProposalIdModel,
+  Qualification   => QualificationModel,
+  Sequence        => SequenceModel,
+  TranslatedTheme => TranslatedThemeModel,
+  Vote            => VoteModel
 }
 import org.make.front.styles.ThemeStyles
 import org.make.front.styles.base.TableLayoutStyles
@@ -38,12 +41,16 @@ object Sequence {
   final case class SequenceProps(sequence: (Seq[ProposalIdModel]) => Future[SequenceModel],
                                  progressBarColor: Option[String],
                                  shouldReload: Boolean,
-                                 extraSlides: Seq[ExtraSlide])
+                                 extraSlides: Seq[ExtraSlide],
+                                 maybeTheme: Option[TranslatedThemeModel],
+                                 maybeOperation: Option[OperationModel],
+                                 maybeLocation: Option[LocationModel])
 
   final case class SequenceState(proposals: Seq[ProposalModel],
                                  slides: Seq[Slide],
                                  displayedSlidesCount: Int,
-                                 currentSlideIndex: Int)
+                                 currentSlideIndex: Int,
+                                 maybeSequence: Option[SequenceModel] = None)
 
   trait Slide {
     def component(index: Int): ReactElement
@@ -69,7 +76,11 @@ object Sequence {
                       onSuccessfulVote: (ProposalIdModel)        => (VoteModel) => Unit,
                       onSuccessfulQualification: ProposalIdModel => (String, QualificationModel) => Unit,
                       canScrollNext: (Int)                       => Boolean,
-                      nextProposal: ()                           => Unit)
+                      nextProposal: ()                           => Unit,
+                      maybeTheme: Option[TranslatedThemeModel],
+                      maybeOperation: Option[OperationModel],
+                      maybeSequence: Option[SequenceModel],
+                      maybeLocation: Option[LocationModel])
       extends Slide {
 
     val voted: Boolean = proposal.votes.exists(_.hasVoted)
@@ -85,7 +96,11 @@ object Sequence {
           /*TODO : guides if first slide*/
           /*guideToVote = Some(I18n.t("sequence.guide.vote")),
           guideToQualification = Some(I18n.t("sequence.guide.qualification")),*/
-          index = slideIndex
+          index = slideIndex,
+          maybeTheme = maybeTheme,
+          maybeOperation = maybeOperation,
+          maybeSequence = maybeSequence,
+          maybeLocation = maybeLocation
         )
       )()
 
@@ -206,7 +221,11 @@ object Sequence {
               false
             }
           },
-          nextProposal = nextProposal
+          nextProposal = nextProposal,
+          maybeTheme = self.props.wrapped.maybeTheme,
+          maybeOperation = self.props.wrapped.maybeOperation,
+          maybeSequence = self.state.maybeSequence,
+          maybeLocation = self.props.wrapped.maybeLocation
         )
       })
 
@@ -262,7 +281,8 @@ object Sequence {
               slides = slides,
               proposals = sequence.proposals,
               currentSlideIndex = indexToReach,
-              displayedSlidesCount = displayedSlidesCount
+              displayedSlidesCount = displayedSlidesCount,
+              maybeSequence = Some(sequence)
             )
           )
 
@@ -301,7 +321,7 @@ object Sequence {
             )
           }
           self.setState(state => state.copy(currentSlideIndex = currentSlide))
-          self.state.slides(self.state.currentSlideIndex).maybeTracker.map { tracker =>
+          self.state.slides(self.state.currentSlideIndex).maybeTracker.foreach { tracker =>
             FacebookPixel.fbq("trackCustom", tracker)
           }
         }

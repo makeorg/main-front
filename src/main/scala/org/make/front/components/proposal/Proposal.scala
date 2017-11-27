@@ -3,19 +3,25 @@ package org.make.front.components.proposal
 import io.github.shogowada.scalajs.reactjs.React
 import io.github.shogowada.scalajs.reactjs.VirtualDOM.{<, ^, _}
 import io.github.shogowada.scalajs.reactjs.classes.ReactClass
+import io.github.shogowada.scalajs.reactjs.router.WithRouter
 import io.github.shogowada.scalajs.reactjs.router.dom.RouterDOM._
 import org.make.front.Main.CssSettings._
 import org.make.front.components.Components.{RichVirtualDOMElements, _}
 import org.make.front.components.proposal.ProposalContainer.ProposalAndThemeInfosModel
 import org.make.front.components.proposal.vote.VoteContainer.VoteContainerProps
-import org.make.front.components.share.ShareProposal.ShareProps
 import org.make.front.components.showcase.ThemeShowcaseContainer.ThemeShowcaseContainerProps
 import org.make.front.facades.I18n
 import org.make.front.facades.Unescape.unescape
 import org.make.front.helpers.ProposalAuthorInfosFormat
-import org.make.front.models.{Proposal => ProposalModel}
+import org.make.front.models.{
+  Location        => LocationModel,
+  Operation       => OperationModel,
+  Proposal        => ProposalModel,
+  Sequence        => SequenceModel,
+  TranslatedTheme => TranslatedThemeModel
+}
 import org.make.front.styles.ThemeStyles
-import org.make.front.styles.base.{ColRulesStyles, LayoutRulesStyles, TableLayoutStyles, TextStyles}
+import org.make.front.styles.base.{LayoutRulesStyles, TableLayoutStyles, TextStyles}
 import org.make.front.styles.utils._
 
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -24,86 +30,105 @@ import scala.util.{Failure, Success}
 
 object Proposal {
 
-  final case class ProposalProps(futureProposalAndThemeInfos: Future[ProposalAndThemeInfosModel])
+  final case class ProposalProps(futureProposalAndThemeInfos: Future[ProposalAndThemeInfosModel],
+                                 maybeTheme: Option[TranslatedThemeModel],
+                                 maybeOperation: Option[OperationModel],
+                                 maybeSequence: Option[SequenceModel],
+                                 maybeLocation: Option[LocationModel])
 
-  final case class ProposalState(proposal: ProposalModel, themeName: Option[String], themeSlug: Option[String])
+  final case class ProposalState(proposal: ProposalModel,
+                                 themeName: Option[String],
+                                 themeSlug: Option[String],
+                                 maybeLocation: Option[LocationModel] = None)
 
   lazy val reactClass: ReactClass =
-    React.createClass[ProposalProps, ProposalState](
-      displayName = "Proposal",
-      getInitialState = { _ =>
-        ProposalState(proposal = null, themeName = None, themeSlug = None)
-      },
-      componentWillReceiveProps = { (self, props) =>
-        props.wrapped.futureProposalAndThemeInfos.onComplete {
-          case Failure(_) =>
-          case Success(futureProposalAndThemeInfos) =>
-            self.setState(
-              _.copy(
-                proposal = futureProposalAndThemeInfos.proposal,
-                themeName = futureProposalAndThemeInfos.themeName,
-                themeSlug = futureProposalAndThemeInfos.themeSlug
+    WithRouter(
+      React.createClass[ProposalProps, ProposalState](
+        displayName = "Proposal",
+        getInitialState = { _ =>
+          ProposalState(proposal = null, themeName = None, themeSlug = None)
+        },
+        componentWillReceiveProps = { (self, props) =>
+          props.wrapped.futureProposalAndThemeInfos.onComplete {
+            case Failure(_) =>
+            case Success(futureProposalAndThemeInfos) =>
+              self.setState(
+                _.copy(
+                  proposal = futureProposalAndThemeInfos.proposal,
+                  themeName = futureProposalAndThemeInfos.themeName,
+                  themeSlug = futureProposalAndThemeInfos.themeSlug,
+                  maybeLocation = Some(LocationModel.ProposalPage(futureProposalAndThemeInfos.proposal.id))
+                )
               )
-            )
-        }
-      },
-      render = { self =>
-        <("proposal")()(
-          <.div(
-            ^.className := Seq(TableLayoutStyles.fullHeightWrapper, ProposalStyles.wrapper(self.state.proposal != null))
-          )(
-            <.div(^.className := TableLayoutStyles.row)(
-              <.div(^.className := Seq(TableLayoutStyles.cell, ProposalStyles.mainHeaderWrapper))(
-                <.MainHeaderComponent.empty
+          }
+        },
+        render = { self =>
+          <("proposal")()(
+            <.div(
+              ^.className := Seq(
+                TableLayoutStyles.fullHeightWrapper,
+                ProposalStyles.wrapper(self.state.proposal != null)
               )
-            ),
-            <.div(^.className := Seq(TableLayoutStyles.row, ProposalStyles.fullHeight))(
-              <.div(^.className := Seq(TableLayoutStyles.cell, ProposalStyles.articleCell))(
-                if (self.state.proposal != null) {
-                  <.div(^.className := Seq(LayoutRulesStyles.centeredRow, ProposalStyles.fullHeight))(
-                    <.article(^.className := ProposalStyles.article)(
-                      <.div(^.className := TableLayoutStyles.fullHeightWrapper)(
-                        <.div(
-                          ^.className := Seq(
-                            TableLayoutStyles.cellVerticalAlignMiddle,
-                            ProposalStyles.articleInnerWrapper
-                          )
-                        )(
-                          <.div(^.className := LayoutRulesStyles.row)(
-                            <.div(^.className := ProposalStyles.infosWrapper)(
-                              <.p(^.className := Seq(TextStyles.mediumText, ProposalStyles.infos))(
-                                ProposalAuthorInfosFormat.apply(self.state.proposal)
-                              )
-                            ),
-                            <.div(^.className := ProposalStyles.contentWrapper)(
-                              <.h1(^.className := Seq(TextStyles.bigText, TextStyles.boldText))(
-                                self.state.proposal.content
+            )(
+              <.div(^.className := TableLayoutStyles.row)(
+                <.div(^.className := Seq(TableLayoutStyles.cell, ProposalStyles.mainHeaderWrapper))(
+                  <.MainHeaderComponent.empty
+                )
+              ),
+              <.div(^.className := Seq(TableLayoutStyles.row, ProposalStyles.fullHeight))(
+                <.div(^.className := Seq(TableLayoutStyles.cell, ProposalStyles.articleCell))(
+                  if (self.state.proposal != null) {
+                    <.div(^.className := Seq(LayoutRulesStyles.centeredRow, ProposalStyles.fullHeight))(
+                      <.article(^.className := ProposalStyles.article)(
+                        <.div(^.className := TableLayoutStyles.fullHeightWrapper)(
+                          <.div(
+                            ^.className := Seq(
+                              TableLayoutStyles.cellVerticalAlignMiddle,
+                              ProposalStyles.articleInnerWrapper
+                            )
+                          )(
+                            <.div(^.className := LayoutRulesStyles.row)(
+                              <.div(^.className := ProposalStyles.infosWrapper)(
+                                <.p(^.className := Seq(TextStyles.mediumText, ProposalStyles.infos))(
+                                  ProposalAuthorInfosFormat.apply(self.state.proposal)
+                                )
                               ),
-                              <.div(^.className := ProposalStyles.voteWrapper)(
-                                <.VoteContainerComponent(
-                                  ^.wrapped := VoteContainerProps(proposal = self.state.proposal, index = 1)
-                                )()
-                              )
-                            ),
-                            if (self.state.themeSlug.nonEmpty) {
-                              <.p(^.className := Seq(TextStyles.mediumText, ProposalStyles.themeInfo))(
-                                unescape(I18n.t("proposal.associated-with-the-theme")),
-                                <.Link(
-                                  ^.to := s"/theme/${self.state.themeSlug.getOrElse("")}",
-                                  ^.className := Seq(TextStyles.title, ProposalStyles.themeName)
-                                )(self.state.themeName.getOrElse(""))
-                              )
-                            }
+                              <.div(^.className := ProposalStyles.contentWrapper)(
+                                <.h1(^.className := Seq(TextStyles.bigText, TextStyles.boldText))(
+                                  self.state.proposal.content
+                                ),
+                                <.div(^.className := ProposalStyles.voteWrapper)(
+                                  <.VoteContainerComponent(
+                                    ^.wrapped := VoteContainerProps(
+                                      proposal = self.state.proposal,
+                                      index = 1,
+                                      maybeTheme = self.props.wrapped.maybeTheme,
+                                      maybeOperation = self.props.wrapped.maybeOperation,
+                                      maybeSequence = self.props.wrapped.maybeSequence,
+                                      maybeLocation = self.state.maybeLocation
+                                    )
+                                  )()
+                                )
+                              ),
+                              if (self.state.themeSlug.nonEmpty) {
+                                <.p(^.className := Seq(TextStyles.mediumText, ProposalStyles.themeInfo))(
+                                  unescape(I18n.t("proposal.associated-with-the-theme")),
+                                  <.Link(
+                                    ^.to := s"/theme/${self.state.themeSlug.getOrElse("")}",
+                                    ^.className := Seq(TextStyles.title, ProposalStyles.themeName)
+                                  )(self.state.themeName.getOrElse(""))
+                                )
+                              }
+                            )
                           )
                         )
                       )
                     )
-                  )
-                } else {
-                  <.SpinnerComponent.empty
-                }
-              )
-            ) /*,
+                  } else {
+                    <.SpinnerComponent.empty
+                  }
+                )
+              ) /*,
             <.div(^.className := Seq(TableLayoutStyles.row))(
               <.div(^.className := Seq(TableLayoutStyles.cell, ProposalStyles.shareArticleCell))(
                 <.div(^.className := LayoutRulesStyles.centeredRow)(
@@ -111,16 +136,22 @@ object Proposal {
                 )
               )
             )*/
-          ),
-          if (self.state.themeSlug.nonEmpty) {
-            <.ThemeShowcaseContainerComponent(
-              ^.wrapped := ThemeShowcaseContainerProps(themeSlug = self.state.themeSlug.getOrElse(""))
-            )()
-          },
-          <.NavInThemesContainerComponent.empty,
-          <.style()(ProposalStyles.render[String])
-        )
-      }
+            ),
+            if (self.state.themeSlug.nonEmpty) {
+              <.ThemeShowcaseContainerComponent(
+                ^.wrapped := ThemeShowcaseContainerProps(
+                  themeSlug = self.state.themeSlug.getOrElse(""),
+                  maybeOperation = self.props.wrapped.maybeOperation,
+                  maybeSequence = self.props.wrapped.maybeSequence,
+                  maybeLocation = self.state.maybeLocation
+                )
+              )()
+            },
+            <.NavInThemesContainerComponent.empty,
+            <.style()(ProposalStyles.render[String])
+          )
+        }
+      )
     )
 }
 

@@ -8,9 +8,17 @@ import org.make.front.actions.NotifyError
 import org.make.front.components.AppState
 import org.make.front.components.theme.ResultsInTheme.ResultsInThemeProps
 import org.make.front.facades.I18n
-import org.make.front.models.{Proposal, Tag => TagModel, TranslatedTheme => TranslatedThemeModel, ThemeId => ThemeIdModel}
-import org.make.services.proposal.{ProposalService, SearchResult, SearchResultResponse}
+import org.make.front.models.{
+  Proposal,
+  Location        => LocationModel,
+  Operation       => OperationModel,
+  Sequence        => SequenceModel,
+  Tag             => TagModel,
+  ThemeId         => ThemeIdModel,
+  TranslatedTheme => TranslatedThemeModel
+}
 import org.make.services.proposal.ProposalService.defaultResultsCount
+import org.make.services.proposal.{ProposalService, SearchResult}
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
@@ -18,15 +26,18 @@ import scala.util.{Failure, Success}
 
 object ResultsInThemeContainer {
 
-  case class ResultsInThemeContainerProps(currentTheme: TranslatedThemeModel)
+  case class ResultsInThemeContainerProps(currentTheme: TranslatedThemeModel,
+                                          maybeOperation: Option[OperationModel],
+                                          maybeSequence: Option[SequenceModel],
+                                          maybeLocation: Option[LocationModel])
   case class ResultsInThemeContainerState(currentTheme: TranslatedThemeModel, results: Seq[Proposal])
 
   lazy val reactClass: ReactClass = ReactRedux.connectAdvanced(selectorFactory)(ResultsInTheme.reactClass)
 
   def selectorFactory
     : (Dispatch) => (AppState, Props[ResultsInThemeContainerProps]) => ResultsInTheme.ResultsInThemeProps =
-    (dispatch: Dispatch) => { (_: AppState, ownProps: Props[ResultsInThemeContainerProps]) =>
-      val themesIds: Seq[ThemeIdModel] = Seq(ownProps.wrapped.currentTheme.id)
+    (dispatch: Dispatch) => { (_: AppState, props: Props[ResultsInThemeContainerProps]) =>
+      val themesIds: Seq[ThemeIdModel] = Seq(props.wrapped.currentTheme.id)
 
       def getProposals(tags: Seq[TagModel], skip: Int): Future[SearchResult] = {
         val proposals: Future[SearchResult] = ProposalService
@@ -66,11 +77,14 @@ object ResultsInThemeContainer {
       }
 
       ResultsInThemeProps(
-        theme = ownProps.wrapped.currentTheme,
+        theme = props.wrapped.currentTheme,
         onMoreResultsRequested = nextProposals,
         onTagSelectionChange = searchOnSelectedTags,
         proposals = searchOnSelectedTags(Seq()),
-        preselectedTags = Seq()
+        preselectedTags = Seq(),
+        maybeOperation = props.wrapped.maybeOperation,
+        maybeSequence = props.wrapped.maybeSequence,
+        maybeLocation = props.wrapped.maybeLocation
       )
     }
 }

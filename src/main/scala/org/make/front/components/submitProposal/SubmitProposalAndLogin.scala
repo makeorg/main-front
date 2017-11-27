@@ -4,8 +4,6 @@ import io.github.shogowada.scalajs.reactjs.React
 import io.github.shogowada.scalajs.reactjs.VirtualDOM._
 import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import io.github.shogowada.scalajs.reactjs.elements.ReactElement
-import io.github.shogowada.scalajs.reactjs.router.RouterProps._
-import io.github.shogowada.scalajs.reactjs.router.WithRouter
 import org.make.front.Main.CssSettings._
 import org.make.front.components.Components._
 import org.make.front.components.submitProposal.ConfirmationOfProposalSubmission.ConfirmationOfProposalSubmissionProps
@@ -13,13 +11,9 @@ import org.make.front.components.submitProposal.SubmitProposalFormContainer.Subm
 import org.make.front.components.users.authenticate.RequireAuthenticatedUserContainer.RequireAuthenticatedUserContainerProps
 import org.make.front.facades.I18n
 import org.make.front.facades.Unescape.unescape
-import org.make.front.models.{
-  Location        => LocationModel,
-  Operation       => OperationModel,
-  TranslatedTheme => TranslatedThemeModel
-}
+import org.make.front.models.{Operation => OperationModel, TranslatedTheme => TranslatedThemeModel}
 import org.make.front.styles.ThemeStyles
-import org.make.front.styles.base.{ColRulesStyles, LayoutRulesStyles, TextStyles}
+import org.make.front.styles.base.{LayoutRulesStyles, TextStyles}
 import org.make.front.styles.utils._
 
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -40,99 +34,94 @@ object SubmitProposalAndLogin {
   case class SubmitProposalAndLoginProps(intro: (ReactElement) => ReactElement,
                                          maybeTheme: Option[TranslatedThemeModel],
                                          maybeOperation: Option[OperationModel],
-                                         onProposalProposed: ()           => Unit,
-                                         propose: (String, LocationModel) => Future[_])
+                                         onProposalProposed: () => Unit,
+                                         propose: (String)      => Future[_])
 
   val reactClass: ReactClass =
-    WithRouter(
-      React.createClass[SubmitProposalAndLoginProps, SubmitProposalAndLoginState](
-        displayName = "SubmitProposalAndLogin",
-        getInitialState = { _ =>
-          SubmitProposalAndLoginState.empty
-        },
-        render = { self =>
-          val props = self.props.wrapped
+    React.createClass[SubmitProposalAndLoginProps, SubmitProposalAndLoginState](
+      displayName = "SubmitProposalAndLogin",
+      getInitialState = { _ =>
+        SubmitProposalAndLoginState.empty
+      },
+      render = { self =>
+        val props = self.props.wrapped
 
-          val onConnectionOk: () => Unit = {
-            () =>
-              val location: LocationModel =
-                if (self.props.location.pathname == "/") LocationModel.Homepage else LocationModel.ThemePage
-              props.propose(self.state.proposal, location).onComplete {
-                case Success(_) => self.setState(_.copy(displayedComponent = "result"))
-                case Failure(_) =>
-                  self.setState(
-                    _.copy(
-                      displayedComponent = "submit-proposal",
-                      errorMessage = Some(unescape(I18n.t("submit-proposal.error")))
-                    )
-                  )
-              }
-          }
-
-          val handleSubmitProposal: String => Unit = { proposal =>
-            self.setState(_.copy(displayedComponent = "connect", proposal = proposal))
-          }
-
-          if (self.state.displayedComponent == "submit-proposal") {
-            <.div(^.className := LayoutRulesStyles.centeredRow)(
-              self.props.wrapped.intro(
-                <.SubmitProposalFormComponent(
-                  ^.wrapped := SubmitProposalFormContainerProps(
-                    maybeTheme = props.maybeTheme,
-                    errorMessage = None,
-                    handleSubmitProposalForm = handleSubmitProposal
-                  )
-                )()
-              )
-            )
-          } else if (self.state.displayedComponent == "connect") {
-
-            val intro: ReactElement =
-              <.div()(
-                <.div(^.className := LayoutRulesStyles.narrowerCenteredRow)(
-                  <.p(^.className := SubmitProposalAndLoginStyles.title)(
-                    <.span(
-                      ^.className := Seq(TextStyles.mediumText, TextStyles.intro, SubmitProposalAndLoginStyles.intro)
-                    )("Nous avons besoin de quelques informations"),
-                    <.br()(),
-                    <.strong(^.className := TextStyles.bigTitle)("Pour valider votre proposition")
-                  )
-                ),
-                <.div(^.className := LayoutRulesStyles.evenNarrowerCenteredRow)(
-                  <.hr(^.className := Seq(SubmitProposalAndLoginStyles.separatorLine))()
+        val onConnectionOk: () => Unit = { () =>
+          props.propose(self.state.proposal).onComplete {
+            case Success(_) => self.setState(_.copy(displayedComponent = "result"))
+            case Failure(_) =>
+              self.setState(
+                _.copy(
+                  displayedComponent = "submit-proposal",
+                  errorMessage = Some(unescape(I18n.t("submit-proposal.error")))
                 )
               )
+          }
+        }
 
-            <.div()(
-              <.RequireAuthenticatedUserComponent(
-                ^.wrapped := RequireAuthenticatedUserContainerProps(
-                  operation = self.props.wrapped.maybeOperation.map(_.operationId),
-                  intro = intro,
-                  onceConnected = onConnectionOk,
-                  defaultView = "register-expanded",
-                  registerView = "register-expanded"
-                )
-              )(),
-              <.style()(SubmitProposalAndLoginStyles.render[String])
-            )
+        val handleSubmitProposal: String => Unit = { proposal =>
+          self.setState(_.copy(displayedComponent = "connect", proposal = proposal))
+        }
 
-          } else if (self.state.displayedComponent == "result") {
-            <.div(^.className := LayoutRulesStyles.centeredRow)(
-              <.ConfirmationOfProposalSubmissionComponent(
-                ^.wrapped := ConfirmationOfProposalSubmissionProps(
-                  maybeTheme = self.props.wrapped.maybeTheme,
-                  onBack = self.props.wrapped.onProposalProposed,
-                  onSubmitAnotherProposal = () => {
-                    self.setState(_.copy(proposal = "", displayedComponent = "submit-proposal", errorMessage = None))
-                  }
+        if (self.state.displayedComponent == "submit-proposal") {
+          <.div(^.className := LayoutRulesStyles.centeredRow)(
+            self.props.wrapped.intro(
+              <.SubmitProposalFormComponent(
+                ^.wrapped := SubmitProposalFormContainerProps(
+                  maybeTheme = props.maybeTheme,
+                  errorMessage = None,
+                  handleSubmitProposalForm = handleSubmitProposal
                 )
               )()
             )
-          } else {
-            <.div.empty
-          }
+          )
+        } else if (self.state.displayedComponent == "connect") {
+
+          val intro: ReactElement =
+            <.div()(
+              <.div(^.className := LayoutRulesStyles.narrowerCenteredRow)(
+                <.p(^.className := SubmitProposalAndLoginStyles.title)(
+                  <.span(
+                    ^.className := Seq(TextStyles.mediumText, TextStyles.intro, SubmitProposalAndLoginStyles.intro)
+                  )("Nous avons besoin de quelques informations"),
+                  <.br()(),
+                  <.strong(^.className := TextStyles.bigTitle)("Pour valider votre proposition")
+                )
+              ),
+              <.div(^.className := LayoutRulesStyles.evenNarrowerCenteredRow)(
+                <.hr(^.className := Seq(SubmitProposalAndLoginStyles.separatorLine))()
+              )
+            )
+
+          <.div()(
+            <.RequireAuthenticatedUserComponent(
+              ^.wrapped := RequireAuthenticatedUserContainerProps(
+                operation = self.props.wrapped.maybeOperation.map(_.operationId),
+                intro = intro,
+                onceConnected = onConnectionOk,
+                defaultView = "register-expanded",
+                registerView = "register-expanded"
+              )
+            )(),
+            <.style()(SubmitProposalAndLoginStyles.render[String])
+          )
+
+        } else if (self.state.displayedComponent == "result") {
+          <.div(^.className := LayoutRulesStyles.centeredRow)(
+            <.ConfirmationOfProposalSubmissionComponent(
+              ^.wrapped := ConfirmationOfProposalSubmissionProps(
+                maybeTheme = self.props.wrapped.maybeTheme,
+                onBack = self.props.wrapped.onProposalProposed,
+                onSubmitAnotherProposal = () => {
+                  self.setState(_.copy(proposal = "", displayedComponent = "submit-proposal", errorMessage = None))
+                }
+              )
+            )()
+          )
+        } else {
+          <.div.empty
         }
-      )
+      }
     )
 }
 

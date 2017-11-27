@@ -9,13 +9,20 @@ import org.make.front.Main.CssSettings._
 import org.make.front.components.Components._
 import org.make.front.components.proposal.ProposalTileWithTags.ProposalTileWithTagsProps
 import org.make.front.components.tags.FilterByTags.FilterByTagsProps
-import org.make.front.facades.{FacebookPixel, I18n}
 import org.make.front.facades.ReactInfiniteScroller.{
   ReactInfiniteScrollerVirtualDOMAttributes,
   ReactInfiniteScrollerVirtualDOMElements
 }
 import org.make.front.facades.Unescape.unescape
-import org.make.front.models.{Location, Proposal, Tag => TagModel, TranslatedTheme => TranslatedThemeModel}
+import org.make.front.facades.{FacebookPixel, I18n}
+import org.make.front.models.{
+  Proposal,
+  Location        => LocationModel,
+  Operation       => OperationModel,
+  Sequence        => SequenceModel,
+  Tag             => TagModel,
+  TranslatedTheme => TranslatedThemeModel
+}
 import org.make.front.styles._
 import org.make.front.styles.base.{ColRulesStyles, LayoutRulesStyles, TextStyles}
 import org.make.front.styles.ui.CTAStyles
@@ -33,7 +40,10 @@ object ResultsInTheme {
                                  onMoreResultsRequested: (Seq[Proposal], Seq[TagModel]) => Future[SearchResult],
                                  onTagSelectionChange: (Seq[TagModel])                  => Future[SearchResult],
                                  proposals: Future[SearchResult],
-                                 preselectedTags: Seq[TagModel])
+                                 preselectedTags: Seq[TagModel],
+                                 maybeOperation: Option[OperationModel],
+                                 maybeSequence: Option[SequenceModel],
+                                 maybeLocation: Option[LocationModel])
 
   case class ResultsInThemeState(listProposals: Seq[Proposal],
                                  selectedTags: Seq[TagModel],
@@ -149,7 +159,14 @@ object ResultsInTheme {
                     )
                   )(
                     <.ProposalTileWithTagsComponent(
-                      ^.wrapped := ProposalTileWithTagsProps(proposal = proposal, index = counter.getAndIncrement())
+                      ^.wrapped := ProposalTileWithTagsProps(
+                        proposal = proposal,
+                        index = counter.getAndIncrement(),
+                        maybeTheme = Some(self.props.wrapped.theme),
+                        maybeOperation = self.props.wrapped.maybeOperation,
+                        maybeSequence = self.props.wrapped.maybeSequence,
+                        maybeLocation = self.props.wrapped.maybeLocation
+                      )
                     )()
                 )
               )
@@ -159,7 +176,11 @@ object ResultsInTheme {
                 <.button(^.onClick := (() => {
                   onSeeMore(1)
                   FacebookPixel
-                    .fbq("trackCustom", "click-proposal-viewmore", js.Dictionary("location" -> Location.ThemePage.name))
+                    .fbq(
+                      "trackCustom",
+                      "click-proposal-viewmore",
+                      js.Dictionary("location" -> LocationModel.ThemePage(self.props.wrapped.theme.id).name)
+                    )
                 }), ^.className := Seq(CTAStyles.basic, CTAStyles.basicOnButton))(
                   unescape(I18n.t("theme.results.see-more"))
                 )

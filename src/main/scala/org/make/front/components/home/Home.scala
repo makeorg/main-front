@@ -10,6 +10,7 @@ import org.make.front.facades.{FacebookPixel, I18n}
 import org.make.front.facades.Unescape.unescape
 import org.make.front.styles.ThemeStyles
 import org.make.front.Main.CssSettings._
+import org.make.front.models.Location
 
 object Home {
   lazy val reactClass: ReactClass =
@@ -28,7 +29,10 @@ object Home {
               ^.wrapped := ThemeShowcaseContainerProps(
                 themeSlug = "sante-alimentation",
                 maybeIntro = Some(unescape(I18n.t("welcome.showcase-1.intro"))),
-                maybeNews = Some(I18n.t("welcome.showcase-1.news"))
+                maybeNews = Some(I18n.t("welcome.showcase-1.news")),
+                maybeOperation = None,
+                maybeSequence = None,
+                maybeLocation = Some(Location.Homepage)
               )
             )(),
             <.ExplanationsComponent.empty,
@@ -36,21 +40,39 @@ object Home {
               ^.wrapped := TrendingShowcaseContainerProps(
                 trending = "trending",
                 intro = unescape(I18n.t("welcome.showcase-2.intro")),
-                title = unescape(I18n.t("welcome.showcase-2.title"))
+                title = unescape(I18n.t("welcome.showcase-2.title")),
+                maybeTheme = None,
+                maybeOperation = None,
+                maybeSequence = None,
+                maybeLocation = Some(Location.Homepage)
               )
             )(),
             <.ThemeShowcaseContainerComponent(
-              ^.wrapped := ThemeShowcaseContainerProps(themeSlug = "economie-emploi-travail")
+              ^.wrapped := ThemeShowcaseContainerProps(
+                themeSlug = "economie-emploi-travail",
+                maybeOperation = None,
+                maybeSequence = None,
+                maybeLocation = Some(Location.Homepage)
+              )
             )(),
             <.TrendingShowcaseContainerComponent(
               ^.wrapped := TrendingShowcaseContainerProps(
                 trending = "hot",
                 intro = unescape(I18n.t("welcome.showcase-3.intro")),
-                title = unescape(I18n.t("welcome.showcase-3.title"))
+                title = unescape(I18n.t("welcome.showcase-3.title")),
+                maybeTheme = None,
+                maybeOperation = None,
+                maybeSequence = None,
+                maybeLocation = Some(Location.Homepage)
               )
             )(),
             <.ThemeShowcaseContainerComponent(
-              ^.wrapped := ThemeShowcaseContainerProps(themeSlug = "vivre-ensemble-solidarites")
+              ^.wrapped := ThemeShowcaseContainerProps(
+                themeSlug = "vivre-ensemble-solidarites",
+                maybeOperation = None,
+                maybeSequence = None,
+                maybeLocation = Some(Location.Homepage)
+              )
             )(),
             <.NavInThemesContainerComponent.empty,
             <.style()(HomeStyles.render[String])

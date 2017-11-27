@@ -238,7 +238,8 @@ object ThemeHeader {
                     theme = self.props.wrapped.theme,
                     onProposalProposed = () => {
                       self.setState(_.copy(isProposalModalOpened = false))
-                    }
+                    },
+                    maybeLocation = None
                   )
                 )()
               )

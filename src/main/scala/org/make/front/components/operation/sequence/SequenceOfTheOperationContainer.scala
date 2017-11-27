@@ -11,7 +11,8 @@ import org.make.front.models.{
   Operation   => OperationModel,
   OperationId => OperationIdModel,
   Sequence    => SequenceModel,
-  SequenceId  => SequenceIdModel
+  SequenceId  => SequenceIdModel,
+  Location    => LocationModel
 }
 import org.make.services.sequence.SequenceService
 
@@ -50,7 +51,10 @@ object SequenceOfTheOperationContainer {
               maybeFirstProposalSlug = firstProposalSlug,
               isConnected = state.connectedUser.isDefined,
               operation = operation,
-              sequence = (includes) => SequenceService.startSequenceBySlug(sequence.slug, includes)
+              sequence = (includes) => SequenceService.startSequenceBySlug(sequence.slug, includes),
+              maybeTheme = None,
+              maybeOperation = None,
+              maybeLocation = None
             )
           }
         }.getOrElse {
@@ -59,7 +63,10 @@ object SequenceOfTheOperationContainer {
             maybeFirstProposalSlug = None,
             isConnected = false,
             OperationModel(OperationIdModel("fake"), "", "", "", "", 0, 0, "", None),
-            (_) => Future.successful(SequenceModel(SequenceIdModel("fake"), "", ""))
+            (_) => Future.successful(SequenceModel(SequenceIdModel("fake"), "", "")),
+            maybeTheme = None,
+            maybeOperation = maybeOperation,
+            maybeLocation = Some(LocationModel.Homepage)
           )
         }
       }
