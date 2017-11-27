@@ -1,6 +1,7 @@
 package org.make.front.components.theme
 
 import io.github.shogowada.scalajs.reactjs.React
+import io.github.shogowada.scalajs.reactjs.React.Self
 import io.github.shogowada.scalajs.reactjs.VirtualDOM._
 import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import io.github.shogowada.scalajs.reactjs.elements.ReactElement
@@ -9,19 +10,19 @@ import org.make.front.Main.CssSettings._
 import org.make.front.components.Components._
 import org.make.front.components.proposal.ProposalTileWithTags.ProposalTileWithTagsProps
 import org.make.front.components.tags.FilterByTags.FilterByTagsProps
-import org.make.front.facades.ReactInfiniteScroller.{
-  ReactInfiniteScrollerVirtualDOMAttributes,
-  ReactInfiniteScrollerVirtualDOMElements
-}
+import org.make.front.facades.ReactInfiniteScroller.{ReactInfiniteScrollerVirtualDOMAttributes, ReactInfiniteScrollerVirtualDOMElements}
 import org.make.front.facades.Unescape.unescape
 import org.make.front.facades.{FacebookPixel, I18n}
 import org.make.front.models.{
-  Proposal,
   Location        => LocationModel,
   Operation       => OperationModel,
+  Proposal        => ProposalModel,
+  ProposalId      => ProposalIdModel,
+  Qualification   => QualificationModel,
   Sequence        => SequenceModel,
   Tag             => TagModel,
-  TranslatedTheme => TranslatedThemeModel
+  TranslatedTheme => TranslatedThemeModel,
+  Vote            => VoteModel
 }
 import org.make.front.styles._
 import org.make.front.styles.base.{ColRulesStyles, LayoutRulesStyles, TextStyles}
@@ -37,7 +38,7 @@ import scala.util.{Failure, Success}
 object ResultsInTheme {
 
   case class ResultsInThemeProps(theme: TranslatedThemeModel,
-                                 onMoreResultsRequested: (Seq[Proposal], Seq[TagModel]) => Future[SearchResult],
+                                 onMoreResultsRequested: (Seq[ProposalModel], Seq[TagModel]) => Future[SearchResult],
                                  onTagSelectionChange: (Seq[TagModel])                  => Future[SearchResult],
                                  proposals: Future[SearchResult],
                                  preselectedTags: Seq[TagModel],
@@ -45,13 +46,64 @@ object ResultsInTheme {
                                  maybeSequence: Option[SequenceModel],
                                  maybeLocation: Option[LocationModel])
 
-  case class ResultsInThemeState(listProposals: Seq[Proposal],
+  case class ResultsInThemeState(listProposals: Seq[ProposalModel],
                                  selectedTags: Seq[TagModel],
                                  initialLoad: Boolean,
                                  hasRequestedMore: Boolean,
                                  hasMore: Boolean)
 
-  lazy val reactClass: ReactClass =
+  lazy val reactClass: ReactClass = {
+    def onSuccessfulVote(proposalId: ProposalIdModel, self: Self[ResultsInThemeProps, ResultsInThemeState]): (VoteModel) => Unit = {
+      (voteModel) =>
+        def mapProposal(proposal: ProposalModel): ProposalModel = {
+          if (proposal.id == proposalId) {
+            proposal.copy(votes = proposal.votes.map { vote =>
+              if (vote.key == voteModel.key) {
+                voteModel
+              } else {
+                vote
+              }
+            })
+          } else {
+            proposal
+          }
+        }
+
+        val updatedProposals = self.state.listProposals.map(mapProposal)
+        self.setState(
+          _.copy(listProposals = updatedProposals)
+        )
+    }
+
+    def onSuccessfulQualification(proposalId: ProposalIdModel,
+                                  self: Self[ResultsInThemeProps, ResultsInThemeState]): (String, QualificationModel) => Unit = {
+      (voteKey, qualificationModel) =>
+        def mapProposal(proposal: ProposalModel): ProposalModel = {
+          if (proposal.id == proposalId) {
+            proposal.copy(votes = proposal.votes.map { vote =>
+              if (vote.key == voteKey) {
+                vote.copy(qualifications = vote.qualifications.map { qualification =>
+                  if (qualification.key == qualificationModel.key) {
+                    qualificationModel
+                  } else {
+                    qualification
+                  }
+                })
+              } else {
+                vote
+              }
+            })
+          } else {
+            proposal
+          }
+        }
+
+        val updatedProposals = self.state.listProposals.map(mapProposal)
+        self.setState(
+          _.copy(listProposals = updatedProposals)
+        )
+    }
+
     React.createClass[ResultsInThemeProps, ResultsInThemeState](
       displayName = "ResultsInTheme",
       getInitialState = { self =>
@@ -136,7 +188,7 @@ object ResultsInTheme {
             }
         }
 
-        def proposals(proposals: Seq[Proposal]) =
+        def proposals(proposals: Seq[ProposalModel]) =
           Seq(
             <.InfiniteScroll(
               ^.element := "ul",
@@ -161,6 +213,8 @@ object ResultsInTheme {
                     <.ProposalTileWithTagsComponent(
                       ^.wrapped := ProposalTileWithTagsProps(
                         proposal = proposal,
+                        handleSuccessfulVote = onSuccessfulVote(proposal.id, self),
+                        handleSuccessfulQualification = onSuccessfulQualification(proposal.id, self),
                         index = counter.getAndIncrement(),
                         maybeTheme = Some(self.props.wrapped.theme),
                         maybeOperation = self.props.wrapped.maybeOperation,
@@ -188,7 +242,7 @@ object ResultsInTheme {
             }
           )
 
-        val proposalsToDisplay: Seq[Proposal] = self.state.listProposals
+        val proposalsToDisplay: Seq[ProposalModel] = self.state.listProposals
 
         <.section(^.className := ResultsInThemeStyles.wrapper)(
           <.header(^.className := LayoutRulesStyles.centeredRow)(
@@ -206,6 +260,7 @@ object ResultsInTheme {
         )
       }
     )
+  }
 }
 
 object ResultsInThemeStyles extends StyleSheet.Inline {
