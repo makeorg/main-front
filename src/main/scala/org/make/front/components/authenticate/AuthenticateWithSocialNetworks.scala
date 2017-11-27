@@ -81,6 +81,7 @@ object AuthenticateWithSocialNetworks {
               ^.scope := "public_profile, email",
               ^.fields := "first_name, last_name, email, name, picture",
               ^.callback := facebookCallbackResponse,
+              ^.disableMobileRedirect := true,
               ^.cssClass := Seq(
                 CTAStyles.basic,
                 CTAStyles.basicOnButton,
