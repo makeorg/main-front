@@ -1,6 +1,7 @@
-import java.time.LocalDate
+import java.time.{LocalDate, ZoneOffset, ZonedDateTime}
 
 import com.typesafe.sbt.GitVersioning
+import com.typesafe.sbt.SbtGit.GitKeys
 import sbt.Keys.baseDirectory
 
 organization := "org.make.front"
@@ -108,6 +109,27 @@ scalacOptions ++= {
   }
 }
 
+lazy val buildTime: SettingKey[String] = SettingKey[String]("buildTime", "time of build")
+
+buildTime := ZonedDateTime.now(ZoneOffset.UTC).toString
+
+lazy val buildVersion: TaskKey[String] = taskKey[String]("build version")
+
+buildVersion := {
+  val buildVersion: String = s"""{
+     |    "name": "${name.value}",
+     |    "version": "${version.value}",
+     |    "gitHeadCommit": "${GitKeys.gitHeadCommit.value.getOrElse("DETACHED")}",
+     |    "gitBranch": "${GitKeys.gitCurrentBranch.value}",
+     |    "buildTime": "${buildTime.value}"
+     |}""".stripMargin
+
+  streams.value.log.info("Building version")
+  streams.value.log.info(buildVersion)
+
+  buildVersion
+}
+
 // Custome task to manage assets
 val prepareAssets = taskKey[Unit]("prepareAssets")
 prepareAssets in ThisBuild := {
@@ -118,6 +140,14 @@ prepareAssets in ThisBuild := {
     npmDirectory / "dist" / "consultation",
     overwrite = true
   )
+
+  val buildVersionFile: File = npmDirectory / "dist" / "version"
+  val buildVersionLocalFile: File = npmDirectory / "version"
+  val contents: String = buildVersion.value
+
+  IO.write(buildVersionFile, contents)
+  IO.write(buildVersionLocalFile, contents)
+
   streams.value.log.info("Copy assets to working directory")
 }
 
