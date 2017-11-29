@@ -51,7 +51,7 @@ trait JsSortOptionRequest extends js.Object {
 }
 
 object JsSortOptionRequest {
-  def appl(sortOptionRequest: SortOptionRequest): JsSortOptionRequest = {
+  def apply(sortOptionRequest: SortOptionRequest): JsSortOptionRequest = {
     js.Dynamic
       .literal(field = sortOptionRequest.field, mode = sortOptionRequest.mode.map(JsOrder.apply).orUndefined)
       .asInstanceOf[JsSortOptionRequest]
@@ -59,7 +59,7 @@ object JsSortOptionRequest {
 }
 final case class ContextRequest(operation: Option[String] = None,
                                 location: Option[String] = None,
-                                source: Option[String] = Some(Source.Core.name),
+                                source: Option[String] = None,
                                 question: Option[String] = None)
 
 @js.native
