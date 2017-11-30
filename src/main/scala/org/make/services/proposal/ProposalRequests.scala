@@ -90,10 +90,12 @@ case class SearchRequest(themesIds: Option[Seq[String]] = None,
                          content: Option[String] = None,
                          slug: Option[String] = None,
                          trending: Option[String] = None,
+                         seed: Option[Int] = None,
                          context: Option[ContextRequest] = None,
                          sort: Seq[SortOptionRequest] = Seq.empty,
                          limit: Option[Int],
-                         skip: Option[Int] = None)
+                         skip: Option[Int] = None,
+                         isRandom: Option[Boolean] = None)
 
 @js.native
 trait JsSearchRequest extends js.Object {
@@ -104,10 +106,12 @@ trait JsSearchRequest extends js.Object {
   val content: js.UndefOr[String]
   val slug: js.UndefOr[String]
   val trending: js.UndefOr[String]
+  val seed: js.UndefOr[Int]
   val context: js.UndefOr[JsContextRequest]
   val sort: js.Array[SortOptionRequest]
   val limit: js.UndefOr[Int]
   val skip: js.UndefOr[Int]
+  val isRandom: js.UndefOr[Boolean]
 }
 
 object JsSearchRequest {
@@ -122,10 +126,12 @@ object JsSearchRequest {
         content = searchRequest.content.orUndefined,
         slug = searchRequest.slug.orUndefined,
         trending = searchRequest.trending.orUndefined,
+        seed = searchRequest.seed.orUndefined,
         context = searchRequest.context.map(JsContextRequest.apply).orUndefined,
         sort = searchRequest.sort,
         limit = searchRequest.limit.orUndefined,
-        skip = searchRequest.skip.orUndefined
+        skip = searchRequest.skip.orUndefined,
+        isRandom = searchRequest.isRandom.orUndefined
       )
       .asInstanceOf[JsSearchRequest]
   }
