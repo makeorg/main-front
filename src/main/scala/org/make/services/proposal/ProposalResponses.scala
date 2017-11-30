@@ -45,7 +45,6 @@ trait ProposalResponse extends js.Object {
   val country: String
   val language: String
   val themeId: js.UndefOr[String]
-  val operationId: js.UndefOr[String]
   val tags: js.Array[TagResponse]
   val myProposal: Boolean
 }
