@@ -39,22 +39,24 @@ object ResultsInOperationContainer {
     (dispatch: Dispatch) => { (_: AppState, props: Props[ResultsInOperationContainerProps]) =>
       val operationsIds: Seq[OperationIdModel] = Seq(props.wrapped.currentOperation.operationId)
 
-      def getProposals(tags: Seq[TagModel], skip: Int): Future[SearchResult] = {
-        val proposals: Future[SearchResult] = ProposalService
+      def getProposals(tags: Seq[TagModel], skip: Int, seed: Option[Int] = None): Future[SearchResult] = {
+        ProposalService
           .searchProposals(
             operationsIds = operationsIds,
             tagsIds = tags.map(_.tagId),
             content = None,
+            seed = seed,
             sort = Seq.empty,
             limit = Some(defaultResultsCount),
             skip = Some(skip),
             context = Some(ContextRequest(operation = Some("vff")))
           )
-        proposals
       }
 
-      def nextProposals(currentProposals: Seq[Proposal], tags: Seq[TagModel]): Future[SearchResult] = {
-        val result = getProposals(tags = tags, skip = currentProposals.size).map { results =>
+      def nextProposals(currentProposals: Seq[Proposal],
+                        tags: Seq[TagModel],
+                        seed: Option[Int] = None): Future[SearchResult] = {
+        val result = getProposals(tags = tags, skip = currentProposals.size, seed = seed).map { results =>
           results.copy(results = currentProposals ++ results.results)
         }
 
@@ -66,8 +68,8 @@ object ResultsInOperationContainer {
         result
       }
 
-      def searchOnSelectedTags(selectedTags: Seq[TagModel]): Future[SearchResult] = {
-        val result = getProposals(tags = selectedTags, skip = 0)
+      def searchOnSelectedTags(selectedTags: Seq[TagModel], seed: Option[Int] = None): Future[SearchResult] = {
+        val result = getProposals(tags = selectedTags, skip = 0, seed = seed)
 
         result.onComplete {
           case Success(_) => // Let child handle results

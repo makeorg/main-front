@@ -30,7 +30,13 @@ object TrendingShowcaseContainer {
     (_: Dispatch) => { (_: AppState, props: Props[TrendingShowcaseContainerProps]) =>
       TrendingShowcase.TrendingShowcaseProps(
         proposals = ProposalService
-          .searchProposals(trending = Some(props.wrapped.trending), limit = Some(2), sort = Seq.empty, skip = None),
+          .searchProposals(
+            trending = Some(props.wrapped.trending),
+            limit = Some(2),
+            sort = Seq.empty,
+            skip = None,
+            isRandom = Some(false)
+          ),
         intro = props.wrapped.intro,
         title = props.wrapped.title,
         maybeTheme = props.wrapped.maybeTheme,

@@ -10,7 +10,10 @@ import org.make.front.Main.CssSettings._
 import org.make.front.components.Components._
 import org.make.front.components.proposal.ProposalTileWithTags.ProposalTileWithTagsProps
 import org.make.front.components.tags.FilterByTags.FilterByTagsProps
-import org.make.front.facades.ReactInfiniteScroller.{ReactInfiniteScrollerVirtualDOMAttributes, ReactInfiniteScrollerVirtualDOMElements}
+import org.make.front.facades.ReactInfiniteScroller.{
+  ReactInfiniteScrollerVirtualDOMAttributes,
+  ReactInfiniteScrollerVirtualDOMElements
+}
 import org.make.front.facades.Unescape.unescape
 import org.make.front.facades.{FacebookPixel, I18n}
 import org.make.front.models.{
@@ -37,23 +40,27 @@ import scala.util.{Failure, Success}
 
 object ResultsInOperation {
 
-  case class ResultsInOperationProps(operation: OperationModel,
-                                     onMoreResultsRequested: (Seq[ProposalModel], Seq[TagModel]) => Future[SearchResult],
-                                     onTagSelectionChange: (Seq[TagModel])                  => Future[SearchResult],
-                                     proposals: Future[SearchResult],
-                                     preselectedTags: Seq[TagModel],
-                                     maybeTheme: Option[TranslatedThemeModel],
-                                     maybeSequence: Option[SequenceModel],
-                                     maybeLocation: Option[LocationModel])
+  case class ResultsInOperationProps(
+    operation: OperationModel,
+    onMoreResultsRequested: (Seq[ProposalModel], Seq[TagModel], Option[Int]) => Future[SearchResult],
+    onTagSelectionChange: (Seq[TagModel], Option[Int])                       => Future[SearchResult],
+    proposals: Future[SearchResult],
+    preselectedTags: Seq[TagModel],
+    maybeTheme: Option[TranslatedThemeModel],
+    maybeSequence: Option[SequenceModel],
+    maybeLocation: Option[LocationModel]
+  )
 
   case class ResultsInOperationState(listProposals: Seq[ProposalModel],
                                      selectedTags: Seq[TagModel],
                                      initialLoad: Boolean,
                                      hasRequestedMore: Boolean,
-                                     hasMore: Boolean)
+                                     hasMore: Boolean,
+                                     maybeSeed: Option[Int] = None)
 
   lazy val reactClass: ReactClass = {
-    def onSuccessfulVote(proposalId: ProposalIdModel, self: Self[ResultsInOperationProps, ResultsInOperationState]): (VoteModel) => Unit = {
+    def onSuccessfulVote(proposalId: ProposalIdModel,
+                         self: Self[ResultsInOperationProps, ResultsInOperationState]): (VoteModel) => Unit = {
       (voteModel) =>
         def mapProposal(proposal: ProposalModel): ProposalModel = {
           if (proposal.id == proposalId) {
@@ -70,38 +77,35 @@ object ResultsInOperation {
         }
 
         val updatedProposals = self.state.listProposals.map(mapProposal)
-        self.setState(
-          _.copy(listProposals = updatedProposals)
-        )
+        self.setState(_.copy(listProposals = updatedProposals))
     }
 
-    def onSuccessfulQualification(proposalId: ProposalIdModel,
-                                  self: Self[ResultsInOperationProps, ResultsInOperationState]): (String, QualificationModel) => Unit = {
-      (voteKey, qualificationModel) =>
-        def mapProposal(proposal: ProposalModel): ProposalModel = {
-          if (proposal.id == proposalId) {
-            proposal.copy(votes = proposal.votes.map { vote =>
-              if (vote.key == voteKey) {
-                vote.copy(qualifications = vote.qualifications.map { qualification =>
-                  if (qualification.key == qualificationModel.key) {
-                    qualificationModel
-                  } else {
-                    qualification
-                  }
-                })
-              } else {
-                vote
-              }
-            })
-          } else {
-            proposal
-          }
+    def onSuccessfulQualification(
+      proposalId: ProposalIdModel,
+      self: Self[ResultsInOperationProps, ResultsInOperationState]
+    ): (String, QualificationModel) => Unit = { (voteKey, qualificationModel) =>
+      def mapProposal(proposal: ProposalModel): ProposalModel = {
+        if (proposal.id == proposalId) {
+          proposal.copy(votes = proposal.votes.map { vote =>
+            if (vote.key == voteKey) {
+              vote.copy(qualifications = vote.qualifications.map { qualification =>
+                if (qualification.key == qualificationModel.key) {
+                  qualificationModel
+                } else {
+                  qualification
+                }
+              })
+            } else {
+              vote
+            }
+          })
+        } else {
+          proposal
         }
+      }
 
-        val updatedProposals = self.state.listProposals.map(mapProposal)
-        self.setState(
-          _.copy(listProposals = updatedProposals)
-        )
+      val updatedProposals = self.state.listProposals.map(mapProposal)
+      self.setState(_.copy(listProposals = updatedProposals))
     }
 
     React.createClass[ResultsInOperationProps, ResultsInOperationState](
@@ -132,17 +136,20 @@ object ResultsInOperation {
             if (!self.state.initialLoad) {
               self.setState(_.copy(hasRequestedMore = true))
             }
-            self.props.wrapped.onMoreResultsRequested(self.state.listProposals, self.state.selectedTags).onComplete {
-              case Success(searchResult) =>
-                self.setState(
-                  _.copy(
-                    listProposals = searchResult.results,
-                    hasMore = searchResult.total > searchResult.results.size,
-                    initialLoad = false
+            self.props.wrapped
+              .onMoreResultsRequested(self.state.listProposals, self.state.selectedTags, self.state.maybeSeed)
+              .onComplete {
+                case Success(searchResult) =>
+                  self.setState(
+                    _.copy(
+                      listProposals = searchResult.results,
+                      hasMore = searchResult.total > searchResult.results.size,
+                      initialLoad = false,
+                      maybeSeed = searchResult.seed
+                    )
                   )
-                )
-              case Failure(_) => // Let parent handle logging error
-            }
+                case Failure(_) => // Let parent handle logging error
+              }
         }
 
         val noResults: ReactElement =
@@ -183,10 +190,14 @@ object ResultsInOperation {
             }
 
             self.setState(_.copy(selectedTags = tags))
-            self.props.wrapped.onTagSelectionChange(tags).onComplete {
+            self.props.wrapped.onTagSelectionChange(tags, self.state.maybeSeed).onComplete {
               case Success(searchResult) =>
                 self.setState(
-                  _.copy(listProposals = searchResult.results, hasMore = searchResult.total > searchResult.results.size)
+                  _.copy(
+                    listProposals = searchResult.results,
+                    hasMore = searchResult.total > searchResult.results.size,
+                    maybeSeed = searchResult.seed
+                  )
                 )
               case Failure(_) => // Let parent handle logging error
             }
