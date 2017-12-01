@@ -8,7 +8,11 @@ import io.github.shogowada.scalajs.reactjs.router.RouterProps._
 import org.make.front.actions.NotifyError
 import org.make.front.components.AppState
 import org.make.front.facades.I18n
-import org.make.front.models.{Location, Proposal => ProposalModel, TranslatedTheme => TranslatedThemeModel}
+import org.make.front.models.{
+  Operation       => OperationModel,
+  Proposal        => ProposalModel,
+  TranslatedTheme => TranslatedThemeModel
+}
 import org.make.services.proposal.ProposalService
 
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -17,7 +21,9 @@ import scala.util.{Failure, Success}
 
 object ProposalContainer {
 
-  case class ProposalAndThemeInfosModel(proposal: ProposalModel, themeName: Option[String], themeSlug: Option[String])
+  case class ProposalAndThemeInfosModel(proposal: Option[ProposalModel],
+                                        theme: Option[TranslatedThemeModel],
+                                        operation: Option[OperationModel])
 
   lazy val reactClass: ReactClass = ReactRedux.connectAdvanced(selectorFactory)(Proposal.reactClass)
 
@@ -39,16 +45,14 @@ object ProposalContainer {
                   val maybeTheme: Option[TranslatedThemeModel] =
                     proposal.themeId.flatMap(themeId => state.themes.find(_.id.value == themeId.value))
 
-                  maybeTheme.map { theme =>
-                    ProposalAndThemeInfosModel(
-                      proposal = proposal,
-                      themeName = Some(theme.title),
-                      themeSlug = Some(theme.slug)
-                    )
-                  }.getOrElse(ProposalAndThemeInfosModel(proposal = proposal, themeName = None, themeSlug = None))
+                  val maybeOperation: Option[OperationModel] =
+                    proposal.operationId.flatMap { operationId =>
+                      state.operations.find(_.operationId.value == operationId.value)
+                    }
 
+                  ProposalAndThemeInfosModel(proposal = Some(proposal), theme = maybeTheme, operation = maybeOperation)
                 } else {
-                  ProposalAndThemeInfosModel(proposal = null, themeName = None, themeSlug = None)
+                  ProposalAndThemeInfosModel(proposal = None, theme = None, operation = None)
                 }
               }
 
