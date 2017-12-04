@@ -13,13 +13,18 @@ trait RegisterProposalResponse extends js.Object {
 trait SearchResultResponse extends js.Object {
   val total: Int
   val results: js.Array[ProposalResponse]
+  val seed: js.UndefOr[Int]
 }
 
-case class SearchResult(total: Int, results: Seq[Proposal])
+case class SearchResult(total: Int, results: Seq[Proposal], seed: Option[Int])
 
 object SearchResult {
   def apply(searchResultResponse: SearchResultResponse): SearchResult = {
-    SearchResult(total = searchResultResponse.total, results = searchResultResponse.results.map(Proposal.apply))
+    SearchResult(
+      total = searchResultResponse.total,
+      results = searchResultResponse.results.map(Proposal.apply),
+      seed = searchResultResponse.seed.toOption
+    )
   }
 }
 
@@ -40,7 +45,6 @@ trait ProposalResponse extends js.Object {
   val country: String
   val language: String
   val themeId: js.UndefOr[String]
-  val operationId: js.UndefOr[String]
   val tags: js.Array[TagResponse]
   val myProposal: Boolean
 }

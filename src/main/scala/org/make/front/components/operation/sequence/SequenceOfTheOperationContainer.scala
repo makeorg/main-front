@@ -62,7 +62,7 @@ object SequenceOfTheOperationContainer {
           SequenceOfTheOperation.SequenceOfTheOperationProps(
             maybeFirstProposalSlug = None,
             isConnected = false,
-            OperationModel(OperationIdModel("fake"), "", "", "", "", 0, 0, "", None),
+            OperationModel.empty,
             (_) => Future.successful(SequenceModel(SequenceIdModel("fake"), "", "")),
             maybeTheme = None,
             maybeOperation = maybeOperation,

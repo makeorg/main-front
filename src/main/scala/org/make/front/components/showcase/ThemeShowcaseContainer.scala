@@ -46,7 +46,7 @@ object ThemeShowcaseContainer {
         )
       }.getOrElse(
         ThemeShowcase.ThemeShowcaseProps(
-          proposals = Future.successful(SearchResult(total = 0, results = Seq.empty)),
+          proposals = Future.successful(SearchResult(total = 0, results = Seq.empty, seed = None)),
           maybeTheme = None,
           maybeIntro = None,
           maybeNews = None,

@@ -48,7 +48,8 @@ object SearchResultsContainer {
               content = content,
               sort = Seq.empty,
               limit = Some(defaultResultsCount),
-              skip = Some(originalProposals.size)
+              skip = Some(originalProposals.size),
+              isRandom = Some(false)
             )
             .map { searchResults =>
               searchResults.copy(results = originalProposals ++ searchResults.results)
