@@ -22,7 +22,6 @@ import org.make.front.models.{
 }
 import org.make.front.styles.ThemeStyles
 import org.make.front.styles.base.{LayoutRulesStyles, TableLayoutStyles, TextStyles}
-import org.make.front.styles.ui.CTAStyles
 import org.make.front.styles.utils._
 
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -37,17 +36,17 @@ object Proposal {
                                  maybeSequence: Option[SequenceModel],
                                  maybeLocation: Option[LocationModel])
 
-  final case class ProposalState(proposal: Option[ProposalModel] = None,
-                                 maybeLocation: Option[LocationModel] = None,
-                                 maybeTheme: Option[TranslatedThemeModel] = None,
-                                 maybeOperation: Option[OperationModel] = None)
+  final case class ProposalState(proposal: ProposalModel,
+                                 themeName: Option[String],
+                                 themeSlug: Option[String],
+                                 maybeLocation: Option[LocationModel] = None)
 
   lazy val reactClass: ReactClass =
     WithRouter(
       React.createClass[ProposalProps, ProposalState](
         displayName = "Proposal",
         getInitialState = { _ =>
-          ProposalState()
+          ProposalState(proposal = null, themeName = None, themeSlug = None)
         },
         componentWillReceiveProps = { (self, props) =>
           props.wrapped.futureProposalAndThemeInfos.onComplete {
@@ -56,24 +55,19 @@ object Proposal {
               self.setState(
                 _.copy(
                   proposal = futureProposalAndThemeInfos.proposal,
-                  maybeLocation = futureProposalAndThemeInfos.proposal.map { proposal =>
-                    LocationModel.ProposalPage(proposal.id)
-                  },
-                  maybeTheme = futureProposalAndThemeInfos.theme,
-                  maybeOperation = futureProposalAndThemeInfos.operation
+                  themeName = futureProposalAndThemeInfos.themeName,
+                  themeSlug = futureProposalAndThemeInfos.themeSlug,
+                  maybeLocation = Some(LocationModel.ProposalPage(futureProposalAndThemeInfos.proposal.id))
                 )
               )
           }
         },
         render = { self =>
-          def onclickSeeMore: () => Unit = { () =>
-            scalajs.js.Dynamic.global.window.open(I18n.t("welcome-vff.intro.see-more-link"), "_blank")
-          }
           <("proposal")()(
             <.div(
               ^.className := Seq(
                 TableLayoutStyles.fullHeightWrapper,
-                ProposalStyles.wrapper(self.state.proposal.isDefined)
+                ProposalStyles.wrapper(self.state.proposal != null)
               )
             )(
               <.div(^.className := TableLayoutStyles.row)(
@@ -83,7 +77,7 @@ object Proposal {
               ),
               <.div(^.className := Seq(TableLayoutStyles.row, ProposalStyles.fullHeight))(
                 <.div(^.className := Seq(TableLayoutStyles.cell, ProposalStyles.articleCell))(
-                  if (self.state.proposal.isDefined) {
+                  if (self.state.proposal != null) {
                     <.div(^.className := Seq(LayoutRulesStyles.centeredRow, ProposalStyles.fullHeight))(
                       <.article(^.className := ProposalStyles.article)(
                         <.div(^.className := TableLayoutStyles.fullHeightWrapper)(
@@ -96,58 +90,33 @@ object Proposal {
                             <.div(^.className := LayoutRulesStyles.row)(
                               <.div(^.className := ProposalStyles.infosWrapper)(
                                 <.p(^.className := Seq(TextStyles.mediumText, ProposalStyles.infos))(
-                                  self.state.proposal.map { proposal =>
-                                    ProposalAuthorInfosFormat.apply(proposal)
-                                  }
+                                  ProposalAuthorInfosFormat.apply(self.state.proposal)
                                 )
                               ),
                               <.div(^.className := ProposalStyles.contentWrapper)(
                                 <.h1(^.className := Seq(TextStyles.bigText, TextStyles.boldText))(
-                                  self.state.proposal.map(_.content)
+                                  self.state.proposal.content
                                 ),
-                                <.div(^.className := ProposalStyles.voteWrapper)(self.state.proposal.map { proposal =>
+                                <.div(^.className := ProposalStyles.voteWrapper)(
                                   <.VoteContainerComponent(
                                     ^.wrapped := VoteContainerProps(
-                                      proposal = proposal,
+                                      proposal = self.state.proposal,
                                       index = 1,
-                                      maybeTheme = self.state.maybeTheme,
-                                      maybeOperation = self.state.maybeOperation,
+                                      maybeTheme = self.props.wrapped.maybeTheme,
+                                      maybeOperation = self.props.wrapped.maybeOperation,
                                       maybeSequence = self.props.wrapped.maybeSequence,
                                       maybeLocation = self.state.maybeLocation
                                     )
                                   )()
-                                })
-                              ),
-                              if (self.state.maybeOperation.isDefined) {
-                                <.div(^.className := ProposalStyles.operationInfo)(
-                                  <.p(^.className := Seq(TextStyles.mediumText, ProposalStyles.operationText))(
-                                    unescape(I18n.t("proposal.associated-with-the-operation")),
-                                    <.div(
-                                      ^.dangerouslySetInnerHTML := self.state.maybeOperation
-                                        .map(_.baselineHTML)
-                                        .getOrElse("")
-                                    )()
-                                  ),
-                                  <.p(^.className := ProposalStyles.seeMore)(
-                                    <.Link(
-                                      ^.to := s"/consultation/${self.state.maybeOperation.map(_.slug).getOrElse("")}",
-                                      ^.className := Seq(CTAStyles.basic, CTAStyles.basicOnA)
-                                    )(unescape(I18n.t("welcome-vff.intro.see-more"))),
-                                    <.a(
-                                      ^.href := I18n.t("operation.vff-header.article.see-more.link"),
-                                      ^.className := Seq(CTAStyles.basic, CTAStyles.basicOnA),
-                                      ^.target := "_blank"
-                                    )(unescape(I18n.t("operation.vff-header.article.see-more.label")))
-                                  )
                                 )
-
-                              } else if (self.state.maybeTheme.isDefined) {
+                              ),
+                              if (self.state.themeSlug.nonEmpty) {
                                 <.p(^.className := Seq(TextStyles.mediumText, ProposalStyles.themeInfo))(
                                   unescape(I18n.t("proposal.associated-with-the-theme")),
                                   <.Link(
-                                    ^.to := s"/theme/${self.state.maybeTheme.map(_.slug).getOrElse("")}",
+                                    ^.to := s"/theme/${self.state.themeSlug.getOrElse("")}",
                                     ^.className := Seq(TextStyles.title, ProposalStyles.themeName)
-                                  )(self.state.maybeTheme.map(_.title))
+                                  )(self.state.themeName.getOrElse(""))
                                 )
                               }
                             )
@@ -168,10 +137,10 @@ object Proposal {
               )
             )*/
             ),
-            if (self.state.maybeTheme.isDefined) {
+            if (self.state.themeSlug.nonEmpty) {
               <.ThemeShowcaseContainerComponent(
                 ^.wrapped := ThemeShowcaseContainerProps(
-                  themeSlug = self.state.maybeTheme.map(_.slug).getOrElse(""),
+                  themeSlug = self.state.themeSlug.getOrElse(""),
                   maybeOperation = self.props.wrapped.maybeOperation,
                   maybeSequence = self.props.wrapped.maybeSequence,
                   maybeLocation = self.state.maybeLocation
@@ -252,64 +221,6 @@ object ProposalStyles extends StyleSheet.Inline {
 
   val voteWrapper: StyleA =
     style(marginTop(ThemeStyles.SpacingValue.small.pxToEm()))
-
-  val operationInfo: StyleA =
-    style(
-      textAlign.center,
-      position.relative,
-      paddingTop(ThemeStyles.SpacingValue.small.pxToEm()),
-      marginTop(ThemeStyles.SpacingValue.medium.pxToEm()),
-      (&.after)(
-        content := "''",
-        position.absolute,
-        bottom(100.%%),
-        left(50.%%),
-        transform := s"translateX(-50%)",
-        marginTop(-0.5.px),
-        height(1.px),
-        width(100.%%),
-        backgroundColor(ThemeStyles.BorderColor.lighter)
-      ),
-      ThemeStyles.MediaQueries.beyondMedium(display.flex, paddingTop(10.px), paddingBottom(10.px))
-    )
-
-  val operationLogo: StyleA =
-    style(color(ThemeStyles.ThemeColor.primary))
-
-  val operationText: StyleA =
-    style(
-      color(ThemeStyles.TextColor.light),
-      width(100.%%),
-      ThemeStyles.MediaQueries.beyondMedium(
-        width(60.%%),
-        (&.after)(
-          content := "''",
-          position.absolute,
-          left(60.%%),
-          transform := s"translateY(-100%)",
-          marginRight(-0.5.px),
-          width(1.px),
-          height(80.%%),
-          backgroundColor(ThemeStyles.BorderColor.lighter)
-        )
-      )
-    )
-
-  val seeMore: StyleA =
-    style(
-      margin.auto,
-      paddingLeft(1.em),
-      width(100.%%),
-      display.table,
-      unsafeChild("a")(display.tableCell),
-      ThemeStyles.MediaQueries
-        .beyondMedium(
-          display.block,
-          width(40.%%),
-          textAlign.left,
-          unsafeChild("a")(marginLeft(1.em), display.inlineBlock)
-        )
-    )
 
   val themeInfo: StyleA =
     style(
