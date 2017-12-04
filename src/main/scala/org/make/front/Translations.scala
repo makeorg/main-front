@@ -140,7 +140,6 @@ object Translations {
       |      "created-by-user": "Ma proposition",
       |      "share-intro": "Soutenez cette proposition en la partageant&nbsp;:",
       |      "associated-with-the-theme": "postée dans ",
-      |      "associated-with-the-operation": "Cette proposition a été soumise dans le cadre de la Grande Cause ",
       |      "author-infos": {
       |        "age": ", %{age} ans",
       |        "postal-code": " (%{postalCode})",

@@ -11,8 +11,6 @@ final case class Operation(operationId: OperationId,
                            slug: String,
                            title: String,
                            label: String,
-                           baseline: String,
-                           baselineHTML: String,
                            actionsCount: Int,
                            proposalsCount: Int,
                            color: String,
@@ -39,8 +37,6 @@ object Operation {
     store.getState.operations.find(operation => operation.operationId.value == id)
   }
 
-  val empty = Operation(OperationId("fake"), "", "", "", "", "", "", 0, 0, "", None)
-
   val defaultOperations = Seq(
     Operation(
       operationId = OperationId(Operation.vff),
@@ -48,23 +44,6 @@ object Operation {
       slug = "vff",
       title = "Comment lutter contre les violences faites aux&nbsp;femmes&nbsp;?",
       label = Operation.vff,
-      baseline = "Stop aux violences faites aux femmes",
-      baselineHTML = """
-          |<p style="
-          |    color: #660779;
-          |    font-family: TradeGothicLTStdBdCn20;
-          |    font-size: 1em;
-          |    text-transform: uppercase;">
-          |  Stop aux violences faites aux&nbsp;
-          |  <em style="
-          |    font-family: Playfair Display;
-          |    font-style: italic;
-          |    font-size: 1.5em;
-          |    text-transform: lowercase;
-          |    font-weight: 900;">femmes
-          |  </em>
-          |</p>
-          |""".stripMargin,
       actionsCount = 0,
       proposalsCount = 0,
       color = "#660779",
