@@ -253,7 +253,7 @@ object Translations {
       |         }
       |      },
       |      "prompting-to-connect": {
-      |         "title": "Soyez informé(e) des résultats de la&nbsp;consultation.",
+      |         "title": "Soyez informé(e) des actions mises en&nbsp;oeuvre.",
       |         "intro": "Je m'identifie avec",
       |         "caution": "Rassurez-vous, nous ne publierons jamais rien sans votre&nbsp;accord.",
       |         "separator": "ou",
