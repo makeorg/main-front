@@ -15,9 +15,9 @@ object ThemeShowcaseContainer {
   final case class ThemeShowcaseContainerProps(themeSlug: String,
                                                maybeIntro: Option[String] = None,
                                                maybeNews: Option[String] = None,
-                                               maybeOperation: Option[OperationModel],
-                                               maybeSequence: Option[SequenceModel],
-                                               maybeLocation: Option[LocationModel])
+                                               maybeOperation: Option[OperationModel] = None,
+                                               maybeSequence: Option[SequenceModel] = None,
+                                               maybeLocation: Option[LocationModel] = None)
 
   lazy val reactClass: ReactClass = ReactRedux.connectAdvanced(selectorFactory)(ThemeShowcase.reactClass)
 

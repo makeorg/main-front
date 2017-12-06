@@ -21,7 +21,7 @@ object OperationContainer {
         if (OperationsList.isEmpty) {
           props.history.push("/")
           Operation.OperationProps(
-            OperationModel(OperationIdModel("fake"), "", "", "", "", 0, 0, "", None),
+            OperationModel(OperationIdModel("fake"), "", "", "", "", "", 0, 0, "", None),
             None,
             None,
             Some(Location.Homepage)

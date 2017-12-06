@@ -7,7 +7,7 @@ import io.github.shogowada.scalajs.reactjs.router.WithRouter
 import io.github.shogowada.scalajs.reactjs.router.dom.RouterDOM._
 import org.make.front.Main.CssSettings._
 import org.make.front.components.Components.{RichVirtualDOMElements, _}
-import org.make.front.components.proposal.ProposalContainer.ProposalAndThemeInfosModel
+import org.make.front.components.proposal.ProposalContainer.MaybeProposalAndThemeOrOperationModel
 import org.make.front.components.proposal.ProposalSOperationInfos.ProposalSOperationInfosProps
 import org.make.front.components.proposal.vote.VoteContainer.VoteContainerProps
 import org.make.front.components.share.ShareProposal.ShareProps
@@ -19,7 +19,6 @@ import org.make.front.models.{
   Location        => LocationModel,
   Operation       => OperationModel,
   Proposal        => ProposalModel,
-  Sequence        => SequenceModel,
   TranslatedTheme => TranslatedThemeModel
 }
 import org.make.front.styles.ThemeStyles
@@ -32,16 +31,12 @@ import scala.util.{Failure, Success}
 
 object Proposal {
 
-  final case class ProposalProps(futureProposalAndThemeInfos: Future[ProposalAndThemeInfosModel],
-                                 maybeTheme: Option[TranslatedThemeModel],
-                                 maybeOperation: Option[OperationModel],
-                                 maybeSequence: Option[SequenceModel],
-                                 maybeLocation: Option[LocationModel])
+  final case class ProposalProps(futureProposal: Future[MaybeProposalAndThemeOrOperationModel])
 
-  final case class ProposalState(proposal: Option[ProposalModel] = None,
-                                 maybeLocation: Option[LocationModel] = None,
+  final case class ProposalState(maybeProposal: Option[ProposalModel] = None,
                                  maybeTheme: Option[TranslatedThemeModel] = None,
-                                 maybeOperation: Option[OperationModel] = None)
+                                 maybeOperation: Option[OperationModel] = None,
+                                 maybeLocation: Option[LocationModel] = None)
 
   lazy val reactClass: ReactClass =
     WithRouter(
@@ -51,17 +46,17 @@ object Proposal {
           ProposalState()
         },
         componentWillReceiveProps = { (self, props) =>
-          props.wrapped.futureProposalAndThemeInfos.onComplete {
+          props.wrapped.futureProposal.onComplete {
             case Failure(_) =>
-            case Success(futureProposalAndThemeInfos) =>
+            case Success(futureProposal) =>
               self.setState(
                 _.copy(
-                  proposal = futureProposalAndThemeInfos.proposal,
-                  maybeLocation = futureProposalAndThemeInfos.proposal.map { proposal =>
+                  maybeProposal = futureProposal.maybeProposal,
+                  maybeTheme = futureProposal.maybeTheme,
+                  maybeOperation = futureProposal.maybeOperation,
+                  maybeLocation = futureProposal.maybeProposal.map { proposal =>
                     LocationModel.ProposalPage(proposal.id)
-                  },
-                  maybeTheme = futureProposalAndThemeInfos.theme,
-                  maybeOperation = futureProposalAndThemeInfos.operation
+                  }
                 )
               )
           }
@@ -71,7 +66,7 @@ object Proposal {
             <.div(
               ^.className := Seq(
                 TableLayoutStyles.fullHeightWrapper,
-                ProposalStyles.wrapper(self.state.proposal.isDefined)
+                ProposalStyles.wrapper(self.state.maybeProposal.isDefined)
               )
             )(
               <.div(^.className := TableLayoutStyles.row)(
@@ -81,7 +76,7 @@ object Proposal {
               ),
               <.div(^.className := Seq(TableLayoutStyles.row, ProposalStyles.fullHeight))(
                 <.div(^.className := Seq(TableLayoutStyles.cell, ProposalStyles.articleCell))(
-                  if (self.state.proposal.isDefined) {
+                  if (self.state.maybeProposal.isDefined) {
                     <.div(^.className := Seq(LayoutRulesStyles.centeredRow, ProposalStyles.fullHeight))(
                       <.article(^.className := ProposalStyles.article)(
                         <.div(^.className := TableLayoutStyles.fullHeightWrapper)(
@@ -94,26 +89,27 @@ object Proposal {
                             <.div(^.className := LayoutRulesStyles.row)(
                               <.div(^.className := ProposalStyles.infosWrapper)(
                                 <.p(^.className := Seq(TextStyles.mediumText, ProposalStyles.infos))(
-                                  self.state.proposal.map { proposal =>
+                                  self.state.maybeProposal.map { proposal =>
                                     ProposalAuthorInfosFormat.apply(proposal)
                                   }
                                 )
                               ),
                               <.div(^.className := ProposalStyles.contentWrapper)(
                                 <.h1(^.className := Seq(TextStyles.bigText, TextStyles.boldText))(
-                                  self.state.proposal.map(_.content)
+                                  self.state.maybeProposal.map(_.content)
                                 ),
-                                <.div(^.className := ProposalStyles.voteWrapper)(self.state.proposal.map { proposal =>
-                                  <.VoteContainerComponent(
-                                    ^.wrapped := VoteContainerProps(
-                                      proposal = proposal,
-                                      index = 1,
-                                      maybeTheme = self.state.maybeTheme,
-                                      maybeOperation = self.state.maybeOperation,
-                                      maybeSequence = self.props.wrapped.maybeSequence,
-                                      maybeLocation = self.state.maybeLocation
-                                    )
-                                  )()
+                                <.div(^.className := ProposalStyles.voteWrapper)(self.state.maybeProposal.map {
+                                  proposal =>
+                                    <.VoteContainerComponent(
+                                      ^.wrapped := VoteContainerProps(
+                                        proposal = proposal,
+                                        index = 1,
+                                        maybeTheme = self.state.maybeTheme,
+                                        maybeOperation = self.state.maybeOperation,
+                                        maybeSequence = None,
+                                        maybeLocation = self.state.maybeLocation
+                                      )
+                                    )()
                                 })
                               ),
                               if (self.state.maybeOperation.isDefined) {
@@ -156,8 +152,6 @@ object Proposal {
               <.ThemeShowcaseContainerComponent(
                 ^.wrapped := ThemeShowcaseContainerProps(
                   themeSlug = self.state.maybeTheme.map(_.slug).getOrElse(""),
-                  maybeOperation = self.props.wrapped.maybeOperation,
-                  maybeSequence = self.props.wrapped.maybeSequence,
                   maybeLocation = self.state.maybeLocation
                 )
               )()
@@ -197,7 +191,8 @@ object ProposalStyles extends StyleSheet.Inline {
   val articleCell: StyleA =
     style(
       verticalAlign.middle,
-      padding(ThemeStyles.SpacingValue.larger.pxToEm(), `0`) /*TODO: restaure medium with reactivation of sharing part*/
+      padding(ThemeStyles.SpacingValue.larger.pxToEm(), `0`)
+      /*TODO: restaure medium with reactivation of sharing part*/
     )
 
   val shareArticleCell: StyleA =
