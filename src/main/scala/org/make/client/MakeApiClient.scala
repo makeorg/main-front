@@ -65,12 +65,13 @@ object MakeApiClient extends Client {
             val errors: Seq[JsValidationError] =
               JSON.parse(response.responseText).asInstanceOf[js.Array[JsValidationError]]
             Future.failed(BadRequestHttpException(errors.map(ValidationError.apply)))
-          case 401 => Future.failed(UnauthorizedHttpException)
-          case 403 => Future.failed(ForbiddenHttpException)
-          case 404 => Future.failed(NotFoundHttpException)
-          case 500 => Future.failed(InternalServerHttpException)
-          case 502 => Future.failed(BadGatewayHttpException)
-          case _   => Future.failed(NotImplementedHttpException)
+          case 401                => Future.failed(UnauthorizedHttpException)
+          case 403                => Future.failed(ForbiddenHttpException)
+          case 404                => Future.failed(NotFoundHttpException)
+          case 500                => Future.failed(InternalServerHttpException)
+          case 502 if retries > 0 => retryOnFailure(fn, retries - 1)
+          case 502                => Future.failed(BadGatewayHttpException)
+          case _                  => Future.failed(NotImplementedHttpException)
         }
       case other => Future.failed(other)
     }
