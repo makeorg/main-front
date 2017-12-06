@@ -10,6 +10,7 @@ final case class Operation(operationId: OperationId,
                            url: String,
                            slug: String,
                            title: String,
+                           question: String,
                            label: String,
                            actionsCount: Int,
                            proposalsCount: Int,
@@ -37,12 +38,15 @@ object Operation {
     store.getState.operations.find(operation => operation.operationId.value == id)
   }
 
+  val empty = Operation(OperationId("fake"), "", "", "", "", "", 0, 0, "", None)
+
   val defaultOperations = Seq(
     Operation(
       operationId = OperationId(Operation.vff),
       url = "consultation/vff/selection",
       slug = "vff",
-      title = "Comment lutter contre les violences faites aux&nbsp;femmes&nbsp;?",
+      title = "Stop aux violences faites aux&nbsp;femmes",
+      question = "Comment lutter contre les violences faites aux&nbsp;femmes&nbsp;?",
       label = Operation.vff,
       actionsCount = 0,
       proposalsCount = 0,

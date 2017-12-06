@@ -136,8 +136,10 @@ object VFFIntro {
                 ),
                 <.div(^.className := Seq(ColRulesStyles.col, ColRulesStyles.colTwoThirdsBeyondSmall))(
                   <.p(^.className := TextStyles.label)(unescape(I18n.t("operation.vff-header.article.title"))),
-                  <.p(^.className := Seq(VFFIntroStyles.explanation, TextStyles.smallText))(
-                    unescape(I18n.t("operation.vff-header.article.content"))
+                  <.div(^.className := VFFIntroStyles.explanationTextWrapper)(
+                    <.p(^.className := Seq(VFFIntroStyles.explanationText, TextStyles.smallText))(
+                      unescape(I18n.t("operation.vff-header.article.content"))
+                    )
                   ),
                   <.p(^.className := VFFIntroStyles.ctaWrapper)(
                     <.a(
@@ -221,11 +223,9 @@ object VFFIntroStyles extends StyleSheet.Inline {
   val explanationIll: StyleA =
     style(width(100.%%), ThemeStyles.MediaQueries.belowSmall(marginBottom(ThemeStyles.SpacingValue.small.pxToEm())))
 
-  val explanation: StyleA = style(
-    marginTop(ThemeStyles.SpacingValue.small.pxToEm(13)),
-    ThemeStyles.MediaQueries.beyondSmall(marginTop(ThemeStyles.SpacingValue.small.pxToEm(16))),
-    color(ThemeStyles.TextColor.white)
-  )
+  val explanationTextWrapper: StyleA = style(marginTop(ThemeStyles.SpacingValue.small.pxToEm()))
+
+  val explanationText: StyleA = style(color(ThemeStyles.TextColor.white))
 
   val ctaWrapper: StyleA = style(marginTop(ThemeStyles.SpacingValue.small.pxToEm()))
 }

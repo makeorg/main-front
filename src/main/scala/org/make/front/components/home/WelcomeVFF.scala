@@ -28,7 +28,7 @@ object WelcomeVFF {
             ^.className := WelcomeVFFStyles.illustration,
             ^.src := welcomeVff.toString,
             ^("srcset") := welcomeVffSmall.toString + " 400w, " + welcomeVffSmall2x.toString + " 800w, " + welcomeVffMedium.toString + " 840w, " + welcomeVffMedium2x.toString + " 1680w, " + welcomeVff.toString + " 1350w, " + welcomeVff2x.toString + " 2700w",
-            ^.alt := "Make.org",
+            ^.alt := I18n.t("welcome-vff.intro.title"),
             ^("data-pin-no-hover") := "true"
           )(),
           <.div(^.className := Seq(WelcomeVFFStyles.innerSubWrapper, LayoutRulesStyles.centeredRow))(

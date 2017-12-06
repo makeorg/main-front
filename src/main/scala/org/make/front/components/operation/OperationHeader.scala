@@ -47,7 +47,9 @@ object OperationHeader {
 
         <.header(^.className := OperationHeaderStyles.wrapper)(
           <.div(^.className := LayoutRulesStyles.centeredRow)(
-            <.h1(^.className := Seq(TextStyles.mediumTitle, OperationHeaderStyles.title))(unescape(operation.title)),
+            <.h1(^.className := Seq(TextStyles.mediumTitle, OperationHeaderStyles.title))(
+              unescape(I18n.t("operation.proposal-form-in-header.intro"))
+            ),
             <.p(
               ^.className := Seq(
                 TextStyles.biggerMediumText,
@@ -55,7 +57,7 @@ object OperationHeader {
                 OperationHeaderStyles.proposalInputIntro,
                 OperationHeaderStyles.coloredProposalInputIntro(operation.color)
               )
-            )(unescape(I18n.t("operation.proposal-form-in-header.intro"))),
+            )(unescape(operation.question)),
             <.p(
               ^.className := Seq(
                 InputStyles.wrapper,

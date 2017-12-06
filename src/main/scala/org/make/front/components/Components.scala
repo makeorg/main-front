@@ -97,6 +97,7 @@ object Components {
     /*********************/
     def ProposalInfosComponent: ReactClassElementSpec = self(proposal.ProposalInfos.reactClass)
     def ShareOwnProposalComponent: ReactClassElementSpec = self(proposal.ShareOwnProposal.reactClass)
+    def ProposalSOperationInfosComponent: ReactClassElementSpec = self(proposal.ProposalSOperationInfos.reactClass)
 
     def ProposalTileComponent: ReactClassElementSpec = self(proposal.ProposalTile.reactClass)
     def ProposalTileWithThemeContainerComponent: ReactClassElementSpec =

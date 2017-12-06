@@ -53,6 +53,13 @@ object TextStyles extends StyleSheet.Inline {
   val title: StyleA =
     style(ThemeStyles.Font.tradeGothicLTStd, textTransform.uppercase)
 
+  val verySmallTitle: StyleA =
+    style(
+      title,
+      fontSize(13.pxToEm()),
+      lineHeight(20.0 / 13.0),
+      ThemeStyles.MediaQueries.beyondSmall(fontSize(18.pxToEm()), lineHeight(23.0 / 18.0))
+    )
   val smallerTitle: StyleA =
     style(title, fontSize(15.pxToEm()), ThemeStyles.MediaQueries.beyondSmall(fontSize(20.pxToEm())))
   val smallTitle: StyleA =
