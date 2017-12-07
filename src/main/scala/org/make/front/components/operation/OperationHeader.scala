@@ -72,7 +72,8 @@ object OperationHeader {
                     ^.`type`.text,
                     ^.value := I18n.t("operation.proposal-form-in-header.bait"),
                     ^.ref := ((input: HTMLElement) => proposalInput = Some(input)),
-                    ^.onFocus := openProposalModalFromInput()
+                    ^.onFocus := openProposalModalFromInput(),
+                    ^.readOnly := true
                   )()
                 ),
                 <.span(^.className := TableLayoutStyles.cellVerticalAlignMiddle)(
