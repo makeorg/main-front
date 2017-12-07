@@ -22,9 +22,9 @@ import scala.util.{Failure, Success}
 
 object ProposalContainer {
 
-  case class MaybeProposalAndThemeOrOperationModel(maybeProposal: Option[ProposalModel] = None,
-                                                   maybeTheme: Option[TranslatedThemeModel] = None,
-                                                   maybeOperation: Option[OperationModel] = None)
+  case class ProposalAndThemeOrOperationModel(maybeProposal: Option[ProposalModel] = None,
+                                              maybeTheme: Option[TranslatedThemeModel] = None,
+                                              maybeOperation: Option[OperationModel] = None)
 
   lazy val reactClass: ReactClass = ReactRedux.connectAdvanced(selectorFactory)(Proposal.reactClass)
 
@@ -32,7 +32,7 @@ object ProposalContainer {
     (dispatch: Dispatch) => { (state: AppState, props: Props[Unit]) =>
       {
 
-        val futureProposal: Future[MaybeProposalAndThemeOrOperationModel] = {
+        val futureProposal: Future[ProposalAndThemeOrOperationModel] = {
 
           val proposalSlug = props.`match`.params("proposalSlug")
 
@@ -53,13 +53,13 @@ object ProposalContainer {
                       state.operations.find(_.operationId.value == operationId.value)
                     }
 
-                  MaybeProposalAndThemeOrOperationModel(
+                  ProposalAndThemeOrOperationModel(
                     maybeProposal = Some(proposal),
                     maybeTheme = maybeTheme,
                     maybeOperation = maybeOperation
                   )
                 } else {
-                  MaybeProposalAndThemeOrOperationModel()
+                  ProposalAndThemeOrOperationModel()
                 }
               }
 

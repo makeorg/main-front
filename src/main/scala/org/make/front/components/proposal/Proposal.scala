@@ -7,7 +7,7 @@ import io.github.shogowada.scalajs.reactjs.router.WithRouter
 import io.github.shogowada.scalajs.reactjs.router.dom.RouterDOM._
 import org.make.front.Main.CssSettings._
 import org.make.front.components.Components.{RichVirtualDOMElements, _}
-import org.make.front.components.proposal.ProposalContainer.MaybeProposalAndThemeOrOperationModel
+import org.make.front.components.proposal.ProposalContainer.ProposalAndThemeOrOperationModel
 import org.make.front.components.proposal.ProposalSOperationInfos.ProposalSOperationInfosProps
 import org.make.front.components.proposal.vote.VoteContainer.VoteContainerProps
 import org.make.front.components.share.ShareProposal.ShareProps
@@ -31,7 +31,7 @@ import scala.util.{Failure, Success}
 
 object Proposal {
 
-  final case class ProposalProps(futureProposal: Future[MaybeProposalAndThemeOrOperationModel])
+  final case class ProposalProps(futureProposal: Future[ProposalAndThemeOrOperationModel])
 
   final case class ProposalState(maybeProposal: Option[ProposalModel] = None,
                                  maybeTheme: Option[TranslatedThemeModel] = None,
