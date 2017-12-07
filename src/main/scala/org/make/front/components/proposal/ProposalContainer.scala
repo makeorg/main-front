@@ -41,13 +41,12 @@ object ProposalContainer {
               .searchProposals(slug = Some(proposalSlug), limit = Some(1), sort = Seq.empty, skip = None)
               .map { proposalsResponse =>
                 if (proposalsResponse.results.nonEmpty) {
-                  proposalsResponse.results.head
+
                   val proposal = proposalsResponse.results.head
 
                   val maybeTheme: Option[TranslatedThemeModel] =
                     proposal.themeId.flatMap(themeId => state.themes.find(_.id.value == themeId.value))
 
-                  /* TO-DO : why no operationId ? */
                   val maybeOperation: Option[OperationModel] =
                     proposal.operationId.flatMap { operationId =>
                       state.operations.find(_.operationId.value == operationId.value)
