@@ -2,7 +2,7 @@ package org.make.front.models
 
 import io.github.shogowada.scalajs.reactjs.redux.Store
 import org.make.front.components.AppState
-import org.make.front.facades.{vffDarkerLogo, vffLogo}
+import org.make.front.facades.{VFFDarkerLogo, VFFLogo}
 import org.make.front.models.{Sequence => SequenceModel}
 import scala.scalajs.js
 
@@ -52,8 +52,8 @@ object Operation {
       proposalsCount = 0,
       color = "#660779",
       gradient = Some(GradientColor("#AB92CA", "#54325A")),
-      logoUrl = Some(vffLogo.toString),
-      darkerLogoUrl = Some(vffDarkerLogo.toString),
+      logoUrl = Some(VFFLogo.toString),
+      darkerLogoUrl = Some(VFFDarkerLogo.toString),
       sequence = Some(
         SequenceModel(
           sequenceId = SequenceId("1"),

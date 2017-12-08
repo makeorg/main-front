@@ -280,9 +280,10 @@ object Translations {
       |      "vff-header": {
       |        "label": "Grande cause Make.org",
       |        "title": "Stop aux violences faites aux femmes",
-      |        "period": "Consultation ouverte du 25 nov. 2017 au 8 mars&nbsp;2018",
+      |        "period": "Consultation ouverte du 25 nov. 2017 à fin janvier",
       |        "partners": {
-      |          "intro": "avec"
+      |          "intro": "avec",
+      |          "others": "et nos partenaires soutien et&nbsp;actions"
       |        },
       |        "article": {
       |          "title": "Pourquoi cette consultation&nbsp;?",
