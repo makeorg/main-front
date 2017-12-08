@@ -34,30 +34,9 @@ object VFFIntro {
 
           final case class PartnerModel(name: String, imageUrl: String, imageWidth: Int)
 
-          val featuredPartners: Seq[PartnerModel] = Seq(
+          val partners: Seq[PartnerModel] = Seq(
             PartnerModel(name = "Kering Foundation", imageUrl = keringFoundationLogo.toString, imageWidth = 80),
             PartnerModel(name = "Facebook", imageUrl = facebookLogo.toString, imageWidth = 80)
-          )
-
-          val partners: Seq[PartnerModel] = Seq(
-            PartnerModel(name = "Île de France", imageUrl = ileDeFranceLogo.toString, imageWidth = 90),
-            PartnerModel(name = "Face", imageUrl = faceLogo.toString, imageWidth = 24),
-            PartnerModel(name = "L'OBS", imageUrl = lObsLogo.toString, imageWidth = 38),
-            PartnerModel(name = "Elle", imageUrl = elleLogo.toString, imageWidth = 35),
-            PartnerModel(name = "TF1", imageUrl = tf1Logo.toString, imageWidth = 32),
-            PartnerModel(name = "RTL Girls", imageUrl = rtlGirlsLogo.toString, imageWidth = 26),
-            PartnerModel(name = "Osez le féminisme", imageUrl = osezLeFeminismeLogo.toString, imageWidth = 50),
-            PartnerModel(name = "Solidarité Femmes", imageUrl = solidariteFemmesLogo.toString, imageWidth = 37),
-            PartnerModel(name = "AdN", imageUrl = adnLogo.toString, imageWidth = 32),
-            PartnerModel(name = "Fédération nationale gams", imageUrl = gamsLogo.toString, imageWidth = 30),
-            PartnerModel(name = "Femmes solidaires", imageUrl = femmesSolidairesLogo.toString, imageWidth = 40),
-            PartnerModel(name = "La Cimade", imageUrl = laCimadeLogo.toString, imageWidth = 68),
-            PartnerModel(name = "Femmes de la terre", imageUrl = femmesDeLaTerreLogo.toString, imageWidth = 30),
-            PartnerModel(name = "Ni putes ni soumises", imageUrl = niPutesNiSoumisesLogo.toString, imageWidth = 70),
-            PartnerModel(name = "Chiennes de garde", imageUrl = chiennesDeGardeLogo.toString, imageWidth = 25),
-            PartnerModel(name = "Une femme, un toit", imageUrl = uneFemmeUnToitLogo.toString, imageWidth = 27),
-            PartnerModel(name = "irts", imageUrl = irtsLogo.toString, imageWidth = 28),
-            PartnerModel(name = "Hands Away", imageUrl = handsAwayLogo.toString, imageWidth = 30)
           )
 
           val gradientValues: GradientColorModel =
@@ -98,19 +77,6 @@ object VFFIntro {
                   )(<.hr(^.className := Seq(VFFIntroStyles.separatorLine, VFFIntroStyles.separatorLineToTheRight))())
                 ),
                 <.ul(^.className := VFFIntroStyles.partnersList)(
-                  featuredPartners.map(
-                    partner =>
-                      <.li(^.className := VFFIntroStyles.partnerItem)(
-                        <.img(
-                          ^.src := partner.imageUrl,
-                          ^.alt := partner.name,
-                          ^("width") := partner.imageWidth.toString,
-                          ^.className := VFFIntroStyles.partnerLogo
-                        )()
-                    )
-                  )
-                ),
-                <.ul(^.className := VFFIntroStyles.partnersList)(
                   partners.map(
                     partner =>
                       <.li(^.className := VFFIntroStyles.partnerItem)(
@@ -122,6 +88,9 @@ object VFFIntro {
                         )()
                     )
                   )
+                ),
+                <.p(^.className := Seq(VFFIntroStyles.otherPartners, TextStyles.smallText))(
+                  unescape(I18n.t("operation.vff-header.partners.others"))
                 )
               )
             ),
@@ -167,9 +136,10 @@ object VFFIntroStyles extends StyleSheet.Inline {
 
   val presentationInnerWrapper: StyleA =
     style(
-      paddingTop(ThemeStyles.SpacingValue.medium.pxToEm()),
-      ThemeStyles.MediaQueries.beyondSmall(paddingTop(ThemeStyles.SpacingValue.larger.pxToEm())),
-      paddingBottom(ThemeStyles.SpacingValue.small.pxToEm())
+      padding(ThemeStyles.SpacingValue.medium.pxToEm(), `0`),
+      ThemeStyles.MediaQueries.beyondSmall(
+        padding(ThemeStyles.SpacingValue.larger.pxToEm(), `0`, ThemeStyles.SpacingValue.large.pxToEm())
+      )
     )
 
   val titleWrapper: StyleA = style(maxWidth(470.pxToEm()), marginLeft.auto, marginRight.auto)
@@ -191,13 +161,13 @@ object VFFIntroStyles extends StyleSheet.Inline {
   val separatorLineToTheLeft: StyleA = style(
     maxWidth(290.pxToEm()),
     marginLeft.auto,
-    background := s"linear-gradient(to left, rgba(255,255,255,1) 0%,rgba(255,255,255,0) 100%)"
+    background := s"linear-gradient(to left, rgba(255,255,255,1) 0%, rgba(255,255,255,0) 100%)"
   )
 
   val separatorLineToTheRight: StyleA = style(
     maxWidth(290.pxToEm()),
     marginRight.auto,
-    background := s"linear-gradient(to right, rgba(255,255,255,1) 0%,rgba(255,255,255,0) 100%)"
+    background := s"linear-gradient(to right, rgba(255,255,255,1) 0%, rgba(255,255,255,0) 100%)"
   )
 
   val separatorTextWrapper: StyleA = style(padding(`0`, 20.pxToEm()))
@@ -213,6 +183,8 @@ object VFFIntroStyles extends StyleSheet.Inline {
   )
 
   val partnerLogo: StyleA = style()
+
+  val otherPartners: StyleA = style(textAlign.center, color(ThemeStyles.TextColor.white), opacity(0.5))
 
   val explanationWrapper: StyleA =
     style(
