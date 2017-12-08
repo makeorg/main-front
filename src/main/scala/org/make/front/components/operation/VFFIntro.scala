@@ -63,12 +63,12 @@ object VFFIntro {
                     unescape(I18n.t("operation.vff-header.period"))
                   )
                 ),
-                <.div(^.className := Seq(TableLayoutStyles.wrapper, VFFIntroStyles.separatorWrapper))(
+                <.div(^.className := Seq(TableLayoutStyles.wrapper, VFFIntroStyles.separator))(
                   <.div(
                     ^.className := Seq(TableLayoutStyles.cellVerticalAlignMiddle, VFFIntroStyles.separatorLineWrapper)
                   )(<.hr(^.className := Seq(VFFIntroStyles.separatorLine, VFFIntroStyles.separatorLineToTheLeft))()),
                   <.div(^.className := Seq(TableLayoutStyles.cell, VFFIntroStyles.separatorTextWrapper))(
-                    <.p(^.className := Seq(VFFIntroStyles.separator, TextStyles.smallerText))(
+                    <.p(^.className := Seq(VFFIntroStyles.separatorText, TextStyles.smallerText))(
                       unescape(I18n.t("operation.vff-header.partners.intro"))
                     )
                   ),
@@ -149,14 +149,21 @@ object VFFIntroStyles extends StyleSheet.Inline {
   val infos: StyleA =
     style(width(100.%%), textAlign.center, backgroundColor(ThemeStyles.BackgroundColor.blackMoreTransparent))
 
-  val separatorWrapper: StyleA =
-    style(margin(ThemeStyles.SpacingValue.medium.pxToEm(), `0`, ThemeStyles.SpacingValue.small.pxToEm()), opacity(0.5))
+  val separator: StyleA =
+    style(margin(ThemeStyles.SpacingValue.medium.pxToEm(), `0`, ThemeStyles.SpacingValue.small.pxToEm()))
 
   val separatorLineWrapper: StyleA =
     style(width(50.%%), paddingTop(2.pxToEm()))
 
   val separatorLine: StyleA =
-    style(height(1.px), width(100.%%), margin(`0`), border.none, backgroundColor(ThemeStyles.BorderColor.white))
+    style(
+      height(1.px),
+      width(100.%%),
+      margin(`0`),
+      border.none,
+      backgroundColor(ThemeStyles.BorderColor.white),
+      opacity(0.2)
+    )
 
   val separatorLineToTheLeft: StyleA = style(
     maxWidth(290.pxToEm()),
@@ -172,7 +179,7 @@ object VFFIntroStyles extends StyleSheet.Inline {
 
   val separatorTextWrapper: StyleA = style(padding(`0`, 20.pxToEm()))
 
-  val separator: StyleA = style(color(ThemeStyles.TextColor.white))
+  val separatorText: StyleA = style(color(ThemeStyles.TextColor.white), opacity(0.5))
 
   val partnersList: StyleA = style(textAlign.center)
 
