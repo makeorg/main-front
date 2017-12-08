@@ -45,7 +45,6 @@ object SequenceOfTheOperationContainer {
         maybeOperation.flatMap { operation =>
           operation.sequence.map { sequence =>
             dispatch(LoadConfiguration)
-            scalajs.js.Dynamic.global.console.log("SequenceOfTheOperationProps")
 
             SequenceOfTheOperation.SequenceOfTheOperationProps(
               maybeFirstProposalSlug = firstProposalSlug,
@@ -62,7 +61,7 @@ object SequenceOfTheOperationContainer {
           SequenceOfTheOperation.SequenceOfTheOperationProps(
             maybeFirstProposalSlug = None,
             isConnected = false,
-            OperationModel(OperationIdModel("fake"), "", "", "", "", 0, 0, "", None),
+            OperationModel.empty,
             (_) => Future.successful(SequenceModel(SequenceIdModel("fake"), "", "")),
             maybeTheme = None,
             maybeOperation = maybeOperation,

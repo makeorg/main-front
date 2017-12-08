@@ -33,9 +33,9 @@ object ThemeShowcase {
                                       maybeTheme: Option[TranslatedThemeModel],
                                       maybeIntro: Option[String],
                                       maybeNews: Option[String],
-                                      maybeOperation: Option[OperationModel],
-                                      maybeSequence: Option[SequenceModel],
-                                      maybeLocation: Option[LocationModel] )
+                                      maybeOperation: Option[OperationModel] = None,
+                                      maybeSequence: Option[SequenceModel] = None,
+                                      maybeLocation: Option[LocationModel] = None)
 
   final case class ThemeShowcaseState(proposals: Seq[ProposalModel])
 

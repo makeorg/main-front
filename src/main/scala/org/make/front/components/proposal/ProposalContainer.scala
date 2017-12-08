@@ -8,7 +8,12 @@ import io.github.shogowada.scalajs.reactjs.router.RouterProps._
 import org.make.front.actions.NotifyError
 import org.make.front.components.AppState
 import org.make.front.facades.I18n
-import org.make.front.models.{Location, Proposal => ProposalModel, TranslatedTheme => TranslatedThemeModel}
+
+import org.make.front.models.{
+  Proposal        => ProposalModel,
+  TranslatedTheme => TranslatedThemeModel,
+  Operation       => OperationModel
+}
 import org.make.services.proposal.ProposalService
 
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -17,7 +22,9 @@ import scala.util.{Failure, Success}
 
 object ProposalContainer {
 
-  case class ProposalAndThemeInfosModel(proposal: ProposalModel, themeName: Option[String], themeSlug: Option[String])
+  case class ProposalAndThemeOrOperationModel(maybeProposal: Option[ProposalModel] = None,
+                                              maybeTheme: Option[TranslatedThemeModel] = None,
+                                              maybeOperation: Option[OperationModel] = None)
 
   lazy val reactClass: ReactClass = ReactRedux.connectAdvanced(selectorFactory)(Proposal.reactClass)
 
@@ -25,7 +32,7 @@ object ProposalContainer {
     (dispatch: Dispatch) => { (state: AppState, props: Props[Unit]) =>
       {
 
-        val futureProposalAndThemeInfos: Future[ProposalAndThemeInfosModel] = {
+        val futureProposal: Future[ProposalAndThemeOrOperationModel] = {
 
           val proposalSlug = props.`match`.params("proposalSlug")
 
@@ -34,21 +41,24 @@ object ProposalContainer {
               .searchProposals(slug = Some(proposalSlug), limit = Some(1), sort = Seq.empty, skip = None)
               .map { proposalsResponse =>
                 if (proposalsResponse.results.nonEmpty) {
+
                   val proposal = proposalsResponse.results.head
 
                   val maybeTheme: Option[TranslatedThemeModel] =
                     proposal.themeId.flatMap(themeId => state.themes.find(_.id.value == themeId.value))
 
-                  maybeTheme.map { theme =>
-                    ProposalAndThemeInfosModel(
-                      proposal = proposal,
-                      themeName = Some(theme.title),
-                      themeSlug = Some(theme.slug)
-                    )
-                  }.getOrElse(ProposalAndThemeInfosModel(proposal = proposal, themeName = None, themeSlug = None))
+                  val maybeOperation: Option[OperationModel] =
+                    proposal.operationId.flatMap { operationId =>
+                      state.operations.find(_.operationId.value == operationId.value)
+                    }
 
+                  ProposalAndThemeOrOperationModel(
+                    maybeProposal = Some(proposal),
+                    maybeTheme = maybeTheme,
+                    maybeOperation = maybeOperation
+                  )
                 } else {
-                  ProposalAndThemeInfosModel(proposal = null, themeName = None, themeSlug = None)
+                  ProposalAndThemeOrOperationModel()
                 }
               }
 
@@ -60,13 +70,7 @@ object ProposalContainer {
           proposalsResponse
         }
 
-        Proposal.ProposalProps(
-          futureProposalAndThemeInfos = futureProposalAndThemeInfos,
-          maybeTheme = None,
-          maybeOperation = None,
-          maybeSequence = None,
-          maybeLocation = None
-        )
+        Proposal.ProposalProps(futureProposal = futureProposal)
       }
     }
 }

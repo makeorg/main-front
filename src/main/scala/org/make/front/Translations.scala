@@ -40,7 +40,7 @@ object Translations {
       |          "item-2": "<strong>Proposez</strong> vos idées sur des thèmes qui vous&nbsp;inspirent",
       |          "item-3": "Et demain, <strong>initiez des actions</strong> concrètes sur le&nbsp;terrain",
       |          "see-more-link": "/",
-      |          "see-more": "En savoir +"
+      |          "see-more": "En savoir&nbsp;+"
       |        },
       |        "article-2": {
       |          "intro": "qui sommes-nous&nbsp;?",
@@ -68,7 +68,7 @@ object Translations {
       |       "baseline": "Grande cause make.org",
       |       "title" : "Stop aux Violences Faites aux&nbsp;Femmes",
       |       "subtitle" : "Make.org a décidé de lancer sa première Grande Cause en la consacrant à la lutte contre les Violences faites aux&nbsp;femmes.",
-      |       "see-more": "participer",
+      |       "see-more": "Participer",
       |       "see-more-link": "https://stopvff.make.org/about-vff"
       |     }
       |    },
@@ -140,6 +140,12 @@ object Translations {
       |      "created-by-user": "Ma proposition",
       |      "share-intro": "Soutenez cette proposition en la partageant&nbsp;:",
       |      "associated-with-the-theme": "postée dans ",
+      |      "proposal-s-operation-infos": {
+      |        "intro": "Cette proposition a été soumise dans le cadre de la Grande&nbsp;Cause",
+      |        "participate": "Participer",
+      |        "see-more": "En savoir&nbsp;+",
+      |        "see-more-link": "https://stopvff.make.org/about-vff"
+      |      },
       |      "author-infos": {
       |        "age": ", %{age} ans",
       |        "postal-code": " (%{postalCode})",
@@ -246,7 +252,7 @@ object Translations {
       |         },
       |         "learn-more": {
       |           "intro": "En découvrant l'ensemble de&nbsp;l'opération",
-      |           "cta": "En savoir +"
+      |           "cta": "En savoir&nbsp;+"
       |         },
       |        "share": {
       |           "intro": "En invitant vos proches à participer à la&nbsp;consultation&nbsp;:"
@@ -282,7 +288,7 @@ object Translations {
       |          "title": "Pourquoi cette consultation&nbsp;?",
       |          "content": "Les violences faites aux femmes sont au coeur de l’actualité politique et médiatique. Les mentalités sont en train de changer. Mais pour autant tout commence maintenant. À nous de transformer cette prise de conscience généralisée en actions concrètes et d’apporter une réponse décisive face à ce&nbsp;fléau.",
       |          "see-more": {
-      |            "label": "En savoir +",
+      |            "label": "En savoir&nbsp;+",
       |            "link": "https://stopvff.make.org/about-vff"
       |          }
       |        }
@@ -293,7 +299,7 @@ object Translations {
       |        "no-results": "Nous n’avons trouvé <strong>aucun résultat</strong> correspondant à votre sélection de&nbsp;tag(s). <br> Vous pouvez sélectionner d’autres combinaisons de&nbsp;tags."
       |      },
       |      "proposal-form-in-header": {
-      |        "intro": "partagez vos propositions",
+      |        "intro": "Proposez vos solutions sur le&nbsp;sujet",
       |        "bait": "Il faut ",
       |        "limit-of-chars-info": "8/140"
       |      },
