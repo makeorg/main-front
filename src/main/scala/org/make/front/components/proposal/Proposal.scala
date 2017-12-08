@@ -119,16 +119,18 @@ object Proposal {
                                   )()
                                 )
 
-                              } else if (self.state.maybeTheme.isDefined) {
-                                <.div(^.className := ProposalStyles.themeInfoWrapper)(
-                                  <.p(^.className := Seq(TextStyles.mediumText, ProposalStyles.themeInfo))(
-                                    unescape(I18n.t("proposal.associated-with-the-theme")),
-                                    <.Link(
-                                      ^.to := s"/theme/${self.state.maybeTheme.map(_.slug).getOrElse("")}",
-                                      ^.className := Seq(TextStyles.title, ProposalStyles.themeName)
-                                    )(self.state.maybeTheme.map(_.title))
+                              } else {
+                                self.state.maybeTheme.map { theme =>
+                                  <.div(^.className := ProposalStyles.themeInfoWrapper)(
+                                    <.p(^.className := Seq(TextStyles.mediumText, ProposalStyles.themeInfo))(
+                                      unescape(I18n.t("proposal.associated-with-the-theme")),
+                                      <.Link(
+                                        ^.to := s"/theme/${theme.slug}",
+                                        ^.className := Seq(TextStyles.title, ProposalStyles.themeName)
+                                      )(theme.title)
+                                    )
                                   )
-                                )
+                                }
                               }
                             )
                           )
