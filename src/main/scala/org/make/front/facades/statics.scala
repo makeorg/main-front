@@ -420,15 +420,15 @@ object cone extends js.Object
 
 @js.native
 @JSImport("./images/operations/vff/stop-aux-violences-faites-aux-femmes.svg", "default")
-object vffLogo extends js.Object
+object VFFLogo extends js.Object
 
 @js.native
 @JSImport("./images/operations/vff/stop-aux-violences-faites-aux-femmes-darker.svg", "default")
-object vffDarkerLogo extends js.Object
+object VFFDarkerLogo extends js.Object
 
 @js.native
 @JSImport("./images/operations/vff/vff-ill.jpg", "default")
-object vffIll extends js.Object
+object VFFIll extends js.Object
 
 @js.native
 @JSImport("./images/operations/vff/partners/kering-foundation.svg", "default")
@@ -440,27 +440,27 @@ object facebookLogo extends js.Object
 
 @js.native
 @JSImport("./images/operations/vff/vff-home-400x500.jpg", "default")
-object welcomeVffSmall extends js.Object
+object welcomeVFFSmall extends js.Object
 
 @js.native
 @JSImport("./images/operations/vff/vff-home-400x500@2x.jpg", "default")
-object welcomeVffSmall2x extends js.Object
+object welcomeVFFSmall2x extends js.Object
 
 @js.native
 @JSImport("./images/operations/vff/vff-home-840x500.jpg", "default")
-object welcomeVffMedium extends js.Object
+object welcomeVFFMedium extends js.Object
 
 @js.native
 @JSImport("./images/operations/vff/vff-home-840x500@2x.jpg", "default")
-object welcomeVffMedium2x extends js.Object
+object welcomeVFFMedium2x extends js.Object
 
 @js.native
 @JSImport("./images/operations/vff/vff-home-1350x500.jpg", "default")
-object welcomeVff extends js.Object
+object welcomeVFF extends js.Object
 
 @js.native
 @JSImport("./images/operations/vff/vff-home-1350x500@2x.jpg", "default")
-object welcomeVff2x extends js.Object
+object welcomeVFF2x extends js.Object
 
 @js.native
 @JSImport("./fonts/CircularStd-Book.woff2", "default")

@@ -98,7 +98,7 @@ object VFFIntro {
               <.div(^.className := LayoutRulesStyles.narrowerCenteredRowWithCols)(
                 <.div(^.className := Seq(ColRulesStyles.col, ColRulesStyles.colThirdBeyondSmall))(
                   <.img(
-                    ^.src := vffIll.toString,
+                    ^.src := VFFIll.toString,
                     ^.alt := unescape(I18n.t("operation.vff-header.title")),
                     ^.className := VFFIntroStyles.explanationIll
                   )()
