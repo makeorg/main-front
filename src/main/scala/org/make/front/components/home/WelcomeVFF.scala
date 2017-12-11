@@ -3,7 +3,6 @@ package org.make.front.components.home
 import io.github.shogowada.scalajs.reactjs.React
 import io.github.shogowada.scalajs.reactjs.VirtualDOM._
 import io.github.shogowada.scalajs.reactjs.classes.ReactClass
-import io.github.shogowada.scalajs.reactjs.events.SyntheticEvent
 import org.make.front.Main.CssSettings._
 import org.make.front.components.Components._
 import org.make.front.facades.Unescape.unescape
@@ -26,9 +25,9 @@ object WelcomeVFF {
         <.div(^.className := Seq(TableLayoutStyles.cellVerticalAlignMiddle, WelcomeVFFStyles.innerWrapper))(
           <.img(
             ^.className := WelcomeVFFStyles.illustration,
-            ^.src := welcomeVff.toString,
-            ^("srcset") := welcomeVffSmall.toString + " 400w, " + welcomeVffSmall2x.toString + " 800w, " + welcomeVffMedium.toString + " 840w, " + welcomeVffMedium2x.toString + " 1680w, " + welcomeVff.toString + " 1350w, " + welcomeVff2x.toString + " 2700w",
-            ^.alt := "Make.org",
+            ^.src := welcomeVFF.toString,
+            ^("srcset") := welcomeVFFSmall.toString + " 400w, " + welcomeVFFSmall2x.toString + " 800w, " + welcomeVFFMedium.toString + " 840w, " + welcomeVFFMedium2x.toString + " 1680w, " + welcomeVFF.toString + " 1350w, " + welcomeVFF2x.toString + " 2700w",
+            ^.alt := I18n.t("welcome-vff.intro.title"),
             ^("data-pin-no-hover") := "true"
           )(),
           <.div(^.className := Seq(WelcomeVFFStyles.innerSubWrapper, LayoutRulesStyles.centeredRow))(

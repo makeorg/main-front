@@ -17,9 +17,7 @@ import org.make.front.styles.ui.CTAStyles
 import org.make.front.styles.utils._
 import org.make.front.styles.vendors.FontAwesomeStyles
 
-import scala.scalajs.js
-
-object PromptingToProposeSequence {
+object PromptingToProposeInRelationToOperation {
 
   final case class PromptingToProposeProps(operation: OperationModel,
                                            clickOnButtonHandler: () => Unit,
@@ -112,6 +110,6 @@ object PromptingToProposeStyles extends StyleSheet.Inline {
       display.inlineBlock,
       marginTop(ThemeStyles.SpacingValue.small.pxToEm()),
       marginLeft(ThemeStyles.SpacingValue.small.pxToEm()),
-      (&.firstChild)(marginLeft(`0`), marginRight(ThemeStyles.SpacingValue.small.pxToEm()))
+      &.firstChild(marginLeft(`0`), marginRight(ThemeStyles.SpacingValue.small.pxToEm()))
     )
 }

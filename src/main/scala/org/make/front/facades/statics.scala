@@ -420,15 +420,15 @@ object cone extends js.Object
 
 @js.native
 @JSImport("./images/operations/vff/stop-aux-violences-faites-aux-femmes.svg", "default")
-object vffLogo extends js.Object
+object VFFLogo extends js.Object
 
 @js.native
 @JSImport("./images/operations/vff/stop-aux-violences-faites-aux-femmes-darker.svg", "default")
-object vffDarkerLogo extends js.Object
+object VFFDarkerLogo extends js.Object
 
 @js.native
 @JSImport("./images/operations/vff/vff-ill.jpg", "default")
-object vffIll extends js.Object
+object VFFIll extends js.Object
 
 @js.native
 @JSImport("./images/operations/vff/partners/kering-foundation.svg", "default")
@@ -439,98 +439,28 @@ object keringFoundationLogo extends js.Object
 object facebookLogo extends js.Object
 
 @js.native
-@JSImport("./images/operations/vff/partners/ile-de-france.svg", "default")
-object ileDeFranceLogo extends js.Object
-
-@js.native
-@JSImport("./images/operations/vff/partners/face.svg", "default")
-object faceLogo extends js.Object
-@js.native
-@JSImport("./images/operations/vff/partners/l-obs.svg", "default")
-object lObsLogo extends js.Object
-@js.native
-@JSImport("./images/operations/vff/partners/elle.svg", "default")
-object elleLogo extends js.Object
-
-@js.native
-@JSImport("./images/operations/vff/partners/tf1.png", "default")
-object tf1Logo extends js.Object
-
-@js.native
-@JSImport("./images/operations/vff/partners/rtl-girls.svg", "default")
-object rtlGirlsLogo extends js.Object
-
-@js.native
-@JSImport("./images/operations/vff/partners/osez-le-feminisme.png", "default")
-object osezLeFeminismeLogo extends js.Object
-
-@js.native
-@JSImport("./images/operations/vff/partners/solidarite-femmes.png", "default")
-object solidariteFemmesLogo extends js.Object
-
-@js.native
-@JSImport("./images/operations/vff/partners/adn.png", "default")
-object adnLogo extends js.Object
-
-@js.native
-@JSImport("./images/operations/vff/partners/gams.svg", "default")
-object gamsLogo extends js.Object
-
-@js.native
-@JSImport("./images/operations/vff/partners/femmes-solidaires.png", "default")
-object femmesSolidairesLogo extends js.Object
-
-@js.native
-@JSImport("./images/operations/vff/partners/la-cimade.svg", "default")
-object laCimadeLogo extends js.Object
-
-@js.native
-@JSImport("./images/operations/vff/partners/femmes-de-la-terre.png", "default")
-object femmesDeLaTerreLogo extends js.Object
-
-@js.native
-@JSImport("./images/operations/vff/partners/ni-putes-ni-soumises.png", "default")
-object niPutesNiSoumisesLogo extends js.Object
-
-@js.native
-@JSImport("./images/operations/vff/partners/chiennes-de-garde.png", "default")
-object chiennesDeGardeLogo extends js.Object
-
-@js.native
-@JSImport("./images/operations/vff/partners/une-femme-un-toit.png", "default")
-object uneFemmeUnToitLogo extends js.Object
-
-@js.native
-@JSImport("./images/operations/vff/partners/irts.png", "default")
-object irtsLogo extends js.Object
-
-@js.native
-@JSImport("./images/operations/vff/partners/hands-away.png", "default")
-object handsAwayLogo extends js.Object
-
-@js.native
 @JSImport("./images/operations/vff/vff-home-400x500.jpg", "default")
-object welcomeVffSmall extends js.Object
+object welcomeVFFSmall extends js.Object
 
 @js.native
 @JSImport("./images/operations/vff/vff-home-400x500@2x.jpg", "default")
-object welcomeVffSmall2x extends js.Object
+object welcomeVFFSmall2x extends js.Object
 
 @js.native
 @JSImport("./images/operations/vff/vff-home-840x500.jpg", "default")
-object welcomeVffMedium extends js.Object
+object welcomeVFFMedium extends js.Object
 
 @js.native
 @JSImport("./images/operations/vff/vff-home-840x500@2x.jpg", "default")
-object welcomeVffMedium2x extends js.Object
+object welcomeVFFMedium2x extends js.Object
 
 @js.native
 @JSImport("./images/operations/vff/vff-home-1350x500.jpg", "default")
-object welcomeVff extends js.Object
+object welcomeVFF extends js.Object
 
 @js.native
 @JSImport("./images/operations/vff/vff-home-1350x500@2x.jpg", "default")
-object welcomeVff2x extends js.Object
+object welcomeVFF2x extends js.Object
 
 @js.native
 @JSImport("./fonts/CircularStd-Book.woff2", "default")

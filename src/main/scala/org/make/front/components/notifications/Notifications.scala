@@ -8,12 +8,14 @@ import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import io.github.shogowada.scalajs.reactjs.events.MouseSyntheticEvent
 import org.make.front.Main.CssSettings._
 import org.make.front.components.Components._
+import org.make.front.facades.I18n
+import org.make.front.facades.Unescape.unescape
 import org.make.front.middlewares.NotificationMiddleware
 import org.make.front.middlewares.NotificationMiddleware.NotificationListener
 import org.make.front.models.NotificationLevel._
 import org.make.front.models.{Notification => NotificationModel, NotificationLevel => NotificationLevelModel}
 import org.make.front.styles._
-import org.make.front.styles.base.{ColRulesStyles, LayoutRulesStyles, TextStyles}
+import org.make.front.styles.base.{LayoutRulesStyles, TextStyles}
 import org.make.front.styles.utils._
 
 object Notifications {
@@ -29,7 +31,16 @@ object Notifications {
       },
       componentDidMount = { self =>
         val onNewNotification: (NotificationModel) => Unit = { notification =>
-          self.setState(state => state.copy(notifications = notification :: state.notifications))
+          val updatedNotification = {
+            if (Option(notification.message).exists(!_.isEmpty)) {
+              notification
+            } else {
+              notification.copy(message = unescape(I18n.t("errors.unexpectedBehaviour")))
+            }
+          }
+          if (self.state.notifications.forall(_.message != updatedNotification.message)) {
+            self.setState(state => state.copy(notifications = updatedNotification :: state.notifications))
+          }
         }
         val onDismiss: (String) => Unit = { id =>
           self.setState(state => state.copy(notifications = state.notifications.filter(_.identifier != id)))

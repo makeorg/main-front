@@ -71,6 +71,7 @@ object Basic extends StyleSheet.Inline {
       padding(`0`),
       margin(`0`),
       border(`0`),
+      borderRadius(`0`),
       font := "inherit",
       textAlign.left,
       lineHeight.normal,

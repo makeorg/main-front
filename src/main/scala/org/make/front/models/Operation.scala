@@ -2,7 +2,7 @@ package org.make.front.models
 
 import io.github.shogowada.scalajs.reactjs.redux.Store
 import org.make.front.components.AppState
-import org.make.front.facades.{vffDarkerLogo, vffLogo}
+import org.make.front.facades.{VFFDarkerLogo, VFFLogo}
 import org.make.front.models.{Sequence => SequenceModel}
 import scala.scalajs.js
 
@@ -10,6 +10,7 @@ final case class Operation(operationId: OperationId,
                            url: String,
                            slug: String,
                            title: String,
+                           question: String,
                            label: String,
                            actionsCount: Int,
                            proposalsCount: Int,
@@ -37,19 +38,22 @@ object Operation {
     store.getState.operations.find(operation => operation.operationId.value == id)
   }
 
+  val empty = Operation(OperationId("fake"), "", "", "", "", "", 0, 0, "", None)
+
   val defaultOperations = Seq(
     Operation(
       operationId = OperationId(Operation.vff),
       url = "consultation/vff/selection",
       slug = "vff",
-      title = "Comment lutter contre les violences faites aux&nbsp;femmes&nbsp;?",
+      title = "Stop aux violences faites aux&nbsp;femmes",
+      question = "Comment lutter contre les violences faites aux&nbsp;femmes&nbsp;?",
       label = Operation.vff,
       actionsCount = 0,
       proposalsCount = 0,
       color = "#660779",
       gradient = Some(GradientColor("#AB92CA", "#54325A")),
-      logoUrl = Some(vffLogo.toString),
-      darkerLogoUrl = Some(vffDarkerLogo.toString),
+      logoUrl = Some(VFFLogo.toString),
+      darkerLogoUrl = Some(VFFDarkerLogo.toString),
       sequence = Some(
         SequenceModel(
           sequenceId = SequenceId("1"),
