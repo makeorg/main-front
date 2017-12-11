@@ -7,16 +7,10 @@ import io.github.shogowada.scalajs.reactjs.router.dom.RouterDOM._
 import org.make.core.Counter
 import org.make.front.Main.CssSettings._
 import org.make.front.components.Components.{RichVirtualDOMElements, _}
+import PromptingToProposeInRelationToThemeTile.PromptingToProposeInRelationToThemeTileProps
 import org.make.front.components.proposal.ProposalTile.ProposalTileProps
 import org.make.front.facades.{HexToRgba, I18n, Replacements}
-import org.make.front.models.{
-  GradientColor => GradientColorModel,
-  Location => LocationModel,
-  Operation => OperationModel,
-  Proposal => ProposalModel,
-  Sequence => SequenceModel,
-  TranslatedTheme => TranslatedThemeModel
-}
+import org.make.front.models.{GradientColor => GradientColorModel, Location => LocationModel, Operation => OperationModel, Proposal => ProposalModel, Sequence => SequenceModel, TranslatedTheme => TranslatedThemeModel}
 import org.make.front.styles._
 import org.make.front.styles.base.{ColRulesStyles, LayoutRulesStyles, TextStyles}
 import org.make.front.styles.ui.CTAStyles
@@ -30,9 +24,9 @@ import scala.util.{Failure, Success}
 object ThemeShowcase {
 
   final case class ThemeShowcaseProps(proposals: Future[SearchResult],
-                                      maybeTheme: Option[TranslatedThemeModel],
-                                      maybeIntro: Option[String],
-                                      maybeNews: Option[String],
+                                      theme: TranslatedThemeModel,
+                                      maybeIntro: Option[String] = None,
+                                      maybeNews: Option[String] = None,
                                       maybeOperation: Option[OperationModel] = None,
                                       maybeSequence: Option[SequenceModel] = None,
                                       maybeLocation: Option[LocationModel] = None)
@@ -45,15 +39,16 @@ object ThemeShowcase {
     }, render = {
       self =>
         self.props.wrapped.proposals.onComplete {
-          case Failure(_)       =>
+          case Failure(_) =>
           case Success(results) => self.setState(_.copy(proposals = results.results))
         }
 
         val gradientValues: GradientColorModel =
-          self.props.wrapped.maybeTheme.flatMap(_.gradient).getOrElse(GradientColorModel("#FFF", "#FFF"))
-        val index = self.props.wrapped.maybeTheme.map(_.order).getOrElse(9999)
+          self.props.wrapped.theme.gradient.getOrElse(GradientColorModel("#FFF", "#FFF"))
+        val index = self.props.wrapped.theme.order
 
         object DynamicThemeShowcaseStyles extends StyleSheet.Inline {
+
           import dsl._
 
           val gradient: (Int) => StyleA =
@@ -71,17 +66,19 @@ object ThemeShowcase {
             Seq(
               <.header(^.className := LayoutRulesStyles.centeredRow)(
                 if (self.props.wrapped.maybeIntro.nonEmpty) {
-                <.p(^.className := Seq(ThemeShowcaseStyles.intro, TextStyles.mediumText, TextStyles.intro))(
-                  self.props.wrapped.maybeIntro
-                )
-              }, <.h2(^.className := Seq(if (self.props.wrapped.maybeNews.nonEmpty) {
-                ThemeShowcaseStyles.titleBeforeNews
-              } else { ThemeShowcaseStyles.title }, TextStyles.bigTitle))(self.props.wrapped.maybeTheme.map(_.title).getOrElse("")), if (self.props.wrapped.maybeNews.nonEmpty) {
-                <.p(
-                  ^.className := Seq(ThemeShowcaseStyles.news, TextStyles.smallerText),
-                  ^.dangerouslySetInnerHTML := self.props.wrapped.maybeNews.getOrElse("")
-                )()
-              }),
+                  <.p(^.className := Seq(ThemeShowcaseStyles.intro, TextStyles.mediumText, TextStyles.intro))(
+                    self.props.wrapped.maybeIntro
+                  )
+                }, <.h2(^.className := Seq(if (self.props.wrapped.maybeNews.nonEmpty) {
+                  ThemeShowcaseStyles.titleBeforeNews
+                } else {
+                  ThemeShowcaseStyles.title
+                }, TextStyles.bigTitle))(self.props.wrapped.theme.title), if (self.props.wrapped.maybeNews.nonEmpty) {
+                  <.p(
+                    ^.className := Seq(ThemeShowcaseStyles.news, TextStyles.smallerText),
+                    ^.dangerouslySetInnerHTML := self.props.wrapped.maybeNews.getOrElse("")
+                  )()
+                }),
               <.ul(^.className := Seq(LayoutRulesStyles.centeredRowWithCols, ThemeShowcaseStyles.propasalsList))(
                 self.state.proposals.map(
                   proposal =>
@@ -98,35 +95,46 @@ object ThemeShowcase {
                           ProposalTileProps(
                             proposal = proposal,
                             index = counter.getAndIncrement(),
-                            maybeTheme = self.props.wrapped.maybeTheme,
+                            maybeTheme = Some(self.props.wrapped.theme),
                             maybeOperation = self.props.wrapped.maybeOperation,
                             maybeSequence = self.props.wrapped.maybeSequence,
                             maybeLocation = self.props.wrapped.maybeLocation)
                       )()
+                    )
+                ),
+                <.li(
+                  ^.className := Seq(
+                    ThemeShowcaseStyles.propasalItem,
+                    ColRulesStyles.col,
+                    ColRulesStyles.colHalfBeyondMedium,
+                    ColRulesStyles.colQuarterBeyondLarge
                   )
+                )(
+                  <.PromptingToProposeInRelationToThemeTileComponent(
+                    ^.wrapped :=
+                      PromptingToProposeInRelationToThemeTileProps(
+                        theme = self.props.wrapped.theme
+                      ))()
                 )
               ),
-              if (self.props.wrapped.maybeTheme.nonEmpty) {
-                <.p(^.className := Seq(LayoutRulesStyles.centeredRow, ThemeShowcaseStyles.SeeMoreLinkWrapper))(
-                  <.Link(
-                    ^.className := Seq(CTAStyles.basic, CTAStyles.basicOnA),
-                    ^.to := s"/theme/${self.props.wrapped.maybeTheme.map(_.slug).getOrElse("")}"
-                  )(
-                    I18n
-                      .t(
-                        "theme-showcase.see-all",
-                        Replacements(
-                          (
-                            "themeName",
-                            self.props.wrapped.maybeTheme
-                              .map(_.title)
-                              .getOrElse("")
-                          )
+              <.p(^.className := Seq(LayoutRulesStyles.centeredRow, ThemeShowcaseStyles.SeeMoreLinkWrapper))(
+                <.Link(
+                  ^.className := Seq(CTAStyles.basic, CTAStyles.basicOnA),
+                  ^.to := s"/theme/${self.props.wrapped.theme.slug}"
+                )(
+                  I18n
+                    .t(
+                      "theme-showcase.see-all",
+                      Replacements(
+                        (
+                          "themeName",
+                          self.props.wrapped.theme.title
                         )
                       )
-                  )
+                    )
                 )
-              },
+              )
+              ,
               <.style()(ThemeShowcaseStyles.render[String], DynamicThemeShowcaseStyles.render[String])
             )
           )
@@ -135,6 +143,7 @@ object ThemeShowcase {
 }
 
 object ThemeShowcaseStyles extends StyleSheet.Inline {
+
   import dsl._
 
   val wrapper: StyleA =
