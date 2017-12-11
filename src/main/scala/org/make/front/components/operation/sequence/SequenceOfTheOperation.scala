@@ -15,7 +15,7 @@ import org.make.front.components.sequence.SequenceContainer.SequenceContainerPro
 import org.make.front.components.sequence.contents.IntroductionOfTheSequence.IntroductionOfTheSequenceProps
 import org.make.front.components.sequence.contents.PromptingToConnect.PromptingToConnectProps
 import org.make.front.components.sequence.contents.PromptingToGoBackToOperation.PromptingToGoBackToOperationProps
-import org.make.front.components.sequence.contents.PromptingToProposeSequence.PromptingToProposeProps
+import org.make.front.components.sequence.contents.PromptingToProposeInRelationToOperation.PromptingToProposeProps
 import org.make.front.components.sequence.contents._
 import org.make.front.facades.Unescape.unescape
 import org.make.front.facades.{FacebookPixel, I18n, Replacements}
@@ -225,7 +225,7 @@ object SequenceOfTheOperation {
                         )
                     }, position = { slides =>
                       slides.size
-                    }, displayed = !self.props.wrapped.isConnected), ExtraSlide(maybeTracker = Some("click-proposal-submit-form-open"), displayed = false, reactClass = PromptingToProposeSequence.reactClass, props = {
+                    }, displayed = !self.props.wrapped.isConnected), ExtraSlide(maybeTracker = Some("click-proposal-submit-form-open"), reactClass = PromptingToProposeInRelationToOperation.reactClass, props = {
                       handler =>
                         PromptingToProposeProps(
                           operation = self.props.wrapped.operation,
