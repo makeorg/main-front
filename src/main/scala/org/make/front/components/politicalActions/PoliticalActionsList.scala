@@ -177,7 +177,7 @@ object PoliticalActionsListStyles extends StyleSheet.Inline {
 
   val slideshowNav: StyleA =
     style(
-      display.none,
+      ThemeStyles.MediaQueries.belowMedium(display.none),
       ThemeStyles.MediaQueries
         .beyondMedium(whiteSpace.nowrap, width(100.pxToEm()))
     )
