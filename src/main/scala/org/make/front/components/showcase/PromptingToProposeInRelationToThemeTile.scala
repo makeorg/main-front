@@ -41,72 +41,74 @@ object PromptingToProposeInRelationToThemeTile {
           proposalInput.foreach(_.blur())
         }
 
-        <.article(^.className := Seq(TableLayoutStyles.wrapper, PromptingToProposeInRelationToThemeTileStyles.wrapper))(
-          <.div(^.className := Seq(TableLayoutStyles.row, PromptingToProposeInRelationToThemeTileStyles.row))(
-            <.div(
-              ^.className := Seq(
-                TableLayoutStyles.cell,
-                TableLayoutStyles.cellVerticalAlignBottom,
-                PromptingToProposeInRelationToThemeTileStyles.cell,
-                PromptingToProposeInRelationToThemeTileStyles.introWrapper
-              )
-            )(
-              <.div(^.className := Seq(TableLayoutStyles.wrapper))(
-                <.div(^.className := Seq(TableLayoutStyles.cell, TableLayoutStyles.cellVerticalAlignBottom))(
-                  <.h3(^.className := Seq(TextStyles.mediumText, TextStyles.boldText))(
-                    unescape(I18n.t("theme-showcase.prompting-to-propose-tile.intro"))
-                  )
-                ),
-                <.div(^.className := Seq(TableLayoutStyles.cell, TableLayoutStyles.cellVerticalAlignBottom))(
-                  <.span(
-                    ^.className := Seq(
-                      FontAwesomeStyles.lightbulbTransparent,
-                      PromptingToProposeInRelationToThemeTileStyles.picto
+        <.article(^.className := Seq(PromptingToProposeInRelationToThemeTileStyles.wrapper))(
+          <.div(^.className := TableLayoutStyles.fullHeightWrapper)(
+            <.div(^.className := Seq(TableLayoutStyles.row, PromptingToProposeInRelationToThemeTileStyles.row))(
+              <.div(
+                ^.className := Seq(
+                  TableLayoutStyles.cell,
+                  TableLayoutStyles.cellVerticalAlignBottom,
+                  PromptingToProposeInRelationToThemeTileStyles.cell,
+                  PromptingToProposeInRelationToThemeTileStyles.introWrapper
+                )
+              )(
+                <.div(^.className := TableLayoutStyles.wrapper)(
+                  <.div(^.className := Seq(TableLayoutStyles.cell, TableLayoutStyles.cellVerticalAlignBottom))(
+                    <.h3(^.className := Seq(TextStyles.mediumText, TextStyles.boldText))(
+                      unescape(I18n.t("theme-showcase.prompting-to-propose-tile.intro"))
                     )
+                  ),
+                  <.div(^.className := Seq(TableLayoutStyles.cell, TableLayoutStyles.cellVerticalAlignBottom))(
+                    <.span(
+                      ^.className := Seq(
+                        FontAwesomeStyles.lightbulbTransparent,
+                        PromptingToProposeInRelationToThemeTileStyles.picto
+                      )
+                    )()
+                  )
+                )
+              )
+            ),
+            <.div(^.className := Seq(TableLayoutStyles.row, PromptingToProposeInRelationToThemeTileStyles.row))(
+              <.div(
+                ^.className := Seq(
+                  TableLayoutStyles.cell,
+                  PromptingToProposeInRelationToThemeTileStyles.cell,
+                  PromptingToProposeInRelationToThemeTileStyles.inputWrapper
+                )
+              )(
+                <.p(
+                  ^.className := Seq(
+                    InputStyles.wrapper,
+                    PromptingToProposeInRelationToThemeTileStyles.proposalInputWithIconWrapper
+                  )
+                )(
+                  <.input(
+                    ^.`type`.text,
+                    ^.value := I18n.t("theme-showcase.prompting-to-propose-tile.bait"),
+                    ^.readOnly := true,
+                    ^.ref := ((input: HTMLElement) => proposalInput = Some(input)),
+                    ^.onFocus := openProposalModalFromInput
                   )()
                 )
               )
-            )
-          ),
-          <.div(^.className := Seq(TableLayoutStyles.row, PromptingToProposeInRelationToThemeTileStyles.row))(
-            <.div(
-              ^.className := Seq(
-                TableLayoutStyles.cell,
-                PromptingToProposeInRelationToThemeTileStyles.cell,
-                PromptingToProposeInRelationToThemeTileStyles.inputWrapper
+            ),
+            <.FullscreenModalComponent(
+              ^.wrapped := FullscreenModalProps(
+                isModalOpened = self.state.isProposalModalOpened,
+                closeCallback = toggleProposalModal()
               )
             )(
-              <.p(
-                ^.className := Seq(
-                  InputStyles.wrapper,
-                  PromptingToProposeInRelationToThemeTileStyles.proposalInputWithIconWrapper
+              <.SubmitProposalInRelationToThemeComponent(
+                ^.wrapped := SubmitProposalInRelationToThemeProps(
+                  theme = self.props.wrapped.theme,
+                  onProposalProposed = () => {
+                    self.setState(_.copy(isProposalModalOpened = false))
+                  },
+                  maybeLocation = None
                 )
-              )(
-                <.input(
-                  ^.`type`.text,
-                  ^.value := I18n.t("theme-showcase.prompting-to-propose-tile.bait"),
-                  ^.readOnly := true,
-                  ^.ref := ((input: HTMLElement) => proposalInput = Some(input)),
-                  ^.onFocus := openProposalModalFromInput
-                )()
-              )
+              )()
             )
-          ),
-          <.FullscreenModalComponent(
-            ^.wrapped := FullscreenModalProps(
-              isModalOpened = self.state.isProposalModalOpened,
-              closeCallback = toggleProposalModal()
-            )
-          )(
-            <.SubmitProposalInRelationToThemeComponent(
-              ^.wrapped := SubmitProposalInRelationToThemeProps(
-                theme = self.props.wrapped.theme,
-                onProposalProposed = () => {
-                  self.setState(_.copy(isProposalModalOpened = false))
-                },
-                maybeLocation = None
-              )
-            )()
           ),
           <.style()(PromptingToProposeInRelationToThemeTileStyles.render[String])
         )
@@ -138,7 +140,7 @@ object PromptingToProposeInRelationToThemeTileStyles extends StyleSheet.Inline {
   val inputWrapper: StyleA = style(paddingTop((ThemeStyles.SpacingValue.small / 2).pxToEm()))
 
   val picto: StyleA =
-    style(fontSize(120.pxToEm()), color(ThemeStyles.TextColor.veryLight))
+    style(fontSize(115.pxToEm()), lineHeight(100.0 / 115.0), color(ThemeStyles.TextColor.veryLight))
 
   val proposalInputWithIconWrapper: StyleA =
     style(
