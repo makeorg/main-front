@@ -34,14 +34,18 @@ object PromptingToProposeInRelationToThemeTile {
       render = { self =>
         var proposalInput: Option[HTMLElement] = None
 
-        def toggleProposalModal() = () => {
-          self.setState(state => state.copy(isProposalModalOpened = !self.state.isProposalModalOpened))
+        def closeProposalModal() = () => {
+          self.setState(state => state.copy(isProposalModalOpened = false))
         }
 
         def openProposalModalFromInput() = () => {
           self.setState(state => state.copy(isProposalModalOpened = true))
           FacebookPixel
-            .fbq("trackCustom", "click-proposal-submit-form-open", js.Dictionary("location" -> "page-home"))
+            .fbq(
+              "trackCustom",
+              "click-proposal-submit-form-open",
+              js.Dictionary("location" -> "page-home", "themeId" -> self.props.wrapped.theme.id.value.toString)
+            )
           proposalInput.foreach(_.blur())
         }
 
@@ -101,7 +105,7 @@ object PromptingToProposeInRelationToThemeTile {
             <.FullscreenModalComponent(
               ^.wrapped := FullscreenModalProps(
                 isModalOpened = self.state.isProposalModalOpened,
-                closeCallback = toggleProposalModal()
+                closeCallback = closeProposalModal()
               )
             )(
               <.SubmitProposalInRelationToThemeComponent(

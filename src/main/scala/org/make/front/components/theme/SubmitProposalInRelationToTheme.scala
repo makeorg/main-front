@@ -32,14 +32,6 @@ object SubmitProposalInRelationToTheme {
         getInitialState = { self =>
           SubmitProposalInRelationToThemeState(theme = self.props.wrapped.theme)
         },
-        componentDidMount = { self =>
-          FacebookPixel
-            .fbq(
-              "trackCustom",
-              "click-proposal-submit-form-open",
-              js.Dictionary("location" -> Location.ThemePage(self.props.wrapped.theme.id).name)
-            )
-        },
         render = { self =>
           val gradientValues: GradientColorModel =
             self.state.theme.gradient.getOrElse(GradientColorModel("#FFF", "#FFF"))
