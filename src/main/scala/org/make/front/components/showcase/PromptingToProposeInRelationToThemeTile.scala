@@ -7,7 +7,7 @@ import org.make.front.Main.CssSettings._
 import org.make.front.components.Components._
 import org.make.front.components.modals.FullscreenModal.FullscreenModalProps
 import org.make.front.components.theme.SubmitProposalInRelationToTheme.SubmitProposalInRelationToThemeProps
-import org.make.front.facades.I18n
+import org.make.front.facades.{FacebookPixel, I18n}
 import org.make.front.facades.Unescape.unescape
 import org.make.front.models.{TranslatedTheme => TranslatedThemeModel}
 import org.make.front.styles._
@@ -16,6 +16,8 @@ import org.make.front.styles.ui.InputStyles
 import org.make.front.styles.utils._
 import org.make.front.styles.vendors.FontAwesomeStyles
 import org.scalajs.dom.raw.HTMLElement
+
+import scala.scalajs.js
 
 object PromptingToProposeInRelationToThemeTile {
 
@@ -38,10 +40,15 @@ object PromptingToProposeInRelationToThemeTile {
 
         def openProposalModalFromInput() = () => {
           self.setState(state => state.copy(isProposalModalOpened = true))
+          FacebookPixel
+            .fbq("trackCustom", "click-proposal-submit-form-open", js.Dictionary("location" -> "page-home"))
           proposalInput.foreach(_.blur())
         }
 
-        <.article(^.className := Seq(PromptingToProposeInRelationToThemeTileStyles.wrapper))(
+        <.article(
+          ^.className := Seq(PromptingToProposeInRelationToThemeTileStyles.wrapper),
+          ^.onClick := openProposalModalFromInput
+        )(
           <.div(^.className := TableLayoutStyles.fullHeightWrapper)(
             <.div(^.className := Seq(TableLayoutStyles.row, PromptingToProposeInRelationToThemeTileStyles.row))(
               <.div(
@@ -86,9 +93,7 @@ object PromptingToProposeInRelationToThemeTile {
                   <.input(
                     ^.`type`.text,
                     ^.value := I18n.t("theme-showcase.prompting-to-propose-tile.bait"),
-                    ^.readOnly := true,
-                    ^.ref := ((input: HTMLElement) => proposalInput = Some(input)),
-                    ^.onFocus := openProposalModalFromInput
+                    ^.readOnly := true
                   )()
                 )
               )
@@ -126,7 +131,8 @@ object PromptingToProposeInRelationToThemeTileStyles extends StyleSheet.Inline {
       minHeight(360.pxToEm()),
       minWidth(270.pxToEm()),
       backgroundColor(ThemeStyles.BackgroundColor.white),
-      boxShadow := "0 1px 1px 0 rgba(0,0,0,0.50)"
+      boxShadow := "0 1px 1px 0 rgba(0,0,0,0.50)",
+      cursor.pointer
     )
 
   val row: StyleA =
@@ -145,6 +151,6 @@ object PromptingToProposeInRelationToThemeTileStyles extends StyleSheet.Inline {
   val proposalInputWithIconWrapper: StyleA =
     style(
       backgroundColor(ThemeStyles.BackgroundColor.lightGrey),
-      unsafeChild("input")(color(ThemeStyles.TextColor.lighter), cursor.text)
+      unsafeChild("input")(color(ThemeStyles.TextColor.lighter), cursor.pointer)
     )
 }
