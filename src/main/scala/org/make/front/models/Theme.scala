@@ -28,6 +28,10 @@ final case class TranslatedTheme(id: ThemeId,
                                  gradient: Option[GradientColor] = None,
                                  tags: Seq[Tag] = Seq.empty)
 
+object TranslatedTheme {
+  val empty = TranslatedTheme(ThemeId("fake"), "", "", 0, 0, "", 0, "", None, Seq.empty)
+}
+
 final case class Theme(id: ThemeId,
                        translations: Seq[ThemeTranslation],
                        actionsCount: Int,
@@ -50,7 +54,7 @@ final case class Theme(id: ThemeId,
         title = title,
         actionsCount = actionsCount,
         proposalsCount = proposalsCount,
-        country =  country,
+        country = country,
         color = color,
         gradient = gradient,
         tags = tags,

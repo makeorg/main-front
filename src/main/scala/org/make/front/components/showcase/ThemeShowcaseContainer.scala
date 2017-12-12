@@ -5,7 +5,13 @@ import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import io.github.shogowada.scalajs.reactjs.redux.ReactRedux
 import io.github.shogowada.scalajs.reactjs.redux.Redux.Dispatch
 import org.make.front.components.AppState
-import org.make.front.models.{Label, Location => LocationModel, Operation => OperationModel, Sequence => SequenceModel}
+import org.make.front.models.{
+  Label           => LabelModel,
+  TranslatedTheme => TranslatedThemeModel,
+  Location        => LocationModel,
+  Operation       => OperationModel,
+  Sequence        => SequenceModel
+}
 import org.make.services.proposal.{ProposalService, SearchResult}
 
 import scala.concurrent.Future
@@ -32,12 +38,12 @@ object ThemeShowcaseContainer {
           proposals = ProposalService
             .searchProposals(
               themesIds = Seq(theme.id),
-              labelsIds = Some(Seq(Label.Star.name)),
-              limit = Some(4),
+              labelsIds = Some(Seq(LabelModel.Star.name)),
+              limit = Some(3),
               sort = Seq.empty,
               skip = None
             ),
-          maybeTheme = Some(theme),
+          theme = theme,
           maybeIntro = props.wrapped.maybeIntro,
           maybeNews = props.wrapped.maybeNews,
           maybeOperation = props.wrapped.maybeOperation,
@@ -47,12 +53,7 @@ object ThemeShowcaseContainer {
       }.getOrElse(
         ThemeShowcase.ThemeShowcaseProps(
           proposals = Future.successful(SearchResult(total = 0, results = Seq.empty, seed = None)),
-          maybeTheme = None,
-          maybeIntro = None,
-          maybeNews = None,
-          maybeOperation = None,
-          maybeSequence = None,
-          maybeLocation = None
+          theme = TranslatedThemeModel.empty
         )
       )
     }

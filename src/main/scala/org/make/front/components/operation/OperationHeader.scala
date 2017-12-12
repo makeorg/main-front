@@ -7,7 +7,7 @@ import org.make.front.Main.CssSettings._
 import org.make.front.components.Components._
 import org.make.front.components.modals.FullscreenModal.FullscreenModalProps
 import org.make.front.components.operation.SubmitProposalInRelationToOperation.SubmitProposalInRelationToOperationProps
-import org.make.front.facades.I18n
+import org.make.front.facades.{FacebookPixel, I18n}
 import org.make.front.facades.Unescape.unescape
 import org.make.front.models.{Location => LocationModel, Operation => OperationModel, Sequence => SequenceModel}
 import org.make.front.styles._
@@ -15,6 +15,8 @@ import org.make.front.styles.base.{LayoutRulesStyles, TableLayoutStyles, TextSty
 import org.make.front.styles.ui.InputStyles
 import org.make.front.styles.utils._
 import org.scalajs.dom.raw.HTMLElement
+
+import scala.scalajs.js
 
 object OperationHeader {
 
@@ -40,6 +42,8 @@ object OperationHeader {
 
         def openProposalModalFromInput() = () => {
           self.setState(state => state.copy(isProposalModalOpened = true))
+          FacebookPixel
+            .fbq("trackCustom", "click-proposal-submit-form-open", js.Dictionary("location" -> "page-operation"))
           proposalInput.foreach(_.blur())
         }
 
