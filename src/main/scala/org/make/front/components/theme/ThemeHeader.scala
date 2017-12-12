@@ -10,7 +10,7 @@ import org.make.front.components.theme.SubmitProposalInRelationToTheme.SubmitPro
 import org.make.front.facades._
 import org.make.front.models.{GradientColor => GradientColorModel, TranslatedTheme => TranslatedThemeModel}
 import org.make.front.styles.ThemeStyles
-import org.make.front.styles.base.{ColRulesStyles, LayoutRulesStyles, TableLayoutStyles, TextStyles}
+import org.make.front.styles.base.{LayoutRulesStyles, TableLayoutStyles, TextStyles}
 import org.make.front.styles.ui.InputStyles
 import org.make.front.styles.utils._
 import org.scalajs.dom.raw.HTMLElement

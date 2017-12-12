@@ -9,14 +9,14 @@ import org.make.front.Main.CssSettings._
 import org.make.front.components.Components._
 import org.make.front.components.submitProposal.SubmitProposalAndLoginContainer.SubmitProposalAndLoginContainerProps
 import org.make.front.facades.Unescape.unescape
-import org.make.front.facades.{FacebookPixel, I18n}
+import org.make.front.facades.{I18n}
 import org.make.front.models.{Location, GradientColor => GradientColorModel, TranslatedTheme => TranslatedThemeModel}
 import org.make.front.styles.ThemeStyles
 import org.make.front.styles.base.TextStyles
 import org.make.front.styles.utils._
 
-import scala.scalajs.js
 import scalacss.internal.Attr
+
 object SubmitProposalInRelationToTheme {
 
   case class SubmitProposalInRelationToThemeProps(theme: TranslatedThemeModel,
