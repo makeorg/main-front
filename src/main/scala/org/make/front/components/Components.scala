@@ -9,8 +9,10 @@ import org.make.front.Main.CssSettings._
 import scala.scalajs.js
 
 object Components {
+
   implicit class RichSpaceSeparatedStringAttributeSpec(val spec: SpaceSeparatedStringAttributeSpec) extends AnyVal {
     def :=(style: StyleA): Attribute[Iterable[String]] = spec := style.htmlClass
+
     def :=(styleSeq: Seq[StyleA]): Attribute[Iterable[String]] = spec := styleSeq.map(_.htmlClass)
   }
 
@@ -34,25 +36,22 @@ object Components {
   implicit class RichVirtualDOMElements(val self: VirtualDOMElements) extends AnyVal {
 
     def AppComponent: ReactClassElementSpec = self(org.make.front.components.App.reactClass)
-
-    def SpinnerComponent: ReactClassElementSpec = self(spinner.Spinner.reactClass)
-
     def ContainerComponent: ReactClassElementSpec = self(org.make.front.components.Container.reactClass)
+    def SpinnerComponent: ReactClassElementSpec = self(spinner.Spinner.reactClass)
     def NotificationsComponent: ReactClassElementSpec = self(notifications.Notifications.reactClass)
     def CookieAlertContainerComponent: ReactClassElementSpec = self(cookieAlert.CookieAlertContainer.reactClass)
+
     def MainHeaderComponent: ReactClassElementSpec = self(mainHeader.MainHeader.reactClass)
     def MainFooterComponent: ReactClassElementSpec = self(mainFooter.MainFooter.reactClass)
     def NavInThemesContainerComponent: ReactClassElementSpec = self(navInThemes.NavInThemesContainer.reactClass)
+
     def UserNavComponent: ReactClassElementSpec = self(userNav.UserNav.reactClass)
     def UserNavContainerComponent: ReactClassElementSpec = self(userNav.UserNavContainer.reactClass)
-
     def SearchFormComponent: ReactClassElementSpec = self(search.SearchForm.reactClass)
     def SearchResultsContainerComponent: ReactClassElementSpec = self(search.SearchResultsContainer.reactClass)
     def NoResultToSearchComponent: ReactClassElementSpec = self(search.NoResultToSearch.reactClass)
-
     def ModalComponent: ReactClassElementSpec = self(modals.Modal.reactClass)
     def FullscreenModalComponent: ReactClassElementSpec = self(modals.FullscreenModal.reactClass)
-
     def SubscribeToNewsletterFormContainerComponent: ReactClassElementSpec =
       self(subscribeToNewsletter.SubscribeToNewsletterFormContainer.reactClass)
 
@@ -64,6 +63,9 @@ object Components {
     /*********************/
     def ActivateAccountContainerComponent: ReactClassElementSpec =
       self(activateAccount.ActivateAccountContainer.reactClass)
+    def RequireAuthenticatedUserComponent: ReactClassElementSpec =
+      self(users.authenticate.RequireAuthenticatedUserContainer.reactClass)
+
     def RecoverPasswordContainerComponent: ReactClassElementSpec =
       self(authenticate.recoverPassword.RecoverPasswordContainer.reactClass)
     def ResetPasswordContainerComponent: ReactClassElementSpec =
@@ -71,8 +73,7 @@ object Components {
     def LoginOrRegisterComponent: ReactClassElementSpec = self(authenticate.LoginOrRegister.reactClass)
     def AuthenticateWithSocialNetworksComponent: ReactClassElementSpec =
       self(authenticate.AuthenticateWithSocialNetworksContainer.reactClass)
-    def RequireAuthenticatedUserComponent: ReactClassElementSpec =
-      self(users.authenticate.RequireAuthenticatedUserContainer.reactClass)
+
     def RegisterWithSocialNetworksOrEmailComponent: ReactClassElementSpec =
       self(authenticate.register.RegisterWithSocialNetworksOrEmail.regular)
     def RegisterWithSocialNetworksOrEmailExpandedComponent: ReactClassElementSpec =
@@ -98,25 +99,24 @@ object Components {
     def ProposalInfosComponent: ReactClassElementSpec = self(proposal.ProposalInfos.reactClass)
     def ShareOwnProposalComponent: ReactClassElementSpec = self(proposal.ShareOwnProposal.reactClass)
     def ProposalSOperationInfosComponent: ReactClassElementSpec = self(proposal.ProposalSOperationInfos.reactClass)
-
     def ProposalTileComponent: ReactClassElementSpec = self(proposal.ProposalTile.reactClass)
     def ProposalTileWithThemeContainerComponent: ReactClassElementSpec =
       self(proposal.ProposalTileWithThemeContainer.reactClass)
     def ProposalTileWithThemeComponent: ReactClassElementSpec = self(proposal.ProposalTileWithTheme.reactClass)
     def ProposalTileWithTagsComponent: ReactClassElementSpec = self(proposal.ProposalTileWithTags.reactClass)
 
+    /*********************/
     def TrendingShowcaseContainerComponent: ReactClassElementSpec = self(showcase.TrendingShowcaseContainer.reactClass)
     def ThemeShowcaseContainerComponent: ReactClassElementSpec = self(showcase.ThemeShowcaseContainer.reactClass)
+    def PromptingToProposeInRelationToThemeTileComponent: ReactClassElementSpec =
+      self(showcase.PromptingToProposeInRelationToThemeTile.reactClass)
     def LabelShowcaseContainerComponent: ReactClassElementSpec = self(showcase.LabelShowcaseContainer.reactClass)
+
+    /*********************/
     def SequenceContainerComponent: ReactClassElementSpec = self(sequence.SequenceContainer.reactClass)
     def ProgressBarComponent: ReactClassElementSpec = self(sequence.ProgressBar.reactClass)
     def ProposalInsideSequenceComponent: ReactClassElementSpec =
       self(sequence.contents.ProposalInsideSequence.reactClass)
-
-    def SequenceOfTheOperationComponent: ReactClassElementSpec =
-      self(operation.sequence.SequenceOfTheOperation.reactClass)
-    def SequenceOfTheOperationContainerComponent: ReactClassElementSpec =
-      self(operation.sequence.SequenceOfTheOperationContainer.reactClass)
 
     /*********************/
     def VoteContainerComponent: ReactClassElementSpec = self(proposal.vote.VoteContainer.reactClass)
@@ -124,9 +124,6 @@ object Components {
     def QualificateVoteButtonComponent: ReactClassElementSpec = self(proposal.vote.QualificateVoteButton.reactClass)
     def QualificateVoteComponent: ReactClassElementSpec = self(proposal.vote.QualificateVote.reactClass)
     def ResultsOfVoteComponent: ReactClassElementSpec = self(proposal.vote.ResultsOfVote.reactClass)
-
-    def ThemeComponent: ReactClassElementSpec =
-      self(theme.Theme.reactClass)
 
     /*********************/
     def PoliticalActionsContainerComponent: ReactClassElementSpec =
@@ -140,6 +137,8 @@ object Components {
     def FilterByTagsComponent: ReactClassElementSpec = self(tags.FilterByTags.reactClass)
 
     /*********************/
+    def ThemeComponent: ReactClassElementSpec =
+      self(theme.Theme.reactClass)
     def ThemeHeaderComponent: ReactClassElementSpec = self(theme.ThemeHeader.reactClass)
     def SubmitProposalInRelationToThemeComponent: ReactClassElementSpec =
       self(theme.SubmitProposalInRelationToTheme.reactClass)
@@ -154,15 +153,16 @@ object Components {
     def ResultsInOperationContainerComponent: ReactClassElementSpec =
       self(operation.ResultsInOperationContainer.reactClass)
     def ResultsInOperationComponent: ReactClassElementSpec = self(operation.ResultsInOperation.reactClass)
+    def SequenceOfTheOperationComponent: ReactClassElementSpec =
+      self(operation.sequence.SequenceOfTheOperation.reactClass)
+    def SequenceOfTheOperationContainerComponent: ReactClassElementSpec =
+      self(operation.sequence.SequenceOfTheOperationContainer.reactClass)
 
     /*********************/
     def HomeComponent: ReactClassElementSpec = self(home.Home.reactClass)
     def WelcomeComponent: ReactClassElementSpec = self(home.Welcome.reactClass)
-    def ExplanationsComponent: ReactClassElementSpec = self(home.Explanations.reactClass)
-
-    /*********************/
     def WelcomeVFFComponent: ReactClassElementSpec = self(home.WelcomeVFF.reactClass)
-
+    def ExplanationsComponent: ReactClassElementSpec = self(home.Explanations.reactClass)
   }
 
 }

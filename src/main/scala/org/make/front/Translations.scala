@@ -73,8 +73,12 @@ object Translations {
       |     }
       |    },
       |    "theme-showcase": {
-      |        "see-all": "Voir toutes les propositions du thème %{themeName}"
-      |      },
+      |      "see-all": "Voir toutes les propositions du thème %{themeName}",
+      |      "prompting-to-propose-tile": {
+      |        "intro": "Et bientôt votre proposition&nbsp;?",
+      |        "bait": "Il faut..."
+      |      }
+      |    },
       |    "nav-in-themes": {
       |      "title": "Tous les&nbsp;thèmes",
       |      "total-of-actions": "%{total} actions",
