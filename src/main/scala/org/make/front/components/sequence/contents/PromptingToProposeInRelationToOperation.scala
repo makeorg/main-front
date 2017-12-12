@@ -10,12 +10,14 @@ import org.make.front.components.modals.FullscreenModal.FullscreenModalProps
 import org.make.front.components.operation.SubmitProposalInRelationToOperation.SubmitProposalInRelationToOperationProps
 import org.make.front.facades.{FacebookPixel, I18n}
 import org.make.front.facades.Unescape.unescape
-import org.make.front.models.{Operation => OperationModel, Location => LocationModel, Sequence => SequenceModel}
+import org.make.front.models.{Location => LocationModel, Operation => OperationModel, Sequence => SequenceModel}
 import org.make.front.styles.ThemeStyles
 import org.make.front.styles.base.{LayoutRulesStyles, TextStyles}
 import org.make.front.styles.ui.CTAStyles
 import org.make.front.styles.utils._
 import org.make.front.styles.vendors.FontAwesomeStyles
+
+import scala.scalajs.js
 
 object PromptingToProposeInRelationToOperation {
 
@@ -42,6 +44,8 @@ object PromptingToProposeInRelationToOperation {
           val openProposalModal: (MouseSyntheticEvent) => Unit = { event =>
             event.preventDefault()
             self.setState(state => state.copy(isProposalModalOpened = true))
+            FacebookPixel
+              .fbq("trackCustom", "click-proposal-submit-form-open", js.Dictionary("location" -> "prop-boost-card"))
           }
 
           val onNextProposal: () => Unit = { () =>

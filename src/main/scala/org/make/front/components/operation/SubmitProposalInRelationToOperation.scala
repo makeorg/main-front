@@ -36,14 +36,6 @@ object SubmitProposalInRelationToOperation {
     WithRouter(
       React.createClass[SubmitProposalInRelationToOperationProps, SubmitProposalInRelationToOperationState](
         displayName = "SubmitProposalInRelationToOperation",
-        componentDidMount = { self =>
-          FacebookPixel
-            .fbq(
-              "trackCustom",
-              "click-proposal-submit-form-open",
-              js.Dictionary("location" -> Location.OperationPage(self.props.wrapped.operation.operationId).name)
-            )
-        },
         getInitialState = { self =>
           SubmitProposalInRelationToOperationState(operation = self.props.wrapped.operation)
         },
