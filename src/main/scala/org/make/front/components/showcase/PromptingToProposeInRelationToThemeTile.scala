@@ -133,6 +133,7 @@ object PromptingToProposeInRelationToThemeTileStyles extends StyleSheet.Inline {
     style(
       height(100.%%),
       minHeight(360.pxToEm()),
+      ThemeStyles.MediaQueries.belowMedium(minHeight.inherit),
       minWidth(270.pxToEm()),
       backgroundColor(ThemeStyles.BackgroundColor.white),
       boxShadow := "0 1px 1px 0 rgba(0,0,0,0.50)",
@@ -143,11 +144,17 @@ object PromptingToProposeInRelationToThemeTileStyles extends StyleSheet.Inline {
     style(height(50.%%))
 
   val cell: StyleA =
-    style(padding(ThemeStyles.SpacingValue.small.pxToEm()))
+    style(padding(`0`, ThemeStyles.SpacingValue.small.pxToEm()))
 
-  val introWrapper: StyleA = style(paddingBottom((ThemeStyles.SpacingValue.small / 2).pxToEm()))
+  val introWrapper: StyleA = style(
+    paddingTop(ThemeStyles.SpacingValue.medium.pxToEm()),
+    paddingBottom((ThemeStyles.SpacingValue.small / 2).pxToEm())
+  )
 
-  val inputWrapper: StyleA = style(paddingTop((ThemeStyles.SpacingValue.small / 2).pxToEm()))
+  val inputWrapper: StyleA = style(
+    paddingTop((ThemeStyles.SpacingValue.small / 2).pxToEm()),
+    paddingBottom(ThemeStyles.SpacingValue.medium.pxToEm())
+  )
 
   val picto: StyleA =
     style(fontSize(115.pxToEm()), lineHeight(100.0 / 115.0), color(ThemeStyles.TextColor.veryLight))

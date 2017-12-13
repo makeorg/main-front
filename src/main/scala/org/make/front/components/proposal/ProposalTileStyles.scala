@@ -12,6 +12,7 @@ object ProposalTileStyles extends StyleSheet.Inline {
     style(
       height(100.%%),
       minHeight(360.pxToEm()),
+      ThemeStyles.MediaQueries.belowMedium(minHeight.inherit),
       minWidth(270.pxToEm()),
       backgroundColor(ThemeStyles.BackgroundColor.white),
       boxShadow := "0 1px 1px 0 rgba(0,0,0,0.50)"
@@ -39,7 +40,14 @@ object ProposalTileStyles extends StyleSheet.Inline {
   val proposalLinkOnTitle: StyleA = style(color(ThemeStyles.TextColor.base))
 
   val contentWrapper: StyleA =
-    style(padding(ThemeStyles.SpacingValue.small.pxToEm()), overflow.hidden)
+    style(
+      padding(
+        ThemeStyles.SpacingValue.small.pxToEm(),
+        ThemeStyles.SpacingValue.small.pxToEm(),
+        ThemeStyles.SpacingValue.medium.pxToEm()
+      ),
+      overflow.hidden
+    )
 
   val footer: StyleA = style(
     margin(`0`, ThemeStyles.SpacingValue.small.pxToEm()),
