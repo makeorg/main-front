@@ -10,10 +10,12 @@ import org.make.front.components.theme.SubmitProposalInRelationToTheme.SubmitPro
 import org.make.front.facades._
 import org.make.front.models.{GradientColor => GradientColorModel, TranslatedTheme => TranslatedThemeModel}
 import org.make.front.styles.ThemeStyles
-import org.make.front.styles.base.{ColRulesStyles, LayoutRulesStyles, TableLayoutStyles, TextStyles}
+import org.make.front.styles.base.{LayoutRulesStyles, TableLayoutStyles, TextStyles}
 import org.make.front.styles.ui.InputStyles
 import org.make.front.styles.utils._
 import org.scalajs.dom.raw.HTMLElement
+
+import scala.scalajs.js
 
 object ThemeHeader {
 
@@ -165,12 +167,18 @@ object ThemeHeader {
       render = { self =>
         var proposalInput: Option[HTMLElement] = None
 
-        def toggleProposalModal() = () => {
-          self.setState(state => state.copy(isProposalModalOpened = !self.state.isProposalModalOpened))
+        def closeProposalModal() = () => {
+          self.setState(state => state.copy(isProposalModalOpened = false))
         }
 
         def openProposalModalFromInput() = () => {
           self.setState(state => state.copy(isProposalModalOpened = true))
+          FacebookPixel
+            .fbq(
+              "trackCustom",
+              "click-proposal-submit-form-open",
+              js.Dictionary("location" -> "page-theme", "themeId" -> self.props.wrapped.theme.id.value.toString)
+            )
           proposalInput.foreach(_.blur())
         }
 
@@ -230,7 +238,7 @@ object ThemeHeader {
               <.FullscreenModalComponent(
                 ^.wrapped := FullscreenModalProps(
                   isModalOpened = self.state.isProposalModalOpened,
-                  closeCallback = toggleProposalModal()
+                  closeCallback = closeProposalModal()
                 )
               )(
                 <.SubmitProposalInRelationToThemeComponent(
