@@ -15,9 +15,9 @@ import org.make.front.models.{
   Location        => LocationModel,
   Operation       => OperationModel,
   Proposal        => ProposalModel,
+  Qualification   => QualificationModel,
   Sequence        => SequenceModel,
   TranslatedTheme => TranslatedThemeModel,
-  Qualification   => QualificationModel,
   Vote            => VoteModel
 }
 import org.make.front.styles._
@@ -29,14 +29,14 @@ object ProposalTileWithTags {
 
   final case class ProposalTileWithTagsProps(proposal: ProposalModel,
                                              index: Int,
-                                             handleSuccessfulVote: (VoteModel)  => Unit = (_) => {},
-                                             handleSuccessfulQualification: (String, QualificationModel) => Unit = (_, _) => {},
+                                             handleSuccessfulVote: (VoteModel)                           => Unit = (_) => {},
+                                             handleSuccessfulQualification: (String, QualificationModel) => Unit =
+                                               (_, _) => {},
                                              locationFacebook: Option[String] = None,
                                              maybeTheme: Option[TranslatedThemeModel],
                                              maybeOperation: Option[OperationModel],
                                              maybeSequence: Option[SequenceModel],
                                              maybeLocation: Option[LocationModel])
-
 
   val reactClass: ReactClass =
     WithRouter(
