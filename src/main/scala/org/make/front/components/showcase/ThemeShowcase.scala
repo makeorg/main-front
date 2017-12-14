@@ -1,18 +1,20 @@
 package org.make.front.components.showcase
 
 import io.github.shogowada.scalajs.reactjs.React
+import io.github.shogowada.scalajs.reactjs.React.Self
 import io.github.shogowada.scalajs.reactjs.VirtualDOM.{<, _}
 import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import io.github.shogowada.scalajs.reactjs.router.dom.RouterDOM._
 import org.make.core.Counter
 import org.make.front.Main.CssSettings._
 import org.make.front.components.Components.{RichVirtualDOMElements, _}
-import PromptingToProposeInRelationToThemeTile.PromptingToProposeInRelationToThemeTileProps
 import org.make.front.components.proposal.ProposalTile.ProposalTileProps
+import org.make.front.components.showcase.PromptingToProposeInRelationToThemeTile.PromptingToProposeInRelationToThemeTileProps
+import org.make.front.facades.ReactSlick.{ReactTooltipVirtualDOMAttributes, ReactTooltipVirtualDOMElements}
 import org.make.front.facades.{HexToRgba, I18n, Replacements}
 import org.make.front.models.{GradientColor => GradientColorModel, Location => LocationModel, Operation => OperationModel, Proposal => ProposalModel, Sequence => SequenceModel, TranslatedTheme => TranslatedThemeModel}
 import org.make.front.styles._
-import org.make.front.styles.base.{ColRulesStyles, LayoutRulesStyles, TextStyles}
+import org.make.front.styles.base.{ColRulesStyles, LayoutRulesStyles, RWDHideRulesStyles, TextStyles}
 import org.make.front.styles.ui.CTAStyles
 import org.make.front.styles.utils._
 import org.make.services.proposal.SearchResult
@@ -62,6 +64,19 @@ object ThemeShowcase {
         val counter = Counter.showcaseCounter
 
         if (self.state.proposals.nonEmpty) {
+
+          def proposalTile(self: Self[ThemeShowcaseProps, ThemeShowcaseState], proposal: ProposalModel) = <.ProposalTileComponent(
+            ^.wrapped :=
+              ProposalTileProps(
+                proposal = proposal,
+                index = counter.getAndIncrement(),
+                maybeTheme = Some(self.props.wrapped.theme),
+                maybeOperation = self.props.wrapped.maybeOperation,
+                maybeSequence = self.props.wrapped.maybeSequence,
+                maybeLocation = self.props.wrapped.maybeLocation)
+          )()
+
+
           <.section(^.className := Seq(ThemeShowcaseStyles.wrapper, DynamicThemeShowcaseStyles.gradient(index)))(
             Seq(
               <.header(^.className := LayoutRulesStyles.centeredRow)(
@@ -79,6 +94,27 @@ object ThemeShowcase {
                     ^.dangerouslySetInnerHTML := self.props.wrapped.maybeNews.getOrElse("")
                   )()
                 }),
+              <.div(^.className := Seq(RWDHideRulesStyles.hideBeyondMedium, LayoutRulesStyles.centeredRow, ThemeShowcaseStyles.slideshow))(
+                <.Slider(^.infinite := false, ^.arrows := false)(
+                  self.state.proposals.map(
+                    proposal =>
+                      <.div(
+                        ^.className :=
+                          ThemeShowcaseStyles.propasalItem)(
+                        proposalTile(self, proposal)
+                      )
+                  ),
+                  <.div(
+                    ^.className :=
+                      ThemeShowcaseStyles.propasalItem)(
+                    <.PromptingToProposeInRelationToThemeTileComponent(
+                      ^.wrapped :=
+                        PromptingToProposeInRelationToThemeTileProps(
+                          theme = self.props.wrapped.theme
+                        ))())
+                )
+              ),
+              <.div(^.className := RWDHideRulesStyles.showBlockBeyondMedium)(
               <.ul(^.className := Seq(LayoutRulesStyles.centeredRowWithCols, ThemeShowcaseStyles.propasalsList))(
                 self.state.proposals.map(
                   proposal =>
@@ -90,16 +126,7 @@ object ThemeShowcase {
                         ColRulesStyles.colQuarterBeyondLarge
                       )
                     )(
-                      <.ProposalTileComponent(
-                        ^.wrapped :=
-                          ProposalTileProps(
-                            proposal = proposal,
-                            index = counter.getAndIncrement(),
-                            maybeTheme = Some(self.props.wrapped.theme),
-                            maybeOperation = self.props.wrapped.maybeOperation,
-                            maybeSequence = self.props.wrapped.maybeSequence,
-                            maybeLocation = self.props.wrapped.maybeLocation)
-                      )()
+                      proposalTile(self, proposal)
                     )
                 ),
                 <.li(
@@ -116,7 +143,7 @@ object ThemeShowcase {
                         theme = self.props.wrapped.theme
                       ))()
                 )
-              ),
+              )),
               <.p(^.className := Seq(LayoutRulesStyles.centeredRow, ThemeShowcaseStyles.SeeMoreLinkWrapper))(
                 <.Link(
                   ^.className := Seq(CTAStyles.basic, CTAStyles.basicOnA),
@@ -156,7 +183,8 @@ object ThemeShowcaseStyles extends StyleSheet.Inline {
           `0`,
           (ThemeStyles.SpacingValue.larger - ThemeStyles.SpacingValue.small).pxToEm()
         )
-      )
+      ),
+      overflow.hidden
     )
 
   val intro: StyleA = style(
@@ -185,6 +213,21 @@ object ThemeShowcaseStyles extends StyleSheet.Inline {
         .beyondSmall(padding(2.pxToEm(14), (ThemeStyles.SpacingValue.small / 2).pxToEm(14)), lineHeight(15.pxToEm(14))),
       color(ThemeStyles.TextColor.white),
       backgroundColor(ThemeStyles.BackgroundColor.black)
+    )
+
+  val slideshow: StyleA =
+    style(
+      unsafeChild(".slick-list")(
+        overflow.visible
+      ),
+      unsafeChild(".slick-slide")(
+        height.auto,
+        minHeight.inherit,
+        paddingRight(10.pxToEm())
+      ),
+      unsafeChild(".slick-track")(
+        display.flex
+      )
     )
 
   val propasalsList: StyleA =

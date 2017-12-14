@@ -70,7 +70,7 @@ object PoliticalActionsList {
       }
 
       <.section(^.className := PoliticalActionsListStyles.wrapper)(
-        <.header(^.className := LayoutRulesStyles.centeredRow)(
+        <.div(^.className := LayoutRulesStyles.centeredRow)(
           <.h2(^.className := TextStyles.mediumTitle)(
             unescape(
               I18n.t(
@@ -93,7 +93,7 @@ object PoliticalActionsList {
                   PoliticalActionsListStyles.slideshowContentWrapper
                 )
               )(
-                <.div(^.className := Seq(PoliticalActionsListStyles.slideshow))(
+                <.div(^.className := PoliticalActionsListStyles.slideshow)(
                   <.Slider(^.ref := ((slideshow: HTMLElement) => {
                     slider = Option(slideshow.asInstanceOf[Slider])
                     /*TODO : avoid this non solution*/
@@ -101,8 +101,8 @@ object PoliticalActionsList {
                     slider
                   }), ^.infinite := false, ^.arrows := false, ^.afterChange := updateArrowsVisibility)(
                     self.state.politicalActions.map { politicalAction =>
-                      <.div(^.className := Seq(PoliticalActionsListStyles.slideWrapper))(
-                        <.div(^.className := Seq(PoliticalActionsListStyles.slide))(
+                      <.div(^.className := PoliticalActionsListStyles.slideWrapper)(
+                        <.div(^.className := PoliticalActionsListStyles.slide)(
                           <.PoliticalActionComponent(^.wrapped := PoliticalActionProps(politicalAction))()
                         )
                       )
@@ -110,7 +110,7 @@ object PoliticalActionsList {
                   )
                 )
               ),
-              <.nav(
+              <.div(
                 ^.className := Seq(
                   TableLayoutBeyondMediumStyles.cellVerticalAlignMiddle,
                   PoliticalActionsListStyles.slideshowNav

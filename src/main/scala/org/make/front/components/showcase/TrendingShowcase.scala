@@ -1,6 +1,7 @@
 package org.make.front.components.showcase
 
 import io.github.shogowada.scalajs.reactjs.React
+import io.github.shogowada.scalajs.reactjs.React.Self
 import io.github.shogowada.scalajs.reactjs.VirtualDOM._
 import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import org.make.core.Counter
@@ -8,16 +9,17 @@ import org.make.front.Main.CssSettings._
 import org.make.front.components.Components._
 import org.make.front.components.proposal.ProposalTile.ProposalTileProps
 import org.make.front.components.proposal.ProposalTileWithThemeContainer.ProposalTileWithThemeContainerProps
+import org.make.front.facades.ReactSlick.{ReactTooltipVirtualDOMAttributes, ReactTooltipVirtualDOMElements}
 import org.make.front.facades.logoMake
 import org.make.front.models.{
-  Proposal,
+  Proposal        => ProposalModel,
   Location        => LocationModel,
   Operation       => OperationModel,
   Sequence        => SequenceModel,
   TranslatedTheme => TranslatedThemeModel
 }
 import org.make.front.styles._
-import org.make.front.styles.base.{ColRulesStyles, LayoutRulesStyles, TextStyles}
+import org.make.front.styles.base.{ColRulesStyles, LayoutRulesStyles, RWDHideRulesStyles, TextStyles}
 import org.make.front.styles.utils._
 import org.make.services.proposal.SearchResult
 
@@ -35,7 +37,7 @@ object TrendingShowcase {
                                          maybeSequence: Option[SequenceModel],
                                          maybeLocation: Option[LocationModel])
 
-  final case class TrendingShowcaseState(proposals: Seq[Proposal])
+  final case class TrendingShowcaseState(proposals: Seq[ProposalModel])
 
   lazy val reactClass: ReactClass =
     React.createClass[TrendingShowcaseProps, TrendingShowcaseState](
@@ -50,6 +52,33 @@ object TrendingShowcase {
         }
 
         val counter = Counter.showcaseCounter
+
+        def proposalTile(self: Self[TrendingShowcaseProps, TrendingShowcaseState], proposal: ProposalModel) =
+          if (proposal.themeId.isDefined) {
+            <.ProposalTileWithThemeContainerComponent(
+              ^.wrapped :=
+                ProposalTileWithThemeContainerProps(
+                  proposal = proposal,
+                  index = counter.getAndIncrement(),
+                  maybeOperation = self.props.wrapped.maybeOperation,
+                  maybeSequence = self.props.wrapped.maybeSequence,
+                  maybeLocation = self.props.wrapped.maybeLocation
+                )
+            )()
+          } else {
+            <.ProposalTileComponent(
+              ^.wrapped :=
+                ProposalTileProps(
+                  proposal = proposal,
+                  index = counter.getAndIncrement(),
+                  maybeTheme = self.props.wrapped.maybeTheme,
+                  maybeOperation = self.props.wrapped.maybeOperation,
+                  maybeSequence = self.props.wrapped.maybeSequence,
+                  maybeLocation = self.props.wrapped.maybeLocation
+                )
+            )()
+          }
+
         if (self.state.proposals.nonEmpty) {
           <.section(^.className := TrendingShowcaseStyles.wrapper)(
             Seq(
@@ -57,7 +86,7 @@ object TrendingShowcase {
                 <.p(^.className := Seq(TrendingShowcaseStyles.intro, TextStyles.mediumText, TextStyles.intro))(
                   self.props.wrapped.intro
                 ),
-                <.h2(^.className := Seq(TrendingShowcaseStyles.title, TextStyles.mediumTitle))(
+                <.h2(^.className := TextStyles.mediumTitle)(
                   self.props.wrapped.title,
                   <.span(^.style := Map("display" -> "none"))("Make.org"),
                   <.img(
@@ -68,39 +97,35 @@ object TrendingShowcase {
                   )()
                 )
               ),
-              <.ul(^.className := Seq(TrendingShowcaseStyles.propasalsList, LayoutRulesStyles.centeredRowWithCols))(
-                self.state.proposals.map(
-                  proposal =>
-                    <.li(
-                      ^.className := Seq(
-                        TrendingShowcaseStyles.propasalItem,
-                        ColRulesStyles.col,
-                        ColRulesStyles.colHalfBeyondMedium
-                      )
-                    )(if (proposal.themeId.isDefined) {
-                      <.ProposalTileWithThemeContainerComponent(
-                        ^.wrapped :=
-                          ProposalTileWithThemeContainerProps(
-                            proposal = proposal,
-                            index = counter.getAndIncrement(),
-                            maybeOperation = self.props.wrapped.maybeOperation,
-                            maybeSequence = self.props.wrapped.maybeSequence,
-                            maybeLocation = self.props.wrapped.maybeLocation
-                          )
-                      )()
-                    } else {
-                      <.ProposalTileComponent(
-                        ^.wrapped :=
-                          ProposalTileProps(
-                            proposal = proposal,
-                            index = counter.getAndIncrement(),
-                            maybeTheme = self.props.wrapped.maybeTheme,
-                            maybeOperation = self.props.wrapped.maybeOperation,
-                            maybeSequence = self.props.wrapped.maybeSequence,
-                            maybeLocation = self.props.wrapped.maybeLocation
-                          )
-                      )()
-                    })
+              <.div(
+                ^.className := Seq(
+                  RWDHideRulesStyles.hideBeyondMedium,
+                  LayoutRulesStyles.centeredRow,
+                  ThemeShowcaseStyles.slideshow
+                )
+              )(
+                <.Slider(^.infinite := false, ^.arrows := false)(
+                  self.state.proposals.map(
+                    proposal =>
+                      <.div(
+                        ^.className :=
+                          ThemeShowcaseStyles.propasalItem
+                      )(proposalTile(self, proposal))
+                  )
+                )
+              ),
+              <.div(^.className := RWDHideRulesStyles.showBlockBeyondMedium)(
+                <.ul(^.className := Seq(TrendingShowcaseStyles.propasalsList, LayoutRulesStyles.centeredRowWithCols))(
+                  self.state.proposals.map(
+                    proposal =>
+                      <.li(
+                        ^.className := Seq(
+                          TrendingShowcaseStyles.propasalItem,
+                          ColRulesStyles.col,
+                          ColRulesStyles.colHalfBeyondMedium
+                        )
+                      )(proposalTile(self, proposal))
+                  )
                 )
               )
             ),
@@ -125,10 +150,10 @@ object TrendingShowcaseStyles extends StyleSheet.Inline {
           `0`,
           (ThemeStyles.SpacingValue.larger - ThemeStyles.SpacingValue.small).pxToEm()
         )
-      )
+      ),
+      overflow.hidden
     )
 
-  val title: StyleA = style()
   val intro: StyleA = style(
     marginBottom(ThemeStyles.SpacingValue.smaller.pxToEm(15)),
     ThemeStyles.MediaQueries.beyondSmall(marginBottom(ThemeStyles.SpacingValue.smaller.pxToEm(18)))
