@@ -23,18 +23,26 @@ object MakeApiClient extends Client {
       "x-hostname" -> dom.window.location.hostname
     ) ++
       Map("x-get-parameters" -> dom.window.location.search.drop(1)).filter { case (_, value) => value.nonEmpty } ++
-      MakeApiClient.getToken.map { token =>
-        Map("Authorization" -> s"${token.token_type} ${token.access_token}")
-      }.getOrElse(Map.empty)
+      MakeApiClient.getToken.map { authToken =>
+        "Authorization" -> s"${authToken.token_type} ${authToken.access_token}"
+      } ++
+      MakeApiClient.getXSessionId.map { xSessionId =>
+        xSessionIdHeader -> xSessionId
+      }
   }
 
   override lazy val baseUrl: String = Configuration.apiUrl
 
-  private var token: Option[Token] = None
-  def getToken: Option[Token] = token
-  def setToken(newToken: Option[Token]): Unit = token = newToken
-  def removeToken(): Unit = token = None
-  def isAuthenticated: Boolean = token.isDefined
+  private var authToken: Option[Token] = None
+  private def getToken: Option[Token] = authToken
+  private def setToken(newToken: Option[Token]): Unit = authToken = newToken
+  private def removeToken(): Unit = authToken = None
+  private def isAuthenticated: Boolean = authToken.isDefined
+
+  private var xSessionId: Option[String] = None
+  private val xSessionIdHeader: String = "x-session-id"
+  private def getXSessionId: Option[String] = xSessionId
+  private def setXSessionId(newXSessionId: Option[String]): Unit = xSessionId = newXSessionId
 
   val maxTimeout: Int = 9000
   val withCredentials: Boolean = true
@@ -103,11 +111,13 @@ object MakeApiClient extends Client {
       headers = requestData.headers,
       withCredentials = requestData.withCredentials,
       responseType = requestData.responseType
-    ).map(
-      response =>
-        if (response.responseText.nonEmpty) JSON.parse(response.responseText).asInstanceOf[ENTITY]
-        else response.response.asInstanceOf[ENTITY]
-    )
+    ).map { response =>
+      MakeApiClient.setXSessionId(
+        Option(response.getResponseHeader(xSessionIdHeader)).filterNot(_.isEmpty).orElse(xSessionId)
+      )
+      if (response.responseText.nonEmpty) JSON.parse(response.responseText).asInstanceOf[ENTITY]
+      else response.response.asInstanceOf[ENTITY]
+    }
   }
 
   override def post[ENTITY <: js.Object](apiEndpoint: String = "",
