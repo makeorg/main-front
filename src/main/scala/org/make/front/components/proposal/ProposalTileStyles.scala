@@ -10,6 +10,7 @@ object ProposalTileStyles extends StyleSheet.Inline {
 
   val wrapper: StyleA =
     style(
+      position.relative,
       height(100.%%),
       minHeight(360.pxToEm()),
       ThemeStyles.MediaQueries.belowMedium(minHeight.inherit),
