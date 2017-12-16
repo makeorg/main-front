@@ -95,7 +95,6 @@ object NoResultToSearchStyles extends StyleSheet.Inline {
     display.block,
     maxWidth(235.pxToEm()),
     margin(ThemeStyles.SpacingValue.medium.pxToEm(), auto),
-    border.none,
     borderTop(1.px, solid, ThemeStyles.BorderColor.veryLight),
     ThemeStyles.MediaQueries
       .beyondSmall(maxWidth(470.pxToEm()), margin(ThemeStyles.SpacingValue.large.pxToEm(), auto))

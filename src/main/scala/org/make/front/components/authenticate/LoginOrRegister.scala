@@ -6,7 +6,7 @@ import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import io.github.shogowada.scalajs.reactjs.events.SyntheticEvent
 import org.make.front.Main.CssSettings._
 import org.make.front.components.Components.{RichVirtualDOMElements, _}
-import org.make.front.components.authenticate.login.LoginWithEmailOrSocialNetworks.LoginWithEmailOrSocialNetworksProps
+import org.make.front.components.authenticate.login.LoginWithSocialNetworksOrEmail.LoginWithSocialNetworksOrEmailProps
 import org.make.front.components.authenticate.recoverPassword.RecoverPasswordContainer.RecoverPasswordContainerProps
 import org.make.front.components.authenticate.register.RegisterWithSocialNetworksOrEmail.RegisterWithSocialNetworksOrEmailProps
 import org.make.front.facades.I18n
@@ -47,7 +47,7 @@ object LoginOrRegister {
         <.div(^.className := LayoutRulesStyles.evenNarrowerCenteredRow)(if (state.currentView == "login") {
           Seq(
             <.LoginWithEmailOrSocialNetworksComponent(
-              ^.wrapped := LoginWithEmailOrSocialNetworksProps(props.onSuccessfulLogin)
+              ^.wrapped := LoginWithSocialNetworksOrEmailProps(props.onSuccessfulLogin)
             )(),
             <.p(^.className := Seq(LoginOrRegisterStyles.text, TextStyles.smallText))(
               unescape(I18n.t("authenticate.forgot-password.intro") + " "),

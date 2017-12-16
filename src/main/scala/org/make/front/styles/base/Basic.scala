@@ -81,7 +81,7 @@ object Basic extends StyleSheet.Inline {
       userSelect := "none",
       cursor.pointer
     ),
-    unsafeRoot("input::-moz-focus-inner,button::-moz-focus-inner")(padding(`0`), border(`0`))
+    unsafeRoot("input::-moz-focus-inner,button::-moz-focus-inner")(padding(`0`), border(`0`)),
+    unsafeRoot("hr")(border(`0`), margin(`0`), height(`0`))
   )
-
 }

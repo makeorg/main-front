@@ -265,11 +265,9 @@ object Translations {
       |      "prompting-to-connect": {
       |         "title": "Soyez informé(e) des actions mises en&nbsp;oeuvre.",
       |         "intro": "Je m'identifie avec",
-      |         "caution": "Rassurez-vous, nous ne publierons jamais rien sans votre&nbsp;accord.",
-      |         "separator": "ou",
-      |         "authenticate-with-email-cta": "Je m'identifie avec mon adresse email",
+      |         "authenticate-with-email-cta": "Mon adresse email",
       |         "login-screen-access": {
-      |           "intro": "J’ai déjà un compte",
+      |           "intro": "J’ai déjà un compte&nbsp;!",
       |           "link-support": "Connexion"
       |         },
       |         "next-cta": "Non merci, je ne souhaite pas être informé(e) des résultats"
@@ -423,10 +421,12 @@ object Translations {
       |        }
       |      },
       |      "register": {
-      |        "caution": "Rassurez-vous, nous ne publierons jamais rien sans votre&nbsp;accord.",
-      |        "with-social-networks-intro": "Je m'inscris avec",
+      |        "with-social-networks": {
+      |          "intro": "Je m'inscris avec&nbsp;",
+      |          "separator": "&nbsp;ou&nbsp;"
+      |        },
       |        "separator": "ou",
-      |        "with-email-intro": "Je m'inscris avec mon adresse&nbsp;email",
+      |        "with-email-intro": "Je m'inscris avec ce&nbsp;formulaire",
       |        "terms": "En vous inscrivant, vous acceptez nos <a href=\"https://about.make.org/conditions-dutilisation\" target=\"_blank\">conditions générales d'utilisation</a> ainsi que de recevoir ponctuellement des emails de&nbsp;Make.org.",
       |        "send-cta": "Je m'inscris",
       |        "errors": {

@@ -66,7 +66,7 @@ object SubmitProposalAndLogin {
         if (self.state.displayedComponent == "submit-proposal") {
           <.div(^.className := LayoutRulesStyles.centeredRow)(
             self.props.wrapped.intro(
-              <.SubmitProposalFormComponent(
+              <.SubmitProposalFormContainerComponent(
                 ^.wrapped := SubmitProposalFormContainerProps(
                   maybeTheme = props.maybeTheme,
                   errorMessage = None,
@@ -144,7 +144,6 @@ object SubmitProposalAndLoginStyles extends StyleSheet.Inline {
       height(1.px),
       width(100.%%),
       margin(30.pxToEm(), `0`, 44.pxToEm()),
-      border.none,
       backgroundColor(ThemeStyles.BorderColor.veryLight)
     )
 }

@@ -39,7 +39,7 @@ object SubmitProposal {
             )
           }
 
-          <.SubmitProposalAndLoginComponent(
+          <.SubmitProposalAndLoginContainerComponent(
             ^.wrapped :=
               SubmitProposalAndLoginContainerProps(
                 intro = intro,
