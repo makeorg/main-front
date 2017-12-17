@@ -76,6 +76,9 @@ object Components {
     def AuthenticateWithGoogleContainerComponent: ReactClassElementSpec =
       self(authenticate.AuthenticateWithGoogleContainer.reactClass)
 
+    def AuthenticateWithSocialNetworksComponent: ReactClassElementSpec =
+      self(authenticate.AuthenticateWithSocialNetworks.reactClass)
+
     def RegisterWithSocialNetworksComponent: ReactClassElementSpec =
       self(authenticate.register.RegisterWithSocialNetworks.reactClass)
 
@@ -98,8 +101,8 @@ object Components {
       self(submitProposal.ConfirmationOfProposalSubmission.reactClass)
     def SubmitProposalFormContainerComponent: ReactClassElementSpec =
       self(submitProposal.SubmitProposalFormContainer.reactClass)
-    def SubmitProposalAndLoginContainerComponent: ReactClassElementSpec =
-      self(submitProposal.SubmitProposalAndLoginContainer.reactClass)
+    def SubmitProposalAndAuthenticateContainerComponent: ReactClassElementSpec =
+      self(submitProposal.SubmitProposalAndAuthenticateContainer.reactClass)
 
     /*********************/
     def ProposalInfosComponent: ReactClassElementSpec = self(proposal.ProposalInfos.reactClass)

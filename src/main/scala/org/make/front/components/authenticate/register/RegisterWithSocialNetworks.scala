@@ -23,7 +23,7 @@ object RegisterWithSocialNetworks {
         render = { self =>
           <.div(^.className := RegisterWithSocialNetworksStyles.wrapper)(
             <.p(^.className := Seq(RegisterWithSocialNetworksStyles.text, TextStyles.smallText))(
-              unescape(I18n.t("authenticate.register.with-social-networks.intro"))
+              unescape(I18n.t("authenticate.register.with-social-networks.intro") + "&nbsp;")
             ),
             <.div(^.className := RegisterWithSocialNetworksStyles.buttonWrapper)(
               <.AuthenticateWithFacebookContainerComponent(
@@ -34,7 +34,7 @@ object RegisterWithSocialNetworks {
               )()
             ),
             <.p(^.className := Seq(RegisterWithSocialNetworksStyles.text, TextStyles.smallText))(
-              unescape(I18n.t("authenticate.register.with-social-networks.separator"))
+              unescape("&nbsp;" + I18n.t("authenticate.register.with-social-networks.separator") + "&nbsp;")
             ),
             <.div(^.className := RegisterWithSocialNetworksStyles.buttonWrapper)(
               <.AuthenticateWithGoogleContainerComponent(

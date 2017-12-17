@@ -20,28 +20,28 @@ import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 import scala.util.{Failure, Success}
 
-object SubmitProposalAndLogin {
+object SubmitProposalAndAuthenticate {
 
-  case class SubmitProposalAndLoginState(proposal: String,
-                                         displayedComponent: String = "submit-proposal",
-                                         errorMessage: Option[String])
+  case class SubmitProposalAndAuthenticateState(proposal: String,
+                                                displayedComponent: String = "submit-proposal",
+                                                errorMessage: Option[String])
 
-  object SubmitProposalAndLoginState {
-    val empty: SubmitProposalAndLoginState =
-      SubmitProposalAndLoginState(proposal = "", errorMessage = None)
+  object SubmitProposalAndAuthenticateState {
+    val empty: SubmitProposalAndAuthenticateState =
+      SubmitProposalAndAuthenticateState(proposal = "", errorMessage = None)
   }
 
-  case class SubmitProposalAndLoginProps(intro: (ReactElement) => ReactElement,
-                                         maybeTheme: Option[TranslatedThemeModel],
-                                         maybeOperation: Option[OperationModel],
-                                         onProposalProposed: () => Unit,
-                                         propose: (String)      => Future[_])
+  case class SubmitProposalAndAuthenticateProps(intro: (ReactElement) => ReactElement,
+                                                maybeTheme: Option[TranslatedThemeModel],
+                                                maybeOperation: Option[OperationModel],
+                                                onProposalProposed: () => Unit,
+                                                propose: (String)      => Future[_])
 
   val reactClass: ReactClass =
-    React.createClass[SubmitProposalAndLoginProps, SubmitProposalAndLoginState](
-      displayName = "SubmitProposalAndLogin",
+    React.createClass[SubmitProposalAndAuthenticateProps, SubmitProposalAndAuthenticateState](
+      displayName = "SubmitProposalAndAuthenticate",
       getInitialState = { _ =>
-        SubmitProposalAndLoginState.empty
+        SubmitProposalAndAuthenticateState.empty
       },
       render = { self =>
         val props = self.props.wrapped
@@ -78,18 +78,17 @@ object SubmitProposalAndLogin {
         } else if (self.state.displayedComponent == "connect") {
 
           val intro: ReactElement =
-            <.div()(
+            <.div(^.className := SubmitProposalAndAuthenticateStyles.header)(
               <.div(^.className := LayoutRulesStyles.narrowerCenteredRow)(
-                <.p(^.className := SubmitProposalAndLoginStyles.title)(
-                  <.span(
-                    ^.className := Seq(TextStyles.mediumText, TextStyles.intro, SubmitProposalAndLoginStyles.intro)
-                  )("Nous avons besoin de quelques informations"),
+                <.p(^.className := SubmitProposalAndAuthenticateStyles.title)(
+                  <.span(^.className := SubmitProposalAndAuthenticateStyles.intro)(
+                    <.span(^.className := Seq(TextStyles.mediumText, TextStyles.intro))(
+                      unescape(I18n.t("submit-proposal.authenticate.intro"))
+                    )
+                  ),
                   <.br()(),
-                  <.strong(^.className := TextStyles.bigTitle)("Pour valider votre proposition")
+                  <.strong(^.className := TextStyles.bigTitle)(unescape(I18n.t("submit-proposal.authenticate.title")))
                 )
-              ),
-              <.div(^.className := LayoutRulesStyles.evenNarrowerCenteredRow)(
-                <.hr(^.className := Seq(SubmitProposalAndLoginStyles.separatorLine))()
               )
             )
 
@@ -103,7 +102,7 @@ object SubmitProposalAndLogin {
                 registerView = "register-expanded"
               )
             )(),
-            <.style()(SubmitProposalAndLoginStyles.render[String])
+            <.style()(SubmitProposalAndAuthenticateStyles.render[String])
           )
 
         } else if (self.state.displayedComponent == "result") {
@@ -125,25 +124,16 @@ object SubmitProposalAndLogin {
     )
 }
 
-object SubmitProposalAndLoginStyles extends StyleSheet.Inline {
+object SubmitProposalAndAuthenticateStyles extends StyleSheet.Inline {
 
   import dsl._
+
+  val header: StyleA =
+    style(marginBottom(ThemeStyles.SpacingValue.larger.pxToEm()))
 
   val title: StyleA =
     style(textAlign.center)
 
   val intro: StyleA =
-    style(
-      display.inlineBlock,
-      marginBottom(ThemeStyles.SpacingValue.smaller.pxToEm(15)),
-      ThemeStyles.MediaQueries.beyondSmall(marginBottom(ThemeStyles.SpacingValue.smaller.pxToEm(18)))
-    )
-
-  val separatorLine: StyleA =
-    style(
-      height(1.px),
-      width(100.%%),
-      margin(30.pxToEm(), `0`, 44.pxToEm()),
-      backgroundColor(ThemeStyles.BorderColor.veryLight)
-    )
+    style(display.inlineBlock, marginBottom(ThemeStyles.SpacingValue.smaller.pxToEm()))
 }

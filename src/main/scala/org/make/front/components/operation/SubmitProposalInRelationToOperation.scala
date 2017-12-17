@@ -7,7 +7,7 @@ import io.github.shogowada.scalajs.reactjs.elements.ReactElement
 import io.github.shogowada.scalajs.reactjs.router.WithRouter
 import org.make.front.Main.CssSettings._
 import org.make.front.components.Components._
-import org.make.front.components.submitProposal.SubmitProposalAndLoginContainer.SubmitProposalAndLoginContainerProps
+import org.make.front.components.submitProposal.SubmitProposalAndAuthenticateContainer.SubmitProposalAndAuthenticateContainerProps
 import org.make.front.facades.Unescape.unescape
 import org.make.front.facades.I18n
 import org.make.front.models.{
@@ -80,9 +80,9 @@ object SubmitProposalInRelationToOperation {
               )
           }
 
-          <.SubmitProposalAndLoginContainerComponent(
+          <.SubmitProposalAndAuthenticateContainerComponent(
             ^.wrapped :=
-              SubmitProposalAndLoginContainerProps(
+              SubmitProposalAndAuthenticateContainerProps(
                 intro = intro,
                 onProposalProposed = self.props.wrapped.onProposalProposed,
                 maybeTheme = None,

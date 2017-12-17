@@ -5,8 +5,7 @@ import io.github.shogowada.scalajs.reactjs.VirtualDOM._
 import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import org.make.front.Main.CssSettings._
 import org.make.front.components.Components._
-import org.make.front.components.authenticate.AuthenticateWithFacebookContainer.AuthenticateWithFacebookContainerProps
-import org.make.front.components.authenticate.AuthenticateWithGoogleContainer.AuthenticateWithGoogleContainerProps
+import org.make.front.components.authenticate.AuthenticateWithSocialNetworks.AuthenticateWithSocialNetworksProps
 import org.make.front.components.authenticate.login.LoginWithEmailContainer.LoginWithEmailContainerProps
 import org.make.front.facades.I18n
 import org.make.front.facades.Unescape.unescape
@@ -25,22 +24,9 @@ object LoginWithSocialNetworksOrEmail {
         <.div(^.className := LoginWithSocialNetworksOrEmailStyles.introWrapper)(
           <.p(^.className := TextStyles.smallTitle)(unescape(I18n.t("authenticate.login.with-social-networks-intro")))
         ),
-        <.ul()(
-          <.li(^.className := LoginWithSocialNetworksOrEmailStyles.facebookConnectButtonWrapper)(
-            <.AuthenticateWithFacebookContainerComponent(
-              ^.wrapped := AuthenticateWithFacebookContainerProps(
-                onSuccessfulLogin = self.props.wrapped.onSuccessfulLogin
-              )
-            )()
-          ),
-          <.li(^.className := LoginWithSocialNetworksOrEmailStyles.googleConnectButtonWrapper)(
-            <.AuthenticateWithGoogleContainerComponent(
-              ^.wrapped := AuthenticateWithGoogleContainerProps(
-                onSuccessfulLogin = self.props.wrapped.onSuccessfulLogin
-              )
-            )()
-          )
-        ),
+        <.AuthenticateWithSocialNetworksComponent(
+          ^.wrapped := AuthenticateWithSocialNetworksProps(onSuccessfulLogin = self.props.wrapped.onSuccessfulLogin)
+        )(),
         <.div(^.className := LoginWithSocialNetworksOrEmailStyles.separatorWrapper)(
           <.p(^.className := Seq(LoginWithSocialNetworksOrEmailStyles.separator, TextStyles.smallText))(
             I18n.t("authenticate.login.separator")
@@ -63,30 +49,6 @@ object LoginWithSocialNetworksOrEmailStyles extends StyleSheet.Inline {
   import dsl._
 
   val introWrapper: StyleA = style(marginBottom(ThemeStyles.SpacingValue.small.pxToEm()), textAlign.center)
-
-  val facebookConnectButtonWrapper: StyleA =
-    style(
-      ThemeStyles.MediaQueries
-        .beyondVerySmall(
-          display.inlineBlock,
-          verticalAlign.middle,
-          width(50.%%),
-          paddingRight(ThemeStyles.SpacingValue.smaller.pxToEm())
-        )
-    )
-
-  val googleConnectButtonWrapper: StyleA =
-    style(
-      marginTop(ThemeStyles.SpacingValue.smaller.pxToEm()),
-      ThemeStyles.MediaQueries
-        .beyondVerySmall(
-          display.inlineBlock,
-          verticalAlign.middle,
-          width(50.%%),
-          marginTop.`0`,
-          paddingLeft(ThemeStyles.SpacingValue.smaller.pxToEm())
-        )
-    )
 
   val separatorWrapper: StyleA =
     style(

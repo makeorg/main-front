@@ -5,6 +5,7 @@ import io.github.shogowada.scalajs.reactjs.VirtualDOM._
 import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import org.make.front.Main.CssSettings._
 import org.make.front.components.Components._
+import org.make.front.components.authenticate.AuthenticateWithSocialNetworks.AuthenticateWithSocialNetworksProps
 import org.make.front.components.authenticate.register.RegisterContainer.RegisterUserProps
 import org.make.front.components.authenticate.register.RegisterWithSocialNetworks.RegisterWithSocialNetworksProps
 import org.make.front.facades.I18n
@@ -49,10 +50,13 @@ object RegisterWithSocialNetworksOrEmail {
   val expanded: ReactClass = React.createClass[RegisterWithSocialNetworksOrEmailProps, Unit](render = { self =>
     <.div()(
       <.div(^.className := RegisterWithSocialNetworksOrEmailStyles.introWrapper)(
-        <.p(^.className := TextStyles.smallTitle)(unescape(I18n.t("authenticate.register.with-social-networks-intro")))
+        <.p(^.className := TextStyles.smallTitle)(unescape(I18n.t("authenticate.register.with-social-networks.intro")))
       ),
-      <.RegisterWithSocialNetworksComponent(
-        ^.wrapped := RegisterWithSocialNetworksProps(onSuccessfulLogin = self.props.wrapped.onSuccessfulLogin)
+      <.AuthenticateWithSocialNetworksComponent(
+        ^.wrapped := AuthenticateWithSocialNetworksProps(
+          note = unescape(I18n.t("authenticate.register.caution")),
+          onSuccessfulLogin = self.props.wrapped.onSuccessfulLogin
+        )
       )(),
       <.div(^.className := RegisterWithSocialNetworksOrEmailStyles.separatorWrapper)(
         <.p(^.className := Seq(RegisterWithSocialNetworksOrEmailStyles.separator, TextStyles.mediumText))(

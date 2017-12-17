@@ -5,7 +5,7 @@ import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import io.github.shogowada.scalajs.reactjs.elements.ReactElement
 import io.github.shogowada.scalajs.reactjs.redux.ReactRedux
 import org.make.front.components.AppState
-import org.make.front.components.submitProposal.SubmitProposalAndLogin.SubmitProposalAndLoginProps
+import org.make.front.components.submitProposal.SubmitProposalAndAuthenticate.SubmitProposalAndAuthenticateProps
 import org.make.front.models.{
   RegisterProposal,
   Location        => LocationModel,
@@ -18,17 +18,17 @@ import org.make.services.proposal.ProposalService
 import scala.concurrent.Future
 import org.scalajs.dom
 
-object SubmitProposalAndLoginContainer {
+object SubmitProposalAndAuthenticateContainer {
 
-  case class SubmitProposalAndLoginContainerProps(intro: (ReactElement)  => ReactElement = identity,
-                                                  onProposalProposed: () => Unit,
-                                                  maybeTheme: Option[TranslatedThemeModel],
-                                                  maybeOperation: Option[OperationModel],
-                                                  maybeSequence: Option[SequenceModel],
-                                                  maybeLocation: Option[LocationModel])
+  case class SubmitProposalAndAuthenticateContainerProps(intro: (ReactElement)  => ReactElement = identity,
+                                                         onProposalProposed: () => Unit,
+                                                         maybeTheme: Option[TranslatedThemeModel],
+                                                         maybeOperation: Option[OperationModel],
+                                                         maybeSequence: Option[SequenceModel],
+                                                         maybeLocation: Option[LocationModel])
 
   val reactClass: ReactClass = ReactRedux.connectAdvanced {
-    _ => (_: AppState, props: Props[SubmitProposalAndLoginContainerProps]) =>
+    _ => (_: AppState, props: Props[SubmitProposalAndAuthenticateContainerProps]) =>
       def propose(content: String): Future[RegisterProposal] = {
         val location = LocationModel.firstByPrecedence(
           location = props.wrapped.maybeLocation,
@@ -46,13 +46,13 @@ object SubmitProposalAndLoginContainer {
         )
       }
 
-      SubmitProposalAndLoginProps(
+      SubmitProposalAndAuthenticateProps(
         intro = props.wrapped.intro,
         maybeTheme = props.wrapped.maybeTheme,
         maybeOperation = props.wrapped.maybeOperation,
         onProposalProposed = props.wrapped.onProposalProposed,
         propose = propose
       )
-  }(SubmitProposalAndLogin.reactClass)
+  }(SubmitProposalAndAuthenticate.reactClass)
 
 }

@@ -14,6 +14,7 @@ import org.make.front.styles._
 import org.make.front.styles.base.TextStyles
 import org.make.front.styles.ui.{CTAStyles, InputStyles}
 import org.make.front.styles.utils._
+import org.make.front.styles.vendors.FontAwesomeStyles
 import org.scalajs.dom.raw.HTMLInputElement
 
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -145,7 +146,8 @@ object LoginWithEmail {
             },
             <.div(^.className := LoginWithEmailStyles.submitButtonWrapper)(
               <.button(^.className := Seq(CTAStyles.basic, CTAStyles.basicOnButton), ^.`type`.submit)(
-                unescape(I18n.t("authenticate.login.send-cta"))
+                <.i(^.className := Seq(FontAwesomeStyles.thumbsUp))(),
+                unescape("&nbsp;" + I18n.t("authenticate.login.send-cta"))
               )
             ),
             <.style()(LoginWithEmailStyles.render[String])
