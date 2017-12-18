@@ -100,7 +100,6 @@ object LoginOrRegisterStyles extends StyleSheet.Inline {
     style(
       textAlign.center,
       margin(ThemeStyles.SpacingValue.small.pxToEm(), `0`),
-      color(ThemeStyles.TextColor.lighter),
       unsafeChild("a")(color(ThemeStyles.ThemeColor.primary))
     )
 }

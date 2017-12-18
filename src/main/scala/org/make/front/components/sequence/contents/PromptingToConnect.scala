@@ -167,7 +167,7 @@ object PromptingToConnectStyles extends StyleSheet.Inline {
     style(marginTop(ThemeStyles.SpacingValue.small.pxToEm()))
 
   val loginScreenAccess: StyleA =
-    style(color(ThemeStyles.TextColor.lighter), unsafeChild("button")(color(ThemeStyles.ThemeColor.primary)))
+    style(unsafeChild("button")(color(ThemeStyles.ThemeColor.primary)))
 
   val separator: StyleA =
     style(
