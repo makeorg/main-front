@@ -99,7 +99,7 @@ object Theme {
       id = ThemeId(themeResponse.themeId),
       translations = seqTranslations,
       proposalsCount = themeResponse.proposalsCount,
-      votesCount = themeResponse.votesCount,
+      votesCount = 0 /*themeResponse.votesCount*/,
       actionsCount = themeResponse.actionsCount,
       country = themeResponse.country,
       color = themeResponse.color,

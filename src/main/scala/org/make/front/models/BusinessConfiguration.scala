@@ -38,7 +38,7 @@ trait ThemeResponse extends js.Object {
   val themeId: String
   val translations: js.Array[ThemeTranslationResponse]
   val proposalsCount: Int
-  val votesCount: Int
+  /*val votesCount: Int*/
   val actionsCount: Int
   val country: String
   val color: String
