@@ -67,7 +67,7 @@ object Translations {
       |      },
       |      "showcase-1": {
       |        "intro": "le thème du mois&nbsp;",
-      |        "news": "Budget de la Sécurité sociale, États généraux de l'Alimentation, glyphosate&nbsp;: la santé et l'alimentation sont au coeur de l'actualité, à vous de vous exprimer."
+      |        "news": "Budget de la Sécurité sociale, États généraux de l'Alimentation, glyphosate&nbsp;:<br>la santé et l'alimentation sont au coeur de l'actualité, à vous de vous exprimer."
       |      },
       |      "showcase-2": {
       |        "intro": "Exprimez-vous&nbsp;!",
@@ -83,6 +83,11 @@ object Translations {
       |      "prompting-to-propose-tile": {
       |        "intro": "Et bientôt votre proposition&nbsp;?",
       |        "bait": "Il faut..."
+      |      },
+      |      "data-units": {
+      |        "actions": "actions",
+      |        "votes": "votes",
+      |        "proposals": "propositions"
       |      }
       |    },
       |    "nav-in-themes": {

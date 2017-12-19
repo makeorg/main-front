@@ -12,10 +12,16 @@ import org.make.front.components.Components.{RichVirtualDOMElements, _}
 import org.make.front.components.proposal.ProposalTile.ProposalTileProps
 import org.make.front.components.showcase.PromptingToProposeInRelationToThemeTile.PromptingToProposeInRelationToThemeTileProps
 import org.make.front.facades.ReactSlick.{ReactTooltipVirtualDOMAttributes, ReactTooltipVirtualDOMElements}
+import io.github.shogowada.scalajs.reactjs.router.dom.RouterDOM.{
+  RouterDOMVirtualDOMElements,
+  RouterVirtualDOMAttributes
+}
+import org.make.front.facades.Unescape.unescape
 import org.make.front.facades.{HexToRgba, I18n, Replacements}
+import org.make.front.helpers.NumberFormat
 import org.make.front.models.{SequenceId, GradientColor => GradientColorModel, Location => LocationModel, OperationExpanded => OperationModel, Proposal => ProposalModel, TranslatedTheme => TranslatedThemeModel}
 import org.make.front.styles._
-import org.make.front.styles.base.{ColRulesStyles, LayoutRulesStyles, RWDHideRulesStyles, TextStyles}
+import org.make.front.styles.base._
 import org.make.front.styles.ui.CTAStyles
 import org.make.front.styles.utils._
 import org.make.services.proposal.SearchResult
@@ -67,8 +73,6 @@ object ThemeShowcase {
 
           val counter = Counter.showcaseCounter
 
-          if (self.state.proposals.nonEmpty) {
-
             def proposalTile(self: Self[ThemeShowcaseProps, ThemeShowcaseState], proposal: ProposalModel) = <.ProposalTileComponent(
               ^.wrapped :=
                 ProposalTileProps(
@@ -91,90 +95,145 @@ object ThemeShowcase {
               self.props.history.push(s"/theme/${self.props.wrapped.theme.slug}")
             }
 
-            <.section(^.className := Seq(ThemeShowcaseStyles.wrapper, DynamicThemeShowcaseStyles.gradient(index)))(
-              Seq(
+            if (self.props.wrapped.theme.title.nonEmpty) {
+              <.section(^.className := Seq(ThemeShowcaseStyles.wrapper, DynamicThemeShowcaseStyles.gradient(index)))(
                 <.header(^.className := LayoutRulesStyles.centeredRow)(
                   if (self.props.wrapped.maybeIntro.nonEmpty) {
                     <.p(^.className := Seq(ThemeShowcaseStyles.intro, TextStyles.mediumText, TextStyles.intro))(
                       self.props.wrapped.maybeIntro
                     )
-                  }, <.h2(^.className := Seq(if (self.props.wrapped.maybeNews.nonEmpty) {
-                    ThemeShowcaseStyles.titleBeforeNews
-                  } else {
-                    ThemeShowcaseStyles.title
-                  }, TextStyles.bigTitle))(self.props.wrapped.theme.title), if (self.props.wrapped.maybeNews.nonEmpty) {
-                    <.p(
-                      ^.className := Seq(ThemeShowcaseStyles.news, TextStyles.smallerText),
-                      ^.dangerouslySetInnerHTML := self.props.wrapped.maybeNews.getOrElse("")
-                    )()
-                  }),
+                  },
+                  <.div(^.className := ThemeShowcaseStyles.themeName)(
+                    <.h2(^.className := TextStyles.bigTitle)(
+                      <.Link(^.to := s"/theme/${self.props.wrapped.theme.slug}")(
+                        self.props.wrapped.theme.title
+                      )
+                    )
+                  ),
+                  <.div(^.className := ThemeShowcaseStyles.themeInfo)(
+                    if (self.props.wrapped.maybeNews.nonEmpty) {
+                      <.p(^.className := ThemeShowcaseStyles.news)(
+                        <.span(
+                          ^.className := TextStyles.smallerText,
+                          ^.dangerouslySetInnerHTML := self.props.wrapped.maybeNews.getOrElse(""))()
+                      )
+                    } else {
+                      <.ul(^.className := Seq(TableLayoutBeyondMediumStyles.wrapper, TextStyles.title))(
+                        if (self.props.wrapped.theme.proposalsCount > 0) {
+                          <.li(^.className := Seq(ThemeShowcaseStyles.themeData, TableLayoutBeyondMediumStyles.cell))(
+                            <.em(^.className := ThemeShowcaseStyles.themeDataValue)(NumberFormat.formatToKilo(self.props.wrapped.theme.proposalsCount)),
+                            unescape(
+                              I18n.t("theme-showcase.data-units.proposals")
+                            )
+                          )
+                        },
+                        if (self.props.wrapped.theme.votesCount > 0) {
+                          <.li(^.className := Seq(ThemeShowcaseStyles.themeData, TableLayoutBeyondMediumStyles.cell))(
+                            <.em(^.className := ThemeShowcaseStyles.themeDataValue)(NumberFormat.formatToKilo(self.props.wrapped.theme.votesCount)),
+                            unescape(
+                              I18n.t("theme-showcase.data-units.votes")
+                            )
+                          )
+                        },
+                        if (self.props.wrapped.theme.actionsCount > 0) {
+                          <.li(^.className := Seq(ThemeShowcaseStyles.themeData, TableLayoutBeyondMediumStyles.cell))(
+                            <.em(^.className := ThemeShowcaseStyles.themeDataValue)(NumberFormat.formatToKilo(self.props.wrapped.theme.actionsCount)),
+                            unescape(
+                              I18n.t("theme-showcase.data-units.actions")
+                            )
+                          )
+                        }
+                      )
+                    })
+                  /*,
+                  <.div(^.className := ThemeShowcaseStyles.filter)(
+                    <.p(^.className := ThemeShowcaseStyles.filterIntro)(
+                      <.span(^.className := TextStyles.smallerText)(
+                        unescape(I18n.t("theme-showcase.filter.intro"))
+                      )
+                    ),
+                    <.button(^.className := ThemeShowcaseStyles.filterCTA)(
+                      <.span(^.className := TextStyles.smallerText)(
+                        unescape(I18n.t("theme-showcase.filter.the-most-popular"))
+                      )
+                    ),
+                    <.button(^.className := ThemeShowcaseStyles.filterCTA)(
+                      <.span(^.className := TextStyles.smallerText)(
+                        unescape(I18n.t("theme-showcase.filter.the-most-original"))
+                      )
+                    )
+                  )*/
+                  /*TODO: dev filter functions and reactivate template part*/
+                ),
                 <.div(^.className := Seq(RWDHideRulesStyles.hideBeyondMedium, LayoutRulesStyles.centeredRow, ThemeShowcaseStyles.slideshow))(
                   <.Slider(^.infinite := false, ^.arrows := false)(
                     self.state.proposals.map(
                       proposal =>
-                        <.div(
-                          ^.className :=
-                            ThemeShowcaseStyles.propasalItem)(
+                        <.div(^.className := ThemeShowcaseStyles.propasalItem)(
                           proposalTile(self, proposal)
                         )
-                    ),
-                    <.div(
-                      ^.className :=
-                        ThemeShowcaseStyles.propasalItem)(
-                      <.PromptingToProposeInRelationToThemeTileComponent(
-                        ^.wrapped :=
-                          PromptingToProposeInRelationToThemeTileProps(
-                            theme = self.props.wrapped.theme
-                          ))())
-
-                  )
-                ),
-                <.div(^.className := RWDHideRulesStyles.showBlockBeyondMedium)(
-                  <.ul(^.className := Seq(LayoutRulesStyles.centeredRowWithCols, ThemeShowcaseStyles.propasalsList))(
-                    self.state.proposals.map(
-                      proposal =>
-                        <.li(
-                          ^.className := Seq(
-                            ThemeShowcaseStyles.propasalItem,
-                            ColRulesStyles.col,
-                            ColRulesStyles.colHalfBeyondMedium,
-                            ColRulesStyles.colQuarterBeyondLarge
-                          )
-                        )(
-                          proposalTile(self, proposal)
-                        )
-                    ),
-                    <.li(
-                      ^.className := Seq(
-                        ThemeShowcaseStyles.propasalItem,
-                        ColRulesStyles.col,
-                        ColRulesStyles.colHalfBeyondMedium,
-                        ColRulesStyles.colQuarterBeyondLarge
-                      )
-                    )(
-                      <.PromptingToProposeInRelationToThemeTileComponent(
-                        ^.wrapped :=
-                          PromptingToProposeInRelationToThemeTileProps(
-                            theme = self.props.wrapped.theme
-                          ))()
-                    )
-                  )),
-                <.p(^.className := Seq(LayoutRulesStyles.centeredRow, ThemeShowcaseStyles.SeeMoreLinkWrapper))(
-                  <.button(
-                    ^.className := Seq(CTAStyles.basic, CTAStyles.basicOnButton),
-                    ^.onClick := goToTheme
-                  )(
-                    I18n.t(
-                      "theme-showcase.see-all",
-                      Replacements("themeName" -> self.props.wrapped.theme.title)
-                    )
+                  ),
+                  <.div(
+                    ^.className :=
+                      ThemeShowcaseStyles.propasalItem)(
+                    <.PromptingToProposeInRelationToThemeTileComponent(
+                      ^.wrapped :=
+                        PromptingToProposeInRelationToThemeTileProps(
+                          theme = self.props.wrapped.theme
+                        ))()
                   )
                 )
-                ,
-                <.style()(ThemeShowcaseStyles.render[String], DynamicThemeShowcaseStyles.render[String])
+              ),
+              <.div(^.className := RWDHideRulesStyles.showBlockBeyondMedium)(
+                <.ul(^.className := Seq(LayoutRulesStyles.centeredRowWithCols, ThemeShowcaseStyles.propasalsList))(
+                  self.state.proposals.map(
+                    proposal =>
+                      <.li(
+                        ^.className := Seq(
+                          ThemeShowcaseStyles.propasalItem,
+                          ColRulesStyles.col,
+                          ColRulesStyles.colHalfBeyondMedium,
+                          ColRulesStyles.colQuarterBeyondLarge
+                        )
+                      )(
+                        proposalTile(self, proposal)
+                      )
+                  ),
+                  <.li(
+                    ^.className := Seq(
+                      ThemeShowcaseStyles.propasalItem,
+                      ColRulesStyles.col,
+                      ColRulesStyles.colHalfBeyondMedium,
+                      ColRulesStyles.colQuarterBeyondLarge
+                    )
+                  )(
+                    <.PromptingToProposeInRelationToThemeTileComponent(
+                      ^.wrapped :=
+                        PromptingToProposeInRelationToThemeTileProps(
+                          theme = self.props.wrapped.theme
+                        ))()
+                  )
+                )),
+              <.p(^.className := Seq(LayoutRulesStyles.centeredRow, ThemeShowcaseStyles.seeMoreLinkWrapper))(
+                <.Link(
+                  ^.className := Seq(CTAStyles.basic, CTAStyles.basicOnA),
+                  ^.to := s"/theme/${self.props.wrapped.theme.slug}"
+                )(
+                  I18n
+                    .t(
+                      "theme-showcase.see-all",
+                      Replacements(
+                        (
+                          "themeName",
+                          self.props.wrapped.theme.title
+                        )
+                      )
+                    )
+                )
+              ),
+              <.style()(ThemeShowcaseStyles.render[String], DynamicThemeShowcaseStyles.render[String])
               )
-            )
-          } else <.div.empty
+            } else <.div.empty
       })
     )
 }
@@ -185,8 +244,8 @@ object ThemeShowcaseStyles extends StyleSheet.Inline {
 
   val wrapper: StyleA =
     style(
-      backgroundColor(ThemeStyles.BackgroundColor.blackVeryTransparent),
       padding(ThemeStyles.SpacingValue.medium.pxToEm(), `0`),
+      backgroundColor(ThemeStyles.BackgroundColor.blackVeryTransparent),
       ThemeStyles.MediaQueries.beyondSmall(
         padding(
           ThemeStyles.SpacingValue.larger.pxToEm(),
@@ -199,31 +258,94 @@ object ThemeShowcaseStyles extends StyleSheet.Inline {
 
   val intro: StyleA = style(
     marginBottom(ThemeStyles.SpacingValue.smaller.pxToEm(15)),
-    ThemeStyles.MediaQueries.beyondSmall(marginBottom(ThemeStyles.SpacingValue.smaller.pxToEm(18)))
+    ThemeStyles.MediaQueries.beyondSmall(
+      marginBottom(ThemeStyles.SpacingValue.smaller.pxToEm(18))
+    )
   )
 
-  val title: StyleA = style(lineHeight(1))
+  val themeName: StyleA = style(
+    ThemeStyles.MediaQueries.beyondMedium(
+      display.inlineBlock,
+      verticalAlign.top,
+      marginRight(ThemeStyles.SpacingValue.medium.pxToEm())
+    )
+  )
 
-  val titleBeforeNews: StyleA = style(
+  val themeInfo: StyleA = style(
     display.inlineBlock,
-    float.left,
-    marginRight(ThemeStyles.SpacingValue.small.pxToEm(20)),
-    ThemeStyles.MediaQueries.beyondSmall(marginRight(ThemeStyles.SpacingValue.small.pxToEm(34))),
-    ThemeStyles.MediaQueries.beyondMedium(marginRight(ThemeStyles.SpacingValue.small.pxToEm(46))),
-    lineHeight(1)
+    ThemeStyles.MediaQueries.beyondMedium(
+      verticalAlign.top
+    )
   )
 
   val news: StyleA =
     style(
-      display.inlineBlock,
-      float.left,
-      padding(2.pxToEm(13), (ThemeStyles.SpacingValue.small / 2).pxToEm(13)),
-      lineHeight(15.pxToEm(13)),
-      ThemeStyles.MediaQueries
-        .beyondSmall(padding(2.pxToEm(14), (ThemeStyles.SpacingValue.small / 2).pxToEm(14)), lineHeight(15.pxToEm(14))),
+      padding(2.pxToEm(), (ThemeStyles.SpacingValue.small / 2).pxToEm()),
+      lineHeight(15.pxToEm()),
       color(ThemeStyles.TextColor.white),
-      backgroundColor(ThemeStyles.BackgroundColor.black)
+      backgroundColor(ThemeStyles.BackgroundColor.black),
+      unsafeChild("*")(
+        lineHeight.inherit
+      )
     )
+  val themeData: StyleA =
+    style(
+      paddingRight(ThemeStyles.SpacingValue.medium.pxToEm()),
+      (&.lastChild) (paddingRight(`0`)),
+      fontSize(14.pxToEm()),
+      color(ThemeStyles.TextColor.lighter),
+      ThemeStyles.MediaQueries.belowMedium(
+        display.inlineBlock,
+        marginRight(ThemeStyles.SpacingValue.small.pxToEm())
+      )
+    )
+
+  val themeDataValue: StyleA =
+    style(
+      (&.after) (content := "' '"),
+      ThemeStyles.MediaQueries.beyondMedium(
+        display.inlineBlock,
+        width(100.%%),
+        (&.after) (content := none),
+        fontSize(24.pxToEm(14)))
+    )
+
+  val filter: StyleA =
+    style(
+      ThemeStyles.MediaQueries.belowMedium(
+        marginTop(ThemeStyles.SpacingValue.smaller.pxToEm()))
+    )
+
+  val filterIntro: StyleA =
+    style(
+      display.inlineBlock,
+      verticalAlign.baseline,
+      paddingRight(ThemeStyles.SpacingValue.smaller.pxToEm()),
+      color(ThemeStyles.TextColor.lighter)
+    )
+
+  val filterCTA: StyleA =
+    style(
+      position.relative,
+      display.inlineBlock,
+      verticalAlign.baseline,
+      paddingRight((ThemeStyles.SpacingValue.smaller * 2).pxToEm()),
+      &.firstChild(paddingLeft(`0`)),
+      &.after(
+        content := "' '",
+        position.absolute,
+        top(`0`),
+        right(ThemeStyles.SpacingValue.smaller.pxToEm()),
+        height(20.pxToEm()),
+        width(1.px),
+        backgroundColor(ThemeStyles.BorderColor.lighter)
+      ),
+      &.lastChild(&.after(content := none)),
+      color.inherit,
+      transition := "color .2s ease-in-out",
+      &.hover(color(ThemeStyles.ThemeColor.primary))
+    )
+
 
   val slideshow: StyleA =
     style(
@@ -249,7 +371,7 @@ object ThemeShowcaseStyles extends StyleSheet.Inline {
       ThemeStyles.MediaQueries.beyondSmall(marginBottom(ThemeStyles.SpacingValue.small.pxToEm()))
     )
 
-  val SeeMoreLinkWrapper: StyleA = style(
+  val seeMoreLinkWrapper: StyleA = style(
     marginTop(ThemeStyles.SpacingValue.small.pxToEm()),
     marginBottom(ThemeStyles.SpacingValue.small.pxToEm()),
     textAlign.center
