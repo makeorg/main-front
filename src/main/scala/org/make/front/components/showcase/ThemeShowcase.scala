@@ -346,7 +346,6 @@ object ThemeShowcaseStyles extends StyleSheet.Inline {
       &.hover(color(ThemeStyles.ThemeColor.primary))
     )
 
-
   val slideshow: StyleA =
     style(
       unsafeChild(".slick-list")(

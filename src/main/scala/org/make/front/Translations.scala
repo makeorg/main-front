@@ -88,6 +88,11 @@ object Translations {
       |        "actions": "actions",
       |        "votes": "votes",
       |        "proposals": "propositions"
+      |      },
+      |      "filter": {
+      |        "intro" : "Afficher les propositions&nbsp;:",
+      |        "the-most-popular": "les + populaires",
+      |        "the-most-original": "les + originales"
       |      }
       |    },
       |    "nav-in-themes": {
