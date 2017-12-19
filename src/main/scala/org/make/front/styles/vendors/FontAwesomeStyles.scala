@@ -46,5 +46,7 @@ object FontAwesomeStyles extends StyleSheet.Inline {
   val handPeaceO: StyleA = style(addClassName("fa fa-hand-peace-o"))
   val stepForward: StyleA = style(addClassName("fa fa-step-forward"))
   val signOut: StyleA = style(addClassName("fa fa-sign-out"))
+  val home: StyleA = style(addClassName("fa fa-home"))
+  val random: StyleA = style(addClassName("fa fa-random"))
 
 }

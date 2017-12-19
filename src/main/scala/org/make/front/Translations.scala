@@ -23,6 +23,20 @@ object Translations {
       |      "unexpectedBehaviour": "Quelque chose n'a pas&nbsp;fonctionné",
       |      "tryAgain": "Si le problème persiste n'hésitez pas à nous contacter à&nbsp;support@make.org."
       |    },
+      |    "error": {
+      |      "intro": "oups",
+      |      "title": "Erreur 404",
+      |      "recherche-intro": "La page que vous avez demandé n’existe pas ou plus. Vous pouvez lancer une&nbsp;recherche&hellip;",
+      |      "redirection-intro": "&hellip; ou vous laisser tenter par une nouvelle destination&nbsp;:",
+      |      "redirect-to-home": "La page d'accueil",
+      |      "redirect-to-random-theme": "Un thème choisi au hasard"
+      |    },
+      |    "maintenance": {
+      |      "intro": "oups",
+      |      "title": "Maintenance en cours",
+      |      "explanation-1": "Pour pouvoir vous proposer un site toujours plus&nbsp;performant,<br>Make.org est actuellement en&nbsp;maintenance.",
+      |      "explanation-2": "N’hésitez pas à repasser d’ici quelques minutes."
+      |    },
       |    "cookie-alert": "En poursuivant votre navigation sur notre site, vous acceptez l'installation et l'utilisation de cookies sur votre poste, dans le respect de notre <a href=\"https://about.make.org/politique-donnees\" target=\"_blank\">politique de protection de votre vie privée</a>.",
       |    "home": {
       |      "welcome": {
