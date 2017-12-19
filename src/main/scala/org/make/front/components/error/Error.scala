@@ -4,6 +4,7 @@ import io.github.shogowada.scalajs.reactjs.React
 import io.github.shogowada.scalajs.reactjs.VirtualDOM.{<, ^, _}
 import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import io.github.shogowada.scalajs.reactjs.router.WithRouter
+import io.github.shogowada.scalajs.reactjs.router.dom.RouterDOM._
 import org.make.front.Main.CssSettings._
 import org.make.front.components.Components.{RichVirtualDOMElements, _}
 import org.make.front.facades.I18n
@@ -16,9 +17,11 @@ import org.make.front.styles.vendors.FontAwesomeStyles
 
 object Error {
 
+  case class ErrorProps(redirectToRandomTheme: () => Unit)
+
   lazy val reactClass: ReactClass =
     WithRouter(
-      React.createClass[Unit, Unit](
+      React.createClass[ErrorProps, Unit](
         displayName = "Error",
         render = { self =>
           <("error")()(
@@ -62,13 +65,16 @@ object Error {
                             ),
                             <.ul(^.className := ErrorStyles.ctasWrapper)(
                               <.li(^.className := ErrorStyles.ctaWrapper)(
-                                <.button(^.className := Seq(CTAStyles.basic, CTAStyles.basicOnButton))(
+                                <.Link(^.className := Seq(CTAStyles.basic, CTAStyles.basicOnA), ^.to := s"/")(
                                   <.i(^.className := FontAwesomeStyles.home)(),
                                   unescape("&nbsp;" + I18n.t("error.redirect-to-home"))
                                 )
                               ),
                               <.li(^.className := ErrorStyles.ctaWrapper)(
-                                <.button(^.className := Seq(CTAStyles.basic, CTAStyles.basicOnButton))(
+                                <.button(
+                                  ^.className := Seq(CTAStyles.basic, CTAStyles.basicOnButton),
+                                  ^.onClick := self.props.wrapped.redirectToRandomTheme
+                                )(
                                   <.i(^.className := FontAwesomeStyles.random)(),
                                   unescape("&nbsp;" + I18n.t("error.redirect-to-random-theme"))
                                 )

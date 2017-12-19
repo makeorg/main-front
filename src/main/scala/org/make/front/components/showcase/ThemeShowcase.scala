@@ -126,6 +126,7 @@ object ThemeShowcase {
                           PromptingToProposeInRelationToThemeTileProps(
                             theme = self.props.wrapped.theme
                           ))())
+
                   )
                 ),
                 <.div(^.className := RWDHideRulesStyles.showBlockBeyondMedium)(
