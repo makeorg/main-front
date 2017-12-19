@@ -21,20 +21,20 @@ import scala.scalajs.js
 
 object PromptingToProposeInRelationToOperation {
 
-  final case class PromptingToProposeProps(operation: OperationModel,
-                                           clickOnButtonHandler: () => Unit,
-                                           proposeHandler: ()       => Unit,
-                                           maybeSequence: Option[SequenceModel],
-                                           maybeLocation: Option[LocationModel])
+  final case class PromptingToProposeInRelationToOperationProps(operation: OperationModel,
+                                                                clickOnButtonHandler: () => Unit,
+                                                                proposeHandler: ()       => Unit,
+                                                                maybeSequence: Option[SequenceModel],
+                                                                maybeLocation: Option[LocationModel])
 
-  final case class PromptingToProposeState(isProposalModalOpened: Boolean)
+  final case class PromptingToProposeInRelationToOperationState(isProposalModalOpened: Boolean)
 
   lazy val reactClass: ReactClass =
     React
-      .createClass[PromptingToProposeProps, PromptingToProposeState](
-        displayName = "PromptingToPropose",
+      .createClass[PromptingToProposeInRelationToOperationProps, PromptingToProposeInRelationToOperationState](
+        displayName = "PromptingToProposeInRelationToOperation",
         getInitialState = { _ =>
-          PromptingToProposeState(isProposalModalOpened = false)
+          PromptingToProposeInRelationToOperationState(isProposalModalOpened = false)
         },
         render = { self =>
           val closeProposalModal: () => Unit = () => {
@@ -53,13 +53,13 @@ object PromptingToProposeInRelationToOperation {
             FacebookPixel.fbq("trackCustom", "click-proposal-push-card-ignore")
           }
 
-          <.div(^.className := Seq(LayoutRulesStyles.row, PromptingToProposeStyles.wrapper))(
-            <.div(^.className := Seq(PromptingToProposeStyles.titleWrapper))(
+          <.div(^.className := Seq(LayoutRulesStyles.row, PromptingToProposeInRelationToOperationStyles.wrapper))(
+            <.div(^.className := Seq(PromptingToProposeInRelationToOperationStyles.titleWrapper))(
               <.p(^.className := Seq(TextStyles.bigText, TextStyles.boldText))(
                 unescape(I18n.t("sequence.prompting-to-propose.intro"))
               )
             ),
-            <.div(^.className := Seq(PromptingToProposeStyles.ctaWrapper))(
+            <.div(^.className := Seq(PromptingToProposeInRelationToOperationStyles.ctaWrapper))(
               <.button(^.className := Seq(CTAStyles.basic, CTAStyles.basicOnButton), ^.onClick := openProposalModal)(
                 <.i(^.className := Seq(FontAwesomeStyles.pencil))(),
                 unescape("&nbsp;" + I18n.t("sequence.prompting-to-propose.propose-cta"))
@@ -83,7 +83,7 @@ object PromptingToProposeInRelationToOperation {
                 )()
               )
             ),
-            <.div(^.className := PromptingToProposeStyles.ctaWrapper)(
+            <.div(^.className := PromptingToProposeInRelationToOperationStyles.ctaWrapper)(
               <.button(
                 ^.className := Seq(CTAStyles.basic, CTAStyles.basicOnButton, CTAStyles.moreDiscreet),
                 ^.onClick := onNextProposal
@@ -92,14 +92,14 @@ object PromptingToProposeInRelationToOperation {
                 unescape("&nbsp;" + I18n.t("sequence.prompting-to-propose.next-cta"))
               )
             ),
-            <.style()(PromptingToProposeStyles.render[String])
+            <.style()(PromptingToProposeInRelationToOperationStyles.render[String])
           )
         }
       )
 
 }
 
-object PromptingToProposeStyles extends StyleSheet.Inline {
+object PromptingToProposeInRelationToOperationStyles extends StyleSheet.Inline {
 
   import dsl._
 
