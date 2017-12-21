@@ -15,7 +15,7 @@ import org.make.front.components.sequence.SequenceContainer.SequenceContainerPro
 import org.make.front.components.sequence.contents.IntroductionOfTheSequence.IntroductionOfTheSequenceProps
 import org.make.front.components.sequence.contents.PromptingToConnect.PromptingToConnectProps
 import org.make.front.components.sequence.contents.PromptingToGoBackToOperation.PromptingToGoBackToOperationProps
-import org.make.front.components.sequence.contents.PromptingToProposeInRelationToOperation.PromptingToProposeProps
+import org.make.front.components.sequence.contents.PromptingToProposeInRelationToOperation.PromptingToProposeInRelationToOperationProps
 import org.make.front.components.sequence.contents._
 import org.make.front.facades.Unescape.unescape
 import org.make.front.facades.{FacebookPixel, I18n, Replacements}
@@ -225,9 +225,9 @@ object SequenceOfTheOperation {
                         )
                     }, position = { slides =>
                       slides.size
-                    }, displayed = !self.props.wrapped.isConnected), ExtraSlide(maybeTracker = Some("click-proposal-submit-form-open"), reactClass = PromptingToProposeInRelationToOperation.reactClass, props = {
+                    }, displayed = !self.props.wrapped.isConnected), ExtraSlide(maybeTracker = Some("display-propose-card"), reactClass = PromptingToProposeInRelationToOperation.reactClass, props = {
                       handler =>
-                        PromptingToProposeProps(
+                        PromptingToProposeInRelationToOperationProps(
                           operation = self.props.wrapped.operation,
                           clickOnButtonHandler = handler,
                           proposeHandler = handler,
@@ -364,7 +364,7 @@ object SequenceOfTheOperationStyles extends StyleSheet.Inline {
     style(
       TooltipStyles.bottomPositioned,
       ThemeStyles.MediaQueries
-        .belowMedium(width(160.pxToEm()), right(`0`), transform := "none", (&.after)(right(25.pxToEm()))),
+        .belowMedium(width(160.pxToEm()), right(`0`), transform := "none", &.after(right(25.pxToEm()))),
       ThemeStyles.MediaQueries
         .beyondMedium(width :=! s"calc(100% + ${40.pxToEm().value})", marginLeft :=! s"calc(0% - ${20.pxToEm().value})")
     )
