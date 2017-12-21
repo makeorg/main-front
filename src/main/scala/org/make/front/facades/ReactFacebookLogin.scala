@@ -50,6 +50,9 @@ object ReactFacebookLogin {
     lazy val iconClass: StringAttributeSpec = StringAttributeSpec("icon")
     lazy val iconComponent: NativeReactElementAttribute = NativeReactElementAttribute("icon")
     lazy val textButton: StringAttributeSpec = StringAttributeSpec("textButton")
+    lazy val containerStyle: NativeJsObjectAttributeSpec[js.Dictionary[Any]] = NativeJsObjectAttributeSpec(
+      "containerStyle"
+    )
     lazy val disableMobileRedirect: BooleanAttributeSpec = BooleanAttributeSpec("disableMobileRedirect")
   }
 }

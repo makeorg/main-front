@@ -5,7 +5,7 @@ import io.github.shogowada.scalajs.reactjs.VirtualDOM._
 import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import org.make.front.Main.CssSettings._
 import org.make.front.components.Components._
-import org.make.front.components.authenticate.AuthenticateWithSocialNetworksContainer.AuthenticateWithSocialNetworksContainerProps
+import org.make.front.components.authenticate.AuthenticateWithSocialNetworks.AuthenticateWithSocialNetworksProps
 import org.make.front.components.authenticate.login.LoginWithEmailContainer.LoginWithEmailContainerProps
 import org.make.front.facades.I18n
 import org.make.front.facades.Unescape.unescape
@@ -13,55 +13,58 @@ import org.make.front.styles._
 import org.make.front.styles.base.TextStyles
 import org.make.front.styles.utils._
 
-object LoginWithEmailOrSocialNetworks {
+object LoginWithSocialNetworksOrEmail {
 
-  case class LoginWithEmailOrSocialNetworksProps(onSuccessfulLogin: () => Unit = () => {})
+  case class LoginWithSocialNetworksOrEmailProps(onSuccessfulLogin: () => Unit = () => {})
 
-  val reactClass: ReactClass = React.createClass[LoginWithEmailOrSocialNetworksProps, Unit](
+  val reactClass: ReactClass = React.createClass[LoginWithSocialNetworksOrEmailProps, Unit](
     displayName = "LoginWithEmailOrSocialNetworks",
     render = { self =>
       <.div()(
-        <.div(^.className := LoginWithEmailOrSocialNetworksStyles.introWrapper)(
+        <.div(^.className := LoginWithSocialNetworksOrEmailStyles.introWrapper)(
           <.p(^.className := TextStyles.smallTitle)(unescape(I18n.t("authenticate.login.with-social-networks-intro")))
         ),
         <.AuthenticateWithSocialNetworksComponent(
-          ^.wrapped := AuthenticateWithSocialNetworksContainerProps(
-            note = "",
-            onSuccessfulLogin = self.props.wrapped.onSuccessfulLogin
-          )
+          ^.wrapped := AuthenticateWithSocialNetworksProps(onSuccessfulLogin = self.props.wrapped.onSuccessfulLogin)
         )(),
-        <.div(^.className := LoginWithEmailOrSocialNetworksStyles.separatorWrapper)(
-          <.div(^.className := Seq(LoginWithEmailOrSocialNetworksStyles.separator))(
-            <.p(^.className := Seq(LoginWithEmailOrSocialNetworksStyles.separatorLabel, TextStyles.mediumText))(
-              I18n.t("authenticate.login.separator")
-            )
+        <.div(^.className := LoginWithSocialNetworksOrEmailStyles.separatorWrapper)(
+          <.p(^.className := Seq(LoginWithSocialNetworksOrEmailStyles.separator, TextStyles.smallText))(
+            I18n.t("authenticate.login.separator")
           )
         ),
-        <.div(^.className := LoginWithEmailOrSocialNetworksStyles.introWrapper)(
+        <.div(^.className := LoginWithSocialNetworksOrEmailStyles.introWrapper)(
           <.p(^.className := TextStyles.smallTitle)(unescape(I18n.t("authenticate.login.with-email-intro")))
         ),
         <.LoginWithEmailComponent(
           ^.wrapped := LoginWithEmailContainerProps(note = "", onSuccessfulLogin = self.props.wrapped.onSuccessfulLogin)
         )(),
-        <.style()(LoginWithEmailOrSocialNetworksStyles.render[String])
+        <.style()(LoginWithSocialNetworksOrEmailStyles.render[String])
       )
     }
   )
 }
 
-object LoginWithEmailOrSocialNetworksStyles extends StyleSheet.Inline {
+object LoginWithSocialNetworksOrEmailStyles extends StyleSheet.Inline {
 
   import dsl._
 
   val introWrapper: StyleA = style(marginBottom(ThemeStyles.SpacingValue.small.pxToEm()), textAlign.center)
 
-  val separatorWrapper: StyleA = style(textAlign.center, overflow.hidden)
+  val separatorWrapper: StyleA =
+    style(
+      margin(ThemeStyles.SpacingValue.small.pxToEm(), `0`),
+      ThemeStyles.MediaQueries.beyondSmall(margin(ThemeStyles.SpacingValue.medium.pxToEm(), `0`)),
+      overflow.hidden,
+      textAlign.center
+    )
 
   val separator: StyleA = style(
     position.relative,
     display.inlineBlock,
     padding(`0`, 20.pxToEm()),
-    margin(35.pxToEm(), `0`),
+    ThemeStyles.Font.playfairDisplayItalic,
+    fontStyle.italic,
+    color(ThemeStyles.TextColor.lighter),
     (&.before)(
       content := "''",
       position.absolute,
@@ -83,13 +86,4 @@ object LoginWithEmailOrSocialNetworksStyles extends StyleSheet.Inline {
       backgroundColor(ThemeStyles.BorderColor.veryLight)
     )
   )
-
-  val separatorLabel: StyleA =
-    style(
-      ThemeStyles.Font.playfairDisplayItalic,
-      fontStyle.italic,
-      color(ThemeStyles.TextColor.lighter),
-      lineHeight(20.pxToEm(15)),
-      ThemeStyles.MediaQueries.beyondSmall(lineHeight(20.pxToEm(18)))
-    )
 }

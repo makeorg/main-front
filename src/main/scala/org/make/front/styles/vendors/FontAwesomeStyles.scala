@@ -33,6 +33,7 @@ object FontAwesomeStyles extends StyleSheet.Inline {
   val child: StyleA = style(addClassName("fa fa-child"))
   val suitCase: StyleA = style(addClassName("fa fa-suitcase"))
   val facebook: StyleA = style(addClassName("fa fa-facebook"))
+  val facebookOfficial: StyleA = style(addClassName("fa fa-facebook-official"))
   val twitter: StyleA = style(addClassName("fa fa-twitter"))
   val googlePlus: StyleA = style(addClassName("fa fa-google-plus"))
   val warning: StyleA = style(addClassName("fa fa-exclamation-triangle"))

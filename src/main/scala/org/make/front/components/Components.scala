@@ -71,29 +71,38 @@ object Components {
     def ResetPasswordContainerComponent: ReactClassElementSpec =
       self(authenticate.resetPassword.ResetPasswordContainer.reactClass)
     def LoginOrRegisterComponent: ReactClassElementSpec = self(authenticate.LoginOrRegister.reactClass)
+    def AuthenticateWithFacebookContainerComponent: ReactClassElementSpec =
+      self(authenticate.AuthenticateWithFacebookContainer.reactClass)
+    def AuthenticateWithGoogleContainerComponent: ReactClassElementSpec =
+      self(authenticate.AuthenticateWithGoogleContainer.reactClass)
+
     def AuthenticateWithSocialNetworksComponent: ReactClassElementSpec =
-      self(authenticate.AuthenticateWithSocialNetworksContainer.reactClass)
+      self(authenticate.AuthenticateWithSocialNetworks.reactClass)
+
+    def RegisterWithSocialNetworksComponent: ReactClassElementSpec =
+      self(authenticate.register.RegisterWithSocialNetworks.reactClass)
 
     def RegisterWithSocialNetworksOrEmailComponent: ReactClassElementSpec =
       self(authenticate.register.RegisterWithSocialNetworksOrEmail.regular)
     def RegisterWithSocialNetworksOrEmailExpandedComponent: ReactClassElementSpec =
       self(authenticate.register.RegisterWithSocialNetworksOrEmail.expanded)
-    def RegisterWithEmailComponent: ReactClassElementSpec =
+    def RegisterWithEmailContainerComponent: ReactClassElementSpec =
       self(authenticate.register.RegisterContainer.registerWithEmailReactClass)
-    def RegisterWithEmailExpandedComponent: ReactClassElementSpec =
+    def RegisterWithEmailExpandedContainerComponent: ReactClassElementSpec =
       self(authenticate.register.RegisterContainer.registerWithEmailExpandedReactClass)
     def LoginWithEmailComponent: ReactClassElementSpec = self(authenticate.login.LoginWithEmailContainer.reactClass)
     def LoginWithEmailOrSocialNetworksComponent: ReactClassElementSpec =
-      self(authenticate.login.LoginWithEmailOrSocialNetworks.reactClass)
+      self(authenticate.login.LoginWithSocialNetworksOrEmail.reactClass)
     def NewPasswordInputComponent: ReactClassElementSpec = self(authenticate.NewPasswordInput.reactClass)
 
     /*********************/
     def SubmitProposalComponent: ReactClassElementSpec = self(submitProposal.SubmitProposal.reactClass)
     def ConfirmationOfProposalSubmissionComponent: ReactClassElementSpec =
       self(submitProposal.ConfirmationOfProposalSubmission.reactClass)
-    def SubmitProposalFormComponent: ReactClassElementSpec = self(submitProposal.SubmitProposalFormContainer.reactClass)
-    def SubmitProposalAndLoginComponent: ReactClassElementSpec =
-      self(submitProposal.SubmitProposalAndLoginContainer.reactClass)
+    def SubmitProposalFormContainerComponent: ReactClassElementSpec =
+      self(submitProposal.SubmitProposalFormContainer.reactClass)
+    def SubmitProposalAndAuthenticateContainerComponent: ReactClassElementSpec =
+      self(submitProposal.SubmitProposalAndAuthenticateContainer.reactClass)
 
     /*********************/
     def ProposalInfosComponent: ReactClassElementSpec = self(proposal.ProposalInfos.reactClass)
