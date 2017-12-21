@@ -162,6 +162,7 @@ object PoliticalActionsListStyles extends StyleSheet.Inline {
 
   val slideshowWrapper: StyleA =
     style(
+      marginTop(ThemeStyles.SpacingValue.smaller.pxToEm()),
       ThemeStyles.MediaQueries.beyondMedium(
         tableLayout.fixed,
         backgroundColor(ThemeStyles.BackgroundColor.white),
@@ -170,7 +171,11 @@ object PoliticalActionsListStyles extends StyleSheet.Inline {
     )
 
   val noPoliticalActionsWrapper: StyleA =
-    style(backgroundColor(ThemeStyles.BackgroundColor.white), boxShadow := "0 1px 1px 0 rgba(0,0,0,0.50)")
+    style(
+      marginTop(ThemeStyles.SpacingValue.smaller.pxToEm()),
+      backgroundColor(ThemeStyles.BackgroundColor.white),
+      boxShadow := "0 1px 1px 0 rgba(0,0,0,0.50)"
+    )
 
   val slideshowContentWrapper: StyleA =
     style(ThemeStyles.MediaQueries.beyondMedium(width(100.%%)))

@@ -156,14 +156,7 @@ object VFFIntroStyles extends StyleSheet.Inline {
     style(width(50.%%), paddingTop(2.pxToEm()))
 
   val separatorLine: StyleA =
-    style(
-      height(1.px),
-      width(100.%%),
-      margin(`0`),
-      border.none,
-      backgroundColor(ThemeStyles.BorderColor.white),
-      opacity(0.2)
-    )
+    style(height(1.px), width(100.%%), backgroundColor(ThemeStyles.BorderColor.white), opacity(0.2))
 
   val separatorLineToTheLeft: StyleA = style(
     maxWidth(290.pxToEm()),

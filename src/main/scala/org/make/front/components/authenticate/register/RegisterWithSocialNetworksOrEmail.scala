@@ -5,8 +5,9 @@ import io.github.shogowada.scalajs.reactjs.VirtualDOM._
 import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import org.make.front.Main.CssSettings._
 import org.make.front.components.Components._
-import org.make.front.components.authenticate.AuthenticateWithSocialNetworksContainer.AuthenticateWithSocialNetworksContainerProps
+import org.make.front.components.authenticate.AuthenticateWithSocialNetworks.AuthenticateWithSocialNetworksProps
 import org.make.front.components.authenticate.register.RegisterContainer.RegisterUserProps
+import org.make.front.components.authenticate.register.RegisterWithSocialNetworks.RegisterWithSocialNetworksProps
 import org.make.front.facades.I18n
 import org.make.front.facades.Unescape.unescape
 import org.make.front.models.OperationId
@@ -23,26 +24,18 @@ object RegisterWithSocialNetworksOrEmail {
     displayName = "RegisterWithSocialNetworksOrEmail",
     render = { self =>
       <.div()(
-        <.div(^.className := RegisterWithSocialNetworksOrEmailStyles.introWrapper)(
-          <.p(^.className := TextStyles.smallTitle)(
-            unescape(I18n.t("authenticate.register.with-social-networks-intro"))
-          )
-        ),
-        <.AuthenticateWithSocialNetworksComponent(
-          ^.wrapped := AuthenticateWithSocialNetworksContainerProps(
-            note = unescape(I18n.t("authenticate.register.caution")),
-            onSuccessfulLogin = self.props.wrapped.onSuccessfulLogin
-          )
+        <.RegisterWithSocialNetworksComponent(
+          ^.wrapped := RegisterWithSocialNetworksProps(onSuccessfulLogin = self.props.wrapped.onSuccessfulLogin)
         )(),
         <.div(^.className := RegisterWithSocialNetworksOrEmailStyles.separatorWrapper)(
-          <.p(^.className := Seq(RegisterWithSocialNetworksOrEmailStyles.separator, TextStyles.mediumText))(
+          <.p(^.className := Seq(RegisterWithSocialNetworksOrEmailStyles.separator, TextStyles.smallText))(
             I18n.t("authenticate.register.separator")
           )
         ),
         <.div(^.className := RegisterWithSocialNetworksOrEmailStyles.introWrapper)(
           <.p(^.className := TextStyles.smallTitle)(unescape(I18n.t("authenticate.register.with-email-intro")))
         ),
-        <.RegisterWithEmailComponent(
+        <.RegisterWithEmailContainerComponent(
           ^.wrapped := RegisterUserProps(
             note = I18n.t("authenticate.register.terms"),
             onSuccessfulRegistration = self.props.wrapped.onSuccessfulLogin,
@@ -57,10 +50,10 @@ object RegisterWithSocialNetworksOrEmail {
   val expanded: ReactClass = React.createClass[RegisterWithSocialNetworksOrEmailProps, Unit](render = { self =>
     <.div()(
       <.div(^.className := RegisterWithSocialNetworksOrEmailStyles.introWrapper)(
-        <.p(^.className := TextStyles.smallTitle)(unescape(I18n.t("authenticate.register.with-social-networks-intro")))
+        <.p(^.className := TextStyles.smallTitle)(unescape(I18n.t("authenticate.register.with-social-networks.intro")))
       ),
       <.AuthenticateWithSocialNetworksComponent(
-        ^.wrapped := AuthenticateWithSocialNetworksContainerProps(
+        ^.wrapped := AuthenticateWithSocialNetworksProps(
           note = unescape(I18n.t("authenticate.register.caution")),
           onSuccessfulLogin = self.props.wrapped.onSuccessfulLogin
         )
@@ -73,7 +66,7 @@ object RegisterWithSocialNetworksOrEmail {
       <.div(^.className := RegisterWithSocialNetworksOrEmailStyles.introWrapper)(
         <.p(^.className := TextStyles.smallTitle)(unescape(I18n.t("authenticate.register.with-email-intro")))
       ),
-      <.RegisterWithEmailExpandedComponent(
+      <.RegisterWithEmailExpandedContainerComponent(
         ^.wrapped := RegisterUserProps(
           note = I18n.t("authenticate.register.terms"),
           onSuccessfulRegistration = self.props.wrapped.onSuccessfulLogin,
@@ -91,13 +84,18 @@ object RegisterWithSocialNetworksOrEmailStyles extends StyleSheet.Inline {
 
   val introWrapper: StyleA = style(marginBottom(ThemeStyles.SpacingValue.small.pxToEm()), textAlign.center)
 
-  val separatorWrapper: StyleA = style(textAlign.center, overflow.hidden)
+  val separatorWrapper: StyleA =
+    style(
+      margin(ThemeStyles.SpacingValue.small.pxToEm(), `0`),
+      ThemeStyles.MediaQueries.beyondSmall(margin(ThemeStyles.SpacingValue.medium.pxToEm(), `0`)),
+      overflow.hidden,
+      textAlign.center
+    )
 
   val separator: StyleA = style(
     position.relative,
     display.inlineBlock,
     padding(`0`, 20.pxToEm()),
-    margin(ThemeStyles.SpacingValue.medium.pxToEm(), `0`),
     ThemeStyles.Font.playfairDisplayItalic,
     fontStyle.italic,
     color(ThemeStyles.TextColor.lighter),

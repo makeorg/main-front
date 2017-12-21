@@ -5,14 +5,14 @@ import io.github.shogowada.scalajs.reactjs.VirtualDOM.{<, _}
 import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import org.make.front.Main.CssSettings._
 import org.make.front.components.Components._
-import org.make.front.components.authenticate.AuthenticateWithSocialNetworksContainer.AuthenticateWithSocialNetworksContainerProps
+import org.make.front.components.authenticate.AuthenticateWithFacebookContainer.AuthenticateWithFacebookContainerProps
 import org.make.front.components.authenticate.LoginOrRegister.LoginOrRegisterProps
 import org.make.front.components.modals.Modal.ModalProps
-import org.make.front.facades.{FacebookPixel, I18n}
 import org.make.front.facades.Unescape.unescape
+import org.make.front.facades.{FacebookPixel, I18n}
 import org.make.front.models.{Operation => OperationModel}
 import org.make.front.styles.ThemeStyles
-import org.make.front.styles.base.{ColRulesStyles, LayoutRulesStyles, TextStyles}
+import org.make.front.styles.base.{LayoutRulesStyles, TextStyles}
 import org.make.front.styles.ui.CTAStyles
 import org.make.front.styles.utils._
 import org.make.front.styles.vendors.FontAwesomeStyles
@@ -60,23 +60,24 @@ object PromptingToConnect {
               <.div(^.className := PromptingToConnectStyles.introWrapper)(
                 <.p(^.className := TextStyles.smallTitle)(unescape(I18n.t("sequence.prompting-to-connect.intro")))
               ),
-              <.AuthenticateWithSocialNetworksComponent(
-                ^.wrapped := AuthenticateWithSocialNetworksContainerProps(
-                  note = unescape(I18n.t("sequence.prompting-to-connect.caution")),
-                  onSuccessfulLogin = () => {
-                    self.props.wrapped.authenticateHandler()
-                  }
-                )
-              )(),
-              <.div(^.className := PromptingToConnectStyles.separatorWrapper)(
-                <.p(^.className := Seq(PromptingToConnectStyles.separator, TextStyles.mediumText))(
-                  I18n.t("sequence.prompting-to-connect.separator")
+              <.ul()(
+                <.li(^.className := PromptingToConnectStyles.facebookConnectButtonWrapper)(
+                  <.AuthenticateWithFacebookContainerComponent(
+                    ^.wrapped := AuthenticateWithFacebookContainerProps(onSuccessfulLogin = () => {
+                      self.props.wrapped.authenticateHandler()
+                    })
+                  )()
+                ),
+                <.li(^.className := PromptingToConnectStyles.mailConnectButtonWrapper)(
+                  <.button(
+                    ^.className := Seq(PromptingToConnectStyles.cta, CTAStyles.basic, CTAStyles.basicOnButton),
+                    ^.onClick := openRegisterAuthenticateModal
+                  )(
+                    <.i(^.className := Seq(FontAwesomeStyles.envelopeTransparent))(),
+                    unescape("&nbsp;" + I18n.t("sequence.prompting-to-connect.authenticate-with-email-cta"))
+                  )
                 )
               ),
-              <.button(
-                ^.className := Seq(PromptingToConnectStyles.cta, CTAStyles.basic, CTAStyles.basicOnButton),
-                ^.onClick := openRegisterAuthenticateModal
-              )(unescape(I18n.t("sequence.prompting-to-connect.authenticate-with-email-cta"))),
               <.div(^.className := PromptingToConnectStyles.loginScreenAccessWrapper)(
                 <.p(^.className := Seq(PromptingToConnectStyles.loginScreenAccess, TextStyles.smallText))(
                   unescape(I18n.t("sequence.prompting-to-connect.login-screen-access.intro") + " "),
@@ -102,6 +103,7 @@ object PromptingToConnect {
                   )
                 )()
               ),
+              <.hr(^.className := PromptingToConnectStyles.separator)(),
               <.button(
                 ^.className := Seq(
                   PromptingToConnectStyles.cta,
@@ -134,50 +136,46 @@ object PromptingToConnectStyles extends StyleSheet.Inline {
   val introWrapper: StyleA =
     style(marginBottom(ThemeStyles.SpacingValue.small.pxToEm()))
 
-  val separatorWrapper: StyleA = style(textAlign.center, overflow.hidden)
-
-  val separator: StyleA = style(
-    position.relative,
-    display.inlineBlock,
-    padding(`0`, 20.pxToEm()),
-    margin(ThemeStyles.SpacingValue.small.pxToEm(), `0`),
-    ThemeStyles.Font.playfairDisplayItalic,
-    fontStyle.italic,
-    lineHeight(1),
-    color(ThemeStyles.TextColor.lighter),
-    (&.before)(
-      content := "''",
-      position.absolute,
-      top(50.%%),
-      left(100.%%),
-      marginTop(-0.5.px),
-      height(1.px),
-      width(999999.pxToEm()),
-      backgroundColor(ThemeStyles.BorderColor.veryLight)
-    ),
-    (&.after)(
-      content := "''",
-      position.absolute,
-      top(50.%%),
-      right(100.%%),
-      marginTop(-0.5.px),
-      height(1.px),
-      width(999999.pxToEm()),
-      backgroundColor(ThemeStyles.BorderColor.veryLight)
-    )
-  )
-
-  val loginScreenAccessWrapper: StyleA =
-    style(
-      paddingBottom(ThemeStyles.SpacingValue.small.pxToEm()),
-      borderBottom(1.px, solid, ThemeStyles.BorderColor.veryLight),
-      margin(ThemeStyles.SpacingValue.small.pxToEm(), `0`)
-    )
-
-  val loginScreenAccess: StyleA =
-    style(color(ThemeStyles.TextColor.lighter), unsafeChild("button")(color(ThemeStyles.ThemeColor.primary)))
-
   val cta: StyleA =
     style(width(100.%%))
+
+  val facebookConnectButtonWrapper: StyleA =
+    style(
+      ThemeStyles.MediaQueries
+        .beyondVerySmall(
+          display.inlineBlock,
+          verticalAlign.middle,
+          width(50.%%),
+          paddingRight(ThemeStyles.SpacingValue.smaller.pxToEm())
+        )
+    )
+
+  val mailConnectButtonWrapper: StyleA =
+    style(
+      marginTop(ThemeStyles.SpacingValue.smaller.pxToEm()),
+      ThemeStyles.MediaQueries
+        .beyondVerySmall(
+          display.inlineBlock,
+          verticalAlign.middle,
+          width(50.%%),
+          marginTop.`0`,
+          paddingLeft(ThemeStyles.SpacingValue.smaller.pxToEm())
+        )
+    )
+
+  val loginScreenAccessWrapper: StyleA =
+    style(marginTop(ThemeStyles.SpacingValue.small.pxToEm()))
+
+  val loginScreenAccess: StyleA =
+    style(unsafeChild("button")(color(ThemeStyles.ThemeColor.primary)))
+
+  val separator: StyleA =
+    style(
+      height(1.px),
+      width(100.%%),
+      backgroundColor(ThemeStyles.BorderColor.veryLight),
+      margin(ThemeStyles.SpacingValue.small.pxToEm(), `0`),
+      ThemeStyles.MediaQueries.beyondSmall(margin(ThemeStyles.SpacingValue.medium.pxToEm(), `0`))
+    )
 
 }

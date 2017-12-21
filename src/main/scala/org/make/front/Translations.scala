@@ -200,10 +200,14 @@ object Translations {
       |          "not-enough-chars": "Votre proposition doit contenir au moins %{min} caractères."
       |        }
       |      },
+      |      "authenticate": {
+      |        "intro": "Nous avons besoin de quelques informations",
+      |        "title": "Pour valider votre&nbsp;proposition"
+      |      },
       |      "confirmation": {
       |         "title": "Merci&nbsp;!",
       |         "info": "Votre proposition a bien été prise en compte, elle va maintenant être relue par notre service modération.<br>Vous recevrez un email lorsqu'elle aura été&nbsp;validée.",
-      |         "back-to-theme-cta": "Retour au thème&nbsp;%{theme}",
+      |         "back-to-theme-cta": "Retourner sur le thème&nbsp;%{theme}",
       |         "back-cta": "Retour",
       |         "new-proposal-cta": "Faire une nouvelle&nbsp;proposition"
       |      }
@@ -265,11 +269,9 @@ object Translations {
       |      "prompting-to-connect": {
       |         "title": "Soyez informé(e) des actions mises en&nbsp;oeuvre.",
       |         "intro": "Je m'identifie avec",
-      |         "caution": "Rassurez-vous, nous ne publierons jamais rien sans votre&nbsp;accord.",
-      |         "separator": "ou",
-      |         "authenticate-with-email-cta": "Je m'identifie avec mon adresse email",
+      |         "authenticate-with-email-cta": "Mon adresse email",
       |         "login-screen-access": {
-      |           "intro": "J’ai déjà un compte",
+      |           "intro": "J’ai déjà un compte&nbsp;!",
       |           "link-support": "Connexion"
       |         },
       |         "next-cta": "Non merci, je ne souhaite pas être informé(e) des résultats"
@@ -348,19 +350,19 @@ object Translations {
       |    },
       |    "authenticate": {
       |      "forgot-password": {
-      |        "intro": "J'ai ",
+      |        "intro": "Oups, j'ai",
       |        "link-support": "oublié mon mot de&nbsp;passe&nbsp;?"
       |      },
       |      "switch-to-register-screen": {
-      |        "intro": "Je n'ai pas de compte ",
-      |        "link-support": "Inscription"
+      |        "intro": "Je n'ai pas de compte,",
+      |        "link-support": "je m'en crée&nbsp;un."
       |      },
       |      "switch-to-login-screen": {
-      |        "intro": "J’ai déjà un compte",
+      |        "intro": "J’ai déjà un compte&nbsp;!",
       |        "link-support": "Connexion"
       |      },
       |      "back-to-login-screen": {
-      |        "intro": "Revenir à ",
+      |        "intro": "Revenir à",
       |        "link-support": "l'écran de connexion"
       |      },
       |      "no-account-found": "Nous ne trouvons pas de compte associé à cet email.",
@@ -399,7 +401,7 @@ object Translations {
       |      "recover-password": {
       |         "title": "Je réinitialise mon mot de&nbsp;passe",
       |         "info": "Merci de renseigner l'adresse email liée à votre compte pour recevoir le lien de&nbsp;réinitialisation.",
-      |         "send-cta": "Envoyer",
+      |         "send-cta": "Recevoir l'e-mail",
       |         "errors": {
       |           "mail-not-found": "Nous ne trouvons pas de compte associé à cet&nbsp;email."
       |         },
@@ -423,12 +425,15 @@ object Translations {
       |        }
       |      },
       |      "register": {
-      |        "caution": "Rassurez-vous, nous ne publierons jamais rien sans votre&nbsp;accord.",
-      |        "with-social-networks-intro": "Je m'inscris avec",
+      |        "with-social-networks": {
+      |          "intro": "Je m'inscris avec",
+      |          "separator": "ou"
+      |        },
+      |        "caution": "(Nous n’y posterons jamais en votre&nbsp;nom)",
       |        "separator": "ou",
-      |        "with-email-intro": "Je m'inscris avec mon adresse&nbsp;email",
+      |        "with-email-intro": "Je m'inscris avec ce&nbsp;formulaire",
       |        "terms": "En vous inscrivant, vous acceptez nos <a href=\"https://about.make.org/conditions-dutilisation\" target=\"_blank\">conditions générales d'utilisation</a> ainsi que de recevoir ponctuellement des emails de&nbsp;Make.org.",
-      |        "send-cta": "Je m'inscris",
+      |        "send-cta": "s'inscrire",
       |        "errors": {
       |          "already-exists": "Ce compte existe déjà, merci de vous&nbsp;connecter."
       |        },
@@ -440,7 +445,7 @@ object Translations {
       |        "with-social-networks-intro": "Je me connecte&nbsp;avec",
       |        "separator": "ou",
       |        "with-email-intro": "Je me connecte avec mon adresse&nbsp;e-mail",
-      |        "send-cta": "Je me connecte"
+      |        "send-cta": "Se connecter"
       |      }
       |    },
       |    "main-footer": {

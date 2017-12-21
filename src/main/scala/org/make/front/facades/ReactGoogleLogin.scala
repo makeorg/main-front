@@ -45,6 +45,10 @@ object ReactGoogleLogin {
     lazy val onFailure: NativeFunction1Attribute[Response, Unit] = NativeFunction1Attribute("onFailure")
     lazy val isSignIn: TrueOrFalseAttributeSpec = TrueOrFalseAttributeSpec("isSignIn")
     lazy val buttonText: StringAttributeSpec = StringAttributeSpec("buttonText")
+    lazy val buttonStyle: NativeJsObjectAttributeSpec[js.Dictionary[Any]] = NativeJsObjectAttributeSpec("style")
+    lazy val buttonDisabledStyle: NativeJsObjectAttributeSpec[js.Dictionary[Any]] = NativeJsObjectAttributeSpec(
+      "disabledStyle"
+    )
     lazy val className: SpaceSeparatedStringAttributeSpec = SpaceSeparatedStringAttributeSpec("className")
   }
 
