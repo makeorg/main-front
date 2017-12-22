@@ -225,7 +225,7 @@ object SequenceOfTheOperation {
                         )
                     }, position = { slides =>
                       slides.size
-                    }, displayed = !self.props.wrapped.isConnected), ExtraSlide(maybeTracker = Some("display-propose-card"), reactClass = PromptingToProposeInRelationToOperation.reactClass, props = {
+                    }, displayed = !self.props.wrapped.isConnected), ExtraSlide(maybeTracker = Some("display-proposal-push-card"), reactClass = PromptingToProposeInRelationToOperation.reactClass, props = {
                       handler =>
                         PromptingToProposeInRelationToOperationProps(
                           operation = self.props.wrapped.operation,
