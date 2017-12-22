@@ -20,7 +20,7 @@ object ErrorContainer {
           dispatch(LoadConfiguration)
         }
 
-        val randomThemeSlug = Random.shuffle(state.themes.toList).head.slug
+        val randomThemeSlug = Random.shuffle(state.themes).head.slug
         props.history.push(s"/theme/$randomThemeSlug")
       }
 
