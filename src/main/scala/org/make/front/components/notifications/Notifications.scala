@@ -35,7 +35,7 @@ object Notifications {
             if (Option(notification.message).exists(!_.isEmpty)) {
               notification
             } else {
-              notification.copy(message = unescape(I18n.t("errors.unexpectedBehaviour")))
+              notification.copy(message = unescape(I18n.t("error-message.unexpected-behaviour")))
             }
           }
           if (self.state.notifications.forall(_.message != updatedNotification.message)) {

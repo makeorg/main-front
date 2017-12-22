@@ -149,7 +149,7 @@ object PasswordReset {
     e.preventDefault()
 
     val errors: Seq[String] = PasswordConstraint
-      .validate(Some(self.state.password), Map("minMessage" -> "authenticate.inputs.password.format-error"))
+      .validate(Some(self.state.password), Map("minMessage" -> "authenticate.inputs.password.format-error-message"))
       .map(_.message)
 
     if (errors.isEmpty) {

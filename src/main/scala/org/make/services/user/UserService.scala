@@ -131,7 +131,8 @@ object UserService extends ApiService {
   def logout(): Future[Unit] =
     MakeApiClient.logout()
 
-  final case class NoTokenException(message: String = I18n.t("errors.noToken")) extends Exception(message)
-  final case class UserNotfoundException(message: String = I18n.t("errors.userNotFound")) extends Exception(message)
+  final case class NoTokenException(message: String = I18n.t("error-message.no-token")) extends Exception(message)
+  final case class UserNotfoundException(message: String = I18n.t("error-message.user-not-found"))
+      extends Exception(message)
 
 }

@@ -82,7 +82,7 @@ object VoteContainer {
 
         future.onComplete {
           case Success(response) => props.wrapped.onSuccessfulVote(response) // let child handle new results
-          case Failure(_)        => dispatch(NotifyError(I18n.t("errors.main")))
+          case Failure(_)        => dispatch(NotifyError(I18n.t("error-message.main")))
         }
         future
       }
@@ -103,7 +103,7 @@ object VoteContainer {
         )
         future.onComplete {
           case Success(response) => props.wrapped.onSuccessfulVote(response) // let child handle new results
-          case Failure(_)        => dispatch(NotifyError(I18n.t("errors.main")))
+          case Failure(_)        => dispatch(NotifyError(I18n.t("error-message.main")))
         }
         future
       }
@@ -126,7 +126,7 @@ object VoteContainer {
         )
         future.onComplete {
           case Success(response) => props.wrapped.onSuccessfulQualification(vote, response)
-          case Failure(_)        => dispatch(NotifyError(I18n.t("errors.main")))
+          case Failure(_)        => dispatch(NotifyError(I18n.t("error-message.main")))
         }
         future
       }
@@ -149,7 +149,7 @@ object VoteContainer {
         )
         future.onComplete {
           case Success(response) => props.wrapped.onSuccessfulQualification(vote, response)
-          case Failure(_)        => dispatch(NotifyError(I18n.t("errors.main")))
+          case Failure(_)        => dispatch(NotifyError(I18n.t("error-message.main")))
         }
         future
       }

@@ -59,7 +59,7 @@ object ResultsInThemeContainer {
 
         result.onComplete {
           case Success(_) => // Let child handle results
-          case Failure(_) => dispatch(NotifyError(I18n.t("errors.main")))
+          case Failure(_) => dispatch(NotifyError(I18n.t("error-message.main")))
         }
 
         result
@@ -70,7 +70,7 @@ object ResultsInThemeContainer {
 
         result.onComplete {
           case Success(_) => // Let child handle results
-          case Failure(_) => dispatch(NotifyError(I18n.t("errors.main")))
+          case Failure(_) => dispatch(NotifyError(I18n.t("error-message.main")))
         }
 
         result

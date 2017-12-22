@@ -28,28 +28,28 @@ package object register {
   def getErrorsMessagesFromApiErrors(errors: Seq[ValidationError]): Seq[(String, String)] = {
     errors.map {
       case ValidationError("email", Some(message)) if message.contains("already exist") =>
-        "email" -> I18n.t("authenticate.register.errors.already-exists")
+        "email" -> I18n.t("authenticate.register.error-message.already-exists")
       case ValidationError("email", Some(message)) if message.contains("required") =>
-        "email" -> I18n.t("authenticate.inputs.email.empty-field-error")
+        "email" -> I18n.t("authenticate.inputs.email.empty-field-error-message")
       case ValidationError("email", _) =>
-        "email" -> I18n.t("authenticate.inputs.email.format-error")
+        "email" -> I18n.t("authenticate.inputs.email.format-error-message")
       case ValidationError("password", Some(message)) if message.contains("required") =>
-        "password" -> I18n.t("authenticate.inputs.password.empty-field-error")
+        "password" -> I18n.t("authenticate.inputs.password.empty-field-error-message")
       case ValidationError("password", _) =>
         "password" -> I18n.t(
-          "authenticate.inputs.password.format-error",
+          "authenticate.inputs.password.format-error-message",
           Replacements("min" -> PasswordConstraint.min.toString)
         )
       case ValidationError("firstName", Some(message)) if message.contains("required") =>
-        "firstName" -> I18n.t("authenticate.inputs.first-name.empty-field-error")
+        "firstName" -> I18n.t("authenticate.inputs.first-name.empty-field-error-message")
       case ValidationError("age", _) =>
-        "age" -> I18n.t("authenticate.inputs.age.format-error")
+        "age" -> I18n.t("authenticate.inputs.age.format-error-message")
       case ValidationError("postalCode", _) =>
-        "postalCode" -> I18n.t("authenticate.inputs.postal-code.format-error")
+        "postalCode" -> I18n.t("authenticate.inputs.postal-code.format-error-message")
       case ValidationError("profession", _) =>
-        "profession" -> I18n.t("authenticate.inputs.job.format-error")
+        "profession" -> I18n.t("authenticate.inputs.job.format-error-message")
       case ValidationError(_, _) =>
-        "global" -> I18n.t("authenticate.failure")
+        "global" -> I18n.t("authenticate.error-message")
     }
   }
 }

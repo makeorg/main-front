@@ -64,7 +64,7 @@ object LoginWithEmail {
             val errorEmailMessages: Option[String] = NotBlankConstraint
               .validate(
                 Some(self.state.email),
-                Map("notBlank" -> unescape(I18n.t("authenticate.inputs.email.format-error")))
+                Map("notBlank" -> unescape(I18n.t("authenticate.inputs.email.format-error-message")))
               )
               .map(_.message)
               .toList match {
@@ -74,7 +74,7 @@ object LoginWithEmail {
             val errorPasswordMessages: Option[String] = NotBlankConstraint
               .validate(
                 Some(self.state.password),
-                Map("notBlank" -> unescape(I18n.t("authenticate.inputs.password.empty-field-error")))
+                Map("notBlank" -> unescape(I18n.t("authenticate.inputs.password.empty-field-error-message")))
               )
               .map(_.message)
               .toList match {
@@ -102,7 +102,7 @@ object LoginWithEmail {
                           .setState(_.copy(emailErrorMessage = Some(unescape(I18n.t("authenticate.no-account-found")))))
                       case _ =>
                         self
-                          .setState(_.copy(emailErrorMessage = Some(unescape(I18n.t("authenticate.failure")))))
+                          .setState(_.copy(emailErrorMessage = Some(unescape(I18n.t("authenticate.error-message")))))
                     }
 
                 }

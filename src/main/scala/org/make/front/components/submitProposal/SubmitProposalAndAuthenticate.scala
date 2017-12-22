@@ -61,7 +61,7 @@ object SubmitProposalAndAuthenticate {
               self.setState(
                 _.copy(
                   displayedComponent = "submit-proposal",
-                  errorMessage = Some(unescape(I18n.t("submit-proposal.error")))
+                  errorMessage = Some(unescape(I18n.t("submit-proposal.error-message")))
                 )
               )
           }

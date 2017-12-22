@@ -52,7 +52,7 @@ object SubscribeToNewsletterForm {
               case Failure(_) =>
                 self
                   .setState(
-                    self.state.copy(errorMessage = unescape(I18n.t("subscribe-to-newsletter.error")))
+                    self.state.copy(errorMessage = unescape(I18n.t("subscribe-to-newsletter.error-message")))
                     /*TODO : specify error message from API*/
                   )
             }

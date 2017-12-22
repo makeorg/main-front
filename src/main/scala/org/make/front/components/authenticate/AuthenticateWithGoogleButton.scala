@@ -70,7 +70,7 @@ object AuthenticateWithGoogleButton {
               self.setState(state => state.copy(errorMessages = Seq("authenticate.no-email-found")))
             case Failure(_) =>
               trackFailure(provider)
-              self.setState(state => state.copy(errorMessages = Seq("authenticate.failure")))
+              self.setState(state => state.copy(errorMessages = Seq("authenticate.error-message")))
           }
         }
 

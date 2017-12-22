@@ -25,7 +25,7 @@ object ConfigurationMiddleware {
           lastCall = Some(new js.Date())
           ConfigurationService.fetchConfiguration().onComplete {
             case Success(configuration) => dispatch(SetConfiguration(configuration))
-            case Failure(e)             => dispatch(NotifyError(I18n.t("errors.main"), None))
+            case Failure(e)             => dispatch(NotifyError(I18n.t("error-message.main"), None))
           }
         }
       case action => dispatch(action)

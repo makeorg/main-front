@@ -34,7 +34,9 @@ object ResetPasswordContainer {
           case Success(_) =>
             self.setState(self.state.copy(success = true))
           case Failure(e) =>
-            self.setState(self.state.copy(errorMessage = I18n.t("authenticate.reset-password.notifications.failure")))
+            self.setState(
+              self.state.copy(errorMessage = I18n.t("authenticate.reset-password.notifications.error-message"))
+            )
         }
       }
 
