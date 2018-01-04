@@ -1,9 +1,9 @@
 package org.make.front.models
 
-import io.github.shogowada.scalajs.reactjs.redux.Store
 import org.make.front.components.AppState
 import org.make.front.facades.{VFFDarkerLogo, VFFLogo}
 import org.make.front.models.{Sequence => SequenceModel}
+
 import scala.scalajs.js
 
 final case class Operation(operationId: OperationId,
@@ -33,9 +33,10 @@ object OperationId {
 // @todo: use a sealaed trait and case object like Source and Location
 object Operation {
   val vff: String = "vff"
+  val climatparis: String = "climatparis"
 
-  def getOperationById(id: String, store: Store[AppState]): Option[Operation] = {
-    store.getState.operations.find(operation => operation.operationId.value == id)
+  def getOperationById(id: String, state: AppState): Option[Operation] = {
+    state.operations.find(operation => operation.operationId.value == id)
   }
 
   val empty = Operation(OperationId("fake"), "", "", "", "", "", 0, 0, "", None)

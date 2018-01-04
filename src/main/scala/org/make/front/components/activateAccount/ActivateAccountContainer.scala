@@ -20,7 +20,7 @@ object ActivateAccountContainer {
   lazy val reactClass: ReactClass = ReactRedux.connectAdvanced(selectorFactory)(ActivateAccount.reactClass)
 
   def selectorFactory: (Dispatch) => (AppState, Props[Unit]) => ActivateAccountProps =
-    (dispatch: Dispatch) => { (_: AppState, props: Props[Unit]) =>
+    (dispatch: Dispatch) => { (state: AppState, props: Props[Unit]) =>
       val userId = props.`match`.params("userId")
       val verificationToken = props.`match`.params("verificationToken")
       val operationId: Option[OperationId] = {
@@ -44,26 +44,27 @@ object ActivateAccountContainer {
       def handleValidateAccount(child: Self[ActivateAccountProps, Unit]): Unit = {
         UserService.validateAccount(userId, verificationToken, operationId).onComplete {
           case Success(_) => {
-
-            if (operationId.isDefined && operationId.get.value == Operation.vff) {
-              child.props.history.push("/consultation/vff")
-            } else {
-              child.props.history.push("/")
-            }
-
+            redirectAfterValidation(operationId, child)
             dispatch(NotifySuccess(message = I18n.t("activate-account.notifications.success")))
           }
           case Failure(e) => {
-            if (operationId.isDefined && operationId.get.value == Operation.vff) {
-              child.props.history.push("/consultation/vff")
-            } else {
-              child.props.history.push("/")
-            }
+            redirectAfterValidation(operationId, child)
             dispatch(NotifyError(message = I18n.t("activate-account.notifications.failure")))
-
           }
         }
       }
+
+      def redirectAfterValidation(maybeOperationId: Option[OperationId], child: Self[ActivateAccountProps, Unit]) = {
+        val operationSlug: Option[String] = maybeOperationId.flatMap { operationId =>
+          Operation.getOperationById(operationId.value, state).map(_.slug)
+        }
+
+        operationSlug match {
+          case Some(slug) => child.props.history.push(s"/consultation/$slug")
+          case _          => child.props.history.push("/")
+        }
+      }
+
       ActivateAccount.ActivateAccountProps(handleValidateAccount)
     }
 }
