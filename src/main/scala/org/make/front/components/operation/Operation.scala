@@ -10,14 +10,13 @@ import org.make.front.components.operation.ResultsInOperationContainer.ResultsIn
 import org.make.front.components.operation.OperationIntro.OperationIntroProps
 import org.make.front.facades.FacebookPixel
 import org.make.front.models.{
-  Location        => LocationModel,
-  TranslatedTheme => TranslatedThemeModel,
-  Sequence        => SequenceModel
+  Location          => LocationModel,
+  TranslatedTheme   => TranslatedThemeModel,
+  OperationExpanded => OperationModel,
+  Sequence          => SequenceModel
 }
 import org.make.front.styles.ThemeStyles
-
 import scala.scalajs.js
-import org.make.front.models.{OperationExpanded => OperationModel}
 
 object Operation {
 
