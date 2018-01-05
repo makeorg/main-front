@@ -10,9 +10,9 @@ import org.make.front.components.AppState
 import org.make.front.facades.I18n
 
 import org.make.front.models.{
-  Proposal        => ProposalModel,
-  TranslatedTheme => TranslatedThemeModel,
-  Operation       => OperationModel
+  Proposal          => ProposalModel,
+  TranslatedTheme   => TranslatedThemeModel,
+  OperationExpanded => OperationModel
 }
 import org.make.services.proposal.ProposalService
 

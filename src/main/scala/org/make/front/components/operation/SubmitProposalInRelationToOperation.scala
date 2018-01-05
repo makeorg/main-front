@@ -12,9 +12,9 @@ import org.make.front.facades.Unescape.unescape
 import org.make.front.facades.I18n
 import org.make.front.models.{
   Location,
-  GradientColor => GradientColorModel,
-  Operation     => OperationModel,
-  Sequence      => SequenceModel
+  GradientColor     => GradientColorModel,
+  OperationExpanded => OperationModel,
+  Sequence          => SequenceModel
 }
 import org.make.front.styles._
 import org.make.front.styles.base.TextStyles

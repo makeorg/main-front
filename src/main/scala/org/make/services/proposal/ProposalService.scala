@@ -24,7 +24,7 @@ object ProposalService extends ApiService {
                      location: Location,
                      themeId: Option[String] = None,
                      source: String = Source.Core.name,
-                     operation: Option[Operation] = None,
+                     operation: Option[OperationExpanded] = None,
                      question: Option[String] = None): Future[RegisterProposal] = {
     var headers =
       Map[String, String](MakeApiClient.sourceHeader -> source, MakeApiClient.locationHeader -> location.name)
@@ -82,7 +82,7 @@ object ProposalService extends ApiService {
            voteValue: String,
            location: Location,
            source: String = Source.Core.name,
-           operation: Option[Operation] = None,
+           operation: Option[OperationExpanded] = None,
            question: Option[String] = None): Future[Vote] = {
     var headers =
       Map[String, String](MakeApiClient.sourceHeader -> source, MakeApiClient.locationHeader -> location.name)
@@ -102,7 +102,7 @@ object ProposalService extends ApiService {
              oldVoteValue: String,
              location: Location,
              source: String = Source.Core.name,
-             operation: Option[Operation] = None,
+             operation: Option[OperationExpanded] = None,
              question: Option[String] = None): Future[Vote] = {
     var headers =
       Map[String, String](MakeApiClient.sourceHeader -> source, MakeApiClient.locationHeader -> location.name)
@@ -123,7 +123,7 @@ object ProposalService extends ApiService {
                   qualification: String,
                   location: Location,
                   source: String = Source.Core.name,
-                  operation: Option[Operation] = None,
+                  operation: Option[OperationExpanded] = None,
                   question: Option[String] = None): Future[Qualification] = {
     var headers =
       Map[String, String](MakeApiClient.sourceHeader -> source, MakeApiClient.locationHeader -> location.name)
@@ -145,7 +145,7 @@ object ProposalService extends ApiService {
                               qualification: String,
                               location: Location,
                               source: String = Source.Core.name,
-                              operation: Option[Operation] = None,
+                              operation: Option[OperationExpanded] = None,
                               question: Option[String] = None): Future[Qualification] = {
     var headers =
       Map[String, String](MakeApiClient.sourceHeader -> source, MakeApiClient.locationHeader -> location.name)

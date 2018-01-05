@@ -12,12 +12,12 @@ import org.make.front.facades.FacebookPixel
 import org.make.front.models.{
   Location        => LocationModel,
   TranslatedTheme => TranslatedThemeModel,
-  Operation       => OperationModel,
   Sequence        => SequenceModel
 }
 import org.make.front.styles.ThemeStyles
 
 import scala.scalajs.js
+import org.make.front.models.{OperationExpanded => OperationModel}
 
 object Operation {
 

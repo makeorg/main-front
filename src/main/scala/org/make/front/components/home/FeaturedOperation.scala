@@ -11,7 +11,7 @@ import org.make.front.styles._
 import org.make.front.styles.base.{LayoutRulesStyles, TableLayoutStyles, TextStyles}
 import org.make.front.styles.ui.CTAStyles
 import org.make.front.styles.utils._
-import org.make.front.models.{Operation => OperationModel}
+import org.make.front.models.{OperationExpanded => OperationModel}
 
 object FeaturedOperation {
 

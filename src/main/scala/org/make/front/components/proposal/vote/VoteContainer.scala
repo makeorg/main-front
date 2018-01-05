@@ -8,13 +8,13 @@ import org.make.front.actions.NotifyError
 import org.make.front.components.AppState
 import org.make.front.facades.I18n
 import org.make.front.models.{
-  Location        => LocationModel,
-  Operation       => OperationModel,
-  Proposal        => ProposalModel,
-  Qualification   => QualificationModel,
-  Sequence        => SequenceModel,
-  TranslatedTheme => TranslatedThemeModel,
-  Vote            => VoteModel
+  Location          => LocationModel,
+  OperationExpanded => OperationModel,
+  Proposal          => ProposalModel,
+  Qualification     => QualificationModel,
+  Sequence          => SequenceModel,
+  TranslatedTheme   => TranslatedThemeModel,
+  Vote              => VoteModel
 }
 import org.make.services.proposal.ProposalService
 import org.scalajs.dom

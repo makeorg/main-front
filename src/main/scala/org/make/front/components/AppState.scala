@@ -2,7 +2,7 @@ package org.make.front.components
 
 import org.make.front.models.{
   BusinessConfiguration => BusinessConfigurationModel,
-  Operation             => OperationModel,
+  OperationExpanded     => OperationModel,
   PoliticalAction       => PoliticalActionModel,
   TranslatedTheme       => TranslatedThemeModel,
   User                  => UserModel

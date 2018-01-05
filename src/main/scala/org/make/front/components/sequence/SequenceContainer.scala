@@ -10,11 +10,11 @@ import org.make.front.components.sequence.Sequence.ExtraSlide
 import org.make.front.facades.I18n
 import org.make.front.models.{
   ProposalId,
-  Location        => LocationModel,
-  Operation       => OperationModel,
-  Proposal        => ProposalModel,
-  Sequence        => SequenceModel,
-  TranslatedTheme => TranslatedThemeModel
+  Location          => LocationModel,
+  OperationExpanded => OperationModel,
+  Proposal          => ProposalModel,
+  Sequence          => SequenceModel,
+  TranslatedTheme   => TranslatedThemeModel
 }
 import org.make.services.proposal.ProposalService
 

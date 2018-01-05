@@ -8,7 +8,7 @@ import org.make.front.components.Components.{RichVirtualDOMElements, _}
 import org.make.front.components.share.ShareProposal.ShareProps
 import org.make.front.facades.I18n
 import org.make.front.facades.Unescape.unescape
-import org.make.front.models.{GradientColor => GradientColorModel, Operation => OperationModel}
+import org.make.front.models.{GradientColor => GradientColorModel, OperationExpanded => OperationModel}
 import org.make.front.styles.ThemeStyles
 import org.make.front.styles.base.{ColRulesStyles, LayoutRulesStyles, TextStyles, _}
 import org.make.front.styles.ui.CTAStyles

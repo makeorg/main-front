@@ -6,11 +6,11 @@ import io.github.shogowada.scalajs.reactjs.redux.ReactRedux
 import io.github.shogowada.scalajs.reactjs.redux.Redux.Dispatch
 import org.make.front.components.AppState
 import org.make.front.models.{
-  Label           => LabelModel,
-  TranslatedTheme => TranslatedThemeModel,
-  Location        => LocationModel,
-  Operation       => OperationModel,
-  Sequence        => SequenceModel
+  Label             => LabelModel,
+  TranslatedTheme   => TranslatedThemeModel,
+  Location          => LocationModel,
+  OperationExpanded => OperationModel,
+  Sequence          => SequenceModel
 }
 import org.make.services.proposal.{ProposalService, SearchResult}
 

@@ -9,7 +9,7 @@ import org.make.front.actions.{NotifyError, NotifySuccess}
 import org.make.front.components.AppState
 import org.make.front.components.activateAccount.ActivateAccount.ActivateAccountProps
 import org.make.front.facades.I18n
-import org.make.front.models.{Operation, OperationId}
+import org.make.front.models.{OperationExpanded, OperationId}
 import org.make.services.user.UserService
 
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -56,7 +56,7 @@ object ActivateAccountContainer {
 
       def redirectAfterValidation(maybeOperationId: Option[OperationId], child: Self[ActivateAccountProps, Unit]) = {
         val operationSlug: Option[String] = maybeOperationId.flatMap { operationId =>
-          Operation.getOperationById(operationId.value, state).map(_.slug)
+          OperationExpanded.getOperationById(operationId.value, state).map(_.slug)
         }
 
         operationSlug match {

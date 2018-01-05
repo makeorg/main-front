@@ -10,12 +10,12 @@ import org.make.front.components.operation.ResultsInOperation.ResultsInOperation
 import org.make.front.facades.I18n
 import org.make.front.models.{
   Proposal,
-  Location        => LocationModel,
-  Operation       => OperationModel,
-  OperationId     => OperationIdModel,
-  Sequence        => SequenceModel,
-  Tag             => TagModel,
-  TranslatedTheme => TranslatedThemeModel
+  Location          => LocationModel,
+  OperationExpanded => OperationModel,
+  OperationId       => OperationIdModel,
+  Sequence          => SequenceModel,
+  Tag               => TagModel,
+  TranslatedTheme   => TranslatedThemeModel
 }
 import org.make.services.proposal.ProposalService.defaultResultsCount
 import org.make.services.proposal.{ContextRequest, ProposalService, SearchResult}

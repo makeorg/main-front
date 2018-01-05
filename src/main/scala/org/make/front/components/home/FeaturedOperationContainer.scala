@@ -6,7 +6,7 @@ import io.github.shogowada.scalajs.reactjs.redux.ReactRedux
 import io.github.shogowada.scalajs.reactjs.redux.Redux.Dispatch
 import org.make.front.actions.LoadConfiguration
 import org.make.front.components.AppState
-import org.make.front.models.{Operation => OperationModel}
+import org.make.front.models.{OperationExpanded => OperationModel}
 
 object FeaturedOperationContainer {
 

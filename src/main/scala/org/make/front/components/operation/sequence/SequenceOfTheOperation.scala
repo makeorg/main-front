@@ -22,10 +22,10 @@ import org.make.front.facades.{FacebookPixel, I18n, Replacements}
 import org.make.front.models.{
   Location,
   ProposalId,
-  GradientColor   => GradientColorModel,
-  Operation       => OperationModel,
-  TranslatedTheme => TranslatedThemeModel,
-  Sequence        => SequenceModel
+  GradientColor     => GradientColorModel,
+  OperationExpanded => OperationModel,
+  TranslatedTheme   => TranslatedThemeModel,
+  Sequence          => SequenceModel
 }
 import org.make.front.styles._
 import org.make.front.styles.base._

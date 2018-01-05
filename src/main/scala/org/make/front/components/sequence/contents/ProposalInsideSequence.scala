@@ -11,13 +11,13 @@ import org.make.front.facades.I18n
 import org.make.front.facades.Unescape.unescape
 import org.make.front.helpers.ProposalAuthorInfosFormat
 import org.make.front.models.{
-  Location        => LocationModel,
-  Operation       => OperationModel,
-  Proposal        => ProposalModel,
-  Qualification   => QualificationModel,
-  Sequence        => SequenceModel,
-  TranslatedTheme => TranslatedThemeModel,
-  Vote            => VoteModel
+  Location          => LocationModel,
+  OperationExpanded => OperationModel,
+  Proposal          => ProposalModel,
+  Qualification     => QualificationModel,
+  Sequence          => SequenceModel,
+  TranslatedTheme   => TranslatedThemeModel,
+  Vote              => VoteModel
 }
 import org.make.front.styles.ThemeStyles
 import org.make.front.styles.base.{LayoutRulesStyles, TextStyles}

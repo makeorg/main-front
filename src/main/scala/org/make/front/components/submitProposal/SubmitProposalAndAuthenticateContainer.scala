@@ -8,10 +8,10 @@ import org.make.front.components.AppState
 import org.make.front.components.submitProposal.SubmitProposalAndAuthenticate.SubmitProposalAndAuthenticateProps
 import org.make.front.models.{
   RegisterProposal,
-  Location        => LocationModel,
-  Operation       => OperationModel,
-  Sequence        => SequenceModel,
-  TranslatedTheme => TranslatedThemeModel
+  Location          => LocationModel,
+  OperationExpanded => OperationModel,
+  Sequence          => SequenceModel,
+  TranslatedTheme   => TranslatedThemeModel
 }
 import org.make.services.proposal.ProposalService
 

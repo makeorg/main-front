@@ -12,14 +12,14 @@ import org.make.front.components.sequence.contents.ProposalInsideSequence.Propos
 import org.make.front.facades.FacebookPixel
 import org.make.front.facades.ReactSlick.{ReactTooltipVirtualDOMAttributes, ReactTooltipVirtualDOMElements, Slider}
 import org.make.front.models.{
-  Location        => LocationModel,
-  Operation       => OperationModel,
-  Proposal        => ProposalModel,
-  ProposalId      => ProposalIdModel,
-  Qualification   => QualificationModel,
-  Sequence        => SequenceModel,
-  TranslatedTheme => TranslatedThemeModel,
-  Vote            => VoteModel
+  Location          => LocationModel,
+  OperationExpanded => OperationModel,
+  Proposal          => ProposalModel,
+  ProposalId        => ProposalIdModel,
+  Qualification     => QualificationModel,
+  Sequence          => SequenceModel,
+  TranslatedTheme   => TranslatedThemeModel,
+  Vote              => VoteModel
 }
 import org.make.front.styles.ThemeStyles
 import org.make.front.styles.base.TableLayoutStyles

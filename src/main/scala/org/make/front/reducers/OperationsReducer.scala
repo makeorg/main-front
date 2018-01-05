@@ -1,7 +1,7 @@
 package org.make.front.reducers
 
 import org.make.front.actions.SetConfiguration
-import org.make.front.models.{Operation => OperationModel}
+import org.make.front.models.{OperationExpanded => OperationModel}
 
 object OperationsReducer {
   def reduce(maybeOperations: Option[Seq[OperationModel]], action: Any): Seq[OperationModel] = {

@@ -8,11 +8,11 @@ import io.github.shogowada.scalajs.reactjs.router.RouterProps._
 import org.make.front.actions.{LoadConfiguration, NotifyError}
 import org.make.front.components.AppState
 import org.make.front.models.{
-  Operation   => OperationModel,
-  OperationId => OperationIdModel,
-  Sequence    => SequenceModel,
-  SequenceId  => SequenceIdModel,
-  Location    => LocationModel
+  OperationExpanded => OperationModel,
+  OperationId       => OperationIdModel,
+  Sequence          => SequenceModel,
+  SequenceId        => SequenceIdModel,
+  Location          => LocationModel
 }
 import org.make.services.sequence.SequenceService
 
