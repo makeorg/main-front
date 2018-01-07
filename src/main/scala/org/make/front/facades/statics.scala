@@ -467,6 +467,14 @@ object welcomeVFF extends js.Object
 object welcomeVFF2x extends js.Object
 
 @js.native
+@JSImport("./images/operations/climat-paris/climat-paris-darker.svg", "default")
+object ClimatParisDarkerLogo extends js.Object
+
+@js.native
+@JSImport("./images/operations/climat-paris/climat-paris.svg", "default")
+object ClimatParisLogo extends js.Object
+
+@js.native
 @JSImport("./images/operations/climat-paris/climat-paris-ill.jpg", "default")
 object ClimatParisIll extends js.Object
 

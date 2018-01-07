@@ -102,7 +102,12 @@ object Operation {
         question = "Comment lutter contre le changement climatique à Paris&nbsp;?",
         partners = Seq.empty
       ),
-      theme = OperationTheme(color = "#459ba6", gradient = Some(GradientColor("#bfe692", "#69afde"))),
+      theme = OperationTheme(
+        color = "#459ba6",
+        gradient = Some(GradientColor("#bfe692", "#69afde")),
+        logoUrl = Some(ClimatParisLogo.toString),
+        darkerLogoUrl = Some(ClimatParisDarkerLogo.toString)
+      ),
       sequence = Some(
         SequenceModel(
           sequenceId = SequenceId("2"),
