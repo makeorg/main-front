@@ -155,7 +155,7 @@ object Components {
     def ResultsInThemeComponent: ReactClassElementSpec = self(theme.ResultsInTheme.reactClass)
 
     /*********************/
-    def VFFIntroComponent: ReactClassElementSpec = self(operation.VFFIntro.reactClass)
+    def OperationIntroComponent: ReactClassElementSpec = self(operation.OperationIntro.reactClass)
     def OperationHeaderComponent: ReactClassElementSpec = self(operation.OperationHeader.reactClass)
     def SubmitProposalInRelationToOperationComponent: ReactClassElementSpec =
       self(operation.SubmitProposalInRelationToOperation.reactClass)

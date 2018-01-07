@@ -59,9 +59,9 @@ object OperationHeader {
                 TextStyles.biggerMediumText,
                 TextStyles.intro,
                 OperationHeaderStyles.proposalInputIntro,
-                OperationHeaderStyles.coloredProposalInputIntro(operation.color)
+                OperationHeaderStyles.coloredProposalInputIntro(operation.theme.color)
               )
-            )(unescape(operation.question)),
+            )(unescape(operation.wording.question)),
             <.p(
               ^.className := Seq(
                 InputStyles.wrapper,

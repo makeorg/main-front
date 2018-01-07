@@ -431,6 +431,10 @@ object VFFDarkerLogo extends js.Object
 object VFFIll extends js.Object
 
 @js.native
+@JSImport("./images/operations/vff/vff-ill@2x.jpg", "default")
+object VFFIll2x extends js.Object
+
+@js.native
 @JSImport("./images/operations/vff/partners/kering-foundation.svg", "default")
 object keringFoundationLogo extends js.Object
 
@@ -461,6 +465,14 @@ object welcomeVFF extends js.Object
 @js.native
 @JSImport("./images/operations/vff/vff-home-1350x500@2x.jpg", "default")
 object welcomeVFF2x extends js.Object
+
+@js.native
+@JSImport("./images/operations/climat-paris/climat-paris-ill.jpg", "default")
+object ClimatParisIll extends js.Object
+
+@js.native
+@JSImport("./images/operations/climat-paris/climat-paris-ill@2x.jpg", "default")
+object ClimatParisIll2x extends js.Object
 
 @js.native
 @JSImport("./fonts/CircularStd-Book.woff2", "default")

@@ -17,7 +17,9 @@ object OperationContainer {
     (dispatch: Dispatch) => { (state: AppState, props: Props[Unit]) =>
       {
         val slug = props.`match`.params("operationSlug")
+
         val OperationsList: Seq[OperationModel] = state.operations.filter(_.slug == slug)
+
         if (OperationsList.isEmpty) {
           props.history.push("/")
           Operation.OperationProps(OperationModel.empty, None, None, Some(Location.Homepage))

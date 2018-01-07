@@ -27,7 +27,7 @@ object PromptingToGoBackToOperation {
         },
         render = { self =>
           val gradientValues: GradientColorModel =
-            self.props.wrapped.operation.gradient.getOrElse(GradientColorModel("#FFF", "#FFF"))
+            self.props.wrapped.operation.theme.gradient.getOrElse(GradientColorModel("#FFF", "#FFF"))
 
           object DynamicPromptingToGoBackToOperationStyles extends StyleSheet.Inline {
             import dsl._
@@ -74,8 +74,8 @@ object PromptingToGoBackToOperation {
                           )(unescape(I18n.t("sequence.prompting-to-continue.learn-more.intro"))),
                           <.p(^.className := PromptingToGoBackToOperationStyles.learnMoreAccessLogoWrapper)(
                             <.img(
-                              ^.src := self.props.wrapped.operation.darkerLogoUrl.getOrElse(""),
-                              ^.alt := self.props.wrapped.operation.title
+                              ^.src := self.props.wrapped.operation.theme.darkerLogoUrl.getOrElse(""),
+                              ^.alt := self.props.wrapped.operation.wording.title
                             )()
                           ),
                           <.p(^.className := PromptingToGoBackToOperationStyles.ctaWrapper)(

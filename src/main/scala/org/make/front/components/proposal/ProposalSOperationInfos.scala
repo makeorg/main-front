@@ -16,7 +16,7 @@ import org.make.front.styles.utils._
 
 object ProposalSOperationInfos {
 
-  final case class ProposalSOperationInfosProps(operation: Option[OperationModel])
+  final case class ProposalSOperationInfosProps(operation: OperationModel)
 
   lazy val reactClass: ReactClass =
     React
@@ -28,11 +28,7 @@ object ProposalSOperationInfos {
             import dsl._
 
             val operationName =
-              style(
-                color :=! self.props.wrapped.operation
-                  .map(_.color)
-                  .getOrElse(ThemeStyles.TextColor.base.value)
-              )
+              style(color :=! self.props.wrapped.operation.theme.color)
           }
 
           <.div(^.className := ProposalSOperationInfosStyles.wrapper)(
@@ -53,7 +49,7 @@ object ProposalSOperationInfos {
                     ProposalSOperationInfosStyles.operationName,
                     DynamicProposalSOperationInfosStyles.operationName
                   )
-                )(unescape(self.props.wrapped.operation.map(_.title).getOrElse("")))
+                )(unescape(self.props.wrapped.operation.wording.title))
               ),
               <.div(
                 ^.className := Seq(
@@ -63,7 +59,7 @@ object ProposalSOperationInfos {
               )(
                 <.p(^.className := ProposalSOperationInfosStyles.CTA)(
                   <.Link(
-                    ^.to := s"/consultation/${self.props.wrapped.operation.map(_.slug).getOrElse("")}",
+                    ^.to := s"/consultation/${self.props.wrapped.operation.slug}",
                     ^.className := Seq(CTAStyles.basic, CTAStyles.basicOnA)
                   )(unescape(I18n.t("proposal.proposal-s-operation-infos.participate")))
                 ),

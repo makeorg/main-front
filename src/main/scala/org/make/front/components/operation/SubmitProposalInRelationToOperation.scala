@@ -40,7 +40,7 @@ object SubmitProposalInRelationToOperation {
         },
         render = { self =>
           val gradientValues: GradientColorModel =
-            self.state.operation.gradient.getOrElse(GradientColorModel("#FFF", "#FFF"))
+            self.state.operation.theme.gradient.getOrElse(GradientColorModel("#FFF", "#FFF"))
 
           object DynamicSubmitProposalInRelationToOperationStyles extends StyleSheet.Inline {
             import dsl._
@@ -70,7 +70,7 @@ object SubmitProposalInRelationToOperation {
                       SubmitProposalInRelationToOperationStyles.operation,
                       DynamicSubmitProposalInRelationToOperationStyles.titleBackground
                     )
-                  )(unescape(self.state.operation.title))
+                  )(unescape(self.state.operation.wording.title))
                 ),
                 element,
                 <.style()(

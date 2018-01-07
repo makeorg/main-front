@@ -49,7 +49,7 @@ object ResultsInOperationContainer {
             sort = Seq.empty,
             limit = Some(defaultResultsCount),
             skip = Some(skip),
-            context = Some(ContextRequest(operation = Some("vff")))
+            context = Some(ContextRequest(operation = Some(props.wrapped.currentOperation.label)))
           )
       }
 

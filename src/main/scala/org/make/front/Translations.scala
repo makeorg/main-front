@@ -283,20 +283,15 @@ object Translations {
       |      }
       |    },
       |    "operation": {
-      |      "vff-header": {
-      |        "label": "Grande cause Make.org",
-      |        "title": "Stop aux violences faites aux femmes",
-      |        "period": "Consultation ouverte du 25 nov. 2017 à fin janvier",
+      |      "intro": {
       |        "partners": {
       |          "intro": "avec",
       |          "others": "et nos partenaires soutien et&nbsp;actions"
       |        },
       |        "article": {
       |          "title": "Pourquoi cette consultation&nbsp;?",
-      |          "content": "Les violences faites aux femmes sont au coeur de l’actualité politique et médiatique. Les mentalités sont en train de changer. Mais pour autant tout commence maintenant. À nous de transformer cette prise de conscience généralisée en actions concrètes et d’apporter une réponse décisive face à ce&nbsp;fléau.",
       |          "see-more": {
-      |            "label": "En savoir&nbsp;+",
-      |            "link": "https://stopvff.make.org/about-vff"
+      |            "label": "En savoir&nbsp;+"
       |          }
       |        }
       |      },
