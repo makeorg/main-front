@@ -30,6 +30,7 @@ object ResultsInOperationContainer {
                                               maybeTheme: Option[TranslatedThemeModel],
                                               maybeSequence: Option[SequenceModel],
                                               maybeLocation: Option[LocationModel])
+
   case class ResultsInOperationContainerState(currentOperation: OperationModel, results: Seq[Proposal])
 
   lazy val reactClass: ReactClass = ReactRedux.connectAdvanced(selectorFactory)(ResultsInOperation.reactClass)

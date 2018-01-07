@@ -3,14 +3,15 @@ package org.make.front.components.home
 import io.github.shogowada.scalajs.reactjs.React
 import io.github.shogowada.scalajs.reactjs.VirtualDOM.{<, _}
 import io.github.shogowada.scalajs.reactjs.classes.ReactClass
+import org.make.front.Main.CssSettings._
 import org.make.front.components.Components.{RichVirtualDOMElements, _}
+import org.make.front.components.home.FeaturedOperationContainer.FeaturedOperationContainerProps
 import org.make.front.components.showcase.ThemeShowcaseContainer.ThemeShowcaseContainerProps
 import org.make.front.components.showcase.TrendingShowcaseContainer.TrendingShowcaseContainerProps
-import org.make.front.facades.{FacebookPixel, I18n}
 import org.make.front.facades.Unescape.unescape
-import org.make.front.styles.ThemeStyles
-import org.make.front.Main.CssSettings._
+import org.make.front.facades.{FacebookPixel, I18n}
 import org.make.front.models.Location
+import org.make.front.styles.ThemeStyles
 
 object Home {
   lazy val reactClass: ReactClass =
@@ -24,12 +25,14 @@ object Home {
           <.div(^.className := HomeStyles.wrapper)(
             <.div(^.className := HomeStyles.mainHeaderWrapper)(<.MainHeaderComponent.empty),
             <.h1(^.style := Map("display" -> "none"))("Make.org"),
-            <.WelcomeVFFComponent.empty,
+            <.FeaturedOperationContainerComponent(
+              ^.wrapped := FeaturedOperationContainerProps(operationSlug = "vff")
+            )(),
             <.ThemeShowcaseContainerComponent(
               ^.wrapped := ThemeShowcaseContainerProps(
                 themeSlug = "sante-alimentation",
-                maybeIntro = Some(unescape(I18n.t("welcome.showcase-1.intro"))),
-                maybeNews = Some(I18n.t("welcome.showcase-1.news")),
+                maybeIntro = Some(unescape(I18n.t("home.showcase-1.intro"))),
+                maybeNews = Some(I18n.t("home.showcase-1.news")),
                 maybeOperation = None,
                 maybeSequence = None,
                 maybeLocation = Some(Location.Homepage)
@@ -39,8 +42,8 @@ object Home {
             <.TrendingShowcaseContainerComponent(
               ^.wrapped := TrendingShowcaseContainerProps(
                 trending = "trending",
-                intro = unescape(I18n.t("welcome.showcase-2.intro")),
-                title = unescape(I18n.t("welcome.showcase-2.title")),
+                intro = unescape(I18n.t("home.showcase-2.intro")),
+                title = unescape(I18n.t("home.showcase-2.title")),
                 maybeTheme = None,
                 maybeOperation = None,
                 maybeSequence = None,
@@ -58,8 +61,8 @@ object Home {
             <.TrendingShowcaseContainerComponent(
               ^.wrapped := TrendingShowcaseContainerProps(
                 trending = "hot",
-                intro = unescape(I18n.t("welcome.showcase-3.intro")),
-                title = unescape(I18n.t("welcome.showcase-3.title")),
+                intro = unescape(I18n.t("home.showcase-3.intro")),
+                title = unescape(I18n.t("home.showcase-3.title")),
                 maybeTheme = None,
                 maybeOperation = None,
                 maybeSequence = None,

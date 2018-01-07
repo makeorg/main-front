@@ -19,7 +19,7 @@ object Welcome {
     render = { _ =>
       def onclick: () => Unit = { () =>
         FacebookPixel.fbq("trackCustom", "click-button-whoweare")
-        scalajs.js.Dynamic.global.window.open(I18n.t("welcome.intro.see-more-link"), "_blank")
+        scalajs.js.Dynamic.global.window.open(I18n.t("home.welcome.see-more-link"), "_blank")
       }
       <.section(^.className := Seq(TableLayoutStyles.wrapper, WelcomeStyles.wrapper))(
         <.div(^.className := Seq(TableLayoutStyles.cellVerticalAlignMiddle, WelcomeStyles.innerWrapper))(
@@ -32,17 +32,17 @@ object Welcome {
           )(),
           <.div(^.className := Seq(WelcomeStyles.innerSubWrapper, LayoutRulesStyles.centeredRow))(
             <.div(^.className := WelcomeStyles.labelWrapper)(
-              <.p(^.className := TextStyles.label)(unescape(I18n.t("welcome.intro.baseline")))
+              <.p(^.className := TextStyles.label)(unescape(I18n.t("home.welcome.baseline")))
             ),
             <.h2(^.className := Seq(WelcomeStyles.title, TextStyles.veryBigText, TextStyles.boldText))(
-              unescape(I18n.t("welcome.intro.title"))
+              unescape(I18n.t("home.welcome.title"))
             ),
             <.h3(^.className := Seq(TextStyles.mediumText, WelcomeStyles.subTitle))(
-              unescape(I18n.t("welcome.intro.subtitle"))
+              unescape(I18n.t("home.welcome.subtitle"))
             ),
             <.p(^.className := WelcomeStyles.ctaWrapper)(
               <.button(^.onClick := onclick, ^.className := Seq(CTAStyles.basic, CTAStyles.basicOnButton))(
-                unescape(I18n.t("welcome.intro.see-more"))
+                unescape(I18n.t("home.welcome.see-more"))
               )
             ),
             <.style()(WelcomeStyles.render[String])

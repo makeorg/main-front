@@ -117,18 +117,19 @@ object OperationIntro {
                 }
               )
             ),
-            if (operation.wording.explanationIllUrl.isDefined || operation.wording.explanation.isDefined) {
+            if (operation.wording.explanationIll.isDefined || operation.wording.explanation.isDefined) {
               <.div(^.className := OperationIntroStyles.explanationWrapper)(
                 <.div(^.className := LayoutRulesStyles.narrowerCenteredRowWithCols)(
                   <.div(^.className := Seq(ColRulesStyles.col, ColRulesStyles.colThirdBeyondSmall))(
-                    if (operation.wording.explanationIllUrl.isDefined) {
-                      val imageSrcset: String = if (operation.wording.explanationIllUrl2x.isDefined) {
-                        operation.wording.explanationIllUrl
-                          .getOrElse("") + " 1x," + operation.wording.explanationIllUrl2x.getOrElse("") + " 2x"
-                      } else { "" }
-
+                    if (operation.wording.explanationIll.isDefined) {
+                      val imageSrcset: String =
+                        operation.wording.explanationIll
+                          .map(_.illUrl)
+                          .getOrElse("") + " 1x," + operation.wording.explanationIll
+                          .map(_.ill2xUrl)
+                          .getOrElse("") + " 2x"
                       <.img(
-                        ^.src := operation.wording.explanationIllUrl.getOrElse(""),
+                        ^.src := operation.wording.explanationIll.map(_.illUrl).getOrElse(""),
                         ^("srcset") := imageSrcset,
                         ^.alt := unescape(operation.wording.title),
                         ^.className := OperationIntroStyles.explanationIll

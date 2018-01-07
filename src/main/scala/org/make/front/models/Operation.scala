@@ -19,12 +19,22 @@ final case class OperationPartner(name: String, imageUrl: String, imageWidth: In
 final case class OperationWording(title: String,
                                   question: String,
                                   greatCauseLabel: Option[String] = None,
+                                  purpose: Option[String] = None,
                                   period: Option[String] = None,
-                                  explanationIllUrl: Option[String] = None,
-                                  explanationIllUrl2x: Option[String] = None,
+                                  featuredIll: Option[FeaturedIll] = None,
+                                  explanationIll: Option[ExplanationIll] = None,
                                   explanation: Option[String] = None,
                                   learnMoreUrl: Option[String] = None,
                                   partners: Seq[OperationPartner] = Seq.empty)
+
+final case class ExplanationIll(illUrl: String, ill2xUrl: String)
+
+final case class FeaturedIll(smallIllUrl: String,
+                             smallIll2xUrl: String,
+                             mediumIllUrl: String,
+                             mediumIll2xUrl: String,
+                             illUrl: String,
+                             ill2xUrl: String)
 
 final case class OperationTheme(color: String,
                                 gradient: Option[GradientColor] = None,
@@ -57,12 +67,24 @@ object Operation {
       label = Operation.vff,
       slug = "vff",
       wording = OperationWording(
-        title = "Stop aux violences faites aux&nbsp;femmes",
+        title = "Stop aux Violences Faites aux&nbsp;Femmes",
         question = "Comment lutter contre les violences faites aux&nbsp;femmes&nbsp;?",
         greatCauseLabel = Some("Grande cause Make.org"),
+        purpose = Some(
+          "Make.org a décidé de lancer sa première Grande Cause en la consacrant à la lutte contre les Violences faites aux&nbsp;femmes."
+        ),
         period = Some("Consultation ouverte du 25 nov. 2017 à fin janvier"),
-        explanationIllUrl = Some(VFFIll.toString),
-        explanationIllUrl2x = Some(VFFIll2x.toString),
+        featuredIll = Some(
+          FeaturedIll(
+            smallIllUrl = featuredVFFSmall.toString,
+            smallIll2xUrl = featuredVFFSmall2x.toString,
+            mediumIllUrl = featuredVFFMedium.toString,
+            mediumIll2xUrl = featuredVFFMedium2x.toString,
+            illUrl = featuredVFF.toString,
+            ill2xUrl = featuredVFF2x.toString
+          )
+        ),
+        explanationIll = Some(ExplanationIll(illUrl = VFFIll.toString, ill2xUrl = VFFIll2x.toString)),
         explanation = Some(
           "Les violences faites aux femmes sont au coeur de l’actualité politique et médiatique. Les mentalités sont en train de changer. Mais pour autant tout commence maintenant. À nous de transformer cette prise de conscience généralisée en actions concrètes et d’apporter une réponse décisive face à ce&nbsp;fléau."
         ),
@@ -93,8 +115,7 @@ object Operation {
       wording = OperationWording(
         title = "Climat Paris",
         period = Some("Consultation ouverte du &hellip; au &hellip;"),
-        explanationIllUrl = Some(ClimatParisIll.toString),
-        explanationIllUrl2x = Some(ClimatParisIll2x.toString),
+        explanationIll = Some(ExplanationIll(illUrl = climatParisIll.toString, ill2xUrl = climatParisIll2x.toString)),
         explanation = Some(
           "Suspendisse placerat magna justo, sit amet efficitur lacus fringilla in. Aliquam lobortis pretium ex id ullamcorper. Interdum et malesuada fames ac ante ipsum primis in faucibus. Fusce fermentum hendrerit quam sit amet tincidunt. Duis laoreet elit."
         ),
@@ -105,7 +126,7 @@ object Operation {
       theme = OperationTheme(
         color = "#459ba6",
         gradient = Some(GradientColor("#bfe692", "#69afde")),
-        logoUrl = Some(ClimatParisLogo.toString),
+        logoUrl = Some(climatParisLogo.toString),
         darkerLogoUrl = Some(ClimatParisDarkerLogo.toString)
       ),
       sequence = Some(

@@ -7,7 +7,7 @@ import io.github.shogowada.scalajs.reactjs.redux.Redux.Dispatch
 import io.github.shogowada.scalajs.reactjs.router.RouterProps._
 import org.make.front.actions.LoadConfiguration
 import org.make.front.components.AppState
-import org.make.front.models.{Location, Operation => OperationModel, OperationId => OperationIdModel}
+import org.make.front.models.{Location, Operation => OperationModel}
 
 object OperationContainer {
 
