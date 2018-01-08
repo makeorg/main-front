@@ -11,6 +11,7 @@ import org.make.front.styles._
 import org.make.front.styles.base.{LayoutRulesStyles, TableLayoutStyles, TextStyles}
 import org.make.front.styles.ui.CTAStyles
 import org.make.front.styles.utils._
+import org.make.services.tracking.TrackingService
 
 object Welcome {
 
@@ -18,7 +19,7 @@ object Welcome {
     displayName = "Welcome",
     render = { _ =>
       def onclick: () => Unit = { () =>
-        FacebookPixel.fbq("trackCustom", "click-button-whoweare")
+        TrackingService.track("click-button-whoweare")
         scalajs.js.Dynamic.global.window.open(I18n.t("home.welcome.see-more-link"), "_blank")
       }
       <.section(^.className := Seq(TableLayoutStyles.wrapper, WelcomeStyles.wrapper))(

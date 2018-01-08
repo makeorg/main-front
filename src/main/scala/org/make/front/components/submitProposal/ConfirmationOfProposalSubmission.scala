@@ -7,15 +7,14 @@ import org.make.front.Main.CssSettings._
 import org.make.front.components.Components._
 import org.make.front.facades.Translate.{TranslateVirtualDOMAttributes, TranslateVirtualDOMElements}
 import org.make.front.facades.Unescape.unescape
-import org.make.front.facades.{FacebookPixel, I18n, Replacements}
+import org.make.front.facades.{I18n, Replacements}
 import org.make.front.models.{TranslatedTheme => TranslatedThemeModel}
 import org.make.front.styles.ThemeStyles
 import org.make.front.styles.base.TextStyles
 import org.make.front.styles.ui.CTAStyles
 import org.make.front.styles.utils._
 import org.make.front.styles.vendors.FontAwesomeStyles
-
-import scala.scalajs.js.JSConverters._
+import org.make.services.tracking.TrackingService
 
 object ConfirmationOfProposalSubmission {
 
@@ -28,15 +27,11 @@ object ConfirmationOfProposalSubmission {
       .createClass[ConfirmationOfProposalSubmissionProps, Unit](
         displayName = "ConfirmationOfProposalSubmission",
         componentDidMount = { _ =>
-          FacebookPixel.fbq("trackCustom", "display-proposal-submit-validation")
+          TrackingService.track("display-proposal-submit-validation")
         },
         render = { self =>
           def handleClickOnButton() = () => {
-            FacebookPixel.fbq(
-              "trackCustom",
-              "click-proposal-submit-form-open",
-              Map("location" -> "end-proposal-form").toJSDictionary
-            )
+            TrackingService.track("click-proposal-submit-form-open", Map("location" -> "end-proposal-form"))
             self.props.wrapped.onSubmitAnotherProposal()
           }
 

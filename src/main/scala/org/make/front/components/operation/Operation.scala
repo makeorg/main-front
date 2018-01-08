@@ -8,7 +8,6 @@ import org.make.front.components.Components._
 import org.make.front.components.operation.OperationHeader.OperationHeaderProps
 import org.make.front.components.operation.OperationIntro.OperationIntroProps
 import org.make.front.components.operation.ResultsInOperationContainer.ResultsInOperationContainerProps
-import org.make.front.facades.FacebookPixel
 import org.make.front.models.{
   Location          => LocationModel,
   OperationExpanded => OperationModel,
@@ -19,8 +18,9 @@ import org.make.front.styles.ThemeStyles
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
-import scala.scalajs.js
 import scala.util.{Failure, Success}
+
+import org.make.services.tracking.TrackingService
 
 object Operation {
 
@@ -35,23 +35,19 @@ object Operation {
     React
       .createClass[OperationProps, OperationState](
         displayName = "Operation",
-        componentDidMount = {
-          self =>
-            self.props.wrapped.futureMaybeOperation.onComplete {
-              case Success(maybeOperation) =>
-                maybeOperation match {
-                  case Some(operation) =>
-                    self.setState(_.copy(operation = operation))
-                    FacebookPixel
-                      .fbq("trackCustom", "display-page-operation", js.Dictionary("id" -> operation.operationId.value))
-                  case _ =>
-                    self.setState(_.copy(operation = OperationModel.empty))
-                    FacebookPixel
-                      .fbq("trackCustom", "display-page-operation", js.Dictionary("id" -> "none"))
-
-                }
-              case Failure(_) => // Let parent handle logging error
-            }
+        componentDidMount = { self =>
+          self.props.wrapped.futureMaybeOperation.onComplete {
+            case Success(maybeOperation) =>
+              maybeOperation match {
+                case Some(operation) =>
+                  self.setState(_.copy(operation = operation))
+                  TrackingService
+                    .track("display-page-operation", Map("id" -> operation.operationId.value))
+                case _ =>
+                  self.setState(_.copy(operation = OperationModel.empty))
+              }
+            case Failure(_) => // Let parent handle logging error
+          }
         },
         getInitialState = { _ =>
           OperationState(OperationModel.empty)

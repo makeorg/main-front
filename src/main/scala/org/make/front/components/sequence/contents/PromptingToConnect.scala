@@ -8,14 +8,15 @@ import org.make.front.components.Components._
 import org.make.front.components.authenticate.AuthenticateWithFacebookContainer.AuthenticateWithFacebookContainerProps
 import org.make.front.components.authenticate.LoginOrRegister.LoginOrRegisterProps
 import org.make.front.components.modals.Modal.ModalProps
+import org.make.front.facades.I18n
 import org.make.front.facades.Unescape.unescape
-import org.make.front.facades.{FacebookPixel, I18n}
 import org.make.front.models.{OperationExpanded => OperationModel}
 import org.make.front.styles.ThemeStyles
 import org.make.front.styles.base.{LayoutRulesStyles, TextStyles}
 import org.make.front.styles.ui.CTAStyles
 import org.make.front.styles.utils._
 import org.make.front.styles.vendors.FontAwesomeStyles
+import org.make.services.tracking.TrackingService
 
 object PromptingToConnect {
 
@@ -46,7 +47,7 @@ object PromptingToConnect {
           }
 
           val skipSignup: () => Unit = { () =>
-            FacebookPixel.fbq("trackCustom", "skip-sign-up-card")
+            TrackingService.track("skip-sign-up-card")
             self.props.wrapped.clickOnButtonHandler()
           }
 

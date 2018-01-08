@@ -10,12 +10,12 @@ import org.make.front.Main.CssSettings._
 import org.make.front.components.Components._
 import org.make.front.components.proposal.ProposalTileWithTags.ProposalTileWithTagsProps
 import org.make.front.components.tags.FilterByTags.FilterByTagsProps
+import org.make.front.facades.I18n
 import org.make.front.facades.ReactInfiniteScroller.{
   ReactInfiniteScrollerVirtualDOMAttributes,
   ReactInfiniteScrollerVirtualDOMElements
 }
 import org.make.front.facades.Unescape.unescape
-import org.make.front.facades.{FacebookPixel, I18n}
 import org.make.front.models.{
   Location          => LocationModel,
   OperationExpanded => OperationModel,
@@ -32,6 +32,7 @@ import org.make.front.styles.base.{ColRulesStyles, LayoutRulesStyles, TextStyles
 import org.make.front.styles.ui.CTAStyles
 import org.make.front.styles.utils._
 import org.make.services.proposal.SearchResult
+import org.make.services.tracking.TrackingService
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
@@ -172,16 +173,15 @@ object ResultsInOperation {
               tags.filter(tag => !tagsAsStrings.contains(tag.tagId.value))
             }
 
-            val action = if (previousSelectedTags.size > tags.size) {
+            val action = if (previousSelectedTags.lengthCompare(tags.size) > 0) {
               "deselect"
             } else {
               "select"
             }
             changedTags.foreach { tag =>
-              FacebookPixel.fbq(
-                "trackCustom",
+              TrackingService.track(
                 "click-tag-action",
-                js.Dictionary(
+                Map(
                   "nature" -> action,
                   "name" -> tag.label,
                   "operation" -> self.props.wrapped.operation.operationId.value
@@ -244,12 +244,9 @@ object ResultsInOperation {
               <.div(^.className := Seq(ResultsInOperationStyles.seeMoreButtonWrapper, LayoutRulesStyles.centeredRow))(
                 <.button(^.onClick := (() => {
                   onSeeMore(1)
-                  FacebookPixel.fbq(
-                    "trackCustom",
+                  TrackingService.track(
                     "click-proposal-viewmore",
-                    js.Dictionary(
-                      "location" -> LocationModel.OperationPage(self.props.wrapped.operation.operationId).name
-                    )
+                    Map("location" -> LocationModel.OperationPage(self.props.wrapped.operation.operationId).name)
                   )
                 }), ^.className := Seq(CTAStyles.basic, CTAStyles.basicOnButton))(
                   unescape(I18n.t("operation.results.see-more"))

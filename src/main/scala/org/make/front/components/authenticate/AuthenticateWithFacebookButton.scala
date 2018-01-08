@@ -6,7 +6,6 @@ import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import org.make.client.{BadRequestHttpException, UnauthorizedHttpException}
 import org.make.front.Main.CssSettings._
 import org.make.front.components.Components._
-import org.make.front.facades.FacebookPixel
 import org.make.front.facades.ReactFacebookLogin.{
   ReactFacebookLoginVirtualDOMAttributes,
   ReactFacebookLoginVirtualDOMElements
@@ -15,13 +14,13 @@ import org.make.front.styles.ThemeStyles
 import org.make.front.styles.base.TextStyles
 import org.make.front.styles.ui.CTAStyles
 import org.make.front.styles.vendors.FontAwesomeStyles
+import org.make.services.tracking.TrackingService
 import org.scalajs.dom.experimental.Response
 
+import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
-import scala.scalajs.js
 import scala.scalajs.js.JSConverters._
 import scala.util.{Failure, Success}
-import scala.concurrent.ExecutionContext.Implicits.global
 
 object AuthenticateWithFacebookButton {
 
@@ -44,7 +43,7 @@ object AuthenticateWithFacebookButton {
         def handleCallback(result: Future[_], provider: String): Unit = {
           result.onComplete {
             case Success(_) =>
-              FacebookPixel.fbq("trackCustom", "authen-social-success", js.Dictionary("source" -> provider))
+              TrackingService.track("authen-social-success", Map("source" -> provider))
               self.setState(AuthenticateWithFacebookButtonState())
             case Failure(UnauthorizedHttpException) =>
               self.setState(state => state.copy(errorMessages = Seq("authenticate.no-account-found")))

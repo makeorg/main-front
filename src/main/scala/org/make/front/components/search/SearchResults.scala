@@ -14,17 +14,17 @@ import org.make.front.facades.ReactInfiniteScroller.{
   ReactInfiniteScrollerVirtualDOMElements
 }
 import org.make.front.facades.Unescape.unescape
-import org.make.front.facades.{FacebookPixel, I18n, Replacements}
-import org.make.front.models.{Location, Proposal, Sequence => SequenceModel, OperationExpanded => OperationModel}
+import org.make.front.facades.{I18n, Replacements}
+import org.make.front.models.{Location, Proposal, OperationExpanded => OperationModel, Sequence => SequenceModel}
 import org.make.front.styles.ThemeStyles
 import org.make.front.styles.base.{ColRulesStyles, LayoutRulesStyles, TableLayoutStyles, TextStyles}
 import org.make.front.styles.ui.CTAStyles
 import org.make.front.styles.utils._
 import org.make.services.proposal.SearchResult
+import org.make.services.tracking.TrackingService
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
-import scala.scalajs.js
 import scala.util.{Failure, Success}
 
 object SearchResults {
@@ -56,7 +56,7 @@ object SearchResults {
       React.createClass[SearchResultsProps, SearchResultsState](displayName = "SearchResults", getInitialState = { _ =>
         SearchResultsState.empty
       }, componentDidMount = { _ =>
-        FacebookPixel.fbq("trackCustom", "display-search-page")
+        TrackingService.track("display-search-page")
       }, componentWillReceiveProps = (self, _) => {
         self.setState(SearchResultsState.empty)
       }, render = {
@@ -121,11 +121,7 @@ object SearchResults {
                 <.div(^.className := Seq(SearchResultsStyles.seeMoreButtonWrapper, LayoutRulesStyles.centeredRow))(
                   <.button(^.onClick := { () =>
                     onSeeMore(1)
-                    FacebookPixel.fbq(
-                      "trackCustom",
-                      "click-proposal-viewmore",
-                      js.Dictionary("location" -> Location.SearchResultsPage.name)
-                    )
+                    TrackingService.track("click-proposal-viewmore", Map("location" -> Location.SearchResultsPage.name))
                   }, ^.className := Seq(CTAStyles.basic, CTAStyles.basicOnButton))(
                     unescape(I18n.t("search.results.see-more"))
                   )

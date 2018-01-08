@@ -15,6 +15,7 @@ import scala.concurrent.Future
 import scala.scalajs.js.JSConverters._
 import scala.util.{Failure, Success}
 import org.make.front.Main.CssSettings._
+import org.make.services.tracking.TrackingService
 
 object Vote {
 
@@ -41,14 +42,13 @@ object Vote {
       }, render = {
         (self) =>
           def vote(key: String): Future[VoteModel] = {
-            FacebookPixel.fbq(
-              "trackCustom",
+            TrackingService.track(
               "click-proposal-vote",
               Map(
                 "location" -> self.props.wrapped.locationFacebook.getOrElse(""),
                 "nature" -> key,
                 "proposalId" -> self.props.wrapped.proposal.id.value.toString
-              ).toJSDictionary
+              )
             )
             val future = self.props.wrapped.vote(key)
 
@@ -63,14 +63,13 @@ object Vote {
           }
 
           def unvote(key: String): Future[VoteModel] = {
-            FacebookPixel.fbq(
-              "trackCustom",
+            TrackingService.track(
               "click-proposal-unvote",
               Map(
                 "location" -> "sequence",
                 "nature" -> key,
                 "proposalId" -> self.props.wrapped.proposal.id.value.toString
-              ).toJSDictionary
+              )
             )
             val future = self.props.wrapped.unvote(key)
 

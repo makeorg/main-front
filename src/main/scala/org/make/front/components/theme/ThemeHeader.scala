@@ -13,9 +13,8 @@ import org.make.front.styles.ThemeStyles
 import org.make.front.styles.base.{LayoutRulesStyles, TableLayoutStyles, TextStyles}
 import org.make.front.styles.ui.InputStyles
 import org.make.front.styles.utils._
+import org.make.services.tracking.TrackingService
 import org.scalajs.dom.raw.HTMLElement
-
-import scala.scalajs.js
 
 object ThemeHeader {
 
@@ -173,12 +172,10 @@ object ThemeHeader {
 
         def openProposalModalFromInput() = () => {
           self.setState(state => state.copy(isProposalModalOpened = true))
-          FacebookPixel
-            .fbq(
-              "trackCustom",
-              "click-proposal-submit-form-open",
-              js.Dictionary("location" -> "page-theme", "themeId" -> self.props.wrapped.theme.id.value.toString)
-            )
+          TrackingService.track(
+            "click-proposal-submit-form-open",
+            Map("location" -> "page-theme", "themeId" -> self.props.wrapped.theme.id.value.toString)
+          )
           proposalInput.foreach(_.blur())
         }
 

@@ -9,7 +9,6 @@ import org.make.front.Main.CssSettings._
 import org.make.front.components.Components._
 import org.make.front.components.sequence.ProgressBar.ProgressBarProps
 import org.make.front.components.sequence.contents.ProposalInsideSequence.ProposalInsideSequenceProps
-import org.make.front.facades.FacebookPixel
 import org.make.front.facades.ReactSlick.{ReactTooltipVirtualDOMAttributes, ReactTooltipVirtualDOMElements, Slider}
 import org.make.front.models.{
   Location          => LocationModel,
@@ -24,6 +23,7 @@ import org.make.front.models.{
 import org.make.front.styles.ThemeStyles
 import org.make.front.styles.base.TableLayoutStyles
 import org.make.front.styles.utils._
+import org.make.services.tracking.TrackingService
 import org.scalajs.dom.raw.HTMLElement
 
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -136,7 +136,7 @@ object Sequence {
 
     def nextProposal: () => Unit = { () =>
       next()
-      FacebookPixel.fbq("trackCustom", "click-sequence-next-proposal")
+      TrackingService.track("click-sequence-next-proposal")
     }
 
     def previous: () => Unit = { () =>
@@ -303,8 +303,7 @@ object Sequence {
       },
       componentDidMount = { self =>
         onNewProps(self, self.props, slider)
-        FacebookPixel
-          .fbq("trackCustom", "display-sequence")
+        TrackingService.track("display-sequence")
 
       },
       componentWillUpdate = { (_, _, state) =>
@@ -315,15 +314,14 @@ object Sequence {
           val oldSlideIndex = self.state.currentSlideIndex
           // If user went back, log it
           if (currentSlide < oldSlideIndex) {
-            FacebookPixel.fbq(
-              "trackCustom",
+            TrackingService.track(
               "click-sequence-previous-card",
-              js.Dictionary("initial-position" -> oldSlideIndex.toString, "target-position" -> currentSlide.toString)
+              Map("initial-position" -> oldSlideIndex.toString, "target-position" -> currentSlide.toString)
             )
           }
           self.setState(state => state.copy(currentSlideIndex = currentSlide))
           self.state.slides(self.state.currentSlideIndex).maybeTracker.foreach { tracker =>
-            FacebookPixel.fbq("trackCustom", tracker)
+            TrackingService.track(tracker)
           }
         }
 

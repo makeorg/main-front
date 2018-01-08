@@ -10,16 +10,16 @@ import org.make.front.Main.CssSettings._
 import org.make.front.components.Components._
 import org.make.front.components.authenticate.NewPasswordInput.NewPasswordInputProps
 import org.make.front.facades.Unescape.unescape
-import org.make.front.facades.{FacebookPixel, I18n, Replacements}
+import org.make.front.facades.{I18n, Replacements}
 import org.make.front.styles._
 import org.make.front.styles.base.TextStyles
 import org.make.front.styles.ui.{CTAStyles, InputStyles}
 import org.make.front.styles.utils._
 import org.make.front.styles.vendors.FontAwesomeStyles
+import org.make.services.tracking.TrackingService
 import org.scalajs.dom.raw.HTMLInputElement
 
 import scala.concurrent.ExecutionContext.Implicits.global
-import scala.scalajs.js
 import scala.util.{Failure, Success}
 
 object RegisterWithEmailExpanded {
@@ -27,7 +27,7 @@ object RegisterWithEmailExpanded {
   val reactClass: ReactClass =
     React.createClass[RegisterProps, RegisterState](displayName = "RegisterWithEmailExpanded", componentDidMount = {
       self =>
-        FacebookPixel.fbq("trackCustom", "display-signup-form", js.Dictionary("signup-type" -> "standard"))
+        TrackingService.track("display-signup-form", Map("signup-type" -> "standard"))
     }, getInitialState = { _ =>
       RegisterState(Map(), Map())
     }, render = {
