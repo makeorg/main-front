@@ -10,7 +10,6 @@ trait BusinessConfigurationResponse extends js.Object {
   val proposalMinLength: Int
   val proposalMaxLength: Int
   val themes: js.Array[ThemeResponse]
-  val tagsVFF: js.Array[TagResponse]
   val newVisitorCookieDefinition: String
 }
 

@@ -10,7 +10,7 @@ import org.make.front.components.showcase.ThemeShowcaseContainer.ThemeShowcaseCo
 import org.make.front.components.showcase.TrendingShowcaseContainer.TrendingShowcaseContainerProps
 import org.make.front.facades.Unescape.unescape
 import org.make.front.facades.{FacebookPixel, I18n}
-import org.make.front.models.Location
+import org.make.front.models.{Location, OperationDesignData}
 import org.make.front.styles.ThemeStyles
 
 object Home {
@@ -26,7 +26,7 @@ object Home {
             <.div(^.className := HomeStyles.mainHeaderWrapper)(<.MainHeaderComponent.empty),
             <.h1(^.style := Map("display" -> "none"))("Make.org"),
             <.FeaturedOperationContainerComponent(
-              ^.wrapped := FeaturedOperationContainerProps(operationSlug = "vff")
+              ^.wrapped := FeaturedOperationContainerProps(operationSlug = OperationDesignData.featuredOperationSlug)
             )(),
             <.ThemeShowcaseContainerComponent(
               ^.wrapped := ThemeShowcaseContainerProps(

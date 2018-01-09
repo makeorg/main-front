@@ -15,6 +15,7 @@ final case class OperationDesignData(slug: String,
 object OperationDesignData {
   val defaultUrl = "consultation/{slug}/selection"
   val defaultCountry = "FR"
+  val featuredOperationSlug = "vff"
   def getBySlug(slug: String): Option[OperationDesignData] = {
     val resultList: Seq[OperationDesignData] = defaultOperationDesignList.filter(_.slug == slug)
     resultList match {
