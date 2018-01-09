@@ -1,5 +1,6 @@
 package org.make.front.components.activateAccount
 
+import io.github.shogowada.scalajs.history.History
 import io.github.shogowada.scalajs.reactjs.React.{Props, Self}
 import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import io.github.shogowada.scalajs.reactjs.redux.ReactRedux
@@ -10,6 +11,7 @@ import org.make.front.components.AppState
 import org.make.front.components.activateAccount.ActivateAccount.ActivateAccountProps
 import org.make.front.facades.I18n
 import org.make.front.models.{OperationExpanded, OperationId}
+import org.make.services.operation.OperationService
 import org.make.services.user.UserService
 
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -44,27 +46,28 @@ object ActivateAccountContainer {
       def handleValidateAccount(child: Self[ActivateAccountProps, Unit]): Unit = {
         UserService.validateAccount(userId, verificationToken, operationId).onComplete {
           case Success(_) => {
-            redirectAfterValidation(operationId, child)
+            redirectAfterValidation(operationId, child.props.history)
             dispatch(NotifySuccess(message = I18n.t("activate-account.notifications.success")))
           }
           case Failure(e) => {
-            redirectAfterValidation(operationId, child)
+            redirectAfterValidation(operationId, child.props.history)
             dispatch(NotifyError(message = I18n.t("activate-account.notifications.failure")))
           }
         }
       }
 
-      def redirectAfterValidation(maybeOperationId: Option[OperationId], child: Self[ActivateAccountProps, Unit]) = {
-        val operationSlug: Option[String] = maybeOperationId.flatMap { operationId =>
-          OperationExpanded.getOperationById(operationId.value, state).map(_.slug)
-        }
-
-        operationSlug match {
-          case Some(slug) => child.props.history.push(s"/consultation/$slug")
-          case _          => child.props.history.push("/")
+      def redirectAfterValidation(operationId: Option[OperationId], history: History): Unit = {
+        operationId match {
+          case Some(value) =>
+            OperationService.getOperationById(value).onComplete {
+              case Success(operation) => history.push(s"/consultation/${operation.slug}")
+              case Failure(e)         => history.push("/")
+            }
+          case _ => history.push("/")
         }
       }
 
       ActivateAccount.ActivateAccountProps(handleValidateAccount)
     }
+
 }

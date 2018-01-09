@@ -22,16 +22,18 @@ import org.make.front.facades.{FacebookPixel, I18n, Replacements}
 import org.make.front.models.{
   Location,
   ProposalId,
+  SequenceId,
   GradientColor     => GradientColorModel,
   OperationExpanded => OperationModel,
-  TranslatedTheme   => TranslatedThemeModel,
-  Sequence          => SequenceModel
+  Sequence          => SequenceModel,
+  TranslatedTheme   => TranslatedThemeModel
 }
 import org.make.front.styles._
 import org.make.front.styles.base._
 import org.make.front.styles.ui.{CTAStyles, TooltipStyles}
 import org.make.front.styles.utils._
 import org.make.front.styles.vendors.FontAwesomeStyles
+import org.make.services.sequence.SequenceService
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
@@ -42,24 +44,29 @@ object SequenceOfTheOperation {
 
   final case class SequenceOfTheOperationProps(maybeFirstProposalSlug: Option[String],
                                                isConnected: Boolean,
-                                               operation: OperationModel,
-                                               sequence: (Seq[ProposalId]) => Future[SequenceModel],
+                                               operation: Future[Option[OperationModel]],
                                                maybeTheme: Option[TranslatedThemeModel],
                                                maybeOperation: Option[OperationModel],
-                                               maybeLocation: Option[Location])
+                                               maybeLocation: Option[Location],
+                                               redirectHome: () => Unit)
 
   final case class SequenceOfTheOperationState(isProposalModalOpened: Boolean,
                                                numberOfProposals: Int,
                                                sequenceTitle: String = "",
-                                               sequence: Option[SequenceModel] = None)
+                                               sequence: Option[SequenceModel] = None,
+                                               operation: OperationModel = OperationModel.empty)
 
   lazy val reactClass: ReactClass = {
     def sequence(
       self: Self[SequenceOfTheOperationProps, SequenceOfTheOperationState]
     )(proposals: Seq[ProposalId]): Future[SequenceModel] = {
-      self.props.wrapped.sequence(proposals).map { seq =>
-        self.setState(_.copy(numberOfProposals = seq.proposals.size))
-        seq
+      self.state.operation.sequence match {
+        case Some(sequenceId) =>
+          SequenceService.startSequenceById(sequenceId = sequenceId, includes = proposals).map { seq =>
+            self.setState(_.copy(numberOfProposals = seq.proposals.size))
+            seq
+          }
+        case _ => Future.successful(SequenceModel(SequenceId("fake"), "", ""))
       }
     }
     React.createClass[SequenceOfTheOperationProps, SequenceOfTheOperationState](
@@ -68,17 +75,32 @@ object SequenceOfTheOperation {
         SequenceOfTheOperationState(isProposalModalOpened = false, numberOfProposals = 0)
       },
       componentDidMount = { (self) =>
-        self.props.wrapped.sequence(Seq.empty).onComplete {
-          case Failure(_) =>
-          case Success(sequence) =>
-            self.setState(_.copy(sequenceTitle = sequence.title, sequence = Some(sequence)))
+        self.props.wrapped.operation.onComplete {
+          case Failure(_) => self.props.wrapped.redirectHome()
+          case Success(maybeOperation) =>
+            val operation: OperationModel = maybeOperation.getOrElse(OperationModel.empty)
+            if (maybeOperation.isEmpty) {
+              self.setState(_.copy(operation = operation))
+            } else {
+              operation.sequence match {
+                case Some(sequenceId) =>
+                  SequenceService.startSequenceById(sequenceId = sequenceId, includes = Seq.empty).onComplete {
+                    case Failure(_) => self.setState(_.copy(operation = operation, sequenceTitle = "", sequence = None))
+                    case Success(sequence) =>
+                      self.setState(
+                        _.copy(operation = operation, sequenceTitle = sequence.title, sequence = Some(sequence))
+                      )
+                  }
+                case _ => self.setState(_.copy(operation = operation, sequenceTitle = "", sequence = None))
+              }
+            }
         }
       },
       render = { self =>
         val guidedState: Boolean = false
 
         val gradientValues: GradientColorModel =
-          self.props.wrapped.operation.theme.gradient.getOrElse(GradientColorModel("#FFF", "#FFF"))
+          self.state.operation.gradient.getOrElse(GradientColorModel("#FFF", "#FFF"))
 
         val closeProposalModal: () => Unit = () => {
           self.setState(state => state.copy(isProposalModalOpened = false))
@@ -120,7 +142,7 @@ object SequenceOfTheOperation {
                   )(
                     <.Link(
                       ^.className := SequenceOfTheOperationStyles.backLink,
-                      ^.to := s"/consultation/${self.props.wrapped.operation.slug}"
+                      ^.to := s"/consultation/${self.state.operation.slug}"
                     )(
                       <.i(
                         ^.className := Seq(SequenceOfTheOperationStyles.backLinkArrow, FontAwesomeStyles.angleLeft)
@@ -193,7 +215,7 @@ object SequenceOfTheOperation {
                     )(
                       <.SubmitProposalInRelationToOperationComponent(
                         ^.wrapped := SubmitProposalInRelationToOperationProps(
-                          operation = self.props.wrapped.operation,
+                          operation = self.state.operation,
                           onProposalProposed = closeProposalModal,
                           maybeSequence = self.state.sequence,
                           maybeLocation = self.props.wrapped.maybeLocation
@@ -219,7 +241,7 @@ object SequenceOfTheOperation {
                     }, position = _ => 0), ExtraSlide(maybeTracker = Some("display-sign-up-card"), reactClass = PromptingToConnect.reactClass, props = {
                       handler =>
                         PromptingToConnectProps(
-                          operation = self.props.wrapped.operation,
+                          operation = self.state.operation,
                           clickOnButtonHandler = handler,
                           authenticateHandler = handler
                         )
@@ -228,7 +250,7 @@ object SequenceOfTheOperation {
                     }, displayed = !self.props.wrapped.isConnected), ExtraSlide(maybeTracker = Some("display-proposal-push-card"), reactClass = PromptingToProposeInRelationToOperation.reactClass, props = {
                       handler =>
                         PromptingToProposeInRelationToOperationProps(
-                          operation = self.props.wrapped.operation,
+                          operation = self.state.operation,
                           clickOnButtonHandler = handler,
                           proposeHandler = handler,
                           maybeSequence = self.state.sequence,
@@ -239,7 +261,7 @@ object SequenceOfTheOperation {
                     }), ExtraSlide(maybeTracker = Some("display-finale-card"), reactClass = PromptingToGoBackToOperation.reactClass, props = {
                       handler =>
                         PromptingToGoBackToOperationProps(
-                          operation = self.props.wrapped.operation,
+                          operation = self.state.operation,
                           clickOnButtonHandler = handler
                         )
                     }, position = { slides =>

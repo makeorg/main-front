@@ -30,10 +30,8 @@ object OperationIntro {
           val operation: OperationModel =
             self.props.wrapped.operation
 
-          val gradient: GradientColorModel = operation.theme.gradient.getOrElse(GradientColorModel("#FFF", "#FFF"))
-
           val gradientValues: GradientColorModel =
-            operation.theme.gradient.getOrElse(GradientColorModel("#FFF", "#FFF"))
+            operation.gradient.getOrElse(GradientColorModel("#FFF", "#FFF"))
 
           object DynamicVFFIntroStyles extends StyleSheet.Inline {
             import dsl._
@@ -48,12 +46,9 @@ object OperationIntro {
                   if (operation.wording.greatCauseLabel.isDefined) {
                     <.p(^.className := Seq(TextStyles.label))(unescape(operation.wording.greatCauseLabel.getOrElse("")))
                   },
-                  if (operation.theme.logoUrl.isDefined) {
+                  if (operation.logoUrl.isDefined) {
                     <.p(^.className := Seq(OperationIntroStyles.logoWrapper))(
-                      <.img(
-                        ^.src := operation.theme.logoUrl.getOrElse(""),
-                        ^.alt := unescape(operation.wording.title)
-                      )()
+                      <.img(^.src := operation.logoUrl.getOrElse(""), ^.alt := unescape(operation.wording.title))()
                     )
                   },
                   if (operation.wording.period.isDefined) {
@@ -62,7 +57,7 @@ object OperationIntro {
                     )
                   }
                 ),
-                if (operation.wording.partners.nonEmpty) {
+                if (operation.partners.nonEmpty) {
                   Seq(
                     <.div(^.className := Seq(TableLayoutStyles.wrapper, OperationIntroStyles.separator))(
                       <.div(
@@ -98,7 +93,7 @@ object OperationIntro {
                       )
                     ),
                     <.ul(^.className := OperationIntroStyles.partnersList)(
-                      operation.wording.partners.map(
+                      operation.partners.map(
                         partner =>
                           <.li(^.className := OperationIntroStyles.partnerItem)(
                             <.img(
@@ -117,19 +112,19 @@ object OperationIntro {
                 }
               )
             ),
-            if (operation.wording.explanationIll.isDefined || operation.wording.explanation.isDefined) {
+            if (operation.illustration.isDefined || operation.wording.explanation.isDefined) {
               <.div(^.className := OperationIntroStyles.explanationWrapper)(
                 <.div(^.className := LayoutRulesStyles.narrowerCenteredRowWithCols)(
                   <.div(^.className := Seq(ColRulesStyles.col, ColRulesStyles.colThirdBeyondSmall))(
-                    if (operation.wording.explanationIll.isDefined) {
+                    if (operation.illustration.isDefined) {
                       val imageSrcset: String =
-                        operation.wording.explanationIll
+                        operation.illustration
                           .map(_.illUrl)
-                          .getOrElse("") + " 1x," + operation.wording.explanationIll
+                          .getOrElse("") + " 1x," + operation.illustration
                           .map(_.ill2xUrl)
                           .getOrElse("") + " 2x"
                       <.img(
-                        ^.src := operation.wording.explanationIll.map(_.illUrl).getOrElse(""),
+                        ^.src := operation.illustration.map(_.illUrl).getOrElse(""),
                         ^("srcset") := imageSrcset,
                         ^.alt := unescape(operation.wording.title),
                         ^.className := OperationIntroStyles.explanationIll

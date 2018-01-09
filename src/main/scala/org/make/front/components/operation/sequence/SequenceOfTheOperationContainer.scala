@@ -8,12 +8,14 @@ import io.github.shogowada.scalajs.reactjs.router.RouterProps._
 import org.make.front.actions.{LoadConfiguration, NotifyError}
 import org.make.front.components.AppState
 import org.make.front.models.{
+  Operation,
+  Location          => LocationModel,
   OperationExpanded => OperationModel,
   OperationId       => OperationIdModel,
   Sequence          => SequenceModel,
-  SequenceId        => SequenceIdModel,
-  Location          => LocationModel
+  SequenceId        => SequenceIdModel
 }
+import org.make.services.operation.OperationService
 import org.make.services.sequence.SequenceService
 
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -40,34 +42,22 @@ object SequenceOfTheOperationContainer {
             case _               => None
           }
 
-        val maybeOperation: Option[OperationModel] = state.operations.find(_.slug == operationSlug)
-
-        maybeOperation.flatMap { operation =>
-          operation.sequence.map { sequence =>
-            dispatch(LoadConfiguration)
-
-            SequenceOfTheOperation.SequenceOfTheOperationProps(
-              maybeFirstProposalSlug = firstProposalSlug,
-              isConnected = state.connectedUser.isDefined,
-              operation = operation,
-              sequence = (includes) => SequenceService.startSequenceBySlug(sequence.slug, includes),
-              maybeTheme = None,
-              maybeOperation = None,
-              maybeLocation = None
-            )
+        val futureMaybeOperationExpanded: Future[Option[OperationModel]] =
+          OperationService.getOperationBySlug(operationSlug).map { maybeOperation =>
+            maybeOperation.map(OperationModel.getOperationExpandedFromOperation)
           }
-        }.getOrElse {
-          props.history.push("/")
-          SequenceOfTheOperation.SequenceOfTheOperationProps(
-            maybeFirstProposalSlug = None,
-            isConnected = false,
-            OperationModel.empty,
-            (_) => Future.successful(SequenceModel(SequenceIdModel("fake"), "", "")),
-            maybeTheme = None,
-            maybeOperation = maybeOperation,
-            maybeLocation = Some(LocationModel.Homepage)
-          )
-        }
+
+        dispatch(LoadConfiguration)
+
+        SequenceOfTheOperation.SequenceOfTheOperationProps(
+          maybeFirstProposalSlug = firstProposalSlug,
+          isConnected = state.connectedUser.isDefined,
+          operation = futureMaybeOperationExpanded,
+          maybeTheme = None,
+          maybeOperation = None,
+          maybeLocation = None,
+          redirectHome = () => props.history.push("/")
+        )
       }
     }
 }

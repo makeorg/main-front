@@ -5,26 +5,46 @@ import io.github.shogowada.scalajs.reactjs.VirtualDOM._
 import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import org.make.front.Main.CssSettings._
 import org.make.front.components.Components._
+import org.make.front.components.sequence.contents.PromptingToGoBackToOperation.PromptingToGoBackToOperationState
 import org.make.front.facades.Unescape.unescape
 import org.make.front.facades._
+import org.make.front.models.{OperationExpanded => OperationModel}
 import org.make.front.styles._
 import org.make.front.styles.base.{LayoutRulesStyles, TableLayoutStyles, TextStyles}
 import org.make.front.styles.ui.CTAStyles
 import org.make.front.styles.utils._
-import org.make.front.models.{OperationExpanded => OperationModel}
+
+import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.Future
+import scala.util.{Failure, Success}
 
 object FeaturedOperation {
 
-  final case class FeaturedOperationProps(operation: OperationModel)
+  final case class FeaturedOperationProps(futureMaybeOperation: Future[Option[OperationModel]])
+  final case class OperationState(operation: OperationModel)
 
   lazy val reactClass: ReactClass =
     React
-      .createClass[FeaturedOperationProps, Unit](
+      .createClass[FeaturedOperationProps, OperationState](
         displayName = "FeaturedOperation",
+        componentDidMount = { self =>
+          self.props.wrapped.futureMaybeOperation.onComplete {
+            case Success(maybeOperation) =>
+              maybeOperation match {
+                case Some(operation) =>
+                  self.setState(_.copy(operation = operation))
+                case _ =>
+                  self.setState(_.copy(operation = OperationModel.empty))
+              }
+            case Failure(_) => // Let parent handle logging error
+          }
+        },
+        getInitialState = { _ =>
+          OperationState(OperationModel.empty)
+        },
         render = (self) => {
 
-          val operation: OperationModel =
-            self.props.wrapped.operation
+          val operation: OperationModel = self.state.operation
 
           def onclick: () => Unit = { () =>
             FacebookPixel.fbq("trackCustom", "click-homepage-header")
@@ -32,21 +52,21 @@ object FeaturedOperation {
           }
           <.section(^.className := Seq(TableLayoutStyles.wrapper, FeaturedOperationStyles.wrapper))(
             <.div(^.className := Seq(TableLayoutStyles.cellVerticalAlignMiddle, FeaturedOperationStyles.innerWrapper))(
-              if (operation.wording.featuredIll.isDefined) {
+              if (operation.featuredIllustration.isDefined) {
                 <.img(
                   ^.className := FeaturedOperationStyles.illustration,
-                  ^.src := operation.wording.featuredIll.map(_.illUrl).getOrElse(""),
-                  ^("srcset") := operation.wording.featuredIll
-                    .map(_.smallIllUrl)
-                    .getOrElse("") + " 400w, " + operation.wording.featuredIll
-                    .map(_.smallIll2xUrl)
-                    .getOrElse("") + " 800w, " + operation.wording.featuredIll
-                    .map(_.mediumIllUrl)
-                    .getOrElse("") + " 840w, " + operation.wording.featuredIll
-                    .map(_.mediumIll2xUrl)
-                    .getOrElse("") + " 1680w, " + operation.wording.featuredIll
+                  ^.src := operation.featuredIllustration.map(_.illUrl).getOrElse(""),
+                  ^("srcset") := operation.featuredIllustration
+                    .flatMap(_.smallIllUrl)
+                    .getOrElse("") + " 400w, " + operation.featuredIllustration
+                    .flatMap(_.smallIll2xUrl)
+                    .getOrElse("") + " 800w, " + operation.featuredIllustration
+                    .flatMap(_.mediumIllUrl)
+                    .getOrElse("") + " 840w, " + operation.featuredIllustration
+                    .flatMap(_.mediumIll2xUrl)
+                    .getOrElse("") + " 1680w, " + operation.featuredIllustration
                     .map(_.illUrl)
-                    .getOrElse("") + " 1350w, " + operation.wording.featuredIll
+                    .getOrElse("") + " 1350w, " + operation.featuredIllustration
                     .map(_.ill2xUrl)
                     .getOrElse("") + " 2700w",
                   ^.alt := operation.wording.title,

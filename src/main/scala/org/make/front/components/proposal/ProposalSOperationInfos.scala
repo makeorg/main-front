@@ -28,7 +28,7 @@ object ProposalSOperationInfos {
             import dsl._
 
             val operationName =
-              style(color :=! self.props.wrapped.operation.theme.color)
+              style(color :=! self.props.wrapped.operation.color)
           }
 
           <.div(^.className := ProposalSOperationInfosStyles.wrapper)(

@@ -21,12 +21,12 @@ object Operation {
   def apply(operationResponse: OperationResponse): Operation = {
     Operation(
       status = operationResponse.status,
-      operationId = operationResponse.operationId,
+      operationId = OperationId(operationResponse.operationId),
       slug = operationResponse.slug,
       translations =
         operationResponse.translations.map(translationResponse => OperationTranslation.apply(translationResponse)),
       defaultLanguage = operationResponse.defaultLanguage,
-      sequenceLandingId = operationResponse.sequenceLandingId,
+      sequenceLandingId = SequenceId(operationResponse.sequenceLandingId),
       createdAt = operationResponse.createdAt.toOption.map(new js.Date(_)),
       updatedAt = operationResponse.updatedAt.toOption.map(new js.Date(_)),
       countriesConfiguration = operationResponse.countriesConfiguration.map(

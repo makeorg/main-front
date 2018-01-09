@@ -5,28 +5,29 @@ import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import io.github.shogowada.scalajs.reactjs.redux.ReactRedux
 import io.github.shogowada.scalajs.reactjs.redux.Redux.Dispatch
 import io.github.shogowada.scalajs.reactjs.router.RouterProps._
-import org.make.front.actions.LoadConfiguration
 import org.make.front.components.AppState
-import org.make.front.models.{Location, OperationExpanded => OperationModel, OperationId => OperationIdModel}
+import org.make.front.models.{Location, OperationExpanded}
+import org.make.services.operation.OperationService
+
+import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.Future
 
 object OperationContainer {
 
   lazy val reactClass: ReactClass = ReactRedux.connectAdvanced(selectorFactory)(Operation.reactClass)
 
   def selectorFactory: (Dispatch) => (AppState, Props[Unit]) => Operation.OperationProps =
-    (dispatch: Dispatch) => { (state: AppState, props: Props[Unit]) =>
+    (_: Dispatch) => { (_: AppState, props: Props[Unit]) =>
       {
         val slug = props.`match`.params("operationSlug")
 
-        val OperationsList: Seq[OperationModel] = state.operations.filter(_.slug == slug)
+        val operationExpanded: Future[Option[OperationExpanded]] = OperationService
+          .getOperationBySlug(slug)
+          .map(_.map { operation =>
+            OperationExpanded.getOperationExpandedFromOperation(operation)
+          })
 
-        if (OperationsList.isEmpty) {
-          props.history.push("/")
-          Operation.OperationProps(OperationModel.empty, None, None, Some(Location.Homepage))
-        } else {
-          dispatch(LoadConfiguration)
-          Operation.OperationProps(OperationsList.head, None, None, None)
-        }
+        Operation.OperationProps(operationExpanded, None, None, Some(Location.Homepage))
       }
     }
 }

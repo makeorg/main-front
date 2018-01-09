@@ -52,7 +52,7 @@ object OperationHeader {
         object DynamicOperationHeaderStyles extends StyleSheet.Inline {
           import dsl._
 
-          val proposalInputIntro = style(color :=! operation.theme.color)
+          val proposalInputIntro = style(color :=! operation.color)
         }
 
         <.header(^.className := OperationHeaderStyles.wrapper)(

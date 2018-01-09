@@ -6,44 +6,63 @@ import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import org.make.front.Main.CssSettings._
 import org.make.front.components.Components._
 import org.make.front.components.operation.OperationHeader.OperationHeaderProps
-import org.make.front.components.operation.ResultsInOperationContainer.ResultsInOperationContainerProps
 import org.make.front.components.operation.OperationIntro.OperationIntroProps
+import org.make.front.components.operation.ResultsInOperationContainer.ResultsInOperationContainerProps
 import org.make.front.facades.FacebookPixel
 import org.make.front.models.{
   Location          => LocationModel,
-  TranslatedTheme   => TranslatedThemeModel,
   OperationExpanded => OperationModel,
-  Sequence          => SequenceModel
+  Sequence          => SequenceModel,
+  TranslatedTheme   => TranslatedThemeModel
 }
 import org.make.front.styles.ThemeStyles
+
+import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.Future
 import scala.scalajs.js
+import scala.util.{Failure, Success}
 
 object Operation {
 
-  final case class OperationProps(operation: OperationModel,
+  final case class OperationProps(futureMaybeOperation: Future[Option[OperationModel]],
                                   maybeTheme: Option[TranslatedThemeModel],
                                   maybeSequence: Option[SequenceModel],
                                   maybeLocation: Option[LocationModel])
 
+  final case class OperationState(operation: OperationModel)
+
   lazy val reactClass: ReactClass =
     React
-      .createClass[OperationProps, Unit](
+      .createClass[OperationProps, OperationState](
         displayName = "Operation",
-        componentDidMount = { self =>
-          FacebookPixel
-            .fbq(
-              "trackCustom",
-              "display-page-operation",
-              js.Dictionary("id" -> self.props.wrapped.operation.operationId.value)
-            )
+        componentDidMount = {
+          self =>
+            self.props.wrapped.futureMaybeOperation.onComplete {
+              case Success(maybeOperation) =>
+                maybeOperation match {
+                  case Some(operation) =>
+                    self.setState(_.copy(operation = operation))
+                    FacebookPixel
+                      .fbq("trackCustom", "display-page-operation", js.Dictionary("id" -> operation.operationId.value))
+                  case _ =>
+                    self.setState(_.copy(operation = OperationModel.empty))
+                    FacebookPixel
+                      .fbq("trackCustom", "display-page-operation", js.Dictionary("id" -> "none"))
+
+                }
+              case Failure(_) => // Let parent handle logging error
+            }
+        },
+        getInitialState = { _ =>
+          OperationState(OperationModel.empty)
         },
         render = (self) => {
           <("operation")()(
             <.div(^.className := OperationComponentStyles.mainHeaderWrapper)(<.MainHeaderComponent.empty),
-            <.OperationIntroComponent(^.wrapped := OperationIntroProps(operation = self.props.wrapped.operation))(),
+            <.OperationIntroComponent(^.wrapped := OperationIntroProps(operation = self.state.operation))(),
             <.OperationHeaderComponent(
               ^.wrapped := OperationHeaderProps(
-                self.props.wrapped.operation,
+                self.state.operation,
                 maybeSequence = self.props.wrapped.maybeSequence,
                 maybeLocation = self.props.wrapped.maybeLocation
               )
@@ -51,7 +70,7 @@ object Operation {
             <.div(^.className := OperationComponentStyles.contentWrapper)(
               <.ResultsInOperationContainerComponent(
                 ^.wrapped := ResultsInOperationContainerProps(
-                  currentOperation = self.props.wrapped.operation,
+                  currentOperation = self.state.operation,
                   maybeTheme = self.props.wrapped.maybeTheme,
                   maybeSequence = self.props.wrapped.maybeSequence,
                   maybeLocation = self.props.wrapped.maybeLocation

@@ -8,13 +8,13 @@ import io.github.shogowada.scalajs.reactjs.router.RouterProps._
 import org.make.front.actions.NotifyError
 import org.make.front.components.AppState
 import org.make.front.facades.I18n
-
 import org.make.front.models.{
+  OperationExpanded => OperationModel,
   Proposal          => ProposalModel,
-  TranslatedTheme   => TranslatedThemeModel,
-  OperationExpanded => OperationModel
+  TranslatedTheme   => TranslatedThemeModel
 }
-import org.make.services.proposal.ProposalService
+import org.make.services.operation.OperationService
+import org.make.services.proposal.{ProposalService, SearchResult}
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
@@ -36,38 +36,46 @@ object ProposalContainer {
 
           val proposalSlug = props.`match`.params("proposalSlug")
 
-          val proposalsResponse =
-            ProposalService
-              .searchProposals(slug = Some(proposalSlug), limit = Some(1), sort = Seq.empty, skip = None)
-              .map { proposalsResponse =>
-                if (proposalsResponse.results.nonEmpty) {
+          val futureSearchResult: Future[SearchResult] =
+            ProposalService.searchProposals(slug = Some(proposalSlug), limit = Some(1), sort = Seq.empty, skip = None)
 
-                  val proposal = proposalsResponse.results.head
+          def getProposalAndThemeOrOperationModelFromProposal(
+            proposal: ProposalModel
+          ): Future[ProposalAndThemeOrOperationModel] = {
+            val maybeTheme: Option[TranslatedThemeModel] =
+              proposal.themeId.flatMap(themeId => state.themes.find(_.id.value == themeId.value))
 
-                  val maybeTheme: Option[TranslatedThemeModel] =
-                    proposal.themeId.flatMap(themeId => state.themes.find(_.id.value == themeId.value))
-
-                  val maybeOperation: Option[OperationModel] =
-                    proposal.operationId.flatMap { operationId =>
-                      state.operations.find(_.operationId.value == operationId.value)
-                    }
-
-                  ProposalAndThemeOrOperationModel(
-                    maybeProposal = Some(proposal),
-                    maybeTheme = maybeTheme,
-                    maybeOperation = maybeOperation
-                  )
-                } else {
-                  ProposalAndThemeOrOperationModel()
+            val futureMaybeOperation: Future[Option[OperationModel]] = proposal.operationId match {
+              case Some(operationId) =>
+                OperationService.getOperationById(operationId).map { operation =>
+                  val operationExpanded = OperationModel.getOperationExpandedFromOperation(operation)
+                  Some(operationExpanded)
                 }
-              }
+              case _ => Future.successful(None)
+            }
 
-          proposalsResponse.onComplete {
+            futureMaybeOperation.map { maybeOperation =>
+              ProposalAndThemeOrOperationModel(
+                maybeProposal = Some(proposal),
+                maybeTheme = maybeTheme,
+                maybeOperation = maybeOperation
+              )
+            }
+          }
+
+          val futureProposalAndThemeOrOperationModel: Future[ProposalAndThemeOrOperationModel] =
+            futureSearchResult.flatMap {
+              case searchResult if searchResult.total > 0 =>
+                getProposalAndThemeOrOperationModelFromProposal(searchResult.results.head)
+              case _ => Future.successful(ProposalAndThemeOrOperationModel())
+            }
+
+          futureProposalAndThemeOrOperationModel.onComplete {
             case Success(_) => // let child handle new results
             case Failure(_) => dispatch(NotifyError(I18n.t("errors.main")))
           }
 
-          proposalsResponse
+          futureProposalAndThemeOrOperationModel
         }
 
         Proposal.ProposalProps(futureProposal = futureProposal)
