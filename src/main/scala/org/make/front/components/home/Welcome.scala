@@ -11,7 +11,8 @@ import org.make.front.styles._
 import org.make.front.styles.base.{LayoutRulesStyles, TableLayoutStyles, TextStyles}
 import org.make.front.styles.ui.CTAStyles
 import org.make.front.styles.utils._
-import org.make.services.tracking.TrackingService
+import org.make.services.tracking.{TrackingLocation, TrackingService}
+import org.make.services.tracking.TrackingService.TrackingContext
 
 object Welcome {
 
@@ -19,8 +20,8 @@ object Welcome {
     displayName = "Welcome",
     render = { _ =>
       def onclick: () => Unit = { () =>
-        TrackingService.track("click-button-whoweare")
-        scalajs.js.Dynamic.global.window.open(I18n.t("home.welcome.see-more-link"), "_blank")
+        TrackingService.track("click-button-whoweare", TrackingContext(TrackingLocation.homepage))
+        scalajs.js.Dynamic.global.window.open(I18n.t("welcome.intro.see-more-link"), "_blank")
       }
       <.section(^.className := Seq(TableLayoutStyles.wrapper, WelcomeStyles.wrapper))(
         <.div(^.className := Seq(TableLayoutStyles.cellVerticalAlignMiddle, WelcomeStyles.innerWrapper))(

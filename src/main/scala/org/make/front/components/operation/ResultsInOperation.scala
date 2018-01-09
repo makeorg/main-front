@@ -32,11 +32,11 @@ import org.make.front.styles.base.{ColRulesStyles, LayoutRulesStyles, TextStyles
 import org.make.front.styles.ui.CTAStyles
 import org.make.front.styles.utils._
 import org.make.services.proposal.SearchResult
-import org.make.services.tracking.TrackingService
+import org.make.services.tracking.TrackingService.TrackingContext
+import org.make.services.tracking.{TrackingLocation, TrackingService}
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
-import scala.scalajs.js
 import scala.util.{Failure, Success}
 
 object ResultsInOperation {
@@ -181,11 +181,11 @@ object ResultsInOperation {
             changedTags.foreach { tag =>
               TrackingService.track(
                 "click-tag-action",
-                Map(
-                  "nature" -> action,
-                  "name" -> tag.label,
-                  "operation" -> self.props.wrapped.operation.operationId.value
-                )
+                TrackingContext(
+                  TrackingLocation.operationPage,
+                  operationSlug = Some(self.props.wrapped.operation.slug)
+                ),
+                Map("nature" -> action, "tag-name" -> tag.label)
               )
             }
 
@@ -230,7 +230,7 @@ object ResultsInOperation {
                         handleSuccessfulVote = onSuccessfulVote(proposal.id, self),
                         handleSuccessfulQualification = onSuccessfulQualification(proposal.id, self),
                         index = counter.getAndIncrement(),
-                        locationFacebook = Some("page-operation"),
+                        trackingLocation = TrackingLocation.operationPage,
                         maybeTheme = self.props.wrapped.maybeTheme,
                         maybeOperation = Some(self.props.wrapped.operation),
                         maybeSequence = self.props.wrapped.maybeSequence,
@@ -246,7 +246,10 @@ object ResultsInOperation {
                   onSeeMore(1)
                   TrackingService.track(
                     "click-proposal-viewmore",
-                    Map("location" -> LocationModel.OperationPage(self.props.wrapped.operation.operationId).name)
+                    TrackingContext(
+                      TrackingLocation.operationPage,
+                      operationSlug = Some(self.props.wrapped.operation.slug)
+                    )
                   )
                 }), ^.className := Seq(CTAStyles.basic, CTAStyles.basicOnButton))(
                   unescape(I18n.t("operation.results.see-more"))

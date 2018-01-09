@@ -13,39 +13,48 @@ import org.make.front.models.OperationId
 import org.make.front.styles._
 import org.make.front.styles.base.TextStyles
 import org.make.front.styles.utils._
+import org.make.services.tracking.TrackingService.TrackingContext
 
 object LoginWithSocialNetworksOrEmail {
 
-  case class LoginWithSocialNetworksOrEmailProps(onSuccessfulLogin: () => Unit = () => {}, operationId: Option[OperationId])
+  case class LoginWithSocialNetworksOrEmailProps(trackingContext: TrackingContext,
+                                                 onSuccessfulLogin: () => Unit = () => {},
+                                                 operationId: Option[OperationId])
 
-  val reactClass: ReactClass = React.createClass[LoginWithSocialNetworksOrEmailProps, Unit](
-    displayName = "LoginWithEmailOrSocialNetworks",
-    render = { self =>
-      <.div()(
-        <.div(^.className := LoginWithSocialNetworksOrEmailStyles.introWrapper)(
-          <.p(^.className := TextStyles.smallTitle)(unescape(I18n.t("authenticate.login.with-social-networks-intro")))
-        ),
-        <.AuthenticateWithSocialNetworksComponent(
-          ^.wrapped := AuthenticateWithSocialNetworksProps(
-            onSuccessfulLogin = self.props.wrapped.onSuccessfulLogin,
-            operationId = self.props.wrapped.operationId
-          )
-        )(),
-        <.div(^.className := LoginWithSocialNetworksOrEmailStyles.separatorWrapper)(
-          <.p(^.className := Seq(LoginWithSocialNetworksOrEmailStyles.separator, TextStyles.smallText))(
-            I18n.t("authenticate.login.separator")
-          )
-        ),
-        <.div(^.className := LoginWithSocialNetworksOrEmailStyles.introWrapper)(
-          <.p(^.className := TextStyles.smallTitle)(unescape(I18n.t("authenticate.login.with-email-intro")))
-        ),
-        <.LoginWithEmailComponent(
-          ^.wrapped := LoginWithEmailContainerProps(note = "", onSuccessfulLogin = self.props.wrapped.onSuccessfulLogin)
-        )(),
-        <.style()(LoginWithSocialNetworksOrEmailStyles.render[String])
-      )
-    }
-  )
+  val reactClass: ReactClass = React
+    .createClass[LoginWithSocialNetworksOrEmailProps, Unit](
+      displayName = "LoginWithEmailOrSocialNetworks",
+      render = { self =>
+        <.div()(
+          <.div(^.className := LoginWithSocialNetworksOrEmailStyles.introWrapper)(
+            <.p(^.className := TextStyles.smallTitle)(unescape(I18n.t("authenticate.login.with-social-networks-intro")))
+          ),
+          <.AuthenticateWithSocialNetworksComponent(
+            ^.wrapped := AuthenticateWithSocialNetworksProps(
+              trackingContext = self.props.wrapped.trackingContext,
+              onSuccessfulLogin = self.props.wrapped.onSuccessfulLogin,
+              operationId = self.props.wrapped.operationId
+            )
+          )(),
+          <.div(^.className := LoginWithSocialNetworksOrEmailStyles.separatorWrapper)(
+            <.p(^.className := Seq(LoginWithSocialNetworksOrEmailStyles.separator, TextStyles.smallText))(
+              I18n.t("authenticate.login.separator")
+            )
+          ),
+          <.div(^.className := LoginWithSocialNetworksOrEmailStyles.introWrapper)(
+            <.p(^.className := TextStyles.smallTitle)(unescape(I18n.t("authenticate.login.with-email-intro")))
+          ),
+          <.LoginWithEmailComponent(
+            ^.wrapped := LoginWithEmailContainerProps(
+              note = "",
+              trackingContext = self.props.wrapped.trackingContext,
+              onSuccessfulLogin = self.props.wrapped.onSuccessfulLogin
+            )
+          )(),
+          <.style()(LoginWithSocialNetworksOrEmailStyles.render[String])
+        )
+      }
+    )
 }
 
 object LoginWithSocialNetworksOrEmailStyles extends StyleSheet.Inline {

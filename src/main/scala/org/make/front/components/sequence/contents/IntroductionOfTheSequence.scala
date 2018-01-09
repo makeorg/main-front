@@ -7,6 +7,7 @@ import org.make.front.Main.CssSettings._
 import org.make.front.components.Components._
 import org.make.front.facades.I18n
 import org.make.front.facades.Unescape.unescape
+import org.make.front.models.{SequenceId => SequenceIdModel}
 import org.make.front.styles.ThemeStyles
 import org.make.front.styles.base.{LayoutRulesStyles, TextStyles}
 import org.make.front.styles.ui.CTAStyles

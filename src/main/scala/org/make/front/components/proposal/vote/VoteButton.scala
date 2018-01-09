@@ -17,7 +17,8 @@ import org.make.front.styles.base.TextStyles
 import org.make.front.styles.ui.TooltipStyles
 import org.make.front.styles.utils._
 import org.make.front.styles.vendors.FontAwesomeStyles
-import org.make.services.tracking.TrackingService
+import org.make.services.tracking.{TrackingLocation, TrackingService}
+import org.make.services.tracking.TrackingService.TrackingContext
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
@@ -83,16 +84,6 @@ object VoteButton {
       }
 
       def qualify(key: String): Future[Qualification] = {
-        TrackingService.track(
-          "click-proposal-qualify",
-          Map(
-            "location" -> "sequence",
-            "proposalId" -> self.props.wrapped.proposalId.value.toString,
-            "type" -> key,
-            "nature" -> self.props.wrapped.vote.key
-          )
-        )
-
         val future = self.props.wrapped.qualifyVote(self.props.wrapped.vote.key, key)
         if (self.props.wrapped.updateState) {
           future.onComplete {

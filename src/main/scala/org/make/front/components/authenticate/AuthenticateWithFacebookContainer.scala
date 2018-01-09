@@ -8,6 +8,7 @@ import org.make.front.components.authenticate.AuthenticateWithFacebookButton.Aut
 import org.make.front.facades.Configuration
 import org.make.front.facades.ReactFacebookLogin.FacebookAuthResponse
 import org.make.front.models.{OperationId, User => UserModel}
+import org.make.services.tracking.TrackingService.TrackingContext
 import org.make.services.user.UserService
 import org.scalajs.dom.experimental.Response
 
@@ -17,7 +18,8 @@ import scala.util.{Failure, Success}
 
 object AuthenticateWithFacebookContainer {
 
-  case class AuthenticateWithFacebookContainerProps(onSuccessfulLogin: () => Unit = () => {},
+  case class AuthenticateWithFacebookContainerProps(trackingContext: TrackingContext,
+                                                    onSuccessfulLogin: () => Unit = () => {},
                                                     isLookingLikeALink: Boolean = false,
                                                     operationId: Option[OperationId])
 
@@ -44,6 +46,7 @@ object AuthenticateWithFacebookContainer {
         }
 
         AuthenticateWithFacebookButtonProps(
+          trackingContext = props.wrapped.trackingContext,
           isConnected = state.connectedUser.isDefined,
           facebookAppId = Configuration.facebookAppId,
           errorMessages = Seq.empty,

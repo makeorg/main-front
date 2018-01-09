@@ -9,11 +9,13 @@ import org.make.front.Main.CssSettings._
 import org.make.front.components.Components._
 import org.make.front.components.submitProposal.SubmitProposalAndAuthenticateContainer.SubmitProposalAndAuthenticateContainerProps
 import org.make.front.facades.Unescape.unescape
-import org.make.front.facades.{I18n}
+import org.make.front.facades.I18n
 import org.make.front.models.{Location, GradientColor => GradientColorModel, TranslatedTheme => TranslatedThemeModel}
 import org.make.front.styles.ThemeStyles
 import org.make.front.styles.base.TextStyles
 import org.make.front.styles.utils._
+import org.make.services.tracking.TrackingLocation
+import org.make.services.tracking.TrackingService.TrackingContext
 
 import scalacss.internal.Attr
 
@@ -78,6 +80,7 @@ object SubmitProposalInRelationToTheme {
           <.SubmitProposalAndAuthenticateContainerComponent(
             ^.wrapped :=
               SubmitProposalAndAuthenticateContainerProps(
+                trackingContext = TrackingContext(TrackingLocation.submitProposalPage),
                 intro = intro,
                 onProposalProposed = self.props.wrapped.onProposalProposed,
                 maybeTheme = Some(self.props.wrapped.theme),

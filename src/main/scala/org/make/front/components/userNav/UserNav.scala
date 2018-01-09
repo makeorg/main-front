@@ -20,6 +20,8 @@ import org.make.front.styles.ThemeStyles
 import org.make.front.styles.base.{RWDHideRulesStyles, TextStyles}
 import org.make.front.styles.utils._
 import org.make.front.styles.vendors.FontAwesomeStyles
+import org.make.services.tracking.TrackingLocation
+import org.make.services.tracking.TrackingService.TrackingContext
 
 object UserNav {
 
@@ -122,9 +124,13 @@ object UnconnectedUserNavElement {
           )
         )(
           <.LoginOrRegisterComponent(
-            ^.wrapped := LoginOrRegisterProps(displayView = self.state.loginOrRegisterView, onSuccessfulLogin = () => {
-              self.setState(_.copy(isAuthenticateModalOpened = false))
-            })
+            ^.wrapped := LoginOrRegisterProps(
+              displayView = self.state.loginOrRegisterView,
+              trackingContext = TrackingContext(TrackingLocation.navBar),
+              onSuccessfulLogin = () => {
+                self.setState(_.copy(isAuthenticateModalOpened = false))
+              }
+            )
           )()
         )
       )

@@ -16,7 +16,8 @@ import org.make.front.styles.base.{LayoutRulesStyles, TextStyles}
 import org.make.front.styles.ui.CTAStyles
 import org.make.front.styles.utils._
 import org.make.front.styles.vendors.FontAwesomeStyles
-import org.make.services.tracking.TrackingService
+import org.make.services.tracking.{TrackingLocation, TrackingService}
+import org.make.services.tracking.TrackingService.TrackingContext
 
 object PromptingToProposeInRelationToOperation {
 
@@ -43,12 +44,20 @@ object PromptingToProposeInRelationToOperation {
           val openProposalModal: (MouseSyntheticEvent) => Unit = { event =>
             event.preventDefault()
             self.setState(state => state.copy(isProposalModalOpened = true))
-            TrackingService.track("click-proposal-submit-form-open", Map("location" -> "prop-boost-card"))
+            TrackingService.track(
+              "click-proposal-submit-form-open",
+              TrackingContext(TrackingLocation.sequenceProposalPushCard, Some(self.props.wrapped.operation.slug)),
+              Map("sequenceId" -> self.props.wrapped.maybeSequence.map(_.sequenceId.value).getOrElse(""))
+            )
           }
 
           val onNextProposal: () => Unit = { () =>
             self.props.wrapped.clickOnButtonHandler()
-            TrackingService.track("click-proposal-push-card-ignore")
+            TrackingService.track(
+              "click-proposal-push-card-ignore",
+              TrackingContext(TrackingLocation.sequencePage, Some(self.props.wrapped.operation.slug)),
+              Map("sequenceId" -> self.props.wrapped.maybeSequence.map(_.sequenceId.value).getOrElse(""))
+            )
           }
 
           <.div(^.className := Seq(LayoutRulesStyles.row, PromptingToProposeInRelationToOperationStyles.wrapper))(

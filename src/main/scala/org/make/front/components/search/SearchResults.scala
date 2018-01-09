@@ -21,7 +21,8 @@ import org.make.front.styles.base.{ColRulesStyles, LayoutRulesStyles, TableLayou
 import org.make.front.styles.ui.CTAStyles
 import org.make.front.styles.utils._
 import org.make.services.proposal.SearchResult
-import org.make.services.tracking.TrackingService
+import org.make.services.tracking.TrackingService.TrackingContext
+import org.make.services.tracking.{TrackingLocation, TrackingService}
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
@@ -55,8 +56,6 @@ object SearchResults {
     WithRouter(
       React.createClass[SearchResultsProps, SearchResultsState](displayName = "SearchResults", getInitialState = { _ =>
         SearchResultsState.empty
-      }, componentDidMount = { _ =>
-        TrackingService.track("display-search-page")
       }, componentWillReceiveProps = (self, _) => {
         self.setState(SearchResultsState.empty)
       }, render = {
@@ -70,6 +69,16 @@ object SearchResults {
                 .onMoreResultsRequested(self.state.listProposals, self.props.wrapped.searchValue)
                 .onComplete {
                   case Success(searchResult) =>
+                    if (self.state.initialLoad) {
+                      TrackingService.track(
+                        "display-search-results-page",
+                        TrackingContext(
+                          TrackingLocation.searchResultsPage,
+                          self.props.wrapped.maybeOperation.map(_.slug)
+                        ),
+                        Map("results-count" -> searchResult.total.toString)
+                      )
+                    }
                     self.setState(
                       _.copy(
                         listProposals = searchResult.results,
@@ -111,7 +120,8 @@ object SearchResults {
                             index = counter.getAndIncrement(),
                             maybeSequence = self.props.wrapped.maybeSequence,
                             maybeOperation = self.props.wrapped.maybeOperation,
-                            maybeLocation = self.props.wrapped.maybeLocation
+                            maybeLocation = self.props.wrapped.maybeLocation,
+                            trackingLocation = TrackingLocation.searchResultsPage
                           )
                       )()
                   )
@@ -121,7 +131,14 @@ object SearchResults {
                 <.div(^.className := Seq(SearchResultsStyles.seeMoreButtonWrapper, LayoutRulesStyles.centeredRow))(
                   <.button(^.onClick := { () =>
                     onSeeMore(1)
-                    TrackingService.track("click-proposal-viewmore", Map("location" -> Location.SearchResultsPage.name))
+                    TrackingService
+                      .track(
+                        "click-proposal-viewmore",
+                        TrackingContext(
+                          TrackingLocation.searchResultsPage,
+                          self.props.wrapped.maybeOperation.map(_.slug)
+                        )
+                      )
                   }, ^.className := Seq(CTAStyles.basic, CTAStyles.basicOnButton))(
                     unescape(I18n.t("search.results.see-more"))
                   )

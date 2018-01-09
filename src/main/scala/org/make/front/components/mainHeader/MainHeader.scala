@@ -3,10 +3,8 @@ package org.make.front.components.mainHeader
 import io.github.shogowada.scalajs.reactjs.React
 import io.github.shogowada.scalajs.reactjs.VirtualDOM._
 import io.github.shogowada.scalajs.reactjs.classes.ReactClass
-import io.github.shogowada.scalajs.reactjs.router.dom.RouterDOM.{
-  RouterDOMVirtualDOMElements,
-  RouterVirtualDOMAttributes
-}
+import io.github.shogowada.scalajs.reactjs.router.RouterProps._
+import io.github.shogowada.scalajs.reactjs.router.WithRouter
 import org.make.front.Main.CssSettings._
 import org.make.front.components.Components._
 import org.make.front.facades.Unescape.unescape
@@ -14,56 +12,69 @@ import org.make.front.facades.{logoMake, I18n}
 import org.make.front.styles._
 import org.make.front.styles.base._
 import org.make.front.styles.utils._
+import org.make.services.tracking.TrackingService.TrackingContext
+import org.make.services.tracking.{TrackingLocation, TrackingService}
 
 object MainHeader {
   lazy val reactClass: ReactClass =
-    React
-      .createClass[Unit, Unit](
-        displayName = "MainHeader",
-        render = (self) => {
-          <.header(^.className := MainHeaderStyles.wrapper)(
-            <.CookieAlertContainerComponent.empty,
-            <.div(^.className := LayoutRulesStyles.centeredRow)(
-              <.div(^.className := Seq(TableLayoutStyles.wrapper, MainHeaderStyles.innerWrapper))(
-                <.p(^.className := Seq(TableLayoutStyles.cellVerticalAlignMiddle, MainHeaderStyles.logoWrapper))(
-                  <.Link(^.to := "/")(
-                    <.img(
-                      ^.className := MainHeaderStyles.logo,
-                      ^.src := logoMake.toString,
-                      ^.title := I18n.t("main-header.title"),
-                      ^.alt := I18n.t("main-header.title"),
-                      ^("data-pin-no-hover") := "true"
-                    )()
-                  )
-                ),
-                <.div(^.className := Seq(TableLayoutStyles.cellVerticalAlignMiddle, MainHeaderStyles.searchWrapper))(
-                  <.SearchFormComponent.empty
-                ),
-                <.div(^.className := Seq(TableLayoutStyles.cellVerticalAlignMiddle, MainHeaderStyles.menusWrapper))(
-                  <.div(^.className := MainHeaderStyles.menusInnerWrapper)(
-                    <.nav(^.className := Seq(RWDHideRulesStyles.showInlineBlockBeyondMedium))(
-                      <.ul()(
-                        <.li(^.className := MainHeaderStyles.menuItem)(
-                          <.p(^.className := Seq(TextStyles.title, TextStyles.smallText))(
-                            <.a(
-                              ^.href := I18n.t("main-header.menu.item-1.link"),
-                              ^.target := "_blank",
-                              ^.className := MainHeaderStyles.menuItemLink
-                            )(unescape(I18n.t("main-header.menu.item-1.label")))
-                          )
-                        )
+    WithRouter(
+      React
+        .createClass[Unit, Unit](
+          displayName = "MainHeader",
+          render = {
+            self =>
+              val trackLogoClick: () => Unit = () => {
+                TrackingService.track("click-navbar-logo", TrackingContext(TrackingLocation.navBar))
+                self.props.history.push("/")
+              }
+
+              val trackAboutUsClick: () => Unit = () => {
+                TrackingService.track("click-navbar-whoarewe", TrackingContext(TrackingLocation.navBar))
+                scalajs.js.Dynamic.global.window.open(I18n.t("main-header.menu.item-1.link"), "_blank")
+              }
+
+              <.header(^.className := MainHeaderStyles.wrapper)(
+                <.CookieAlertContainerComponent.empty,
+                <.div(^.className := LayoutRulesStyles.centeredRow)(
+                  <.div(^.className := Seq(TableLayoutStyles.wrapper, MainHeaderStyles.innerWrapper))(
+                    <.p(^.className := Seq(TableLayoutStyles.cellVerticalAlignMiddle, MainHeaderStyles.logoWrapper))(
+                      <.button(^.onClick := trackLogoClick)(
+                        <.img(
+                          ^.className := MainHeaderStyles.logo,
+                          ^.src := logoMake.toString,
+                          ^.title := I18n.t("main-header.title"),
+                          ^.alt := I18n.t("main-header.title"),
+                          ^("data-pin-no-hover") := "true"
+                        )()
                       )
                     ),
-                    <.UserNavContainerComponent.empty
+                    <.div(
+                      ^.className := Seq(TableLayoutStyles.cellVerticalAlignMiddle, MainHeaderStyles.searchWrapper)
+                    )(<.SearchFormComponent.empty),
+                    <.div(^.className := Seq(TableLayoutStyles.cellVerticalAlignMiddle, MainHeaderStyles.menusWrapper))(
+                      <.div(^.className := MainHeaderStyles.menusInnerWrapper)(
+                        <.nav(^.className := Seq(RWDHideRulesStyles.showInlineBlockBeyondMedium))(
+                          <.ul()(
+                            <.li(^.className := MainHeaderStyles.menuItem)(
+                              <.p(^.className := Seq(TextStyles.title, TextStyles.smallText))(
+                                <.button(^.onClick := trackAboutUsClick, ^.className := MainHeaderStyles.menuItemLink)(
+                                  unescape(I18n.t("main-header.menu.item-1.label"))
+                                )
+                              )
+                            )
+                          )
+                        ),
+                        <.UserNavContainerComponent.empty
+                      )
+                    )
                   )
-                )
+                ),
+                <.div(^.className := MainHeaderStyles.notificationsWrapper)(<.NotificationsComponent.empty),
+                <.style()(MainHeaderStyles.render[String])
               )
-            ),
-            <.div(^.className := MainHeaderStyles.notificationsWrapper)(<.NotificationsComponent.empty),
-            <.style()(MainHeaderStyles.render[String])
-          )
-        }
-      )
+          }
+        )
+    )
 }
 
 object MainHeaderStyles extends StyleSheet.Inline {

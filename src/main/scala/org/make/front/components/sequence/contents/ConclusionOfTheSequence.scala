@@ -11,7 +11,8 @@ import org.make.front.facades.Unescape.unescape
 import org.make.front.styles.ThemeStyles
 import org.make.front.styles.base.{LayoutRulesStyles, TextStyles}
 import org.make.front.styles.utils._
-import org.make.services.tracking.TrackingService
+import org.make.services.tracking.{TrackingLocation, TrackingService}
+import org.make.services.tracking.TrackingService.TrackingContext
 
 object ConclusionOfTheSequence {
 
@@ -27,7 +28,7 @@ object ConclusionOfTheSequence {
       },
       render = { self =>
         def onSubscribeToNewsletterSuccess(): () => Unit = { () =>
-          TrackingService.track("click-email-submit")
+          TrackingService.track("click-email-submit", TrackingContext(TrackingLocation.unknown))
           self.setState(_.copy(subscriptionToNewsletterHasSucceed = true))
         }
 

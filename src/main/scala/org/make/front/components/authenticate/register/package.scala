@@ -4,6 +4,7 @@ import org.make.client.ValidationError
 import org.make.core.validation.PasswordConstraint
 import org.make.front.facades.{I18n, Replacements}
 import org.make.front.models.{User => UserModel}
+import org.make.services.tracking.TrackingService.TrackingContext
 
 import scala.concurrent.Future
 
@@ -19,7 +20,9 @@ package object register {
     val empty = RegisterState(Map(), Map())
   }
 
-  case class RegisterProps(note: String, register: (RegisterState) => Future[UserModel])
+  case class RegisterProps(note: String,
+                           register: (RegisterState) => Future[UserModel],
+                           trackingContext: TrackingContext)
 
   def getErrorsMessagesFromApiErrors(errors: Seq[ValidationError]): Seq[(String, String)] = {
     errors.map {

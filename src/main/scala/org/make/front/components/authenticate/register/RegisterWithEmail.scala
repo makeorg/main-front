@@ -25,12 +25,16 @@ import scala.util.{Failure, Success}
 object RegisterWithEmail {
 
   val reactClass: ReactClass =
-    React.createClass[RegisterProps, RegisterState](displayName = "RegisterWithEmail", getInitialState = { _ =>
-      RegisterState(Map(), Map())
-    }, componentDidMount = { _ =>
-      TrackingService.track("display-signup-form", Map("signup-type" -> "light"))
-    }, render = {
-      self =>
+    React.createClass[RegisterProps, RegisterState](
+      displayName = "RegisterWithEmail",
+      getInitialState = { _ =>
+        RegisterState(Map(), Map())
+      },
+      componentDidMount = { self =>
+        TrackingService
+          .track("display-signup-form", self.props.wrapped.trackingContext, Map("signup-type" -> "light"))
+      },
+      render = { self =>
         def updateField(name: String): (FormSyntheticEvent[HTMLInputElement]) => Unit = { event =>
           val inputValue = event.target.value
           self.setState(
@@ -175,7 +179,8 @@ object RegisterWithEmail {
           ),
           <.style()(RegisterWithEmailStyles.render[String])
         )
-    })
+      }
+    )
 }
 
 object RegisterWithEmailStyles extends StyleSheet.Inline {

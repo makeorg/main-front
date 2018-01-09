@@ -24,6 +24,7 @@ import org.make.front.styles._
 import org.make.front.styles.base.{TableLayoutStyles, TextStyles}
 import org.make.front.styles.ui.TagStyles
 import org.make.front.styles.utils._
+import org.make.services.tracking.TrackingLocation
 
 object ProposalTileWithTags {
 
@@ -32,7 +33,7 @@ object ProposalTileWithTags {
                                              handleSuccessfulVote: (VoteModel)                           => Unit = (_) => {},
                                              handleSuccessfulQualification: (String, QualificationModel) => Unit =
                                                (_, _) => {},
-                                             locationFacebook: Option[String] = None,
+                                             trackingLocation: TrackingLocation,
                                              maybeTheme: Option[TranslatedThemeModel],
                                              maybeOperation: Option[OperationModel],
                                              maybeSequence: Option[SequenceModel],
@@ -75,7 +76,7 @@ object ProposalTileWithTags {
                           onSuccessfulVote = self.props.wrapped.handleSuccessfulVote,
                           onSuccessfulQualification = self.props.wrapped.handleSuccessfulQualification,
                           index = self.props.wrapped.index,
-                          locationFBTracking = self.props.wrapped.locationFacebook,
+                          trackingLocation = self.props.wrapped.trackingLocation,
                           maybeTheme = self.props.wrapped.maybeTheme,
                           maybeOperation = self.props.wrapped.maybeOperation,
                           maybeSequence = self.props.wrapped.maybeSequence,

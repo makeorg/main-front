@@ -16,6 +16,7 @@ import org.make.front.styles.ui.{CTAStyles, InputStyles, TooltipStyles}
 import org.make.front.styles.utils._
 import org.make.front.styles.vendors.FontAwesomeStyles
 import org.make.services.tracking.TrackingService
+import org.make.services.tracking.TrackingService.TrackingContext
 import org.scalajs.dom.raw.HTMLInputElement
 
 object SubmitProposalForm {
@@ -24,7 +25,8 @@ object SubmitProposalForm {
 
   case class SubmitProposalFormState(proposalContent: String = "", errorMessage: Option[String] = None)
 
-  case class SubmitProposalFormProps(bait: String,
+  case class SubmitProposalFormProps(trackingContext: TrackingContext,
+                                     bait: String,
                                      proposalContentMaxLength: Int,
                                      proposalContentMinLength: Int,
                                      maybeTheme: Option[TranslatedThemeModel],
@@ -44,7 +46,7 @@ object SubmitProposalForm {
         val props = self.props.wrapped
 
         val handleProposalInputValueChanged: (FormSyntheticEvent[HTMLInputElement]) => Unit = { e =>
-          var newProposalContent = e.target.value
+          val newProposalContent = e.target.value
 
           if (!newProposalContent.startsWith(self.props.wrapped.bait)) {
             self.setState(
@@ -96,7 +98,7 @@ object SubmitProposalForm {
               )
             } else {
               self.props.wrapped.handleSubmitProposalForm(content)
-              TrackingService.track("click-proposal-submit")
+              TrackingService.track("click-proposal-submit", self.props.wrapped.trackingContext)
             }
             false
         }

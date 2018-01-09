@@ -14,6 +14,8 @@ import org.make.front.models.Location
 import org.make.front.styles._
 import org.make.front.styles.base.TextStyles
 import org.make.front.styles.utils._
+import org.make.services.tracking.TrackingLocation
+import org.make.services.tracking.TrackingService.TrackingContext
 
 object SubmitProposal {
 
@@ -42,6 +44,7 @@ object SubmitProposal {
           <.SubmitProposalAndAuthenticateContainerComponent(
             ^.wrapped :=
               SubmitProposalAndAuthenticateContainerProps(
+                trackingContext = TrackingContext(TrackingLocation.submitProposalPage),
                 intro = intro,
                 onProposalProposed = self.props.wrapped.onProposalProposed,
                 maybeTheme = None,

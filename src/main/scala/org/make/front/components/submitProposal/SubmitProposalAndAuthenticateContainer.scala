@@ -14,13 +14,15 @@ import org.make.front.models.{
   TranslatedTheme   => TranslatedThemeModel
 }
 import org.make.services.proposal.ProposalService
+import org.make.services.tracking.TrackingService.TrackingContext
 
 import scala.concurrent.Future
 import org.scalajs.dom
 
 object SubmitProposalAndAuthenticateContainer {
 
-  case class SubmitProposalAndAuthenticateContainerProps(intro: (ReactElement)  => ReactElement = identity,
+  case class SubmitProposalAndAuthenticateContainerProps(intro: (ReactElement) => ReactElement = identity,
+                                                         trackingContext: TrackingContext,
                                                          onProposalProposed: () => Unit,
                                                          maybeTheme: Option[TranslatedThemeModel],
                                                          maybeOperation: Option[OperationModel],
@@ -47,6 +49,7 @@ object SubmitProposalAndAuthenticateContainer {
       }
 
       SubmitProposalAndAuthenticateProps(
+        trackingContext = props.wrapped.trackingContext,
         intro = props.wrapped.intro,
         maybeTheme = props.wrapped.maybeTheme,
         maybeOperation = props.wrapped.maybeOperation,

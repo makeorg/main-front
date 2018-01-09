@@ -17,10 +17,12 @@ import org.make.front.styles.ui.CTAStyles
 import org.make.front.styles.utils._
 import org.make.front.styles.vendors.FontAwesomeStyles
 import org.make.services.tracking.TrackingService
+import org.make.services.tracking.TrackingService.TrackingContext
 
 object PromptingToConnect {
 
   final case class PromptingToConnectProps(operation: OperationModel,
+                                           trackingContext: TrackingContext,
                                            clickOnButtonHandler: () => Unit,
                                            authenticateHandler: ()  => Unit)
 
@@ -36,6 +38,11 @@ object PromptingToConnect {
         render = { self =>
           def openLoginAuthenticateModal() = () => {
             self.setState(state => state.copy(isAuthenticateModalOpened = true, loginOrRegisterView = "login"))
+            TrackingService.track(
+              "click-sign-up-card-sign-in",
+              self.props.wrapped.trackingContext,
+              Map("sequenceId" -> self.props.wrapped.operation.sequence.map(_.value).getOrElse(""))
+            )
           }
 
           def openRegisterAuthenticateModal() = () => {
@@ -47,7 +54,7 @@ object PromptingToConnect {
           }
 
           val skipSignup: () => Unit = { () =>
-            TrackingService.track("skip-sign-up-card")
+            TrackingService.track("skip-sign-up-card", self.props.wrapped.trackingContext)
             self.props.wrapped.clickOnButtonHandler()
           }
 
@@ -65,6 +72,7 @@ object PromptingToConnect {
                 <.li(^.className := PromptingToConnectStyles.facebookConnectButtonWrapper)(
                   <.AuthenticateWithFacebookContainerComponent(
                     ^.wrapped := AuthenticateWithFacebookContainerProps(
+                      trackingContext = self.props.wrapped.trackingContext,
                       onSuccessfulLogin = () => {
                         self.props.wrapped.authenticateHandler()
                       },
@@ -98,6 +106,7 @@ object PromptingToConnect {
               )(
                 <.LoginOrRegisterComponent(
                   ^.wrapped := LoginOrRegisterProps(
+                    trackingContext = self.props.wrapped.trackingContext,
                     displayView = self.state.loginOrRegisterView,
                     onSuccessfulLogin = () => {
                       self.setState(_.copy(isAuthenticateModalOpened = false))

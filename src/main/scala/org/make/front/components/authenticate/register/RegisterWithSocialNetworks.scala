@@ -12,10 +12,13 @@ import org.make.front.facades.Unescape.unescape
 import org.make.front.models.OperationId
 import org.make.front.styles._
 import org.make.front.styles.base.TextStyles
+import org.make.services.tracking.TrackingService.TrackingContext
 
 object RegisterWithSocialNetworks {
 
-  case class RegisterWithSocialNetworksProps(onSuccessfulLogin: () => Unit = () => {}, operationId: Option[OperationId])
+  case class RegisterWithSocialNetworksProps(trackingContext: TrackingContext,
+                                             onSuccessfulLogin: () => Unit = () => {},
+                                             operationId: Option[OperationId])
 
   val reactClass: ReactClass =
     React
@@ -29,6 +32,7 @@ object RegisterWithSocialNetworks {
             <.div(^.className := RegisterWithSocialNetworksStyles.buttonWrapper)(
               <.AuthenticateWithFacebookContainerComponent(
                 ^.wrapped := AuthenticateWithFacebookContainerProps(
+                  trackingContext = self.props.wrapped.trackingContext,
                   onSuccessfulLogin = self.props.wrapped.onSuccessfulLogin,
                   isLookingLikeALink = true,
                   operationId = self.props.wrapped.operationId

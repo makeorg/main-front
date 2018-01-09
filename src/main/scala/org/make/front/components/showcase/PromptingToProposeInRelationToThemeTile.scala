@@ -15,8 +15,8 @@ import org.make.front.styles.base.{TableLayoutStyles, TextStyles}
 import org.make.front.styles.ui.InputStyles
 import org.make.front.styles.utils._
 import org.make.front.styles.vendors.FontAwesomeStyles
-import org.make.services.tracking.TrackingService
-import org.scalajs.dom.raw.HTMLElement
+import org.make.services.tracking.TrackingService.TrackingContext
+import org.make.services.tracking.{TrackingLocation, TrackingService}
 
 object PromptingToProposeInRelationToThemeTile {
 
@@ -31,8 +31,6 @@ object PromptingToProposeInRelationToThemeTile {
         PromptingToProposeInRelationToThemeTileState(isProposalModalOpened = false)
       },
       render = { self =>
-        var proposalInput: Option[HTMLElement] = None
-
         def closeProposalModal() = () => {
           self.setState(state => state.copy(isProposalModalOpened = false))
         }
@@ -41,9 +39,9 @@ object PromptingToProposeInRelationToThemeTile {
           self.setState(state => state.copy(isProposalModalOpened = true))
           TrackingService.track(
             "click-proposal-submit-form-open",
-            Map("location" -> "page-home", "themeId" -> self.props.wrapped.theme.id.value.toString)
+            TrackingContext(TrackingLocation.showcaseHomepage),
+            Map("themeId" -> self.props.wrapped.theme.id.value)
           )
-          proposalInput.foreach(_.blur())
         }
 
         <.article(

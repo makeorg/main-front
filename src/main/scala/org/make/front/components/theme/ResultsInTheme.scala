@@ -32,7 +32,8 @@ import org.make.front.styles.base.{ColRulesStyles, LayoutRulesStyles, TextStyles
 import org.make.front.styles.ui.CTAStyles
 import org.make.front.styles.utils._
 import org.make.services.proposal.SearchResult
-import org.make.services.tracking.TrackingService
+import org.make.services.tracking.{TrackingLocation, TrackingService}
+import org.make.services.tracking.TrackingService.TrackingContext
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
@@ -179,7 +180,8 @@ object ResultsInTheme {
             changedTags.foreach { tag =>
               TrackingService.track(
                 "click-tag-action",
-                Map("nature" -> action, "name" -> tag.label, "themeId" -> self.props.wrapped.theme.id.value)
+                TrackingContext(TrackingLocation.themePage),
+                Map("nature" -> action, "tag-name" -> tag.label, "themeId" -> self.props.wrapped.theme.id.value)
               )
             }
 
@@ -228,7 +230,8 @@ object ResultsInTheme {
                         maybeTheme = Some(self.props.wrapped.theme),
                         maybeOperation = self.props.wrapped.maybeOperation,
                         maybeSequence = self.props.wrapped.maybeSequence,
-                        maybeLocation = self.props.wrapped.maybeLocation
+                        maybeLocation = self.props.wrapped.maybeLocation,
+                        trackingLocation = TrackingLocation.themePage
                       )
                     )()
                 )
@@ -240,7 +243,8 @@ object ResultsInTheme {
                   onSeeMore(1)
                   TrackingService.track(
                     "click-proposal-viewmore",
-                    Map("location" -> LocationModel.ThemePage(self.props.wrapped.theme.id).name)
+                    TrackingContext(TrackingLocation.themePage),
+                    Map("themeId" -> self.props.wrapped.theme.id.value)
                   )
                 }), ^.className := Seq(CTAStyles.basic, CTAStyles.basicOnButton))(
                   unescape(I18n.t("theme.results.see-more"))

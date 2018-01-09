@@ -26,7 +26,5 @@ import scala.scalajs.js.annotation._
 @js.native
 @JSGlobalScope
 object FacebookPixel extends js.Object {
-  def fbq(eventType: String, eventName: String): Unit = js.native
-
   def fbq(eventType: String, eventName: String, eventParameter: js.Dictionary[String]): Unit = js.native
 }

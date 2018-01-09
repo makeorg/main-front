@@ -31,7 +31,8 @@ import org.make.front.styles.ui.{CTAStyles, TooltipStyles}
 import org.make.front.styles.utils._
 import org.make.front.styles.vendors.FontAwesomeStyles
 import org.make.services.sequence.SequenceService
-import org.make.services.tracking.TrackingService
+import org.make.services.tracking.TrackingService.TrackingContext
+import org.make.services.tracking.{TrackingLocation, TrackingService}
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
@@ -119,7 +120,11 @@ object SequenceOfTheOperation {
         val openProposalModal: (MouseSyntheticEvent) => Unit = { event =>
           event.preventDefault()
           self.setState(state => state.copy(isProposalModalOpened = true))
-          TrackingService.track("click-proposal-submit-form-open", Map("location" -> "sequence-header"))
+          TrackingService.track(
+            "click-proposal-submit-form-open",
+            TrackingContext(TrackingLocation.sequencePage, Some(self.state.operation.slug)),
+            Map("sequenceId" -> self.state.sequence.map(_.sequenceId.value).getOrElse(""))
+          )
         }
 
         object DynamicSequenceOfTheOperationStyles extends StyleSheet.Inline {

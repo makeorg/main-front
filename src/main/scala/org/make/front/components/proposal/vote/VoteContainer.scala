@@ -17,6 +17,8 @@ import org.make.front.models.{
   Vote              => VoteModel
 }
 import org.make.services.proposal.ProposalService
+import org.make.services.tracking.{TrackingLocation, TrackingService}
+import org.make.services.tracking.TrackingService.TrackingContext
 import org.scalajs.dom
 
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -31,7 +33,7 @@ object VoteContainer {
                                       onSuccessfulQualification: (String, QualificationModel) => Unit = (_, _) => {},
                                       guideToVote: Option[String] = None,
                                       guideToQualification: Option[String] = None,
-                                      locationFBTracking: Option[String] = None,
+                                      trackingLocation: TrackingLocation,
                                       maybeTheme: Option[TranslatedThemeModel],
                                       maybeOperation: Option[OperationModel],
                                       maybeSequence: Option[SequenceModel],
@@ -49,7 +51,28 @@ object VoteContainer {
           props.wrapped.maybeOperation.map(operation => LocationModel.OperationPage(operation.operationId)),
         fallback = LocationModel.UnknownLocation(dom.window.location.href)
       )
+
+      def defaultVoteParameters: Map[String, String] = {
+        var parameters = Map("proposalId" -> props.wrapped.proposal.id.value)
+        props.wrapped.maybeTheme.foreach { theme =>
+          parameters += "themeId" -> theme.id.value
+        }
+        props.wrapped.maybeSequence.foreach { sequence =>
+          parameters += "sequenceId" -> sequence.sequenceId.value
+          parameters += "card-position" -> props.wrapped.index.toString
+
+        }
+        parameters
+      }
+
       def vote(key: String): Future[VoteModel] = {
+        val parameters = Map("nature" -> key) ++ defaultVoteParameters
+
+        TrackingService.track(
+          "click-proposal-vote",
+          TrackingContext(props.wrapped.trackingLocation, operationSlug = props.wrapped.maybeOperation.map(_.slug)),
+          parameters
+        )
         val future = ProposalService.vote(
           proposalId = props.wrapped.proposal.id,
           key,
@@ -65,6 +88,13 @@ object VoteContainer {
       }
 
       def unvote(key: String): Future[VoteModel] = {
+        val parameters = Map("nature" -> key) ++ defaultVoteParameters
+
+        TrackingService.track(
+          "click-proposal-unvote",
+          TrackingContext(props.wrapped.trackingLocation, operationSlug = props.wrapped.maybeOperation.map(_.slug)),
+          parameters
+        )
         val future = ProposalService.unvote(
           proposalId = props.wrapped.proposal.id,
           key,
@@ -79,6 +109,14 @@ object VoteContainer {
       }
 
       val qualify: (String, String) => Future[QualificationModel] = { (vote, qualification) =>
+        val parameters = Map("type" -> qualification, "nature" -> vote) ++ defaultVoteParameters
+
+        TrackingService.track(
+          "click-proposal-qualify",
+          TrackingContext(props.wrapped.trackingLocation, operationSlug = props.wrapped.maybeOperation.map(_.slug)),
+          parameters
+        )
+
         val future = ProposalService.qualifyVote(
           props.wrapped.proposal.id,
           vote,
@@ -94,6 +132,14 @@ object VoteContainer {
       }
 
       val removeQualification: (String, String) => Future[QualificationModel] = { (vote, qualification) =>
+        val parameters = Map("type" -> qualification, "nature" -> vote) ++ defaultVoteParameters
+
+        TrackingService.track(
+          "click-proposal-unqualify",
+          TrackingContext(props.wrapped.trackingLocation, operationSlug = props.wrapped.maybeOperation.map(_.slug)),
+          parameters
+        )
+
         val future = ProposalService.removeVoteQualification(
           props.wrapped.proposal.id,
           vote,
@@ -114,7 +160,6 @@ object VoteContainer {
         unvote = unvote,
         qualifyVote = qualify,
         removeVoteQualification = removeQualification,
-        locationFacebook = props.wrapped.locationFBTracking,
         guideToVote = props.wrapped.guideToVote,
         guideToQualification = props.wrapped.guideToQualification,
         index = props.wrapped.index

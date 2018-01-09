@@ -13,6 +13,7 @@ import org.make.front.models.{
   ThemeId           => ThemeIdModel,
   TranslatedTheme   => TranslatedThemeModel
 }
+import org.make.services.tracking.TrackingLocation
 
 object ProposalTileWithThemeContainer {
 
@@ -20,7 +21,8 @@ object ProposalTileWithThemeContainer {
                                                        index: Int,
                                                        maybeOperation: Option[OperationModel],
                                                        maybeSequence: Option[SequenceModel],
-                                                       maybeLocation: Option[LocationModel])
+                                                       maybeLocation: Option[LocationModel],
+                                                       trackingLocation: TrackingLocation)
 
   lazy val reactClass: ReactClass = ReactRedux.connectAdvanced(selectorFactory)(ProposalTileWithTheme.reactClass)
 
@@ -47,7 +49,8 @@ object ProposalTileWithThemeContainer {
         maybeTheme = theme,
         maybeOperation = props.wrapped.maybeOperation,
         maybeSequence = props.wrapped.maybeSequence,
-        maybeLocation = props.wrapped.maybeLocation
+        maybeLocation = props.wrapped.maybeLocation,
+        trackingLocation = props.wrapped.trackingLocation
       )
     }
 }

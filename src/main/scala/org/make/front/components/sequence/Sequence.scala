@@ -23,7 +23,8 @@ import org.make.front.models.{
 import org.make.front.styles.ThemeStyles
 import org.make.front.styles.base.TableLayoutStyles
 import org.make.front.styles.utils._
-import org.make.services.tracking.TrackingService
+import org.make.services.tracking.{TrackingLocation, TrackingService}
+import org.make.services.tracking.TrackingService.TrackingContext
 import org.scalajs.dom.raw.HTMLElement
 
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -32,11 +33,13 @@ import scala.scalajs.js
 import scala.util.{Failure, Success}
 object Sequence {
 
+  final case class DisplayTracker(name: String, context: TrackingContext, parameters: Map[String, String] = Map.empty)
+
   final case class ExtraSlide(reactClass: ReactClass,
                               props: (() => Unit) => Any,
                               position: (Seq[Slide]) => Int,
                               displayed: Boolean = true,
-                              maybeTracker: Option[String] = None)
+                              maybeTracker: Option[DisplayTracker] = None)
 
   final case class SequenceProps(loadSequence: (Seq[ProposalIdModel]) => Future[SequenceModel],
                                  sequence: Option[SequenceModel],
@@ -56,7 +59,7 @@ object Sequence {
   trait Slide {
     def component(index: Int): ReactElement
     def optional: Boolean
-    def maybeTracker: Option[String] = None
+    def maybeTracker: Option[DisplayTracker] = None
   }
 
   class EmptyElementSlide(element: ReactClass, override val optional: Boolean = false) extends Slide {
@@ -66,7 +69,7 @@ object Sequence {
   class BasicSlide(element: ReactClass,
                    props: Any,
                    override val optional: Boolean = false,
-                   override val maybeTracker: Option[String] = None)
+                   override val maybeTracker: Option[DisplayTracker] = None)
       extends Slide {
 
     override def component(index: Int): ReactElement =
@@ -136,7 +139,6 @@ object Sequence {
 
     def nextProposal: () => Unit = { () =>
       next()
-      TrackingService.track("click-sequence-next-proposal")
     }
 
     def previous: () => Unit = { () =>
@@ -297,17 +299,34 @@ object Sequence {
         SequenceState(slides = Seq.empty, displayedSlidesCount = 0, currentSlideIndex = 0, proposals = Seq.empty)
       },
       componentWillReceiveProps = { (self, props) =>
-        if ((props.wrapped.shouldReload && props.wrapped.shouldReload != self.props.wrapped.shouldReload) || props.wrapped.sequence != self.props.wrapped.sequence){
+        if ((props.wrapped.shouldReload && props.wrapped.shouldReload != self.props.wrapped.shouldReload) || props.wrapped.sequence != self.props.wrapped.sequence) {
           onNewProps(self, props, slider)
         }
       },
       componentDidMount = { self =>
         onNewProps(self, self.props, slider)
-        TrackingService.track("display-sequence")
+        TrackingService
+          .track(
+            "display-sequence",
+            TrackingContext(TrackingLocation.sequencePage),
+            Map("sequenceId" -> self.state.maybeSequence.map(_.sequenceId.value).getOrElse(""))
+          )
 
       },
-      componentWillUpdate = { (_, _, state) =>
+      componentWillUpdate = { (_, props, state) =>
         slider.foreach(_.slickGoTo(state.currentSlideIndex))
+        val firstIndex = state.slides.takeWhile(!_.isInstanceOf[ProposalSlide]).size
+        if (state.currentSlideIndex == firstIndex) {
+          TrackingService
+            .track(
+              "display-sequence-first-proposal",
+              TrackingContext(TrackingLocation.sequencePage, props.wrapped.maybeOperation.map(_.slug)),
+              Map(
+                "sequenceId" -> state.maybeSequence.map(_.sequenceId.value).getOrElse(""),
+                "proposalId" -> state.proposals.headOption.map(_.id.value).getOrElse("")
+              )
+            )
+        }
       },
       render = { self =>
         def updateCurrentSlideIndex(currentSlide: Int): Unit = {
@@ -316,12 +335,31 @@ object Sequence {
           if (currentSlide < oldSlideIndex) {
             TrackingService.track(
               "click-sequence-previous-card",
-              Map("initial-position" -> oldSlideIndex.toString, "target-position" -> currentSlide.toString)
+              TrackingContext(TrackingLocation.sequencePage, self.props.wrapped.maybeOperation.map(_.slug)),
+              Map(
+                "sequenceId" -> self.props.wrapped.maybeOperation
+                  .flatMap(_.sequence)
+                  .map(_.value)
+                  .getOrElse(""),
+                "card-position" -> oldSlideIndex.toString
+              )
+            )
+          } else if (currentSlide > oldSlideIndex) {
+            TrackingService.track(
+              "click-sequence-next-card",
+              TrackingContext(TrackingLocation.sequencePage, self.props.wrapped.maybeOperation.map(_.slug)),
+              Map(
+                "sequenceId" -> self.props.wrapped.maybeOperation
+                  .flatMap(_.sequence)
+                  .map(_.value)
+                  .getOrElse(""),
+                "card-position" -> oldSlideIndex.toString
+              )
             )
           }
           self.setState(state => state.copy(currentSlideIndex = currentSlide))
           self.state.slides(self.state.currentSlideIndex).maybeTracker.foreach { tracker =>
-            TrackingService.track(tracker)
+            TrackingService.track(tracker.name, tracker.context, tracker.parameters)
           }
         }
 

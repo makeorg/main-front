@@ -12,6 +12,8 @@ import org.make.front.styles.base.{ColRulesStyles, LayoutRulesStyles, TableLayou
 import org.make.front.styles.ui.CTAStyles
 import org.make.front.styles.utils._
 import org.make.front.Main.CssSettings._
+import org.make.services.tracking.{TrackingLocation, TrackingService}
+import org.make.services.tracking.TrackingService.TrackingContext
 
 object OperationIntro {
 
@@ -24,7 +26,10 @@ object OperationIntro {
         render = (self) => {
 
           def onClick: () => Unit = { () =>
-            FacebookPixel.fbq("trackCustom", "click-button-learn-more")
+            TrackingService.track(
+              "click-button-learn-more",
+              TrackingContext(TrackingLocation.operationPage, Some(self.props.wrapped.operation.slug))
+            )
           }
 
           val operation: OperationModel =

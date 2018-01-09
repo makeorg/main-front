@@ -22,6 +22,7 @@ import org.make.front.models.{
 }
 import org.make.front.styles.ThemeStyles
 import org.make.front.styles.base.{TableLayoutStyles, TextStyles}
+import org.make.services.tracking.TrackingLocation
 
 object ProposalTileWithTheme {
 
@@ -32,7 +33,8 @@ object ProposalTileWithTheme {
                                               maybeTheme: Option[TranslatedThemeModel],
                                               maybeOperation: Option[OperationModel],
                                               maybeSequence: Option[SequenceModel],
-                                              maybeLocation: Option[LocationModel])
+                                              maybeLocation: Option[LocationModel],
+                                              trackingLocation: TrackingLocation)
 
   val reactClass: ReactClass =
     WithRouter(
@@ -72,7 +74,8 @@ object ProposalTileWithTheme {
                           maybeTheme = self.props.wrapped.maybeTheme,
                           maybeOperation = self.props.wrapped.maybeOperation,
                           maybeSequence = self.props.wrapped.maybeSequence,
-                          maybeLocation = self.props.wrapped.maybeLocation
+                          maybeLocation = self.props.wrapped.maybeLocation,
+                          trackingLocation = self.props.wrapped.trackingLocation
                         )
                       )()
                     )
