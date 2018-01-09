@@ -78,7 +78,7 @@ object SequenceOfTheOperation {
         val guidedState: Boolean = false
 
         val gradientValues: GradientColorModel =
-          self.props.wrapped.operation.gradient.getOrElse(GradientColorModel("#FFF", "#FFF"))
+          self.props.wrapped.operation.theme.gradient.getOrElse(GradientColorModel("#FFF", "#FFF"))
 
         val closeProposalModal: () => Unit = () => {
           self.setState(state => state.copy(isProposalModalOpened = false))

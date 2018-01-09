@@ -155,7 +155,7 @@ object Components {
     def ResultsInThemeComponent: ReactClassElementSpec = self(theme.ResultsInTheme.reactClass)
 
     /*********************/
-    def VFFIntroComponent: ReactClassElementSpec = self(operation.VFFIntro.reactClass)
+    def OperationIntroComponent: ReactClassElementSpec = self(operation.OperationIntro.reactClass)
     def OperationHeaderComponent: ReactClassElementSpec = self(operation.OperationHeader.reactClass)
     def SubmitProposalInRelationToOperationComponent: ReactClassElementSpec =
       self(operation.SubmitProposalInRelationToOperation.reactClass)
@@ -170,7 +170,7 @@ object Components {
     /*********************/
     def HomeComponent: ReactClassElementSpec = self(home.Home.reactClass)
     def WelcomeComponent: ReactClassElementSpec = self(home.Welcome.reactClass)
-    def WelcomeVFFComponent: ReactClassElementSpec = self(home.WelcomeVFF.reactClass)
+    def FeaturedOperationContainerComponent: ReactClassElementSpec = self(home.FeaturedOperationContainer.reactClass)
     def ExplanationsComponent: ReactClassElementSpec = self(home.Explanations.reactClass)
   }
 

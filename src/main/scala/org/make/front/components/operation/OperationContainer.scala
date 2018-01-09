@@ -7,7 +7,7 @@ import io.github.shogowada.scalajs.reactjs.redux.Redux.Dispatch
 import io.github.shogowada.scalajs.reactjs.router.RouterProps._
 import org.make.front.actions.LoadConfiguration
 import org.make.front.components.AppState
-import org.make.front.models.{Location, Operation => OperationModel, OperationId => OperationIdModel}
+import org.make.front.models.{Location, Operation => OperationModel}
 
 object OperationContainer {
 
@@ -17,7 +17,9 @@ object OperationContainer {
     (dispatch: Dispatch) => { (state: AppState, props: Props[Unit]) =>
       {
         val slug = props.`match`.params("operationSlug")
+
         val OperationsList: Seq[OperationModel] = state.operations.filter(_.slug == slug)
+
         if (OperationsList.isEmpty) {
           props.history.push("/")
           Operation.OperationProps(OperationModel.empty, None, None, Some(Location.Homepage))

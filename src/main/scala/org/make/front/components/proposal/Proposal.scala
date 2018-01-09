@@ -115,7 +115,9 @@ object Proposal {
                               if (self.state.maybeOperation.isDefined) {
                                 <.div(^.className := ProposalStyles.operationInfoWrapper)(
                                   <.ProposalSOperationInfosComponent(
-                                    ^.wrapped := ProposalSOperationInfosProps(operation = self.state.maybeOperation)
+                                    ^.wrapped := ProposalSOperationInfosProps(
+                                      operation = self.state.maybeOperation.getOrElse(OperationModel.empty)
+                                    )
                                   )()
                                 )
 

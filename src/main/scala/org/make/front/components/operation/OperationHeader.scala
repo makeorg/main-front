@@ -49,6 +49,12 @@ object OperationHeader {
 
         val operation: OperationModel = self.props.wrapped.operation
 
+        object DynamicOperationHeaderStyles extends StyleSheet.Inline {
+          import dsl._
+
+          val proposalInputIntro = style(color :=! operation.theme.color)
+        }
+
         <.header(^.className := OperationHeaderStyles.wrapper)(
           <.div(^.className := LayoutRulesStyles.centeredRow)(
             <.h1(^.className := Seq(TextStyles.mediumTitle, OperationHeaderStyles.title))(
@@ -59,9 +65,9 @@ object OperationHeader {
                 TextStyles.biggerMediumText,
                 TextStyles.intro,
                 OperationHeaderStyles.proposalInputIntro,
-                OperationHeaderStyles.coloredProposalInputIntro(operation.color)
+                DynamicOperationHeaderStyles.proposalInputIntro
               )
-            )(unescape(operation.question)),
+            )(unescape(operation.wording.question)),
             <.p(
               ^.className := Seq(
                 InputStyles.wrapper,
@@ -103,7 +109,7 @@ object OperationHeader {
               )()
             )
           ),
-          <.style()(OperationHeaderStyles.render[String])
+          <.style()(OperationHeaderStyles.render[String], DynamicOperationHeaderStyles.render[String])
         )
       }
     )
@@ -127,9 +133,6 @@ object OperationHeaderStyles extends StyleSheet.Inline {
 
   val proposalInputIntro: StyleA =
     style(marginTop(10.pxToEm(15)), ThemeStyles.MediaQueries.beyondSmall(marginTop(-5.pxToEm(24))), textAlign.center)
-
-  def coloredProposalInputIntro(textColor: String): StyleA =
-    style(color :=! textColor)
 
   val proposalInputWithIconWrapper: StyleA =
     style(

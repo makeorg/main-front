@@ -30,6 +30,7 @@ object ResultsInOperationContainer {
                                               maybeTheme: Option[TranslatedThemeModel],
                                               maybeSequence: Option[SequenceModel],
                                               maybeLocation: Option[LocationModel])
+
   case class ResultsInOperationContainerState(currentOperation: OperationModel, results: Seq[Proposal])
 
   lazy val reactClass: ReactClass = ReactRedux.connectAdvanced(selectorFactory)(ResultsInOperation.reactClass)
@@ -49,7 +50,7 @@ object ResultsInOperationContainer {
             sort = Seq.empty,
             limit = Some(defaultResultsCount),
             skip = Some(skip),
-            context = Some(ContextRequest(operation = Some("vff")))
+            context = Some(ContextRequest(operation = Some(props.wrapped.currentOperation.label)))
           )
       }
 

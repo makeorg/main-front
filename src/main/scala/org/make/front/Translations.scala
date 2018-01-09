@@ -24,13 +24,16 @@ object Translations {
       |      "tryAgain": "Si le problème persiste n'hésitez pas à nous contacter à&nbsp;support@make.org."
       |    },
       |    "cookie-alert": "En poursuivant votre navigation sur notre site, vous acceptez l'installation et l'utilisation de cookies sur votre poste, dans le respect de notre <a href=\"https://about.make.org/politique-donnees\" target=\"_blank\">politique de protection de votre vie privée</a>.",
-      |    "welcome": {
-      |      "intro": {
+      |    "home": {
+      |      "welcome": {
       |        "baseline": "À propos",
       |        "title": "Proposez, votez, agissons",
       |        "subtitle": "Make.org est une initiative indépendante au service de l'intérêt&nbsp;général.",
       |        "see-more": "En savoir&nbsp;+",
       |        "see-more-link": "https://about.make.org/qui-sommes-nous"
+      |      },
+      |      "featured-operation": {
+      |        "learn-more": "Participer"
       |      },
       |      "explanations": {
       |        "article-1": {
@@ -62,15 +65,6 @@ object Translations {
       |        "intro": "départagez-les&nbsp;!",
       |        "title": "Les propositions les + débattues sur"
       |      }
-      |    },
-      |    "welcome-vff": {
-      |     "intro": {
-      |       "baseline": "Grande cause make.org",
-      |       "title" : "Stop aux Violences Faites aux&nbsp;Femmes",
-      |       "subtitle" : "Make.org a décidé de lancer sa première Grande Cause en la consacrant à la lutte contre les Violences faites aux&nbsp;femmes.",
-      |       "see-more": "Participer",
-      |       "see-more-link": "https://stopvff.make.org/about-vff"
-      |     }
       |    },
       |    "theme-showcase": {
       |      "see-all": "Voir toutes les propositions du thème %{themeName}",
@@ -283,20 +277,15 @@ object Translations {
       |      }
       |    },
       |    "operation": {
-      |      "vff-header": {
-      |        "label": "Grande cause Make.org",
-      |        "title": "Stop aux violences faites aux femmes",
-      |        "period": "Consultation ouverte du 25 nov. 2017 à fin janvier",
+      |      "intro": {
       |        "partners": {
       |          "intro": "avec",
       |          "others": "et nos partenaires soutien et&nbsp;actions"
       |        },
       |        "article": {
       |          "title": "Pourquoi cette consultation&nbsp;?",
-      |          "content": "Les violences faites aux femmes sont au coeur de l’actualité politique et médiatique. Les mentalités sont en train de changer. Mais pour autant tout commence maintenant. À nous de transformer cette prise de conscience généralisée en actions concrètes et d’apporter une réponse décisive face à ce&nbsp;fléau.",
       |          "see-more": {
-      |            "label": "En savoir&nbsp;+",
-      |            "link": "https://stopvff.make.org/about-vff"
+      |            "label": "En savoir&nbsp;+"
       |          }
       |        }
       |      },

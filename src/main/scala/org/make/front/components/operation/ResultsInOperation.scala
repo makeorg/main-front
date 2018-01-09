@@ -153,7 +153,7 @@ object ResultsInOperation {
         }
 
         val noResults: ReactElement =
-          <.div(^.className := ResultsInOperationStyles.noResults)(
+          <.div(^.className := Seq(ResultsInOperationStyles.noResults, LayoutRulesStyles.centeredRow))(
             <.p(^.className := ResultsInOperationStyles.noResultsSmiley)("😞"),
             <.p(
               ^.className := Seq(TextStyles.mediumText, ResultsInOperationStyles.noResultsMessage),
