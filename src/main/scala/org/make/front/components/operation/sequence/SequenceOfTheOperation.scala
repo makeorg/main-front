@@ -12,15 +12,12 @@ import org.make.front.components.modals.FullscreenModal.FullscreenModalProps
 import org.make.front.components.operation.SubmitProposalInRelationToOperation.SubmitProposalInRelationToOperationProps
 import org.make.front.components.sequence.Sequence.ExtraSlide
 import org.make.front.components.sequence.SequenceContainer.SequenceContainerProps
-import org.make.front.components.sequence.contents.IntroductionOfTheSequence.IntroductionOfTheSequenceProps
-import org.make.front.components.sequence.contents.PromptingToConnect.PromptingToConnectProps
-import org.make.front.components.sequence.contents.PromptingToGoBackToOperation.PromptingToGoBackToOperationProps
-import org.make.front.components.sequence.contents.PromptingToProposeInRelationToOperation.PromptingToProposeInRelationToOperationProps
-import org.make.front.components.sequence.contents._
 import org.make.front.facades.Unescape.unescape
 import org.make.front.facades.{FacebookPixel, I18n, Replacements}
 import org.make.front.models.{
   Location,
+  OperationDesignData,
+  OperationExtraSlidesParams,
   ProposalId,
   SequenceId,
   GradientColor     => GradientColorModel,
@@ -54,7 +51,8 @@ object SequenceOfTheOperation {
                                                numberOfProposals: Int,
                                                sequenceTitle: String = "",
                                                sequence: Option[SequenceModel] = None,
-                                               operation: OperationModel = OperationModel.empty)
+                                               operation: OperationModel = OperationModel.empty,
+                                               extraSlides: Seq[ExtraSlide])
 
   lazy val reactClass: ReactClass = {
     def sequence(
@@ -71,8 +69,19 @@ object SequenceOfTheOperation {
     }
     React.createClass[SequenceOfTheOperationProps, SequenceOfTheOperationState](
       displayName = "SequenceOfTheOperation",
-      getInitialState = { _ =>
-        SequenceOfTheOperationState(isProposalModalOpened = false, numberOfProposals = 0)
+      getInitialState = { self =>
+        SequenceOfTheOperationState(
+          isProposalModalOpened = false,
+          numberOfProposals = 0,
+          extraSlides = OperationDesignData.defaultSlides(
+            OperationExtraSlidesParams(
+              operation = OperationModel.empty,
+              isConnected = false,
+              maybeSequence = None,
+              maybeLocation = None
+            )
+          )
+        )
       },
       componentDidMount = { (self) =>
         self.props.wrapped.operation.onComplete {
@@ -88,7 +97,19 @@ object SequenceOfTheOperation {
                     case Failure(_) => self.setState(_.copy(operation = operation, sequenceTitle = "", sequence = None))
                     case Success(sequence) =>
                       self.setState(
-                        _.copy(operation = operation, sequenceTitle = sequence.title, sequence = Some(sequence))
+                        _.copy(
+                          operation = operation,
+                          sequenceTitle = sequence.title,
+                          sequence = Some(sequence),
+                          extraSlides = operation.extraSlides(
+                            OperationExtraSlidesParams(
+                              operation,
+                              self.props.wrapped.isConnected,
+                              Some(sequence),
+                              self.props.wrapped.maybeLocation
+                            )
+                          )
+                        )
                       )
                   }
                 case _ => self.setState(_.copy(operation = operation, sequenceTitle = "", sequence = None))
@@ -234,39 +255,7 @@ object SequenceOfTheOperation {
                   sequence = sequence(self),
                   progressBarColor = Some(gradientValues.from),
                   maybeFirstProposalSlug = self.props.wrapped.maybeFirstProposalSlug,
-                  extraSlides =
-                    Seq(ExtraSlide(displayed = false, reactClass = IntroductionOfTheSequence.reactClass, props = {
-                      (handler: () => Unit) =>
-                        { IntroductionOfTheSequenceProps(clickOnButtonHandler = handler) }
-                    }, position = _ => 0), ExtraSlide(maybeTracker = Some("display-sign-up-card"), reactClass = PromptingToConnect.reactClass, props = {
-                      handler =>
-                        PromptingToConnectProps(
-                          operation = self.state.operation,
-                          clickOnButtonHandler = handler,
-                          authenticateHandler = handler
-                        )
-                    }, position = { slides =>
-                      slides.size
-                    }, displayed = !self.props.wrapped.isConnected), ExtraSlide(maybeTracker = Some("display-proposal-push-card"), reactClass = PromptingToProposeInRelationToOperation.reactClass, props = {
-                      handler =>
-                        PromptingToProposeInRelationToOperationProps(
-                          operation = self.state.operation,
-                          clickOnButtonHandler = handler,
-                          proposeHandler = handler,
-                          maybeSequence = self.state.sequence,
-                          maybeLocation = self.props.wrapped.maybeLocation
-                        )
-                    }, position = { slides =>
-                      slides.size / 2
-                    }), ExtraSlide(maybeTracker = Some("display-finale-card"), reactClass = PromptingToGoBackToOperation.reactClass, props = {
-                      handler =>
-                        PromptingToGoBackToOperationProps(
-                          operation = self.state.operation,
-                          clickOnButtonHandler = handler
-                        )
-                    }, position = { slides =>
-                      slides.size
-                    })),
+                  extraSlides = self.state.extraSlides,
                   maybeTheme = self.props.wrapped.maybeTheme,
                   maybeOperation = self.props.wrapped.maybeOperation,
                   maybeLocation = self.props.wrapped.maybeLocation
