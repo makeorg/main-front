@@ -38,7 +38,8 @@ object Sequence {
                               displayed: Boolean = true,
                               maybeTracker: Option[String] = None)
 
-  final case class SequenceProps(sequence: (Seq[ProposalIdModel]) => Future[SequenceModel],
+  final case class SequenceProps(loadSequence: (Seq[ProposalIdModel]) => Future[SequenceModel],
+                                 sequence: Option[SequenceModel],
                                  progressBarColor: Option[String],
                                  shouldReload: Boolean,
                                  extraSlides: Seq[ExtraSlide],
@@ -254,7 +255,7 @@ object Sequence {
 
       val votedProposalIds = self.state.proposals.filter(_.votes.exists(_.hasVoted)).map(_.id)
 
-      props.wrapped.sequence(votedProposalIds).onComplete {
+      props.wrapped.loadSequence(votedProposalIds).onComplete {
         case Success(sequence) =>
           self.setState(_.copy(maybeSequence = Some(sequence)))
           val slides: Seq[Slide] = createSlides(self, sequence.proposals)
@@ -296,7 +297,7 @@ object Sequence {
         SequenceState(slides = Seq.empty, displayedSlidesCount = 0, currentSlideIndex = 0, proposals = Seq.empty)
       },
       componentWillReceiveProps = { (self, props) =>
-        if (props.wrapped.shouldReload && props.wrapped.shouldReload != self.props.wrapped.shouldReload) {
+        if ((props.wrapped.shouldReload && props.wrapped.shouldReload != self.props.wrapped.shouldReload) || props.wrapped.sequence != self.props.wrapped.sequence){
           onNewProps(self, props, slider)
         }
       },

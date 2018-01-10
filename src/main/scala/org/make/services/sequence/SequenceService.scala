@@ -18,7 +18,7 @@ object SequenceService extends ApiService {
 
   def startSequenceById(sequenceId: SequenceId, includes: Seq[ProposalId]): Future[Sequence] = {
     MakeApiClient
-      .get[SequenceResponse](resourceName / "start-sequence" / sequenceId.value, includes.map("include" -> _.value))
+      .get[SequenceResponse](resourceName / "start" / sequenceId.value, includes.map("include" -> _.value))
       .map(Sequence.apply)
   }
 }

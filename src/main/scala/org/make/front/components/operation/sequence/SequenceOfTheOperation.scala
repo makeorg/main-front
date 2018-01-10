@@ -55,18 +55,21 @@ object SequenceOfTheOperation {
                                                extraSlides: Seq[ExtraSlide])
 
   lazy val reactClass: ReactClass = {
-    def sequence(
+    def loadSequence(
       self: Self[SequenceOfTheOperationProps, SequenceOfTheOperationState]
     )(proposals: Seq[ProposalId]): Future[SequenceModel] = {
-      self.state.operation.sequence match {
-        case Some(sequenceId) =>
-          SequenceService.startSequenceById(sequenceId = sequenceId, includes = proposals).map { seq =>
+
+      self.state.sequence match {
+        case Some(sequence) =>
+          SequenceService.startSequenceById(sequenceId = sequence.sequenceId, includes = proposals).map { seq =>
             self.setState(_.copy(numberOfProposals = seq.proposals.size))
             seq
           }
-        case _ => Future.successful(SequenceModel(SequenceId("fake"), "", ""))
+        case _ =>
+          Future.successful(SequenceModel(SequenceId("fake"), "", ""))
       }
     }
+
     React.createClass[SequenceOfTheOperationProps, SequenceOfTheOperationState](
       displayName = "SequenceOfTheOperation",
       getInitialState = { self =>
@@ -88,9 +91,6 @@ object SequenceOfTheOperation {
           case Failure(_) => self.props.wrapped.redirectHome()
           case Success(maybeOperation) =>
             val operation: OperationModel = maybeOperation.getOrElse(OperationModel.empty)
-            if (maybeOperation.isEmpty) {
-              self.setState(_.copy(operation = operation))
-            } else {
               operation.sequence match {
                 case Some(sequenceId) =>
                   SequenceService.startSequenceById(sequenceId = sequenceId, includes = Seq.empty).onComplete {
@@ -101,6 +101,7 @@ object SequenceOfTheOperation {
                           operation = operation,
                           sequenceTitle = sequence.title,
                           sequence = Some(sequence),
+                          numberOfProposals = sequence.proposals.size,
                           extraSlides = operation.extraSlides(
                             OperationExtraSlidesParams(
                               operation,
@@ -114,7 +115,6 @@ object SequenceOfTheOperation {
                   }
                 case _ => self.setState(_.copy(operation = operation, sequenceTitle = "", sequence = None))
               }
-            }
         }
       },
       render = { self =>
@@ -252,7 +252,8 @@ object SequenceOfTheOperation {
             <.div(^.className := TableLayoutStyles.cellVerticalAlignMiddle)(
               <.SequenceContainerComponent(
                 ^.wrapped := SequenceContainerProps(
-                  sequence = sequence(self),
+                  loadSequence = loadSequence(self),
+                  sequence = self.state.sequence,
                   progressBarColor = Some(gradientValues.from),
                   maybeFirstProposalSlug = self.props.wrapped.maybeFirstProposalSlug,
                   extraSlides = self.state.extraSlides,

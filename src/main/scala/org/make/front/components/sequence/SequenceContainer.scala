@@ -25,7 +25,8 @@ import scala.util.Failure
 object SequenceContainer {
 
   final case class SequenceContainerProps(maybeFirstProposalSlug: Option[String],
-                                          sequence: (Seq[ProposalId]) => Future[SequenceModel],
+                                          loadSequence: (Seq[ProposalId]) => Future[SequenceModel],
+                                          sequence: Option[SequenceModel],
                                           progressBarColor: Option[String],
                                           extraSlides: Seq[ExtraSlide],
                                           maybeTheme: Option[TranslatedThemeModel],
@@ -43,7 +44,7 @@ object SequenceContainer {
       {
         val shouldReload: Boolean = state.connectedUser.nonEmpty
 
-        val loadSequence: (Seq[ProposalId]) => Future[SequenceModel] = { forcedProposals =>
+        val reloadSequence: (Seq[ProposalId]) => Future[SequenceModel] = { forcedProposals =>
           props.wrapped.maybeFirstProposalSlug.map { slug =>
             ProposalService.searchProposals(slug = Some(slug)).map { result =>
               result.results
@@ -51,7 +52,7 @@ object SequenceContainer {
           }.getOrElse {
             Future.successful(Seq.empty[ProposalModel])
           }.flatMap { pushedProposal =>
-            val result = props.wrapped.sequence(forcedProposals ++ pushedProposal.map(_.id)).map { sequence =>
+            val result = props.wrapped.loadSequence(forcedProposals ++ pushedProposal.map(_.id)).map { sequence =>
               val proposals = sequence.proposals
               val pushedProposalId = pushedProposal.map(_.id)
               val otherProposals = proposals.filter(p => !pushedProposalId.contains(p.id))
@@ -70,7 +71,8 @@ object SequenceContainer {
         }
 
         Sequence.SequenceProps(
-          sequence = loadSequence,
+          loadSequence = reloadSequence,
+          sequence = props.wrapped.sequence,
           progressBarColor = props.wrapped.progressBarColor,
           extraSlides = props.wrapped.extraSlides,
           shouldReload = shouldReload,

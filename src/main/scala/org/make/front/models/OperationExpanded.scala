@@ -90,6 +90,60 @@ object OperationDesignData {
         }
       )
   )
+  val vffSlides = defaultSlides
+
+  val cpSlides: OperationExtraSlidesParams => Seq[ExtraSlide] = (params: OperationExtraSlidesParams) =>
+    Seq(
+      ExtraSlide(
+        reactClass = IntroductionOfTheSequence.reactClass,
+        props = { (handler: () => Unit) =>
+        { IntroductionOfTheSequenceProps(clickOnButtonHandler = handler) }
+        },
+        position = _ => 0
+      ),
+      ExtraSlide(
+        maybeTracker = Some("display-sign-up-card"),
+        reactClass = PromptingToConnect.reactClass,
+        props = { handler =>
+          PromptingToConnectProps(
+            operation = params.operation,
+            clickOnButtonHandler = handler,
+            authenticateHandler = handler
+          )
+        },
+        position = { slides =>
+          slides.size
+        },
+        displayed = !params.isConnected
+      ),
+      ExtraSlide(
+        displayed = false,
+        maybeTracker = Some("display-proposal-push-card"),
+        reactClass = PromptingToProposeInRelationToOperation.reactClass,
+        props = { handler =>
+          PromptingToProposeInRelationToOperationProps(
+            operation = params.operation,
+            clickOnButtonHandler = handler,
+            proposeHandler = handler,
+            maybeSequence = params.maybeSequence,
+            maybeLocation = params.maybeLocation
+          )
+        },
+        position = { slides =>
+          slides.size / 2
+        }
+      ),
+      ExtraSlide(
+        maybeTracker = Some("display-finale-card"),
+        reactClass = PromptingToGoBackToOperation.reactClass,
+        props = { handler =>
+          PromptingToGoBackToOperationProps(operation = params.operation, clickOnButtonHandler = handler)
+        },
+        position = { slides =>
+          slides.size
+        }
+      )
+    )
 
   val vffOperationDesignData: OperationDesignData = OperationDesignData(
     slug = "vff",
@@ -125,7 +179,7 @@ object OperationDesignData {
       OperationPartner(name = "Kering Foundation", imageUrl = keringFoundationLogo.toString, imageWidth = 80),
       OperationPartner(name = "Facebook", imageUrl = facebookLogo.toString, imageWidth = 80)
     ),
-    extraSlides = defaultSlides
+    extraSlides = vffSlides
   )
   val climatParisOperationDesignData: OperationDesignData = OperationDesignData(
     slug = "climatparis",
@@ -137,17 +191,17 @@ object OperationDesignData {
       title = "Climat Paris",
       question = "Comment lutter contre le changement climatique à Paris&nbsp;?",
       purpose = None,
-      period = Some("Consultation ouverte du &hellip; au &hellip;"),
+      period = None,
       greatCauseLabel = None,
       explanation = Some(
-        "Suspendisse placerat magna justo, sit amet efficitur lacus fringilla in. Aliquam lobortis pretium ex id ullamcorper. Interdum et malesuada fames ac ante ipsum primis in faucibus. Fusce fermentum hendrerit quam sit amet tincidunt. Duis laoreet elit."
+        "Les changements climatiques sont au coeur de l’actualité politique et internationale. La COP21 a démontré la volonté des décideurs politiques d’avancer. Un changement de comportement de chaque citoyen est maintenant nécessaire : à nous de transformer la prise de conscience planétaire en idées concrètes pour changer notre rapport à la planète."
       ),
       learnMoreUrl = Some("https://about.make.org/about-climatparis")
     ),
     featuredIllustration = None,
     illustration = Some(Illustration(illUrl = climatParisIll.toString, ill2xUrl = climatParisIll2x.toString)),
     partners = Seq.empty,
-    extraSlides = defaultSlides
+    extraSlides = cpSlides
   )
 
   val defaultOperationDesignList: Seq[OperationDesignData] = Seq(vffOperationDesignData, climatParisOperationDesignData)
