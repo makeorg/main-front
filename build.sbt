@@ -91,7 +91,7 @@ webpackConfigFile in fullOptJS := Some(baseDirectory.value / "make-webpack-prod.
 
 scalaJSUseMainModuleInitializer := true
 
-webpackDevServerExtraArgs := Seq("--lazy", "--inline")
+webpackDevServerExtraArgs := Seq("--lazy", "--inline", "--host", "0.0.0.0")
 webpackDevServerPort := 9009
 
 webpackBundlingMode in fastOptJS := BundlingMode.LibraryOnly("makeApp")
