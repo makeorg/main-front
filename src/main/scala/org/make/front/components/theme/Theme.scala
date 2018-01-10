@@ -10,10 +10,10 @@ import org.make.front.components.theme.ResultsInThemeContainer.ResultsInThemeCon
 import org.make.front.components.theme.ThemeHeader.ThemeHeaderProps
 import org.make.front.facades.FacebookPixel
 import org.make.front.models.{
-  Location        => LocationModel,
-  Operation       => OperationModel,
-  Sequence        => SequenceModel,
-  TranslatedTheme => TranslatedThemeModel
+  Location          => LocationModel,
+  OperationExpanded => OperationModel,
+  Sequence          => SequenceModel,
+  TranslatedTheme   => TranslatedThemeModel
 }
 import org.make.front.styles.ThemeStyles
 import org.make.front.styles.utils._

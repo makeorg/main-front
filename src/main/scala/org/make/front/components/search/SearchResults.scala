@@ -15,7 +15,7 @@ import org.make.front.facades.ReactInfiniteScroller.{
 }
 import org.make.front.facades.Unescape.unescape
 import org.make.front.facades.{FacebookPixel, I18n, Replacements}
-import org.make.front.models.{Location, Proposal, Sequence => SequenceModel, Operation => OperationModel}
+import org.make.front.models.{Location, Proposal, Sequence => SequenceModel, OperationExpanded => OperationModel}
 import org.make.front.styles.ThemeStyles
 import org.make.front.styles.base.{ColRulesStyles, LayoutRulesStyles, TableLayoutStyles, TextStyles}
 import org.make.front.styles.ui.CTAStyles

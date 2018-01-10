@@ -6,7 +6,11 @@ import io.github.shogowada.scalajs.reactjs.redux.ReactRedux
 import io.github.shogowada.scalajs.reactjs.redux.Redux.Dispatch
 import org.make.front.actions.LoadConfiguration
 import org.make.front.components.AppState
-import org.make.front.models.{Operation => OperationModel}
+import org.make.front.models.{OperationExpanded => OperationModel}
+import org.make.services.operation.OperationService
+
+import scala.concurrent.Future
+import scala.concurrent.ExecutionContext.Implicits.global
 
 object FeaturedOperationContainer {
 
@@ -20,14 +24,14 @@ object FeaturedOperationContainer {
       {
         val slug = props.wrapped.operationSlug
 
-        val OperationsList: Seq[OperationModel] = state.operations.filter(_.slug == slug)
+        val operationExpanded: Future[Option[OperationModel]] = OperationService
+          .getOperationBySlug(slug)
+          .map(_.map { operation =>
+            OperationModel.getOperationExpandedFromOperation(operation)
+          })
 
-        if (OperationsList.isEmpty) {
-          FeaturedOperation.FeaturedOperationProps(OperationModel.empty)
-        } else {
-          dispatch(LoadConfiguration)
-          FeaturedOperation.FeaturedOperationProps(operation = OperationsList.head)
-        }
+        dispatch(LoadConfiguration)
+        FeaturedOperation.FeaturedOperationProps(futureMaybeOperation = operationExpanded)
       }
     }
 }

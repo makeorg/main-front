@@ -6,12 +6,12 @@ import io.github.shogowada.scalajs.reactjs.redux.ReactRedux
 import io.github.shogowada.scalajs.reactjs.redux.Redux.Dispatch
 import org.make.front.components.AppState
 import org.make.front.models.{
-  Location        => LocationModel,
-  Operation       => OperationModel,
-  Proposal        => ProposalModel,
-  Sequence        => SequenceModel,
-  ThemeId         => ThemeIdModel,
-  TranslatedTheme => TranslatedThemeModel
+  Location          => LocationModel,
+  OperationExpanded => OperationModel,
+  Proposal          => ProposalModel,
+  Sequence          => SequenceModel,
+  ThemeId           => ThemeIdModel,
+  TranslatedTheme   => TranslatedThemeModel
 }
 
 object ProposalTileWithThemeContainer {

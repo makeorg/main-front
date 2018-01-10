@@ -12,11 +12,11 @@ import org.make.front.components.proposal.ProposalTileWithThemeContainer.Proposa
 import org.make.front.facades.ReactSlick.{ReactTooltipVirtualDOMAttributes, ReactTooltipVirtualDOMElements}
 import org.make.front.facades.logoMake
 import org.make.front.models.{
-  Proposal        => ProposalModel,
-  Location        => LocationModel,
-  Operation       => OperationModel,
-  Sequence        => SequenceModel,
-  TranslatedTheme => TranslatedThemeModel
+  Proposal          => ProposalModel,
+  Location          => LocationModel,
+  OperationExpanded => OperationModel,
+  Sequence          => SequenceModel,
+  TranslatedTheme   => TranslatedThemeModel
 }
 import org.make.front.styles._
 import org.make.front.styles.base.{ColRulesStyles, LayoutRulesStyles, RWDHideRulesStyles, TextStyles}

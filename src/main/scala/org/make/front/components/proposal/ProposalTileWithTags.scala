@@ -12,13 +12,13 @@ import org.make.front.components.proposal.ProposalInfos.ProposalInfosProps
 import org.make.front.components.proposal.ShareOwnProposal.ShareOwnProposalProps
 import org.make.front.components.proposal.vote.VoteContainer.VoteContainerProps
 import org.make.front.models.{
-  Location        => LocationModel,
-  Operation       => OperationModel,
-  Proposal        => ProposalModel,
-  Qualification   => QualificationModel,
-  Sequence        => SequenceModel,
-  TranslatedTheme => TranslatedThemeModel,
-  Vote            => VoteModel
+  Location          => LocationModel,
+  OperationExpanded => OperationModel,
+  Proposal          => ProposalModel,
+  Qualification     => QualificationModel,
+  Sequence          => SequenceModel,
+  TranslatedTheme   => TranslatedThemeModel,
+  Vote              => VoteModel
 }
 import org.make.front.styles._
 import org.make.front.styles.base.{TableLayoutStyles, TextStyles}

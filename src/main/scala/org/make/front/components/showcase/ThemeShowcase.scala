@@ -12,7 +12,7 @@ import org.make.front.components.proposal.ProposalTile.ProposalTileProps
 import org.make.front.components.showcase.PromptingToProposeInRelationToThemeTile.PromptingToProposeInRelationToThemeTileProps
 import org.make.front.facades.ReactSlick.{ReactTooltipVirtualDOMAttributes, ReactTooltipVirtualDOMElements}
 import org.make.front.facades.{HexToRgba, I18n, Replacements}
-import org.make.front.models.{GradientColor => GradientColorModel, Location => LocationModel, Operation => OperationModel, Proposal => ProposalModel, Sequence => SequenceModel, TranslatedTheme => TranslatedThemeModel}
+import org.make.front.models.{GradientColor => GradientColorModel, Location => LocationModel, OperationExpanded => OperationModel, Proposal => ProposalModel, Sequence => SequenceModel, TranslatedTheme => TranslatedThemeModel}
 import org.make.front.styles._
 import org.make.front.styles.base.{ColRulesStyles, LayoutRulesStyles, RWDHideRulesStyles, TextStyles}
 import org.make.front.styles.ui.CTAStyles

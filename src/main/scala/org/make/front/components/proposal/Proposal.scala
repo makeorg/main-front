@@ -16,10 +16,10 @@ import org.make.front.facades.I18n
 import org.make.front.facades.Unescape.unescape
 import org.make.front.helpers.ProposalAuthorInfosFormat
 import org.make.front.models.{
-  Location        => LocationModel,
-  Operation       => OperationModel,
-  Proposal        => ProposalModel,
-  TranslatedTheme => TranslatedThemeModel
+  Location          => LocationModel,
+  OperationExpanded => OperationModel,
+  Proposal          => ProposalModel,
+  TranslatedTheme   => TranslatedThemeModel
 }
 import org.make.front.styles.ThemeStyles
 import org.make.front.styles.base.{LayoutRulesStyles, TableLayoutStyles, TextStyles}

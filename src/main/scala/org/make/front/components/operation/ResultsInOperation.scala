@@ -17,15 +17,15 @@ import org.make.front.facades.ReactInfiniteScroller.{
 import org.make.front.facades.Unescape.unescape
 import org.make.front.facades.{FacebookPixel, I18n}
 import org.make.front.models.{
-  Location        => LocationModel,
-  Operation       => OperationModel,
-  Proposal        => ProposalModel,
-  ProposalId      => ProposalIdModel,
-  Qualification   => QualificationModel,
-  Sequence        => SequenceModel,
-  Tag             => TagModel,
-  TranslatedTheme => TranslatedThemeModel,
-  Vote            => VoteModel
+  Location          => LocationModel,
+  OperationExpanded => OperationModel,
+  Proposal          => ProposalModel,
+  ProposalId        => ProposalIdModel,
+  Qualification     => QualificationModel,
+  Sequence          => SequenceModel,
+  Tag               => TagModel,
+  TranslatedTheme   => TranslatedThemeModel,
+  Vote              => VoteModel
 }
 import org.make.front.styles._
 import org.make.front.styles.base.{ColRulesStyles, LayoutRulesStyles, TextStyles}

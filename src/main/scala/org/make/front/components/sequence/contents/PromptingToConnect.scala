@@ -10,7 +10,7 @@ import org.make.front.components.authenticate.LoginOrRegister.LoginOrRegisterPro
 import org.make.front.components.modals.Modal.ModalProps
 import org.make.front.facades.Unescape.unescape
 import org.make.front.facades.{FacebookPixel, I18n}
-import org.make.front.models.{Operation => OperationModel}
+import org.make.front.models.{OperationExpanded => OperationModel}
 import org.make.front.styles.ThemeStyles
 import org.make.front.styles.base.{LayoutRulesStyles, TextStyles}
 import org.make.front.styles.ui.CTAStyles

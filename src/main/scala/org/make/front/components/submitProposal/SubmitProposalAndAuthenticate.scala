@@ -11,7 +11,7 @@ import org.make.front.components.submitProposal.SubmitProposalFormContainer.Subm
 import org.make.front.components.users.authenticate.RequireAuthenticatedUserContainer.RequireAuthenticatedUserContainerProps
 import org.make.front.facades.I18n
 import org.make.front.facades.Unescape.unescape
-import org.make.front.models.{Operation => OperationModel, TranslatedTheme => TranslatedThemeModel}
+import org.make.front.models.{OperationExpanded => OperationModel, TranslatedTheme => TranslatedThemeModel}
 import org.make.front.styles.ThemeStyles
 import org.make.front.styles.base.{LayoutRulesStyles, TextStyles}
 import org.make.front.styles.utils._

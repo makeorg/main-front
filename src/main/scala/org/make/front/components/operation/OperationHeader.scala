@@ -9,7 +9,7 @@ import org.make.front.components.modals.FullscreenModal.FullscreenModalProps
 import org.make.front.components.operation.SubmitProposalInRelationToOperation.SubmitProposalInRelationToOperationProps
 import org.make.front.facades.{FacebookPixel, I18n}
 import org.make.front.facades.Unescape.unescape
-import org.make.front.models.{Location => LocationModel, Operation => OperationModel, Sequence => SequenceModel}
+import org.make.front.models.{Location => LocationModel, OperationExpanded => OperationModel, Sequence => SequenceModel}
 import org.make.front.styles._
 import org.make.front.styles.base.{LayoutRulesStyles, TableLayoutStyles, TextStyles}
 import org.make.front.styles.ui.InputStyles
@@ -52,7 +52,7 @@ object OperationHeader {
         object DynamicOperationHeaderStyles extends StyleSheet.Inline {
           import dsl._
 
-          val proposalInputIntro = style(color :=! operation.theme.color)
+          val proposalInputIntro = style(color :=! operation.color)
         }
 
         <.header(^.className := OperationHeaderStyles.wrapper)(

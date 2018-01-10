@@ -12,9 +12,9 @@ import org.make.front.facades.Unescape.unescape
 import org.make.front.facades.I18n
 import org.make.front.models.{
   Location,
-  GradientColor => GradientColorModel,
-  Operation     => OperationModel,
-  Sequence      => SequenceModel
+  GradientColor     => GradientColorModel,
+  OperationExpanded => OperationModel,
+  Sequence          => SequenceModel
 }
 import org.make.front.styles._
 import org.make.front.styles.base.TextStyles
@@ -40,7 +40,7 @@ object SubmitProposalInRelationToOperation {
         },
         render = { self =>
           val gradientValues: GradientColorModel =
-            self.state.operation.theme.gradient.getOrElse(GradientColorModel("#FFF", "#FFF"))
+            self.state.operation.gradient.getOrElse(GradientColorModel("#FFF", "#FFF"))
 
           object DynamicSubmitProposalInRelationToOperationStyles extends StyleSheet.Inline {
             import dsl._
