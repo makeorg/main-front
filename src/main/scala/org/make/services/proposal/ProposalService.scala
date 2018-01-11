@@ -62,7 +62,7 @@ object ProposalService extends ApiService {
               content = content,
               slug = slug,
               themesIds = if (themesIds.nonEmpty) Some(themesIds.map(_.value)) else None,
-              operationId =  Some(operationId.get.value),
+              operationId =  operationId.map(_.value),
               tagsIds = if (tagsIds.nonEmpty) Some(tagsIds.map(_.value)) else None,
               labelsIds = labelsIds,
               context = context,
