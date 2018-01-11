@@ -29,7 +29,7 @@ object ProposalService extends ApiService {
     var headers =
       Map[String, String](MakeApiClient.sourceHeader -> source, MakeApiClient.locationHeader -> location.name)
     themeId.foreach(theme => headers += MakeApiClient.themeIdHeader -> theme)
-    operation.foreach(op  => headers += MakeApiClient.operationHeader -> op.label)
+    operation.foreach(op  => headers += MakeApiClient.operationHeader -> op.operationId.value)
     question.foreach(q    => headers += MakeApiClient.questionHeader -> q)
     MakeApiClient
       .post[RegisterProposalResponse](
