@@ -30,7 +30,9 @@ object ProposalService extends ApiService {
       Map[String, String](MakeApiClient.sourceHeader -> source, MakeApiClient.locationHeader -> location.name)
     themeId.foreach(theme => headers += MakeApiClient.themeIdHeader -> theme)
     operation.foreach(op  => headers += MakeApiClient.operationHeader -> op.operationId.value)
-    question.foreach(q    => headers += MakeApiClient.questionHeader -> q)
+    question
+      .orElse(operation.map(_.wording.question))
+      .foreach(q => headers += MakeApiClient.questionHeader -> q)
     MakeApiClient
       .post[RegisterProposalResponse](
         resourceName,
@@ -62,7 +64,7 @@ object ProposalService extends ApiService {
               content = content,
               slug = slug,
               themesIds = if (themesIds.nonEmpty) Some(themesIds.map(_.value)) else None,
-              operationId =  operationId.map(_.value),
+              operationId = operationId.map(_.value),
               tagsIds = if (tagsIds.nonEmpty) Some(tagsIds.map(_.value)) else None,
               labelsIds = labelsIds,
               context = context,
