@@ -29,7 +29,7 @@ object OperationService extends ApiService {
         .map(Operation.apply)
     } else {
       getOperations.map { operations =>
-        operations.filter(_.operationId == operationId) match {
+        operations.filter(_.operationId.value == operationId.value) match {
           case operations if operations.nonEmpty => operations.head
           case _                                 => throw new NotFoundException
         }
