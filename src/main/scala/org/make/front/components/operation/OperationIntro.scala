@@ -41,15 +41,23 @@ object OperationIntro {
           object DynamicVFFIntroStyles extends StyleSheet.Inline {
             import dsl._
 
-            val gradient = style(background := s"linear-gradient(130deg, ${gradientValues.from}, ${gradientValues.to})")
+            val gradient: StyleA =
+              style(background := s"linear-gradient(130deg, ${gradientValues.from}, ${gradientValues.to})")
+
+            val labelWrapper: StyleA = style(textAlign :=! operation.greatCauseLabelAlignment.getOrElse("left"))
+
+            val titleWrapper: StyleA = style(maxWidth(operation.logoMaxWidth.getOrElse(470).pxToEm()))
+
           }
 
           <.div(^.className := Seq(OperationIntroStyles.wrapper, DynamicVFFIntroStyles.gradient))(
             <.div(^.className := OperationIntroStyles.presentationInnerWrapper)(
               <.div(^.className := LayoutRulesStyles.centeredRow)(
-                <.div(^.className := OperationIntroStyles.titleWrapper)(
-                  if (operation.wording.greatCauseLabel.isDefined) {
-                    <.p(^.className := Seq(TextStyles.label))(unescape(operation.wording.greatCauseLabel.getOrElse("")))
+                <.div(^.className := Seq(OperationIntroStyles.titleWrapper, DynamicVFFIntroStyles.titleWrapper))(
+                  if (operation.wording.label.isDefined) {
+                    <.div(^.className := DynamicVFFIntroStyles.labelWrapper)(
+                      <.p(^.className := TextStyles.label)(unescape(operation.wording.label.getOrElse("")))
+                    )
                   },
                   if (operation.logoUrl.isDefined) {
                     <.p(^.className := Seq(OperationIntroStyles.logoWrapper))(
@@ -110,9 +118,11 @@ object OperationIntro {
                         )
                       )
                     ),
-                    <.p(^.className := Seq(OperationIntroStyles.otherPartners, TextStyles.smallText))(
-                      unescape(I18n.t("operation.intro.partners.others"))
-                    )
+                    if (operation.wording.mentionUnderThePartners.isDefined) {
+                      <.p(^.className := Seq(OperationIntroStyles.otherPartners, TextStyles.smallText))(
+                        unescape(operation.wording.mentionUnderThePartners.getOrElse(""))
+                      )
+                    }
                   )
                 }
               )

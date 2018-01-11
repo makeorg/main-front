@@ -22,7 +22,9 @@ final case class OperationDesignData(slug: String,
                                      color: String,
                                      gradient: Option[GradientColor] = None,
                                      logoUrl: Option[String] = None,
+                                     logoMaxWidth: Option[Int],
                                      darkerLogoUrl: Option[String] = None,
+                                     labelAlignment: Option[String] = Some("left"),
                                      featuredIllustration: Option[Illustration] = None,
                                      illustration: Option[Illustration] = None,
                                      partners: Seq[OperationPartner] = Seq.empty,
@@ -205,6 +207,7 @@ object OperationDesignData {
     gradient = Some(GradientColor("#AB92CA", "#54325A")),
     logoUrl = Some(VFFLogo.toString),
     darkerLogoUrl = Some(VFFDarkerLogo.toString),
+    logoMaxWidth = Some(470),
     wording = OperationWording(
       title = "Stop aux Violences Faites aux&nbsp;Femmes",
       question = "Comment lutter contre les violences faites aux&nbsp;femmes&nbsp;?",
@@ -212,7 +215,8 @@ object OperationDesignData {
         "Make.org a décidé de lancer sa première Grande Cause en la consacrant à la lutte contre les Violences faites aux&nbsp;femmes."
       ),
       period = Some("Consultation ouverte du 25 nov. 2017 à fin janvier"),
-      greatCauseLabel = Some("Grande cause Make.org"),
+      label = Some("Grande cause Make.org"),
+      mentionUnderThePartners = Some("et nos partenaires soutien et&nbsp;actions"),
       explanation = Some(
         "Les violences faites aux femmes sont au coeur de l’actualité politique et médiatique. Les mentalités sont en train de changer. Mais pour autant tout commence maintenant. À nous de transformer cette prise de conscience généralisée en actions concrètes et d’apporter une réponse décisive face à ce&nbsp;fléau."
       ),
@@ -235,18 +239,20 @@ object OperationDesignData {
     ),
     extraSlides = vffSlides
   )
+
   val climatParisOperationDesignData: OperationDesignData = OperationDesignData(
     slug = "climatparis",
     color = "#459ba6",
     gradient = Some(GradientColor("#bfe692", "#69afde")),
     logoUrl = Some(climatParisLogo.toString),
+    logoMaxWidth = Some(360),
     darkerLogoUrl = Some(ClimatParisDarkerLogo.toString),
     wording = OperationWording(
       title = "Climat Paris",
       question = "Comment lutter contre le changement climatique &agrave; Paris&nbsp;?",
       purpose = None,
       period = None,
-      greatCauseLabel = None,
+      label = None,
       explanation = Some(
         "Les changements climatiques sont au coeur de l’actualité politique et internationale. La COP21 a démontré la volonté des décideurs politiques d’avancer. Un changement de comportement de chaque citoyen est maintenant nécessaire : à nous de transformer la prise de conscience planétaire en idées concrètes pour changer notre rapport à la planète."
       ),
@@ -265,9 +271,10 @@ final case class OperationPartner(name: String, imageUrl: String, imageWidth: In
 
 final case class OperationWording(title: String,
                                   question: String,
-                                  greatCauseLabel: Option[String] = None,
+                                  label: Option[String] = None,
                                   purpose: Option[String] = None,
                                   period: Option[String] = None,
+                                  mentionUnderThePartners: Option[String] = None,
                                   explanation: Option[String] = None,
                                   learnMoreUrl: Option[String] = None)
 
@@ -288,8 +295,10 @@ final case class OperationExpanded(operationId: OperationId,
                                    featuredIllustration: Option[Illustration],
                                    tags: Seq[Tag] = Seq.empty,
                                    logoUrl: Option[String] = None,
+                                   logoMaxWidth: Option[Int],
                                    darkerLogoUrl: Option[String] = None,
                                    sequence: SequenceId,
+                                   greatCauseLabelAlignment: Option[String] = Some("left"),
                                    wording: OperationWording,
                                    partners: Seq[OperationPartner] = Seq.empty,
                                    extraSlides: (OperationExtraSlidesParams) => Seq[ExtraSlide])
@@ -310,16 +319,19 @@ object OperationExpanded {
           color = operationDesignData.color,
           gradient = operationDesignData.gradient,
           logoUrl = operationDesignData.logoUrl,
+          logoMaxWidth = operationDesignData.logoMaxWidth,
           darkerLogoUrl = operationDesignData.darkerLogoUrl,
           sequence = operation.sequenceLandingId,
+          greatCauseLabelAlignment = operationDesignData.labelAlignment,
           wording = OperationWording(
             // toDo: manage different languages
             title =
               operation.translations.filter(_.language.toLowerCase == operation.defaultLanguage.toLowerCase).head.title,
             question = operationDesignData.wording.question,
-            greatCauseLabel = operationDesignData.wording.greatCauseLabel,
+            label = operationDesignData.wording.label,
             purpose = operationDesignData.wording.purpose,
             period = operationDesignData.wording.period,
+            mentionUnderThePartners = operationDesignData.wording.mentionUnderThePartners,
             explanation = operationDesignData.wording.explanation,
             learnMoreUrl = operationDesignData.wording.learnMoreUrl
           ),
@@ -342,6 +354,7 @@ object OperationExpanded {
           color = "",
           gradient = None,
           logoUrl = None,
+          logoMaxWidth = None,
           darkerLogoUrl = None,
           sequence = operation.sequenceLandingId,
           wording = OperationWording(
@@ -349,9 +362,10 @@ object OperationExpanded {
             title =
               operation.translations.filter(_.language.toLowerCase == operation.defaultLanguage.toLowerCase).head.title,
             question = "",
-            greatCauseLabel = None,
+            label = None,
             purpose = None,
             period = None,
+            mentionUnderThePartners = None,
             explanation = None,
             learnMoreUrl = None
           ),
@@ -364,5 +378,4 @@ object OperationExpanded {
         )
     }
   }
-
 }
