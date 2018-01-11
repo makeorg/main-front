@@ -38,19 +38,17 @@ object ResultsInOperationContainer {
   def selectorFactory
     : (Dispatch) => (AppState, Props[ResultsInOperationContainerProps]) => ResultsInOperation.ResultsInOperationProps =
     (dispatch: Dispatch) => { (_: AppState, props: Props[ResultsInOperationContainerProps]) =>
-      val operationsIds: Seq[OperationIdModel] = Seq(props.wrapped.currentOperation.operationId)
 
       def getProposals(tags: Seq[TagModel], skip: Int, seed: Option[Int] = None): Future[SearchResult] = {
         ProposalService
           .searchProposals(
-            operationsIds = operationsIds,
+            operationId = Some(props.wrapped.currentOperation.operationId),
             tagsIds = tags.map(_.tagId),
             content = None,
             seed = seed,
             sort = Seq.empty,
             limit = Some(defaultResultsCount),
-            skip = Some(skip),
-            context = Some(ContextRequest(operation = Some(props.wrapped.currentOperation.label)))
+            skip = Some(skip)
           )
       }
 
