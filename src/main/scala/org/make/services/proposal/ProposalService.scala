@@ -29,7 +29,7 @@ object ProposalService extends ApiService {
     var headers =
       Map[String, String](MakeApiClient.sourceHeader -> source, MakeApiClient.locationHeader -> location.name)
     themeId.foreach(theme => headers += MakeApiClient.themeIdHeader -> theme)
-    operation.foreach(op  => headers += MakeApiClient.operationHeader -> op.label)
+    operation.foreach(op  => headers += MakeApiClient.operationHeader -> op.operationId.value)
     question.foreach(q    => headers += MakeApiClient.questionHeader -> q)
     MakeApiClient
       .post[RegisterProposalResponse](
@@ -43,7 +43,7 @@ object ProposalService extends ApiService {
   def searchProposals(content: Option[String] = None,
                       slug: Option[String] = None,
                       themesIds: Seq[ThemeId] = Seq.empty,
-                      operationsIds: Seq[OperationId] = Seq.empty,
+                      operationId: Option[OperationId] = None,
                       tagsIds: Seq[TagId] = Seq.empty,
                       trending: Option[String] = None,
                       labelsIds: Option[Seq[String]] = None,
@@ -62,7 +62,7 @@ object ProposalService extends ApiService {
               content = content,
               slug = slug,
               themesIds = if (themesIds.nonEmpty) Some(themesIds.map(_.value)) else None,
-              operationsIds = if (operationsIds.nonEmpty) Some(operationsIds.map(_.value)) else None,
+              operationId =  Some(operationId.get.value),
               tagsIds = if (tagsIds.nonEmpty) Some(tagsIds.map(_.value)) else None,
               labelsIds = labelsIds,
               context = context,

@@ -84,7 +84,7 @@ object JsContextRequest {
 }
 
 case class SearchRequest(themesIds: Option[Seq[String]] = None,
-                         operationsIds: Option[Seq[String]] = None,
+                         operationId: Option[String] = None,
                          tagsIds: Option[Seq[String]] = None,
                          labelsIds: Option[Seq[String]] = None,
                          content: Option[String] = None,
@@ -100,7 +100,7 @@ case class SearchRequest(themesIds: Option[Seq[String]] = None,
 @js.native
 trait JsSearchRequest extends js.Object {
   val themesIds: js.UndefOr[js.Array[String]]
-  val operationsIds: js.UndefOr[js.Array[String]]
+  val operationId: js.UndefOr[String]
   val tagsIds: js.UndefOr[js.Array[String]]
   val labelsIds: js.UndefOr[js.Array[String]]
   val content: js.UndefOr[String]
@@ -120,7 +120,7 @@ object JsSearchRequest {
     js.Dynamic
       .literal(
         themesIds = searchRequest.themesIds.map(_.toJSArray).orUndefined,
-        operationsIds = searchRequest.operationsIds.map(_.toJSArray).orUndefined,
+        operationId = searchRequest.operationId.orUndefined,
         tagsIds = searchRequest.tagsIds.map(_.toJSArray).orUndefined,
         labelsIds = searchRequest.labelsIds.map(_.toJSArray).orUndefined,
         content = searchRequest.content.orUndefined,
