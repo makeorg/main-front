@@ -7,6 +7,7 @@ object TrackingService {
 
   def track(eventName: String, trackingContext: TrackingContext, parameters: Map[String, String] = Map.empty): Unit = {
 
+    val eventType: String = "trackCustom"
     var allParameters = parameters +
       ("location" -> trackingContext.location.name) +
       ("source" -> trackingContext.source.name)
@@ -15,7 +16,8 @@ object TrackingService {
       allParameters += "operation" -> slug
     }
 
-    FacebookPixel.fbq("trackCustom", eventName, allParameters.toJSDictionary)
+    FacebookPixel.fbq(eventType, eventName, allParameters.toJSDictionary)
+    TrackingApiService.track(eventType, eventName, allParameters, trackingContext)
   }
 
   case class TrackingContext(location: TrackingLocation,
