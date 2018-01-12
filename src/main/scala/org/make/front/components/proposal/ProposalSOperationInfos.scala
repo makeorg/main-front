@@ -63,13 +63,13 @@ object ProposalSOperationInfos {
                     ^.className := Seq(CTAStyles.basic, CTAStyles.basicOnA)
                   )(unescape(I18n.t("proposal.proposal-s-operation-infos.participate")))
                 ),
-                <.p(^.className := ProposalSOperationInfosStyles.CTA)(
-                  <.a(
-                    ^.href := I18n.t("proposal.proposal-s-operation-infos.see-more-link"),
-                    ^.className := Seq(CTAStyles.basic, CTAStyles.basicOnA),
-                    ^.target := "_blank"
-                  )(unescape(I18n.t("proposal.proposal-s-operation-infos.see-more")))
-                )
+                self.props.wrapped.operation.wording.learnMoreUrl.map { url =>
+                  <.p(^.className := ProposalSOperationInfosStyles.CTA)(
+                    <.a(^.href := url, ^.className := Seq(CTAStyles.basic, CTAStyles.basicOnA), ^.target := "_blank")(
+                      unescape(I18n.t("proposal.proposal-s-operation-infos.see-more"))
+                    )
+                  )
+                }
               )
             ),
             <.style()(ProposalSOperationInfosStyles.render[String], DynamicProposalSOperationInfosStyles.render[String])
