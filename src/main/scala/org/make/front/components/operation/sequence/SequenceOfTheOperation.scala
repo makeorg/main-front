@@ -73,48 +73,37 @@ object SequenceOfTheOperation {
     React.createClass[SequenceOfTheOperationProps, SequenceOfTheOperationState](
       displayName = "SequenceOfTheOperation",
       getInitialState = { self =>
-        SequenceOfTheOperationState(
-          isProposalModalOpened = false,
-          numberOfProposals = 0,
-          extraSlides = OperationDesignData.defaultSlides(
-            OperationExtraSlidesParams(
-              operation = OperationModel.empty,
-              isConnected = false,
-              maybeSequence = None,
-              maybeLocation = None
-            )
-          )
-        )
+        SequenceOfTheOperationState(isProposalModalOpened = false, numberOfProposals = 0, extraSlides = Seq.empty)
       },
       componentDidMount = { (self) =>
         self.props.wrapped.operation.onComplete {
           case Failure(_) => self.props.wrapped.redirectHome()
           case Success(maybeOperation) =>
             val operation: OperationModel = maybeOperation.getOrElse(OperationModel.empty)
-              operation.sequence match {
-                case Some(sequenceId) =>
-                  SequenceService.startSequenceById(sequenceId = sequenceId, includes = Seq.empty).onComplete {
-                    case Failure(_) => self.setState(_.copy(operation = operation, sequenceTitle = "", sequence = None))
-                    case Success(sequence) =>
-                      self.setState(
-                        _.copy(
-                          operation = operation,
-                          sequenceTitle = sequence.title,
-                          sequence = Some(sequence),
-                          numberOfProposals = sequence.proposals.size,
-                          extraSlides = operation.extraSlides(
-                            OperationExtraSlidesParams(
-                              operation,
-                              self.props.wrapped.isConnected,
-                              Some(sequence),
-                              self.props.wrapped.maybeLocation
-                            )
+            operation.sequence match {
+              case Some(sequenceId) =>
+                SequenceService.startSequenceById(sequenceId = sequenceId, includes = Seq.empty).onComplete {
+                  case Failure(_) => self.setState(_.copy(operation = operation, sequenceTitle = "", sequence = None))
+                  case Success(sequence) =>
+                    self.setState(
+                      _.copy(
+                        operation = operation,
+                        sequenceTitle = sequence.title,
+                        sequence = Some(sequence),
+                        numberOfProposals = sequence.proposals.size,
+                        extraSlides = operation.extraSlides(
+                          OperationExtraSlidesParams(
+                            operation,
+                            self.props.wrapped.isConnected,
+                            Some(sequence),
+                            self.props.wrapped.maybeLocation
                           )
                         )
                       )
-                  }
-                case _ => self.setState(_.copy(operation = operation, sequenceTitle = "", sequence = None))
-              }
+                    )
+                }
+              case _ => self.setState(_.copy(operation = operation, sequenceTitle = "", sequence = None))
+            }
         }
       },
       render = { self =>
