@@ -141,8 +141,7 @@ object Translations {
       |      "proposal-s-operation-infos": {
       |        "intro": "Cette proposition a été soumise dans le cadre de la Grande&nbsp;Cause",
       |        "participate": "Participer",
-      |        "see-more": "En savoir&nbsp;+",
-      |        "see-more-link": "https://stopvff.make.org/about-vff"
+      |        "see-more": "En savoir&nbsp;+"
       |      },
       |      "author-infos": {
       |        "age": ", %{age} ans",
