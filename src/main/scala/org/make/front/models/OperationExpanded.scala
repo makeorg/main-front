@@ -20,20 +20,21 @@ import org.make.services.tracking.{TrackingLocation, TrackingService}
 final case class OperationDesignData(slug: String,
                                      wording: OperationWording,
                                      color: String,
-                                     gradient: Option[GradientColor] = None,
-                                     logoUrl: Option[String] = None,
+                                     gradient: Option[GradientColor],
+                                     logoUrl: Option[String],
                                      logoMaxWidth: Option[Int],
-                                     darkerLogoUrl: Option[String] = None,
-                                     labelAlignment: Option[String] = Some("left"),
-                                     featuredIllustration: Option[Illustration] = None,
-                                     illustration: Option[Illustration] = None,
-                                     partners: Seq[OperationPartner] = Seq.empty,
+                                     darkerLogoUrl: Option[String],
+                                     greatCauseLabelAlignment: Option[String],
+                                     featuredIllustration: Option[Illustration],
+                                     illustration: Option[Illustration],
+                                     partners: Seq[OperationPartner],
                                      extraSlides: (OperationExtraSlidesParams) => Seq[ExtraSlide])
 
 object OperationDesignData {
   val defaultUrl = "consultation/{slug}/selection"
   val defaultCountry = "FR"
   val featuredOperationSlug = "vff"
+
   def getBySlug(slug: String): Option[OperationDesignData] = {
     val resultList: Seq[OperationDesignData] = defaultOperationDesignList.filter(_.slug == slug)
     resultList match {
@@ -206,8 +207,9 @@ object OperationDesignData {
     color = "#660779",
     gradient = Some(GradientColor("#AB92CA", "#54325A")),
     logoUrl = Some(VFFLogo.toString),
-    darkerLogoUrl = Some(VFFDarkerLogo.toString),
     logoMaxWidth = Some(470),
+    darkerLogoUrl = Some(VFFDarkerLogo.toString),
+    greatCauseLabelAlignment = Some("left"),
     wording = OperationWording(
       title = "Stop aux Violences Faites aux&nbsp;Femmes",
       question = "Comment lutter contre les violences faites aux&nbsp;femmes&nbsp;?",
@@ -247,12 +249,14 @@ object OperationDesignData {
     logoUrl = Some(climatParisLogo.toString),
     logoMaxWidth = Some(360),
     darkerLogoUrl = Some(ClimatParisDarkerLogo.toString),
+    greatCauseLabelAlignment = Some("left"),
     wording = OperationWording(
       title = "Climat Paris",
       question = "Comment lutter contre le changement climatique &agrave; Paris&nbsp;?",
       purpose = None,
       period = None,
       label = None,
+      mentionUnderThePartners = None,
       explanation = Some(
         "Les changements climatiques sont au coeur de l’actualité politique et internationale. La COP21 a démontré la volonté des décideurs politiques d’avancer. Un changement de comportement de chaque citoyen est maintenant nécessaire : à nous de transformer la prise de conscience planétaire en idées concrètes pour changer notre rapport à la planète."
       ),
@@ -271,12 +275,12 @@ final case class OperationPartner(name: String, imageUrl: String, imageWidth: In
 
 final case class OperationWording(title: String,
                                   question: String,
-                                  label: Option[String] = None,
-                                  purpose: Option[String] = None,
-                                  period: Option[String] = None,
-                                  mentionUnderThePartners: Option[String] = None,
-                                  explanation: Option[String] = None,
-                                  learnMoreUrl: Option[String] = None)
+                                  label: Option[String],
+                                  purpose: Option[String],
+                                  period: Option[String],
+                                  mentionUnderThePartners: Option[String],
+                                  explanation: Option[String],
+                                  learnMoreUrl: Option[String])
 
 final case class OperationExtraSlidesParams(operation: OperationExpanded,
                                             isConnected: Boolean,
@@ -290,17 +294,17 @@ final case class OperationExpanded(operationId: OperationId,
                                    actionsCount: Int,
                                    proposalsCount: Int,
                                    color: String,
-                                   gradient: Option[GradientColor] = None,
+                                   gradient: Option[GradientColor],
                                    illustration: Option[Illustration],
                                    featuredIllustration: Option[Illustration],
-                                   tags: Seq[Tag] = Seq.empty,
-                                   logoUrl: Option[String] = None,
+                                   tags: Seq[Tag],
+                                   logoUrl: Option[String],
                                    logoMaxWidth: Option[Int],
-                                   darkerLogoUrl: Option[String] = None,
+                                   darkerLogoUrl: Option[String],
                                    sequence: SequenceId,
-                                   greatCauseLabelAlignment: Option[String] = Some("left"),
+                                   greatCauseLabelAlignment: Option[String],
                                    wording: OperationWording,
-                                   partners: Seq[OperationPartner] = Seq.empty,
+                                   partners: Seq[OperationPartner],
                                    extraSlides: (OperationExtraSlidesParams) => Seq[ExtraSlide])
 
 // @todo: use a sealed trait and case object like Source and Location
@@ -322,7 +326,7 @@ object OperationExpanded {
           logoMaxWidth = operationDesignData.logoMaxWidth,
           darkerLogoUrl = operationDesignData.darkerLogoUrl,
           sequence = operation.sequenceLandingId,
-          greatCauseLabelAlignment = operationDesignData.labelAlignment,
+          greatCauseLabelAlignment = operationDesignData.greatCauseLabelAlignment,
           wording = OperationWording(
             // toDo: manage different languages
             title =
@@ -353,10 +357,15 @@ object OperationExpanded {
           proposalsCount = 0,
           color = "",
           gradient = None,
+          illustration = None,
+          featuredIllustration = None,
+          tags =
+            operation.countriesConfiguration.filter(_.countryCode == OperationDesignData.defaultCountry).head.TagIds,
           logoUrl = None,
           logoMaxWidth = None,
           darkerLogoUrl = None,
           sequence = operation.sequenceLandingId,
+          greatCauseLabelAlignment = Some("left"),
           wording = OperationWording(
             // toDo: manage different languages
             title =
@@ -370,10 +379,7 @@ object OperationExpanded {
             learnMoreUrl = None
           ),
           // toDo: manage different countries
-          tags =
-            operation.countriesConfiguration.filter(_.countryCode == OperationDesignData.defaultCountry).head.TagIds,
-          illustration = None,
-          featuredIllustration = None,
+          partners = Seq.empty,
           extraSlides = (_: OperationExtraSlidesParams) => Seq.empty
         )
     }
