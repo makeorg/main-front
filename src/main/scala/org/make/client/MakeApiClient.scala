@@ -4,7 +4,7 @@ import io.github.shogowada.statictags.MediaTypes
 import org.scalajs.dom
 import org.make.core.URI._
 import org.make.front.facades.Configuration
-import org.make.front.models.{Token, TokenResponse}
+import org.make.front.models.{OperationId, Token, TokenResponse}
 import org.scalajs.dom.XMLHttpRequest
 import org.scalajs.dom.ext.Ajax.InputData
 import org.scalajs.dom.ext.{Ajax, AjaxException}
@@ -203,17 +203,20 @@ object MakeApiClient extends Client {
     }
   }
 
-  def authenticateSocial(provider: String, token: String): Future[Boolean] = {
+  def authenticateSocial(provider: String, token: String, operationId: Option[OperationId]): Future[Boolean] = {
     if (MakeApiClient.isAuthenticated) {
       Future.successful(true)
     } else {
-      askForAccessTokenSocial(provider, token)
+      askForAccessTokenSocial(provider, token, operationId)
     }
   }
 
-  private def askForAccessTokenSocial(provider: String, token: String): Future[Boolean] = {
+  private def askForAccessTokenSocial(provider: String, token: String, operationId: Option[OperationId]): Future[Boolean] = {
+    val headers = MakeApiClient.defaultHeaders ++ operationId.map(op => MakeApiClient.operationHeader -> op.value)
+
     post[TokenResponse](
       "user" / "login" / "social",
+      headers = headers,
       data = JSON.stringify(js.Dictionary("provider" -> provider, "token" -> token))
     ).map(Token.apply).map { newToken =>
       MakeApiClient.setToken(Option(newToken))

@@ -63,9 +63,12 @@ object PromptingToConnect {
               <.ul()(
                 <.li(^.className := PromptingToConnectStyles.facebookConnectButtonWrapper)(
                   <.AuthenticateWithFacebookContainerComponent(
-                    ^.wrapped := AuthenticateWithFacebookContainerProps(onSuccessfulLogin = () => {
-                      self.props.wrapped.authenticateHandler()
-                    })
+                    ^.wrapped := AuthenticateWithFacebookContainerProps(
+                      onSuccessfulLogin = () => {
+                        self.props.wrapped.authenticateHandler()
+                      },
+                      operationId = Some(self.props.wrapped.operation.operationId)
+                    )
                   )()
                 ),
                 <.li(^.className := PromptingToConnectStyles.mailConnectButtonWrapper)(
@@ -99,7 +102,7 @@ object PromptingToConnect {
                       self.setState(_.copy(isAuthenticateModalOpened = false))
                       self.props.wrapped.authenticateHandler()
                     },
-                    operation = Some(self.props.wrapped.operation.operationId)
+                    operationId = Some(self.props.wrapped.operation.operationId)
                   )
                 )()
               ),

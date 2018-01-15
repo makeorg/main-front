@@ -17,7 +17,7 @@ object RegisterContainer {
 
   case class RegisterUserProps(note: String,
                                onSuccessfulRegistration: () => Unit = () => {},
-                               operation: Option[OperationId])
+                               operationId: Option[OperationId])
 
   def selector: ContainerComponentFactory[RegisterProps] = ReactRedux.connectAdvanced {
     dispatch => (_: AppState, props: Props[RegisterUserProps]) =>
@@ -30,7 +30,7 @@ object RegisterContainer {
             profession = state.fields.get("profession"),
             postalCode = state.fields.get("postalCode"),
             age = state.fields.get("age").map(_.toInt),
-            operation = props.wrapped.operation
+            operationId = props.wrapped.operationId
           )
           .flatMap { _ =>
             UserService.login(state.fields("email"), state.fields("password"))

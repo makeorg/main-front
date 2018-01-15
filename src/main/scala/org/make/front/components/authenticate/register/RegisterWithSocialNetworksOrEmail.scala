@@ -17,7 +17,7 @@ import org.make.front.styles.utils._
 
 object RegisterWithSocialNetworksOrEmail {
 
-  case class RegisterWithSocialNetworksOrEmailProps(operation: Option[OperationId],
+  case class RegisterWithSocialNetworksOrEmailProps(operationId: Option[OperationId],
                                                     onSuccessfulLogin: () => Unit = () => {})
 
   val regular: ReactClass = React.createClass[RegisterWithSocialNetworksOrEmailProps, Unit](
@@ -25,7 +25,10 @@ object RegisterWithSocialNetworksOrEmail {
     render = { self =>
       <.div()(
         <.RegisterWithSocialNetworksComponent(
-          ^.wrapped := RegisterWithSocialNetworksProps(onSuccessfulLogin = self.props.wrapped.onSuccessfulLogin)
+          ^.wrapped := RegisterWithSocialNetworksProps(
+            onSuccessfulLogin = self.props.wrapped.onSuccessfulLogin,
+            operationId = self.props.wrapped.operationId
+          )
         )(),
         <.div(^.className := RegisterWithSocialNetworksOrEmailStyles.separatorWrapper)(
           <.p(^.className := Seq(RegisterWithSocialNetworksOrEmailStyles.separator, TextStyles.smallText))(
@@ -39,7 +42,7 @@ object RegisterWithSocialNetworksOrEmail {
           ^.wrapped := RegisterUserProps(
             note = I18n.t("authenticate.register.terms"),
             onSuccessfulRegistration = self.props.wrapped.onSuccessfulLogin,
-            operation = self.props.wrapped.operation
+            operationId = self.props.wrapped.operationId
           )
         )(),
         <.style()(RegisterWithSocialNetworksOrEmailStyles.render[String])
@@ -55,7 +58,8 @@ object RegisterWithSocialNetworksOrEmail {
       <.AuthenticateWithSocialNetworksComponent(
         ^.wrapped := AuthenticateWithSocialNetworksProps(
           note = unescape(I18n.t("authenticate.register.caution")),
-          onSuccessfulLogin = self.props.wrapped.onSuccessfulLogin
+          onSuccessfulLogin = self.props.wrapped.onSuccessfulLogin,
+          operationId = self.props.wrapped.operationId
         )
       )(),
       <.div(^.className := RegisterWithSocialNetworksOrEmailStyles.separatorWrapper)(
@@ -70,7 +74,7 @@ object RegisterWithSocialNetworksOrEmail {
         ^.wrapped := RegisterUserProps(
           note = I18n.t("authenticate.register.terms"),
           onSuccessfulRegistration = self.props.wrapped.onSuccessfulLogin,
-          operation = self.props.wrapped.operation
+          operationId = self.props.wrapped.operationId
         )
       )(),
       <.style()(RegisterWithSocialNetworksOrEmailStyles.render[String])

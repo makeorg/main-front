@@ -11,7 +11,7 @@ import org.make.front.models.OperationId
 
 object RequireAuthenticatedUserContainer {
 
-  case class RequireAuthenticatedUserContainerProps(operation: Option[OperationId],
+  case class RequireAuthenticatedUserContainerProps(operationId: Option[OperationId],
                                                     intro: ReactElement,
                                                     registerView: String,
                                                     defaultView: String = "register",
@@ -20,7 +20,7 @@ object RequireAuthenticatedUserContainer {
   val reactClass: ReactClass = ReactRedux.connectAdvanced {
     _: Dispatch => (state: AppState, props: Props[RequireAuthenticatedUserContainerProps]) =>
       RequireAuthenticatedUserProps(
-        operation = props.wrapped.operation,
+        operationId = props.wrapped.operationId,
         intro = props.wrapped.intro,
         registerView = props.wrapped.registerView,
         defaultView = props.wrapped.defaultView,
