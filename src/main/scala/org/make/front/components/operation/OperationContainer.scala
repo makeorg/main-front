@@ -27,7 +27,7 @@ object OperationContainer {
             OperationExpanded.getOperationExpandedFromOperation(operation)
           })
 
-        Operation.OperationProps(operationExpanded, None, None, Some(Location.Homepage))
+        Operation.OperationProps(operationExpanded, None, None)
       }
     }
 }

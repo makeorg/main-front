@@ -26,8 +26,7 @@ object Operation {
 
   final case class OperationProps(futureMaybeOperation: Future[Option[OperationModel]],
                                   maybeTheme: Option[TranslatedThemeModel],
-                                  maybeSequence: Option[SequenceModel],
-                                  maybeLocation: Option[LocationModel])
+                                  maybeSequence: Option[SequenceModel])
 
   final case class OperationState(operation: OperationModel)
 
@@ -64,7 +63,7 @@ object Operation {
               ^.wrapped := OperationHeaderProps(
                 self.state.operation,
                 maybeSequence = self.props.wrapped.maybeSequence,
-                maybeLocation = self.props.wrapped.maybeLocation
+                maybeLocation = Some(LocationModel.OperationPage(self.state.operation.operationId))
               )
             )(),
             <.div(^.className := OperationComponentStyles.contentWrapper)(
@@ -73,7 +72,7 @@ object Operation {
                   currentOperation = self.state.operation,
                   maybeTheme = self.props.wrapped.maybeTheme,
                   maybeSequence = self.props.wrapped.maybeSequence,
-                  maybeLocation = self.props.wrapped.maybeLocation
+                  maybeLocation = Some(LocationModel.OperationPage(self.state.operation.operationId))
                 )
               )()
             ),
