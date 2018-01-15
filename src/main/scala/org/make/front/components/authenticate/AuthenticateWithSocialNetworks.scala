@@ -7,13 +7,16 @@ import org.make.front.Main.CssSettings._
 import org.make.front.components.Components.{RichVirtualDOMElements, _}
 import org.make.front.components.authenticate.AuthenticateWithFacebookContainer.AuthenticateWithFacebookContainerProps
 import org.make.front.components.authenticate.AuthenticateWithGoogleContainer.AuthenticateWithGoogleContainerProps
+import org.make.front.models.OperationId
 import org.make.front.styles._
 import org.make.front.styles.base.TextStyles
 import org.make.front.styles.utils._
 
 object AuthenticateWithSocialNetworks {
 
-  case class AuthenticateWithSocialNetworksProps(note: String = "", onSuccessfulLogin: () => Unit = () => {})
+  case class AuthenticateWithSocialNetworksProps(note: String = "",
+                                                 onSuccessfulLogin: () => Unit = () => {},
+                                                 operationId: Option[OperationId])
 
   val reactClass: ReactClass =
     React
@@ -25,14 +28,16 @@ object AuthenticateWithSocialNetworks {
               <.li(^.className := AuthenticateWithSocialNetworksStyles.facebookConnectButtonWrapper)(
                 <.AuthenticateWithFacebookContainerComponent(
                   ^.wrapped := AuthenticateWithFacebookContainerProps(
-                    onSuccessfulLogin = self.props.wrapped.onSuccessfulLogin
+                    onSuccessfulLogin = self.props.wrapped.onSuccessfulLogin,
+                    operationId = self.props.wrapped.operationId
                   )
                 )()
               ),
               <.li(^.className := AuthenticateWithSocialNetworksStyles.googleConnectButtonWrapper)(
                 <.AuthenticateWithGoogleContainerComponent(
                   ^.wrapped := AuthenticateWithGoogleContainerProps(
-                    onSuccessfulLogin = self.props.wrapped.onSuccessfulLogin
+                    onSuccessfulLogin = self.props.wrapped.onSuccessfulLogin,
+                    operationId = self.props.wrapped.operationId
                   )
                 )()
               )

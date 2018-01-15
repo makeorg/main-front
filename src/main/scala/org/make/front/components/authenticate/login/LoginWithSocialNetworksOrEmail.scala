@@ -9,13 +9,14 @@ import org.make.front.components.authenticate.AuthenticateWithSocialNetworks.Aut
 import org.make.front.components.authenticate.login.LoginWithEmailContainer.LoginWithEmailContainerProps
 import org.make.front.facades.I18n
 import org.make.front.facades.Unescape.unescape
+import org.make.front.models.OperationId
 import org.make.front.styles._
 import org.make.front.styles.base.TextStyles
 import org.make.front.styles.utils._
 
 object LoginWithSocialNetworksOrEmail {
 
-  case class LoginWithSocialNetworksOrEmailProps(onSuccessfulLogin: () => Unit = () => {})
+  case class LoginWithSocialNetworksOrEmailProps(onSuccessfulLogin: () => Unit = () => {}, operationId: Option[OperationId])
 
   val reactClass: ReactClass = React.createClass[LoginWithSocialNetworksOrEmailProps, Unit](
     displayName = "LoginWithEmailOrSocialNetworks",
@@ -25,7 +26,10 @@ object LoginWithSocialNetworksOrEmail {
           <.p(^.className := TextStyles.smallTitle)(unescape(I18n.t("authenticate.login.with-social-networks-intro")))
         ),
         <.AuthenticateWithSocialNetworksComponent(
-          ^.wrapped := AuthenticateWithSocialNetworksProps(onSuccessfulLogin = self.props.wrapped.onSuccessfulLogin)
+          ^.wrapped := AuthenticateWithSocialNetworksProps(
+            onSuccessfulLogin = self.props.wrapped.onSuccessfulLogin,
+            operationId = self.props.wrapped.operationId
+          )
         )(),
         <.div(^.className := LoginWithSocialNetworksOrEmailStyles.separatorWrapper)(
           <.p(^.className := Seq(LoginWithSocialNetworksOrEmailStyles.separator, TextStyles.smallText))(

@@ -9,12 +9,13 @@ import org.make.front.components.authenticate.AuthenticateWithFacebookContainer.
 import org.make.front.components.authenticate.AuthenticateWithGoogleContainer.AuthenticateWithGoogleContainerProps
 import org.make.front.facades.I18n
 import org.make.front.facades.Unescape.unescape
+import org.make.front.models.OperationId
 import org.make.front.styles._
 import org.make.front.styles.base.TextStyles
 
 object RegisterWithSocialNetworks {
 
-  case class RegisterWithSocialNetworksProps(onSuccessfulLogin: () => Unit = () => {})
+  case class RegisterWithSocialNetworksProps(onSuccessfulLogin: () => Unit = () => {}, operationId: Option[OperationId])
 
   val reactClass: ReactClass =
     React
@@ -29,7 +30,8 @@ object RegisterWithSocialNetworks {
               <.AuthenticateWithFacebookContainerComponent(
                 ^.wrapped := AuthenticateWithFacebookContainerProps(
                   onSuccessfulLogin = self.props.wrapped.onSuccessfulLogin,
-                  isLookingLikeALink = true
+                  isLookingLikeALink = true,
+                  operationId = self.props.wrapped.operationId
                 )
               )()
             ),
@@ -40,7 +42,8 @@ object RegisterWithSocialNetworks {
               <.AuthenticateWithGoogleContainerComponent(
                 ^.wrapped := AuthenticateWithGoogleContainerProps(
                   onSuccessfulLogin = self.props.wrapped.onSuccessfulLogin,
-                  isLookingLikeALink = true
+                  isLookingLikeALink = true,
+                  operationId = self.props.wrapped.operationId
                 )
               )()
             ),

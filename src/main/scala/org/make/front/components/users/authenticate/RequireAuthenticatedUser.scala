@@ -10,7 +10,7 @@ import org.make.front.models.OperationId
 
 object RequireAuthenticatedUser {
 
-  case class RequireAuthenticatedUserProps(operation: Option[OperationId],
+  case class RequireAuthenticatedUserProps(operationId: Option[OperationId],
                                            intro: ReactElement,
                                            registerView: String,
                                            defaultView: String = "register",
@@ -43,7 +43,7 @@ object RequireAuthenticatedUser {
               // There is no need to use callback here, since the component will be reloaded with different props
               // once the user is connected. if we map it here, the callback will be called twice
               ^.wrapped := LoginOrRegisterProps(
-                operation = self.props.wrapped.operation,
+                operationId = self.props.wrapped.operationId,
                 registerView = props.registerView,
                 displayView = props.defaultView,
                 onSuccessfulLogin = () => {}

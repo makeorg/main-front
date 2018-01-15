@@ -7,7 +7,7 @@ import org.make.front.components.AppState
 import org.make.front.components.authenticate.AuthenticateWithGoogleButton.AuthenticateWithGoogleButtonProps
 import org.make.front.facades.Configuration
 import org.make.front.facades.ReactGoogleLogin.GoogleAuthResponse
-import org.make.front.models.{User => UserModel}
+import org.make.front.models.{OperationId, User => UserModel}
 import org.make.services.user.UserService
 import org.scalajs.dom.experimental.Response
 
@@ -18,13 +18,19 @@ import scala.util.{Failure, Success}
 object AuthenticateWithGoogleContainer {
 
   case class AuthenticateWithGoogleContainerProps(onSuccessfulLogin: () => Unit = () => {},
-                                                  isLookingLikeALink: Boolean = false)
+                                                  isLookingLikeALink: Boolean = false,
+                                                  operationId: Option[OperationId])
 
   val reactClass: ReactClass = ReactRedux
     .connectAdvanced[AppState, AuthenticateWithGoogleContainerProps, AuthenticateWithGoogleButtonProps] {
       dispatch => (state, props) =>
         def signIn(response: Response): Future[UserModel] = {
-          handleFutureApiSignInResponse(UserService.loginGoogle(response.asInstanceOf[GoogleAuthResponse].tokenId))
+          handleFutureApiSignInResponse(
+            UserService.loginGoogle(
+              token = response.asInstanceOf[GoogleAuthResponse].tokenId,
+              operationId = props.wrapped.operationId
+            )
+          )
         }
 
         def handleFutureApiSignInResponse(futureUser: Future[UserModel]): Future[UserModel] = {

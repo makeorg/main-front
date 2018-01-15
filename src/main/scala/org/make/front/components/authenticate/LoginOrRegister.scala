@@ -18,7 +18,7 @@ import org.make.front.styles.utils._
 
 object LoginOrRegister {
 
-  case class LoginOrRegisterProps(operation: Option[OperationId] = None,
+  case class LoginOrRegisterProps(operationId: Option[OperationId] = None,
                                   registerView: String = "register",
                                   displayView: String,
                                   onSuccessfulLogin: () => Unit = () => {})
@@ -47,7 +47,7 @@ object LoginOrRegister {
         <.div(^.className := LayoutRulesStyles.evenNarrowerCenteredRow)(if (state.currentView == "login") {
           Seq(
             <.LoginWithEmailOrSocialNetworksComponent(
-              ^.wrapped := LoginWithSocialNetworksOrEmailProps(props.onSuccessfulLogin)
+              ^.wrapped := LoginWithSocialNetworksOrEmailProps(props.onSuccessfulLogin, props.operationId)
             )(),
             <.p(^.className := Seq(LoginOrRegisterStyles.text, TextStyles.smallText))(
               unescape(I18n.t("authenticate.forgot-password.intro") + " "),
@@ -76,14 +76,14 @@ object LoginOrRegister {
           Seq(if (self.props.wrapped.registerView == "register") {
             <.RegisterWithSocialNetworksOrEmailComponent(
               ^.wrapped := RegisterWithSocialNetworksOrEmailProps(
-                operation = self.props.wrapped.operation,
+                operationId = self.props.wrapped.operationId,
                 onSuccessfulLogin = props.onSuccessfulLogin
               )
             )()
           } else {
             <.RegisterWithSocialNetworksOrEmailExpandedComponent(
               ^.wrapped := RegisterWithSocialNetworksOrEmailProps(
-                operation = self.props.wrapped.operation,
+                operationId = self.props.wrapped.operationId,
                 onSuccessfulLogin = props.onSuccessfulLogin
               )
             )()
