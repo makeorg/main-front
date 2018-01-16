@@ -5,7 +5,6 @@ import io.github.shogowada.scalajs.reactjs.VirtualDOM._
 import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import org.make.front.Main.CssSettings._
 import org.make.front.components.Components._
-import org.make.front.components.sequence.contents.PromptingToGoBackToOperation.PromptingToGoBackToOperationState
 import org.make.front.facades.Unescape.unescape
 import org.make.front.facades._
 import org.make.front.models.{OperationExpanded => OperationModel}
@@ -13,6 +12,8 @@ import org.make.front.styles._
 import org.make.front.styles.base.{LayoutRulesStyles, TableLayoutStyles, TextStyles}
 import org.make.front.styles.ui.CTAStyles
 import org.make.front.styles.utils._
+import org.make.services.tracking.TrackingService.TrackingContext
+import org.make.services.tracking.{TrackingLocation, TrackingService}
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
@@ -47,7 +48,11 @@ object FeaturedOperation {
           val operation: OperationModel = self.state.operation
 
           def onclick: () => Unit = { () =>
-            FacebookPixel.fbq("trackCustom", "click-homepage-header")
+            TrackingService
+              .track(
+                "click-homepage-header",
+                TrackingContext(TrackingLocation.operationPage, Some(self.state.operation.slug))
+              )
             scalajs.js.Dynamic.global.window.open(operation.wording.learnMoreUrl.get, "_blank")
           }
           <.section(^.className := Seq(TableLayoutStyles.wrapper, FeaturedOperationStyles.wrapper))(

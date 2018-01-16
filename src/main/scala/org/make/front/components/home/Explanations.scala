@@ -3,8 +3,8 @@ package org.make.front.components.home
 import io.github.shogowada.scalajs.reactjs.React
 import io.github.shogowada.scalajs.reactjs.VirtualDOM._
 import io.github.shogowada.scalajs.reactjs.classes.ReactClass
-import org.make.front.components.Components._
 import org.make.front.Main.CssSettings._
+import org.make.front.components.Components._
 import org.make.front.facades.I18n
 import org.make.front.facades.Unescape.unescape
 import org.make.front.styles._
@@ -12,77 +12,83 @@ import org.make.front.styles.base.{ColRulesStyles, LayoutRulesStyles, TextStyles
 import org.make.front.styles.ui.CTAStyles
 import org.make.front.styles.utils._
 import org.make.front.styles.vendors.FontAwesomeStyles
+import org.make.services.tracking.TrackingService.TrackingContext
+import org.make.services.tracking.{TrackingLocation, TrackingService}
 
 object Explanations {
 
-  lazy val reactClass: ReactClass = React.createClass[Unit, Unit](
-    displayName = "Explanations",
-    render = (_) =>
-      <.section(^.className := ExplanationsStyles.wrapper)(
-        <.div(^.className := Seq(LayoutRulesStyles.centeredRowWithCols))(
-          <.article(
-            ^.className := Seq(ExplanationsStyles.article, ColRulesStyles.col, ColRulesStyles.colHalfBeyondMedium)
-          )(
-            <.h3(^.className := Seq(ExplanationsStyles.intro, TextStyles.mediumText, TextStyles.intro))(
-              unescape(I18n.t("home.explanations.article-1.intro"))
-            ),
-            <.h2(^.className := TextStyles.mediumTitle)(unescape(I18n.t("home.explanations.article-1.title"))),
-            <.ul()(
-              <.li(^.className := ExplanationsStyles.item)(
-                <.span(^.className := Seq(ExplanationsStyles.icon, FontAwesomeStyles.thumbsUp))(),
-                <.p(
-                  ^.className := TextStyles.mediumText,
-                  ^.dangerouslySetInnerHTML := I18n.t("home.explanations.article-1.item-1")
-                )()
-              ),
-              <.li(^.className := ExplanationsStyles.item)(
-                <.span(^.className := Seq(ExplanationsStyles.icon, FontAwesomeStyles.lightbulbTransparent))(),
-                <.p(
-                  ^.className := TextStyles.mediumText,
-                  ^.dangerouslySetInnerHTML := I18n.t("home.explanations.article-1.item-2")
-                )()
-              ),
-              <.li(^.className := ExplanationsStyles.item)(
-                <.span(^.className := Seq(ExplanationsStyles.icon, FontAwesomeStyles.group))(),
-                <.p(
-                  ^.className := TextStyles.mediumText,
-                  ^.dangerouslySetInnerHTML := I18n.t("home.explanations.article-1.item-3")
-                )()
-              )
-            ) /*,
+  lazy val reactClass: ReactClass =
+    React
+      .createClass[Unit, Unit](displayName = "Explanations", render = {
+        _ =>
+          val openTarget: () => Unit = () => {
+            TrackingService.track("click-button-whoweare", TrackingContext(TrackingLocation.showcaseHomepage))
+            scalajs.js.Dynamic.global.window.open(I18n.t("home.explanations.article-2.see-more-link"), "_blank")
+          }
+          <.section(^.className := ExplanationsStyles.wrapper)(
+            <.div(^.className := Seq(LayoutRulesStyles.centeredRowWithCols))(
+              <.article(
+                ^.className := Seq(ExplanationsStyles.article, ColRulesStyles.col, ColRulesStyles.colHalfBeyondMedium)
+              )(
+                <.h3(^.className := Seq(ExplanationsStyles.intro, TextStyles.mediumText, TextStyles.intro))(
+                  unescape(I18n.t("home.explanations.article-1.intro"))
+                ),
+                <.h2(^.className := TextStyles.mediumTitle)(unescape(I18n.t("home.explanations.article-1.title"))),
+                <.ul()(
+                  <.li(^.className := ExplanationsStyles.item)(
+                    <.span(^.className := Seq(ExplanationsStyles.icon, FontAwesomeStyles.thumbsUp))(),
+                    <.p(
+                      ^.className := TextStyles.mediumText,
+                      ^.dangerouslySetInnerHTML := I18n.t("home.explanations.article-1.item-1")
+                    )()
+                  ),
+                  <.li(^.className := ExplanationsStyles.item)(
+                    <.span(^.className := Seq(ExplanationsStyles.icon, FontAwesomeStyles.lightbulbTransparent))(),
+                    <.p(
+                      ^.className := TextStyles.mediumText,
+                      ^.dangerouslySetInnerHTML := I18n.t("home.explanations.article-1.item-2")
+                    )()
+                  ),
+                  <.li(^.className := ExplanationsStyles.item)(
+                    <.span(^.className := Seq(ExplanationsStyles.icon, FontAwesomeStyles.group))(),
+                    <.p(
+                      ^.className := TextStyles.mediumText,
+                      ^.dangerouslySetInnerHTML := I18n.t("home.explanations.article-1.item-3")
+                    )()
+                  )
+                ) /*,
             <.p(^.className := IntroStyles.ctaWrapper)(
               <.a(^.href := I18n.t("home.explanations.article-1.see-more-link"), ^.className := Seq(CTAStyles.basic, CTAStyles.negative, CTAStyles.basicOnA))(
                 unescape(I18n.t("home.explanations.article-1.see-more"))
               )
             )*/
-          ),
-          <.article(
-            ^.className := Seq(
-              ExplanationsStyles.article,
-              ExplanationsStyles.secondArticle,
-              ColRulesStyles.col,
-              ColRulesStyles.colHalfBeyondMedium
-            )
-          )(
-            <.h3(^.className := Seq(ExplanationsStyles.intro, TextStyles.mediumText, TextStyles.intro))(
-              unescape(I18n.t("home.explanations.article-2.intro"))
+              ),
+              <.article(
+                ^.className := Seq(
+                  ExplanationsStyles.article,
+                  ExplanationsStyles.secondArticle,
+                  ColRulesStyles.col,
+                  ColRulesStyles.colHalfBeyondMedium
+                )
+              )(
+                <.h3(^.className := Seq(ExplanationsStyles.intro, TextStyles.mediumText, TextStyles.intro))(
+                  unescape(I18n.t("home.explanations.article-2.intro"))
+                ),
+                <.h2(^.className := TextStyles.mediumTitle)(unescape(I18n.t("home.explanations.article-2.title"))),
+                <.p(^.className := Seq(ExplanationsStyles.paragraph, TextStyles.mediumText))(
+                  unescape(I18n.t("home.explanations.article-2.text"))
+                ),
+                <.p(^.className := WelcomeStyles.ctaWrapper)(
+                  <.button(
+                    ^.onClick := openTarget,
+                    ^.className := Seq(CTAStyles.basic, CTAStyles.negative, CTAStyles.basicOnA)
+                  )(unescape(I18n.t("home.explanations.article-2.see-more")))
+                )
+              )
             ),
-            <.h2(^.className := TextStyles.mediumTitle)(unescape(I18n.t("home.explanations.article-2.title"))),
-            <.p(^.className := Seq(ExplanationsStyles.paragraph, TextStyles.mediumText))(
-              unescape(I18n.t("home.explanations.article-2.text"))
-            ),
-            <.p(^.className := WelcomeStyles.ctaWrapper)(
-              <.a(
-                ^.href := I18n.t("home.explanations.article-2.see-more-link"),
-                ^.target := "_blank",
-                ^.className := Seq(CTAStyles.basic, CTAStyles.negative, CTAStyles.basicOnA)
-              )(unescape(I18n.t("home.explanations.article-2.see-more")))
-            )
+            <.style()(ExplanationsStyles.render[String])
           )
-        ),
-        <.style()(ExplanationsStyles.render[String])
-    )
-  )
+      })
 }
 
 object ExplanationsStyles extends StyleSheet.Inline {

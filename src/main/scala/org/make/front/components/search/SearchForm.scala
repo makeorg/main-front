@@ -13,6 +13,8 @@ import org.make.front.facades._
 import org.make.front.helpers.QueryString
 import org.make.front.styles.ThemeStyles
 import org.make.front.styles.ui.InputStyles
+import org.make.services.tracking.{TrackingLocation, TrackingService}
+import org.make.services.tracking.TrackingService.TrackingContext
 import org.scalajs.dom.raw.FocusEvent
 
 import scala.scalajs.js
@@ -69,7 +71,12 @@ object SearchForm {
               // TODO: handle theme context : search with more weight to proposals from the same theme
               def onSubmit: (SyntheticEvent) => Unit = (e: SyntheticEvent) => {
                 e.preventDefault()
-                FacebookPixel.fbq("trackCustom", "click-search", js.Dictionary("query" -> self.state.value))
+                TrackingService
+                  .track(
+                    "click-navbar-search-submit",
+                    TrackingContext(TrackingLocation.navBar),
+                    Map("query" -> self.state.value)
+                  )
                 val currentValue: String = URIUtils.encodeURI(self.state.value)
                 self.props.history.push(s"/search?q=$currentValue")
               }

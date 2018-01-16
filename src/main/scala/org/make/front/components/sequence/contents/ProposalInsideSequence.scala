@@ -24,6 +24,7 @@ import org.make.front.styles.base.{LayoutRulesStyles, TextStyles}
 import org.make.front.styles.ui.CTAStyles
 import org.make.front.styles.utils._
 import org.make.front.styles.vendors.FontAwesomeStyles
+import org.make.services.tracking.TrackingLocation
 
 object ProposalInsideSequence {
 
@@ -71,7 +72,7 @@ object ProposalInsideSequence {
                     guideToVote = self.props.wrapped.guideToVote,
                     guideToQualification = self.props.wrapped.guideToQualification,
                     index = self.props.wrapped.index,
-                    locationFBTracking = Some("sequence-proposal-card"),
+                    trackingLocation = TrackingLocation.sequencePage,
                     maybeTheme = self.props.wrapped.maybeTheme,
                     maybeOperation = self.props.wrapped.maybeOperation,
                     maybeSequence = self.props.wrapped.maybeSequence,

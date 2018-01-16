@@ -15,10 +15,12 @@ import org.make.front.models.OperationId
 import org.make.front.styles._
 import org.make.front.styles.base.{LayoutRulesStyles, TextStyles}
 import org.make.front.styles.utils._
+import org.make.services.tracking.TrackingService.TrackingContext
 
 object LoginOrRegister {
 
   case class LoginOrRegisterProps(operationId: Option[OperationId] = None,
+                                  trackingContext: TrackingContext,
                                   registerView: String = "register",
                                   displayView: String,
                                   onSuccessfulLogin: () => Unit = () => {})
@@ -47,7 +49,11 @@ object LoginOrRegister {
         <.div(^.className := LayoutRulesStyles.evenNarrowerCenteredRow)(if (state.currentView == "login") {
           Seq(
             <.LoginWithEmailOrSocialNetworksComponent(
-              ^.wrapped := LoginWithSocialNetworksOrEmailProps(props.onSuccessfulLogin, props.operationId)
+              ^.wrapped := LoginWithSocialNetworksOrEmailProps(
+                props.trackingContext,
+                props.onSuccessfulLogin,
+                props.operationId
+              )
             )(),
             <.p(^.className := Seq(LoginOrRegisterStyles.text, TextStyles.smallText))(
               unescape(I18n.t("authenticate.forgot-password.intro") + " "),
@@ -77,6 +83,7 @@ object LoginOrRegister {
             <.RegisterWithSocialNetworksOrEmailComponent(
               ^.wrapped := RegisterWithSocialNetworksOrEmailProps(
                 operationId = self.props.wrapped.operationId,
+                trackingContext = self.props.wrapped.trackingContext,
                 onSuccessfulLogin = props.onSuccessfulLogin
               )
             )()
@@ -84,6 +91,7 @@ object LoginOrRegister {
             <.RegisterWithSocialNetworksOrEmailExpandedComponent(
               ^.wrapped := RegisterWithSocialNetworksOrEmailProps(
                 operationId = self.props.wrapped.operationId,
+                trackingContext = self.props.wrapped.trackingContext,
                 onSuccessfulLogin = props.onSuccessfulLogin
               )
             )()

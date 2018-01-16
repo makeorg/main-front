@@ -6,7 +6,6 @@ import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import org.make.client.{BadRequestHttpException, UnauthorizedHttpException}
 import org.make.front.Main.CssSettings._
 import org.make.front.components.Components._
-import org.make.front.facades.FacebookPixel
 import org.make.front.facades.ReactFacebookLogin.{
   ReactFacebookLoginVirtualDOMAttributes,
   ReactFacebookLoginVirtualDOMElements
@@ -15,17 +14,19 @@ import org.make.front.styles.ThemeStyles
 import org.make.front.styles.base.TextStyles
 import org.make.front.styles.ui.CTAStyles
 import org.make.front.styles.vendors.FontAwesomeStyles
+import org.make.services.tracking.TrackingService
+import org.make.services.tracking.TrackingService.TrackingContext
 import org.scalajs.dom.experimental.Response
 
+import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
-import scala.scalajs.js
 import scala.scalajs.js.JSConverters._
 import scala.util.{Failure, Success}
-import scala.concurrent.ExecutionContext.Implicits.global
 
 object AuthenticateWithFacebookButton {
 
-  case class AuthenticateWithFacebookButtonProps(isConnected: Boolean,
+  case class AuthenticateWithFacebookButtonProps(trackingContext: TrackingContext,
+                                                 isConnected: Boolean,
                                                  signIn: (Response) => Future[_],
                                                  facebookAppId: String,
                                                  errorMessages: Seq[String],
@@ -40,17 +41,27 @@ object AuthenticateWithFacebookButton {
         AuthenticateWithFacebookButtonState(Seq.empty)
       },
       render = { self =>
+        def trackFailure(provider: String) = {
+          TrackingService
+            .track("authen-social-failure", self.props.wrapped.trackingContext, Map("social-network" -> provider))
+        }
+
         // @toDo: manage specific errors
         def handleCallback(result: Future[_], provider: String): Unit = {
           result.onComplete {
             case Success(_) =>
-              FacebookPixel.fbq("trackCustom", "authen-social-success", js.Dictionary("source" -> provider))
+              TrackingService
+                .track("authen-social-success", self.props.wrapped.trackingContext, Map("social-network" -> provider))
               self.setState(AuthenticateWithFacebookButtonState())
             case Failure(UnauthorizedHttpException) =>
-              self.setState(state => state.copy(errorMessages = Seq("authenticate.no-account-found")))
+              trackFailure(provider)
+              self.setState(_.copy(errorMessages = Seq("authenticate.no-account-found")))
             case Failure(BadRequestHttpException(_)) =>
-              self.setState(state => state.copy(errorMessages = Seq("authenticate.no-email-found")))
-            case Failure(_) => self.setState(state => state.copy(errorMessages = Seq("authenticate.failure")))
+              self.setState(_.copy(errorMessages = Seq("authenticate.no-email-found")))
+              trackFailure(provider)
+            case Failure(_) =>
+              self.setState(_.copy(errorMessages = Seq("authenticate.failure")))
+              trackFailure(provider)
           }
         }
 

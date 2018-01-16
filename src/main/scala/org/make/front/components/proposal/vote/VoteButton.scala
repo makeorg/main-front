@@ -4,11 +4,12 @@ import io.github.shogowada.scalajs.reactjs.React
 import io.github.shogowada.scalajs.reactjs.VirtualDOM.{<, _}
 import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import io.github.shogowada.scalajs.reactjs.events.SyntheticEvent
+import org.make.front.Main.CssSettings._
 import org.make.front.components.Components._
 import org.make.front.components.proposal.vote.QualificateVote.QualificateVoteProps
 import org.make.front.components.proposal.vote.ResultsOfVote.ResultsOfVoteProps
 import org.make.front.facades.Unescape.unescape
-import org.make.front.facades.{FacebookPixel, I18n, Replacements}
+import org.make.front.facades.{I18n, Replacements}
 import org.make.front.helpers.NumberFormat._
 import org.make.front.models.{ProposalId, Qualification, Vote => VoteModel}
 import org.make.front.styles._
@@ -16,12 +17,12 @@ import org.make.front.styles.base.TextStyles
 import org.make.front.styles.ui.TooltipStyles
 import org.make.front.styles.utils._
 import org.make.front.styles.vendors.FontAwesomeStyles
+import org.make.services.tracking.{TrackingLocation, TrackingService}
+import org.make.services.tracking.TrackingService.TrackingContext
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
-import scala.scalajs.js.JSConverters._
 import scala.util.{Failure, Success}
-import org.make.front.Main.CssSettings._
 
 object VoteButton {
 
@@ -83,17 +84,6 @@ object VoteButton {
       }
 
       def qualify(key: String): Future[Qualification] = {
-        FacebookPixel.fbq(
-          "trackCustom",
-          "click-proposal-qualify",
-          Map(
-            "location" -> "sequence",
-            "proposalId" -> self.props.wrapped.proposalId.value.toString,
-            "type" -> key,
-            "nature" -> self.props.wrapped.vote.key
-          ).toJSDictionary
-        )
-
         val future = self.props.wrapped.qualifyVote(self.props.wrapped.vote.key, key)
         if (self.props.wrapped.updateState) {
           future.onComplete {

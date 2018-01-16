@@ -7,10 +7,12 @@ import io.github.shogowada.scalajs.reactjs.elements.ReactElement
 import org.make.front.components.Components._
 import org.make.front.components.authenticate.LoginOrRegister.LoginOrRegisterProps
 import org.make.front.models.OperationId
+import org.make.services.tracking.TrackingService.TrackingContext
 
 object RequireAuthenticatedUser {
 
   case class RequireAuthenticatedUserProps(operationId: Option[OperationId],
+                                           trackingContext: TrackingContext,
                                            intro: ReactElement,
                                            registerView: String,
                                            defaultView: String = "register",
@@ -43,6 +45,7 @@ object RequireAuthenticatedUser {
               // There is no need to use callback here, since the component will be reloaded with different props
               // once the user is connected. if we map it here, the callback will be called twice
               ^.wrapped := LoginOrRegisterProps(
+                trackingContext = self.props.wrapped.trackingContext,
                 operationId = self.props.wrapped.operationId,
                 registerView = props.registerView,
                 displayView = props.defaultView,

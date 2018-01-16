@@ -3,18 +3,16 @@ package org.make.front.components.proposal.vote
 import io.github.shogowada.scalajs.reactjs.React
 import io.github.shogowada.scalajs.reactjs.VirtualDOM._
 import io.github.shogowada.scalajs.reactjs.classes.ReactClass
+import org.make.front.Main.CssSettings._
 import org.make.front.components.Components._
 import org.make.front.components.proposal.vote.VoteButton.VoteButtonProps
-import org.make.front.facades.FacebookPixel
 import org.make.front.models.{Proposal => ProposalModel, Qualification => QualificationModel, Vote => VoteModel}
 import org.make.front.styles._
 import org.make.front.styles.utils._
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
-import scala.scalajs.js.JSConverters._
 import scala.util.{Failure, Success}
-import org.make.front.Main.CssSettings._
 
 object Vote {
 
@@ -27,29 +25,22 @@ object Vote {
                              qualifyVote: (String, String)             => Future[QualificationModel],
                              removeVoteQualification: (String, String) => Future[QualificationModel],
                              guideToVote: Option[String] = None,
-                             guideToQualification: Option[String] = None,
-                             locationFacebook: Option[String] = None)
+                             guideToQualification: Option[String] = None)
 
   final case class VoteState(votes: Map[String, VoteModel])
 
   lazy val reactClass: ReactClass =
     React
-      .createClass[VoteProps, VoteState](displayName = "Vote", getInitialState = { self =>
-        VoteState(votes = self.props.wrapped.proposal.votes.map(vote => vote.key -> vote).toMap)
-      }, componentWillReceiveProps = { (self, props) =>
-        self.setState(VoteState(votes = props.wrapped.proposal.votes.map(vote => vote.key -> vote).toMap))
-      }, render = {
-        (self) =>
+      .createClass[VoteProps, VoteState](
+        displayName = "Vote",
+        getInitialState = { self =>
+          VoteState(votes = self.props.wrapped.proposal.votes.map(vote => vote.key -> vote).toMap)
+        },
+        componentWillReceiveProps = { (self, props) =>
+          self.setState(VoteState(votes = props.wrapped.proposal.votes.map(vote => vote.key -> vote).toMap))
+        },
+        render = { (self) =>
           def vote(key: String): Future[VoteModel] = {
-            FacebookPixel.fbq(
-              "trackCustom",
-              "click-proposal-vote",
-              Map(
-                "location" -> self.props.wrapped.locationFacebook.getOrElse(""),
-                "nature" -> key,
-                "proposalId" -> self.props.wrapped.proposal.id.value.toString
-              ).toJSDictionary
-            )
             val future = self.props.wrapped.vote(key)
 
             if (self.props.wrapped.updateState) {
@@ -63,15 +54,6 @@ object Vote {
           }
 
           def unvote(key: String): Future[VoteModel] = {
-            FacebookPixel.fbq(
-              "trackCustom",
-              "click-proposal-unvote",
-              Map(
-                "location" -> "sequence",
-                "nature" -> key,
-                "proposalId" -> self.props.wrapped.proposal.id.value.toString
-              ).toJSDictionary
-            )
             val future = self.props.wrapped.unvote(key)
 
             if (self.props.wrapped.updateState) {
@@ -156,7 +138,8 @@ object Vote {
             ),
             <.style()(VoteStyles.render[String])
           )
-      })
+        }
+      )
 }
 
 object VoteStyles extends StyleSheet.Inline {

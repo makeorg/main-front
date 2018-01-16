@@ -6,7 +6,8 @@ import io.github.shogowada.scalajs.reactjs.redux.ReactRedux
 import org.make.front.actions.LoggedInAction
 import org.make.front.components.AppState
 import org.make.front.components.authenticate.login.LoginWithEmail.LoginWithEmailProps
-import org.make.front.facades.FacebookPixel
+import org.make.services.tracking.TrackingService.TrackingContext
+import org.make.services.tracking.{TrackingLocation, TrackingService}
 import org.make.services.user.UserService
 
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -15,7 +16,9 @@ import scala.util.{Failure, Success}
 
 object LoginWithEmailContainer {
 
-  case class LoginWithEmailContainerProps(note: String, onSuccessfulLogin: () => Unit = () => {})
+  case class LoginWithEmailContainerProps(note: String,
+                                          trackingContext: TrackingContext,
+                                          onSuccessfulLogin: () => Unit = () => {})
 
   val reactClass: ReactClass = ReactRedux.connectAdvanced {
     dispatch => (_: AppState, props: Props[LoginWithEmailContainerProps]) =>
@@ -23,14 +26,19 @@ object LoginWithEmailContainer {
         val result = UserService.login(email, password)
         result.onComplete {
           case Success(user) =>
-            FacebookPixel.fbq("trackCustom", "signin-email-success")
+            TrackingService.track("signin-email-success", props.wrapped.trackingContext)
             dispatch(LoggedInAction(user))
             props.wrapped.onSuccessfulLogin()
           case Failure(_) =>
+            TrackingService.track("signin-email-failure", props.wrapped.trackingContext)
         }
         result
       }
-      LoginWithEmailProps(note = props.wrapped.note, connectUser = signIn)
+      LoginWithEmailProps(
+        note = props.wrapped.note,
+        trackingContext = props.wrapped.trackingContext,
+        connectUser = signIn
+      )
   }(LoginWithEmail.reactClass)
 
 }

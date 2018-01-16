@@ -8,7 +8,7 @@ import org.make.front.Main.CssSettings._
 import org.make.front.components.Components._
 import org.make.front.components.modals.FullscreenModal.FullscreenModalProps
 import org.make.front.components.operation.SubmitProposalInRelationToOperation.SubmitProposalInRelationToOperationProps
-import org.make.front.facades.{FacebookPixel, I18n}
+import org.make.front.facades.I18n
 import org.make.front.facades.Unescape.unescape
 import org.make.front.models.{Location => LocationModel, OperationExpanded => OperationModel, Sequence => SequenceModel}
 import org.make.front.styles.ThemeStyles
@@ -16,8 +16,8 @@ import org.make.front.styles.base.{LayoutRulesStyles, TextStyles}
 import org.make.front.styles.ui.CTAStyles
 import org.make.front.styles.utils._
 import org.make.front.styles.vendors.FontAwesomeStyles
-
-import scala.scalajs.js
+import org.make.services.tracking.{TrackingLocation, TrackingService}
+import org.make.services.tracking.TrackingService.TrackingContext
 
 object PromptingToProposeInRelationToOperation {
 
@@ -44,13 +44,20 @@ object PromptingToProposeInRelationToOperation {
           val openProposalModal: (MouseSyntheticEvent) => Unit = { event =>
             event.preventDefault()
             self.setState(state => state.copy(isProposalModalOpened = true))
-            FacebookPixel
-              .fbq("trackCustom", "click-proposal-submit-form-open", js.Dictionary("location" -> "prop-boost-card"))
+            TrackingService.track(
+              "click-proposal-submit-form-open",
+              TrackingContext(TrackingLocation.sequenceProposalPushCard, Some(self.props.wrapped.operation.slug)),
+              Map("sequenceId" -> self.props.wrapped.maybeSequence.map(_.sequenceId.value).getOrElse(""))
+            )
           }
 
           val onNextProposal: () => Unit = { () =>
             self.props.wrapped.clickOnButtonHandler()
-            FacebookPixel.fbq("trackCustom", "click-proposal-push-card-ignore")
+            TrackingService.track(
+              "click-proposal-push-card-ignore",
+              TrackingContext(TrackingLocation.sequencePage, Some(self.props.wrapped.operation.slug)),
+              Map("sequenceId" -> self.props.wrapped.maybeSequence.map(_.sequenceId.value).getOrElse(""))
+            )
           }
 
           <.div(^.className := Seq(LayoutRulesStyles.row, PromptingToProposeInRelationToOperationStyles.wrapper))(

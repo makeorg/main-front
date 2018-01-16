@@ -10,12 +10,12 @@ import org.make.front.Main.CssSettings._
 import org.make.front.components.Components._
 import org.make.front.components.proposal.ProposalTileWithTags.ProposalTileWithTagsProps
 import org.make.front.components.tags.FilterByTags.FilterByTagsProps
+import org.make.front.facades.I18n
 import org.make.front.facades.ReactInfiniteScroller.{
   ReactInfiniteScrollerVirtualDOMAttributes,
   ReactInfiniteScrollerVirtualDOMElements
 }
 import org.make.front.facades.Unescape.unescape
-import org.make.front.facades.{FacebookPixel, I18n}
 import org.make.front.models.{
   Location          => LocationModel,
   OperationExpanded => OperationModel,
@@ -32,10 +32,11 @@ import org.make.front.styles.base.{ColRulesStyles, LayoutRulesStyles, TextStyles
 import org.make.front.styles.ui.CTAStyles
 import org.make.front.styles.utils._
 import org.make.services.proposal.SearchResult
+import org.make.services.tracking.{TrackingLocation, TrackingService}
+import org.make.services.tracking.TrackingService.TrackingContext
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
-import scala.scalajs.js
 import scala.util.{Failure, Success}
 
 object ResultsInTheme {
@@ -163,7 +164,7 @@ object ResultsInTheme {
         val onTagsChange: (Seq[TagModel]) => Unit = {
           tags =>
             val previousSelectedTags = self.state.selectedTags
-            val changedTags = if (previousSelectedTags.size > tags.size) {
+            val changedTags = if (previousSelectedTags.lengthCompare(tags.size) > 0) {
               val tagsAsStrings = tags.map(_.tagId.value)
               previousSelectedTags.filter(tag => !tagsAsStrings.contains(tag.tagId.value))
             } else {
@@ -171,16 +172,16 @@ object ResultsInTheme {
               tags.filter(tag => !tagsAsStrings.contains(tag.tagId.value))
             }
 
-            val action = if (previousSelectedTags.size > tags.size) {
+            val action = if (previousSelectedTags.lengthCompare(tags.size) > 0) {
               "deselect"
             } else {
               "select"
             }
             changedTags.foreach { tag =>
-              FacebookPixel.fbq(
-                "trackCustom",
+              TrackingService.track(
                 "click-tag-action",
-                js.Dictionary("nature" -> action, "name" -> tag.label, "themeId" -> self.props.wrapped.theme.id.value)
+                TrackingContext(TrackingLocation.themePage),
+                Map("nature" -> action, "tag-name" -> tag.label, "themeId" -> self.props.wrapped.theme.id.value)
               )
             }
 
@@ -229,7 +230,8 @@ object ResultsInTheme {
                         maybeTheme = Some(self.props.wrapped.theme),
                         maybeOperation = self.props.wrapped.maybeOperation,
                         maybeSequence = self.props.wrapped.maybeSequence,
-                        maybeLocation = self.props.wrapped.maybeLocation
+                        maybeLocation = self.props.wrapped.maybeLocation,
+                        trackingLocation = TrackingLocation.themePage
                       )
                     )()
                 )
@@ -239,12 +241,11 @@ object ResultsInTheme {
               <.div(^.className := Seq(ResultsInThemeStyles.seeMoreButtonWrapper, LayoutRulesStyles.centeredRow))(
                 <.button(^.onClick := (() => {
                   onSeeMore(1)
-                  FacebookPixel
-                    .fbq(
-                      "trackCustom",
-                      "click-proposal-viewmore",
-                      js.Dictionary("location" -> LocationModel.ThemePage(self.props.wrapped.theme.id).name)
-                    )
+                  TrackingService.track(
+                    "click-proposal-viewmore",
+                    TrackingContext(TrackingLocation.themePage),
+                    Map("themeId" -> self.props.wrapped.theme.id.value)
+                  )
                 }), ^.className := Seq(CTAStyles.basic, CTAStyles.basicOnButton))(
                   unescape(I18n.t("theme.results.see-more"))
                 )

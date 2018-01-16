@@ -6,11 +6,13 @@ import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import org.make.front.Main.CssSettings._
 import org.make.front.components.Components._
 import org.make.front.components.subscribeToNewsletter.SubscribeToNewsletterFormContainer.SubscribeToNewsletterFormContainerProps
+import org.make.front.facades.I18n
 import org.make.front.facades.Unescape.unescape
-import org.make.front.facades.{FacebookPixel, I18n}
 import org.make.front.styles.ThemeStyles
 import org.make.front.styles.base.{LayoutRulesStyles, TextStyles}
 import org.make.front.styles.utils._
+import org.make.services.tracking.{TrackingLocation, TrackingService}
+import org.make.services.tracking.TrackingService.TrackingContext
 
 object ConclusionOfTheSequence {
 
@@ -26,7 +28,7 @@ object ConclusionOfTheSequence {
       },
       render = { self =>
         def onSubscribeToNewsletterSuccess(): () => Unit = { () =>
-          FacebookPixel.fbq("trackCustom", "click-email-submit")
+          TrackingService.track("click-email-submit", TrackingContext(TrackingLocation.unknown))
           self.setState(_.copy(subscriptionToNewsletterHasSucceed = true))
         }
 

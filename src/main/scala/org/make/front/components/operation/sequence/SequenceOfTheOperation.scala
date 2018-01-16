@@ -13,7 +13,7 @@ import org.make.front.components.operation.SubmitProposalInRelationToOperation.S
 import org.make.front.components.sequence.Sequence.ExtraSlide
 import org.make.front.components.sequence.SequenceContainer.SequenceContainerProps
 import org.make.front.facades.Unescape.unescape
-import org.make.front.facades.{FacebookPixel, I18n, Replacements}
+import org.make.front.facades.{I18n, Replacements}
 import org.make.front.models.{
   Location,
   OperationDesignData,
@@ -31,10 +31,11 @@ import org.make.front.styles.ui.{CTAStyles, TooltipStyles}
 import org.make.front.styles.utils._
 import org.make.front.styles.vendors.FontAwesomeStyles
 import org.make.services.sequence.SequenceService
+import org.make.services.tracking.TrackingService.TrackingContext
+import org.make.services.tracking.{TrackingLocation, TrackingService}
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
-import scala.scalajs.js.JSConverters._
 import scala.util.{Failure, Success}
 
 object SequenceOfTheOperation {
@@ -119,8 +120,11 @@ object SequenceOfTheOperation {
         val openProposalModal: (MouseSyntheticEvent) => Unit = { event =>
           event.preventDefault()
           self.setState(state => state.copy(isProposalModalOpened = true))
-          FacebookPixel
-            .fbq("trackCustom", "click-proposal-submit-form-open", Map("location" -> "sequence-header").toJSDictionary)
+          TrackingService.track(
+            "click-proposal-submit-form-open",
+            TrackingContext(TrackingLocation.sequencePage, Some(self.state.operation.slug)),
+            Map("sequenceId" -> self.state.sequence.map(_.sequenceId.value).getOrElse(""))
+          )
         }
 
         object DynamicSequenceOfTheOperationStyles extends StyleSheet.Inline {

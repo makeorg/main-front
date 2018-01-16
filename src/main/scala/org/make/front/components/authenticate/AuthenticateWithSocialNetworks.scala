@@ -11,10 +11,12 @@ import org.make.front.models.OperationId
 import org.make.front.styles._
 import org.make.front.styles.base.TextStyles
 import org.make.front.styles.utils._
+import org.make.services.tracking.TrackingService.TrackingContext
 
 object AuthenticateWithSocialNetworks {
 
-  case class AuthenticateWithSocialNetworksProps(note: String = "",
+  case class AuthenticateWithSocialNetworksProps(trackingContext: TrackingContext,
+                                                 note: String = "",
                                                  onSuccessfulLogin: () => Unit = () => {},
                                                  operationId: Option[OperationId])
 
@@ -28,6 +30,7 @@ object AuthenticateWithSocialNetworks {
               <.li(^.className := AuthenticateWithSocialNetworksStyles.facebookConnectButtonWrapper)(
                 <.AuthenticateWithFacebookContainerComponent(
                   ^.wrapped := AuthenticateWithFacebookContainerProps(
+                    trackingContext = self.props.wrapped.trackingContext,
                     onSuccessfulLogin = self.props.wrapped.onSuccessfulLogin,
                     operationId = self.props.wrapped.operationId
                   )

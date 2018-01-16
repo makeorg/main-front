@@ -8,7 +8,6 @@ import org.make.front.components.Components._
 import org.make.front.components.operation.OperationHeader.OperationHeaderProps
 import org.make.front.components.operation.OperationIntro.OperationIntroProps
 import org.make.front.components.operation.ResultsInOperationContainer.ResultsInOperationContainerProps
-import org.make.front.facades.FacebookPixel
 import org.make.front.models.{
   Location          => LocationModel,
   OperationExpanded => OperationModel,
@@ -16,10 +15,11 @@ import org.make.front.models.{
   TranslatedTheme   => TranslatedThemeModel
 }
 import org.make.front.styles.ThemeStyles
+import org.make.services.tracking.{TrackingLocation, TrackingService}
+import org.make.services.tracking.TrackingService.TrackingContext
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
-import scala.scalajs.js
 import scala.util.{Failure, Success}
 
 object Operation {
@@ -42,13 +42,17 @@ object Operation {
                 maybeOperation match {
                   case Some(operation) =>
                     self.setState(_.copy(operation = operation))
-                    FacebookPixel
-                      .fbq("trackCustom", "display-page-operation", js.Dictionary("id" -> operation.operationId.value))
+                    TrackingService
+                      .track(
+                        "display-page-operation",
+                        TrackingContext(
+                          TrackingLocation.operationPage,
+                          operationSlug = Some(self.state.operation.slug)
+                        ),
+                        Map("id" -> self.state.operation.operationId.value)
+                      )
                   case _ =>
                     self.setState(_.copy(operation = OperationModel.empty))
-                    FacebookPixel
-                      .fbq("trackCustom", "display-page-operation", js.Dictionary("id" -> "none"))
-
                 }
               case Failure(_) => // Let parent handle logging error
             }

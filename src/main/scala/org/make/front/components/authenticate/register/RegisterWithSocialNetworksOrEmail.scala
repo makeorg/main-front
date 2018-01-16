@@ -14,10 +14,12 @@ import org.make.front.models.OperationId
 import org.make.front.styles._
 import org.make.front.styles.base.TextStyles
 import org.make.front.styles.utils._
+import org.make.services.tracking.TrackingService.TrackingContext
 
 object RegisterWithSocialNetworksOrEmail {
 
   case class RegisterWithSocialNetworksOrEmailProps(operationId: Option[OperationId],
+                                                    trackingContext: TrackingContext,
                                                     onSuccessfulLogin: () => Unit = () => {})
 
   val regular: ReactClass = React.createClass[RegisterWithSocialNetworksOrEmailProps, Unit](
@@ -26,6 +28,7 @@ object RegisterWithSocialNetworksOrEmail {
       <.div()(
         <.RegisterWithSocialNetworksComponent(
           ^.wrapped := RegisterWithSocialNetworksProps(
+            trackingContext = self.props.wrapped.trackingContext,
             onSuccessfulLogin = self.props.wrapped.onSuccessfulLogin,
             operationId = self.props.wrapped.operationId
           )
@@ -41,6 +44,7 @@ object RegisterWithSocialNetworksOrEmail {
         <.RegisterWithEmailContainerComponent(
           ^.wrapped := RegisterUserProps(
             note = I18n.t("authenticate.register.terms"),
+            trackingContext = self.props.wrapped.trackingContext,
             onSuccessfulRegistration = self.props.wrapped.onSuccessfulLogin,
             operationId = self.props.wrapped.operationId
           )
@@ -57,6 +61,7 @@ object RegisterWithSocialNetworksOrEmail {
       ),
       <.AuthenticateWithSocialNetworksComponent(
         ^.wrapped := AuthenticateWithSocialNetworksProps(
+          trackingContext = self.props.wrapped.trackingContext,
           note = unescape(I18n.t("authenticate.register.caution")),
           onSuccessfulLogin = self.props.wrapped.onSuccessfulLogin,
           operationId = self.props.wrapped.operationId
@@ -73,6 +78,7 @@ object RegisterWithSocialNetworksOrEmail {
       <.RegisterWithEmailExpandedContainerComponent(
         ^.wrapped := RegisterUserProps(
           note = I18n.t("authenticate.register.terms"),
+          trackingContext = self.props.wrapped.trackingContext,
           onSuccessfulRegistration = self.props.wrapped.onSuccessfulLogin,
           operationId = self.props.wrapped.operationId
         )

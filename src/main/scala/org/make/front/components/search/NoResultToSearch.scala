@@ -16,6 +16,8 @@ import org.make.front.styles.base.{LayoutRulesStyles, TextStyles}
 import org.make.front.styles.ui.CTAStyles
 import org.make.front.styles.utils._
 import org.make.front.styles.vendors.FontAwesomeStyles
+import org.make.services.tracking.{TrackingLocation, TrackingService}
+import org.make.services.tracking.TrackingService.TrackingContext
 
 object NoResultToSearch {
 
@@ -34,6 +36,11 @@ object NoResultToSearch {
 
         val openProposalModal: (MouseSyntheticEvent) => Unit = { event =>
           event.preventDefault()
+          TrackingService.track(
+            "click-proposal-submit-form-open",
+            TrackingContext(TrackingLocation.searchResultsPage),
+            self.props.wrapped.searchValue.map(query => Map("query" -> query)).getOrElse(Map.empty)
+          )
           self.setState(state => state.copy(isProposalModalOpened = true))
         }
         <.article(^.className := Seq(LayoutRulesStyles.centeredRow, NoResultToSearchStyles.wrapper))(

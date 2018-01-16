@@ -19,6 +19,8 @@ import org.make.front.models.{
 import org.make.front.styles._
 import org.make.front.styles.base.TextStyles
 import org.make.front.styles.utils._
+import org.make.services.tracking.TrackingLocation
+import org.make.services.tracking.TrackingService.TrackingContext
 
 import scalacss.internal.Attr
 
@@ -84,6 +86,8 @@ object SubmitProposalInRelationToOperation {
             ^.wrapped :=
               SubmitProposalAndAuthenticateContainerProps(
                 intro = intro,
+                trackingContext =
+                  TrackingContext(TrackingLocation.operationPage, Some(self.props.wrapped.operation.slug)),
                 onProposalProposed = self.props.wrapped.onProposalProposed,
                 maybeTheme = None,
                 maybeOperation = Some(self.props.wrapped.operation),

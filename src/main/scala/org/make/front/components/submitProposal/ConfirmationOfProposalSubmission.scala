@@ -7,19 +7,20 @@ import org.make.front.Main.CssSettings._
 import org.make.front.components.Components._
 import org.make.front.facades.Translate.{TranslateVirtualDOMAttributes, TranslateVirtualDOMElements}
 import org.make.front.facades.Unescape.unescape
-import org.make.front.facades.{FacebookPixel, I18n, Replacements}
-import org.make.front.models.{TranslatedTheme => TranslatedThemeModel}
+import org.make.front.facades.{I18n, Replacements}
+import org.make.front.models.{OperationExpanded => OperationModel, TranslatedTheme => TranslatedThemeModel}
 import org.make.front.styles.ThemeStyles
 import org.make.front.styles.base.TextStyles
 import org.make.front.styles.ui.CTAStyles
 import org.make.front.styles.utils._
 import org.make.front.styles.vendors.FontAwesomeStyles
-
-import scala.scalajs.js.JSConverters._
+import org.make.services.tracking.TrackingService.TrackingContext
+import org.make.services.tracking.{TrackingLocation, TrackingService}
 
 object ConfirmationOfProposalSubmission {
 
   case class ConfirmationOfProposalSubmissionProps(maybeTheme: Option[TranslatedThemeModel],
+                                                   maybeOperation: Option[OperationModel],
                                                    onBack: ()                  => _,
                                                    onSubmitAnotherProposal: () => _)
 
@@ -27,15 +28,21 @@ object ConfirmationOfProposalSubmission {
     React
       .createClass[ConfirmationOfProposalSubmissionProps, Unit](
         displayName = "ConfirmationOfProposalSubmission",
-        componentDidMount = { _ =>
-          FacebookPixel.fbq("trackCustom", "display-proposal-submit-validation")
+        componentDidMount = { self =>
+          val parameters =
+            self.props.wrapped.maybeTheme.map(theme => Map("themeId" -> theme.id.value)).getOrElse(Map.empty)
+          TrackingService
+            .track(
+              "display-proposal-submit-validation",
+              TrackingContext(TrackingLocation.submitProposalPage, self.props.wrapped.maybeOperation.map(_.slug)),
+              parameters
+            )
         },
         render = { self =>
           def handleClickOnButton() = () => {
-            FacebookPixel.fbq(
-              "trackCustom",
+            TrackingService.track(
               "click-proposal-submit-form-open",
-              Map("location" -> "end-proposal-form").toJSDictionary
+              TrackingContext(TrackingLocation.endProposalPage, self.props.wrapped.maybeOperation.map(_.slug))
             )
             self.props.wrapped.onSubmitAnotherProposal()
           }

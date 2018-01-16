@@ -15,6 +15,8 @@ import org.make.front.models.{OperationExpanded => OperationModel, TranslatedThe
 import org.make.front.styles.ThemeStyles
 import org.make.front.styles.base.{LayoutRulesStyles, TextStyles}
 import org.make.front.styles.utils._
+import org.make.services.tracking.TrackingService
+import org.make.services.tracking.TrackingService.TrackingContext
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
@@ -32,6 +34,7 @@ object SubmitProposalAndAuthenticate {
   }
 
   case class SubmitProposalAndAuthenticateProps(intro: (ReactElement) => ReactElement,
+                                                trackingContext: TrackingContext,
                                                 maybeTheme: Option[TranslatedThemeModel],
                                                 maybeOperation: Option[OperationModel],
                                                 onProposalProposed: () => Unit,
@@ -42,6 +45,12 @@ object SubmitProposalAndAuthenticate {
       displayName = "SubmitProposalAndAuthenticate",
       getInitialState = { _ =>
         SubmitProposalAndAuthenticateState.empty
+      },
+      componentWillMount = { self =>
+        TrackingService.track("display-proposal-submit-journey", self.props.wrapped.trackingContext)
+      },
+      componentWillReceiveProps = { (_, props) =>
+        TrackingService.track("display-proposal-submit-journey", props.wrapped.trackingContext)
       },
       render = { self =>
         val props = self.props.wrapped
@@ -68,6 +77,7 @@ object SubmitProposalAndAuthenticate {
             self.props.wrapped.intro(
               <.SubmitProposalFormContainerComponent(
                 ^.wrapped := SubmitProposalFormContainerProps(
+                  trackingContext = self.props.wrapped.trackingContext,
                   maybeTheme = props.maybeTheme,
                   errorMessage = None,
                   handleSubmitProposalForm = handleSubmitProposal
@@ -96,6 +106,7 @@ object SubmitProposalAndAuthenticate {
             <.RequireAuthenticatedUserComponent(
               ^.wrapped := RequireAuthenticatedUserContainerProps(
                 operationId = self.props.wrapped.maybeOperation.map(_.operationId),
+                trackingContext = self.props.wrapped.trackingContext,
                 intro = intro,
                 onceConnected = onConnectionOk,
                 defaultView = "register-expanded",
@@ -110,6 +121,7 @@ object SubmitProposalAndAuthenticate {
             <.ConfirmationOfProposalSubmissionComponent(
               ^.wrapped := ConfirmationOfProposalSubmissionProps(
                 maybeTheme = self.props.wrapped.maybeTheme,
+                maybeOperation = self.props.wrapped.maybeOperation,
                 onBack = self.props.wrapped.onProposalProposed,
                 onSubmitAnotherProposal = () => {
                   self.setState(_.copy(proposal = "", displayedComponent = "submit-proposal", errorMessage = None))

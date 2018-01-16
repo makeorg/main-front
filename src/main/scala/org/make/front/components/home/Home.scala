@@ -12,6 +12,10 @@ import org.make.front.facades.Unescape.unescape
 import org.make.front.facades.{FacebookPixel, I18n}
 import org.make.front.models.{Location, OperationDesignData}
 import org.make.front.styles.ThemeStyles
+import org.make.front.Main.CssSettings._
+import org.make.front.models.Location
+import org.make.services.tracking.{TrackingLocation, TrackingService}
+import org.make.services.tracking.TrackingService.TrackingContext
 
 object Home {
   lazy val reactClass: ReactClass =
@@ -19,7 +23,7 @@ object Home {
       .createClass[Unit, Unit](
         displayName = "Home",
         componentDidMount = { _ =>
-          FacebookPixel.fbq("trackCustom", "display-page-home")
+          TrackingService.track("display-page-home", TrackingContext(TrackingLocation.homepage))
         },
         render = { self =>
           <.div(^.className := HomeStyles.wrapper)(

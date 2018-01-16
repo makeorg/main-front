@@ -4,7 +4,8 @@ import io.github.shogowada.scalajs.reactjs.React
 import io.github.shogowada.scalajs.reactjs.React.Self
 import io.github.shogowada.scalajs.reactjs.VirtualDOM.{<, _}
 import io.github.shogowada.scalajs.reactjs.classes.ReactClass
-import io.github.shogowada.scalajs.reactjs.router.dom.RouterDOM._
+import io.github.shogowada.scalajs.reactjs.router.RouterProps._
+import io.github.shogowada.scalajs.reactjs.router.WithRouter
 import org.make.core.Counter
 import org.make.front.Main.CssSettings._
 import org.make.front.components.Components.{RichVirtualDOMElements, _}
@@ -18,6 +19,8 @@ import org.make.front.styles.base.{ColRulesStyles, LayoutRulesStyles, RWDHideRul
 import org.make.front.styles.ui.CTAStyles
 import org.make.front.styles.utils._
 import org.make.services.proposal.SearchResult
+import org.make.services.tracking.TrackingService.TrackingContext
+import org.make.services.tracking.{TrackingLocation, TrackingService}
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
@@ -36,7 +39,7 @@ object ThemeShowcase {
   final case class ThemeShowcaseState(proposals: Seq[ProposalModel])
 
   lazy val reactClass: ReactClass =
-    React.createClass[ThemeShowcaseProps, ThemeShowcaseState](displayName = "Showcase", getInitialState = { _ =>
+    WithRouter(React.createClass[ThemeShowcaseProps, ThemeShowcaseState](displayName = "Showcase", getInitialState = { _ =>
       ThemeShowcaseState(Seq.empty)
     }, render = {
       self =>
@@ -73,9 +76,19 @@ object ThemeShowcase {
                 maybeTheme = Some(self.props.wrapped.theme),
                 maybeOperation = self.props.wrapped.maybeOperation,
                 maybeSequence = self.props.wrapped.maybeSequence,
-                maybeLocation = self.props.wrapped.maybeLocation)
+                maybeLocation = self.props.wrapped.maybeLocation,
+                trackingLocation = TrackingLocation.showcaseHomepage
+              )
           )()
 
+          val goToTheme: () => Unit = () => {
+            TrackingService.track(
+              "click-proposal-viewmore",
+              TrackingContext(TrackingLocation.showcaseHomepage),
+              Map("themeId" -> self.props.wrapped.theme.id.value)
+            )
+            self.props.history.push(s"/theme/${self.props.wrapped.theme.slug}")
+          }
 
           <.section(^.className := Seq(ThemeShowcaseStyles.wrapper, DynamicThemeShowcaseStyles.gradient(index)))(
             Seq(
@@ -145,19 +158,13 @@ object ThemeShowcase {
                 )
               )),
               <.p(^.className := Seq(LayoutRulesStyles.centeredRow, ThemeShowcaseStyles.SeeMoreLinkWrapper))(
-                <.Link(
-                  ^.className := Seq(CTAStyles.basic, CTAStyles.basicOnA),
-                  ^.to := s"/theme/${self.props.wrapped.theme.slug}"
+                <.button(
+                  ^.className := Seq(CTAStyles.basic, CTAStyles.basicOnButton),
+                  ^.onClick := goToTheme
                 )(
-                  I18n
-                    .t(
+                  I18n.t(
                       "theme-showcase.see-all",
-                      Replacements(
-                        (
-                          "themeName",
-                          self.props.wrapped.theme.title
-                        )
-                      )
+                      Replacements("themeName" -> self.props.wrapped.theme.title)
                     )
                 )
               )
@@ -167,6 +174,7 @@ object ThemeShowcase {
           )
         } else <.div.empty
     })
+    )
 }
 
 object ThemeShowcaseStyles extends StyleSheet.Inline {

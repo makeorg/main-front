@@ -8,18 +8,21 @@ import org.make.front.components.Components._
 import org.make.front.components.authenticate.AuthenticateWithFacebookContainer.AuthenticateWithFacebookContainerProps
 import org.make.front.components.authenticate.LoginOrRegister.LoginOrRegisterProps
 import org.make.front.components.modals.Modal.ModalProps
+import org.make.front.facades.I18n
 import org.make.front.facades.Unescape.unescape
-import org.make.front.facades.{FacebookPixel, I18n}
 import org.make.front.models.{OperationExpanded => OperationModel}
 import org.make.front.styles.ThemeStyles
 import org.make.front.styles.base.{LayoutRulesStyles, TextStyles}
 import org.make.front.styles.ui.CTAStyles
 import org.make.front.styles.utils._
 import org.make.front.styles.vendors.FontAwesomeStyles
+import org.make.services.tracking.TrackingService
+import org.make.services.tracking.TrackingService.TrackingContext
 
 object PromptingToConnect {
 
   final case class PromptingToConnectProps(operation: OperationModel,
+                                           trackingContext: TrackingContext,
                                            clickOnButtonHandler: () => Unit,
                                            authenticateHandler: ()  => Unit)
 
@@ -35,6 +38,11 @@ object PromptingToConnect {
         render = { self =>
           def openLoginAuthenticateModal() = () => {
             self.setState(state => state.copy(isAuthenticateModalOpened = true, loginOrRegisterView = "login"))
+            TrackingService.track(
+              "click-sign-up-card-sign-in",
+              self.props.wrapped.trackingContext,
+              Map("sequenceId" -> self.props.wrapped.operation.sequence.map(_.value).getOrElse(""))
+            )
           }
 
           def openRegisterAuthenticateModal() = () => {
@@ -46,7 +54,7 @@ object PromptingToConnect {
           }
 
           val skipSignup: () => Unit = { () =>
-            FacebookPixel.fbq("trackCustom", "skip-sign-up-card")
+            TrackingService.track("skip-sign-up-card", self.props.wrapped.trackingContext)
             self.props.wrapped.clickOnButtonHandler()
           }
 
@@ -64,6 +72,7 @@ object PromptingToConnect {
                 <.li(^.className := PromptingToConnectStyles.facebookConnectButtonWrapper)(
                   <.AuthenticateWithFacebookContainerComponent(
                     ^.wrapped := AuthenticateWithFacebookContainerProps(
+                      trackingContext = self.props.wrapped.trackingContext,
                       onSuccessfulLogin = () => {
                         self.props.wrapped.authenticateHandler()
                       },
@@ -97,6 +106,7 @@ object PromptingToConnect {
               )(
                 <.LoginOrRegisterComponent(
                   ^.wrapped := LoginOrRegisterProps(
+                    trackingContext = self.props.wrapped.trackingContext,
                     displayView = self.state.loginOrRegisterView,
                     onSuccessfulLogin = () => {
                       self.setState(_.copy(isAuthenticateModalOpened = false))

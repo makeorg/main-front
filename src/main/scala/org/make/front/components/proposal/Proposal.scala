@@ -10,7 +10,6 @@ import org.make.front.components.Components.{RichVirtualDOMElements, _}
 import org.make.front.components.proposal.ProposalContainer.ProposalAndThemeOrOperationModel
 import org.make.front.components.proposal.ProposalSOperationInfos.ProposalSOperationInfosProps
 import org.make.front.components.proposal.vote.VoteContainer.VoteContainerProps
-import org.make.front.components.share.ShareProposal.ShareProps
 import org.make.front.components.showcase.ThemeShowcaseContainer.ThemeShowcaseContainerProps
 import org.make.front.facades.I18n
 import org.make.front.facades.Unescape.unescape
@@ -24,6 +23,7 @@ import org.make.front.models.{
 import org.make.front.styles.ThemeStyles
 import org.make.front.styles.base.{LayoutRulesStyles, TableLayoutStyles, TextStyles}
 import org.make.front.styles.utils._
+import org.make.services.tracking.TrackingLocation
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
@@ -107,7 +107,8 @@ object Proposal {
                                         maybeTheme = self.state.maybeTheme,
                                         maybeOperation = self.state.maybeOperation,
                                         maybeSequence = None,
-                                        maybeLocation = self.state.maybeLocation
+                                        maybeLocation = self.state.maybeLocation,
+                                        trackingLocation = TrackingLocation.proposalPage
                                       )
                                     )()
                                 })

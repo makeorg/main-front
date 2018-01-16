@@ -22,6 +22,7 @@ import org.make.front.styles._
 import org.make.front.styles.base.{ColRulesStyles, LayoutRulesStyles, RWDHideRulesStyles, TextStyles}
 import org.make.front.styles.utils._
 import org.make.services.proposal.SearchResult
+import org.make.services.tracking.TrackingLocation
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
@@ -62,7 +63,8 @@ object TrendingShowcase {
                   index = counter.getAndIncrement(),
                   maybeOperation = self.props.wrapped.maybeOperation,
                   maybeSequence = self.props.wrapped.maybeSequence,
-                  maybeLocation = self.props.wrapped.maybeLocation
+                  maybeLocation = self.props.wrapped.maybeLocation,
+                  trackingLocation = TrackingLocation.showcaseHomepage
                 )
             )()
           } else {
@@ -74,7 +76,8 @@ object TrendingShowcase {
                   maybeTheme = self.props.wrapped.maybeTheme,
                   maybeOperation = self.props.wrapped.maybeOperation,
                   maybeSequence = self.props.wrapped.maybeSequence,
-                  maybeLocation = self.props.wrapped.maybeLocation
+                  maybeLocation = self.props.wrapped.maybeLocation,
+                  trackingLocation = TrackingLocation.showcaseHomepage
                 )
             )()
           }

@@ -5,8 +5,10 @@ import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import io.github.shogowada.scalajs.reactjs.redux.{ContainerComponentFactory, ReactRedux}
 import org.make.front.actions.{LoggedInAction, NotifyInfo}
 import org.make.front.components.AppState
-import org.make.front.facades.{FacebookPixel, I18n}
+import org.make.front.facades.I18n
 import org.make.front.models.{OperationId, User => UserModel}
+import org.make.services.tracking.{TrackingLocation, TrackingService}
+import org.make.services.tracking.TrackingService.TrackingContext
 import org.make.services.user.UserService
 
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -16,6 +18,7 @@ import scala.util.{Failure, Success}
 object RegisterContainer {
 
   case class RegisterUserProps(note: String,
+                               trackingContext: TrackingContext,
                                onSuccessfulRegistration: () => Unit = () => {},
                                operationId: Option[OperationId])
 
@@ -38,16 +41,17 @@ object RegisterContainer {
 
         future.onComplete {
           case Success(user) =>
-            FacebookPixel.fbq("trackCustom", "signup-email-success")
+            TrackingService.track("signup-email-success", props.wrapped.trackingContext)
             dispatch(LoggedInAction(user))
             dispatch(NotifyInfo(message = I18n.t("authenticate.register.notifications.success")))
             props.wrapped.onSuccessfulRegistration()
           case Failure(_) =>
+            TrackingService.track("signup-email-failure", props.wrapped.trackingContext)
         }
 
         future
       }
-      RegisterProps(props.wrapped.note, register = register())
+      RegisterProps(props.wrapped.note, trackingContext = props.wrapped.trackingContext, register = register())
   }
 
   val registerWithEmailReactClass: ReactClass = selector(RegisterWithEmail.reactClass)

@@ -8,7 +8,6 @@ import org.make.front.components.Components._
 import org.make.front.components.politicalActions.PoliticalActionsContainer.PoliticalActionsContainerProps
 import org.make.front.components.theme.ResultsInThemeContainer.ResultsInThemeContainerProps
 import org.make.front.components.theme.ThemeHeader.ThemeHeaderProps
-import org.make.front.facades.FacebookPixel
 import org.make.front.models.{
   Location          => LocationModel,
   OperationExpanded => OperationModel,
@@ -17,8 +16,8 @@ import org.make.front.models.{
 }
 import org.make.front.styles.ThemeStyles
 import org.make.front.styles.utils._
-
-import scala.scalajs.js
+import org.make.services.tracking.{TrackingLocation, TrackingService}
+import org.make.services.tracking.TrackingService.TrackingContext
 
 object Theme {
 
@@ -32,8 +31,12 @@ object Theme {
       .createClass[ThemeProps, Unit](
         displayName = "Theme",
         componentDidMount = { self =>
-          FacebookPixel
-            .fbq("trackCustom", "display-page-theme", js.Dictionary("themeId" -> self.props.wrapped.theme.id.value))
+          TrackingService
+            .track(
+              "display-page-theme",
+              TrackingContext(TrackingLocation.themePage),
+              Map("themeId" -> self.props.wrapped.theme.id.value)
+            )
         },
         render = (self) => {
           <.div()(

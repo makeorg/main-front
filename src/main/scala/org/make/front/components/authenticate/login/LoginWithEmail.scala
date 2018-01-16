@@ -8,13 +8,15 @@ import org.make.client.UnauthorizedHttpException
 import org.make.core.validation.NotBlankConstraint
 import org.make.front.Main.CssSettings._
 import org.make.front.components.Components._
-import org.make.front.facades.{FacebookPixel, I18n}
+import org.make.front.facades.I18n
 import org.make.front.facades.Unescape.unescape
 import org.make.front.styles._
 import org.make.front.styles.base.TextStyles
 import org.make.front.styles.ui.{CTAStyles, InputStyles}
 import org.make.front.styles.utils._
 import org.make.front.styles.vendors.FontAwesomeStyles
+import org.make.services.tracking.TrackingService
+import org.make.services.tracking.TrackingService.TrackingContext
 import org.scalajs.dom.raw.HTMLInputElement
 
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -23,7 +25,9 @@ import scala.util.{Failure, Success}
 
 object LoginWithEmail {
 
-  case class LoginWithEmailProps(note: String, connectUser: (String, String) => Future[_])
+  case class LoginWithEmailProps(note: String,
+                                 trackingContext: TrackingContext,
+                                 connectUser: (String, String) => Future[_])
   case class LoginWithEmailState(email: String,
                                  emailErrorMessage: Option[String],
                                  password: String,
@@ -37,7 +41,7 @@ object LoginWithEmail {
     React
       .createClass[LoginWithEmailProps, LoginWithEmailState](displayName = "LoginWithEmail", componentDidMount = {
         self =>
-          FacebookPixel.fbq("trackCustom", "display-signin-form")
+          TrackingService.track("display-signin-form", self.props.wrapped.trackingContext)
       }, getInitialState = (_) => LoginWithEmailState.empty, render = {
         self =>
           val props = self.props.wrapped
