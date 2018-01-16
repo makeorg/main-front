@@ -185,7 +185,7 @@ object OperationDesignData {
     darkerLogoUrl = Some(ClimatParisDarkerLogo.toString),
     wording = OperationWording(
       title = "Climat Paris",
-      question = "Comment lutter contre le changement climatique à Paris&nbsp;?",
+      question = "Comment lutter contre le changement climatique &agrave; Paris&nbsp;?",
       purpose = None,
       period = None,
       greatCauseLabel = None,
