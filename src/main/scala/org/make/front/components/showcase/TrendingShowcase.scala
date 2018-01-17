@@ -1,9 +1,9 @@
 package org.make.front.components.showcase
 
 import io.github.shogowada.scalajs.reactjs.React
-import io.github.shogowada.scalajs.reactjs.React.Self
 import io.github.shogowada.scalajs.reactjs.VirtualDOM._
 import io.github.shogowada.scalajs.reactjs.classes.ReactClass
+import io.github.shogowada.scalajs.reactjs.elements.ReactElement
 import org.make.core.Counter
 import org.make.front.Main.CssSettings._
 import org.make.front.components.Components._
@@ -11,13 +11,7 @@ import org.make.front.components.proposal.ProposalTile.ProposalTileProps
 import org.make.front.components.proposal.ProposalTileWithThemeContainer.ProposalTileWithThemeContainerProps
 import org.make.front.facades.ReactSlick.{ReactTooltipVirtualDOMAttributes, ReactTooltipVirtualDOMElements}
 import org.make.front.facades.logoMake
-import org.make.front.models.{
-  Proposal          => ProposalModel,
-  Location          => LocationModel,
-  OperationExpanded => OperationModel,
-  Sequence          => SequenceModel,
-  TranslatedTheme   => TranslatedThemeModel
-}
+import org.make.front.models.{Location => LocationModel, Proposal => ProposalModel}
 import org.make.front.styles._
 import org.make.front.styles.base.{ColRulesStyles, LayoutRulesStyles, RWDHideRulesStyles, TextStyles}
 import org.make.front.styles.utils._
@@ -30,15 +24,41 @@ import scala.util.{Failure, Success}
 
 object TrendingShowcase {
 
-  final case class TrendingShowcaseProps(proposals: Future[SearchResult],
+  final case class TrendingShowcaseProps(proposals: () => Future[SearchResult],
                                          intro: String,
                                          title: String,
-                                         maybeTheme: Option[TranslatedThemeModel],
-                                         maybeOperation: Option[OperationModel],
-                                         maybeSequence: Option[SequenceModel],
                                          maybeLocation: Option[LocationModel])
 
   final case class TrendingShowcaseState(proposals: Seq[ProposalModel])
+
+  def proposalTile(proposal: ProposalModel, maybeLocation: Option[LocationModel], counter: Counter): ReactElement = {
+    if (proposal.themeId.isDefined) {
+      <.ProposalTileWithThemeContainerComponent(
+        ^.wrapped :=
+          ProposalTileWithThemeContainerProps(
+            proposal = proposal,
+            index = counter.getAndIncrement(),
+            maybeOperation = None,
+            maybeSequence = None,
+            maybeLocation = maybeLocation,
+            trackingLocation = TrackingLocation.showcaseHomepage
+          )
+      )()
+    } else {
+      <.ProposalTileComponent(
+        ^.wrapped :=
+          ProposalTileProps(
+            proposal = proposal,
+            index = counter.getAndIncrement(),
+            maybeTheme = None,
+            maybeOperation = None,
+            maybeSequence = None,
+            maybeLocation = maybeLocation,
+            trackingLocation = TrackingLocation.showcaseHomepage
+          )
+      )()
+    }
+  }
 
   lazy val reactClass: ReactClass =
     React.createClass[TrendingShowcaseProps, TrendingShowcaseState](
@@ -46,41 +66,15 @@ object TrendingShowcase {
       getInitialState = { _ =>
         TrendingShowcaseState(Seq.empty)
       },
-      render = { self =>
-        self.props.wrapped.proposals.onComplete {
+      componentWillReceiveProps = { (self, props) =>
+        props.wrapped.proposals().onComplete {
           case Failure(_)       =>
           case Success(results) => self.setState(_.copy(proposals = results.results))
         }
-
+      },
+      render = { self =>
         val counter = Counter.showcaseCounter
-
-        def proposalTile(self: Self[TrendingShowcaseProps, TrendingShowcaseState], proposal: ProposalModel) =
-          if (proposal.themeId.isDefined) {
-            <.ProposalTileWithThemeContainerComponent(
-              ^.wrapped :=
-                ProposalTileWithThemeContainerProps(
-                  proposal = proposal,
-                  index = counter.getAndIncrement(),
-                  maybeOperation = self.props.wrapped.maybeOperation,
-                  maybeSequence = self.props.wrapped.maybeSequence,
-                  maybeLocation = self.props.wrapped.maybeLocation,
-                  trackingLocation = TrackingLocation.showcaseHomepage
-                )
-            )()
-          } else {
-            <.ProposalTileComponent(
-              ^.wrapped :=
-                ProposalTileProps(
-                  proposal = proposal,
-                  index = counter.getAndIncrement(),
-                  maybeTheme = self.props.wrapped.maybeTheme,
-                  maybeOperation = self.props.wrapped.maybeOperation,
-                  maybeSequence = self.props.wrapped.maybeSequence,
-                  maybeLocation = self.props.wrapped.maybeLocation,
-                  trackingLocation = TrackingLocation.showcaseHomepage
-                )
-            )()
-          }
+        val maybeLocation = self.props.wrapped.maybeLocation
 
         if (self.state.proposals.nonEmpty) {
           <.section(^.className := TrendingShowcaseStyles.wrapper)(
@@ -113,7 +107,7 @@ object TrendingShowcase {
                       <.div(
                         ^.className :=
                           ThemeShowcaseStyles.propasalItem
-                      )(proposalTile(self, proposal))
+                      )(proposalTile(proposal, maybeLocation, counter))
                   )
                 )
               ),
@@ -127,7 +121,7 @@ object TrendingShowcase {
                           ColRulesStyles.col,
                           ColRulesStyles.colHalfBeyondMedium
                         )
-                      )(proposalTile(self, proposal))
+                      )(proposalTile(proposal, maybeLocation, counter))
                   )
                 )
               )
@@ -135,7 +129,9 @@ object TrendingShowcase {
             <.style()(TrendingShowcaseStyles.render[String])
           )
 
-        } else <.div.empty
+        } else {
+          <.div.empty
+        }
       }
     )
 }

@@ -28,7 +28,7 @@ import scala.util.{Failure, Success}
 
 object ThemeShowcase {
 
-  final case class ThemeShowcaseProps(proposals: Future[SearchResult],
+  final case class ThemeShowcaseProps(proposals: () => Future[SearchResult],
                                       theme: TranslatedThemeModel,
                                       maybeIntro: Option[String] = None,
                                       maybeNews: Option[String] = None,
@@ -41,96 +41,108 @@ object ThemeShowcase {
   lazy val reactClass: ReactClass =
     WithRouter(React.createClass[ThemeShowcaseProps, ThemeShowcaseState](displayName = "Showcase", getInitialState = { _ =>
       ThemeShowcaseState(Seq.empty)
-    }, render = {
-      self =>
-        self.props.wrapped.proposals.onComplete {
+    },
+      componentWillReceiveProps = { (self, props) =>
+        props.wrapped.proposals().onComplete {
           case Failure(_) =>
           case Success(results) => self.setState(_.copy(proposals = results.results))
         }
+      }, render = {
+        self =>
+          val gradientValues: GradientColorModel =
+            self.props.wrapped.theme.gradient.getOrElse(GradientColorModel("#FFF", "#FFF"))
+          val index = self.props.wrapped.theme.order
 
-        val gradientValues: GradientColorModel =
-          self.props.wrapped.theme.gradient.getOrElse(GradientColorModel("#FFF", "#FFF"))
-        val index = self.props.wrapped.theme.order
+          object DynamicThemeShowcaseStyles extends StyleSheet.Inline {
 
-        object DynamicThemeShowcaseStyles extends StyleSheet.Inline {
+            import dsl._
 
-          import dsl._
-
-          val gradient: (Int) => StyleA =
-            styleF.int(Range(index, index + 1)) { index =>
-              styleS(
-                background := s"linear-gradient(130deg, ${HexToRgba(gradientValues.from, 0.1F)}, ${HexToRgba(gradientValues.to, 0.1F)})"
-              )
-            }
-        }
-
-        val counter = Counter.showcaseCounter
-
-        if (self.state.proposals.nonEmpty) {
-
-          def proposalTile(self: Self[ThemeShowcaseProps, ThemeShowcaseState], proposal: ProposalModel) = <.ProposalTileComponent(
-            ^.wrapped :=
-              ProposalTileProps(
-                proposal = proposal,
-                index = counter.getAndIncrement(),
-                maybeTheme = Some(self.props.wrapped.theme),
-                maybeOperation = self.props.wrapped.maybeOperation,
-                maybeSequence = self.props.wrapped.maybeSequence,
-                maybeLocation = self.props.wrapped.maybeLocation,
-                trackingLocation = TrackingLocation.showcaseHomepage
-              )
-          )()
-
-          val goToTheme: () => Unit = () => {
-            TrackingService.track(
-              "click-proposal-viewmore",
-              TrackingContext(TrackingLocation.showcaseHomepage),
-              Map("themeId" -> self.props.wrapped.theme.id.value)
-            )
-            self.props.history.push(s"/theme/${self.props.wrapped.theme.slug}")
+            val gradient: (Int) => StyleA =
+              styleF.int(Range(index, index + 1)) { index =>
+                styleS(
+                  background := s"linear-gradient(130deg, ${HexToRgba(gradientValues.from, 0.1F)}, ${HexToRgba(gradientValues.to, 0.1F)})"
+                )
+              }
           }
 
-          <.section(^.className := Seq(ThemeShowcaseStyles.wrapper, DynamicThemeShowcaseStyles.gradient(index)))(
-            Seq(
-              <.header(^.className := LayoutRulesStyles.centeredRow)(
-                if (self.props.wrapped.maybeIntro.nonEmpty) {
-                  <.p(^.className := Seq(ThemeShowcaseStyles.intro, TextStyles.mediumText, TextStyles.intro))(
-                    self.props.wrapped.maybeIntro
-                  )
-                }, <.h2(^.className := Seq(if (self.props.wrapped.maybeNews.nonEmpty) {
-                  ThemeShowcaseStyles.titleBeforeNews
-                } else {
-                  ThemeShowcaseStyles.title
-                }, TextStyles.bigTitle))(self.props.wrapped.theme.title), if (self.props.wrapped.maybeNews.nonEmpty) {
-                  <.p(
-                    ^.className := Seq(ThemeShowcaseStyles.news, TextStyles.smallerText),
-                    ^.dangerouslySetInnerHTML := self.props.wrapped.maybeNews.getOrElse("")
-                  )()
-                }),
-              <.div(^.className := Seq(RWDHideRulesStyles.hideBeyondMedium, LayoutRulesStyles.centeredRow, ThemeShowcaseStyles.slideshow))(
-                <.Slider(^.infinite := false, ^.arrows := false)(
-                  self.state.proposals.map(
-                    proposal =>
-                      <.div(
-                        ^.className :=
-                          ThemeShowcaseStyles.propasalItem)(
-                        proposalTile(self, proposal)
-                      )
-                  ),
-                  <.div(
-                    ^.className :=
-                      ThemeShowcaseStyles.propasalItem)(
-                    <.PromptingToProposeInRelationToThemeTileComponent(
-                      ^.wrapped :=
-                        PromptingToProposeInRelationToThemeTileProps(
-                          theme = self.props.wrapped.theme
-                        ))())
+          val counter = Counter.showcaseCounter
+
+          if (self.state.proposals.nonEmpty) {
+
+            def proposalTile(self: Self[ThemeShowcaseProps, ThemeShowcaseState], proposal: ProposalModel) = <.ProposalTileComponent(
+              ^.wrapped :=
+                ProposalTileProps(
+                  proposal = proposal,
+                  index = counter.getAndIncrement(),
+                  maybeTheme = Some(self.props.wrapped.theme),
+                  maybeOperation = self.props.wrapped.maybeOperation,
+                  maybeSequence = self.props.wrapped.maybeSequence,
+                  maybeLocation = self.props.wrapped.maybeLocation,
+                  trackingLocation = TrackingLocation.showcaseHomepage
                 )
-              ),
-              <.div(^.className := RWDHideRulesStyles.showBlockBeyondMedium)(
-              <.ul(^.className := Seq(LayoutRulesStyles.centeredRowWithCols, ThemeShowcaseStyles.propasalsList))(
-                self.state.proposals.map(
-                  proposal =>
+            )()
+
+            val goToTheme: () => Unit = () => {
+              TrackingService.track(
+                "click-proposal-viewmore",
+                TrackingContext(TrackingLocation.showcaseHomepage),
+                Map("themeId" -> self.props.wrapped.theme.id.value)
+              )
+              self.props.history.push(s"/theme/${self.props.wrapped.theme.slug}")
+            }
+
+            <.section(^.className := Seq(ThemeShowcaseStyles.wrapper, DynamicThemeShowcaseStyles.gradient(index)))(
+              Seq(
+                <.header(^.className := LayoutRulesStyles.centeredRow)(
+                  if (self.props.wrapped.maybeIntro.nonEmpty) {
+                    <.p(^.className := Seq(ThemeShowcaseStyles.intro, TextStyles.mediumText, TextStyles.intro))(
+                      self.props.wrapped.maybeIntro
+                    )
+                  }, <.h2(^.className := Seq(if (self.props.wrapped.maybeNews.nonEmpty) {
+                    ThemeShowcaseStyles.titleBeforeNews
+                  } else {
+                    ThemeShowcaseStyles.title
+                  }, TextStyles.bigTitle))(self.props.wrapped.theme.title), if (self.props.wrapped.maybeNews.nonEmpty) {
+                    <.p(
+                      ^.className := Seq(ThemeShowcaseStyles.news, TextStyles.smallerText),
+                      ^.dangerouslySetInnerHTML := self.props.wrapped.maybeNews.getOrElse("")
+                    )()
+                  }),
+                <.div(^.className := Seq(RWDHideRulesStyles.hideBeyondMedium, LayoutRulesStyles.centeredRow, ThemeShowcaseStyles.slideshow))(
+                  <.Slider(^.infinite := false, ^.arrows := false)(
+                    self.state.proposals.map(
+                      proposal =>
+                        <.div(
+                          ^.className :=
+                            ThemeShowcaseStyles.propasalItem)(
+                          proposalTile(self, proposal)
+                        )
+                    ),
+                    <.div(
+                      ^.className :=
+                        ThemeShowcaseStyles.propasalItem)(
+                      <.PromptingToProposeInRelationToThemeTileComponent(
+                        ^.wrapped :=
+                          PromptingToProposeInRelationToThemeTileProps(
+                            theme = self.props.wrapped.theme
+                          ))())
+                  )
+                ),
+                <.div(^.className := RWDHideRulesStyles.showBlockBeyondMedium)(
+                  <.ul(^.className := Seq(LayoutRulesStyles.centeredRowWithCols, ThemeShowcaseStyles.propasalsList))(
+                    self.state.proposals.map(
+                      proposal =>
+                        <.li(
+                          ^.className := Seq(
+                            ThemeShowcaseStyles.propasalItem,
+                            ColRulesStyles.col,
+                            ColRulesStyles.colHalfBeyondMedium,
+                            ColRulesStyles.colQuarterBeyondLarge
+                          )
+                        )(
+                          proposalTile(self, proposal)
+                        )
+                    ),
                     <.li(
                       ^.className := Seq(
                         ThemeShowcaseStyles.propasalItem,
@@ -139,41 +151,30 @@ object ThemeShowcase {
                         ColRulesStyles.colQuarterBeyondLarge
                       )
                     )(
-                      proposalTile(self, proposal)
+                      <.PromptingToProposeInRelationToThemeTileComponent(
+                        ^.wrapped :=
+                          PromptingToProposeInRelationToThemeTileProps(
+                            theme = self.props.wrapped.theme
+                          ))()
                     )
-                ),
-                <.li(
-                  ^.className := Seq(
-                    ThemeShowcaseStyles.propasalItem,
-                    ColRulesStyles.col,
-                    ColRulesStyles.colHalfBeyondMedium,
-                    ColRulesStyles.colQuarterBeyondLarge
-                  )
-                )(
-                  <.PromptingToProposeInRelationToThemeTileComponent(
-                    ^.wrapped :=
-                      PromptingToProposeInRelationToThemeTileProps(
-                        theme = self.props.wrapped.theme
-                      ))()
-                )
-              )),
-              <.p(^.className := Seq(LayoutRulesStyles.centeredRow, ThemeShowcaseStyles.SeeMoreLinkWrapper))(
-                <.button(
-                  ^.className := Seq(CTAStyles.basic, CTAStyles.basicOnButton),
-                  ^.onClick := goToTheme
-                )(
-                  I18n.t(
+                  )),
+                <.p(^.className := Seq(LayoutRulesStyles.centeredRow, ThemeShowcaseStyles.SeeMoreLinkWrapper))(
+                  <.button(
+                    ^.className := Seq(CTAStyles.basic, CTAStyles.basicOnButton),
+                    ^.onClick := goToTheme
+                  )(
+                    I18n.t(
                       "theme-showcase.see-all",
                       Replacements("themeName" -> self.props.wrapped.theme.title)
                     )
+                  )
                 )
+                ,
+                <.style()(ThemeShowcaseStyles.render[String], DynamicThemeShowcaseStyles.render[String])
               )
-              ,
-              <.style()(ThemeShowcaseStyles.render[String], DynamicThemeShowcaseStyles.render[String])
             )
-          )
-        } else <.div.empty
-    })
+          } else <.div.empty
+      })
     )
 }
 
