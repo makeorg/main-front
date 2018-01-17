@@ -46,9 +46,6 @@ object SubmitProposalAndAuthenticate {
       getInitialState = { _ =>
         SubmitProposalAndAuthenticateState.empty
       },
-      componentWillMount = { self =>
-        TrackingService.track("display-proposal-submit-journey", self.props.wrapped.trackingContext)
-      },
       componentWillReceiveProps = { (_, props) =>
         TrackingService.track("display-proposal-submit-journey", props.wrapped.trackingContext)
       },

@@ -8,14 +8,12 @@ import org.make.front.components.Components.{RichVirtualDOMElements, _}
 import org.make.front.components.home.FeaturedOperationContainer.FeaturedOperationContainerProps
 import org.make.front.components.showcase.ThemeShowcaseContainer.ThemeShowcaseContainerProps
 import org.make.front.components.showcase.TrendingShowcaseContainer.TrendingShowcaseContainerProps
+import org.make.front.facades.I18n
 import org.make.front.facades.Unescape.unescape
-import org.make.front.facades.{FacebookPixel, I18n}
 import org.make.front.models.{Location, OperationDesignData}
 import org.make.front.styles.ThemeStyles
-import org.make.front.Main.CssSettings._
-import org.make.front.models.Location
-import org.make.services.tracking.{TrackingLocation, TrackingService}
 import org.make.services.tracking.TrackingService.TrackingContext
+import org.make.services.tracking.{TrackingLocation, TrackingService}
 
 object Home {
   lazy val reactClass: ReactClass =
@@ -25,7 +23,7 @@ object Home {
         componentDidMount = { _ =>
           TrackingService.track("display-page-home", TrackingContext(TrackingLocation.homepage))
         },
-        render = { self =>
+        render = { _ =>
           <.div(^.className := HomeStyles.wrapper)(
             <.div(^.className := HomeStyles.mainHeaderWrapper)(<.MainHeaderComponent.empty),
             <.h1(^.style := Map("display" -> "none"))("Make.org"),
@@ -48,9 +46,6 @@ object Home {
                 trending = "trending",
                 intro = unescape(I18n.t("home.showcase-2.intro")),
                 title = unescape(I18n.t("home.showcase-2.title")),
-                maybeTheme = None,
-                maybeOperation = None,
-                maybeSequence = None,
                 maybeLocation = Some(Location.Homepage)
               )
             )(),
@@ -67,9 +62,6 @@ object Home {
                 trending = "hot",
                 intro = unescape(I18n.t("home.showcase-3.intro")),
                 title = unescape(I18n.t("home.showcase-3.title")),
-                maybeTheme = None,
-                maybeOperation = None,
-                maybeSequence = None,
                 maybeLocation = Some(Location.Homepage)
               )
             )(),

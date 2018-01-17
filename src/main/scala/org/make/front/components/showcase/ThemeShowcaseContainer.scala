@@ -35,13 +35,14 @@ object ThemeShowcaseContainer {
 
       maybeTheme.map { theme =>
         ThemeShowcase.ThemeShowcaseProps(
-          proposals = ProposalService
-            .searchProposals(
-              themesIds = Seq(theme.id),
-              labelsIds = Some(Seq(LabelModel.Star.name)),
-              limit = Some(3),
-              sort = Seq.empty,
-              skip = None
+          proposals = () =>
+            ProposalService
+              .searchProposals(
+                themesIds = Seq(theme.id),
+                labelsIds = Some(Seq(LabelModel.Star.name)),
+                limit = Some(3),
+                sort = Seq.empty,
+                skip = None
             ),
           theme = theme,
           maybeIntro = props.wrapped.maybeIntro,
@@ -52,7 +53,7 @@ object ThemeShowcaseContainer {
         )
       }.getOrElse(
         ThemeShowcase.ThemeShowcaseProps(
-          proposals = Future.successful(SearchResult(total = 0, results = Seq.empty, seed = None)),
+          proposals = () => Future.successful(SearchResult(total = 0, results = Seq.empty, seed = None)),
           theme = TranslatedThemeModel.empty
         )
       )

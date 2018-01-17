@@ -6,20 +6,20 @@ import io.github.shogowada.scalajs.reactjs.redux.ReactRedux._
 import io.github.shogowada.scalajs.reactjs.redux.devtools.ReduxDevTools
 import io.github.shogowada.scalajs.reactjs.redux.{Redux, Store}
 import io.github.shogowada.scalajs.reactjs.router.dom.RouterDOM._
-import org.make.front.actions.{LoadConfiguration, ReloadUserAction}
+import org.make.front.actions.{LoggedInAction, SetConfiguration}
 import org.make.front.components.AppState
 import org.make.front.components.Components.RichVirtualDOMElements
 import org.make.front.facades.{I18n, NativeReactModal}
-import org.make.front.middlewares.{
-  ConfigurationMiddleware,
-  ConnectedUserMiddleware,
-  CookieAlertMiddleware,
-  NotificationMiddleware,
-  PoliticalActionMiddleware
-}
+import org.make.front.middlewares._
+import org.make.front.models.User
 import org.make.front.reducers.Reducer
+import org.make.services.ConfigurationService
+import org.make.services.user.UserService
 import org.scalajs.dom
 
+import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.Future
+import scala.util.{Failure, Success}
 import scalacss.defaults.Exports
 import scalacss.internal.mutable.Settings
 
@@ -47,31 +47,50 @@ object Main {
     NativeReactModal.defaultStyles.content.update("background", "transparent")
     NativeReactModal.defaultStyles.content.update("overflow", "auto")
 
-    val connectedUserMiddleware = new ConnectedUserMiddleware()
+    val configurationFuture = ConfigurationService.fetchConfiguration()
+    val connectedUserFuture =
+      UserService.getCurrentUser().map(Some(_)).recoverWith { case _ => Future.successful(None) }
 
-    val store: Store[AppState] = Redux.createStore(
-      Reducer.reduce,
-      ReduxDevTools.composeWithDevTools(
-        Redux.applyMiddleware(
-          ConfigurationMiddleware.handle,
-          PoliticalActionMiddleware.handle,
-          connectedUserMiddleware.handle,
-          CookieAlertMiddleware.handle,
-          NotificationMiddleware.handle
+    val configurationAndUser = for {
+      configuration <- configurationFuture
+      maybeUser     <- connectedUserFuture
+    } yield (configuration, maybeUser)
+
+    configurationAndUser.onComplete {
+      case Failure(_) => main(args)
+      case Success((configuration, maybeUser)) =>
+        val connectedUserMiddleware = new ConnectedUserMiddleware()
+
+        val store: Store[AppState] = Redux.createStore(
+          Reducer.reduce,
+          ReduxDevTools.composeWithDevTools(
+            Redux.applyMiddleware(
+              ConfigurationMiddleware.handle,
+              PoliticalActionMiddleware.handle,
+              connectedUserMiddleware.handle,
+              CookieAlertMiddleware.handle,
+              NotificationMiddleware.handle
+            )
+          )
         )
+
+        store.dispatch(SetConfiguration(configuration))
+        maybeUser.foreach { user =>
+          store.dispatch(LoggedInAction(user))
+        }
+
+        startAppWhenReady(maybeUser, store)
+    }
+  }
+
+  private def startAppWhenReady(maybeUser: Option[User], store: Store[AppState]): Unit = {
+    if (store.getState.configuration.isEmpty || store.getState.connectedUser.isDefined != maybeUser.isDefined) {
+      org.scalajs.dom.window.setTimeout(() => startAppWhenReady(maybeUser, store), 20d)
+    } else {
+      ReactDOM.render(
+        <.Provider(^.store := store)(<.HashRouter()(<.AppComponent.empty)),
+        dom.document.getElementById("make-app")
       )
-    )
-    initStore(store)
-
-    ReactDOM.render(
-      <.Provider(^.store := store)(<.HashRouter()(<.AppComponent.empty)),
-      dom.document.getElementById("make-app")
-    )
+    }
   }
-
-  private def initStore(store: Store[AppState]): Unit = {
-    store.dispatch(LoadConfiguration)
-    store.dispatch(ReloadUserAction)
-  }
-
 }
