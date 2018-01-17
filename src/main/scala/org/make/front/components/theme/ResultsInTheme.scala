@@ -48,7 +48,6 @@ object ResultsInTheme {
     proposals: Future[SearchResult],
     preselectedTags: Seq[TagModel],
     maybeOperation: Option[OperationModel],
-    maybeSequence: Option[SequenceModel],
     maybeLocation: Option[LocationModel]
   )
 
@@ -229,7 +228,7 @@ object ResultsInTheme {
                         index = counter.getAndIncrement(),
                         maybeTheme = Some(self.props.wrapped.theme),
                         maybeOperation = self.props.wrapped.maybeOperation,
-                        maybeSequence = self.props.wrapped.maybeSequence,
+                        maybeSequenceId = None,
                         maybeLocation = self.props.wrapped.maybeLocation,
                         trackingLocation = TrackingLocation.themePage
                       )

@@ -12,10 +12,10 @@ import org.make.front.components.proposal.ProposalInfos.ProposalInfosProps
 import org.make.front.components.proposal.ShareOwnProposal.ShareOwnProposalProps
 import org.make.front.components.proposal.vote.VoteContainer.VoteContainerProps
 import org.make.front.models.{
+  SequenceId,
   Location          => LocationModel,
   OperationExpanded => OperationModel,
   Proposal          => ProposalModel,
-  Sequence          => SequenceModel,
   TranslatedTheme   => TranslatedThemeModel
 }
 import org.make.front.styles.base.TextStyles
@@ -27,7 +27,7 @@ object ProposalTile {
                                      index: Int,
                                      maybeTheme: Option[TranslatedThemeModel],
                                      maybeOperation: Option[OperationModel],
-                                     maybeSequence: Option[SequenceModel],
+                                     maybeSequenceId: Option[SequenceId],
                                      maybeLocation: Option[LocationModel],
                                      trackingLocation: TrackingLocation)
 
@@ -64,7 +64,7 @@ object ProposalTile {
                     index = self.props.wrapped.index,
                     maybeTheme = self.props.wrapped.maybeTheme,
                     maybeOperation = self.props.wrapped.maybeOperation,
-                    maybeSequence = self.props.wrapped.maybeSequence,
+                    maybeSequenceId = self.props.wrapped.maybeSequenceId,
                     maybeLocation = self.props.wrapped.maybeLocation,
                     trackingLocation = self.props.wrapped.trackingLocation
                   )

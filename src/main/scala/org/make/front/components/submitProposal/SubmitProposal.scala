@@ -19,7 +19,9 @@ import org.make.services.tracking.TrackingService.TrackingContext
 
 object SubmitProposal {
 
-  case class SubmitProposalProps(onProposalProposed: () => Unit, maybeLocation: Option[Location])
+  case class SubmitProposalProps(trackingParameters: Map[String, String],
+                                 onProposalProposed: () => Unit,
+                                 maybeLocation: Option[Location])
 
   case class SubmitProposalState()
 
@@ -45,6 +47,7 @@ object SubmitProposal {
             ^.wrapped :=
               SubmitProposalAndAuthenticateContainerProps(
                 trackingContext = TrackingContext(TrackingLocation.submitProposalPage),
+                trackingParameters = self.props.wrapped.trackingParameters,
                 intro = intro,
                 onProposalProposed = self.props.wrapped.onProposalProposed,
                 maybeTheme = None,

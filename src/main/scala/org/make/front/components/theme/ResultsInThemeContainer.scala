@@ -12,7 +12,6 @@ import org.make.front.models.{
   Proposal,
   Location          => LocationModel,
   OperationExpanded => OperationModel,
-  Sequence          => SequenceModel,
   Tag               => TagModel,
   ThemeId           => ThemeIdModel,
   TranslatedTheme   => TranslatedThemeModel
@@ -28,7 +27,6 @@ object ResultsInThemeContainer {
 
   case class ResultsInThemeContainerProps(currentTheme: TranslatedThemeModel,
                                           maybeOperation: Option[OperationModel],
-                                          maybeSequence: Option[SequenceModel],
                                           maybeLocation: Option[LocationModel])
   case class ResultsInThemeContainerState(currentTheme: TranslatedThemeModel, results: Seq[Proposal])
 
@@ -85,7 +83,6 @@ object ResultsInThemeContainer {
         proposals = searchOnSelectedTags(Seq()),
         preselectedTags = Seq(),
         maybeOperation = props.wrapped.maybeOperation,
-        maybeSequence = props.wrapped.maybeSequence,
         maybeLocation = props.wrapped.maybeLocation
       )
     }

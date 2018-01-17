@@ -106,7 +106,7 @@ object Proposal {
                                         index = 1,
                                         maybeTheme = self.state.maybeTheme,
                                         maybeOperation = self.state.maybeOperation,
-                                        maybeSequence = None,
+                                        maybeSequenceId = None,
                                         maybeLocation = self.state.maybeLocation,
                                         trackingLocation = TrackingLocation.proposalPage
                                       )

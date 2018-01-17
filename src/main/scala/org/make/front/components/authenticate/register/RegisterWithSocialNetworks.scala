@@ -17,6 +17,7 @@ import org.make.services.tracking.TrackingService.TrackingContext
 object RegisterWithSocialNetworks {
 
   case class RegisterWithSocialNetworksProps(trackingContext: TrackingContext,
+                                             trackingParameters: Map[String, String],
                                              onSuccessfulLogin: () => Unit = () => {},
                                              operationId: Option[OperationId])
 
@@ -33,6 +34,7 @@ object RegisterWithSocialNetworks {
               <.AuthenticateWithFacebookContainerComponent(
                 ^.wrapped := AuthenticateWithFacebookContainerProps(
                   trackingContext = self.props.wrapped.trackingContext,
+                  trackingParameters = self.props.wrapped.trackingParameters,
                   onSuccessfulLogin = self.props.wrapped.onSuccessfulLogin,
                   isLookingLikeALink = true,
                   operationId = self.props.wrapped.operationId
@@ -45,6 +47,8 @@ object RegisterWithSocialNetworks {
             <.div(^.className := RegisterWithSocialNetworksStyles.buttonWrapper)(
               <.AuthenticateWithGoogleContainerComponent(
                 ^.wrapped := AuthenticateWithGoogleContainerProps(
+                  trackingContext = self.props.wrapped.trackingContext,
+                  trackingParameters = self.props.wrapped.trackingParameters,
                   onSuccessfulLogin = self.props.wrapped.onSuccessfulLogin,
                   isLookingLikeALink = true,
                   operationId = self.props.wrapped.operationId

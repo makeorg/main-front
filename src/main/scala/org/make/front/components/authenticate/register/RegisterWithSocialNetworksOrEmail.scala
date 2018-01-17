@@ -20,6 +20,7 @@ object RegisterWithSocialNetworksOrEmail {
 
   case class RegisterWithSocialNetworksOrEmailProps(operationId: Option[OperationId],
                                                     trackingContext: TrackingContext,
+                                                    trackingParameters: Map[String, String],
                                                     onSuccessfulLogin: () => Unit = () => {})
 
   val regular: ReactClass = React.createClass[RegisterWithSocialNetworksOrEmailProps, Unit](
@@ -29,6 +30,7 @@ object RegisterWithSocialNetworksOrEmail {
         <.RegisterWithSocialNetworksComponent(
           ^.wrapped := RegisterWithSocialNetworksProps(
             trackingContext = self.props.wrapped.trackingContext,
+            trackingParameters = self.props.wrapped.trackingParameters,
             onSuccessfulLogin = self.props.wrapped.onSuccessfulLogin,
             operationId = self.props.wrapped.operationId
           )
@@ -45,6 +47,7 @@ object RegisterWithSocialNetworksOrEmail {
           ^.wrapped := RegisterUserProps(
             note = I18n.t("authenticate.register.terms"),
             trackingContext = self.props.wrapped.trackingContext,
+            trackingParameters = self.props.wrapped.trackingParameters,
             onSuccessfulRegistration = self.props.wrapped.onSuccessfulLogin,
             operationId = self.props.wrapped.operationId
           )
@@ -62,6 +65,7 @@ object RegisterWithSocialNetworksOrEmail {
       <.AuthenticateWithSocialNetworksComponent(
         ^.wrapped := AuthenticateWithSocialNetworksProps(
           trackingContext = self.props.wrapped.trackingContext,
+          trackingParameters = self.props.wrapped.trackingParameters,
           note = unescape(I18n.t("authenticate.register.caution")),
           onSuccessfulLogin = self.props.wrapped.onSuccessfulLogin,
           operationId = self.props.wrapped.operationId
@@ -79,6 +83,7 @@ object RegisterWithSocialNetworksOrEmail {
         ^.wrapped := RegisterUserProps(
           note = I18n.t("authenticate.register.terms"),
           trackingContext = self.props.wrapped.trackingContext,
+          trackingParameters = self.props.wrapped.trackingParameters,
           onSuccessfulRegistration = self.props.wrapped.onSuccessfulLogin,
           operationId = self.props.wrapped.operationId
         )

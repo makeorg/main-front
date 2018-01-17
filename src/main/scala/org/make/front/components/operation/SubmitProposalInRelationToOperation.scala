@@ -14,8 +14,7 @@ import org.make.front.models.{
   Location,
   SequenceId,
   GradientColor     => GradientColorModel,
-  OperationExpanded => OperationModel,
-  Sequence          => SequenceModel
+  OperationExpanded => OperationModel
 }
 import org.make.front.styles._
 import org.make.front.styles.base.TextStyles
@@ -42,6 +41,13 @@ object SubmitProposalInRelationToOperation {
           SubmitProposalInRelationToOperationState(operation = self.props.wrapped.operation)
         },
         render = { self =>
+          val trackingParameters = self.props.wrapped.maybeSequence.map { sequenceId =>
+            Map("sequenceId" -> sequenceId.value)
+          }.getOrElse(Map.empty) + ("operationId" -> self.props.wrapped.operation.operationId.value)
+          val trackingLocation = self.props.wrapped.maybeSequence
+            .map(_ => TrackingLocation.sequencePage)
+            .getOrElse(TrackingLocation.operationPage)
+
           val gradientValues: GradientColorModel =
             self.state.operation.gradient.getOrElse(GradientColorModel("#FFF", "#FFF"))
 
@@ -87,8 +93,8 @@ object SubmitProposalInRelationToOperation {
             ^.wrapped :=
               SubmitProposalAndAuthenticateContainerProps(
                 intro = intro,
-                trackingContext =
-                  TrackingContext(TrackingLocation.operationPage, Some(self.props.wrapped.operation.slug)),
+                trackingContext = TrackingContext(trackingLocation, Some(self.props.wrapped.operation.slug)),
+                trackingParameters = trackingParameters,
                 onProposalProposed = self.props.wrapped.onProposalProposed,
                 maybeTheme = None,
                 maybeOperation = Some(self.props.wrapped.operation),

@@ -55,7 +55,7 @@ object SequenceOfTheOperation {
             OperationExtraSlidesParams(
               self.props.wrapped.operation,
               self.props.wrapped.isConnected,
-              Some(self.props.wrapped.sequence),
+              self.props.wrapped.sequence,
               None
             )
           ),

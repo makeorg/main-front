@@ -19,7 +19,8 @@ import org.make.services.tracking.{TrackingLocation, TrackingService}
 
 object ConfirmationOfProposalSubmission {
 
-  case class ConfirmationOfProposalSubmissionProps(maybeTheme: Option[TranslatedThemeModel],
+  case class ConfirmationOfProposalSubmissionProps(trackingParameters: Map[String, String],
+                                                   maybeTheme: Option[TranslatedThemeModel],
                                                    maybeOperation: Option[OperationModel],
                                                    onBack: ()                  => _,
                                                    onSubmitAnotherProposal: () => _)
@@ -29,20 +30,19 @@ object ConfirmationOfProposalSubmission {
       .createClass[ConfirmationOfProposalSubmissionProps, Unit](
         displayName = "ConfirmationOfProposalSubmission",
         componentDidMount = { self =>
-          val parameters =
-            self.props.wrapped.maybeTheme.map(theme => Map("themeId" -> theme.id.value)).getOrElse(Map.empty)
           TrackingService
             .track(
               "display-proposal-submit-validation",
               TrackingContext(TrackingLocation.submitProposalPage, self.props.wrapped.maybeOperation.map(_.slug)),
-              parameters
+              self.props.wrapped.trackingParameters
             )
         },
         render = { self =>
           def handleClickOnButton() = () => {
             TrackingService.track(
               "click-proposal-submit-form-open",
-              TrackingContext(TrackingLocation.endProposalPage, self.props.wrapped.maybeOperation.map(_.slug))
+              TrackingContext(TrackingLocation.endProposalPage, self.props.wrapped.maybeOperation.map(_.slug)),
+              self.props.wrapped.trackingParameters
             )
             self.props.wrapped.onSubmitAnotherProposal()
           }

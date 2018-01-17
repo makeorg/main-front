@@ -8,13 +8,14 @@ import org.make.front.components.ObjectLoader.ObjectLoaderProps
 import org.make.front.components.{AppState, ObjectLoader}
 import org.make.front.models.{OperationExpanded => OperationModel}
 import org.make.services.operation.OperationService
+import org.make.services.tracking.TrackingLocation
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
 object FeaturedOperationContainer {
 
-  case class FeaturedOperationContainerProps(operationSlug: String)
+  case class FeaturedOperationContainerProps(trackingLocation: TrackingLocation, operationSlug: String)
 
   lazy val reactClass: ReactClass = ReactRedux.connectAdvanced(selectorFactory)(ObjectLoader.reactClass)
 
@@ -37,7 +38,8 @@ object FeaturedOperationContainer {
           onNotFound = () => {},
           childClass = FeaturedOperation.reactClass,
           createChildProps = { operation =>
-            FeaturedOperation.FeaturedOperationProps(operation = operation)
+            FeaturedOperation
+              .FeaturedOperationProps(trackingLocation = props.wrapped.trackingLocation, operation = operation)
           }
         )
       }

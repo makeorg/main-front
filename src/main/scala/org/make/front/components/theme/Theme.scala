@@ -23,7 +23,6 @@ object Theme {
 
   final case class ThemeProps(theme: TranslatedThemeModel,
                               maybeOperation: Option[OperationModel],
-                              maybeSequence: Option[SequenceModel],
                               maybeLocation: Option[LocationModel])
 
   lazy val reactClass: ReactClass =
@@ -50,7 +49,6 @@ object Theme {
                 ^.wrapped := ResultsInThemeContainerProps(
                   currentTheme = self.props.wrapped.theme,
                   maybeOperation = self.props.wrapped.maybeOperation,
-                  maybeSequence = self.props.wrapped.maybeSequence,
                   maybeLocation = self.props.wrapped.maybeLocation
                 )
               )(),

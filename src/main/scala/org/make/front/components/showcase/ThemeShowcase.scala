@@ -13,7 +13,7 @@ import org.make.front.components.proposal.ProposalTile.ProposalTileProps
 import org.make.front.components.showcase.PromptingToProposeInRelationToThemeTile.PromptingToProposeInRelationToThemeTileProps
 import org.make.front.facades.ReactSlick.{ReactTooltipVirtualDOMAttributes, ReactTooltipVirtualDOMElements}
 import org.make.front.facades.{HexToRgba, I18n, Replacements}
-import org.make.front.models.{GradientColor => GradientColorModel, Location => LocationModel, OperationExpanded => OperationModel, Proposal => ProposalModel, Sequence => SequenceModel, TranslatedTheme => TranslatedThemeModel}
+import org.make.front.models.{SequenceId, GradientColor => GradientColorModel, Location => LocationModel, OperationExpanded => OperationModel, Proposal => ProposalModel, TranslatedTheme => TranslatedThemeModel}
 import org.make.front.styles._
 import org.make.front.styles.base.{ColRulesStyles, LayoutRulesStyles, RWDHideRulesStyles, TextStyles}
 import org.make.front.styles.ui.CTAStyles
@@ -33,7 +33,7 @@ object ThemeShowcase {
                                       maybeIntro: Option[String] = None,
                                       maybeNews: Option[String] = None,
                                       maybeOperation: Option[OperationModel] = None,
-                                      maybeSequence: Option[SequenceModel] = None,
+                                      maybeSequenceId: Option[SequenceId] = None,
                                       maybeLocation: Option[LocationModel] = None)
 
   final case class ThemeShowcaseState(proposals: Seq[ProposalModel])
@@ -76,7 +76,7 @@ object ThemeShowcase {
                   index = counter.getAndIncrement(),
                   maybeTheme = Some(self.props.wrapped.theme),
                   maybeOperation = self.props.wrapped.maybeOperation,
-                  maybeSequence = self.props.wrapped.maybeSequence,
+                  maybeSequenceId = self.props.wrapped.maybeSequenceId,
                   maybeLocation = self.props.wrapped.maybeLocation,
                   trackingLocation = TrackingLocation.showcaseHomepage
                 )

@@ -27,6 +27,7 @@ object LoginWithEmail {
 
   case class LoginWithEmailProps(note: String,
                                  trackingContext: TrackingContext,
+                                 trackingParameters: Map[String, String],
                                  connectUser: (String, String) => Future[_])
   case class LoginWithEmailState(email: String,
                                  emailErrorMessage: Option[String],
@@ -39,11 +40,14 @@ object LoginWithEmail {
 
   val reactClass: ReactClass =
     React
-      .createClass[LoginWithEmailProps, LoginWithEmailState](displayName = "LoginWithEmail", componentDidMount = {
-        self =>
-          TrackingService.track("display-signin-form", self.props.wrapped.trackingContext)
-      }, getInitialState = (_) => LoginWithEmailState.empty, render = {
-        self =>
+      .createClass[LoginWithEmailProps, LoginWithEmailState](
+        displayName = "LoginWithEmail",
+        componentDidMount = { self =>
+          TrackingService
+            .track("display-signin-form", self.props.wrapped.trackingContext, self.props.wrapped.trackingParameters)
+        },
+        getInitialState = (_) => LoginWithEmailState.empty,
+        render = { self =>
           val props = self.props.wrapped
 
           val updateEmail: (FormSyntheticEvent[HTMLInputElement]) => Unit = { event =>
@@ -156,7 +160,8 @@ object LoginWithEmail {
             ),
             <.style()(LoginWithEmailStyles.render[String])
           )
-      })
+        }
+      )
 }
 
 object LoginWithEmailStyles extends StyleSheet.Inline {

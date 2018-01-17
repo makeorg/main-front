@@ -8,6 +8,7 @@ import org.make.front.components.authenticate.AuthenticateWithGoogleButton.Authe
 import org.make.front.facades.Configuration
 import org.make.front.facades.ReactGoogleLogin.GoogleAuthResponse
 import org.make.front.models.{OperationId, User => UserModel}
+import org.make.services.tracking.TrackingService.TrackingContext
 import org.make.services.user.UserService
 import org.scalajs.dom.experimental.Response
 
@@ -17,7 +18,9 @@ import scala.util.{Failure, Success}
 
 object AuthenticateWithGoogleContainer {
 
-  case class AuthenticateWithGoogleContainerProps(onSuccessfulLogin: () => Unit = () => {},
+  case class AuthenticateWithGoogleContainerProps(trackingContext: TrackingContext,
+                                                  trackingParameters: Map[String, String],
+                                                  onSuccessfulLogin: () => Unit = () => {},
                                                   isLookingLikeALink: Boolean = false,
                                                   operationId: Option[OperationId])
 
@@ -44,6 +47,8 @@ object AuthenticateWithGoogleContainer {
         }
 
         AuthenticateWithGoogleButtonProps(
+          trackingContext = props.wrapped.trackingContext,
+          trackingParameters = props.wrapped.trackingParameters,
           isConnected = state.connectedUser.isDefined,
           googleAppId = Configuration.googleAppId,
           errorMessages = Seq.empty,

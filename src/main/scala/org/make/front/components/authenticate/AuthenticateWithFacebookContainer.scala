@@ -19,6 +19,7 @@ import scala.util.{Failure, Success}
 object AuthenticateWithFacebookContainer {
 
   case class AuthenticateWithFacebookContainerProps(trackingContext: TrackingContext,
+                                                    trackingParameters: Map[String, String],
                                                     onSuccessfulLogin: () => Unit = () => {},
                                                     isLookingLikeALink: Boolean = false,
                                                     operationId: Option[OperationId])
@@ -47,6 +48,7 @@ object AuthenticateWithFacebookContainer {
 
         AuthenticateWithFacebookButtonProps(
           trackingContext = props.wrapped.trackingContext,
+          trackingParameters = props.wrapped.trackingParameters,
           isConnected = state.connectedUser.isDefined,
           facebookAppId = Configuration.facebookAppId,
           errorMessages = Seq.empty,

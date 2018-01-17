@@ -17,7 +17,7 @@ import org.make.services.tracking.{TrackingLocation, TrackingService}
 
 object FeaturedOperation {
 
-  final case class FeaturedOperationProps(operation: OperationModel)
+  final case class FeaturedOperationProps(trackingLocation: TrackingLocation, operation: OperationModel)
   final case class OperationState(operation: OperationModel)
 
   lazy val reactClass: ReactClass =
@@ -30,7 +30,10 @@ object FeaturedOperation {
 
           def onclick: () => Unit = { () =>
             TrackingService
-              .track("click-homepage-header", TrackingContext(TrackingLocation.operationPage, Some(operation.slug)))
+              .track(
+                "click-homepage-header",
+                TrackingContext(self.props.wrapped.trackingLocation, Some(operation.slug))
+              )
             scalajs.js.Dynamic.global.window.open(operation.wording.learnMoreUrl.get, "_blank")
           }
           <.section(^.className := Seq(TableLayoutStyles.wrapper, FeaturedOperationStyles.wrapper))(

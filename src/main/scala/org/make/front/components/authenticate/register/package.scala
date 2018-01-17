@@ -22,7 +22,8 @@ package object register {
 
   case class RegisterProps(note: String,
                            register: (RegisterState) => Future[UserModel],
-                           trackingContext: TrackingContext)
+                           trackingContext: TrackingContext,
+                           trackingParameters: Map[String, String])
 
   def getErrorsMessagesFromApiErrors(errors: Seq[ValidationError]): Seq[(String, String)] = {
     errors.map {

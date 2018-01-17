@@ -127,6 +127,7 @@ object UnconnectedUserNavElement {
             ^.wrapped := LoginOrRegisterProps(
               displayView = self.state.loginOrRegisterView,
               trackingContext = TrackingContext(TrackingLocation.navBar),
+              trackingParameters = Map.empty,
               onSuccessfulLogin = () => {
                 self.setState(_.copy(isAuthenticateModalOpened = false))
               }

@@ -11,7 +11,6 @@ import org.make.front.models.{
   SequenceId,
   Location          => LocationModel,
   OperationExpanded => OperationModel,
-  Sequence          => SequenceModel,
   TranslatedTheme   => TranslatedThemeModel
 }
 import org.make.services.proposal.ProposalService
@@ -24,6 +23,7 @@ object SubmitProposalAndAuthenticateContainer {
 
   case class SubmitProposalAndAuthenticateContainerProps(intro: (ReactElement) => ReactElement = identity,
                                                          trackingContext: TrackingContext,
+                                                         trackingParameters: Map[String, String],
                                                          onProposalProposed: () => Unit,
                                                          maybeTheme: Option[TranslatedThemeModel],
                                                          maybeOperation: Option[OperationModel],
@@ -51,6 +51,7 @@ object SubmitProposalAndAuthenticateContainer {
 
       SubmitProposalAndAuthenticateProps(
         trackingContext = props.wrapped.trackingContext,
+        trackingParameters = props.wrapped.trackingParameters,
         intro = props.wrapped.intro,
         maybeTheme = props.wrapped.maybeTheme,
         maybeOperation = props.wrapped.maybeOperation,

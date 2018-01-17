@@ -72,9 +72,13 @@ object NoResultToSearch {
               isModalOpened = self.state.isProposalModalOpened,
               closeCallback = closeProposalModal
             )
-          )(<.SubmitProposalComponent(^.wrapped := SubmitProposalProps(onProposalProposed = () => {
-            self.setState(_.copy(isProposalModalOpened = false))
-          }, maybeLocation = self.props.wrapped.maybeLocation))()),
+          )(
+            <.SubmitProposalComponent(
+              ^.wrapped := SubmitProposalProps(trackingParameters = Map.empty, onProposalProposed = () => {
+                self.setState(_.copy(isProposalModalOpened = false))
+              }, maybeLocation = self.props.wrapped.maybeLocation)
+            )()
+          ),
           <.style()(NoResultToSearchStyles.render[String])
         )
       }

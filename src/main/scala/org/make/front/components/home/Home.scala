@@ -28,7 +28,10 @@ object Home {
             <.div(^.className := HomeStyles.mainHeaderWrapper)(<.MainHeaderComponent.empty),
             <.h1(^.style := Map("display" -> "none"))("Make.org"),
             <.FeaturedOperationContainerComponent(
-              ^.wrapped := FeaturedOperationContainerProps(operationSlug = OperationDesignData.featuredOperationSlug)
+              ^.wrapped := FeaturedOperationContainerProps(
+                trackingLocation = TrackingLocation.homepage,
+                operationSlug = OperationDesignData.featuredOperationSlug
+              )
             )(),
             <.ThemeShowcaseContainerComponent(
               ^.wrapped := ThemeShowcaseContainerProps(
@@ -36,7 +39,7 @@ object Home {
                 maybeIntro = Some(unescape(I18n.t("home.showcase-1.intro"))),
                 maybeNews = Some(I18n.t("home.showcase-1.news")),
                 maybeOperation = None,
-                maybeSequence = None,
+                maybeSequenceId = None,
                 maybeLocation = Some(Location.Homepage)
               )
             )(),
@@ -53,7 +56,7 @@ object Home {
               ^.wrapped := ThemeShowcaseContainerProps(
                 themeSlug = "economie-emploi-travail",
                 maybeOperation = None,
-                maybeSequence = None,
+                maybeSequenceId = None,
                 maybeLocation = Some(Location.Homepage)
               )
             )(),
@@ -69,7 +72,7 @@ object Home {
               ^.wrapped := ThemeShowcaseContainerProps(
                 themeSlug = "vivre-ensemble-solidarites",
                 maybeOperation = None,
-                maybeSequence = None,
+                maybeSequenceId = None,
                 maybeLocation = Some(Location.Homepage)
               )
             )(),

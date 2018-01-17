@@ -24,7 +24,6 @@ object MaybeThemeContainer {
         MaybeTheme.MaybeThemeProps(
           maybeTheme = state.findTheme(slug = slug),
           maybeOperation = None,
-          maybeSequence = None,
           maybeLocation = None
         )
 

@@ -26,6 +26,7 @@ object SubmitProposalForm {
   case class SubmitProposalFormState(proposalContent: String = "", errorMessage: Option[String] = None)
 
   case class SubmitProposalFormProps(trackingContext: TrackingContext,
+                                     trackingParameters: Map[String, String],
                                      bait: String,
                                      proposalContentMaxLength: Int,
                                      proposalContentMinLength: Int,
@@ -98,7 +99,11 @@ object SubmitProposalForm {
               )
             } else {
               self.props.wrapped.handleSubmitProposalForm(content)
-              TrackingService.track("click-proposal-submit", self.props.wrapped.trackingContext)
+              TrackingService.track(
+                "click-proposal-submit",
+                self.props.wrapped.trackingContext,
+                self.props.wrapped.trackingParameters
+              )
             }
             false
         }

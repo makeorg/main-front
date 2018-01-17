@@ -10,6 +10,7 @@ import org.make.services.tracking.TrackingService.TrackingContext
 object SubmitProposalFormContainer {
 
   case class SubmitProposalFormContainerProps(trackingContext: TrackingContext,
+                                              trackingParameters: Map[String, String],
                                               maybeTheme: Option[TranslatedThemeModel],
                                               errorMessage: Option[String],
                                               handleSubmitProposalForm: (String) => Unit)
@@ -19,6 +20,7 @@ object SubmitProposalFormContainer {
       _ => (state, props) =>
         SubmitProposalFormProps(
           trackingContext = props.wrapped.trackingContext,
+          trackingParameters = props.wrapped.trackingParameters,
           bait = state.bait,
           proposalContentMaxLength = state.configuration.map(_.proposalMaxLength).getOrElse(140),
           proposalContentMinLength = state.configuration.map(_.proposalMinLength).getOrElse(10),

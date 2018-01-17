@@ -11,6 +11,7 @@ import org.make.front.components.sequence.ProgressBar.ProgressBarProps
 import org.make.front.components.sequence.contents.ProposalInsideSequence.ProposalInsideSequenceProps
 import org.make.front.facades.ReactSlick.{ReactTooltipVirtualDOMAttributes, ReactTooltipVirtualDOMElements, Slider}
 import org.make.front.models.{
+  SequenceId,
   Location          => LocationModel,
   OperationExpanded => OperationModel,
   Proposal          => ProposalModel,
@@ -53,8 +54,7 @@ object Sequence {
   final case class SequenceState(proposals: Seq[ProposalModel],
                                  slides: Seq[Slide],
                                  displayedSlidesCount: Int,
-                                 currentSlideIndex: Int,
-                                 maybeSequence: Option[SequenceModel] = None)
+                                 currentSlideIndex: Int)
 
   trait Slide {
     def component(index: Int): ReactElement
@@ -83,7 +83,7 @@ object Sequence {
                       nextProposal: ()                           => Unit,
                       maybeTheme: Option[TranslatedThemeModel],
                       maybeOperation: Option[OperationModel],
-                      maybeSequence: Option[SequenceModel],
+                      sequenceId: SequenceId,
                       maybeLocation: Option[LocationModel])
       extends Slide {
 
@@ -103,7 +103,7 @@ object Sequence {
           index = slideIndex,
           maybeTheme = maybeTheme,
           maybeOperation = maybeOperation,
-          maybeSequence = maybeSequence,
+          sequenceId = sequenceId,
           maybeLocation = maybeLocation
         )
       )()
@@ -227,7 +227,7 @@ object Sequence {
           nextProposal = nextProposal,
           maybeTheme = self.props.wrapped.maybeTheme,
           maybeOperation = self.props.wrapped.maybeOperation,
-          maybeSequence = self.state.maybeSequence,
+          sequenceId = self.props.wrapped.sequence.sequenceId,
           maybeLocation = self.props.wrapped.maybeLocation
         )
       })
@@ -275,7 +275,6 @@ object Sequence {
 
         self.setState(
           _.copy(
-            maybeSequence = Some(sequence),
             slides = slides,
             proposals = sequence.proposals,
             currentSlideIndex = indexToReach,
@@ -283,17 +282,14 @@ object Sequence {
           )
         )
       } else {
-        self.setState(_.copy(maybeSequence = Some(sequence), proposals = sequence.proposals))
+        self.setState(_.copy(proposals = sequence.proposals))
       }
     }
 
     React.createClass[SequenceProps, SequenceState](
       displayName = "Sequence",
       getInitialState = { _ =>
-        SequenceState(slides = Seq.empty, displayedSlidesCount = 0, currentSlideIndex = 0, proposals = Seq.empty)
-      },
-      componentWillMount = { self =>
-        onSequenceRetrieved(self, self.props.wrapped.sequence)
+        SequenceState(slides = Seq.empty, displayedSlidesCount = 0, currentSlideIndex = -1, proposals = Seq.empty)
       },
       componentWillReceiveProps = { (self, props) =>
         if (props.wrapped.sequence.sequenceId.value != self.props.wrapped.sequence.sequenceId.value) {
@@ -309,23 +305,40 @@ object Sequence {
         }
       },
       componentDidMount = { self =>
+        onSequenceRetrieved(self, self.props.wrapped.sequence)
         TrackingService
           .track(
             "display-sequence",
-            TrackingContext(TrackingLocation.sequencePage),
-            Map("sequenceId" -> self.state.maybeSequence.map(_.sequenceId.value).getOrElse(""))
+            TrackingContext(TrackingLocation.sequencePage, self.props.wrapped.maybeOperation.map(_.slug)),
+            Map(
+              "sequenceId" -> self.props.wrapped.sequence.sequenceId.value,
+              "operationId" -> self.props.wrapped.maybeOperation.map(_.operationId.value).getOrElse("")
+            )
           )
       },
-      componentWillUpdate = { (_, props, state) =>
+      componentWillUpdate = { (self, props, state) =>
         slider.foreach(_.slickGoTo(state.currentSlideIndex))
         val firstIndex = state.slides.takeWhile(!_.isInstanceOf[ProposalSlide]).size
-        if (state.currentSlideIndex == firstIndex && state.maybeSequence.isDefined && state.proposals.nonEmpty) {
+        if (self.state.currentSlideIndex != state.currentSlideIndex) {
+          state.slides(state.currentSlideIndex).maybeTracker.foreach { tracker =>
+            TrackingService
+              .track(
+                tracker.name,
+                tracker.context,
+                tracker.parameters + ("card-position" -> state.currentSlideIndex.toString)
+              )
+          }
+        }
+        if (state.currentSlideIndex == firstIndex &&
+            state.proposals.nonEmpty &&
+            self.state.currentSlideIndex != state.currentSlideIndex) {
+
           TrackingService
             .track(
               "display-sequence-first-proposal",
               TrackingContext(TrackingLocation.sequencePage, props.wrapped.maybeOperation.map(_.slug)),
               Map(
-                "sequenceId" -> state.maybeSequence.map(_.sequenceId.value).getOrElse(""),
+                "sequenceId" -> self.props.wrapped.sequence.sequenceId.value,
                 "proposalId" -> state.proposals.headOption.map(_.id.value).getOrElse("")
               )
             )
@@ -355,9 +368,6 @@ object Sequence {
             )
           }
           self.setState(state => state.copy(currentSlideIndex = currentSlide))
-          self.state.slides(self.state.currentSlideIndex).maybeTracker.foreach { tracker =>
-            TrackingService.track(tracker.name, tracker.context, tracker.parameters)
-          }
         }
 
         def canScrollNext: Boolean = {

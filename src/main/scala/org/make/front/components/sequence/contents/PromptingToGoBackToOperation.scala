@@ -9,7 +9,7 @@ import org.make.front.Main.CssSettings._
 import org.make.front.components.Components._
 import org.make.front.facades.Unescape.unescape
 import org.make.front.facades.I18n
-import org.make.front.models.{GradientColor => GradientColorModel, OperationExpanded => OperationModel}
+import org.make.front.models.{SequenceId, GradientColor => GradientColorModel, OperationExpanded => OperationModel}
 import org.make.front.styles.ThemeStyles
 import org.make.front.styles.base.{LayoutRulesStyles, TextStyles, _}
 import org.make.front.styles.ui.CTAStyles
@@ -19,7 +19,9 @@ import org.make.services.tracking.{TrackingLocation, TrackingService}
 
 object PromptingToGoBackToOperation {
 
-  final case class PromptingToGoBackToOperationProps(operation: OperationModel, clickOnButtonHandler: () => Unit)
+  final case class PromptingToGoBackToOperationProps(operation: OperationModel,
+                                                     sequenceId: SequenceId,
+                                                     clickOnButtonHandler: () => Unit)
 
   final case class PromptingToGoBackToOperationState()
 
@@ -46,7 +48,7 @@ object PromptingToGoBackToOperation {
               TrackingService.track(
                 "click-finale-card-learnmore",
                 TrackingContext(TrackingLocation.sequencePage, Some(self.props.wrapped.operation.slug)),
-                Map("sequenceId" -> self.props.wrapped.operation.sequence.value)
+                Map("sequenceId" -> self.props.wrapped.sequenceId.value)
               )
               self.props.history.push(s"/consultation/${self.props.wrapped.operation.slug}")
             }

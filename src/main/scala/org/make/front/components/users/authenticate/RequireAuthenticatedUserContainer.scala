@@ -14,6 +14,7 @@ object RequireAuthenticatedUserContainer {
 
   case class RequireAuthenticatedUserContainerProps(operationId: Option[OperationId],
                                                     trackingContext: TrackingContext,
+                                                    trackingParameters: Map[String, String],
                                                     intro: ReactElement,
                                                     registerView: String,
                                                     defaultView: String = "register",
@@ -24,6 +25,7 @@ object RequireAuthenticatedUserContainer {
       RequireAuthenticatedUserProps(
         operationId = props.wrapped.operationId,
         trackingContext = props.wrapped.trackingContext,
+        trackingParameters = props.wrapped.trackingParameters,
         intro = props.wrapped.intro,
         registerView = props.wrapped.registerView,
         defaultView = props.wrapped.defaultView,

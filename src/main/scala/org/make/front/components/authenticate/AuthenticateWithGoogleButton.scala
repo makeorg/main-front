@@ -15,6 +15,8 @@ import org.make.front.styles.ThemeStyles
 import org.make.front.styles.base.TextStyles
 import org.make.front.styles.ui.CTAStyles
 import org.make.front.styles.vendors.FontAwesomeStyles
+import org.make.services.tracking.TrackingService
+import org.make.services.tracking.TrackingService.TrackingContext
 import org.scalajs.dom.experimental.Response
 
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -24,7 +26,9 @@ import scala.util.{Failure, Success}
 
 object AuthenticateWithGoogleButton {
 
-  case class AuthenticateWithGoogleButtonProps(isConnected: Boolean,
+  case class AuthenticateWithGoogleButtonProps(trackingContext: TrackingContext,
+                                               trackingParameters: Map[String, String],
+                                               isConnected: Boolean,
                                                signIn: (Response) => Future[_],
                                                googleAppId: String,
                                                errorMessages: Seq[String],
@@ -39,16 +43,34 @@ object AuthenticateWithGoogleButton {
         AuthenticateWithGoogleButtonState(Seq.empty)
       },
       render = { self =>
+        def trackFailure(provider: String): Unit = {
+          TrackingService
+            .track(
+              "authen-social-failure",
+              self.props.wrapped.trackingContext,
+              self.props.wrapped.trackingParameters + ("social-network" -> provider)
+            )
+        }
         // @toDo: manage specific errors
         def handleCallback(result: Future[_], provider: String): Unit = {
           result.onComplete {
             case Success(_) =>
+              TrackingService
+                .track(
+                  "authen-social-success",
+                  self.props.wrapped.trackingContext,
+                  self.props.wrapped.trackingParameters + ("social-network" -> provider)
+                )
               self.setState(AuthenticateWithGoogleButtonState())
             case Failure(UnauthorizedHttpException) =>
+              trackFailure(provider)
               self.setState(state => state.copy(errorMessages = Seq("authenticate.no-account-found")))
             case Failure(BadRequestHttpException(_)) =>
+              trackFailure(provider)
               self.setState(state => state.copy(errorMessages = Seq("authenticate.no-email-found")))
-            case Failure(_) => self.setState(state => state.copy(errorMessages = Seq("authenticate.failure")))
+            case Failure(_) =>
+              trackFailure(provider)
+              self.setState(state => state.copy(errorMessages = Seq("authenticate.failure")))
           }
         }
 

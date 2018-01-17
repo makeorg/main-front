@@ -14,10 +14,10 @@ import org.make.front.components.proposal.vote.VoteContainer.VoteContainerProps
 import org.make.front.facades.I18n
 import org.make.front.facades.Unescape.unescape
 import org.make.front.models.{
+  SequenceId,
   Location          => LocationModel,
   OperationExpanded => OperationModel,
   Proposal          => ProposalModel,
-  Sequence          => SequenceModel,
   TranslatedTheme   => TranslatedThemeModel
 }
 import org.make.front.styles.ThemeStyles
@@ -32,7 +32,7 @@ object ProposalTileWithTheme {
                                               index: Int,
                                               maybeTheme: Option[TranslatedThemeModel],
                                               maybeOperation: Option[OperationModel],
-                                              maybeSequence: Option[SequenceModel],
+                                              maybeSequenceId: Option[SequenceId],
                                               maybeLocation: Option[LocationModel],
                                               trackingLocation: TrackingLocation)
 
@@ -73,7 +73,7 @@ object ProposalTileWithTheme {
                           index = self.props.wrapped.index,
                           maybeTheme = self.props.wrapped.maybeTheme,
                           maybeOperation = self.props.wrapped.maybeOperation,
-                          maybeSequence = self.props.wrapped.maybeSequence,
+                          maybeSequenceId = self.props.wrapped.maybeSequenceId,
                           maybeLocation = self.props.wrapped.maybeLocation,
                           trackingLocation = self.props.wrapped.trackingLocation
                         )

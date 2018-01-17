@@ -8,17 +8,17 @@ import org.make.front.actions.NotifyError
 import org.make.front.components.AppState
 import org.make.front.facades.I18n
 import org.make.front.models.{
+  SequenceId,
   Location          => LocationModel,
   OperationExpanded => OperationModel,
   Proposal          => ProposalModel,
   Qualification     => QualificationModel,
-  Sequence          => SequenceModel,
   TranslatedTheme   => TranslatedThemeModel,
   Vote              => VoteModel
 }
 import org.make.services.proposal.ProposalService
-import org.make.services.tracking.{TrackingLocation, TrackingService}
 import org.make.services.tracking.TrackingService.TrackingContext
+import org.make.services.tracking.{TrackingLocation, TrackingService}
 import org.scalajs.dom
 
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -36,7 +36,7 @@ object VoteContainer {
                                       trackingLocation: TrackingLocation,
                                       maybeTheme: Option[TranslatedThemeModel],
                                       maybeOperation: Option[OperationModel],
-                                      maybeSequence: Option[SequenceModel],
+                                      maybeSequenceId: Option[SequenceId],
                                       maybeLocation: Option[LocationModel])
 
   lazy val reactClass: ReactClass = ReactRedux.connectAdvanced(selectorFactory)(Vote.reactClass)
@@ -45,8 +45,8 @@ object VoteContainer {
     (dispatch: Dispatch) => { (_: AppState, props: Props[VoteContainerProps]) =>
       val location = LocationModel.firstByPrecedence(
         location = props.wrapped.maybeLocation,
-        sequence = props.wrapped.maybeSequence.map(sequence => LocationModel.Sequence(sequence.sequenceId)),
-        themePage = props.wrapped.maybeTheme.map(theme      => LocationModel.ThemePage(theme.id)),
+        sequence = props.wrapped.maybeSequenceId.map(sequenceId => LocationModel.Sequence(sequenceId)),
+        themePage = props.wrapped.maybeTheme.map(theme          => LocationModel.ThemePage(theme.id)),
         operationPage =
           props.wrapped.maybeOperation.map(operation => LocationModel.OperationPage(operation.operationId)),
         fallback = LocationModel.UnknownLocation(dom.window.location.href)
@@ -57,8 +57,8 @@ object VoteContainer {
         props.wrapped.maybeTheme.foreach { theme =>
           parameters += "themeId" -> theme.id.value
         }
-        props.wrapped.maybeSequence.foreach { sequence =>
-          parameters += "sequenceId" -> sequence.sequenceId.value
+        props.wrapped.maybeSequenceId.foreach { sequenceId =>
+          parameters += "sequenceId" -> sequenceId.value
           parameters += "card-position" -> props.wrapped.index.toString
 
         }
