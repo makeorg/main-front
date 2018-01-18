@@ -43,7 +43,6 @@ object ResultsInOperation {
     operation: OperationModel,
     onMoreResultsRequested: (Seq[ProposalModel], Seq[TagModel], Option[Int]) => Future[SearchResult],
     onTagSelectionChange: (Seq[TagModel], Option[Int])                       => Future[SearchResult],
-    proposals: Future[SearchResult],
     preselectedTags: Seq[TagModel],
     maybeLocation: Option[LocationModel]
   )
@@ -130,19 +129,18 @@ object ResultsInOperation {
       render = { (self) =>
         val onSeeMore: (Int) => Unit = {
           _ =>
-            if (!self.state.initialLoad) {
-              self.setState(_.copy(hasRequestedMore = true))
-            }
             self.props.wrapped
               .onMoreResultsRequested(self.state.listProposals, self.state.selectedTags, self.state.maybeSeed)
               .onComplete {
                 case Success(searchResult) =>
                   self.setState(
-                    _.copy(
-                      listProposals = searchResult.results,
-                      hasMore = searchResult.total > searchResult.results.size,
-                      initialLoad = false,
-                      maybeSeed = searchResult.seed
+                    s =>
+                      s.copy(
+                        listProposals = searchResult.results,
+                        hasMore = searchResult.total > searchResult.results.size,
+                        initialLoad = false,
+                        maybeSeed = searchResult.seed,
+                        hasRequestedMore = !s.initialLoad
                     )
                   )
                 case Failure(_) => // Let parent handle logging error

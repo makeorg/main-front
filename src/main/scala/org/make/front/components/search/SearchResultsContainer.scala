@@ -24,7 +24,7 @@ object SearchResultsContainer {
   lazy val reactClass: ReactClass = ReactRedux.connectAdvanced(selectorFactory)(SearchResults.reactClass)
 
   def selectorFactory: (Dispatch) => (AppState, Props[Unit]) => SearchResultsProps =
-    (dispatch: Dispatch) => { (_: AppState, props: Props[Unit]) =>
+    (dispatch: Dispatch) => { (appState: AppState, props: Props[Unit]) =>
       {
 
         val queryParams: Map[String, String] = QueryString.parse(props.location.search)
@@ -67,7 +67,8 @@ object SearchResultsContainer {
           searchValue = searchValue,
           maybeSequence = None,
           maybeOperation = None,
-          maybeLocation = Some(Location.SearchResultsPage)
+          maybeLocation = Some(Location.SearchResultsPage),
+          isConnected = appState.connectedUser.isDefined
         )
       }
     }

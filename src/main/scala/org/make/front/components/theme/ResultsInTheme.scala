@@ -45,7 +45,6 @@ object ResultsInTheme {
     theme: TranslatedThemeModel,
     onMoreResultsRequested: (Seq[ProposalModel], Seq[TagModel], Option[Int]) => Future[SearchResult],
     onTagSelectionChange: (Seq[TagModel], Option[Int])                       => Future[SearchResult],
-    proposals: Future[SearchResult],
     preselectedTags: Seq[TagModel],
     maybeOperation: Option[OperationModel],
     maybeLocation: Option[LocationModel]
@@ -132,19 +131,18 @@ object ResultsInTheme {
       render = { (self) =>
         val onSeeMore: (Int) => Unit = {
           _ =>
-            if (!self.state.initialLoad) {
-              self.setState(_.copy(hasRequestedMore = true))
-            }
             self.props.wrapped
               .onMoreResultsRequested(self.state.listProposals, self.state.selectedTags, self.state.maybeSeed)
               .onComplete {
                 case Success(searchResult) =>
                   self.setState(
-                    _.copy(
-                      listProposals = searchResult.results,
-                      hasMore = searchResult.total > searchResult.results.size,
-                      initialLoad = false,
-                      maybeSeed = searchResult.seed
+                    s =>
+                      s.copy(
+                        listProposals = searchResult.results,
+                        hasMore = searchResult.total > searchResult.results.size,
+                        initialLoad = false,
+                        maybeSeed = searchResult.seed,
+                        hasRequestedMore = !s.initialLoad
                     )
                   )
                 case Failure(_) => // Let parent handle logging error
@@ -239,7 +237,7 @@ object ResultsInTheme {
             if (self.state.hasMore && !self.state.hasRequestedMore) {
               <.div(^.className := Seq(ResultsInThemeStyles.seeMoreButtonWrapper, LayoutRulesStyles.centeredRow))(
                 <.button(^.onClick := (() => {
-                  onSeeMore(1)
+                  onSeeMore(-1)
                   TrackingService.track(
                     "click-proposal-viewmore",
                     TrackingContext(TrackingLocation.themePage),

@@ -33,7 +33,8 @@ object SearchResults {
                                       searchValue: Option[String],
                                       maybeSequence: Option[SequenceId],
                                       maybeOperation: Option[OperationModel],
-                                      maybeLocation: Option[Location])
+                                      maybeLocation: Option[Location],
+                                      isConnected: Boolean)
 
   final case class SearchResultsState(listProposals: Seq[Proposal],
                                       initialLoad: Boolean,
@@ -56,15 +57,17 @@ object SearchResults {
     WithRouter(
       React.createClass[SearchResultsProps, SearchResultsState](displayName = "SearchResults", getInitialState = { _ =>
         SearchResultsState.empty
-      }, componentWillReceiveProps = (self, _) => {
-        self.setState(SearchResultsState.empty)
+      }, shouldComponentUpdate = { (self, props, state) =>
+        self.props.wrapped.isConnected != props.wrapped.isConnected ||
+        self.state.listProposals.size != state.listProposals.size
+      }, componentWillReceiveProps = (self, props) => {
+        if (self.props.wrapped.searchValue != props.wrapped.searchValue) {
+          self.setState(SearchResultsState.empty)
+        }
       }, render = {
         self =>
           val onSeeMore: (Int) => Unit = {
             _ =>
-              if (!self.state.initialLoad) {
-                self.setState(_.copy(hasRequestedMore = true))
-              }
               self.props.wrapped
                 .onMoreResultsRequested(self.state.listProposals, self.props.wrapped.searchValue)
                 .onComplete {
@@ -80,11 +83,13 @@ object SearchResults {
                       )
                     }
                     self.setState(
-                      _.copy(
-                        listProposals = searchResult.results,
-                        hasMore = searchResult.total > searchResult.results.size,
-                        initialLoad = false,
-                        resultsCount = searchResult.total
+                      s =>
+                        s.copy(
+                          listProposals = searchResult.results,
+                          hasMore = searchResult.total > searchResult.results.size,
+                          initialLoad = false,
+                          resultsCount = searchResult.total,
+                          hasRequestedMore = !s.initialLoad
                       )
                     )
                   case Failure(_) => // parent container will dispatch an error
