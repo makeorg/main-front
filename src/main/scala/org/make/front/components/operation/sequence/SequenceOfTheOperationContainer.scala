@@ -5,16 +5,10 @@ import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import io.github.shogowada.scalajs.reactjs.redux.ReactRedux
 import io.github.shogowada.scalajs.reactjs.redux.Redux.Dispatch
 import io.github.shogowada.scalajs.reactjs.router.RouterProps._
-import org.make.front.actions.{LoadConfiguration, NotifyError}
-import org.make.front.components.AppState
-import org.make.front.models.{
-  Operation,
-  Location          => LocationModel,
-  OperationExpanded => OperationModel,
-  OperationId       => OperationIdModel,
-  Sequence          => SequenceModel,
-  SequenceId        => SequenceIdModel
-}
+import io.github.shogowada.scalajs.reactjs.router.WithRouter
+import org.make.front.components.{AppState, ObjectLoader}
+import org.make.front.components.ObjectLoader.ObjectLoaderProps
+import org.make.front.models.{ProposalId, SequenceId, OperationExpanded => OperationModel, Sequence => SequenceModel}
 import org.make.services.operation.OperationService
 import org.make.services.sequence.SequenceService
 
@@ -23,10 +17,10 @@ import scala.concurrent.Future
 
 object SequenceOfTheOperationContainer {
 
-  lazy val reactClass: ReactClass = ReactRedux.connectAdvanced(selectorFactory)(SequenceOfTheOperation.reactClass)
+  lazy val reactClass: ReactClass = WithRouter(ReactRedux.connectAdvanced(selectorFactory)(ObjectLoader.reactClass))
 
-  def selectorFactory: (Dispatch) => (AppState, Props[Unit]) => SequenceOfTheOperation.SequenceOfTheOperationProps =
-    (dispatch: Dispatch) => { (state: AppState, props: Props[Unit]) =>
+  def selectorFactory: (Dispatch) => (AppState, Props[Unit]) => ObjectLoaderProps[(OperationModel, SequenceModel)] =
+    (_: Dispatch) => { (state: AppState, props: Props[Unit]) =>
       {
         val operationSlug = props.`match`.params("operationSlug")
         val search = org.scalajs.dom.window.location.search
@@ -42,22 +36,42 @@ object SequenceOfTheOperationContainer {
             case _               => None
           }
 
-        val futureMaybeOperationExpanded: Future[Option[OperationModel]] =
-          OperationService.getOperationBySlug(operationSlug).map { maybeOperation =>
-            maybeOperation.map(OperationModel.getOperationExpandedFromOperation)
+        val futureMaybeOperationExpanded: () => Future[Option[(OperationModel, SequenceModel)]] = () => {
+          OperationService
+            .getOperationBySlug(operationSlug)
+            .map { maybeOperation =>
+              maybeOperation.map(OperationModel.getOperationExpandedFromOperation)
+            }
+            .flatMap {
+              case None => Future.successful(None)
+              case Some(operation) =>
+                SequenceService
+                  .startSequenceById(operation.sequence, Seq.empty)
+                  .map(sequence => Some((operation, sequence)))
+            }
+        }
+
+        def startSequence(sequenceId: SequenceId)(proposals: Seq[ProposalId]): Future[SequenceModel] = {
+          SequenceService.startSequenceById(sequenceId, proposals)
+        }
+
+        ObjectLoaderProps[(OperationModel, SequenceModel)](
+          load = futureMaybeOperationExpanded,
+          onNotFound = () => props.history.push("/"),
+          childClass = SequenceOfTheOperation.reactClass,
+          createChildProps = {
+            case (operation, sequence) =>
+              SequenceOfTheOperation.SequenceOfTheOperationProps(
+                maybeFirstProposalSlug = firstProposalSlug,
+                isConnected = state.connectedUser.isDefined,
+                operation = operation,
+                redirectHome = () => props.history.push("/"),
+                startSequence = startSequence(operation.sequence),
+                sequence = sequence
+              )
           }
-
-        dispatch(LoadConfiguration)
-
-        SequenceOfTheOperation.SequenceOfTheOperationProps(
-          maybeFirstProposalSlug = firstProposalSlug,
-          isConnected = state.connectedUser.isDefined,
-          operation = futureMaybeOperationExpanded,
-          maybeTheme = None,
-          maybeOperation = None,
-          maybeLocation = None,
-          redirectHome = () => props.history.push("/")
         )
+
       }
     }
 }

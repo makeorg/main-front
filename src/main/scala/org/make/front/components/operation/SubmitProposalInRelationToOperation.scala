@@ -12,6 +12,7 @@ import org.make.front.facades.Unescape.unescape
 import org.make.front.facades.I18n
 import org.make.front.models.{
   Location,
+  SequenceId,
   GradientColor     => GradientColorModel,
   OperationExpanded => OperationModel,
   Sequence          => SequenceModel
@@ -28,7 +29,7 @@ object SubmitProposalInRelationToOperation {
 
   case class SubmitProposalInRelationToOperationProps(operation: OperationModel,
                                                       onProposalProposed: () => Unit,
-                                                      maybeSequence: Option[SequenceModel],
+                                                      maybeSequence: Option[SequenceId],
                                                       maybeLocation: Option[Location])
 
   case class SubmitProposalInRelationToOperationState(operation: OperationModel)

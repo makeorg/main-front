@@ -15,16 +15,12 @@ import org.make.front.models.{
   TranslatedTheme   => TranslatedThemeModel
 }
 import org.make.front.styles.ThemeStyles
-import org.make.services.tracking.{TrackingLocation, TrackingService}
 import org.make.services.tracking.TrackingService.TrackingContext
-
-import scala.concurrent.ExecutionContext.Implicits.global
-import scala.concurrent.Future
-import scala.util.{Failure, Success}
+import org.make.services.tracking.{TrackingLocation, TrackingService}
 
 object Operation {
 
-  final case class OperationProps(futureMaybeOperation: Future[Option[OperationModel]],
+  final case class OperationProps(operation: OperationModel,
                                   maybeTheme: Option[TranslatedThemeModel],
                                   maybeSequence: Option[SequenceModel])
 
@@ -34,30 +30,17 @@ object Operation {
     React
       .createClass[OperationProps, OperationState](
         displayName = "Operation",
-        componentDidMount = {
-          self =>
-            self.props.wrapped.futureMaybeOperation.onComplete {
-              case Success(maybeOperation) =>
-                maybeOperation match {
-                  case Some(operation) =>
-                    self.setState(_.copy(operation = operation))
-                    TrackingService
-                      .track(
-                        "display-page-operation",
-                        TrackingContext(
-                          TrackingLocation.operationPage,
-                          operationSlug = Some(self.state.operation.slug)
-                        ),
-                        Map("id" -> self.state.operation.operationId.value)
-                      )
-                  case _ =>
-                    self.setState(_.copy(operation = OperationModel.empty))
-                }
-              case Failure(_) => // Let parent handle logging error
-            }
+        componentDidMount = { self =>
+          TrackingService
+            .track(
+              "display-page-operation",
+              TrackingContext(TrackingLocation.operationPage, operationSlug = Some(self.state.operation.slug)),
+              Map("id" -> self.state.operation.operationId.value)
+            )
+
         },
-        getInitialState = { _ =>
-          OperationState(OperationModel.empty)
+        getInitialState = { self =>
+          OperationState(self.props.wrapped.operation)
         },
         render = (self) => {
           <("operation")()(

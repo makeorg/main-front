@@ -8,6 +8,7 @@ import org.make.front.components.AppState
 import org.make.front.components.submitProposal.SubmitProposalAndAuthenticate.SubmitProposalAndAuthenticateProps
 import org.make.front.models.{
   RegisterProposal,
+  SequenceId,
   Location          => LocationModel,
   OperationExpanded => OperationModel,
   Sequence          => SequenceModel,
@@ -15,9 +16,9 @@ import org.make.front.models.{
 }
 import org.make.services.proposal.ProposalService
 import org.make.services.tracking.TrackingService.TrackingContext
+import org.scalajs.dom
 
 import scala.concurrent.Future
-import org.scalajs.dom
 
 object SubmitProposalAndAuthenticateContainer {
 
@@ -26,7 +27,7 @@ object SubmitProposalAndAuthenticateContainer {
                                                          onProposalProposed: () => Unit,
                                                          maybeTheme: Option[TranslatedThemeModel],
                                                          maybeOperation: Option[OperationModel],
-                                                         maybeSequence: Option[SequenceModel],
+                                                         maybeSequence: Option[SequenceId],
                                                          maybeLocation: Option[LocationModel])
 
   val reactClass: ReactClass = ReactRedux.connectAdvanced {
@@ -34,8 +35,8 @@ object SubmitProposalAndAuthenticateContainer {
       def propose(content: String): Future[RegisterProposal] = {
         val location = LocationModel.firstByPrecedence(
           location = props.wrapped.maybeLocation,
-          sequence = props.wrapped.maybeSequence.map(sequence => LocationModel.Sequence(sequence.sequenceId)),
-          themePage = props.wrapped.maybeTheme.map(theme      => LocationModel.ThemePage(theme.id)),
+          sequence = props.wrapped.maybeSequence.map(sequenceId => LocationModel.Sequence(sequenceId)),
+          themePage = props.wrapped.maybeTheme.map(theme        => LocationModel.ThemePage(theme.id)),
           operationPage =
             props.wrapped.maybeOperation.map(operation => LocationModel.OperationPage(operation.operationId)),
           fallback = LocationModel.UnknownLocation(dom.window.location.href)

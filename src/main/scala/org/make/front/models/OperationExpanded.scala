@@ -102,7 +102,7 @@ object OperationDesignData {
             operation = params.operation,
             clickOnButtonHandler = handler,
             proposeHandler = handler,
-            maybeSequence = params.maybeSequence,
+            maybeSequence = params.maybeSequence.map(_.sequenceId),
             maybeLocation = params.maybeLocation
           )
         },
@@ -193,7 +193,7 @@ object OperationDesignData {
             operation = params.operation,
             clickOnButtonHandler = handler,
             proposeHandler = handler,
-            maybeSequence = params.maybeSequence,
+            maybeSequence = params.maybeSequence.map(_.sequenceId),
             maybeLocation = params.maybeLocation
           )
         },
@@ -310,12 +310,12 @@ final case class OperationExpanded(operationId: OperationId,
                                    tags: Seq[Tag] = Seq.empty,
                                    logoUrl: Option[String] = None,
                                    darkerLogoUrl: Option[String] = None,
-                                   sequence: Option[SequenceId] = None,
+                                   sequence: SequenceId,
                                    wording: OperationWording,
                                    partners: Seq[OperationPartner] = Seq.empty,
                                    extraSlides: (OperationExtraSlidesParams) => Seq[ExtraSlide])
 
-// @todo: use a sealaed trait and case object like Source and Location
+// @todo: use a sealed trait and case object like Source and Location
 object OperationExpanded {
   def getOperationExpandedFromOperation(operation: Operation): OperationExpanded = {
     val maybeOperationDesignData: Option[OperationDesignData] = OperationDesignData.getBySlug(operation.slug)
@@ -332,7 +332,7 @@ object OperationExpanded {
           gradient = operationDesignData.gradient,
           logoUrl = operationDesignData.logoUrl,
           darkerLogoUrl = operationDesignData.darkerLogoUrl,
-          sequence = Some(operation.sequenceLandingId),
+          sequence = operation.sequenceLandingId,
           wording = OperationWording(
             // toDo: manage different languages
             title =
@@ -364,7 +364,7 @@ object OperationExpanded {
           gradient = None,
           logoUrl = None,
           darkerLogoUrl = None,
-          sequence = Some(operation.sequenceLandingId),
+          sequence = operation.sequenceLandingId,
           wording = OperationWording(
             // toDo: manage different languages
             title =
@@ -386,31 +386,4 @@ object OperationExpanded {
     }
   }
 
-  val empty = OperationExpanded(
-    operationId = OperationId("fake"),
-    url = "",
-    slug = "",
-    label = "",
-    actionsCount = 0,
-    proposalsCount = 0,
-    color = "",
-    gradient = None,
-    logoUrl = None,
-    darkerLogoUrl = None,
-    sequence = None,
-    wording = OperationWording(
-      title = "",
-      question = "",
-      greatCauseLabel = None,
-      purpose = None,
-      period = None,
-      explanation = None,
-      learnMoreUrl = None
-    ),
-    tags = Seq.empty,
-    illustration = None,
-    featuredIllustration = None,
-    partners = Seq.empty,
-    extraSlides = (_: OperationExtraSlidesParams) => Seq.empty
-  )
 }

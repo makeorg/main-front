@@ -41,7 +41,7 @@ object PromptingToConnect {
             TrackingService.track(
               "click-sign-up-card-sign-in",
               self.props.wrapped.trackingContext,
-              Map("sequenceId" -> self.props.wrapped.operation.sequence.map(_.value).getOrElse(""))
+              Map("sequenceId" -> self.props.wrapped.operation.sequence.value)
             )
           }
 

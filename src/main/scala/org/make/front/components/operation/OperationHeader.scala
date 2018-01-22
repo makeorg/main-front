@@ -104,7 +104,7 @@ object OperationHeader {
                 ^.wrapped := SubmitProposalInRelationToOperationProps(
                   operation = operation,
                   onProposalProposed = closeProposalModal,
-                  maybeSequence = self.props.wrapped.maybeSequence,
+                  maybeSequence = self.props.wrapped.maybeSequence.map(_.sequenceId),
                   maybeLocation = self.props.wrapped.maybeLocation
                 )
               )()

@@ -1,7 +1,7 @@
 package org.make.front.components.sequence
 
 import io.github.shogowada.scalajs.reactjs.React
-import io.github.shogowada.scalajs.reactjs.React.{Props, Self}
+import io.github.shogowada.scalajs.reactjs.React.Self
 import io.github.shogowada.scalajs.reactjs.VirtualDOM.{<, _}
 import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import io.github.shogowada.scalajs.reactjs.elements.ReactElement
@@ -23,8 +23,8 @@ import org.make.front.models.{
 import org.make.front.styles.ThemeStyles
 import org.make.front.styles.base.TableLayoutStyles
 import org.make.front.styles.utils._
-import org.make.services.tracking.{TrackingLocation, TrackingService}
 import org.make.services.tracking.TrackingService.TrackingContext
+import org.make.services.tracking.{TrackingLocation, TrackingService}
 import org.scalajs.dom.raw.HTMLElement
 
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -42,9 +42,9 @@ object Sequence {
                               maybeTracker: Option[DisplayTracker] = None)
 
   final case class SequenceProps(loadSequence: (Seq[ProposalIdModel]) => Future[SequenceModel],
-                                 sequence: Option[SequenceModel],
+                                 sequence: SequenceModel,
                                  progressBarColor: Option[String],
-                                 shouldReload: Boolean,
+                                 isConnected: Boolean,
                                  extraSlides: Seq[ExtraSlide],
                                  maybeTheme: Option[TranslatedThemeModel],
                                  maybeOperation: Option[OperationModel],
@@ -251,45 +251,39 @@ object Sequence {
       slides
     }
 
-    def onNewProps(self: Self[SequenceProps, SequenceState],
-                   props: Props[SequenceProps],
-                   slider: Option[Slider]): Unit = {
+    def onSequenceRetrieved(self: Self[SequenceProps, SequenceState], sequence: SequenceModel): Unit = {
+      val slides: Seq[Slide] = createSlides(self, sequence.proposals)
+      if (slides.nonEmpty) {
+        val firstNonVotedSlideIndex: Int = slides.indexWhere { slide =>
+          slide.isInstanceOf[ProposalSlide] && !slide.asInstanceOf[ProposalSlide].voted
+        }
+        val hasVotedProposals: Boolean = sequence.proposals.headOption.exists(_.votes.exists(_.hasVoted))
+        val lastSlideIndex: Int = slides.size - 1
+        val indexToReach =
+          if (!hasVotedProposals) 0
+          else if (firstNonVotedSlideIndex == -1) lastSlideIndex
+          else firstNonVotedSlideIndex
+        val currentSlideIsOptional: Boolean = slides(indexToReach).optional || (slides(indexToReach)
+          .isInstanceOf[ProposalSlide] &&
+          slides(indexToReach).asInstanceOf[ProposalSlide].voted)
 
-      val votedProposalIds = self.state.proposals.filter(_.votes.exists(_.hasVoted)).map(_.id)
+        val displayedSlidesCount: Int = if (currentSlideIsOptional) {
+          indexToReach + 2
+        } else {
+          indexToReach + 1
+        }
 
-      props.wrapped.loadSequence(votedProposalIds).onComplete {
-        case Success(sequence) =>
-          self.setState(_.copy(maybeSequence = Some(sequence)))
-          val slides: Seq[Slide] = createSlides(self, sequence.proposals)
-          val firstNonVotedSlideIndex: Int = slides.indexWhere { slide =>
-            slide.isInstanceOf[ProposalSlide] && !slide.asInstanceOf[ProposalSlide].voted
-          }
-          val hasVotedProposals: Boolean = sequence.proposals.headOption.exists(_.votes.exists(_.hasVoted))
-          val lastSlideIndex: Int = slides.size - 1
-          val indexToReach =
-            if (!hasVotedProposals) 0
-            else if (firstNonVotedSlideIndex == -1) lastSlideIndex
-            else firstNonVotedSlideIndex
-          val currentSlideIsOptional: Boolean = slides(indexToReach).optional || (slides(indexToReach)
-            .isInstanceOf[ProposalSlide] &&
-            slides(indexToReach).asInstanceOf[ProposalSlide].voted)
-
-          val displayedSlidesCount: Int = if (currentSlideIsOptional) {
-            indexToReach + 2
-          } else {
-            indexToReach + 1
-          }
-
-          self.setState(
-            _.copy(
-              slides = slides,
-              proposals = sequence.proposals,
-              currentSlideIndex = indexToReach,
-              displayedSlidesCount = displayedSlidesCount
-            )
+        self.setState(
+          _.copy(
+            maybeSequence = Some(sequence),
+            slides = slides,
+            proposals = sequence.proposals,
+            currentSlideIndex = indexToReach,
+            displayedSlidesCount = displayedSlidesCount
           )
-
-        case Failure(_) =>
+        )
+      } else {
+        self.setState(_.copy(maybeSequence = Some(sequence), proposals = sequence.proposals))
       }
     }
 
@@ -298,25 +292,34 @@ object Sequence {
       getInitialState = { _ =>
         SequenceState(slides = Seq.empty, displayedSlidesCount = 0, currentSlideIndex = 0, proposals = Seq.empty)
       },
+      componentWillMount = { self =>
+        onSequenceRetrieved(self, self.props.wrapped.sequence)
+      },
       componentWillReceiveProps = { (self, props) =>
-        if ((props.wrapped.shouldReload && props.wrapped.shouldReload != self.props.wrapped.shouldReload) || props.wrapped.sequence != self.props.wrapped.sequence) {
-          onNewProps(self, props, slider)
+        if (props.wrapped.sequence.sequenceId.value != self.props.wrapped.sequence.sequenceId.value) {
+          onSequenceRetrieved(self, props.wrapped.sequence)
+        } else if (self.props.wrapped.isConnected != props.wrapped.isConnected) {
+          org.scalajs.dom.window.console
+            .log("connected changed from ", self.props.wrapped.isConnected, "to", props.wrapped.isConnected)
+          val votedProposalIds = self.state.proposals.filter(_.votes.exists(_.hasVoted)).map(_.id)
+          props.wrapped.loadSequence(votedProposalIds).onComplete {
+            case Success(sequence) => onSequenceRetrieved(self, sequence)
+            case Failure(_)        =>
+          }
         }
       },
       componentDidMount = { self =>
-        onNewProps(self, self.props, slider)
         TrackingService
           .track(
             "display-sequence",
             TrackingContext(TrackingLocation.sequencePage),
             Map("sequenceId" -> self.state.maybeSequence.map(_.sequenceId.value).getOrElse(""))
           )
-
       },
       componentWillUpdate = { (_, props, state) =>
         slider.foreach(_.slickGoTo(state.currentSlideIndex))
         val firstIndex = state.slides.takeWhile(!_.isInstanceOf[ProposalSlide]).size
-        if (state.currentSlideIndex == firstIndex) {
+        if (state.currentSlideIndex == firstIndex && state.maybeSequence.isDefined && state.proposals.nonEmpty) {
           TrackingService
             .track(
               "display-sequence-first-proposal",
@@ -337,10 +340,7 @@ object Sequence {
               "click-sequence-previous-card",
               TrackingContext(TrackingLocation.sequencePage, self.props.wrapped.maybeOperation.map(_.slug)),
               Map(
-                "sequenceId" -> self.props.wrapped.maybeOperation
-                  .flatMap(_.sequence)
-                  .map(_.value)
-                  .getOrElse(""),
+                "sequenceId" -> self.props.wrapped.sequence.sequenceId.value,
                 "card-position" -> oldSlideIndex.toString
               )
             )
@@ -349,10 +349,7 @@ object Sequence {
               "click-sequence-next-card",
               TrackingContext(TrackingLocation.sequencePage, self.props.wrapped.maybeOperation.map(_.slug)),
               Map(
-                "sequenceId" -> self.props.wrapped.maybeOperation
-                  .flatMap(_.sequence)
-                  .map(_.value)
-                  .getOrElse(""),
+                "sequenceId" -> self.props.wrapped.sequence.sequenceId.value,
                 "card-position" -> oldSlideIndex.toString
               )
             )

@@ -26,7 +26,7 @@ object SequenceContainer {
 
   final case class SequenceContainerProps(maybeFirstProposalSlug: Option[String],
                                           loadSequence: (Seq[ProposalId]) => Future[SequenceModel],
-                                          sequence: Option[SequenceModel],
+                                          sequence: SequenceModel,
                                           progressBarColor: Option[String],
                                           extraSlides: Seq[ExtraSlide],
                                           maybeTheme: Option[TranslatedThemeModel],
@@ -42,7 +42,7 @@ object SequenceContainer {
   def selectorFactory: (Dispatch) => (AppState, Props[SequenceContainerProps]) => Sequence.SequenceProps =
     (dispatch: Dispatch) => { (state: AppState, props: Props[SequenceContainerProps]) =>
       {
-        val shouldReload: Boolean = state.connectedUser.nonEmpty
+        val isConnected: Boolean = state.connectedUser.nonEmpty
 
         val reloadSequence: (Seq[ProposalId]) => Future[SequenceModel] = { forcedProposals =>
           props.wrapped.maybeFirstProposalSlug.map { slug =>
@@ -75,7 +75,7 @@ object SequenceContainer {
           sequence = props.wrapped.sequence,
           progressBarColor = props.wrapped.progressBarColor,
           extraSlides = props.wrapped.extraSlides,
-          shouldReload = shouldReload,
+          isConnected = isConnected,
           maybeTheme = props.wrapped.maybeTheme,
           maybeOperation = props.wrapped.maybeOperation,
           maybeLocation = props.wrapped.maybeLocation

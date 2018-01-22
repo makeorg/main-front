@@ -46,7 +46,7 @@ object PromptingToGoBackToOperation {
               TrackingService.track(
                 "click-finale-card-learnmore",
                 TrackingContext(TrackingLocation.sequencePage, Some(self.props.wrapped.operation.slug)),
-                Map("sequenceId" -> self.props.wrapped.operation.sequence.map(_.value).getOrElse(""))
+                Map("sequenceId" -> self.props.wrapped.operation.sequence.value)
               )
               self.props.history.push(s"/consultation/${self.props.wrapped.operation.slug}")
             }
