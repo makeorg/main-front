@@ -116,12 +116,9 @@ object Proposal {
                               if (self.state.maybeOperation.isDefined) {
                                 <.div(^.className := ProposalStyles.operationInfoWrapper)(
                                   <.ProposalSOperationInfosComponent(
-                                    ^.wrapped := ProposalSOperationInfosProps(
-                                      operation = self.state.maybeOperation.getOrElse(OperationModel.empty)
-                                    )
+                                    ^.wrapped := ProposalSOperationInfosProps(operation = self.state.maybeOperation.get)
                                   )()
                                 )
-
                               } else {
                                 self.state.maybeTheme.map { theme =>
                                   <.div(^.className := ProposalStyles.themeInfoWrapper)(

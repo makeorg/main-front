@@ -1,7 +1,6 @@
 package org.make.front.components.operation.sequence
 
 import io.github.shogowada.scalajs.reactjs.React
-import io.github.shogowada.scalajs.reactjs.React.Self
 import io.github.shogowada.scalajs.reactjs.VirtualDOM.{<, _}
 import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import io.github.shogowada.scalajs.reactjs.events.MouseSyntheticEvent
@@ -15,103 +14,60 @@ import org.make.front.components.sequence.SequenceContainer.SequenceContainerPro
 import org.make.front.facades.Unescape.unescape
 import org.make.front.facades.{I18n, Replacements}
 import org.make.front.models.{
-  Location,
-  OperationDesignData,
   OperationExtraSlidesParams,
   ProposalId,
-  SequenceId,
   GradientColor     => GradientColorModel,
   OperationExpanded => OperationModel,
-  Sequence          => SequenceModel,
-  TranslatedTheme   => TranslatedThemeModel
+  Sequence          => SequenceModel
 }
 import org.make.front.styles._
 import org.make.front.styles.base._
 import org.make.front.styles.ui.{CTAStyles, TooltipStyles}
 import org.make.front.styles.utils._
 import org.make.front.styles.vendors.FontAwesomeStyles
-import org.make.services.sequence.SequenceService
 import org.make.services.tracking.TrackingService.TrackingContext
 import org.make.services.tracking.{TrackingLocation, TrackingService}
 
-import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
-import scala.util.{Failure, Success}
 
 object SequenceOfTheOperation {
 
   final case class SequenceOfTheOperationProps(maybeFirstProposalSlug: Option[String],
                                                isConnected: Boolean,
-                                               operation: Future[Option[OperationModel]],
-                                               maybeTheme: Option[TranslatedThemeModel],
-                                               maybeOperation: Option[OperationModel],
-                                               maybeLocation: Option[Location],
-                                               redirectHome: () => Unit)
+                                               operation: OperationModel,
+                                               startSequence: (Seq[ProposalId]) => Future[SequenceModel],
+                                               redirectHome: ()                 => Unit,
+                                               sequence: SequenceModel)
 
   final case class SequenceOfTheOperationState(isProposalModalOpened: Boolean,
                                                numberOfProposals: Int,
-                                               sequenceTitle: String = "",
-                                               sequence: Option[SequenceModel] = None,
-                                               operation: OperationModel = OperationModel.empty,
+                                               operation: OperationModel,
                                                extraSlides: Seq[ExtraSlide])
 
-  lazy val reactClass: ReactClass = {
-    def loadSequence(
-      self: Self[SequenceOfTheOperationProps, SequenceOfTheOperationState]
-    )(proposals: Seq[ProposalId]): Future[SequenceModel] = {
-
-      self.state.sequence match {
-        case Some(sequence) =>
-          SequenceService.startSequenceById(sequenceId = sequence.sequenceId, includes = proposals).map { seq =>
-            self.setState(_.copy(numberOfProposals = seq.proposals.size))
-            seq
-          }
-        case _ =>
-          Future.successful(SequenceModel(SequenceId("fake"), "", ""))
-      }
-    }
-
+  lazy val reactClass: ReactClass =
     React.createClass[SequenceOfTheOperationProps, SequenceOfTheOperationState](
       displayName = "SequenceOfTheOperation",
       getInitialState = { self =>
-        SequenceOfTheOperationState(isProposalModalOpened = false, numberOfProposals = 0, extraSlides = Seq.empty)
-      },
-      componentDidMount = { (self) =>
-        self.props.wrapped.operation.onComplete {
-          case Failure(_) => self.props.wrapped.redirectHome()
-          case Success(maybeOperation) =>
-            val operation: OperationModel = maybeOperation.getOrElse(OperationModel.empty)
-            operation.sequence match {
-              case Some(sequenceId) =>
-                SequenceService.startSequenceById(sequenceId = sequenceId, includes = Seq.empty).onComplete {
-                  case Failure(_) => self.setState(_.copy(operation = operation, sequenceTitle = "", sequence = None))
-                  case Success(sequence) =>
-                    self.setState(
-                      _.copy(
-                        operation = operation,
-                        sequenceTitle = sequence.title,
-                        sequence = Some(sequence),
-                        numberOfProposals = sequence.proposals.size,
-                        extraSlides = operation.extraSlides(
-                          OperationExtraSlidesParams(
-                            operation,
-                            self.props.wrapped.isConnected,
-                            Some(sequence),
-                            self.props.wrapped.maybeLocation
-                          )
-                        )
-                      )
-                    )
-                }
-              case _ => self.setState(_.copy(operation = operation, sequenceTitle = "", sequence = None))
-            }
-        }
+        SequenceOfTheOperationState(
+          isProposalModalOpened = false,
+          numberOfProposals = self.props.wrapped.sequence.proposals.size,
+          extraSlides = self.props.wrapped.operation.extraSlides(
+            OperationExtraSlidesParams(
+              self.props.wrapped.operation,
+              self.props.wrapped.isConnected,
+              Some(self.props.wrapped.sequence),
+              None
+            )
+          ),
+          operation = self.props.wrapped.operation
+        )
       },
       render = { self =>
+        val operation = self.state.operation
         val guidedState: Boolean = false
 
         val gradientValues: GradientColorModel =
-          self.state.operation.gradient.getOrElse(GradientColorModel("#FFF", "#FFF"))
+          operation.gradient.getOrElse(GradientColorModel("#FFF", "#FFF"))
 
         val closeProposalModal: () => Unit = () => {
           self.setState(state => state.copy(isProposalModalOpened = false))
@@ -122,8 +78,8 @@ object SequenceOfTheOperation {
           self.setState(state => state.copy(isProposalModalOpened = true))
           TrackingService.track(
             "click-proposal-submit-form-open",
-            TrackingContext(TrackingLocation.sequencePage, Some(self.state.operation.slug)),
-            Map("sequenceId" -> self.state.sequence.map(_.sequenceId.value).getOrElse(""))
+            TrackingContext(TrackingLocation.sequencePage, Some(operation.slug)),
+            Map("sequenceId" -> self.props.wrapped.sequence.sequenceId.value)
           )
         }
 
@@ -156,7 +112,7 @@ object SequenceOfTheOperation {
                   )(
                     <.Link(
                       ^.className := SequenceOfTheOperationStyles.backLink,
-                      ^.to := s"/consultation/${self.state.operation.slug}"
+                      ^.to := s"/consultation/${operation.slug}"
                     )(
                       <.i(
                         ^.className := Seq(SequenceOfTheOperationStyles.backLinkArrow, FontAwesomeStyles.angleLeft)
@@ -173,7 +129,7 @@ object SequenceOfTheOperation {
                   ),
                   <.div(^.className := Seq(TableLayoutStyles.cell, SequenceOfTheOperationStyles.titleWrapper))(
                     <.h1(^.className := Seq(SequenceOfTheOperationStyles.title, TextStyles.smallTitle))(
-                      unescape(self.state.sequenceTitle)
+                      unescape(self.props.wrapped.sequence.title)
                     ),
                     <.h2(
                       ^.className := Seq(
@@ -229,10 +185,10 @@ object SequenceOfTheOperation {
                     )(
                       <.SubmitProposalInRelationToOperationComponent(
                         ^.wrapped := SubmitProposalInRelationToOperationProps(
-                          operation = self.state.operation,
+                          operation = operation,
                           onProposalProposed = closeProposalModal,
-                          maybeSequence = self.state.sequence,
-                          maybeLocation = self.props.wrapped.maybeLocation
+                          maybeSequence = Some(self.props.wrapped.sequence.sequenceId),
+                          maybeLocation = None
                         )
                       )()
                     )
@@ -245,14 +201,14 @@ object SequenceOfTheOperation {
             <.div(^.className := TableLayoutStyles.cellVerticalAlignMiddle)(
               <.SequenceContainerComponent(
                 ^.wrapped := SequenceContainerProps(
-                  loadSequence = loadSequence(self),
-                  sequence = self.state.sequence,
+                  loadSequence = self.props.wrapped.startSequence,
+                  sequence = self.props.wrapped.sequence,
                   progressBarColor = Some(gradientValues.from),
                   maybeFirstProposalSlug = self.props.wrapped.maybeFirstProposalSlug,
                   extraSlides = self.state.extraSlides,
-                  maybeTheme = self.props.wrapped.maybeTheme,
-                  maybeOperation = self.props.wrapped.maybeOperation,
-                  maybeLocation = self.props.wrapped.maybeLocation
+                  maybeTheme = None,
+                  maybeOperation = Some(operation),
+                  maybeLocation = None
                 )
               )()
             )
@@ -261,7 +217,7 @@ object SequenceOfTheOperation {
         )
       }
     )
-  }
+
 }
 
 object SequenceOfTheOperationStyles extends StyleSheet.Inline {

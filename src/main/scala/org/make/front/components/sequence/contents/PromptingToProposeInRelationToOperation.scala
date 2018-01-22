@@ -10,21 +10,26 @@ import org.make.front.components.modals.FullscreenModal.FullscreenModalProps
 import org.make.front.components.operation.SubmitProposalInRelationToOperation.SubmitProposalInRelationToOperationProps
 import org.make.front.facades.I18n
 import org.make.front.facades.Unescape.unescape
-import org.make.front.models.{Location => LocationModel, OperationExpanded => OperationModel, Sequence => SequenceModel}
+import org.make.front.models.{
+  SequenceId,
+  Location          => LocationModel,
+  OperationExpanded => OperationModel,
+  Sequence          => SequenceModel
+}
 import org.make.front.styles.ThemeStyles
 import org.make.front.styles.base.{LayoutRulesStyles, TextStyles}
 import org.make.front.styles.ui.CTAStyles
 import org.make.front.styles.utils._
 import org.make.front.styles.vendors.FontAwesomeStyles
-import org.make.services.tracking.{TrackingLocation, TrackingService}
 import org.make.services.tracking.TrackingService.TrackingContext
+import org.make.services.tracking.{TrackingLocation, TrackingService}
 
 object PromptingToProposeInRelationToOperation {
 
   final case class PromptingToProposeInRelationToOperationProps(operation: OperationModel,
                                                                 clickOnButtonHandler: () => Unit,
                                                                 proposeHandler: ()       => Unit,
-                                                                maybeSequence: Option[SequenceModel],
+                                                                maybeSequence: Option[SequenceId],
                                                                 maybeLocation: Option[LocationModel])
 
   final case class PromptingToProposeInRelationToOperationState(isProposalModalOpened: Boolean)
@@ -47,7 +52,7 @@ object PromptingToProposeInRelationToOperation {
             TrackingService.track(
               "click-proposal-submit-form-open",
               TrackingContext(TrackingLocation.sequenceProposalPushCard, Some(self.props.wrapped.operation.slug)),
-              Map("sequenceId" -> self.props.wrapped.maybeSequence.map(_.sequenceId.value).getOrElse(""))
+              Map("sequenceId" -> self.props.wrapped.maybeSequence.map(_.value).getOrElse(""))
             )
           }
 
@@ -56,7 +61,7 @@ object PromptingToProposeInRelationToOperation {
             TrackingService.track(
               "click-proposal-push-card-ignore",
               TrackingContext(TrackingLocation.sequencePage, Some(self.props.wrapped.operation.slug)),
-              Map("sequenceId" -> self.props.wrapped.maybeSequence.map(_.sequenceId.value).getOrElse(""))
+              Map("sequenceId" -> self.props.wrapped.maybeSequence.map(_.value).getOrElse(""))
             )
           }
 

@@ -15,44 +15,22 @@ import org.make.front.styles.utils._
 import org.make.services.tracking.TrackingService.TrackingContext
 import org.make.services.tracking.{TrackingLocation, TrackingService}
 
-import scala.concurrent.ExecutionContext.Implicits.global
-import scala.concurrent.Future
-import scala.util.{Failure, Success}
-
 object FeaturedOperation {
 
-  final case class FeaturedOperationProps(futureMaybeOperation: Future[Option[OperationModel]])
+  final case class FeaturedOperationProps(operation: OperationModel)
   final case class OperationState(operation: OperationModel)
 
   lazy val reactClass: ReactClass =
     React
-      .createClass[FeaturedOperationProps, OperationState](
+      .createClass[FeaturedOperationProps, Unit](
         displayName = "FeaturedOperation",
-        componentDidMount = { self =>
-          self.props.wrapped.futureMaybeOperation.onComplete {
-            case Success(maybeOperation) =>
-              maybeOperation match {
-                case Some(operation) =>
-                  self.setState(_.copy(operation = operation))
-                case _ =>
-                  self.setState(_.copy(operation = OperationModel.empty))
-              }
-            case Failure(_) => // Let parent handle logging error
-          }
-        },
-        getInitialState = { _ =>
-          OperationState(OperationModel.empty)
-        },
         render = (self) => {
 
-          val operation: OperationModel = self.state.operation
+          val operation: OperationModel = self.props.wrapped.operation
 
           def onclick: () => Unit = { () =>
             TrackingService
-              .track(
-                "click-homepage-header",
-                TrackingContext(TrackingLocation.operationPage, Some(self.state.operation.slug))
-              )
+              .track("click-homepage-header", TrackingContext(TrackingLocation.operationPage, Some(operation.slug)))
             scalajs.js.Dynamic.global.window.open(operation.wording.learnMoreUrl.get, "_blank")
           }
           <.section(^.className := Seq(TableLayoutStyles.wrapper, FeaturedOperationStyles.wrapper))(
