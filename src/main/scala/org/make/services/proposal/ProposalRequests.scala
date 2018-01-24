@@ -1,20 +1,19 @@
 package org.make.services.proposal
 
-import org.make.front.models.Source
-
 import scala.scalajs.js
 import scala.scalajs.js.JSConverters._
 
-final case class RegisterProposalRequest(content: String)
+final case class RegisterProposalRequest(content: String, operationId: Option[String])
 
 @js.native
 trait JsRegisterProposalRequest extends js.Object {
   val content: String
+  val operationId: js.UndefOr[String]
 }
 
 object JsRegisterProposalRequest {
   def apply(registerProposalRequest: RegisterProposalRequest): JsRegisterProposalRequest = {
-    js.Dynamic.literal(content = registerProposalRequest.content).asInstanceOf[JsRegisterProposalRequest]
+    js.Dynamic.literal(content = registerProposalRequest.content, operationId = registerProposalRequest.operationId.orUndefined).asInstanceOf[JsRegisterProposalRequest]
   }
 }
 

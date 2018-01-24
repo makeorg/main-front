@@ -47,6 +47,7 @@ trait ProposalResponse extends js.Object {
   val themeId: js.UndefOr[String]
   val tags: js.Array[TagResponse]
   val myProposal: Boolean
+  val operationId: js.UndefOr[String]
 }
 
 @js.native
