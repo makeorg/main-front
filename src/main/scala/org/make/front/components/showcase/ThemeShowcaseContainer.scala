@@ -6,11 +6,11 @@ import io.github.shogowada.scalajs.reactjs.redux.ReactRedux
 import io.github.shogowada.scalajs.reactjs.redux.Redux.Dispatch
 import org.make.front.components.AppState
 import org.make.front.models.{
+  SequenceId,
   Label             => LabelModel,
-  TranslatedTheme   => TranslatedThemeModel,
   Location          => LocationModel,
   OperationExpanded => OperationModel,
-  Sequence          => SequenceModel
+  TranslatedTheme   => TranslatedThemeModel
 }
 import org.make.services.proposal.{ProposalService, SearchResult}
 
@@ -22,7 +22,7 @@ object ThemeShowcaseContainer {
                                                maybeIntro: Option[String] = None,
                                                maybeNews: Option[String] = None,
                                                maybeOperation: Option[OperationModel] = None,
-                                               maybeSequence: Option[SequenceModel] = None,
+                                               maybeSequenceId: Option[SequenceId] = None,
                                                maybeLocation: Option[LocationModel] = None)
 
   lazy val reactClass: ReactClass = ReactRedux.connectAdvanced(selectorFactory)(ThemeShowcase.reactClass)
@@ -48,7 +48,7 @@ object ThemeShowcaseContainer {
           maybeIntro = props.wrapped.maybeIntro,
           maybeNews = props.wrapped.maybeNews,
           maybeOperation = props.wrapped.maybeOperation,
-          maybeSequence = props.wrapped.maybeSequence,
+          maybeSequenceId = props.wrapped.maybeSequenceId,
           maybeLocation = props.wrapped.maybeLocation
         )
       }.getOrElse(

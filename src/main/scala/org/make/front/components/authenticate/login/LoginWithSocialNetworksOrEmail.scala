@@ -18,6 +18,7 @@ import org.make.services.tracking.TrackingService.TrackingContext
 object LoginWithSocialNetworksOrEmail {
 
   case class LoginWithSocialNetworksOrEmailProps(trackingContext: TrackingContext,
+                                                 trackingParameters: Map[String, String],
                                                  onSuccessfulLogin: () => Unit = () => {},
                                                  operationId: Option[OperationId])
 
@@ -32,6 +33,7 @@ object LoginWithSocialNetworksOrEmail {
           <.AuthenticateWithSocialNetworksComponent(
             ^.wrapped := AuthenticateWithSocialNetworksProps(
               trackingContext = self.props.wrapped.trackingContext,
+              trackingParameters = self.props.wrapped.trackingParameters,
               onSuccessfulLogin = self.props.wrapped.onSuccessfulLogin,
               operationId = self.props.wrapped.operationId
             )
@@ -48,6 +50,7 @@ object LoginWithSocialNetworksOrEmail {
             ^.wrapped := LoginWithEmailContainerProps(
               note = "",
               trackingContext = self.props.wrapped.trackingContext,
+              trackingParameters = self.props.wrapped.trackingParameters,
               onSuccessfulLogin = self.props.wrapped.onSuccessfulLogin
             )
           )(),

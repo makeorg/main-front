@@ -10,7 +10,7 @@ import org.make.front.components.authenticate.LoginOrRegister.LoginOrRegisterPro
 import org.make.front.components.modals.Modal.ModalProps
 import org.make.front.facades.I18n
 import org.make.front.facades.Unescape.unescape
-import org.make.front.models.{OperationExpanded => OperationModel}
+import org.make.front.models.{SequenceId, OperationExpanded => OperationModel}
 import org.make.front.styles.ThemeStyles
 import org.make.front.styles.base.{LayoutRulesStyles, TextStyles}
 import org.make.front.styles.ui.CTAStyles
@@ -23,6 +23,8 @@ object PromptingToConnect {
 
   final case class PromptingToConnectProps(operation: OperationModel,
                                            trackingContext: TrackingContext,
+                                           trackingParameters: Map[String, String],
+                                           sequenceId: SequenceId,
                                            clickOnButtonHandler: () => Unit,
                                            authenticateHandler: ()  => Unit)
 
@@ -36,16 +38,17 @@ object PromptingToConnect {
           PromptingToConnectState(isAuthenticateModalOpened = false)
         },
         render = { self =>
+          val defaultTrackingParameters = Map("sequenceId" -> self.props.wrapped.sequenceId.value)
+
           def openLoginAuthenticateModal() = () => {
             self.setState(state => state.copy(isAuthenticateModalOpened = true, loginOrRegisterView = "login"))
-            TrackingService.track(
-              "click-sign-up-card-sign-in",
-              self.props.wrapped.trackingContext,
-              Map("sequenceId" -> self.props.wrapped.operation.sequence.value)
-            )
+            TrackingService
+              .track("click-sign-up-card-sign-in", self.props.wrapped.trackingContext, defaultTrackingParameters)
           }
 
           def openRegisterAuthenticateModal() = () => {
+            TrackingService
+              .track("click-sign-up-card-email", self.props.wrapped.trackingContext, defaultTrackingParameters)
             self.setState(state => state.copy(isAuthenticateModalOpened = true, loginOrRegisterView = "register"))
           }
 
@@ -54,7 +57,7 @@ object PromptingToConnect {
           }
 
           val skipSignup: () => Unit = { () =>
-            TrackingService.track("skip-sign-up-card", self.props.wrapped.trackingContext)
+            TrackingService.track("skip-sign-up-card", self.props.wrapped.trackingContext, defaultTrackingParameters)
             self.props.wrapped.clickOnButtonHandler()
           }
 
@@ -73,6 +76,7 @@ object PromptingToConnect {
                   <.AuthenticateWithFacebookContainerComponent(
                     ^.wrapped := AuthenticateWithFacebookContainerProps(
                       trackingContext = self.props.wrapped.trackingContext,
+                      trackingParameters = defaultTrackingParameters,
                       onSuccessfulLogin = () => {
                         self.props.wrapped.authenticateHandler()
                       },
@@ -107,6 +111,7 @@ object PromptingToConnect {
                 <.LoginOrRegisterComponent(
                   ^.wrapped := LoginOrRegisterProps(
                     trackingContext = self.props.wrapped.trackingContext,
+                    trackingParameters = self.props.wrapped.trackingParameters,
                     displayView = self.state.loginOrRegisterView,
                     onSuccessfulLogin = () => {
                       self.setState(_.copy(isAuthenticateModalOpened = false))

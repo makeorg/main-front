@@ -15,7 +15,7 @@ import org.make.front.facades.ReactInfiniteScroller.{
 }
 import org.make.front.facades.Unescape.unescape
 import org.make.front.facades.{I18n, Replacements}
-import org.make.front.models.{Location, Proposal, OperationExpanded => OperationModel, Sequence => SequenceModel}
+import org.make.front.models.{Location, Proposal, SequenceId, OperationExpanded => OperationModel}
 import org.make.front.styles.ThemeStyles
 import org.make.front.styles.base.{ColRulesStyles, LayoutRulesStyles, TableLayoutStyles, TextStyles}
 import org.make.front.styles.ui.CTAStyles
@@ -31,7 +31,7 @@ import scala.util.{Failure, Success}
 object SearchResults {
   final case class SearchResultsProps(onMoreResultsRequested: (Seq[Proposal], Option[String]) => Future[SearchResult],
                                       searchValue: Option[String],
-                                      maybeSequence: Option[SequenceModel],
+                                      maybeSequence: Option[SequenceId],
                                       maybeOperation: Option[OperationModel],
                                       maybeLocation: Option[Location])
 
@@ -118,7 +118,7 @@ object SearchResults {
                           ProposalTileWithThemeContainerProps(
                             proposal = proposal,
                             index = counter.getAndIncrement(),
-                            maybeSequence = self.props.wrapped.maybeSequence,
+                            maybeSequenceId = self.props.wrapped.maybeSequence,
                             maybeOperation = self.props.wrapped.maybeOperation,
                             maybeLocation = self.props.wrapped.maybeLocation,
                             trackingLocation = TrackingLocation.searchResultsPage

@@ -8,21 +8,14 @@ import org.make.front.components.Components._
 import org.make.front.components.operation.OperationHeader.OperationHeaderProps
 import org.make.front.components.operation.OperationIntro.OperationIntroProps
 import org.make.front.components.operation.ResultsInOperationContainer.ResultsInOperationContainerProps
-import org.make.front.models.{
-  Location          => LocationModel,
-  OperationExpanded => OperationModel,
-  Sequence          => SequenceModel,
-  TranslatedTheme   => TranslatedThemeModel
-}
+import org.make.front.models.{Location => LocationModel, OperationExpanded => OperationModel}
 import org.make.front.styles.ThemeStyles
 import org.make.services.tracking.TrackingService.TrackingContext
 import org.make.services.tracking.{TrackingLocation, TrackingService}
 
 object Operation {
 
-  final case class OperationProps(operation: OperationModel,
-                                  maybeTheme: Option[TranslatedThemeModel],
-                                  maybeSequence: Option[SequenceModel])
+  final case class OperationProps(operation: OperationModel)
 
   final case class OperationState(operation: OperationModel)
 
@@ -49,7 +42,6 @@ object Operation {
             <.OperationHeaderComponent(
               ^.wrapped := OperationHeaderProps(
                 self.state.operation,
-                maybeSequence = self.props.wrapped.maybeSequence,
                 maybeLocation = Some(LocationModel.OperationPage(self.state.operation.operationId))
               )
             )(),
@@ -57,8 +49,6 @@ object Operation {
               <.ResultsInOperationContainerComponent(
                 ^.wrapped := ResultsInOperationContainerProps(
                   currentOperation = self.state.operation,
-                  maybeTheme = self.props.wrapped.maybeTheme,
-                  maybeSequence = self.props.wrapped.maybeSequence,
                   maybeLocation = Some(LocationModel.OperationPage(self.state.operation.operationId))
                 )
               )()

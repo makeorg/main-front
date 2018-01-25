@@ -39,7 +39,7 @@ object TrendingShowcase {
             proposal = proposal,
             index = counter.getAndIncrement(),
             maybeOperation = None,
-            maybeSequence = None,
+            maybeSequenceId = None,
             maybeLocation = maybeLocation,
             trackingLocation = TrackingLocation.showcaseHomepage
           )
@@ -52,7 +52,7 @@ object TrendingShowcase {
             index = counter.getAndIncrement(),
             maybeTheme = None,
             maybeOperation = None,
-            maybeSequence = None,
+            maybeSequenceId = None,
             maybeLocation = maybeLocation,
             trackingLocation = TrackingLocation.showcaseHomepage
           )

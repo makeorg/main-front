@@ -6,8 +6,8 @@ import io.github.shogowada.scalajs.reactjs.redux.ReactRedux
 import org.make.front.actions.LoggedInAction
 import org.make.front.components.AppState
 import org.make.front.components.authenticate.login.LoginWithEmail.LoginWithEmailProps
+import org.make.services.tracking.TrackingService
 import org.make.services.tracking.TrackingService.TrackingContext
-import org.make.services.tracking.{TrackingLocation, TrackingService}
 import org.make.services.user.UserService
 
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -18,6 +18,7 @@ object LoginWithEmailContainer {
 
   case class LoginWithEmailContainerProps(note: String,
                                           trackingContext: TrackingContext,
+                                          trackingParameters: Map[String, String],
                                           onSuccessfulLogin: () => Unit = () => {})
 
   val reactClass: ReactClass = ReactRedux.connectAdvanced {
@@ -26,17 +27,26 @@ object LoginWithEmailContainer {
         val result = UserService.login(email, password)
         result.onComplete {
           case Success(user) =>
-            TrackingService.track("signin-email-success", props.wrapped.trackingContext)
+            TrackingService.track(
+              "signin-email-success",
+              props.wrapped.trackingContext,
+              props.wrapped.trackingParameters
+            )
             dispatch(LoggedInAction(user))
             props.wrapped.onSuccessfulLogin()
           case Failure(_) =>
-            TrackingService.track("signin-email-failure", props.wrapped.trackingContext)
+            TrackingService.track(
+              "signin-email-failure",
+              props.wrapped.trackingContext,
+              props.wrapped.trackingParameters
+            )
         }
         result
       }
       LoginWithEmailProps(
         note = props.wrapped.note,
         trackingContext = props.wrapped.trackingContext,
+        trackingParameters = props.wrapped.trackingParameters,
         connectUser = signIn
       )
   }(LoginWithEmail.reactClass)

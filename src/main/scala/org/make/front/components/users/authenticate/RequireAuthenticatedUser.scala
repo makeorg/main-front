@@ -13,6 +13,7 @@ object RequireAuthenticatedUser {
 
   case class RequireAuthenticatedUserProps(operationId: Option[OperationId],
                                            trackingContext: TrackingContext,
+                                           trackingParameters: Map[String, String],
                                            intro: ReactElement,
                                            registerView: String,
                                            defaultView: String = "register",
@@ -46,6 +47,7 @@ object RequireAuthenticatedUser {
               // once the user is connected. if we map it here, the callback will be called twice
               ^.wrapped := LoginOrRegisterProps(
                 trackingContext = self.props.wrapped.trackingContext,
+                trackingParameters = self.props.wrapped.trackingParameters,
                 operationId = self.props.wrapped.operationId,
                 registerView = props.registerView,
                 displayView = props.defaultView,

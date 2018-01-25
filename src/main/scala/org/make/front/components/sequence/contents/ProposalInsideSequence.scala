@@ -11,11 +11,11 @@ import org.make.front.facades.I18n
 import org.make.front.facades.Unescape.unescape
 import org.make.front.helpers.ProposalAuthorInfosFormat
 import org.make.front.models.{
+  SequenceId,
   Location          => LocationModel,
   OperationExpanded => OperationModel,
   Proposal          => ProposalModel,
   Qualification     => QualificationModel,
-  Sequence          => SequenceModel,
   TranslatedTheme   => TranslatedThemeModel,
   Vote              => VoteModel
 }
@@ -39,7 +39,7 @@ object ProposalInsideSequence {
                                                index: Int,
                                                maybeTheme: Option[TranslatedThemeModel],
                                                maybeOperation: Option[OperationModel],
-                                               maybeSequence: Option[SequenceModel],
+                                               sequenceId: SequenceId,
                                                maybeLocation: Option[LocationModel])
 
   final case class ProposalInsideSequenceState(hasBeenVoted: Boolean)
@@ -75,7 +75,7 @@ object ProposalInsideSequence {
                     trackingLocation = TrackingLocation.sequencePage,
                     maybeTheme = self.props.wrapped.maybeTheme,
                     maybeOperation = self.props.wrapped.maybeOperation,
-                    maybeSequence = self.props.wrapped.maybeSequence,
+                    maybeSequenceId = Some(self.props.wrapped.sequenceId),
                     maybeLocation = self.props.wrapped.maybeLocation
                   )
                 )(),

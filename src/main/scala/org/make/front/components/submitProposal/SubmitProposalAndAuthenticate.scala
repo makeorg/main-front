@@ -35,6 +35,7 @@ object SubmitProposalAndAuthenticate {
 
   case class SubmitProposalAndAuthenticateProps(intro: (ReactElement) => ReactElement,
                                                 trackingContext: TrackingContext,
+                                                trackingParameters: Map[String, String],
                                                 maybeTheme: Option[TranslatedThemeModel],
                                                 maybeOperation: Option[OperationModel],
                                                 onProposalProposed: () => Unit,
@@ -47,7 +48,8 @@ object SubmitProposalAndAuthenticate {
         SubmitProposalAndAuthenticateState.empty
       },
       componentWillReceiveProps = { (_, props) =>
-        TrackingService.track("display-proposal-submit-journey", props.wrapped.trackingContext)
+        TrackingService
+          .track("display-proposal-submit-journey", props.wrapped.trackingContext, props.wrapped.trackingParameters)
       },
       render = { self =>
         val props = self.props.wrapped
@@ -75,6 +77,7 @@ object SubmitProposalAndAuthenticate {
               <.SubmitProposalFormContainerComponent(
                 ^.wrapped := SubmitProposalFormContainerProps(
                   trackingContext = self.props.wrapped.trackingContext,
+                  trackingParameters = self.props.wrapped.trackingParameters,
                   maybeTheme = props.maybeTheme,
                   errorMessage = None,
                   handleSubmitProposalForm = handleSubmitProposal
@@ -104,6 +107,7 @@ object SubmitProposalAndAuthenticate {
               ^.wrapped := RequireAuthenticatedUserContainerProps(
                 operationId = self.props.wrapped.maybeOperation.map(_.operationId),
                 trackingContext = self.props.wrapped.trackingContext,
+                trackingParameters = self.props.wrapped.trackingParameters,
                 intro = intro,
                 onceConnected = onConnectionOk,
                 defaultView = "register-expanded",
@@ -117,6 +121,7 @@ object SubmitProposalAndAuthenticate {
           <.div(^.className := LayoutRulesStyles.centeredRow)(
             <.ConfirmationOfProposalSubmissionComponent(
               ^.wrapped := ConfirmationOfProposalSubmissionProps(
+                trackingParameters = self.props.wrapped.trackingParameters,
                 maybeTheme = self.props.wrapped.maybeTheme,
                 maybeOperation = self.props.wrapped.maybeOperation,
                 onBack = self.props.wrapped.onProposalProposed,

@@ -26,6 +26,7 @@ import scala.util.{Failure, Success}
 object AuthenticateWithFacebookButton {
 
   case class AuthenticateWithFacebookButtonProps(trackingContext: TrackingContext,
+                                                 trackingParameters: Map[String, String],
                                                  isConnected: Boolean,
                                                  signIn: (Response) => Future[_],
                                                  facebookAppId: String,
@@ -41,9 +42,13 @@ object AuthenticateWithFacebookButton {
         AuthenticateWithFacebookButtonState(Seq.empty)
       },
       render = { self =>
-        def trackFailure(provider: String) = {
+        def trackFailure(provider: String): Unit = {
           TrackingService
-            .track("authen-social-failure", self.props.wrapped.trackingContext, Map("social-network" -> provider))
+            .track(
+              "authen-social-failure",
+              self.props.wrapped.trackingContext,
+              self.props.wrapped.trackingParameters + ("social-network" -> provider)
+            )
         }
 
         // @toDo: manage specific errors
@@ -51,7 +56,11 @@ object AuthenticateWithFacebookButton {
           result.onComplete {
             case Success(_) =>
               TrackingService
-                .track("authen-social-success", self.props.wrapped.trackingContext, Map("social-network" -> provider))
+                .track(
+                  "authen-social-success",
+                  self.props.wrapped.trackingContext,
+                  self.props.wrapped.trackingParameters + ("social-network" -> provider)
+                )
               self.setState(AuthenticateWithFacebookButtonState())
             case Failure(UnauthorizedHttpException) =>
               trackFailure(provider)

@@ -41,24 +41,24 @@ object OperationDesignData {
   }
 
   val defaultSlides: OperationExtraSlidesParams => Seq[ExtraSlide] = (params: OperationExtraSlidesParams) => {
-    val trackingContext = TrackingContext(TrackingLocation.operationPage, Some(params.operation.slug))
-
+    val trackingContext = TrackingContext(TrackingLocation.sequencePage, Some(params.operation.slug))
+    val defaultTrackingParameters = Map("sequenceId" -> params.sequence.sequenceId.value)
     Seq(
       ExtraSlide(
-        displayed = false,
         reactClass = IntroductionOfTheSequence.reactClass,
+        maybeTracker = Some(
+          DisplayTracker(
+            name = "display-sequence-intro-card",
+            context = trackingContext,
+            parameters = defaultTrackingParameters
+          )
+        ),
+        displayed = false,
         props = { (handler: () => Unit) =>
           {
             val onClick: () => Unit = () => {
-              TrackingService.track(
-                "click-sequence-launch",
-                trackingContext,
-                Map(
-                  "sequenceId" -> params.maybeSequence
-                    .map(_.sequenceId.value)
-                    .getOrElse("")
-                )
-              )
+              TrackingService
+                .track("click-sequence-launch", trackingContext, defaultTrackingParameters)
               handler()
             }
             IntroductionOfTheSequenceProps(clickOnButtonHandler = onClick)
@@ -68,17 +68,15 @@ object OperationDesignData {
       ),
       ExtraSlide(
         maybeTracker = Some(
-          DisplayTracker(
-            "display-sign-up-card",
-            trackingContext,
-            Map("sequenceId" -> params.maybeSequence.map(_.sequenceId.value).getOrElse(""))
-          )
+          DisplayTracker("display-sign-up-card", trackingContext, Map("sequenceId" -> params.sequence.sequenceId.value))
         ),
         reactClass = PromptingToConnect.reactClass,
         props = { handler =>
           PromptingToConnectProps(
             operation = params.operation,
-            trackingContext = TrackingContext(TrackingLocation.sequencePage, Some(params.operation.slug)),
+            sequenceId = params.sequence.sequenceId,
+            trackingContext = trackingContext,
+            trackingParameters = defaultTrackingParameters,
             clickOnButtonHandler = handler,
             authenticateHandler = handler
           )
@@ -89,20 +87,14 @@ object OperationDesignData {
         displayed = !params.isConnected
       ),
       ExtraSlide(
-        maybeTracker = Some(
-          DisplayTracker(
-            "display-proposal-push-card",
-            trackingContext,
-            Map("sequenceId" -> params.maybeSequence.map(_.sequenceId.value).getOrElse(""))
-          )
-        ),
+        maybeTracker = Some(DisplayTracker("display-proposal-push-card", trackingContext, defaultTrackingParameters)),
         reactClass = PromptingToProposeInRelationToOperation.reactClass,
         props = { handler =>
           PromptingToProposeInRelationToOperationProps(
             operation = params.operation,
             clickOnButtonHandler = handler,
             proposeHandler = handler,
-            maybeSequence = params.maybeSequence.map(_.sequenceId),
+            sequenceId = params.sequence.sequenceId,
             maybeLocation = params.maybeLocation
           )
         },
@@ -111,16 +103,14 @@ object OperationDesignData {
         }
       ),
       ExtraSlide(
-        maybeTracker = Some(
-          DisplayTracker(
-            "display-finale-card",
-            trackingContext,
-            Map("sequenceId" -> params.maybeSequence.map(_.sequenceId.value).getOrElse(""))
-          )
-        ),
+        maybeTracker = Some(DisplayTracker("display-finale-card", trackingContext, defaultTrackingParameters)),
         reactClass = PromptingToGoBackToOperation.reactClass,
         props = { handler =>
-          PromptingToGoBackToOperationProps(operation = params.operation, clickOnButtonHandler = handler)
+          PromptingToGoBackToOperationProps(
+            operation = params.operation,
+            clickOnButtonHandler = handler,
+            sequenceId = params.sequence.sequenceId
+          )
         },
         position = { slides =>
           slides.size
@@ -132,23 +122,24 @@ object OperationDesignData {
 
   val cpSlides: OperationExtraSlidesParams => Seq[ExtraSlide] = (params: OperationExtraSlidesParams) => {
 
-    val trackingContext = TrackingContext(TrackingLocation.operationPage, Some(params.operation.slug))
+    val trackingContext = TrackingContext(TrackingLocation.sequencePage, Some(params.operation.slug))
+    val defaultTrackingParameters = Map("sequenceId" -> params.sequence.sequenceId.value)
 
     Seq(
       ExtraSlide(
         reactClass = IntroductionOfTheSequence.reactClass,
+        maybeTracker = Some(
+          DisplayTracker(
+            name = "display-sequence-intro-card",
+            context = trackingContext,
+            parameters = Map("sequenceId" -> params.sequence.sequenceId.value)
+          )
+        ),
         props = { (handler: () => Unit) =>
           {
             val onClick: () => Unit = () => {
-              TrackingService.track(
-                "click-sequence-launch",
-                trackingContext,
-                Map(
-                  "sequenceId" -> params.maybeSequence
-                    .map(_.sequenceId.value)
-                    .getOrElse("")
-                )
-              )
+              TrackingService
+                .track("click-sequence-launch", trackingContext, Map("sequenceId" -> params.sequence.sequenceId.value))
               handler()
             }
             IntroductionOfTheSequenceProps(clickOnButtonHandler = onClick)
@@ -157,18 +148,14 @@ object OperationDesignData {
         position = _ => 0
       ),
       ExtraSlide(
-        maybeTracker = Some(
-          DisplayTracker(
-            "display-sign-up-card",
-            trackingContext,
-            Map("sequenceId" -> params.maybeSequence.map(_.sequenceId.value).getOrElse(""))
-          )
-        ),
+        maybeTracker = Some(DisplayTracker("display-sign-up-card", trackingContext, defaultTrackingParameters)),
         reactClass = PromptingToConnect.reactClass,
         props = { handler =>
           PromptingToConnectProps(
             operation = params.operation,
-            trackingContext = TrackingContext(TrackingLocation.sequencePage, Some(params.operation.slug)),
+            sequenceId = params.sequence.sequenceId,
+            trackingContext = trackingContext,
+            trackingParameters = defaultTrackingParameters,
             clickOnButtonHandler = handler,
             authenticateHandler = handler
           )
@@ -180,20 +167,14 @@ object OperationDesignData {
       ),
       ExtraSlide(
         displayed = false,
-        maybeTracker = Some(
-          DisplayTracker(
-            "display-proposal-push-card",
-            trackingContext,
-            Map("sequenceId" -> params.maybeSequence.map(_.sequenceId.value).getOrElse(""))
-          )
-        ),
+        maybeTracker = Some(DisplayTracker("display-proposal-push-card", trackingContext, defaultTrackingParameters)),
         reactClass = PromptingToProposeInRelationToOperation.reactClass,
         props = { handler =>
           PromptingToProposeInRelationToOperationProps(
             operation = params.operation,
             clickOnButtonHandler = handler,
             proposeHandler = handler,
-            maybeSequence = params.maybeSequence.map(_.sequenceId),
+            sequenceId = params.sequence.sequenceId,
             maybeLocation = params.maybeLocation
           )
         },
@@ -202,16 +183,14 @@ object OperationDesignData {
         }
       ),
       ExtraSlide(
-        maybeTracker = Some(
-          DisplayTracker(
-            "display-finale-card",
-            trackingContext,
-            Map("sequenceId" -> params.maybeSequence.map(_.sequenceId.value).getOrElse(""))
-          )
-        ),
+        maybeTracker = Some(DisplayTracker("display-finale-card", trackingContext, defaultTrackingParameters)),
         reactClass = PromptingToGoBackToOperation.reactClass,
         props = { handler =>
-          PromptingToGoBackToOperationProps(operation = params.operation, clickOnButtonHandler = handler)
+          PromptingToGoBackToOperationProps(
+            operation = params.operation,
+            clickOnButtonHandler = handler,
+            sequenceId = params.sequence.sequenceId
+          )
         },
         position = { slides =>
           slides.size
@@ -294,7 +273,7 @@ final case class OperationWording(title: String,
 
 final case class OperationExtraSlidesParams(operation: OperationExpanded,
                                             isConnected: Boolean,
-                                            maybeSequence: Option[Sequence],
+                                            sequence: Sequence,
                                             maybeLocation: Option[Location])
 
 final case class OperationExpanded(operationId: OperationId,

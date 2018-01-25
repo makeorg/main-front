@@ -35,7 +35,7 @@ object OperationContainer {
           onNotFound = () => {}, // TODO
           childClass = Operation.reactClass,
           createChildProps = { operation =>
-            Operation.OperationProps(operation, None, None)
+            Operation.OperationProps(operation)
           }
         )
       }

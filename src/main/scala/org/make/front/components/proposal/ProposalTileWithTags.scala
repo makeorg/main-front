@@ -12,11 +12,11 @@ import org.make.front.components.proposal.ProposalInfos.ProposalInfosProps
 import org.make.front.components.proposal.ShareOwnProposal.ShareOwnProposalProps
 import org.make.front.components.proposal.vote.VoteContainer.VoteContainerProps
 import org.make.front.models.{
+  SequenceId,
   Location          => LocationModel,
   OperationExpanded => OperationModel,
   Proposal          => ProposalModel,
   Qualification     => QualificationModel,
-  Sequence          => SequenceModel,
   TranslatedTheme   => TranslatedThemeModel,
   Vote              => VoteModel
 }
@@ -36,7 +36,7 @@ object ProposalTileWithTags {
                                              trackingLocation: TrackingLocation,
                                              maybeTheme: Option[TranslatedThemeModel],
                                              maybeOperation: Option[OperationModel],
-                                             maybeSequence: Option[SequenceModel],
+                                             maybeSequenceId: Option[SequenceId],
                                              maybeLocation: Option[LocationModel])
 
   val reactClass: ReactClass =
@@ -79,7 +79,7 @@ object ProposalTileWithTags {
                           trackingLocation = self.props.wrapped.trackingLocation,
                           maybeTheme = self.props.wrapped.maybeTheme,
                           maybeOperation = self.props.wrapped.maybeOperation,
-                          maybeSequence = self.props.wrapped.maybeSequence,
+                          maybeSequenceId = self.props.wrapped.maybeSequenceId,
                           maybeLocation = self.props.wrapped.maybeLocation
                         )
                       )()

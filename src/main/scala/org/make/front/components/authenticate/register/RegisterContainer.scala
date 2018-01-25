@@ -7,7 +7,7 @@ import org.make.front.actions.{LoggedInAction, NotifyInfo}
 import org.make.front.components.AppState
 import org.make.front.facades.I18n
 import org.make.front.models.{OperationId, User => UserModel}
-import org.make.services.tracking.{TrackingLocation, TrackingService}
+import org.make.services.tracking.TrackingService
 import org.make.services.tracking.TrackingService.TrackingContext
 import org.make.services.user.UserService
 
@@ -19,6 +19,7 @@ object RegisterContainer {
 
   case class RegisterUserProps(note: String,
                                trackingContext: TrackingContext,
+                               trackingParameters: Map[String, String],
                                onSuccessfulRegistration: () => Unit = () => {},
                                operationId: Option[OperationId])
 
@@ -41,17 +42,24 @@ object RegisterContainer {
 
         future.onComplete {
           case Success(user) =>
-            TrackingService.track("signup-email-success", props.wrapped.trackingContext)
+            TrackingService
+              .track("signup-email-success", props.wrapped.trackingContext, props.wrapped.trackingParameters)
             dispatch(LoggedInAction(user))
             dispatch(NotifyInfo(message = I18n.t("authenticate.register.notifications.success")))
             props.wrapped.onSuccessfulRegistration()
           case Failure(_) =>
-            TrackingService.track("signup-email-failure", props.wrapped.trackingContext)
+            TrackingService
+              .track("signup-email-failure", props.wrapped.trackingContext, props.wrapped.trackingParameters)
         }
 
         future
       }
-      RegisterProps(props.wrapped.note, trackingContext = props.wrapped.trackingContext, register = register())
+      RegisterProps(
+        props.wrapped.note,
+        trackingContext = props.wrapped.trackingContext,
+        trackingParameters = props.wrapped.trackingParameters,
+        register = register()
+      )
   }
 
   val registerWithEmailReactClass: ReactClass = selector(RegisterWithEmail.reactClass)

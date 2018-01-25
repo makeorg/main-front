@@ -22,9 +22,7 @@ import org.make.front.models.{
   Proposal          => ProposalModel,
   ProposalId        => ProposalIdModel,
   Qualification     => QualificationModel,
-  Sequence          => SequenceModel,
   Tag               => TagModel,
-  TranslatedTheme   => TranslatedThemeModel,
   Vote              => VoteModel
 }
 import org.make.front.styles._
@@ -47,8 +45,6 @@ object ResultsInOperation {
     onTagSelectionChange: (Seq[TagModel], Option[Int])                       => Future[SearchResult],
     proposals: Future[SearchResult],
     preselectedTags: Seq[TagModel],
-    maybeTheme: Option[TranslatedThemeModel],
-    maybeSequence: Option[SequenceModel],
     maybeLocation: Option[LocationModel]
   )
 
@@ -231,9 +227,9 @@ object ResultsInOperation {
                         handleSuccessfulQualification = onSuccessfulQualification(proposal.id, self),
                         index = counter.getAndIncrement(),
                         trackingLocation = TrackingLocation.operationPage,
-                        maybeTheme = self.props.wrapped.maybeTheme,
+                        maybeTheme = None,
                         maybeOperation = Some(self.props.wrapped.operation),
-                        maybeSequence = self.props.wrapped.maybeSequence,
+                        maybeSequenceId = None,
                         maybeLocation = self.props.wrapped.maybeLocation
                       )
                     )()

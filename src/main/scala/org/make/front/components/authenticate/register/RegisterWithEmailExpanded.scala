@@ -29,7 +29,11 @@ object RegisterWithEmailExpanded {
       displayName = "RegisterWithEmailExpanded",
       componentDidMount = { self =>
         TrackingService
-          .track("display-signup-form", self.props.wrapped.trackingContext, Map("signup-type" -> "standard"))
+          .track(
+            "display-signup-form",
+            self.props.wrapped.trackingContext,
+            self.props.wrapped.trackingParameters + ("signup-type" -> "standard")
+          )
       },
       getInitialState = { _ =>
         RegisterState(Map(), Map())

@@ -21,6 +21,7 @@ object LoginOrRegister {
 
   case class LoginOrRegisterProps(operationId: Option[OperationId] = None,
                                   trackingContext: TrackingContext,
+                                  trackingParameters: Map[String, String],
                                   registerView: String = "register",
                                   displayView: String,
                                   onSuccessfulLogin: () => Unit = () => {})
@@ -51,6 +52,7 @@ object LoginOrRegister {
             <.LoginWithEmailOrSocialNetworksComponent(
               ^.wrapped := LoginWithSocialNetworksOrEmailProps(
                 props.trackingContext,
+                props.trackingParameters,
                 props.onSuccessfulLogin,
                 props.operationId
               )
@@ -84,6 +86,7 @@ object LoginOrRegister {
               ^.wrapped := RegisterWithSocialNetworksOrEmailProps(
                 operationId = self.props.wrapped.operationId,
                 trackingContext = self.props.wrapped.trackingContext,
+                trackingParameters = self.props.wrapped.trackingParameters,
                 onSuccessfulLogin = props.onSuccessfulLogin
               )
             )()
@@ -92,6 +95,7 @@ object LoginOrRegister {
               ^.wrapped := RegisterWithSocialNetworksOrEmailProps(
                 operationId = self.props.wrapped.operationId,
                 trackingContext = self.props.wrapped.trackingContext,
+                trackingParameters = self.props.wrapped.trackingParameters,
                 onSuccessfulLogin = props.onSuccessfulLogin
               )
             )()

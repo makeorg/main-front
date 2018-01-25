@@ -6,10 +6,10 @@ import io.github.shogowada.scalajs.reactjs.redux.ReactRedux
 import io.github.shogowada.scalajs.reactjs.redux.Redux.Dispatch
 import org.make.front.components.AppState
 import org.make.front.models.{
+  SequenceId,
   Location          => LocationModel,
   OperationExpanded => OperationModel,
   Proposal          => ProposalModel,
-  Sequence          => SequenceModel,
   ThemeId           => ThemeIdModel,
   TranslatedTheme   => TranslatedThemeModel
 }
@@ -20,7 +20,7 @@ object ProposalTileWithThemeContainer {
   final case class ProposalTileWithThemeContainerProps(proposal: ProposalModel,
                                                        index: Int,
                                                        maybeOperation: Option[OperationModel],
-                                                       maybeSequence: Option[SequenceModel],
+                                                       maybeSequenceId: Option[SequenceId],
                                                        maybeLocation: Option[LocationModel],
                                                        trackingLocation: TrackingLocation)
 
@@ -48,7 +48,7 @@ object ProposalTileWithThemeContainer {
         index = props.wrapped.index,
         maybeTheme = theme,
         maybeOperation = props.wrapped.maybeOperation,
-        maybeSequence = props.wrapped.maybeSequence,
+        maybeSequenceId = props.wrapped.maybeSequenceId,
         maybeLocation = props.wrapped.maybeLocation,
         trackingLocation = props.wrapped.trackingLocation
       )

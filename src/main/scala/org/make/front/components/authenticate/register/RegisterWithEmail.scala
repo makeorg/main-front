@@ -32,7 +32,11 @@ object RegisterWithEmail {
       },
       componentDidMount = { self =>
         TrackingService
-          .track("display-signup-form", self.props.wrapped.trackingContext, Map("signup-type" -> "light"))
+          .track(
+            "display-signup-form",
+            self.props.wrapped.trackingContext,
+            self.props.wrapped.trackingParameters + ("signup-type" -> "light")
+          )
       },
       render = { self =>
         def updateField(name: String): (FormSyntheticEvent[HTMLInputElement]) => Unit = { event =>
