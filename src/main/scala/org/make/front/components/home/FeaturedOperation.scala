@@ -60,9 +60,9 @@ object FeaturedOperation {
                 )()
               },
               <.div(^.className := Seq(FeaturedOperationStyles.innerSubWrapper, LayoutRulesStyles.centeredRow))(
-                if (operation.wording.greatCauseLabel.isDefined) {
+                if (operation.wording.label.isDefined) {
                   <.div(^.className := FeaturedOperationStyles.labelWrapper)(
-                    <.p(^.className := TextStyles.label)(unescape(operation.wording.greatCauseLabel.getOrElse("")))
+                    <.p(^.className := TextStyles.label)(unescape(operation.wording.label.getOrElse("")))
                   )
                 },
                 <.h2(^.className := Seq(FeaturedOperationStyles.title, TextStyles.veryBigText, TextStyles.boldText))(

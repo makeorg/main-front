@@ -278,8 +278,7 @@ object Translations {
       |    "operation": {
       |      "intro": {
       |        "partners": {
-      |          "intro": "avec",
-      |          "others": "et nos partenaires soutien et&nbsp;actions"
+      |          "intro": "avec"
       |        },
       |        "article": {
       |          "title": "Pourquoi cette consultation&nbsp;?",

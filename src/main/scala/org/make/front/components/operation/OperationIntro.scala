@@ -23,145 +23,154 @@ object OperationIntro {
     React
       .createClass[OperationIntroProps, Unit](
         displayName = "OperationIntro",
-        render = (self) => {
+        render =
+          (self) => {
 
-          def onClick: () => Unit = { () =>
-            TrackingService.track(
-              "click-button-learn-more",
-              TrackingContext(TrackingLocation.operationPage, Some(self.props.wrapped.operation.slug))
-            )
-          }
+            def onClick: () => Unit = { () =>
+              TrackingService.track(
+                "click-button-learn-more",
+                TrackingContext(TrackingLocation.operationPage, Some(self.props.wrapped.operation.slug))
+              )
+            }
 
-          val operation: OperationModel =
-            self.props.wrapped.operation
+            val operation: OperationModel =
+              self.props.wrapped.operation
 
-          val gradientValues: GradientColorModel =
-            operation.gradient.getOrElse(GradientColorModel("#FFF", "#FFF"))
+            val gradientValues: GradientColorModel =
+              operation.gradient.getOrElse(GradientColorModel("#FFF", "#FFF"))
 
-          object DynamicVFFIntroStyles extends StyleSheet.Inline {
-            import dsl._
+            object DynamicOperationIntroStyles extends StyleSheet.Inline {
+              import dsl._
 
-            val gradient = style(background := s"linear-gradient(130deg, ${gradientValues.from}, ${gradientValues.to})")
-          }
+              val gradient: StyleA =
+                style(background := s"linear-gradient(130deg, ${gradientValues.from}, ${gradientValues.to})")
 
-          <.div(^.className := Seq(OperationIntroStyles.wrapper, DynamicVFFIntroStyles.gradient))(
-            <.div(^.className := OperationIntroStyles.presentationInnerWrapper)(
-              <.div(^.className := LayoutRulesStyles.centeredRow)(
-                <.div(^.className := OperationIntroStyles.titleWrapper)(
-                  if (operation.wording.greatCauseLabel.isDefined) {
-                    <.p(^.className := Seq(TextStyles.label))(unescape(operation.wording.greatCauseLabel.getOrElse("")))
-                  },
-                  if (operation.logoUrl.isDefined) {
+              val labelWrapper: StyleA = style(textAlign :=! operation.greatCauseLabelAlignment.getOrElse("left"))
+
+              val titleWrapper: StyleA = style(maxWidth(operation.logoMaxWidth.getOrElse(470).pxToEm()))
+
+            }
+
+            <.div(^.className := Seq(OperationIntroStyles.wrapper, DynamicOperationIntroStyles.gradient))(
+              <.div(^.className := OperationIntroStyles.presentationInnerWrapper)(
+                <.div(^.className := LayoutRulesStyles.centeredRow)(
+                  <.div(
+                    ^.className := Seq(OperationIntroStyles.titleWrapper, DynamicOperationIntroStyles.titleWrapper)
+                  )(if (operation.wording.label.isDefined) {
+                    <.div(^.className := DynamicOperationIntroStyles.labelWrapper)(
+                      <.p(^.className := TextStyles.label)(unescape(operation.wording.label.getOrElse("")))
+                    )
+                  }, if (operation.logoUrl.isDefined) {
                     <.p(^.className := Seq(OperationIntroStyles.logoWrapper))(
                       <.img(^.src := operation.logoUrl.getOrElse(""), ^.alt := unescape(operation.wording.title))()
                     )
-                  },
-                  if (operation.wording.period.isDefined) {
+                  }, if (operation.wording.period.isDefined) {
                     <.p(^.className := Seq(OperationIntroStyles.infos, TextStyles.label))(
                       unescape(operation.wording.period.getOrElse(""))
                     )
+                  }),
+                  if (operation.partners.nonEmpty) {
+                    Seq(
+                      <.div(^.className := Seq(TableLayoutStyles.wrapper, OperationIntroStyles.separator))(
+                        <.div(
+                          ^.className := Seq(
+                            TableLayoutStyles.cellVerticalAlignMiddle,
+                            OperationIntroStyles.separatorLineWrapper
+                          )
+                        )(
+                          <.hr(
+                            ^.className := Seq(
+                              OperationIntroStyles.separatorLine,
+                              OperationIntroStyles.separatorLineToTheLeft
+                            )
+                          )()
+                        ),
+                        <.div(^.className := Seq(TableLayoutStyles.cell, OperationIntroStyles.separatorTextWrapper))(
+                          <.p(^.className := Seq(OperationIntroStyles.separatorText, TextStyles.smallerText))(
+                            unescape(I18n.t("operation.intro.partners.intro"))
+                          )
+                        ),
+                        <.div(
+                          ^.className := Seq(
+                            TableLayoutStyles.cellVerticalAlignMiddle,
+                            OperationIntroStyles.separatorLineWrapper
+                          )
+                        )(
+                          <.hr(
+                            ^.className := Seq(
+                              OperationIntroStyles.separatorLine,
+                              OperationIntroStyles.separatorLineToTheRight
+                            )
+                          )()
+                        )
+                      ),
+                      <.ul(^.className := OperationIntroStyles.partnersList)(
+                        operation.partners.map(
+                          partner =>
+                            <.li(^.className := OperationIntroStyles.partnerItem)(
+                              <.img(
+                                ^.src := partner.imageUrl,
+                                ^.alt := partner.name,
+                                ^("width") := partner.imageWidth.toString,
+                                ^.className := OperationIntroStyles.partnerLogo
+                              )()
+                          )
+                        )
+                      ),
+                      if (operation.wording.mentionUnderThePartners.isDefined) {
+                        <.p(^.className := Seq(OperationIntroStyles.otherPartners, TextStyles.smallText))(
+                          unescape(operation.wording.mentionUnderThePartners.getOrElse(""))
+                        )
+                      }
+                    )
                   }
-                ),
-                if (operation.partners.nonEmpty) {
-                  Seq(
-                    <.div(^.className := Seq(TableLayoutStyles.wrapper, OperationIntroStyles.separator))(
-                      <.div(
-                        ^.className := Seq(
-                          TableLayoutStyles.cellVerticalAlignMiddle,
-                          OperationIntroStyles.separatorLineWrapper
-                        )
-                      )(
-                        <.hr(
-                          ^.className := Seq(
-                            OperationIntroStyles.separatorLine,
-                            OperationIntroStyles.separatorLineToTheLeft
-                          )
+                )
+              ),
+              if (operation.illustration.isDefined || operation.wording.explanation.isDefined) {
+                <.div(^.className := OperationIntroStyles.explanationWrapper)(
+                  <.div(^.className := LayoutRulesStyles.narrowerCenteredRowWithCols)(
+                    <.div(^.className := Seq(ColRulesStyles.col, ColRulesStyles.colThirdBeyondSmall))(
+                      if (operation.illustration.isDefined) {
+                        val imageSrcset: String =
+                          operation.illustration
+                            .map(_.illUrl)
+                            .getOrElse("") + " 1x," + operation.illustration
+                            .map(_.ill2xUrl)
+                            .getOrElse("") + " 2x"
+                        <.img(
+                          ^.src := operation.illustration.map(_.illUrl).getOrElse(""),
+                          ^("srcset") := imageSrcset,
+                          ^.alt := unescape(operation.wording.title),
+                          ^.className := OperationIntroStyles.explanationIll
                         )()
-                      ),
-                      <.div(^.className := Seq(TableLayoutStyles.cell, OperationIntroStyles.separatorTextWrapper))(
-                        <.p(^.className := Seq(OperationIntroStyles.separatorText, TextStyles.smallerText))(
-                          unescape(I18n.t("operation.intro.partners.intro"))
-                        )
-                      ),
-                      <.div(
-                        ^.className := Seq(
-                          TableLayoutStyles.cellVerticalAlignMiddle,
-                          OperationIntroStyles.separatorLineWrapper
-                        )
-                      )(
-                        <.hr(
-                          ^.className := Seq(
-                            OperationIntroStyles.separatorLine,
-                            OperationIntroStyles.separatorLineToTheRight
+                      }
+                    ),
+                    <.div(^.className := Seq(ColRulesStyles.col, ColRulesStyles.colTwoThirdsBeyondSmall))(
+                      <.p(^.className := TextStyles.label)(unescape(I18n.t("operation.intro.article.title"))),
+                      if (operation.wording.explanation.isDefined) {
+                        <.div(^.className := OperationIntroStyles.explanationTextWrapper)(
+                          <.p(^.className := Seq(OperationIntroStyles.explanationText, TextStyles.smallText))(
+                            unescape(operation.wording.explanation.getOrElse(""))
                           )
-                        )()
-                      )
-                    ),
-                    <.ul(^.className := OperationIntroStyles.partnersList)(
-                      operation.partners.map(
-                        partner =>
-                          <.li(^.className := OperationIntroStyles.partnerItem)(
-                            <.img(
-                              ^.src := partner.imageUrl,
-                              ^.alt := partner.name,
-                              ^("width") := partner.imageWidth.toString,
-                              ^.className := OperationIntroStyles.partnerLogo
-                            )()
                         )
-                      )
-                    ),
-                    <.p(^.className := Seq(OperationIntroStyles.otherPartners, TextStyles.smallText))(
-                      unescape(I18n.t("operation.intro.partners.others"))
+                      },
+                      if (operation.wording.learnMoreUrl.isDefined) {
+                        <.p(^.className := OperationIntroStyles.ctaWrapper)(
+                          <.a(
+                            ^.onClick := onClick,
+                            ^.href := unescape(operation.wording.learnMoreUrl.getOrElse("")),
+                            ^.className := Seq(CTAStyles.basic, CTAStyles.basicOnA),
+                            ^.target := "_blank"
+                          )(unescape(I18n.t("operation.intro.article.see-more.label")))
+                        )
+                      }
                     )
                   )
-                }
-              )
-            ),
-            if (operation.illustration.isDefined || operation.wording.explanation.isDefined) {
-              <.div(^.className := OperationIntroStyles.explanationWrapper)(
-                <.div(^.className := LayoutRulesStyles.narrowerCenteredRowWithCols)(
-                  <.div(^.className := Seq(ColRulesStyles.col, ColRulesStyles.colThirdBeyondSmall))(
-                    if (operation.illustration.isDefined) {
-                      val imageSrcset: String =
-                        operation.illustration
-                          .map(_.illUrl)
-                          .getOrElse("") + " 1x," + operation.illustration
-                          .map(_.ill2xUrl)
-                          .getOrElse("") + " 2x"
-                      <.img(
-                        ^.src := operation.illustration.map(_.illUrl).getOrElse(""),
-                        ^("srcset") := imageSrcset,
-                        ^.alt := unescape(operation.wording.title),
-                        ^.className := OperationIntroStyles.explanationIll
-                      )()
-                    }
-                  ),
-                  <.div(^.className := Seq(ColRulesStyles.col, ColRulesStyles.colTwoThirdsBeyondSmall))(
-                    <.p(^.className := TextStyles.label)(unescape(I18n.t("operation.intro.article.title"))),
-                    if (operation.wording.explanation.isDefined) {
-                      <.div(^.className := OperationIntroStyles.explanationTextWrapper)(
-                        <.p(^.className := Seq(OperationIntroStyles.explanationText, TextStyles.smallText))(
-                          unescape(operation.wording.explanation.getOrElse(""))
-                        )
-                      )
-                    },
-                    if (operation.wording.learnMoreUrl.isDefined) {
-                      <.p(^.className := OperationIntroStyles.ctaWrapper)(
-                        <.a(
-                          ^.onClick := onClick,
-                          ^.href := unescape(operation.wording.learnMoreUrl.getOrElse("")),
-                          ^.className := Seq(CTAStyles.basic, CTAStyles.basicOnA),
-                          ^.target := "_blank"
-                        )(unescape(I18n.t("operation.intro.article.see-more.label")))
-                      )
-                    }
-                  )
                 )
-              )
-            },
-            <.style()(OperationIntroStyles.render[String], DynamicVFFIntroStyles.render[String])
-          )
-        }
+              },
+              <.style()(OperationIntroStyles.render[String], DynamicOperationIntroStyles.render[String])
+            )
+          }
       )
 }
 

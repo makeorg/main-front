@@ -38,7 +38,9 @@ object Operation {
         render = (self) => {
           <("operation")()(
             <.div(^.className := OperationComponentStyles.mainHeaderWrapper)(<.MainHeaderComponent.empty),
-            <.OperationIntroComponent(^.wrapped := OperationIntroProps(operation = self.state.operation))(),
+            if (self.state.operation.logoUrl.nonEmpty) {
+              <.OperationIntroComponent(^.wrapped := OperationIntroProps(operation = self.state.operation))()
+            },
             <.OperationHeaderComponent(
               ^.wrapped := OperationHeaderProps(
                 self.state.operation,
