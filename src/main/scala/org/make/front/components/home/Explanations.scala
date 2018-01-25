@@ -19,8 +19,9 @@ object Explanations {
 
   lazy val reactClass: ReactClass =
     React
-      .createClass[Unit, Unit](displayName = "Explanations", render = {
-        _ =>
+      .createClass[Unit, Unit](
+        displayName = "Explanations",
+        render = { _ =>
           val openTarget: () => Unit = () => {
             TrackingService.track("click-button-whoweare", TrackingContext(TrackingLocation.showcaseHomepage))
             scalajs.js.Dynamic.global.window.open(I18n.t("home.explanations.article-2.see-more-link"), "_blank")
@@ -81,14 +82,15 @@ object Explanations {
                 <.p(^.className := WelcomeStyles.ctaWrapper)(
                   <.button(
                     ^.onClick := openTarget,
-                    ^.className := Seq(CTAStyles.basic, CTAStyles.negative, CTAStyles.basicOnA)
+                    ^.className := Seq(CTAStyles.basic, CTAStyles.negative, CTAStyles.basicOnButton)
                   )(unescape(I18n.t("home.explanations.article-2.see-more")))
                 )
               )
             ),
             <.style()(ExplanationsStyles.render[String])
           )
-      })
+        }
+      )
 }
 
 object ExplanationsStyles extends StyleSheet.Inline {

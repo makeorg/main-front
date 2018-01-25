@@ -97,9 +97,10 @@ object PromptingToGoBackToOperation {
                               )()
                             ),
                             <.p(^.className := PromptingToGoBackToOperationStyles.ctaWrapper)(
-                              <.button(^.onClick := onClick, ^.className := Seq(CTAStyles.basic, CTAStyles.basicOnA))(
-                                unescape(I18n.t("sequence.prompting-to-continue.learn-more.cta"))
-                              )
+                              <.button(
+                                ^.onClick := onClick,
+                                ^.className := Seq(CTAStyles.basic, CTAStyles.basicOnButton)
+                              )(unescape(I18n.t("sequence.prompting-to-continue.learn-more.cta")))
                             )
                           )
                         )

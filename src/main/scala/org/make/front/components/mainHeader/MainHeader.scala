@@ -21,57 +21,55 @@ object MainHeader {
       React
         .createClass[Unit, Unit](
           displayName = "MainHeader",
-          render = {
-            self =>
-              val trackLogoClick: () => Unit = () => {
-                TrackingService.track("click-navbar-logo", TrackingContext(TrackingLocation.navBar))
-                self.props.history.push("/")
-              }
+          render = { self =>
+            val trackLogoClick: () => Unit = () => {
+              TrackingService.track("click-navbar-logo", TrackingContext(TrackingLocation.navBar))
+              self.props.history.push("/")
+            }
 
-              val trackAboutUsClick: () => Unit = () => {
-                TrackingService.track("click-navbar-whoarewe", TrackingContext(TrackingLocation.navBar))
-                scalajs.js.Dynamic.global.window.open(I18n.t("main-header.menu.item-1.link"), "_blank")
-              }
+            val trackAboutUsClick: () => Unit = () => {
+              TrackingService.track("click-navbar-whoarewe", TrackingContext(TrackingLocation.navBar))
+              scalajs.js.Dynamic.global.window.open(I18n.t("main-header.menu.item-1.link"), "_blank")
+            }
 
-              <.header(^.className := MainHeaderStyles.wrapper)(
-                <.CookieAlertContainerComponent.empty,
-                <.div(^.className := LayoutRulesStyles.centeredRow)(
-                  <.div(^.className := Seq(TableLayoutStyles.wrapper, MainHeaderStyles.innerWrapper))(
-                    <.p(^.className := Seq(TableLayoutStyles.cellVerticalAlignMiddle, MainHeaderStyles.logoWrapper))(
-                      <.button(^.onClick := trackLogoClick)(
-                        <.img(
-                          ^.className := MainHeaderStyles.logo,
-                          ^.src := logoMake.toString,
-                          ^.title := I18n.t("main-header.title"),
-                          ^.alt := I18n.t("main-header.title"),
-                          ^("data-pin-no-hover") := "true"
-                        )()
-                      )
-                    ),
-                    <.div(
-                      ^.className := Seq(TableLayoutStyles.cellVerticalAlignMiddle, MainHeaderStyles.searchWrapper)
-                    )(<.SearchFormComponent.empty),
-                    <.div(^.className := Seq(TableLayoutStyles.cellVerticalAlignMiddle, MainHeaderStyles.menusWrapper))(
-                      <.div(^.className := MainHeaderStyles.menusInnerWrapper)(
-                        <.nav(^.className := Seq(RWDHideRulesStyles.showInlineBlockBeyondMedium))(
-                          <.ul()(
-                            <.li(^.className := MainHeaderStyles.menuItem)(
-                              <.p(^.className := Seq(TextStyles.title, TextStyles.smallText))(
-                                <.button(^.onClick := trackAboutUsClick, ^.className := MainHeaderStyles.menuItemLink)(
-                                  unescape(I18n.t("main-header.menu.item-1.label"))
-                                )
-                              )
-                            )
+            <.header(^.className := MainHeaderStyles.wrapper)(
+              <.CookieAlertContainerComponent.empty,
+              <.div(^.className := LayoutRulesStyles.centeredRow)(
+                <.div(^.className := Seq(TableLayoutStyles.wrapper, MainHeaderStyles.innerWrapper))(
+                  <.div(^.className := Seq(TableLayoutStyles.cellVerticalAlignMiddle, MainHeaderStyles.logoWrapper))(
+                    <.button(^.onClick := trackLogoClick)(
+                      <.img(
+                        ^.className := MainHeaderStyles.logo,
+                        ^.src := logoMake.toString,
+                        ^.title := I18n.t("main-header.title"),
+                        ^.alt := I18n.t("main-header.title"),
+                        ^("data-pin-no-hover") := "true"
+                      )()
+                    )
+                  ),
+                  <.div(^.className := Seq(TableLayoutStyles.cellVerticalAlignMiddle, MainHeaderStyles.searchWrapper))(
+                    <.SearchFormComponent.empty
+                  ),
+                  <.div(^.className := Seq(TableLayoutStyles.cellVerticalAlignMiddle, MainHeaderStyles.menusWrapper))(
+                    <.div(^.className := MainHeaderStyles.menusInnerWrapper)(
+                      <.nav(^.className := Seq(RWDHideRulesStyles.showInlineBlockBeyondMedium))(
+                        <.ul()(
+                          <.li(^.className := MainHeaderStyles.menuItem)(
+                            <.button(
+                              ^.onClick := trackAboutUsClick,
+                              ^.className := Seq(MainHeaderStyles.menuItemLink, TextStyles.title, TextStyles.smallText)
+                            )(unescape(I18n.t("main-header.menu.item-1.label")))
                           )
-                        ),
-                        <.UserNavContainerComponent.empty
-                      )
+                        )
+                      ),
+                      <.UserNavContainerComponent.empty
                     )
                   )
-                ),
-                <.div(^.className := MainHeaderStyles.notificationsWrapper)(<.NotificationsComponent.empty),
-                <.style()(MainHeaderStyles.render[String])
-              )
+                )
+              ),
+              <.div(^.className := MainHeaderStyles.notificationsWrapper)(<.NotificationsComponent.empty),
+              <.style()(MainHeaderStyles.render[String])
+            )
           }
         )
     )
