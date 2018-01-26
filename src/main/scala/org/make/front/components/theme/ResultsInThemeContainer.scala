@@ -80,7 +80,6 @@ object ResultsInThemeContainer {
         theme = props.wrapped.currentTheme,
         onMoreResultsRequested = nextProposals,
         onTagSelectionChange = searchOnSelectedTags,
-        proposals = searchOnSelectedTags(Seq()),
         preselectedTags = Seq(),
         maybeOperation = props.wrapped.maybeOperation,
         maybeLocation = props.wrapped.maybeLocation

@@ -70,7 +70,6 @@ object ResultsInOperationContainer {
         operation = props.wrapped.currentOperation,
         onMoreResultsRequested = nextProposals,
         onTagSelectionChange = searchOnSelectedTags,
-        proposals = searchOnSelectedTags(Seq()),
         preselectedTags = Seq(),
         maybeLocation = props.wrapped.maybeLocation
       )
