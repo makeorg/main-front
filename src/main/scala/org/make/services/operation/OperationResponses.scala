@@ -9,7 +9,7 @@ trait OperationResponse extends js.Object {
   val slug: String
   val translations: js.Array[OperationTranslationResponse]
   val defaultLanguage: String
-  val sequenceLandingId: String
+  @deprecated val sequenceLandingId: js.UndefOr[String]
   val createdAt: js.UndefOr[String]
   val updatedAt: js.UndefOr[String]
   val countriesConfiguration: js.Array[OperationCountryConfigurationResponse]
@@ -33,4 +33,5 @@ trait OperationTranslationResponse extends js.Object {
 trait OperationCountryConfigurationResponse extends js.Object {
   val countryCode: String
   val tagIds: js.Array[String]
+  val landingSequenceId: js.UndefOr[String]
 }
