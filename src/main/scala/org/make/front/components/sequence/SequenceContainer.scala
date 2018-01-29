@@ -63,7 +63,7 @@ object SequenceContainer {
             }
 
             result.onComplete {
-              case Failure(_) => dispatch(NotifyError(I18n.t("errors.main")))
+              case Failure(_) => dispatch(NotifyError(I18n.t("error-message.main")))
               case _          =>
             }
             result

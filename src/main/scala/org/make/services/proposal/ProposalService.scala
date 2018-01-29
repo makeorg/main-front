@@ -164,6 +164,7 @@ object ProposalService extends ApiService {
       .map(Qualification.apply)
   }
 
-  final case class UnexpectedException(message: String = I18n.t("errors.unexpected")) extends Exception(message)
+  final case class UnexpectedException(message: String = I18n.t("error-message.unexpected-behaviour"))
+      extends Exception(message)
 
 }

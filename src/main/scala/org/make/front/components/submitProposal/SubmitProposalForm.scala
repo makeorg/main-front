@@ -77,7 +77,7 @@ object SubmitProposalForm {
                   errorMessage = Some(
                     unescape(
                       I18n.t(
-                        "submit-proposal.form.errors.limit-of-chars-exceeded",
+                        "submit-proposal.form.error-message.limit-of-chars-exceeded",
                         Replacements("max" -> self.props.wrapped.proposalContentMaxLength.toString)
                       )
                     )
@@ -90,7 +90,7 @@ object SubmitProposalForm {
                   errorMessage = Some(
                     unescape(
                       I18n.t(
-                        "submit-proposal.form.errors.not-enough-chars",
+                        "submit-proposal.form.error-message.not-enough-chars",
                         Replacements("min" -> self.props.wrapped.proposalContentMinLength.toString)
                       )
                     )

@@ -43,9 +43,13 @@ object CTAStyles extends StyleSheet.Inline {
     style(
       paddingTop(9.pxToEm(13)),
       paddingBottom(4.pxToEm(13)),
-      ThemeStyles.MediaQueries.beyondSmall(paddingTop(12.pxToEm(16)))
+      ThemeStyles.MediaQueries.beyondSmall(paddingTop(13.pxToEm(16)), paddingBottom(6.pxToEm(16)))
     )
 
   val basicOnButton: StyleA =
-    style(paddingTop(3.pxToEm(13)), ThemeStyles.MediaQueries.beyondSmall(paddingTop(3.pxToEm(16))))
+    style(
+      paddingTop(9.pxToEm(13)),
+      paddingBottom(4.pxToEm(13)),
+      ThemeStyles.MediaQueries.beyondSmall(paddingTop(12.pxToEm(16)), paddingBottom(7.pxToEm(16)))
+    )
 }

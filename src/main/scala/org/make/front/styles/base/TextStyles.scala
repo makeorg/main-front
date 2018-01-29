@@ -45,10 +45,24 @@ object TextStyles extends StyleSheet.Inline {
     style(ThemeStyles.Font.circularStdBook, fontSize(44.pxToEm()), lineHeight(1))
 
   val boldText: StyleA = style(ThemeStyles.Font.circularStdBold)
+
   val intro: StyleA = style(ThemeStyles.Font.playfairDisplayItalic, fontStyle.italic)
 
+  val mediumIntro: StyleA =
+    style(
+      intro,
+      fontSize(15.pxToEm()),
+      lineHeight(20.0 / 15.0),
+      ThemeStyles.MediaQueries.beyondSmall(fontSize(24.pxToEm()), lineHeight(32.0 / 24.0))
+    )
+
   val bigIntro: StyleA =
-    style(intro, fontSize(18.pxToEm()), ThemeStyles.MediaQueries.beyondSmall(fontSize(36.pxToEm())))
+    style(
+      intro,
+      fontSize(18.pxToEm()),
+      lineHeight(23.0 / 18.0),
+      ThemeStyles.MediaQueries.beyondSmall(fontSize(36.pxToEm()), lineHeight(1))
+    )
 
   val title: StyleA =
     style(ThemeStyles.Font.tradeGothicLTStd, textTransform.uppercase)
@@ -60,13 +74,14 @@ object TextStyles extends StyleSheet.Inline {
       lineHeight(20.0 / 13.0),
       ThemeStyles.MediaQueries.beyondSmall(fontSize(18.pxToEm()), lineHeight(23.0 / 18.0))
     )
+
   val smallerTitle: StyleA =
-    style(title, fontSize(15.pxToEm()), ThemeStyles.MediaQueries.beyondSmall(fontSize(20.pxToEm())))
+    style(title, fontSize(15.pxToEm()), lineHeight(1), ThemeStyles.MediaQueries.beyondSmall(fontSize(20.pxToEm())))
   val smallTitle: StyleA =
-    style(title, fontSize(18.pxToEm()), ThemeStyles.MediaQueries.beyondSmall(fontSize(22.pxToEm())))
+    style(title, fontSize(18.pxToEm()), lineHeight(1), ThemeStyles.MediaQueries.beyondSmall(fontSize(22.pxToEm())))
 
   val mediumTitle: StyleA =
-    style(title, fontSize(20.pxToEm()), ThemeStyles.MediaQueries.beyondSmall(fontSize(34.pxToEm())))
+    style(title, fontSize(20.pxToEm()), lineHeight(1), ThemeStyles.MediaQueries.beyondSmall(fontSize(34.pxToEm())))
 
   val bigTitle: StyleA =
     style(
@@ -81,6 +96,7 @@ object TextStyles extends StyleSheet.Inline {
     style(
       title,
       fontSize(30.pxToEm()),
+      lineHeight(1),
       ThemeStyles.MediaQueries.beyondSmall(fontSize(40.pxToEm())),
       ThemeStyles.MediaQueries.beyondMedium(fontSize(60.pxToEm()))
     )

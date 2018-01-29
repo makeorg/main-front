@@ -52,18 +52,18 @@ object RegisterWithEmail {
               "email",
               NotBlankConstraint.&(EmailConstraint),
               Map(
-                "invalid" -> I18n.t("authenticate.inputs.email.format-error"),
-                "notBlank" -> I18n.t("authenticate.inputs.email.empty-field-error")
+                "invalid" -> I18n.t("authenticate.inputs.email.format-error-message"),
+                "notBlank" -> I18n.t("authenticate.inputs.email.empty-field-error-message")
               )
             ),
             (
               "password",
               NotBlankConstraint.&(PasswordConstraint),
               Map(
-                "notBlank" -> I18n.t("authenticate.inputs.password.empty-field-error"),
+                "notBlank" -> I18n.t("authenticate.inputs.password.empty-field-error-message"),
                 "minMessage" -> I18n
                   .t(
-                    "authenticate.inputs.password.format-error",
+                    "authenticate.inputs.password.format-error-message",
                     Replacements("min" -> PasswordConstraint.min.toString)
                   )
               )
@@ -71,7 +71,7 @@ object RegisterWithEmail {
             (
               "firstName",
               NotBlankConstraint,
-              Map("notBlank" -> I18n.t("authenticate.inputs.first-name.empty-field-error"))
+              Map("notBlank" -> I18n.t("authenticate.inputs.first-name.empty-field-error-message"))
             )
           )
         }
@@ -107,7 +107,7 @@ object RegisterWithEmail {
                       self.setState(
                         state =>
                           state
-                            .copy(errors = state.errors + ("global" -> I18n.t("authenticate.failure")))
+                            .copy(errors = state.errors + ("global" -> I18n.t("authenticate.error-message")))
                       )
                   }
               }

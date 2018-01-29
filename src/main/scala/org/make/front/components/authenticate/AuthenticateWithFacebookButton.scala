@@ -69,7 +69,7 @@ object AuthenticateWithFacebookButton {
               self.setState(_.copy(errorMessages = Seq("authenticate.no-email-found")))
               trackFailure(provider)
             case Failure(_) =>
-              self.setState(_.copy(errorMessages = Seq("authenticate.failure")))
+              self.setState(_.copy(errorMessages = Seq("authenticate.error-message")))
               trackFailure(provider)
           }
         }

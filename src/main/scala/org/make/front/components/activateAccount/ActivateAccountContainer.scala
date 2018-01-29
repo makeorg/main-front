@@ -51,7 +51,7 @@ object ActivateAccountContainer {
           }
           case Failure(e) => {
             redirectAfterValidation(operationId, child.props.history)
-            dispatch(NotifyError(message = I18n.t("activate-account.notifications.failure")))
+            dispatch(NotifyError(message = I18n.t("activate-account.notifications.error-message")))
           }
         }
       }

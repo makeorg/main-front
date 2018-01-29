@@ -15,13 +15,25 @@ object Translations {
     """
       |{
       |  "fr": {
-      |    "errors": {
+      |    "error-message": {
       |      "main": "Oups ! Nous rencontrons quelques difficultés avec le chargement de cette page. Merci de bien vouloir la&nbsp;recharger.",
-      |      "noToken": "Token absent",
-      |      "loginFailed": "La connexion a&nbsp;échoué",
-      |      "apiFailure": "Échec de l'appel&nbsp;API",
-      |      "unexpectedBehaviour": "Quelque chose n'a pas&nbsp;fonctionné",
-      |      "tryAgain": "Si le problème persiste n'hésitez pas à nous contacter à&nbsp;support@make.org."
+      |      "no-token": "Token absent",
+      |      "unexpected-behaviour": "Quelque chose n'a pas&nbsp;fonctionné",
+      |      "user-not-found": "Utilisateur non retrouvé"
+      |    },
+      |    "error": {
+      |      "intro": "oups",
+      |      "title": "Erreur 404",
+      |      "recherche-intro": "La page que vous avez demandé n’existe pas ou plus. Vous pouvez lancer une&nbsp;recherche&hellip;",
+      |      "redirection-intro": "&hellip; ou vous laisser tenter par une nouvelle destination&nbsp;:",
+      |      "redirect-to-home": "La page d'accueil",
+      |      "redirect-to-random-theme": "Un thème choisi au hasard"
+      |    },
+      |    "maintenance": {
+      |      "intro": "oups",
+      |      "title": "Maintenance en cours",
+      |      "explanation-1": "Pour pouvoir vous proposer un site toujours plus&nbsp;performant,<br>Make.org est actuellement en&nbsp;maintenance.",
+      |      "explanation-2": "N’hésitez pas à repasser d’ici quelques minutes."
       |    },
       |    "cookie-alert": "En poursuivant votre navigation sur notre site, vous acceptez l'installation et l'utilisation de cookies sur votre poste, dans le respect de notre <a href=\"https://about.make.org/politique-donnees\" target=\"_blank\">politique de protection de votre vie privée</a>.",
       |    "home": {
@@ -181,14 +193,14 @@ object Translations {
       |    },
       |    "submit-proposal": {
       |      "intro": "Partagez votre proposition",
-      |      "error": "Une erreur s'est produite, réessayez dans quelques minutes.",
+      |      "error-message": "Une erreur s'est produite, réessayez dans quelques minutes.",
       |      "form": {
       |        "proposal-input-placeholder": "Il faut une proposition réaliste et respectueuse de tous",
       |        "limit-of-chars-reached-alert": "Oups&nbsp;! Vous avez dépassé la limite de 140 caractères 😅 Essayez d’être plus concis.e.&nbsp;🙏",
       |        "info": "Ne vous inquiétez pas, nous corrigerons vos éventuelles fautes&nbsp;d'orthographe.",
       |        "moderation-charter": "Pour en savoir plus sur notre charte de modération, <a href=\"https://about.make.org/moderation\" target=\"_blank\">cliquez&nbsp;ici.</a>",
       |        "validate-cta": "Proposer",
-      |        "errors": {
+      |        "error-message": {
       |          "limit-of-chars-exceeded": "Vous avez dépassé la limite de caractères.",
       |          "not-enough-chars": "Votre proposition doit contenir au moins %{min} caractères."
       |        }
@@ -315,7 +327,7 @@ object Translations {
       |      "email-input-placeholder": "votre adresse email",
       |      "send-cta": "Envoyer",
       |      "invalid-email": "veuillez rentrer un e-mail&nbsp;valide",
-      |      "error": "Quelque chose n'a pas fonctionné. Si le problème persiste n'hésitez pas à nous contacter à <a href=\"mailto:contact@make.org\">contact@make.org</a>.",
+      |      "error-message": "Quelque chose n'a pas fonctionné. Si le problème persiste n'hésitez pas à nous contacter à <a href=\"mailto:contact@make.org\">contact@make.org</a>.",
       |      "notifications": {
       |        "success": "Merci, votre adresse email est bien enregistrée dans notre liste de diffusion. Vous recevrez nos prochains mails&nbsp;d'information."
       |      }
@@ -332,7 +344,7 @@ object Translations {
       |    "activate-account": {
       |      "notifications": {
       |        "success": "Votre compte vient d'être activé. Vous pouvez vous connecter dès&nbsp;maintenant",
-      |        "failure": "Ce lien n'est plus valable."
+      |        "error-message": "Ce lien n'est plus valable."
       |      }
       |    },
       |    "authenticate": {
@@ -354,42 +366,42 @@ object Translations {
       |      },
       |      "no-account-found": "Nous ne trouvons pas de compte associé à cet email.",
       |      "no-email-found": "Oups ! Nous ne parvenons pas à vous connecter. Merci de bien vouloir réessayer avec un mail valide.",
-      |      "failure": "Quelque chose n'a pas fonctionné. Si le problème persiste n'hésitez pas à nous contacter à <a href=\"mailto:contact@make.org\">contact@make.org</a>",
+      |      "error-message": "Quelque chose n'a pas fonctionné. Si le problème persiste n'hésitez pas à nous contacter à <a href=\"mailto:contact@make.org\">contact@make.org</a>",
       |      "inputs": {
       |        "required": "(obligatoire)",
       |        "email": {
       |          "placeholder": "E-mail",
-      |          "format-error": "Format d'email non&nbsp;reconnu",
-      |          "empty-field-error": "Veuillez renseigner ce&nbsp;champ."
+      |          "format-error-message": "Format d'email non&nbsp;reconnu",
+      |          "empty-field-error-message": "Veuillez renseigner ce&nbsp;champ."
       |        },
       |        "first-name": {
       |          "placeholder": "Prénom",
-      |          "format-error": "Format invalide",
-      |          "empty-field-error": "Veuillez renseigner ce&nbsp;champ."
+      |          "format-error-message": "Format invalide",
+      |          "empty-field-error-message": "Veuillez renseigner ce&nbsp;champ."
       |        },
       |        "password": {
       |          "placeholder": "Mot de passe",
-      |          "format-error": "Votre mot de passe doit contenir au moins %{min}&nbsp;caractères.",
-      |          "empty-field-error": "Veuillez renseigner ce&nbsp;champ."
+      |          "format-error-message": "Votre mot de passe doit contenir au moins %{min}&nbsp;caractères.",
+      |          "empty-field-error-message": "Veuillez renseigner ce&nbsp;champ."
       |        },
       |        "age": {
       |          "placeholder": "Âge",
-      |          "format-error": "Format invalide"
+      |          "format-error-message": "Format invalide"
       |        },
       |        "postal-code": {
       |          "placeholder": "Code postal",
-      |          "format-error": "Format invalide"
+      |          "format-error-message": "Format invalide"
       |        },
       |        "job": {
       |          "placeholder": "Profession",
-      |          "format-error": "Format invalide"
+      |          "format-error-message": "Format invalide"
       |        }
       |      },
       |      "recover-password": {
       |         "title": "Je réinitialise mon mot de&nbsp;passe",
       |         "info": "Merci de renseigner l'adresse email liée à votre compte pour recevoir le lien de&nbsp;réinitialisation.",
       |         "send-cta": "Recevoir l'e-mail",
-      |         "errors": {
+      |         "error-message": {
       |           "mail-not-found": "Nous ne trouvons pas de compte associé à cet&nbsp;email."
       |         },
       |         "notifications": {
@@ -408,7 +420,7 @@ object Translations {
       |          "title": "Ce lien n'est plus valable."
       |        },
       |        "notifications": {
-      |          "failure": "Votre mot de passe n'a pas pu être remplacé."
+      |          "error-message": "Votre mot de passe n'a pas pu être remplacé."
       |        }
       |      },
       |      "register": {
@@ -421,7 +433,7 @@ object Translations {
       |        "with-email-intro": "Je m'inscris avec ce&nbsp;formulaire",
       |        "terms": "En vous inscrivant, vous acceptez nos <a href=\"https://about.make.org/conditions-dutilisation\" target=\"_blank\">conditions générales d'utilisation</a> ainsi que de recevoir ponctuellement des emails de&nbsp;Make.org.",
       |        "send-cta": "s'inscrire",
-      |        "errors": {
+      |        "error-message": {
       |          "already-exists": "Ce compte existe déjà, merci de vous&nbsp;connecter."
       |        },
       |        "notifications": {

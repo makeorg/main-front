@@ -41,7 +41,8 @@ object RecoverPassword {
         val handleSubmit = (e: SyntheticEvent) => {
           e.preventDefault()
           val errors: Seq[ConstraintError] =
-            EmailConstraint.validate(Some(self.state.email), Map("invalid" -> "authenticate.inputs.email.format-error"))
+            EmailConstraint
+              .validate(Some(self.state.email), Map("invalid" -> "authenticate.inputs.email.format-error-message"))
 
           if (errors.isEmpty) {
             self.setState(self.state.copy(errorMessage = ""))
@@ -51,7 +52,9 @@ object RecoverPassword {
                 self
                   .setState(
                     self.state
-                      .copy(errorMessage = unescape(I18n.t("authenticate.recover-password.errors.mail-not-found")))
+                      .copy(
+                        errorMessage = unescape(I18n.t("authenticate.recover-password.error-message.mail-not-found"))
+                      )
                   )
               /*TODO : specify error message from API*/
             }
