@@ -29,6 +29,7 @@ object ProposalService extends ApiService {
     var headers =
       Map[String, String](MakeApiClient.sourceHeader -> source, MakeApiClient.locationHeader -> location.name)
     themeId.foreach(theme => headers += MakeApiClient.themeIdHeader -> theme)
+
     operation.foreach(op  => headers += MakeApiClient.operationHeader -> op.operationId.value)
     question
       .orElse(operation.map(_.wording.question))
@@ -36,7 +37,7 @@ object ProposalService extends ApiService {
     MakeApiClient
       .post[RegisterProposalResponse](
         resourceName,
-        data = JSON.stringify(JsRegisterProposalRequest(RegisterProposalRequest(content))),
+        data = JSON.stringify(JsRegisterProposalRequest(RegisterProposalRequest(content = content, operationId = operation.map(_.operationId.value)))),
         headers = headers
       )
       .map(RegisterProposal.apply)

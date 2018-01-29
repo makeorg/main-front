@@ -1,7 +1,5 @@
 package org.make.services.operation
 
-import org.make.front.models.{OperationId, SequenceId}
-
 import scala.scalajs.js
 
 @js.native
