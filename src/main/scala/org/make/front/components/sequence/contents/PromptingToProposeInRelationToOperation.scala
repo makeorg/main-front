@@ -25,7 +25,8 @@ object PromptingToProposeInRelationToOperation {
                                                                 clickOnButtonHandler: () => Unit,
                                                                 proposeHandler: ()       => Unit,
                                                                 sequenceId: SequenceId,
-                                                                maybeLocation: Option[LocationModel])
+                                                                maybeLocation: Option[LocationModel],
+                                                                language: String)
 
   final case class PromptingToProposeInRelationToOperationState(isProposalModalOpened: Boolean)
 
@@ -85,7 +86,8 @@ object PromptingToProposeInRelationToOperation {
                       self.props.wrapped.proposeHandler()
                     },
                     maybeSequence = Some(self.props.wrapped.sequenceId),
-                    maybeLocation = self.props.wrapped.maybeLocation
+                    maybeLocation = self.props.wrapped.maybeLocation,
+                    language = self.props.wrapped.language
                   )
                 )()
               )

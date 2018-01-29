@@ -159,7 +159,7 @@ object ResultsInOperation {
         val onTagsChange: (Seq[TagModel]) => Unit = {
           tags =>
             val previousSelectedTags = self.state.selectedTags
-            val changedTags = if (previousSelectedTags.size > tags.size) {
+            val changedTags = if (previousSelectedTags.lengthCompare(tags.size) > 0) {
               val tagsAsStrings = tags.map(_.tagId.value)
               previousSelectedTags.filter(tag => !tagsAsStrings.contains(tag.tagId.value))
             } else {
@@ -259,7 +259,7 @@ object ResultsInOperation {
             <.h2(^.className := TextStyles.mediumTitle)(unescape(I18n.t("operation.results.title")))
           ),
           <.div(^.className := Seq(ResultsInOperationStyles.tagsNavWrapper, LayoutRulesStyles.centeredRow))(
-            <.FilterByTagsComponent(^.wrapped := FilterByTagsProps(self.props.wrapped.operation.tags, onTagsChange))()
+            <.FilterByTagsComponent(^.wrapped := FilterByTagsProps(self.props.wrapped.operation.tagIds, onTagsChange))()
           ),
           if (self.state.initialLoad || proposalsToDisplay.nonEmpty) {
             proposals(proposalsToDisplay)

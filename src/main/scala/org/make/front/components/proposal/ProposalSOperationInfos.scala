@@ -8,7 +8,7 @@ import org.make.front.Main.CssSettings._
 import org.make.front.components.Components._
 import org.make.front.facades.I18n
 import org.make.front.facades.Unescape.unescape
-import org.make.front.models.{OperationExpanded => OperationModel}
+import org.make.front.models.{OperationWording, OperationExpanded => OperationModel}
 import org.make.front.styles.ThemeStyles
 import org.make.front.styles.base.{RWDHideRulesStyles, TableLayoutBeyondMediumStyles, TextStyles}
 import org.make.front.styles.ui.CTAStyles
@@ -16,7 +16,7 @@ import org.make.front.styles.utils._
 
 object ProposalSOperationInfos {
 
-  final case class ProposalSOperationInfosProps(operation: OperationModel)
+  final case class ProposalSOperationInfosProps(operation: OperationModel, language: String)
 
   lazy val reactClass: ReactClass =
     React
@@ -30,6 +30,8 @@ object ProposalSOperationInfos {
             val operationName =
               style(color :=! self.props.wrapped.operation.color)
           }
+          val wording: OperationWording =
+            self.props.wrapped.operation.getWordingByLanguageOrError(self.props.wrapped.language)
 
           <.div(^.className := ProposalSOperationInfosStyles.wrapper)(
             <.div(^.className := TableLayoutBeyondMediumStyles.wrapper)(
@@ -49,7 +51,7 @@ object ProposalSOperationInfos {
                     ProposalSOperationInfosStyles.operationName,
                     DynamicProposalSOperationInfosStyles.operationName
                   )
-                )(unescape(self.props.wrapped.operation.wording.title))
+                )(unescape(wording.title))
               ),
               <.div(
                 ^.className := Seq(
@@ -63,7 +65,7 @@ object ProposalSOperationInfos {
                     ^.className := Seq(CTAStyles.basic, CTAStyles.basicOnA)
                   )(unescape(I18n.t("proposal.proposal-s-operation-infos.participate")))
                 ),
-                self.props.wrapped.operation.wording.learnMoreUrl.map { url =>
+                wording.learnMoreUrl.map { url =>
                   <.p(^.className := ProposalSOperationInfosStyles.CTA)(
                     <.a(^.href := url, ^.className := Seq(CTAStyles.basic, CTAStyles.basicOnA), ^.target := "_blank")(
                       unescape(I18n.t("proposal.proposal-s-operation-infos.see-more"))

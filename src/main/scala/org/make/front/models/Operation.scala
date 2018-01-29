@@ -55,16 +55,32 @@ object OperationTranslation {
   }
 }
 
-final case class OperationCountryConfiguration(countryCode: String, TagIds: Seq[Tag], landingSequenceId: SequenceId)
+final case class OperationCountryConfiguration(countryCode: String, tagIds: Seq[Tag], landingSequenceId: SequenceId)
 object OperationCountryConfiguration {
+
+  @deprecated("old sequence field will be removed", "")
   def apply(operationCountryConfigurationResponse: OperationCountryConfigurationResponse,
-            @deprecated deprecatedLandingSequenceId: Option[SequenceId] = None): OperationCountryConfiguration = {
+            deprecatedLandingSequenceId: Option[SequenceId] = None): OperationCountryConfiguration = {
     OperationCountryConfiguration(
       operationCountryConfigurationResponse.countryCode,
       operationCountryConfigurationResponse.tagIds.map(tagId => Tag(tagId = TagId(tagId), label = tagId)),
       operationCountryConfigurationResponse.landingSequenceId.toOption
         .map(SequenceId(_))
         .orElse(deprecatedLandingSequenceId) match {
+        case Some(sequenceId) => sequenceId
+        case _                => throw new IllegalArgumentException("a landing sequence id is required")
+      }
+    )
+  }
+
+  def apply(
+    operationCountryConfigurationResponse: OperationCountryConfigurationResponse
+  ): OperationCountryConfiguration = {
+    OperationCountryConfiguration(
+      operationCountryConfigurationResponse.countryCode,
+      operationCountryConfigurationResponse.tagIds.map(tagId => Tag(tagId = TagId(tagId), label = tagId)),
+      operationCountryConfigurationResponse.landingSequenceId.toOption
+        .map(SequenceId(_)) match {
         case Some(sequenceId) => sequenceId
         case _                => throw new IllegalArgumentException("a landing sequence id is required")
       }

@@ -9,7 +9,7 @@ trait OperationResponse extends js.Object {
   val slug: String
   val translations: js.Array[OperationTranslationResponse]
   val defaultLanguage: String
-  @deprecated val sequenceLandingId: js.UndefOr[String]
+  @deprecated("will be removed", "") val sequenceLandingId: js.UndefOr[String]
   val createdAt: js.UndefOr[String]
   val updatedAt: js.UndefOr[String]
   val countriesConfiguration: js.Array[OperationCountryConfigurationResponse]

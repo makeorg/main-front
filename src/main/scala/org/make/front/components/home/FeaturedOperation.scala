@@ -7,7 +7,7 @@ import org.make.front.Main.CssSettings._
 import org.make.front.components.Components._
 import org.make.front.facades.Unescape.unescape
 import org.make.front.facades._
-import org.make.front.models.{OperationExpanded => OperationModel}
+import org.make.front.models.{OperationWording, OperationExpanded => OperationModel}
 import org.make.front.styles._
 import org.make.front.styles.base.{LayoutRulesStyles, TableLayoutStyles, TextStyles}
 import org.make.front.styles.ui.CTAStyles
@@ -17,8 +17,9 @@ import org.make.services.tracking.{TrackingLocation, TrackingService}
 
 object FeaturedOperation {
 
-  final case class FeaturedOperationProps(trackingLocation: TrackingLocation, operation: OperationModel)
-  final case class OperationState(operation: OperationModel)
+  final case class FeaturedOperationProps(trackingLocation: TrackingLocation,
+                                          operation: OperationModel,
+                                          language: String)
 
   lazy val reactClass: ReactClass =
     React
@@ -27,6 +28,7 @@ object FeaturedOperation {
         render = (self) => {
 
           val operation: OperationModel = self.props.wrapped.operation
+          val wording: OperationWording = operation.getWordingByLanguageOrError(self.props.wrapped.language)
 
           def onclick: () => Unit = { () =>
             TrackingService
@@ -34,7 +36,7 @@ object FeaturedOperation {
                 "click-homepage-header",
                 TrackingContext(self.props.wrapped.trackingLocation, Some(operation.slug))
               )
-            scalajs.js.Dynamic.global.window.open(operation.wording.learnMoreUrl.get, "_blank")
+            wording.learnMoreUrl.map(link => scalajs.js.Dynamic.global.window.open(link, "_blank"))
           }
           <.section(^.className := Seq(TableLayoutStyles.wrapper, FeaturedOperationStyles.wrapper))(
             <.div(^.className := Seq(TableLayoutStyles.cellVerticalAlignMiddle, FeaturedOperationStyles.innerWrapper))(
@@ -55,25 +57,25 @@ object FeaturedOperation {
                     .getOrElse("") + " 1350w, " + operation.featuredIllustration
                     .map(_.ill2xUrl)
                     .getOrElse("") + " 2700w",
-                  ^.alt := operation.wording.title,
+                  ^.alt := wording.title,
                   ^("data-pin-no-hover") := "true"
                 )()
               },
               <.div(^.className := Seq(FeaturedOperationStyles.innerSubWrapper, LayoutRulesStyles.centeredRow))(
-                if (operation.wording.label.isDefined) {
+                if (wording.label.isDefined) {
                   <.div(^.className := FeaturedOperationStyles.labelWrapper)(
-                    <.p(^.className := TextStyles.label)(unescape(operation.wording.label.getOrElse("")))
+                    <.p(^.className := TextStyles.label)(unescape(wording.label.getOrElse("")))
                   )
                 },
                 <.h2(^.className := Seq(FeaturedOperationStyles.title, TextStyles.veryBigText, TextStyles.boldText))(
-                  unescape(operation.wording.title)
+                  unescape(wording.title)
                 ),
-                if (operation.wording.purpose.isDefined) {
+                if (wording.purpose.isDefined) {
                   <.h3(^.className := Seq(TextStyles.mediumText, FeaturedOperationStyles.subTitle))(
-                    unescape(operation.wording.purpose.getOrElse(""))
+                    unescape(wording.purpose.getOrElse(""))
                   )
                 },
-                if (operation.wording.learnMoreUrl.isDefined) {
+                if (wording.learnMoreUrl.isDefined) {
                   <.p(^.className := FeaturedOperationStyles.ctaWrapper)(
                     <.button(^.onClick := onclick, ^.className := Seq(CTAStyles.basic, CTAStyles.basicOnButton))(
                       unescape(I18n.t("home.featured-operation.learn-more"))

@@ -25,14 +25,16 @@ object ProposalService extends ApiService {
                      themeId: Option[String] = None,
                      source: String = Source.Core.name,
                      operation: Option[OperationExpanded] = None,
-                     question: Option[String] = None): Future[RegisterProposal] = {
+                     question: Option[String] = None,
+                     language: String): Future[RegisterProposal] = {
+
     var headers =
       Map[String, String](MakeApiClient.sourceHeader -> source, MakeApiClient.locationHeader -> location.name)
     themeId.foreach(theme => headers += MakeApiClient.themeIdHeader -> theme)
 
     operation.foreach(op  => headers += MakeApiClient.operationHeader -> op.operationId.value)
     question
-      .orElse(operation.map(_.wording.question))
+      .orElse(operation.map(_.getWordingByLanguageOrError(language).question))
       .foreach(q => headers += MakeApiClient.questionHeader -> q)
     MakeApiClient
       .post[RegisterProposalResponse](

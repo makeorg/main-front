@@ -31,7 +31,7 @@ object SubmitProposalAndAuthenticateContainer {
                                                          maybeLocation: Option[LocationModel])
 
   val reactClass: ReactClass = ReactRedux.connectAdvanced {
-    _ => (_: AppState, props: Props[SubmitProposalAndAuthenticateContainerProps]) =>
+    _ => (appState: AppState, props: Props[SubmitProposalAndAuthenticateContainerProps]) =>
       def propose(content: String): Future[RegisterProposal] = {
         val location = LocationModel.firstByPrecedence(
           location = props.wrapped.maybeLocation,
@@ -45,7 +45,8 @@ object SubmitProposalAndAuthenticateContainer {
           content,
           location = location,
           themeId = props.wrapped.maybeTheme.map(_.id.value),
-          operation = props.wrapped.maybeOperation
+          operation = props.wrapped.maybeOperation,
+          language = appState.language
         )
       }
 

@@ -9,7 +9,7 @@ import org.make.front.components.modals.FullscreenModal.FullscreenModalProps
 import org.make.front.components.operation.SubmitProposalInRelationToOperation.SubmitProposalInRelationToOperationProps
 import org.make.front.facades.I18n
 import org.make.front.facades.Unescape.unescape
-import org.make.front.models.{Location => LocationModel, OperationExpanded => OperationModel}
+import org.make.front.models.{OperationWording, Location => LocationModel, OperationExpanded => OperationModel}
 import org.make.front.styles._
 import org.make.front.styles.base.{LayoutRulesStyles, TableLayoutStyles, TextStyles}
 import org.make.front.styles.ui.InputStyles
@@ -20,7 +20,7 @@ import org.scalajs.dom.raw.HTMLElement
 
 object OperationHeader {
 
-  case class OperationHeaderProps(operation: OperationModel, maybeLocation: Option[LocationModel])
+  case class OperationHeaderProps(operation: OperationModel, maybeLocation: Option[LocationModel], language: String)
 
   case class OperationHeaderState(isProposalModalOpened: Boolean)
 
@@ -32,6 +32,7 @@ object OperationHeader {
       },
       render = { (self) =>
         val operation: OperationModel = self.props.wrapped.operation
+        val wording: OperationWording = operation.getWordingByLanguageOrError(self.props.wrapped.language)
         var proposalInput: Option[HTMLElement] = None
 
         val closeProposalModal: () => Unit = () => {
@@ -66,7 +67,7 @@ object OperationHeader {
                 OperationHeaderStyles.proposalInputIntro,
                 DynamicOperationHeaderStyles.proposalInputIntro
               )
-            )(unescape(operation.wording.question)),
+            )(unescape(wording.question)),
             <.p(
               ^.className := Seq(
                 InputStyles.wrapper,
@@ -103,7 +104,8 @@ object OperationHeader {
                   operation = operation,
                   onProposalProposed = closeProposalModal,
                   maybeSequence = None,
-                  maybeLocation = self.props.wrapped.maybeLocation
+                  maybeLocation = self.props.wrapped.maybeLocation,
+                  language = self.props.wrapped.language
                 )
               )()
             )

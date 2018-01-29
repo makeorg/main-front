@@ -40,13 +40,13 @@ object SequenceOfTheOperationContainer {
           OperationService
             .getOperationBySlug(operationSlug)
             .map { maybeOperation =>
-              maybeOperation.map(OperationModel.getOperationExpandedFromOperation)
+              maybeOperation.map(OperationModel.getOperationExpandedFromOperation(_, state.country))
             }
             .flatMap {
               case None => Future.successful(None)
               case Some(operation) =>
                 SequenceService
-                  .startSequenceById(operation.sequence, Seq.empty)
+                  .startSequenceById(operation.landingSequenceId, Seq.empty)
                   .map(sequence => Some((operation, sequence)))
             }
         }
@@ -66,8 +66,9 @@ object SequenceOfTheOperationContainer {
                 isConnected = state.connectedUser.isDefined,
                 operation = operation,
                 redirectHome = () => props.history.push("/"),
-                startSequence = startSequence(operation.sequence),
-                sequence = sequence
+                startSequence = startSequence(operation.landingSequenceId),
+                sequence = sequence,
+                language = state.language
               )
           }
         )

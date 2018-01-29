@@ -12,6 +12,7 @@ import org.make.front.facades.Unescape.unescape
 import org.make.front.facades.I18n
 import org.make.front.models.{
   Location,
+  OperationWording,
   SequenceId,
   GradientColor     => GradientColorModel,
   OperationExpanded => OperationModel
@@ -29,7 +30,8 @@ object SubmitProposalInRelationToOperation {
   case class SubmitProposalInRelationToOperationProps(operation: OperationModel,
                                                       onProposalProposed: () => Unit,
                                                       maybeSequence: Option[SequenceId],
-                                                      maybeLocation: Option[Location])
+                                                      maybeLocation: Option[Location],
+                                                      language: String)
 
   case class SubmitProposalInRelationToOperationState(operation: OperationModel)
 
@@ -41,6 +43,9 @@ object SubmitProposalInRelationToOperation {
           SubmitProposalInRelationToOperationState(operation = self.props.wrapped.operation)
         },
         render = { self =>
+          val wording: OperationWording =
+            self.props.wrapped.operation.getWordingByLanguageOrError(self.props.wrapped.language)
+
           val trackingParameters = self.props.wrapped.maybeSequence.map { sequenceId =>
             Map("sequenceId" -> sequenceId.value)
           }.getOrElse(Map.empty) + ("operationId" -> self.props.wrapped.operation.operationId.value)
@@ -79,7 +84,7 @@ object SubmitProposalInRelationToOperation {
                       SubmitProposalInRelationToOperationStyles.operation,
                       DynamicSubmitProposalInRelationToOperationStyles.titleBackground
                     )
-                  )(unescape(self.state.operation.wording.title))
+                  )(unescape(wording.title))
                 ),
                 element,
                 <.style()(

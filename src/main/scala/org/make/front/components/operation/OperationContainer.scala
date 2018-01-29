@@ -18,7 +18,7 @@ object OperationContainer {
   lazy val reactClass: ReactClass = ReactRedux.connectAdvanced(selectorFactory)(ObjectLoader.reactClass)
 
   def selectorFactory: (Dispatch) => (AppState, Props[Unit]) => ObjectLoaderProps[OperationExpanded] =
-    (_: Dispatch) => { (_: AppState, props: Props[Unit]) =>
+    (_: Dispatch) => { (appState: AppState, props: Props[Unit]) =>
       {
         val slug = props.`match`.params("operationSlug")
 
@@ -26,7 +26,7 @@ object OperationContainer {
           OperationService
             .getOperationBySlug(slug)
             .map(_.map { operation =>
-              OperationExpanded.getOperationExpandedFromOperation(operation)
+              OperationExpanded.getOperationExpandedFromOperation(operation, appState.country)
             })
         }
 
@@ -35,7 +35,7 @@ object OperationContainer {
           onNotFound = () => {}, // TODO
           childClass = Operation.reactClass,
           createChildProps = { operation =>
-            Operation.OperationProps(operation)
+            Operation.OperationProps(operation, appState.language)
           }
         )
       }

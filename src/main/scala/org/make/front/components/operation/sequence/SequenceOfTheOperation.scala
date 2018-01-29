@@ -37,7 +37,8 @@ object SequenceOfTheOperation {
                                                operation: OperationModel,
                                                startSequence: (Seq[ProposalId]) => Future[SequenceModel],
                                                redirectHome: ()                 => Unit,
-                                               sequence: SequenceModel)
+                                               sequence: SequenceModel,
+                                               language: String)
 
   final case class SequenceOfTheOperationState(isProposalModalOpened: Boolean,
                                                numberOfProposals: Int,
@@ -53,10 +54,11 @@ object SequenceOfTheOperation {
           numberOfProposals = self.props.wrapped.sequence.proposals.size,
           extraSlides = self.props.wrapped.operation.extraSlides(
             OperationExtraSlidesParams(
-              self.props.wrapped.operation,
-              self.props.wrapped.isConnected,
-              self.props.wrapped.sequence,
-              None
+              operation = self.props.wrapped.operation,
+              isConnected = self.props.wrapped.isConnected,
+              sequence = self.props.wrapped.sequence,
+              maybeLocation = None,
+              language = self.props.wrapped.language
             )
           ),
           operation = self.props.wrapped.operation
@@ -188,7 +190,8 @@ object SequenceOfTheOperation {
                           operation = operation,
                           onProposalProposed = closeProposalModal,
                           maybeSequence = Some(self.props.wrapped.sequence.sequenceId),
-                          maybeLocation = None
+                          maybeLocation = None,
+                          language = self.props.wrapped.language
                         )
                       )()
                     )

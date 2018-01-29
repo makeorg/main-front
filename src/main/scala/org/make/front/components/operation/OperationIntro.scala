@@ -6,7 +6,11 @@ import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import org.make.front.components.Components._
 import org.make.front.facades.Unescape.unescape
 import org.make.front.facades._
-import org.make.front.models.{GradientColor => GradientColorModel, OperationExpanded => OperationModel}
+import org.make.front.models.{
+  OperationWording,
+  GradientColor     => GradientColorModel,
+  OperationExpanded => OperationModel
+}
 import org.make.front.styles._
 import org.make.front.styles.base.{ColRulesStyles, LayoutRulesStyles, TableLayoutStyles, TextStyles}
 import org.make.front.styles.ui.CTAStyles
@@ -17,7 +21,7 @@ import org.make.services.tracking.TrackingService.TrackingContext
 
 object OperationIntro {
 
-  case class OperationIntroProps(operation: OperationModel)
+  case class OperationIntroProps(operation: OperationModel, language: String)
 
   lazy val reactClass: ReactClass =
     React
@@ -35,6 +39,7 @@ object OperationIntro {
 
             val operation: OperationModel =
               self.props.wrapped.operation
+            val wording: OperationWording = operation.getWordingByLanguageOrError(self.props.wrapped.language)
 
             val gradientValues: GradientColorModel =
               operation.gradient.getOrElse(GradientColorModel("#FFF", "#FFF"))
@@ -56,17 +61,17 @@ object OperationIntro {
                 <.div(^.className := LayoutRulesStyles.centeredRow)(
                   <.div(
                     ^.className := Seq(OperationIntroStyles.titleWrapper, DynamicOperationIntroStyles.titleWrapper)
-                  )(if (operation.wording.label.isDefined) {
+                  )(if (wording.label.isDefined) {
                     <.div(^.className := DynamicOperationIntroStyles.labelWrapper)(
-                      <.p(^.className := TextStyles.label)(unescape(operation.wording.label.getOrElse("")))
+                      <.p(^.className := TextStyles.label)(unescape(wording.label.getOrElse("")))
                     )
                   }, if (operation.logoUrl.isDefined) {
                     <.p(^.className := Seq(OperationIntroStyles.logoWrapper))(
-                      <.img(^.src := operation.logoUrl.getOrElse(""), ^.alt := unescape(operation.wording.title))()
+                      <.img(^.src := operation.logoUrl.getOrElse(""), ^.alt := unescape(wording.title))()
                     )
-                  }, if (operation.wording.period.isDefined) {
+                  }, if (wording.period.isDefined) {
                     <.p(^.className := Seq(OperationIntroStyles.infos, TextStyles.label))(
-                      unescape(operation.wording.period.getOrElse(""))
+                      unescape(wording.period.getOrElse(""))
                     )
                   }),
                   if (operation.partners.nonEmpty) {
@@ -117,16 +122,16 @@ object OperationIntro {
                           )
                         )
                       ),
-                      if (operation.wording.mentionUnderThePartners.isDefined) {
+                      if (wording.mentionUnderThePartners.isDefined) {
                         <.p(^.className := Seq(OperationIntroStyles.otherPartners, TextStyles.smallText))(
-                          unescape(operation.wording.mentionUnderThePartners.getOrElse(""))
+                          unescape(wording.mentionUnderThePartners.getOrElse(""))
                         )
                       }
                     )
                   }
                 )
               ),
-              if (operation.illustration.isDefined || operation.wording.explanation.isDefined) {
+              if (operation.illustration.isDefined || wording.explanation.isDefined) {
                 <.div(^.className := OperationIntroStyles.explanationWrapper)(
                   <.div(^.className := LayoutRulesStyles.narrowerCenteredRowWithCols)(
                     <.div(^.className := Seq(ColRulesStyles.col, ColRulesStyles.colThirdBeyondSmall))(
@@ -140,25 +145,25 @@ object OperationIntro {
                         <.img(
                           ^.src := operation.illustration.map(_.illUrl).getOrElse(""),
                           ^("srcset") := imageSrcset,
-                          ^.alt := unescape(operation.wording.title),
+                          ^.alt := unescape(wording.title),
                           ^.className := OperationIntroStyles.explanationIll
                         )()
                       }
                     ),
                     <.div(^.className := Seq(ColRulesStyles.col, ColRulesStyles.colTwoThirdsBeyondSmall))(
                       <.p(^.className := TextStyles.label)(unescape(I18n.t("operation.intro.article.title"))),
-                      if (operation.wording.explanation.isDefined) {
+                      if (wording.explanation.isDefined) {
                         <.div(^.className := OperationIntroStyles.explanationTextWrapper)(
                           <.p(^.className := Seq(OperationIntroStyles.explanationText, TextStyles.smallText))(
-                            unescape(operation.wording.explanation.getOrElse(""))
+                            unescape(wording.explanation.getOrElse(""))
                           )
                         )
                       },
-                      if (operation.wording.learnMoreUrl.isDefined) {
+                      if (wording.learnMoreUrl.isDefined) {
                         <.p(^.className := OperationIntroStyles.ctaWrapper)(
                           <.a(
                             ^.onClick := onClick,
-                            ^.href := unescape(operation.wording.learnMoreUrl.getOrElse("")),
+                            ^.href := unescape(wording.learnMoreUrl.getOrElse("")),
                             ^.className := Seq(CTAStyles.basic, CTAStyles.basicOnA),
                             ^.target := "_blank"
                           )(unescape(I18n.t("operation.intro.article.see-more.label")))

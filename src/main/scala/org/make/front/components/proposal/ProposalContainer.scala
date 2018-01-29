@@ -48,7 +48,8 @@ object ProposalContainer {
             val futureMaybeOperation: Future[Option[OperationModel]] = proposal.operationId match {
               case Some(operationId) =>
                 OperationService.getOperationById(operationId).map { operation =>
-                  val operationExpanded = OperationModel.getOperationExpandedFromOperation(operation)
+                  val operationExpanded =
+                    OperationModel.getOperationExpandedFromOperation(operation = operation, country = state.country)
                   Some(operationExpanded)
                 }
               case _ => Future.successful(None)
@@ -78,7 +79,7 @@ object ProposalContainer {
           futureProposalAndThemeOrOperationModel
         }
 
-        Proposal.ProposalProps(futureProposal = futureProposal)
+        Proposal.ProposalProps(futureProposal = futureProposal, language = state.language)
       }
     }
 }
