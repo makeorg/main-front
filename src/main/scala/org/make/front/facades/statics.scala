@@ -124,6 +124,10 @@ object artisansDuMonde extends js.Object
 object femmesIngenieurs extends js.Object
 
 @js.native
+@JSImport("./images/actions/famae.jpg", "default")
+object famae extends js.Object
+
+@js.native
 @JSImport("./images/logoMake.svg", "default")
 object logoMake extends js.Object
 

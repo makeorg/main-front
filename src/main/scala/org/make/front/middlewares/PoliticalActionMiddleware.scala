@@ -68,6 +68,20 @@ object PoliticalActionMiddleware {
       ),
       PoliticalAction(
         themeSlug = Some("developpement-durable-energie"),
+        imageUrl = famae.toString,
+        imageTitle = None,
+        date = None,
+        location = None,
+        links = Some(
+          """<a href="http://bit.ly/2E5pmsr" target="_blank">Je participe au concours</a>"""
+        ),
+        introduction = Some(
+          "Il faut que les produits électroniques/électroménagers deviennent recyclables, modulaires (réparables) et sans obsolescence programmée, Mathieu, 17 ans"
+        ),
+        text = "Quand je te dis \"recycler ses déchets\", tu as des idées ? Formidable ! Viens les proposer !"
+      ),
+      PoliticalAction(
+        themeSlug = Some("developpement-durable-energie"),
         imageUrl = goodplanet.toString,
         imageTitle = Some("Fondation Goodplanet"),
         date = None,
