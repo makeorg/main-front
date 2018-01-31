@@ -15,12 +15,15 @@ import org.make.services.tracking.{TrackingLocation, TrackingService}
 
 object Operation {
 
-  final case class OperationProps(operation: OperationModel, language: String)
+  final case class OperationProps(operation: OperationModel, language: String, onWillMount: () => Unit)
 
   lazy val reactClass: ReactClass =
     React
       .createClass[OperationProps, Unit](
         displayName = "Operation",
+        componentWillMount = { self =>
+          self.props.wrapped.onWillMount()
+        },
         componentDidMount = { self =>
           TrackingService
             .track(
@@ -28,36 +31,39 @@ object Operation {
               TrackingContext(TrackingLocation.operationPage, operationSlug = Some(self.props.wrapped.operation.slug)),
               Map("id" -> self.props.wrapped.operation.operationId.value)
             )
-
         },
         render = (self) => {
-          <("operation")()(
-            <.div(^.className := OperationComponentStyles.mainHeaderWrapper)(<.MainHeaderComponent.empty),
-            if (self.props.wrapped.operation.logoUrl.nonEmpty) {
-              <.OperationIntroComponent(
-                ^.wrapped := OperationIntroProps(
-                  operation = self.props.wrapped.operation,
+          if (self.props.wrapped.operation.isActive) {
+            <("operation")()(
+              <.div(^.className := OperationComponentStyles.mainHeaderWrapper)(<.MainHeaderComponent.empty),
+              if (self.props.wrapped.operation.logoUrl.nonEmpty) {
+                <.OperationIntroComponent(
+                  ^.wrapped := OperationIntroProps(
+                    operation = self.props.wrapped.operation,
+                    language = self.props.wrapped.language
+                  )
+                )()
+              },
+              <.OperationHeaderComponent(
+                ^.wrapped := OperationHeaderProps(
+                  self.props.wrapped.operation,
+                  maybeLocation = Some(LocationModel.OperationPage(self.props.wrapped.operation.operationId)),
                   language = self.props.wrapped.language
                 )
-              )()
-            },
-            <.OperationHeaderComponent(
-              ^.wrapped := OperationHeaderProps(
-                self.props.wrapped.operation,
-                maybeLocation = Some(LocationModel.OperationPage(self.props.wrapped.operation.operationId)),
-                language = self.props.wrapped.language
-              )
-            )(),
-            <.div(^.className := OperationComponentStyles.contentWrapper)(
-              <.ResultsInOperationContainerComponent(
-                ^.wrapped := ResultsInOperationContainerProps(
-                  currentOperation = self.props.wrapped.operation,
-                  maybeLocation = Some(LocationModel.OperationPage(self.props.wrapped.operation.operationId))
-                )
-              )()
-            ),
-            <.style()(OperationComponentStyles.render[String])
-          )
+              )(),
+              <.div(^.className := OperationComponentStyles.contentWrapper)(
+                <.ResultsInOperationContainerComponent(
+                  ^.wrapped := ResultsInOperationContainerProps(
+                    currentOperation = self.props.wrapped.operation,
+                    maybeLocation = Some(LocationModel.OperationPage(self.props.wrapped.operation.operationId))
+                  )
+                )()
+              ),
+              <.style()(OperationComponentStyles.render[String])
+            )
+          } else {
+            <("operation")()()
+          }
         }
       )
 }

@@ -5,7 +5,7 @@ import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import io.github.shogowada.scalajs.reactjs.redux.ReactRedux
 import io.github.shogowada.scalajs.reactjs.redux.Redux.Dispatch
 import io.github.shogowada.scalajs.reactjs.router.RouterProps._
-import io.github.shogowada.scalajs.reactjs.router.WithRouter
+import io.github.shogowada.scalajs.reactjs.router.{NativeRedirect, WithRouter}
 import org.make.front.components.{AppState, ObjectLoader}
 import org.make.front.components.ObjectLoader.ObjectLoaderProps
 import org.make.front.models.{ProposalId, SequenceId, OperationExpanded => OperationModel, Sequence => SequenceModel}
@@ -14,6 +14,7 @@ import org.make.services.sequence.SequenceService
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
+import org.scalajs.dom
 
 object SequenceOfTheOperationContainer {
 
@@ -39,9 +40,7 @@ object SequenceOfTheOperationContainer {
         val futureMaybeOperationExpanded: () => Future[Option[(OperationModel, SequenceModel)]] = () => {
           OperationService
             .getOperationBySlug(operationSlug)
-            .map { maybeOperation =>
-              maybeOperation.map(OperationModel.getOperationExpandedFromOperation(_, state.country))
-            }
+            .map(OperationModel.getOperationExpandedFromOperation(_, state.country))
             .flatMap {
               case None => Future.successful(None)
               case Some(operation) =>
@@ -68,7 +67,17 @@ object SequenceOfTheOperationContainer {
                 redirectHome = () => props.history.push("/"),
                 startSequence = startSequence(operation.landingSequenceId),
                 sequence = sequence,
-                language = state.language
+                language = state.language,
+                onWillMount = () => {
+                  if (operation.isExpired) {
+                    dom.window.location
+                      .assign(operation.getWordingByLanguage(state.language).flatMap(_.learnMoreUrl).getOrElse("/"))
+                  } else {
+                    if (!operation.isActive) {
+                      props.history.push("/404")
+                    }
+                  }
+                }
               )
           }
         )

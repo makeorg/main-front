@@ -15,6 +15,7 @@ import org.make.front.facades._
 import org.make.front.models._
 import org.make.services.tracking.TrackingService.TrackingContext
 import org.make.services.tracking.{TrackingLocation, TrackingService}
+import scala.scalajs.js
 
 object Operations {
 
@@ -22,6 +23,8 @@ object Operations {
   val operationDesignList: Seq[OperationDesignData] = Seq(
     OperationDesignData(
       slug = "vff",
+      startDate = None,
+      endDate = Some(new js.Date("2018-01-31")),
       country = "FR",
       color = "#660779",
       gradient = Some(GradientColor("#AB92CA", "#54325A")),
@@ -149,6 +152,8 @@ object Operations {
     ),
     OperationDesignData(
       slug = "climatparis",
+      startDate = None,
+      endDate = None,
       country = "FR",
       color = "#459ba6",
       gradient = Some(GradientColor("#bfe692", "#69afde")),
