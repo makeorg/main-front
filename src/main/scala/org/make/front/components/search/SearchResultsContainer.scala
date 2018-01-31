@@ -62,6 +62,7 @@ object SearchResultsContainer {
 
           result
         }
+
         SearchResults.SearchResultsProps(
           onMoreResultsRequested = getProposals,
           searchValue = searchValue,
