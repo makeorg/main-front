@@ -15,7 +15,7 @@ import org.make.front.styles.base.{TableLayoutStyles, TextStyles}
 import org.make.front.styles.ui.{CTAStyles, InputStyles, TooltipStyles}
 import org.make.front.styles.utils._
 import org.make.front.styles.vendors.FontAwesomeStyles
-import org.make.services.tracking.TrackingService
+import org.make.services.tracking.{TrackingLocation, TrackingService}
 import org.make.services.tracking.TrackingService.TrackingContext
 import org.scalajs.dom.raw.HTMLInputElement
 
@@ -101,7 +101,7 @@ object SubmitProposalForm {
               self.props.wrapped.handleSubmitProposalForm(content)
               TrackingService.track(
                 "click-proposal-submit",
-                self.props.wrapped.trackingContext,
+                TrackingContext(TrackingLocation.submitProposalPage, self.props.wrapped.trackingContext.operationSlug),
                 self.props.wrapped.trackingParameters
               )
             }

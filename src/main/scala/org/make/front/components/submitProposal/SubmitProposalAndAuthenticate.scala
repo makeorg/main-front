@@ -15,7 +15,7 @@ import org.make.front.models.{OperationExpanded => OperationModel, TranslatedThe
 import org.make.front.styles.ThemeStyles
 import org.make.front.styles.base.{LayoutRulesStyles, TextStyles}
 import org.make.front.styles.utils._
-import org.make.services.tracking.TrackingService
+import org.make.services.tracking.{TrackingLocation, TrackingService}
 import org.make.services.tracking.TrackingService.TrackingContext
 
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -47,9 +47,15 @@ object SubmitProposalAndAuthenticate {
       getInitialState = { _ =>
         SubmitProposalAndAuthenticateState.empty
       },
-      componentWillReceiveProps = { (_, props) =>
-        TrackingService
-          .track("display-proposal-submit-journey", props.wrapped.trackingContext, props.wrapped.trackingParameters)
+      componentWillReceiveProps = { (self, props) =>
+        if (self.state.displayedComponent == "submit-proposal") {
+          TrackingService
+            .track(
+              "display-proposal-submit-journey",
+              TrackingContext(TrackingLocation.submitProposalPage, props.wrapped.trackingContext.operationSlug),
+              props.wrapped.trackingParameters
+            )
+        }
       },
       render = { self =>
         val props = self.props.wrapped
@@ -106,7 +112,10 @@ object SubmitProposalAndAuthenticate {
             <.RequireAuthenticatedUserComponent(
               ^.wrapped := RequireAuthenticatedUserContainerProps(
                 operationId = self.props.wrapped.maybeOperation.map(_.operationId),
-                trackingContext = self.props.wrapped.trackingContext,
+                trackingContext = TrackingContext(
+                  TrackingLocation.submitProposalPage,
+                  self.props.wrapped.trackingContext.operationSlug
+                ),
                 trackingParameters = self.props.wrapped.trackingParameters,
                 intro = intro,
                 onceConnected = onConnectionOk,
