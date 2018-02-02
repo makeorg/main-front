@@ -6,6 +6,7 @@ import io.github.shogowada.scalajs.reactjs.redux.ReactRedux._
 import io.github.shogowada.scalajs.reactjs.redux.devtools.ReduxDevTools
 import io.github.shogowada.scalajs.reactjs.redux.{Redux, Store}
 import io.github.shogowada.scalajs.reactjs.router.dom.RouterDOM._
+import org.make.client.MakeApiClient
 import org.make.front.actions.{LoggedInAction, SetConfiguration}
 import org.make.front.components.AppState
 import org.make.front.components.Components.RichVirtualDOMElements
@@ -78,6 +79,22 @@ object Main {
         maybeUser.foreach { user =>
           store.dispatch(LoggedInAction(user))
         }
+
+        // adding language/ country headers
+        MakeApiClient.addHeaders(Map(
+          MakeApiClient.countryHeader -> store.getState.country,
+          MakeApiClient.languageHeader -> store.getState.language
+        ))
+        // adding get parameters headers
+        MakeApiClient.addHeaders(Map(
+            "x-get-parameters" -> dom.window.location.search.drop(1)
+          ).filter { case (_, value) => value.nonEmpty }
+        )
+
+        // adding hostname header
+        MakeApiClient.addHeaders(Map(
+          "x-hostname" -> dom.window.location.hostname
+        ))
 
         startAppWhenReady(maybeUser, store)
     }

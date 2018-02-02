@@ -16,21 +16,6 @@ import scala.scalajs.js.JSON
 
 object MakeApiClient extends Client {
 
-  def defaultHeaders: Map[String, String] = {
-    Map(
-      "Accept" -> MediaTypes.`application/json`,
-      "Content-Type" -> "application/json;charset=UTF-8",
-      "x-hostname" -> dom.window.location.hostname
-    ) ++
-      Map("x-get-parameters" -> dom.window.location.search.drop(1)).filter { case (_, value) => value.nonEmpty } ++
-      MakeApiClient.getToken.map { authToken =>
-        "Authorization" -> s"${authToken.token_type} ${authToken.access_token}"
-      } ++
-      MakeApiClient.getXSessionId.map { xSessionId =>
-        xSessionIdHeader -> xSessionId
-      }
-  }
-
   override lazy val baseUrl: String = Configuration.apiUrl
 
   private var authToken: Option[Token] = None
@@ -39,13 +24,26 @@ object MakeApiClient extends Client {
   private def removeToken(): Unit = authToken = None
   private def isAuthenticated: Boolean = authToken.isDefined
 
-  private var xSessionId: Option[String] = None
-  private val xSessionIdHeader: String = "x-session-id"
-  private def getXSessionId: Option[String] = xSessionId
-  private def setXSessionId(newXSessionId: Option[String]): Unit = xSessionId = newXSessionId
+  def getDefaultHeaders: Map[String, String] = {
+    defaultHeaders ++
+    MakeApiClient.getToken.map { authToken =>
+      "Authorization" -> s"${authToken.token_type} ${authToken.access_token}"
+      } ++
+      MakeApiClient.xSessionId.map { xSessionId =>
+      xSessionIdHeader -> xSessionId
+      }
+  }
 
-  val maxTimeout: Int = 9000
-  val withCredentials: Boolean = true
+  var defaultHeaders: Map[String, String] = {
+    Map(
+      "Accept" -> MediaTypes.`application/json`,
+      "Content-Type" -> "application/json;charset=UTF-8"
+    )
+  }
+
+  def addHeaders(headers: Map[String, String]): Unit = {
+    defaultHeaders = defaultHeaders ++ headers
+  }
 
   val themeIdHeader: String = "x-make-theme-id"
   val operationHeader: String = "x-make-operation"
@@ -54,7 +52,14 @@ object MakeApiClient extends Client {
   val questionHeader: String = "x-make-question"
   val languageHeader: String = "x-make-language"
   val countryHeader: String = "x-make-country"
+
+  private var xSessionId: Option[String] = None
+  private val xSessionIdHeader: String = "x-session-id"
+
   val retryAfterTimeout: Int = 4
+
+  val maxTimeout: Int = 9000
+  val withCredentials: Boolean = true
 
   case class RequestData(method: String,
                          url: String,
@@ -86,7 +91,7 @@ object MakeApiClient extends Client {
   }
 
   private def urlFrom(apiEndpoint: String, urlParams: Seq[(String, Any)] = Seq.empty): String =
-    (baseUrl / apiEndpoint).addParams(urlParams)
+      (baseUrl / apiEndpoint).addParams(urlParams)
 
   override def get[ENTITY <: js.Object](apiEndpoint: String = "",
                                         urlParams: Seq[(String, Any)] = Seq.empty,
@@ -96,7 +101,7 @@ object MakeApiClient extends Client {
       url = urlFrom(apiEndpoint, urlParams),
       timeout = maxTimeout,
       withCredentials = withCredentials,
-      headers = defaultHeaders ++ headers
+      headers = getDefaultHeaders ++ headers
     )
 
     retryOnFailure(MakeApiClient(requestData), retryAfterTimeout)
@@ -112,9 +117,8 @@ object MakeApiClient extends Client {
       withCredentials = requestData.withCredentials,
       responseType = requestData.responseType
     ).map { response =>
-      MakeApiClient.setXSessionId(
+      MakeApiClient.xSessionId =
         Option(response.getResponseHeader(xSessionIdHeader)).filterNot(_.isEmpty).orElse(xSessionId)
-      )
       if (response.responseText.nonEmpty) JSON.parse(response.responseText).asInstanceOf[ENTITY]
       else response.response.asInstanceOf[ENTITY]
     }
@@ -130,7 +134,7 @@ object MakeApiClient extends Client {
       data = data,
       timeout = maxTimeout,
       withCredentials = withCredentials,
-      headers = defaultHeaders ++ headers
+      headers = getDefaultHeaders ++ headers
     )
 
     retryOnFailure(MakeApiClient(requestData), retryAfterTimeout)
@@ -146,7 +150,7 @@ object MakeApiClient extends Client {
       data = data,
       timeout = maxTimeout,
       withCredentials = withCredentials,
-      headers = defaultHeaders ++ headers
+      headers = getDefaultHeaders ++ headers
     )
 
     retryOnFailure(MakeApiClient(requestData), retryAfterTimeout)
@@ -161,7 +165,7 @@ object MakeApiClient extends Client {
       url = urlFrom(apiEndpoint, urlParams),
       data = data,
       timeout = maxTimeout,
-      headers = defaultHeaders ++ headers,
+      headers = getDefaultHeaders ++ headers,
       withCredentials = withCredentials
     )
 
@@ -177,7 +181,7 @@ object MakeApiClient extends Client {
       url = urlFrom(apiEndpoint, urlParams),
       data = data,
       timeout = maxTimeout,
-      headers = defaultHeaders ++ headers,
+      headers = getDefaultHeaders ++ headers,
       withCredentials = withCredentials
     )
 
@@ -212,7 +216,7 @@ object MakeApiClient extends Client {
   }
 
   private def askForAccessTokenSocial(provider: String, token: String, operationId: Option[OperationId]): Future[Boolean] = {
-    val headers = MakeApiClient.defaultHeaders ++ operationId.map(op => MakeApiClient.operationHeader -> op.value)
+    val headers = MakeApiClient.getDefaultHeaders ++ operationId.map(op => MakeApiClient.operationHeader -> op.value)
 
     post[TokenResponse](
       "user" / "login" / "social",
@@ -226,7 +230,7 @@ object MakeApiClient extends Client {
 
   def logout(): Future[Unit] =
     Ajax
-      .post(url = urlFrom("logout"), timeout = maxTimeout, headers = defaultHeaders, withCredentials = withCredentials)
+      .post(url = urlFrom("logout"), timeout = maxTimeout, headers = getDefaultHeaders, withCredentials = withCredentials)
       .map(_ => MakeApiClient.removeToken())
 
 }
