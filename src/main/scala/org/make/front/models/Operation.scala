@@ -5,7 +5,6 @@ import org.make.services.operation.{
   OperationResponse,
   OperationTranslationResponse
 }
-
 import scala.scalajs.js
 
 final case class Operation(status: String,
@@ -13,7 +12,6 @@ final case class Operation(status: String,
                            slug: String,
                            translations: Seq[OperationTranslation] = Seq.empty,
                            defaultLanguage: String,
-                           sequenceLandingId: SequenceId,
                            createdAt: Option[js.Date],
                            updatedAt: Option[js.Date],
                            countriesConfiguration: Seq[OperationCountryConfiguration])
@@ -26,11 +24,15 @@ object Operation {
       translations =
         operationResponse.translations.map(translationResponse => OperationTranslation.apply(translationResponse)),
       defaultLanguage = operationResponse.defaultLanguage,
-      sequenceLandingId = SequenceId(operationResponse.sequenceLandingId),
       createdAt = operationResponse.createdAt.toOption.map(new js.Date(_)),
       updatedAt = operationResponse.updatedAt.toOption.map(new js.Date(_)),
       countriesConfiguration = operationResponse.countriesConfiguration.map(
-        countryConfigurationResponse => OperationCountryConfiguration.apply(countryConfigurationResponse)
+        countryConfigurationResponse =>
+          OperationCountryConfiguration
+            .apply(
+              operationCountryConfigurationResponse = countryConfigurationResponse,
+              deprecatedLandingSequenceId = operationResponse.sequenceLandingId.toOption.map(SequenceId(_)) // backward compatibility
+          )
       )
     )
   }
@@ -53,14 +55,35 @@ object OperationTranslation {
   }
 }
 
-final case class OperationCountryConfiguration(countryCode: String, TagIds: Seq[Tag])
+final case class OperationCountryConfiguration(countryCode: String, tagIds: Seq[Tag], landingSequenceId: SequenceId)
 object OperationCountryConfiguration {
+
+  @deprecated("old sequence field will be removed", "")
+  def apply(operationCountryConfigurationResponse: OperationCountryConfigurationResponse,
+            deprecatedLandingSequenceId: Option[SequenceId] = None): OperationCountryConfiguration = {
+    OperationCountryConfiguration(
+      operationCountryConfigurationResponse.countryCode,
+      operationCountryConfigurationResponse.tagIds.map(tagId => Tag(tagId = TagId(tagId), label = tagId)),
+      operationCountryConfigurationResponse.landingSequenceId.toOption
+        .map(SequenceId(_))
+        .orElse(deprecatedLandingSequenceId) match {
+        case Some(sequenceId) => sequenceId
+        case _                => throw new IllegalArgumentException("a landing sequence id is required")
+      }
+    )
+  }
+
   def apply(
     operationCountryConfigurationResponse: OperationCountryConfigurationResponse
   ): OperationCountryConfiguration = {
     OperationCountryConfiguration(
       operationCountryConfigurationResponse.countryCode,
-      operationCountryConfigurationResponse.tagIds.map(tagId => Tag(tagId = TagId(tagId), label = tagId))
+      operationCountryConfigurationResponse.tagIds.map(tagId => Tag(tagId = TagId(tagId), label = tagId)),
+      operationCountryConfigurationResponse.landingSequenceId.toOption
+        .map(SequenceId(_)) match {
+        case Some(sequenceId) => sequenceId
+        case _                => throw new IllegalArgumentException("a landing sequence id is required")
+      }
     )
   }
 }

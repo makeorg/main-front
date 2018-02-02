@@ -10,7 +10,8 @@ import org.make.front.components.showcase.ThemeShowcaseContainer.ThemeShowcaseCo
 import org.make.front.components.showcase.TrendingShowcaseContainer.TrendingShowcaseContainerProps
 import org.make.front.facades.I18n
 import org.make.front.facades.Unescape.unescape
-import org.make.front.models.{Location, OperationDesignData}
+import org.make.front.models.Location
+import org.make.front.operations.Operations
 import org.make.front.styles.ThemeStyles
 import org.make.services.tracking.TrackingService.TrackingContext
 import org.make.services.tracking.{TrackingLocation, TrackingService}
@@ -30,7 +31,7 @@ object Home {
             <.FeaturedOperationContainerComponent(
               ^.wrapped := FeaturedOperationContainerProps(
                 trackingLocation = TrackingLocation.homepage,
-                operationSlug = OperationDesignData.featuredOperationSlug
+                operationSlug = Operations.featuredOperationSlug
               )
             )(),
             <.ThemeShowcaseContainerComponent(

@@ -31,7 +31,7 @@ import scala.util.{Failure, Success}
 
 object Proposal {
 
-  final case class ProposalProps(futureProposal: Future[ProposalAndThemeOrOperationModel])
+  final case class ProposalProps(futureProposal: Future[ProposalAndThemeOrOperationModel], language: String)
 
   final case class ProposalState(maybeProposal: Option[ProposalModel] = None,
                                  maybeTheme: Option[TranslatedThemeModel] = None,
@@ -116,7 +116,10 @@ object Proposal {
                               if (self.state.maybeOperation.isDefined) {
                                 <.div(^.className := ProposalStyles.operationInfoWrapper)(
                                   <.ProposalSOperationInfosComponent(
-                                    ^.wrapped := ProposalSOperationInfosProps(operation = self.state.maybeOperation.get)
+                                    ^.wrapped := ProposalSOperationInfosProps(
+                                      operation = self.state.maybeOperation.get,
+                                      language = self.props.wrapped.language
+                                    )
                                   )()
                                 )
                               } else {

@@ -21,16 +21,16 @@ object FeaturedOperationContainer {
 
   def selectorFactory
     : (Dispatch) => (AppState, Props[FeaturedOperationContainerProps]) => ObjectLoaderProps[OperationModel] =
-    (_: Dispatch) => { (_: AppState, props: Props[FeaturedOperationContainerProps]) =>
+    (_: Dispatch) => { (appState: AppState, props: Props[FeaturedOperationContainerProps]) =>
       {
         val slug = props.wrapped.operationSlug
 
         def operationExpanded: () => Future[Option[OperationModel]] = () => {
           OperationService
             .getOperationBySlug(slug)
-            .map(_.map { operation =>
-              OperationModel.getOperationExpandedFromOperation(operation)
-            })
+            .map { maybeOperation =>
+              OperationModel.getOperationExpandedFromOperation(maybeOperation, appState.country)
+            }
         }
 
         ObjectLoaderProps[OperationModel](
@@ -39,7 +39,11 @@ object FeaturedOperationContainer {
           childClass = FeaturedOperation.reactClass,
           createChildProps = { operation =>
             FeaturedOperation
-              .FeaturedOperationProps(trackingLocation = props.wrapped.trackingLocation, operation = operation)
+              .FeaturedOperationProps(
+                trackingLocation = props.wrapped.trackingLocation,
+                operation = operation,
+                language = appState.language
+              )
           }
         )
       }
