@@ -42,9 +42,21 @@ object Container {
           <.Route(^.exact := true, ^.path := "/profile", ^.component := UserProfileContainer.reactClass)(),
           <.Route(
             ^.exact := true,
+            ^.path := "/:country/consultation/:operationSlug",
+            ^.component := OperationContainer.reactClass
+          )(),
+          // @deprecated should be removed
+          <.Route(
+            ^.exact := true,
             ^.path := "/consultation/:operationSlug",
             ^.component := OperationContainer.reactClass
           )(),
+          <.Route(
+            ^.exact := true,
+            ^.path := "/:country/consultation/:operationSlug/selection",
+            ^.component := SequenceOfTheOperationContainer.reactClass
+          )(),
+          // @deprecated should be removed
           <.Route(
             ^.exact := true,
             ^.path := "/consultation/:operationSlug/selection",
@@ -54,7 +66,8 @@ object Container {
           <.Route(^.exact := true, ^.path := "/search", ^.component := SearchResultsContainer.reactClass)(),
           <.Route(^.exact := true, ^.path := "/404", ^.component := ErrorContainer.reactClass)(),
           <.Route(^.exact := true, ^.path := "/maintenance", ^.component := Maintenance.reactClass)(),
-          <.Route(^.exact := true, ^.path := "/", ^.component := Home.reactClass)()
+          <.Route(^.exact := true, ^.path := "/", ^.component := Home.reactClass)(),
+          <.Route(^.exact := false, ^.path := "/", ^.component := ErrorContainer.reactClass)()
       )
     )
   )

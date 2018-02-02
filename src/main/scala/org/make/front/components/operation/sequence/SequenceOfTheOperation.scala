@@ -39,6 +39,7 @@ object SequenceOfTheOperation {
                                                redirectHome: ()                 => Unit,
                                                sequence: SequenceModel,
                                                language: String,
+                                               country: String,
                                                onWillMount: () => Unit)
 
   final case class SequenceOfTheOperationState(isProposalModalOpened: Boolean,
@@ -62,7 +63,8 @@ object SequenceOfTheOperation {
               isConnected = self.props.wrapped.isConnected,
               sequence = self.props.wrapped.sequence,
               maybeLocation = None,
-              language = self.props.wrapped.language
+              language = self.props.wrapped.language,
+              country = self.props.wrapped.country
             )
           ),
           operation = self.props.wrapped.operation
@@ -120,7 +122,7 @@ object SequenceOfTheOperation {
                     )(
                       <.Link(
                         ^.className := SequenceOfTheOperationStyles.backLink,
-                        ^.to := s"/consultation/${operation.slug}"
+                        ^.to := s"/${self.props.wrapped.country}/consultation/${operation.slug}"
                       )(
                         <.i(
                           ^.className := Seq(SequenceOfTheOperationStyles.backLinkArrow, FontAwesomeStyles.angleLeft)

@@ -21,14 +21,12 @@ final case class OperationDesignData(country: String,
                                      extraSlides: (OperationExtraSlidesParams) => Seq[ExtraSlide])
 
 object OperationDesignData {
-  val defaultUrl = "consultation/{slug}/selection"
-
   def findBySlugAndCountry(slug: String, country: String): Option[OperationDesignData] = {
     val resultList: Seq[OperationDesignData] =
       Operations.operationDesignList.filter(operation => operation.slug == slug && operation.country == country)
     resultList match {
-      case operations if operations.nonEmpty => Some(operations.head)
-      case _                                 => None
+      case Seq(operation) => Some(operation)
+      case _              => None
     }
   }
 }
@@ -49,13 +47,13 @@ final case class OperationExtraSlidesParams(operation: OperationExpanded,
                                             isConnected: Boolean,
                                             sequence: Sequence,
                                             maybeLocation: Option[Location],
-                                            language: String)
+                                            language: String,
+                                            country: String)
 
 final case class OperationExpanded(operationId: OperationId,
                                    startDate: Option[js.Date],
                                    endDate: Option[js.Date],
                                    country: String,
-                                   url: String,
                                    slug: String,
                                    label: String,
                                    actionsCount: Int,
@@ -108,56 +106,51 @@ object OperationExpanded {
 
   def getOperationExpandedFromOperation(maybeOperation: Option[Operation],
                                         country: String): Option[OperationExpanded] = {
-    maybeOperation.flatMap { operation =>
-      val maybeOperationDesignData: Option[OperationDesignData] =
-        OperationDesignData.findBySlugAndCountry(slug = operation.slug, country = country)
-      val countryConfiguration: OperationCountryConfiguration =
-        operation.countriesConfiguration.filter(_.countryCode == country).head
-
-      maybeOperationDesignData match {
-        case Some(operationDesignData) =>
-          Some(
-            OperationExpanded(
-              startDate = operationDesignData.startDate,
-              endDate = operationDesignData.endDate,
-              country = country,
-              operationId = operation.operationId,
-              url = OperationDesignData.defaultUrl.replace("{slug}", operation.slug),
-              slug = operation.slug,
-              label = operation.slug,
-              actionsCount = 0,
-              proposalsCount = 0,
-              color = operationDesignData.color,
-              gradient = operationDesignData.gradient,
-              logoUrl = operationDesignData.logoUrl,
-              logoMaxWidth = operationDesignData.logoMaxWidth,
-              darkerLogoUrl = operationDesignData.darkerLogoUrl,
-              greatCauseLabelAlignment = operationDesignData.greatCauseLabelAlignment,
-              wordings = operation.translations.map { translation =>
-                val language: String = translation.language.toLowerCase
-                val operationWording: OperationWording = operationDesignData.wording.filter(_.language == language).head
-                OperationWording(
-                  language = language,
-                  title = translation.title,
-                  question = operationWording.question,
-                  label = operationWording.label,
-                  purpose = operationWording.purpose,
-                  period = operationWording.period,
-                  mentionUnderThePartners = operationWording.mentionUnderThePartners,
-                  explanation = operationWording.explanation,
-                  learnMoreUrl = operationWording.learnMoreUrl
-                )
-              },
-              partners = operationDesignData.partners,
-              illustration = operationDesignData.illustration,
-              featuredIllustration = operationDesignData.featuredIllustration,
-              extraSlides = operationDesignData.extraSlides,
-              landingSequenceId = countryConfiguration.landingSequenceId,
-              tagIds = countryConfiguration.tagIds
-            )
-          )
-        case _ => None
+    for {
+      operation <- maybeOperation
+      countryConfiguration <- operation.countriesConfiguration.filter(_.countryCode == country) match {
+        case Seq(countryConfig) => Some(countryConfig)
+        case _                  => None
       }
-    }
+      operationDesignData <- OperationDesignData.findBySlugAndCountry(slug = operation.slug, country = country)
+    } yield
+      OperationExpanded(
+        startDate = operationDesignData.startDate,
+        endDate = operationDesignData.endDate,
+        country = country,
+        operationId = operation.operationId,
+        slug = operation.slug,
+        label = operation.slug,
+        actionsCount = 0,
+        proposalsCount = 0,
+        color = operationDesignData.color,
+        gradient = operationDesignData.gradient,
+        logoUrl = operationDesignData.logoUrl,
+        logoMaxWidth = operationDesignData.logoMaxWidth,
+        darkerLogoUrl = operationDesignData.darkerLogoUrl,
+        greatCauseLabelAlignment = operationDesignData.greatCauseLabelAlignment,
+        wordings = operation.translations.map { translation =>
+          val language: String = translation.language.toLowerCase
+          val operationWording: OperationWording = operationDesignData.wording.filter(_.language == language).head
+          OperationWording(
+            language = language,
+            title = translation.title,
+            question = operationWording.question,
+            label = operationWording.label,
+            purpose = operationWording.purpose,
+            period = operationWording.period,
+            mentionUnderThePartners = operationWording.mentionUnderThePartners,
+            explanation = operationWording.explanation,
+            learnMoreUrl = operationWording.learnMoreUrl
+          )
+        },
+        partners = operationDesignData.partners,
+        illustration = operationDesignData.illustration,
+        featuredIllustration = operationDesignData.featuredIllustration,
+        extraSlides = operationDesignData.extraSlides,
+        landingSequenceId = countryConfiguration.landingSequenceId,
+        tagIds = countryConfiguration.tagIds
+      )
   }
+
 }

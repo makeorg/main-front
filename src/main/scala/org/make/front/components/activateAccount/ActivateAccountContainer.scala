@@ -46,21 +46,21 @@ object ActivateAccountContainer {
       def handleValidateAccount(child: Self[ActivateAccountProps, Unit]): Unit = {
         UserService.validateAccount(userId, verificationToken, operationId).onComplete {
           case Success(_) => {
-            redirectAfterValidation(operationId, child.props.history)
+            redirectAfterValidation(operationId, state.country, child.props.history)
             dispatch(NotifySuccess(message = I18n.t("activate-account.notifications.success")))
           }
           case Failure(e) => {
-            redirectAfterValidation(operationId, child.props.history)
+            redirectAfterValidation(operationId, state.country, child.props.history)
             dispatch(NotifyError(message = I18n.t("activate-account.notifications.error-message")))
           }
         }
       }
 
-      def redirectAfterValidation(operationId: Option[OperationId], history: History): Unit = {
+      def redirectAfterValidation(operationId: Option[OperationId], country: String, history: History): Unit = {
         operationId match {
           case Some(value) =>
             OperationService.getOperationById(value).onComplete {
-              case Success(operation) => history.push(s"/consultation/${operation.slug}")
+              case Success(operation) => history.push(s"/$country/consultation/${operation.slug}")
               case Failure(e)         => history.push("/")
             }
           case _ => history.push("/")

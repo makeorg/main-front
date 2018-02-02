@@ -6,6 +6,7 @@ import io.github.shogowada.scalajs.reactjs.redux.ReactRedux
 import io.github.shogowada.scalajs.reactjs.redux.Redux.Dispatch
 import io.github.shogowada.scalajs.reactjs.router.RouterProps._
 import io.github.shogowada.scalajs.reactjs.router.{NativeRedirect, WithRouter}
+import org.make.front.actions.{SetCountry, SetLanguage}
 import org.make.front.components.{AppState, ObjectLoader}
 import org.make.front.components.ObjectLoader.ObjectLoaderProps
 import org.make.front.models.{ProposalId, SequenceId, OperationExpanded => OperationModel, Sequence => SequenceModel}
@@ -21,9 +22,13 @@ object SequenceOfTheOperationContainer {
   lazy val reactClass: ReactClass = WithRouter(ReactRedux.connectAdvanced(selectorFactory)(ObjectLoader.reactClass))
 
   def selectorFactory: (Dispatch) => (AppState, Props[Unit]) => ObjectLoaderProps[(OperationModel, SequenceModel)] =
-    (_: Dispatch) => { (state: AppState, props: Props[Unit]) =>
+    (dispatch: Dispatch) => { (state: AppState, props: Props[Unit]) =>
       {
-        val operationSlug = props.`match`.params("operationSlug")
+        val operationSlug: String = props.`match`.params("operationSlug")
+        // toDo remove default "FR" when backward compatibility not anymore required
+        val countryCode: String = props.`match`.params.get("country").getOrElse("FR").toUpperCase
+        dispatch(SetCountry(countryCode))
+
         val search = org.scalajs.dom.window.location.search
         val firstProposalSlug = (if (search.startsWith("?")) { search.substring(1) } else { search })
           .split("&")
@@ -40,7 +45,14 @@ object SequenceOfTheOperationContainer {
         val futureMaybeOperationExpanded: () => Future[Option[(OperationModel, SequenceModel)]] = () => {
           OperationService
             .getOperationBySlug(operationSlug)
-            .map(OperationModel.getOperationExpandedFromOperation(_, state.country))
+            .map { maybeOperation =>
+              maybeOperation.map { operation =>
+                if (!operation.translations.map(_.language).contains(state.language)) {
+                  dispatch(SetLanguage(operation.defaultLanguage))
+                }
+              }
+              OperationModel.getOperationExpandedFromOperation(maybeOperation, state.country)
+            }
             .flatMap {
               case None => Future.successful(None)
               case Some(operation) =>
@@ -56,7 +68,7 @@ object SequenceOfTheOperationContainer {
 
         ObjectLoaderProps[(OperationModel, SequenceModel)](
           load = futureMaybeOperationExpanded,
-          onNotFound = () => props.history.push("/"),
+          onNotFound = () => { props.history.push("/404") },
           childClass = SequenceOfTheOperation.reactClass,
           createChildProps = {
             case (operation, sequence) =>
@@ -68,6 +80,7 @@ object SequenceOfTheOperationContainer {
                 startSequence = startSequence(operation.landingSequenceId),
                 sequence = sequence,
                 language = state.language,
+                country = state.country,
                 onWillMount = () => {
                   if (operation.isExpired) {
                     dom.window.location

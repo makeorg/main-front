@@ -27,7 +27,8 @@ object PromptingToGoBackToOperation {
   final case class PromptingToGoBackToOperationProps(operation: OperationModel,
                                                      sequenceId: SequenceId,
                                                      clickOnButtonHandler: () => Unit,
-                                                     language: String)
+                                                     language: String,
+                                                     country: String)
 
   final case class PromptingToGoBackToOperationState()
 
@@ -58,7 +59,8 @@ object PromptingToGoBackToOperation {
                 TrackingContext(TrackingLocation.sequencePage, Some(self.props.wrapped.operation.slug)),
                 Map("sequenceId" -> self.props.wrapped.sequenceId.value)
               )
-              self.props.history.push(s"/consultation/${self.props.wrapped.operation.slug}")
+              self.props.history
+                .push(s"/${self.props.wrapped.country}/consultation/${self.props.wrapped.operation.slug}")
             }
 
             <.div(^.className := TableLayoutStyles.fullHeightWrapper)(
