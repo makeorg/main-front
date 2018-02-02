@@ -32,12 +32,13 @@ object Home {
             <.div(^.className := HomeStyles.mainHeaderWrapper)(<.MainHeaderContainer.empty),
             <.h1(^.style := Map("display" -> "none"))("Make.org"),
             if (self.props.wrapped.countryCode == "FR") {
-              <.VFFFeaturedOperationComponent(
-                ^.wrapped := VFFFeaturedOperationProps(trackingLocation = TrackingLocation.homepage)
+              <.MVEFeaturedOperationComponent(
+                ^.wrapped := MVEFeaturedOperationProps(trackingLocation = TrackingLocation.homepage)
               )()
             } else {
               <.WelcomeComponent.empty
             },
+            <.ActionsShowcaseComponent.empty,
             <.ThemeShowcaseContainerComponent(
               ^.wrapped := ThemeShowcaseContainerProps(
                 themeSlug = "sante-alimentation",
