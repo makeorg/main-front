@@ -89,7 +89,10 @@ object FullscreenModalStyles extends StyleSheet.Inline {
   val preventMainScroll: (Boolean) => StyleA = styleF.bool(
     isPrevented =>
       if (!isPrevented) {
-        styleS(unsafeRoot("html")(overflow.hidden))
+        styleS(
+          unsafeRoot("html")(overflow.hidden),
+          unsafeRoot("body")(position.fixed, top(`0`), left(`0`), width(100.%%))
+        )
       } else styleS()
   )
 
