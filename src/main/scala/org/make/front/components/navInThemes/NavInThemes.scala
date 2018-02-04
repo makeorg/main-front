@@ -82,7 +82,7 @@ object NavInThemes {
             if (themes.nonEmpty) {
               <.ul(^.className := Seq(NavInThemesStyles.themesList, LayoutRulesStyles.centeredRowWithCols))(listTheme)
             } else {
-              <.div(^.className := Seq(NavInThemesStyles.spinnerWrapper, LayoutRulesStyles.centeredRow))(
+              <.p(^.className := Seq(NavInThemesStyles.spinnerWrapper, LayoutRulesStyles.centeredRow))(
                 <.SpinnerComponent.empty
               )
             },
