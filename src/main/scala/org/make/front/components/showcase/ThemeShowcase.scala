@@ -95,25 +95,26 @@ object ThemeShowcase {
               self.props.history.push(s"/theme/${self.props.wrapped.theme.slug}")
             }
 
-          def sliderContent() = Seq(
-            self.state.proposals.map(
-              proposal =>
-                <.div(
-                  ^.className :=
-                    Seq(ColRulesStyles.col,
-                      ThemeShowcaseStyles.propasalItem))(
-                  proposalTile(self, proposal)
-                )
-            ),
-            <.div(
-              ^.className :=
-                ThemeShowcaseStyles.propasalItem)(
-              <.PromptingToProposeInRelationToThemeTileComponent(
-                ^.wrapped :=
-                  PromptingToProposeInRelationToThemeTileProps(
-                    theme = self.props.wrapped.theme
-                  ))()
-            ))
+            def sliderContent() = Seq(
+              self.state.proposals.map(
+                proposal =>
+                  <.div(
+                    ^.className :=
+                      Seq(ColRulesStyles.col,
+                        ThemeShowcaseStyles.propasalItem))(
+                    proposalTile(self, proposal)
+                  )
+              ),
+              <.div(
+                ^.className :=
+                  Seq(ColRulesStyles.col,
+                    ThemeShowcaseStyles.propasalItem))(
+                <.PromptingToProposeInRelationToThemeTileComponent(
+                  ^.wrapped :=
+                    PromptingToProposeInRelationToThemeTileProps(
+                      theme = self.props.wrapped.theme
+                    ))()
+              ))
 
             if (self.props.wrapped.theme.title.nonEmpty) {
               <.section(^.className := Seq(ThemeShowcaseStyles.wrapper, DynamicThemeShowcaseStyles.gradient(index)))(
