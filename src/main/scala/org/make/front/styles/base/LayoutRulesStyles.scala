@@ -42,6 +42,8 @@ object LayoutRulesStyles extends StyleSheet.Inline {
   val rowWithCols: StyleA = style(
     display.block,
     position.relative,
+    paddingRight((ThemeStyles.SpacingValue.small / 2).pxToEm()),
+    paddingLeft((ThemeStyles.SpacingValue.small / 2).pxToEm()),
     ThemeStyles.MediaQueries.beyondSmall(
       paddingRight(ThemeStyles.SpacingValue.small.pxToEm()),
       paddingLeft(ThemeStyles.SpacingValue.small.pxToEm())
@@ -65,10 +67,19 @@ object LayoutRulesStyles extends StyleSheet.Inline {
 object ColRulesStyles extends StyleSheet.Inline {
 
   import dsl._
-  val gutter: ValueT[ValueT.LenPct] = ThemeStyles.SpacingValue.small.pxToEm()
 
   val col: StyleA =
-    style(display.inlineBlock, verticalAlign.top, width(100.%%), paddingRight(gutter), paddingLeft(gutter))
+    style(
+      display.inlineBlock,
+      verticalAlign.top,
+      width(100.%%),
+      paddingRight((ThemeStyles.SpacingValue.small / 2).pxToEm()),
+      paddingLeft((ThemeStyles.SpacingValue.small / 2).pxToEm()),
+      ThemeStyles.MediaQueries.beyondSmall(
+        paddingRight(ThemeStyles.SpacingValue.small.pxToEm()),
+        paddingLeft(ThemeStyles.SpacingValue.small.pxToEm())
+      )
+    )
 
   val colHalf: StyleA = style(width(50.%%))
   val colThird: StyleA = style(width(33.3333.%%))
