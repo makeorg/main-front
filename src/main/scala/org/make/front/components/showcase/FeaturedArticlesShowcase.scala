@@ -5,59 +5,65 @@ import io.github.shogowada.scalajs.reactjs.VirtualDOM.{<, _}
 import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import org.make.front.Main.CssSettings._
 import org.make.front.components.Components._
+import org.make.front.facades.I18n
 import org.make.front.facades.ReactSlick.{ReactTooltipVirtualDOMAttributes, ReactTooltipVirtualDOMElements}
+import org.make.front.facades.Unescape.unescape
+import org.make.front.models.{FeaturedArticle => FeaturedArticleModel}
 import org.make.front.styles.ThemeStyles
 import org.make.front.styles.base.{ColRulesStyles, LayoutRulesStyles, RWDHideRulesStyles, TextStyles}
 import org.make.front.styles.utils._
 
-object ActionsShowcase {
+object FeaturedArticlesShowcase {
+
+  final case class FeaturedArticlesShowcaseProps(articles: Seq[FeaturedArticleModel])
 
   lazy val reactClass: ReactClass =
     React
-      .createClass[Unit, Unit](
-        displayName = "ActionsShowcase",
-        render = { _ =>
-          def actionTile() = <.article()(
-            <.div(^.className := ActionTileStyles.illWrapper)(
+      .createClass[FeaturedArticlesShowcaseProps, Unit](
+        displayName = "FeaturedArticlesShowcase",
+        render = { self =>
+          def articleTile(article: FeaturedArticleModel) = <.article()(
+            <.div(^.className := FeaturedArticleTileStyles.illWrapper)(
               <.img(
-                ^.src := "https://placekitten.com/720/400",
-                ^.alt := "Un million d'euros pour financer vos projets innovants"
+                ^.src := article.illUrl,
+                ^.srcset := article.illUrl + " 1x," + article.ill2xUrl + " 2x",
+                ^.alt := article.imageAlt.getOrElse("")
               )()
             ),
-            <.div(^.className := ActionTileStyles.contentWrapper)(
-              <.div(^.className := ActionTileStyles.labelWrapper)(
-                <.div(^.className := ActionTileStyles.labelInnerWrapper)(
-                  <.p(^.className := Seq(ActionTileStyles.label, TextStyles.label))("action en cours")
+            <.div(^.className := FeaturedArticleTileStyles.contentWrapper)(
+              <.div(^.className := FeaturedArticleTileStyles.labelWrapper)(
+                <.div(^.className := FeaturedArticleTileStyles.labelInnerWrapper)(
+                  <.p(^.className := Seq(FeaturedArticleTileStyles.label, TextStyles.label))(article.label)
                 )
               ),
-              <.div(^.className := ActionTileStyles.excerptWrapper)(
+              <.div(^.className := FeaturedArticleTileStyles.excerptWrapper)(
                 <.p(^.className := TextStyles.mediumText)(
-                  "Un million d'euros pour financer vos projets innovants",
+                  article.excerpt,
                   <.br()(),
-                  <.a(^.href := "#", ^.className := TextStyles.boldText)("En savoir +")
+                  <.a(^.href := article.seeMoreLink, ^.className := TextStyles.boldText)(article.seeMoreLabel)
                 )
               )
             )
           )
 
-          <.section(^.className := ActionsShowcaseStyles.wrapper)(
+          <.section(^.className := FeaturedArticlesShowcaseStyles.wrapper)(
             <.header(^.className := LayoutRulesStyles.centeredRow)(
-              <.h2(^.className := TextStyles.mediumTitle)("Agir avec Make.org")
+              <.h2(^.className := TextStyles.mediumTitle)(unescape(I18n.t("featured-articles-showcase.title")))
             ),
             <.div(
               ^.className := Seq(
                 RWDHideRulesStyles.hideBeyondMedium,
                 LayoutRulesStyles.centeredRowWithCols,
-                ActionsShowcaseStyles.slideshow
+                FeaturedArticlesShowcaseStyles.slideshow
               )
             )(
               <.Slider(^.infinite := false, ^.arrows := false)(
-                Range(0, 3).map(
-                  item =>
+                self.props.wrapped.articles.map(
+                  article =>
                     <.div(
                       ^.className :=
-                        Seq(ColRulesStyles.col, ActionTileStyles.wrapper)
-                    )(actionTile())
+                        Seq(ColRulesStyles.col, FeaturedArticleTileStyles.wrapper)
+                    )(articleTile(article))
                 )
               )
             ),
@@ -66,44 +72,44 @@ object ActionsShowcase {
                 RWDHideRulesStyles.showBlockBeyondMedium,
                 RWDHideRulesStyles.hideBeyondLarge,
                 LayoutRulesStyles.centeredRowWithCols,
-                ActionsShowcaseStyles.slideshow
+                FeaturedArticlesShowcaseStyles.slideshow
               )
             )(
               <.Slider(^.infinite := false, ^.arrows := false, ^.slidesToShow := 2, ^.slidesToScroll := 2)(
-                Range(0, 3).map(
-                  item =>
+                self.props.wrapped.articles.map(
+                  article =>
                     <.div(
                       ^.className := Seq(
-                        ActionTileStyles.wrapper,
+                        FeaturedArticleTileStyles.wrapper,
                         ColRulesStyles.col,
                         ColRulesStyles.colHalfBeyondMedium
                       )
-                    )(actionTile())
+                    )(articleTile(article))
                 )
               )
             ),
             <.div(^.className := RWDHideRulesStyles.showBlockBeyondLarge)(
               <.ul(^.className := LayoutRulesStyles.centeredRowWithCols)(
-                Range(0, 3).map(
-                  item =>
+                self.props.wrapped.articles.map(
+                  article =>
                     <.li(
                       ^.className := Seq(
-                        ActionTileStyles.wrapper,
+                        FeaturedArticleTileStyles.wrapper,
                         ColRulesStyles.col,
                         ColRulesStyles.colThirdBeyondLarge
                       )
-                    )(actionTile())
+                    )(articleTile(article))
                 )
               )
             ),
-            <.style()(ActionsShowcaseStyles.render[String], ActionTileStyles.render[String])
+            <.style()(FeaturedArticlesShowcaseStyles.render[String], FeaturedArticleTileStyles.render[String])
           )
         }
       )
 
 }
 
-object ActionsShowcaseStyles extends StyleSheet.Inline {
+object FeaturedArticlesShowcaseStyles extends StyleSheet.Inline {
   import dsl._
 
   val wrapper: StyleA =
@@ -128,7 +134,7 @@ object ActionsShowcaseStyles extends StyleSheet.Inline {
     )
 }
 
-object ActionTileStyles extends StyleSheet.Inline {
+object FeaturedArticleTileStyles extends StyleSheet.Inline {
 
   import dsl._
 

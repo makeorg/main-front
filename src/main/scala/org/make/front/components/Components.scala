@@ -119,7 +119,8 @@ object Components {
       self(showcase.PromptingToProposeInRelationToThemeTile.reactClass)
     def LabelShowcaseContainerComponent: ReactClassElementSpec = self(showcase.LabelShowcaseContainer.reactClass)
 
-    def ActionsShowcaseComponent: ReactClassElementSpec = self(showcase.ActionsShowcase.reactClass)
+    def FeaturedArticlesShowcaseContainerComponent: ReactClassElementSpec =
+      self(showcase.FeaturedArticlesShowcaseContainer.reactClass)
 
     /*********************/
     def SequenceContainerComponent: ReactClassElementSpec = self(sequence.SequenceContainer.reactClass)

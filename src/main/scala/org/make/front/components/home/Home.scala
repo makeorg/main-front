@@ -38,7 +38,7 @@ object Home {
             } else {
               <.WelcomeComponent.empty
             },
-            <.ActionsShowcaseComponent.empty,
+            <.FeaturedArticlesShowcaseContainerComponent.empty,
             <.ThemeShowcaseContainerComponent(
               ^.wrapped := ThemeShowcaseContainerProps(
                 themeSlug = "sante-alimentation",
