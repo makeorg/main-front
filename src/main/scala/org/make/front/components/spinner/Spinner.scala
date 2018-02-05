@@ -20,7 +20,8 @@ object Spinner {
               ^("y") := "0",
               ^("width") := "40",
               ^("height") := "40",
-              ^("viewBox") := "0 0 66 66"
+              ^("viewBox") := "0 0 66 66",
+              ^.className := SpinnerStyles.shape
             )(
               <("linearGradient")(^("id") := "gradient")(
                 <("stop")(^("offset") := "0", ^.style := Map("stopColor" -> "#000000", "stopOpacity" -> 0))(),
@@ -29,17 +30,7 @@ object Spinner {
               <("path")(
                 ^("fill") := "url(#gradient)",
                 ^("d") := "M0,33C0,14.8,14.8,0,33,0s33,14.8,33,33S51.2,66,33,66S0,51.2,0,33z M6,33c0,14.9,12.1,27,27,27s27-12.1,27-27 S47.9,6,33,6S6,18.1,6,33z"
-              )(
-                <("animateTransform")(
-                  ^("attributeType") := "xml",
-                  ^("attributeName") := "transform",
-                  ^("type") := "rotate",
-                  ^("from") := "0 33 33",
-                  ^("to") := "360 33 33",
-                  ^("dur") := "0.5s",
-                  ^("repeatCount") := "indefinite"
-                )()
-              )
+              )()
             ),
             <.style()(SpinnerStyles.render[String])
           )
@@ -51,6 +42,20 @@ object SpinnerStyles extends StyleSheet.Inline {
 
   import dsl._
 
-  val wrapper: StyleA = style(display.block, textAlign.center, opacity(0.3))
+  val rotate =
+    keyframes((0 %%) -> keyframe(transform := s"rotate(0deg)"), (100 %%) -> keyframe(transform := s"rotate(360deg)"))
+
+  val wrapper: StyleA =
+    style(display.block, textAlign.center)
+
+  val shape: StyleA = style(
+    position.relative,
+    zIndex(1),
+    opacity(0.3),
+    animationName(rotate),
+    animationTimingFunction.linear,
+    animationDuration :=! s"0.5s",
+    animationIterationCount.infinite
+  )
 
 }
