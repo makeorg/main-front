@@ -54,7 +54,10 @@ object Proposal {
       country = proposalResponse.country,
       language = proposalResponse.language,
       themeId = Option(proposalResponse.themeId).flatMap(_.toOption).map(ThemeId.apply),
-      operationId = Option(proposalResponse.operationId).flatMap(_.toOption).map(OperationId.apply),
+      operationId = Option(proposalResponse.operationId).flatMap(_.toOption).flatMap {
+        case ""    => None
+        case other => Some(OperationId(other))
+      },
       tags = seqTags,
       myProposal = proposalResponse.myProposal
     )
