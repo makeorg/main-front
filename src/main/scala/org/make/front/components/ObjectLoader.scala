@@ -3,6 +3,7 @@ package org.make.front.components
 import io.github.shogowada.scalajs.reactjs.React
 import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import io.github.shogowada.scalajs.reactjs.VirtualDOM.{<, _}
+import io.github.shogowada.scalajs.reactjs.elements.ReactElement
 import org.make.front.components.Components.RichVirtualDOMElements
 
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -14,7 +15,8 @@ object ObjectLoader {
   case class ObjectLoaderProps[T](load: ()       => Future[Option[T]],
                                   onNotFound: () => Unit,
                                   childClass: ReactClass,
-                                  createChildProps: (T) => Any)
+                                  createChildProps: (T) => Any,
+                                  loader: ReactElement = <.div()(<.SpinnerComponent.empty))
   case class ObjectLoaderState[T](result: Option[T])
 
   def reactClass[T]: ReactClass =
@@ -33,7 +35,7 @@ object ObjectLoader {
       render = { self =>
         self.state.result.map { result =>
           <(self.props.wrapped.childClass)(^.wrapped := self.props.wrapped.createChildProps(result))()
-        }.getOrElse(<.div()(<.SpinnerComponent.empty))
+        }.getOrElse(self.props.wrapped.loader)
       }
     )
 
