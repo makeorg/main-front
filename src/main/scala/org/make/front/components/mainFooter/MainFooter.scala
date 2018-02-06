@@ -106,7 +106,7 @@ object MainFooterStyles extends StyleSheet.Inline {
     )
 
   val menuItemLink: StyleA =
-    style(color.inherit, transition := "color .2s ease-in-out", (&.hover)(color(ThemeStyles.ThemeColor.primary)))
+    style(color.inherit, transition := "color .2s ease-in-out", &.hover(color(ThemeStyles.ThemeColor.primary)))
 
   val emphasizedMenuItem: StyleA =
     style(color(ThemeStyles.ThemeColor.primary))

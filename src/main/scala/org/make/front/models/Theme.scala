@@ -20,8 +20,9 @@ object GradientColor {
 final case class TranslatedTheme(id: ThemeId,
                                  slug: String,
                                  title: String,
-                                 actionsCount: Int,
                                  proposalsCount: Int,
+                                 votesCount: Int,
+                                 actionsCount: Int,
                                  country: String,
                                  order: Int,
                                  color: String,
@@ -29,13 +30,14 @@ final case class TranslatedTheme(id: ThemeId,
                                  tags: Seq[Tag] = Seq.empty)
 
 object TranslatedTheme {
-  val empty = TranslatedTheme(ThemeId("fake"), "", "", 0, 0, "", 0, "", None, Seq.empty)
+  val empty = TranslatedTheme(ThemeId("fake"), "", "", 0, 0, 0, "", 0, "", None, Seq.empty)
 }
 
 final case class Theme(id: ThemeId,
                        translations: Seq[ThemeTranslation],
-                       actionsCount: Int,
                        proposalsCount: Int,
+                       votesCount: Int,
+                       actionsCount: Int,
                        country: String,
                        color: String,
                        gradient: Option[GradientColor] = None,
@@ -52,8 +54,9 @@ final case class Theme(id: ThemeId,
         id = id,
         slug = slug,
         title = title,
-        actionsCount = actionsCount,
         proposalsCount = proposalsCount,
+        votesCount = votesCount,
+        actionsCount = actionsCount,
         country = country,
         color = color,
         gradient = gradient,
@@ -95,8 +98,9 @@ object Theme {
     Theme(
       id = ThemeId(themeResponse.themeId),
       translations = seqTranslations,
-      actionsCount = themeResponse.actionsCount,
       proposalsCount = themeResponse.proposalsCount,
+      votesCount = 0 /*themeResponse.votesCount*/,
+      actionsCount = themeResponse.actionsCount,
       country = themeResponse.country,
       color = themeResponse.color,
       gradient = themeResponse.gradient.toOption,
