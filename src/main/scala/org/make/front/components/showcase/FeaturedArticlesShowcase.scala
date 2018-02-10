@@ -161,7 +161,7 @@ object FeaturedArticleTileStyles extends StyleSheet.Inline {
         height.auto,
         maxHeight.none,
         minHeight(100.%%),
-        width(100.%%),
+        width.auto,
         maxWidth.none,
         minWidth(100.%%),
         transform := s"translate(-50%, -50%)"
