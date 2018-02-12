@@ -27,7 +27,9 @@ object SequenceOfTheOperationContainer {
         val operationSlug: String = props.`match`.params("operationSlug")
         // toDo remove default "FR" when backward compatibility not anymore required
         val countryCode: String = props.`match`.params.get("country").getOrElse("FR").toUpperCase
-        dispatch(SetCountry(countryCode))
+        if (state.country != countryCode) {
+          dispatch(SetCountry(countryCode))
+        }
 
         val search = org.scalajs.dom.window.location.search
         val firstProposalSlug = (if (search.startsWith("?")) { search.substring(1) } else { search })
@@ -44,14 +46,9 @@ object SequenceOfTheOperationContainer {
 
         val futureMaybeOperationExpanded: () => Future[Option[(OperationModel, SequenceModel)]] = () => {
           OperationService
-            .getOperationBySlug(operationSlug)
+            .getOperationBySlugAndCountry(operationSlug, countryCode)
             .map { maybeOperation =>
-              maybeOperation.map { operation =>
-                if (!operation.translations.map(_.language).contains(state.language)) {
-                  dispatch(SetLanguage(operation.defaultLanguage))
-                }
-              }
-              OperationModel.getOperationExpandedFromOperation(maybeOperation, state.country)
+              OperationModel.getOperationExpandedFromOperation(maybeOperation, countryCode)
             }
             .flatMap {
               case None => Future.successful(None)

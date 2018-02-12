@@ -25,17 +25,14 @@ object OperationContainer {
         val slug = props.`match`.params("operationSlug")
         // toDo remove default "FR" when backward compatibility not anymore required
         val countryCode: String = props.`match`.params.get("country").getOrElse("FR").toUpperCase
-        dispatch(SetCountry(countryCode))
+        if (appState.country != countryCode) {
+          dispatch(SetCountry(countryCode))
+        }
 
         val operationExpanded: () => Future[Option[OperationExpanded]] = () => {
           OperationService
-            .getOperationBySlug(slug)
+            .getOperationBySlugAndCountry(slug, countryCode)
             .map { maybeOperation =>
-              maybeOperation.map { operation =>
-                if (!operation.translations.map(_.language).contains(appState.language)) {
-                  dispatch(SetLanguage(operation.defaultLanguage))
-                }
-              }
               OperationExpanded.getOperationExpandedFromOperation(maybeOperation, countryCode)
             }
         }
@@ -57,7 +54,6 @@ object OperationContainer {
                     props.history.push("/404")
                   }
                 }
-
               }
             )
           }

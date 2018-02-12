@@ -153,9 +153,50 @@ object Operations {
 
   val operationDesignList: Seq[OperationDesignData] = Seq(
     vffFrDesignOperation,
-    // ToDo configure IT and GB operations
-    vffFrDesignOperation.copy(country = "IT", endDate = None, startDate = Some(new js.Date("2018-03-08"))),
-    vffFrDesignOperation.copy(country = "GB", endDate = None, startDate = Some(new js.Date("2018-03-08"))),
+    vffFrDesignOperation.copy(
+      country = "IT",
+      endDate = None,
+      startDate = None,
+      wording = Seq(
+        OperationWording(
+          language = "it",
+          title = "Stop alla violenza sulle donne",
+          question = "Come far fronte alla violenza sulle donne?",
+          purpose = Some(
+            "Make.org a décidé de lancer sa première Grande Cause en la consacrant à la lutte contre les Violences faites aux&nbsp;femmes."
+          ),
+          period = None,
+          label = Some("La Grande Causa di Make.org"),
+          mentionUnderThePartners = Some("e i nostri partner sostegno e azione"),
+          explanation = Some(
+            "La violenza sulle donne è al centro dell'attualità politica e mediatica. Le idee stanno cambiando, ma tutto inizia da qui. Sta a noi trasformare questa presa di coscienza generale in azioni concrete e dare una risposta decisiva a questo flagello."
+          ),
+          learnMoreUrl = Some("https://stopvff.make.org/about-vff")
+        )
+      )
+    ),
+    vffFrDesignOperation.copy(
+      country = "GB",
+      endDate = None,
+      startDate = None,
+      wording = Seq(
+        OperationWording(
+          language = "en",
+          title = "Stop violence against women",
+          question = "How to combat violence against women?",
+          purpose = Some(
+            "Make.org a décidé de lancer sa première Grande Cause en la consacrant à la lutte contre les Violences faites aux&nbsp;femmes."
+          ),
+          period = Some("Consultation open from Nov. 25 2017 to the end of January"),
+          label = Some("Make.org outreach action"),
+          mentionUnderThePartners = Some("and our support and actions partners"),
+          explanation = Some(
+            "Violence against women is at the heart of political events and news coverage. Mindsets are changing. But it all begins now. It is up to us to transform this generalised awareness into concrete actions and to provide a decisive response to this epidemic."
+          ),
+          learnMoreUrl = Some("https://stopvff.make.org/about-vff")
+        )
+      )
+    ),
     OperationDesignData(
       slug = "climatparis",
       startDate = None,

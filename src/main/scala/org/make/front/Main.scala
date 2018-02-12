@@ -30,7 +30,7 @@ object Main {
 
   def main(args: Array[String]): Unit = {
     Translations.loadTranslations()
-    I18n.setLocale("fr")
+    I18n.setLocale("fr", true)
 
     NativeReactModal.defaultStyles.overlay.update("zIndex", "9")
     NativeReactModal.defaultStyles.overlay.update("backgroundColor", "rgba(0, 0, 0, 0.7)")
@@ -81,20 +81,19 @@ object Main {
         }
 
         // adding language/ country headers
-        MakeApiClient.addHeaders(Map(
-          MakeApiClient.countryHeader -> store.getState.country,
-          MakeApiClient.languageHeader -> store.getState.language
-        ))
-        // adding get parameters headers
-        MakeApiClient.addHeaders(Map(
-            "x-get-parameters" -> dom.window.location.search.drop(1)
-          ).filter { case (_, value) => value.nonEmpty }
+        MakeApiClient.addHeaders(
+          Map(
+            MakeApiClient.countryHeader -> store.getState.country,
+            MakeApiClient.languageHeader -> store.getState.language
+          )
         )
+        // adding get parameters headers
+        MakeApiClient.addHeaders(Map("x-get-parameters" -> dom.window.location.search.drop(1)).filter {
+          case (_, value) => value.nonEmpty
+        })
 
         // adding hostname header
-        MakeApiClient.addHeaders(Map(
-          "x-hostname" -> dom.window.location.hostname
-        ))
+        MakeApiClient.addHeaders(Map("x-hostname" -> dom.window.location.hostname))
 
         startAppWhenReady(maybeUser, store)
     }
@@ -105,7 +104,7 @@ object Main {
       org.scalajs.dom.window.setTimeout(() => startAppWhenReady(maybeUser, store), 20d)
     } else {
       ReactDOM.render(
-        <.Provider(^.store := store)(<.HashRouter()(<.AppComponent.empty)),
+        <.Provider(^.store := store)(<.HashRouter()(<.AppContainerComponent.empty)),
         dom.document.getElementById("make-app")
       )
     }

@@ -27,7 +27,7 @@ object FeaturedOperationContainer {
 
         def operationExpanded: () => Future[Option[OperationModel]] = () => {
           OperationService
-            .getOperationBySlug(slug)
+            .getOperationBySlugAndCountry(slug, appState.country)
             .map { maybeOperation =>
               OperationModel.getOperationExpandedFromOperation(maybeOperation, appState.country)
             }

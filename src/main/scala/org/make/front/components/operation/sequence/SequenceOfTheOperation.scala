@@ -139,7 +139,9 @@ object SequenceOfTheOperation {
                     ),
                     <.div(^.className := Seq(TableLayoutStyles.cell, SequenceOfTheOperationStyles.titleWrapper))(
                       <.h1(^.className := Seq(SequenceOfTheOperationStyles.title, TextStyles.smallTitle))(
-                        unescape(self.props.wrapped.sequence.title)
+                        unescape(
+                          self.props.wrapped.operation.getWordingByLanguageOrError(self.props.wrapped.language).question
+                        )
                       ),
                       <.h2(
                         ^.className := Seq(
@@ -152,7 +154,10 @@ object SequenceOfTheOperation {
                           I18n
                             .t(
                               "operation.sequence.header.total-of-proposals",
-                              Replacements(("total", self.state.numberOfProposals.toString))
+                              Replacements(
+                                ("total", self.state.numberOfProposals.toString),
+                                ("count", self.state.numberOfProposals.toString)
+                              )
                             )
                         )
                       )

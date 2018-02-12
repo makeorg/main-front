@@ -80,7 +80,7 @@ object OperationHeader {
                 <.span(^.className := Seq(TableLayoutStyles.cell, OperationHeaderStyles.inputWrapper))(
                   <.input(
                     ^.`type`.text,
-                    ^.value := I18n.t("operation.proposal-form-in-header.bait"),
+                    ^.value := I18n.t("common.bait"),
                     ^.ref := ((input: HTMLElement) => proposalInput = Some(input)),
                     ^.onFocus := openProposalModalFromInput(),
                     ^.readOnly := true

@@ -21,6 +21,7 @@ object MainHeader {
       React
         .createClass[Unit, Unit](
           displayName = "MainHeader",
+          shouldComponentUpdate = (_, _, _) => true,
           render = { self =>
             val trackLogoClick: () => Unit = () => {
               TrackingService.track("click-navbar-logo", TrackingContext(TrackingLocation.navBar))

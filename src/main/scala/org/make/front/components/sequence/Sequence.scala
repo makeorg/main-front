@@ -295,8 +295,6 @@ object Sequence {
         if (props.wrapped.sequence.sequenceId.value != self.props.wrapped.sequence.sequenceId.value) {
           onSequenceRetrieved(self, props.wrapped.sequence)
         } else if (self.props.wrapped.isConnected != props.wrapped.isConnected) {
-          org.scalajs.dom.window.console
-            .log("connected changed from ", self.props.wrapped.isConnected, "to", props.wrapped.isConnected)
           val votedProposalIds = self.state.proposals.filter(_.votes.exists(_.hasVoted)).map(_.id)
           props.wrapped.loadSequence(votedProposalIds).onComplete {
             case Success(sequence) => onSequenceRetrieved(self, sequence)

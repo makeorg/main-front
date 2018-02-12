@@ -221,7 +221,7 @@ object ThemeHeader {
                   <.span(^.className := Seq(TableLayoutStyles.cell, ThemeHeaderStyles.inputWrapper))(
                     <.input(
                       ^.`type`.text,
-                      ^.value := I18n.t("theme.proposal-form-in-header.bait"),
+                      ^.value := I18n.t("common.bait"),
                       ^.readOnly := true,
                       ^.ref := ((input: HTMLElement) => proposalInput = Some(input)),
                       ^.onFocus := openProposalModalFromInput

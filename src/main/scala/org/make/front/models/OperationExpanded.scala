@@ -2,6 +2,7 @@ package org.make.front.models
 
 import org.make.front.components.sequence.Sequence.ExtraSlide
 import org.make.front.operations.Operations
+
 import scala.scalajs.js
 
 final case class OperationDesignData(country: String,
@@ -52,6 +53,7 @@ final case class OperationExtraSlidesParams(operation: OperationExpanded,
 
 final case class OperationExpanded(operationId: OperationId,
                                    startDate: Option[js.Date],
+                                   defaultLanguage: String,
                                    endDate: Option[js.Date],
                                    country: String,
                                    slug: String,
@@ -72,10 +74,7 @@ final case class OperationExpanded(operationId: OperationId,
                                    tagIds: Seq[Tag],
                                    landingSequenceId: SequenceId) {
   def getWordingByLanguage(language: String): Option[OperationWording] = {
-    wordings.filter(_.language == language) match {
-      case filteredWordings if filteredWordings.nonEmpty => Some(filteredWordings.head)
-      case _                                             => None
-    }
+    wordings.find(_.language == language)
   }
 
   def getWordingByLanguageOrError(language: String): OperationWording = {
@@ -115,6 +114,7 @@ object OperationExpanded {
       operationDesignData <- OperationDesignData.findBySlugAndCountry(slug = operation.slug, country = country)
     } yield
       OperationExpanded(
+        defaultLanguage = operation.defaultLanguage,
         startDate = operationDesignData.startDate,
         endDate = operationDesignData.endDate,
         country = country,
@@ -129,20 +129,21 @@ object OperationExpanded {
         logoMaxWidth = operationDesignData.logoMaxWidth,
         darkerLogoUrl = operationDesignData.darkerLogoUrl,
         greatCauseLabelAlignment = operationDesignData.greatCauseLabelAlignment,
-        wordings = operation.translations.map { translation =>
+        wordings = operation.translations.flatMap { translation =>
           val language: String = translation.language.toLowerCase
-          val operationWording: OperationWording = operationDesignData.wording.filter(_.language == language).head
-          OperationWording(
-            language = language,
-            title = translation.title,
-            question = operationWording.question,
-            label = operationWording.label,
-            purpose = operationWording.purpose,
-            period = operationWording.period,
-            mentionUnderThePartners = operationWording.mentionUnderThePartners,
-            explanation = operationWording.explanation,
-            learnMoreUrl = operationWording.learnMoreUrl
-          )
+          operationDesignData.wording.find(_.language == language).map { operationWording =>
+            OperationWording(
+              language = language,
+              title = translation.title,
+              question = operationWording.question,
+              label = operationWording.label,
+              purpose = operationWording.purpose,
+              period = operationWording.period,
+              mentionUnderThePartners = operationWording.mentionUnderThePartners,
+              explanation = operationWording.explanation,
+              learnMoreUrl = operationWording.learnMoreUrl
+            )
+          }
         },
         partners = operationDesignData.partners,
         illustration = operationDesignData.illustration,
@@ -152,5 +153,4 @@ object OperationExpanded {
         tagIds = countryConfiguration.tagIds
       )
   }
-
 }

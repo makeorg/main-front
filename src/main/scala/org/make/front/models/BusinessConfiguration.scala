@@ -10,10 +10,12 @@ trait BusinessConfigurationResponse extends js.Object {
   val proposalMinLength: Int
   val proposalMaxLength: Int
   val themes: js.Array[ThemeResponse]
+  val supportedCountries: js.Array[CountryConfigurationResponse]
 }
 
 case class BusinessConfiguration(proposalMinLength: Int,
                                  proposalMaxLength: Int,
+                                 supportedCountries: Seq[CountryConfiguration],
                                  themes: Seq[Theme]) {
   def themesForLocale(country: String, language: String): Seq[TranslatedTheme] = {
     val counter = new Counter()
@@ -28,11 +30,26 @@ object BusinessConfiguration {
     BusinessConfiguration(
       proposalMinLength = businessConfigurationResponse.proposalMinLength,
       proposalMaxLength = businessConfigurationResponse.proposalMaxLength,
-      themes = seqThemes
+      themes = seqThemes,
+      supportedCountries = businessConfigurationResponse.supportedCountries.map(CountryConfiguration.apply)
     )
   }
 }
 
+case class CountryConfiguration(countryCode: String, defaultLanguage: String, supportedLanguages: Seq[String]) {
+  def languageIsSuppported(language: String) = {
+    defaultLanguage.contains(language)
+  }
+}
+object CountryConfiguration {
+  def apply(countryConfigurationResponse: CountryConfigurationResponse): CountryConfiguration = {
+    CountryConfiguration(
+      countryCode = countryConfigurationResponse.countryCode,
+      defaultLanguage = countryConfigurationResponse.defaultLanguage,
+      supportedLanguages = countryConfigurationResponse.supportedLanguages
+    )
+  }
+}
 @js.native
 trait ThemeResponse extends js.Object {
   val themeId: String
@@ -51,4 +68,11 @@ trait ThemeTranslationResponse extends js.Object {
   val slug: String
   val title: String
   val language: String
+}
+
+@js.native
+trait CountryConfigurationResponse extends js.Object {
+  val countryCode: String
+  val defaultLanguage: String
+  val supportedLanguages: js.Array[String]
 }
