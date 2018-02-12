@@ -487,6 +487,30 @@ object climatParisIll extends js.Object
 object climatParisIll2x extends js.Object
 
 @js.native
+@JSImport("./images/operations/lpae/lpae.svg", "default")
+object LpaeLogo extends js.Object
+
+@js.native
+@JSImport("./images/operations/lpae/lpae-darker.svg", "default")
+object LpaeLogoDarker extends js.Object
+
+@js.native
+@JSImport("./images/operations/lpae/lpae-ill.jpg", "default")
+object LpaeIll extends js.Object
+
+@js.native
+@JSImport("./images/operations/lpae/lpae-ill@2x.jpg", "default")
+object LpaeIll2x extends js.Object
+
+@js.native
+@JSImport("./images/operations/lpae/partners/make-org.svg", "default")
+object MakeOrgLogo extends js.Object
+
+@js.native
+@JSImport("./images/operations/lpae/partners/cercle-economistes.jpg", "default")
+object CercleEconomistesLogo extends js.Object
+
+@js.native
 @JSImport("./fonts/CircularStd-Book.woff2", "default")
 object circularStdBookWoff2 extends js.Object
 
