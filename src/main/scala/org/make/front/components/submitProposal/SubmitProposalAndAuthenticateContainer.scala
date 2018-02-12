@@ -42,10 +42,11 @@ object SubmitProposalAndAuthenticateContainer {
           fallback = LocationModel.UnknownLocation(dom.window.location.href)
         )
         ProposalService.createProposal(
-          content,
+          content = content,
           location = location,
           themeId = props.wrapped.maybeTheme.map(_.id.value),
           operation = props.wrapped.maybeOperation,
+          country = appState.country,
           language = appState.language
         )
       }
