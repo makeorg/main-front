@@ -29,7 +29,7 @@ object UserService extends ApiService {
                    postalCode: Option[String],
                    operationId: Option[OperationId]): Future[User] = {
 
-    val headers = MakeApiClient.defaultHeaders ++ operationId.map(op => MakeApiClient.operationHeader -> op.value)
+    val headers = MakeApiClient.getDefaultHeaders ++ operationId.map(op => MakeApiClient.operationHeader -> op.value)
     MakeApiClient
       .post[UserResponse](
         resourceName,
@@ -120,7 +120,7 @@ object UserService extends ApiService {
   }
 
   def validateAccount(userId: String, verificationToken: String, operationId: Option[OperationId]): Future[Unit] = {
-    val headers = MakeApiClient.defaultHeaders ++ operationId.map(op => MakeApiClient.operationHeader -> op.value)
+    val headers = MakeApiClient.getDefaultHeaders ++ operationId.map(op => MakeApiClient.operationHeader -> op.value)
 
     MakeApiClient.post[UserResponse](resourceName / userId / "validate" / verificationToken, headers = headers).map {
       _ =>

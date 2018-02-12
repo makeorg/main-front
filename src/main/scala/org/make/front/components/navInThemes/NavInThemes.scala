@@ -58,7 +58,10 @@ object NavInThemes {
                       unescape(
                         I18n.t(
                           "nav-in-themes.total-of-actions",
-                          Replacements(("total", NumberFormat.formatToKilo(theme.actionsCount)))
+                          Replacements(
+                            ("total", NumberFormat.formatToKilo(theme.actionsCount)),
+                            ("count", theme.actionsCount.toString)
+                          )
                         )
                       )
                     ),
@@ -66,7 +69,10 @@ object NavInThemes {
                       unescape(
                         I18n.t(
                           "nav-in-themes.total-of-proposals",
-                          Replacements(("total", NumberFormat.formatToKilo(theme.proposalsCount)))
+                          Replacements(
+                            ("total", NumberFormat.formatToKilo(theme.proposalsCount)),
+                            ("count", theme.proposalsCount.toString)
+                          )
                         )
                       )
                     )

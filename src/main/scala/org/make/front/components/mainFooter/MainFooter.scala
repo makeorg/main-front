@@ -17,6 +17,7 @@ object MainFooter {
     React
       .createClass[Unit, Unit](
         displayName = "MainFooter",
+        shouldComponentUpdate = (_, _, _) => true,
         render = self => {
 
           <.footer(^.className := MainFooterStyles.wrapper)(

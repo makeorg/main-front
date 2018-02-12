@@ -52,6 +52,7 @@ object SearchForm {
       React
         .createClass[Unit, State](
           displayName = "SearchForm",
+          shouldComponentUpdate = (self, props, state) => true,
           getInitialState = (self) => {
             State(URIUtils.decodeURI(QueryString.parse(self.props.location.search).getOrElse("q", "")), js.Array())
           },

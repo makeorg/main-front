@@ -78,7 +78,7 @@ object ProposalContainer {
           futureProposalAndThemeOrOperationModel
         }
 
-        Proposal.ProposalProps(futureProposal = futureProposal, language = state.language)
+        Proposal.ProposalProps(futureProposal = futureProposal, language = state.language, country = state.country)
       }
     }
 }

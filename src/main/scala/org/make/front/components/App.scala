@@ -10,9 +10,11 @@ import org.make.front.styles.ui._
 
 object App {
 
+  final case class AppProps(language: String, country: String)
+
   lazy val reactClass = WithRouter(
     React
-      .createClass[Unit, Unit](
+      .createClass[AppProps, Unit](
         displayName = "App",
         render = (self) => {
           <("app-container")(^.className := "App")(

@@ -16,7 +16,7 @@ import org.make.front.styles.utils._
 
 object ProposalSOperationInfos {
 
-  final case class ProposalSOperationInfosProps(operation: OperationModel, language: String)
+  final case class ProposalSOperationInfosProps(operation: OperationModel, language: String, country: String)
 
   lazy val reactClass: ReactClass =
     React
@@ -61,7 +61,7 @@ object ProposalSOperationInfos {
               )(
                 <.p(^.className := ProposalSOperationInfosStyles.CTA)(
                   <.Link(
-                    ^.to := s"/consultation/${self.props.wrapped.operation.slug}",
+                    ^.to := s"/${self.props.wrapped.country}/consultation/${self.props.wrapped.operation.slug}",
                     ^.className := Seq(CTAStyles.basic, CTAStyles.basicOnA)
                   )(unescape(I18n.t("proposal.proposal-s-operation-infos.participate")))
                 ),

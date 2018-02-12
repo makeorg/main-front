@@ -143,7 +143,7 @@ object PromptingToContinueAfterTheSequence {
                         ),
                         <.p(^.className := PromptingToContinueAfterTheSequenceStyles.ctaWrapper)(
                           <.Link(
-                            ^.to := s"/consultation/${self.props.wrapped.operation.slug}",
+                            ^.to := s"${self.props.wrapped.operation.country}/consultation/${self.props.wrapped.operation.slug}",
                             ^.className := Seq(CTAStyles.basic, CTAStyles.basicOnA)
                           )(unescape(I18n.t("sequence.prompting-to-continue.learn-more.cta")))
                         )

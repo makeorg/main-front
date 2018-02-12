@@ -5,6 +5,7 @@ import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import io.github.shogowada.scalajs.reactjs.redux.ReactRedux
 import io.github.shogowada.scalajs.reactjs.redux.Redux.Dispatch
 import io.github.shogowada.scalajs.reactjs.router.RouterProps._
+import org.make.front.actions.{SetCountry, SetLanguage}
 import org.make.front.components.ObjectLoader.ObjectLoaderProps
 import org.make.front.components.{AppState, ObjectLoader}
 import org.make.front.models.OperationExpanded
@@ -19,21 +20,26 @@ object OperationContainer {
   lazy val reactClass: ReactClass = ReactRedux.connectAdvanced(selectorFactory)(ObjectLoader.reactClass)
 
   def selectorFactory: (Dispatch) => (AppState, Props[Unit]) => ObjectLoaderProps[OperationExpanded] =
-    (_: Dispatch) => { (appState: AppState, props: Props[Unit]) =>
+    (dispatch: Dispatch) => { (appState: AppState, props: Props[Unit]) =>
       {
         val slug = props.`match`.params("operationSlug")
+        // toDo remove default "FR" when backward compatibility not anymore required
+        val countryCode: String = props.`match`.params.get("country").getOrElse("FR").toUpperCase
+        if (appState.country != countryCode) {
+          dispatch(SetCountry(countryCode))
+        }
 
         val operationExpanded: () => Future[Option[OperationExpanded]] = () => {
           OperationService
-            .getOperationBySlug(slug)
-            .map { operation =>
-              OperationExpanded.getOperationExpandedFromOperation(operation, appState.country)
+            .getOperationBySlugAndCountry(slug, countryCode)
+            .map { maybeOperation =>
+              OperationExpanded.getOperationExpandedFromOperation(maybeOperation, countryCode)
             }
         }
 
         ObjectLoaderProps[OperationExpanded](
           load = operationExpanded,
-          onNotFound = () => {}, // TODO
+          onNotFound = () => { props.history.push("/404") },
           childClass = Operation.reactClass,
           createChildProps = { operation =>
             Operation.OperationProps(
@@ -48,7 +54,6 @@ object OperationContainer {
                     props.history.push("/404")
                   }
                 }
-
               }
             )
           }

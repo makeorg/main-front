@@ -35,7 +35,7 @@ object Components {
 
   implicit class RichVirtualDOMElements(val self: VirtualDOMElements) extends AnyVal {
 
-    def AppComponent: ReactClassElementSpec = self(org.make.front.components.App.reactClass)
+    def AppContainerComponent: ReactClassElementSpec = self(org.make.front.components.AppContainer.reactClass)
     def ContainerComponent: ReactClassElementSpec = self(org.make.front.components.Container.reactClass)
     def SpinnerComponent: ReactClassElementSpec = self(spinner.Spinner.reactClass)
     def NotificationsComponent: ReactClassElementSpec = self(notifications.Notifications.reactClass)
@@ -52,8 +52,6 @@ object Components {
     def NoResultToSearchComponent: ReactClassElementSpec = self(search.NoResultToSearch.reactClass)
     def ModalComponent: ReactClassElementSpec = self(modals.Modal.reactClass)
     def FullscreenModalComponent: ReactClassElementSpec = self(modals.FullscreenModal.reactClass)
-    def SubscribeToNewsletterFormContainerComponent: ReactClassElementSpec =
-      self(subscribeToNewsletter.SubscribeToNewsletterFormContainer.reactClass)
 
     def UserProfileComponent: ReactClassElementSpec =
       self(userProfile.UserProfile.reactClass)

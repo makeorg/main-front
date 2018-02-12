@@ -46,6 +46,17 @@ object OperationService extends ApiService {
     }
   }
 
+  def getOperationBySlugAndCountry(slug: String, country: String): Future[Option[Operation]] = {
+    getOperations.map { operations =>
+      operations.filter(
+        operation => operation.slug == slug && operation.countriesConfiguration.map(_.countryCode).contains(country)
+      ) match {
+        case operations if operations.nonEmpty => Some(operations.head)
+        case _                                 => None
+      }
+    }
+  }
+
   def getOperations(): Future[Seq[Operation]] = {
 
     val futureOperations: Future[Seq[Operation]] = operationsCache match {
