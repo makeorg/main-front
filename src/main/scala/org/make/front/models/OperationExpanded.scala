@@ -104,6 +104,7 @@ final case class OperationExpanded(operationId: OperationId,
 object OperationExpanded {
 
   def getOperationExpandedFromOperation(maybeOperation: Option[Operation],
+                                        tagsList: Seq[Tag],
                                         country: String): Option[OperationExpanded] = {
     for {
       operation <- maybeOperation
@@ -112,6 +113,12 @@ object OperationExpanded {
         case _                  => None
       }
       operationDesignData <- OperationDesignData.findBySlugAndCountry(slug = operation.slug, country = country)
+      operationTags <- countryConfiguration.tagIds.flatMap(
+        tag => tagsList.filter(tagId => tag.tagId.value == tagId.tagId.value)
+      ) match {
+        case tags if tags.nonEmpty => Some(tags)
+        case _                     => None
+      }
     } yield
       OperationExpanded(
         defaultLanguage = operation.defaultLanguage,
@@ -150,7 +157,7 @@ object OperationExpanded {
         featuredIllustration = operationDesignData.featuredIllustration,
         extraSlides = operationDesignData.extraSlides,
         landingSequenceId = countryConfiguration.landingSequenceId,
-        tagIds = countryConfiguration.tagIds
+        tagIds = operationTags
       )
   }
 }
