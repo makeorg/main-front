@@ -114,7 +114,7 @@ object OperationExpanded {
       }
       operationDesignData <- OperationDesignData.findBySlugAndCountry(slug = operation.slug, country = country)
       operationTags <- countryConfiguration.tagIds.flatMap(
-        tag => tagsList.filter(tagId => tag.tagId.value == tagId.tagId.value)
+        tag => tagsList.filter(tagToFilter => tag.tagId.value == tagToFilter.tagId.value && !tagToFilter.label.contains(":"))
       ) match {
         case tags if tags.nonEmpty => Some(tags)
         case _                     => None

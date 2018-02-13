@@ -36,7 +36,7 @@ object Proposal {
   def apply(proposalResponse: ProposalResponse): Proposal = {
     val seqVotes: Seq[Vote] = proposalResponse.votes.map(Vote.apply)
     val seqLabels: Seq[String] = proposalResponse.labels
-    val seqTags: Seq[Tag] = proposalResponse.tags.map(Tag.apply)
+    val seqTags: Seq[Tag] = proposalResponse.tags.filter(tag => !tag.label.contains(":")).map(Tag.apply)
 
     Proposal(
       id = ProposalId(proposalResponse.id),
