@@ -5,11 +5,12 @@ import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import io.github.shogowada.scalajs.reactjs.redux.ReactRedux
 import io.github.shogowada.scalajs.reactjs.redux.Redux.Dispatch
 import io.github.shogowada.scalajs.reactjs.router.RouterProps._
-import org.make.front.actions.{SetCountry, SetLanguage}
+import org.make.front.actions.SetCountry
 import org.make.front.components.ObjectLoader.ObjectLoaderProps
 import org.make.front.components.{AppState, ObjectLoader}
-import org.make.front.models.OperationExpanded
+import org.make.front.models.{Operation, OperationExpanded, Tag}
 import org.make.services.operation.OperationService
+import org.make.services.tag.TagService
 import org.scalajs.dom
 
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -30,11 +31,14 @@ object OperationContainer {
         }
 
         val operationExpanded: () => Future[Option[OperationExpanded]] = () => {
-          OperationService
-            .getOperationBySlugAndCountry(slug, countryCode)
-            .map { maybeOperation =>
-              OperationExpanded.getOperationExpandedFromOperation(maybeOperation, countryCode)
-            }
+          val operationAndTags: Future[(Option[Operation], Seq[Tag])] = for {
+            operation <- OperationService.getOperationBySlugAndCountry(slug, countryCode)
+            tags      <- TagService.getTags
+          } yield (operation, tags)
+          operationAndTags.map {
+            case (maybeOperation, tagsList) =>
+              OperationExpanded.getOperationExpandedFromOperation(maybeOperation, tagsList, countryCode)
+          }
         }
 
         ObjectLoaderProps[OperationExpanded](

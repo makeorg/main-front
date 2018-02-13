@@ -507,8 +507,12 @@ object LpaeIll2x extends js.Object
 object MakeOrgLogo extends js.Object
 
 @js.native
-@JSImport("./images/operations/lpae/partners/cercle-economistes.jpg", "default")
+@JSImport("./images/operations/lpae/partners/cercle-economistes.png", "default")
 object CercleEconomistesLogo extends js.Object
+
+@js.native
+@JSImport("./images/operations/lpae/partners/x.svg", "default")
+object XPartners extends js.Object
 
 @js.native
 @JSImport("./fonts/CircularStd-Book.woff2", "default")

@@ -6,8 +6,9 @@ import io.github.shogowada.scalajs.reactjs.redux.ReactRedux
 import io.github.shogowada.scalajs.reactjs.redux.Redux.Dispatch
 import org.make.front.components.ObjectLoader.ObjectLoaderProps
 import org.make.front.components.{AppState, ObjectLoader}
-import org.make.front.models.{OperationExpanded => OperationModel}
+import org.make.front.models.{Operation, Tag, OperationExpanded => OperationModel}
 import org.make.services.operation.OperationService
+import org.make.services.tag.TagService
 import org.make.services.tracking.TrackingLocation
 
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -26,11 +27,14 @@ object FeaturedOperationContainer {
         val slug = props.wrapped.operationSlug
 
         def operationExpanded: () => Future[Option[OperationModel]] = () => {
-          OperationService
-            .getOperationBySlugAndCountry(slug, appState.country)
-            .map { maybeOperation =>
-              OperationModel.getOperationExpandedFromOperation(maybeOperation, appState.country)
-            }
+          val operationAndTags: Future[(Option[Operation], Seq[Tag])] = for {
+            operation <- OperationService.getOperationBySlugAndCountry(slug, appState.country)
+            tags      <- TagService.getTags
+          } yield (operation, tags)
+          operationAndTags.map {
+            case (maybeOperation, tagsList) =>
+              OperationModel.getOperationExpandedFromOperation(maybeOperation, tagsList, appState.country)
+          }
         }
 
         ObjectLoaderProps[OperationModel](

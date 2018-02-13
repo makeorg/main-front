@@ -5,17 +5,25 @@ import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import io.github.shogowada.scalajs.reactjs.redux.ReactRedux
 import io.github.shogowada.scalajs.reactjs.redux.Redux.Dispatch
 import io.github.shogowada.scalajs.reactjs.router.RouterProps._
-import io.github.shogowada.scalajs.reactjs.router.{NativeRedirect, WithRouter}
-import org.make.front.actions.{SetCountry, SetLanguage}
-import org.make.front.components.{AppState, ObjectLoader}
+import io.github.shogowada.scalajs.reactjs.router.WithRouter
+import org.make.front.actions.SetCountry
 import org.make.front.components.ObjectLoader.ObjectLoaderProps
-import org.make.front.models.{ProposalId, SequenceId, OperationExpanded => OperationModel, Sequence => SequenceModel}
+import org.make.front.components.{AppState, ObjectLoader}
+import org.make.front.models.{
+  Operation,
+  ProposalId,
+  SequenceId,
+  Tag,
+  OperationExpanded => OperationModel,
+  Sequence          => SequenceModel
+}
 import org.make.services.operation.OperationService
 import org.make.services.sequence.SequenceService
+import org.make.services.tag.TagService
+import org.scalajs.dom
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
-import org.scalajs.dom
 
 object SequenceOfTheOperationContainer {
 
@@ -45,18 +53,20 @@ object SequenceOfTheOperationContainer {
           }
 
         val futureMaybeOperationExpanded: () => Future[Option[(OperationModel, SequenceModel)]] = () => {
-          OperationService
-            .getOperationBySlugAndCountry(operationSlug, countryCode)
-            .map { maybeOperation =>
-              OperationModel.getOperationExpandedFromOperation(maybeOperation, countryCode)
-            }
-            .flatMap {
-              case None => Future.successful(None)
-              case Some(operation) =>
-                SequenceService
-                  .startSequenceById(operation.landingSequenceId, Seq.empty)
-                  .map(sequence => Some((operation, sequence)))
-            }
+          val operationAndTags: Future[(Option[Operation], Seq[Tag])] = for {
+            operation <- OperationService.getOperationBySlugAndCountry(operationSlug, countryCode)
+            tags      <- TagService.getTags
+          } yield (operation, tags)
+          operationAndTags.map {
+            case (maybeOperation, tagsList) =>
+              OperationModel.getOperationExpandedFromOperation(maybeOperation, tagsList, countryCode)
+          }.flatMap {
+            case None => Future.successful(None)
+            case Some(operation) =>
+              SequenceService
+                .startSequenceById(operation.landingSequenceId, Seq.empty)
+                .map(sequence => Some((operation, sequence)))
+          }
         }
 
         def startSequence(sequenceId: SequenceId)(proposals: Seq[ProposalId]): Future[SequenceModel] = {

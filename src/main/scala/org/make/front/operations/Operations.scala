@@ -343,6 +343,7 @@ object Operations {
       illustration = Some(Illustration(illUrl = LpaeIll.toString, ill2xUrl = LpaeIll2x.toString)),
       partners = Seq(
         OperationPartner(name = "Le Cercle des Economistes", imageUrl = CercleEconomistesLogo.toString, imageWidth = 74),
+        OperationPartner(name = "x", imageUrl = XPartners.toString, imageWidth = 9),
         OperationPartner(name = "Make.org", imageUrl = MakeOrgLogo.toString, imageWidth = 51)
       ),
       extraSlides = (params: OperationExtraSlidesParams) => {

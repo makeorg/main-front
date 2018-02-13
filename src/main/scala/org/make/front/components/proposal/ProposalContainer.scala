@@ -9,12 +9,15 @@ import org.make.front.actions.NotifyError
 import org.make.front.components.AppState
 import org.make.front.facades.I18n
 import org.make.front.models.{
+  Operation,
+  Tag,
   OperationExpanded => OperationModel,
   Proposal          => ProposalModel,
   TranslatedTheme   => TranslatedThemeModel
 }
 import org.make.services.operation.OperationService
 import org.make.services.proposal.{ProposalService, SearchResult}
+import org.make.services.tag.TagService
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
@@ -47,9 +50,18 @@ object ProposalContainer {
 
             val futureMaybeOperation: Future[Option[OperationModel]] = proposal.operationId match {
               case Some(operationId) =>
-                OperationService.getOperationById(operationId).map { operation =>
-                  OperationModel
-                    .getOperationExpandedFromOperation(maybeOperation = Some(operation), country = state.country)
+                val operationAndTags: Future[(Operation, Seq[Tag])] = for {
+                  operation <- OperationService.getOperationById(operationId)
+                  tags      <- TagService.getTags
+                } yield (operation, tags)
+                operationAndTags.map {
+                  case (operation, tagsList) =>
+                    OperationModel
+                      .getOperationExpandedFromOperation(
+                        maybeOperation = Some(operation),
+                        tagsList,
+                        country = state.country
+                      )
                 }
               case _ => Future.successful(None)
             }
