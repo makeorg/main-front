@@ -3,7 +3,10 @@ package org.make.services.proposal
 import scala.scalajs.js
 import scala.scalajs.js.JSConverters._
 
-final case class RegisterProposalRequest(content: String, country : String, language: String, operationId: Option[String])
+final case class RegisterProposalRequest(content: String,
+                                         country: String,
+                                         language: String,
+                                         operationId: Option[String])
 
 @js.native
 trait JsRegisterProposalRequest extends js.Object {
@@ -15,12 +18,14 @@ trait JsRegisterProposalRequest extends js.Object {
 
 object JsRegisterProposalRequest {
   def apply(registerProposalRequest: RegisterProposalRequest): JsRegisterProposalRequest = {
-    js.Dynamic.literal(
-      content = registerProposalRequest.content,
-      country = registerProposalRequest.country,
-      language = registerProposalRequest.language,
-      operationId = registerProposalRequest.operationId.orUndefined
-    ).asInstanceOf[JsRegisterProposalRequest]
+    js.Dynamic
+      .literal(
+        content = registerProposalRequest.content,
+        country = registerProposalRequest.country,
+        language = registerProposalRequest.language,
+        operationId = registerProposalRequest.operationId.orUndefined
+      )
+      .asInstanceOf[JsRegisterProposalRequest]
   }
 }
 
@@ -101,7 +106,8 @@ case class SearchRequest(themesIds: Option[Seq[String]] = None,
                          sort: Seq[SortOptionRequest] = Seq.empty,
                          limit: Option[Int],
                          skip: Option[Int] = None,
-                         isRandom: Option[Boolean] = None)
+                         isRandom: Option[Boolean] = None,
+                         language: Option[String] = None)
 
 @js.native
 trait JsSearchRequest extends js.Object {
@@ -118,6 +124,7 @@ trait JsSearchRequest extends js.Object {
   val limit: js.UndefOr[Int]
   val skip: js.UndefOr[Int]
   val isRandom: js.UndefOr[Boolean]
+  val language: js.UndefOr[String]
 }
 
 object JsSearchRequest {
@@ -137,7 +144,8 @@ object JsSearchRequest {
         sort = searchRequest.sort,
         limit = searchRequest.limit.orUndefined,
         skip = searchRequest.skip.orUndefined,
-        isRandom = searchRequest.isRandom.orUndefined
+        isRandom = searchRequest.isRandom.orUndefined,
+        language = searchRequest.language.orUndefined
       )
       .asInstanceOf[JsSearchRequest]
   }
