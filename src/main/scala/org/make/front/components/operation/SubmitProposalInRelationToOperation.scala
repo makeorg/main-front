@@ -84,7 +84,7 @@ object SubmitProposalInRelationToOperation {
                       SubmitProposalInRelationToOperationStyles.operation,
                       DynamicSubmitProposalInRelationToOperationStyles.titleBackground
                     )
-                  )(unescape(wording.title))
+                  )(unescape(wording.question))
                 ),
                 element,
                 <.style()(
