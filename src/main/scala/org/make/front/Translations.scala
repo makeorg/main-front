@@ -141,7 +141,7 @@ object Translations {
       |      "share-intro": "Partagez cette proposition avec votre communauté",
       |      "associated-with-the-theme": "postée dans ",
       |      "proposal-s-operation-infos": {
-      |        "intro": "Cette proposition a été soumise dans le cadre de la Grande&nbsp;Cause",
+      |        "intro": "Cette proposition a été soumise dans le cadre de l'opération",
       |        "participate": "Participer",
       |        "see-more": "En savoir&nbsp;+"
       |      },
@@ -600,7 +600,7 @@ object Translations {
       |      "share-intro": "Share this proposal with your community",
       |      "associated-with-the-theme": "published in ",
       |      "proposal-s-operation-infos": {
-      |        "intro": "Cette proposition a été soumise dans le cadre de la Grande&nbsp;Cause",
+      |        "intro": "Cette proposition a été soumise dans le cadre de l'opération",
       |        "participate": "Participer",
       |        "see-more": "To find out more"
       |      },
@@ -1059,7 +1059,7 @@ object Translations {
       |      "share-intro": "Condividi questa proposta con la tua communità",
       |      "associated-with-the-theme": "pubblicato in ",
       |      "proposal-s-operation-infos": {
-      |        "intro": "Cette proposition a été soumise dans le cadre de la Grande&nbsp;Cause",
+      |        "intro": "Cette proposition a été soumise dans le cadre de l'opération",
       |        "participate": "Participer",
       |        "see-more": "Per saperne di&nbsp;più "
       |      },

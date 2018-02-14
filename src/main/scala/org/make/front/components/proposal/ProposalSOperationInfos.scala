@@ -60,10 +60,17 @@ object ProposalSOperationInfos {
                 )
               )(
                 <.p(^.className := ProposalSOperationInfosStyles.CTA)(
-                  <.Link(
-                    ^.to := s"/${self.props.wrapped.country}/consultation/${self.props.wrapped.operation.slug}",
-                    ^.className := Seq(CTAStyles.basic, CTAStyles.basicOnA)
-                  )(unescape(I18n.t("proposal.proposal-s-operation-infos.participate")))
+                  if (!self.props.wrapped.operation.landingSequenceId.value.isEmpty) {
+                    <.Link(
+                      ^.to := s"/${self.props.wrapped.country}/consultation/${self.props.wrapped.operation.slug}/selection",
+                      ^.className := Seq(CTAStyles.basic, CTAStyles.basicOnA)
+                    )(unescape(I18n.t("proposal.proposal-s-operation-infos.participate")))
+                  } else {
+                    <.Link(
+                      ^.to := s"/${self.props.wrapped.country}/consultation/${self.props.wrapped.operation.slug}",
+                      ^.className := Seq(CTAStyles.basic, CTAStyles.basicOnA)
+                    )(unescape(I18n.t("proposal.proposal-s-operation-infos.participate")))
+                  }
                 ),
                 wording.learnMoreUrl.map { url =>
                   <.p(^.className := ProposalSOperationInfosStyles.CTA)(
