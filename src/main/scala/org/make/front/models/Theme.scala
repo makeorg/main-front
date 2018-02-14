@@ -93,7 +93,8 @@ object ThemeId {
 object Theme {
   def apply(themeResponse: ThemeResponse): Theme = {
     val seqTranslations: Seq[ThemeTranslation] = themeResponse.translations.map(ThemeTranslation.apply)
-    val seqTags: Seq[Tag] = themeResponse.tags.map(Tag.apply)
+    val seqTags: Seq[Tag] = themeResponse.tags.filter(tag => !tag.label.contains(":")).map(Tag.apply)
+
 
     Theme(
       id = ThemeId(themeResponse.themeId),
