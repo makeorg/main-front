@@ -26,7 +26,8 @@ object ProposalService extends ApiService {
                      source: String = Source.Core.name,
                      operation: Option[OperationExpanded] = None,
                      question: Option[String] = None,
-                     language: String): Future[RegisterProposal] = {
+                     language: String,
+                     country: String): Future[RegisterProposal] = {
 
     var headers =
       Map[String, String](MakeApiClient.sourceHeader -> source, MakeApiClient.locationHeader -> location.name)
@@ -39,7 +40,16 @@ object ProposalService extends ApiService {
     MakeApiClient
       .post[RegisterProposalResponse](
         resourceName,
-        data = JSON.stringify(JsRegisterProposalRequest(RegisterProposalRequest(content = content, operationId = operation.map(_.operationId.value)))),
+        data = JSON.stringify(
+          JsRegisterProposalRequest(
+            RegisterProposalRequest(
+              content = content,
+              country = country,
+              language = language,
+              operationId = operation.map(_.operationId.value)
+            )
+          )
+        ),
         headers = headers
       )
       .map(RegisterProposal.apply)
