@@ -5,6 +5,22 @@ import scala.scalajs.js.JSConverters._
 
 object TrackingService {
 
+  private var globalTrackingContext: Map[String, String] = Map.empty
+
+  def setGlobalTrackingParameter(globalTrackingParameter: GlobalTrackingParameter, value: String) = {
+    globalTrackingContext = globalTrackingContext ++ Map(globalTrackingParameter.name -> value)
+  }
+
+  def setGlobalTrackingParameters(globalTrackingParameters: Map[GlobalTrackingParameter, String]) = {
+    globalTrackingContext = globalTrackingContext ++ globalTrackingParameters.map {
+      case (globalTracking, value) => (globalTracking.name, value)
+    }
+  }
+
+  def resetGlobalTrackingContext() = {
+    globalTrackingContext = Map.empty
+  }
+
   def track(eventName: String, trackingContext: TrackingContext, parameters: Map[String, String] = Map.empty): Unit = {
 
     val eventType: String = "trackCustom"
@@ -15,6 +31,8 @@ object TrackingService {
     trackingContext.operationSlug.foreach { slug =>
       allParameters += "operation" -> slug
     }
+
+    allParameters = allParameters ++ globalTrackingContext
 
     FacebookPixel.fbq(eventType, eventName, allParameters.toJSDictionary)
     TrackingApiService.track(eventType, eventName, allParameters, trackingContext)
@@ -37,7 +55,6 @@ object TrackingSource {
 
   val core: TrackingSource = MakeTrackingSource("core")
 }
-
 sealed trait TrackingLocation extends BasicEnum
 
 object TrackingLocation {
@@ -57,4 +74,14 @@ object TrackingLocation {
   val navBar: TrackingLocation = MakeTrackingLocation("nav-bar")
   val proposalPage: TrackingLocation = MakeTrackingLocation("proposal-page")
 
+}
+
+sealed trait GlobalTrackingParameter extends BasicEnum
+
+object GlobalTrackingParameter {
+
+  private sealed case class MakeGlobalTrackingParameter(override val name: String) extends GlobalTrackingParameter
+
+  val country: GlobalTrackingParameter = MakeGlobalTrackingParameter("country")
+  val language: GlobalTrackingParameter = MakeGlobalTrackingParameter("language")
 }

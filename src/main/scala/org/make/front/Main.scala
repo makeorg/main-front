@@ -7,7 +7,7 @@ import io.github.shogowada.scalajs.reactjs.redux.devtools.ReduxDevTools
 import io.github.shogowada.scalajs.reactjs.redux.{Redux, Store}
 import io.github.shogowada.scalajs.reactjs.router.dom.RouterDOM._
 import org.make.client.MakeApiClient
-import org.make.front.actions.{LoggedInAction, SetConfiguration}
+import org.make.front.actions._
 import org.make.front.components.AppState
 import org.make.front.components.Components.RichVirtualDOMElements
 import org.make.front.facades.{I18n, NativeReactModal}
@@ -70,7 +70,9 @@ object Main {
               PoliticalActionMiddleware.handle,
               connectedUserMiddleware.handle,
               CookieAlertMiddleware.handle,
-              NotificationMiddleware.handle
+              NotificationMiddleware.handle,
+              LanguageMiddleware.handle,
+              CountryMiddleware.handle
             )
           )
         )
@@ -80,13 +82,9 @@ object Main {
           store.dispatch(LoggedInAction(user))
         }
 
-        // adding language/ country headers
-        MakeApiClient.addHeaders(
-          Map(
-            MakeApiClient.countryHeader -> store.getState.country,
-            MakeApiClient.languageHeader -> store.getState.language
-          )
-        )
+        // init services depending language and country
+        store.dispatch(SetCountryLanguage(country = store.getState.country, language = store.getState.language))
+
         // adding get parameters headers
         MakeApiClient.addHeaders(Map("x-get-parameters" -> dom.window.location.search.drop(1)).filter {
           case (_, value) => value.nonEmpty
