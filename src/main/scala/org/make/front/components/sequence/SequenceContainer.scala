@@ -16,7 +16,6 @@ import org.make.front.models.{
   Sequence          => SequenceModel,
   TranslatedTheme   => TranslatedThemeModel
 }
-import org.make.services.proposal.ProposalService
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
@@ -24,8 +23,7 @@ import scala.util.Failure
 
 object SequenceContainer {
 
-  final case class SequenceContainerProps(maybeFirstProposalSlug: Option[String],
-                                          loadSequence: (Seq[ProposalId]) => Future[SequenceModel],
+  final case class SequenceContainerProps(loadSequence: (Seq[ProposalId]) => Future[SequenceModel],
                                           sequence: SequenceModel,
                                           progressBarColor: Option[String],
                                           extraSlides: Seq[ExtraSlide],
@@ -45,29 +43,18 @@ object SequenceContainer {
         val isConnected: Boolean = state.connectedUser.nonEmpty
 
         val reloadSequence: (Seq[ProposalId]) => Future[SequenceModel] = { forcedProposals =>
-          props.wrapped.maybeFirstProposalSlug.map { slug =>
-            ProposalService.searchProposals(slug = Some(slug)).map { result =>
-              result.results
-            }
-          }.getOrElse {
-            Future.successful(Seq.empty[ProposalModel])
-          }.flatMap { pushedProposal =>
-            val result = props.wrapped.loadSequence(forcedProposals ++ pushedProposal.map(_.id)).map { sequence =>
-              val proposals = sequence.proposals
-              val pushedProposalId = pushedProposal.map(_.id)
-              val otherProposals = proposals.filter(p => !pushedProposalId.contains(p.id))
-              val voted = otherProposals.filter(_.votes.exists(_.hasVoted))
-              val notVoted = otherProposals.filter(_.votes.forall(!_.hasVoted))
-
-              sequence.copy(proposals = voted ++ pushedProposal ++ sortProposals(notVoted))
-            }
-
-            result.onComplete {
-              case Failure(_) => dispatch(NotifyError(I18n.t("error-message.main")))
-              case _          =>
-            }
-            result
+          val result = props.wrapped.loadSequence(forcedProposals).map { sequence =>
+            val proposals = sequence.proposals
+            val voted = proposals.filter(_.votes.exists(_.hasVoted))
+            val notVoted = proposals.filter(_.votes.forall(!_.hasVoted))
+            sequence.copy(proposals = voted ++ sortProposals(notVoted))
           }
+
+          result.onComplete {
+            case Failure(_) => dispatch(NotifyError(I18n.t("error-message.main")))
+            case _          =>
+          }
+          result
         }
 
         Sequence.SequenceProps(

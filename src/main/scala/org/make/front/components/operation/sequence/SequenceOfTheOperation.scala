@@ -32,8 +32,7 @@ import scala.concurrent.Future
 
 object SequenceOfTheOperation {
 
-  final case class SequenceOfTheOperationProps(maybeFirstProposalSlug: Option[String],
-                                               isConnected: Boolean,
+  final case class SequenceOfTheOperationProps(isConnected: Boolean,
                                                operation: OperationModel,
                                                startSequence: (Seq[ProposalId]) => Future[SequenceModel],
                                                redirectHome: ()                 => Unit,
@@ -220,7 +219,6 @@ object SequenceOfTheOperation {
                     loadSequence = self.props.wrapped.startSequence,
                     sequence = self.props.wrapped.sequence,
                     progressBarColor = Some(gradientValues.from),
-                    maybeFirstProposalSlug = self.props.wrapped.maybeFirstProposalSlug,
                     extraSlides = self.state.extraSlides,
                     maybeTheme = None,
                     maybeOperation = Some(operation),
