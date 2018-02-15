@@ -43,7 +43,7 @@ object SpinnerStyles extends StyleSheet.Inline {
   import dsl._
 
   val rotate =
-    keyframes((0 %%) -> keyframe(transform := s"rotate(0deg)"), (100 %%) -> keyframe(transform := s"rotate(360deg)"))
+    keyframes(0.%% -> keyframe(transform := s"rotate(0deg)"), 100.%% -> keyframe(transform := s"rotate(360deg)"))
 
   val wrapper: StyleA =
     style(display.block, textAlign.center)

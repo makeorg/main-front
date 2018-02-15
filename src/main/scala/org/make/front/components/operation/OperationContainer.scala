@@ -8,7 +8,7 @@ import io.github.shogowada.scalajs.reactjs.router.RouterProps._
 import org.make.front.actions.SetCountry
 import org.make.front.components.ObjectLoader.ObjectLoaderProps
 import org.make.front.components.{AppState, ObjectLoader}
-import org.make.front.models.{Operation, OperationExpanded, Tag}
+import org.make.front.models.{Operation => OperationModel, OperationExpanded, Tag}
 import org.make.services.operation.OperationService
 import org.make.services.tag.TagService
 import org.scalajs.dom
@@ -31,7 +31,7 @@ object OperationContainer {
         }
 
         val operationExpanded: () => Future[Option[OperationExpanded]] = () => {
-          val operationAndTags: Future[(Option[Operation], Seq[Tag])] = for {
+          val operationAndTags: Future[(Option[OperationModel], Seq[Tag])] = for {
             operation <- OperationService.getOperationBySlugAndCountry(slug, countryCode)
             tags      <- TagService.getTags
           } yield (operation, tags)

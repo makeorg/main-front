@@ -18,6 +18,7 @@ import org.make.front.models.{
   Sequence          => SequenceModel
 }
 import org.make.services.operation.OperationService
+import org.make.services.proposal.ProposalService
 import org.make.services.sequence.SequenceService
 import org.make.services.tag.TagService
 import org.scalajs.dom
@@ -52,7 +53,18 @@ object SequenceOfTheOperationContainer {
             case _               => None
           }
 
-        val futureMaybeOperationExpanded: () => Future[Option[(OperationModel, SequenceModel)]] = () => {
+        def startSequence(sequenceId: SequenceId)(proposals: Seq[ProposalId]): Future[SequenceModel] = {
+          firstProposalSlug.map { slug =>
+            ProposalService.searchProposals(slug = Some(slug)).map(_.results.map(_.id))
+          }.getOrElse(Future.successful(Seq.empty)).flatMap { proposalsToInclude =>
+            SequenceService.startSequenceById(
+              sequenceId,
+              proposalsToInclude ++ proposals.filter(id => !proposalsToInclude.contains(id))
+            )
+          }
+        }
+
+        val futureMaybeOperationAndSequence: () => Future[Option[(OperationModel, SequenceModel)]] = () => {
           val operationAndTags: Future[(Option[Operation], Seq[Tag])] = for {
             operation <- OperationService.getOperationBySlugAndCountry(operationSlug, countryCode)
             tags      <- TagService.getTags
@@ -63,24 +75,18 @@ object SequenceOfTheOperationContainer {
           }.flatMap {
             case None => Future.successful(None)
             case Some(operation) =>
-              SequenceService
-                .startSequenceById(operation.landingSequenceId, Seq.empty)
+              startSequence(operation.landingSequenceId)(Seq.empty)
                 .map(sequence => Some((operation, sequence)))
           }
         }
 
-        def startSequence(sequenceId: SequenceId)(proposals: Seq[ProposalId]): Future[SequenceModel] = {
-          SequenceService.startSequenceById(sequenceId, proposals)
-        }
-
         ObjectLoaderProps[(OperationModel, SequenceModel)](
-          load = futureMaybeOperationExpanded,
+          load = futureMaybeOperationAndSequence,
           onNotFound = () => { props.history.push("/404") },
           childClass = SequenceOfTheOperation.reactClass,
           createChildProps = {
             case (operation, sequence) =>
               SequenceOfTheOperation.SequenceOfTheOperationProps(
-                maybeFirstProposalSlug = firstProposalSlug,
                 isConnected = state.connectedUser.isDefined,
                 operation = operation,
                 redirectHome = () => props.history.push("/"),

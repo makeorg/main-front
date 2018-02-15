@@ -1,4 +1,4 @@
-import java.time.{LocalDate, ZoneOffset, ZonedDateTime}
+import java.time.{ZoneOffset, ZonedDateTime}
 
 import com.typesafe.sbt.GitVersioning
 import com.typesafe.sbt.SbtGit.GitKeys
@@ -105,7 +105,7 @@ scalacOptions ++= {
     // Seq("-Xelide-below", "OFF") do not uglify css until we know how to make it work correctly
     Seq.empty
   } else {
-    Seq("-deprecation")
+    Seq("-deprecation", "-feature")
   }
 }
 
