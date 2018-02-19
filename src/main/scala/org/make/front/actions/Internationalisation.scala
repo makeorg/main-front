@@ -4,3 +4,4 @@ import io.github.shogowada.scalajs.reactjs.redux.Action
 
 final case class SetLanguage(language: String) extends Action
 final case class SetCountry(country: String) extends Action
+final case class SetCountryLanguage(country: String, language: String) extends Action

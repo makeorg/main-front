@@ -10,6 +10,8 @@ class Counter(initialValue: Int = 0) {
     result
   }
 
+  def get: Int = internalValue
+
   def incrementAndGet(step: Int = 1): Int = {
     internalValue += step
     internalValue

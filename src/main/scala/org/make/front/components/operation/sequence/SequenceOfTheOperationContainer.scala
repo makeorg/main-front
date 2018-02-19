@@ -36,7 +36,8 @@ object SequenceOfTheOperationContainer {
         val operationSlug: String = props.`match`.params("operationSlug")
         // toDo remove default "FR" when backward compatibility not anymore required
         val countryCode: String = props.`match`.params.get("country").getOrElse("FR").toUpperCase
-        if (state.country != countryCode) {
+        val shouldReload = state.country != countryCode
+        if (shouldReload) {
           dispatch(SetCountry(countryCode))
         }
 
@@ -66,12 +67,12 @@ object SequenceOfTheOperationContainer {
 
         val futureMaybeOperationAndSequence: () => Future[Option[(OperationModel, SequenceModel)]] = () => {
           val operationAndTags: Future[(Option[Operation], Seq[Tag])] = for {
-            operation <- OperationService.getOperationBySlugAndCountry(operationSlug, countryCode)
+            operation <- OperationService.getOperationBySlugAndCountry(operationSlug, state.country)
             tags      <- TagService.getTags
           } yield (operation, tags)
           operationAndTags.map {
             case (maybeOperation, tagsList) =>
-              OperationModel.getOperationExpandedFromOperation(maybeOperation, tagsList, countryCode)
+              OperationModel.getOperationExpandedFromOperation(maybeOperation, tagsList, state.country)
           }.flatMap {
             case None => Future.successful(None)
             case Some(operation) =>
@@ -80,9 +81,23 @@ object SequenceOfTheOperationContainer {
           }
         }
 
+        val onNotFound: () => Unit = if (shouldReload) { () =>
+          {}
+        } else { () =>
+          props.history.push("/404")
+        }
+
+        val load: () => Future[Option[(OperationModel, SequenceModel)]] = if (shouldReload) { () =>
+          {
+            Future.successful(None)
+          }
+        } else {
+          futureMaybeOperationAndSequence
+        }
+
         ObjectLoaderProps[(OperationModel, SequenceModel)](
-          load = futureMaybeOperationAndSequence,
-          onNotFound = () => { props.history.push("/404") },
+          load = load,
+          onNotFound = onNotFound,
           childClass = SequenceOfTheOperation.reactClass,
           createChildProps = {
             case (operation, sequence) =>
