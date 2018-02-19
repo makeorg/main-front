@@ -38,7 +38,7 @@ object Operations {
         title = "Stop aux Violences Faites aux&nbsp;Femmes",
         question = "Comment lutter contre les violences faites aux&nbsp;femmes&nbsp;?",
         purpose = Some(
-          "Make.org a décidé de lancer sa première Grande Cause en la consacrant à la lutte contre les Violences faites aux&nbsp;femmes."
+          "Grâce à vos votes et à vos propositions, 17 grandes idées ont été identifiées."
         ),
         period = Some("Consultation ouverte du 25 nov. 2017 à fin janvier"),
         label = Some("Grande cause Make.org"),
@@ -163,7 +163,7 @@ object Operations {
           title = "Stop alla violenza sulle donne",
           question = "Come far fronte alla violenza sulle donne?",
           purpose = Some(
-            "Make.org a décidé de lancer sa première Grande Cause en la consacrant à la lutte contre les Violences faites aux&nbsp;femmes."
+            "Grâce à vos votes et à vos propositions, 17 grandes idées ont été identifiées."
           ),
           period = None,
           label = Some("La Grande Causa di Make.org"),
@@ -185,7 +185,7 @@ object Operations {
           title = "Stop violence against women",
           question = "How to combat violence against women?",
           purpose = Some(
-            "Make.org a décidé de lancer sa première Grande Cause en la consacrant à la lutte contre les Violences faites aux&nbsp;femmes."
+            "Grâce à vos votes et à vos propositions, 17 grandes idées ont été identifiées."
           ),
           period = Some("Consultation open from Nov. 25 2017 to the end of January"),
           label = Some("Make.org outreach action"),
