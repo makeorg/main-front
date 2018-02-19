@@ -49,7 +49,8 @@ object SearchResultsContainer {
               sort = Seq.empty,
               limit = Some(defaultResultsCount),
               skip = Some(originalProposals.size),
-              isRandom = Some(false)
+              isRandom = Some(false),
+              language = Some(appState.language)
             )
             .map { searchResults =>
               searchResults.copy(results = originalProposals ++ searchResults.results)

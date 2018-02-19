@@ -34,7 +34,7 @@ object ResultsInThemeContainer {
 
   def selectorFactory
     : (Dispatch) => (AppState, Props[ResultsInThemeContainerProps]) => ResultsInTheme.ResultsInThemeProps =
-    (dispatch: Dispatch) => { (_: AppState, props: Props[ResultsInThemeContainerProps]) =>
+    (dispatch: Dispatch) => { (appState: AppState, props: Props[ResultsInThemeContainerProps]) =>
       val themesIds: Seq[ThemeIdModel] = Seq(props.wrapped.currentTheme.id)
 
       def getProposals(tags: Seq[TagModel], skip: Int, seed: Option[Int] = None): Future[SearchResult] = {
@@ -46,7 +46,8 @@ object ResultsInThemeContainer {
             seed = seed,
             sort = Seq.empty,
             limit = Some(defaultResultsCount),
-            skip = Some(skip)
+            skip = Some(skip),
+            language = Some(appState.language)
           )
       }
 

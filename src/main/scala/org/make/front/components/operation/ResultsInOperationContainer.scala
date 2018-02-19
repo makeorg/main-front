@@ -26,7 +26,7 @@ object ResultsInOperationContainer {
 
   def selectorFactory
     : (Dispatch) => (AppState, Props[ResultsInOperationContainerProps]) => ResultsInOperation.ResultsInOperationProps =
-    (dispatch: Dispatch) => { (_: AppState, props: Props[ResultsInOperationContainerProps]) =>
+    (dispatch: Dispatch) => { (appState: AppState, props: Props[ResultsInOperationContainerProps]) =>
       def getProposals(tags: Seq[TagModel], skip: Int, seed: Option[Int] = None): Future[SearchResult] = {
         ProposalService
           .searchProposals(
@@ -36,7 +36,8 @@ object ResultsInOperationContainer {
             seed = seed,
             sort = Seq.empty,
             limit = Some(defaultResultsCount),
-            skip = Some(skip)
+            skip = Some(skip),
+            language = Some(appState.language)
           )
       }
 

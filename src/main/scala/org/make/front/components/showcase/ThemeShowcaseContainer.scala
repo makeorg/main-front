@@ -42,7 +42,8 @@ object ThemeShowcaseContainer {
                 labelsIds = Some(Seq(LabelModel.Star.name)),
                 limit = Some(3),
                 sort = Seq.empty,
-                skip = None
+                skip = None,
+                language = Some(appState.language)
             ),
           theme = theme,
           maybeIntro = props.wrapped.maybeIntro,

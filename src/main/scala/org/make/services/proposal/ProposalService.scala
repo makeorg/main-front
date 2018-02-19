@@ -33,7 +33,7 @@ object ProposalService extends ApiService {
       Map[String, String](MakeApiClient.sourceHeader -> source, MakeApiClient.locationHeader -> location.name)
     themeId.foreach(theme => headers += MakeApiClient.themeIdHeader -> theme)
 
-    operation.foreach(op  => headers += MakeApiClient.operationHeader -> op.operationId.value)
+    operation.foreach(op => headers += MakeApiClient.operationHeader -> op.operationId.value)
     question
       .orElse(operation.map(_.getWordingByLanguageOrError(language).question))
       .foreach(q => headers += MakeApiClient.questionHeader -> q)
@@ -67,7 +67,8 @@ object ProposalService extends ApiService {
                       limit: Option[Int] = None,
                       skip: Option[Int] = None,
                       isRandom: Option[Boolean] = Some(true),
-                      seed: Option[Int] = None): Future[SearchResult] = {
+                      seed: Option[Int] = None,
+                      language: Option[String] = None): Future[SearchResult] = {
     MakeApiClient
       .post[SearchResultResponse](
         resourceName / "search",
@@ -85,7 +86,8 @@ object ProposalService extends ApiService {
               skip = skip,
               sort = sort,
               isRandom = isRandom,
-              seed = seed
+              seed = seed,
+              language = language
             )
           )
         )

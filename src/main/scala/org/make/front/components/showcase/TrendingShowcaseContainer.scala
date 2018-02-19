@@ -19,7 +19,7 @@ object TrendingShowcaseContainer {
 
   def selectorFactory
     : (Dispatch) => (AppState, Props[TrendingShowcaseContainerProps]) => TrendingShowcase.TrendingShowcaseProps =
-    (_: Dispatch) => { (_: AppState, props: Props[TrendingShowcaseContainerProps]) =>
+    (_: Dispatch) => { (appState: AppState, props: Props[TrendingShowcaseContainerProps]) =>
       TrendingShowcase.TrendingShowcaseProps(
         proposals = () =>
           ProposalService
@@ -28,7 +28,8 @@ object TrendingShowcaseContainer {
               limit = Some(2),
               sort = Seq.empty,
               skip = None,
-              isRandom = Some(false)
+              isRandom = Some(false),
+              language = Some(appState.language)
           ),
         intro = props.wrapped.intro,
         title = props.wrapped.title,

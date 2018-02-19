@@ -40,7 +40,13 @@ object ProposalContainer {
           val proposalSlug = props.`match`.params("proposalSlug")
 
           val futureSearchResult: Future[SearchResult] =
-            ProposalService.searchProposals(slug = Some(proposalSlug), limit = Some(1), sort = Seq.empty, skip = None)
+            ProposalService.searchProposals(
+              slug = Some(proposalSlug),
+              limit = Some(1),
+              sort = Seq.empty,
+              skip = None,
+              language = Some(state.language)
+            )
 
           def getProposalAndThemeOrOperationModelFromProposal(
             proposal: ProposalModel
