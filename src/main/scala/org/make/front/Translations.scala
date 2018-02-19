@@ -47,7 +47,7 @@ object Translations {
       |        "see-more-link": "https://about.make.org/qui-sommes-nous"
       |      },
       |      "featured-operation": {
-      |        "learn-more": "Participer"
+      |        "learn-more": "Découvrir les résultats"
       |      },
       |      "explanations": {
       |        "article-1": {
@@ -507,7 +507,7 @@ object Translations {
       |        "see-more-link": "https://about.make.org/qui-sommes-nous"
       |      },
       |      "featured-operation": {
-      |        "learn-more": "Participer"
+      |        "learn-more": "Découvrir les résultats"
       |      },
       |      "explanations": {
       |        "article-1": {
@@ -966,7 +966,7 @@ object Translations {
       |        "see-more-link": "https://about.make.org/qui-sommes-nous"
       |      },
       |      "featured-operation": {
-      |        "learn-more": "Participer"
+      |        "learn-more": "Découvrir les résultats"
       |      },
       |      "explanations": {
       |        "article-1": {
