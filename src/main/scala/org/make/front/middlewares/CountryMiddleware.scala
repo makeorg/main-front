@@ -30,7 +30,7 @@ object CountryMiddleware {
       case action => dispatch(action)
   }
 
-  private def updateServicesCountry(country: String): Unit = {
+  def updateServicesCountry(country: String): Unit = {
     MakeApiClient.addHeaders(Map(MakeApiClient.countryHeader -> country))
     TrackingService.setGlobalTrackingParameter(GlobalTrackingParameter.country, country)
   }

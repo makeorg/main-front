@@ -83,6 +83,8 @@ object Main {
         }
 
         // init services depending language and country
+        LanguageMiddleware.updateServicesLanguage(store.getState.language)
+        CountryMiddleware.updateServicesCountry(store.getState.country)
         store.dispatch(SetCountryLanguage(country = store.getState.country, language = store.getState.language))
 
         // adding get parameters headers
