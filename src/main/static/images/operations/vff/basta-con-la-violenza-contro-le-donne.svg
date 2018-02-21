@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="412" height="153" viewBox="0 0 412 153">
+    <g fill="none" fill-rule="evenodd">
+        <text fill="#FFF" font-family="TradeGothicLTStd-BdCn20, Trade Gothic LT Std" font-size="63.686" font-style="condensed" font-weight="bold" transform="translate(-5)">
+            <tspan x="198" y="102">VIOLENZA</tspan>
+        </text>
+        <text fill="#FFF" font-family="TradeGothicLTStd-BdCn20, Trade Gothic LT Std" font-size="14.557" font-style="condensed" font-weight="bold" transform="translate(-5)">
+            <tspan x="198.404" y="49">CON LA</tspan>
+        </text>
+        <text fill="#FFF" font-family="TradeGothicLTStd-BdCn20, Trade Gothic LT Std" font-size="87.34" font-style="condensed" font-weight="bold" transform="translate(-5)">
+            <tspan x=".68" y="102.211">BASTA</tspan>
+        </text>
+        <g font-style="italic">
+            <text fill="#000" font-family="PlayfairDisplay-BlackItalic, Playfair Display" font-size="91.55" font-weight="700" transform="translate(1.827 51.866)">
+                <tspan x="143.755" y="99">donne</tspan>
+            </text>
+            <text fill="#660779" font-family="PlayfairDisplay-Italic, Playfair Display" font-size="34.954" transform="translate(1.827 51.866)">
+                <tspan x="0" y="97.867">contro le</tspan>
+            </text>
+        </g>
+        <path fill="#000" d="M1.188 0h156v23.655h-156z"/>
+        <text fill="#FFF" font-family="TradeGothicLTStd-BdCn20, Trade Gothic LT Std" font-size="14.557" font-style="condensed" font-weight="bold" transform="translate(1.188)">
+            <tspan x="10.1" y="17">GRANDE CAUSA MAKE.ORG</tspan>
+        </text>
+    </g>
+</svg>

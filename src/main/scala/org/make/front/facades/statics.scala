@@ -431,6 +431,22 @@ object VFFLogo extends js.Object
 object VFFDarkerLogo extends js.Object
 
 @js.native
+@JSImport("./images/operations/vff/stop-violence-against-women.svg", "default")
+object VFFLogoGB extends js.Object
+
+@js.native
+@JSImport("./images/operations/vff/stop-violence-against-women-darker.svg", "default")
+object VFFDarkerLogoGB extends js.Object
+
+@js.native
+@JSImport("./images/operations/vff/basta-con-la-violenza-contro-le-donne.svg", "default")
+object VFFLogoIT extends js.Object
+
+@js.native
+@JSImport("./images/operations/vff/basta-con-la-violenza-contro-le-donne-darker.svg", "default")
+object VFFDarkerLogoIT extends js.Object
+
+@js.native
 @JSImport("./images/operations/vff/vff-ill.jpg", "default")
 object VFFIll extends js.Object
 
@@ -561,3 +577,15 @@ object tradeGothicLTTtf extends js.Object
 @js.native
 @JSImport("./styles/main.css", "default")
 object mainCss extends js.Object
+
+@js.native
+@JSImport("./translations_fr_FR.json", "default")
+object translationsFrFR extends js.Object
+
+@js.native
+@JSImport("./translations_en_GB.json", "default")
+object translationsEnGB extends js.Object
+
+@js.native
+@JSImport("./translations_it_IT.json", "default")
+object translationsItIT extends js.Object

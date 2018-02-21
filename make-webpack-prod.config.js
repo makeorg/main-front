@@ -33,6 +33,10 @@ var build = {
                 test: /\.(jpe?g|gif|png)$/,
                 loader: 'file-loader?name=images/[name].[hash].[ext]',
                 include: [path.join(__dirname, "images")]
+            },
+            {
+                test: /\.json$/,
+                loader: 'json-loader'
             }
         ]
     },

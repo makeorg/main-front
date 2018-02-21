@@ -1,0 +1,455 @@
+{
+  "common": {
+    "bait": "We should"
+  },
+  "error-message": {
+    "main": "Oops! We are having difficulties loading this page. Please reload it.",
+    "no-token": "Token not found",
+    "unexpected-behaviour": "Something did not work",
+    "user-not-found": "User not found"
+  },
+  "error": {
+    "intro": "oops",
+    "title": "Error 404",
+    "recherche-intro": "We are sorry, the page you have requested no longer exists. You can initiate a search to find the content that interests you&hellip;",
+    "redirection-intro": "&hellip; or let youself be tempted by a new destination:",
+    "redirect-to-home": "Home Page",
+    "redirect-to-random-theme": "A random theme"
+  },
+  "maintenance": {
+    "intro": "oops",
+    "title": "Maintenance in progress",
+    "explanation-1": "In order to offer you an ever more efficient website<br>Make.org is currently in maintenance.",
+    "explanation-2": "Please come back in a few minutes."
+  },
+  "cookie-alert": "By continuing your navigation on our site, you hereby accept the use of cookies providing you with a personalised and smooth experience.",
+  "home": {
+    "welcome": {
+      "baseline": "About",
+      "title": "Propose, vote, act",
+      "subtitle": "Make.org is an independent initiative in the service of the general&nbsp;public.",
+      "see-more": "To find out more",
+      "see-more-link": "https://about.make.org/gb/who-are-we"
+    },
+    "featured-operation": {
+      "learn-more": "Découvrir les résultats"
+    },
+    "explanations": {
+      "article-1": {
+        "intro": "politics are no longer enough, let's move the lines together",
+        "title": "Propose, vote, act",
+        "item-1": "<strong>Vote</strong> for the proposals you stand for",
+        "item-2": "<strong>Submit</strong> your ideas on themes that inspire you",
+        "item-3": "And tomorrow, <strong>initiate concrete actions</strong> on the ground",
+        "see-more-link": "/",
+        "see-more": "To find out more"
+      },
+      "article-2": {
+        "intro": "who are we?",
+        "title": "Make.org, neutral & independent",
+        "text": "Make.org is a civic, European and independent initiative.",
+        "see-more-link": "https://about.make.org/gb/who-are-we",
+        "see-more": "To find out more"
+      }
+    },
+    "showcase-1": {
+      "intro": "The topic of the&nbsp;month",
+      "news": ""
+    },
+    "showcase-2": {
+      "intro": "express yourself!",
+      "title": "The most popular proposals on"
+    },
+    "showcase-3": {
+      "intro": "Decide between them!",
+      "title": "The most debated proposals on"
+    }
+  },
+  "theme-showcase": {
+    "see-all": "See all the topic's proposals about %{themeName}",
+    "prompting-to-propose-tile": {
+      "intro": "What about you, what is your proposal?",
+      "bait": "We should..."
+    },
+    "data-units": {
+      "actions": "actions",
+      "votes": "votes",
+      "proposals": "proposals"
+    },
+    "filter": {
+      "intro": "Afficher les propositions :",
+      "the-most-popular": "les + populaires",
+      "the-most-original": "les + originales"
+    }
+  },
+  "nav-in-themes": {
+    "title": "All the&nbsp;topics",
+    "total-of-actions": "%{total} actions",
+    "total-of-actions_1": "%{total} action",
+    "total-of-proposals": "%{total} proposals",
+    "total-of-proposals_1": "%{total} proposal"
+  },
+  "main-header": {
+    "title": "Make.org",
+    "menu": {
+      "item-1": {
+        "label": "Who are we?",
+        "link": "https://about.make.org/gb/who-are-we"
+      }
+    }
+  },
+  "search": {
+    "form": {
+      "placeholder": "Search for a proposal..."
+    },
+    "results": {
+      "intro": "<strong>%{total} results</strong> for your search",
+      "see-more": "See more proposals"
+    },
+    "no-results": {
+      "intro": "We did not find <strong>any result</strong> for your search.",
+      "prompting-to-propose": "Be the first person to formulate a proposal on this subject!",
+      "propose-cta": "Propose"
+    }
+  },
+  "user-nav": {
+    "login": "Login",
+    "register": "Register"
+  },
+  "user-profile": {
+    "title": "My personal information",
+    "disconnect-cta": "I am logging out"
+  },
+  "proposal": {
+    "created-by-user": "My proposal",
+    "share-intro": "Share this proposal with your community",
+    "associated-with-the-theme": "published in ",
+    "proposal-s-operation-infos": {
+      "intro": "Cette proposition a été soumise dans le cadre de l'opération",
+      "participate": "Participate",
+      "see-more": "To find out more"
+    },
+    "author-infos": {
+      "age": ", %{age} years",
+      "postal-code": " (%{postalCode})",
+      "anonymous": "anonymous"
+    },
+    "vote": {
+      "partOfVotes": "(%{value}%)",
+      "agree": {
+        "label": "Agree",
+        "qualifications": {
+          "likeIt": "Remarkable",
+          "doable": "Realistic",
+          "platitudeAgree": "Commonplace"
+        }
+      },
+      "disagree": {
+        "label": "Disagree",
+        "qualifications": {
+          "noWay": "Definitely not!",
+          "impossible": "Impractical",
+          "platitudeDisagree": "Commonplace"
+        }
+      },
+      "neutral": {
+        "label": "Blank vote",
+        "qualifications": {
+          "doNotUnderstand": "Did not understand",
+          "noOpinion": "No opinion",
+          "doNotCare": "Indifferent"
+        }
+      }
+    },
+    "qualificate-vote": {
+      "increment": "+1"
+    }
+  },
+  "submit-proposal": {
+    "intro": "Share your proposal",
+    "error-message": "An error has occurred, please try again in a few minutes.",
+    "form": {
+      "proposal-input-placeholder": "The proposal should be realistic and respectful of everyone",
+      "limit-of-chars-reached-alert": "Oops! You have exceeded the limit of 140 characters 😅 Try to be more precise.&nbsp;🙏",
+      "info": "Don't worry, we will correct any spelling mistakes.",
+      "moderation-charter": "To find out more about our moderation charter, <a href=\"https://about.make.org/gb/moderation\" target=\"_blank\">click&nbsp;here.</a>",
+      "validate-cta": "Propose",
+      "error-message": {
+        "limit-of-chars-exceeded": "You have exceeded the character limit.",
+        "not-enough-chars": "Your proposal must contain at least %{min} characters."
+      }
+    },
+    "authenticate": {
+      "intro": "We need some information to validate your proposal",
+      "title": "To validate your&nbsp;proposal"
+    },
+    "confirmation": {
+      "title": "Thank you!",
+      "info": "Your proposal has been taken into consideration, it will now be reviewed by our moderation service.<br>You will receive an email when it has been validated.",
+      "back-to-theme-cta": "Back to the subject&nbsp;%{theme}",
+      "back-cta": "Go back",
+      "new-proposal-cta": "Submit a new&nbsp;proposal"
+    }
+  },
+  "political-actions": {
+    "intro": "%{actions} actions from your proposals",
+    "intro_0": "%{actions} action from your proposals",
+    "intro_1": "%{actions} action from your proposals"
+  },
+  "no-political-action": {
+    "intro": "We do not have an action to propose on this topic at the present time, but we are working on&nbsp;it!",
+    "text": "Come back soon to work together!"
+  },
+  "theme": {
+    "results": {
+      "title": "Vote on the&nbsp;proposals",
+      "see-more": "See more proposals",
+      "no-results": "We did not find <strong>any result</strong> corresponding to your tag selection. <br>Please make another selection."
+    },
+    "proposal-form-in-header": {
+      "limit-of-chars-info": "8/140"
+    },
+    "submit-proposal": {
+      "intro": "Share your proposal on the&nbsp;subject"
+    }
+  },
+  "sequence": {
+    "proposal": {
+      "next-cta": "Next proposal"
+    },
+    "guide": {
+      "vote": "Use the buttons to vote<br>and to go to the next proposal.",
+      "qualification": "If you wish, you can clarify your vote. (Otherwise, go to the next proposal.)"
+    },
+    "introduction": {
+      "title": "Thousands of citizens are submitting solutions.",
+      "explanation-1": "Take a stand on these solutions and offer yours.",
+      "explanation-2": "The ones with the most support will determine our&nbsp;actions.",
+      "cta": "Start"
+    },
+    "prompting-to-propose": {
+      "intro": "What about you, do you have a solution to propose on this&nbsp;subject?",
+      "propose-cta": "Propose",
+      "next-cta": "Not yet, I will continue voting"
+    },
+    "prompting-to-continue": {
+      "intro": "Thank you for your contribution. Continue to be involved with this cause:",
+      "continue": {
+        "intro": "By continuing the consultation:",
+        "cta": "Start"
+      },
+      "learn-more": {
+        "intro": "By discovering the full operation",
+        "cta": "To find out more"
+      },
+      "share": {
+        "intro": "By inviting your close family members to participate in the consultation:"
+      }
+    },
+    "prompting-to-connect": {
+      "title": "Be informed about the actions implemented.",
+      "intro": "I identify myself with",
+      "authenticate-with-email-cta": "My email address",
+      "login-screen-access": {
+        "intro": "I already have an account!",
+        "link-support": "Connection"
+      },
+      "next-cta": "No thanks, I do not wish to be informed of the results"
+    }
+  },
+  "operation": {
+    "intro": {
+      "partners": {
+        "intro": "with"
+      },
+      "article": {
+        "title": "Why this consultation&nbsp;?",
+        "see-more": {
+          "label": "To find out more"
+        }
+      }
+    },
+    "results": {
+      "title": "Vote on the&nbsp;proposals",
+      "see-more": "See more proposals",
+      "no-results": "We did not find <strong>any result</strong> corresponding to your tag selection. <br>Please make another selection."
+    },
+    "proposal-form-in-header": {
+      "intro": "Propose your solutions on the subject",
+      "limit-of-chars-info": "8/140"
+    },
+    "submit-proposal": {
+      "intro": "Share your proposal"
+    },
+    "sequence": {
+      "header": {
+        "total-of-proposals": "%{total} proposals",
+        "total-of-proposals_1": "%{total} proposal",
+        "back-cta": "Access<br>the operation",
+        "propose-cta": "Propose",
+        "guide": {
+          "propose-cta": "Submit a solution at any time by clicking this button."
+        }
+      }
+    }
+  },
+  "tags": {
+    "filter": {
+      "intro": "Filter by tags:"
+    },
+    "list": {
+      "show-all": "See all the&nbsp;tags",
+      "show-less": "hide"
+    }
+  },
+  "activate-account": {
+    "notifications": {
+      "success": "Your account has just been activated. You can login now",
+      "error-message": "This link is no longer valid."
+    }
+  },
+  "authenticate": {
+    "forgot-password": {
+      "intro": "Oops, I",
+      "link-support": "forgot my password?"
+    },
+    "switch-to-register-screen": {
+      "intro": "I do not have an account,",
+      "link-support": "create one."
+    },
+    "switch-to-login-screen": {
+      "intro": "I already have an account!",
+      "link-support": "Connection"
+    },
+    "back-to-login-screen": {
+      "intro": "Come back to",
+      "link-support": "the login screen"
+    },
+    "no-account-found": "We cannot find an account associated with this email.",
+    "no-email-found": "Oops! We are unable to get you connected. Please try again with a valid email.",
+    "error-message": "Something did not work. If the problem persists, do not hesitate to contact us at <a href=\"mailto:contact@make.org\">contact@make.org</a>",
+    "inputs": {
+      "required": "(required)",
+      "email": {
+        "placeholder": "E-mail",
+        "format-error-message": "Email format not&nbsp;recognised",
+        "empty-field-error-message": "Please complete this&nbsp;field."
+      },
+      "first-name": {
+        "placeholder": "Firstname",
+        "format-error-message": "Invalid format",
+        "empty-field-error-message": "Please complete this&nbsp;field."
+      },
+      "password": {
+        "placeholder": "Password",
+        "format-error-message": "Your password must contain at least %{min}&nbsp;characters.",
+        "empty-field-error-message": "Please complete this&nbsp;field."
+      },
+      "age": {
+        "placeholder": "Age",
+        "format-error-message": "Invalid format"
+      },
+      "postal-code": {
+        "placeholder": "Post code",
+        "format-error-message": "Invalid format"
+      },
+      "job": {
+        "placeholder": "Profession",
+        "format-error-message": "Invalid format"
+      }
+    },
+    "recover-password": {
+      "title": "I am resetting my&nbsp;password",
+      "info": "Please enter the email address associated with your account in order to receive the reset&nbsp;link",
+      "send-cta": "Receive e-mail",
+      "error-message": {
+        "mail-not-found": "We cannot find an account associated with this&nbsp;email."
+      },
+      "notifications": {
+        "success": "Thank you, an email was just sent to you to reset your&nbsp;password."
+      }
+    },
+    "reset-password": {
+      "title": "I am creating a new&nbsp;password",
+      "info": "You can choose a new&nbsp;password.",
+      "send-cta": "Validate",
+      "success": {
+        "title": "Thank you, your password has been updated.",
+        "info": "You can login now."
+      },
+      "failure": {
+        "title": "This link is no longer valid."
+      },
+      "notifications": {
+        "error-message": "Your password could not be changed"
+      }
+    },
+    "register": {
+      "with-social-networks": {
+        "intro": "I am registering with",
+        "separator": "or"
+      },
+      "caution": "(Rest assured, nothing will be published without your&nbsp;consent.)",
+      "separator": "or",
+      "with-email-intro": "I am registering with my email address",
+      "terms": "By registering, you agree to our  <a href=\"https://about.make.org/it/terms-of-use\" target=\"_blank\">terms of use</a> and to occasionally receive emails from&nbsp;Make.org.",
+      "send-cta": "register",
+      "error-message": {
+        "already-exists": "This account already exists, thank you for logging&nbsp;in."
+      },
+      "notifications": {
+        "success": "Your account has been successfully created. Remember to confirm your email address using the link sent to you - to ensure the account is yours."
+      }
+    },
+    "login": {
+      "with-social-networks-intro": "I am logging in&nbsp;with",
+      "separator": "or",
+      "with-email-intro": "I am logging in with my email&nbsp;address",
+      "send-cta": "Login"
+    }
+  },
+  "main-footer": {
+    "menu": {
+      "item-1": {
+        "label": "Become a Maker!",
+        "link": "/"
+      },
+      "item-2": {
+        "label": "Jobs",
+        "link": "https://about.make.org/gb/jobs"
+      },
+      "item-3": {
+        "label": "Who are we?",
+        "link": "https://about.make.org/gb/who-are-we"
+      },
+      "item-4": {
+        "label": "Press area",
+        "link": "https://about.make.org/gb/category/press"
+      },
+      "item-5": {
+        "label": "Legal notice",
+        "link": "https://about.make.org/gb/legal-notice"
+      },
+      "item-6": {
+        "label": "Terms of use",
+        "link": "https://about.make.org/it/terms-of-use"
+      },
+      "item-7": {
+        "label": "Data use policy",
+        "link": "https://about.make.org/gb/data-use-policy"
+      },
+      "item-8": {
+        "label": "Contact",
+        "link": "https://about.make.org/gb/contact-us"
+      },
+      "item-9": {
+        "label": "f.a.q.",
+        "link": "/"
+      },
+      "item-10": {
+        "label": "sitemap",
+        "link": "/"
+      }
+    }
+  }
+}

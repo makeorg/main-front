@@ -55,5 +55,9 @@ module.exports.module.rules = [
        test: /\.(png|xml|ico|json|svg)$/,
        loader: 'file-loader?name=[name].[ext]',
        include: [path.join(__dirname, "favicon")]
+    },
+    {
+        test: /\.json$/,
+        loader: 'json-loader'
     }
 ];
