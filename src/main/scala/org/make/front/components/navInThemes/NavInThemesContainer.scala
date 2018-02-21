@@ -17,6 +17,11 @@ object NavInThemesContainer {
         dispatch(LoadConfiguration)
       }
 
-      NavInThemes.WrappedProps(state.themes)
+      val shouldDisplayTheme =
+        state.configuration
+          .flatMap(_.supportedCountries.find(_.countryCode == state.country).map(_.coreIsAvailable))
+          .getOrElse(false)
+
+      NavInThemes.WrappedProps(state.themes, shouldDisplayTheme)
     }
 }
