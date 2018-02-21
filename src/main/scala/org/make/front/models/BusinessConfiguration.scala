@@ -48,7 +48,7 @@ case class CountryConfiguration(countryCode: String,
                                 supportedLanguages: Seq[String],
                                 coreIsAvailable: Boolean,
                                 flagUrl: String = "") {
-  def languageIsSuppported(language: String) = {
+  def languageIsSuppported(language: String): Boolean = {
     defaultLanguage.contains(language)
   }
 }
