@@ -27,7 +27,9 @@ object UserService extends ApiService {
                    profession: Option[String],
                    age: Option[Int],
                    postalCode: Option[String],
-                   operationId: Option[OperationId]): Future[User] = {
+                   operationId: Option[OperationId],
+                   language: String,
+                   country: String): Future[User] = {
 
     val headers = MakeApiClient.getDefaultHeaders ++ operationId.map(op => MakeApiClient.operationHeader -> op.value)
     MakeApiClient
@@ -41,7 +43,9 @@ object UserService extends ApiService {
               password = password,
               profession = profession,
               postalCode = postalCode,
-              dateOfBirth = age.map(age => s"${new js.Date().getUTCFullYear() - age}-01-01")
+              dateOfBirth = age.map(age => s"${new js.Date().getUTCFullYear() - age}-01-01"),
+              country = country,
+              language = language
             )
           )
         ),
@@ -61,16 +65,16 @@ object UserService extends ApiService {
     MakeApiClient.get[UserResponse](resourceName / "me").map(User.apply)
   }
 
-  def loginGoogle(token: String, operationId: Option[OperationId]): Future[User] = {
-    MakeApiClient.authenticateSocial("google", token, operationId).flatMap {
+  def loginGoogle(token: String, country: String, language: String, operationId: Option[OperationId]): Future[User] = {
+    MakeApiClient.authenticateSocial(provider = "google", token = token, operationId = operationId, country = country, language = language).flatMap {
       case true  => getCurrentUser()
       case false => throw NoTokenException()
     }
   }
 
-  def loginFacebook(token: String, operationId: Option[OperationId]): Future[User] = {
+  def loginFacebook(token: String, country: String, language: String, operationId: Option[OperationId]): Future[User] = {
 
-    MakeApiClient.authenticateSocial("facebook", token, operationId).flatMap {
+    MakeApiClient.authenticateSocial(provider = "facebook", token = token, operationId = operationId, country = country, language = language).flatMap {
       case true  => getCurrentUser()
       case false => throw NoTokenException()
     }

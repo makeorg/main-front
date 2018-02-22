@@ -24,7 +24,7 @@ object RegisterContainer {
                                operationId: Option[OperationId])
 
   def selector: ContainerComponentFactory[RegisterProps] = ReactRedux.connectAdvanced {
-    dispatch => (_: AppState, props: Props[RegisterUserProps]) =>
+    dispatch => (appState: AppState, props: Props[RegisterUserProps]) =>
       def register(): (RegisterState) => Future[UserModel] = { state =>
         val future = UserService
           .registerUser(
@@ -34,7 +34,9 @@ object RegisterContainer {
             profession = state.fields.get("profession"),
             postalCode = state.fields.get("postalCode"),
             age = state.fields.get("age").map(_.toInt),
-            operationId = props.wrapped.operationId
+            operationId = props.wrapped.operationId,
+            country = appState.country,
+            language = appState.language
           )
           .flatMap { _ =>
             UserService.login(state.fields("email"), state.fields("password"))

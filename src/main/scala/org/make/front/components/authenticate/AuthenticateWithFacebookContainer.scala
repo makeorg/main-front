@@ -31,7 +31,9 @@ object AuthenticateWithFacebookContainer {
           handleFutureApiSignInResponse(
             UserService.loginFacebook(
               token = response.asInstanceOf[FacebookAuthResponse].accessToken,
-              operationId = props.wrapped.operationId
+              operationId = props.wrapped.operationId,
+              country = state.country,
+              language = state.language
             )
           )
         }

@@ -31,7 +31,9 @@ object AuthenticateWithGoogleContainer {
           handleFutureApiSignInResponse(
             UserService.loginGoogle(
               token = response.asInstanceOf[GoogleAuthResponse].tokenId,
-              operationId = props.wrapped.operationId
+              operationId = props.wrapped.operationId,
+              country = state.country,
+              language = state.language
             )
           )
         }

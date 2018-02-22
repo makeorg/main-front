@@ -207,21 +207,27 @@ object MakeApiClient extends Client {
     }
   }
 
-  def authenticateSocial(provider: String, token: String, operationId: Option[OperationId]): Future[Boolean] = {
+  def authenticateSocial(provider: String, token: String, country: String, language: String, operationId: Option[OperationId]): Future[Boolean] = {
     if (MakeApiClient.isAuthenticated) {
       Future.successful(true)
     } else {
-      askForAccessTokenSocial(provider, token, operationId)
+      askForAccessTokenSocial(
+        provider = provider,
+        token = token,
+        country = country,
+        language = language,
+        operationId = operationId
+      )
     }
   }
 
-  private def askForAccessTokenSocial(provider: String, token: String, operationId: Option[OperationId]): Future[Boolean] = {
+  private def askForAccessTokenSocial(provider: String, token: String, country: String, language: String, operationId: Option[OperationId]): Future[Boolean] = {
     val headers = MakeApiClient.getDefaultHeaders ++ operationId.map(op => MakeApiClient.operationHeader -> op.value)
 
     post[TokenResponse](
       "user" / "login" / "social",
       headers = headers,
-      data = JSON.stringify(js.Dictionary("provider" -> provider, "token" -> token))
+      data = JSON.stringify(js.Dictionary("provider" -> provider, "token" -> token, "country" -> country, "language" -> language))
     ).map(Token.apply).map { newToken =>
       MakeApiClient.setToken(Option(newToken))
       MakeApiClient.isAuthenticated
