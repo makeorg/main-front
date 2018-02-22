@@ -50,7 +50,8 @@ object SearchResultsContainer {
               limit = Some(defaultResultsCount),
               skip = Some(originalProposals.size),
               isRandom = Some(false),
-              language = Some(appState.language)
+              language = Some(appState.language),
+              country = Some(appState.country)
             )
             .map { searchResults =>
               searchResults.copy(results = originalProposals ++ searchResults.results)
