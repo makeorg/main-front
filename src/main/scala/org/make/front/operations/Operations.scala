@@ -37,9 +37,7 @@ object Operations {
         language = "fr",
         title = "Stop aux Violences Faites aux&nbsp;Femmes",
         question = "Comment lutter contre les violences faites aux&nbsp;femmes&nbsp;?",
-        purpose = Some(
-          "Grâce à vos votes et à vos propositions, 17 grandes idées ont été identifiées."
-        ),
+        purpose = Some("Grâce à vos votes et à vos propositions, 17 grandes idées ont été identifiées."),
         period = Some("Consultation ouverte du 25 nov. 2017 à fin janvier"),
         label = Some("Grande cause Make.org"),
         mentionUnderThePartners = Some("et nos partenaires soutien et&nbsp;actions"),
@@ -155,6 +153,8 @@ object Operations {
     vffFrDesignOperation,
     vffFrDesignOperation.copy(
       country = "IT",
+      logoUrl = Some(VFFLogoIT.toString),
+      darkerLogoUrl = Some(VFFDarkerLogoIT.toString),
       endDate = None,
       startDate = None,
       wording = Seq(
@@ -162,21 +162,21 @@ object Operations {
           language = "it",
           title = "Stop alla violenza sulle donne",
           question = "Come far fronte alla violenza sulle donne?",
-          purpose = Some(
-            "Grâce à vos votes et à vos propositions, 17 grandes idées ont été identifiées."
-          ),
+          purpose = Some("Grâce à vos votes et à vos propositions, 17 grandes idées ont été identifiées."),
           period = None,
           label = Some("La Grande Causa di Make.org"),
           mentionUnderThePartners = Some("e i nostri partner sostegno e azione"),
           explanation = Some(
             "La violenza sulle donne è al centro dell'attualità politica e mediatica. Le idee stanno cambiando, ma tutto inizia da qui. Sta a noi trasformare questa presa di coscienza generale in azioni concrete e dare una risposta decisiva a questo flagello."
           ),
-          learnMoreUrl = Some("https://stopvff.make.org/about-vff")
+          learnMoreUrl = Some("https://about.make.org/it/about-vff")
         )
       )
     ),
     vffFrDesignOperation.copy(
       country = "GB",
+      logoUrl = Some(VFFLogoGB.toString),
+      darkerLogoUrl = Some(VFFDarkerLogoGB.toString),
       endDate = None,
       startDate = None,
       wording = Seq(
@@ -184,16 +184,14 @@ object Operations {
           language = "en",
           title = "Stop violence against women",
           question = "How to combat violence against women?",
-          purpose = Some(
-            "Grâce à vos votes et à vos propositions, 17 grandes idées ont été identifiées."
-          ),
+          purpose = Some("Grâce à vos votes et à vos propositions, 17 grandes idées ont été identifiées."),
           period = Some("Consultation open from Nov. 25 2017 to the end of January"),
           label = Some("Make.org outreach action"),
           mentionUnderThePartners = Some("and our support and actions partners"),
           explanation = Some(
             "Violence against women is at the heart of political events and news coverage. Mindsets are changing. But it all begins now. It is up to us to transform this generalised awareness into concrete actions and to provide a decisive response to this epidemic."
           ),
-          learnMoreUrl = Some("https://stopvff.make.org/about-vff")
+          learnMoreUrl = Some("https://about.make.org/gb/about-vff")
         )
       )
     ),
@@ -342,7 +340,11 @@ object Operations {
       featuredIllustration = None,
       illustration = Some(Illustration(illUrl = LpaeIll.toString, ill2xUrl = LpaeIll2x.toString)),
       partners = Seq(
-        OperationPartner(name = "Le Cercle des Economistes", imageUrl = CercleEconomistesLogo.toString, imageWidth = 74),
+        OperationPartner(
+          name = "Le Cercle des Economistes",
+          imageUrl = CercleEconomistesLogo.toString,
+          imageWidth = 74
+        ),
         OperationPartner(name = "x", imageUrl = XPartners.toString, imageWidth = 9),
         OperationPartner(name = "Make.org", imageUrl = MakeOrgLogo.toString, imageWidth = 51)
       ),
@@ -362,18 +364,18 @@ object Operations {
               )
             ),
             props = { (handler: () => Unit) =>
-            {
-              val onClick: () => Unit = () => {
-                TrackingService
-                  .track(
-                    "click-sequence-launch",
-                    trackingContext,
-                    Map("sequenceId" -> params.sequence.sequenceId.value)
-                  )
-                handler()
+              {
+                val onClick: () => Unit = () => {
+                  TrackingService
+                    .track(
+                      "click-sequence-launch",
+                      trackingContext,
+                      Map("sequenceId" -> params.sequence.sequenceId.value)
+                    )
+                  handler()
+                }
+                IntroductionOfTheSequenceProps(clickOnButtonHandler = onClick)
               }
-              IntroductionOfTheSequenceProps(clickOnButtonHandler = onClick)
-            }
             },
             position = _ => 0
           ),

@@ -23,8 +23,8 @@ object CountryMiddleware {
           if (countryConfiguration.supportedLanguages.contains(appStore.getState.language)) {
             dispatch(SetCountry(country = newCountry))
           } else {
-            dispatch(SetCountryLanguage(country = newCountry, language = countryConfiguration.defaultLanguage))
             LanguageMiddleware.updateServicesLanguage(countryConfiguration.defaultLanguage)
+            dispatch(SetCountryLanguage(country = newCountry, language = countryConfiguration.defaultLanguage))
           }
         }
       case action => dispatch(action)

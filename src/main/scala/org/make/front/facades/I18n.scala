@@ -31,7 +31,7 @@ object I18n extends js.Object {
 
   def setLocale(locale: String, rerenderComponents: Boolean = true): Unit = js.native
   def setLocaleGetter(locale: js.Function0[String]): Unit = js.native
-  def setTranslations(translations: js.Object, rerenderComponents: Boolean = true): Unit = js.native
+  def setTranslations(translations: js.Any, rerenderComponents: Boolean = true): Unit = js.native
   def setTranslationsGetter(translations: js.Function0[js.Object]): Unit = js.native
   def setHandleMissingTranslation(function: js.Function2[String, Replacements, String]): Unit = js.native
   def t(key: String, replacements: Replacements = Replacements()): String = js.native
