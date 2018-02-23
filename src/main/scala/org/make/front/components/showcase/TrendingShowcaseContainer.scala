@@ -29,7 +29,8 @@ object TrendingShowcaseContainer {
               sort = Seq.empty,
               skip = None,
               isRandom = Some(false),
-              language = Some(appState.language)
+              language = Some(appState.language),
+              country = Some(appState.country)
           ),
         intro = props.wrapped.intro,
         title = props.wrapped.title,

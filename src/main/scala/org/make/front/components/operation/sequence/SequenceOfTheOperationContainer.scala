@@ -56,7 +56,9 @@ object SequenceOfTheOperationContainer {
 
         def startSequence(sequenceId: SequenceId)(proposals: Seq[ProposalId]): Future[SequenceModel] = {
           firstProposalSlug.map { slug =>
-            ProposalService.searchProposals(slug = Some(slug), language = Some(state.language)).map(_.results.map(_.id))
+            ProposalService
+              .searchProposals(slug = Some(slug), language = Some(state.language), country = Some(state.country))
+              .map(_.results.map(_.id))
           }.getOrElse(Future.successful(Seq.empty)).flatMap { proposalsToInclude =>
             SequenceService.startSequenceById(
               sequenceId,

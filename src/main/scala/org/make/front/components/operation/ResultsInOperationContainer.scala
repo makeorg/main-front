@@ -37,7 +37,8 @@ object ResultsInOperationContainer {
             sort = Seq.empty,
             limit = Some(defaultResultsCount),
             skip = Some(skip),
-            language = Some(appState.language)
+            language = Some(appState.language),
+            country = Some(appState.country)
           )
       }
 

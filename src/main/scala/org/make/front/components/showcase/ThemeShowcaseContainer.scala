@@ -43,7 +43,8 @@ object ThemeShowcaseContainer {
                 limit = Some(3),
                 sort = Seq.empty,
                 skip = None,
-                language = Some(appState.language)
+                language = Some(appState.language),
+                country = Some(appState.country)
             ),
           theme = theme,
           maybeIntro = props.wrapped.maybeIntro,

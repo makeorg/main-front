@@ -68,7 +68,8 @@ object ProposalService extends ApiService {
                       skip: Option[Int] = None,
                       isRandom: Option[Boolean] = Some(true),
                       seed: Option[Int] = None,
-                      language: Option[String] = None): Future[SearchResult] = {
+                      language: Option[String] = None,
+                      country: Option[String] = None): Future[SearchResult] = {
     MakeApiClient
       .post[SearchResultResponse](
         resourceName / "search",
@@ -87,7 +88,8 @@ object ProposalService extends ApiService {
               sort = sort,
               isRandom = isRandom,
               seed = seed,
-              language = language
+              language = language,
+              country = country
             )
           )
         )

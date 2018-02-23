@@ -45,7 +45,8 @@ object ProposalContainer {
               limit = Some(1),
               sort = Seq.empty,
               skip = None,
-              language = Some(state.language)
+              language = Some(state.language),
+              country = Some(state.country)
             )
 
           def getProposalAndThemeOrOperationModelFromProposal(

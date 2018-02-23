@@ -107,7 +107,8 @@ case class SearchRequest(themesIds: Option[Seq[String]] = None,
                          limit: Option[Int],
                          skip: Option[Int] = None,
                          isRandom: Option[Boolean] = None,
-                         language: Option[String] = None)
+                         language: Option[String] = None,
+                         country: Option[String] = None)
 
 @js.native
 trait JsSearchRequest extends js.Object {
@@ -125,6 +126,7 @@ trait JsSearchRequest extends js.Object {
   val skip: js.UndefOr[Int]
   val isRandom: js.UndefOr[Boolean]
   val language: js.UndefOr[String]
+  val country: js.UndefOr[String]
 }
 
 object JsSearchRequest {
@@ -145,7 +147,8 @@ object JsSearchRequest {
         limit = searchRequest.limit.orUndefined,
         skip = searchRequest.skip.orUndefined,
         isRandom = searchRequest.isRandom.orUndefined,
-        language = searchRequest.language.orUndefined
+        language = searchRequest.language.orUndefined,
+        country = searchRequest.country.orUndefined
       )
       .asInstanceOf[JsSearchRequest]
   }
