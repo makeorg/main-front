@@ -50,7 +50,9 @@ case class User(userId: UserId,
                 verified: Boolean,
                 lastConnection: js.Date,
                 roles: Seq[Role],
-                profile: Option[Profile])
+                profile: Option[Profile],
+                country: String,
+                language: String)
 
 object User {
   def apply(userResponse: UserResponse): User = {
@@ -65,7 +67,9 @@ object User {
       verified = userResponse.verified,
       lastConnection = new js.Date(userResponse.lastConnection),
       roles = seqRoles.map(Role.apply),
-      profile = if (userResponse.profile == null) None else userResponse.profile.toOption.map(Profile.apply)
+      profile = if (userResponse.profile == null) None else userResponse.profile.toOption.map(Profile.apply),
+      country = userResponse.country,
+      language = userResponse.language
     )
   }
 }

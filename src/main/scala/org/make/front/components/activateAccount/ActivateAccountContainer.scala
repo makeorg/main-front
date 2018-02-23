@@ -10,7 +10,7 @@ import org.make.front.actions.{NotifyError, NotifySuccess}
 import org.make.front.components.AppState
 import org.make.front.components.activateAccount.ActivateAccount.ActivateAccountProps
 import org.make.front.facades.I18n
-import org.make.front.models.{OperationExpanded, OperationId}
+import org.make.front.models.OperationId
 import org.make.services.operation.OperationService
 import org.make.services.user.UserService
 
@@ -45,14 +45,18 @@ object ActivateAccountContainer {
 
       def handleValidateAccount(child: Self[ActivateAccountProps, Unit]): Unit = {
         UserService.validateAccount(userId, verificationToken, operationId).onComplete {
-          case Success(_) => {
-            redirectAfterValidation(operationId, state.country, child.props.history)
-            dispatch(NotifySuccess(message = I18n.t("activate-account.notifications.success")))
-          }
-          case Failure(e) => {
+          case Success(_) =>
+            UserService.getUserById(userId).onComplete {
+              case Success(Some(user)) =>
+                redirectAfterValidation(operationId, user.country, child.props.history)
+                dispatch(NotifySuccess(message = I18n.t("activate-account.notifications.success")))
+              case _ =>
+                redirectAfterValidation(operationId, state.country, child.props.history)
+                dispatch(NotifyError(message = I18n.t("error-message.unexpected-behaviour")))
+            }
+          case Failure(_) =>
             redirectAfterValidation(operationId, state.country, child.props.history)
             dispatch(NotifyError(message = I18n.t("activate-account.notifications.error-message")))
-          }
         }
       }
 

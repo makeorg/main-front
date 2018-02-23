@@ -13,6 +13,8 @@ trait UserResponse extends js.Object {
   val lastConnection: String
   val roles: js.Array[String]
   val profile: js.UndefOr[ProfileResponse]
+  val country: String
+  val language: String
 }
 
 @js.native
