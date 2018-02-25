@@ -39,8 +39,9 @@ object BusinessConfiguration {
 case class CountryConfiguration(countryCode: String,
                                 defaultLanguage: String,
                                 supportedLanguages: Seq[String],
-                                coreIsAvailable: Boolean) {
-  def languageIsSuppported(language: String): Boolean = {
+                                coreIsAvailable: Boolean,
+                                flagUrl: String = "") {
+  def languageIsSuppported(language: String) = {
     defaultLanguage.contains(language)
   }
 }

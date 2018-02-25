@@ -73,6 +73,7 @@ object ThemeStyles extends StyleSheet.Inline {
     val largerMedium: Int = 40
     val large: Int = 50
     val larger: Int = 60
+    val evenLarger: Int = 80
   }
 
   object MediaQueries {
@@ -97,6 +98,6 @@ object ThemeStyles extends StyleSheet.Inline {
   val containerMaxWidth: ValueT[ValueT.LenPct] = 1200.pxToEm()
   val modalMaxWidth: ValueT[ValueT.LenPct] = 730.pxToEm()
 
-  val mainNavDefaultHeight: ValueT[ValueT.LenPct] = 80.pxToEm()
+  val mainNavDefaultHeight: ValueT[ValueT.LenPct] = SpacingValue.evenLarger.pxToEm()
 
 }
