@@ -5,10 +5,9 @@ import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import io.github.shogowada.scalajs.reactjs.redux.ReactRedux
 import io.github.shogowada.scalajs.reactjs.redux.Redux.Dispatch
 import io.github.shogowada.scalajs.reactjs.router.RouterProps._
-import io.github.shogowada.scalajs.reactjs.router.WithRouter
 import org.make.front.actions.SetCountry
-import org.make.front.components.ObjectLoader.ObjectLoaderProps
-import org.make.front.components.{AppState, ObjectLoader}
+import org.make.front.components.AppState
+import org.make.front.components.operation.sequence.SequenceLoader.SequenceLoaderProps
 import org.make.front.models.{
   Operation,
   ProposalId,
@@ -21,23 +20,22 @@ import org.make.services.operation.OperationService
 import org.make.services.proposal.ProposalService
 import org.make.services.sequence.SequenceService
 import org.make.services.tag.TagService
-import org.scalajs.dom
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
 object SequenceOfTheOperationContainer {
 
-  lazy val reactClass: ReactClass = WithRouter(ReactRedux.connectAdvanced(selectorFactory)(ObjectLoader.reactClass))
+  lazy val reactClass: ReactClass = ReactRedux.connectAdvanced(selectorFactory)(SequenceLoader.reactClass)
 
-  def selectorFactory: (Dispatch) => (AppState, Props[Unit]) => ObjectLoaderProps[(OperationModel, SequenceModel)] =
+  def selectorFactory: (Dispatch) => (AppState, Props[Unit]) => SequenceLoaderProps =
     (dispatch: Dispatch) => { (state: AppState, props: Props[Unit]) =>
       {
         val operationSlug: String = props.`match`.params("operationSlug")
         // toDo remove default "FR" when backward compatibility not anymore required
         val countryCode: String = props.`match`.params.get("country").getOrElse("FR").toUpperCase
-        val shouldReload = state.country != countryCode
-        if (shouldReload) {
+        val countryChanged = state.country != countryCode
+        if (countryChanged) {
           dispatch(SetCountry(countryCode))
         }
 
@@ -83,13 +81,7 @@ object SequenceOfTheOperationContainer {
           }
         }
 
-        val onNotFound: () => Unit = if (shouldReload) { () =>
-          {}
-        } else { () =>
-          props.history.push("/404")
-        }
-
-        val load: () => Future[Option[(OperationModel, SequenceModel)]] = if (shouldReload) { () =>
+        val load: () => Future[Option[(OperationModel, SequenceModel)]] = if (countryChanged) { () =>
           {
             Future.successful(None)
           }
@@ -97,32 +89,14 @@ object SequenceOfTheOperationContainer {
           futureMaybeOperationAndSequence
         }
 
-        ObjectLoaderProps[(OperationModel, SequenceModel)](
-          load = load,
-          onNotFound = onNotFound,
-          childClass = SequenceOfTheOperation.reactClass,
-          createChildProps = {
-            case (operation, sequence) =>
-              SequenceOfTheOperation.SequenceOfTheOperationProps(
-                isConnected = state.connectedUser.isDefined,
-                operation = operation,
-                redirectHome = () => props.history.push("/"),
-                startSequence = startSequence(operation.landingSequenceId),
-                sequence = sequence,
-                language = state.language,
-                country = state.country,
-                onWillMount = () => {
-                  if (operation.isExpired) {
-                    dom.window.location
-                      .assign(operation.getWordingByLanguage(state.language).flatMap(_.learnMoreUrl).getOrElse("/"))
-                  } else {
-                    if (!operation.isActive) {
-                      props.history.push("/404")
-                    }
-                  }
-                }
-              )
-          }
+        SequenceLoaderProps(
+          loadSequenceAndOperation = load,
+          operationSlug = operationSlug,
+          language = state.language,
+          country = state.country,
+          redirectHome = () => props.history.push("/"),
+          isConnected = state.connectedUser.isDefined,
+          startSequence = startSequence
         )
 
       }

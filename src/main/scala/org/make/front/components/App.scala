@@ -12,10 +12,18 @@ object App {
 
   final case class AppProps(language: String, country: String)
 
+  final case class AppState(language: String, country: String)
+
   lazy val reactClass = WithRouter(
     React
-      .createClass[AppProps, Unit](
+      .createClass[AppProps, AppState](
         displayName = "App",
+        getInitialState = { self =>
+          AppState(self.props.wrapped.language, self.props.wrapped.country)
+        },
+        componentWillReceiveProps = { (self, props) =>
+          self.setState(_.copy(language = props.wrapped.language, country = props.wrapped.country))
+        },
         render = (self) => {
           <("app-container")(^.className := "App")(
             <.style()(
