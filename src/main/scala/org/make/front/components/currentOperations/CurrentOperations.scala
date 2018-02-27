@@ -1,4 +1,4 @@
-package org.make.front.components.currentlyRunning
+package org.make.front.components.currentOperations
 
 import io.github.shogowada.scalajs.reactjs.React
 import io.github.shogowada.scalajs.reactjs.VirtualDOM.{<, _}
@@ -20,18 +20,18 @@ import org.make.front.styles.base.{ColRulesStyles, LayoutRulesStyles, TableLayou
 import org.make.front.styles.ui.CTAStyles
 import org.make.front.styles.utils._
 
-object CurrentlyRunning {
+object CurrentOperations {
 
-  final case class CurrentlyRunningProps(country: String,
+  final case class CurrentOperationsProps(country: String,
                                          operations: Seq[OperationExpandedModel],
                                          supportedCountries: Seq[CountryConfigurationModel])
 
-  final case class CurrentlyRunningState()
+  final case class CurrentOperationsState()
 
   lazy val reactClass: ReactClass =
     React
-      .createClass[CurrentlyRunningProps, CurrentlyRunningState](
-        displayName = "CurrentlyRunning",
+      .createClass[CurrentOperationsProps, CurrentOperationsState](
+        displayName = "CurrentOperations",
         render = (self) => {
 
           def operationTile(operation: OperationExpandedModel, isLongerBeyondMedium: Boolean = false): ReactElement = {
@@ -74,7 +74,7 @@ object CurrentlyRunning {
                   <.Link(
                     ^.to := s"/${self.props.wrapped.country}/consultation/${operation.slug}/",
                     ^.className := Seq(CTAStyles.basic, CTAStyles.basicOnButton)
-                  )(unescape(I18n.t("currently-running.see-operation-cta")))
+                  )(unescape(I18n.t("current-operations.see-operation-cta")))
                 )
               ),
               <.style()(DynamicOperationTileStyles.render[String])
@@ -82,7 +82,7 @@ object CurrentlyRunning {
           }
 
           def countryTile(country: CountryConfigurationModel) =
-            <.Link(^.to := s"/${country.defaultLanguage}/")(
+            <.Link(^.to := s"/${country.countryCode}/")(
               <.span(^.className := Seq(CountryTileStyles.wrapper, TableLayoutStyles.wrapper))(
                 <.span(^.className := Seq(CountryTileStyles.innerWrapper, TableLayoutStyles.cellVerticalAlignMiddle))(
                   <.img(
@@ -95,45 +95,45 @@ object CurrentlyRunning {
               )
             )
 
-          <.div(^.className := Seq(CurrentlyRunningStyles.wrapper, TableLayoutStyles.fullHeightWrapper))(
+          <.div(^.className := Seq(CurrentOperationsStyles.wrapper, TableLayoutStyles.fullHeightWrapper))(
             <.div(^.className := TableLayoutStyles.row)(
-              <.div(^.className := Seq(TableLayoutStyles.cell, CurrentlyRunningStyles.mainHeaderWrapper))(
+              <.div(^.className := Seq(TableLayoutStyles.cell, CurrentOperationsStyles.mainHeaderWrapper))(
                 <.MainHeaderComponent.empty
               )
             ),
-            <.div(^.className := Seq(TableLayoutStyles.row, CurrentlyRunningStyles.fullHeight))(
+            <.div(^.className := Seq(TableLayoutStyles.row, CurrentOperationsStyles.fullHeight))(
               <.div(^.className := TableLayoutStyles.cell)(
-                <.section(^.className := CurrentlyRunningStyles.operations)(
+                <.section(^.className := CurrentOperationsStyles.operations)(
                   <.header(^.className := LayoutRulesStyles.centeredRow)(
-                    <.h2(^.className := TextStyles.mediumTitle)(unescape(I18n.t("currently-running.operations-intro")))
+                    <.h2(^.className := TextStyles.mediumTitle)(unescape(I18n.t("current-operations.operations-intro")))
                   ),
-                  if (self.props.wrapped.operations.length > 1) {
+                  if (self.props.wrapped.operations.lengthCompare(1) > 0) {
                     <.ul(
-                      ^.className := Seq(CurrentlyRunningStyles.operationsList, LayoutRulesStyles.centeredRowWithCols)
+                      ^.className := Seq(CurrentOperationsStyles.operationsList, LayoutRulesStyles.centeredRowWithCols)
                     )(self.props.wrapped.operations.map { operation =>
                       <.li(
                         ^.className := Seq(
-                          CurrentlyRunningStyles.operationItem,
+                          CurrentOperationsStyles.operationItem,
                           ColRulesStyles.col,
                           ColRulesStyles.colHalfBeyondMedium
                         )
                       )(operationTile(operation))
                     })
                   } else {
-                    <.div(^.className := Seq(CurrentlyRunningStyles.operationItem, LayoutRulesStyles.centeredRow))(
+                    <.div(^.className := Seq(CurrentOperationsStyles.operationItem, LayoutRulesStyles.centeredRow))(
                       operationTile(self.props.wrapped.operations.head, true)
                     )
                   }
                 ),
-                <.section(^.className := CurrentlyRunningStyles.countries)(
+                <.section(^.className := CurrentOperationsStyles.countries)(
                   <.header(^.className := LayoutRulesStyles.centeredRow)(
-                    <.h2(^.className := TextStyles.mediumTitle)(unescape(I18n.t("currently-running.countries-intro")))
+                    <.h2(^.className := TextStyles.mediumTitle)(unescape(I18n.t("current-operations.countries-intro")))
                   ),
-                  <.ul(^.className := Seq(CurrentlyRunningStyles.countriesList, LayoutRulesStyles.centeredRowWithCols))(
+                  <.ul(^.className := Seq(CurrentOperationsStyles.countriesList, LayoutRulesStyles.centeredRowWithCols))(
                     self.props.wrapped.supportedCountries.map { country =>
                       <.li(
                         ^.className := Seq(
-                          CurrentlyRunningStyles.countryItem,
+                          CurrentOperationsStyles.countryItem,
                           ColRulesStyles.col,
                           ColRulesStyles.colHalfBeyondSmall,
                           ColRulesStyles.colThirdBeyondLarge
@@ -145,7 +145,7 @@ object CurrentlyRunning {
               )
             ),
             <.style()(
-              CurrentlyRunningStyles.render[String],
+              CurrentOperationsStyles.render[String],
               OperationTileStyles.render[String],
               CountryTileStyles.render[String]
             )
@@ -154,7 +154,7 @@ object CurrentlyRunning {
       )
 }
 
-object CurrentlyRunningStyles extends StyleSheet.Inline {
+object CurrentOperationsStyles extends StyleSheet.Inline {
 
   import dsl._
 

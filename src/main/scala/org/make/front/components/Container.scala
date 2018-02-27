@@ -6,7 +6,7 @@ import io.github.shogowada.scalajs.reactjs.router.WithRouter
 import io.github.shogowada.scalajs.reactjs.router.dom.RouterDOM._
 import org.make.front.components.activateAccount.ActivateAccountContainer
 import org.make.front.components.authenticate.resetPassword.ResetPasswordContainer
-import org.make.front.components.currentlyRunning.CurrentlyRunningContainer
+import org.make.front.components.currentOperations.CurrentOperationsContainer
 import org.make.front.components.home.Home
 import org.make.front.components.error.ErrorContainer
 import org.make.front.components.maintenance.Maintenance
@@ -67,7 +67,7 @@ object Container {
           <.Route(^.exact := true, ^.path := "/search", ^.component := SearchResultsContainer.reactClass)(),
           <.Route(^.exact := true, ^.path := "/404", ^.component := ErrorContainer.reactClass)(),
           <.Route(^.exact := true, ^.path := "/maintenance", ^.component := Maintenance.reactClass)(),
-          <.Route(^.exact := true, ^.path := "/:country/soon", ^.component := CurrentlyRunningContainer.reactClass)(),
+          <.Route(^.exact := true, ^.path := "/:country/soon", ^.component := CurrentOperationsContainer.reactClass)(),
           <.Route(^.exact := true, ^.path := "/", ^.component := Home.reactClass)(),
           <.Route(^.exact := false, ^.path := "/", ^.component := ErrorContainer.reactClass)()
       )
