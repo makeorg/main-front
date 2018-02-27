@@ -37,8 +37,13 @@ object FeaturedOperationContainer {
           }
         }
 
+        val shouldReload: (Option[OperationModel]) => Boolean = { maybeOperation =>
+          maybeOperation.forall(operation => operation.slug != slug || operation.country != appState.country)
+        }
+
         ObjectLoaderProps[OperationModel](
           load = operationExpanded,
+          shouldReload = shouldReload,
           onNotFound = () => {},
           childClass = FeaturedOperation.reactClass,
           createChildProps = { operation =>
