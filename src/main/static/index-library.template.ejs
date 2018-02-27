@@ -68,7 +68,9 @@
     var configuration = {
         "apiUrl": "<%= htmlWebpackPlugin.options.apiUrl %>",
         "googleAppId": "<%= htmlWebpackPlugin.options.googleAppId %>",
-        "facebookAppId": "<%= htmlWebpackPlugin.options.facebookAppId %>"
+        "facebookAppId": "<%= htmlWebpackPlugin.options.facebookAppId %>",
+        "detectedCountry": "<%= htmlWebpackPlugin.options.detectedCountry %>",
+        "forcedCountry": "<%= htmlWebpackPlugin.options.forcedCountry %>"
     };
     var exports = window;
     exports.require = window["makeApp"].require;

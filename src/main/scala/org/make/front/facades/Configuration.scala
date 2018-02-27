@@ -9,4 +9,6 @@ object Configuration extends js.Object {
   val apiUrl: String = js.native
   val googleAppId: String = js.native
   val facebookAppId: String = js.native
+  val detectedCountry: String = js.native
+  val forcedCountry: String = js.native
 }

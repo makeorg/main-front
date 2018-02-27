@@ -8,7 +8,7 @@ import org.make.front.components.activateAccount.ActivateAccountContainer
 import org.make.front.components.authenticate.resetPassword.ResetPasswordContainer
 import org.make.front.components.currentOperations.CurrentOperationsContainer
 import org.make.front.components.error.ErrorContainer
-import org.make.front.components.home.{Home, HomeContainer}
+import org.make.front.components.home.HomeContainer
 import org.make.front.components.maintenance.Maintenance
 import org.make.front.components.operation.OperationContainer
 import org.make.front.components.operation.sequence.SequenceOfTheOperationContainer
@@ -16,6 +16,7 @@ import org.make.front.components.proposal.ProposalContainer
 import org.make.front.components.search.SearchResultsContainer
 import org.make.front.components.theme.MaybeThemeContainer
 import org.make.front.components.userProfile.UserProfileContainer
+import org.make.front.helpers.DetectedCountry.getDetectedCountry
 
 import scala.scalajs.js.Dynamic
 
@@ -33,7 +34,6 @@ object Container {
         <.Switch()(
           // @deprecated
           Seq(
-            "/",
             "/password-recovery/:userId/:resetToken",
             "/account-activation/:userId/:verificationToken",
             "/proposal/:proposalSlug",
@@ -90,6 +90,9 @@ object Container {
           <.Route(^.exact := true, ^.path := "/:country/soon", ^.component := CurrentOperationsContainer.reactClass)(),
           <.Route(^.exact := true, ^.path := "/", ^.component := Home.reactClass)(),
           <.Route(^.exact := true, ^.path := "/:country", ^.component := CountryDetector(HomeContainer.reactClass))(),
+          <.Route(^.exact := true, ^.path := "/", ^.render := { (_: React.Props[Unit]) =>
+            <.Redirect(^.to := s"/$getDetectedCountry")()
+          })(),
           <.Route(^.exact := false, ^.path := "/", ^.component := ErrorContainer.reactClass)()
       )
     )
