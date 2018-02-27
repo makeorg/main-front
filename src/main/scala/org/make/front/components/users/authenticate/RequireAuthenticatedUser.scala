@@ -30,7 +30,7 @@ object RequireAuthenticatedUser {
         }
       },
       componentWillReceiveProps = { (self, nextProps) =>
-        if (nextProps.wrapped.isConnected) {
+        if (!self.props.wrapped.isConnected && nextProps.wrapped.isConnected) {
           nextProps.wrapped.onceConnected()
         }
       },

@@ -41,8 +41,13 @@ object OperationContainer {
           }
         }
 
+        val shouldReload: (Option[OperationExpanded]) => Boolean = { maybeOperation =>
+          maybeOperation.forall(operation => operation.slug != slug || operation.country != countryCode)
+        }
+
         ObjectLoaderProps[OperationExpanded](
           load = operationExpanded,
+          shouldReload = shouldReload,
           onNotFound = () => { props.history.push("/404") },
           childClass = Operation.reactClass,
           createChildProps = { operation =>
