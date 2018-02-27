@@ -29,9 +29,9 @@ object RequireAuthenticatedUser {
           self.props.wrapped.onceConnected()
         }
       },
-      componentWillUpdate = { (_, props, _) =>
-        if (props.wrapped.isConnected) {
-          props.wrapped.onceConnected()
+      componentWillReceiveProps = { (self, nextProps) =>
+        if (nextProps.wrapped.isConnected) {
+          nextProps.wrapped.onceConnected()
         }
       },
       render = { self =>

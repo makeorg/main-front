@@ -38,8 +38,7 @@ object SequenceOfTheOperation {
                                                redirectHome: ()                 => Unit,
                                                sequence: SequenceModel,
                                                language: String,
-                                               country: String,
-                                               onWillMount: () => Unit)
+                                               country: String)
 
   final case class SequenceOfTheOperationState(isProposalModalOpened: Boolean,
                                                numberOfProposals: Int,
@@ -49,9 +48,6 @@ object SequenceOfTheOperation {
   lazy val reactClass: ReactClass =
     React.createClass[SequenceOfTheOperationProps, SequenceOfTheOperationState](
       displayName = "SequenceOfTheOperation",
-      componentWillMount = { self =>
-        self.props.wrapped.onWillMount()
-      },
       getInitialState = { self =>
         SequenceOfTheOperationState(
           isProposalModalOpened = false,
