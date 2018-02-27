@@ -9,7 +9,6 @@ import org.make.front.components.authenticate.resetPassword.ResetPasswordContain
 import org.make.front.components.currentOperations.CurrentOperationsContainer
 import org.make.front.components.error.ErrorContainer
 import org.make.front.components.home.HomeContainer
-import org.make.front.components.home.{Home, HomeContainer}
 import org.make.front.components.maintenance.Maintenance
 import org.make.front.components.operation.OperationContainer
 import org.make.front.components.operation.sequence.SequenceOfTheOperationContainer
