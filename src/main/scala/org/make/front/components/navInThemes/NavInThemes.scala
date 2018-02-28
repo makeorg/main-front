@@ -16,7 +16,7 @@ import org.make.front.styles.utils._
 
 object NavInThemes {
 
-  case class WrappedProps(themes: Seq[TranslatedThemeModel])
+  case class WrappedProps(themes: Seq[TranslatedThemeModel], shouldDisplayTheme: Boolean)
 
   lazy val reactClass: ReactClass =
     React
@@ -81,19 +81,21 @@ object NavInThemes {
               )
           }
 
-          <.nav(^.className := NavInThemesStyles.wrapper)(
-            <.div(^.className := Seq(NavInThemesStyles.titleWrapper, LayoutRulesStyles.centeredRow))(
-              <.h2(^.className := Seq(TextStyles.mediumTitle))(unescape(I18n.t("nav-in-themes.title")))
-            ),
-            if (themes.nonEmpty) {
-              <.ul(^.className := Seq(NavInThemesStyles.themesList, LayoutRulesStyles.centeredRowWithCols))(listTheme)
-            } else {
-              <.p(^.className := Seq(NavInThemesStyles.spinnerWrapper, LayoutRulesStyles.centeredRow))(
-                <.SpinnerComponent.empty
-              )
-            },
-            <.style()(NavInThemesStyles.render[String], DynamicNavInThemesStyles.render[String])
-          )
+          <.nav(^.className := NavInThemesStyles.wrapper)(if (self.props.wrapped.shouldDisplayTheme) {
+            Seq(
+              <.div(^.className := Seq(NavInThemesStyles.titleWrapper, LayoutRulesStyles.centeredRow))(
+                <.h2(^.className := Seq(TextStyles.mediumTitle))(unescape(I18n.t("nav-in-themes.title")))
+              ),
+              if (themes.nonEmpty) {
+                <.ul(^.className := Seq(NavInThemesStyles.themesList, LayoutRulesStyles.centeredRowWithCols))(listTheme)
+              } else {
+                <.p(^.className := Seq(NavInThemesStyles.spinnerWrapper, LayoutRulesStyles.centeredRow))(
+                  <.SpinnerComponent.empty
+                )
+              },
+              <.style()(NavInThemesStyles.render[String], DynamicNavInThemesStyles.render[String])
+            )
+          })
         }
       )
 }

@@ -91,7 +91,7 @@ object MainHeaderStyles extends StyleSheet.Inline {
 
   val logoWrapper: StyleA =
     style(
-      width(80.pxToEm()),
+      width(ThemeStyles.SpacingValue.evenLarger.pxToEm()),
       paddingRight(20.pxToEm()),
       ThemeStyles.MediaQueries.beyondSmall(width(100.pxToEm()), paddingRight(40.pxToEm()))
     )

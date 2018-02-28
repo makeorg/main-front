@@ -531,6 +531,18 @@ object CercleEconomistesLogo extends js.Object
 object XPartners extends js.Object
 
 @js.native
+@JSImport("./images/flags/fr.svg", "default")
+object frFlag extends js.Object
+
+@js.native
+@JSImport("./images/flags/gb.svg", "default")
+object gbFlag extends js.Object
+
+@js.native
+@JSImport("./images/flags/it.svg", "default")
+object itFlag extends js.Object
+
+@js.native
 @JSImport("./fonts/CircularStd-Book.woff2", "default")
 object circularStdBookWoff2 extends js.Object
 

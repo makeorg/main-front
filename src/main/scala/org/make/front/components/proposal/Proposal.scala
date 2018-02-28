@@ -185,7 +185,7 @@ object ProposalStyles extends StyleSheet.Inline {
     isLoaded =>
       if (isLoaded) {
         styleS(
-          height :=! s"calc(100% - ${80.pxToEm().value})",
+          height :=! s"calc(100% - ${ThemeStyles.SpacingValue.evenLarger.pxToEm().value})",
           backgroundColor(ThemeStyles.BackgroundColor.blackVeryTransparent)
         )
       } else {

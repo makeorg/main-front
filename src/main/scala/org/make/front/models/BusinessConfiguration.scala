@@ -36,7 +36,11 @@ object BusinessConfiguration {
   }
 }
 
-case class CountryConfiguration(countryCode: String, defaultLanguage: String, supportedLanguages: Seq[String]) {
+case class CountryConfiguration(countryCode: String,
+                                defaultLanguage: String,
+                                supportedLanguages: Seq[String],
+                                coreIsAvailable: Boolean,
+                                flagUrl: String = "") {
   def languageIsSuppported(language: String) = {
     defaultLanguage.contains(language)
   }
@@ -46,7 +50,8 @@ object CountryConfiguration {
     CountryConfiguration(
       countryCode = countryConfigurationResponse.countryCode,
       defaultLanguage = countryConfigurationResponse.defaultLanguage,
-      supportedLanguages = countryConfigurationResponse.supportedLanguages
+      supportedLanguages = countryConfigurationResponse.supportedLanguages,
+      coreIsAvailable = countryConfigurationResponse.coreIsAvailable
     )
   }
 }
@@ -75,4 +80,5 @@ trait CountryConfigurationResponse extends js.Object {
   val countryCode: String
   val defaultLanguage: String
   val supportedLanguages: js.Array[String]
+  val coreIsAvailable: Boolean
 }
