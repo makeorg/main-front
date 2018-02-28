@@ -21,6 +21,13 @@ case class BusinessConfiguration(proposalMinLength: Int,
     val counter = new Counter()
     themes.filter(_.country == country).flatMap(_.toTranslatedTheme(language, counter))
   }
+
+  def coreIsAvailableForCountry(country: String): Boolean = {
+    supportedCountries.find(_.countryCode == country) match {
+      case None                => false
+      case Some(countryConfig) => countryConfig.coreIsAvailable
+    }
+  }
 }
 
 object BusinessConfiguration {
@@ -79,6 +86,6 @@ trait ThemeTranslationResponse extends js.Object {
 trait CountryConfigurationResponse extends js.Object {
   val countryCode: String
   val defaultLanguage: String
-  val supportedLanguages: js.Array[String]
   val coreIsAvailable: Boolean
+  val supportedLanguages: js.Array[String]
 }

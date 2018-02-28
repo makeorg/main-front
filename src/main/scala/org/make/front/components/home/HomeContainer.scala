@@ -1,22 +1,20 @@
-package org.make.front.components.theme
+package org.make.front.components.home
 
 import io.github.shogowada.scalajs.reactjs.React.Props
 import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import io.github.shogowada.scalajs.reactjs.redux.ReactRedux
 import io.github.shogowada.scalajs.reactjs.redux.Redux.Dispatch
+import org.make.front.components.AppState
 import io.github.shogowada.scalajs.reactjs.router.RouterProps._
 import org.make.front.actions.LoadConfiguration
-import org.make.front.components.AppState
 
-object MaybeThemeContainer {
+object HomeContainer {
 
-  lazy val reactClass: ReactClass = ReactRedux.connectAdvanced(selectorFactory)(MaybeTheme.reactClass)
+  lazy val reactClass: ReactClass = ReactRedux.connectAdvanced(selectorFactory)(Home.reactClass)
 
-  def selectorFactory: (Dispatch) => (AppState, Props[Unit]) => MaybeTheme.MaybeThemeProps =
+  def selectorFactory: (Dispatch) => (AppState, Props[Unit]) => Unit =
     (dispatch: Dispatch) => { (state: AppState, props: Props[Unit]) =>
       {
-        val slug = props.`match`.params("themeSlug")
-
         state.configuration match {
           case Some(config) =>
             if (!config.coreIsAvailableForCountry(state.country)) {
@@ -24,13 +22,6 @@ object MaybeThemeContainer {
             }
           case None => dispatch(LoadConfiguration)
         }
-
-        MaybeTheme.MaybeThemeProps(
-          maybeTheme = state.findTheme(slug = slug),
-          maybeOperation = None,
-          maybeLocation = None
-        )
-
       }
     }
 }
