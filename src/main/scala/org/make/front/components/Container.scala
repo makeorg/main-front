@@ -92,7 +92,6 @@ object Container {
           <.Route(^.exact := true, ^.path := "/", ^.render := { (_: React.Props[Unit]) =>
             <.Redirect(^.to := s"/$getDetectedCountry")()
           })(),
-          <.Route(^.exact := true, ^.path := "/:country/soon", ^.component := CurrentOperationsContainer.reactClass)(),
           <.Route(^.exact := false, ^.path := "/", ^.component := ErrorContainer.reactClass)()
       )
     )

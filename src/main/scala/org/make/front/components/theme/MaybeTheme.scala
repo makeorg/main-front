@@ -35,7 +35,7 @@ object MaybeTheme {
           }.getOrElse(
             <.div(^.className := TableLayoutStyles.fullHeightWrapper)(
               <.div(^.className := TableLayoutStyles.row)(
-                <.div(^.className := TableLayoutStyles.cell)(<.MainHeaderComponent.empty)
+                <.div(^.className := TableLayoutStyles.cell)(<.MainHeaderContainer.empty)
               ),
               <.div(^.className := TableLayoutStyles.fullHeightRow)(
                 <.div(^.className := TableLayoutStyles.cellVerticalAlignMiddle)(<.SpinnerComponent.empty)

@@ -98,7 +98,7 @@ object CurrentOperations {
           <.div(^.className := Seq(CurrentOperationsStyles.wrapper, TableLayoutStyles.fullHeightWrapper))(
             <.div(^.className := TableLayoutStyles.row)(
               <.div(^.className := Seq(TableLayoutStyles.cell, CurrentOperationsStyles.mainHeaderWrapper))(
-                <.MainHeaderComponent.empty
+                <.MainHeaderContainer.empty
               )
             ),
             <.div(^.className := Seq(TableLayoutStyles.row, CurrentOperationsStyles.fullHeight))(

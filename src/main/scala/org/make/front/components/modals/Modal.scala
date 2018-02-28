@@ -39,7 +39,7 @@ object Modal {
           )(
             <.div(^.className := TableLayoutStyles.row)(
               <.div(^.className := Seq(TableLayoutStyles.cellVerticalAlignMiddle, ModalStyles.mainHeaderWrapper))(
-                <.MainHeaderComponent.empty
+                <.MainHeaderContainer.empty
               )
             ),
             <.div(^.className := Seq(TableLayoutStyles.row, ModalStyles.contentWrapper))(

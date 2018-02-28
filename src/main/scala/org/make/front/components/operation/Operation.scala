@@ -35,7 +35,7 @@ object Operation {
         render = (self) => {
           if (self.props.wrapped.operation.isActive) {
             <("operation")()(
-              <.div(^.className := OperationComponentStyles.mainHeaderWrapper)(<.MainHeaderComponent.empty),
+              <.div(^.className := OperationComponentStyles.mainHeaderWrapper)(<.MainHeaderContainer.empty),
               if (self.props.wrapped.operation.logoUrl.nonEmpty) {
                 <.OperationIntroComponent(
                   ^.wrapped := OperationIntroProps(

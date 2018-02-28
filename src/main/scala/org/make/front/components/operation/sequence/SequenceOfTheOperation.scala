@@ -103,7 +103,7 @@ object SequenceOfTheOperation {
                   TableLayoutStyles.cellVerticalAlignMiddle,
                   SequenceOfTheOperationStyles.mainHeaderWrapper
                 )
-              )(<.MainHeaderComponent.empty)
+              )(<.MainHeaderContainer.empty)
             ),
             <.div(^.className := Seq(TableLayoutStyles.row, DynamicSequenceOfTheOperationStyles.gradient))(
               <.div(^.className := TableLayoutStyles.cellVerticalAlignMiddle)(

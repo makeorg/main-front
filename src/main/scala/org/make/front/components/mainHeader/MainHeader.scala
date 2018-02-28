@@ -16,16 +16,18 @@ import org.make.services.tracking.TrackingService.TrackingContext
 import org.make.services.tracking.{TrackingLocation, TrackingService}
 
 object MainHeader {
+  final case class MainHeaderProps(country: String)
+
   lazy val reactClass: ReactClass =
     WithRouter(
       React
-        .createClass[Unit, Unit](
+        .createClass[MainHeaderProps, Unit](
           displayName = "MainHeader",
           shouldComponentUpdate = (_, _, _) => true,
           render = { self =>
             val trackLogoClick: () => Unit = () => {
               TrackingService.track("click-navbar-logo", TrackingContext(TrackingLocation.navBar))
-              self.props.history.push("/")
+              self.props.history.push(s"/${self.props.wrapped.country}")
             }
 
             val trackAboutUsClick: () => Unit = () => {
