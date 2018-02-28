@@ -9,7 +9,13 @@ import org.make.front.actions.SetCountry
 import org.make.front.components.ObjectLoader.ObjectLoaderProps
 import org.make.front.components.{AppState, ObjectLoader}
 import org.make.front.facades._
-import org.make.front.models.{BusinessConfiguration, CountryConfiguration, Operation => OperationModel, OperationExpanded => OperationExpandedModel, Tag => TagModel}
+import org.make.front.models.{
+  BusinessConfiguration,
+  CountryConfiguration,
+  Operation         => OperationModel,
+  OperationExpanded => OperationExpandedModel,
+  Tag               => TagModel
+}
 import org.make.services.operation.OperationService
 import org.make.services.tag.TagService
 
@@ -25,20 +31,21 @@ object CurrentOperationsContainer {
       {}
       val countryCode: String = props.`match`.params.get("country").getOrElse("FR").toUpperCase
 
-      val supportedCountries: Seq[CountryConfiguration] = appState.configuration.map { businessConfiguration: BusinessConfiguration =>
-        businessConfiguration.supportedCountries.map { countryConfiguration: CountryConfiguration =>
-          countryConfiguration.defaultLanguage match {
-            case "fr" =>
-              countryConfiguration.copy(flagUrl = frFlag.toString)
-            case "en" =>
-              countryConfiguration.copy(flagUrl = gbFlag.toString)
-            case "it" =>
-              countryConfiguration.copy(flagUrl = itFlag.toString)
-            case _ =>
-              countryConfiguration.copy(flagUrl = "")
-          }
+      val supportedCountries: Seq[CountryConfiguration] = appState.configuration.map {
+        businessConfiguration: BusinessConfiguration =>
+          businessConfiguration.supportedCountries.map { countryConfiguration: CountryConfiguration =>
+            countryConfiguration.defaultLanguage match {
+              case "fr" =>
+                countryConfiguration.copy(flagUrl = frFlag.toString)
+              case "en" =>
+                countryConfiguration.copy(flagUrl = gbFlag.toString)
+              case "it" =>
+                countryConfiguration.copy(flagUrl = itFlag.toString)
+              case _ =>
+                countryConfiguration.copy(flagUrl = "")
+            }
 
-        }
+          }
       }.getOrElse(Seq.empty)
 
       if (!supportedCountries.exists(country => country.countryCode == countryCode)) {
@@ -52,7 +59,7 @@ object CurrentOperationsContainer {
       val operationExpanded: () => Future[Option[Seq[OperationExpandedModel]]] = () => {
         val operationsAndTags: Future[(Seq[OperationModel], Seq[TagModel])] = for {
           operations <- OperationService.getOperationsByCountry(countryCode)
-          tags      <- TagService.getTags
+          tags       <- TagService.getTags
         } yield (operations, tags)
 
         operationsAndTags.map {
@@ -63,10 +70,13 @@ object CurrentOperationsContainer {
         }.map(Some(_))
       }
 
-
+      val shouldReload: (Option[Seq[OperationExpandedModel]]) => Boolean = { maybeOperation =>
+        maybeOperation.forall(_.forall(operation => operation.country != countryCode))
+      }
 
       ObjectLoaderProps[Seq[OperationExpandedModel]](
         load = operationExpanded,
+        shouldReload = shouldReload,
         onNotFound = () => {
           props.history.push("/404")
         },

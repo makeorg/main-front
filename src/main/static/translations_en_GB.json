@@ -17,7 +17,8 @@
     "redirect-to-random-theme": "A random theme"
   },
   "current-operations": {
-    "operations-intro": "We're currently running two consultations in your country, join&nbsp;in!",
+    "operations-intro": "We're currently running %{total} consultations in your country, join&nbsp;in!",
+    "operations-intro_1": "We're currently running %{total} consultation in your country, join&nbsp;in!",
     "see-operation-cta": "Join",
     "countries-intro": "You can also have a look at our service in other&nbsp;countries:"
   },
