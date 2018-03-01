@@ -52,7 +52,7 @@ object CurrentOperations {
             }
 
             <.article(^.className := OperationTileStyles.wrapper)(
-              <.Link(^.to := s"/${self.props.wrapped.country}/consultation/${operation.slug}/")(
+              <.Link(^.to := s"/${self.props.wrapped.country}/consultation/${operation.slug}/selection")(
                 <.div(
                   ^.className := Seq(
                     OperationTileStyles.illWrapper(isLongerBeyondMedium),
@@ -72,7 +72,7 @@ object CurrentOperations {
                 ),
                 <.div(^.className := Seq(OperationTileStyles.CTAWrapper, TableLayoutStyles.cellVerticalAlignMiddle))(
                   <.Link(
-                    ^.to := s"/${self.props.wrapped.country}/consultation/${operation.slug}/",
+                    ^.to := s"/${self.props.wrapped.country}/consultation/${operation.slug}/selection",
                     ^.className := Seq(CTAStyles.basic, CTAStyles.basicOnButton)
                   )(unescape(I18n.t("current-operations.see-operation-cta")))
                 )

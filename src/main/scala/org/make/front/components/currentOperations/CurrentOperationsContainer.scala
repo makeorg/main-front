@@ -27,23 +27,30 @@ object CurrentOperationsContainer {
 
       val supportedCountries: Seq[CountryConfiguration] = appState.configuration.map {
         businessConfiguration: BusinessConfiguration =>
-          businessConfiguration.supportedCountries.map { countryConfiguration: CountryConfiguration =>
-            countryConfiguration.defaultLanguage match {
-              case "fr" =>
-                countryConfiguration.copy(flagUrl = frFlag.toString)
-              case "en" =>
-                countryConfiguration.copy(flagUrl = gbFlag.toString)
-              case "it" =>
-                countryConfiguration.copy(flagUrl = itFlag.toString)
-              case _ =>
-                countryConfiguration.copy(flagUrl = "")
+          businessConfiguration.supportedCountries
+            .map { countryConfiguration: CountryConfiguration =>
+              countryConfiguration.defaultLanguage match {
+                case "fr" =>
+                  countryConfiguration.copy(flagUrl = frFlag.toString)
+                case "en" =>
+                  countryConfiguration.copy(flagUrl = gbFlag.toString)
+                case "it" =>
+                  countryConfiguration.copy(flagUrl = itFlag.toString)
+                case _ =>
+                  countryConfiguration.copy(flagUrl = "")
+              }
             }
-
-          }
       }.getOrElse(Seq.empty)
+
 
       if (!supportedCountries.exists(country => country.countryCode == countryCode)) {
         props.history.push("/404")
+      }
+
+      val openCoreCountry = supportedCountries.filter(countryConfiguration => countryConfiguration.coreIsAvailable)
+
+      if (openCoreCountry.exists(country => country.countryCode == countryCode)) {
+        props.history.push(s"/${countryCode}")
       }
 
       if (appState.country != countryCode) {
@@ -79,7 +86,7 @@ object CurrentOperationsContainer {
           CurrentOperations.CurrentOperationsProps(
             country = appState.language,
             operations = operations,
-            supportedCountries = supportedCountries
+            supportedCountries = openCoreCountry
           )
         }
       )
