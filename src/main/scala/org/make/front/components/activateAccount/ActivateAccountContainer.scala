@@ -25,8 +25,9 @@ object ActivateAccountContainer {
     (dispatch: Dispatch) => { (state: AppState, props: Props[Unit]) =>
       val userId = props.`match`.params("userId")
       val verificationToken = props.`match`.params("verificationToken")
+
       val operationId: Option[OperationId] = {
-        val search = if (props.location.search.startsWith("?")) {
+        val search: String = if (props.location.search.startsWith("?")) {
           props.location.search.substring(1)
         } else {
           props.location.search
@@ -65,9 +66,9 @@ object ActivateAccountContainer {
           case Some(value) =>
             OperationService.getOperationById(value).onComplete {
               case Success(operation) => history.push(s"/$country/consultation/${operation.slug}")
-              case Failure(e)         => history.push("/")
+              case Failure(e)         => history.push(s"/$country")
             }
-          case _ => history.push("/")
+          case _ => history.push(s"/$country")
         }
       }
 
