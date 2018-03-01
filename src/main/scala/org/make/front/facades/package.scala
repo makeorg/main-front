@@ -1,5 +1,6 @@
 package org.make.front
 
+import io.github.shogowada.scalajs.reactjs.VirtualDOM.VirtualDOMAttributes
 import io.github.shogowada.scalajs.reactjs.VirtualDOM.VirtualDOMAttributes.Type.AS_IS
 import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import io.github.shogowada.scalajs.reactjs.elements.ReactElement
@@ -61,4 +62,7 @@ package object facades {
       Attribute(name = name, value = value, AS_IS)
   }
 
+  implicit class ExtraReactVirtualDOMAttributes(attributes: VirtualDOMAttributes) {
+    lazy val componentElement: NativeFunction0Attribute[ReactElement] = NativeFunction0Attribute("component")
+  }
 }

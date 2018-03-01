@@ -36,7 +36,7 @@ object FullscreenModal {
             <.div(^.className := TableLayoutStyles.row)(
               <.div(
                 ^.className := Seq(TableLayoutStyles.cellVerticalAlignMiddle, FullscreenModalStyles.mainHeaderWrapper)
-              )(<.MainHeaderComponent.empty)
+              )(<.MainHeaderContainer.empty)
             ),
             <.div(^.className := Seq(TableLayoutStyles.row, FullscreenModalStyles.contentWrapper))(
               <.div(

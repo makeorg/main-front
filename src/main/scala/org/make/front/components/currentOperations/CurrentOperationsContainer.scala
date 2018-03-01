@@ -9,13 +9,7 @@ import org.make.front.actions.SetCountry
 import org.make.front.components.ObjectLoader.ObjectLoaderProps
 import org.make.front.components.{AppState, ObjectLoader}
 import org.make.front.facades._
-import org.make.front.models.{
-  BusinessConfiguration,
-  CountryConfiguration,
-  Operation         => OperationModel,
-  OperationExpanded => OperationExpandedModel,
-  Tag               => TagModel
-}
+import org.make.front.models.{BusinessConfiguration, CountryConfiguration, Operation => OperationModel, OperationExpanded => OperationExpandedModel, Tag => TagModel}
 import org.make.services.operation.OperationService
 import org.make.services.tag.TagService
 

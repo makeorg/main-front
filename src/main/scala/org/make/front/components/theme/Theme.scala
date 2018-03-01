@@ -39,7 +39,7 @@ object Theme {
         },
         render = (self) => {
           <.div()(
-            <.div(^.className := ThemeComponentStyles.mainHeaderWrapper)(<.MainHeaderComponent.empty),
+            <.div(^.className := ThemeComponentStyles.mainHeaderWrapper)(<.MainHeaderContainer.empty),
             <.ThemeHeaderComponent(^.wrapped := ThemeHeaderProps(self.props.wrapped.theme))(),
             <.div(^.className := ThemeComponentStyles.contentWrapper)(
               <.PoliticalActionsContainerComponent(

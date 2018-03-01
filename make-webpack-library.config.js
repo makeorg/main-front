@@ -17,6 +17,8 @@ module.exports.plugins = [
         "googleAnalyticsId": "UA-97647514-1",
         "facebookAppId": "317128238675603",
         "facebookPixelId": "260470104426586",
+        "detectedCountry": "FR", //Modify this to simulate x-detected-country
+        "forcedCountry": "FR", //Modify this to simulate x-forced-country
         "inject": false
     }),
     new WebpackMd5Hash(),

@@ -39,7 +39,7 @@ object App {
               TagStyles.render[String],
               TooltipStyles.render[String]
             ),
-            <.div(^.className := AppStyles.fixedMainHeader)(<.MainHeaderComponent.empty),
+            <.div(^.className := AppStyles.fixedMainHeader)(<.MainHeaderContainer.empty),
             <.ContainerComponent.empty,
             <.MainFooterComponent.empty,
             <.style()(RWDHideRulesStyles.render[String], AppStyles.render[String])

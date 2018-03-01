@@ -24,7 +24,7 @@ object Maintenance {
               <.div(^.className := Seq(TableLayoutStyles.fullHeightWrapper))(
                 <.div(^.className := TableLayoutStyles.row)(
                   <.div(^.className := Seq(TableLayoutStyles.cell, MaintenanceStyles.mainHeaderWrapper))(
-                    <.MainHeaderComponent.empty
+                    <.MainHeaderContainer.empty
                   )
                 ),
                 <.div(^.className := Seq(TableLayoutStyles.row, MaintenanceStyles.fullHeight))(

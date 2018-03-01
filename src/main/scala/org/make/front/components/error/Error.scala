@@ -28,7 +28,7 @@ object Error {
             <.div(^.className := Seq(TableLayoutStyles.fullHeightWrapper))(
               <.div(^.className := TableLayoutStyles.row)(
                 <.div(^.className := Seq(TableLayoutStyles.cell, ErrorStyles.mainHeaderWrapper))(
-                  <.MainHeaderComponent.empty
+                  <.MainHeaderContainer.empty
                 )
               ),
               <.div(^.className := Seq(TableLayoutStyles.row, ErrorStyles.fullHeight))(

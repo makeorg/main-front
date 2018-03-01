@@ -26,7 +26,7 @@ object Home {
         },
         render = { _ =>
           <.div(^.className := HomeStyles.wrapper)(
-            <.div(^.className := HomeStyles.mainHeaderWrapper)(<.MainHeaderComponent.empty),
+            <.div(^.className := HomeStyles.mainHeaderWrapper)(<.MainHeaderContainer.empty),
             <.h1(^.style := Map("display" -> "none"))("Make.org"),
             <.FeaturedOperationContainerComponent(
               ^.wrapped := FeaturedOperationContainerProps(

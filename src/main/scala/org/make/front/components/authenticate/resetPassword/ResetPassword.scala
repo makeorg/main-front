@@ -47,7 +47,7 @@ object PasswordReset {
       },
       render = self => {
         <.div(^.className := ResetPasswordStyles.wrapper)(
-          <.div(^.className := ResetPasswordStyles.mainHeaderWrapper)(<.MainHeaderComponent.empty),
+          <.div(^.className := ResetPasswordStyles.mainHeaderWrapper)(<.MainHeaderContainer.empty),
           <.div(^.className := Seq(LayoutRulesStyles.centeredRow))(
             <.div(^.className := Seq(ResetPasswordStyles.contentWrapper))(if (self.state.success) {
               successMessage

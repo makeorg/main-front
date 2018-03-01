@@ -73,7 +73,7 @@ object Proposal {
             )(
               <.div(^.className := TableLayoutStyles.row)(
                 <.div(^.className := Seq(TableLayoutStyles.cell, ProposalStyles.mainHeaderWrapper))(
-                  <.MainHeaderComponent.empty
+                  <.MainHeaderContainer.empty
                 )
               ),
               <.div(^.className := Seq(TableLayoutStyles.row, ProposalStyles.fullHeight))(

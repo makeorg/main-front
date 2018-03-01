@@ -27,7 +27,7 @@ object UserProfile {
         render = (self) => {
 
           <.div(^.className := UserProfileStyles.wrapper)(
-            <.div(^.className := UserProfileStyles.mainHeaderWrapper)(<.MainHeaderComponent.empty),
+            <.div(^.className := UserProfileStyles.mainHeaderWrapper)(<.MainHeaderContainer.empty),
             <.div(^.className := Seq(LayoutRulesStyles.centeredRow))(
               <.div(^.className := UserProfileStyles.pageWrapper)(
                 <.div(

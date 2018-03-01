@@ -163,7 +163,7 @@ object SearchResults {
             )(
               <.div(^.className := TableLayoutStyles.row)(
                 <.div(^.className := TableLayoutStyles.cell)(
-                  <.div(^.className := SearchResultsStyles.mainHeaderWrapper)(<.MainHeaderComponent.empty)
+                  <.div(^.className := SearchResultsStyles.mainHeaderWrapper)(<.MainHeaderContainer.empty)
                 )
               ),
               <.div(^.className := TableLayoutStyles.fullHeightRow)(

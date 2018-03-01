@@ -9,7 +9,12 @@ import org.make.front.Main.CssSettings._
 import org.make.front.components.Components.{RichVirtualDOMElements, _}
 import org.make.front.facades.Unescape.unescape
 import org.make.front.facades._
-import org.make.front.models.{CountryConfiguration => CountryConfigurationModel, GradientColor => GradientColorModel, OperationExpanded => OperationExpandedModel, OperationWording => OperationWordingModel}
+import org.make.front.models.{
+  CountryConfiguration => CountryConfigurationModel,
+  GradientColor        => GradientColorModel,
+  OperationExpanded    => OperationExpandedModel,
+  OperationWording     => OperationWordingModel
+}
 import org.make.front.styles.ThemeStyles
 import org.make.front.styles.base.{ColRulesStyles, LayoutRulesStyles, TableLayoutStyles, TextStyles}
 import org.make.front.styles.ui.CTAStyles
@@ -28,6 +33,7 @@ object CurrentOperations {
       .createClass[CurrentOperationsProps, CurrentOperationsState](
         displayName = "CurrentOperations",
         render = (self) => {
+
           def operationTile(operation: OperationExpandedModel, isLongerBeyondMedium: Boolean = false): ReactElement = {
             val wording: OperationWordingModel =
               operation.getWordingByLanguageOrError(self.props.wrapped.country)
@@ -92,38 +98,35 @@ object CurrentOperations {
           <.div(^.className := Seq(CurrentOperationsStyles.wrapper, TableLayoutStyles.fullHeightWrapper))(
             <.div(^.className := TableLayoutStyles.row)(
               <.div(^.className := Seq(TableLayoutStyles.cell, CurrentOperationsStyles.mainHeaderWrapper))(
-                <.MainHeaderComponent.empty
+                <.MainHeaderContainer.empty
               )
             ),
             <.div(^.className := Seq(TableLayoutStyles.row, CurrentOperationsStyles.fullHeight))(
               <.div(^.className := TableLayoutStyles.cell)(
-                if (self.props.wrapped.operations.nonEmpty) {
-                  <.section(^.className := CurrentOperationsStyles.operations)(
-                    <.header(^.className := LayoutRulesStyles.centeredRow)(
-                      <.h2(^.className := TextStyles.mediumTitle)(unescape(I18n.t(
-                        "current-operations.operations-intro",
-                        Replacements(("total", self.props.wrapped.operations.size.toString))
-                      )))
-                    ),
-                    if (self.props.wrapped.operations.lengthCompare(1) > 0) {
-                      <.ul(
-                        ^.className := Seq(CurrentOperationsStyles.operationsList, LayoutRulesStyles.centeredRowWithCols)
-                      )(self.props.wrapped.operations.map { operation =>
-                        <.li(
-                          ^.className := Seq(
-                            CurrentOperationsStyles.operationItem,
-                            ColRulesStyles.col,
-                            ColRulesStyles.colHalfBeyondMedium
-                          )
-                        )(operationTile(operation))
-                      })
-                    } else if (self.props.wrapped.operations.lengthCompare(1) == 0) {
-                      <.div(^.className := Seq(CurrentOperationsStyles.operationItem, LayoutRulesStyles.centeredRow))(
-                        operationTile(self.props.wrapped.operations.head, true)
-                      )
-                    }
-                  )
-                },
+                <.section(^.className := CurrentOperationsStyles.operations)(
+                  <.header(^.className := LayoutRulesStyles.centeredRow)(
+                    <.h2(^.className := TextStyles.mediumTitle)(unescape(I18n.t(
+                      "current-operations.operations-intro",
+                      Replacements(("total", self.props.wrapped.operations.size.toString))
+                    )))                  ),
+                  if (self.props.wrapped.operations.lengthCompare(1) > 0) {
+                    <.ul(
+                      ^.className := Seq(CurrentOperationsStyles.operationsList, LayoutRulesStyles.centeredRowWithCols)
+                    )(self.props.wrapped.operations.map { operation =>
+                      <.li(
+                        ^.className := Seq(
+                          CurrentOperationsStyles.operationItem,
+                          ColRulesStyles.col,
+                          ColRulesStyles.colHalfBeyondMedium
+                        )
+                      )(operationTile(operation))
+                    })
+                  } else {
+                    <.div(^.className := Seq(CurrentOperationsStyles.operationItem, LayoutRulesStyles.centeredRow))(
+                      operationTile(self.props.wrapped.operations.head, true)
+                    )
+                  }
+                ),
                 <.section(^.className := CurrentOperationsStyles.countries)(
                   <.header(^.className := LayoutRulesStyles.centeredRow)(
                     <.h2(^.className := TextStyles.mediumTitle)(unescape(I18n.t("current-operations.countries-intro")))
