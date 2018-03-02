@@ -90,7 +90,7 @@ object CurrentOperations {
                     ^.src := country.flagUrl,
                     ^.alt := country.defaultLanguage
                   )(),
-                  <.span(^.className := Seq(CountryTileStyles.label, TextStyles.mediumText))(country.defaultLanguage)
+                  <.span(^.className := Seq(CountryTileStyles.label, TextStyles.mediumText))(I18n.t(s"current-operations.${country.countryCode}"))
                 )
               )
             )

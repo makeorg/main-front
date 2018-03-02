@@ -50,7 +50,7 @@ object CurrentOperationsContainer {
       val openCoreCountry = supportedCountries.filter(countryConfiguration => countryConfiguration.coreIsAvailable)
 
       if (openCoreCountry.exists(country => country.countryCode == countryCode)) {
-        props.history.push(s"/${countryCode}")
+        props.history.push(s"/$countryCode")
       }
 
       if (appState.country != countryCode) {
