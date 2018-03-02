@@ -16,13 +16,13 @@ object UserProfileContainer {
     (dispatch: Dispatch) => { (state: AppState, props: Props[Unit]) =>
       def logout: () => Unit = { () =>
         dispatch(LogoutAction)
-        props.history.push("/")
+        props.history.push(s"/${state.country}")
       }
 
       if (state.connectedUser.isDefined) {
         UserProfile.UserProfileProps(user = state.connectedUser, logout = logout)
       } else {
-        props.history.push("/")
+        props.history.push(s"/${state.country}")
         UserProfile.UserProfileProps(user = None, logout = () => {})
       }
     }
