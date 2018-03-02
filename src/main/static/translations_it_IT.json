@@ -1,6 +1,6 @@
 {
   "common": {
-    "bait": "C'è bisogno"
+    "bait": "C'è bisogno "
   },
   "error-message": {
     "main": "Ops! Abbiamo riscontrato delle difficoltà con il caricamento di questa pagine. Ricarica la pagina per piacere.",
@@ -17,10 +17,11 @@
     "redirect-to-random-theme": "Un tema a caso"
   },
   "current-operations": {
-    "operations-intro": "We're currently running %{total} consultations in your country, join&nbsp;in!",
-    "operations-intro_1": "We're currently running %{total} consultation in your country, join&nbsp;in!",
-    "see-operation-cta": "Join",
-    "countries-intro": "You can also have a look at our service in other&nbsp;countries:",
+    "operations-intro": "%{count} consultazioni in corso nel tuo&nbsp;paese",
+    "operations-intro_1": "Una consultazione in corso nel tuo&nbsp;paese",
+    "operations-intro_0": "Ci spiace, make.org non è disponibile nel vostro paese al momento. Puoi visitare il sito in un’altra versione :",
+    "see-operation-cta": "Partecipa",
+    "countries-intro": "Puoi visitare il sito in un’altra&nbsp;versione:",
     "FR": "Francia",
     "IT": "Italia",
     "GB": "Gran Bretagna"
@@ -28,7 +29,7 @@
   "maintenance": {
     "intro": "ops",
     "title": "Manutenzione in corso",
-    "explanation-1": "Pour pouvoir vous proposer un site toujours plus&nbsp;performant,<br>Make.org est actuellement en&nbsp;maintenance.",
+    "explanation-1": "Al fine di offrirvi un miglior servizio, il nostro sito è attualmente n corso di manutenzione",
     "explanation-2": "Non esitare a tornare tra qualche minuto."
   },
   "cookie-alert": "Continuando la navigazione sul sito accetti l'utilizzo dei cookies per proporti un'esperienza fluida e personalizzata.",
@@ -45,7 +46,7 @@
     },
     "explanations": {
       "article-1": {
-        "intro": "\nLa politica non basta più, ciambiamo le carte in tavola insieme",
+        "intro": "\nLa politica non basta più, cambiamo le carte in tavola insieme",
         "title": "Proponi, Vota, Agiamo",
         "item-1": "<strong>Vota</strong> per la proposta che difendi",
         "item-2": "<strong>Proponi</strong> le tue idee su dei temi che ti ispirano",
@@ -117,7 +118,7 @@
     },
     "no-results": {
       "intro": "Non abbiamo trovato <strong>nessuno risultato</strong> per la tua ricerca.",
-      "prompting-to-propose": "Sii la prima persona a formualr euna proposta su questo soggetto!",
+      "prompting-to-propose": "Sii la prima persona a formulare una proposta su questo soggetto!",
       "propose-cta": "Proponi"
     }
   },
@@ -134,7 +135,7 @@
     "share-intro": "Condividi questa proposta con la tua communità",
     "associated-with-the-theme": "pubblicato in ",
     "proposal-s-operation-infos": {
-      "intro": "Cette proposition a été soumise dans le cadre de l'opération",
+      "intro": "Questa proposta ti è stata sottoposta nel quadro dell'operazione",
       "participate": "Partecipa",
       "see-more": "Per saperne di&nbsp;più "
     },
@@ -189,7 +190,7 @@
       }
     },
     "authenticate": {
-      "intro": "Abbiamo bisogno di quale informazione Per confermare la tua proposta",
+      "intro": "Abbiamo bisogno di quale informazione",
       "title": "Per confermare la tua&nbsp;proposta"
     },
     "confirmation": {
@@ -233,7 +234,7 @@
     "introduction": {
       "title": "Migliaia di cittadini propongono delle soluzioni.",
       "explanation-1": "Prendi posizione sulle soluzioni e proponi le tue.",
-      "explanation-2": "Le più sostenute determineranno le nostre&nbsp;azioni",
+      "explanation-2": "Le più sostenute determineranno le nostre&nbsp;azioni.",
       "cta": "Inizia"
     },
     "prompting-to-propose": {
@@ -313,7 +314,7 @@
   },
   "activate-account": {
     "notifications": {
-      "success": "Il tuo account è stato attivato. Ora puoi connetterti",
+      "success": "Il tuo account è stato attivato. Ora puoi connetterti.",
       "error-message": "Questo link non è più valido."
     }
   },
@@ -324,7 +325,7 @@
     },
     "switch-to-register-screen": {
       "intro": "Non ho un account,",
-      "link-support": "Creane uno."
+      "link-support": "creane uno."
     },
     "switch-to-login-screen": {
       "intro": "Ho già un account!",
@@ -332,7 +333,7 @@
     },
     "back-to-login-screen": {
       "intro": "Ritornare a",
-      "link-support": "Schermata di ingresso"
+      "link-support": "schermata di ingresso"
     },
     "no-account-found": "Non troviamo nessun account associato a questa e-mail",
     "no-email-found": "Ops! Non riusciamo a connetterti. Sei pregato di riprovare con una e-mail valida.",
@@ -401,7 +402,7 @@
       "caution": "(Non proccuparti, non pubblichiamo niente senza il tuo consenso)",
       "separator": "o",
       "with-email-intro": "Iscriversi tramite indirizzo e-mail",
-      "terms": "Iscrivendoti, accetti le nostre <a href=\"https://about.make.org/gb/condizioni-di-utilizzo\" target=\"_blank\">condizioni generali d'utilizzo</a> e la recezione di e-mail da&nbsp;Make.org.",
+      "terms": "Iscrivendoti, accetti le nostre <a href=\"https://about.make.org/it/condizioni-di-utilizzo\" target=\"_blank\">condizioni generali d'utilizzo</a> e la recezione di e-mail da&nbsp;Make.org.",
       "send-cta": "registrati",
       "error-message": {
         "already-exists": "Account già esistente, connettiti."
