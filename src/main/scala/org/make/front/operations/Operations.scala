@@ -194,18 +194,18 @@ object Operations {
             )
           ),
           props = { (handler: () => Unit) =>
-          {
-            val onClick: () => Unit = () => {
-              TrackingService
-                .track(
-                  "click-sequence-launch",
-                  trackingContext,
-                  Map("sequenceId" -> params.sequence.sequenceId.value)
-                )
-              handler()
+            {
+              val onClick: () => Unit = () => {
+                TrackingService
+                  .track(
+                    "click-sequence-launch",
+                    trackingContext,
+                    Map("sequenceId" -> params.sequence.sequenceId.value)
+                  )
+                handler()
+              }
+              IntroductionOfTheSequenceProps(clickOnButtonHandler = onClick)
             }
-            IntroductionOfTheSequenceProps(clickOnButtonHandler = onClick)
-          }
           },
           position = _ => 0
         ),
@@ -229,8 +229,7 @@ object Operations {
         ),
         ExtraSlide(
           displayed = false,
-          maybeTracker =
-            Some(DisplayTracker("display-proposal-push-card", trackingContext, defaultTrackingParameters)),
+          maybeTracker = Some(DisplayTracker("display-proposal-push-card", trackingContext, defaultTrackingParameters)),
           reactClass = PromptingToProposeInRelationToOperation.reactClass,
           props = { handler =>
             PromptingToProposeInRelationToOperationProps(
@@ -269,7 +268,7 @@ object Operations {
   val lpaeDsignOperation = OperationDesignData(
     slug = "lpae",
     startDate = None,
-    endDate = Some(new js.Date("2018-03-01")),
+    endDate = Some(new js.Date("2018-03-09")),
     country = "FR",
     color = "#602a7a",
     gradient = Some(GradientColor("#683577", "#782f8b")),
@@ -295,11 +294,7 @@ object Operations {
     featuredIllustration = None,
     illustration = Some(Illustration(illUrl = LpaeIll.toString, ill2xUrl = LpaeIll2x.toString)),
     partners = Seq(
-      OperationPartner(
-        name = "Le Cercle des Economistes",
-        imageUrl = CercleEconomistesLogo.toString,
-        imageWidth = 74
-      ),
+      OperationPartner(name = "Le Cercle des Economistes", imageUrl = CercleEconomistesLogo.toString, imageWidth = 74),
       OperationPartner(name = "x", imageUrl = XPartners.toString, imageWidth = 9),
       OperationPartner(name = "Make.org", imageUrl = MakeOrgLogo.toString, imageWidth = 51)
     ),
@@ -319,18 +314,18 @@ object Operations {
             )
           ),
           props = { (handler: () => Unit) =>
-          {
-            val onClick: () => Unit = () => {
-              TrackingService
-                .track(
-                  "click-sequence-launch",
-                  trackingContext,
-                  Map("sequenceId" -> params.sequence.sequenceId.value)
-                )
-              handler()
+            {
+              val onClick: () => Unit = () => {
+                TrackingService
+                  .track(
+                    "click-sequence-launch",
+                    trackingContext,
+                    Map("sequenceId" -> params.sequence.sequenceId.value)
+                  )
+                handler()
+              }
+              IntroductionOfTheSequenceProps(clickOnButtonHandler = onClick)
             }
-            IntroductionOfTheSequenceProps(clickOnButtonHandler = onClick)
-          }
           },
           position = _ => 0
         ),
@@ -353,8 +348,7 @@ object Operations {
           displayed = !params.isConnected
         ),
         ExtraSlide(
-          maybeTracker =
-            Some(DisplayTracker("display-proposal-push-card", trackingContext, defaultTrackingParameters)),
+          maybeTracker = Some(DisplayTracker("display-proposal-push-card", trackingContext, defaultTrackingParameters)),
           reactClass = PromptingToProposeInRelationToOperation.reactClass,
           props = { handler =>
             PromptingToProposeInRelationToOperationProps(
