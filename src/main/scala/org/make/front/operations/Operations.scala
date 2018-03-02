@@ -397,7 +397,7 @@ object Operations {
           language = "it",
           title = "Stop alla violenza sulle donne",
           question = "Come far fronte alla violenza sulle donne?",
-          purpose = Some("Grâce à vos votes et à vos propositions, 17 grandes idées ont été identifiées."),
+          purpose = None,
           period = None,
           label = Some("La Grande Causa di Make.org"),
           mentionUnderThePartners = Some("e i nostri partner sostegno e azione"),
@@ -421,14 +421,14 @@ object Operations {
               )
             ),
             props = { (handler: () => Unit) =>
-            {
-              val onClick: () => Unit = () => {
-                TrackingService
-                  .track("click-sequence-launch", trackingContext, defaultTrackingParameters)
-                handler()
+              {
+                val onClick: () => Unit = () => {
+                  TrackingService
+                    .track("click-sequence-launch", trackingContext, defaultTrackingParameters)
+                  handler()
+                }
+                IntroductionOfTheSequenceProps(clickOnButtonHandler = onClick)
               }
-              IntroductionOfTheSequenceProps(clickOnButtonHandler = onClick)
-            }
             },
             position = _ => 0
           ),
@@ -457,7 +457,8 @@ object Operations {
             displayed = !params.isConnected
           ),
           ExtraSlide(
-            maybeTracker = Some(DisplayTracker("display-proposal-push-card", trackingContext, defaultTrackingParameters)),
+            maybeTracker =
+              Some(DisplayTracker("display-proposal-push-card", trackingContext, defaultTrackingParameters)),
             reactClass = PromptingToProposeInRelationToOperation.reactClass,
             props = { handler =>
               PromptingToProposeInRelationToOperationProps(
@@ -503,8 +504,8 @@ object Operations {
           language = "en",
           title = "Stop violence against women",
           question = "How to combat violence against women?",
-          purpose = Some("Grâce à vos votes et à vos propositions, 17 grandes idées ont été identifiées."),
-          period = Some("Consultation open from Nov. 25 2017 to the end of January"),
+          purpose = None,
+          period = None,
           label = Some("Make.org outreach action"),
           mentionUnderThePartners = Some("and our support and actions partners"),
           explanation = Some(
@@ -527,14 +528,14 @@ object Operations {
               )
             ),
             props = { (handler: () => Unit) =>
-            {
-              val onClick: () => Unit = () => {
-                TrackingService
-                  .track("click-sequence-launch", trackingContext, defaultTrackingParameters)
-                handler()
+              {
+                val onClick: () => Unit = () => {
+                  TrackingService
+                    .track("click-sequence-launch", trackingContext, defaultTrackingParameters)
+                  handler()
+                }
+                IntroductionOfTheSequenceProps(clickOnButtonHandler = onClick)
               }
-              IntroductionOfTheSequenceProps(clickOnButtonHandler = onClick)
-            }
             },
             position = _ => 0
           ),
@@ -563,7 +564,8 @@ object Operations {
             displayed = !params.isConnected
           ),
           ExtraSlide(
-            maybeTracker = Some(DisplayTracker("display-proposal-push-card", trackingContext, defaultTrackingParameters)),
+            maybeTracker =
+              Some(DisplayTracker("display-proposal-push-card", trackingContext, defaultTrackingParameters)),
             reactClass = PromptingToProposeInRelationToOperation.reactClass,
             props = { handler =>
               PromptingToProposeInRelationToOperationProps(
