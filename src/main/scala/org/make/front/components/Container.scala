@@ -40,8 +40,7 @@ object Container {
             "/profile",
             "/consultation/:operationSlug",
             "/consultation/:operationSlug/selection",
-            "/theme/:themeSlug",
-            "/search"
+            "/theme/:themeSlug"
           ).map { route =>
             <.Route(^.exact := true, ^.path := route, ^.component := RedirectToCountryRoute())()
           },

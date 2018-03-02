@@ -47,7 +47,7 @@ object Components {
 
     def UserNavComponent: ReactClassElementSpec = self(userNav.UserNav.reactClass)
     def UserNavContainerComponent: ReactClassElementSpec = self(userNav.UserNavContainer.reactClass)
-    def SearchFormComponent: ReactClassElementSpec = self(search.SearchForm.reactClass)
+    def SearchFormContainer: ReactClassElementSpec = self(search.SearchFormContainer.reactClass)
     def SearchResultsContainerComponent: ReactClassElementSpec = self(search.SearchResultsContainer.reactClass)
     def NoResultToSearchComponent: ReactClassElementSpec = self(search.NoResultToSearch.reactClass)
     def ModalComponent: ReactClassElementSpec = self(modals.Modal.reactClass)

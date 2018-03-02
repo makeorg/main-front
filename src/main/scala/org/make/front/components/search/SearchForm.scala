@@ -24,6 +24,7 @@ import scala.scalajs.js.{Dictionary, Dynamic, URIUtils}
 object SearchForm {
   type Self = React.Self[Unit, State]
 
+  case class SearchFormProps(country: String)
   case class State(value: String, suggestions: js.Array[js.Object])
 
   val autoSuggestTheme: Dictionary[String] =
@@ -50,7 +51,7 @@ object SearchForm {
   lazy val reactClass: ReactClass =
     WithRouter(
       React
-        .createClass[Unit, State](
+        .createClass[SearchFormProps, State](
           displayName = "SearchForm",
           shouldComponentUpdate = (self, props, state) => true,
           getInitialState = (self) => {
@@ -79,7 +80,7 @@ object SearchForm {
                     Map("query" -> self.state.value)
                   )
                 val currentValue: String = URIUtils.encodeURI(self.state.value)
-                self.props.history.push(s"/search?q=$currentValue")
+                self.props.history.push(s"/${self.props.wrapped.country}/search?q=$currentValue")
               }
 
               <.form(^.onSubmit := onSubmit)(

@@ -51,7 +51,7 @@ object Error {
                                 unescape(I18n.t("error.recherche-intro"))
                               )
                             ),
-                            <.div(^.className := ErrorStyles.searchFormWrapper)(<.SearchFormComponent.empty),
+                            <.div(^.className := ErrorStyles.searchFormWrapper)(<.SearchFormContainer.empty),
                             <.div(
                               ^.className := Seq(
                                 RWDHideRulesStyles.showBlockBeyondMedium,
