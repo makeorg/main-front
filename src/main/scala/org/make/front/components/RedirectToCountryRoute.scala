@@ -16,7 +16,7 @@ object RedirectToCountryRoute {
       React
         .createClass[RedirectToCountryRouteProps, Unit](componentWillMount = { self =>
           val location: String = self.props.location.pathname
-          self.props.history.push(s"/${self.props.wrapped.country}$location")
+          self.props.history.push(s"/${self.props.wrapped.country}$location${self.props.location.search}")
         }, render = (_) => {
           <.div()()
         })

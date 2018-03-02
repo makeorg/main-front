@@ -34,8 +34,6 @@ object Container {
         <.Switch()(
           // @deprecated
           Seq(
-            "/password-recovery/:userId/:resetToken",
-            "/account-activation/:userId/:verificationToken",
             "/proposal/:proposalSlug",
             "/profile",
             "/consultation/:operationSlug",
