@@ -51,7 +51,7 @@ object MainHeader {
                     )
                   ),
                   <.div(^.className := Seq(TableLayoutStyles.cellVerticalAlignMiddle, MainHeaderStyles.searchWrapper))(
-                    <.SearchFormComponent.empty
+                    <.SearchFormContainer.empty
                   ),
                   <.div(^.className := Seq(TableLayoutStyles.cellVerticalAlignMiddle, MainHeaderStyles.menusWrapper))(
                     <.div(^.className := MainHeaderStyles.menusInnerWrapper)(
