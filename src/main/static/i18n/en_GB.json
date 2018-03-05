@@ -217,7 +217,7 @@
     "results": {
       "title": "Vote on the&nbsp;proposals",
       "see-more": "See more proposals",
-      "no-results": "We did not find <strong>any result</strong> corresponding to your tag selection. <br>Please make another selection."
+      "no-results": "We did not find <strong>any result</strong> corresponding to your tag selection. <br>Please make another&nbsp;selection."
     },
     "proposal-form-in-header": {
       "limit-of-chars-info": "8/140"
@@ -246,13 +246,14 @@
       "next-cta": "Not yet, continue voting"
     },
     "prompting-to-continue": {
-      "intro": "Thank you for participating. Go one step further :",
+      "intro": "Thank you for participating. Go one step further:",
       "continue": {
         "intro": "By continuing the consultation:",
         "cta": "Start"
       },
       "learn-more": {
         "intro": "By discovering the full operation",
+        "following-intro": "and all the proposals made by&nbsp;citizens:",
         "cta": "Find out more"
       },
       "share": {
@@ -291,7 +292,7 @@
     "results": {
       "title": "Vote on the&nbsp;proposals",
       "see-more": "See more proposals",
-      "no-results": "We did not find <strong>any result</strong> corresponding to your tag selection. <br>Please make another selection."
+      "no-results": "We did not find <strong>any result</strong> corresponding to your tag selection.<br>Please make another selection."
     },
     "proposal-form-in-header": {
       "intro": "Propose your solutions on this topic",

@@ -210,8 +210,7 @@ object PromptingToContinueAfterTheSequenceStyles extends StyleSheet.Inline {
     style(
       padding(ThemeStyles.SpacingValue.small.pxToEm(), `0`),
       ThemeStyles.MediaQueries.beyondSmall(padding(ThemeStyles.SpacingValue.medium.pxToEm(), `0`)),
-      backgroundColor(ThemeStyles.BackgroundColor.white),
-      backgroundImage := "linear-gradient(155deg, #FFFFFF 0%, #ECECEC 100%)",
+      backgroundColor(ThemeStyles.BackgroundColor.lightGrey),
       boxShadow := "0 1px 1px 0 rgba(0,0,0,0.50)"
     )
 

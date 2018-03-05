@@ -247,11 +247,12 @@
     "prompting-to-continue": {
       "intro": "Grazie per il tuo contributo. Continua a impegnarti per questa causa:",
       "continue": {
-        "intro": "val la: Nothing = null",
+        "intro": "Alla scoperta dell'intera operazione",
         "cta": "Inizia"
       },
       "learn-more": {
         "intro": "Scoprendo l'insieme delle&nbsp;operazioni",
+        "following-intro": "e tutte le proposte fatte dai cittadini:",
         "cta": "Per saperne di&nbsp;più"
       },
       "share": {

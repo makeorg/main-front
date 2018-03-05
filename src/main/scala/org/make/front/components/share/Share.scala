@@ -11,34 +11,18 @@ import org.make.front.styles.utils._
 
 object ShareProposal {
 
-  final case class ShareProps(intro: Option[String])
+  final case class ShareProps(intro: Option[String] = None)
 
   val reactClass: ReactClass =
     React
       .createClass[ShareProps, Unit](
         displayName = "ShareProposal",
         render = (self) => {
-
-          <.div(^.className := ShareStyles.wrapper)(
+          <.div(^.className := ShareStyles.wrapper)(if (self.props.wrapped.intro.isDefined) {
             <.div(^.className := ShareStyles.intro)(
               <.p(^.className := TextStyles.smallerTitle)(self.props.wrapped.intro.getOrElse(""))
-            ),
-            <.ul(^.className := ShareStyles.list)(
-              <.li(^.className := ShareStyles.item)(
-                <.button(^.className := Seq(ShareStyles.button, ShareStyles.shareWithFacebookButton))()
-              ),
-              <.li(^.className := ShareStyles.item)(
-                <.button(^.className := Seq(ShareStyles.button, ShareStyles.shareWithTwitterButton))()
-              ),
-              <.li(^.className := ShareStyles.item)(
-                <.button(^.className := Seq(ShareStyles.button, ShareStyles.shareWithGooglePlusButton))()
-              ),
-              <.li(^.className := ShareStyles.item)(
-                <.button(^.className := Seq(ShareStyles.button, ShareStyles.shareWithLinkedInButton))()
-              )
-            ),
-            <.style()(ShareStyles.render[String])
-          )
+            )
+          }, <.ul(^.className := ShareStyles.list)(<.li(^.className := ShareStyles.item)(<.button(^.className := Seq(ShareStyles.button, ShareStyles.shareWithFacebookButton))()), <.li(^.className := ShareStyles.item)(<.button(^.className := Seq(ShareStyles.button, ShareStyles.shareWithTwitterButton))()), <.li(^.className := ShareStyles.item)(<.button(^.className := Seq(ShareStyles.button, ShareStyles.shareWithGooglePlusButton))()), <.li(^.className := ShareStyles.item)(<.button(^.className := Seq(ShareStyles.button, ShareStyles.shareWithLinkedInButton))())), <.style()(ShareStyles.render[String]))
         }
       )
 }
