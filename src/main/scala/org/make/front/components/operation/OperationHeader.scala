@@ -57,12 +57,12 @@ object OperationHeader {
 
         <.header(^.className := OperationHeaderStyles.wrapper)(
           <.div(^.className := LayoutRulesStyles.centeredRow)(
-            <.h1(^.className := Seq(TextStyles.mediumTitle, OperationHeaderStyles.title))(
+            <.h1(^.className := Seq(TextStyles.smallTitle, OperationHeaderStyles.title))(
               unescape(I18n.t("operation.proposal-form-in-header.intro"))
             ),
             <.p(
               ^.className := Seq(
-                TextStyles.biggerMediumText,
+                TextStyles.bigText,
                 TextStyles.intro,
                 OperationHeaderStyles.proposalInputIntro,
                 DynamicOperationHeaderStyles.proposalInputIntro
@@ -133,7 +133,7 @@ object OperationHeaderStyles extends StyleSheet.Inline {
     style(textAlign.center)
 
   val proposalInputIntro: StyleA =
-    style(marginTop(10.pxToEm(15)), ThemeStyles.MediaQueries.beyondSmall(marginTop(-5.pxToEm(24))), textAlign.center)
+    style(textAlign.center)
 
   val proposalInputWithIconWrapper: StyleA =
     style(
