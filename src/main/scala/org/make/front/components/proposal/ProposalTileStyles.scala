@@ -14,7 +14,7 @@ object ProposalTileStyles extends StyleSheet.Inline {
       height(100.%%),
       minHeight(360.pxToEm()),
       ThemeStyles.MediaQueries.belowMedium(minHeight.inherit),
-      minWidth(270.pxToEm()),
+      minWidth(240.pxToEm()),
       backgroundColor(ThemeStyles.BackgroundColor.white),
       boxShadow := "0 1px 1px 0 rgba(0,0,0,0.50)"
     )
