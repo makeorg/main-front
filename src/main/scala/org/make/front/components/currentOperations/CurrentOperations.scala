@@ -23,8 +23,9 @@ import org.make.front.styles.utils._
 object CurrentOperations {
 
   final case class CurrentOperationsProps(country: String,
-                                         operations: Seq[OperationExpandedModel],
-                                         supportedCountries: Seq[CountryConfigurationModel])
+                                          language: String,
+                                          operations: Seq[OperationExpandedModel],
+                                          supportedCountries: Seq[CountryConfigurationModel])
 
   final case class CurrentOperationsState()
 
@@ -36,7 +37,7 @@ object CurrentOperations {
 
           def operationTile(operation: OperationExpandedModel, isLongerBeyondMedium: Boolean = false): ReactElement = {
             val wording: OperationWordingModel =
-              operation.getWordingByLanguageOrError(self.props.wrapped.country)
+              operation.getWordingByLanguageOrError(self.props.wrapped.language)
 
             val gradientValues: GradientColorModel =
               operation.gradient.getOrElse(GradientColorModel("#FFF", "#FFF"))
@@ -90,7 +91,9 @@ object CurrentOperations {
                     ^.src := country.flagUrl,
                     ^.alt := country.defaultLanguage
                   )(),
-                  <.span(^.className := Seq(CountryTileStyles.label, TextStyles.mediumText))(I18n.t(s"current-operations.${country.countryCode}"))
+                  <.span(^.className := Seq(CountryTileStyles.label, TextStyles.mediumText))(
+                    I18n.t(s"current-operations.${country.countryCode}")
+                  )
                 )
               )
             )
@@ -105,10 +108,15 @@ object CurrentOperations {
               <.div(^.className := TableLayoutStyles.cell)(
                 <.section(^.className := CurrentOperationsStyles.operations)(
                   <.header(^.className := LayoutRulesStyles.centeredRow)(
-                    <.h2(^.className := TextStyles.mediumTitle)(unescape(I18n.t(
-                      "current-operations.operations-intro",
-                      Replacements(("total", self.props.wrapped.operations.size.toString))
-                    )))                  ),
+                    <.h2(^.className := TextStyles.mediumTitle)(
+                      unescape(
+                        I18n.t(
+                          "current-operations.operations-intro",
+                          Replacements(("total", self.props.wrapped.operations.size.toString))
+                        )
+                      )
+                    )
+                  ),
                   if (self.props.wrapped.operations.lengthCompare(1) > 0) {
                     <.ul(
                       ^.className := Seq(CurrentOperationsStyles.operationsList, LayoutRulesStyles.centeredRowWithCols)
@@ -131,18 +139,18 @@ object CurrentOperations {
                   <.header(^.className := LayoutRulesStyles.centeredRow)(
                     <.h2(^.className := TextStyles.mediumTitle)(unescape(I18n.t("current-operations.countries-intro")))
                   ),
-                  <.ul(^.className := Seq(CurrentOperationsStyles.countriesList, LayoutRulesStyles.centeredRowWithCols))(
-                    self.props.wrapped.supportedCountries.map { country =>
-                      <.li(
-                        ^.className := Seq(
-                          CurrentOperationsStyles.countryItem,
-                          ColRulesStyles.col,
-                          ColRulesStyles.colHalfBeyondSmall,
-                          ColRulesStyles.colThirdBeyondLarge
-                        )
-                      )(countryTile(country))
-                    }
-                  )
+                  <.ul(
+                    ^.className := Seq(CurrentOperationsStyles.countriesList, LayoutRulesStyles.centeredRowWithCols)
+                  )(self.props.wrapped.supportedCountries.map { country =>
+                    <.li(
+                      ^.className := Seq(
+                        CurrentOperationsStyles.countryItem,
+                        ColRulesStyles.col,
+                        ColRulesStyles.colHalfBeyondSmall,
+                        ColRulesStyles.colThirdBeyondLarge
+                      )
+                    )(countryTile(country))
+                  })
                 )
               )
             ),
