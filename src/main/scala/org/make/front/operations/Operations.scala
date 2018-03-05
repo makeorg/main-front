@@ -399,7 +399,7 @@ object Operations {
           question = "Come far fronte alla violenza sulle donne?",
           purpose = None,
           period = None,
-          label = Some("La Grande Causa di Make.org"),
+          label = Some("Grande Causa Make.org"),
           mentionUnderThePartners = Some("e i nostri partner sostegno e azione"),
           explanation = Some(
             "La violenza sulle donne è al centro dell'attualità politica e mediatica. Le idee stanno cambiando, ma tutto inizia da qui. Sta a noi trasformare questa presa di coscienza generale in azioni concrete e dare una risposta decisiva a questo flagello."
@@ -506,7 +506,7 @@ object Operations {
           question = "How to combat violence against women?",
           purpose = None,
           period = None,
-          label = Some("Make.org outreach action"),
+          label = Some("Make.org Grand Challenge"),
           mentionUnderThePartners = Some("and our support and actions partners"),
           explanation = Some(
             "Violence against women is at the heart of political events and news coverage. Mindsets are changing. But it all begins now. It is up to us to transform this generalised awareness into concrete actions and to provide a decisive response to this epidemic."

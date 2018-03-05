@@ -112,7 +112,7 @@ object CurrentOperations {
                       unescape(
                         I18n.t(
                           "current-operations.operations-intro",
-                          Replacements(("total", self.props.wrapped.operations.size.toString))
+                          Replacements(("count", self.props.wrapped.operations.size.toString))
                         )
                       )
                     )
@@ -131,7 +131,7 @@ object CurrentOperations {
                     })
                   } else {
                     <.div(^.className := Seq(CurrentOperationsStyles.operationItem, LayoutRulesStyles.centeredRow))(
-                      operationTile(self.props.wrapped.operations.head, true)
+                      operationTile(self.props.wrapped.operations.head, isLongerBeyondMedium = true)
                     )
                   }
                 ),

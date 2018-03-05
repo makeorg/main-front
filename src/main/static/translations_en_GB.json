@@ -1,6 +1,6 @@
 {
   "common": {
-    "bait": "We should"
+    "bait": "We should "
   },
   "error-message": {
     "main": "Oops! We are having difficulties loading this page. Please reload it.",
@@ -17,9 +17,10 @@
     "redirect-to-random-theme": "A random theme"
   },
   "current-operations": {
-    "operations-intro": "We're currently running %{total} consultations in your country, join&nbsp;in!",
-    "operations-intro_1": "We're currently running %{total} consultation in your country, join&nbsp;in!",
-    "see-operation-cta": "Join",
+    "operations-intro": "We're currently running %{count} consultations in your country, join&nbsp;in!",
+    "operations-intro_1": "We're currently running 1 consultation in your country, join&nbsp;in!",
+    "operations-intro_0": "Unfortunately, we are not opened in your country yet. Discover our service by clicking on \"Who are We\" or by having a look at our service in other countries :",
+    "see-operation-cta": "Participate",
     "countries-intro": "You can also have a look at our service in other&nbsp;countries:",
     "FR": "France",
     "IT": "Italy",
@@ -37,7 +38,7 @@
       "baseline": "About",
       "title": "Propose, vote, act",
       "subtitle": "Make.org is an independent initiative in the service of the general&nbsp;public.",
-      "see-more": "To find out more",
+      "see-more": "Find out more",
       "see-more-link": "https://about.make.org/gb/who-are-we"
     },
     "featured-operation": {
@@ -51,14 +52,14 @@
         "item-2": "<strong>Submit</strong> your ideas on themes that inspire you",
         "item-3": "And tomorrow, <strong>initiate concrete actions</strong> on the ground",
         "see-more-link": "/",
-        "see-more": "To find out more"
+        "see-more": "Find out more"
       },
       "article-2": {
         "intro": "who are we?",
         "title": "Make.org, neutral & independent",
         "text": "Make.org is a civic, European and independent initiative.",
         "see-more-link": "https://about.make.org/gb/who-are-we",
-        "see-more": "To find out more"
+        "see-more": "Find out more"
       }
     },
     "showcase-1": {
@@ -77,7 +78,7 @@
   "theme-showcase": {
     "see-all": "See all the topic's proposals about %{themeName}",
     "prompting-to-propose-tile": {
-      "intro": "What about you, what is your proposal?",
+      "intro": "How about you, do you have a solution ?",
       "bait": "We should..."
     },
     "data-units": {
@@ -117,7 +118,7 @@
     },
     "no-results": {
       "intro": "We did not find <strong>any result</strong> for your search.",
-      "prompting-to-propose": "Be the first person to formulate a proposal on this subject!",
+      "prompting-to-propose": "Be the first to submit a proposal on this topic !",
       "propose-cta": "Propose"
     }
   },
@@ -127,16 +128,16 @@
   },
   "user-profile": {
     "title": "My personal information",
-    "disconnect-cta": "I am logging out"
+    "disconnect-cta": "Log out"
   },
   "proposal": {
     "created-by-user": "My proposal",
     "share-intro": "Share this proposal with your community",
     "associated-with-the-theme": "published in ",
     "proposal-s-operation-infos": {
-      "intro": "Cette proposition a été soumise dans le cadre de l'opération",
+      "intro": "This proposal was submitted during the operation",
       "participate": "Participate",
-      "see-more": "To find out more"
+      "see-more": "Find out more"
     },
     "author-infos": {
       "age": ", %{age} years",
@@ -148,7 +149,7 @@
       "agree": {
         "label": "Agree",
         "qualifications": {
-          "likeIt": "Remarkable",
+          "likeIt": "Outstanding",
           "doable": "Realistic",
           "platitudeAgree": "Commonplace"
         }
@@ -178,7 +179,7 @@
     "intro": "Share your proposal",
     "error-message": "An error has occurred, please try again in a few minutes.",
     "form": {
-      "proposal-input-placeholder": "The proposal should be realistic and respectful of everyone",
+      "proposal-input-placeholder": "We should submit proposals that are realistic and respectful of others",
       "limit-of-chars-reached-alert": "Oops! You have exceeded the limit of 140 characters 😅 Try to be more precise.&nbsp;🙏",
       "info": "Don't worry, we will correct any spelling mistakes.",
       "moderation-charter": "To find out more about our moderation charter, <a href=\"https://about.make.org/gb/moderation\" target=\"_blank\">click&nbsp;here.</a>",
@@ -189,12 +190,12 @@
       }
     },
     "authenticate": {
-      "intro": "We need some information to validate your proposal",
+      "intro": "We need some information",
       "title": "To validate your&nbsp;proposal"
     },
     "confirmation": {
       "title": "Thank you!",
-      "info": "Your proposal has been taken into consideration, it will now be reviewed by our moderation service.<br>You will receive an email when it has been validated.",
+      "info": "Your proposal has been taken into consideration, it will now be reviewed by our moderation service.<br>You will receive an email once it has been validated.",
       "back-to-theme-cta": "Back to the subject&nbsp;%{theme}",
       "back-cta": "Go back",
       "new-proposal-cta": "Submit a new&nbsp;proposal"
@@ -233,35 +234,35 @@
     "introduction": {
       "title": "Thousands of citizens are submitting solutions.",
       "explanation-1": "Take a stand on these solutions and offer yours.",
-      "explanation-2": "The ones with the most support will determine our&nbsp;actions.",
+      "explanation-2": "The most popular ones will determine our actions.",
       "cta": "Start"
     },
     "prompting-to-propose": {
-      "intro": "What about you, do you have a solution to propose on this&nbsp;subject?",
+      "intro": "How about you, do you have a solution on this&nbsp;subject?",
       "propose-cta": "Propose",
-      "next-cta": "Not yet, I will continue voting"
+      "next-cta": "Not yet, continue voting"
     },
     "prompting-to-continue": {
-      "intro": "Thank you for your contribution. Continue to be involved with this cause:",
+      "intro": "Thank you for participating. Go one step further :",
       "continue": {
         "intro": "By continuing the consultation:",
         "cta": "Start"
       },
       "learn-more": {
         "intro": "By discovering the full operation",
-        "cta": "To find out more"
+        "cta": "Find out more"
       },
       "share": {
         "intro": "By inviting your close family members to participate in the consultation:"
       }
     },
     "prompting-to-connect": {
-      "title": "Be informed about the actions implemented.",
-      "intro": "I identify myself with",
+      "title": "Stay tuned on the actions implemented.",
+      "intro": "Sign up with",
       "authenticate-with-email-cta": "My email address",
       "login-screen-access": {
         "intro": "I already have an account!",
-        "link-support": "Connection"
+        "link-support": "Log in"
       },
       "next-cta": "No thanks, I do not wish to be informed of the results"
     }
@@ -274,7 +275,7 @@
       "article": {
         "title": "Why this consultation&nbsp;?",
         "see-more": {
-          "label": "To find out more"
+          "label": "Find out more"
         }
       }
     },
@@ -284,7 +285,7 @@
       "no-results": "We did not find <strong>any result</strong> corresponding to your tag selection. <br>Please make another selection."
     },
     "proposal-form-in-header": {
-      "intro": "Propose your solutions on the subject",
+      "intro": "Propose your solutions on this topic",
       "limit-of-chars-info": "8/140"
     },
     "submit-proposal": {
@@ -294,7 +295,7 @@
       "header": {
         "total-of-proposals": "%{total} proposals",
         "total-of-proposals_1": "%{total} proposal",
-        "back-cta": "Access<br>the operation",
+        "back-cta": "Go to<br>operation",
         "propose-cta": "Propose",
         "guide": {
           "propose-cta": "Submit a solution at any time by clicking this button."
@@ -307,28 +308,28 @@
       "intro": "Filter by tags:"
     },
     "list": {
-      "show-all": "See all the&nbsp;tags",
+      "show-all": "View all&nbsp;tags",
       "show-less": "hide"
     }
   },
   "activate-account": {
     "notifications": {
-      "success": "Your account has just been activated. You can login now",
+      "success": "Your account has just been activated. You can now log in.",
       "error-message": "This link is no longer valid."
     }
   },
   "authenticate": {
     "forgot-password": {
-      "intro": "Oops, I",
-      "link-support": "forgot my password?"
+      "intro": " ",
+      "link-support": "Forgot your password ?"
     },
     "switch-to-register-screen": {
-      "intro": "I do not have an account,",
-      "link-support": "create one."
+      "intro": "No account ?",
+      "link-support": "Create one."
     },
     "switch-to-login-screen": {
       "intro": "I already have an account!",
-      "link-support": "Connection"
+      "link-support": "Log in"
     },
     "back-to-login-screen": {
       "intro": "Come back to",
@@ -341,7 +342,7 @@
       "required": "(required)",
       "email": {
         "placeholder": "E-mail",
-        "format-error-message": "Email format not&nbsp;recognised",
+        "format-error-message": "Invalid email&nbsp;format",
         "empty-field-error-message": "Please complete this&nbsp;field."
       },
       "first-name": {
@@ -359,16 +360,16 @@
         "format-error-message": "Invalid format"
       },
       "postal-code": {
-        "placeholder": "Post code",
+        "placeholder": "ZIP code",
         "format-error-message": "Invalid format"
       },
       "job": {
-        "placeholder": "Profession",
+        "placeholder": "Occupation",
         "format-error-message": "Invalid format"
       }
     },
     "recover-password": {
-      "title": "I am resetting my&nbsp;password",
+      "title": "Reset your&nbsp;password",
       "info": "Please enter the email address associated with your account in order to receive the reset&nbsp;link",
       "send-cta": "Receive e-mail",
       "error-message": {
@@ -379,7 +380,7 @@
       }
     },
     "reset-password": {
-      "title": "I am creating a new&nbsp;password",
+      "title": "Submit a new&nbsp;password",
       "info": "You can choose a new&nbsp;password.",
       "send-cta": "Validate",
       "success": {
@@ -395,14 +396,14 @@
     },
     "register": {
       "with-social-networks": {
-        "intro": "I am registering with",
+        "intro": "Sign up with",
         "separator": "or"
       },
       "caution": "(Rest assured, nothing will be published without your&nbsp;consent.)",
       "separator": "or",
-      "with-email-intro": "I am registering with my email address",
-      "terms": "By registering, you agree to our  <a href=\"https://about.make.org/it/terms-of-use\" target=\"_blank\">terms of use</a> and to occasionally receive emails from&nbsp;Make.org.",
-      "send-cta": "register",
+      "with-email-intro": "Sign up with your email address",
+      "terms": "By signing up, you agree to our  <a href=\"https://about.make.org/gb/terms-of-use\" target=\"_blank\">terms of use</a> and to occasionally receive emails from&nbsp;Make.org.",
+      "send-cta": "Sign up",
       "error-message": {
         "already-exists": "This account already exists, thank you for logging&nbsp;in."
       },
@@ -411,9 +412,9 @@
       }
     },
     "login": {
-      "with-social-networks-intro": "I am logging in&nbsp;with",
+      "with-social-networks-intro": "log in&nbsp;with",
       "separator": "or",
-      "with-email-intro": "I am logging in with my email&nbsp;address",
+      "with-email-intro": "log in in with your&nbsp;email",
       "send-cta": "Login"
     }
   },

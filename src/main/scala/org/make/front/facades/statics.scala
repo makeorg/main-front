@@ -439,11 +439,11 @@ object VFFLogoGB extends js.Object
 object VFFDarkerLogoGB extends js.Object
 
 @js.native
-@JSImport("./images/operations/vff/basta-con-la-violenza-contro-le-donne.svg", "default")
+@JSImport("./images/operations/vff/stop-alla-violenza-sulle-donne.svg", "default")
 object VFFLogoIT extends js.Object
 
 @js.native
-@JSImport("./images/operations/vff/basta-con-la-violenza-contro-le-donne-darker.svg", "default")
+@JSImport("./images/operations/vff/stop-alla-violenza-sulle-donne-darker.svg", "default")
 object VFFDarkerLogoIT extends js.Object
 
 @js.native
