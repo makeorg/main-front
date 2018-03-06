@@ -425,16 +425,16 @@
         "link": "/"
       },
       "item-2": {
-        "label": "Jobs",
-        "link": "https://about.make.org/gb/jobs"
+        "label": " ",
+        "link": "#"
       },
       "item-3": {
         "label": "Who are we?",
         "link": "https://about.make.org/gb/who-are-we"
       },
       "item-4": {
-        "label": "Press area",
-        "link": "https://about.make.org/gb/category/press"
+        "label": " ",
+        "link": "#"
       },
       "item-5": {
         "label": "Legal notice",
