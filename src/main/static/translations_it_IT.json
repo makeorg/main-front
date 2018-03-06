@@ -425,16 +425,16 @@
         "link": "/"
       },
       "item-2": {
-        "label": "Lavori",
-        "link": "https://about.make.org/it/lavori"
+        "label": " ",
+        "link": "#"
       },
       "item-3": {
         "label": "Chi siamo?",
         "link": "https://about.make.org/it/chi-siamo"
       },
       "item-4": {
-        "label": "Spazio stampa",
-        "link": "https://about.make.org/it/category/stampa"
+        "label": " ",
+        "link": "#"
       },
       "item-5": {
         "label": "Menzioni legali",
