@@ -184,7 +184,7 @@ object QualificateVoteButtonStyles extends StyleSheet.Inline {
     style(lineHeight(1), unsafeChild(".fa")(display.inline, color(ThemeStyles.ThemeColor.assertive)))
 
   val votesCounter: StyleA =
-    style(paddingLeft(0.5.em), textAlign.right, lineHeight(1), opacity(1), transition := "opacity .2s ease-in-out")
+    style(textAlign.right, lineHeight(1), opacity(1), transition := "opacity .2s ease-in-out")
 
   val selectedQualificationVotesCounter: StyleA = style(opacity(0.5))
 }

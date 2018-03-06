@@ -39,8 +39,10 @@ object TextStyles extends StyleSheet.Inline {
   val bigText: StyleA = style(
     ThemeStyles.Font.circularStdBook,
     fontSize(18.pxToEm()),
-    ThemeStyles.MediaQueries.beyondSmall(fontSize(28.pxToEm()))
+    lineHeight(28.0 / 18.0),
+    ThemeStyles.MediaQueries.beyondSmall(fontSize(28.pxToEm()), lineHeight(38.0 / 28.0))
   )
+
   val veryBigText: StyleA =
     style(ThemeStyles.Font.circularStdBook, fontSize(44.pxToEm()), lineHeight(1))
 
@@ -77,6 +79,7 @@ object TextStyles extends StyleSheet.Inline {
 
   val smallerTitle: StyleA =
     style(title, fontSize(15.pxToEm()), lineHeight(1), ThemeStyles.MediaQueries.beyondSmall(fontSize(20.pxToEm())))
+
   val smallTitle: StyleA =
     style(title, fontSize(18.pxToEm()), lineHeight(1), ThemeStyles.MediaQueries.beyondSmall(fontSize(22.pxToEm())))
 
