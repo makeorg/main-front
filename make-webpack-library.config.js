@@ -54,11 +54,6 @@ module.exports.module.rules = [
         include: [path.join(__dirname, "images")]
     },
     {
-       test: /\.(png|xml|ico|json|svg)$/,
-       loader: 'file-loader?name=[name].[ext]',
-       include: [path.join(__dirname, "favicon")]
-    },
-    {
         test: /\.json$/,
         loader: 'json-loader'
     }
