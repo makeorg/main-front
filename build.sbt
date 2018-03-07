@@ -140,6 +140,12 @@ prepareAssets in ThisBuild := {
     npmDirectory / "dist" / "consultation",
     overwrite = true
   )
+  IO.listFiles(baseDirectory.value / "src" / "main" / "static" / "favicon").foreach {
+    file =>
+      IO.copyFile(file, npmDirectory / "dist" / file.name)
+  }
+  IO.copyFile(baseDirectory.value / "src" / "main" / "static" / "loader.gif", npmDirectory / "dist" / "loader.gif")
+  IO.copyFile(baseDirectory.value / "src" / "main" / "static" / "loader@2x.gif", npmDirectory / "dist" / "loader@2x.gif")
 
   val buildVersionFile: File = npmDirectory / "dist" / "version"
   val buildVersionLocalFile: File = npmDirectory / "version"
