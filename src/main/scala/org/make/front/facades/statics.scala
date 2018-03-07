@@ -517,7 +517,9 @@ object LpaeIll extends js.Object
 @js.native
 @JSImport("./images/operations/lpae/lpae-ill@2x.jpg", "default")
 object LpaeIll2x extends js.Object
-
+@js.native
+@JSImport("./images/operations/mve/mve.svg", "default")
+object MveLogo extends js.Object
 @js.native
 @JSImport("./images/operations/lpae/partners/make-org.svg", "default")
 object MakeOrgLogo extends js.Object

@@ -34,4 +34,6 @@ trait OperationCountryConfigurationResponse extends js.Object {
   val countryCode: String
   val tagIds: js.Array[String]
   val landingSequenceId: js.UndefOr[String]
+  val startDate: js.UndefOr[String]
+  val endDate: js.UndefOr[String]
 }
