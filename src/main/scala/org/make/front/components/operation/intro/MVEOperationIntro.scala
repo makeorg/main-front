@@ -5,7 +5,6 @@ import io.github.shogowada.scalajs.reactjs.VirtualDOM.{<, ^, _}
 import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import org.make.front.Main.CssSettings._
 import org.make.front.components.Components._
-import org.make.front.components.operation.intro.OperationIntroStyles.style
 import org.make.front.facades._
 import org.make.front.facades.Unescape.unescape
 import org.make.front.models.{
@@ -41,7 +40,7 @@ object MVEOperationIntro {
             self.props.wrapped.operation
 
           val partners = Seq(
-            OperationPartnerModel(name = "BlaBlaCar", imageUrl = BlaBlaCarLogo.toString, imageWidth = 74),
+            OperationPartnerModel(name = "BlaBlaCar", imageUrl = BlaBlaCarLogo.toString, imageWidth = 120),
             OperationPartnerModel(name = "Orange", imageUrl = OrangeLogo.toString, imageWidth = 37),
             OperationPartnerModel(name = "AccorHotels", imageUrl = AccorHotelsLogo.toString, imageWidth = 132),
             OperationPartnerModel(name = "Mairie de Paris", imageUrl = MairieDeParisLogo.toString, imageWidth = 146)
