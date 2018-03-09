@@ -1,50 +1,41 @@
 package org.make.front.operations
+
 import org.make.front.components.sequence.Sequence.{DisplayTracker, ExtraSlide}
+import org.make.front.components.sequence.contents.IntroductionOfTheSequence.IntroductionOfTheSequenceProps
+import org.make.front.components.sequence.contents.PromptingToConnect.PromptingToConnectProps
+import org.make.front.components.sequence.contents.PromptingToGoBackToOperation.PromptingToGoBackToOperationProps
+import org.make.front.components.sequence.contents.PromptingToProposeInRelationToOperation.PromptingToProposeInRelationToOperationProps
 import org.make.front.components.sequence.contents.{
   IntroductionOfTheSequence,
   PromptingToConnect,
   PromptingToGoBackToOperation,
   PromptingToProposeInRelationToOperation
 }
-import org.make.front.components.sequence.contents.IntroductionOfTheSequence.IntroductionOfTheSequenceProps
-import org.make.front.components.sequence.contents.PromptingToConnect.PromptingToConnectProps
-import org.make.front.components.sequence.contents.PromptingToGoBackToOperation.PromptingToGoBackToOperationProps
-import org.make.front.components.sequence.contents.PromptingToProposeInRelationToOperation.PromptingToProposeInRelationToOperationProps
-import org.make.front.facades.{climatParisIll, climatParisIll2x, climatParisLogo, ClimatParisDarkerLogo}
+import org.make.front.facades.{LpaeLogo, LpaeLogoDarker}
 import org.make.front.models._
 import org.make.services.tracking.TrackingService.TrackingContext
 import org.make.services.tracking.{TrackingLocation, TrackingService}
 
-object ClimatParisDesignOperation extends DesignOperation {
-  override val designData: OperationDesignData = OperationDesignData(
-    slug = "climatparis",
+import scala.scalajs.js
+
+object LPAEOperationStaticData extends StaticDataOfOperation {
+  override val data: OperationStaticData = OperationStaticData(
+    slug = "lpae",
     startDate = None,
-    endDate = None,
+    endDate = Some(new js.Date("2018-03-09")),
     country = "FR",
-    color = "#459ba6",
-    gradient = Some(GradientColor("#bfe692", "#69afde")),
-    logoUrl = Some(climatParisLogo.toString),
-    logoMaxWidth = Some(360),
-    darkerLogoUrl = Some(ClimatParisDarkerLogo.toString),
-    greatCauseLabelAlignment = Some("left"),
+    color = "#602a7a",
+    gradient = Some(GradientColor("#683577", "#782f8b")),
+    logoUrl = Some(LpaeLogo.toString),
+    darkerLogoUrl = Some(LpaeLogoDarker.toString),
     wording = Seq(
       OperationWording(
         language = "fr",
-        title = "Climat Paris",
-        question = "Comment lutter contre le changement climatique &agrave; Paris&nbsp;?",
-        purpose = None,
-        period = None,
-        label = None,
-        mentionUnderThePartners = None,
-        explanation = Some(
-          "Les changements climatiques sont au coeur de l’actualité politique et internationale. La COP21 a démontré la volonté des décideurs politiques d’avancer. Un changement de comportement de chaque citoyen est maintenant nécessaire : à nous de transformer la prise de conscience planétaire en idées concrètes pour changer notre rapport à la planète."
-        ),
-        learnMoreUrl = Some("https://climatparis.make.org/about-climatparis")
+        title = "La Parole aux Etudiants",
+        question = "Vous avez les cl&eacute;s du monde, que changez-vous&nbsp;?",
+        learnMoreUrl = Some("https://about.make.org/about-lpae")
       )
     ),
-    featuredIllustration = None,
-    illustration = Some(Illustration(illUrl = climatParisIll.toString, ill2xUrl = climatParisIll2x.toString)),
-    partners = Seq.empty,
     extraSlides = (params: OperationExtraSlidesParams) => {
 
       val trackingContext = TrackingContext(TrackingLocation.sequencePage, Some(params.operation.slug))
@@ -95,7 +86,6 @@ object ClimatParisDesignOperation extends DesignOperation {
           displayed = !params.isConnected
         ),
         ExtraSlide(
-          displayed = false,
           maybeTracker = Some(DisplayTracker("display-proposal-push-card", trackingContext, defaultTrackingParameters)),
           reactClass = PromptingToProposeInRelationToOperation.reactClass,
           props = { handler =>

@@ -2,19 +2,19 @@ package org.make.front.operations
 
 import org.make.front.models._
 
-trait DesignOperation {
-  val designData: OperationDesignData
+trait StaticDataOfOperation {
+  val data: OperationStaticData
 }
 
 object Operations {
   val featuredOperationSlug: String = "vff"
 
-  val operationDesignList: Seq[OperationDesignData] = Seq(
-    VffFRDesignOperation.designData,
-    VffITDesignOperation.designData,
-    VffGBDesignOperation.designData,
-    ClimatParisDesignOperation.designData,
-    LpaeDesignOperation.designData,
-    MveDesignOperation.designData
+  val operationDesignList: Seq[OperationStaticData] = Seq(
+    VFFFROperationStaticData.data,
+    VFFITOperationStaticData.data,
+    VFFGBOperationStaticData.data,
+    ClimatParisOperationStaticData.data,
+    LPAEOperationStaticData.data,
+    MVEOperationStaticData.data
   )
 }

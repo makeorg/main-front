@@ -517,9 +517,11 @@ object LpaeIll extends js.Object
 @js.native
 @JSImport("./images/operations/lpae/lpae-ill@2x.jpg", "default")
 object LpaeIll2x extends js.Object
+
 @js.native
 @JSImport("./images/operations/mve/mve.svg", "default")
 object MveLogo extends js.Object
+
 @js.native
 @JSImport("./images/operations/lpae/partners/make-org.svg", "default")
 object MakeOrgLogo extends js.Object
@@ -531,6 +533,22 @@ object CercleEconomistesLogo extends js.Object
 @js.native
 @JSImport("./images/operations/lpae/partners/x.svg", "default")
 object XPartners extends js.Object
+
+@js.native
+@JSImport("./images/operations/mve/partners/blablacar.svg", "default")
+object BlaBlaCarLogo extends js.Object
+
+@js.native
+@JSImport("./images/operations/mve/partners/orange.svg", "default")
+object OrangeLogo extends js.Object
+
+@js.native
+@JSImport("./images/operations/mve/partners/accorhotels.svg", "default")
+object AccorHotelsLogo extends js.Object
+
+@js.native
+@JSImport("./images/operations/mve/partners/mairie-de-paris.svg", "default")
+object MairieDeParisLogo extends js.Object
 
 @js.native
 @JSImport("./images/flags/fr.svg", "default")
@@ -593,13 +611,13 @@ object tradeGothicLTTtf extends js.Object
 object mainCss extends js.Object
 
 @js.native
-@JSImport("./translations_fr_FR.json", "default")
+@JSImport("./i18n/fr_FR.json", "default")
 object translationsFrFR extends js.Object
 
 @js.native
-@JSImport("./translations_en_GB.json", "default")
+@JSImport("./i18n/en_GB.json", "default")
 object translationsEnGB extends js.Object
 
 @js.native
-@JSImport("./translations_it_IT.json", "default")
+@JSImport("./i18n/it_IT.json", "default")
 object translationsItIT extends js.Object

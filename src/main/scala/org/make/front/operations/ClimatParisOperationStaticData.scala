@@ -1,63 +1,37 @@
 package org.make.front.operations
 import org.make.front.components.sequence.Sequence.{DisplayTracker, ExtraSlide}
+import org.make.front.components.sequence.contents.IntroductionOfTheSequence.IntroductionOfTheSequenceProps
+import org.make.front.components.sequence.contents.PromptingToConnect.PromptingToConnectProps
+import org.make.front.components.sequence.contents.PromptingToGoBackToOperation.PromptingToGoBackToOperationProps
+import org.make.front.components.sequence.contents.PromptingToProposeInRelationToOperation.PromptingToProposeInRelationToOperationProps
 import org.make.front.components.sequence.contents.{
   IntroductionOfTheSequence,
   PromptingToConnect,
   PromptingToGoBackToOperation,
   PromptingToProposeInRelationToOperation
 }
-import org.make.front.components.sequence.contents.IntroductionOfTheSequence.IntroductionOfTheSequenceProps
-import org.make.front.components.sequence.contents.PromptingToConnect.PromptingToConnectProps
-import org.make.front.components.sequence.contents.PromptingToGoBackToOperation.PromptingToGoBackToOperationProps
-import org.make.front.components.sequence.contents.PromptingToProposeInRelationToOperation.PromptingToProposeInRelationToOperationProps
-import org.make.front.facades.{
-  CercleEconomistesLogo,
-  LpaeIll,
-  LpaeIll2x,
-  LpaeLogo,
-  LpaeLogoDarker,
-  MakeOrgLogo,
-  XPartners
-}
+import org.make.front.facades.{climatParisLogo, ClimatParisDarkerLogo}
 import org.make.front.models._
 import org.make.services.tracking.TrackingService.TrackingContext
 import org.make.services.tracking.{TrackingLocation, TrackingService}
 
-import scala.scalajs.js
-
-object LpaeDesignOperation extends DesignOperation {
-  override val designData: OperationDesignData = OperationDesignData(
-    slug = "lpae",
+object ClimatParisOperationStaticData extends StaticDataOfOperation {
+  override val data: OperationStaticData = OperationStaticData(
+    slug = "climatparis",
     startDate = None,
-    endDate = Some(new js.Date("2018-03-09")),
+    endDate = None,
     country = "FR",
-    color = "#602a7a",
-    gradient = Some(GradientColor("#683577", "#782f8b")),
-    logoUrl = Some(LpaeLogo.toString),
-    logoMaxWidth = Some(830),
-    darkerLogoUrl = Some(LpaeLogoDarker.toString),
-    greatCauseLabelAlignment = None,
+    color = "#459ba6",
+    gradient = Some(GradientColor("#bfe692", "#69afde")),
+    logoUrl = Some(climatParisLogo.toString),
+    darkerLogoUrl = Some(ClimatParisDarkerLogo.toString),
     wording = Seq(
       OperationWording(
         language = "fr",
-        title = "La Parole aux Etudiants",
-        question = "Vous avez les cl&eacute;s du monde, que changez-vous&nbsp;?",
-        purpose = None,
-        period = None,
-        label = None,
-        mentionUnderThePartners = None,
-        explanation = Some(
-          "Dans une société bousculée, disruptée et en permanente évolution cette consultation est l’occasion pour vous d’exprimer ce que vous voulez changer, de proposer vos idées pour la société de demain, de dessiner les contours du Monde dans lequel vous souhaitez vivre. Vous avez entre 18 et 28 ans, vous avez des choses à dire, c’est le moment&nbsp;!"
-        ),
-        learnMoreUrl = Some("https://about.make.org/about-lpae")
+        title = "Climat Paris",
+        question = "Comment lutter contre le changement climatique &agrave; Paris&nbsp;?",
+        learnMoreUrl = Some("https://climatparis.make.org/about-climatparis")
       )
-    ),
-    featuredIllustration = None,
-    illustration = Some(Illustration(illUrl = LpaeIll.toString, ill2xUrl = LpaeIll2x.toString)),
-    partners = Seq(
-      OperationPartner(name = "Le Cercle des Economistes", imageUrl = CercleEconomistesLogo.toString, imageWidth = 74),
-      OperationPartner(name = "x", imageUrl = XPartners.toString, imageWidth = 9),
-      OperationPartner(name = "Make.org", imageUrl = MakeOrgLogo.toString, imageWidth = 51)
     ),
     extraSlides = (params: OperationExtraSlidesParams) => {
 
@@ -109,6 +83,7 @@ object LpaeDesignOperation extends DesignOperation {
           displayed = !params.isConnected
         ),
         ExtraSlide(
+          displayed = false,
           maybeTracker = Some(DisplayTracker("display-proposal-push-card", trackingContext, defaultTrackingParameters)),
           reactClass = PromptingToProposeInRelationToOperation.reactClass,
           props = { handler =>

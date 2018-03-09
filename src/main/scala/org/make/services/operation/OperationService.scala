@@ -66,29 +66,6 @@ object OperationService extends ApiService {
         futureOperations
     }
     futureOperations
-
-    Future.successful(
-      Seq(
-        Operation(
-          status = "Active",
-          operationId = OperationId("test"),
-          slug = "mieux-vivre-ensemble",
-          translations = Seq(OperationTranslation(title = "mieux vivre ensemble", language = "fr")),
-          defaultLanguage = "fr",
-          createdAt = None,
-          updatedAt = None,
-          countriesConfiguration = Seq(
-            OperationCountryConfiguration(
-              countryCode = "FR",
-              tagIds = Seq(Tag(tagId = TagId("acces-a-l-emploi"), label = "acces emploi")),
-              landingSequenceId = SequenceId("34d3bd9a-c894-4278-981e-2aa13e0efe6b"),
-              startDate = None,
-              endDate = None
-            )
-          )
-        )
-      )
-    )
   }
 
   final case class UnexpectedException(message: String = I18n.t("errors.unexpected")) extends Exception(message)

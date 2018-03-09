@@ -1,41 +1,24 @@
 package org.make.front.operations
 import org.make.front.components.sequence.Sequence.{DisplayTracker, ExtraSlide}
+import org.make.front.components.sequence.contents.IntroductionOfTheSequence.IntroductionOfTheSequenceProps
+import org.make.front.components.sequence.contents.PromptingToConnect.PromptingToConnectProps
+import org.make.front.components.sequence.contents.PromptingToGoBackToOperation.PromptingToGoBackToOperationProps
+import org.make.front.components.sequence.contents.PromptingToProposeInRelationToOperation.PromptingToProposeInRelationToOperationProps
 import org.make.front.components.sequence.contents.{
   IntroductionOfTheSequence,
   PromptingToConnect,
   PromptingToGoBackToOperation,
   PromptingToProposeInRelationToOperation
 }
-import org.make.front.components.sequence.contents.IntroductionOfTheSequence.IntroductionOfTheSequenceProps
-import org.make.front.components.sequence.contents.PromptingToConnect.PromptingToConnectProps
-import org.make.front.components.sequence.contents.PromptingToGoBackToOperation.PromptingToGoBackToOperationProps
-import org.make.front.components.sequence.contents.PromptingToProposeInRelationToOperation.PromptingToProposeInRelationToOperationProps
-import org.make.front.facades.{
-  facebookLogo,
-  featuredVFF,
-  featuredVFF2x,
-  featuredVFFMedium,
-  featuredVFFMedium2x,
-  featuredVFFSmall,
-  featuredVFFSmall2x,
-  keringFoundationLogo,
-  VFFDarkerLogo,
-  VFFDarkerLogoGB,
-  VFFDarkerLogoIT,
-  VFFIll,
-  VFFIll2x,
-  VFFLogo,
-  VFFLogoGB,
-  VFFLogoIT
-}
+import org.make.front.facades.{VFFDarkerLogo, VFFDarkerLogoGB, VFFDarkerLogoIT, VFFLogo, VFFLogoGB, VFFLogoIT}
 import org.make.front.models._
 import org.make.services.tracking.TrackingService.TrackingContext
 import org.make.services.tracking.{TrackingLocation, TrackingService}
 
 import scala.scalajs.js
 
-object VffFRDesignOperation extends DesignOperation {
-  override val designData: OperationDesignData = OperationDesignData(
+object VFFFROperationStaticData extends StaticDataOfOperation {
+  override val data: OperationStaticData = OperationStaticData(
     slug = "vff",
     startDate = None,
     endDate = Some(new js.Date("2018-01-31")),
@@ -43,38 +26,14 @@ object VffFRDesignOperation extends DesignOperation {
     color = "#660779",
     gradient = Some(GradientColor("#AB92CA", "#54325A")),
     logoUrl = Some(VFFLogo.toString),
-    logoMaxWidth = Some(470),
     darkerLogoUrl = Some(VFFDarkerLogo.toString),
-    greatCauseLabelAlignment = Some("left"),
     wording = Seq(
       OperationWording(
         language = "fr",
         title = "Stop aux Violences Faites aux&nbsp;Femmes",
         question = "Comment lutter contre les violences faites aux&nbsp;femmes&nbsp;?",
-        purpose = Some("Grâce à vos votes et à vos propositions, 17 grandes idées ont été identifiées."),
-        period = Some("Consultation ouverte du 25 nov. 2017 à fin janvier"),
-        label = Some("Grande cause Make.org"),
-        mentionUnderThePartners = Some("et nos partenaires soutien et&nbsp;actions"),
-        explanation = Some(
-          "Les violences faites aux femmes sont au coeur de l’actualité politique et médiatique. Les mentalités sont en train de changer. Mais pour autant tout commence maintenant. À nous de transformer cette prise de conscience généralisée en actions concrètes et d’apporter une réponse décisive face à ce&nbsp;fléau."
-        ),
         learnMoreUrl = Some("https://stopvff.make.org/about-vff")
       )
-    ),
-    featuredIllustration = Some(
-      Illustration(
-        smallIllUrl = Some(featuredVFFSmall.toString),
-        smallIll2xUrl = Some(featuredVFFSmall2x.toString),
-        mediumIllUrl = Some(featuredVFFMedium.toString),
-        mediumIll2xUrl = Some(featuredVFFMedium2x.toString),
-        illUrl = featuredVFF.toString,
-        ill2xUrl = featuredVFF2x.toString
-      )
-    ),
-    illustration = Some(Illustration(illUrl = VFFIll.toString, ill2xUrl = VFFIll2x.toString)),
-    partners = Seq(
-      OperationPartner(name = "Kering Foundation", imageUrl = keringFoundationLogo.toString, imageWidth = 80),
-      OperationPartner(name = "Facebook", imageUrl = facebookLogo.toString, imageWidth = 80)
     ),
     extraSlides = (params: OperationExtraSlidesParams) => {
       val trackingContext = TrackingContext(TrackingLocation.sequencePage, Some(params.operation.slug))
@@ -164,8 +123,8 @@ object VffFRDesignOperation extends DesignOperation {
   )
 }
 
-object VffITDesignOperation extends DesignOperation {
-  override val designData: OperationDesignData = VffFRDesignOperation.designData.copy(
+object VFFITOperationStaticData extends StaticDataOfOperation {
+  override val data: OperationStaticData = VFFFROperationStaticData.data.copy(
     country = "IT",
     logoUrl = Some(VFFLogoIT.toString),
     darkerLogoUrl = Some(VFFDarkerLogoIT.toString),
@@ -176,13 +135,6 @@ object VffITDesignOperation extends DesignOperation {
         language = "it",
         title = "Stop alla violenza sulle donne",
         question = "Come far fronte alla violenza sulle donne?",
-        purpose = None,
-        period = None,
-        label = Some("Grande Causa Make.org"),
-        mentionUnderThePartners = None,
-        explanation = Some(
-          "La violenza sulle donne è al centro dell'attualità politica e mediatica. Le idee stanno cambiando, ma tutto inizia da qui. Sta a noi trasformare questa presa di coscienza generale in azioni concrete e dare una risposta decisiva a questo flagello."
-        ),
         learnMoreUrl = Some("https://about.make.org/it/about-vff")
       )
     ),
@@ -273,8 +225,8 @@ object VffITDesignOperation extends DesignOperation {
   )
 }
 
-object VffGBDesignOperation extends DesignOperation {
-  override val designData: OperationDesignData = VffFRDesignOperation.designData.copy(
+object VFFGBOperationStaticData extends StaticDataOfOperation {
+  override val data: OperationStaticData = VFFFROperationStaticData.data.copy(
     country = "GB",
     logoUrl = Some(VFFLogoGB.toString),
     darkerLogoUrl = Some(VFFDarkerLogoGB.toString),
@@ -285,13 +237,6 @@ object VffGBDesignOperation extends DesignOperation {
         language = "en",
         title = "Stop violence against women",
         question = "How to combat violence against women?",
-        purpose = None,
-        period = None,
-        label = Some("Make.org Grand Challenge"),
-        mentionUnderThePartners = None,
-        explanation = Some(
-          "Violence against women is at the heart of political events and news coverage. Mindsets are changing. But it all begins now. It is up to us to transform this generalised awareness into concrete actions and to provide a decisive response to this epidemic."
-        ),
         learnMoreUrl = Some("https://about.make.org/gb/about-vff")
       )
     ),

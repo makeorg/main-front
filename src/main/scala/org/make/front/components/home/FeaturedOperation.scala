@@ -7,7 +7,6 @@ import org.make.front.Main.CssSettings._
 import org.make.front.components.Components._
 import org.make.front.facades.Unescape.unescape
 import org.make.front.facades._
-import org.make.front.models.{OperationWording, OperationExpanded => OperationModel}
 import org.make.front.styles._
 import org.make.front.styles.base.{LayoutRulesStyles, TableLayoutStyles, TextStyles}
 import org.make.front.styles.ui.CTAStyles
@@ -17,9 +16,7 @@ import org.make.services.tracking.{TrackingLocation, TrackingService}
 
 object FeaturedOperation {
 
-  final case class FeaturedOperationProps(trackingLocation: TrackingLocation,
-                                          operation: OperationModel,
-                                          language: String)
+  final case class FeaturedOperationProps(trackingLocation: TrackingLocation)
 
   lazy val reactClass: ReactClass =
     React
@@ -27,61 +24,36 @@ object FeaturedOperation {
         displayName = "FeaturedOperation",
         render = (self) => {
 
-          val operation: OperationModel = self.props.wrapped.operation
-          val wording: OperationWording = operation.getWordingByLanguageOrError(self.props.wrapped.language)
-
           def onclick: () => Unit = { () =>
             TrackingService
-              .track(
-                "click-homepage-header",
-                TrackingContext(self.props.wrapped.trackingLocation, Some(operation.slug))
-              )
-            wording.learnMoreUrl.map(link => scalajs.js.Dynamic.global.window.open(link, "_blank"))
+              .track("click-homepage-header", TrackingContext(self.props.wrapped.trackingLocation, Some("vff")))
+            scalajs.js.Dynamic.global.window.open(I18n.t("home.featured-operation.learn-more.link"), "_blank")
           }
+
           <.section(^.className := Seq(TableLayoutStyles.wrapper, FeaturedOperationStyles.wrapper))(
             <.div(^.className := Seq(TableLayoutStyles.cellVerticalAlignMiddle, FeaturedOperationStyles.innerWrapper))(
-              if (operation.featuredIllustration.isDefined) {
-                <.img(
-                  ^.className := FeaturedOperationStyles.illustration,
-                  ^.src := operation.featuredIllustration.map(_.illUrl).getOrElse(""),
-                  ^("srcset") := operation.featuredIllustration
-                    .flatMap(_.smallIllUrl)
-                    .getOrElse("") + " 400w, " + operation.featuredIllustration
-                    .flatMap(_.smallIll2xUrl)
-                    .getOrElse("") + " 800w, " + operation.featuredIllustration
-                    .flatMap(_.mediumIllUrl)
-                    .getOrElse("") + " 840w, " + operation.featuredIllustration
-                    .flatMap(_.mediumIll2xUrl)
-                    .getOrElse("") + " 1680w, " + operation.featuredIllustration
-                    .map(_.illUrl)
-                    .getOrElse("") + " 1350w, " + operation.featuredIllustration
-                    .map(_.ill2xUrl)
-                    .getOrElse("") + " 2700w",
-                  ^.alt := wording.title,
-                  ^("data-pin-no-hover") := "true"
-                )()
-              },
+              <.img(
+                ^.className := FeaturedOperationStyles.illustration,
+                ^.src := featuredVFF.toString,
+                ^("srcset") := featuredVFFSmall.toString + " 400w, " + featuredVFFSmall2x.toString + " 800w, " + featuredVFFMedium.toString + " 840w, " + featuredVFFMedium2x.toString + " 1680w, " + featuredVFF.toString + " 1350w, " + featuredVFF2x.toString + " 2700w",
+                ^.alt := I18n.t("home.featured-operation.title"),
+                ^("data-pin-no-hover") := "true"
+              )(),
               <.div(^.className := Seq(FeaturedOperationStyles.innerSubWrapper, LayoutRulesStyles.centeredRow))(
-                if (wording.label.isDefined) {
-                  <.div(^.className := FeaturedOperationStyles.labelWrapper)(
-                    <.p(^.className := TextStyles.label)(unescape(wording.label.getOrElse("")))
-                  )
-                },
-                <.h2(^.className := Seq(FeaturedOperationStyles.title, TextStyles.veryBigText, TextStyles.boldText))(
-                  unescape(wording.title)
+                <.div(^.className := FeaturedOperationStyles.labelWrapper)(
+                  <.p(^.className := TextStyles.label)(unescape(I18n.t("home.featured-operation.label")))
                 ),
-                if (wording.purpose.isDefined) {
-                  <.h3(^.className := Seq(TextStyles.mediumText, FeaturedOperationStyles.subTitle))(
-                    unescape(wording.purpose.getOrElse(""))
+                <.h2(^.className := Seq(FeaturedOperationStyles.title, TextStyles.veryBigText, TextStyles.boldText))(
+                  unescape(I18n.t("home.featured-operation.title"))
+                ),
+                <.h3(^.className := Seq(TextStyles.mediumText, FeaturedOperationStyles.subTitle))(
+                  unescape(I18n.t("home.featured-operation.purpose"))
+                ),
+                <.p(^.className := FeaturedOperationStyles.ctaWrapper)(
+                  <.button(^.onClick := onclick, ^.className := Seq(CTAStyles.basic, CTAStyles.basicOnButton))(
+                    unescape(I18n.t("home.featured-operation.learn-more.label"))
                   )
-                },
-                if (wording.learnMoreUrl.isDefined) {
-                  <.p(^.className := FeaturedOperationStyles.ctaWrapper)(
-                    <.button(^.onClick := onclick, ^.className := Seq(CTAStyles.basic, CTAStyles.basicOnButton))(
-                      unescape(I18n.t("home.featured-operation.learn-more"))
-                    )
-                  )
-                },
+                ),
                 <.style()(FeaturedOperationStyles.render[String])
               )
             )

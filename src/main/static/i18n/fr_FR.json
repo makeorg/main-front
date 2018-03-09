@@ -42,7 +42,13 @@
       "see-more-link": "https://about.make.org/qui-sommes-nous"
     },
     "featured-operation": {
-      "learn-more": "Découvrir les résultats"
+      "title": "Stop aux Violences Faites aux&nbsp;Femmes",
+      "label": "Grande cause Make.org",
+      "purpose": "Grâce à vos votes et à vos propositions, 17 grandes idées ont été identifiées.",
+      "learn-more": {
+        "label": "Découvrir les résultats",
+        "link": "https://stopvff.make.org/about-vff"
+      }
     },
     "explanations": {
       "article-1": {
@@ -269,14 +275,68 @@
     }
   },
   "operation": {
-    "intro": {
-      "partners": {
-        "intro": "avec"
-      },
-      "article": {
-        "title": "Pourquoi cette consultation&nbsp;?",
-        "see-more": {
-          "label": "En savoir&nbsp;+"
+    "vff-fr": {
+      "intro": {
+        "label": "Grande cause Make.org",
+        "title": "Stop aux Violences Faites aux&nbsp;Femmes",
+        "period": "Consultation ouverte du 25 nov. 2017 à fin janvier",
+        "partners": {
+          "intro": "avec",
+          "others": "et nos partenaires soutien et&nbsp;actions"
+        },
+        "article": {
+          "title": "Pourquoi cette consultation&nbsp;?",
+          "text": "Les violences faites aux femmes sont au coeur de l’actualité politique et médiatique. Les mentalités sont en train de changer. Mais pour autant tout commence maintenant. À nous de transformer cette prise de conscience généralisée en actions concrètes et d’apporter une réponse décisive face à ce&nbsp;fléau.",
+          "see-more": {
+            "label": "En savoir&nbsp;+",
+            "link": "https://stopvff.make.org/about-vff"
+          }
+        }
+      }
+    },
+    "climatparis": {
+      "intro": {
+        "title": "Climat Paris",
+        "article": {
+          "title": "Pourquoi cette consultation&nbsp;?",
+          "text": "Les changements climatiques sont au coeur de l’actualité politique et internationale. La COP21 a démontré la volonté des décideurs politiques d’avancer. Un changement de comportement de chaque citoyen est maintenant nécessaire : à nous de transformer la prise de conscience planétaire en idées concrètes pour changer notre rapport à la planète.",
+          "see-more": {
+            "label": "En savoir&nbsp;+",
+            "link": "https://climatparis.make.org/about-climatparis"
+          }
+        }
+      }
+    },
+    "lpae": {
+      "intro": {
+        "title": "La Parole aux Etudiants",
+        "partners": {
+          "intro": "avec"
+        },
+        "article": {
+          "title": "Pourquoi cette consultation&nbsp;?",
+          "text": "Dans une société bousculée, disruptée et en permanente évolution cette consultation est l’occasion pour vous d’exprimer ce que vous voulez changer, de proposer vos idées pour la société de demain, de dessiner les contours du Monde dans lequel vous souhaitez vivre. Vous avez entre 18 et 28 ans, vous avez des choses à dire, c’est le moment&nbsp;!",
+          "see-more": {
+            "label": "En savoir&nbsp;+",
+            "link": "https://about.make.org/about-lpae"
+          }
+        }
+      }
+    },
+    "mve": {
+      "intro": {
+        "label": "Grande cause Make.org",
+        "title": "Mieux Vivre Ensemble",
+        "partners": {
+          "intro": "avec"
+        },
+        "article": {
+          "title": "Pourquoi cette consultation&nbsp;?",
+          "text": "Les nouveaux modes de vie tendent à créer une fragmentation de la société en une multitude de groupes qui n'interagissent plus ensemble tandis que la solitude et l’isolement des citoyens sont des problématiques grandissantes. Ces évolutions mettent en péril notre capacité à “faire société” et nous poussent à imaginer ensemble de nouvelles manières de recréer du lien&nbsp;social.",
+          "see-more": {
+            "label": "En savoir&nbsp;+",
+            "link": ""
+          }
         }
       }
     },
