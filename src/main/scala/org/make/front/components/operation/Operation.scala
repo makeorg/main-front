@@ -44,6 +44,7 @@ object Operation {
           if (self.props.wrapped.operation.isActive) {
             <("operation")()(
               <.div(^.className := OperationComponentStyles.mainHeaderWrapper)(<.MainHeaderContainer.empty),
+              // @todo: refactor this part
               if (self.props.wrapped.operation.slug == "climatparis") {
                 <.ClimatParisOperationIntroComponent(
                   ^.wrapped := ClimatParisOperationIntroProps(
