@@ -5,9 +5,21 @@ import io.github.shogowada.scalajs.reactjs.VirtualDOM.{<, ^, _}
 import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import org.make.front.Main.CssSettings._
 import org.make.front.components.Components._
+import org.make.front.components.operation.intro.OperationIntroStyles.style
+import org.make.front.facades._
+import org.make.front.facades.Unescape.unescape
+import org.make.front.models.{
+  GradientColor     => GradientColorModel,
+  OperationExpanded => OperationModel,
+  OperationPartner  => OperationPartnerModel
+}
 import org.make.front.facades.Unescape.unescape
 import org.make.front.facades._
-import org.make.front.models.{GradientColor => GradientColorModel, OperationExpanded => OperationModel, OperationPartner => OperationPartnerModel}
+import org.make.front.models.{
+  GradientColor     => GradientColorModel,
+  OperationExpanded => OperationModel,
+  OperationPartner  => OperationPartnerModel
+}
 import org.make.front.styles.ThemeStyles
 import org.make.front.styles.base.{LayoutRulesStyles, TableLayoutStyles, TextStyles}
 import org.make.front.styles.ui.CTAStyles
