@@ -65,6 +65,28 @@ object SequenceOfTheOperation {
           operation = self.props.wrapped.operation
         )
       },
+      componentWillReceiveProps = { (self, nextProps) =>
+        if (self.props.wrapped.isConnected != nextProps.wrapped.isConnected ||
+            self.props.wrapped.operation != nextProps.wrapped.operation ||
+            self.props.wrapped.sequence != nextProps.wrapped.sequence ||
+            self.props.wrapped.language != nextProps.wrapped.language ||
+            self.props.wrapped.country != nextProps.wrapped.country) {
+          self.setState(
+            _.copy(
+              extraSlides = self.props.wrapped.operation.extraSlides(
+                OperationExtraSlidesParams(
+                  operation = nextProps.wrapped.operation,
+                  isConnected = nextProps.wrapped.isConnected,
+                  sequence = nextProps.wrapped.sequence,
+                  maybeLocation = None,
+                  language = nextProps.wrapped.language,
+                  country = nextProps.wrapped.country
+                )
+              )
+            )
+          )
+        }
+      },
       render = { self =>
         val operation = self.state.operation
         val guidedState: Boolean = false
