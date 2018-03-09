@@ -5,13 +5,12 @@ import io.github.shogowada.scalajs.reactjs.VirtualDOM.{<, _}
 import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import org.make.front.Main.CssSettings._
 import org.make.front.components.Components.{RichVirtualDOMElements, _}
-import org.make.front.components.home.FeaturedOperationContainer.FeaturedOperationContainerProps
+import org.make.front.components.home.FeaturedOperation.FeaturedOperationProps
 import org.make.front.components.showcase.ThemeShowcaseContainer.ThemeShowcaseContainerProps
 import org.make.front.components.showcase.TrendingShowcaseContainer.TrendingShowcaseContainerProps
 import org.make.front.facades.I18n
 import org.make.front.facades.Unescape.unescape
 import org.make.front.models.Location
-import org.make.front.operations.Operations
 import org.make.front.styles.ThemeStyles
 import org.make.services.tracking.TrackingService.TrackingContext
 import org.make.services.tracking.{TrackingLocation, TrackingService}
@@ -28,11 +27,8 @@ object Home {
           <.div(^.className := HomeStyles.wrapper)(
             <.div(^.className := HomeStyles.mainHeaderWrapper)(<.MainHeaderContainer.empty),
             <.h1(^.style := Map("display" -> "none"))("Make.org"),
-            <.FeaturedOperationContainerComponent(
-              ^.wrapped := FeaturedOperationContainerProps(
-                trackingLocation = TrackingLocation.homepage,
-                operationSlug = Operations.featuredOperationSlug
-              )
+            <.FeaturedOperationComponent(
+              ^.wrapped := FeaturedOperationProps(trackingLocation = TrackingLocation.homepage)
             )(),
             <.ThemeShowcaseContainerComponent(
               ^.wrapped := ThemeShowcaseContainerProps(

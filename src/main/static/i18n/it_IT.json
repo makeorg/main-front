@@ -42,7 +42,13 @@
       "see-more-link": "https://about.make.org/it/chi-siamo"
     },
     "featured-operation": {
-      "learn-more": "Découvrir les résultats"
+      "title": "Stop alla violenza sulle donne",
+      "label": "Grande Causa Make.org",
+      "purpose": "Come far fronte alla violenza sulle donne?",
+      "learn-more": {
+        "label": "Scopri i risultati",
+        "link": "https://about.make.org/it/about-vff"
+      }
     },
     "explanations": {
       "article-1": {
@@ -268,14 +274,20 @@
     }
   },
   "operation": {
-    "intro": {
-      "partners": {
-        "intro": "con"
-      },
-      "article": {
-        "title": "Perché questa consutazione&nbsp;?",
-        "see-more": {
-          "label": "Per saperne di&nbsp;più"
+    "vff-it": {
+      "intro": {
+        "label": "Grande Causa Make.org",
+        "title": "Stop alla violenza sulle donne",
+        "partners": {
+          "intro": "con"
+        },
+        "article": {
+          "title": "Perché questa consutazione&nbsp;?",
+          "text": "La violenza sulle donne è al centro dell'attualità politica e mediatica. Le idee stanno cambiando, ma tutto inizia da qui. Sta a noi trasformare questa presa di coscienza generale in azioni concrete e dare una risposta decisiva a questo flagello.",
+          "see-more": {
+            "label": "Per saperne di&nbsp;più",
+            "link": "https://about.make.org/it/about-vff"
+          }
         }
       }
     },

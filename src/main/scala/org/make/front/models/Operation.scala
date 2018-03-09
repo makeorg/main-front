@@ -27,12 +27,7 @@ object Operation {
       createdAt = operationResponse.createdAt.toOption.map(new js.Date(_)),
       updatedAt = operationResponse.updatedAt.toOption.map(new js.Date(_)),
       countriesConfiguration = operationResponse.countriesConfiguration.map(
-        countryConfigurationResponse =>
-          OperationCountryConfiguration
-            .apply(
-              operationCountryConfigurationResponse = countryConfigurationResponse,
-              deprecatedLandingSequenceId = operationResponse.sequenceLandingId.toOption.map(SequenceId(_)) // backward compatibility
-          )
+        countryConfigurationResponse => OperationCountryConfiguration.apply(countryConfigurationResponse)
       )
     )
   }
@@ -55,35 +50,25 @@ object OperationTranslation {
   }
 }
 
-final case class OperationCountryConfiguration(countryCode: String, tagIds: Seq[Tag], landingSequenceId: SequenceId)
+final case class OperationCountryConfiguration(countryCode: String,
+                                               tagIds: Seq[Tag],
+                                               landingSequenceId: SequenceId,
+                                               startDate: Option[js.Date],
+                                               endDate: Option[js.Date])
 object OperationCountryConfiguration {
-
-  @deprecated("old sequence field will be removed", "")
-  def apply(operationCountryConfigurationResponse: OperationCountryConfigurationResponse,
-            deprecatedLandingSequenceId: Option[SequenceId] = None): OperationCountryConfiguration = {
-    OperationCountryConfiguration(
-      operationCountryConfigurationResponse.countryCode,
-      operationCountryConfigurationResponse.tagIds.map(tagId => Tag(tagId = TagId(tagId), label = tagId)),
-      operationCountryConfigurationResponse.landingSequenceId.toOption
-        .map(SequenceId(_))
-        .orElse(deprecatedLandingSequenceId) match {
-        case Some(sequenceId) => sequenceId
-        case _                => throw new IllegalArgumentException("a landing sequence id is required")
-      }
-    )
-  }
-
   def apply(
     operationCountryConfigurationResponse: OperationCountryConfigurationResponse
   ): OperationCountryConfiguration = {
     OperationCountryConfiguration(
-      operationCountryConfigurationResponse.countryCode,
-      operationCountryConfigurationResponse.tagIds.map(tagId => Tag(tagId = TagId(tagId), label = tagId)),
-      operationCountryConfigurationResponse.landingSequenceId.toOption
+      countryCode = operationCountryConfigurationResponse.countryCode,
+      tagIds = operationCountryConfigurationResponse.tagIds.map(tagId => Tag(tagId = TagId(tagId), label = tagId)),
+      landingSequenceId = operationCountryConfigurationResponse.landingSequenceId.toOption
         .map(SequenceId(_)) match {
         case Some(sequenceId) => sequenceId
         case _                => throw new IllegalArgumentException("a landing sequence id is required")
-      }
+      },
+      startDate = operationCountryConfigurationResponse.startDate.toOption.map(new js.Date(_)),
+      endDate = operationCountryConfigurationResponse.endDate.toOption.map(new js.Date(_))
     )
   }
 }

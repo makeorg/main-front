@@ -19,7 +19,7 @@
   "current-operations": {
     "operations-intro": "We're currently running %{count} consultations in your country, join&nbsp;in!",
     "operations-intro_1": "We're currently running 1 consultation in your country, join&nbsp;in!",
-    "operations-intro_0": "Unfortunately, we are not opened in your country yet. Discover our service by clicking on \"Who are We\" or by having a look at our service in other countries :",
+    "operations-intro_0": "Unfortunately, we are not opened in your country yet. Discover our service by clicking on \"Who are We\" or by having a look at our service in other countries:",
     "see-operation-cta": "Participate",
     "countries-intro": "You can also have a look at our service in other&nbsp;countries:",
     "FR": "France",
@@ -42,7 +42,13 @@
       "see-more-link": "https://about.make.org/gb/who-are-we"
     },
     "featured-operation": {
-      "learn-more": "Découvrir les résultats"
+      "title": "Stop violence against women",
+      "label": "Make.org Grand Challenge",
+      "purpose": "How to combat violence against women?",
+      "learn-more": {
+        "label": "Discover results",
+        "link": "https://about.make.org/gb/about-vff"
+      }
     },
     "explanations": {
       "article-1": {
@@ -78,7 +84,7 @@
   "theme-showcase": {
     "see-all": "See all the topic's proposals about %{themeName}",
     "prompting-to-propose-tile": {
-      "intro": "How about you, do you have a solution ?",
+      "intro": "How about you, do you have a solution?",
       "bait": "We should..."
     },
     "data-units": {
@@ -87,7 +93,7 @@
       "proposals": "proposals"
     },
     "filter": {
-      "intro": "Afficher les propositions :",
+      "intro": "Afficher les propositions&nbsp;:",
       "the-most-popular": "les + populaires",
       "the-most-original": "les + originales"
     }
@@ -118,7 +124,7 @@
     },
     "no-results": {
       "intro": "We did not find <strong>any result</strong> for your search.",
-      "prompting-to-propose": "Be the first to submit a proposal on this topic !",
+      "prompting-to-propose": "Be the first to submit a proposal on this topic!",
       "propose-cta": "Propose"
     }
   },
@@ -268,14 +274,20 @@
     }
   },
   "operation": {
-    "intro": {
-      "partners": {
-        "intro": "with"
-      },
-      "article": {
-        "title": "Why this consultation&nbsp;?",
-        "see-more": {
-          "label": "Find out more"
+    "vff-gb": {
+      "intro": {
+        "label": "Make.org Grand Challenge",
+        "title": "Stop violence against women",
+        "partners": {
+          "intro": "with"
+        },
+        "article": {
+          "title": "Why this consultation&nbsp;?",
+          "text": "Violence against women is at the heart of political events and news coverage. Mindsets are changing. But it all begins now. It is up to us to transform this generalised awareness into concrete actions and to provide a decisive response to this epidemic.",
+          "see-more": {
+            "label": "Find out more",
+            "link": "https://about.make.org/gb/about-vff"
+          }
         }
       }
     },
@@ -321,7 +333,7 @@
   "authenticate": {
     "forgot-password": {
       "intro": " ",
-      "link-support": "Forgot your password ?"
+      "link-support": "Forgot your password?"
     },
     "switch-to-register-screen": {
       "intro": "No account ?",

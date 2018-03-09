@@ -5,7 +5,7 @@ import org.make.front.operations.Operations
 
 import scala.scalajs.js
 
-final case class OperationDesignData(country: String,
+final case class OperationStaticData(country: String,
                                      startDate: Option[js.Date],
                                      endDate: Option[js.Date],
                                      slug: String,
@@ -13,17 +13,12 @@ final case class OperationDesignData(country: String,
                                      color: String,
                                      gradient: Option[GradientColor],
                                      logoUrl: Option[String],
-                                     logoMaxWidth: Option[Int],
                                      darkerLogoUrl: Option[String],
-                                     greatCauseLabelAlignment: Option[String],
-                                     featuredIllustration: Option[Illustration],
-                                     illustration: Option[Illustration],
-                                     partners: Seq[OperationPartner],
                                      extraSlides: (OperationExtraSlidesParams) => Seq[ExtraSlide])
 
-object OperationDesignData {
-  def findBySlugAndCountry(slug: String, country: String): Option[OperationDesignData] = {
-    val resultList: Seq[OperationDesignData] =
+object OperationStaticData {
+  def findBySlugAndCountry(slug: String, country: String): Option[OperationStaticData] = {
+    val resultList: Seq[OperationStaticData] =
       Operations.operationDesignList.filter(operation => operation.slug == slug && operation.country == country)
     resultList match {
       case Seq(operation) => Some(operation)
@@ -34,15 +29,10 @@ object OperationDesignData {
 
 final case class OperationPartner(name: String, imageUrl: String, imageWidth: Int)
 
-final case class OperationWording(title: String,
+final case class OperationWording(language: String,
+                                  title: String,
                                   question: String,
-                                  language: String,
-                                  label: Option[String],
-                                  purpose: Option[String],
-                                  period: Option[String],
-                                  mentionUnderThePartners: Option[String],
-                                  explanation: Option[String],
-                                  learnMoreUrl: Option[String])
+                                  learnMoreUrl: Option[String] = None)
 
 final case class OperationExtraSlidesParams(operation: OperationExpanded,
                                             isConnected: Boolean,
@@ -62,17 +52,13 @@ final case class OperationExpanded(operationId: OperationId,
                                    proposalsCount: Int,
                                    color: String,
                                    gradient: Option[GradientColor],
-                                   illustration: Option[Illustration],
-                                   featuredIllustration: Option[Illustration],
                                    logoUrl: Option[String],
-                                   logoMaxWidth: Option[Int],
                                    darkerLogoUrl: Option[String],
-                                   greatCauseLabelAlignment: Option[String],
                                    wordings: Seq[OperationWording],
-                                   partners: Seq[OperationPartner],
                                    extraSlides: (OperationExtraSlidesParams) => Seq[ExtraSlide],
                                    tagIds: Seq[Tag],
                                    landingSequenceId: SequenceId) {
+
   def getWordingByLanguage(language: String): Option[OperationWording] = {
     wordings.find(_.language == language)
   }
@@ -112,7 +98,7 @@ object OperationExpanded {
         case Seq(countryConfig) => Some(countryConfig)
         case _                  => None
       }
-      operationDesignData <- OperationDesignData.findBySlugAndCountry(slug = operation.slug, country = country)
+      operationStaticData <- OperationStaticData.findBySlugAndCountry(slug = operation.slug, country = country)
       operationTags <- countryConfiguration.tagIds.flatMap(
         tag =>
           tagsList.filter(tagToFilter => tag.tagId.value == tagToFilter.tagId.value && !tagToFilter.label.contains(":"))
@@ -123,40 +109,30 @@ object OperationExpanded {
     } yield
       OperationExpanded(
         defaultLanguage = operation.defaultLanguage,
-        startDate = operationDesignData.startDate,
-        endDate = operationDesignData.endDate,
+        startDate = operationStaticData.startDate,
+        endDate = operationStaticData.endDate,
         country = country,
         operationId = operation.operationId,
         slug = operation.slug,
         label = operation.slug,
         actionsCount = 0,
         proposalsCount = 0,
-        color = operationDesignData.color,
-        gradient = operationDesignData.gradient,
-        logoUrl = operationDesignData.logoUrl,
-        logoMaxWidth = operationDesignData.logoMaxWidth,
-        darkerLogoUrl = operationDesignData.darkerLogoUrl,
-        greatCauseLabelAlignment = operationDesignData.greatCauseLabelAlignment,
+        color = operationStaticData.color,
+        gradient = operationStaticData.gradient,
+        logoUrl = operationStaticData.logoUrl,
+        darkerLogoUrl = operationStaticData.darkerLogoUrl,
         wordings = operation.translations.flatMap { translation =>
           val language: String = translation.language.toLowerCase
-          operationDesignData.wording.find(_.language == language).map { operationWording =>
+          operationStaticData.wording.find(_.language == language).map { operationWording =>
             OperationWording(
               language = language,
               title = translation.title,
               question = operationWording.question,
-              label = operationWording.label,
-              purpose = operationWording.purpose,
-              period = operationWording.period,
-              mentionUnderThePartners = operationWording.mentionUnderThePartners,
-              explanation = operationWording.explanation,
               learnMoreUrl = operationWording.learnMoreUrl
             )
           }
         },
-        partners = operationDesignData.partners,
-        illustration = operationDesignData.illustration,
-        featuredIllustration = operationDesignData.featuredIllustration,
-        extraSlides = operationDesignData.extraSlides,
+        extraSlides = operationStaticData.extraSlides,
         landingSequenceId = countryConfiguration.landingSequenceId,
         tagIds = operationTags
       )

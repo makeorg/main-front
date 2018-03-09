@@ -34,25 +34,30 @@ object OperationContainer {
           val operationAndTags: Future[(Option[OperationModel], Seq[Tag])] = for {
             operation <- OperationService.getOperationBySlugAndCountry(slug, countryCode)
             tags      <- TagService.getTags
+
           } yield (operation, tags)
+
           operationAndTags.map {
             case (maybeOperation, tagsList) =>
               OperationExpanded.getOperationExpandedFromOperation(maybeOperation, tagsList, countryCode)
           }
+
         }
 
         val shouldReload: (Option[OperationExpanded]) => Boolean = { maybeOperation =>
           maybeOperation.forall(operation => operation.slug != slug || operation.country != countryCode)
         }
-
         ObjectLoaderProps[OperationExpanded](
           load = operationExpanded,
           shouldReload = shouldReload,
-          onNotFound = () => { props.history.push("/404") },
+          onNotFound = () => {
+            props.history.push("/404")
+          },
           childClass = Operation.reactClass,
           createChildProps = { operation =>
             Operation.OperationProps(
               operation,
+              countryCode,
               appState.language,
               onWillMount = () => {
                 if (operation.isExpired) {
