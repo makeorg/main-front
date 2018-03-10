@@ -10,7 +10,6 @@ import org.make.front.components.Components.{RichVirtualDOMElements, _}
 import org.make.front.components.proposal.ProposalContainer.ProposalAndThemeOrOperationModel
 import org.make.front.components.proposal.ProposalSOperationInfos.ProposalSOperationInfosProps
 import org.make.front.components.proposal.vote.VoteContainer.VoteContainerProps
-import org.make.front.components.share.ShareProposal.ShareProps
 import org.make.front.components.showcase.ThemeShowcaseContainer.ThemeShowcaseContainerProps
 import org.make.front.facades.I18n
 import org.make.front.facades.Unescape.unescape
