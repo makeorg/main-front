@@ -6,7 +6,7 @@ import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import org.make.front.Main.CssSettings._
 import org.make.front.components.Components._
 import org.make.front.facades.Unescape.unescape
-import org.make.front.facades.{facebookLogo, keringFoundationLogo, I18n, VFFIll, VFFIll2x}
+import org.make.front.facades.{facebookLogo, keringFoundationLogo, I18n, VFFIll, VFFIll2x, VFFWhiteLogo}
 import org.make.front.models.{
   GradientColor     => GradientColorModel,
   OperationExpanded => OperationModel,
@@ -18,14 +18,14 @@ import org.make.front.styles.utils._
 import org.make.services.tracking.TrackingService.TrackingContext
 import org.make.services.tracking.{TrackingLocation, TrackingService}
 
-object VFFFROperationIntro {
+object VFFOperationIntro {
 
-  case class VFFFROperationIntroProps(operation: OperationModel, language: String)
+  case class VFFOperationIntroProps(operation: OperationModel, language: String)
 
   lazy val reactClass: ReactClass =
     React
-      .createClass[VFFFROperationIntroProps, Unit](
-        displayName = "VFFFROperationIntro",
+      .createClass[VFFOperationIntroProps, Unit](
+        displayName = "VFFOperationIntro",
         render = (self) => {
 
           def onClick: () => Unit = { () =>
@@ -50,22 +50,19 @@ object VFFFROperationIntro {
           val gradientValues: GradientColorModel =
             operation.gradient.getOrElse(GradientColorModel("#FFF", "#FFF"))
 
-          object DynamicVFFFROperationIntroStyles extends StyleSheet.Inline {
+          object DynamicVFFOperationIntroStyles extends StyleSheet.Inline {
             import dsl._
             val gradient: StyleA =
               style(background := s"linear-gradient(130deg, ${gradientValues.from}, ${gradientValues.to})")
           }
 
-          <.div(^.className := Seq(OperationIntroStyles.wrapper, DynamicVFFFROperationIntroStyles.gradient))(
+          <.div(^.className := Seq(OperationIntroStyles.wrapper, DynamicVFFOperationIntroStyles.gradient))(
             <.div(^.className := OperationIntroStyles.presentationInnerWrapper)(
               <.div(^.className := LayoutRulesStyles.centeredRow)(
-                <.div(^.className := Seq(OperationIntroStyles.titleWrapper, VFFFROperationIntroStyles.titleWrapper))(
+                <.div(^.className := Seq(OperationIntroStyles.titleWrapper, VFFOperationIntroStyles.titleWrapper))(
                   <.p(^.className := TextStyles.label)(unescape(I18n.t("operation.vff-fr.intro.label"))),
                   <.p(^.className := Seq(OperationIntroStyles.logoWrapper))(
-                    <.img(
-                      ^.src := operation.logoUrl.getOrElse(""),
-                      ^.alt := unescape(I18n.t("operation.vff-fr.intro.title"))
-                    )()
+                    <.img(^.src := VFFWhiteLogo.toString, ^.alt := unescape(I18n.t("operation.vff-fr.intro.title")))()
                   ),
                   <.p(^.className := Seq(OperationIntroStyles.infos, TextStyles.label))(
                     unescape(I18n.t("operation.vff-fr.intro.period"))
@@ -150,13 +147,13 @@ object VFFFROperationIntro {
                 )
               )
             ),
-            <.style()(OperationIntroStyles.render[String], DynamicVFFFROperationIntroStyles.render[String])
+            <.style()(OperationIntroStyles.render[String], DynamicVFFOperationIntroStyles.render[String])
           )
         }
       )
 }
 
-object VFFFROperationIntroStyles extends StyleSheet.Inline {
+object VFFOperationIntroStyles extends StyleSheet.Inline {
 
   import dsl._
 

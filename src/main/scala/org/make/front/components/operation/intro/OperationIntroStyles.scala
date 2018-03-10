@@ -13,6 +13,8 @@ object OperationIntroStyles extends StyleSheet.Inline {
 
   val presentationInnerWrapper: StyleA =
     style(
+      position.relative,
+      zIndex(1),
       padding(ThemeStyles.SpacingValue.medium.pxToEm(), `0`),
       ThemeStyles.MediaQueries.beyondSmall(
         padding(ThemeStyles.SpacingValue.larger.pxToEm(), `0`, ThemeStyles.SpacingValue.large.pxToEm())
@@ -66,6 +68,8 @@ object OperationIntroStyles extends StyleSheet.Inline {
 
   val explanationWrapper: StyleA =
     style(
+      position.relative,
+      zIndex(1),
       padding(ThemeStyles.SpacingValue.medium.pxToEm(), `0`),
       backgroundColor(ThemeStyles.BackgroundColor.blackMoreTransparent)
     )

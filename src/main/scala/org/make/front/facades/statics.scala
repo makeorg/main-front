@@ -427,24 +427,24 @@ object cone extends js.Object
 object VFFLogo extends js.Object
 
 @js.native
-@JSImport("./images/operations/vff/stop-aux-violences-faites-aux-femmes-darker.svg", "default")
-object VFFDarkerLogo extends js.Object
+@JSImport("./images/operations/vff/stop-aux-violences-faites-aux-femmes-white.svg", "default")
+object VFFWhiteLogo extends js.Object
 
 @js.native
 @JSImport("./images/operations/vff/stop-violence-against-women.svg", "default")
-object VFFLogoGB extends js.Object
+object VFFGBLogo extends js.Object
 
 @js.native
-@JSImport("./images/operations/vff/stop-violence-against-women-darker.svg", "default")
-object VFFDarkerLogoGB extends js.Object
+@JSImport("./images/operations/vff/stop-violence-against-women-white.svg", "default")
+object VFFGBWhiteLogo extends js.Object
 
 @js.native
 @JSImport("./images/operations/vff/stop-alla-violenza-sulle-donne.svg", "default")
-object VFFLogoIT extends js.Object
+object VFFITLogo extends js.Object
 
 @js.native
-@JSImport("./images/operations/vff/stop-alla-violenza-sulle-donne-darker.svg", "default")
-object VFFDarkerLogoIT extends js.Object
+@JSImport("./images/operations/vff/stop-alla-violenza-sulle-donne-white.svg", "default")
+object VFFITWhiteLogo extends js.Object
 
 @js.native
 @JSImport("./images/operations/vff/vff-ill.jpg", "default")
@@ -487,12 +487,12 @@ object featuredVFF extends js.Object
 object featuredVFF2x extends js.Object
 
 @js.native
-@JSImport("./images/operations/climat-paris/climat-paris-darker.svg", "default")
-object ClimatParisDarkerLogo extends js.Object
-
-@js.native
 @JSImport("./images/operations/climat-paris/climat-paris.svg", "default")
 object climatParisLogo extends js.Object
+
+@js.native
+@JSImport("./images/operations/climat-paris/climat-paris-white.svg", "default")
+object climatParisWhiteLogo extends js.Object
 
 @js.native
 @JSImport("./images/operations/climat-paris/climat-paris-ill.jpg", "default")
@@ -501,54 +501,68 @@ object climatParisIll extends js.Object
 @js.native
 @JSImport("./images/operations/climat-paris/climat-paris-ill@2x.jpg", "default")
 object climatParisIll2x extends js.Object
-
 @js.native
 @JSImport("./images/operations/lpae/lpae.svg", "default")
-object LpaeLogo extends js.Object
+object lpaeLogo extends js.Object
 
 @js.native
-@JSImport("./images/operations/lpae/lpae-darker.svg", "default")
-object LpaeLogoDarker extends js.Object
+@JSImport("./images/operations/lpae/lpae-white.svg", "default")
+object lpaeWhiteLogo extends js.Object
 
 @js.native
 @JSImport("./images/operations/lpae/lpae-ill.jpg", "default")
-object LpaeIll extends js.Object
+object lpaeIll extends js.Object
 
 @js.native
 @JSImport("./images/operations/lpae/lpae-ill@2x.jpg", "default")
-object LpaeIll2x extends js.Object
-
-@js.native
-@JSImport("./images/operations/mve/mve.svg", "default")
-object MveLogo extends js.Object
-
+object lpaeIll2x extends js.Object
 @js.native
 @JSImport("./images/operations/lpae/partners/make-org.svg", "default")
-object MakeOrgLogo extends js.Object
+object makeOrgLogo extends js.Object
 
 @js.native
 @JSImport("./images/operations/lpae/partners/cercle-economistes.png", "default")
-object CercleEconomistesLogo extends js.Object
+object cercleEconomistesLogo extends js.Object
 
 @js.native
 @JSImport("./images/operations/lpae/partners/x.svg", "default")
-object XPartners extends js.Object
+object xPartners extends js.Object
+
+@js.native
+@JSImport("./images/operations/mve/mve.svg", "default")
+object mveLogo extends js.Object
+
+@js.native
+@JSImport("./images/operations/mve/old-people.png", "default")
+object mveOldPeople extends js.Object
+
+@js.native
+@JSImport("./images/operations/mve/old-people@2x.png", "default")
+object mveOldPeople2x extends js.Object
+
+@js.native
+@JSImport("./images/operations/mve/young-people.png", "default")
+object mveYoungPeople extends js.Object
+
+@js.native
+@JSImport("./images/operations/mve/young-people@2x.png", "default")
+object mveYoungPeople2x extends js.Object
 
 @js.native
 @JSImport("./images/operations/mve/partners/blablacar.svg", "default")
-object BlaBlaCarLogo extends js.Object
+object blaBlaCarLogo extends js.Object
 
 @js.native
 @JSImport("./images/operations/mve/partners/orange.svg", "default")
-object OrangeLogo extends js.Object
+object orangeLogo extends js.Object
 
 @js.native
 @JSImport("./images/operations/mve/partners/accorhotels.svg", "default")
-object AccorHotelsLogo extends js.Object
+object accorHotelsLogo extends js.Object
 
 @js.native
 @JSImport("./images/operations/mve/partners/mairie-de-paris.svg", "default")
-object MairieDeParisLogo extends js.Object
+object mairieDeParisLogo extends js.Object
 
 @js.native
 @JSImport("./images/flags/fr.svg", "default")

@@ -102,7 +102,7 @@ object PromptingToGoBackToOperation {
                             )(unescape(I18n.t("sequence.prompting-to-continue.learn-more.intro"))),
                             <.p(^.className := PromptingToGoBackToOperationStyles.learnMoreAccessLogoWrapper)(
                               <.img(
-                                ^.src := self.props.wrapped.operation.darkerLogoUrl.getOrElse(""),
+                                ^.src := self.props.wrapped.operation.logoUrl.getOrElse(""),
                                 ^.alt := wording.title
                               )()
                             ),

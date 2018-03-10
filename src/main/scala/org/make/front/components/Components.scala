@@ -153,7 +153,7 @@ object Components {
     def ResultsInThemeComponent: ReactClassElementSpec = self(theme.ResultsInTheme.reactClass)
 
     /*********************/
-    def VFFFROperationIntroComponent: ReactClassElementSpec = self(operation.intro.VFFFROperationIntro.reactClass)
+    def VFFOperationIntroComponent: ReactClassElementSpec = self(operation.intro.VFFOperationIntro.reactClass)
     def VFFITOperationIntroComponent: ReactClassElementSpec = self(operation.intro.VFFITOperationIntro.reactClass)
     def VFFGBOperationIntroComponent: ReactClassElementSpec = self(operation.intro.VFFGBOperationIntro.reactClass)
     def MVEOperationIntroComponent: ReactClassElementSpec = self(operation.intro.MVEOperationIntro.reactClass)

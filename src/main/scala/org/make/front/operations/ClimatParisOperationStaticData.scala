@@ -10,7 +10,7 @@ import org.make.front.components.sequence.contents.{
   PromptingToGoBackToOperation,
   PromptingToProposeInRelationToOperation
 }
-import org.make.front.facades.{climatParisLogo, ClimatParisDarkerLogo}
+import org.make.front.facades._
 import org.make.front.models._
 import org.make.services.tracking.TrackingService.TrackingContext
 import org.make.services.tracking.{TrackingLocation, TrackingService}
@@ -24,7 +24,6 @@ object ClimatParisOperationStaticData extends StaticDataOfOperation {
     color = "#459ba6",
     gradient = Some(GradientColor("#bfe692", "#69afde")),
     logoUrl = Some(climatParisLogo.toString),
-    darkerLogoUrl = Some(ClimatParisDarkerLogo.toString),
     wording = Seq(
       OperationWording(
         language = "fr",

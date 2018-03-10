@@ -136,10 +136,7 @@ object PromptingToContinueAfterTheSequence {
                           )
                         )(unescape(I18n.t("sequence.prompting-to-continue.learn-more.intro"))),
                         <.p(^.className := PromptingToContinueAfterTheSequenceStyles.learnMoreAccessLogoWrapper)(
-                          <.img(
-                            ^.src := self.props.wrapped.operation.darkerLogoUrl.getOrElse(""),
-                            ^.alt := wording.title
-                          )()
+                          <.img(^.src := self.props.wrapped.operation.logoUrl.getOrElse(""), ^.alt := wording.title)()
                         ),
                         <.p(^.className := PromptingToContinueAfterTheSequenceStyles.ctaWrapper)(
                           <.Link(
