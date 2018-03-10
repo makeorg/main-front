@@ -501,6 +501,31 @@ object climatParisIll extends js.Object
 @js.native
 @JSImport("./images/operations/climat-paris/climat-paris-ill@2x.jpg", "default")
 object climatParisIll2x extends js.Object
+
+@js.native
+@JSImport("./images/operations/climat-paris/featured-climat-paris-ill-400x500.jpg", "default")
+object featuredClimatParisSmall extends js.Object
+
+@js.native
+@JSImport("./images/operations/climat-paris/featured-climat-paris-ill-400x500@2x.jpg", "default")
+object featuredClimatParisSmall2x extends js.Object
+
+@js.native
+@JSImport("./images/operations/climat-paris/featured-climat-paris-ill-840x500.jpg", "default")
+object featuredClimatParisMedium extends js.Object
+
+@js.native
+@JSImport("./images/operations/climat-paris/featured-climat-paris-ill-840x500@2x.jpg", "default")
+object featuredClimatParisMedium2x extends js.Object
+
+@js.native
+@JSImport("./images/operations/climat-paris/featured-climat-paris-ill-1350x500.jpg", "default")
+object featuredClimatParis extends js.Object
+
+@js.native
+@JSImport("./images/operations/climat-paris/featured-climat-paris-ill-1350x500@2x.jpg", "default")
+object featuredClimatParis2x extends js.Object
+
 @js.native
 @JSImport("./images/operations/lpae/lpae.svg", "default")
 object lpaeLogo extends js.Object
