@@ -42,12 +42,23 @@
       "see-more-link": "https://about.make.org/gb/who-are-we"
     },
     "featured-operation": {
-      "title": "Stop violence against women",
-      "label": "Make.org Grand Challenge",
-      "purpose": "How to combat violence against women?",
-      "learn-more": {
-        "label": "Discover results",
-        "link": "https://about.make.org/gb/about-vff"
+      "vff":{
+        "title": "Stop violence against women",
+        "label": "Make.org Grand Challenge",
+        "purpose": "How to combat violence against women?",
+        "learn-more": {
+          "label": "Discover results",
+          "link": "https://about.make.org/gb/about-vff"
+        }
+      },
+      "mve":{
+        "title": "",
+        "label": "",
+        "purpose": "",
+        "learn-more": {
+          "label": "",
+          "link": ""
+        }
       }
     },
     "explanations": {

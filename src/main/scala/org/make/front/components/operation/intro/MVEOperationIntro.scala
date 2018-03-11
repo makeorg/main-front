@@ -156,7 +156,7 @@ object MVEOperationIntroStyles extends StyleSheet.Inline {
             width(25.%%),
             width :=! "calc(50% - 300px)",
             backgroundImage := s"url(${mveOldPeople.toString})",
-            backgroundSize := s"${480.pxToEm().value} auto",
+            backgroundSize := s"auto ${400.pxToEm().value}",
             backgroundRepeat := "no-repeat",
             backgroundPosition := "100% 50%"
           ),
@@ -169,7 +169,7 @@ object MVEOperationIntroStyles extends StyleSheet.Inline {
             width(25.%%),
             width :=! "calc(50% - 300px)",
             backgroundImage := s"url(${mveYoungPeople.toString})",
-            backgroundSize := s"${480.pxToEm().value} auto",
+            backgroundSize := s"auto ${400.pxToEm().value}",
             backgroundRepeat := "no-repeat",
             backgroundPosition := "0% 50%"
           )
@@ -178,10 +178,10 @@ object MVEOperationIntroStyles extends StyleSheet.Inline {
         &.before(backgroundImage := s"url(${mveOldPeople2x.toString})!important"),
         &.after(backgroundImage := s"url(${mveYoungPeople2x.toString})!important")
       ),
-      media.minWidth(1560.pxToEm())(
+      media.minWidth(1575.pxToEm())(
         /* TODO: find a way to preserve order/priorities of media queries */
-        &.before(backgroundSize := "contain!important", backgroundPosition := "0 50%!important"),
-        &.after(backgroundSize := "contain!important", backgroundPosition := "0 50%!important")
+        &.before(backgroundPosition := "0 50%!important"),
+        &.after(backgroundPosition := "100% 50%!important")
       )
     )
 

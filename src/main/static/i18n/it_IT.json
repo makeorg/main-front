@@ -42,12 +42,23 @@
       "see-more-link": "https://about.make.org/it/chi-siamo"
     },
     "featured-operation": {
-      "title": "Stop alla violenza sulle donne",
-      "label": "Grande Causa Make.org",
-      "purpose": "Come far fronte alla violenza sulle donne?",
-      "learn-more": {
-        "label": "Scopri i risultati",
-        "link": "https://about.make.org/it/about-vff"
+      "vff":{
+        "title": "Stop alla violenza sulle donne",
+        "label": "Grande Causa Make.org",
+        "purpose": "Come far fronte alla violenza sulle donne?",
+        "learn-more": {
+          "label": "Scopri i risultati",
+          "link": "https://about.make.org/it/about-vff"
+        }
+      },
+      "mve":{
+        "title": "",
+        "label": "",
+        "purpose": "",
+        "learn-more": {
+          "label": "",
+          "link": ""
+        }
       }
     },
     "explanations": {

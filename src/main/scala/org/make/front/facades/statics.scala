@@ -574,6 +574,22 @@ object mveYoungPeople extends js.Object
 object mveYoungPeople2x extends js.Object
 
 @js.native
+@JSImport("./images/operations/mve/people-400x400.png", "default")
+object featuredMVESmall extends js.Object
+
+@js.native
+@JSImport("./images/operations/mve/people-400x400@2x.png", "default")
+object featuredMVESmall2x extends js.Object
+
+@js.native
+@JSImport("./images/operations/mve/people-1000x400.png", "default")
+object featuredMVE extends js.Object
+
+@js.native
+@JSImport("./images/operations/mve/people-1000x400@2x.png", "default")
+object featuredMVE2x extends js.Object
+
+@js.native
 @JSImport("./images/operations/mve/partners/blablacar.svg", "default")
 object blaBlaCarLogo extends js.Object
 

@@ -5,7 +5,7 @@ import io.github.shogowada.scalajs.reactjs.VirtualDOM.{<, _}
 import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import org.make.front.Main.CssSettings._
 import org.make.front.components.Components.{RichVirtualDOMElements, _}
-import org.make.front.components.home.FeaturedOperation.FeaturedOperationProps
+import org.make.front.components.home.MVEFeaturedOperation.MVEFeaturedOperationProps
 import org.make.front.components.showcase.ThemeShowcaseContainer.ThemeShowcaseContainerProps
 import org.make.front.components.showcase.TrendingShowcaseContainer.TrendingShowcaseContainerProps
 import org.make.front.facades.I18n
@@ -27,8 +27,8 @@ object Home {
           <.div(^.className := HomeStyles.wrapper)(
             <.div(^.className := HomeStyles.mainHeaderWrapper)(<.MainHeaderContainer.empty),
             <.h1(^.style := Map("display" -> "none"))("Make.org"),
-            <.FeaturedOperationComponent(
-              ^.wrapped := FeaturedOperationProps(trackingLocation = TrackingLocation.homepage)
+            <.MVEFeaturedOperationComponent(
+              ^.wrapped := MVEFeaturedOperationProps(trackingLocation = TrackingLocation.homepage)
             )(),
             <.ThemeShowcaseContainerComponent(
               ^.wrapped := ThemeShowcaseContainerProps(
