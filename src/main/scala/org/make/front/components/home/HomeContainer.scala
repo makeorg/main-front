@@ -12,16 +12,18 @@ object HomeContainer {
 
   lazy val reactClass: ReactClass = ReactRedux.connectAdvanced(selectorFactory)(Home.reactClass)
 
-  def selectorFactory: (Dispatch) => (AppState, Props[Unit]) => Unit =
-    (dispatch: Dispatch) => { (state: AppState, props: Props[Unit]) =>
+  def selectorFactory: (Dispatch) => (AppState, Props[Unit]) => Home.HomeProps =
+    (dispatch: Dispatch) => { (appState: AppState, props: Props[Unit]) =>
       {
-        state.configuration match {
+        appState.configuration match {
           case Some(config) =>
-            if (!config.coreIsAvailableForCountry(state.country)) {
-              props.history.push(s"/${state.country}/soon")
+            if (!config.coreIsAvailableForCountry(appState.country)) {
+              props.history.push(s"/${appState.country}/soon")
             }
           case None => dispatch(LoadConfiguration)
         }
+
+        Home.HomeProps(appState.country)
       }
     }
 }

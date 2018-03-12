@@ -60,7 +60,7 @@ object CurrentOperations {
                 )(
                   <.img(
                     ^.className := Seq(OperationTileStyles.ill),
-                    ^.src := operation.logoUrl.getOrElse(""),
+                    ^.src := operation.whiteLogoUrl,
                     ^.alt := unescape(wording.title)
                   )()
                 )

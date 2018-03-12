@@ -10,7 +10,7 @@ import org.make.front.components.sequence.contents.{
   PromptingToGoBackToOperation,
   PromptingToProposeInRelationToOperation
 }
-import org.make.front.facades.{VFFGBLogo, VFFITLogo, VFFLogo}
+import org.make.front.facades.{VFFGBLogo, VFFGBWhiteLogo, VFFITLogo, VFFITWhiteLogo, VFFLogo, VFFWhiteLogo}
 import org.make.front.models._
 import org.make.services.tracking.TrackingService.TrackingContext
 import org.make.services.tracking.{TrackingLocation, TrackingService}
@@ -25,7 +25,8 @@ object VFFOperationStaticData extends StaticDataOfOperation {
     country = "FR",
     color = "#660779",
     gradient = Some(GradientColor("#AB92CA", "#54325A")),
-    logoUrl = Some(VFFLogo.toString),
+    logoUrl = VFFLogo.toString,
+    whiteLogoUrl = VFFWhiteLogo.toString,
     wording = Seq(
       OperationWording(
         language = "fr",
@@ -125,7 +126,8 @@ object VFFOperationStaticData extends StaticDataOfOperation {
 object VFFITOperationStaticData extends StaticDataOfOperation {
   override val data: OperationStaticData = VFFOperationStaticData.data.copy(
     country = "IT",
-    logoUrl = Some(VFFITLogo.toString),
+    logoUrl = VFFITLogo.toString,
+    whiteLogoUrl = VFFITWhiteLogo.toString,
     endDate = None,
     startDate = None,
     wording = Seq(
@@ -226,7 +228,8 @@ object VFFITOperationStaticData extends StaticDataOfOperation {
 object VFFGBOperationStaticData extends StaticDataOfOperation {
   override val data: OperationStaticData = VFFOperationStaticData.data.copy(
     country = "GB",
-    logoUrl = Some(VFFGBLogo.toString),
+    logoUrl = VFFGBLogo.toString,
+    whiteLogoUrl = VFFGBWhiteLogo.toString,
     endDate = None,
     startDate = None,
     wording = Seq(

@@ -25,9 +25,11 @@ object MVEOperationStaticData extends StaticDataOfOperation {
       endDate = Some(new js.Date("2018-03-21")),
       country = "FR",
       color = "#f16481",
+      /*TODO: remove this commented option after nico validation*/
       /*gradient = Some(GradientColor("#d97388", "#4d99ff")),*/ /*http://www.0to255.com/ #f6dee3 -8,  #d5e7ff -8 */
       gradient = Some(GradientColor("#EE6380", "#77C4D1")), /*colors from logo*/
-      logoUrl = Some(mveLogo.toString),
+      logoUrl = mveLogo.toString,
+      whiteLogoUrl = mveLogo.toString,
       wording = Seq(
         OperationWording(
           language = "fr",
@@ -104,6 +106,5 @@ object MVEOperationStaticData extends StaticDataOfOperation {
         )
       }
     )
-
   }
 }

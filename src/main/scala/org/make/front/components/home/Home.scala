@@ -16,20 +16,27 @@ import org.make.services.tracking.TrackingService.TrackingContext
 import org.make.services.tracking.{TrackingLocation, TrackingService}
 
 object Home {
+
+  final case class HomeProps(countryCode: String)
+
   lazy val reactClass: ReactClass =
     React
-      .createClass[Unit, Unit](
+      .createClass[HomeProps, Unit](
         displayName = "Home",
         componentDidMount = { _ =>
           TrackingService.track("display-page-home", TrackingContext(TrackingLocation.homepage))
         },
-        render = { _ =>
+        render = (self) => {
           <.div(^.className := HomeStyles.wrapper)(
             <.div(^.className := HomeStyles.mainHeaderWrapper)(<.MainHeaderContainer.empty),
             <.h1(^.style := Map("display" -> "none"))("Make.org"),
-            <.MVEFeaturedOperationComponent(
-              ^.wrapped := MVEFeaturedOperationProps(trackingLocation = TrackingLocation.homepage)
-            )(),
+            if (self.props.wrapped.countryCode == "FR") {
+              <.MVEFeaturedOperationComponent(
+                ^.wrapped := MVEFeaturedOperationProps(trackingLocation = TrackingLocation.homepage)
+              )()
+            } else {
+              <.WelcomeComponent.empty
+            },
             <.ThemeShowcaseContainerComponent(
               ^.wrapped := ThemeShowcaseContainerProps(
                 themeSlug = "sante-alimentation",

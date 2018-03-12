@@ -23,7 +23,8 @@ object ClimatParisOperationStaticData extends StaticDataOfOperation {
     country = "FR",
     color = "#459ba6",
     gradient = Some(GradientColor("#bfe692", "#69afde")),
-    logoUrl = Some(climatParisLogo.toString),
+    logoUrl = climatParisLogo.toString,
+    whiteLogoUrl = climatParisWhiteLogo.toString,
     wording = Seq(
       OperationWording(
         language = "fr",
