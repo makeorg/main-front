@@ -77,7 +77,7 @@ object VFFOperationStaticData extends StaticDataOfOperation {
               trackingContext = trackingContext,
               trackingParameters = defaultTrackingParameters,
               clickOnButtonHandler = handler,
-              authenticateHandler = handler
+              authenticateHandler = () => {}
             )
           },
           position = { slides =>
@@ -179,7 +179,7 @@ object VFFITOperationStaticData extends StaticDataOfOperation {
               trackingContext = trackingContext,
               trackingParameters = defaultTrackingParameters,
               clickOnButtonHandler = handler,
-              authenticateHandler = handler
+              authenticateHandler = () => {}
             )
           },
           position = { slides =>
@@ -281,7 +281,7 @@ object VFFGBOperationStaticData extends StaticDataOfOperation {
               trackingContext = trackingContext,
               trackingParameters = defaultTrackingParameters,
               clickOnButtonHandler = handler,
-              authenticateHandler = handler
+              authenticateHandler = () => {}
             )
           },
           position = { slides =>
