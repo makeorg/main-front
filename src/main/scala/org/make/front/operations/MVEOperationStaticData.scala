@@ -79,7 +79,7 @@ object MVEOperationStaticData extends StaticDataOfOperation {
                 trackingContext = trackingContext,
                 trackingParameters = defaultTrackingParameters,
                 clickOnButtonHandler = handler,
-                authenticateHandler = handler
+                authenticateHandler = () => {}
               )
             },
             position = { slides =>
