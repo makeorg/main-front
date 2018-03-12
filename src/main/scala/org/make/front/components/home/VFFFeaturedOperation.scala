@@ -14,47 +14,49 @@ import org.make.front.styles.utils._
 import org.make.services.tracking.TrackingService.TrackingContext
 import org.make.services.tracking.{TrackingLocation, TrackingService}
 
-object FeaturedOperation {
+object VFFFeaturedOperation {
 
-  final case class FeaturedOperationProps(trackingLocation: TrackingLocation)
+  final case class VFFFeaturedOperationProps(trackingLocation: TrackingLocation)
 
   lazy val reactClass: ReactClass =
     React
-      .createClass[FeaturedOperationProps, Unit](
+      .createClass[VFFFeaturedOperationProps, Unit](
         displayName = "FeaturedOperation",
         render = (self) => {
 
           def onclick: () => Unit = { () =>
             TrackingService
               .track("click-homepage-header", TrackingContext(self.props.wrapped.trackingLocation, Some("vff")))
-            scalajs.js.Dynamic.global.window.open(I18n.t("home.featured-operation.learn-more.link"), "_blank")
+            scalajs.js.Dynamic.global.window.open(I18n.t("home.featured-operation.vff.learn-more.link"), "_blank")
           }
 
-          <.section(^.className := Seq(TableLayoutStyles.wrapper, FeaturedOperationStyles.wrapper))(
-            <.div(^.className := Seq(TableLayoutStyles.cellVerticalAlignMiddle, FeaturedOperationStyles.innerWrapper))(
+          <.section(^.className := Seq(TableLayoutStyles.wrapper, VFFFeaturedOperationStyles.wrapper))(
+            <.div(
+              ^.className := Seq(TableLayoutStyles.cellVerticalAlignMiddle, VFFFeaturedOperationStyles.innerWrapper)
+            )(
               <.img(
-                ^.className := FeaturedOperationStyles.illustration,
+                ^.className := VFFFeaturedOperationStyles.illustration,
                 ^.src := featuredVFF.toString,
                 ^("srcset") := featuredVFFSmall.toString + " 400w, " + featuredVFFSmall2x.toString + " 800w, " + featuredVFFMedium.toString + " 840w, " + featuredVFFMedium2x.toString + " 1680w, " + featuredVFF.toString + " 1350w, " + featuredVFF2x.toString + " 2700w",
-                ^.alt := I18n.t("home.featured-operation.title"),
+                ^.alt := I18n.t("home.featured-operation.vff.title"),
                 ^("data-pin-no-hover") := "true"
               )(),
-              <.div(^.className := Seq(FeaturedOperationStyles.innerSubWrapper, LayoutRulesStyles.centeredRow))(
-                <.div(^.className := FeaturedOperationStyles.labelWrapper)(
-                  <.p(^.className := TextStyles.label)(unescape(I18n.t("home.featured-operation.label")))
+              <.div(^.className := Seq(VFFFeaturedOperationStyles.innerSubWrapper, LayoutRulesStyles.centeredRow))(
+                <.div(^.className := VFFFeaturedOperationStyles.labelWrapper)(
+                  <.p(^.className := TextStyles.label)(unescape(I18n.t("home.featured-operation.vff.label")))
                 ),
-                <.h2(^.className := Seq(FeaturedOperationStyles.title, TextStyles.veryBigText, TextStyles.boldText))(
-                  unescape(I18n.t("home.featured-operation.title"))
+                <.h2(^.className := Seq(VFFFeaturedOperationStyles.title, TextStyles.veryBigText, TextStyles.boldText))(
+                  unescape(I18n.t("home.featured-operation.vff.title"))
                 ),
-                <.h3(^.className := Seq(TextStyles.mediumText, FeaturedOperationStyles.subTitle))(
-                  unescape(I18n.t("home.featured-operation.purpose"))
+                <.h3(^.className := Seq(TextStyles.mediumText, VFFFeaturedOperationStyles.subTitle))(
+                  unescape(I18n.t("home.featured-operation.vff.purpose"))
                 ),
-                <.p(^.className := FeaturedOperationStyles.ctaWrapper)(
+                <.p(^.className := VFFFeaturedOperationStyles.ctaWrapper)(
                   <.button(^.onClick := onclick, ^.className := Seq(CTAStyles.basic, CTAStyles.basicOnButton))(
-                    unescape(I18n.t("home.featured-operation.learn-more.label"))
+                    unescape(I18n.t("home.featured-operation.vff.learn-more.label"))
                   )
                 ),
-                <.style()(FeaturedOperationStyles.render[String])
+                <.style()(VFFFeaturedOperationStyles.render[String])
               )
             )
           )
@@ -62,7 +64,7 @@ object FeaturedOperation {
       )
 }
 
-object FeaturedOperationStyles extends StyleSheet.Inline {
+object VFFFeaturedOperationStyles extends StyleSheet.Inline {
 
   import dsl._
 

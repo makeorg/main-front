@@ -42,12 +42,23 @@
       "see-more-link": "https://about.make.org/qui-sommes-nous"
     },
     "featured-operation": {
-      "title": "Stop aux Violences Faites aux&nbsp;Femmes",
-      "label": "Grande cause Make.org",
-      "purpose": "Grâce à vos votes et à vos propositions, 17 grandes idées ont été identifiées.",
-      "learn-more": {
-        "label": "Découvrir les résultats",
-        "link": "https://stopvff.make.org/about-vff"
+      "vff":{
+        "title": "Stop aux Violences Faites aux&nbsp;Femmes",
+        "label": "Grande cause Make.org",
+        "purpose": "Grâce à vos votes et à vos propositions, 17 grandes idées ont été identifiées.",
+        "learn-more": {
+          "label": "Découvrir les résultats",
+          "link": "https://stopvff.make.org/about-vff"
+        }
+      },
+      "mve":{
+        "title": "Mieux vivre ensemble",
+        "label": "Grande cause Make.org",
+        "purpose": "Votez et proposez des solutions pour mieux vivre ensemble",
+        "learn-more": {
+          "label": "Participer à la consultation",
+          "link": "https://about.make.org/about-mieux-vivre-ensemble"
+        }
       }
     },
     "explanations": {
@@ -335,7 +346,7 @@
           "text": "Les nouveaux modes de vie tendent à créer une fragmentation de la société en une multitude de groupes qui n'interagissent plus ensemble tandis que la solitude et l’isolement des citoyens sont des problématiques grandissantes. Ces évolutions mettent en péril notre capacité à “faire société” et nous poussent à imaginer ensemble de nouvelles manières de recréer du lien&nbsp;social.",
           "see-more": {
             "label": "En savoir&nbsp;+",
-            "link": ""
+            "link": "https://about.make.org/about-mieux-vivre-ensemble"
           }
         }
       }

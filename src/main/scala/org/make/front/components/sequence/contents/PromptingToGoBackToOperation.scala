@@ -101,10 +101,7 @@ object PromptingToGoBackToOperation {
                               )
                             )(unescape(I18n.t("sequence.prompting-to-continue.learn-more.intro"))),
                             <.p(^.className := PromptingToGoBackToOperationStyles.learnMoreAccessLogoWrapper)(
-                              <.img(
-                                ^.src := self.props.wrapped.operation.darkerLogoUrl.getOrElse(""),
-                                ^.alt := wording.title
-                              )()
+                              <.img(^.src := self.props.wrapped.operation.logoUrl, ^.alt := wording.title)()
                             ),
                             <.p(^.className := PromptingToGoBackToOperationStyles.ctaWrapper)(
                               <.button(

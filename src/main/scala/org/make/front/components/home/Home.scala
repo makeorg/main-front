@@ -5,7 +5,7 @@ import io.github.shogowada.scalajs.reactjs.VirtualDOM.{<, _}
 import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import org.make.front.Main.CssSettings._
 import org.make.front.components.Components.{RichVirtualDOMElements, _}
-import org.make.front.components.home.FeaturedOperation.FeaturedOperationProps
+import org.make.front.components.home.MVEFeaturedOperation.MVEFeaturedOperationProps
 import org.make.front.components.showcase.ThemeShowcaseContainer.ThemeShowcaseContainerProps
 import org.make.front.components.showcase.TrendingShowcaseContainer.TrendingShowcaseContainerProps
 import org.make.front.facades.I18n
@@ -16,20 +16,27 @@ import org.make.services.tracking.TrackingService.TrackingContext
 import org.make.services.tracking.{TrackingLocation, TrackingService}
 
 object Home {
+
+  final case class HomeProps(countryCode: String)
+
   lazy val reactClass: ReactClass =
     React
-      .createClass[Unit, Unit](
+      .createClass[HomeProps, Unit](
         displayName = "Home",
         componentDidMount = { _ =>
           TrackingService.track("display-page-home", TrackingContext(TrackingLocation.homepage))
         },
-        render = { _ =>
+        render = (self) => {
           <.div(^.className := HomeStyles.wrapper)(
             <.div(^.className := HomeStyles.mainHeaderWrapper)(<.MainHeaderContainer.empty),
             <.h1(^.style := Map("display" -> "none"))("Make.org"),
-            <.FeaturedOperationComponent(
-              ^.wrapped := FeaturedOperationProps(trackingLocation = TrackingLocation.homepage)
-            )(),
+            if (self.props.wrapped.countryCode == "FR") {
+              <.MVEFeaturedOperationComponent(
+                ^.wrapped := MVEFeaturedOperationProps(trackingLocation = TrackingLocation.homepage)
+              )()
+            } else {
+              <.WelcomeComponent.empty
+            },
             <.ThemeShowcaseContainerComponent(
               ^.wrapped := ThemeShowcaseContainerProps(
                 themeSlug = "sante-alimentation",

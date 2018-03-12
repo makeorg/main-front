@@ -5,8 +5,8 @@ import io.github.shogowada.scalajs.reactjs.VirtualDOM.{<, ^, _}
 import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import org.make.front.Main.CssSettings._
 import org.make.front.components.Components._
-import org.make.front.facades.{CercleEconomistesLogo, I18n, LpaeIll, LpaeIll2x, MakeOrgLogo, XPartners}
 import org.make.front.facades.Unescape.unescape
+import org.make.front.facades.{cercleEconomistesLogo, lpaeIll, lpaeIll2x, lpaeWhiteLogo, makeOrgLogo, xPartners, I18n}
 import org.make.front.models.{
   GradientColor     => GradientColorModel,
   OperationExpanded => OperationModel,
@@ -41,11 +41,11 @@ object LPAEOperationIntro {
           val partners = Seq(
             OperationPartnerModel(
               name = "Le Cercle des Economistes",
-              imageUrl = CercleEconomistesLogo.toString,
+              imageUrl = cercleEconomistesLogo.toString,
               imageWidth = 74
             ),
-            OperationPartnerModel(name = "x", imageUrl = XPartners.toString, imageWidth = 9),
-            OperationPartnerModel(name = "Make.org", imageUrl = MakeOrgLogo.toString, imageWidth = 51)
+            OperationPartnerModel(name = "x", imageUrl = xPartners.toString, imageWidth = 9),
+            OperationPartnerModel(name = "Make.org", imageUrl = makeOrgLogo.toString, imageWidth = 51)
           )
 
           val gradientValues: GradientColorModel =
@@ -62,10 +62,7 @@ object LPAEOperationIntro {
               <.div(^.className := LayoutRulesStyles.centeredRow)(
                 <.div(^.className := Seq(OperationIntroStyles.titleWrapper, LPAEOperationIntroStyles.titleWrapper))(
                   <.p(^.className := Seq(OperationIntroStyles.logoWrapper))(
-                    <.img(
-                      ^.src := operation.logoUrl.getOrElse(""),
-                      ^.alt := unescape(I18n.t("operation.lpae.intro.title"))
-                    )()
+                    <.img(^.src := lpaeWhiteLogo.toString, ^.alt := unescape(I18n.t("operation.lpae.intro.title")))()
                   ),
                   <.div(^.className := Seq(TableLayoutStyles.wrapper, OperationIntroStyles.separator))(
                     <.div(
@@ -120,8 +117,8 @@ object LPAEOperationIntro {
               <.div(^.className := LayoutRulesStyles.narrowerCenteredRowWithCols)(
                 <.div(^.className := Seq(ColRulesStyles.col, ColRulesStyles.colThirdBeyondSmall))(
                   <.img(
-                    ^.src := LpaeIll.toString,
-                    ^("srcset") := LpaeIll.toString + " 1x," + LpaeIll2x.toString + " 2x",
+                    ^.src := lpaeIll.toString,
+                    ^("srcset") := lpaeIll.toString + " 1x," + lpaeIll2x.toString + " 2x",
                     ^.alt := unescape(I18n.t("operation.lpae.intro.title")),
                     ^.className := OperationIntroStyles.explanationIll
                   )()

@@ -9,7 +9,7 @@ import org.make.front.components.sequence.contents.{
   PromptingToConnect,
   PromptingToGoBackToOperation
 }
-import org.make.front.facades.MveLogo
+import org.make.front.facades.mveLogo
 import org.make.front.models._
 import org.make.services.tracking.TrackingService.TrackingContext
 import org.make.services.tracking.{TrackingLocation, TrackingService}
@@ -25,9 +25,11 @@ object MVEOperationStaticData extends StaticDataOfOperation {
       endDate = Some(new js.Date("2018-03-21")),
       country = "FR",
       color = "#f16481",
-      gradient = Some(GradientColor("#f6dee3", "#d5e7ff")),
-      logoUrl = Some(MveLogo.toString),
-      darkerLogoUrl = None,
+      /*TODO: remove this commented option after nico validation*/
+      /*gradient = Some(GradientColor("#d97388", "#4d99ff")),*/ /*http://www.0to255.com/ #f6dee3 -8,  #d5e7ff -8 */
+      gradient = Some(GradientColor("#EE6380", "#77C4D1")), /*colors from logo*/
+      logoUrl = mveLogo.toString,
+      whiteLogoUrl = mveLogo.toString,
       wording = Seq(
         OperationWording(
           language = "fr",
@@ -104,6 +106,5 @@ object MVEOperationStaticData extends StaticDataOfOperation {
         )
       }
     )
-
   }
 }

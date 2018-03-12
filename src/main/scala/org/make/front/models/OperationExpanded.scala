@@ -12,8 +12,8 @@ final case class OperationStaticData(country: String,
                                      wording: Seq[OperationWording],
                                      color: String,
                                      gradient: Option[GradientColor],
-                                     logoUrl: Option[String],
-                                     darkerLogoUrl: Option[String],
+                                     logoUrl: String,
+                                     whiteLogoUrl: String,
                                      extraSlides: (OperationExtraSlidesParams) => Seq[ExtraSlide])
 
 object OperationStaticData {
@@ -52,8 +52,8 @@ final case class OperationExpanded(operationId: OperationId,
                                    proposalsCount: Int,
                                    color: String,
                                    gradient: Option[GradientColor],
-                                   logoUrl: Option[String],
-                                   darkerLogoUrl: Option[String],
+                                   logoUrl: String,
+                                   whiteLogoUrl: String,
                                    wordings: Seq[OperationWording],
                                    extraSlides: (OperationExtraSlidesParams) => Seq[ExtraSlide],
                                    tagIds: Seq[Tag],
@@ -120,7 +120,7 @@ object OperationExpanded {
         color = operationStaticData.color,
         gradient = operationStaticData.gradient,
         logoUrl = operationStaticData.logoUrl,
-        darkerLogoUrl = operationStaticData.darkerLogoUrl,
+        whiteLogoUrl = operationStaticData.whiteLogoUrl,
         wordings = operation.translations.flatMap { translation =>
           val language: String = translation.language.toLowerCase
           operationStaticData.wording.find(_.language == language).map { operationWording =>

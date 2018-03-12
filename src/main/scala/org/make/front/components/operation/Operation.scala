@@ -10,7 +10,7 @@ import org.make.front.components.operation.ResultsInOperationContainer.ResultsIn
 import org.make.front.components.operation.intro.ClimatParisOperationIntro.ClimatParisOperationIntroProps
 import org.make.front.components.operation.intro.LPAEOperationIntro.LPAEOperationIntroProps
 import org.make.front.components.operation.intro.MVEOperationIntro.MVEOperationIntroProps
-import org.make.front.components.operation.intro.VFFFROperationIntro.VFFFROperationIntroProps
+import org.make.front.components.operation.intro.VFFOperationIntro.VFFOperationIntroProps
 import org.make.front.components.operation.intro.VFFGBOperationIntro.VFFGBOperationIntroProps
 import org.make.front.components.operation.intro.VFFITOperationIntro.VFFITOperationIntroProps
 import org.make.front.models.{Location => LocationModel, OperationExpanded => OperationModel}
@@ -85,8 +85,8 @@ object Operation {
                     )
                   )()
                 } else {
-                  <.VFFFROperationIntroComponent(
-                    ^.wrapped := VFFFROperationIntroProps(
+                  <.VFFOperationIntroComponent(
+                    ^.wrapped := VFFOperationIntroProps(
                       operation = self.props.wrapped.operation,
                       language = self.props.wrapped.language
                     )

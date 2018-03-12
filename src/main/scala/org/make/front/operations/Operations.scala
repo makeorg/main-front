@@ -10,7 +10,7 @@ object Operations {
   val featuredOperationSlug: String = "vff"
 
   val operationDesignList: Seq[OperationStaticData] = Seq(
-    VFFFROperationStaticData.data,
+    VFFOperationStaticData.data,
     VFFITOperationStaticData.data,
     VFFGBOperationStaticData.data,
     ClimatParisOperationStaticData.data,

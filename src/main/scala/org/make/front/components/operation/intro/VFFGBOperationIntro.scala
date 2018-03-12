@@ -6,7 +6,7 @@ import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import org.make.front.Main.CssSettings._
 import org.make.front.components.Components._
 import org.make.front.facades.Unescape.unescape
-import org.make.front.facades.{facebookLogo, keringFoundationLogo, I18n, VFFIll, VFFIll2x}
+import org.make.front.facades.{facebookLogo, keringFoundationLogo, I18n, VFFGBWhiteLogo, VFFIll, VFFIll2x}
 import org.make.front.models.{
   GradientColor     => GradientColorModel,
   OperationExpanded => OperationModel,
@@ -61,10 +61,7 @@ object VFFGBOperationIntro {
                 <.div(^.className := Seq(OperationIntroStyles.titleWrapper, VFFGBOperationIntroStyles.titleWrapper))(
                   <.p(^.className := TextStyles.label)(unescape(I18n.t("operation.vff-gb.intro.label"))),
                   <.p(^.className := Seq(OperationIntroStyles.logoWrapper))(
-                    <.img(
-                      ^.src := operation.logoUrl.getOrElse(""),
-                      ^.alt := unescape(I18n.t("operation.vff-gb.intro.title"))
-                    )()
+                    <.img(^.src := VFFGBWhiteLogo.toString, ^.alt := unescape(I18n.t("operation.vff-gb.intro.title")))()
                   ),
                   <.p(^.className := Seq(OperationIntroStyles.infos, TextStyles.label))(
                     unescape(I18n.t("operation.vff-gb.intro.period"))
