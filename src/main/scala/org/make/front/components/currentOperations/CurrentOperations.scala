@@ -48,6 +48,8 @@ object CurrentOperations {
 
               val gradient: StyleA =
                 style(background := s"linear-gradient(130deg, ${gradientValues.from}, ${gradientValues.to})")
+
+              val ill: StyleA = style(maxWidth(470.pxToEm()))
             }
 
             <.article(^.className := OperationTileStyles.wrapper)(
@@ -59,7 +61,7 @@ object CurrentOperations {
                   )
                 )(
                   <.img(
-                    ^.className := Seq(OperationTileStyles.ill),
+                    ^.className := Seq(OperationTileStyles.ill, DynamicOperationTileStyles.ill),
                     ^.src := operation.whiteLogoUrl,
                     ^.alt := unescape(wording.title)
                   )()
