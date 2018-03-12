@@ -6,6 +6,7 @@ import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import org.make.front.Main.CssSettings._
 import org.make.front.components.Components.{RichVirtualDOMElements, _}
 import org.make.front.components.home.MVEFeaturedOperation.MVEFeaturedOperationProps
+import org.make.front.components.home.VFFFeaturedOperation.VFFFeaturedOperationProps
 import org.make.front.components.showcase.ThemeShowcaseContainer.ThemeShowcaseContainerProps
 import org.make.front.components.showcase.TrendingShowcaseContainer.TrendingShowcaseContainerProps
 import org.make.front.facades.I18n
@@ -31,8 +32,8 @@ object Home {
             <.div(^.className := HomeStyles.mainHeaderWrapper)(<.MainHeaderContainer.empty),
             <.h1(^.style := Map("display" -> "none"))("Make.org"),
             if (self.props.wrapped.countryCode == "FR") {
-              <.MVEFeaturedOperationComponent(
-                ^.wrapped := MVEFeaturedOperationProps(trackingLocation = TrackingLocation.homepage)
+              <.VFFFeaturedOperationComponent(
+                ^.wrapped := VFFFeaturedOperationProps(trackingLocation = TrackingLocation.homepage)
               )()
             } else {
               <.WelcomeComponent.empty
