@@ -52,7 +52,7 @@ object FeaturedArticlesShowcase {
 
           <.section(^.className := FeaturedArticlesShowcaseStyles.wrapper)(
             <.header(^.className := LayoutRulesStyles.centeredRow)(
-              <.h2(^.className := TextStyles.mediumTitle)(unescape(I18n.t("featured-articles-showcase.title")))
+              <.h2(^.className := TextStyles.mediumTitle)(unescape(I18n.t("home.featured-articles-showcase.title")))
             ),
             <.div(
               ^.className := Seq(

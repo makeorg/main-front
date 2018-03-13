@@ -16,31 +16,31 @@ object FeaturedArticlesShowcaseContainer {
       FeaturedArticlesShowcase.FeaturedArticlesShowcaseProps(
         articles = Seq(
           FeaturedArticleModel(
-            illUrl = "https://placekitten.com/360/200",
-            ill2xUrl = "https://placekitten.com/720/400",
-            imageAlt = Some("bla bla"),
-            label = "action",
-            excerpt = "WWF organise la Marche contre le changement climatique",
-            seeMoreLabel = "En savoir +",
-            seeMoreLink = "#"
+            illUrl = "images/showcase/vff_showcase.png",
+            ill2xUrl = "images/showcase/vff_showcase@x2.png",
+            imageAlt = Some("Grâce aux idées issues de la consultation, 8 actions nationales ont été identifiées."),
+            label = "Grande cause Make.org",
+            excerpt = "Grâce aux idées issues de la consultation, 8 actions nationales ont été identifiées.",
+            seeMoreLabel = "Voir le plan d'actions",
+            seeMoreLink = "https://stopvff.make.org/about-vff"
           ),
           FeaturedArticleModel(
-            illUrl = "https://placebear.com/360/200",
-            ill2xUrl = "https://placebear.com/720/400",
-            imageAlt = Some("Un million d'euros pour financer vos projets innovants"),
-            label = "You made it!",
-            excerpt = "Vous étiez 150 000 à soutenir cette proposition, l’AN en a fait une loi !",
+            illUrl = "images/showcase/endometri_showcase.png",
+            ill2xUrl = "images/showcase/endometri_showcase@x2.png",
+            imageAlt = Some("Endométri - Ose faire valoir tes droits"),
+            label = "Action en cours",
+            excerpt = "Endométri - Ose faire valoir tes droits",
             seeMoreLabel = "En savoir +",
-            seeMoreLink = "#"
+            seeMoreLink = "https://about.make.org/post/endometri-ose-le-dire"
           ),
           FeaturedArticleModel(
-            illUrl = "http://www.fillmurray.com/360/200",
-            ill2xUrl = "http://www.fillmurray.com/720/400",
-            imageAlt = Some("Un million d'euros pour financer vos projets innovants"),
-            label = "Le maker de la semaine",
-            excerpt = "ITV : Chaque semaine, Make part à la rencontre d’un Maker.",
+            illUrl = "images/showcase/tromplin_showcase.png",
+            ill2xUrl = "images/showcase/tromplin_showcase@x2.png",
+            imageAlt = Some("La \"Dotation tremplin\" devient une proposition de loi !"),
+            label = "Action en cours",
+            excerpt = "La \"Dotation tremplin\" devient une proposition de loi !",
             seeMoreLabel = "En savoir +",
-            seeMoreLink = "#"
+            seeMoreLink = "https://about.make.org/post/dotation-tremplin-dot"
           )
         )
       )
