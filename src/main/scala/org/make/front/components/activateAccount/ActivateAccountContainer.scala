@@ -26,35 +26,26 @@ object ActivateAccountContainer {
       val userId = props.`match`.params("userId")
       val verificationToken = props.`match`.params("verificationToken")
 
-      val operationId: Option[OperationId] = {
-        val search: String = if (props.location.search.startsWith("?")) {
-          props.location.search.substring(1)
-        } else {
-          props.location.search
+      val search: String = if (props.location.search.startsWith("?")) {
+        props.location.search.substring(1)
+      } else {
+        props.location.search
+      }
+      val getParams: Map[String, String] = search
+        .split("&")
+        .map(_.split("=", 2))
+        .map {
+          case Array(key, value) => key -> value
         }
-        search
-          .split("&")
-          .flatMap { parameter =>
-            val operationParameterString = "operation="
-            if (parameter.startsWith(operationParameterString) && parameter.length > operationParameterString.length) {
-              Some(parameter.substring(operationParameterString.length))
-            } else {
-              None
-            }
-          }
-      }.headOption.map(operationId => OperationId(operationId))
+        .toMap
+      val operationId: Option[OperationId] = getParams.get("operation").map(OperationId.apply)
+      val country: String = getParams.getOrElse("country", state.country)
 
       def handleValidateAccount(child: Self[ActivateAccountProps, Unit]): Unit = {
         UserService.validateAccount(userId, verificationToken, operationId).onComplete {
           case Success(_) =>
-            UserService.getUserById(userId).onComplete {
-              case Success(Some(user)) =>
-                redirectAfterValidation(operationId, user.country, child.props.history)
-                dispatch(NotifySuccess(message = I18n.t("activate-account.notifications.success")))
-              case _ =>
-                redirectAfterValidation(operationId, state.country, child.props.history)
-                dispatch(NotifyError(message = I18n.t("error-message.unexpected-behaviour")))
-            }
+            redirectAfterValidation(operationId, country, child.props.history)
+            dispatch(NotifySuccess(message = I18n.t("activate-account.notifications.success")))
           case Failure(_) =>
             redirectAfterValidation(operationId, state.country, child.props.history)
             dispatch(NotifyError(message = I18n.t("activate-account.notifications.error-message")))
