@@ -4,10 +4,12 @@ import org.make.front.components.sequence.Sequence.{DisplayTracker, ExtraSlide}
 import org.make.front.components.sequence.contents.IntroductionOfTheSequence.IntroductionOfTheSequenceProps
 import org.make.front.components.sequence.contents.PromptingToConnect.PromptingToConnectProps
 import org.make.front.components.sequence.contents.PromptingToGoBackToOperation.PromptingToGoBackToOperationProps
+import org.make.front.components.sequence.contents.PromptingToProposeInRelationToOperation.PromptingToProposeInRelationToOperationProps
 import org.make.front.components.sequence.contents.{
   IntroductionOfTheSequence,
   PromptingToConnect,
-  PromptingToGoBackToOperation
+  PromptingToGoBackToOperation,
+  PromptingToProposeInRelationToOperation
 }
 import org.make.front.facades.mveLogo
 import org.make.front.models._
@@ -86,6 +88,24 @@ object MVEOperationStaticData extends StaticDataOfOperation {
               slides.size
             },
             displayed = !params.isConnected
+          ),
+          ExtraSlide(
+            maybeTracker =
+              Some(DisplayTracker("display-proposal-push-card", trackingContext, defaultTrackingParameters)),
+            reactClass = PromptingToProposeInRelationToOperation.reactClass,
+            props = { handler =>
+              PromptingToProposeInRelationToOperationProps(
+                operation = params.operation,
+                clickOnButtonHandler = handler,
+                proposeHandler = handler,
+                sequenceId = params.sequence.sequenceId,
+                maybeLocation = params.maybeLocation,
+                language = params.language
+              )
+            },
+            position = { slides =>
+              slides.size / 2
+            }
           ),
           ExtraSlide(
             maybeTracker = Some(DisplayTracker("display-finale-card", trackingContext, defaultTrackingParameters)),
