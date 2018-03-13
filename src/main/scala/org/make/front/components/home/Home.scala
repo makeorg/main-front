@@ -41,7 +41,7 @@ object Home {
             <.FeaturedArticlesShowcaseContainerComponent.empty,
             <.ThemeShowcaseContainerComponent(
               ^.wrapped := ThemeShowcaseContainerProps(
-                themeSlug = "sante-alimentation",
+                themeSlug = "democratie-vie-politique",
                 maybeIntro = Some(unescape(I18n.t("home.showcase-1.intro"))),
                 maybeNews = Some(I18n.t("home.showcase-1.news")),
                 maybeOperation = None,
