@@ -19,6 +19,7 @@ import org.make.services.tracking.TrackingService.TrackingContext
 import org.make.services.tracking.{TrackingLocation, TrackingService}
 
 object VFFGBOperationIntro {
+
   case class VFFGBOperationIntroProps(operation: OperationModel, language: String)
 
   lazy val reactClass: ReactClass =
@@ -50,67 +51,63 @@ object VFFGBOperationIntro {
             operation.gradient.getOrElse(GradientColorModel("#FFF", "#FFF"))
 
           object DynamicVFFGBOperationIntroStyles extends StyleSheet.Inline {
+
             import dsl._
+
             val gradient: StyleA =
               style(background := s"linear-gradient(130deg, ${gradientValues.from}, ${gradientValues.to})")
           }
 
           <.div(^.className := Seq(OperationIntroStyles.wrapper, DynamicVFFGBOperationIntroStyles.gradient))(
-            <.div(^.className := OperationIntroStyles.presentationInnerWrapper)(
-              <.div(^.className := LayoutRulesStyles.centeredRow)(
-                <.div(^.className := Seq(OperationIntroStyles.titleWrapper, VFFGBOperationIntroStyles.titleWrapper))(
-                  <.p(^.className := TextStyles.label)(unescape(I18n.t("operation.vff-gb.intro.label"))),
-                  <.p(^.className := Seq(OperationIntroStyles.logoWrapper))(
-                    <.img(^.src := VFFGBWhiteLogo.toString, ^.alt := unescape(I18n.t("operation.vff-gb.intro.title")))()
-                  ),
-                  <.p(^.className := Seq(OperationIntroStyles.infos, TextStyles.label))(
+            <.div(^.className := Seq(OperationIntroStyles.headingWrapper, LayoutRulesStyles.centeredRow))(
+              <.div(^.className := VFFGBOperationIntroStyles.logoWrapper)(
+                <.p(^.className := OperationIntroStyles.labelWrapper)(
+                  <.span(^.className := TextStyles.label)(unescape(I18n.t("operation.vff-gb.intro.label")))
+                ),
+                <.img(^.src := VFFGBWhiteLogo.toString, ^.alt := unescape(I18n.t("operation.vff-gb.intro.title")))(),
+                <.p(^.className := OperationIntroStyles.infosWrapper)(
+                  <.span(^.className := Seq(OperationIntroStyles.infosLabel, TextStyles.label))(
                     unescape(I18n.t("operation.vff-gb.intro.period"))
-                  ),
-                  <.div(^.className := Seq(TableLayoutStyles.wrapper, OperationIntroStyles.separator))(
-                    <.div(
-                      ^.className := Seq(
-                        TableLayoutStyles.cellVerticalAlignMiddle,
-                        OperationIntroStyles.separatorLineWrapper
-                      )
-                    )(
-                      <.hr(
-                        ^.className := Seq(
-                          OperationIntroStyles.separatorLine,
-                          OperationIntroStyles.separatorLineToTheLeft
-                        )
+                  )
+                )
+              ),
+              <.div(^.className := Seq(TableLayoutStyles.wrapper, OperationIntroStyles.separator))(
+                <.div(
+                  ^.className := Seq(
+                    TableLayoutStyles.cellVerticalAlignMiddle,
+                    OperationIntroStyles.separatorLineWrapper
+                  )
+                )(
+                  <.hr(
+                    ^.className := Seq(OperationIntroStyles.separatorLine, OperationIntroStyles.separatorLineToTheLeft)
+                  )()
+                ),
+                <.div(^.className := Seq(TableLayoutStyles.cell, OperationIntroStyles.separatorTextWrapper))(
+                  <.p(^.className := Seq(OperationIntroStyles.separatorText, TextStyles.smallerText))(
+                    unescape(I18n.t("operation.vff-gb.intro.partners.intro"))
+                  )
+                ),
+                <.div(
+                  ^.className := Seq(
+                    TableLayoutStyles.cellVerticalAlignMiddle,
+                    OperationIntroStyles.separatorLineWrapper
+                  )
+                )(
+                  <.hr(
+                    ^.className := Seq(OperationIntroStyles.separatorLine, OperationIntroStyles.separatorLineToTheRight)
+                  )()
+                )
+              ),
+              <.ul(^.className := OperationIntroStyles.partnersList)(
+                partners.map(
+                  partner =>
+                    <.li(^.className := OperationIntroStyles.partnerItem)(
+                      <.img(
+                        ^.src := partner.imageUrl,
+                        ^.alt := partner.name,
+                        ^("width") := partner.imageWidth.toString,
+                        ^.className := OperationIntroStyles.partnerLogo
                       )()
-                    ),
-                    <.div(^.className := Seq(TableLayoutStyles.cell, OperationIntroStyles.separatorTextWrapper))(
-                      <.p(^.className := Seq(OperationIntroStyles.separatorText, TextStyles.smallerText))(
-                        unescape(I18n.t("operation.vff-gb.intro.partners.intro"))
-                      )
-                    ),
-                    <.div(
-                      ^.className := Seq(
-                        TableLayoutStyles.cellVerticalAlignMiddle,
-                        OperationIntroStyles.separatorLineWrapper
-                      )
-                    )(
-                      <.hr(
-                        ^.className := Seq(
-                          OperationIntroStyles.separatorLine,
-                          OperationIntroStyles.separatorLineToTheRight
-                        )
-                      )()
-                    )
-                  ),
-                  <.ul(^.className := OperationIntroStyles.partnersList)(
-                    partners.map(
-                      partner =>
-                        <.li(^.className := OperationIntroStyles.partnerItem)(
-                          <.img(
-                            ^.src := partner.imageUrl,
-                            ^.alt := partner.name,
-                            ^("width") := partner.imageWidth.toString,
-                            ^.className := OperationIntroStyles.partnerLogo
-                          )()
-                      )
-                    )
                   )
                 )
               )
@@ -158,6 +155,6 @@ object VFFGBOperationIntroStyles extends StyleSheet.Inline {
 
   import dsl._
 
-  val titleWrapper: StyleA = style(maxWidth(470.pxToEm()))
+  val logoWrapper: StyleA = style(maxWidth(417.pxToEm()), marginLeft.auto, marginRight.auto)
 
 }

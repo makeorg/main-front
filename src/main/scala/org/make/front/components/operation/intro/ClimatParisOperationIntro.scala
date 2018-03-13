@@ -48,7 +48,9 @@ object ClimatParisOperationIntro {
             operation.gradient.getOrElse(GradientColorModel("#FFF", "#FFF"))
 
           object DynamicClimatParisOperationIntroStyles extends StyleSheet.Inline {
+
             import dsl._
+
             val gradient: StyleA =
               style(background := s"linear-gradient(130deg, ${gradientValues.from}, ${gradientValues.to})")
           }
@@ -67,19 +69,17 @@ object ClimatParisOperationIntro {
               ^.alt := I18n.t("operation.climatparis.intro.title"),
               ^("data-pin-no-hover") := "true"
             )(),
-            <.div(^.className := OperationIntroStyles.presentationInnerWrapper)(
-              <.div(^.className := LayoutRulesStyles.centeredRow)(
-                <.div(
-                  ^.className := Seq(OperationIntroStyles.titleWrapper, ClimatParisOperationIntroStyles.titleWrapper)
-                )(
-                  <.p(^.className := Seq(OperationIntroStyles.logoWrapper))(
-                    <.img(
-                      ^.src := climatParisWhiteLogo.toString,
-                      ^.alt := unescape(I18n.t("operation.climatparis.intro.title"))
-                    )()
-                  )
-                )
+            <.p(
+              ^.className := Seq(
+                OperationIntroStyles.headingWrapper,
+                ClimatParisOperationIntroStyles.logoWrapper,
+                LayoutRulesStyles.centeredRow
               )
+            )(
+              <.img(
+                ^.src := climatParisWhiteLogo.toString,
+                ^.alt := unescape(I18n.t("operation.climatparis.intro.title"))
+              )()
             ),
             <.div(
               ^.className := Seq(
@@ -136,7 +136,8 @@ object ClimatParisOperationIntroStyles extends StyleSheet.Inline {
       mixBlendMode := "multiply"
     )
 
-  val titleWrapper: StyleA = style(maxWidth(360.pxToEm()))
+  val logoWrapper: StyleA =
+    style(textAlign.center)
 
   val explanationWrapper: StyleA =
     style(backgroundColor(ThemeStyles.BackgroundColor.blackTransparent))

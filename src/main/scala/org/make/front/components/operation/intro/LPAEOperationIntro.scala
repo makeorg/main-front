@@ -58,57 +58,47 @@ object LPAEOperationIntro {
           }
 
           <.div(^.className := Seq(OperationIntroStyles.wrapper, DynamicLPAEOperationIntroStyles.gradient))(
-            <.div(^.className := OperationIntroStyles.presentationInnerWrapper)(
-              <.div(^.className := LayoutRulesStyles.centeredRow)(
-                <.div(^.className := Seq(OperationIntroStyles.titleWrapper, LPAEOperationIntroStyles.titleWrapper))(
-                  <.p(^.className := Seq(OperationIntroStyles.logoWrapper))(
-                    <.img(^.src := lpaeWhiteLogo.toString, ^.alt := unescape(I18n.t("operation.lpae.intro.title")))()
-                  ),
-                  <.div(^.className := Seq(TableLayoutStyles.wrapper, OperationIntroStyles.separator))(
-                    <.div(
-                      ^.className := Seq(
-                        TableLayoutStyles.cellVerticalAlignMiddle,
-                        OperationIntroStyles.separatorLineWrapper
-                      )
-                    )(
-                      <.hr(
-                        ^.className := Seq(
-                          OperationIntroStyles.separatorLine,
-                          OperationIntroStyles.separatorLineToTheLeft
-                        )
+            <.div(^.className := Seq(OperationIntroStyles.headingWrapper, LayoutRulesStyles.centeredRow))(
+              <.p(^.className := LPAEOperationIntroStyles.logoWrapper)(
+                <.img(^.src := lpaeWhiteLogo.toString, ^.alt := unescape(I18n.t("operation.lpae.intro.title")))()
+              ),
+              <.div(^.className := Seq(TableLayoutStyles.wrapper, OperationIntroStyles.separator))(
+                <.div(
+                  ^.className := Seq(
+                    TableLayoutStyles.cellVerticalAlignMiddle,
+                    OperationIntroStyles.separatorLineWrapper
+                  )
+                )(
+                  <.hr(
+                    ^.className := Seq(OperationIntroStyles.separatorLine, OperationIntroStyles.separatorLineToTheLeft)
+                  )()
+                ),
+                <.div(^.className := Seq(TableLayoutStyles.cell, OperationIntroStyles.separatorTextWrapper))(
+                  <.p(^.className := Seq(OperationIntroStyles.separatorText, TextStyles.smallerText))(
+                    unescape(I18n.t("operation.lpae.intro.partners.intro"))
+                  )
+                ),
+                <.div(
+                  ^.className := Seq(
+                    TableLayoutStyles.cellVerticalAlignMiddle,
+                    OperationIntroStyles.separatorLineWrapper
+                  )
+                )(
+                  <.hr(
+                    ^.className := Seq(OperationIntroStyles.separatorLine, OperationIntroStyles.separatorLineToTheRight)
+                  )()
+                )
+              ),
+              <.ul(^.className := OperationIntroStyles.partnersList)(
+                partners.map(
+                  partner =>
+                    <.li(^.className := OperationIntroStyles.partnerItem)(
+                      <.img(
+                        ^.src := partner.imageUrl,
+                        ^.alt := partner.name,
+                        ^("width") := partner.imageWidth.toString,
+                        ^.className := OperationIntroStyles.partnerLogo
                       )()
-                    ),
-                    <.div(^.className := Seq(TableLayoutStyles.cell, OperationIntroStyles.separatorTextWrapper))(
-                      <.p(^.className := Seq(OperationIntroStyles.separatorText, TextStyles.smallerText))(
-                        unescape(I18n.t("operation.lpae.intro.partners.intro"))
-                      )
-                    ),
-                    <.div(
-                      ^.className := Seq(
-                        TableLayoutStyles.cellVerticalAlignMiddle,
-                        OperationIntroStyles.separatorLineWrapper
-                      )
-                    )(
-                      <.hr(
-                        ^.className := Seq(
-                          OperationIntroStyles.separatorLine,
-                          OperationIntroStyles.separatorLineToTheRight
-                        )
-                      )()
-                    )
-                  ),
-                  <.ul(^.className := OperationIntroStyles.partnersList)(
-                    partners.map(
-                      partner =>
-                        <.li(^.className := OperationIntroStyles.partnerItem)(
-                          <.img(
-                            ^.src := partner.imageUrl,
-                            ^.alt := partner.name,
-                            ^("width") := partner.imageWidth.toString,
-                            ^.className := OperationIntroStyles.partnerLogo
-                          )()
-                      )
-                    )
                   )
                 )
               )
@@ -155,6 +145,6 @@ object LPAEOperationIntroStyles extends StyleSheet.Inline {
 
   import dsl._
 
-  val titleWrapper: StyleA = style(maxWidth(830.pxToEm()))
+  val logoWrapper: StyleA = style(maxWidth(822.pxToEm()), marginLeft.auto, marginRight.auto)
 
 }

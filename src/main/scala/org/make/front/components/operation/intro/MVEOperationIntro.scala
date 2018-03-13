@@ -45,54 +45,52 @@ object MVEOperationIntro {
           )
 
           <.div(^.className := Seq(OperationIntroStyles.wrapper, MVEOperationIntroStyles.wrapper))(
-            <.div(^.className := OperationIntroStyles.presentationInnerWrapper)(
-              <.div(^.className := LayoutRulesStyles.centeredRow)(
-                <.div(^.className := Seq(OperationIntroStyles.titleWrapper, MVEOperationIntroStyles.titleWrapper))(
-                  <.p(^.className := TextStyles.label)(unescape(I18n.t("operation.mve.intro.label"))),
-                  <.p(^.className := Seq(OperationIntroStyles.logoWrapper))(
-                    <.img(^.src := mveLogo.toString, ^.alt := unescape(I18n.t("operation.mve.intro.title")))()
-                  ),
-                  <.div(^.className := Seq(TableLayoutStyles.wrapper, OperationIntroStyles.separator))(
-                    <.div(
-                      ^.className := Seq(
-                        TableLayoutStyles.cellVerticalAlignMiddle,
-                        OperationIntroStyles.separatorLineWrapper
-                      )
-                    )(
-                      <.hr(
-                        ^.className := Seq(
-                          OperationIntroStyles.separatorLine,
-                          MVEOperationIntroStyles.separatorLine,
-                          OperationIntroStyles.separatorLineToTheLeft,
-                          MVEOperationIntroStyles.separatorLineToTheLeft
-                        )
-                      )()
-                    ),
-                    <.div(^.className := Seq(TableLayoutStyles.cell, OperationIntroStyles.separatorTextWrapper))(
-                      <.p(
-                        ^.className := Seq(
-                          OperationIntroStyles.separatorText,
-                          MVEOperationIntroStyles.separatorText,
-                          TextStyles.smallerText
-                        )
-                      )(unescape(I18n.t("operation.mve.intro.partners.intro")))
-                    ),
-                    <.div(
-                      ^.className := Seq(
-                        TableLayoutStyles.cellVerticalAlignMiddle,
-                        OperationIntroStyles.separatorLineWrapper
-                      )
-                    )(
-                      <.hr(
-                        ^.className := Seq(
-                          OperationIntroStyles.separatorLine,
-                          MVEOperationIntroStyles.separatorLine,
-                          OperationIntroStyles.separatorLineToTheRight,
-                          MVEOperationIntroStyles.separatorLineToTheRight
-                        )
-                      )()
-                    )
+            <.div(^.className := Seq(OperationIntroStyles.headingWrapper, LayoutRulesStyles.centeredRow))(
+              <.div(^.className := MVEOperationIntroStyles.logoWrapper)(
+                <.p(^.className := OperationIntroStyles.labelWrapper)(
+                  <.span(^.className := TextStyles.label)(unescape(I18n.t("operation.mve.intro.label")))
+                ),
+                <.img(^.src := mveLogo.toString, ^.alt := unescape(I18n.t("operation.mve.intro.title")))()
+              ),
+              <.div(^.className := Seq(TableLayoutStyles.wrapper, OperationIntroStyles.separator))(
+                <.div(
+                  ^.className := Seq(
+                    TableLayoutStyles.cellVerticalAlignMiddle,
+                    OperationIntroStyles.separatorLineWrapper
                   )
+                )(
+                  <.hr(
+                    ^.className := Seq(
+                      OperationIntroStyles.separatorLine,
+                      MVEOperationIntroStyles.separatorLine,
+                      OperationIntroStyles.separatorLineToTheLeft,
+                      MVEOperationIntroStyles.separatorLineToTheLeft
+                    )
+                  )()
+                ),
+                <.div(^.className := Seq(TableLayoutStyles.cell, OperationIntroStyles.separatorTextWrapper))(
+                  <.p(
+                    ^.className := Seq(
+                      OperationIntroStyles.separatorText,
+                      MVEOperationIntroStyles.separatorText,
+                      TextStyles.smallerText
+                    )
+                  )(unescape(I18n.t("operation.mve.intro.partners.intro")))
+                ),
+                <.div(
+                  ^.className := Seq(
+                    TableLayoutStyles.cellVerticalAlignMiddle,
+                    OperationIntroStyles.separatorLineWrapper
+                  )
+                )(
+                  <.hr(
+                    ^.className := Seq(
+                      OperationIntroStyles.separatorLine,
+                      MVEOperationIntroStyles.separatorLine,
+                      OperationIntroStyles.separatorLineToTheRight,
+                      MVEOperationIntroStyles.separatorLineToTheRight
+                    )
+                  )()
                 )
               ),
               <.ul(
@@ -185,7 +183,7 @@ object MVEOperationIntroStyles extends StyleSheet.Inline {
       )
     )
 
-  val titleWrapper: StyleA = style(maxWidth(480.pxToEm()))
+  val logoWrapper: StyleA = style(maxWidth(481.pxToEm()), marginLeft.auto, marginRight.auto)
 
   val separatorLine: StyleA =
     style(backgroundColor(ThemeStyles.BorderColor.light))
