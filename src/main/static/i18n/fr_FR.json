@@ -54,10 +54,10 @@
       "mve":{
         "title": "Mieux vivre ensemble",
         "label": "Grande cause Make.org",
-        "purpose": "Votez et proposez des solutions pour mieux vivre ensemble",
+        "purpose": "Votez et proposez des solutions pour mieux vivre ensemble.",
         "learn-more": {
           "label": "Participer à la consultation",
-          "link": "www.make.org/#/fr/consultation/mieux-vivre-ensemble/selection"
+          "link": "https://www.make.org/#/fr/consultation/mieux-vivre-ensemble/selection"
         }
       }
     },
