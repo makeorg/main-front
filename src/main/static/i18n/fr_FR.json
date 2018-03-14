@@ -57,7 +57,7 @@
         "purpose": "Votez et proposez des solutions pour mieux vivre ensemble",
         "learn-more": {
           "label": "Participer à la consultation",
-          "link": "https://about.make.org/about-mieux-vivre-ensemble"
+          "link": "www.make.org/#/fr/consultation/mieux-vivre-ensemble/selection"
         }
       }
     },
@@ -81,7 +81,7 @@
     },
     "showcase-1": {
       "intro": "le thème du mois&nbsp;",
-      "news": "Budget de la Sécurité sociale, États généraux de l'Alimentation, glyphosate&nbsp;:<br>la santé et l'alimentation sont au coeur de l'actualité, à vous de vous exprimer."
+      "news": "Au moment où le Président de la République ouvre un grand chantier sur la réforme de nos Institutions, faites vous entendre en proposant vos idées."
     },
     "showcase-2": {
       "intro": "Exprimez-vous&nbsp;!",
@@ -90,6 +90,9 @@
     "showcase-3": {
       "intro": "départagez-les&nbsp;!",
       "title": "Les propositions les + débattues sur"
+    },
+    "featured-articles-showcase": {
+      "title": "AGIR AVEC MAKE.ORG"
     }
   },
   "theme-showcase": {

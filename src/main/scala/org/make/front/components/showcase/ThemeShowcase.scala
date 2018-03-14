@@ -95,8 +95,30 @@ object ThemeShowcase {
               self.props.history.push(s"/theme/${self.props.wrapped.theme.slug}")
             }
 
+            def sliderContent() = Seq(
+              self.state.proposals.map(
+                proposal =>
+                  <.div(
+                    ^.className :=
+                      Seq(ColRulesStyles.col,
+                        ThemeShowcaseStyles.propasalItem))(
+                    proposalTile(self, proposal)
+                  )
+              ),
+              <.div(
+                ^.className :=
+                  Seq(ColRulesStyles.col,
+                    ThemeShowcaseStyles.propasalItem))(
+                <.PromptingToProposeInRelationToThemeTileComponent(
+                  ^.wrapped :=
+                    PromptingToProposeInRelationToThemeTileProps(
+                      theme = self.props.wrapped.theme
+                    ))()
+              ))
+
             if (self.props.wrapped.theme.title.nonEmpty) {
               <.section(^.className := Seq(ThemeShowcaseStyles.wrapper, DynamicThemeShowcaseStyles.gradient(index)))(
+              Seq(
                 <.header(^.className := LayoutRulesStyles.centeredRow)(
                   if (self.props.wrapped.maybeIntro.nonEmpty) {
                     <.p(^.className := Seq(ThemeShowcaseStyles.intro, TextStyles.mediumText, TextStyles.intro))(
@@ -165,73 +187,65 @@ object ThemeShowcase {
                   )*/
                   /*TODO: dev filter functions and reactivate template part*/
                 ),
-                <.div(^.className := Seq(RWDHideRulesStyles.hideBeyondMedium, LayoutRulesStyles.centeredRow, ThemeShowcaseStyles.slideshow))(
+                <.div(^.className := Seq(RWDHideRulesStyles.hideBeyondMedium, LayoutRulesStyles.centeredRowWithCols, ThemeShowcaseStyles.slideshow))(
                   <.Slider(^.infinite := false, ^.arrows := false)(
+                    sliderContent()
+                  )
+                ),
+                <.div(^.className := Seq(RWDHideRulesStyles.showBlockBeyondMedium, RWDHideRulesStyles.hideBeyondLarge, LayoutRulesStyles.centeredRowWithCols, ThemeShowcaseStyles.slideshow))(
+                  <.Slider(^.infinite := false, ^.arrows := false, ^.slidesToShow := 2, ^.slidesToScroll := 2)(
+                    sliderContent()
+                  )
+                ),
+                <.div(^.className := RWDHideRulesStyles.showBlockBeyondLarge)(
+                  <.ul(^.className := Seq(LayoutRulesStyles.centeredRowWithCols, ThemeShowcaseStyles.propasalsList))(
                     self.state.proposals.map(
                       proposal =>
-                        <.div(^.className := ThemeShowcaseStyles.propasalItem)(
+                        <.li(
+                          ^.className := Seq(
+                            ThemeShowcaseStyles.propasalItem,
+                            ColRulesStyles.col,
+                            ColRulesStyles.colQuarterBeyondLarge
+                          )
+                        )(
                           proposalTile(self, proposal)
                         )
-                  ),
-                  <.div(
-                    ^.className :=
-                      ThemeShowcaseStyles.propasalItem)(
-                    <.PromptingToProposeInRelationToThemeTileComponent(
-                      ^.wrapped :=
-                        PromptingToProposeInRelationToThemeTileProps(
-                          theme = self.props.wrapped.theme
-                        ))()
-                  )
-                )
-              ),
-              <.div(^.className := RWDHideRulesStyles.showBlockBeyondMedium)(
-                <.ul(^.className := Seq(LayoutRulesStyles.centeredRowWithCols, ThemeShowcaseStyles.propasalsList))(
-                  self.state.proposals.map(
-                    proposal =>
-                      <.li(
-                        ^.className := Seq(
-                          ThemeShowcaseStyles.propasalItem,
-                          ColRulesStyles.col,
-                          ColRulesStyles.colHalfBeyondMedium,
-                          ColRulesStyles.colQuarterBeyondLarge
-                        )
-                      )(
-                        proposalTile(self, proposal)
+                    ),
+                    <.li(
+                      ^.className := Seq(
+                        ThemeShowcaseStyles.propasalItem,
+                        ColRulesStyles.col,
+                        ColRulesStyles.colHalfBeyondMedium,
+                        ColRulesStyles.colQuarterBeyondLarge
                       )
-                  ),
-                  <.li(
-                    ^.className := Seq(
-                      ThemeShowcaseStyles.propasalItem,
-                      ColRulesStyles.col,
-                      ColRulesStyles.colHalfBeyondMedium,
-                      ColRulesStyles.colQuarterBeyondLarge
+                    )(
+                      <.PromptingToProposeInRelationToThemeTileComponent(
+                        ^.wrapped :=
+                          PromptingToProposeInRelationToThemeTileProps(
+                            theme = self.props.wrapped.theme
+                          ))()
                     )
+                  )
+                ),
+                <.p(^.className := Seq(LayoutRulesStyles.centeredRow, ThemeShowcaseStyles.seeMoreLinkWrapper))(
+                  <.Link(
+                    ^.className := Seq(CTAStyles.basic, CTAStyles.basicOnA),
+                    ^.to := s"/theme/${self.props.wrapped.theme.slug}"
                   )(
-                    <.PromptingToProposeInRelationToThemeTileComponent(
-                      ^.wrapped :=
-                        PromptingToProposeInRelationToThemeTileProps(
-                          theme = self.props.wrapped.theme
-                        ))()
-                  )
-                )),
-              <.p(^.className := Seq(LayoutRulesStyles.centeredRow, ThemeShowcaseStyles.seeMoreLinkWrapper))(
-                <.Link(
-                  ^.className := Seq(CTAStyles.basic, CTAStyles.basicOnA),
-                  ^.to := s"/theme/${self.props.wrapped.theme.slug}"
-                )(
-                  I18n
-                    .t(
-                      "theme-showcase.see-all",
-                      Replacements(
-                        (
-                          "themeName",
-                          self.props.wrapped.theme.title
+                    I18n
+                      .t(
+                        "theme-showcase.see-all",
+                        Replacements(
+                          (
+                            "themeName",
+                            self.props.wrapped.theme.title
+                          )
                         )
                       )
-                    )
+                  )
+                ),
+                <.style()(ThemeShowcaseStyles.render[String], DynamicThemeShowcaseStyles.render[String])
                 )
-              ),
-              <.style()(ThemeShowcaseStyles.render[String], DynamicThemeShowcaseStyles.render[String])
               )
             } else <.div.empty
       })
@@ -348,13 +362,13 @@ object ThemeShowcaseStyles extends StyleSheet.Inline {
 
   val slideshow: StyleA =
     style(
+      width(95.%%),
       unsafeChild(".slick-list")(
         overflow.visible
       ),
       unsafeChild(".slick-slide")(
         height.auto,
-        minHeight.inherit,
-        paddingRight(10.pxToEm())
+        minHeight.inherit
       ),
       unsafeChild(".slick-track")(
         display.flex

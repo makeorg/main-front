@@ -97,8 +97,8 @@ object TrendingShowcase {
               <.div(
                 ^.className := Seq(
                   RWDHideRulesStyles.hideBeyondMedium,
-                  LayoutRulesStyles.centeredRow,
-                  ThemeShowcaseStyles.slideshow
+                  LayoutRulesStyles.centeredRowWithCols,
+                  TrendingShowcaseStyles.slideshow
                 )
               )(
                 <.Slider(^.infinite := false, ^.arrows := false)(
@@ -106,7 +106,7 @@ object TrendingShowcase {
                     proposal =>
                       <.div(
                         ^.className :=
-                          ThemeShowcaseStyles.propasalItem
+                          Seq(ColRulesStyles.col, TrendingShowcaseStyles.propasalItem)
                       )(proposalTile(proposal, maybeLocation, counter))
                   )
                 )
@@ -157,6 +157,14 @@ object TrendingShowcaseStyles extends StyleSheet.Inline {
     marginBottom(ThemeStyles.SpacingValue.smaller.pxToEm(15)),
     ThemeStyles.MediaQueries.beyondSmall(marginBottom(ThemeStyles.SpacingValue.smaller.pxToEm(18)))
   )
+
+  val slideshow: StyleA =
+    style(
+      width(95.%%),
+      unsafeChild(".slick-list")(overflow.visible),
+      unsafeChild(".slick-slide")(height.auto, minHeight.inherit),
+      unsafeChild(".slick-track")(display.flex)
+    )
 
   val propasalsList: StyleA =
     style(display.flex, flexWrap.wrap)
