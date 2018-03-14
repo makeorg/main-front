@@ -5,6 +5,14 @@ import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import io.github.shogowada.scalajs.reactjs.redux.ReactRedux
 import io.github.shogowada.scalajs.reactjs.redux.Redux.Dispatch
 import org.make.front.components.AppState
+import org.make.front.facades.{
+  endometriShowcase,
+  endometriShowcaseX2,
+  tromplinShowcase,
+  tromplinShowcaseX2,
+  vffShowcase,
+  vffShowcaseX2
+}
 import org.make.front.models.{FeaturedArticle => FeaturedArticleModel}
 
 object FeaturedArticlesShowcaseContainer {
@@ -16,8 +24,8 @@ object FeaturedArticlesShowcaseContainer {
       FeaturedArticlesShowcase.FeaturedArticlesShowcaseProps(
         articles = Seq(
           FeaturedArticleModel(
-            illUrl = "images/showcase/vff_showcase.png",
-            ill2xUrl = "images/showcase/vff_showcase@x2.png",
+            illUrl = vffShowcase.toString,
+            ill2xUrl = vffShowcaseX2.toString,
             imageAlt = Some("Grâce aux idées issues de la consultation, 8 actions nationales ont été identifiées."),
             label = "Grande cause Make.org",
             excerpt = "Grâce aux idées issues de la consultation, 8 actions nationales ont été identifiées.",
@@ -25,8 +33,8 @@ object FeaturedArticlesShowcaseContainer {
             seeMoreLink = "https://stopvff.make.org/about-vff"
           ),
           FeaturedArticleModel(
-            illUrl = "images/showcase/endometri_showcase.png",
-            ill2xUrl = "images/showcase/endometri_showcase@x2.png",
+            illUrl = endometriShowcase.toString,
+            ill2xUrl = endometriShowcaseX2.toString,
             imageAlt = Some("Endométri - Ose faire valoir tes droits"),
             label = "Action en cours",
             excerpt = "Endométri - Ose faire valoir tes droits",
@@ -34,8 +42,8 @@ object FeaturedArticlesShowcaseContainer {
             seeMoreLink = "https://about.make.org/post/endometri-ose-le-dire"
           ),
           FeaturedArticleModel(
-            illUrl = "images/showcase/tromplin_showcase.png",
-            ill2xUrl = "images/showcase/tromplin_showcase@x2.png",
+            illUrl = tromplinShowcase.toString,
+            ill2xUrl = tromplinShowcaseX2.toString,
             imageAlt = Some("La \"Dotation tremplin\" devient une proposition de loi !"),
             label = "Action en cours",
             excerpt = "La \"Dotation tremplin\" devient une proposition de loi !",

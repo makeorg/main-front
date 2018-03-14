@@ -618,6 +618,30 @@ object gbFlag extends js.Object
 object itFlag extends js.Object
 
 @js.native
+@JSImport("./images/showcase/vff_showcase.png", "default")
+object vffShowcase extends js.Object
+
+@js.native
+@JSImport("./images/showcase/vff_showcase@2x.png", "default")
+object vffShowcaseX2 extends js.Object
+
+@js.native
+@JSImport("./images/showcase/endometri_showcase.png", "default")
+object endometriShowcase extends js.Object
+
+@js.native
+@JSImport("./images/showcase/endometri_showcase@2x.png", "default")
+object endometriShowcaseX2 extends js.Object
+
+@js.native
+@JSImport("./images/showcase/tromplin_showcase.png", "default")
+object tromplinShowcase extends js.Object
+
+@js.native
+@JSImport("./images/showcase/tromplin_showcase@2x.png", "default")
+object tromplinShowcaseX2 extends js.Object
+
+@js.native
 @JSImport("./fonts/CircularStd-Book.woff2", "default")
 object circularStdBookWoff2 extends js.Object
 
