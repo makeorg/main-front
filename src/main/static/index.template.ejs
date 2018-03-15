@@ -55,26 +55,19 @@
     <script>
         fbq('display-loader', {})
     </script>
-    <style>
-      html,body,#make-app{height:100%;margin:0}
-      .loader__wrapper{display:table;width:100%;height:100%;background:rgba(0,0,0,0.05)}
-      .loader__inner-wrapper{display:table-cell;vertical-align:middle;padding:1em;text-align:center}
-      @-webkit-keyframes FLY {
-        0%{-webkit-transform:translate(2px,2px);-ms-transform:translate(2px,2px);transform:translate(2px,2px)}
-        20%{-webkit-transform:translate(2px,0px);-ms-transform:translate(2px,0px);transform:translate(2px,0px)}
-        40%{-webkit-transform:translate(2px,1px);-ms-transform:translate(2px,1px);transform:translate(2px,1px)}
-        60%{-webkit-transform:translate(1px,1px);-ms-transform:translate(1px,1px);transform:translate(1px,1px)}
-        100%{-webkit-transform:translate(1px,0px);-ms-transform:translate(1px,1px);transform:translate(1px,0px)}
-      }
-      .loader__ill{max-width:100%;-webkit-animation:FLY 0.3s infinite;-moz-animation:FLY 0.3s infinite;-o-animation:FLY 0.3s infinite;animation:FLY 0.3s infinite;}
-      .loader__message{margin:1em 0;font-family:CircularStdBook,Arial,sans-serif;font-size:0.9375em;line-height:1.3333333333333333;color:rgba(0,0,0,0.3)}
-      .loader__message em{font-family:CircularStdBold,Arial,sans-serif;font-weight:bold;font-size:1.2em;line-height:1.27777777778;color:#ed1844}
-      @media (max-width: 31.1875em){.loader__ill{width:5em}}
-      @media (min-width: 31.25em){.loader__message{font-size:1.5em;}.loader__message em{font-size:1.16666666667em;line-height:1.3333333333333333;}}
-    </style>
-    <div class="loader__wrapper">
-      <div class="loader__inner-wrapper">
-        <img src="/loader.gif" srcset="/loader@2x.gif 2x" alt="load">
+    <div class="spinner__sub-wrapper">
+      <style>.spinner__sub-wrapper{display:table;width:100%;height:100%}.spinner__wrapper{display:table-cell;vertical-align:middle}@keyframes ROTATE{0%{-moz-transform:rotate(0);-webkit-transform:rotate(0);-o-transform:rotate(0);transform:rotate(0)}100%{-moz-transform:rotate(360deg);-webkit-transform:rotate(360deg);-o-transform:rotate(360deg);transform:rotate(360deg)}}.spinner{display:block;text-align:center;line-height:0}.spinner__shape{position:relative;z-index:1;opacity:0.3;-moz-animation-name:ROTATE;-webkit-animation-name:ROTATE;-o-animation-name:ROTATE;animation-name:ROTATE;-moz-animation-timing-function:linear;-webkit-animation-timing-function:linear;-o-animation-timing-function:linear;animation-timing-function:linear;-moz-animation-duration:.5s;-webkit-animation-duration:.5s;-o-animation-duration:.5s;animation-duration:.5s;-moz-animation-iteration-count:infinite;-webkit-animation-iteration-count:infinite;-o-animation-iteration-count:infinite;animation-iteration-count:infinite}</style>
+      <div class="spinner__wrapper">
+        <span class="spinner">
+          <svg x="0" y="0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 66 66" height="40" width="40" class="spinner__shape" >
+            <linearGradient id="gradient">
+              <stop offset="0" style="stop-color: rgb(0, 0, 0); stop-opacity: 0;"></stop>
+              <stop offset="1" style="stop-color: rgb(0, 0, 0); stop-opacity: 1;"></stop>
+            </linearGradient>
+            <path fill="url(#gradient)"
+                  d="M0,33C0,14.8,14.8,0,33,0s33,14.8,33,33S51.2,66,33,66S0,51.2,0,33z M6,33c0,14.9,12.1,27,27,27s27-12.1,27-27 S47.9,6,33,6S6,18.1,6,33z"></path>
+          </svg>
+        </span>
       </div>
     </div>
 </div>

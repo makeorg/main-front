@@ -6,8 +6,8 @@ import io.github.shogowada.scalajs.reactjs.redux.ReactRedux
 import io.github.shogowada.scalajs.reactjs.redux.Redux.Dispatch
 import io.github.shogowada.scalajs.reactjs.router.RouterProps._
 import org.make.front.actions.SetCountry
-import org.make.front.components.ObjectLoader.ObjectLoaderProps
-import org.make.front.components.{AppState, ObjectLoader}
+import org.make.front.components.DataLoader.DataLoaderProps
+import org.make.front.components.{AppState, DataLoader}
 import org.make.front.models.{Operation => OperationModel, OperationExpanded, Tag}
 import org.make.services.operation.OperationService
 import org.make.services.tag.TagService
@@ -18,9 +18,9 @@ import scala.concurrent.Future
 
 object OperationContainer {
 
-  lazy val reactClass: ReactClass = ReactRedux.connectAdvanced(selectorFactory)(ObjectLoader.reactClass)
+  lazy val reactClass: ReactClass = ReactRedux.connectAdvanced(selectorFactory)(DataLoader.reactClass)
 
-  def selectorFactory: (Dispatch) => (AppState, Props[Unit]) => ObjectLoaderProps[OperationExpanded] =
+  def selectorFactory: (Dispatch) => (AppState, Props[Unit]) => DataLoaderProps[OperationExpanded] =
     (dispatch: Dispatch) => { (appState: AppState, props: Props[Unit]) =>
       {
         val slug = props.`match`.params("operationSlug")
@@ -44,17 +44,16 @@ object OperationContainer {
 
         }
 
-        val shouldReload: (Option[OperationExpanded]) => Boolean = { maybeOperation =>
+        val shouldOperationUpdate: (Option[OperationExpanded]) => Boolean = { maybeOperation =>
           maybeOperation.forall(operation => operation.slug != slug || operation.country != countryCode)
         }
-        ObjectLoaderProps[OperationExpanded](
-          load = operationExpanded,
-          shouldReload = shouldReload,
-          onNotFound = () => {
-            props.history.push("/404")
-          },
-          childClass = Operation.reactClass,
-          createChildProps = { operation =>
+
+        DataLoaderProps[OperationExpanded](
+          future = operationExpanded,
+          shouldComponentUpdate = shouldOperationUpdate,
+          componentDisplayedMeanwhileReactClass = WaitingForOperation.reactClass,
+          componentReactClass = Operation.reactClass,
+          componentProps = { operation =>
             Operation.OperationProps(
               operation,
               countryCode,
@@ -70,6 +69,9 @@ object OperationContainer {
                 }
               }
             )
+          },
+          onNotFound = () => {
+            props.history.push("/404")
           }
         )
       }

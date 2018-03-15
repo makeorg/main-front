@@ -111,7 +111,7 @@ object Operation {
               <.style()(OperationComponentStyles.render[String])
             )
           } else {
-            <("operation")()()
+            <.div.empty
           }
         }
       )
