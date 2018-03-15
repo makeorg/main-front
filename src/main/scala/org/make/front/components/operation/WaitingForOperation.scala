@@ -23,12 +23,16 @@ object WaitingForOperation {
                 <.MainHeaderContainer.empty
               )
             ),
-            <.div(^.className := Seq(TableLayoutStyles.row, WaitingForOperationComponentStyles.fullHeight))(
-              <.div(^.className := TableLayoutStyles.cellVerticalAlignMiddle)(<.SpinnerComponent.empty)
+            <.div(^.className := TableLayoutStyles.row)(
+              <.div(
+                ^.className := Seq(
+                  WaitingForOperationComponentStyles.content,
+                  TableLayoutStyles.cellVerticalAlignMiddle
+                )
+              )(<.SpinnerComponent.empty)
             ),
             <.style()(WaitingForOperationComponentStyles.render[String])
           )
-
         }
       )
 }
@@ -38,15 +42,14 @@ object WaitingForOperationComponentStyles extends StyleSheet.Inline {
   import dsl._
 
   val wrapper: StyleA =
-    style(
-      tableLayout.fixed,
-      paddingBottom(ThemeStyles.SpacingValue.medium.pxToEm()),
-      ThemeStyles.MediaQueries.beyondSmall(paddingBottom(ThemeStyles.SpacingValue.larger.pxToEm())),
-      backgroundColor(ThemeStyles.BackgroundColor.blackVeryTransparent)
-    )
+    style(tableLayout.fixed, backgroundColor(ThemeStyles.BackgroundColor.blackVeryTransparent))
 
-  val fullHeight: StyleA =
-    style(height(100.%%))
+  val content: StyleA =
+    style(
+      height(100.%%),
+      paddingBottom(ThemeStyles.SpacingValue.large.pxToEm()),
+      ThemeStyles.MediaQueries.beyondSmall(paddingBottom(ThemeStyles.SpacingValue.evenLarger.pxToEm()))
+    )
 
   val mainHeaderWrapper: StyleA =
     style(visibility.hidden)
