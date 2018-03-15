@@ -5,6 +5,17 @@ var HtmlWebpackPlugin = require('html-webpack-plugin');
 var WebpackMd5Hash = require('webpack-md5-hash');
 var scalajs = require('./scalajs.webpack.config')
 
+var htmlWebpackParams = {
+    "metaTitle": "Make.org",
+    "metaDescription": "Make.org",
+    "metaPicture": "https://uploads-ssl.webflow.com/598345cdee443e00013ae603/59a526e0a1a95c0001f8ca11_make.png",
+    "template": path.join(__dirname, "index.template.ejs"),
+    "apiUrl": "API_URL",
+    "googleAppId": "810331964280-qtdupbrjusihad3b5da51i5p66qpmhmr.apps.googleusercontent.com",
+    "googleAnalyticsId": "UA-97647514-1",
+    "facebookAppId": "317128238675603",
+    "facebookPixelId": "260470104426586"
+}
 // Content that will be included in docker image
 var build = {
     name: "build",
@@ -46,15 +57,13 @@ var build = {
                 'NODE_ENV': JSON.stringify('production')
             }
         }),
-        new HtmlWebpackPlugin({
-            "title": "Make.org",
-            "template": path.join(__dirname, "index.template.ejs"),
-            "apiUrl": "API_URL",
-            "googleAppId": "810331964280-qtdupbrjusihad3b5da51i5p66qpmhmr.apps.googleusercontent.com",
-            "googleAnalyticsId": "UA-97647514-1",
-            "facebookAppId": "317128238675603",
-            "facebookPixelId": "260470104426586"
-        }),
+        new HtmlWebpackPlugin(htmlWebpackParams),
+        new HtmlWebpackPlugin(Object.assign({}, htmlWebpackParams, {
+            "metaTitle": "Mieux Vivre Ensemble",
+            "metaDescription": "Du 14 mars au 13 mai, une consultation nationale est menée auprès des citoyens sur la question « Comment mieux vivre ensemble ? » Objectif : Faire émerger des idées innovantes et les transformer en actions.",
+            "metaPicture": "./mve_social_share.jpg",
+            "filename": "./mieux-vivre-ensemble.html",
+        })),
         new WebpackMd5Hash(),
         new ExtractTextPlugin({ // define where to save the file
             filename: '[name].[chunkhash].bundle.css',
