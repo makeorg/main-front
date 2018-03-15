@@ -170,7 +170,7 @@
       "agree": {
         "label": "D'accord",
         "qualifications":{
-          "likeIt": "Coup de ♥",
+          "likeIt": "Coup de <span class=\"fa fa-heart\"></span>",
           "doable": "Réaliste",
           "platitudeAgree": "Banalité"
         }

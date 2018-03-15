@@ -48,23 +48,19 @@ object CurrentOperations {
 
               val gradient: StyleA =
                 style(background := s"linear-gradient(130deg, ${gradientValues.from}, ${gradientValues.to})")
-
-              val ill: StyleA = style(maxWidth(470.pxToEm()))
             }
 
             <.article(^.className := OperationTileStyles.wrapper)(
               <.Link(^.to := s"/${self.props.wrapped.country}/consultation/${operation.slug}/selection")(
                 <.div(
                   ^.className := Seq(
-                    OperationTileStyles.illWrapper(isLongerBeyondMedium),
+                    OperationTileStyles.figure(isLongerBeyondMedium),
                     DynamicOperationTileStyles.gradient
                   )
                 )(
-                  <.img(
-                    ^.className := Seq(OperationTileStyles.ill, DynamicOperationTileStyles.ill),
-                    ^.src := operation.whiteLogoUrl,
-                    ^.alt := unescape(wording.title)
-                  )()
+                  <.p(^.className := OperationTileStyles.illWrapper)(
+                    <.img(^.src := operation.whiteLogoUrl, ^.alt := unescape(wording.title))()
+                  )
                 )
               ),
               <.div(^.className := Seq(OperationTileStyles.contentWrapper, TableLayoutStyles.wrapper))(
@@ -268,7 +264,7 @@ object OperationTileStyles extends StyleSheet.Inline {
   val wrapper: StyleA =
     style(width(100.%%), boxShadow := "0 1px 1px 0 rgba(0,0,0,0.50)")
 
-  val illWrapper: (Boolean) => StyleA = styleF.bool(
+  val figure: (Boolean) => StyleA = styleF.bool(
     isLongerBeyondMedium =>
       if (isLongerBeyondMedium) {
         styleS(
@@ -288,14 +284,17 @@ object OperationTileStyles extends StyleSheet.Inline {
     }
   )
 
-  val ill: StyleA =
+  val illWrapper: StyleA =
     style(
+      display.flex,
       position.absolute,
-      top(50.%%),
-      left(50.%%),
-      maxHeight(70.%%),
-      width(80.%%),
-      transform := s"translate(-50%, -50%)"
+      padding(ThemeStyles.SpacingValue.small.pxToEm()),
+      top(`0`),
+      left(`0`),
+      height(100.%%),
+      width(100.%%),
+      alignItems.center,
+      justifyContent.center
     )
 
   val contentWrapper: StyleA =

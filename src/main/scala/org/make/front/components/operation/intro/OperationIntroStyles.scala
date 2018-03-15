@@ -11,26 +11,29 @@ object OperationIntroStyles extends StyleSheet.Inline {
   val wrapper: StyleA =
     style(backgroundColor(ThemeStyles.BackgroundColor.black))
 
-  val presentationInnerWrapper: StyleA =
+  val headingWrapper: StyleA =
     style(
       position.relative,
       zIndex(1),
-      padding(ThemeStyles.SpacingValue.medium.pxToEm(), `0`),
+      paddingTop(ThemeStyles.SpacingValue.medium.pxToEm()),
+      paddingBottom(ThemeStyles.SpacingValue.medium.pxToEm()),
       ThemeStyles.MediaQueries.beyondSmall(
-        padding(ThemeStyles.SpacingValue.larger.pxToEm(), `0`, ThemeStyles.SpacingValue.large.pxToEm())
+        paddingTop(ThemeStyles.SpacingValue.larger.pxToEm()),
+        paddingBottom(ThemeStyles.SpacingValue.large.pxToEm())
       )
     )
 
-  val titleWrapper: StyleA = style(maxWidth(470.pxToEm()), marginLeft.auto, marginRight.auto)
+  val labelWrapper: StyleA =
+    style(marginBottom(ThemeStyles.SpacingValue.small.pxToEm()))
 
-  val logoWrapper: StyleA =
-    style(marginTop(ThemeStyles.SpacingValue.small.pxToEm()), marginBottom(ThemeStyles.SpacingValue.smaller.pxToEm()))
+  val infosWrapper: StyleA =
+    style(marginTop(ThemeStyles.SpacingValue.small.pxToEm()))
 
-  val infos: StyleA =
-    style(width(100.%%), textAlign.center, backgroundColor(ThemeStyles.BackgroundColor.blackMoreTransparent))
+  val infosLabel: StyleA =
+    style(width(100.%%), backgroundColor(ThemeStyles.BackgroundColor.blackMoreTransparent), textAlign.center)
 
   val separator: StyleA =
-    style(margin(ThemeStyles.SpacingValue.medium.pxToEm(), `0`, ThemeStyles.SpacingValue.small.pxToEm()))
+    style(width(300.pxToEm()), margin(ThemeStyles.SpacingValue.medium.pxToEm(), auto, `0`))
 
   val separatorLineWrapper: StyleA =
     style(width(50.%%), paddingTop(2.pxToEm()))
@@ -59,7 +62,7 @@ object OperationIntroStyles extends StyleSheet.Inline {
   val partnerItem: StyleA = style(
     display.inlineBlock,
     verticalAlign.middle,
-    padding((ThemeStyles.SpacingValue.small / 2).pxToEm(), ThemeStyles.SpacingValue.small.pxToEm())
+    padding(ThemeStyles.SpacingValue.small.pxToEm(), ThemeStyles.SpacingValue.small.pxToEm(), `0`)
   )
 
   val partnerLogo: StyleA = style()
