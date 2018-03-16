@@ -29,6 +29,7 @@ val npmReactGoogleLogin = "2.9.3"
 val npmReactFacebookLogin = "3.6.2"
 val npmReactTextareaAutoresize = "5.1.0"
 val npmReactInfiniteScroller = "1.0.15"
+val npmReactShareVersion = "2.0.0"
 val npmHexToRgba = "0.2.0"
 val npmJquery = "3.2.1"
 val npmJsCookie = "2.1.4"
@@ -61,6 +62,7 @@ npmDependencies in Compile ++= Seq(
   "react-google-login" -> npmReactGoogleLogin,
   "react-facebook-login" -> npmReactFacebookLogin,
   "react-textarea-autosize" -> npmReactTextareaAutoresize,
+  "react-share" -> npmReactShareVersion,
   "hex-to-rgba" -> npmHexToRgba,
   "jquery" -> npmJquery,
   "js-cookie" -> npmJsCookie

@@ -1,17 +1,19 @@
 package org.make.front.components.share
 
+
 import io.github.shogowada.scalajs.reactjs.React
 import io.github.shogowada.scalajs.reactjs.VirtualDOM.{<, ^, _}
 import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import org.make.front.Main.CssSettings._
 import org.make.front.components.Components._
+import org.make.front.facades.ReactShare._
 import org.make.front.styles.ThemeStyles
 import org.make.front.styles.base.TextStyles
 import org.make.front.styles.utils._
 
 object ShareProposal {
 
-  final case class ShareProps(intro: Option[String] = None)
+  final case class ShareProps(url: String, intro: Option[String] = None)
 
   val reactClass: ReactClass =
     React
@@ -22,7 +24,30 @@ object ShareProposal {
             <.div(^.className := ShareStyles.intro)(
               <.p(^.className := TextStyles.smallerTitle)(self.props.wrapped.intro.getOrElse(""))
             )
-          }, <.ul(^.className := ShareStyles.list)(<.li(^.className := ShareStyles.item)(<.button(^.className := Seq(ShareStyles.button, ShareStyles.shareWithFacebookButton))()), <.li(^.className := ShareStyles.item)(<.button(^.className := Seq(ShareStyles.button, ShareStyles.shareWithTwitterButton))()), <.li(^.className := ShareStyles.item)(<.button(^.className := Seq(ShareStyles.button, ShareStyles.shareWithGooglePlusButton))()), <.li(^.className := ShareStyles.item)(<.button(^.className := Seq(ShareStyles.button, ShareStyles.shareWithLinkedInButton))())), <.style()(ShareStyles.render[String]))
+          },
+          <.ul(^.className := ShareStyles.list)(
+            <.li(^.className := ShareStyles.item)(
+              <.FacebookShareButton(
+                ^.url := self.props.wrapped.url
+              )(<.button(^.className := Seq(ShareStyles.button, ShareStyles.shareWithFacebookButton))())
+            ),
+            <.li(^.className := ShareStyles.item)(
+              <.TwitterShareButton(
+                ^.url := self.props.wrapped.url
+              )(<.button(^.className := Seq(ShareStyles.button, ShareStyles.shareWithTwitterButton))())
+            ),
+            <.li(^.className := ShareStyles.item)(
+              <.GooglePlusShareButton(
+                ^.url := self.props.wrapped.url
+              )(<.button(^.className := Seq(ShareStyles.button, ShareStyles.shareWithGooglePlusButton))())
+            ),
+            <.li(^.className := ShareStyles.item)(
+              <.LinkedinShareButton(
+                ^.url := self.props.wrapped.url
+              )(<.button(^.className := Seq(ShareStyles.button, ShareStyles.shareWithLinkedInButton))())
+            )
+          ),
+          <.style()(ShareStyles.render[String]))
         }
       )
 }

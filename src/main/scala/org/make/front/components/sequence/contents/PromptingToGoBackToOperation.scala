@@ -156,7 +156,7 @@ object PromptingToGoBackToOperation {
                               ^.className := Seq(PromptingToGoBackToOperationStyles.sharingIntro, TextStyles.mediumText)
                             )(unescape(I18n.t("sequence.prompting-to-continue.share.intro")))
                           ),
-                          <.ShareComponent(^.wrapped := ShareProps())()
+                          <.ShareComponent(^.wrapped := ShareProps(url = self.props.wrapped.operation.shareUrl))()
                         )
                       )
                     )
