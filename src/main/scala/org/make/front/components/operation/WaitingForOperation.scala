@@ -17,27 +17,24 @@ object WaitingForOperation {
         displayName = "WaitingForOperation",
         render = (self) => {
 
-          <.div(^.className := Seq(WaitingForOperationComponentStyles.wrapper, TableLayoutStyles.fullHeightWrapper))(
+          <.div(^.className := Seq(WaitingForOperationStyles.wrapper, TableLayoutStyles.fullHeightWrapper))(
             <.div(^.className := TableLayoutStyles.row)(
-              <.div(^.className := Seq(TableLayoutStyles.cell, WaitingForOperationComponentStyles.mainHeaderWrapper))(
+              <.div(^.className := Seq(TableLayoutStyles.cell, WaitingForOperationStyles.mainHeaderWrapper))(
                 <.MainHeaderContainer.empty
               )
             ),
             <.div(^.className := TableLayoutStyles.row)(
-              <.div(
-                ^.className := Seq(
-                  WaitingForOperationComponentStyles.content,
-                  TableLayoutStyles.cellVerticalAlignMiddle
-                )
-              )(<.SpinnerComponent.empty)
+              <.div(^.className := Seq(WaitingForOperationStyles.content, TableLayoutStyles.cellVerticalAlignMiddle))(
+                <.SpinnerComponent.empty
+              )
             ),
-            <.style()(WaitingForOperationComponentStyles.render[String])
+            <.style()(WaitingForOperationStyles.render[String])
           )
         }
       )
 }
 
-object WaitingForOperationComponentStyles extends StyleSheet.Inline {
+object WaitingForOperationStyles extends StyleSheet.Inline {
 
   import dsl._
 

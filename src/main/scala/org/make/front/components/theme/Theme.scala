@@ -39,9 +39,9 @@ object Theme {
         },
         render = (self) => {
           <.div()(
-            <.div(^.className := ThemeComponentStyles.mainHeaderWrapper)(<.MainHeaderContainer.empty),
+            <.div(^.className := ThemeStyles.mainHeaderWrapper)(<.MainHeaderContainer.empty),
             <.ThemeHeaderComponent(^.wrapped := ThemeHeaderProps(self.props.wrapped.theme))(),
-            <.div(^.className := ThemeComponentStyles.contentWrapper)(
+            <.div(^.className := ThemeStyles.contentWrapper)(
               <.PoliticalActionsContainerComponent(
                 ^.wrapped := PoliticalActionsContainerProps(Some(self.props.wrapped.theme))
               )(),
@@ -54,13 +54,13 @@ object Theme {
               )(),
               <.NavInThemesContainerComponent.empty
             ),
-            <.style()(ThemeComponentStyles.render[String])
+            <.style()(ThemeStyles.render[String])
           )
         }
       )
 }
 
-object ThemeComponentStyles extends StyleSheet.Inline {
+object ThemeStyles extends StyleSheet.Inline {
 
   import dsl._
 

@@ -43,7 +43,7 @@ object Operation {
         render = (self) => {
           if (self.props.wrapped.operation.isActive) {
             <("operation")()(
-              <.div(^.className := OperationComponentStyles.mainHeaderWrapper)(<.MainHeaderContainer.empty),
+              <.div(^.className := OperationStyles.mainHeaderWrapper)(<.MainHeaderContainer.empty),
               // @todo: refactor this part
               if (self.props.wrapped.operation.slug == "climatparis") {
                 <.ClimatParisOperationIntroComponent(
@@ -100,7 +100,7 @@ object Operation {
                   language = self.props.wrapped.language
                 )
               )(),
-              <.div(^.className := OperationComponentStyles.contentWrapper)(
+              <.div(^.className := OperationStyles.contentWrapper)(
                 <.ResultsInOperationContainerComponent(
                   ^.wrapped := ResultsInOperationContainerProps(
                     currentOperation = self.props.wrapped.operation,
@@ -108,7 +108,7 @@ object Operation {
                   )
                 )()
               ),
-              <.style()(OperationComponentStyles.render[String])
+              <.style()(OperationStyles.render[String])
             )
           } else {
             <.div.empty
@@ -117,7 +117,7 @@ object Operation {
       )
 }
 
-object OperationComponentStyles extends StyleSheet.Inline {
+object OperationStyles extends StyleSheet.Inline {
 
   import dsl._
 

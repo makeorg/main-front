@@ -13,26 +13,28 @@ object WaitingForSequence {
 
   val reactClass: ReactClass =
     React
-      .createClass[Unit, Unit](displayName = "WaitingForSequence", render = {
-        _ =>
-          <.section(^.className := Seq(TableLayoutStyles.fullHeightWrapper, WaitingForSequenceComponentStyles.wrapper))(
+      .createClass[Unit, Unit](
+        displayName = "WaitingForSequence",
+        render = { _ =>
+          <.section(^.className := Seq(TableLayoutStyles.fullHeightWrapper, WaitingForSequenceStyles.wrapper))(
             <.div(^.className := TableLayoutStyles.row)(
-              <.div(^.className := Seq(TableLayoutStyles.cell, WaitingForSequenceComponentStyles.mainHeaderWrapper))(
+              <.div(^.className := Seq(TableLayoutStyles.cell, WaitingForSequenceStyles.mainHeaderWrapper))(
                 <.MainHeaderContainer.empty
               )
             ),
             <.div(^.className := TableLayoutStyles.row)(
-              <.div(
-                ^.className := Seq(WaitingForSequenceComponentStyles.content, TableLayoutStyles.cellVerticalAlignMiddle)
-              )(<.SpinnerComponent.empty)
+              <.div(^.className := Seq(WaitingForSequenceStyles.content, TableLayoutStyles.cellVerticalAlignMiddle))(
+                <.SpinnerComponent.empty
+              )
             ),
-            <.style()(WaitingForSequenceComponentStyles.render[String])
+            <.style()(WaitingForSequenceStyles.render[String])
           )
-      })
+        }
+      )
 
 }
 
-object WaitingForSequenceComponentStyles extends StyleSheet.Inline {
+object WaitingForSequenceStyles extends StyleSheet.Inline {
 
   import dsl._
 
