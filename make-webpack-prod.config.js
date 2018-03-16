@@ -61,7 +61,7 @@ var build = {
         new HtmlWebpackPlugin(Object.assign({}, htmlWebpackParams, {
             "metaTitle": "Mieux Vivre Ensemble",
             "metaDescription": "Du 14 mars au 13 mai, une consultation nationale est menée auprès des citoyens sur la question « Comment mieux vivre ensemble ? » Objectif : Faire émerger des idées innovantes et les transformer en actions.",
-            "metaPicture": "./mve_social_share.jpg",
+            "metaPicture": "https://uploads-ssl.webflow.com/598345cdee443e00013ae603/5aaa3e43106bcfc5bc0979cc_simulation%20visuel%20fb.jpg",
             "filename": "./mieux-vivre-ensemble.html",
         })),
         new WebpackMd5Hash(),
