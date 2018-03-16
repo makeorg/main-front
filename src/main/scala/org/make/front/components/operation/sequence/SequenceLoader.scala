@@ -62,25 +62,21 @@ object SequenceLoader {
 
       },
       render = { self =>
-        <.div()(
-          (
-            for {
-              operation <- self.state.operation
-              sequence  <- self.state.sequence
-            } yield
-              <.SequenceOfTheOperationComponent(
-                ^.wrapped := SequenceOfTheOperationProps(
-                  isConnected = self.props.wrapped.isConnected,
-                  operation = operation,
-                  startSequence = self.props.wrapped.startSequence(sequence.sequenceId),
-                  redirectHome = self.props.wrapped.redirectHome,
-                  sequence = sequence,
-                  language = self.props.wrapped.language,
-                  country = self.props.wrapped.country
-                )
-              )()
-          ).toSeq
-        )
+        (for {
+          operation <- self.state.operation
+          sequence  <- self.state.sequence
+        } yield
+          <.SequenceOfTheOperationComponent(
+            ^.wrapped := SequenceOfTheOperationProps(
+              isConnected = self.props.wrapped.isConnected,
+              operation = operation,
+              startSequence = self.props.wrapped.startSequence(sequence.sequenceId),
+              redirectHome = self.props.wrapped.redirectHome,
+              sequence = sequence,
+              language = self.props.wrapped.language,
+              country = self.props.wrapped.country
+            )
+          )()).getOrElse(<.WaitingForSequence.empty)
       }
     )
 }
