@@ -20,7 +20,7 @@ object ShareProposal {
       .createClass[ShareProps, Unit](
         displayName = "ShareProposal",
         render = (self) => {
-          val shareUrl: String = s"${dom.window.location.hostname}${self.props.wrapped.url}"
+          val shareUrl: String = s"${dom.window.location.origin}${self.props.wrapped.url}"
 
           <.div(^.className := ShareStyles.wrapper)(if (self.props.wrapped.intro.isDefined) {
             <.div(^.className := ShareStyles.intro)(

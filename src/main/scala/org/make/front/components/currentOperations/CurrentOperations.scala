@@ -56,7 +56,7 @@ object CurrentOperations {
                     DynamicOperationTileStyles.gradient
                   )
                 )(
-                  <.p(^.className := OperationTileStyles.illWrapper)(
+                  <.div(^.className := OperationTileStyles.illWrapper)(
                     <.img(^.src := operation.whiteLogoUrl, ^.alt := unescape(wording.title))()
                   )
                 )
