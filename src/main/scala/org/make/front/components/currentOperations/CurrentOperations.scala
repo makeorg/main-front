@@ -27,11 +27,9 @@ object CurrentOperations {
                                           operations: Seq[OperationExpandedModel],
                                           supportedCountries: Seq[CountryConfigurationModel])
 
-  final case class CurrentOperationsState()
-
   lazy val reactClass: ReactClass =
     React
-      .createClass[CurrentOperationsProps, CurrentOperationsState](
+      .createClass[CurrentOperationsProps, Unit](
         displayName = "CurrentOperations",
         render = (self) => {
 

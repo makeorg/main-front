@@ -11,7 +11,6 @@ import org.make.front.components.theme.ThemeHeader.ThemeHeaderProps
 import org.make.front.models.{
   Location          => LocationModel,
   OperationExpanded => OperationModel,
-  Sequence          => SequenceModel,
   TranslatedTheme   => TranslatedThemeModel
 }
 import org.make.front.styles.ThemeStyles
@@ -39,9 +38,9 @@ object Theme {
         },
         render = (self) => {
           <.div()(
-            <.div(^.className := ThemeComponentStyles.mainHeaderWrapper)(<.MainHeaderContainer.empty),
+            <.div(^.className := ThemePageStyles.mainHeaderWrapper)(<.MainHeaderContainer.empty),
             <.ThemeHeaderComponent(^.wrapped := ThemeHeaderProps(self.props.wrapped.theme))(),
-            <.div(^.className := ThemeComponentStyles.contentWrapper)(
+            <.div(^.className := ThemePageStyles.contentWrapper)(
               <.PoliticalActionsContainerComponent(
                 ^.wrapped := PoliticalActionsContainerProps(Some(self.props.wrapped.theme))
               )(),
@@ -54,13 +53,13 @@ object Theme {
               )(),
               <.NavInThemesContainerComponent.empty
             ),
-            <.style()(ThemeComponentStyles.render[String])
+            <.style()(ThemePageStyles.render[String])
           )
         }
       )
 }
 
-object ThemeComponentStyles extends StyleSheet.Inline {
+object ThemePageStyles extends StyleSheet.Inline {
 
   import dsl._
 

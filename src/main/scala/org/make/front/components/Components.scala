@@ -127,6 +127,7 @@ object Components {
     def ProgressBarComponent: ReactClassElementSpec = self(sequence.ProgressBar.reactClass)
     def ProposalInsideSequenceComponent: ReactClassElementSpec =
       self(sequence.contents.ProposalInsideSequence.reactClass)
+    def WaitingForSequence: ReactClassElementSpec = self(operation.sequence.WaitingForSequence.reactClass)
 
     /*********************/
     def VoteContainerComponent: ReactClassElementSpec = self(proposal.vote.VoteContainer.reactClass)
