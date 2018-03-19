@@ -1,6 +1,5 @@
 package org.make.front.components.share
 
-
 import io.github.shogowada.scalajs.reactjs.React
 import io.github.shogowada.scalajs.reactjs.VirtualDOM.{<, ^, _}
 import io.github.shogowada.scalajs.reactjs.classes.ReactClass
@@ -10,6 +9,7 @@ import org.make.front.facades.ReactShare._
 import org.make.front.styles.ThemeStyles
 import org.make.front.styles.base.TextStyles
 import org.make.front.styles.utils._
+import org.scalajs.dom
 
 object ShareProposal {
 
@@ -20,6 +20,8 @@ object ShareProposal {
       .createClass[ShareProps, Unit](
         displayName = "ShareProposal",
         render = (self) => {
+          val shareUrl: String = s"${dom.window.location.hostname}${self.props.wrapped.url}"
+
           <.div(^.className := ShareStyles.wrapper)(if (self.props.wrapped.intro.isDefined) {
             <.div(^.className := ShareStyles.intro)(
               <.p(^.className := TextStyles.smallerTitle)(self.props.wrapped.intro.getOrElse(""))
@@ -28,22 +30,22 @@ object ShareProposal {
           <.ul(^.className := ShareStyles.list)(
             <.li(^.className := ShareStyles.item)(
               <.FacebookShareButton(
-                ^.url := self.props.wrapped.url
+                ^.url := shareUrl
               )(<.button(^.className := Seq(ShareStyles.button, ShareStyles.shareWithFacebookButton))())
             ),
             <.li(^.className := ShareStyles.item)(
               <.TwitterShareButton(
-                ^.url := self.props.wrapped.url
+                ^.url := shareUrl
               )(<.button(^.className := Seq(ShareStyles.button, ShareStyles.shareWithTwitterButton))())
             ),
             <.li(^.className := ShareStyles.item)(
               <.GooglePlusShareButton(
-                ^.url := self.props.wrapped.url
+                ^.url := shareUrl
               )(<.button(^.className := Seq(ShareStyles.button, ShareStyles.shareWithGooglePlusButton))())
             ),
             <.li(^.className := ShareStyles.item)(
               <.LinkedinShareButton(
-                ^.url := self.props.wrapped.url
+                ^.url := shareUrl
               )(<.button(^.className := Seq(ShareStyles.button, ShareStyles.shareWithLinkedInButton))())
             )
           ),

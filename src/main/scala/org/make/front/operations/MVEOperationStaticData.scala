@@ -30,7 +30,7 @@ object MVEOperationStaticData extends StaticDataOfOperation {
       gradient = Some(GradientColor("#EE6380", "#77C4D1")), /*colors from logo*/
       logoUrl = mveLogo.toString,
       whiteLogoUrl = mveLogo.toString,
-      shareUrl = "https://make.org/mieux-vivre-ensemble.html#/FR/consultation/mieux-vivre-ensemble/selection",
+      shareUrl = "/mieux-vivre-ensemble.html#/FR/consultation/mieux-vivre-ensemble/selection",
       wording = Seq(
         OperationWording(
           language = "fr",

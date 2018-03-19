@@ -8,12 +8,12 @@ import io.github.shogowada.scalajs.reactjs.router.WithRouter
 import org.make.front.Main.CssSettings._
 import org.make.front.components.Components._
 import org.make.front.components.share.ShareProposal.ShareProps
-import org.make.front.facades.Unescape.unescape
 import org.make.front.facades.I18n
+import org.make.front.facades.Unescape.unescape
 import org.make.front.models.{
-  OperationWording,
-  SequenceId,
-  GradientColor     => GradientColorModel,
+  OperationWording => OperationWordingModel,
+  SequenceId => SequenceIdModel,
+  GradientColor => GradientColorModel,
   OperationExpanded => OperationModel
 }
 import org.make.front.styles.ThemeStyles
@@ -26,7 +26,7 @@ import org.make.services.tracking.{TrackingLocation, TrackingService}
 object PromptingToGoBackToOperation {
 
   final case class PromptingToGoBackToOperationProps(operation: OperationModel,
-                                                     sequenceId: SequenceId,
+                                                     sequenceId: SequenceIdModel,
                                                      clickOnButtonHandler: () => Unit,
                                                      language: String,
                                                      country: String)
@@ -52,7 +52,7 @@ object PromptingToGoBackToOperation {
               val gradient =
                 style(background := s"linear-gradient(130deg, ${gradientValues.from}, ${gradientValues.to})")
             }
-            val wording: OperationWording =
+            val wording: OperationWordingModel =
               self.props.wrapped.operation.getWordingByLanguageOrError(self.props.wrapped.language)
 
             val onClick: () => Unit = () => {
