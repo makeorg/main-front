@@ -24,8 +24,8 @@ object Operation {
       translations =
         operationResponse.translations.map(translationResponse => OperationTranslation.apply(translationResponse)),
       defaultLanguage = operationResponse.defaultLanguage,
-      createdAt = operationResponse.createdAt.toOption.map(new js.Date(_)),
-      updatedAt = operationResponse.updatedAt.toOption.map(new js.Date(_)),
+      createdAt = Option(operationResponse.createdAt).flatMap(_.toOption).map(new js.Date(_)),
+      updatedAt = Option(operationResponse.updatedAt).flatMap(_.toOption).map(new js.Date(_)),
       countriesConfiguration = operationResponse.countriesConfiguration.map(
         countryConfigurationResponse => OperationCountryConfiguration.apply(countryConfigurationResponse)
       )
@@ -62,13 +62,14 @@ object OperationCountryConfiguration {
     OperationCountryConfiguration(
       countryCode = operationCountryConfigurationResponse.countryCode,
       tagIds = operationCountryConfigurationResponse.tagIds.map(tagId => Tag(tagId = TagId(tagId), label = tagId)),
-      landingSequenceId = operationCountryConfigurationResponse.landingSequenceId.toOption
+      landingSequenceId = Option(operationCountryConfigurationResponse.landingSequenceId)
+        .flatMap(_.toOption)
         .map(SequenceId(_)) match {
         case Some(sequenceId) => sequenceId
         case _                => throw new IllegalArgumentException("a landing sequence id is required")
       },
-      startDate = operationCountryConfigurationResponse.startDate.toOption.map(new js.Date(_)),
-      endDate = operationCountryConfigurationResponse.endDate.toOption.map(new js.Date(_))
+      startDate = Option(operationCountryConfigurationResponse.startDate).flatMap(_.toOption).map(new js.Date(_)),
+      endDate = Option(operationCountryConfigurationResponse.endDate).flatMap(_.toOption).map(new js.Date(_))
     )
   }
 }
