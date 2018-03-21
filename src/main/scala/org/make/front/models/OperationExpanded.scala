@@ -6,8 +6,6 @@ import org.make.front.operations.Operations
 import scala.scalajs.js
 
 final case class OperationStaticData(country: String,
-                                     startDate: Option[js.Date],
-                                     endDate: Option[js.Date],
                                      slug: String,
                                      wording: Seq[OperationWording],
                                      color: String,
@@ -109,8 +107,8 @@ object OperationExpanded {
     } yield
       OperationExpanded(
         defaultLanguage = operation.defaultLanguage,
-        startDate = operationStaticData.startDate,
-        endDate = operationStaticData.endDate,
+        startDate = operation.countriesConfiguration.find(_.countryCode == country).flatMap(_.startDate),
+        endDate = operation.countriesConfiguration.find(_.countryCode == country).flatMap(_.endDate),
         country = country,
         operationId = operation.operationId,
         slug = operation.slug,

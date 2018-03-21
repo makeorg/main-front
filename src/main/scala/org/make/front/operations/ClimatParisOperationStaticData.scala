@@ -18,8 +18,6 @@ import org.make.services.tracking.{TrackingLocation, TrackingService}
 object ClimatParisOperationStaticData extends StaticDataOfOperation {
   override val data: OperationStaticData = OperationStaticData(
     slug = "climatparis",
-    startDate = None,
-    endDate = None,
     country = "FR",
     color = "#459ba6",
     gradient = Some(GradientColor("#bfe692", "#69afde")),

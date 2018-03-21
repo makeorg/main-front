@@ -21,8 +21,6 @@ import scala.scalajs.js
 object LPAEOperationStaticData extends StaticDataOfOperation {
   override val data: OperationStaticData = OperationStaticData(
     slug = "lpae",
-    startDate = None,
-    endDate = Some(new js.Date("2018-03-09")),
     country = "FR",
     color = "#602a7a",
     gradient = Some(GradientColor("#683577", "#782f8b")),

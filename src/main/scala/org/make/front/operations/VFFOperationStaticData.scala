@@ -20,8 +20,6 @@ import scala.scalajs.js
 object VFFOperationStaticData extends StaticDataOfOperation {
   override val data: OperationStaticData = OperationStaticData(
     slug = "vff",
-    startDate = None,
-    endDate = Some(new js.Date("2018-01-31")),
     country = "FR",
     color = "#660779",
     gradient = Some(GradientColor("#AB92CA", "#54325A")),
@@ -128,8 +126,6 @@ object VFFITOperationStaticData extends StaticDataOfOperation {
     country = "IT",
     logoUrl = VFFITLogo.toString,
     whiteLogoUrl = VFFITWhiteLogo.toString,
-    endDate = None,
-    startDate = None,
     wording = Seq(
       OperationWording(
         language = "it",
@@ -230,8 +226,6 @@ object VFFGBOperationStaticData extends StaticDataOfOperation {
     country = "GB",
     logoUrl = VFFGBLogo.toString,
     whiteLogoUrl = VFFGBWhiteLogo.toString,
-    endDate = None,
-    startDate = None,
     wording = Seq(
       OperationWording(
         language = "en",

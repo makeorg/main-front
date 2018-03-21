@@ -23,8 +23,6 @@ object MVEOperationStaticData extends StaticDataOfOperation {
   override val data: OperationStaticData = {
     OperationStaticData(
       slug = "mieux-vivre-ensemble",
-      startDate = None,
-      endDate = Some(new js.Date("2018-03-21")),
       country = "FR",
       color = "#f16481",
       /*TODO: remove this commented option after nico validation*/
