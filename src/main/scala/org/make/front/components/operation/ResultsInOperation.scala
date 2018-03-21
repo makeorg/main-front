@@ -127,6 +127,9 @@ object ResultsInOperation {
           )
         )
       },
+      shouldComponentUpdate = { (self, _, state) =>
+        self.state.listProposals.map(_.id).toSet != state.listProposals.map(_.id).toSet
+      },
       render = { (self) =>
         val onSeeMore: (Int) => Unit = {
           _ =>
