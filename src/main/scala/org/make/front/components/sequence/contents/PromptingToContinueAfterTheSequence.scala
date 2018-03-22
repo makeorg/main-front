@@ -9,8 +9,8 @@ import org.make.front.components.share.ShareProposal.ShareProps
 import org.make.front.facades.I18n
 import org.make.front.facades.Unescape.unescape
 import org.make.front.models.{
-  OperationWording,
-  GradientColor     => GradientColorModel,
+  OperationWording => OperationWordingModel,
+  GradientColor => GradientColorModel,
   OperationExpanded => OperationModel
 }
 import org.make.front.styles.ThemeStyles
@@ -18,6 +18,7 @@ import org.make.front.styles.base.{ColRulesStyles, LayoutRulesStyles, TextStyles
 import org.make.front.styles.ui.CTAStyles
 import org.make.front.styles.utils._
 import org.make.front.styles.vendors.FontAwesomeStyles
+
 object PromptingToContinueAfterTheSequence {
 
   final case class PromptingToContinueAfterTheSequenceProps(operation: OperationModel,
@@ -42,7 +43,7 @@ object PromptingToContinueAfterTheSequence {
 
             val gradient = style(background := s"linear-gradient(130deg, ${gradientValues.from}, ${gradientValues.to})")
           }
-          val wording: OperationWording =
+          val wording: OperationWordingModel =
             self.props.wrapped.operation.getWordingByLanguageOrError(self.props.wrapped.language)
 
           <.div(^.className := TableLayoutStyles.fullHeightWrapper)(
@@ -157,6 +158,7 @@ object PromptingToContinueAfterTheSequence {
                 )(
                   <.ShareComponent(
                     ^.wrapped := ShareProps(
+                      url = self.props.wrapped.operation.shareUrl,
                       intro = Some(unescape(I18n.t("sequence.prompting-to-continue.share.intro")))
                     )
                   )()
@@ -210,8 +212,7 @@ object PromptingToContinueAfterTheSequenceStyles extends StyleSheet.Inline {
     style(
       padding(ThemeStyles.SpacingValue.small.pxToEm(), `0`),
       ThemeStyles.MediaQueries.beyondSmall(padding(ThemeStyles.SpacingValue.medium.pxToEm(), `0`)),
-      backgroundColor(ThemeStyles.BackgroundColor.white),
-      backgroundImage := "linear-gradient(155deg, #FFFFFF 0%, #ECECEC 100%)",
+      backgroundColor(ThemeStyles.BackgroundColor.lightGrey),
       boxShadow := "0 1px 1px 0 rgba(0,0,0,0.50)"
     )
 
