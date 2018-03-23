@@ -71,7 +71,7 @@ object NewPasswordInputStyles extends StyleSheet.Inline {
   import dsl._
 
   val withIconWrapper: StyleA =
-    style(backgroundColor(ThemeStyles.BackgroundColor.lightGrey), (&.before)(content := "'\\f023'"))
+    style(backgroundColor(ThemeStyles.BackgroundColor.lightGrey), &.before(content := "'\\f023'"))
 
   val inputWrapper: StyleA =
     style(width(100.%%))
@@ -83,12 +83,12 @@ object NewPasswordInputStyles extends StyleSheet.Inline {
     typePassword =>
       if (typePassword) {
         styleS(
-          (&.hover)(cursor.pointer),
+          &.hover(cursor.pointer),
           addClassName(FontAwesomeStyles.eyeSlash.htmlClass),
           color(ThemeStyles.TextColor.lighter)
         )
       } else {
-        styleS((&.hover)(cursor.pointer), addClassName(FontAwesomeStyles.eye.htmlClass))
+        styleS(&.hover(cursor.pointer), addClassName(FontAwesomeStyles.eye.htmlClass))
     }
   )
 }

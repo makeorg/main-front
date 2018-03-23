@@ -87,7 +87,7 @@ object QualificateVoteStyles extends StyleSheet.Inline {
         marginLeft(ThemeStyles.SpacingValue.smaller.pxToEm()),
         bottom.inherit,
         right.auto,
-        (&.after)(
+        &.after(
           top(50.%%),
           transform := "translateY(-50%)",
           right(100.%%),

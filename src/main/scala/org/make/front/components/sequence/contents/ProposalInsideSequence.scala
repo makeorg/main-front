@@ -111,7 +111,7 @@ object ProposalInsideSequenceStyles extends StyleSheet.Inline {
       position.relative,
       paddingBottom(ThemeStyles.SpacingValue.small.pxToEm()),
       marginBottom(ThemeStyles.SpacingValue.small.pxToEm()),
-      (&.after)(
+      &.after(
         content := "''",
         position.absolute,
         top(100.%%),

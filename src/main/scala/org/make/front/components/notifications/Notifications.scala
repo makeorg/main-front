@@ -126,6 +126,6 @@ object NotificationsStyles extends StyleSheet.Inline {
     top(ThemeStyles.SpacingValue.small.pxToEm()),
     right(ThemeStyles.SpacingValue.small.pxToEm()),
     unsafeChild("svg")(verticalAlign.bottom, opacity(0.1), transition := "opacity .2s ease-in-out"),
-    (&.hover)(unsafeChild("svg")(opacity(0.3)))
+    &.hover(unsafeChild("svg")(opacity(0.3)))
   )
 }

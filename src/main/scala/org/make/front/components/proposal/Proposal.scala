@@ -21,7 +21,7 @@ import org.make.front.models.{
   TranslatedTheme   => TranslatedThemeModel
 }
 import org.make.front.styles.ThemeStyles
-import org.make.front.styles.base.{LayoutRulesStyles, TableLayoutStyles, TextStyles}
+import org.make.front.styles.base.{LayoutRulesStyles, RWDHideRulesStyles, TableLayoutStyles, TextStyles}
 import org.make.front.styles.utils._
 import org.make.services.tracking.TrackingLocation
 
@@ -73,7 +73,11 @@ object Proposal {
             )(
               <.div(^.className := TableLayoutStyles.row)(
                 <.div(^.className := Seq(TableLayoutStyles.cell, ProposalStyles.mainHeaderWrapper))(
-                  <.MainHeaderContainer.empty
+                  <.div(^.className := RWDHideRulesStyles.invisible)(<.CookieAlertContainerComponent.empty),
+                  <.div(^.className := ProposalStyles.fixedMainHeaderWrapper)(
+                    <.CookieAlertContainerComponent.empty,
+                    <.MainHeaderContainer.empty
+                  )
                 )
               ),
               <.div(^.className := Seq(TableLayoutStyles.row, ProposalStyles.fullHeight))(
@@ -193,8 +197,14 @@ object ProposalStyles extends StyleSheet.Inline {
     }
   )
 
+  val fixedMainHeaderWrapper: StyleA =
+    style(position.fixed, top(`0`), left(`0`), width(100.%%), zIndex(10), boxShadow := s"0 2px 4px 0 rgba(0,0,0,0.50)")
+
   val mainHeaderWrapper: StyleA =
-    style(visibility.hidden)
+    style(
+      paddingBottom(50.pxToEm()),
+      ThemeStyles.MediaQueries.beyondSmall(paddingBottom(ThemeStyles.mainNavDefaultHeight))
+    )
 
   val articleCell: StyleA =
     style(
@@ -221,7 +231,7 @@ object ProposalStyles extends StyleSheet.Inline {
       textAlign.center,
       position.relative,
       paddingBottom(ThemeStyles.SpacingValue.small.pxToEm()),
-      (&.after)(
+      &.after(
         content := "''",
         position.absolute,
         top(100.%%),
@@ -251,7 +261,7 @@ object ProposalStyles extends StyleSheet.Inline {
       position.relative,
       paddingTop(ThemeStyles.SpacingValue.small.pxToEm()),
       marginTop(ThemeStyles.SpacingValue.medium.pxToEm()),
-      (&.after)(
+      &.after(
         content := "''",
         position.absolute,
         bottom(100.%%),

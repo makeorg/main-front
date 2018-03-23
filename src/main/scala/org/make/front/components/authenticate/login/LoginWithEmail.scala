@@ -169,13 +169,13 @@ object LoginWithEmailStyles extends StyleSheet.Inline {
   import dsl._
 
   val emailInputWithIconWrapper: StyleA =
-    style(backgroundColor(ThemeStyles.BackgroundColor.lightGrey), (&.before)(content := "'\\f003'"))
+    style(backgroundColor(ThemeStyles.BackgroundColor.lightGrey), &.before(content := "'\\f003'"))
 
   val passwordInputWithIconWrapper: StyleA =
     style(
       marginTop(ThemeStyles.SpacingValue.small.pxToEm()),
       backgroundColor(ThemeStyles.BackgroundColor.lightGrey),
-      (&.before)(content := "'\\f023'")
+      &.before(content := "'\\f023'")
     )
 
   val submitButtonWrapper: StyleA =

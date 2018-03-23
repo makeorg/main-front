@@ -9,7 +9,7 @@ import org.make.front.facades.I18n
 import org.make.front.facades.Unescape.unescape
 import org.make.front.models.{User => UserModel}
 import org.make.front.styles.ThemeStyles
-import org.make.front.styles.base.{ColRulesStyles, LayoutRulesStyles, TableLayoutBeyondSmallStyles, TextStyles}
+import org.make.front.styles.base._
 import org.make.front.styles.ui.{CTAStyles, InputStyles}
 import org.make.front.styles.utils._
 import org.make.front.styles.vendors.FontAwesomeStyles
@@ -27,9 +27,15 @@ object UserProfile {
         render = (self) => {
 
           <.div(^.className := UserProfileStyles.wrapper)(
-            <.div(^.className := UserProfileStyles.mainHeaderWrapper)(<.MainHeaderContainer.empty),
+            <.div(^.className := UserProfileStyles.mainHeaderWrapper)(
+              <.div(^.className := RWDHideRulesStyles.invisible)(<.CookieAlertContainerComponent.empty),
+              <.div(^.className := UserProfileStyles.fixedMainHeaderWrapper)(
+                <.CookieAlertContainerComponent.empty,
+                <.MainHeaderContainer.empty
+              )
+            ),
             <.div(^.className := Seq(LayoutRulesStyles.centeredRow))(
-              <.div(^.className := UserProfileStyles.pageWrapper)(
+              <.div(^.className := Seq(LayoutRulesStyles.centeredRowWithCols, UserProfileStyles.pageWrapper))(
                 <.div(
                   ^.className := Seq(
                     UserProfileStyles.avatarAndNavWrapper,
@@ -67,9 +73,7 @@ object UserProfile {
                   )
                 )(
                   <.header(^.className := UserProfileStyles.titleWrapper)(
-                    <.h1(^.className := Seq(UserProfileStyles.title, TextStyles.mediumTitle))(
-                      I18n.t("user-profile.title")
-                    )
+                    <.h1(^.className := TextStyles.mediumTitle)(I18n.t("user-profile.title"))
                   ),
                   <.form(^.novalidate := true)(
                     <.div(^.className := TableLayoutBeyondSmallStyles.wrapper)(
@@ -205,10 +209,19 @@ object UserProfileStyles extends StyleSheet.Inline {
   import dsl._
 
   val wrapper: StyleA =
-    style(minHeight(100.%%), backgroundColor(ThemeStyles.BackgroundColor.blackVeryTransparent))
+    style(
+      minHeight(100.%%),
+      backgroundColor(ThemeStyles.BackgroundColor.blackVeryTransparent),
+      &.after(Attr.real("content") := "''", clear.both, display.table)
+    )
 
-  val mainHeaderWrapper: StyleA =
-    style(visibility.hidden)
+  val mainHeaderWrapper: StyleA = style(
+    paddingBottom(50.pxToEm()),
+    ThemeStyles.MediaQueries.beyondSmall(paddingBottom(ThemeStyles.mainNavDefaultHeight))
+  )
+
+  val fixedMainHeaderWrapper: StyleA =
+    style(position.fixed, top(`0`), left(`0`), width(100.%%), zIndex(10), boxShadow := s"0 2px 4px 0 rgba(0,0,0,0.50)")
 
   val pageWrapper: StyleA =
     style(
@@ -216,10 +229,6 @@ object UserProfileStyles extends StyleSheet.Inline {
       margin(ThemeStyles.SpacingValue.larger.pxToEm(), `0`),
       backgroundColor(ThemeStyles.BackgroundColor.white),
       boxShadow := "0 1px 1px 0 rgba(0,0,0,0.50)",
-      ThemeStyles.MediaQueries.beyondSmall(
-        paddingLeft(ThemeStyles.SpacingValue.small.pxToEm()),
-        paddingRight(ThemeStyles.SpacingValue.small.pxToEm())
-      ),
       ThemeStyles.MediaQueries.beyondMedium(padding(`0`))
     )
 
@@ -241,9 +250,6 @@ object UserProfileStyles extends StyleSheet.Inline {
 
   val titleWrapper: StyleA =
     style(marginBottom(ThemeStyles.SpacingValue.medium.pxToEm()))
-
-  val title: StyleA =
-    style()
 
   val disconnectButtonWrapper: StyleA =
     style(marginTop(ThemeStyles.SpacingValue.medium.pxToEm()))
@@ -299,33 +305,33 @@ object UserProfileStyles extends StyleSheet.Inline {
     )
 
   val emailInputWithIconWrapper: StyleA =
-    style(borderColor.transparent, (&.before)(Attr.real("content") := "'\\f003'"))
+    style(borderColor.transparent, &.before(Attr.real("content") := "'\\f003'"))
 
   val firstNameInputWithIconWrapper: StyleA =
     style(
       marginTop(ThemeStyles.SpacingValue.small.pxToEm()),
       borderColor.transparent,
-      (&.before)(Attr.real("content") := "'\\f007'")
+      &.before(Attr.real("content") := "'\\f007'")
     )
 
   val ageInputWithIconWrapper: StyleA =
     style(
       marginTop(ThemeStyles.SpacingValue.small.pxToEm()),
       borderColor.transparent,
-      (&.before)(Attr.real("content") := "'\\f1ae'")
+      &.before(Attr.real("content") := "'\\f1ae'")
     )
 
   val postalCodeInputWithIconWrapper: StyleA =
     style(
       marginTop(ThemeStyles.SpacingValue.small.pxToEm()),
       borderColor.transparent,
-      (&.before)(Attr.real("content") := "'\\f041'")
+      &.before(Attr.real("content") := "'\\f041'")
     )
 
   val professionInputWithIconWrapper: StyleA =
     style(
       marginTop(ThemeStyles.SpacingValue.small.pxToEm()),
       borderColor.transparent,
-      (&.before)(Attr.real("content") := "'\\f0f2'")
+      &.before(Attr.real("content") := "'\\f0f2'")
     )
 }

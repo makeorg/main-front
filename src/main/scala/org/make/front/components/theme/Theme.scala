@@ -14,9 +14,10 @@ import org.make.front.models.{
   TranslatedTheme   => TranslatedThemeModel
 }
 import org.make.front.styles.ThemeStyles
+import org.make.front.styles.base.RWDHideRulesStyles
 import org.make.front.styles.utils._
-import org.make.services.tracking.{TrackingLocation, TrackingService}
 import org.make.services.tracking.TrackingService.TrackingContext
+import org.make.services.tracking.{TrackingLocation, TrackingService}
 
 object Theme {
 
@@ -37,8 +38,14 @@ object Theme {
             )
         },
         render = (self) => {
-          <.div()(
-            <.div(^.className := ThemePageStyles.mainHeaderWrapper)(<.MainHeaderContainer.empty),
+          <("theme")()(
+            <.div(^.className := ThemePageStyles.mainHeaderWrapper)(
+              <.div(^.className := RWDHideRulesStyles.invisible)(<.CookieAlertContainerComponent.empty),
+              <.div(^.className := ThemePageStyles.fixedMainHeaderWrapper)(
+                <.CookieAlertContainerComponent.empty,
+                <.MainHeaderContainer.empty
+              )
+            ),
             <.ThemeHeaderComponent(^.wrapped := ThemeHeaderProps(self.props.wrapped.theme))(),
             <.div(^.className := ThemePageStyles.contentWrapper)(
               <.PoliticalActionsContainerComponent(
@@ -63,8 +70,13 @@ object ThemePageStyles extends StyleSheet.Inline {
 
   import dsl._
 
-  val mainHeaderWrapper: StyleA =
-    style(visibility.hidden)
+  val mainHeaderWrapper: StyleA = style(
+    paddingBottom(50.pxToEm()),
+    ThemeStyles.MediaQueries.beyondSmall(paddingBottom(ThemeStyles.mainNavDefaultHeight))
+  )
+
+  val fixedMainHeaderWrapper: StyleA =
+    style(position.fixed, top(`0`), left(`0`), width(100.%%), zIndex(10), boxShadow := s"0 2px 4px 0 rgba(0,0,0,0.50)")
 
   val contentWrapper: StyleA =
     style(

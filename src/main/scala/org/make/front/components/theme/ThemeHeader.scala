@@ -299,7 +299,7 @@ object ThemeHeaderStyles extends StyleSheet.Inline {
   val proposalInputWithIconWrapper: StyleA =
     style(
       boxShadow := "0 2px 5px 0 rgba(0,0,0,0.50)",
-      (&.before)(content := "'\\F0EB'"),
+      &.before(content := "'\\F0EB'"),
       unsafeChild("input")(ThemeStyles.Font.circularStdBold, cursor.text)
     )
 

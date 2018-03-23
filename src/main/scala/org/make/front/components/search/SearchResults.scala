@@ -17,7 +17,7 @@ import org.make.front.facades.Unescape.unescape
 import org.make.front.facades.{I18n, Replacements}
 import org.make.front.models.{Location, Proposal, SequenceId, OperationExpanded => OperationModel}
 import org.make.front.styles.ThemeStyles
-import org.make.front.styles.base.{ColRulesStyles, LayoutRulesStyles, TableLayoutStyles, TextStyles}
+import org.make.front.styles.base._
 import org.make.front.styles.ui.CTAStyles
 import org.make.front.styles.utils._
 import org.make.services.proposal.SearchResult
@@ -162,8 +162,12 @@ object SearchResults {
               )
             )(
               <.div(^.className := TableLayoutStyles.row)(
-                <.div(^.className := TableLayoutStyles.cell)(
-                  <.div(^.className := SearchResultsStyles.mainHeaderWrapper)(<.MainHeaderContainer.empty)
+                <.div(^.className := Seq(TableLayoutStyles.cell, SearchResultsStyles.mainHeaderWrapper))(
+                  <.div(^.className := RWDHideRulesStyles.invisible)(<.CookieAlertContainerComponent.empty),
+                  <.div(^.className := SearchResultsStyles.fixedMainHeaderWrapper)(
+                    <.CookieAlertContainerComponent.empty,
+                    <.MainHeaderContainer.empty
+                  )
                 )
               ),
               <.div(^.className := TableLayoutStyles.fullHeightRow)(
@@ -220,7 +224,13 @@ object SearchResultsStyles extends StyleSheet.Inline {
   )
 
   val mainHeaderWrapper: StyleA =
-    style(visibility.hidden)
+    style(
+      paddingBottom(50.pxToEm()),
+      ThemeStyles.MediaQueries.beyondSmall(paddingBottom(ThemeStyles.mainNavDefaultHeight))
+    )
+
+  val fixedMainHeaderWrapper: StyleA =
+    style(position.fixed, top(`0`), left(`0`), width(100.%%), zIndex(10), boxShadow := s"0 2px 4px 0 rgba(0,0,0,0.50)")
 
   val resultsWrapper: StyleA =
     style(paddingTop(ThemeStyles.SpacingValue.medium.pxToEm()), paddingBottom(ThemeStyles.SpacingValue.medium.pxToEm()))
@@ -263,5 +273,4 @@ object SearchResultsStyles extends StyleSheet.Inline {
     ThemeStyles.MediaQueries.beyondSmall(marginTop(ThemeStyles.SpacingValue.small.pxToEm())),
     textAlign.center
   )
-
 }

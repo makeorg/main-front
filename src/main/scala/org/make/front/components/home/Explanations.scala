@@ -115,7 +115,7 @@ object ExplanationsStyles extends StyleSheet.Inline {
   val secondArticle: StyleA =
     style(
       ThemeStyles.MediaQueries.belowMedium(
-        (&.before)(
+        &.before(
           content := "''",
           display.block,
           height(1.px),

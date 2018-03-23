@@ -120,6 +120,6 @@ object TagsListStyles extends StyleSheet.Inline {
   val showMoreTags: StyleA = style(
     color(ThemeStyles.TextColor.white),
     backgroundColor(ThemeStyles.ThemeColor.primary),
-    (&.before)(borderRightColor(ThemeStyles.ThemeColor.primary))
+    &.before(borderRightColor(ThemeStyles.ThemeColor.primary))
   )
 }

@@ -25,7 +25,10 @@ object SearchForm {
   type Self = React.Self[Unit, State]
 
   case class SearchFormProps(country: String)
-  case class State(value: String, suggestions: js.Array[js.Object])
+  case class State(value: String,
+                   suggestions: js.Array[js.Object],
+                   operationSlug: Option[String] = None,
+                   themeSlug: Option[String] = None)
 
   val autoSuggestTheme: Dictionary[String] =
     Map[String, String](
@@ -55,7 +58,13 @@ object SearchForm {
           displayName = "SearchForm",
           shouldComponentUpdate = (self, props, state) => true,
           getInitialState = (self) => {
-            State(URIUtils.decodeURI(QueryString.parse(self.props.location.search).getOrElse("q", "")), js.Array())
+
+            State(
+              value = URIUtils.decodeURI(QueryString.parse(self.props.location.search).getOrElse("q", "")),
+              suggestions = js.Array(),
+              operationSlug = self.props.`match`.params.get("operationSlug"),
+              themeSlug = self.props.`match`.params.get("themeSlug")
+            )
           },
           componentWillReceiveProps = (self, nextProps) => {
             self.setState(
@@ -64,7 +73,6 @@ object SearchForm {
           },
           render =
             (self) => {
-
               def onChange(event: FocusEvent, parameters: OnChangeExtraParameters): Unit = {
                 self.setState(_.copy(value = parameters.newValue))
                 // TODO: trigger search and update suggestions
@@ -80,7 +88,14 @@ object SearchForm {
                     Map("query" -> self.state.value)
                   )
                 val currentValue: String = URIUtils.encodeURI(self.state.value)
-                self.props.history.push(s"/${self.props.wrapped.country}/search?q=$currentValue")
+
+                val url: String = self.state.operationSlug.map { operationSlugValue =>
+                  s"/${self.props.wrapped.country}/consultation/$operationSlugValue/search?q=$currentValue"
+                }.getOrElse(self.state.themeSlug.map { themeSlugValue =>
+                  s"/${self.props.wrapped.country}/theme/$themeSlugValue/search?q=$currentValue"
+                }.getOrElse(s"/${self.props.wrapped.country}/search?q=$currentValue"))
+
+                self.props.history.push(url)
               }
 
               <.form(^.onSubmit := onSubmit)(
@@ -140,5 +155,5 @@ object SearchFormStyles extends StyleSheet.Inline {
   import dsl._
 
   val searchInputWithIconWrapper: StyleA =
-    style(backgroundColor(ThemeStyles.BackgroundColor.lightGrey), (&.before)(content := "'\\F002'"))
+    style(backgroundColor(ThemeStyles.BackgroundColor.lightGrey), &.before(content := "'\\F002'"))
 }

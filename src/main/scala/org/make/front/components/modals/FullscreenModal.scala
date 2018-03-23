@@ -7,7 +7,7 @@ import org.make.front.Main.CssSettings._
 import org.make.front.components.Components.{RichVirtualDOMElements, _}
 import org.make.front.facades.ReactModal.{ReactModalVirtualDOMAttributes, ReactModalVirtualDOMElements}
 import org.make.front.styles._
-import org.make.front.styles.base.{LayoutRulesStyles, TableLayoutStyles}
+import org.make.front.styles.base.{LayoutRulesStyles, RWDHideRulesStyles, TableLayoutStyles}
 import org.make.front.styles.utils._
 
 object FullscreenModal {
@@ -34,9 +34,9 @@ object FullscreenModal {
             )
           )(
             <.div(^.className := TableLayoutStyles.row)(
-              <.div(
-                ^.className := Seq(TableLayoutStyles.cellVerticalAlignMiddle, FullscreenModalStyles.mainHeaderWrapper)
-              )(<.MainHeaderContainer.empty)
+              <.div(^.className := Seq(TableLayoutStyles.cell, FullscreenModalStyles.mainHeaderWrapper))(
+                <.div(^.className := RWDHideRulesStyles.invisible)(<.CookieAlertContainerComponent.empty)
+              )
             ),
             <.div(^.className := Seq(TableLayoutStyles.row, FullscreenModalStyles.contentWrapper))(
               <.div(
@@ -84,7 +84,10 @@ object FullscreenModalStyles extends StyleSheet.Inline {
     )
 
   val mainHeaderWrapper: StyleA =
-    style(visibility.hidden)
+    style(
+      paddingBottom(50.pxToEm()),
+      ThemeStyles.MediaQueries.beyondSmall(paddingBottom(ThemeStyles.mainNavDefaultHeight))
+    )
 
   val preventMainScroll: (Boolean) => StyleA = styleF.bool(
     isPrevented =>
@@ -118,7 +121,7 @@ object FullscreenModalStyles extends StyleSheet.Inline {
   val closeModalButton: StyleA = style(
     float.right,
     unsafeChild("svg")(verticalAlign.bottom, opacity(0.3), transition := "opacity .2s ease-in-out"),
-    (&.hover)(unsafeChild("svg")(opacity(0.5))),
+    &.hover(unsafeChild("svg")(opacity(0.5))),
     ThemeStyles.MediaQueries.beyondMedium(unsafeChild("svg")(width(35.pxToEm()), height(35.pxToEm())))
   )
 }

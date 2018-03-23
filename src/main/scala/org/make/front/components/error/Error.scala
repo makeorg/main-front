@@ -28,7 +28,11 @@ object Error {
             <.div(^.className := Seq(TableLayoutStyles.fullHeightWrapper))(
               <.div(^.className := TableLayoutStyles.row)(
                 <.div(^.className := Seq(TableLayoutStyles.cell, ErrorStyles.mainHeaderWrapper))(
-                  <.MainHeaderContainer.empty
+                  <.div(^.className := RWDHideRulesStyles.invisible)(<.CookieAlertContainerComponent.empty),
+                  <.div(^.className := ErrorStyles.fixedMainHeaderWrapper)(
+                    <.CookieAlertContainerComponent.empty,
+                    <.MainHeaderContainer.empty
+                  )
                 )
               ),
               <.div(^.className := Seq(TableLayoutStyles.row, ErrorStyles.fullHeight))(
@@ -104,7 +108,13 @@ object ErrorStyles extends StyleSheet.Inline {
     style(height(100.%%))
 
   val mainHeaderWrapper: StyleA =
-    style(visibility.hidden)
+    style(
+      paddingBottom(50.pxToEm()),
+      ThemeStyles.MediaQueries.beyondSmall(paddingBottom(ThemeStyles.mainNavDefaultHeight))
+    )
+
+  val fixedMainHeaderWrapper: StyleA =
+    style(position.fixed, top(`0`), left(`0`), width(100.%%), zIndex(10), boxShadow := s"0 2px 4px 0 rgba(0,0,0,0.50)")
 
   val articleCell: StyleA =
     style(verticalAlign.middle, padding(ThemeStyles.SpacingValue.larger.pxToEm(), `0`))

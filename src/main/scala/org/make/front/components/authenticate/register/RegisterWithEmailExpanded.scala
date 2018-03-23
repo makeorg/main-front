@@ -246,7 +246,7 @@ object RegisterWithEmailExpandedStyles extends StyleSheet.Inline {
   import dsl._
 
   val emailInputWithIconWrapper: StyleA =
-    style(backgroundColor(ThemeStyles.BackgroundColor.lightGrey), (&.before)(content := "'\\f003'"))
+    style(backgroundColor(ThemeStyles.BackgroundColor.lightGrey), &.before(content := "'\\f003'"))
 
   val newPasswordInputComponentWrapper: StyleA =
     style(marginTop(ThemeStyles.SpacingValue.small.pxToEm()))
@@ -255,28 +255,28 @@ object RegisterWithEmailExpandedStyles extends StyleSheet.Inline {
     style(
       marginTop(ThemeStyles.SpacingValue.small.pxToEm()),
       backgroundColor(ThemeStyles.BackgroundColor.lightGrey),
-      (&.before)(content := "'\\f007'")
+      &.before(content := "'\\f007'")
     )
 
   val ageInputWithIconWrapper: StyleA =
     style(
       marginTop(ThemeStyles.SpacingValue.small.pxToEm()),
       backgroundColor(ThemeStyles.BackgroundColor.lightGrey),
-      (&.before)(content := "'\\f1ae'")
+      &.before(content := "'\\f1ae'")
     )
 
   val postalCodeInputWithIconWrapper: StyleA =
     style(
       marginTop(ThemeStyles.SpacingValue.small.pxToEm()),
       backgroundColor(ThemeStyles.BackgroundColor.lightGrey),
-      (&.before)(content := "'\\f041'")
+      &.before(content := "'\\f041'")
     )
 
   val professionInputWithIconWrapper: StyleA =
     style(
       marginTop(ThemeStyles.SpacingValue.small.pxToEm()),
       backgroundColor(ThemeStyles.BackgroundColor.lightGrey),
-      (&.before)(content := "'\\f0f2'")
+      &.before(content := "'\\f0f2'")
     )
 
   val note: StyleA =

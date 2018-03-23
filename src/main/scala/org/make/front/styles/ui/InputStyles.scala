@@ -71,7 +71,7 @@ object InputStyles extends StyleSheet.Inline {
       position.relative,
       paddingLeft(30.pxToEm()),
       ThemeStyles.MediaQueries.beyondSmall(paddingLeft(50.pxToEm())),
-      (&.before)(
+      &.before(
         position.absolute,
         top(`0`),
         left(`0`),
@@ -104,7 +104,7 @@ object InputStyles extends StyleSheet.Inline {
   val biggerWithIcon: StyleA =
     style(
       ThemeStyles.MediaQueries
-        .beyondMedium(bigger, paddingLeft(70.pxToEm()), (&.before)(fontSize(28.pxToEm()), lineHeight(48.pxToEm(28))))
+        .beyondMedium(bigger, paddingLeft(70.pxToEm()), &.before(fontSize(28.pxToEm()), lineHeight(48.pxToEm(28))))
     )
 
   val withError: StyleA =

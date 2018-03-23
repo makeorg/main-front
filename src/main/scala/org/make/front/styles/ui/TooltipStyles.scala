@@ -18,7 +18,7 @@ object TooltipStyles extends StyleSheet.Inline {
     textAlign.center,
     color(ThemeStyles.TextColor.white),
     backgroundColor(ThemeStyles.BackgroundColor.darkGrey),
-    (&.after)(
+    &.after(
       content := "''",
       position.absolute,
       right(50.%%),
@@ -33,7 +33,7 @@ object TooltipStyles extends StyleSheet.Inline {
       base,
       top(100.%%),
       marginTop(ThemeStyles.SpacingValue.smaller.pxToEm()),
-      (&.after)(bottom(100.%%), borderBottom(5.pxToEm(), solid, ThemeStyles.BackgroundColor.darkGrey))
+      &.after(bottom(100.%%), borderBottom(5.pxToEm(), solid, ThemeStyles.BackgroundColor.darkGrey))
     )
 
   val topPositioned: StyleA =
@@ -41,7 +41,7 @@ object TooltipStyles extends StyleSheet.Inline {
       base,
       bottom(100.%%),
       marginBottom(ThemeStyles.SpacingValue.smaller.pxToEm()),
-      (&.after)(top(100.%%), borderTop(5.pxToEm(), solid, ThemeStyles.BackgroundColor.darkGrey))
+      &.after(top(100.%%), borderTop(5.pxToEm(), solid, ThemeStyles.BackgroundColor.darkGrey))
     )
 
 }
