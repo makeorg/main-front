@@ -158,7 +158,7 @@ object PromptingToContinueAfterTheSequence {
                 )(
                   <.ShareComponent(
                     ^.wrapped := ShareProps(
-                      url = self.props.wrapped.operation.shareUrl,
+                      operation = self.props.wrapped.operation,
                       intro = Some(unescape(I18n.t("sequence.prompting-to-continue.share.intro")))
                     )
                   )()

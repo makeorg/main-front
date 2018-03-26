@@ -36,5 +36,7 @@ object ReactShare {
   implicit class ReactShareVirtualDOMAttributes(attributes: VirtualDOMAttributes) {
     lazy val url: StringAttributeSpec = StringAttributeSpec("url")
     lazy val quote: StringAttributeSpec = StringAttributeSpec("quote")
+    lazy val beforeOnClick: NativeFunction0Attribute[Unit] = NativeFunction0Attribute("beforeOnClick")
+    lazy val onShareWindowClose: NativeFunction0Attribute[Unit] = NativeFunction0Attribute("onShareWindowClose")
   }
 }

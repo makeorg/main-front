@@ -31,6 +31,18 @@ module.exports.plugins = [
         "filename": "./mieux-vivre-ensemble.html",
     })),
     new HtmlWebpackPlugin(Object.assign({}, htmlWebpackParams, {
+        "metaTitle": "COME FAR FRONTE ALLA VIOLENZA SULLE DONNE?",
+        "metaDescription": "Migliaia di cittadini propongono delle soluzioni Prendi posizione sulle soluzioni e proponi le tue",
+        "metaPicture": "https://uploads-ssl.webflow.com/59833d390a24e50001b873d8/5ab8c7451f3370d8c1d74812_image-share-vff-it.png",
+        "filename": "./vff-it.html",
+    })),
+    new HtmlWebpackPlugin(Object.assign({}, htmlWebpackParams, {
+        "metaTitle": "HOW TO COMBAT VIOLENCE AGAINST WOMEN?",
+        "metaDescription": "Thousands of citizens are submitting solutions. Take a stand on these solutions and offer yours.",
+        "metaPicture": "https://uploads-ssl.webflow.com/59833d390a24e50001b873d8/5ab8c74541c0915ed0cead53_image-share-vff-uk.png",
+        "filename": "./vff-gb.html",
+    })),
+    new HtmlWebpackPlugin(Object.assign({}, htmlWebpackParams, {
         "metaTitle": "Make.org",
         "metaDescription": "Make.org",
         "metaPicture": "https://uploads-ssl.webflow.com/598345cdee443e00013ae603/59a526e0a1a95c0001f8ca11_make.png",
