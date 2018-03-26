@@ -2,7 +2,7 @@ package org.make.core.URI
 
 import scala.scalajs.js.URIUtils
 
-// Inspired by https://github.com/lemonlabsuk/scala-uri/blob/master/src/main/scala/com/netaporter/uri/dsl/UriDsl.scala
+// Inspired by https://github.com/lemonlabsuk/scala-uri/blob/master/shared/src/main/scala/io/lemonlabs/uri/dsl/UrlDsl.scala
 class UriDsl(val uri: String) extends AnyVal {
 
   private def urlify(unencodedUrl: String): String = URIUtils.encodeURIComponent(unencodedUrl)
