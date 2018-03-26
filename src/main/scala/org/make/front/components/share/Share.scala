@@ -6,21 +6,51 @@ import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import org.make.front.Main.CssSettings._
 import org.make.front.components.Components._
 import org.make.front.facades.ReactShare._
+import org.make.front.models.OperationExpanded
 import org.make.front.styles.ThemeStyles
 import org.make.front.styles.base.TextStyles
 import org.make.front.styles.utils._
+import org.make.services.tracking.TrackingService.TrackingContext
+import org.make.services.tracking.{TrackingLocation, TrackingService}
 import org.scalajs.dom
+
 
 object ShareProposal {
 
-  final case class ShareProps(url: String, intro: Option[String] = None)
+  final case class ShareProps(operation: OperationExpanded, intro: Option[String] = None)
 
   val reactClass: ReactClass =
     React
       .createClass[ShareProps, Unit](
         displayName = "ShareProposal",
         render = (self) => {
-          val shareUrl: String = s"${dom.window.location.origin}${self.props.wrapped.url}"
+          val shareUrl: String = s"${dom.window.location.origin}${self.props.wrapped.operation.shareUrl}"
+
+          def trackOnClick(network: String) = () => {
+            TrackingService.track("click-share-sequence",
+              TrackingContext(
+                location = TrackingLocation.sequencePage,
+                operationSlug = Some(self.props.wrapped.operation.slug)
+              ),
+              Map(
+                "sequenceId" -> self.props.wrapped.operation.landingSequenceId.value,
+                "network" -> network
+              )
+            )
+          }
+
+          def trackOnClose(network: String) = () => {
+            TrackingService.track("click-share-sequence-validate",
+              TrackingContext(
+                location = TrackingLocation.sequencePage,
+                operationSlug = Some(self.props.wrapped.operation.slug)
+              ),
+              Map(
+                "sequenceId" -> self.props.wrapped.operation.landingSequenceId.value,
+                "network" -> network
+              )
+            )
+          }
 
           <.div(^.className := ShareStyles.wrapper)(if (self.props.wrapped.intro.isDefined) {
             <.div(^.className := ShareStyles.intro)(
@@ -30,22 +60,30 @@ object ShareProposal {
           <.ul(^.className := ShareStyles.list)(
             <.li(^.className := ShareStyles.item)(
               <.FacebookShareButton(
-                ^.url := shareUrl
+                ^.url := shareUrl,
+                ^.beforeOnClick := trackOnClick("Facebook"),
+                ^.onShareWindowClose := trackOnClose("Facebook")
               )(<.button(^.className := Seq(ShareStyles.button, ShareStyles.shareWithFacebookButton))())
             ),
             <.li(^.className := ShareStyles.item)(
               <.TwitterShareButton(
-                ^.url := shareUrl
+                ^.url := shareUrl,
+                ^.beforeOnClick := trackOnClick("Twitter"),
+                ^.onShareWindowClose := trackOnClose("Twitter")
               )(<.button(^.className := Seq(ShareStyles.button, ShareStyles.shareWithTwitterButton))())
             ),
             <.li(^.className := ShareStyles.item)(
               <.GooglePlusShareButton(
-                ^.url := shareUrl
+                ^.url := shareUrl,
+                ^.beforeOnClick := trackOnClick("Google"),
+                ^.onShareWindowClose := trackOnClose("Google")
               )(<.button(^.className := Seq(ShareStyles.button, ShareStyles.shareWithGooglePlusButton))())
             ),
             <.li(^.className := ShareStyles.item)(
               <.LinkedinShareButton(
-                ^.url := shareUrl
+                ^.url := shareUrl,
+                ^.beforeOnClick := trackOnClick("Linkedin"),
+                ^.onShareWindowClose := trackOnClose("Linkedin")
               )(<.button(^.className := Seq(ShareStyles.button, ShareStyles.shareWithLinkedInButton))())
             )
           ),
