@@ -3,6 +3,8 @@ package org.make.front.facades
 import scala.scalajs.js
 import scala.scalajs.js.annotation.JSImport
 
+/* ACTIONS */
+
 @js.native
 @JSImport("./images/actions/le-refuge.png", "default")
 object leRefuge extends js.Object
@@ -127,9 +129,13 @@ object femmesIngenieurs extends js.Object
 @JSImport("./images/actions/famae.jpg", "default")
 object famae extends js.Object
 
+/* LOGO */
+
 @js.native
 @JSImport("./images/logoMake.svg", "default")
 object logoMake extends js.Object
+
+/* HOME */
 
 @js.native
 @JSImport("./images/home-400x500.jpg", "default")
@@ -154,6 +160,8 @@ object welcome extends js.Object
 @js.native
 @JSImport("./images/home-1350x500@2x.jpg", "default")
 object welcome2x extends js.Object
+
+/* THEMES */
 
 @js.native
 @JSImport("./images/themes/agriculture-ruralite-400x300.jpg", "default")
@@ -418,9 +426,8 @@ object themeTransportsDeplacement2x extends js.Object
 @js.native
 @JSImport("./images/themes/vivre-ensemble-solidarites-1350x500@2x.jpg", "default")
 object themeVivreEnsembleSolidarite2x extends js.Object
-@js.native
-@JSImport("./images/cone.svg", "default")
-object cone extends js.Object
+
+/* OPERATION VFF */
 
 @js.native
 @JSImport("./images/operations/vff/stop-aux-violences-faites-aux-femmes.svg", "default")
@@ -486,6 +493,8 @@ object featuredVFF extends js.Object
 @JSImport("./images/operations/vff/featured-vff-ill-1350x500@2x.jpg", "default")
 object featuredVFF2x extends js.Object
 
+/* OPERATION CLIMAT-PARIS */
+
 @js.native
 @JSImport("./images/operations/climat-paris/climat-paris.svg", "default")
 object climatParisLogo extends js.Object
@@ -526,6 +535,8 @@ object featuredClimatParis extends js.Object
 @JSImport("./images/operations/climat-paris/featured-climat-paris-ill-1350x500@2x.jpg", "default")
 object featuredClimatParis2x extends js.Object
 
+/* OPERATION LPAE */
+
 @js.native
 @JSImport("./images/operations/lpae/lpae.svg", "default")
 object lpaeLogo extends js.Object
@@ -541,6 +552,7 @@ object lpaeIll extends js.Object
 @js.native
 @JSImport("./images/operations/lpae/lpae-ill@2x.jpg", "default")
 object lpaeIll2x extends js.Object
+
 @js.native
 @JSImport("./images/operations/lpae/partners/make-org.svg", "default")
 object makeOrgLogo extends js.Object
@@ -552,6 +564,8 @@ object cercleEconomistesLogo extends js.Object
 @js.native
 @JSImport("./images/operations/lpae/partners/x.svg", "default")
 object xPartners extends js.Object
+
+/* OPERATION MVE */
 
 @js.native
 @JSImport("./images/operations/mve/mve.svg", "default")
@@ -605,6 +619,22 @@ object accorHotelsLogo extends js.Object
 @JSImport("./images/operations/mve/partners/mairie-de-paris.svg", "default")
 object mairieDeParisLogo extends js.Object
 
+/* OPERATION MAKE-EUROPE */
+
+@js.native
+@JSImport("./images/operations/make-europe/comment-reinventer-l-europe.svg", "default")
+object makeEuropeLogo extends js.Object
+
+@js.native
+@JSImport("./images/operations/make-europe/comment-reinventer-l-europe.svg", "default")
+object makeEuropeWhiteLogo extends js.Object
+
+@js.native
+@JSImport("./images/operations/make-europe/flags.svg", "default")
+object europeFlags extends js.Object
+
+/* FLAGS */
+
 @js.native
 @JSImport("./images/flags/fr.svg", "default")
 object frFlag extends js.Object
@@ -616,6 +646,8 @@ object gbFlag extends js.Object
 @js.native
 @JSImport("./images/flags/it.svg", "default")
 object itFlag extends js.Object
+
+/* SHOWCASES */
 
 @js.native
 @JSImport("./images/showcase/vff_showcase.png", "default")
@@ -640,6 +672,8 @@ object tromplinShowcase extends js.Object
 @js.native
 @JSImport("./images/showcase/tromplin_showcase@2x.png", "default")
 object tromplinShowcaseX2 extends js.Object
+
+/* FONTS */
 
 @js.native
 @JSImport("./fonts/CircularStd-Book.woff2", "default")
@@ -685,9 +719,13 @@ object tradeGothicLTWoff2 extends js.Object
 @JSImport("./fonts/TradeGothicLTStd-BdCn20.ttf", "default")
 object tradeGothicLTTtf extends js.Object
 
+/* STYLE */
+
 @js.native
 @JSImport("./styles/main.css", "default")
 object mainCss extends js.Object
+
+/* TRANSLATIONS */
 
 @js.native
 @JSImport("./i18n/fr_FR.json", "default")
@@ -700,3 +738,9 @@ object translationsEnGB extends js.Object
 @js.native
 @JSImport("./i18n/it_IT.json", "default")
 object translationsItIT extends js.Object
+
+/* MISC */
+
+@js.native
+@JSImport("./images/cone.svg", "default")
+object cone extends js.Object
