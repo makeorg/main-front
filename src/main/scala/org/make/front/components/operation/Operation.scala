@@ -10,6 +10,7 @@ import org.make.front.components.operation.ResultsInOperationContainer.ResultsIn
 import org.make.front.components.operation.intro.ClimatParisOperationIntro.ClimatParisOperationIntroProps
 import org.make.front.components.operation.intro.LPAEOperationIntro.LPAEOperationIntroProps
 import org.make.front.components.operation.intro.MVEOperationIntro.MVEOperationIntroProps
+import org.make.front.components.operation.intro.MakeEuropeOperationIntro.MakeEuropeOperationIntroProps
 import org.make.front.components.operation.intro.VFFOperationIntro.VFFOperationIntroProps
 import org.make.front.components.operation.intro.VFFGBOperationIntro.VFFGBOperationIntroProps
 import org.make.front.components.operation.intro.VFFITOperationIntro.VFFITOperationIntroProps
@@ -56,6 +57,14 @@ object Operation {
               if (self.props.wrapped.operation.slug == "lpae") {
                 <.LPAEOperationIntroComponent(
                   ^.wrapped := LPAEOperationIntroProps(
+                    operation = self.props.wrapped.operation,
+                    language = self.props.wrapped.language
+                  )
+                )()
+              },
+              if (self.props.wrapped.operation.slug == "make-europe") {
+                <.MakeEuropeOperationIntroComponent(
+                  ^.wrapped := MakeEuropeOperationIntroProps(
                     operation = self.props.wrapped.operation,
                     language = self.props.wrapped.language
                   )

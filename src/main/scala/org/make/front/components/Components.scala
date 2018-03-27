@@ -164,6 +164,8 @@ object Components {
     def ClimatParisOperationIntroComponent: ReactClassElementSpec =
       self(operation.intro.ClimatParisOperationIntro.reactClass)
     def LPAEOperationIntroComponent: ReactClassElementSpec = self(operation.intro.LPAEOperationIntro.reactClass)
+    def MakeEuropeOperationIntroComponent: ReactClassElementSpec =
+      self(operation.intro.MakeEuropeOperationIntro.reactClass)
     def OperationHeaderComponent: ReactClassElementSpec = self(operation.OperationHeader.reactClass)
     def SubmitProposalInRelationToOperationComponent: ReactClassElementSpec =
       self(operation.SubmitProposalInRelationToOperation.reactClass)
@@ -181,6 +183,7 @@ object Components {
     def VFFFeaturedOperationComponent: ReactClassElementSpec = self(home.VFFFeaturedOperation.reactClass)
     def MVEFeaturedOperationComponent: ReactClassElementSpec = self(home.MVEFeaturedOperation.reactClass)
     def ExplanationsComponent: ReactClassElementSpec = self(home.Explanations.reactClass)
+
   }
 
 }

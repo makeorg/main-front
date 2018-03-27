@@ -6,7 +6,7 @@ import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import org.make.front.Main.CssSettings._
 import org.make.front.components.Components._
 import org.make.front.facades.Unescape.unescape
-import org.make.front.facades.{cercleEconomistesLogo, lpaeIll, lpaeIll2x, lpaeWhiteLogo, makeOrgLogo, xPartners, I18n}
+import org.make.front.facades.{cercleEconomistesLogo, lpaeIll, lpaeIll2x, lpaeLogoWhite, makeOrgLogo, xPartners, I18n}
 import org.make.front.models.{
   GradientColor     => GradientColorModel,
   OperationExpanded => OperationModel,
@@ -60,7 +60,7 @@ object LPAEOperationIntro {
           <.div(^.className := Seq(OperationIntroStyles.wrapper, DynamicLPAEOperationIntroStyles.gradient))(
             <.div(^.className := Seq(OperationIntroStyles.headingWrapper, LayoutRulesStyles.centeredRow))(
               <.p(^.className := LPAEOperationIntroStyles.logoWrapper)(
-                <.img(^.src := lpaeWhiteLogo.toString, ^.alt := unescape(I18n.t("operation.lpae.intro.title")))()
+                <.img(^.src := lpaeLogoWhite.toString, ^.alt := unescape(I18n.t("operation.lpae.intro.title")))()
               ),
               <.div(^.className := Seq(TableLayoutStyles.wrapper, OperationIntroStyles.separator))(
                 <.div(

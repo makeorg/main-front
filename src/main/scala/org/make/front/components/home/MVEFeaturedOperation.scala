@@ -39,8 +39,8 @@ object MVEFeaturedOperation {
             )(
               <.img(
                 ^.className := MVEFeaturedOperationStyles.illustration,
-                ^.src := featuredMVE.toString,
-                ^("srcset") := featuredMVESmall.toString + " 400w, " + featuredMVESmall2x.toString + " 800w, " + featuredMVE.toString + " 1200w, " + featuredMVE2x.toString + " 2400w",
+                ^.src := featuredMVEIll.toString,
+                ^("srcset") := featuredMVEIllSmall.toString + " 400w, " + featuredMVEIllSmall2x.toString + " 800w, " + featuredMVEIll.toString + " 1200w, " + featuredMVEIll2x.toString + " 2400w",
                 ^.alt := I18n.t("home.featured-operation.mve.title"),
                 ^("data-pin-no-hover") := "true"
               )(),

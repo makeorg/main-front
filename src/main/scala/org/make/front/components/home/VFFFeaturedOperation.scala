@@ -36,8 +36,8 @@ object VFFFeaturedOperation {
             )(
               <.img(
                 ^.className := VFFFeaturedOperationStyles.illustration,
-                ^.src := featuredVFF.toString,
-                ^("srcset") := featuredVFFSmall.toString + " 400w, " + featuredVFFSmall2x.toString + " 800w, " + featuredVFFMedium.toString + " 840w, " + featuredVFFMedium2x.toString + " 1680w, " + featuredVFF.toString + " 1350w, " + featuredVFF2x.toString + " 2700w",
+                ^.src := featuredVFFIll.toString,
+                ^("srcset") := featuredVFFIllSmall.toString + " 400w, " + featuredVFFIllSmall2x.toString + " 800w, " + featuredVFFIllMedium.toString + " 840w, " + featuredVFFIllMedium2x.toString + " 1680w, " + featuredVFFIll.toString + " 1350w, " + featuredVFFIll2x.toString + " 2700w",
                 ^.alt := I18n.t("home.featured-operation.vff.title"),
                 ^("data-pin-no-hover") := "true"
               )(),
