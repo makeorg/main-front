@@ -125,8 +125,8 @@ object ThemeShowcase {
                       self.props.wrapped.maybeIntro
                     )
                   },
-                  <.div(^.className := ThemeShowcaseStyles.themeName)(
-                    <.h2(^.className := TextStyles.bigTitle)(
+                  <.div(^.className := ThemeShowcaseStyles.themeNameWrapper)(
+                    <.h2(^.className := Seq(ThemeShowcaseStyles.themeName, TextStyles.bigTitle))(
                       <.Link(^.to := s"/theme/${self.props.wrapped.theme.slug}")(
                         self.props.wrapped.theme.title
                       )
@@ -277,11 +277,17 @@ object ThemeShowcaseStyles extends StyleSheet.Inline {
     )
   )
 
-  val themeName: StyleA = style(
+  val themeNameWrapper: StyleA = style(
     ThemeStyles.MediaQueries.beyondMedium(
       display.inlineBlock,
       verticalAlign.top,
       marginRight(ThemeStyles.SpacingValue.medium.pxToEm())
+    )
+  )
+
+  val themeName: StyleA = style(
+    unsafeChild("a")(
+      color(ThemeStyles.TextColor.base)
     )
   )
 
