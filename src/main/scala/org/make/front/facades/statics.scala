@@ -471,27 +471,27 @@ object facebookLogo extends js.Object
 
 @js.native
 @JSImport("./images/operations/vff/featured-vff-ill-400x500.jpg", "default")
-object featuredVFFSmall extends js.Object
+object featuredVFFIllSmall extends js.Object
 
 @js.native
 @JSImport("./images/operations/vff/featured-vff-ill-400x500@2x.jpg", "default")
-object featuredVFFSmall2x extends js.Object
+object featuredVFFIllSmall2x extends js.Object
 
 @js.native
 @JSImport("./images/operations/vff/featured-vff-ill-840x500.jpg", "default")
-object featuredVFFMedium extends js.Object
+object featuredVFFIllMedium extends js.Object
 
 @js.native
 @JSImport("./images/operations/vff/featured-vff-ill-840x500@2x.jpg", "default")
-object featuredVFFMedium2x extends js.Object
+object featuredVFFIllMedium2x extends js.Object
 
 @js.native
 @JSImport("./images/operations/vff/featured-vff-ill-1350x500.jpg", "default")
-object featuredVFF extends js.Object
+object featuredVFFIll extends js.Object
 
 @js.native
 @JSImport("./images/operations/vff/featured-vff-ill-1350x500@2x.jpg", "default")
-object featuredVFF2x extends js.Object
+object featuredVFFIll2x extends js.Object
 
 /* OPERATION CLIMAT-PARIS */
 
@@ -501,39 +501,31 @@ object climatParisLogo extends js.Object
 
 @js.native
 @JSImport("./images/operations/climat-paris/climat-paris-white.svg", "default")
-object climatParisWhiteLogo extends js.Object
+object climatParisLogoWhite extends js.Object
 
 @js.native
-@JSImport("./images/operations/climat-paris/climat-paris-ill.jpg", "default")
+@JSImport("./images/operations/climat-paris/climat-paris-ill-400x500.jpg", "default")
+object climatParisIllSmall extends js.Object
+
+@js.native
+@JSImport("./images/operations/climat-paris/climat-paris-ill-400x500@2x.jpg", "default")
+object climatParisIllSmall2x extends js.Object
+
+@js.native
+@JSImport("./images/operations/climat-paris/climat-paris-ill-840x500.jpg", "default")
+object climatParisIllMedium extends js.Object
+
+@js.native
+@JSImport("./images/operations/climat-paris/climat-paris-ill-840x500@2x.jpg", "default")
+object climatParisIllMedium2x extends js.Object
+
+@js.native
+@JSImport("./images/operations/climat-paris/climat-paris-ill-1350x500.jpg", "default")
 object climatParisIll extends js.Object
 
 @js.native
-@JSImport("./images/operations/climat-paris/climat-paris-ill@2x.jpg", "default")
+@JSImport("./images/operations/climat-paris/climat-paris-ill-1350x500@2x.jpg", "default")
 object climatParisIll2x extends js.Object
-
-@js.native
-@JSImport("./images/operations/climat-paris/featured-climat-paris-ill-400x500.jpg", "default")
-object featuredClimatParisSmall extends js.Object
-
-@js.native
-@JSImport("./images/operations/climat-paris/featured-climat-paris-ill-400x500@2x.jpg", "default")
-object featuredClimatParisSmall2x extends js.Object
-
-@js.native
-@JSImport("./images/operations/climat-paris/featured-climat-paris-ill-840x500.jpg", "default")
-object featuredClimatParisMedium extends js.Object
-
-@js.native
-@JSImport("./images/operations/climat-paris/featured-climat-paris-ill-840x500@2x.jpg", "default")
-object featuredClimatParisMedium2x extends js.Object
-
-@js.native
-@JSImport("./images/operations/climat-paris/featured-climat-paris-ill-1350x500.jpg", "default")
-object featuredClimatParis extends js.Object
-
-@js.native
-@JSImport("./images/operations/climat-paris/featured-climat-paris-ill-1350x500@2x.jpg", "default")
-object featuredClimatParis2x extends js.Object
 
 /* OPERATION LPAE */
 
@@ -543,7 +535,7 @@ object lpaeLogo extends js.Object
 
 @js.native
 @JSImport("./images/operations/lpae/lpae-white.svg", "default")
-object lpaeWhiteLogo extends js.Object
+object lpaeLogoWhite extends js.Object
 
 @js.native
 @JSImport("./images/operations/lpae/lpae-ill.jpg", "default")
@@ -573,35 +565,35 @@ object mveLogo extends js.Object
 
 @js.native
 @JSImport("./images/operations/mve/old-people.png", "default")
-object mveOldPeople extends js.Object
+object mveOldPeopleIll extends js.Object
 
 @js.native
 @JSImport("./images/operations/mve/old-people@2x.png", "default")
-object mveOldPeople2x extends js.Object
+object mveOldPeopleIll2x extends js.Object
 
 @js.native
 @JSImport("./images/operations/mve/young-people.png", "default")
-object mveYoungPeople extends js.Object
+object mveYoungPeopleIll extends js.Object
 
 @js.native
 @JSImport("./images/operations/mve/young-people@2x.png", "default")
-object mveYoungPeople2x extends js.Object
+object mveYoungPeopleIll2x extends js.Object
 
 @js.native
 @JSImport("./images/operations/mve/people-400x400.png", "default")
-object featuredMVESmall extends js.Object
+object featuredMVEIllSmall extends js.Object
 
 @js.native
 @JSImport("./images/operations/mve/people-400x400@2x.png", "default")
-object featuredMVESmall2x extends js.Object
+object featuredMVEIllSmall2x extends js.Object
 
 @js.native
 @JSImport("./images/operations/mve/people-1000x400.png", "default")
-object featuredMVE extends js.Object
+object featuredMVEIll extends js.Object
 
 @js.native
 @JSImport("./images/operations/mve/people-1000x400@2x.png", "default")
-object featuredMVE2x extends js.Object
+object featuredMVEIll2x extends js.Object
 
 @js.native
 @JSImport("./images/operations/mve/partners/blablacar.svg", "default")
@@ -622,16 +614,36 @@ object mairieDeParisLogo extends js.Object
 /* OPERATION MAKE-EUROPE */
 
 @js.native
-@JSImport("./images/operations/make-europe/comment-reinventer-l-europe.svg", "default")
+@JSImport("./images/operations/make-europe/make-europe.svg", "default")
 object makeEuropeLogo extends js.Object
 
 @js.native
-@JSImport("./images/operations/make-europe/comment-reinventer-l-europe.svg", "default")
+@JSImport("./images/operations/make-europe/make-europe-white.svg", "default")
 object makeEuropeWhiteLogo extends js.Object
 
 @js.native
-@JSImport("./images/operations/make-europe/flags.svg", "default")
-object europeFlags extends js.Object
+@JSImport("./images/operations/make-europe/make-europe-ill-400x500.jpg", "default")
+object makeEuropeIllSmall extends js.Object
+
+@js.native
+@JSImport("./images/operations/make-europe/make-europe-ill-400x500@2x.jpg", "default")
+object makeEuropeIllSmall2x extends js.Object
+
+@js.native
+@JSImport("./images/operations/make-europe/make-europe-ill-840x500.jpg", "default")
+object makeEuropeIllMedium extends js.Object
+
+@js.native
+@JSImport("./images/operations/make-europe/make-europe-ill-840x500@2x.jpg", "default")
+object makeEuropeIllMedium2x extends js.Object
+
+@js.native
+@JSImport("./images/operations/make-europe/make-europe-ill-1350x500.jpg", "default")
+object makeEuropeIll extends js.Object
+
+@js.native
+@JSImport("./images/operations/make-europe/make-europe-ill-1350x500@2x.jpg", "default")
+object makeEuropeIll2x extends js.Object
 
 /* FLAGS */
 

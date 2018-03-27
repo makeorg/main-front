@@ -11,7 +11,7 @@ object ClimatParisOperationStaticData extends StaticDataOfOperation {
     color = "#459ba6",
     gradient = Some(GradientColor("#bfe692", "#69afde")),
     logoUrl = climatParisLogo.toString,
-    whiteLogoUrl = climatParisWhiteLogo.toString,
+    whiteLogoUrl = climatParisLogoWhite.toString,
     shareUrl = "/climatparis.html_UTM_#/FR/consultation/climatparis/selection",
     wording = Seq(
       OperationWording(

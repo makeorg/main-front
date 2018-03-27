@@ -22,14 +22,14 @@ trait StaticDataOfOperation {
 object Operations {
   val featuredOperationSlug: String = "vff"
 
-  val operationDesignList: Seq[OperationStaticData] = Seq(
+  val operationStaticDataList: Seq[OperationStaticData] = Seq(
     VFFOperationStaticData.data,
     VFFITOperationStaticData.data,
     VFFGBOperationStaticData.data,
     ClimatParisOperationStaticData.data,
     LPAEOperationStaticData.data,
-    MVEOperationStaticData.data
-//    EuropeOperationStaticData.data
+    MVEOperationStaticData.data,
+    MakeEuropeOperationStaticData.data
   )
 }
 

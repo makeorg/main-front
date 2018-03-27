@@ -10,7 +10,7 @@ object LPAEOperationStaticData extends StaticDataOfOperation {
     color = "#602a7a",
     gradient = Some(GradientColor("#683577", "#782f8b")),
     logoUrl = lpaeLogo.toString,
-    whiteLogoUrl = lpaeWhiteLogo.toString,
+    whiteLogoUrl = lpaeLogoWhite.toString,
     shareUrl = "/lpae.html_UTM_#/FR/consultation/lpae/selection",
     wording = Seq(
       OperationWording(

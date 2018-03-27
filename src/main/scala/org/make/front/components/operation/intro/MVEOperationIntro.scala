@@ -153,7 +153,7 @@ object MVEOperationIntroStyles extends StyleSheet.Inline {
             height(100.%%),
             width(25.%%),
             width :=! "calc(50% - 300px)",
-            backgroundImage := s"url(${mveOldPeople.toString})",
+            backgroundImage := s"url(${mveOldPeopleIll.toString})",
             backgroundSize := s"auto ${400.pxToEm().value}",
             backgroundRepeat := "no-repeat",
             backgroundPosition := "100% 50%"
@@ -166,15 +166,15 @@ object MVEOperationIntroStyles extends StyleSheet.Inline {
             height(100.%%),
             width(25.%%),
             width :=! "calc(50% - 300px)",
-            backgroundImage := s"url(${mveYoungPeople.toString})",
+            backgroundImage := s"url(${mveYoungPeopleIll.toString})",
             backgroundSize := s"auto ${400.pxToEm().value}",
             backgroundRepeat := "no-repeat",
             backgroundPosition := "0% 50%"
           )
         ),
       (ThemeStyles.MediaQueries.beyondMedium & media.all.resolution(192 dpi))(
-        &.before(backgroundImage := s"url(${mveOldPeople2x.toString})!important"),
-        &.after(backgroundImage := s"url(${mveYoungPeople2x.toString})!important")
+        &.before(backgroundImage := s"url(${mveOldPeopleIll2x.toString})!important"),
+        &.after(backgroundImage := s"url(${mveYoungPeopleIll2x.toString})!important")
       ),
       media.minWidth(1575.pxToEm())(
         /* TODO: find a way to preserve order/priorities of media queries */

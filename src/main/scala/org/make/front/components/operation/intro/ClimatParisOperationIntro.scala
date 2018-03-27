@@ -7,13 +7,13 @@ import org.make.front.Main.CssSettings._
 import org.make.front.components.Components._
 import org.make.front.facades.Unescape.unescape
 import org.make.front.facades.{
-  climatParisWhiteLogo,
-  featuredClimatParis,
-  featuredClimatParis2x,
-  featuredClimatParisMedium,
-  featuredClimatParisMedium2x,
-  featuredClimatParisSmall,
-  featuredClimatParisSmall2x,
+  climatParisIll,
+  climatParisIll2x,
+  climatParisIllMedium,
+  climatParisIllMedium2x,
+  climatParisIllSmall,
+  climatParisIllSmall2x,
+  climatParisLogoWhite,
   I18n
 }
 import org.make.front.models.{GradientColor => GradientColorModel, OperationExpanded => OperationModel}
@@ -64,8 +64,8 @@ object ClimatParisOperationIntro {
           )(
             <.img(
               ^.className := ClimatParisOperationIntroStyles.illustration,
-              ^.src := featuredClimatParis.toString,
-              ^("srcset") := featuredClimatParisSmall.toString + " 400w, " + featuredClimatParisSmall2x.toString + " 800w, " + featuredClimatParisMedium.toString + " 840w, " + featuredClimatParisMedium2x.toString + " 1680w, " + featuredClimatParis.toString + " 1350w, " + featuredClimatParis2x.toString + " 2700w",
+              ^.src := climatParisIll.toString,
+              ^("srcset") := climatParisIllSmall.toString + " 400w, " + climatParisIllSmall2x.toString + " 800w, " + climatParisIllMedium.toString + " 840w, " + climatParisIllMedium2x.toString + " 1680w, " + climatParisIll.toString + " 1350w, " + climatParisIll2x.toString + " 2700w",
               ^.alt := I18n.t("operation.climatparis.intro.title"),
               ^("data-pin-no-hover") := "true"
             )(),
@@ -77,7 +77,7 @@ object ClimatParisOperationIntro {
               )
             )(
               <.img(
-                ^.src := climatParisWhiteLogo.toString,
+                ^.src := climatParisLogoWhite.toString,
                 ^.alt := unescape(I18n.t("operation.climatparis.intro.title"))
               )()
             ),

@@ -18,7 +18,7 @@ final case class OperationStaticData(country: String,
 object OperationStaticData {
   def findBySlugAndCountry(slug: String, country: String): Option[OperationStaticData] = {
     val resultList: Seq[OperationStaticData] =
-      Operations.operationDesignList.filter(operation => operation.slug == slug && operation.country == country)
+      Operations.operationStaticDataList.filter(operation => operation.slug == slug && operation.country == country)
     resultList match {
       case Seq(operation) => Some(operation)
       case _              => None
