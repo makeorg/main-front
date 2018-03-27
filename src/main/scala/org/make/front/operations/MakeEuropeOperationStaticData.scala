@@ -17,7 +17,7 @@ object MakeEuropeOperationStaticData extends StaticDataOfOperation {
         OperationWording(
           language = "en",
           title = "Consultation Européenne (démo)",
-          question = "Comment réinventer l'Europe concrètement ?",
+          question = "How to reinvent Europe concretely?",
           learnMoreUrl = None
         )
       ),
