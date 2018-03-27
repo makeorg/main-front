@@ -333,9 +333,10 @@ object VoteButtonStyles extends StyleSheet.Inline {
       position.absolute,
       top(`0`),
       left(`0`),
-      lineHeight(48.pxToEm(24)),
-      width(48.pxToEm(24)),
-      fontSize(24.pxToEm()),
+      height(100.%%),
+      width(100.%%),
+      lineHeight(48.px),
+      fontSize(24.px),
       ThemeStyles.Font.fontAwesome,
       textAlign.center
     ),
