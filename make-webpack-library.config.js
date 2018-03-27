@@ -26,7 +26,7 @@ module.exports.plugins = [
     new HtmlWebpackPlugin(htmlWebpackParams),
     new HtmlWebpackPlugin(Object.assign({}, htmlWebpackParams, {
         "metaTitle": "Comment mieux vivre ensemble ?",
-        "metaDescription": "Description ? Vous avez un avis sur le sujet ? Alors comme des milliers de citoyens participez à la consultation nationale Make.org : proposez vos idées, réagissez à celles des autres ! Les meilleures seront transformées en actions.",
+        "metaDescription": "Vous avez un avis sur le sujet ? Alors comme des milliers de citoyens participez à la consultation nationale Make.org : proposez vos idées, réagissez à celles des autres ! Les meilleures seront transformées en actions.",
         "metaPicture": "https://uploads-ssl.webflow.com/598345cdee443e00013ae603/5aaa3e43106bcfc5bc0979cc_simulation%20visuel%20fb.jpg",
         "filename": "./mieux-vivre-ensemble.html",
     })),
