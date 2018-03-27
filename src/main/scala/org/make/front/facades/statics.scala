@@ -648,6 +648,102 @@ object makeEuropeIll2x extends js.Object
 /* FLAGS */
 
 @js.native
+@JSImport("./images/flags/at.svg", "default")
+object atFlag extends js.Object
+
+@js.native
+@JSImport("./images/flags/be.svg", "default")
+object beFlag extends js.Object
+
+@js.native
+@JSImport("./images/flags/bg.svg", "default")
+object bgFlag extends js.Object
+
+@js.native
+@JSImport("./images/flags/cy.svg", "default")
+object cyFlag extends js.Object
+
+@js.native
+@JSImport("./images/flags/hr.svg", "default")
+object hrFlag extends js.Object
+
+@js.native
+@JSImport("./images/flags/cz.svg", "default")
+object czFlag extends js.Object
+
+@js.native
+@JSImport("./images/flags/dk.svg", "default")
+object dkFlag extends js.Object
+
+@js.native
+@JSImport("./images/flags/ee.svg", "default")
+object eeFlag extends js.Object
+
+@js.native
+@JSImport("./images/flags/fi.svg", "default")
+object fiFlag extends js.Object
+
+@js.native
+@JSImport("./images/flags/de.svg", "default")
+object deFlag extends js.Object
+
+@js.native
+@JSImport("./images/flags/gr.svg", "default")
+object grFlag extends js.Object
+
+@js.native
+@JSImport("./images/flags/ie.svg", "default")
+object ieFlag extends js.Object
+
+@js.native
+@JSImport("./images/flags/lv.svg", "default")
+object lvFlag extends js.Object
+
+@js.native
+@JSImport("./images/flags/lt.svg", "default")
+object ltFlag extends js.Object
+
+@js.native
+@JSImport("./images/flags/lu.svg", "default")
+object luFlag extends js.Object
+
+@js.native
+@JSImport("./images/flags/mt.svg", "default")
+object mtFlag extends js.Object
+
+@js.native
+@JSImport("./images/flags/nl.svg", "default")
+object nlFlag extends js.Object
+
+@js.native
+@JSImport("./images/flags/pl.svg", "default")
+object plFlag extends js.Object
+
+@js.native
+@JSImport("./images/flags/pt.svg", "default")
+object ptFlag extends js.Object
+
+@js.native
+@JSImport("./images/flags/ro.svg", "default")
+object roFlag extends js.Object
+
+@js.native
+@JSImport("./images/flags/sk.svg", "default")
+object skFlag extends js.Object
+
+@js.native
+@JSImport("./images/flags/si.svg", "default")
+object siFlag extends js.Object
+
+@js.native
+@JSImport("./images/flags/es.svg", "default")
+object esFlag extends js.Object
+
+@js.native
+@JSImport("./images/flags/se.svg", "default")
+object seFlag extends js.Object
+
+@js.native
 @JSImport("./images/flags/fr.svg", "default")
 object frFlag extends js.Object
 

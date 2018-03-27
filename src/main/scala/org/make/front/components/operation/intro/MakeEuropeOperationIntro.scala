@@ -40,9 +40,32 @@ object MakeEuropeOperationIntro {
           final case class CountryModel(flagUrl: String, code: String)
 
           val countries = Seq(
+            CountryModel(flagUrl = atFlag.toString, code = "Austria"),
+            CountryModel(flagUrl = beFlag.toString, code = "Belgium"),
+            CountryModel(flagUrl = bgFlag.toString, code = "Bulgaria"),
+            CountryModel(flagUrl = cyFlag.toString, code = "Cyprus"),
+            CountryModel(flagUrl = hrFlag.toString, code = "Croatia"),
+            CountryModel(flagUrl = czFlag.toString, code = "Czech Republic"),
+            CountryModel(flagUrl = dkFlag.toString, code = "Denmark"),
+            CountryModel(flagUrl = eeFlag.toString, code = "Estonia"),
+            CountryModel(flagUrl = fiFlag.toString, code = "Finland"),
             CountryModel(flagUrl = frFlag.toString, code = "France"),
-            CountryModel(flagUrl = gbFlag.toString, code = "Great Britain"),
-            CountryModel(flagUrl = itFlag.toString, code = "Italia")
+            CountryModel(flagUrl = deFlag.toString, code = "Germany"),
+            CountryModel(flagUrl = grFlag.toString, code = "Greece"),
+            CountryModel(flagUrl = ieFlag.toString, code = "Ireland"),
+            CountryModel(flagUrl = itFlag.toString, code = "Italy"),
+            CountryModel(flagUrl = lvFlag.toString, code = "Latvia"),
+            CountryModel(flagUrl = ltFlag.toString, code = "Lithuania"),
+            CountryModel(flagUrl = luFlag.toString, code = "Luxembourg"),
+            CountryModel(flagUrl = mtFlag.toString, code = "Malta"),
+            CountryModel(flagUrl = nlFlag.toString, code = "Netherlands"),
+            CountryModel(flagUrl = plFlag.toString, code = "Poland"),
+            CountryModel(flagUrl = ptFlag.toString, code = "Portugal"),
+            CountryModel(flagUrl = roFlag.toString, code = "Romania"),
+            CountryModel(flagUrl = skFlag.toString, code = "Slovakia"),
+            CountryModel(flagUrl = siFlag.toString, code = "Slovenia"),
+            CountryModel(flagUrl = esFlag.toString, code = "Spain"),
+            CountryModel(flagUrl = seFlag.toString, code = "Sweden")
           )
 
           object DynamicMakeEuropeOperationIntroStyles extends StyleSheet.Inline {
