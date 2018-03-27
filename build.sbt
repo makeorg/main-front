@@ -30,7 +30,7 @@ val npmReactFacebookLogin = "3.6.2"
 val npmReactTextareaAutoresize = "5.1.0"
 val npmReactInfiniteScroller = "1.0.15"
 val npmReactShareVersion = "2.0.0"
-val npmHexToRgba = "0.2.0"
+val npmHexToRgba = "1.0.1"
 val npmJquery = "3.2.1"
 val npmJsCookie = "2.1.4"
 /* scala libraries version */
