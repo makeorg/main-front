@@ -76,29 +76,25 @@ object ShareProposal {
             <.li(^.className := ShareStyles.item)(
               <.FacebookShareButton(
                 ^.url := shareUrl("Facebook"),
-                ^.beforeOnClick := trackOnClick("Facebook"),
-                ^.onShareWindowClose := trackOnClose("Facebook")
+                ^.beforeOnClick := trackOnClick("Facebook")
               )(<.button(^.className := Seq(ShareStyles.button, ShareStyles.shareWithFacebookButton))())
             ),
             <.li(^.className := ShareStyles.item)(
               <.TwitterShareButton(
                 ^.url := shareUrl("Twitter"),
-                ^.beforeOnClick := trackOnClick("Twitter"),
-                ^.onShareWindowClose := trackOnClose("Twitter")
+                ^.beforeOnClick := trackOnClick("Twitter")
               )(<.button(^.className := Seq(ShareStyles.button, ShareStyles.shareWithTwitterButton))())
             ),
             <.li(^.className := ShareStyles.item)(
               <.GooglePlusShareButton(
                 ^.url := shareUrl("Google"),
-                ^.beforeOnClick := trackOnClick("Google"),
-                ^.onShareWindowClose := trackOnClose("Google")
+                ^.beforeOnClick := trackOnClick("Google")
               )(<.button(^.className := Seq(ShareStyles.button, ShareStyles.shareWithGooglePlusButton))())
             ),
             <.li(^.className := ShareStyles.item)(
               <.LinkedinShareButton(
                 ^.url := shareUrl("Linkedin"),
-                ^.beforeOnClick := trackOnClick("Linkedin"),
-                ^.onShareWindowClose := trackOnClose("Linkedin")
+                ^.beforeOnClick := trackOnClick("Linkedin")
               )(<.button(^.className := Seq(ShareStyles.button, ShareStyles.shareWithLinkedInButton))())
             )
           ),
