@@ -119,24 +119,24 @@ object VFFOperationIntro {
                   <.img(
                     ^.src := VFFIll.toString,
                     ^("srcset") := VFFIll.toString + " 1x," + VFFIll2x.toString + " 2x",
-                    ^.alt := unescape(I18n.t("operation.lpae-intro.title")),
+                    ^.alt := unescape(I18n.t("operation.vff-fr.intro.title")),
                     ^.className := OperationIntroStyles.explanationIll
                   )()
                 ),
                 <.div(^.className := Seq(ColRulesStyles.col, ColRulesStyles.colTwoThirdsBeyondSmall))(
-                  <.p(^.className := TextStyles.label)(unescape(I18n.t("operation.intro.article.title"))),
+                  <.p(^.className := TextStyles.label)(unescape(I18n.t("operation.vff-fr.intro.article.title"))),
                   <.div(^.className := OperationIntroStyles.explanationTextWrapper)(
                     <.p(^.className := Seq(OperationIntroStyles.explanationText, TextStyles.smallText))(
-                      unescape(I18n.t("operation.intro.article.text"))
+                      unescape(I18n.t("operation.vff-fr.intro.article.text"))
                     )
                   ),
                   <.p(^.className := OperationIntroStyles.ctaWrapper)(
                     <.a(
                       ^.onClick := onClick,
-                      ^.href := unescape(I18n.t("operation.intro.article.see-more.link")),
+                      ^.href := unescape(I18n.t("operation.vff-fr.intro.article.see-more.link")),
                       ^.className := Seq(CTAStyles.basic, CTAStyles.basicOnA),
                       ^.target := "_blank"
-                    )(unescape(I18n.t("operation.intro.article.see-more.label")))
+                    )(unescape(I18n.t("operation.vff-fr.intro.article.see-more.label")))
                   )
                 )
               )

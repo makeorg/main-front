@@ -64,12 +64,7 @@ object VFFGBOperationIntro {
                 <.p(^.className := OperationIntroStyles.labelWrapper)(
                   <.span(^.className := TextStyles.label)(unescape(I18n.t("operation.vff-gb.intro.label")))
                 ),
-                <.img(^.src := VFFGBWhiteLogo.toString, ^.alt := unescape(I18n.t("operation.vff-gb.intro.title")))(),
-                <.p(^.className := OperationIntroStyles.infosWrapper)(
-                  <.span(^.className := Seq(OperationIntroStyles.infosLabel, TextStyles.label))(
-                    unescape(I18n.t("operation.vff-gb.intro.period"))
-                  )
-                )
+                <.img(^.src := VFFGBWhiteLogo.toString, ^.alt := unescape(I18n.t("operation.vff-gb.intro.title")))()
               ),
               <.div(^.className := Seq(TableLayoutStyles.wrapper, OperationIntroStyles.separator))(
                 <.div(
