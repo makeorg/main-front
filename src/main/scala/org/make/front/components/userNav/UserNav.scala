@@ -205,5 +205,10 @@ object UserNavStyles extends StyleSheet.Inline {
     style(color(ThemeStyles.TextColor.lighter))
 
   val userNameWrapper: StyleA =
-    style(display.inlineBlock, verticalAlign.middle, marginLeft(ThemeStyles.SpacingValue.smaller.pxToEm()))
+    style(
+      display.inlineBlock,
+      verticalAlign.middle,
+      marginLeft(ThemeStyles.SpacingValue.smaller.pxToEm()),
+      color(ThemeStyles.TextColor.base)
+    )
 }

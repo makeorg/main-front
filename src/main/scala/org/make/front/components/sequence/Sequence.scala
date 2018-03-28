@@ -427,14 +427,7 @@ object Sequence {
                         counter += 1
                         <.div(^.className := SequenceStyles.slideWrapper)(
                           <.article(^.className := SequenceStyles.slide)(
-                            <.div(^.className := TableLayoutStyles.fullHeightWrapper)(
-                              <.div(
-                                ^.className := Seq(
-                                  TableLayoutStyles.cellVerticalAlignMiddle,
-                                  SequenceStyles.slideInnerSubWrapper
-                                )
-                              )(slide.component(counter))
-                            )
+                            <.div(^.className := Seq(SequenceStyles.slideInnerSubWrapper))(slide.component(counter))
                           )
                         )
                       }
@@ -520,11 +513,20 @@ object SequenceStyles extends StyleSheet.Inline {
       height(100.%%),
       minWidth(240.pxToEm()),
       backgroundColor(ThemeStyles.BackgroundColor.white),
-      boxShadow := "0 1px 1px 0 rgba(0,0,0,0.50)"
+      boxShadow := "0 1px 1px 0 rgba(0,0,0,0.50)",
+      textAlign.center,
+      whiteSpace.nowrap,
+      &.before(content := "' '", display.inlineBlock, height(100.%%), verticalAlign.middle)
     )
 
   val slideInnerSubWrapper: StyleA =
-    style(paddingTop(ThemeStyles.SpacingValue.medium.pxToEm()), paddingBottom(ThemeStyles.SpacingValue.medium.pxToEm()))
+    style(
+      display.inlineBlock,
+      verticalAlign.middle,
+      whiteSpace.normal,
+      paddingTop(ThemeStyles.SpacingValue.medium.pxToEm()),
+      paddingBottom(ThemeStyles.SpacingValue.medium.pxToEm())
+    )
 
   val showPrevSlideButton: StyleA =
     style(position.absolute, top(`0`), right(100.%%), zIndex(1), height(100.%%), width(9999.pxToEm()))
