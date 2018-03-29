@@ -34,6 +34,9 @@ object CurrentOperations {
         render = (self) => {
 
           def operationTile(operation: OperationExpandedModel, isLongerBeyondMedium: Boolean = false): ReactElement = {
+
+            val index: Int = Math.abs(operation.operationId.hashCode())
+
             val wording: OperationWordingModel =
               operation.getWordingByLanguageOrError(self.props.wrapped.language)
 
@@ -44,8 +47,10 @@ object CurrentOperations {
 
               import dsl._
 
-              val gradient: StyleA =
-                style(background := s"linear-gradient(130deg, ${gradientValues.from}, ${gradientValues.to})")
+              val gradient: (Int) => StyleA =
+                styleF.int(Range(index, index + 1)) { index =>
+                  styleS(background := s"linear-gradient(130deg, ${gradientValues.from}, ${gradientValues.to})")
+                }
             }
 
             <.article(^.className := OperationTileStyles.wrapper)(
@@ -53,7 +58,7 @@ object CurrentOperations {
                 <.div(
                   ^.className := Seq(
                     OperationTileStyles.figure(isLongerBeyondMedium),
-                    DynamicOperationTileStyles.gradient
+                    DynamicOperationTileStyles.gradient(index)
                   )
                 )(
                   <.div(^.className := OperationTileStyles.illWrapper)(
