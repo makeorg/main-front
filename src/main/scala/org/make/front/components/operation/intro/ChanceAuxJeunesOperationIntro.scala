@@ -52,7 +52,7 @@ object ChanceAuxJeunesOperationIntro {
             )(),
             <.div(^.className := Seq(OperationIntroStyles.headingWrapper, LayoutRulesStyles.centeredRow))(
               <.div(^.className := ChanceAuxJeunesOperationIntroStyles.logoWrapper)(
-                <.p(^.className := OperationIntroStyles.labelWrapper)(
+                <.p(^.className := ChanceAuxJeunesOperationIntroStyles.labelWrapper)(
                   <.span(^.className := TextStyles.label)(unescape(I18n.t("operation.chance-aux-jeunes.intro.label")))
                 ),
                 <.img(
@@ -163,10 +163,11 @@ object ChanceAuxJeunesOperationIntroStyles extends StyleSheet.Inline {
       maxWidth.none,
       minWidth(100.%%),
       transform := s"translate(-50%, -50%)",
-      opacity(0.7)
+      opacity(1)
     )
 
   val logoWrapper: StyleA = style(maxWidth(446.pxToEm()), marginLeft.auto, marginRight.auto)
+  val labelWrapper: StyleA = style(OperationIntroStyles.labelWrapper, textAlign.center)
 
   val separatorLine: StyleA =
     style(backgroundColor(ThemeStyles.BorderColor.light))
