@@ -36,9 +36,9 @@ object ChanceAuxJeunesOperationIntro {
 
           val partners = Seq(
             OperationPartnerModel(name = "Bnp Paribas", imageUrl = bnpParibasLogo.toString, imageWidth = 123),
+            OperationPartnerModel(name = "Hauts De France", imageUrl = hautsDeFranceLogo.toString, imageWidth = 50),
             OperationPartnerModel(name = "AccorHotels", imageUrl = accorHotelsLogoCAJ.toString, imageWidth = 127),
             OperationPartnerModel(name = "Google", imageUrl = googleLogo.toString, imageWidth = 80),
-            OperationPartnerModel(name = "Hauts De France", imageUrl = hautsDeFranceLogo.toString, imageWidth = 50),
             OperationPartnerModel(name = "Viva Tech", imageUrl = vivaTechLogo.toString, imageWidth = 88)
           )
 
@@ -163,7 +163,7 @@ object ChanceAuxJeunesOperationIntroStyles extends StyleSheet.Inline {
       maxWidth.none,
       minWidth(100.%%),
       transform := s"translate(-50%, -50%)",
-      opacity(1)
+      opacity(0.85)
     )
 
   val logoWrapper: StyleA = style(maxWidth(446.pxToEm()), marginLeft.auto, marginRight.auto)
