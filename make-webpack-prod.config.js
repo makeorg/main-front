@@ -12,6 +12,7 @@ var htmlWebpackParams = {
     "template": path.join(__dirname, "index.template.ejs"),
     "apiUrl": "API_URL",
     "googleAppId": "810331964280-qtdupbrjusihad3b5da51i5p66qpmhmr.apps.googleusercontent.com",
+    "googleAdWordsId": "AW-819115721",
     "googleAnalyticsId": "UA-97647514-1",
     "facebookAppId": "317128238675603",
     "facebookPixelId": "260470104426586"

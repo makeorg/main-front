@@ -31,6 +31,10 @@
         console.log("FBEvent type=", eventType, "name=", eventName, "params=", eventParameters)
     }
 
+    window.gtag = function(eventType, eventName, eventParameters){
+        console.log("GoogleEvent type=", eventType, "name=", eventName, "params=", eventParameters)
+    }
+
     // polyfill for Object.assign
     if (typeof Object.assign != 'function') {
       // Must be writable: true, enumerable: false, configurable: true
@@ -89,6 +93,7 @@
         "apiUrl": "<%= htmlWebpackPlugin.options.apiUrl %>",
         "googleAppId": "<%= htmlWebpackPlugin.options.googleAppId %>",
         "facebookAppId": "<%= htmlWebpackPlugin.options.facebookAppId %>",
+        "googleAdWordsId": "none",
         "detectedCountry": "<%= htmlWebpackPlugin.options.detectedCountry %>",
         "forcedCountry": "<%= htmlWebpackPlugin.options.forcedCountry %>"
     };
