@@ -360,6 +360,23 @@
         }
       }
     },
+    "chance-aux-jeunes": {
+      "intro": {
+        "label": "Grande cause Make.org",
+        "title": "Une chance pour chaque jeune",
+        "partners": {
+          "intro": "avec"
+        },
+        "article": {
+          "title": "Pourquoi cette consultation&nbsp;?",
+          "text": "Précarité, chômage, inégalités, désamour du politique... La France ne semble plus offrir de place à ses jeunes. Cette fracture fragilise notre capacité à relever les défis collectifs futurs et nous pousse à imaginer ensemble un moyen d'offrir à chaque jeune une chance de se réaliser.",
+          "see-more": {
+            "label": "En savoir&nbsp;+",
+            "link": "https://about.make.org/about-chance-aux-jeunes"
+          }
+        }
+      }
+    },
     "results": {
       "title": "Votez sur les&nbsp;propositions",
       "see-more": "Voir + de propositions",

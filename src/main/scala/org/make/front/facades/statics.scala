@@ -605,11 +605,61 @@ object orangeLogo extends js.Object
 
 @js.native
 @JSImport("./images/operations/mve/partners/accorhotels.svg", "default")
-object accorHotelsLogo extends js.Object
+object accorHotelsLogoMVE extends js.Object
 
 @js.native
 @JSImport("./images/operations/mve/partners/mairie-de-paris.svg", "default")
 object mairieDeParisLogo extends js.Object
+
+/* OPERATION CHANCE-AUX-JEUNES */
+
+@js.native
+@JSImport("./images/operations/chance-aux-jeunes/chance-aux-jeunes-ill-400x500.jpg", "default")
+object chanceAuxJeunesIllSmall extends js.Object
+
+@js.native
+@JSImport("./images/operations/chance-aux-jeunes/chance-aux-jeunes-ill-400x500@2x.jpg", "default")
+object chanceAuxJeunesIllSmall2x extends js.Object
+
+@js.native
+@JSImport("./images/operations/chance-aux-jeunes/chance-aux-jeunes-ill-840x500.jpg", "default")
+object chanceAuxJeunesIllMedium extends js.Object
+
+@js.native
+@JSImport("./images/operations/chance-aux-jeunes/chance-aux-jeunes-ill-840x500@2x.jpg", "default")
+object chanceAuxJeunesIllMedium2x extends js.Object
+
+@js.native
+@JSImport("./images/operations/chance-aux-jeunes/chance-aux-jeunes-ill-1350x500.jpg", "default")
+object chanceAuxJeunesIll extends js.Object
+
+@js.native
+@JSImport("./images/operations/chance-aux-jeunes/chance-aux-jeunes-ill-1350x500@2x.jpg", "default")
+object chanceAuxJeunesIll2x extends js.Object
+
+@js.native
+@JSImport("./images/operations/chance-aux-jeunes/une-chance-pour-chaque-jeunes.svg", "default")
+object chanceAuxJeunesLogo extends js.Object
+
+@js.native
+@JSImport("./images/operations/chance-aux-jeunes/partners/accor-hotels.svg", "default")
+object accorHotelsLogoCAJ extends js.Object
+
+@js.native
+@JSImport("./images/operations/chance-aux-jeunes/partners/bnp-paribas.svg", "default")
+object bnpParibasLogo extends js.Object
+
+@js.native
+@JSImport("./images/operations/chance-aux-jeunes/partners/google.svg", "default")
+object googleLogo extends js.Object
+
+@js.native
+@JSImport("./images/operations/chance-aux-jeunes/partners/hauts-de-france.svg", "default")
+object hautsDeFranceLogo extends js.Object
+
+@js.native
+@JSImport("./images/operations/chance-aux-jeunes/partners/viva-tech.svg", "default")
+object vivaTechLogo extends js.Object
 
 /* OPERATION MAKE-EUROPE */
 

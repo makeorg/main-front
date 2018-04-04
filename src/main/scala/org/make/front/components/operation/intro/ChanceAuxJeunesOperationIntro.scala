@@ -17,14 +17,14 @@ import org.make.services.tracking.{TrackingLocation, TrackingService}
 
 import scala.language.postfixOps
 
-object MVEOperationIntro {
+object ChanceAuxJeunesOperationIntro {
 
-  case class MVEOperationIntroProps(operation: OperationModel, language: String)
+  case class ChanceAuxJeunesOperationIntroProps(operation: OperationModel, language: String)
 
   lazy val reactClass: ReactClass =
     React
-      .createClass[MVEOperationIntroProps, Unit](
-        displayName = "MVEOperationIntro",
+      .createClass[ChanceAuxJeunesOperationIntroProps, Unit](
+        displayName = "ChanceAuxJeunesOperationIntro",
         render = (self) => {
 
           def onClick: () => Unit = { () =>
@@ -34,23 +34,31 @@ object MVEOperationIntro {
             )
           }
 
-          val operation: OperationModel =
-            self.props.wrapped.operation
-
           val partners = Seq(
-            OperationPartnerModel(name = "BlaBlaCar", imageUrl = blaBlaCarLogo.toString, imageWidth = 120),
-            OperationPartnerModel(name = "Orange", imageUrl = orangeLogo.toString, imageWidth = 37),
-            OperationPartnerModel(name = "AccorHotels", imageUrl = accorHotelsLogoMVE.toString, imageWidth = 132),
-            OperationPartnerModel(name = "Mairie de Paris", imageUrl = mairieDeParisLogo.toString, imageWidth = 146)
+            OperationPartnerModel(name = "Bnp Paribas", imageUrl = bnpParibasLogo.toString, imageWidth = 123),
+            OperationPartnerModel(name = "AccorHotels", imageUrl = accorHotelsLogoCAJ.toString, imageWidth = 127),
+            OperationPartnerModel(name = "Google", imageUrl = googleLogo.toString, imageWidth = 80),
+            OperationPartnerModel(name = "Hauts De France", imageUrl = hautsDeFranceLogo.toString, imageWidth = 50),
+            OperationPartnerModel(name = "Viva Tech", imageUrl = vivaTechLogo.toString, imageWidth = 88)
           )
 
-          <.div(^.className := Seq(OperationIntroStyles.wrapper, MVEOperationIntroStyles.wrapper))(
+          <.div(^.className := Seq(OperationIntroStyles.wrapper, ChanceAuxJeunesOperationIntroStyles.wrapper))(
+            <.img(
+              ^.className := ChanceAuxJeunesOperationIntroStyles.illustration,
+              ^.src := chanceAuxJeunesIll.toString,
+              ^("srcset") := chanceAuxJeunesIllSmall.toString + " 400w, " + chanceAuxJeunesIllSmall2x.toString + " 800w, " + chanceAuxJeunesIllMedium.toString + " 840w, " + chanceAuxJeunesIllMedium2x.toString + " 1680w, " + chanceAuxJeunesIll.toString + " 1350w, " + chanceAuxJeunesIll2x.toString + " 2700w",
+              ^.alt := I18n.t("operation.chance-aux-jeunes.intro.title"),
+              ^("data-pin-no-hover") := "true"
+            )(),
             <.div(^.className := Seq(OperationIntroStyles.headingWrapper, LayoutRulesStyles.centeredRow))(
-              <.div(^.className := MVEOperationIntroStyles.logoWrapper)(
+              <.div(^.className := ChanceAuxJeunesOperationIntroStyles.logoWrapper)(
                 <.p(^.className := OperationIntroStyles.labelWrapper)(
-                  <.span(^.className := TextStyles.label)(unescape(I18n.t("operation.mve.intro.label")))
+                  <.span(^.className := TextStyles.label)(unescape(I18n.t("operation.chance-aux-jeunes.intro.label")))
                 ),
-                <.img(^.src := mveLogo.toString, ^.alt := unescape(I18n.t("operation.mve.intro.title")))()
+                <.img(
+                  ^.src := chanceAuxJeunesLogo.toString,
+                  ^.alt := unescape(I18n.t("operation.chance-aux-jeunes.intro.title"))
+                )()
               ),
               <.div(^.className := Seq(TableLayoutStyles.wrapper, OperationIntroStyles.separator))(
                 <.div(
@@ -62,20 +70,16 @@ object MVEOperationIntro {
                   <.hr(
                     ^.className := Seq(
                       OperationIntroStyles.separatorLine,
-                      MVEOperationIntroStyles.separatorLine,
+                      ChanceAuxJeunesOperationIntroStyles.separatorLine,
                       OperationIntroStyles.separatorLineToTheLeft,
-                      MVEOperationIntroStyles.separatorLineToTheLeft
+                      ChanceAuxJeunesOperationIntroStyles.separatorLineToTheLeft
                     )
                   )()
                 ),
                 <.div(^.className := Seq(TableLayoutStyles.cell, OperationIntroStyles.separatorTextWrapper))(
-                  <.p(
-                    ^.className := Seq(
-                      OperationIntroStyles.separatorText,
-                      MVEOperationIntroStyles.separatorText,
-                      TextStyles.smallerText
-                    )
-                  )(unescape(I18n.t("operation.mve.intro.partners.intro")))
+                  <.p(^.className := Seq(OperationIntroStyles.separatorText, TextStyles.smallerText))(
+                    unescape(I18n.t("operation.chance-aux-jeunes.intro.partners.intro"))
+                  )
                 ),
                 <.div(
                   ^.className := Seq(
@@ -86,9 +90,9 @@ object MVEOperationIntro {
                   <.hr(
                     ^.className := Seq(
                       OperationIntroStyles.separatorLine,
-                      MVEOperationIntroStyles.separatorLine,
+                      ChanceAuxJeunesOperationIntroStyles.separatorLine,
                       OperationIntroStyles.separatorLineToTheRight,
-                      MVEOperationIntroStyles.separatorLineToTheRight
+                      ChanceAuxJeunesOperationIntroStyles.separatorLineToTheRight
                     )
                   )()
                 )
@@ -110,90 +114,69 @@ object MVEOperationIntro {
               )
             ),
             <.div(
-              ^.className := Seq(OperationIntroStyles.explanationWrapper, MVEOperationIntroStyles.explanationWrapper)
+              ^.className := Seq(
+                OperationIntroStyles.explanationWrapper,
+                ChanceAuxJeunesOperationIntroStyles.explanationWrapper
+              )
             )(
               <.div(^.className := LayoutRulesStyles.narrowerCenteredRow)(
-                <.p(^.className := TextStyles.label)(unescape(I18n.t("operation.mve.intro.article.title"))),
+                <.p(^.className := TextStyles.label)(
+                  unescape(I18n.t("operation.chance-aux-jeunes.intro.article.title"))
+                ),
                 <.div(^.className := OperationIntroStyles.explanationTextWrapper)(
                   <.p(^.className := Seq(OperationIntroStyles.explanationText, TextStyles.smallText))(
-                    unescape(I18n.t("operation.mve.intro.article.text"))
+                    unescape(I18n.t("operation.chance-aux-jeunes.intro.article.text"))
                   )
                 ),
                 <.p(^.className := OperationIntroStyles.ctaWrapper)(
                   <.a(
                     ^.onClick := onClick,
-                    ^.href := unescape(I18n.t("operation.mve.intro.article.see-more.link")),
+                    ^.href := unescape(I18n.t("operation.chance-aux-jeunes.intro.article.see-more.link")),
                     ^.className := Seq(CTAStyles.basic, CTAStyles.basicOnA),
                     ^.target := "_blank"
-                  )(unescape(I18n.t("operation.mve.intro.article.see-more.label")))
+                  )(unescape(I18n.t("operation.chance-aux-jeunes.intro.article.see-more.label")))
                 )
               )
             ),
-            <.style()(OperationIntroStyles.render[String], MVEOperationIntroStyles.render[String])
+            <.style()(OperationIntroStyles.render[String], ChanceAuxJeunesOperationIntroStyles.render[String])
           )
         }
       )
 }
 
-object MVEOperationIntroStyles extends StyleSheet.Inline {
+object ChanceAuxJeunesOperationIntroStyles extends StyleSheet.Inline {
 
   import dsl._
 
   val wrapper: StyleA =
+    style(position.relative, overflow.hidden)
+
+  val illustration: StyleA =
     style(
-      position.relative,
-      background := s"linear-gradient(130deg, #f6dee3, #d5e7ff)",
-      ThemeStyles.MediaQueries
-        .beyondMedium(
-          &.before(
-            content := "' '",
-            position.absolute,
-            top(`0`),
-            left(`0`),
-            height(100.%%),
-            width(25.%%),
-            width :=! "calc(50% - 300px)",
-            backgroundImage := s"url(${mveOldPeopleIll.toString})",
-            backgroundSize := s"auto ${400.pxToEm().value}",
-            backgroundRepeat := "no-repeat",
-            backgroundPosition := "100% 50%"
-          ),
-          &.after(
-            content := "' '",
-            position.absolute,
-            top(`0`),
-            right(`0`),
-            height(100.%%),
-            width(25.%%),
-            width :=! "calc(50% - 300px)",
-            backgroundImage := s"url(${mveYoungPeopleIll.toString})",
-            backgroundSize := s"auto ${400.pxToEm().value}",
-            backgroundRepeat := "no-repeat",
-            backgroundPosition := "0% 50%"
-          )
-        ),
-      (ThemeStyles.MediaQueries.beyondMedium & media.all.resolution(192 dpi))(
-        &.before(backgroundImage := s"url(${mveOldPeopleIll2x.toString})!important"),
-        &.after(backgroundImage := s"url(${mveYoungPeopleIll2x.toString})!important")
-      ),
-      media.minWidth(1575.pxToEm())(
-        /* TODO: find a way to preserve order/priorities of media queries */
-        &.before(backgroundPosition := "0 50%!important"),
-        &.after(backgroundPosition := "100% 50%!important")
-      )
+      position.absolute,
+      top(50.%%),
+      left(50.%%),
+      height.auto,
+      maxHeight.none,
+      minHeight(100.%%),
+      width.auto,
+      maxWidth.none,
+      minWidth(100.%%),
+      transform := s"translate(-50%, -50%)",
+      opacity(0.7)
     )
 
-  val logoWrapper: StyleA = style(maxWidth(481.pxToEm()), marginLeft.auto, marginRight.auto)
+  val logoWrapper: StyleA = style(maxWidth(446.pxToEm()), marginLeft.auto, marginRight.auto)
 
   val separatorLine: StyleA =
     style(backgroundColor(ThemeStyles.BorderColor.light))
 
   val separatorLineToTheLeft: StyleA = style(
-    background := s"linear-gradient(to left, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 100%)"
+    background := s"linear-gradient(to left, rgba(255,255,255,1) 0%, rgba(255,255,255,0) 100%)"
   )
 
   val separatorLineToTheRight: StyleA = style(
-    background := s"linear-gradient(to right, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 100%)"
+    background := s"linear-gradient(to right, rgba(255,255,255,1) 0%, rgba(255,255,255,0) 100%)"
   )
 
   val separatorText: StyleA = style(color(ThemeStyles.TextColor.light))

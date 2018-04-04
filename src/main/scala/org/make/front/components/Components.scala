@@ -164,6 +164,8 @@ object Components {
     def ClimatParisOperationIntroComponent: ReactClassElementSpec =
       self(operation.intro.ClimatParisOperationIntro.reactClass)
     def LPAEOperationIntroComponent: ReactClassElementSpec = self(operation.intro.LPAEOperationIntro.reactClass)
+    def ChanceAuxJeunesOperationIntroComponent: ReactClassElementSpec =
+      self(operation.intro.ChanceAuxJeunesOperationIntro.reactClass)
     def MakeEuropeOperationIntroComponent: ReactClassElementSpec =
       self(operation.intro.MakeEuropeOperationIntro.reactClass)
     def OperationHeaderComponent: ReactClassElementSpec = self(operation.OperationHeader.reactClass)

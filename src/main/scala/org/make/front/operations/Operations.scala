@@ -29,6 +29,7 @@ object Operations {
     ClimatParisOperationStaticData.data,
     LPAEOperationStaticData.data,
     MVEOperationStaticData.data,
+    ChanceAuxJeunesOperationStaticData.data,
     MakeEuropeOperationStaticData.data
   )
 }

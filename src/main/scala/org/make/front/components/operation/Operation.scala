@@ -14,6 +14,7 @@ import org.make.front.components.operation.intro.MakeEuropeOperationIntro.MakeEu
 import org.make.front.components.operation.intro.VFFOperationIntro.VFFOperationIntroProps
 import org.make.front.components.operation.intro.VFFGBOperationIntro.VFFGBOperationIntroProps
 import org.make.front.components.operation.intro.VFFITOperationIntro.VFFITOperationIntroProps
+import org.make.front.components.operation.intro.ChanceAuxJeunesOperationIntro.ChanceAuxJeunesOperationIntroProps
 import org.make.front.models.{Location => LocationModel, OperationExpanded => OperationModel}
 import org.make.front.styles.ThemeStyles
 import org.make.services.tracking.TrackingService.TrackingContext
@@ -57,6 +58,14 @@ object Operation {
               if (self.props.wrapped.operation.slug == "lpae") {
                 <.LPAEOperationIntroComponent(
                   ^.wrapped := LPAEOperationIntroProps(
+                    operation = self.props.wrapped.operation,
+                    language = self.props.wrapped.language
+                  )
+                )()
+              },
+              if (self.props.wrapped.operation.slug == "chance-aux-jeunes") {
+                <.ChanceAuxJeunesOperationIntroComponent(
+                  ^.wrapped := ChanceAuxJeunesOperationIntroProps(
                     operation = self.props.wrapped.operation,
                     language = self.props.wrapped.language
                   )
