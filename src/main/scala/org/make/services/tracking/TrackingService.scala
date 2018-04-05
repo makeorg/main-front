@@ -9,17 +9,17 @@ object TrackingService {
 
   private var globalTrackingContext: Map[String, String] = Map.empty
 
-  def setGlobalTrackingParameter(globalTrackingParameter: GlobalTrackingParameter, value: String) = {
+  def setGlobalTrackingParameter(globalTrackingParameter: GlobalTrackingParameter, value: String): Unit = {
     globalTrackingContext = globalTrackingContext ++ Map(globalTrackingParameter.name -> value)
   }
 
-  def setGlobalTrackingParameters(globalTrackingParameters: Map[GlobalTrackingParameter, String]) = {
+  def setGlobalTrackingParameters(globalTrackingParameters: Map[GlobalTrackingParameter, String]): Unit = {
     globalTrackingContext = globalTrackingContext ++ globalTrackingParameters.map {
       case (globalTracking, value) => (globalTracking.name, value)
     }
   }
 
-  def resetGlobalTrackingContext() = {
+  def resetGlobalTrackingContext(): Unit = {
     globalTrackingContext = Map.empty
   }
 
