@@ -40,22 +40,6 @@ object TrackingService {
     FacebookPixel.fbq(eventType, eventName, allParameters.toJSDictionary)
     GoogleTag.gtag("event", eventName, allParameters.toJSDictionary)
 
-    if (trackingContext.operationSlug.contains("chance-aux-jeunes")) {
-      (eventName match {
-        case "click-sequence-launch" =>
-          Some("_4jBCKDHgoABEMntyoYD")
-        case "click-proposal-vote" =>
-          Some("v17oCJzJgoABEMntyoYD")
-        case "display-proposal-submit-validation" =>
-          Some("JOG3CK7n638Qye3KhgM")
-        case _ =>
-          None
-      }).foreach(
-        event =>
-          GoogleTag.gtag("event", "conversion", js.Dictionary(("send_to", Configuration.googleAdWordsId + "/" + event)))
-      )
-    }
-
   }
 
   case class TrackingContext(location: TrackingLocation,
