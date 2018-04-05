@@ -1,6 +1,6 @@
 package org.make.front.operations
 
-import org.make.front.facades.chanceAuxJeunesLogo
+import org.make.front.facades.{chanceAuxJeunesLogo, chanceAuxJeunesLogoWhite}
 import org.make.front.models._
 
 object ChanceAuxJeunesOperationStaticData extends StaticDataOfOperation {
@@ -12,7 +12,7 @@ object ChanceAuxJeunesOperationStaticData extends StaticDataOfOperation {
       color = "#2999d5",
       gradient = Some(GradientColor("#2999D5", "#B6D0CE")),
       logoUrl = chanceAuxJeunesLogo.toString,
-      whiteLogoUrl = chanceAuxJeunesLogo.toString,
+      whiteLogoUrl = chanceAuxJeunesLogoWhite.toString,
       shareUrl = "/chance-aux-jeunes.html_UTM_#/FR/consultation/chance-aux-jeunes/selection",
       wording = Seq(
         OperationWording(

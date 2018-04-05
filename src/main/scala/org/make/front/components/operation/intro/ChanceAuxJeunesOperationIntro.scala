@@ -56,7 +56,7 @@ object ChanceAuxJeunesOperationIntro {
                   <.span(^.className := TextStyles.label)(unescape(I18n.t("operation.chance-aux-jeunes.intro.label")))
                 ),
                 <.img(
-                  ^.src := chanceAuxJeunesLogo.toString,
+                  ^.src := chanceAuxJeunesLogoWhite.toString,
                   ^.alt := unescape(I18n.t("operation.chance-aux-jeunes.intro.title"))
                 )()
               ),

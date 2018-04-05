@@ -642,6 +642,10 @@ object chanceAuxJeunesIll2x extends js.Object
 object chanceAuxJeunesLogo extends js.Object
 
 @js.native
+@JSImport("./images/operations/chance-aux-jeunes/une-chance-pour-chaque-jeunes-white.svg", "default")
+object chanceAuxJeunesLogoWhite extends js.Object
+
+@js.native
 @JSImport("./images/operations/chance-aux-jeunes/partners/accor-hotels.svg", "default")
 object accorHotelsLogoCAJ extends js.Object
 
@@ -814,6 +818,14 @@ object vffShowcase extends js.Object
 @js.native
 @JSImport("./images/showcase/vff_showcase@2x.png", "default")
 object vffShowcaseX2 extends js.Object
+
+@js.native
+@JSImport("./images/showcase/mve_showcase.jpg", "default")
+object mveShowcase extends js.Object
+
+@js.native
+@JSImport("./images/showcase/mve_showcase@2x.jpg", "default")
+object mveShowcaseX2 extends js.Object
 
 @js.native
 @JSImport("./images/showcase/endometri_showcase.png", "default")

@@ -64,6 +64,15 @@
           "label": "Participer à la consultation",
           "link": "https://www.make.org/#/fr/consultation/mieux-vivre-ensemble/selection"
         }
+      },
+      "chance-aux-jeunes": {
+        "title": "Une chance pour chaque jeune",
+        "label": "Grande cause Make.org",
+        "purpose": "Votez et proposez des solutions pour donner une chance à chaque jeune.",
+        "learn-more": {
+          "label": "Participer à la consultation",
+          "link": "https://www.make.org/#/fr/consultation/chance-aux-jeunes/selection"
+        }
       }
     },
     "explanations": {
