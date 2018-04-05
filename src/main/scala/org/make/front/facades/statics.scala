@@ -816,6 +816,14 @@ object vffShowcase extends js.Object
 object vffShowcaseX2 extends js.Object
 
 @js.native
+@JSImport("./images/showcase/mve_showcase.jpg", "default")
+object mveShowcase extends js.Object
+
+@js.native
+@JSImport("./images/showcase/mve_showcase@2x.jpg", "default")
+object mveShowcaseX2 extends js.Object
+
+@js.native
 @JSImport("./images/showcase/endometri_showcase.png", "default")
 object endometriShowcase extends js.Object
 

@@ -6,8 +6,8 @@ import io.github.shogowada.scalajs.reactjs.redux.ReactRedux
 import io.github.shogowada.scalajs.reactjs.redux.Redux.Dispatch
 import org.make.front.components.AppState
 import org.make.front.facades.{
-  endometriShowcase,
-  endometriShowcaseX2,
+  mveShowcase,
+  mveShowcaseX2,
   tromplinShowcase,
   tromplinShowcaseX2,
   vffShowcase,
@@ -24,6 +24,16 @@ object FeaturedArticlesShowcaseContainer {
       FeaturedArticlesShowcase.FeaturedArticlesShowcaseProps(
         articles = Seq(
           FeaturedArticleModel(
+            illUrl = mveShowcase.toString,
+            ill2xUrl = mveShowcaseX2.toString,
+            imageAlt = Some("Votez et proposez des solutions pour mieux vivre ensemble."),
+            label = "Grande cause Make.org",
+            excerpt = "Votez et proposez des solutions pour mieux vivre ensemble.",
+            seeMoreLabel = "Participer",
+            seeMoreLink =
+              "https://make.org/?utm_source=core&utm_medium=push-hp&utm_campaign=mve#/fr/consultation/mieux-vivre-ensemble/selection"
+          ),
+          FeaturedArticleModel(
             illUrl = vffShowcase.toString,
             ill2xUrl = vffShowcaseX2.toString,
             imageAlt = Some("Grâce aux idées issues de la consultation, 8 actions nationales ont été identifiées."),
@@ -31,15 +41,6 @@ object FeaturedArticlesShowcaseContainer {
             excerpt = "Grâce aux idées issues de la consultation, 8 actions nationales ont été identifiées.",
             seeMoreLabel = "Voir le plan d'actions",
             seeMoreLink = "https://stopvff.make.org/about-vff"
-          ),
-          FeaturedArticleModel(
-            illUrl = endometriShowcase.toString,
-            ill2xUrl = endometriShowcaseX2.toString,
-            imageAlt = Some("Endométri - Ose faire valoir tes droits"),
-            label = "Action en cours",
-            excerpt = "Endométri - Ose faire valoir tes droits",
-            seeMoreLabel = "En savoir +",
-            seeMoreLink = "https://about.make.org/post/endometri-ose-le-dire"
           ),
           FeaturedArticleModel(
             illUrl = tromplinShowcase.toString,
