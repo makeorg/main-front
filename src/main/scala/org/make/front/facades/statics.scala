@@ -642,6 +642,10 @@ object chanceAuxJeunesIll2x extends js.Object
 object chanceAuxJeunesLogo extends js.Object
 
 @js.native
+@JSImport("./images/operations/chance-aux-jeunes/une-chance-pour-chaque-jeunes-white.svg", "default")
+object chanceAuxJeunesLogoWhite extends js.Object
+
+@js.native
 @JSImport("./images/operations/chance-aux-jeunes/partners/accor-hotels.svg", "default")
 object accorHotelsLogoCAJ extends js.Object
 
