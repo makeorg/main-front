@@ -40,7 +40,8 @@ object ThemeShowcase {
                                       maybeNews: Option[String] = None,
                                       maybeOperation: Option[OperationModel] = None,
                                       maybeSequenceId: Option[SequenceId] = None,
-                                      maybeLocation: Option[LocationModel] = None)
+                                      maybeLocation: Option[LocationModel] = None,
+                                      country: String)
 
   final case class ThemeShowcaseState(proposals: Seq[ProposalModel])
 
@@ -82,7 +83,8 @@ object ThemeShowcase {
                   maybeOperation = self.props.wrapped.maybeOperation,
                   maybeSequenceId = self.props.wrapped.maybeSequenceId,
                   maybeLocation = self.props.wrapped.maybeLocation,
-                  trackingLocation = TrackingLocation.showcaseHomepage
+                  trackingLocation = TrackingLocation.showcaseHomepage,
+                  country = self.props.wrapped.country
                 )
             )()
 
@@ -92,7 +94,7 @@ object ThemeShowcase {
                 TrackingContext(TrackingLocation.showcaseHomepage),
                 Map("themeId" -> self.props.wrapped.theme.id.value)
               )
-              self.props.history.push(s"/theme/${self.props.wrapped.theme.slug}")
+              self.props.history.push(s"/${self.props.wrapped.country}/theme/${self.props.wrapped.theme.slug}")
             }
 
             def sliderContent() = Seq(
@@ -127,7 +129,7 @@ object ThemeShowcase {
                   },
                   <.div(^.className := ThemeShowcaseStyles.themeNameWrapper)(
                     <.h2(^.className := Seq(ThemeShowcaseStyles.themeName, TextStyles.bigTitle))(
-                      <.Link(^.to := s"/theme/${self.props.wrapped.theme.slug}")(
+                      <.Link(^.to := s"/${self.props.wrapped.country}/theme/${self.props.wrapped.theme.slug}")(
                         self.props.wrapped.theme.title
                       )
                     )
@@ -230,7 +232,7 @@ object ThemeShowcase {
                 <.p(^.className := Seq(LayoutRulesStyles.centeredRow, ThemeShowcaseStyles.seeMoreLinkWrapper))(
                   <.Link(
                     ^.className := Seq(CTAStyles.basic, CTAStyles.basicOnA),
-                    ^.to := s"/theme/${self.props.wrapped.theme.slug}"
+                    ^.to := s"/${self.props.wrapped.country}/theme/${self.props.wrapped.theme.slug}"
                   )(
                     I18n
                       .t(

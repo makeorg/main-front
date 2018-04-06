@@ -29,7 +29,8 @@ object ProposalTile {
                                      maybeOperation: Option[OperationModel],
                                      maybeSequenceId: Option[SequenceId],
                                      maybeLocation: Option[LocationModel],
-                                     trackingLocation: TrackingLocation)
+                                     trackingLocation: TrackingLocation,
+                                     country: String)
 
   val reactClass: ReactClass =
     WithRouter(
@@ -54,7 +55,7 @@ object ProposalTile {
               <.div(^.className := ProposalTileStyles.contentWrapper)(
                 <.h3(^.className := Seq(TextStyles.mediumText, TextStyles.boldText))(
                   <.Link(
-                    ^.to := s"/proposal/${self.props.wrapped.proposal.slug}",
+                    ^.to := s"/${self.props.wrapped.country}/proposal/${self.props.wrapped.proposal.slug}",
                     ^.className := ProposalTileStyles.proposalLinkOnTitle
                   )(self.props.wrapped.proposal.content)
                 ),

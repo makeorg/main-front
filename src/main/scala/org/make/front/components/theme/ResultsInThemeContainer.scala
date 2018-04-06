@@ -84,7 +84,8 @@ object ResultsInThemeContainer {
         onTagSelectionChange = searchOnSelectedTags,
         preselectedTags = Seq(),
         maybeOperation = props.wrapped.maybeOperation,
-        maybeLocation = props.wrapped.maybeLocation
+        maybeLocation = props.wrapped.maybeLocation,
+        country = appState.country
       )
     }
 }

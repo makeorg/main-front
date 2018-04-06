@@ -73,7 +73,8 @@ object ResultsInOperationContainer {
         onMoreResultsRequested = nextProposals,
         onTagSelectionChange = searchOnSelectedTags,
         preselectedTags = Seq(),
-        maybeLocation = props.wrapped.maybeLocation
+        maybeLocation = props.wrapped.maybeLocation,
+        country = appState.country
       )
     }
 }

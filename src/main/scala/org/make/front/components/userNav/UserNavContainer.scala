@@ -17,7 +17,8 @@ object UserNavContainer extends RouterProps {
         userFirstName = state.connectedUser.flatMap(_.firstName),
         avatarUrl = state.connectedUser.flatMap(_.profile).flatMap(_.avatarUrl),
         //login = ()  => dispatch(LoginRequired()),
-        logout = () => dispatch(LogoutAction)
+        logout = () => dispatch(LogoutAction),
+        country = state.country
       )
   }(UserNav.reactClass)
 }
