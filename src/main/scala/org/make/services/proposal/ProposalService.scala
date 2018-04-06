@@ -81,6 +81,7 @@ object ProposalService extends ApiService {
               themesIds = if (themesIds.nonEmpty) Some(themesIds.map(_.value)) else None,
               operationId = operationId.map(_.value),
               tagsIds = if (tagsIds.nonEmpty) Some(tagsIds.map(_.value)) else None,
+              trending = trending,
               labelsIds = labelsIds,
               context = context,
               limit = limit,

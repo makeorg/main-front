@@ -51,7 +51,7 @@ object Home {
             <.ExplanationsComponent.empty,
             <.TrendingShowcaseContainerComponent(
               ^.wrapped := TrendingShowcaseContainerProps(
-                trending = "trending",
+                trending = "popular",
                 intro = unescape(I18n.t("home.showcase-2.intro")),
                 title = unescape(I18n.t("home.showcase-2.title")),
                 maybeLocation = Some(Location.Homepage)
@@ -67,7 +67,7 @@ object Home {
             )(),
             <.TrendingShowcaseContainerComponent(
               ^.wrapped := TrendingShowcaseContainerProps(
-                trending = "hot",
+                trending = "controversial",
                 intro = unescape(I18n.t("home.showcase-3.intro")),
                 title = unescape(I18n.t("home.showcase-3.title")),
                 maybeLocation = Some(Location.Homepage)
