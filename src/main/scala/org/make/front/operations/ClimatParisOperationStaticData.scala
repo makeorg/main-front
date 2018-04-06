@@ -29,7 +29,7 @@ object ClimatParisOperationStaticData extends StaticDataOfOperation {
       Seq(
         Slides.displaySequenceIntroCard(params),
         Slides.displaySignUpCard(params, displayed = !params.isConnected),
-        Slides.displayProposalPushCard(params, displayed = false),
+        Slides.displayProposalPushCard(params),
         Slides.displayFinalCard(params)
       )
     }
