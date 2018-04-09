@@ -11,17 +11,17 @@ object NavInThemesContainer {
 
   lazy val reactClass: ReactClass = ReactRedux.connectAdvanced(selectorFactory)(NavInThemes.reactClass)
 
-  def selectorFactory: (Dispatch) => (AppState, Props[Unit]) => NavInThemes.WrappedProps =
-    (dispatch: Dispatch) => { (state: AppState, _: Props[Unit]) =>
-      if (state.configuration.isEmpty) {
+  def selectorFactory: (Dispatch) => (AppState, Props[Unit]) => NavInThemes.NavInThemesProps =
+    (dispatch: Dispatch) => { (appState: AppState, _: Props[Unit]) =>
+      if (appState.configuration.isEmpty) {
         dispatch(LoadConfiguration)
       }
 
       val shouldDisplayTheme =
-        state.configuration
-          .flatMap(_.supportedCountries.find(_.countryCode == state.country).map(_.coreIsAvailable))
+        appState.configuration
+          .flatMap(_.supportedCountries.find(_.countryCode == appState.country).map(_.coreIsAvailable))
           .getOrElse(false)
 
-      NavInThemes.WrappedProps(state.themes, shouldDisplayTheme)
+      NavInThemes.NavInThemesProps(appState.themes, shouldDisplayTheme, appState.country)
     }
 }

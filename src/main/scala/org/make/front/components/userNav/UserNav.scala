@@ -28,7 +28,8 @@ object UserNav {
   case class UserNavProps(isConnected: Boolean,
                           userFirstName: Option[String],
                           avatarUrl: Option[String],
-                          logout: () => Unit)
+                          logout: () => Unit,
+                          country: String)
 
   case class UserNavState(avatarUrl: String, isAuthenticateModalOpened: Boolean, loginOrRegisterView: String = "login")
 
@@ -44,20 +45,28 @@ object UserNav {
         )
       },
       render = self => {
-        <.nav(^.className := UserNavStyles.menuWrapper)(if (self.props.wrapped.isConnected) {
-          ConnectedUserNavElement(self.props.wrapped.userFirstName.get, self.state.avatarUrl, self.props.wrapped.logout)
-        } else {
-          UnconnectedUserNavElement(self)
-        }, <.style()(UserNavStyles.render[String]))
+        <.nav(^.className := UserNavStyles.menuWrapper)(
+          if (self.props.wrapped.isConnected) {
+            ConnectedUserNavElement(
+              self.props.wrapped.userFirstName.get,
+              self.state.avatarUrl,
+              self.props.wrapped.logout,
+              self.props.wrapped.country
+            )
+          } else {
+            UnconnectedUserNavElement(self)
+          },
+          <.style()(UserNavStyles.render[String])
+        )
       }
     )
 }
 
 object ConnectedUserNavElement {
-  def apply(userFirstName: String, avatarUrl: String, logout: () => Unit): ReactElement =
+  def apply(userFirstName: String, avatarUrl: String, logout: () => Unit, country: String): ReactElement =
     <.ul(^.className := UserNavStyles.menu)(
       <.li(^.className := UserNavStyles.menuItem)(
-        <.Link(^.to := s"/profile")(
+        <.Link(^.to := s"/$country/profile")(
           <.span(^.className := UserNavStyles.avatarWrapper)(if (avatarUrl.nonEmpty) {
             <.img(
               ^.src := avatarUrl,

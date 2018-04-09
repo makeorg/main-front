@@ -34,7 +34,8 @@ object TrendingShowcaseContainer {
           ),
         intro = props.wrapped.intro,
         title = props.wrapped.title,
-        maybeLocation = props.wrapped.maybeLocation
+        maybeLocation = props.wrapped.maybeLocation,
+        country = appState.country
       )
     }
 }

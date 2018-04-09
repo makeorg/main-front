@@ -34,7 +34,8 @@ object ProposalTileWithTheme {
                                               maybeOperation: Option[OperationModel],
                                               maybeSequenceId: Option[SequenceId],
                                               maybeLocation: Option[LocationModel],
-                                              trackingLocation: TrackingLocation)
+                                              trackingLocation: TrackingLocation,
+                                              country: String)
 
   val reactClass: ReactClass =
     WithRouter(
@@ -63,7 +64,7 @@ object ProposalTileWithTheme {
                     <.div(^.className := ProposalTileStyles.contentWrapper)(
                       <.h3(^.className := Seq(TextStyles.mediumText, TextStyles.boldText))(
                         <.Link(
-                          ^.to := s"/proposal/${self.props.wrapped.proposal.slug}",
+                          ^.to := s"/${self.props.wrapped.country}/proposal/${self.props.wrapped.proposal.slug}",
                           ^.className := ProposalTileStyles.proposalLinkOnTitle
                         )(self.props.wrapped.proposal.content)
                       ),
@@ -89,7 +90,7 @@ object ProposalTileWithTheme {
                         <.p(^.className := Seq(TextStyles.smallerText, ProposalTileWithThemeStyles.themeInfo))(
                           unescape(I18n.t("proposal.associated-with-the-theme")),
                           <.Link(
-                            ^.to := s"/theme/${self.props.wrapped.themeSlug}",
+                            ^.to := s"/${self.props.wrapped.country}/theme/${self.props.wrapped.themeSlug}",
                             ^.className := Seq(TextStyles.title, ProposalTileWithThemeStyles.themeName)
                           )(self.props.wrapped.themeName)
                         )

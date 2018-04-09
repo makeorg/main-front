@@ -50,7 +50,8 @@ object ProposalTileWithThemeContainer {
         maybeOperation = props.wrapped.maybeOperation,
         maybeSequenceId = props.wrapped.maybeSequenceId,
         maybeLocation = props.wrapped.maybeLocation,
-        trackingLocation = props.wrapped.trackingLocation
+        trackingLocation = props.wrapped.trackingLocation,
+        country = appState.country
       )
     }
 }

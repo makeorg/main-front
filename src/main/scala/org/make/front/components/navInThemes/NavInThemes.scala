@@ -16,11 +16,11 @@ import org.make.front.styles.utils._
 
 object NavInThemes {
 
-  case class WrappedProps(themes: Seq[TranslatedThemeModel], shouldDisplayTheme: Boolean)
+  case class NavInThemesProps(themes: Seq[TranslatedThemeModel], shouldDisplayTheme: Boolean, country: String)
 
   lazy val reactClass: ReactClass =
     React
-      .createClass[WrappedProps, Unit](
+      .createClass[NavInThemesProps, Unit](
         displayName = "NavInThemes",
         render = self => {
 
@@ -46,7 +46,10 @@ object NavInThemes {
                   ColRulesStyles.colThirdBeyondLarge
                 )
               )(
-                <.Link(^.to := s"/theme/${theme.slug}", ^.className := NavInThemesStyles.themeLink)(
+                <.Link(
+                  ^.to := s"/${self.props.wrapped.country}/theme/${theme.slug}",
+                  ^.className := NavInThemesStyles.themeLink
+                )(
                   <.div(
                     ^.className := Seq(
                       NavInThemesStyles.themeItemContentWrapper,

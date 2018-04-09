@@ -27,11 +27,15 @@ object TrendingShowcase {
   final case class TrendingShowcaseProps(proposals: () => Future[SearchResult],
                                          intro: String,
                                          title: String,
-                                         maybeLocation: Option[LocationModel])
+                                         maybeLocation: Option[LocationModel],
+                                         country: String)
 
   final case class TrendingShowcaseState(proposals: Seq[ProposalModel])
 
-  def proposalTile(proposal: ProposalModel, maybeLocation: Option[LocationModel], counter: Counter): ReactElement = {
+  def proposalTile(proposal: ProposalModel,
+                   maybeLocation: Option[LocationModel],
+                   counter: Counter,
+                   country: String): ReactElement = {
     if (proposal.themeId.isDefined) {
       <.ProposalTileWithThemeContainerComponent(
         ^.wrapped :=
@@ -54,7 +58,8 @@ object TrendingShowcase {
             maybeOperation = None,
             maybeSequenceId = None,
             maybeLocation = maybeLocation,
-            trackingLocation = TrackingLocation.showcaseHomepage
+            trackingLocation = TrackingLocation.showcaseHomepage,
+            country = country
           )
       )()
     }
@@ -107,7 +112,7 @@ object TrendingShowcase {
                       <.div(
                         ^.className :=
                           Seq(ColRulesStyles.col, TrendingShowcaseStyles.propasalItem)
-                      )(proposalTile(proposal, maybeLocation, counter))
+                      )(proposalTile(proposal, maybeLocation, counter, self.props.wrapped.country))
                   )
                 )
               ),
@@ -121,7 +126,7 @@ object TrendingShowcase {
                           ColRulesStyles.col,
                           ColRulesStyles.colHalfBeyondMedium
                         )
-                      )(proposalTile(proposal, maybeLocation, counter))
+                      )(proposalTile(proposal, maybeLocation, counter, self.props.wrapped.country))
                   )
                 )
               )

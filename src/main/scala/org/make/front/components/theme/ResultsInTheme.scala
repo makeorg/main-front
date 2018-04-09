@@ -47,7 +47,8 @@ object ResultsInTheme {
     onTagSelectionChange: (Seq[TagModel], Option[Int])                       => Future[SearchResult],
     preselectedTags: Seq[TagModel],
     maybeOperation: Option[OperationModel],
-    maybeLocation: Option[LocationModel]
+    maybeLocation: Option[LocationModel],
+    country: String
   )
 
   case class ResultsInThemeState(listProposals: Seq[ProposalModel],
@@ -196,7 +197,7 @@ object ResultsInTheme {
             }
         }
 
-        def proposals(proposals: Seq[ProposalModel]) =
+        def proposals(proposals: Seq[ProposalModel], country: String) =
           Seq(
             <.InfiniteScroll(
               ^.element := "ul",
@@ -228,7 +229,8 @@ object ResultsInTheme {
                         maybeOperation = self.props.wrapped.maybeOperation,
                         maybeSequenceId = None,
                         maybeLocation = self.props.wrapped.maybeLocation,
-                        trackingLocation = TrackingLocation.themePage
+                        trackingLocation = TrackingLocation.themePage,
+                        country = country
                       )
                     )()
                 )
@@ -260,7 +262,7 @@ object ResultsInTheme {
             <.FilterByTagsComponent(^.wrapped := FilterByTagsProps(self.props.wrapped.theme.tags, onTagsChange))()
           ),
           if (self.state.initialLoad || proposalsToDisplay.nonEmpty) {
-            proposals(proposalsToDisplay)
+            proposals(proposalsToDisplay, self.props.wrapped.country)
           } else {
             noResults
           },

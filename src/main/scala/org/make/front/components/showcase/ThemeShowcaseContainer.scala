@@ -51,12 +51,14 @@ object ThemeShowcaseContainer {
           maybeNews = props.wrapped.maybeNews,
           maybeOperation = props.wrapped.maybeOperation,
           maybeSequenceId = props.wrapped.maybeSequenceId,
-          maybeLocation = props.wrapped.maybeLocation
+          maybeLocation = props.wrapped.maybeLocation,
+          country = appState.country
         )
       }.getOrElse(
         ThemeShowcase.ThemeShowcaseProps(
           proposals = () => Future.successful(SearchResult(total = 0, results = Seq.empty, seed = None)),
-          theme = TranslatedThemeModel.empty
+          theme = TranslatedThemeModel.empty,
+          country = appState.country
         )
       )
     }
