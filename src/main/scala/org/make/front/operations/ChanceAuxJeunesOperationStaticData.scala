@@ -26,7 +26,7 @@ object ChanceAuxJeunesOperationStaticData extends StaticDataOfOperation {
         Seq(
           Slides.displaySequenceIntroCard(params),
           Slides.displaySignUpCard(params, !params.isConnected),
-//          Slides.displayProposalPushCard(params),
+          Slides.displayProposalPushCard(params),
           Slides.displayFinalCard(params)
         )
       }
