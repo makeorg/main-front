@@ -28,7 +28,7 @@ object TrendingShowcaseContainer {
               limit = Some(2),
               sort = Seq.empty,
               skip = None,
-              isRandom = Some(false),
+              isRandom = Some(true),
               language = Some(appState.language),
               country = Some(appState.country)
           ),
