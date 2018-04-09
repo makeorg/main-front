@@ -19,11 +19,14 @@ import org.make.front.styles.vendors.FontAwesomeStyles
 import org.make.services.tracking.TrackingService.TrackingContext
 import org.make.services.tracking.{TrackingLocation, TrackingService}
 
+import scala.scalajs.js
+
 object PromptingToProposeInRelationToOperation {
 
   final case class PromptingToProposeInRelationToOperationProps(operation: OperationModel,
-                                                                clickOnButtonHandler: () => Unit,
-                                                                proposeHandler: ()       => Unit,
+                                                                clickOnButtonHandler: ()   => Unit,
+                                                                proposeHandler: ()         => Unit,
+                                                                handleCanUpdate: (Boolean) => Unit,
                                                                 sequenceId: SequenceId,
                                                                 maybeLocation: Option[LocationModel],
                                                                 language: String)
@@ -40,11 +43,13 @@ object PromptingToProposeInRelationToOperation {
         render = { self =>
           val closeProposalModal: () => Unit = () => {
             self.setState(state => state.copy(isProposalModalOpened = false))
+            self.props.wrapped.handleCanUpdate(true)
           }
 
           val openProposalModal: (MouseSyntheticEvent) => Unit = { event =>
             event.preventDefault()
             self.setState(state => state.copy(isProposalModalOpened = true))
+            self.props.wrapped.handleCanUpdate(false)
             TrackingService.track(
               "click-proposal-submit-form-open",
               TrackingContext(TrackingLocation.sequenceProposalPushCard, Some(self.props.wrapped.operation.slug)),

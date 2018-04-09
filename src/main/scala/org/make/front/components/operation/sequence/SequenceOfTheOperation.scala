@@ -38,7 +38,8 @@ object SequenceOfTheOperation {
                                                redirectHome: ()                 => Unit,
                                                sequence: SequenceModel,
                                                language: String,
-                                               country: String)
+                                               country: String,
+                                               handleCanUpdate: (Boolean)       => Unit)
 
   final case class SequenceOfTheOperationState(isProposalModalOpened: Boolean,
                                                numberOfProposals: Int,
@@ -59,7 +60,8 @@ object SequenceOfTheOperation {
               sequence = self.props.wrapped.sequence,
               maybeLocation = None,
               language = self.props.wrapped.language,
-              country = self.props.wrapped.country
+              country = self.props.wrapped.country,
+              handleCanUpdate = self.props.wrapped.handleCanUpdate
             )
           ),
           operation = self.props.wrapped.operation
@@ -80,7 +82,8 @@ object SequenceOfTheOperation {
                   sequence = nextProps.wrapped.sequence,
                   maybeLocation = None,
                   language = nextProps.wrapped.language,
-                  country = nextProps.wrapped.country
+                  country = nextProps.wrapped.country,
+                  handleCanUpdate = self.props.wrapped.handleCanUpdate
                 )
               )
             )

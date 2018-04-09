@@ -38,7 +38,8 @@ final case class OperationExtraSlidesParams(operation: OperationExpanded,
                                             sequence: Sequence,
                                             maybeLocation: Option[Location],
                                             language: String,
-                                            country: String)
+                                            country: String,
+                                            handleCanUpdate: (Boolean) => Unit)
 
 final case class OperationExpanded(operationId: OperationId,
                                    startDate: Option[js.Date],

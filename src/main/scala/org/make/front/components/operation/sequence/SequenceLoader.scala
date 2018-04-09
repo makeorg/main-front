@@ -24,13 +24,14 @@ object SequenceLoader {
 
   final case class SequenceLoaderState(operation: Option[OperationModel],
                                        sequence: Option[SequenceModel],
-                                       country: String)
+                                       country: String,
+                                       canUpdate: Boolean)
 
   val reactClass: ReactClass =
     React.createClass[SequenceLoaderProps, SequenceLoaderState](
       displayName = "SequenceLoader",
       getInitialState = { self =>
-        SequenceLoaderState(None, None, self.props.wrapped.country)
+        SequenceLoaderState(None, None, self.props.wrapped.country, true)
       },
       componentWillReceiveProps = {
         (self, props) =>
@@ -59,9 +60,15 @@ object SequenceLoader {
               case _ =>
             }
           }
-
+      },
+      shouldComponentUpdate = { (self, props, state) =>
+        state.canUpdate
       },
       render = { self =>
+        def handleCanUpdate(canUpdate: Boolean): Unit = {
+          self.setState(state => state.copy(canUpdate = canUpdate))
+        }
+
         (for {
           operation <- self.state.operation
           sequence  <- self.state.sequence
@@ -74,7 +81,9 @@ object SequenceLoader {
               redirectHome = self.props.wrapped.redirectHome,
               sequence = sequence,
               language = self.props.wrapped.language,
-              country = self.props.wrapped.country
+              country = self.props.wrapped.country,
+              handleCanUpdate = handleCanUpdate
+
             )
           )()).getOrElse(<.WaitingForSequence.empty)
       }

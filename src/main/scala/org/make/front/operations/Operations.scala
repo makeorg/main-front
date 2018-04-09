@@ -95,7 +95,8 @@ object Slides {
           proposeHandler = handler,
           sequenceId = params.sequence.sequenceId,
           maybeLocation = params.maybeLocation,
-          language = params.language
+          language = params.language,
+          handleCanUpdate = params.handleCanUpdate
         )
       },
       position = { slides =>
