@@ -506,7 +506,13 @@ object SequenceStyles extends StyleSheet.Inline {
     )
 
   val slideWrapper: StyleA =
-    style()
+    style(
+      ThemeStyles.MediaQueries
+        .verySmall(
+        maxHeight(500.pxToEm()),
+        overflow.hidden
+      )
+    )
 
   val slide: StyleA =
     style(
@@ -516,8 +522,12 @@ object SequenceStyles extends StyleSheet.Inline {
       boxShadow := "0 1px 1px 0 rgba(0,0,0,0.50)",
       textAlign.center,
       whiteSpace.nowrap,
-      &.before(content := "' '", display.inlineBlock, height(100.%%), verticalAlign.middle)
-    )
+      &.before(content := "' '", display.inlineBlock, height(100.%%), verticalAlign.middle),
+      ThemeStyles.MediaQueries
+        .verySmall(
+          overflow.scroll
+        )
+  )
 
   val slideInnerSubWrapper: StyleA =
     style(
