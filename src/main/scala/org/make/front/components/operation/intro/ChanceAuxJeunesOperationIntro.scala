@@ -36,7 +36,7 @@ object ChanceAuxJeunesOperationIntro {
 
           val partners = Seq(
             OperationPartnerModel(name = "Bnp Paribas", imageUrl = bnpParibasLogo.toString, imageWidth = 123),
-            OperationPartnerModel(name = "Hauts De France", imageUrl = hautsDeFranceLogo.toString, imageWidth = 50),
+            OperationPartnerModel(name = "Hauts De France", imageUrl = hautsDeFranceLogo.toString, imageWidth = 112),
             OperationPartnerModel(name = "AccorHotels", imageUrl = accorHotelsLogoCAJ.toString, imageWidth = 127),
             OperationPartnerModel(name = "Google", imageUrl = googleLogo.toString, imageWidth = 80),
             OperationPartnerModel(name = "Viva Tech", imageUrl = vivaTechLogo.toString, imageWidth = 88)
@@ -77,7 +77,7 @@ object ChanceAuxJeunesOperationIntro {
                   )()
                 ),
                 <.div(^.className := Seq(TableLayoutStyles.cell, OperationIntroStyles.separatorTextWrapper))(
-                  <.p(^.className := Seq(OperationIntroStyles.separatorText, TextStyles.smallerText))(
+                  <.p(^.className := Seq(ChanceAuxJeunesOperationIntroStyles.separatorText, TextStyles.smallerText))(
                     unescape(I18n.t("operation.chance-aux-jeunes.intro.partners.intro"))
                   )
                 ),
@@ -170,7 +170,7 @@ object ChanceAuxJeunesOperationIntroStyles extends StyleSheet.Inline {
   val labelWrapper: StyleA = style(OperationIntroStyles.labelWrapper, textAlign.center)
 
   val separatorLine: StyleA =
-    style(backgroundColor(ThemeStyles.BorderColor.light))
+    style(backgroundColor(ThemeStyles.BorderColor.light), opacity(0.6))
 
   val separatorLineToTheLeft: StyleA = style(
     background := s"linear-gradient(to left, rgba(255,255,255,1) 0%, rgba(255,255,255,0) 100%)"
@@ -180,7 +180,7 @@ object ChanceAuxJeunesOperationIntroStyles extends StyleSheet.Inline {
     background := s"linear-gradient(to right, rgba(255,255,255,1) 0%, rgba(255,255,255,0) 100%)"
   )
 
-  val separatorText: StyleA = style(color(ThemeStyles.TextColor.light))
+  val separatorText: StyleA = style(color(ThemeStyles.TextColor.white))
 
   val explanationWrapper: StyleA =
     style(backgroundColor(ThemeStyles.BackgroundColor.blackTransparent))
