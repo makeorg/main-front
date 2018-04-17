@@ -13,10 +13,12 @@ object AppContainer {
   def selectorFactory: (Dispatch) => (AppState, Props[Unit]) => AppProps =
     (_: Dispatch) => { (appState: AppState, _: Props[Unit]) =>
       {
+        val nVotesTriggerConnexionDefault: Int = 5
         AppProps(
           language = appState.language,
           country = appState.country,
-          nVotesTriggerConnexion = appState.configuration.map(_.nVotesTriggerConnexion).getOrElse(5)
+          nVotesTriggerConnexion =
+            appState.configuration.map(_.nVotesTriggerConnexion).getOrElse(nVotesTriggerConnexionDefault)
         )
       }
     }
