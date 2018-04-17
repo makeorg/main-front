@@ -200,8 +200,8 @@ object PoliticalActionsListStyles extends StyleSheet.Inline {
         color(ThemeStyles.TextColor.base),
         opacity(0.1),
         transition := "opacity .2s ease-in-out",
-        (&.hover)(opacity(1)),
-        (&.disabled)(opacity(0).important)
+        &.hover(opacity(1)),
+        &.disabled(opacity(0).important)
       )
     )
 

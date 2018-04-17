@@ -7,7 +7,7 @@ import org.make.front.Main.CssSettings._
 import org.make.front.components.Components.{RichVirtualDOMElements, _}
 import org.make.front.facades.ReactModal.{ReactModalVirtualDOMAttributes, ReactModalVirtualDOMElements}
 import org.make.front.styles._
-import org.make.front.styles.base.TableLayoutStyles
+import org.make.front.styles.base.{RWDHideRulesStyles, TableLayoutStyles}
 import org.make.front.styles.utils._
 
 object Modal {
@@ -38,8 +38,8 @@ object Modal {
             )
           )(
             <.div(^.className := TableLayoutStyles.row)(
-              <.div(^.className := Seq(TableLayoutStyles.cellVerticalAlignMiddle, ModalStyles.mainHeaderWrapper))(
-                <.MainHeaderContainer.empty
+              <.div(^.className := Seq(TableLayoutStyles.cell, ModalStyles.mainHeaderWrapper))(
+                <.div(^.className := RWDHideRulesStyles.invisible)(<.CookieAlertContainerComponent.empty)
               )
             ),
             <.div(^.className := Seq(TableLayoutStyles.row, ModalStyles.contentWrapper))(
@@ -91,7 +91,10 @@ object ModalStyles extends StyleSheet.Inline {
   )
 
   val mainHeaderWrapper: StyleA =
-    style(visibility.hidden)
+    style(
+      paddingBottom(50.pxToEm()),
+      ThemeStyles.MediaQueries.beyondSmall(paddingBottom(ThemeStyles.mainNavDefaultHeight))
+    )
 
   val contentWrapper: StyleA =
     style(height(100.%%))
@@ -126,7 +129,7 @@ object ModalStyles extends StyleSheet.Inline {
     width(ThemeStyles.SpacingValue.largerMedium.pxToEm()),
     lineHeight(ThemeStyles.SpacingValue.largerMedium.pxToEm()),
     unsafeChild("svg")(verticalAlign.bottom, opacity(0.1), transition := "opacity .2s ease-in-out"),
-    (&.hover)(unsafeChild("svg")(opacity(0.3)))
+    &.hover(unsafeChild("svg")(opacity(0.3)))
   )
 
 }

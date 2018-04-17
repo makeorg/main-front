@@ -11,6 +11,7 @@ import org.make.front.components.search.SearchResults.SearchResultsProps
 import org.make.front.facades.I18n
 import org.make.front.helpers.QueryString
 import org.make.front.models.{Location, Proposal}
+import org.make.services.operation.OperationService
 import org.make.services.proposal.ProposalService.defaultResultsCount
 import org.make.services.proposal.{ProposalService, SearchResult}
 
@@ -26,6 +27,8 @@ object SearchResultsContainer {
   def selectorFactory: (Dispatch) => (AppState, Props[Unit]) => SearchResultsProps =
     (dispatch: Dispatch) => { (appState: AppState, props: Props[Unit]) =>
       {
+        val operationSlug: Option[String] = props.`match`.params.get("operationSlug")
+        val themeSlug: Option[String] = props.`match`.params.get("themeSlug")
 
         val queryParams: Map[String, String] = QueryString.parse(props.location.search)
 
@@ -43,19 +46,37 @@ object SearchResultsContainer {
         }
 
         def getProposals(originalProposals: Seq[Proposal], content: Option[String]): Future[SearchResult] = {
-          val result = ProposalService
-            .searchProposals(
-              content = content,
-              sort = Seq.empty,
-              limit = Some(defaultResultsCount),
-              skip = Some(originalProposals.size),
-              isRandom = Some(false),
-              language = Some(appState.language),
-              country = Some(appState.country)
-            )
-            .map { searchResults =>
-              searchResults.copy(results = originalProposals ++ searchResults.results)
+
+          val result: Future[SearchResult] = for {
+            operation <- operationSlug match {
+              case None                     => Future.successful(None)
+              case Some(operationSlugValue) => OperationService.getOperationBySlug(operationSlugValue)
             }
+            proposals <- ProposalService
+              .searchProposals(
+                content = content,
+                sort = Seq.empty,
+                limit = Some(defaultResultsCount),
+                skip = Some(originalProposals.size),
+                isRandom = Some(false),
+                language = Some(appState.language),
+                country = Some(appState.country),
+                operationId = operation.map(_.operationId),
+                themesIds = themeSlug match {
+                  case None => Seq.empty
+                  case Some(themeSlugValue) =>
+                    appState.findTheme(themeSlugValue) match {
+                      case None        => Seq.empty
+                      case Some(theme) => Seq(theme.id)
+                    }
+                }
+              )
+
+          } yield proposals
+
+          result.map { searchResults =>
+            searchResults.copy(results = originalProposals ++ searchResults.results)
+          }
 
           result.onComplete {
             case Success(_) => // let child handle new results

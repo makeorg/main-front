@@ -188,7 +188,7 @@ object SubmitProposalFormStyles extends StyleSheet.Inline {
   val proposalInputWithIconWrapper: StyleA =
     style(
       boxShadow := "0 2px 5px 0 rgba(0,0,0,0.50)",
-      (&.before)(content := "'\\F0EB'"),
+      &.before(content := "'\\F0EB'"),
       unsafeChild("textarea")(ThemeStyles.Font.circularStdBold)
     )
 
@@ -226,7 +226,7 @@ object SubmitProposalFormStyles extends StyleSheet.Inline {
         marginTop.auto,
         marginBottom(ThemeStyles.SpacingValue.smaller.pxToEm())
       ),
-    (&.after)(
+    &.after(
       right(50.pxToEm()),
       transform := "none",
       bottom(100.%%),

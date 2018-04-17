@@ -16,7 +16,7 @@ import org.make.front.models.{
   OperationWording     => OperationWordingModel
 }
 import org.make.front.styles.ThemeStyles
-import org.make.front.styles.base.{ColRulesStyles, LayoutRulesStyles, TableLayoutStyles, TextStyles}
+import org.make.front.styles.base._
 import org.make.front.styles.ui.CTAStyles
 import org.make.front.styles.utils._
 
@@ -100,7 +100,11 @@ object CurrentOperations {
           <.div(^.className := Seq(CurrentOperationsStyles.wrapper, TableLayoutStyles.fullHeightWrapper))(
             <.div(^.className := TableLayoutStyles.row)(
               <.div(^.className := Seq(TableLayoutStyles.cell, CurrentOperationsStyles.mainHeaderWrapper))(
-                <.MainHeaderContainer.empty
+                <.div(^.className := RWDHideRulesStyles.invisible)(<.CookieAlertContainerComponent.empty),
+                <.div(^.className := CurrentOperationsStyles.fixedMainHeaderWrapper)(
+                  <.CookieAlertContainerComponent.empty,
+                  <.MainHeaderContainer.empty
+                )
               )
             ),
             <.div(^.className := Seq(TableLayoutStyles.row, CurrentOperationsStyles.fullHeight))(
@@ -179,7 +183,13 @@ object CurrentOperationsStyles extends StyleSheet.Inline {
     style(height(100.%%))
 
   val mainHeaderWrapper: StyleA =
-    style(visibility.hidden)
+    style(
+      paddingBottom(50.pxToEm()),
+      ThemeStyles.MediaQueries.beyondSmall(paddingBottom(ThemeStyles.mainNavDefaultHeight))
+    )
+
+  val fixedMainHeaderWrapper: StyleA =
+    style(position.fixed, top(`0`), left(`0`), width(100.%%), zIndex(10), boxShadow := s"0 2px 4px 0 rgba(0,0,0,0.50)")
 
   val operations: StyleA =
     style(

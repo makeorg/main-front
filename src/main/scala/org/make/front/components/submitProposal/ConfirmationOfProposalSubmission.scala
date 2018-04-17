@@ -118,6 +118,6 @@ object ConfirmationOfProposalSubmissionStyles extends StyleSheet.Inline {
     style(
       marginTop(ThemeStyles.SpacingValue.small.pxToEm(13)),
       ThemeStyles.MediaQueries.beyondSmall(marginTop(ThemeStyles.SpacingValue.medium.pxToEm(16))),
-      (&.firstChild)(marginTop(`0`))
+      &.firstChild(marginTop(`0`))
     )
 }

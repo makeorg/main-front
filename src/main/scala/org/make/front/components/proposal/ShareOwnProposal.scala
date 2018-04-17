@@ -88,7 +88,7 @@ object ShareOwnProposalStyles extends StyleSheet.Inline {
     overflow.hidden,
     boxShadow := s"0 0 0 0 rgba(0, 0, 0, .0)",
     transition := "box-shadow .2s ease-in-out",
-    (&.before)(
+    &.before(
       display.inlineBlock,
       width(100.%%),
       fontSize(12.pxToEm()),
@@ -97,16 +97,16 @@ object ShareOwnProposalStyles extends StyleSheet.Inline {
       textAlign.center,
       color(ThemeStyles.TextColor.white)
     ),
-    (&.hover)(boxShadow := s"0 ${1.pxToEm().value} ${1.pxToEm().value} 0 rgba(0, 0, 0, .5)")
+    &.hover(boxShadow := s"0 ${1.pxToEm().value} ${1.pxToEm().value} 0 rgba(0, 0, 0, .5)")
   )
 
   val shareWithFacebookButton: StyleA =
-    style(backgroundColor(ThemeStyles.SocialNetworksColor.facebook), (&.before)(content := "'\\f09a'"))
+    style(backgroundColor(ThemeStyles.SocialNetworksColor.facebook), &.before(content := "'\\f09a'"))
   val shareWithTwitterButton: StyleA =
-    style(backgroundColor(ThemeStyles.SocialNetworksColor.twitter), (&.before)(content := "'\\f099'"))
+    style(backgroundColor(ThemeStyles.SocialNetworksColor.twitter), &.before(content := "'\\f099'"))
   val shareWithGooglePlusButton: StyleA =
-    style(backgroundColor(ThemeStyles.SocialNetworksColor.googlePlus), (&.before)(content := "'\\f0d5'"))
+    style(backgroundColor(ThemeStyles.SocialNetworksColor.googlePlus), &.before(content := "'\\f0d5'"))
   val shareWithLinkedInButton: StyleA =
-    style(backgroundColor(ThemeStyles.SocialNetworksColor.linkedIn), (&.before)(content := "'\\f0e1'"))
+    style(backgroundColor(ThemeStyles.SocialNetworksColor.linkedIn), &.before(content := "'\\f0e1'"))
 
 }

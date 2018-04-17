@@ -120,15 +120,15 @@ object SequenceOfTheOperation {
         }
 
         if (operation.isActive) {
-
           <.section(^.className := Seq(TableLayoutStyles.fullHeightWrapper, SequenceOfTheOperationStyles.wrapper))(
             <.div(^.className := Seq(TableLayoutStyles.row))(
-              <.div(
-                ^.className := Seq(
-                  TableLayoutStyles.cellVerticalAlignMiddle,
-                  SequenceOfTheOperationStyles.mainHeaderWrapper
+              <.div(^.className := Seq(TableLayoutStyles.cell, SequenceOfTheOperationStyles.mainHeaderWrapper))(
+                <.div(^.className := RWDHideRulesStyles.invisible)(<.CookieAlertContainerComponent.empty),
+                <.div(^.className := SequenceOfTheOperationStyles.fixedMainHeaderWrapper)(
+                  <.CookieAlertContainerComponent.empty,
+                  <.MainHeaderContainer.empty
                 )
-              )(<.MainHeaderContainer.empty)
+              )
             ),
             <.div(^.className := Seq(TableLayoutStyles.row, DynamicSequenceOfTheOperationStyles.gradient))(
               <.div(^.className := TableLayoutStyles.cellVerticalAlignMiddle)(
@@ -255,7 +255,6 @@ object SequenceOfTheOperation {
         }
       }
     )
-
 }
 
 object SequenceOfTheOperationStyles extends StyleSheet.Inline {
@@ -269,7 +268,13 @@ object SequenceOfTheOperationStyles extends StyleSheet.Inline {
     style(backgroundColor(ThemeStyles.BackgroundColor.blackVeryTransparent))
 
   val mainHeaderWrapper: StyleA =
-    style(visibility.hidden)
+    style(
+      paddingBottom(50.pxToEm()),
+      ThemeStyles.MediaQueries.beyondSmall(paddingBottom(ThemeStyles.mainNavDefaultHeight))
+    )
+
+  val fixedMainHeaderWrapper: StyleA =
+    style(position.fixed, top(`0`), left(`0`), width(100.%%), zIndex(10), boxShadow := s"0 2px 4px 0 rgba(0,0,0,0.50)")
 
   val header: StyleA =
     style(

@@ -186,7 +186,7 @@ object FeaturedArticleTileStyles extends StyleSheet.Inline {
       position.relative,
       padding(`0`, (ThemeStyles.SpacingValue.largerMedium / 2).pxToEm()),
       textAlign.center,
-      (&.before)(
+      &.before(
         content := "''",
         position.absolute,
         left(`0`),

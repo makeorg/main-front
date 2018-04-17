@@ -81,7 +81,7 @@ object LoginWithSocialNetworksOrEmailStyles extends StyleSheet.Inline {
     ThemeStyles.Font.playfairDisplayItalic,
     fontStyle.italic,
     color(ThemeStyles.TextColor.lighter),
-    (&.before)(
+    &.before(
       content := "''",
       position.absolute,
       top(50.%%),
@@ -91,7 +91,7 @@ object LoginWithSocialNetworksOrEmailStyles extends StyleSheet.Inline {
       width(999999.pxToEm()),
       backgroundColor(ThemeStyles.BorderColor.veryLight)
     ),
-    (&.after)(
+    &.after(
       content := "''",
       position.absolute,
       top(50.%%),

@@ -191,7 +191,7 @@ object RegisterWithEmailStyles extends StyleSheet.Inline {
   import dsl._
 
   val emailInputWithIconWrapper: StyleA =
-    style(backgroundColor(ThemeStyles.BackgroundColor.lightGrey), (&.before)(content := "'\\f003'"))
+    style(backgroundColor(ThemeStyles.BackgroundColor.lightGrey), &.before(content := "'\\f003'"))
 
   val newPasswordInputComponentWrapper: StyleA =
     style(marginTop(ThemeStyles.SpacingValue.small.pxToEm()))
@@ -200,7 +200,7 @@ object RegisterWithEmailStyles extends StyleSheet.Inline {
     style(
       marginTop(ThemeStyles.SpacingValue.small.pxToEm()),
       backgroundColor(ThemeStyles.BackgroundColor.lightGrey),
-      (&.before)(content := "'\\f007'")
+      &.before(content := "'\\f007'")
     )
 
   val note: StyleA =

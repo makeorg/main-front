@@ -36,7 +36,6 @@ object MainHeader {
             }
 
             <.header(^.className := MainHeaderStyles.wrapper)(
-              <.CookieAlertContainerComponent.empty,
               <.div(^.className := LayoutRulesStyles.centeredRow)(
                 <.div(^.className := Seq(TableLayoutStyles.wrapper, MainHeaderStyles.innerWrapper))(
                   <.div(^.className := Seq(TableLayoutStyles.cellVerticalAlignMiddle, MainHeaderStyles.logoWrapper))(

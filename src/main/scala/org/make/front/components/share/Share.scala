@@ -26,7 +26,6 @@ object ShareProposal {
         displayName = "ShareProposal",
         render = (self) => {
 
-
           def shareUrl(network: String): String = {
             // Create utm params
             val utm: String =
@@ -42,28 +41,24 @@ object ShareProposal {
           }
 
           def trackOnClick(network: String) = () => {
-            TrackingService.track("click-share-sequence",
+            TrackingService.track(
+              "click-share-sequence",
               TrackingContext(
                 location = TrackingLocation.sequencePage,
                 operationSlug = Some(self.props.wrapped.operation.slug)
               ),
-              Map(
-                "sequenceId" -> self.props.wrapped.operation.landingSequenceId.value,
-                "network" -> network
-              )
+              Map("sequenceId" -> self.props.wrapped.operation.landingSequenceId.value, "network" -> network)
             )
           }
 
           def trackOnClose(network: String) = () => {
-            TrackingService.track("click-share-sequence-validate",
+            TrackingService.track(
+              "click-share-sequence-validate",
               TrackingContext(
                 location = TrackingLocation.sequencePage,
                 operationSlug = Some(self.props.wrapped.operation.slug)
               ),
-              Map(
-                "sequenceId" -> self.props.wrapped.operation.landingSequenceId.value,
-                "network" -> network
-              )
+              Map("sequenceId" -> self.props.wrapped.operation.landingSequenceId.value, "network" -> network)
             )
           }
 
@@ -71,34 +66,7 @@ object ShareProposal {
             <.div(^.className := ShareStyles.intro)(
               <.p(^.className := TextStyles.smallerTitle)(self.props.wrapped.intro.getOrElse(""))
             )
-          },
-          <.ul(^.className := ShareStyles.list)(
-            <.li(^.className := ShareStyles.item)(
-              <.FacebookShareButton(
-                ^.url := shareUrl("Facebook"),
-                ^.beforeOnClick := trackOnClick("Facebook")
-              )(<.button(^.className := Seq(ShareStyles.button, ShareStyles.shareWithFacebookButton))())
-            ),
-            <.li(^.className := ShareStyles.item)(
-              <.TwitterShareButton(
-                ^.url := shareUrl("Twitter"),
-                ^.beforeOnClick := trackOnClick("Twitter")
-              )(<.button(^.className := Seq(ShareStyles.button, ShareStyles.shareWithTwitterButton))())
-            ),
-            <.li(^.className := ShareStyles.item)(
-              <.GooglePlusShareButton(
-                ^.url := shareUrl("Google"),
-                ^.beforeOnClick := trackOnClick("Google")
-              )(<.button(^.className := Seq(ShareStyles.button, ShareStyles.shareWithGooglePlusButton))())
-            ),
-            <.li(^.className := ShareStyles.item)(
-              <.LinkedinShareButton(
-                ^.url := shareUrl("Linkedin"),
-                ^.beforeOnClick := trackOnClick("Linkedin")
-              )(<.button(^.className := Seq(ShareStyles.button, ShareStyles.shareWithLinkedInButton))())
-            )
-          ),
-          <.style()(ShareStyles.render[String]))
+          }, <.ul(^.className := ShareStyles.list)(<.li(^.className := ShareStyles.item)(<.FacebookShareButton(^.url := shareUrl("Facebook"), ^.beforeOnClick := trackOnClick("Facebook"))(<.button(^.className := Seq(ShareStyles.button, ShareStyles.shareWithFacebookButton))())), <.li(^.className := ShareStyles.item)(<.TwitterShareButton(^.url := shareUrl("Twitter"), ^.beforeOnClick := trackOnClick("Twitter"))(<.button(^.className := Seq(ShareStyles.button, ShareStyles.shareWithTwitterButton))())), <.li(^.className := ShareStyles.item)(<.GooglePlusShareButton(^.url := shareUrl("Google"), ^.beforeOnClick := trackOnClick("Google"))(<.button(^.className := Seq(ShareStyles.button, ShareStyles.shareWithGooglePlusButton))())), <.li(^.className := ShareStyles.item)(<.LinkedinShareButton(^.url := shareUrl("Linkedin"), ^.beforeOnClick := trackOnClick("Linkedin"))(<.button(^.className := Seq(ShareStyles.button, ShareStyles.shareWithLinkedInButton))()))), <.style()(ShareStyles.render[String]))
         }
       )
 }
@@ -131,7 +99,7 @@ object ShareStyles extends StyleSheet.Inline {
     overflow.hidden,
     boxShadow := s"0 0 0 0 rgba(0, 0, 0, .0)",
     transition := "box-shadow .2s ease-in-out",
-    (&.before)(
+    &.before(
       display.inlineBlock,
       width(100.%%),
       fontSize(13.pxToEm()),
@@ -140,21 +108,18 @@ object ShareStyles extends StyleSheet.Inline {
       textAlign.center,
       color(ThemeStyles.TextColor.white)
     ),
-    (&.hover)(boxShadow := s"0 1px 1px 0 rgba(0, 0, 0, .5)"),
-    ThemeStyles.MediaQueries.beyondSmall(
-      width(40.pxToEm()),
-      height(40.pxToEm()),
-      (&.before)(fontSize(18.pxToEm()), lineHeight(40.pxToEm(18)))
-    )
+    &.hover(boxShadow := s"0 1px 1px 0 rgba(0, 0, 0, .5)"),
+    ThemeStyles.MediaQueries
+      .beyondSmall(width(40.pxToEm()), height(40.pxToEm()), &.before(fontSize(18.pxToEm()), lineHeight(40.pxToEm(18))))
   )
 
   val shareWithFacebookButton: StyleA =
-    style(backgroundColor(ThemeStyles.SocialNetworksColor.facebook), (&.before)(content := "'\\f09a'"))
+    style(backgroundColor(ThemeStyles.SocialNetworksColor.facebook), &.before(content := "'\\f09a'"))
   val shareWithTwitterButton: StyleA =
-    style(backgroundColor(ThemeStyles.SocialNetworksColor.twitter), (&.before)(content := "'\\f099'"))
+    style(backgroundColor(ThemeStyles.SocialNetworksColor.twitter), &.before(content := "'\\f099'"))
   val shareWithGooglePlusButton: StyleA =
-    style(backgroundColor(ThemeStyles.SocialNetworksColor.googlePlus), (&.before)(content := "'\\f0d5'"))
+    style(backgroundColor(ThemeStyles.SocialNetworksColor.googlePlus), &.before(content := "'\\f0d5'"))
   val shareWithLinkedInButton: StyleA =
-    style(backgroundColor(ThemeStyles.SocialNetworksColor.linkedIn), (&.before)(content := "'\\f0e1'"))
+    style(backgroundColor(ThemeStyles.SocialNetworksColor.linkedIn), &.before(content := "'\\f0e1'"))
 
 }

@@ -22,7 +22,7 @@ object TagStyles extends StyleSheet.Inline {
       color(ThemeStyles.TextColor.white),
       backgroundColor(ThemeStyles.BackgroundColor.blackTransparent),
       userSelect := "none",
-      (&.before)(
+      &.before(
         content := "''",
         position.absolute,
         top(`0`),
@@ -33,7 +33,7 @@ object TagStyles extends StyleSheet.Inline {
         borderBottom(9.pxToEm(11), solid, transparent),
         borderRight(5.pxToEm(11), solid, ThemeStyles.BackgroundColor.blackTransparent)
       ),
-      (&.after)(
+      &.after(
         content := "''",
         position.absolute,
         top(50.%%),
@@ -50,15 +50,15 @@ object TagStyles extends StyleSheet.Inline {
         marginLeft(8.pxToEm(13)),
         fontSize(13.pxToEm()),
         lineHeight(24.pxToEm(13)),
-        (&.before)(borderTopWidth(12.pxToEm(13)), borderBottomWidth(12.pxToEm(13)), borderRightWidth(8.pxToEm(13))),
-        (&.after)(width(6.pxToEm(13)), height(6.pxToEm(13)), marginTop(-3.pxToEm(13)))
+        &.before(borderTopWidth(12.pxToEm(13)), borderBottomWidth(12.pxToEm(13)), borderRightWidth(8.pxToEm(13))),
+        &.after(width(6.pxToEm(13)), height(6.pxToEm(13)), marginTop(-3.pxToEm(13)))
       )
     )
 
   val activated: StyleA = style(
     color(ThemeStyles.TextColor.white),
     backgroundColor(ThemeStyles.BackgroundColor.black),
-    (&.before)(borderRightColor(ThemeStyles.BackgroundColor.black))
+    &.before(borderRightColor(ThemeStyles.BackgroundColor.black))
   )
 
 }

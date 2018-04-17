@@ -97,29 +97,29 @@ object ThemeShowcase {
               self.props.history.push(s"/${self.props.wrapped.country}/theme/${self.props.wrapped.theme.slug}")
             }
 
-            def sliderContent() = Seq(
-              self.state.proposals.map(
-                proposal =>
-                  <.div(
-                    ^.className :=
-                      Seq(ColRulesStyles.col,
-                        ThemeShowcaseStyles.propasalItem))(
-                    proposalTile(self, proposal)
-                  )
-              ),
-              <.div(
-                ^.className :=
-                  Seq(ColRulesStyles.col,
-                    ThemeShowcaseStyles.propasalItem))(
-                <.PromptingToProposeInRelationToThemeTileComponent(
-                  ^.wrapped :=
-                    PromptingToProposeInRelationToThemeTileProps(
-                      theme = self.props.wrapped.theme
-                    ))()
-              ))
+          def sliderContent() = Seq(
+            self.state.proposals.map(
+              proposal =>
+                <.div(
+                  ^.className :=
+                    Seq(ColRulesStyles.col,
+                      ThemeShowcaseStyles.propasalItem))(
+                  proposalTile(self, proposal)
+                )
+            ),
+            <.div(
+              ^.className :=
+                Seq(ColRulesStyles.col,
+                  ThemeShowcaseStyles.propasalItem))(
+              <.PromptingToProposeInRelationToThemeTileComponent(
+                ^.wrapped :=
+                  PromptingToProposeInRelationToThemeTileProps(
+                    theme = self.props.wrapped.theme
+                  ))()
+            ))
 
-            if (self.props.wrapped.theme.title.nonEmpty) {
-              <.section(^.className := Seq(ThemeShowcaseStyles.wrapper, DynamicThemeShowcaseStyles.gradient(index)))(
+          if (self.props.wrapped.theme.title.nonEmpty) {
+            <.section(^.className := Seq(ThemeShowcaseStyles.wrapper, DynamicThemeShowcaseStyles.gradient(index)))(
               Seq(
                 <.header(^.className := LayoutRulesStyles.centeredRow)(
                   if (self.props.wrapped.maybeIntro.nonEmpty) {
@@ -247,9 +247,9 @@ object ThemeShowcase {
                   )
                 ),
                 <.style()(ThemeShowcaseStyles.render[String], DynamicThemeShowcaseStyles.render[String])
-                )
               )
-            } else <.div.empty
+            )
+          } else <.div.empty
       })
     )
 }
@@ -313,7 +313,7 @@ object ThemeShowcaseStyles extends StyleSheet.Inline {
   val themeData: StyleA =
     style(
       paddingRight(ThemeStyles.SpacingValue.medium.pxToEm()),
-      (&.lastChild) (paddingRight(`0`)),
+      &.lastChild(paddingRight(`0`)),
       fontSize(14.pxToEm()),
       color(ThemeStyles.TextColor.lighter),
       ThemeStyles.MediaQueries.belowMedium(
@@ -324,11 +324,11 @@ object ThemeShowcaseStyles extends StyleSheet.Inline {
 
   val themeDataValue: StyleA =
     style(
-      (&.after) (content := "' '"),
+      &.after(content := "' '"),
       ThemeStyles.MediaQueries.beyondMedium(
         display.inlineBlock,
         width(100.%%),
-        (&.after) (content := none),
+        &.after(content := none),
         fontSize(24.pxToEm(14)))
     )
 

@@ -39,20 +39,11 @@ object App {
               TagStyles.render[String],
               TooltipStyles.render[String]
             ),
-            <.div(^.className := AppStyles.fixedMainHeader)(<.MainHeaderContainer.empty),
             <.ContainerComponent.empty,
             <.MainFooterComponent.empty,
-            <.style()(RWDHideRulesStyles.render[String], AppStyles.render[String])
+            <.style()(RWDHideRulesStyles.render[String])
           )
         }
       )
   )
-}
-
-object AppStyles extends StyleSheet.Inline {
-
-  import dsl._
-
-  val fixedMainHeader: StyleA =
-    style(position.fixed, top(`0`), left(`0`), width(100.%%), zIndex(10), boxShadow := s"0 2px 4px 0 rgba(0,0,0,0.50)")
 }

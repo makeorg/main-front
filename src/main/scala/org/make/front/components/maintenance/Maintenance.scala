@@ -9,7 +9,7 @@ import org.make.front.components.Components.{RichVirtualDOMElements, _}
 import org.make.front.facades.I18n
 import org.make.front.facades.Unescape.unescape
 import org.make.front.styles.ThemeStyles
-import org.make.front.styles.base.{LayoutRulesStyles, TableLayoutStyles, TextStyles}
+import org.make.front.styles.base.{LayoutRulesStyles, RWDHideRulesStyles, TableLayoutStyles, TextStyles}
 import org.make.front.styles.utils._
 
 object Maintenance {
@@ -24,7 +24,11 @@ object Maintenance {
               <.div(^.className := Seq(TableLayoutStyles.fullHeightWrapper))(
                 <.div(^.className := TableLayoutStyles.row)(
                   <.div(^.className := Seq(TableLayoutStyles.cell, MaintenanceStyles.mainHeaderWrapper))(
-                    <.MainHeaderContainer.empty
+                    <.div(^.className := RWDHideRulesStyles.invisible)(<.CookieAlertContainerComponent.empty),
+                    <.div(^.className := MaintenanceStyles.fixedMainHeaderWrapper)(
+                      <.CookieAlertContainerComponent.empty,
+                      <.MainHeaderContainer.empty
+                    )
                   )
                 ),
                 <.div(^.className := Seq(TableLayoutStyles.row, MaintenanceStyles.fullHeight))(
@@ -80,8 +84,14 @@ object MaintenanceStyles extends StyleSheet.Inline {
   val fullHeight: StyleA =
     style(height(100.%%))
 
+  val fixedMainHeaderWrapper: StyleA =
+    style(position.fixed, top(`0`), left(`0`), width(100.%%), zIndex(10), boxShadow := s"0 2px 4px 0 rgba(0,0,0,0.50)")
+
   val mainHeaderWrapper: StyleA =
-    style(visibility.hidden)
+    style(
+      paddingBottom(50.pxToEm()),
+      ThemeStyles.MediaQueries.beyondSmall(paddingBottom(ThemeStyles.mainNavDefaultHeight))
+    )
 
   val articleCell: StyleA =
     style(verticalAlign.middle, padding(ThemeStyles.SpacingValue.larger.pxToEm(), `0`))

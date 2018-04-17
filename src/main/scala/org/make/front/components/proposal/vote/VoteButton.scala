@@ -17,8 +17,6 @@ import org.make.front.styles.base.TextStyles
 import org.make.front.styles.ui.TooltipStyles
 import org.make.front.styles.utils._
 import org.make.front.styles.vendors.FontAwesomeStyles
-import org.make.services.tracking.{TrackingLocation, TrackingService}
-import org.make.services.tracking.TrackingService.TrackingContext
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
@@ -304,7 +302,7 @@ object VoteButtonStyles extends StyleSheet.Inline {
         `0`
       ),
       backgroundColor(rgb(74, 74, 74)),
-      (&.after)(
+      &.after(
         content := "''",
         position.absolute,
         right(100.%%),
@@ -328,7 +326,7 @@ object VoteButtonStyles extends StyleSheet.Inline {
     backgroundColor.transparent,
     boxShadow := "0 0 0 0 rgba(0, 0, 0, 0)",
     transition := "color .2s ease-in-out, background-color .2s ease-in-out, box-shadow .2s ease-in-out",
-    (&.before)(
+    &.before(
       content := "'\\f087'",
       position.absolute,
       top(`0`),
@@ -340,7 +338,7 @@ object VoteButtonStyles extends StyleSheet.Inline {
       ThemeStyles.Font.fontAwesome,
       textAlign.center
     ),
-    (&.hover)(
+    &.hover(
       color(ThemeStyles.TextColor.white),
       backgroundColor(ThemeStyles.TextColor.base),
       boxShadow := s"0 ${2.pxToEm().value} ${5.pxToEm().value} 0 rgba(0, 0, 0, .5)"
@@ -376,8 +374,8 @@ object VoteButtonStyles extends StyleSheet.Inline {
   val agree: StyleA = style(
     color(ThemeStyles.ThemeColor.positive),
     borderColor(ThemeStyles.ThemeColor.positive),
-    (&.hover)(backgroundColor(ThemeStyles.ThemeColor.positive), color(ThemeStyles.TextColor.white)),
-    (&.before)(content := s"'\\F087'")
+    &.hover(backgroundColor(ThemeStyles.ThemeColor.positive), color(ThemeStyles.TextColor.white)),
+    &.before(content := s"'\\F087'")
   )
 
   val agreeActivated: StyleA = style(
@@ -389,8 +387,8 @@ object VoteButtonStyles extends StyleSheet.Inline {
   val disagree: StyleA = style(
     color(ThemeStyles.ThemeColor.negative),
     borderColor(ThemeStyles.ThemeColor.negative),
-    (&.hover)(backgroundColor(ThemeStyles.ThemeColor.negative), color(ThemeStyles.TextColor.white)),
-    (&.before)(content := s"'\\F088'")
+    &.hover(backgroundColor(ThemeStyles.ThemeColor.negative), color(ThemeStyles.TextColor.white)),
+    &.before(content := s"'\\F088'")
   )
 
   val disagreeActivated: StyleA = style(
@@ -402,8 +400,8 @@ object VoteButtonStyles extends StyleSheet.Inline {
   val neutral: StyleA = style(
     color(ThemeStyles.TextColor.grey),
     borderColor(ThemeStyles.TextColor.grey),
-    (&.hover)(backgroundColor(ThemeStyles.TextColor.grey), color(ThemeStyles.TextColor.white)),
-    (&.before)(content := s"'\\F087'", transform := s"rotate(-90deg)")
+    &.hover(backgroundColor(ThemeStyles.TextColor.grey), color(ThemeStyles.TextColor.white)),
+    &.before(content := s"'\\F087'", transform := s"rotate(-90deg)")
   )
 
   val neutralActivated: StyleA = style(

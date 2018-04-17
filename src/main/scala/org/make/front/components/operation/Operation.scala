@@ -7,16 +7,18 @@ import org.make.front.Main.CssSettings._
 import org.make.front.components.Components._
 import org.make.front.components.operation.OperationHeader.OperationHeaderProps
 import org.make.front.components.operation.ResultsInOperationContainer.ResultsInOperationContainerProps
+import org.make.front.components.operation.intro.ChanceAuxJeunesOperationIntro.ChanceAuxJeunesOperationIntroProps
 import org.make.front.components.operation.intro.ClimatParisOperationIntro.ClimatParisOperationIntroProps
 import org.make.front.components.operation.intro.LPAEOperationIntro.LPAEOperationIntroProps
 import org.make.front.components.operation.intro.MVEOperationIntro.MVEOperationIntroProps
 import org.make.front.components.operation.intro.MakeEuropeOperationIntro.MakeEuropeOperationIntroProps
-import org.make.front.components.operation.intro.VFFOperationIntro.VFFOperationIntroProps
 import org.make.front.components.operation.intro.VFFGBOperationIntro.VFFGBOperationIntroProps
 import org.make.front.components.operation.intro.VFFITOperationIntro.VFFITOperationIntroProps
-import org.make.front.components.operation.intro.ChanceAuxJeunesOperationIntro.ChanceAuxJeunesOperationIntroProps
+import org.make.front.components.operation.intro.VFFOperationIntro.VFFOperationIntroProps
 import org.make.front.models.{Location => LocationModel, OperationExpanded => OperationModel}
 import org.make.front.styles.ThemeStyles
+import org.make.front.styles.base.RWDHideRulesStyles
+import org.make.front.styles.utils._
 import org.make.services.tracking.TrackingService.TrackingContext
 import org.make.services.tracking.{TrackingLocation, TrackingService}
 
@@ -45,7 +47,13 @@ object Operation {
         render = (self) => {
           if (self.props.wrapped.operation.isActive) {
             <("operation")()(
-              <.div(^.className := OperationStyles.mainHeaderWrapper)(<.MainHeaderContainer.empty),
+              <.div(^.className := OperationStyles.mainHeaderWrapper)(
+                <.div(^.className := RWDHideRulesStyles.invisible)(<.CookieAlertContainerComponent.empty),
+                <.div(^.className := OperationStyles.fixedMainHeaderWrapper)(
+                  <.CookieAlertContainerComponent.empty,
+                  <.MainHeaderContainer.empty
+                )
+              ),
               // @todo: refactor this part
               if (self.props.wrapped.operation.slug == "climatparis") {
                 <.ClimatParisOperationIntroComponent(
@@ -139,8 +147,13 @@ object OperationStyles extends StyleSheet.Inline {
 
   import dsl._
 
-  val mainHeaderWrapper: StyleA =
-    style(visibility.hidden)
+  val mainHeaderWrapper: StyleA = style(
+    paddingBottom(50.pxToEm()),
+    ThemeStyles.MediaQueries.beyondSmall(paddingBottom(ThemeStyles.mainNavDefaultHeight))
+  )
+
+  val fixedMainHeaderWrapper: StyleA =
+    style(position.fixed, top(`0`), left(`0`), width(100.%%), zIndex(10), boxShadow := s"0 2px 4px 0 rgba(0,0,0,0.50)")
 
   val contentWrapper: StyleA =
     style(display.block, backgroundColor(ThemeStyles.BackgroundColor.blackVeryTransparent))

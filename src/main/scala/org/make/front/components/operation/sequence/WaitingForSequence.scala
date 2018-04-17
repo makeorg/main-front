@@ -3,10 +3,10 @@ package org.make.front.components.operation.sequence
 import io.github.shogowada.scalajs.reactjs.React
 import io.github.shogowada.scalajs.reactjs.VirtualDOM._
 import io.github.shogowada.scalajs.reactjs.classes.ReactClass
-import org.make.front.styles.ThemeStyles
-import org.make.front.styles.base.TableLayoutStyles
 import org.make.front.Main.CssSettings._
 import org.make.front.components.Components._
+import org.make.front.styles.ThemeStyles
+import org.make.front.styles.base.{RWDHideRulesStyles, TableLayoutStyles}
 import org.make.front.styles.utils._
 
 object WaitingForSequence {
@@ -19,7 +19,11 @@ object WaitingForSequence {
           <.section(^.className := Seq(TableLayoutStyles.fullHeightWrapper, WaitingForSequenceStyles.wrapper))(
             <.div(^.className := TableLayoutStyles.row)(
               <.div(^.className := Seq(TableLayoutStyles.cell, WaitingForSequenceStyles.mainHeaderWrapper))(
-                <.MainHeaderContainer.empty
+                <.div(^.className := RWDHideRulesStyles.invisible)(<.CookieAlertContainerComponent.empty),
+                <.div(^.className := WaitingForSequenceStyles.fixedMainHeaderWrapper)(
+                  <.CookieAlertContainerComponent.empty,
+                  <.MainHeaderContainer.empty
+                )
               )
             ),
             <.div(^.className := TableLayoutStyles.row)(
@@ -49,6 +53,12 @@ object WaitingForSequenceStyles extends StyleSheet.Inline {
     )
 
   val mainHeaderWrapper: StyleA =
-    style(visibility.hidden)
+    style(
+      paddingBottom(50.pxToEm()),
+      ThemeStyles.MediaQueries.beyondSmall(paddingBottom(ThemeStyles.mainNavDefaultHeight))
+    )
+
+  val fixedMainHeaderWrapper: StyleA =
+    style(position.fixed, top(`0`), left(`0`), width(100.%%), zIndex(10), boxShadow := s"0 2px 4px 0 rgba(0,0,0,0.50)")
 
 }

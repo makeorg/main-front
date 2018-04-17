@@ -12,6 +12,8 @@ import org.make.front.facades.I18n
 import org.make.front.facades.Unescape.unescape
 import org.make.front.models.Location
 import org.make.front.styles.ThemeStyles
+import org.make.front.styles.base.RWDHideRulesStyles
+import org.make.front.styles.utils._
 import org.make.services.tracking.TrackingService.TrackingContext
 import org.make.services.tracking.{TrackingLocation, TrackingService}
 
@@ -28,7 +30,13 @@ object Home {
         },
         render = (self) => {
           <.div(^.className := HomeStyles.wrapper)(
-            <.div(^.className := HomeStyles.mainHeaderWrapper)(<.MainHeaderContainer.empty),
+            <.div(^.className := HomeStyles.mainHeaderWrapper)(
+              <.div(^.className := RWDHideRulesStyles.invisible)(<.CookieAlertContainerComponent.empty),
+              <.div(^.className := HomeStyles.fixedMainHeaderWrapper)(
+                <.CookieAlertContainerComponent.empty,
+                <.MainHeaderContainer.empty
+              )
+            ),
             <.h1(^.style := Map("display" -> "none"))("Make.org"),
             if (self.props.wrapped.countryCode == "FR") {
               <.CAJFeaturedOperationComponent(
@@ -95,6 +103,12 @@ object HomeStyles extends StyleSheet.Inline {
   val wrapper: StyleA =
     style(unsafeChild("> section")(borderBottom(1.px, solid, ThemeStyles.BorderColor.white)))
 
-  val mainHeaderWrapper: StyleA =
-    style(visibility.hidden)
+  val mainHeaderWrapper: StyleA = style(
+    paddingBottom(50.pxToEm()),
+    ThemeStyles.MediaQueries.beyondSmall(paddingBottom(ThemeStyles.mainNavDefaultHeight))
+  )
+
+  val fixedMainHeaderWrapper: StyleA =
+    style(position.fixed, top(`0`), left(`0`), width(100.%%), zIndex(10), boxShadow := s"0 2px 4px 0 rgba(0,0,0,0.50)")
+
 }

@@ -3,15 +3,20 @@ package org.make.front.components.theme
 import io.github.shogowada.scalajs.reactjs.React
 import io.github.shogowada.scalajs.reactjs.VirtualDOM._
 import io.github.shogowada.scalajs.reactjs.classes.ReactClass
+import org.make.front.Main.CssSettings._
 import org.make.front.components.Components._
 import org.make.front.components.theme.Theme.ThemeProps
 import org.make.front.models.{
   Location          => LocationModel,
   OperationExpanded => OperationModel,
-  Sequence          => SequenceModel,
   TranslatedTheme   => TranslatedThemeModel
 }
-import org.make.front.styles.base.TableLayoutStyles
+import org.make.front.styles.ThemeStyles
+import org.make.front.styles.base.{RWDHideRulesStyles, TableLayoutStyles}
+import org.make.front.styles.utils._
+
+import scalacss.internal.StyleA
+import scalacss.internal.mutable.StyleSheet
 
 object MaybeTheme {
 
@@ -33,15 +38,49 @@ object MaybeTheme {
               )
             )()
           }.getOrElse(
-            <.div(^.className := TableLayoutStyles.fullHeightWrapper)(
+            <.section(^.className := Seq(TableLayoutStyles.fullHeightWrapper, MaybeThemeStyles.wrapper))(
               <.div(^.className := TableLayoutStyles.row)(
-                <.div(^.className := TableLayoutStyles.cell)(<.MainHeaderContainer.empty)
+                <.div(^.className := Seq(TableLayoutStyles.cell, MaybeThemeStyles.mainHeaderWrapper))(
+                  <.div(^.className := RWDHideRulesStyles.invisible)(<.CookieAlertContainerComponent.empty),
+                  <.div(^.className := MaybeThemeStyles.fixedMainHeaderWrapper)(
+                    <.CookieAlertContainerComponent.empty,
+                    <.MainHeaderContainer.empty
+                  )
+                )
               ),
-              <.div(^.className := TableLayoutStyles.fullHeightRow)(
-                <.div(^.className := TableLayoutStyles.cellVerticalAlignMiddle)(<.SpinnerComponent.empty)
-              )
+              <.div(^.className := TableLayoutStyles.row)(
+                <.div(^.className := Seq(MaybeThemeStyles.content, TableLayoutStyles.cellVerticalAlignMiddle))(
+                  <.SpinnerComponent.empty
+                )
+              ),
+              <.style()(MaybeThemeStyles.render[String])
             )
           )
         }
       )
+}
+
+object MaybeThemeStyles extends StyleSheet.Inline {
+
+  import dsl._
+
+  val wrapper: StyleA =
+    style(tableLayout.fixed, backgroundColor(ThemeStyles.BackgroundColor.blackVeryTransparent))
+
+  val content: StyleA =
+    style(
+      height(100.%%),
+      paddingBottom(ThemeStyles.SpacingValue.large.pxToEm()),
+      ThemeStyles.MediaQueries.beyondSmall(paddingBottom(ThemeStyles.SpacingValue.evenLarger.pxToEm()))
+    )
+
+  val mainHeaderWrapper: StyleA =
+    style(
+      paddingBottom(50.pxToEm()),
+      ThemeStyles.MediaQueries.beyondSmall(paddingBottom(ThemeStyles.mainNavDefaultHeight))
+    )
+
+  val fixedMainHeaderWrapper: StyleA =
+    style(position.fixed, top(`0`), left(`0`), width(100.%%), zIndex(10), boxShadow := s"0 2px 4px 0 rgba(0,0,0,0.50)")
+
 }

@@ -4,6 +4,7 @@ import io.github.shogowada.scalajs.reactjs.React
 import io.github.shogowada.scalajs.reactjs.VirtualDOM._
 import io.github.shogowada.scalajs.reactjs.router.WithRouter
 import io.github.shogowada.scalajs.reactjs.router.dom.RouterDOM._
+import org.make.front.components.Components.{RichVirtualDOMElements, _}
 import org.make.front.components.activateAccount.ActivateAccountContainer
 import org.make.front.components.authenticate.resetPassword.ResetPasswordContainer
 import org.make.front.components.currentOperations.CurrentOperationsContainer
@@ -76,6 +77,16 @@ object Container {
             ^.exact := true,
             ^.path := "/:country/theme/:themeSlug",
             ^.component := CountryDetector(MaybeThemeContainer.reactClass)
+          )(),
+          <.Route(
+            ^.exact := true,
+            ^.path := "/:country/consultation/:operationSlug/search",
+            ^.component := CountryDetector(SearchResultsContainer.reactClass)
+          )(),
+          <.Route(
+            ^.exact := true,
+            ^.path := "/:country/theme/:themeSlug/search",
+            ^.component := CountryDetector(SearchResultsContainer.reactClass)
           )(),
           <.Route(
             ^.exact := true,

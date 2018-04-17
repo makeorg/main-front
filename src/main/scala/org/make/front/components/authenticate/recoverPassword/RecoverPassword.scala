@@ -113,7 +113,7 @@ object RecoverPasswordStyles extends StyleSheet.Inline {
     style(textAlign.center, margin(ThemeStyles.SpacingValue.small.pxToEm(), `0`), color(ThemeStyles.TextColor.lighter))
 
   val emailInputWithIconWrapper: StyleA =
-    style(backgroundColor(ThemeStyles.BackgroundColor.lightGrey), (&.before)(content := "'\\f003'"))
+    style(backgroundColor(ThemeStyles.BackgroundColor.lightGrey), &.before(content := "'\\f003'"))
 
   val submitButtonWrapper: StyleA =
     style(marginTop(ThemeStyles.SpacingValue.small.pxToEm()), textAlign.center)

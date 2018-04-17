@@ -139,7 +139,7 @@ object QualificateVoteButtonStyles extends StyleSheet.Inline {
     whiteSpace.nowrap,
     overflow.hidden,
     transition := "color .2s ease-in-out, background-color .2s ease-in-out",
-    (&.hover)(
+    &.hover(
       ThemeStyles.MediaQueries
         .beyondSmall(color(ThemeStyles.TextColor.white), backgroundColor(ThemeStyles.TextColor.base))
     )
@@ -148,7 +148,7 @@ object QualificateVoteButtonStyles extends StyleSheet.Inline {
   val agree: StyleA = style(
     color(ThemeStyles.ThemeColor.positive),
     borderColor(ThemeStyles.ThemeColor.positive),
-    (&.hover)(
+    &.hover(
       ThemeStyles.MediaQueries
         .beyondSmall(backgroundColor(ThemeStyles.ThemeColor.positive), color(ThemeStyles.TextColor.white))
     )
@@ -160,7 +160,7 @@ object QualificateVoteButtonStyles extends StyleSheet.Inline {
   val disagree: StyleA = style(
     color(ThemeStyles.ThemeColor.negative),
     borderColor(ThemeStyles.ThemeColor.negative),
-    (&.hover)(
+    &.hover(
       ThemeStyles.MediaQueries
         .beyondSmall(backgroundColor(ThemeStyles.ThemeColor.negative), color(ThemeStyles.TextColor.white))
     )
@@ -172,7 +172,7 @@ object QualificateVoteButtonStyles extends StyleSheet.Inline {
   val neutral: StyleA = style(
     color(ThemeStyles.TextColor.grey),
     borderColor(ThemeStyles.TextColor.grey),
-    (&.hover)(
+    &.hover(
       ThemeStyles.MediaQueries
         .beyondSmall(backgroundColor(ThemeStyles.TextColor.grey), color(ThemeStyles.TextColor.white))
     )

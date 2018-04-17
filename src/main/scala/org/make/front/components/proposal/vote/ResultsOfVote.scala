@@ -46,13 +46,13 @@ object ResultsOfVote {
           import dsl._
 
           val resultsOfAgreeVote: Int => StyleA =
-            styleF.int(Range(index, index + 1))(_ => styleS((&.after)(width(partOfAgreeVotes.%%))))
+            styleF.int(Range(index, index + 1))(_ => styleS(&.after(width(partOfAgreeVotes.%%))))
 
           val resultsOfDisagreeVote: Int => StyleA =
-            styleF.int(Range(index, index + 1))(_ => styleS((&.after)(width(partOfDisagreeVotes.%%))))
+            styleF.int(Range(index, index + 1))(_ => styleS(&.after(width(partOfDisagreeVotes.%%))))
 
           val resultsOfNeutralVote: Int => StyleA =
-            styleF.int(Range(index, index + 1))(_ => styleS((&.after)(width(partOfNeutralVotes.%%))))
+            styleF.int(Range(index, index + 1))(_ => styleS(&.after(width(partOfNeutralVotes.%%))))
         }
 
         def resultsItem(specificClasses: String, totalOfVotes: Int, partOfVotes: Int): ReactElement = {
@@ -109,13 +109,13 @@ object ResultsOfVoteStyles extends StyleSheet.Inline {
     style(backgroundColor(rgb(74, 74, 74)), color(ThemeStyles.TextColor.white), textAlign.left)
 
   val item: StyleA =
-    style(marginTop((ThemeStyles.SpacingValue.smaller / 2).pxToEm()), (&.firstChild)(marginTop(`0`)))
+    style(marginTop((ThemeStyles.SpacingValue.smaller / 2).pxToEm()), &.firstChild(marginTop(`0`)))
 
   val results: StyleA =
     style(
       ThemeStyles.Font.circularStdBook,
       fontSize(12.pxToEm()),
-      (&.after)(
+      &.after(
         content := "' '",
         display.block,
         height(5.pxToEm(12)),
@@ -126,20 +126,20 @@ object ResultsOfVoteStyles extends StyleSheet.Inline {
 
   val resultsOfAgreeVote: StyleA =
     style(
-      (&.after)(backgroundColor(ThemeStyles.ThemeColor.positive)),
-      unsafeChild("i")((&.before)(content := "'\\F087'", ThemeStyles.Font.fontAwesome))
+      &.after(backgroundColor(ThemeStyles.ThemeColor.positive)),
+      unsafeChild("i")(&.before(content := "'\\F087'", ThemeStyles.Font.fontAwesome))
     )
 
   val resultsOfDisagreeVote: StyleA =
     style(
-      (&.after)(backgroundColor(ThemeStyles.ThemeColor.negative)),
-      unsafeChild("i")((&.before)(content := "'\\F088'", ThemeStyles.Font.fontAwesome))
+      &.after(backgroundColor(ThemeStyles.ThemeColor.negative)),
+      unsafeChild("i")(&.before(content := "'\\F088'", ThemeStyles.Font.fontAwesome))
     )
 
   val resultsOfNeutralVote: StyleA = style(
     unsafeChild("i")(
       display.inlineBlock,
-      (&.before)(content := "'\\F087'", display.block, ThemeStyles.Font.fontAwesome, transform := s"rotate(-90deg)")
+      &.before(content := "'\\F087'", display.block, ThemeStyles.Font.fontAwesome, transform := s"rotate(-90deg)")
     )
   )
 }

@@ -37,7 +37,7 @@ object ProgressBar {
                 styleS(
                   backgroundColor :=! maybeThemeColor.get,
                   color(ThemeStyles.TextColor.white),
-                  (&.after)(Attr.real("border-top-color") := maybeThemeColor.get)
+                  &.after(Attr.real("border-top-color") := maybeThemeColor.get)
                 )
               } else {
                 styleS()
@@ -45,7 +45,7 @@ object ProgressBar {
           )
 
           def progressBar(progression: Int, themeColor: String): StyleA =
-            style((&.after)(backgroundColor :=! themeColor, width :=! s"${progression.toString}%"))
+            style(&.after(backgroundColor :=! themeColor, width :=! s"${progression.toString}%"))
         }
 
         val progressionInPercent: Int = if (self.state.total != 0) {
@@ -95,7 +95,7 @@ object ProgressBarStyles extends StyleSheet.Inline {
       backgroundColor(ThemeStyles.BackgroundColor.white),
       transform := "translateX(-50%)",
       /*transition := "margin .2s ease-in-out, color .2s ease-in-out, background-color .2s ease-in-out",*/
-      (&.after)(
+      &.after(
         content := "''",
         position.absolute,
         left(50.%%),
@@ -114,7 +114,7 @@ object ProgressBarStyles extends StyleSheet.Inline {
       height(3.px),
       width(100.%%),
       backgroundColor(ThemeStyles.BorderColor.veryLight),
-      (&.after)(
+      &.after(
         content := "''",
         position.absolute,
         top(`0`),

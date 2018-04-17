@@ -7,6 +7,9 @@ object RWDHideRulesStyles extends StyleSheet.Inline {
 
   import dsl._
 
+  val hide: StyleA = style(display.none)
+  val invisible: StyleA = style(visibility.hidden)
+
   val showBlockBeyondSmall: StyleA = style(display.none, ThemeStyles.MediaQueries.beyondSmall(display.block))
   val showBlockBeyondMedium: StyleA = style(display.none, ThemeStyles.MediaQueries.beyondMedium(display.block))
   val showBlockBeyondLarge: StyleA = style(display.none, ThemeStyles.MediaQueries.beyondLarge(display.block))
