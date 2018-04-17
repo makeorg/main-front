@@ -79,6 +79,7 @@ object TrackingLocation {
   val endProposalPage: TrackingLocation = MakeTrackingLocation("end-proposal-form")
   val navBar: TrackingLocation = MakeTrackingLocation("nav-bar")
   val proposalPage: TrackingLocation = MakeTrackingLocation("proposal-page")
+  val triggerFromVote: TrackingLocation = MakeTrackingLocation("trigger-vote")
 
 }
 

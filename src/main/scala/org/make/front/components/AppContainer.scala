@@ -11,9 +11,13 @@ object AppContainer {
   lazy val reactClass: ReactClass = ReactRedux.connectAdvanced(selectorFactory)(App.reactClass)
 
   def selectorFactory: (Dispatch) => (AppState, Props[Unit]) => AppProps =
-    (dispatch: Dispatch) => { (appState: AppState, props: Props[Unit]) =>
+    (_: Dispatch) => { (appState: AppState, _: Props[Unit]) =>
       {
-        AppProps(language = appState.language, country = appState.country)
+        AppProps(
+          language = appState.language,
+          country = appState.country,
+          nVotesTriggerConnexion = appState.configuration.map(_.nVotesTriggerConnexion).getOrElse(5)
+        )
       }
     }
 }

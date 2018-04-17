@@ -40,6 +40,7 @@ object Components {
     def SpinnerComponent: ReactClassElementSpec = self(spinner.Spinner.reactClass)
     def NotificationsComponent: ReactClassElementSpec = self(notifications.Notifications.reactClass)
     def CookieAlertContainerComponent: ReactClassElementSpec = self(cookieAlert.CookieAlertContainer.reactClass)
+    def TriggerSignUpComponent: ReactClassElementSpec = self(users.authenticate.TriggerSignUp.reactClass)
 
     def MainHeaderContainer: ReactClassElementSpec = self(mainHeader.MainHeaderContainer.reactClass)
     def MainFooterComponent: ReactClassElementSpec = self(mainFooter.MainFooter.reactClass)

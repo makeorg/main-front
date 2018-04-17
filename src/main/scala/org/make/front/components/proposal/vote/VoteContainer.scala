@@ -4,7 +4,7 @@ import io.github.shogowada.scalajs.reactjs.React.Props
 import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import io.github.shogowada.scalajs.reactjs.redux.ReactRedux
 import io.github.shogowada.scalajs.reactjs.redux.Redux.Dispatch
-import org.make.front.actions.NotifyError
+import org.make.front.actions.{NotifyError, TriggerSignUpAction}
 import org.make.front.components.AppState
 import org.make.front.facades.I18n
 import org.make.front.models.{
@@ -81,8 +81,10 @@ object VoteContainer {
         )
 
         future.onComplete {
-          case Success(response) => props.wrapped.onSuccessfulVote(response) // let child handle new results
-          case Failure(_)        => dispatch(NotifyError(I18n.t("error-message.main")))
+          case Success(response) =>
+            props.wrapped.onSuccessfulVote(response) // let child handle new results
+            dispatch(TriggerSignUpAction(location))
+          case Failure(_) => dispatch(NotifyError(I18n.t("error-message.main")))
         }
         future
       }

@@ -79,6 +79,7 @@ object Main {
               connectedUserMiddleware.handle,
               CookieAlertMiddleware.handle,
               NotificationMiddleware.handle,
+              TriggerSignUpMiddleware.handle,
               LanguageMiddleware.handle,
               CountryMiddleware.handle
             )
