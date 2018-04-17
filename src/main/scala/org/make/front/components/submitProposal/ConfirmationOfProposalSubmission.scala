@@ -47,6 +47,15 @@ object ConfirmationOfProposalSubmission {
             self.props.wrapped.onSubmitAnotherProposal()
           }
 
+          def handleClickOnBackButton() = () => {
+            TrackingService.track(
+              "click-back-button-after-proposal-submit",
+              TrackingContext(TrackingLocation.endProposalPage, self.props.wrapped.maybeOperation.map(_.slug)),
+              self.props.wrapped.trackingParameters
+            )
+            self.props.wrapped.onBack()
+        }
+
           <.article(^.className := ConfirmationOfProposalSubmissionStyles.wrapper)(
             <.p(^.className := Seq(TextStyles.bigTitle, ConfirmationOfProposalSubmissionStyles.title))(
               <.i(^.className := FontAwesomeStyles.handPeaceO)(),
@@ -59,9 +68,7 @@ object ConfirmationOfProposalSubmission {
             )(),
             <.button(
               ^.className := Seq(ConfirmationOfProposalSubmissionStyles.cta, CTAStyles.basic, CTAStyles.basicOnButton),
-              ^.onClick := (() => {
-                self.props.wrapped.onBack()
-              })
+              ^.onClick := handleClickOnBackButton
             )(<.i(^.className := FontAwesomeStyles.handOLeft)(), unescape("&nbsp;"), self.props.wrapped.maybeTheme.map {
               theme =>
                 <.span(
