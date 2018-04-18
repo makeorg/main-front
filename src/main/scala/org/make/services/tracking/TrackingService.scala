@@ -1,8 +1,8 @@
 package org.make.services.tracking
 
-import org.make.front.facades.{Configuration, FacebookPixel, GoogleTag}
+import org.make.front.facades.{FacebookPixel, GoogleTag}
+import org.scalajs.dom
 
-import scala.scalajs.js
 import scala.scalajs.js.JSConverters._
 
 object TrackingService {
@@ -28,7 +28,9 @@ object TrackingService {
     val eventType: String = "trackCustom"
     var allParameters = parameters +
       ("location" -> trackingContext.location.name) +
-      ("source" -> trackingContext.source.name)
+      ("source" -> trackingContext.source.name) +
+      ("referer" -> dom.document.referrer) +
+      ("url" -> dom.window.location.href )
 
     trackingContext.operationSlug.foreach { slug =>
       allParameters += "operation" -> slug
