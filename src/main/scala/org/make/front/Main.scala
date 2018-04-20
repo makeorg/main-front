@@ -15,6 +15,8 @@ import org.make.front.middlewares._
 import org.make.front.models.User
 import org.make.front.reducers.Reducer
 import org.make.services.ConfigurationService
+import org.make.services.tracking.{TrackingLocation, TrackingService}
+import org.make.services.tracking.TrackingService.TrackingContext
 import org.make.services.user.UserService
 import org.scalajs.dom
 
@@ -47,6 +49,12 @@ object Main {
     NativeReactModal.defaultStyles.content.update("borderRadius", "0")
     NativeReactModal.defaultStyles.content.update("background", "transparent")
     NativeReactModal.defaultStyles.content.update("overflow", "auto")
+
+    TrackingService.track(
+      "load-application",
+      TrackingContext(TrackingLocation.homepage),
+      Map("href" -> dom.window.location.href)
+    )
 
     val configurationFuture = ConfigurationService.fetchConfiguration()
     val connectedUserFuture =
