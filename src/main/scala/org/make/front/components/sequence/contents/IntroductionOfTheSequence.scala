@@ -20,7 +20,8 @@ object IntroductionOfTheSequence {
     clickOnButtonHandler: () => Unit,
     title: Option[String] = Some(unescape(I18n.t("sequence.introduction.title"))),
     explanation1: Option[String] = Some(unescape(I18n.t("sequence.introduction.explanation-1"))),
-    explanation2: Option[String] = Some(unescape(I18n.t("sequence.introduction.explanation-2")))
+    explanation2: Option[String] = Some(unescape(I18n.t("sequence.introduction.explanation-2"))),
+    duration: Option[String] = Some(unescape(I18n.t("sequence.introduction.duration")))
   )
 
   lazy val reactClass: ReactClass =
@@ -40,6 +41,10 @@ object IntroductionOfTheSequence {
           }, self.props.wrapped.explanation2.map { text =>
             <.div(^.className := IntroductionOfTheSequenceStyles.explanationWrapper)(
               <.p(^.className := Seq(TextStyles.biggerMediumText, IntroductionOfTheSequenceStyles.explanation))(text)
+            )
+          }, self.props.wrapped.duration.map { text =>
+            <.div(^.className := IntroductionOfTheSequenceStyles.explanationWrapper)(
+              <.p(^.className := Seq(TextStyles.biggerMediumText, TextStyles.boldText, IntroductionOfTheSequenceStyles.explanation))(text)
             )
           }, <.div(^.className := IntroductionOfTheSequenceStyles.ctaWrapper)(<.button(^.className := Seq(CTAStyles.basic, CTAStyles.basicOnButton), ^.onClick := self.props.wrapped.clickOnButtonHandler)(<.i(^.className := Seq(FontAwesomeStyles.play))(), unescape("&nbsp;" + I18n.t("sequence.introduction.cta")))), <.style()(IntroductionOfTheSequenceStyles.render[String]))
         }
