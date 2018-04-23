@@ -26,7 +26,9 @@ object MVEOperationStaticData extends StaticDataOfOperation {
       ),
       extraSlides = (params: OperationExtraSlidesParams) => {
         Seq(
-          Slides.displaySequenceIntroCard(params),
+          Slides.displaySequenceIntroCard(params, introWording = OperationIntroWording(
+            duration = Some("Durée: 2 minutes")
+          )),
           Slides.displaySignUpCard(params, !params.isConnected),
           Slides.displayProposalPushCard(params, displayed = false),
           Slides.displayFinalCard(params)

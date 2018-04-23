@@ -41,6 +41,12 @@ final case class OperationExtraSlidesParams(operation: OperationExpanded,
                                             country: String,
                                             handleCanUpdate: (Boolean) => Unit)
 
+final case class OperationIntroWording(title: Option[String] = None,
+                                       explanation1: Option[String] = None,
+                                       explanation2: Option[String] = None,
+                                       duration: Option[String] = None,
+                                       cta: Option[String] = None)
+
 final case class OperationExpanded(operationId: OperationId,
                                    startDate: Option[js.Date],
                                    defaultLanguage: String,

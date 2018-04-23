@@ -27,7 +27,7 @@ object ClimatParisOperationStaticData extends StaticDataOfOperation {
       val defaultTrackingParameters = Map("sequenceId" -> params.sequence.sequenceId.value)
 
       Seq(
-        Slides.displaySequenceIntroCard(params),
+        Slides.displaySequenceIntroCard(params, introWording = OperationIntroWording()),
         Slides.displaySignUpCard(params, displayed = !params.isConnected),
         Slides.displayProposalPushCard(params),
         Slides.displayFinalCard(params)

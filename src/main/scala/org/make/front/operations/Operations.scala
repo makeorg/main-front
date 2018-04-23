@@ -40,7 +40,7 @@ object Slides {
   def defaultTrackingParameters(params: OperationExtraSlidesParams) =
     Map("sequenceId" -> params.sequence.sequenceId.value)
 
-  def displaySequenceIntroCard(params: OperationExtraSlidesParams, displayed: Boolean = true): ExtraSlide = {
+  def displaySequenceIntroCard(params: OperationExtraSlidesParams, displayed: Boolean = true, introWording: OperationIntroWording): ExtraSlide = {
     ExtraSlide(
       reactClass = IntroductionOfTheSequence.reactClass,
       props = { (handler: () => Unit) =>
@@ -50,7 +50,7 @@ object Slides {
               .track("click-sequence-launch", trackingContext(params), defaultTrackingParameters(params))
             handler()
           }
-          IntroductionOfTheSequenceProps(clickOnButtonHandler = onClick)
+          IntroductionOfTheSequenceProps(clickOnButtonHandler = onClick, introWording = introWording)
         }
       },
       position = _ => 0,
