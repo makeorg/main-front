@@ -24,7 +24,14 @@ object ChanceAuxJeunesOperationStaticData extends StaticDataOfOperation {
       ),
       extraSlides = (params: OperationExtraSlidesParams) => {
         Seq(
-          Slides.displaySequenceIntroCard(params),
+          Slides.displaySequenceIntroCard(
+            params,
+            introWording = OperationIntroWording(
+              title = Some("Ensemble, changeons l'avenir des jeunes !"),
+              explanation1 = Some("Éducation, logement, emploi, pouvoir d'achat... nous devons trouver des solutions."),
+              explanation2 = Some("Les propositions les + soutenues seront mises en action par Make.org et ses partenaires.")
+            )
+          ),
           Slides.displaySignUpCard(params, !params.isConnected),
           Slides.displayProposalPushCard(params),
           Slides.displayFinalCard(params)

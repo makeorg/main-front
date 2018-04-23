@@ -1,7 +1,7 @@
 package org.make.front.operations
 
 import org.make.front.facades.{makeEuropeLogo, makeEuropeWhiteLogo}
-import org.make.front.models.{GradientColor, OperationExtraSlidesParams, OperationStaticData, OperationWording}
+import org.make.front.models._
 
 object MakeEuropeOperationStaticData extends StaticDataOfOperation {
   override val data: OperationStaticData =
@@ -23,7 +23,7 @@ object MakeEuropeOperationStaticData extends StaticDataOfOperation {
       ),
       extraSlides = (params: OperationExtraSlidesParams) => {
         Seq(
-          Slides.displaySequenceIntroCard(params),
+          Slides.displaySequenceIntroCard(params, introWording = OperationIntroWording()),
           Slides.displaySignUpCard(params, !params.isConnected),
           Slides.displayProposalPushCard(params),
           Slides.displayFinalCard(params)

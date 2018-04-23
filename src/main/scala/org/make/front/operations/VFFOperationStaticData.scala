@@ -23,7 +23,7 @@ object VFFOperationStaticData extends StaticDataOfOperation {
     ),
     extraSlides = (params: OperationExtraSlidesParams) => {
       Seq(
-        Slides.displaySequenceIntroCard(params, displayed = false),
+        Slides.displaySequenceIntroCard(params, displayed = false, introWording = OperationIntroWording()),
         Slides.displaySignUpCard(params, !params.isConnected),
         Slides.displayProposalPushCard(params),
         Slides.displayFinalCard(params)
@@ -50,7 +50,7 @@ object VFFITOperationStaticData extends StaticDataOfOperation {
       val trackingContext = TrackingContext(TrackingLocation.sequencePage, Some(params.operation.slug))
       val defaultTrackingParameters = Map("sequenceId" -> params.sequence.sequenceId.value)
       Seq(
-        Slides.displaySequenceIntroCard(params),
+        Slides.displaySequenceIntroCard(params, introWording = OperationIntroWording()),
         Slides.displaySignUpCard(params, !params.isConnected),
         Slides.displayProposalPushCard(params),
         Slides.displayFinalCard(params)
@@ -75,7 +75,7 @@ object VFFGBOperationStaticData extends StaticDataOfOperation {
     ),
     extraSlides = (params: OperationExtraSlidesParams) => {
       Seq(
-        Slides.displaySequenceIntroCard(params),
+        Slides.displaySequenceIntroCard(params, introWording = OperationIntroWording()),
         Slides.displaySignUpCard(params, !params.isConnected),
         Slides.displayProposalPushCard(params),
         Slides.displayFinalCard(params)

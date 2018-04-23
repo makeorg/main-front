@@ -7,7 +7,7 @@ import org.make.front.Main.CssSettings._
 import org.make.front.components.Components._
 import org.make.front.facades.I18n
 import org.make.front.facades.Unescape.unescape
-import org.make.front.models.{SequenceId => SequenceIdModel}
+import org.make.front.models.OperationIntroWording
 import org.make.front.styles.ThemeStyles
 import org.make.front.styles.base.{LayoutRulesStyles, TextStyles}
 import org.make.front.styles.ui.CTAStyles
@@ -16,37 +16,54 @@ import org.make.front.styles.vendors.FontAwesomeStyles
 
 object IntroductionOfTheSequence {
 
+  final case class IntroductionOfTheSequenceState(
+    title: String,
+    explanation1: String,
+    explanation2: String,
+    cta: String,
+    duration: Option[String]
+  )
   final case class IntroductionOfTheSequenceProps(
     clickOnButtonHandler: () => Unit,
-    title: Option[String] = Some(unescape(I18n.t("sequence.introduction.title"))),
-    explanation1: Option[String] = Some(unescape(I18n.t("sequence.introduction.explanation-1"))),
-    explanation2: Option[String] = Some(unescape(I18n.t("sequence.introduction.explanation-2"))),
-    duration: Option[String] = Some(unescape(I18n.t("sequence.introduction.duration")))
+    introWording: OperationIntroWording
   )
 
   lazy val reactClass: ReactClass =
     React
-      .createClass[IntroductionOfTheSequenceProps, Unit](
+      .createClass[IntroductionOfTheSequenceProps, IntroductionOfTheSequenceState](
         displayName = "IntroductionOfTheSequence",
+        getInitialState = { self =>
+          IntroductionOfTheSequenceState(
+            title = self.props.wrapped.introWording.title.getOrElse(unescape(I18n.t("sequence.introduction.title"))),
+            explanation1 = self.props.wrapped.introWording.explanation1.getOrElse(unescape(I18n.t("sequence.introduction.explanation-1"))),
+            explanation2 = self.props.wrapped.introWording.explanation2.getOrElse(unescape(I18n.t("sequence.introduction.explanation-2"))),
+            cta = self.props.wrapped.introWording.cta.getOrElse(unescape("&nbsp;" + I18n.t("sequence.introduction.cta"))),
+            duration = self.props.wrapped.introWording.duration
+          )
+        },
         render = { self =>
-          <.div(^.className := Seq(LayoutRulesStyles.row))(self.props.wrapped.title.map { title =>
+          <.div(^.className := Seq(LayoutRulesStyles.row))(
             <.div(^.className := IntroductionOfTheSequenceStyles.titleWrapper)(
-              <.p(^.className := Seq(TextStyles.bigIntro, IntroductionOfTheSequenceStyles.title))(title)
-            )
-          }, self.props.wrapped.explanation1.map { text =>
+              <.p(^.className := Seq(TextStyles.bigIntro, IntroductionOfTheSequenceStyles.title))(self.state.title)
+          ),
+          <.div(^.className := IntroductionOfTheSequenceStyles.explanationWrapper)(
+              <.p(^.className := Seq(TextStyles.biggerMediumText, IntroductionOfTheSequenceStyles.explanation))(self.state.explanation1)
+          ),
+          <.div(^.className := IntroductionOfTheSequenceStyles.explanationWrapper)(
+            <.p(^.className := Seq(TextStyles.biggerMediumText, IntroductionOfTheSequenceStyles.explanation))(self.state.explanation2)
+          ),
+          self.state.duration.map { duration =>
             <.div(^.className := IntroductionOfTheSequenceStyles.explanationWrapper)(
-              <.p(^.className := Seq(TextStyles.biggerMediumText, IntroductionOfTheSequenceStyles.explanation))(text)
+              <.p(^.className := Seq(TextStyles.biggerMediumText, TextStyles.boldText, IntroductionOfTheSequenceStyles.explanation))(duration)
             )
-
-          }, self.props.wrapped.explanation2.map { text =>
-            <.div(^.className := IntroductionOfTheSequenceStyles.explanationWrapper)(
-              <.p(^.className := Seq(TextStyles.biggerMediumText, IntroductionOfTheSequenceStyles.explanation))(text)
+          },
+          <.div(^.className := IntroductionOfTheSequenceStyles.ctaWrapper)(
+            <.button(^.className := Seq(CTAStyles.basic, CTAStyles.basicOnButton), ^.onClick := self.props.wrapped.clickOnButtonHandler)(
+              <.i(^.className := Seq(FontAwesomeStyles.play))(),
+              self.state.cta
             )
-          }, self.props.wrapped.duration.map { text =>
-            <.div(^.className := IntroductionOfTheSequenceStyles.explanationWrapper)(
-              <.p(^.className := Seq(TextStyles.biggerMediumText, TextStyles.boldText, IntroductionOfTheSequenceStyles.explanation))(text)
-            )
-          }, <.div(^.className := IntroductionOfTheSequenceStyles.ctaWrapper)(<.button(^.className := Seq(CTAStyles.basic, CTAStyles.basicOnButton), ^.onClick := self.props.wrapped.clickOnButtonHandler)(<.i(^.className := Seq(FontAwesomeStyles.play))(), unescape("&nbsp;" + I18n.t("sequence.introduction.cta")))), <.style()(IntroductionOfTheSequenceStyles.render[String]))
+          ),
+          <.style()(IntroductionOfTheSequenceStyles.render[String]))
         }
       )
 

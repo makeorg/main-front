@@ -22,7 +22,7 @@ object LPAEOperationStaticData extends StaticDataOfOperation {
     ),
     extraSlides = (params: OperationExtraSlidesParams) => {
       Seq(
-        Slides.displaySequenceIntroCard(params),
+        Slides.displaySequenceIntroCard(params, introWording = OperationIntroWording()),
         Slides.displaySignUpCard(params, !params.isConnected),
         Slides.displayProposalPushCard(params),
         Slides.displayFinalCard(params)
