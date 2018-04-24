@@ -7,6 +7,7 @@ import org.make.front.models.{User => UserModel}
 import org.make.services.tracking.TrackingService.TrackingContext
 
 import scala.concurrent.Future
+import scala.scalajs.js
 
 package object register {
   case class RegisterState(fields: Map[String, String], errors: Map[String, String]) {
@@ -25,7 +26,7 @@ package object register {
                            trackingContext: TrackingContext,
                            trackingParameters: Map[String, String])
 
-  def getErrorsMessagesFromApiErrors(errors: Seq[ValidationError]): Seq[(String, String)] = {
+  def getErrorsMessagesFromApiErrors(errors: js.Array[ValidationError]): js.Array[(String, String)] = {
     errors.map {
       case ValidationError("email", Some(message)) if message.contains("already exist") =>
         "email" -> I18n.t("authenticate.register.error-message.already-exists")

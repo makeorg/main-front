@@ -19,22 +19,24 @@ import org.make.front.models.{
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
+import scala.scalajs.js
 import scala.util.Failure
+import scala.scalajs.js.JSConverters._
 
 object SequenceContainer {
 
-  final case class SequenceContainerProps(loadSequence: (Seq[ProposalId]) => Future[SequenceModel],
+  final case class SequenceContainerProps(loadSequence: (js.Array[ProposalId]) => Future[SequenceModel],
                                           sequence: SequenceModel,
                                           progressBarColor: Option[String],
-                                          extraSlides: Seq[ExtraSlide],
+                                          extraSlides: js.Array[ExtraSlide],
                                           maybeTheme: Option[TranslatedThemeModel],
                                           maybeOperation: Option[OperationModel],
                                           maybeLocation: Option[LocationModel])
 
   lazy val reactClass: ReactClass = ReactRedux.connectAdvanced(selectorFactory)(Sequence.reactClass)
 
-  def sortProposals(proposals: Seq[ProposalModel]): Seq[ProposalModel] = {
-    scala.util.Random.shuffle(proposals)
+  def sortProposals(proposals: js.Array[ProposalModel]): js.Array[ProposalModel] = {
+    scala.util.Random.shuffle(proposals.toSeq).toJSArray
   }
 
   def selectorFactory: (Dispatch) => (AppState, Props[SequenceContainerProps]) => Sequence.SequenceProps =
@@ -42,7 +44,7 @@ object SequenceContainer {
       {
         val isConnected: Boolean = state.connectedUser.nonEmpty
 
-        val reloadSequence: (Seq[ProposalId]) => Future[SequenceModel] = { forcedProposals =>
+        val reloadSequence: (js.Array[ProposalId]) => Future[SequenceModel] = { forcedProposals =>
           val result = props.wrapped.loadSequence(forcedProposals).map { sequence =>
             val proposals = sequence.proposals
             val voted = proposals.filter(_.votes.exists(_.hasVoted))

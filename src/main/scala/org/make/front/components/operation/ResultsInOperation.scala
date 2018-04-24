@@ -35,21 +35,22 @@ import org.make.services.tracking.{TrackingLocation, TrackingService}
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
+import scala.scalajs.js
 import scala.util.{Failure, Success}
 
 object ResultsInOperation {
 
   case class ResultsInOperationProps(
     operation: OperationModel,
-    onMoreResultsRequested: (Seq[ProposalModel], Seq[TagModel], Option[Int]) => Future[SearchResult],
-    onTagSelectionChange: (Seq[TagModel], Option[Int])                       => Future[SearchResult],
-    preselectedTags: Seq[TagModel],
+    onMoreResultsRequested: (js.Array[ProposalModel], js.Array[TagModel], Option[Int]) => Future[SearchResult],
+    onTagSelectionChange: (js.Array[TagModel], Option[Int])                            => Future[SearchResult],
+    preselectedTags: js.Array[TagModel],
     maybeLocation: Option[LocationModel],
     country: String
   )
 
-  case class ResultsInOperationState(listProposals: Seq[ProposalModel],
-                                     selectedTags: Seq[TagModel],
+  case class ResultsInOperationState(listProposals: js.Array[ProposalModel],
+                                     selectedTags: js.Array[TagModel],
                                      initialLoad: Boolean,
                                      hasRequestedMore: Boolean,
                                      hasMore: Boolean,
@@ -110,7 +111,7 @@ object ResultsInOperation {
       getInitialState = { self =>
         ResultsInOperationState(
           selectedTags = self.props.wrapped.preselectedTags,
-          listProposals = Seq(),
+          listProposals = js.Array(),
           initialLoad = true,
           hasRequestedMore = false,
           hasMore = false
@@ -120,7 +121,7 @@ object ResultsInOperation {
         self.setState(
           ResultsInOperationState(
             selectedTags = nextProps.wrapped.preselectedTags,
-            listProposals = Seq(),
+            listProposals = js.Array(),
             initialLoad = true,
             hasRequestedMore = false,
             hasMore = false
@@ -152,15 +153,15 @@ object ResultsInOperation {
         }
 
         val noResults: ReactElement =
-          <.div(^.className := Seq(ResultsInOperationStyles.noResults, LayoutRulesStyles.centeredRow))(
+          <.div(^.className := js.Array(ResultsInOperationStyles.noResults, LayoutRulesStyles.centeredRow))(
             <.p(^.className := ResultsInOperationStyles.noResultsSmiley)("😞"),
             <.p(
-              ^.className := Seq(TextStyles.mediumText, ResultsInOperationStyles.noResultsMessage),
+              ^.className := js.Array(TextStyles.mediumText, ResultsInOperationStyles.noResultsMessage),
               ^.dangerouslySetInnerHTML := I18n.t("operation.results.no-results")
             )()
           )
 
-        val onTagsChange: (Seq[TagModel]) => Unit = {
+        val onTagsChange: (js.Array[TagModel]) => Unit = {
           tags =>
             val previousSelectedTags = self.state.selectedTags
             val changedTags = if (previousSelectedTags.lengthCompare(tags.size) > 0) {
@@ -201,47 +202,50 @@ object ResultsInOperation {
             }
         }
 
-        def proposals(proposals: Seq[ProposalModel], country: String) =
-          Seq(
-            <.InfiniteScroll(
-              ^.element := "ul",
-              ^.className := Seq(ResultsInOperationStyles.itemsList, LayoutRulesStyles.centeredRowWithCols),
-              ^.hasMore := (self.state.initialLoad || self.state.hasMore && self.state.hasRequestedMore),
-              ^.initialLoad := false,
-              ^.loadMore := onSeeMore,
-              ^.loader := <.li(^.className := ResultsInOperationStyles.spinnerWrapper)(<.SpinnerComponent.empty)
-            )(if (proposals.nonEmpty) {
-              val counter = new Counter()
-              proposals.map(
-                proposal =>
-                  <.li(
-                    ^.className := Seq(
-                      ResultsInOperationStyles.item,
-                      ColRulesStyles.col,
-                      ColRulesStyles.colHalfBeyondMedium,
-                      ColRulesStyles.colQuarterBeyondLarge
+        def proposals(proposals: js.Array[ProposalModel], country: String) =
+          js.Array(
+              <.InfiniteScroll(
+                ^.element := "ul",
+                ^.className := js.Array(ResultsInOperationStyles.itemsList, LayoutRulesStyles.centeredRowWithCols),
+                ^.hasMore := (self.state.initialLoad || self.state.hasMore && self.state.hasRequestedMore),
+                ^.initialLoad := false,
+                ^.loadMore := onSeeMore,
+                ^.loader := <.li(^.className := ResultsInOperationStyles.spinnerWrapper)(<.SpinnerComponent.empty)
+              )(if (proposals.nonEmpty) {
+                val counter = new Counter()
+                proposals
+                  .map(
+                    proposal =>
+                      <.li(
+                        ^.className := js.Array(
+                          ResultsInOperationStyles.item,
+                          ColRulesStyles.col,
+                          ColRulesStyles.colHalfBeyondMedium,
+                          ColRulesStyles.colQuarterBeyondLarge
+                        )
+                      )(
+                        <.ProposalTileWithTagsComponent(
+                          ^.wrapped := ProposalTileWithTagsProps(
+                            proposal = proposal,
+                            handleSuccessfulVote = onSuccessfulVote(proposal.id, self),
+                            handleSuccessfulQualification = onSuccessfulQualification(proposal.id, self),
+                            index = counter.getAndIncrement(),
+                            trackingLocation = TrackingLocation.operationPage,
+                            maybeTheme = None,
+                            maybeOperation = Some(self.props.wrapped.operation),
+                            maybeSequenceId = None,
+                            maybeLocation = self.props.wrapped.maybeLocation,
+                            country = country
+                          )
+                        )()
                     )
-                  )(
-                    <.ProposalTileWithTagsComponent(
-                      ^.wrapped := ProposalTileWithTagsProps(
-                        proposal = proposal,
-                        handleSuccessfulVote = onSuccessfulVote(proposal.id, self),
-                        handleSuccessfulQualification = onSuccessfulQualification(proposal.id, self),
-                        index = counter.getAndIncrement(),
-                        trackingLocation = TrackingLocation.operationPage,
-                        maybeTheme = None,
-                        maybeOperation = Some(self.props.wrapped.operation),
-                        maybeSequenceId = None,
-                        maybeLocation = self.props.wrapped.maybeLocation,
-                        country = country
-                      )
-                    )()
-                )
-              )
-            } else { <.div.empty }),
-            if (self.state.hasMore && !self.state.hasRequestedMore) {
-              <.div(^.className := Seq(ResultsInOperationStyles.seeMoreButtonWrapper, LayoutRulesStyles.centeredRow))(
-                <.button(^.onClick := (() => {
+                  )
+                  .toSeq
+              } else { <.div.empty }),
+              if (self.state.hasMore && !self.state.hasRequestedMore) {
+                <.div(
+                  ^.className := js.Array(ResultsInOperationStyles.seeMoreButtonWrapper, LayoutRulesStyles.centeredRow)
+                )(<.button(^.onClick := (() => {
                   onSeeMore(1)
                   TrackingService.track(
                     "click-proposal-viewmore",
@@ -250,20 +254,18 @@ object ResultsInOperation {
                       operationSlug = Some(self.props.wrapped.operation.slug)
                     )
                   )
-                }), ^.className := Seq(CTAStyles.basic, CTAStyles.basicOnButton))(
-                  unescape(I18n.t("operation.results.see-more"))
-                )
-              )
-            }
-          )
+                }), ^.className := js.Array(CTAStyles.basic, CTAStyles.basicOnButton))(unescape(I18n.t("operation.results.see-more"))))
+              }
+            )
+            .toSeq
 
-        val proposalsToDisplay: Seq[ProposalModel] = self.state.listProposals
+        val proposalsToDisplay: js.Array[ProposalModel] = self.state.listProposals
 
         <.section(^.className := ResultsInOperationStyles.wrapper)(
           <.header(^.className := LayoutRulesStyles.centeredRow)(
             <.h2(^.className := TextStyles.mediumTitle)(unescape(I18n.t("operation.results.title")))
           ),
-          <.div(^.className := Seq(ResultsInOperationStyles.tagsNavWrapper, LayoutRulesStyles.centeredRow))(
+          <.div(^.className := js.Array(ResultsInOperationStyles.tagsNavWrapper, LayoutRulesStyles.centeredRow))(
             <.FilterByTagsComponent(^.wrapped := FilterByTagsProps(self.props.wrapped.operation.tagIds, onTagsChange))()
           ),
           if (self.state.initialLoad || proposalsToDisplay.nonEmpty) {

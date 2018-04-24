@@ -10,6 +10,8 @@ import org.make.front.styles._
 import org.make.front.styles.base.{LayoutRulesStyles, RWDHideRulesStyles, TableLayoutStyles}
 import org.make.front.styles.utils._
 
+import scala.scalajs.js
+
 object FullscreenModal {
 
   case class FullscreenModalProps(isModalOpened: Boolean, closeCallback: () => _)
@@ -27,20 +29,21 @@ object FullscreenModal {
       render = (self) => {
         <.ReactModal(^.contentLabel := "", ^.isOpen := self.state.isModalOpened, ^.shouldCloseOnOverlayClick := false)(
           <.div(
-            ^.className := Seq(
+            ^.className := js.Array(
               TableLayoutStyles.fullHeightWrapper,
               FullscreenModalStyles.wrapper,
               FullscreenModalStyles.preventMainScroll(!self.state.isModalOpened)
             )
           )(
             <.div(^.className := TableLayoutStyles.row)(
-              <.div(^.className := Seq(TableLayoutStyles.cell, FullscreenModalStyles.mainHeaderWrapper))(
+              <.div(^.className := js.Array(TableLayoutStyles.cell, FullscreenModalStyles.mainHeaderWrapper))(
                 <.div(^.className := RWDHideRulesStyles.invisible)(<.CookieAlertContainerComponent.empty)
               )
             ),
-            <.div(^.className := Seq(TableLayoutStyles.row, FullscreenModalStyles.contentWrapper))(
+            <.div(^.className := js.Array(TableLayoutStyles.row, FullscreenModalStyles.contentWrapper))(
               <.div(
-                ^.className := Seq(TableLayoutStyles.cellVerticalAlignMiddle, FullscreenModalStyles.contentInnerWrapper)
+                ^.className := js
+                  .Array(TableLayoutStyles.cellVerticalAlignMiddle, FullscreenModalStyles.contentInnerWrapper)
               )(
                 <.div(^.className := FullscreenModalStyles.closeModalButtonWrapper)(
                   <.div(^.className := LayoutRulesStyles.centeredRow)(

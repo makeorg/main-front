@@ -7,13 +7,16 @@ import org.make.front.models.{
   User                  => UserModel
 }
 
+import scala.scalajs.js
+
 final case class AppState(configuration: Option[BusinessConfigurationModel],
-                          politicalActions: Seq[PoliticalActionModel],
+                          politicalActions: js.Array[PoliticalActionModel],
                           bait: String = "Il faut ",
                           connectedUser: Option[UserModel],
                           country: String = "FR",
                           language: String = "fr") {
 
-  def themes: Seq[TranslatedThemeModel] = configuration.map(_.themesForLocale(country, language)).getOrElse(Seq.empty)
+  def themes: js.Array[TranslatedThemeModel] =
+    configuration.map(_.themesForLocale(country, language)).getOrElse(js.Array())
   def findTheme(slug: String): Option[TranslatedThemeModel] = themes.find(_.slug == slug)
 }

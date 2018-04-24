@@ -15,6 +15,7 @@ import org.make.front.models.{
 import org.make.services.proposal.{ProposalService, SearchResult}
 
 import scala.concurrent.Future
+import scala.scalajs.js
 
 object ThemeShowcaseContainer {
 
@@ -38,11 +39,9 @@ object ThemeShowcaseContainer {
           proposals = () =>
             ProposalService
               .searchProposals(
-                themesIds = Seq(theme.id),
-                labelsIds = Some(Seq(LabelModel.Star.name)),
+                themesIds = js.Array(theme.id),
+                labelsIds = Some(js.Array(LabelModel.Star.name)),
                 limit = Some(3),
-                sort = Seq.empty,
-                skip = None,
                 language = Some(appState.language),
                 country = Some(appState.country)
             ),
@@ -56,7 +55,7 @@ object ThemeShowcaseContainer {
         )
       }.getOrElse(
         ThemeShowcase.ThemeShowcaseProps(
-          proposals = () => Future.successful(SearchResult(total = 0, results = Seq.empty, seed = None)),
+          proposals = () => Future.successful(SearchResult(total = 0, results = js.Array(), seed = None)),
           theme = TranslatedThemeModel.empty,
           country = appState.country
         )

@@ -49,14 +49,14 @@ case class User(userId: UserId,
                 enabled: Boolean,
                 verified: Boolean,
                 lastConnection: js.Date,
-                roles: Seq[Role],
+                roles: js.Array[Role],
                 profile: Option[Profile],
                 country: String,
                 language: String)
 
 object User {
   def apply(userResponse: UserResponse): User = {
-    val seqRoles: Seq[String] = userResponse.roles
+    val seqRoles: js.Array[String] = userResponse.roles
 
     User(
       userId = UserId(userResponse.userId),

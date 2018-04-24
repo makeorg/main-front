@@ -26,6 +26,8 @@ import org.make.front.styles.ui.TagStyles
 import org.make.front.styles.utils._
 import org.make.services.tracking.TrackingLocation
 
+import scala.scalajs.js
+
 object ProposalTileWithTags {
 
   final case class ProposalTileWithTagsProps(proposal: ProposalModel,
@@ -60,12 +62,12 @@ object ProposalTileWithTags {
             }
 
             <.article(^.className := ProposalTileStyles.wrapper)(
-              <.div(^.className := Seq(TableLayoutStyles.fullHeightWrapper, ProposalTileStyles.innerWrapper))(
+              <.div(^.className := js.Array(TableLayoutStyles.fullHeightWrapper, ProposalTileStyles.innerWrapper))(
                 <.div(^.className := TableLayoutStyles.row)(
                   <.div(^.className := TableLayoutStyles.cell)(
                     intro,
                     <.div(^.className := ProposalTileStyles.contentWrapper)(
-                      <.h3(^.className := Seq(TextStyles.mediumText, TextStyles.boldText))(
+                      <.h3(^.className := js.Array(TextStyles.mediumText, TextStyles.boldText))(
                         <.Link(
                           ^.to := s"/${self.props.wrapped.country}/proposal/${self.props.wrapped.proposal.slug}",
                           ^.className := ProposalTileStyles.proposalLinkOnTitle
@@ -99,6 +101,7 @@ object ProposalTileWithTags {
                                   <.span(^.className := TagStyles.basic)(tag.label)
                               )
                             )
+                            .toSeq
                         )
                       )
                     )

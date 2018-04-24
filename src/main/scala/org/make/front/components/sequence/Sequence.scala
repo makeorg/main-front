@@ -38,21 +38,21 @@ object Sequence {
 
   final case class ExtraSlide(reactClass: ReactClass,
                               props: (() => Unit) => Any,
-                              position: (Seq[Slide]) => Int,
+                              position: (js.Array[Slide]) => Int,
                               displayed: Boolean = true,
                               maybeTracker: Option[DisplayTracker] = None)
 
-  final case class SequenceProps(loadSequence: (Seq[ProposalIdModel]) => Future[SequenceModel],
+  final case class SequenceProps(loadSequence: (js.Array[ProposalIdModel]) => Future[SequenceModel],
                                  sequence: SequenceModel,
                                  progressBarColor: Option[String],
                                  isConnected: Boolean,
-                                 extraSlides: Seq[ExtraSlide],
+                                 extraSlides: js.Array[ExtraSlide],
                                  maybeTheme: Option[TranslatedThemeModel],
                                  maybeOperation: Option[OperationModel],
                                  maybeLocation: Option[LocationModel])
 
-  final case class SequenceState(proposals: Seq[ProposalModel],
-                                 slides: Seq[Slide],
+  final case class SequenceState(proposals: js.Array[ProposalModel],
+                                 slides: js.Array[Slide],
                                  displayedSlidesCount: Int,
                                  currentSlideIndex: Int)
 
@@ -205,9 +205,10 @@ object Sequence {
         self.setState(_.copy(slides = slides, proposals = updatedProposals))
     }
 
-    def createSlides(self: Self[SequenceProps, SequenceState], allProposals: Seq[ProposalModel]): Seq[Slide] = {
+    def createSlides(self: Self[SequenceProps, SequenceState],
+                     allProposals: js.Array[ProposalModel]): js.Array[Slide] = {
 
-      var slides: Seq[Slide] = allProposals.map({ proposal =>
+      var slides: js.Array[Slide] = allProposals.map({ proposal =>
         new ProposalSlide(
           proposal,
           onSuccessfulVote(_, self),
@@ -236,7 +237,7 @@ object Sequence {
         if (extraSlide.displayed) {
           val position = extraSlide.position(slides)
           slides = slides.take(position) ++
-            Seq(
+            js.Array(
               new BasicSlide(
                 element = extraSlide.reactClass,
                 props = extraSlide.props(next),
@@ -252,7 +253,7 @@ object Sequence {
     }
 
     def onSequenceRetrieved(self: Self[SequenceProps, SequenceState], sequence: SequenceModel): Unit = {
-      val slides: Seq[Slide] = createSlides(self, sequence.proposals)
+      val slides: js.Array[Slide] = createSlides(self, sequence.proposals)
       if (slides.nonEmpty) {
         val firstNonVotedSlideIndex: Int = slides.indexWhere { slide =>
           slide.isInstanceOf[ProposalSlide] && !slide.asInstanceOf[ProposalSlide].voted
@@ -289,7 +290,7 @@ object Sequence {
     React.createClass[SequenceProps, SequenceState](
       displayName = "Sequence",
       getInitialState = { _ =>
-        SequenceState(slides = Seq.empty, displayedSlidesCount = 0, currentSlideIndex = -1, proposals = Seq.empty)
+        SequenceState(slides = js.Array(), displayedSlidesCount = 0, currentSlideIndex = -1, proposals = js.Array())
       },
       componentWillReceiveProps = { (self, props) =>
         if (props.wrapped.sequence.sequenceId.value != self.props.wrapped.sequence.sequenceId.value) {
@@ -384,10 +385,12 @@ object Sequence {
 
         def maxIndex = maxScrollableIndex(self.state.slides.toList)
 
-        <.div(^.className := Seq(TableLayoutStyles.fullHeightWrapper, SequenceStyles.wrapper))(
+        <.div(^.className := js.Array(TableLayoutStyles.fullHeightWrapper, SequenceStyles.wrapper))(
           <.div(^.className := TableLayoutStyles.row)(
-            <.div(^.className := Seq(TableLayoutStyles.cellVerticalAlignBottom, SequenceStyles.progressBarWrapper))(
-              <.div(^.className := Seq(SequenceStyles.centeredRow))(
+            <.div(
+              ^.className := js.Array(TableLayoutStyles.cellVerticalAlignBottom, SequenceStyles.progressBarWrapper)
+            )(
+              <.div(^.className := js.Array(SequenceStyles.centeredRow))(
                 <.ProgressBarComponent(
                   ^.wrapped := ProgressBarProps(
                     value = self.state.currentSlideIndex,
@@ -401,8 +404,8 @@ object Sequence {
           if (self.state.slides.nonEmpty) {
             var counter: Int = -1
             <.div(^.className := TableLayoutStyles.fullHeightRow)(
-              <.div(^.className := Seq(TableLayoutStyles.cell, SequenceStyles.slideshowInnerWrapper))(
-                <.div(^.className := Seq(SequenceStyles.centeredRow, SequenceStyles.fullHeight))(
+              <.div(^.className := js.Array(TableLayoutStyles.cell, SequenceStyles.slideshowInnerWrapper))(
+                <.div(^.className := js.Array(SequenceStyles.centeredRow, SequenceStyles.fullHeight))(
                   <.div(^.className := SequenceStyles.slideshow)(
                     if (self.state.currentSlideIndex > 0)
                       <.button(
@@ -427,10 +430,12 @@ object Sequence {
                         counter += 1
                         <.div(^.className := SequenceStyles.slideWrapper)(
                           <.article(^.className := SequenceStyles.slide)(
-                            <.div(^.className := Seq(SequenceStyles.slideInnerSubWrapper))(slide.component(counter))
+                            <.div(^.className := js.Array(SequenceStyles.slideInnerSubWrapper))(
+                              slide.component(counter)
+                            )
                           )
                         )
-                      }
+                      }.toSeq
                     ),
                     if (canScrollNext) {
                       <.button(^.className := SequenceStyles.showNextSlideButton, ^.onClick := next)()
@@ -508,10 +513,7 @@ object SequenceStyles extends StyleSheet.Inline {
   val slideWrapper: StyleA =
     style(
       ThemeStyles.MediaQueries
-        .verySmall(
-        maxHeight(500.pxToEm()),
-        overflow.hidden
-      )
+        .verySmall(maxHeight(500.pxToEm()), overflow.hidden)
     )
 
   val slide: StyleA =
@@ -524,10 +526,8 @@ object SequenceStyles extends StyleSheet.Inline {
       whiteSpace.nowrap,
       &.before(content := "' '", display.inlineBlock, height(100.%%), verticalAlign.middle),
       ThemeStyles.MediaQueries
-        .verySmall(
-          overflow.scroll
-        )
-  )
+        .verySmall(overflow.scroll)
+    )
 
   val slideInnerSubWrapper: StyleA =
     style(

@@ -18,6 +18,8 @@ import org.make.front.styles.utils._
 import org.make.services.tracking.TrackingService.TrackingContext
 import org.make.services.tracking.{TrackingLocation, TrackingService}
 
+import scala.scalajs.js
+
 object VFFGBOperationIntro {
 
   case class VFFGBOperationIntroProps(operation: OperationModel, language: String)
@@ -38,7 +40,7 @@ object VFFGBOperationIntro {
           val operation: OperationModel =
             self.props.wrapped.operation
 
-          val partners = Seq(
+          val partners = js.Array(
             OperationPartnerModel(
               name = "Kering Foundation",
               imageUrl = keringFoundationLogo.toString,
@@ -58,58 +60,58 @@ object VFFGBOperationIntro {
               style(background := s"linear-gradient(130deg, ${gradientValues.from}, ${gradientValues.to})")
           }
 
-          <.div(^.className := Seq(OperationIntroStyles.wrapper, DynamicVFFGBOperationIntroStyles.gradient))(
-            <.div(^.className := Seq(OperationIntroStyles.headingWrapper, LayoutRulesStyles.centeredRow))(
+          <.div(^.className := js.Array(OperationIntroStyles.wrapper, DynamicVFFGBOperationIntroStyles.gradient))(
+            <.div(^.className := js.Array(OperationIntroStyles.headingWrapper, LayoutRulesStyles.centeredRow))(
               <.div(^.className := VFFGBOperationIntroStyles.logoWrapper)(
                 <.p(^.className := OperationIntroStyles.labelWrapper)(
                   <.span(^.className := TextStyles.label)(unescape(I18n.t("operation.vff-gb.intro.label")))
                 ),
                 <.img(^.src := VFFGBWhiteLogo.toString, ^.alt := unescape(I18n.t("operation.vff-gb.intro.title")))()
               ),
-              <.div(^.className := Seq(TableLayoutStyles.wrapper, OperationIntroStyles.separator))(
+              <.div(^.className := js.Array(TableLayoutStyles.wrapper, OperationIntroStyles.separator))(
                 <.div(
-                  ^.className := Seq(
-                    TableLayoutStyles.cellVerticalAlignMiddle,
-                    OperationIntroStyles.separatorLineWrapper
-                  )
+                  ^.className := js
+                    .Array(TableLayoutStyles.cellVerticalAlignMiddle, OperationIntroStyles.separatorLineWrapper)
                 )(
                   <.hr(
-                    ^.className := Seq(OperationIntroStyles.separatorLine, OperationIntroStyles.separatorLineToTheLeft)
+                    ^.className := js
+                      .Array(OperationIntroStyles.separatorLine, OperationIntroStyles.separatorLineToTheLeft)
                   )()
                 ),
-                <.div(^.className := Seq(TableLayoutStyles.cell, OperationIntroStyles.separatorTextWrapper))(
-                  <.p(^.className := Seq(OperationIntroStyles.separatorText, TextStyles.smallerText))(
+                <.div(^.className := js.Array(TableLayoutStyles.cell, OperationIntroStyles.separatorTextWrapper))(
+                  <.p(^.className := js.Array(OperationIntroStyles.separatorText, TextStyles.smallerText))(
                     unescape(I18n.t("operation.vff-gb.intro.partners.intro"))
                   )
                 ),
                 <.div(
-                  ^.className := Seq(
-                    TableLayoutStyles.cellVerticalAlignMiddle,
-                    OperationIntroStyles.separatorLineWrapper
-                  )
+                  ^.className := js
+                    .Array(TableLayoutStyles.cellVerticalAlignMiddle, OperationIntroStyles.separatorLineWrapper)
                 )(
                   <.hr(
-                    ^.className := Seq(OperationIntroStyles.separatorLine, OperationIntroStyles.separatorLineToTheRight)
+                    ^.className := js
+                      .Array(OperationIntroStyles.separatorLine, OperationIntroStyles.separatorLineToTheRight)
                   )()
                 )
               ),
               <.ul(^.className := OperationIntroStyles.partnersList)(
-                partners.map(
-                  partner =>
-                    <.li(^.className := OperationIntroStyles.partnerItem)(
-                      <.img(
-                        ^.src := partner.imageUrl,
-                        ^.alt := partner.name,
-                        ^("width") := partner.imageWidth.toString,
-                        ^.className := OperationIntroStyles.partnerLogo
-                      )()
+                partners
+                  .map(
+                    partner =>
+                      <.li(^.className := OperationIntroStyles.partnerItem)(
+                        <.img(
+                          ^.src := partner.imageUrl,
+                          ^.alt := partner.name,
+                          ^("width") := partner.imageWidth.toString,
+                          ^.className := OperationIntroStyles.partnerLogo
+                        )()
+                    )
                   )
-                )
+                  .toSeq
               )
             ),
             <.div(^.className := OperationIntroStyles.explanationWrapper)(
               <.div(^.className := LayoutRulesStyles.narrowerCenteredRowWithCols)(
-                <.div(^.className := Seq(ColRulesStyles.col, ColRulesStyles.colThirdBeyondSmall))(
+                <.div(^.className := js.Array(ColRulesStyles.col, ColRulesStyles.colThirdBeyondSmall))(
                   <.img(
                     ^.src := VFFIll.toString,
                     ^("srcset") := VFFIll.toString + " 1x," + VFFIll2x.toString + " 2x",
@@ -117,10 +119,10 @@ object VFFGBOperationIntro {
                     ^.className := OperationIntroStyles.explanationIll
                   )()
                 ),
-                <.div(^.className := Seq(ColRulesStyles.col, ColRulesStyles.colTwoThirdsBeyondSmall))(
+                <.div(^.className := js.Array(ColRulesStyles.col, ColRulesStyles.colTwoThirdsBeyondSmall))(
                   <.p(^.className := TextStyles.label)(unescape(I18n.t("operation.vff-gb.intro.article.title"))),
                   <.div(^.className := OperationIntroStyles.explanationTextWrapper)(
-                    <.p(^.className := Seq(OperationIntroStyles.explanationText, TextStyles.smallText))(
+                    <.p(^.className := js.Array(OperationIntroStyles.explanationText, TextStyles.smallText))(
                       unescape(I18n.t("operation.vff-gb.intro.article.text"))
                     )
                   ),
@@ -128,7 +130,7 @@ object VFFGBOperationIntro {
                     <.a(
                       ^.onClick := onClick,
                       ^.href := unescape(I18n.t("operation.vff-gb.intro.article.see-more.link")),
-                      ^.className := Seq(CTAStyles.basic, CTAStyles.basicOnA),
+                      ^.className := js.Array(CTAStyles.basic, CTAStyles.basicOnA),
                       ^.target := "_blank"
                     )(unescape(I18n.t("operation.vff-gb.intro.article.see-more.label")))
                   )

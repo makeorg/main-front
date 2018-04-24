@@ -21,6 +21,7 @@ import org.make.services.tag.TagService
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
+import scala.scalajs.js
 import scala.util.{Failure, Success}
 
 object ProposalContainer {
@@ -43,8 +44,6 @@ object ProposalContainer {
             ProposalService.searchProposals(
               slug = Some(proposalSlug),
               limit = Some(1),
-              sort = Seq.empty,
-              skip = None,
               language = Some(state.language),
               country = Some(state.country)
             )
@@ -57,7 +56,7 @@ object ProposalContainer {
 
             val futureMaybeOperation: Future[Option[OperationModel]] = proposal.operationId match {
               case Some(operationId) =>
-                val operationAndTags: Future[(Operation, Seq[Tag])] = for {
+                val operationAndTags: Future[(Operation, js.Array[Tag])] = for {
                   operation <- OperationService.getOperationById(operationId)
                   tags      <- TagService.getTags
                 } yield (operation, tags)

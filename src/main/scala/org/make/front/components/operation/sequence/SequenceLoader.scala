@@ -7,9 +7,10 @@ import org.make.front.components.operation.sequence.SequenceOfTheOperation.Seque
 import org.make.front.models.{ProposalId, SequenceId, OperationExpanded => OperationModel, Sequence => SequenceModel}
 import org.scalajs.dom
 import io.github.shogowada.scalajs.reactjs.router.RouterProps._
-import scala.concurrent.ExecutionContext.Implicits.global
 
+import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
+import scala.scalajs.js
 import scala.util.Success
 
 object SequenceLoader {
@@ -20,7 +21,7 @@ object SequenceLoader {
                                        language: String,
                                        redirectHome: () => Unit,
                                        isConnected: Boolean,
-                                       startSequence: (SequenceId) => (Seq[ProposalId]) => Future[SequenceModel])
+                                       startSequence: (SequenceId) => (js.Array[ProposalId]) => Future[SequenceModel])
 
   final case class SequenceLoaderState(operation: Option[OperationModel],
                                        sequence: Option[SequenceModel],
@@ -83,7 +84,6 @@ object SequenceLoader {
               language = self.props.wrapped.language,
               country = self.props.wrapped.country,
               handleCanUpdate = handleCanUpdate
-
             )
           )()).getOrElse(<.WaitingForSequence.empty)
       }

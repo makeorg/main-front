@@ -16,11 +16,13 @@ import org.make.front.styles.vendors.FontAwesomeStyles
 import org.scalajs.dom.raw.HTMLElement
 import org.make.front.Main.CssSettings._
 
+import scala.scalajs.js
+
 object PoliticalActionsList {
 
-  final case class PoliticalActionsListProps(politicalActions: Seq[PoliticalActionModel])
+  final case class PoliticalActionsListProps(politicalActions: js.Array[PoliticalActionModel])
 
-  final case class PoliticalActionsListState(politicalActions: Seq[PoliticalActionModel])
+  final case class PoliticalActionsListState(politicalActions: js.Array[PoliticalActionModel])
 
   lazy val reactClass: ReactClass = React.createClass[PoliticalActionsListProps, PoliticalActionsListState](
     displayName = "PoliticalActionsList",
@@ -88,13 +90,12 @@ object PoliticalActionsList {
             )
           } else {
             <.div(
-              ^.className := Seq(TableLayoutBeyondMediumStyles.wrapper, PoliticalActionsListStyles.slideshowWrapper)
+              ^.className := js
+                .Array(TableLayoutBeyondMediumStyles.wrapper, PoliticalActionsListStyles.slideshowWrapper)
             )(
               <.div(
-                ^.className := Seq(
-                  TableLayoutBeyondMediumStyles.cell,
-                  PoliticalActionsListStyles.slideshowContentWrapper
-                )
+                ^.className := js
+                  .Array(TableLayoutBeyondMediumStyles.cell, PoliticalActionsListStyles.slideshowContentWrapper)
               )(
                 <.div(^.className := PoliticalActionsListStyles.slideshow)(
                   <.Slider(^.ref := ((slideshow: HTMLElement) => {
@@ -109,24 +110,22 @@ object PoliticalActionsList {
                           <.PoliticalActionComponent(^.wrapped := PoliticalActionProps(politicalAction))()
                         )
                       )
-                    }
+                    }.toSeq
                   )
                 )
               ),
               <.div(
-                ^.className := Seq(
-                  TableLayoutBeyondMediumStyles.cellVerticalAlignMiddle,
-                  PoliticalActionsListStyles.slideshowNav
-                )
+                ^.className := js
+                  .Array(TableLayoutBeyondMediumStyles.cellVerticalAlignMiddle, PoliticalActionsListStyles.slideshowNav)
               )(
                 <.button(
-                  ^.className := Seq(FontAwesomeStyles.angleLeft, PoliticalActionsListStyles.slideshowArrow),
+                  ^.className := js.Array(FontAwesomeStyles.angleLeft, PoliticalActionsListStyles.slideshowArrow),
                   ^.ref := ((e: HTMLElement) => { previousButton = Some(e) }),
                   ^.disabled := true,
                   ^.onClick := previous
                 )(),
                 <.button(
-                  ^.className := Seq(FontAwesomeStyles.angleRight, PoliticalActionsListStyles.slideshowArrow),
+                  ^.className := js.Array(FontAwesomeStyles.angleRight, PoliticalActionsListStyles.slideshowArrow),
                   ^.ref := ((e: HTMLElement) => { nextButton = Some(e) }),
                   ^.disabled := size < 2,
                   ^.onClick := next

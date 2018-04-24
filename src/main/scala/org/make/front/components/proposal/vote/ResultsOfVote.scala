@@ -11,8 +11,9 @@ import org.make.front.helpers.NumberFormat._
 import org.make.front.styles.ThemeStyles
 import org.make.front.styles.base.TextStyles
 import org.make.front.styles.utils._
-
 import org.make.front.Main.CssSettings._
+
+import scala.scalajs.js
 
 object ResultsOfVote {
 
@@ -57,7 +58,7 @@ object ResultsOfVote {
 
         def resultsItem(specificClasses: String, totalOfVotes: Int, partOfVotes: Int): ReactElement = {
           <.li(^.className := ResultsOfVoteStyles.item)(
-            <.p(^.className := Seq(ResultsOfVoteStyles.results.htmlClass, specificClasses).mkString(" "))(
+            <.p(^.className := js.Array(ResultsOfVoteStyles.results.htmlClass, specificClasses).mkString(" "))(
               <.i()(),
               " ",
               <.em(^.className := TextStyles.boldText)(formatToKilo(totalOfVotes)),
@@ -72,26 +73,29 @@ object ResultsOfVote {
 
         <.ul(^.className := ResultsOfVoteStyles.wrapper)(
           resultsItem(
-            Seq(
-              ResultsOfVoteStyles.resultsOfAgreeVote.htmlClass,
-              DynamicResultsOfVoteStyles.resultsOfAgreeVote(index).htmlClass
-            ).mkString(" "),
+            js.Array(
+                ResultsOfVoteStyles.resultsOfAgreeVote.htmlClass,
+                DynamicResultsOfVoteStyles.resultsOfAgreeVote(index).htmlClass
+              )
+              .mkString(" "),
             self.state.votesAgree,
             partOfAgreeVotes
           ),
           resultsItem(
-            Seq(
-              ResultsOfVoteStyles.resultsOfDisagreeVote.htmlClass,
-              DynamicResultsOfVoteStyles.resultsOfDisagreeVote(index).htmlClass
-            ).mkString(" "),
+            js.Array(
+                ResultsOfVoteStyles.resultsOfDisagreeVote.htmlClass,
+                DynamicResultsOfVoteStyles.resultsOfDisagreeVote(index).htmlClass
+              )
+              .mkString(" "),
             self.state.votesDisagree,
             partOfDisagreeVotes
           ),
           resultsItem(
-            Seq(
-              ResultsOfVoteStyles.resultsOfNeutralVote.htmlClass,
-              DynamicResultsOfVoteStyles.resultsOfNeutralVote(index).htmlClass
-            ).mkString(" "),
+            js.Array(
+                ResultsOfVoteStyles.resultsOfNeutralVote.htmlClass,
+                DynamicResultsOfVoteStyles.resultsOfNeutralVote(index).htmlClass
+              )
+              .mkString(" "),
             self.state.votesNeutral,
             partOfNeutralVotes
           ),

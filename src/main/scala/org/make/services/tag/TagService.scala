@@ -14,8 +14,8 @@ object TagService extends ApiService {
   override val resourceName: String = "tags"
   var client: Client = MakeApiClient
 
-  def getTags: Future[Seq[Tag]] =
+  def getTags: Future[js.Array[Tag]] =
     client
-      .get[js.Array[TagResponse]](apiEndpoint = resourceName, urlParams = Seq.empty, headers = Map.empty)
+      .get[js.Array[TagResponse]](apiEndpoint = resourceName, urlParams = js.Array(), headers = Map.empty)
       .map(_.map(Tag.apply))
 }

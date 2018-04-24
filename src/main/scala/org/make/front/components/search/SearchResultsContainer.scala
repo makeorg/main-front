@@ -17,6 +17,7 @@ import org.make.services.proposal.{ProposalService, SearchResult}
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
+import scala.scalajs.js
 import scalajs.js.URIUtils
 import scala.util.{Failure, Success}
 
@@ -45,7 +46,7 @@ object SearchResultsContainer {
             .map(URIUtils.decodeURI)
         }
 
-        def getProposals(originalProposals: Seq[Proposal], content: Option[String]): Future[SearchResult] = {
+        def getProposals(originalProposals: js.Array[Proposal], content: Option[String]): Future[SearchResult] = {
 
           val result: Future[SearchResult] = for {
             operation <- operationSlug match {
@@ -55,7 +56,6 @@ object SearchResultsContainer {
             proposals <- ProposalService
               .searchProposals(
                 content = content,
-                sort = Seq.empty,
                 limit = Some(defaultResultsCount),
                 skip = Some(originalProposals.size),
                 isRandom = Some(false),
@@ -63,11 +63,11 @@ object SearchResultsContainer {
                 country = Some(appState.country),
                 operationId = operation.map(_.operationId),
                 themesIds = themeSlug match {
-                  case None => Seq.empty
+                  case None => js.Array()
                   case Some(themeSlugValue) =>
                     appState.findTheme(themeSlugValue) match {
-                      case None        => Seq.empty
-                      case Some(theme) => Seq(theme.id)
+                      case None        => js.Array()
+                      case Some(theme) => js.Array(theme.id)
                     }
                 }
               )

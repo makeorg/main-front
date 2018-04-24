@@ -1,5 +1,7 @@
 package org.make.core.validation
 
+import scala.scalajs.js
+
 object PasswordConstraint extends Constraint {
 
   val min = 8
@@ -12,12 +14,12 @@ object PasswordConstraint extends Constraint {
   }
 
   override def validate(value: Option[String],
-                        constraintMessages: Map[String, String] = Map()): Seq[ConstraintError] = {
+                        constraintMessages: Map[String, String] = Map()): js.Array[ConstraintError] = {
 
     if (value.getOrElse("").isEmpty || isValidMin(value)) {
-      Seq.empty
+      js.Array()
     } else {
-      Seq(
+      js.Array(
         ConstraintError(
           constraintMessages
             .getOrElse("minMessage", "This value is too short. It should have %{min} characters or more")

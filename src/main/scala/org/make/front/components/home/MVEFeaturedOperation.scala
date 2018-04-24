@@ -14,6 +14,8 @@ import org.make.front.styles.utils._
 import org.make.services.tracking.TrackingService.TrackingContext
 import org.make.services.tracking.{TrackingLocation, TrackingService}
 
+import scala.scalajs.js
+
 object MVEFeaturedOperation {
 
   final case class MVEFeaturedOperationProps(trackingLocation: TrackingLocation)
@@ -33,9 +35,10 @@ object MVEFeaturedOperation {
             scalajs.js.Dynamic.global.window.open(I18n.t("home.featured-operation.mve.learn-more.link"), "_blank")
           }
 
-          <.section(^.className := Seq(TableLayoutStyles.wrapper, MVEFeaturedOperationStyles.wrapper))(
+          <.section(^.className := js.Array(TableLayoutStyles.wrapper, MVEFeaturedOperationStyles.wrapper))(
             <.div(
-              ^.className := Seq(TableLayoutStyles.cellVerticalAlignMiddle, MVEFeaturedOperationStyles.innerWrapper)
+              ^.className := js
+                .Array(TableLayoutStyles.cellVerticalAlignMiddle, MVEFeaturedOperationStyles.innerWrapper)
             )(
               <.img(
                 ^.className := MVEFeaturedOperationStyles.illustration,
@@ -44,18 +47,18 @@ object MVEFeaturedOperation {
                 ^.alt := I18n.t("home.featured-operation.mve.title"),
                 ^("data-pin-no-hover") := "true"
               )(),
-              <.div(^.className := Seq(MVEFeaturedOperationStyles.innerSubWrapper, LayoutRulesStyles.centeredRow))(
+              <.div(^.className := js.Array(MVEFeaturedOperationStyles.innerSubWrapper, LayoutRulesStyles.centeredRow))(
                 <.div(^.className := MVEFeaturedOperationStyles.labelWrapper)(
                   <.p(^.className := TextStyles.label)(unescape(I18n.t("home.featured-operation.mve.label")))
                 ),
-                <.h2(^.className := Seq(MVEFeaturedOperationStyles.title, TextStyles.veryBigText, TextStyles.boldText))(
-                  unescape(I18n.t("home.featured-operation.mve.title"))
-                ),
-                <.h3(^.className := Seq(TextStyles.mediumText, MVEFeaturedOperationStyles.subTitle))(
+                <.h2(
+                  ^.className := js.Array(MVEFeaturedOperationStyles.title, TextStyles.veryBigText, TextStyles.boldText)
+                )(unescape(I18n.t("home.featured-operation.mve.title"))),
+                <.h3(^.className := js.Array(TextStyles.mediumText, MVEFeaturedOperationStyles.subTitle))(
                   unescape(I18n.t("home.featured-operation.mve.purpose"))
                 ),
                 <.p(^.className := MVEFeaturedOperationStyles.ctaWrapper)(
-                  <.button(^.onClick := onclick, ^.className := Seq(CTAStyles.basic, CTAStyles.basicOnButton))(
+                  <.button(^.onClick := onclick, ^.className := js.Array(CTAStyles.basic, CTAStyles.basicOnButton))(
                     unescape(I18n.t("home.featured-operation.mve.learn-more.label"))
                   )
                 ),

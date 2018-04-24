@@ -7,6 +7,8 @@ import org.make.front.components.AppState
 import org.make.front.facades._
 import org.make.front.models.PoliticalAction
 
+import scala.scalajs.js
+
 object PoliticalActionMiddleware {
 
   val handle: (Store[AppState]) => (Dispatch) => (Any) => Any = (appStore: Store[AppState]) =>
@@ -19,8 +21,8 @@ object PoliticalActionMiddleware {
   }
 
   // toDo: replace by an api call
-  private def retrievePoliticalAction(): Seq[PoliticalAction] =
-    Seq(
+  private def retrievePoliticalAction(): js.Array[PoliticalAction] =
+    js.Array(
       PoliticalAction(
         themeSlug = Some("agriculture-ruralite"),
         imageUrl = alimenterre.toString,
@@ -72,9 +74,7 @@ object PoliticalActionMiddleware {
         imageTitle = None,
         date = None,
         location = None,
-        links = Some(
-          """<a href="http://bit.ly/2E5pmsr" target="_blank">Je participe au concours</a>"""
-        ),
+        links = Some("""<a href="http://bit.ly/2E5pmsr" target="_blank">Je participe au concours</a>"""),
         introduction = Some(
           "Il faut que les produits électroniques/électroménagers deviennent recyclables, modulaires (réparables) et sans obsolescence programmée, Mathieu, 17 ans"
         ),

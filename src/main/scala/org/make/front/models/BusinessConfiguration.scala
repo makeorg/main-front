@@ -15,11 +15,11 @@ trait BusinessConfigurationResponse extends js.Object {
 
 case class BusinessConfiguration(proposalMinLength: Int,
                                  proposalMaxLength: Int,
-                                 supportedCountries: Seq[CountryConfiguration],
-                                 themes: Seq[Theme],
+                                 supportedCountries: js.Array[CountryConfiguration],
+                                 themes: js.Array[Theme],
                                  nVotesTriggerConnexion: Int = 5,
                                  maxTriggerConnexion: Int = 101010) {
-  def themesForLocale(country: String, language: String): Seq[TranslatedTheme] = {
+  def themesForLocale(country: String, language: String): js.Array[TranslatedTheme] = {
     val counter = new Counter()
     themes.filter(_.country == country).flatMap(_.toTranslatedTheme(language, counter))
   }
@@ -34,7 +34,7 @@ case class BusinessConfiguration(proposalMinLength: Int,
 
 object BusinessConfiguration {
   def apply(businessConfigurationResponse: BusinessConfigurationResponse): BusinessConfiguration = {
-    val seqThemes: Seq[Theme] = businessConfigurationResponse.themes.map(Theme.apply)
+    val seqThemes: js.Array[Theme] = businessConfigurationResponse.themes.map(Theme.apply)
 
     BusinessConfiguration(
       proposalMinLength = businessConfigurationResponse.proposalMinLength,
@@ -47,7 +47,7 @@ object BusinessConfiguration {
 
 case class CountryConfiguration(countryCode: String,
                                 defaultLanguage: String,
-                                supportedLanguages: Seq[String],
+                                supportedLanguages: js.Array[String],
                                 coreIsAvailable: Boolean,
                                 flagUrl: String = "") {
   def languageIsSuppported(language: String): Boolean = {

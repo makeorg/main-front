@@ -8,6 +8,8 @@ import org.make.front.components.AppState
 import org.make.front.models.{Location => LocationModel}
 import org.make.services.proposal.ProposalService
 
+import scala.scalajs.js
+
 object LabelShowcaseContainer {
 
   final case class LabelShowcaseContainerProps(intro: String,
@@ -24,10 +26,8 @@ object LabelShowcaseContainer {
         proposals = () =>
           ProposalService
             .searchProposals(
-              labelsIds = Some(Seq(props.wrapped.label)),
+              labelsIds = Some(js.Array(props.wrapped.label)),
               limit = Some(2),
-              sort = Seq.empty,
-              skip = None,
               language = Some(appState.language)
           ),
         intro = props.wrapped.intro,

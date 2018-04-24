@@ -20,6 +20,7 @@ import org.scalajs.dom.experimental.Response
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
+import scala.scalajs.js
 import scala.scalajs.js.JSConverters._
 import scala.util.{Failure, Success}
 
@@ -30,16 +31,16 @@ object AuthenticateWithFacebookButton {
                                                  isConnected: Boolean,
                                                  signIn: (Response) => Future[_],
                                                  facebookAppId: String,
-                                                 errorMessages: Seq[String],
+                                                 errorMessages: js.Array[String],
                                                  isLookingLikeALink: Boolean)
 
-  case class AuthenticateWithFacebookButtonState(errorMessages: Seq[String] = Seq.empty)
+  case class AuthenticateWithFacebookButtonState(errorMessages: js.Array[String] = js.Array())
 
   val reactClass: ReactClass =
     React.createClass[AuthenticateWithFacebookButtonProps, AuthenticateWithFacebookButtonState](
       displayName = "AuthenticateWithFacebook",
       getInitialState = { _ =>
-        AuthenticateWithFacebookButtonState(Seq.empty)
+        AuthenticateWithFacebookButtonState(js.Array())
       },
       render = { self =>
         def trackFailure(provider: String): Unit = {
@@ -64,28 +65,29 @@ object AuthenticateWithFacebookButton {
               self.setState(AuthenticateWithFacebookButtonState())
             case Failure(UnauthorizedHttpException) =>
               trackFailure(provider)
-              self.setState(_.copy(errorMessages = Seq("authenticate.no-account-found")))
+              self.setState(_.copy(errorMessages = js.Array("authenticate.no-account-found")))
             case Failure(BadRequestHttpException(_)) =>
-              self.setState(_.copy(errorMessages = Seq("authenticate.no-email-found")))
+              self.setState(_.copy(errorMessages = js.Array("authenticate.no-email-found")))
               trackFailure(provider)
             case Failure(_) =>
-              self.setState(_.copy(errorMessages = Seq("authenticate.error-message")))
+              self.setState(_.copy(errorMessages = js.Array("authenticate.error-message")))
               trackFailure(provider)
           }
         }
 
         val facebookCallbackResponse: (Response) => Unit = { response =>
-          self.setState(self.state.copy(errorMessages = Seq.empty))
+          self.setState(self.state.copy(errorMessages = js.Array()))
           handleCallback(self.props.wrapped.signIn(response), "Facebook")
         }
 
         val buttonClasses: String =
-          Seq(if (self.props.wrapped.isLookingLikeALink) {
-            TextStyles.smallText.htmlClass + " " + AuthenticateWithFacebookButtonStyles.buttonLookingLikeALink.htmlClass
-          } else {
-            CTAStyles.basic.htmlClass + " " + CTAStyles.basicOnButton.htmlClass + " " +
-              AuthenticateWithFacebookButtonStyles.button.htmlClass
-          }).mkString(" ")
+          js.Array(if (self.props.wrapped.isLookingLikeALink) {
+              TextStyles.smallText.htmlClass + " " + AuthenticateWithFacebookButtonStyles.buttonLookingLikeALink.htmlClass
+            } else {
+              CTAStyles.basic.htmlClass + " " + CTAStyles.basicOnButton.htmlClass + " " +
+                AuthenticateWithFacebookButtonStyles.button.htmlClass
+            })
+            .mkString(" ")
 
         <.ReactFacebookLogin(
           ^.appId := self.props.wrapped.facebookAppId,
@@ -96,13 +98,11 @@ object AuthenticateWithFacebookButton {
           ^.cssClass := buttonClasses,
           ^.containerStyle := Map("transition" -> "none", "opacity" -> 1).toJSDictionary,
           ^.iconElement :=
-            <.i(
-              ^.className := Seq(
-                if (self.props.wrapped.isLookingLikeALink) { FontAwesomeStyles.facebookOfficial } else {
-                  FontAwesomeStyles.facebook
-                }
-              )
-            )(<.style()(AuthenticateWithFacebookButtonStyles.render[String])),
+            <.i(^.className := js.Array(if (self.props.wrapped.isLookingLikeALink) {
+              FontAwesomeStyles.facebookOfficial
+            } else {
+              FontAwesomeStyles.facebook
+            }))(<.style()(AuthenticateWithFacebookButtonStyles.render[String])),
           ^.textButton := " facebook"
         )()
       }

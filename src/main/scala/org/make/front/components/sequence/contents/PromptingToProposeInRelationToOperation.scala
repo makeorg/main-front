@@ -66,15 +66,18 @@ object PromptingToProposeInRelationToOperation {
             )
           }
 
-          <.div(^.className := Seq(LayoutRulesStyles.row, PromptingToProposeInRelationToOperationStyles.wrapper))(
-            <.div(^.className := Seq(PromptingToProposeInRelationToOperationStyles.titleWrapper))(
-              <.p(^.className := Seq(TextStyles.bigText, TextStyles.boldText))(
+          <.div(^.className := js.Array(LayoutRulesStyles.row, PromptingToProposeInRelationToOperationStyles.wrapper))(
+            <.div(^.className := js.Array(PromptingToProposeInRelationToOperationStyles.titleWrapper))(
+              <.p(^.className := js.Array(TextStyles.bigText, TextStyles.boldText))(
                 unescape(I18n.t("sequence.prompting-to-propose.intro"))
               )
             ),
-            <.div(^.className := Seq(PromptingToProposeInRelationToOperationStyles.ctaWrapper))(
-              <.button(^.className := Seq(CTAStyles.basic, CTAStyles.basicOnButton), ^.onClick := openProposalModal)(
-                <.i(^.className := Seq(FontAwesomeStyles.pencil))(),
+            <.div(^.className := js.Array(PromptingToProposeInRelationToOperationStyles.ctaWrapper))(
+              <.button(
+                ^.className := js.Array(CTAStyles.basic, CTAStyles.basicOnButton),
+                ^.onClick := openProposalModal
+              )(
+                <.i(^.className := js.Array(FontAwesomeStyles.pencil))(),
                 unescape("&nbsp;" + I18n.t("sequence.prompting-to-propose.propose-cta"))
               ),
               <.FullscreenModalComponent(
@@ -99,10 +102,10 @@ object PromptingToProposeInRelationToOperation {
             ),
             <.div(^.className := PromptingToProposeInRelationToOperationStyles.ctaWrapper)(
               <.button(
-                ^.className := Seq(CTAStyles.basic, CTAStyles.basicOnButton, CTAStyles.moreDiscreet),
+                ^.className := js.Array(CTAStyles.basic, CTAStyles.basicOnButton, CTAStyles.moreDiscreet),
                 ^.onClick := onNextProposal
               )(
-                <.i(^.className := Seq(FontAwesomeStyles.stepForward))(),
+                <.i(^.className := js.Array(FontAwesomeStyles.stepForward))(),
                 unescape("&nbsp;" + I18n.t("sequence.prompting-to-propose.next-cta"))
               )
             ),

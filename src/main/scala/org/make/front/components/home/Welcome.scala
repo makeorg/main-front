@@ -14,6 +14,8 @@ import org.make.front.styles.utils._
 import org.make.services.tracking.{TrackingLocation, TrackingService}
 import org.make.services.tracking.TrackingService.TrackingContext
 
+import scala.scalajs.js
+
 object Welcome {
 
   lazy val reactClass: ReactClass = React.createClass[Unit, Unit](
@@ -23,8 +25,8 @@ object Welcome {
         TrackingService.track("click-button-whoweare", TrackingContext(TrackingLocation.homepage))
         scalajs.js.Dynamic.global.window.open(I18n.t("welcome.intro.see-more-link"), "_blank")
       }
-      <.section(^.className := Seq(TableLayoutStyles.wrapper, WelcomeStyles.wrapper))(
-        <.div(^.className := Seq(TableLayoutStyles.cellVerticalAlignMiddle, WelcomeStyles.innerWrapper))(
+      <.section(^.className := js.Array(TableLayoutStyles.wrapper, WelcomeStyles.wrapper))(
+        <.div(^.className := js.Array(TableLayoutStyles.cellVerticalAlignMiddle, WelcomeStyles.innerWrapper))(
           <.img(
             ^.className := WelcomeStyles.illustration,
             ^.src := welcome.toString,
@@ -32,18 +34,18 @@ object Welcome {
             ^.alt := "Make.org",
             ^("data-pin-no-hover") := "true"
           )(),
-          <.div(^.className := Seq(WelcomeStyles.innerSubWrapper, LayoutRulesStyles.centeredRow))(
+          <.div(^.className := js.Array(WelcomeStyles.innerSubWrapper, LayoutRulesStyles.centeredRow))(
             <.div(^.className := WelcomeStyles.labelWrapper)(
               <.p(^.className := TextStyles.label)(unescape(I18n.t("home.welcome.baseline")))
             ),
-            <.h2(^.className := Seq(WelcomeStyles.title, TextStyles.veryBigText, TextStyles.boldText))(
+            <.h2(^.className := js.Array(WelcomeStyles.title, TextStyles.veryBigText, TextStyles.boldText))(
               unescape(I18n.t("home.welcome.title"))
             ),
-            <.h3(^.className := Seq(TextStyles.mediumText, WelcomeStyles.subTitle))(
+            <.h3(^.className := js.Array(TextStyles.mediumText, WelcomeStyles.subTitle))(
               unescape(I18n.t("home.welcome.subtitle"))
             ),
             <.p(^.className := WelcomeStyles.ctaWrapper)(
-              <.button(^.onClick := onclick, ^.className := Seq(CTAStyles.basic, CTAStyles.basicOnButton))(
+              <.button(^.onClick := onclick, ^.className := js.Array(CTAStyles.basic, CTAStyles.basicOnButton))(
                 unescape(I18n.t("home.welcome.see-more"))
               )
             ),

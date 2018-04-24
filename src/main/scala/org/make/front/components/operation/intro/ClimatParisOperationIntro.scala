@@ -20,9 +20,10 @@ import org.make.front.models.{GradientColor => GradientColorModel, OperationExpa
 import org.make.front.styles.ThemeStyles
 import org.make.front.styles.base.{LayoutRulesStyles, TextStyles}
 import org.make.front.styles.ui.CTAStyles
-import org.make.front.styles.utils._
 import org.make.services.tracking.TrackingService.TrackingContext
 import org.make.services.tracking.{TrackingLocation, TrackingService}
+
+import scala.scalajs.js
 
 object ClimatParisOperationIntro {
 
@@ -56,7 +57,7 @@ object ClimatParisOperationIntro {
           }
 
           <.div(
-            ^.className := Seq(
+            ^.className := js.Array(
               OperationIntroStyles.wrapper,
               ClimatParisOperationIntroStyles.wrapper,
               DynamicClimatParisOperationIntroStyles.gradient
@@ -70,7 +71,7 @@ object ClimatParisOperationIntro {
               ^("data-pin-no-hover") := "true"
             )(),
             <.p(
-              ^.className := Seq(
+              ^.className := js.Array(
                 OperationIntroStyles.headingWrapper,
                 ClimatParisOperationIntroStyles.logoWrapper,
                 LayoutRulesStyles.centeredRow
@@ -82,15 +83,13 @@ object ClimatParisOperationIntro {
               )()
             ),
             <.div(
-              ^.className := Seq(
-                OperationIntroStyles.explanationWrapper,
-                ClimatParisOperationIntroStyles.explanationWrapper
-              )
+              ^.className := js
+                .Array(OperationIntroStyles.explanationWrapper, ClimatParisOperationIntroStyles.explanationWrapper)
             )(
               <.div(^.className := LayoutRulesStyles.narrowerCenteredRow)(
                 <.p(^.className := TextStyles.label)(unescape(I18n.t("operation.climatparis.intro.article.title"))),
                 <.div(^.className := OperationIntroStyles.explanationTextWrapper)(
-                  <.p(^.className := Seq(OperationIntroStyles.explanationText, TextStyles.smallText))(
+                  <.p(^.className := js.Array(OperationIntroStyles.explanationText, TextStyles.smallText))(
                     unescape(I18n.t("operation.climatparis.intro.article.text"))
                   )
                 ),
@@ -98,7 +97,7 @@ object ClimatParisOperationIntro {
                   <.a(
                     ^.onClick := onClick,
                     ^.href := unescape(I18n.t("operation.climatparis.intro.article.see-more.link")),
-                    ^.className := Seq(CTAStyles.basic, CTAStyles.basicOnA),
+                    ^.className := js.Array(CTAStyles.basic, CTAStyles.basicOnA),
                     ^.target := "_blank"
                   )(unescape(I18n.t("operation.climatparis.intro.article.see-more.label")))
                 )

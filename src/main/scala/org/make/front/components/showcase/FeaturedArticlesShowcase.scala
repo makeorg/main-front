@@ -13,9 +13,11 @@ import org.make.front.styles.ThemeStyles
 import org.make.front.styles.base.{ColRulesStyles, LayoutRulesStyles, RWDHideRulesStyles, TextStyles}
 import org.make.front.styles.utils._
 
+import scala.scalajs.js
+
 object FeaturedArticlesShowcase {
 
-  final case class FeaturedArticlesShowcaseProps(articles: Seq[FeaturedArticleModel])
+  final case class FeaturedArticlesShowcaseProps(articles: js.Array[FeaturedArticleModel])
 
   lazy val reactClass: ReactClass =
     React
@@ -35,7 +37,7 @@ object FeaturedArticlesShowcase {
             <.div(^.className := FeaturedArticleTileStyles.contentWrapper)(
               <.div(^.className := FeaturedArticleTileStyles.labelWrapper)(
                 <.div(^.className := FeaturedArticleTileStyles.labelInnerWrapper)(
-                  <.p(^.className := Seq(FeaturedArticleTileStyles.label, TextStyles.label))(article.label)
+                  <.p(^.className := js.Array(FeaturedArticleTileStyles.label, TextStyles.label))(article.label)
                 )
               ),
               <.div(^.className := FeaturedArticleTileStyles.excerptWrapper)(
@@ -55,24 +57,26 @@ object FeaturedArticlesShowcase {
               <.h2(^.className := TextStyles.mediumTitle)(unescape(I18n.t("home.featured-articles-showcase.title")))
             ),
             <.div(
-              ^.className := Seq(
+              ^.className := js.Array(
                 RWDHideRulesStyles.hideBeyondMedium,
                 LayoutRulesStyles.centeredRowWithCols,
                 FeaturedArticlesShowcaseStyles.slideshow
               )
             )(
               <.Slider(^.infinite := false, ^.arrows := false)(
-                self.props.wrapped.articles.map(
-                  article =>
-                    <.div(
-                      ^.className :=
-                        Seq(ColRulesStyles.col, FeaturedArticleTileStyles.wrapper)
-                    )(articleTile(article))
-                )
+                self.props.wrapped.articles
+                  .map(
+                    article =>
+                      <.div(
+                        ^.className :=
+                          js.Array(ColRulesStyles.col, FeaturedArticleTileStyles.wrapper)
+                      )(articleTile(article))
+                  )
+                  .toSeq
               )
             ),
             <.div(
-              ^.className := Seq(
+              ^.className := js.Array(
                 RWDHideRulesStyles.showBlockBeyondMedium,
                 RWDHideRulesStyles.hideBeyondLarge,
                 LayoutRulesStyles.centeredRowWithCols,
@@ -80,30 +84,34 @@ object FeaturedArticlesShowcase {
               )
             )(
               <.Slider(^.infinite := false, ^.arrows := false, ^.slidesToShow := 2, ^.slidesToScroll := 2)(
-                self.props.wrapped.articles.map(
-                  article =>
-                    <.div(
-                      ^.className := Seq(
-                        FeaturedArticleTileStyles.wrapper,
-                        ColRulesStyles.col,
-                        ColRulesStyles.colHalfBeyondMedium
-                      )
-                    )(articleTile(article))
-                )
+                self.props.wrapped.articles
+                  .map(
+                    article =>
+                      <.div(
+                        ^.className := js.Array(
+                          FeaturedArticleTileStyles.wrapper,
+                          ColRulesStyles.col,
+                          ColRulesStyles.colHalfBeyondMedium
+                        )
+                      )(articleTile(article))
+                  )
+                  .toSeq
               )
             ),
             <.div(^.className := RWDHideRulesStyles.showBlockBeyondLarge)(
               <.ul(^.className := LayoutRulesStyles.centeredRowWithCols)(
-                self.props.wrapped.articles.map(
-                  article =>
-                    <.li(
-                      ^.className := Seq(
-                        FeaturedArticleTileStyles.wrapper,
-                        ColRulesStyles.col,
-                        ColRulesStyles.colThirdBeyondLarge
-                      )
-                    )(articleTile(article))
-                )
+                self.props.wrapped.articles
+                  .map(
+                    article =>
+                      <.li(
+                        ^.className := js.Array(
+                          FeaturedArticleTileStyles.wrapper,
+                          ColRulesStyles.col,
+                          ColRulesStyles.colThirdBeyondLarge
+                        )
+                      )(articleTile(article))
+                  )
+                  .toSeq
               )
             ),
             <.style()(FeaturedArticlesShowcaseStyles.render[String], FeaturedArticleTileStyles.render[String])

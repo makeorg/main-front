@@ -5,10 +5,10 @@ import org.make.core.URI._
 import org.make.front.facades.I18n
 import org.make.front.models._
 import org.make.services.ApiService
-import org.make.services.operation.OperationService
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
+import scala.scalajs.js
 import scala.scalajs.js.JSON
 
 object ProposalService extends ApiService {
@@ -58,13 +58,13 @@ object ProposalService extends ApiService {
 
   def searchProposals(content: Option[String] = None,
                       slug: Option[String] = None,
-                      themesIds: Seq[ThemeId] = Seq.empty,
+                      themesIds: js.Array[ThemeId] = js.Array(),
                       operationId: Option[OperationId] = None,
-                      tagsIds: Seq[TagId] = Seq.empty,
+                      tagsIds: js.Array[TagId] = js.Array(),
                       trending: Option[String] = None,
-                      labelsIds: Option[Seq[String]] = None,
+                      labelsIds: Option[js.Array[String]] = None,
                       context: Option[ContextRequest] = Some(ContextRequest()),
-                      sort: Seq[SortOptionRequest] = Seq.empty,
+                      sort: Option[js.Array[SortOptionRequest]] = None,
                       limit: Option[Int] = None,
                       skip: Option[Int] = None,
                       isRandom: Option[Boolean] = Some(true),

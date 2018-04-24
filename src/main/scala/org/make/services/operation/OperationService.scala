@@ -16,14 +16,14 @@ object OperationService extends ApiService {
   var client: Client = MakeApiClient
 
   val defaultResultsCount = 20
-  var operationsCache: Option[Future[Seq[Operation]]] = None
+  var operationsCache: Option[Future[js.Array[Operation]]] = None
 
   def getOperationById(operationId: OperationId, forceRefresh: Boolean = false): Future[Operation] = {
     if (forceRefresh) {
       client
         .get[OperationResponse](
           apiEndpoint = resourceName / operationId.value,
-          urlParams = Seq.empty,
+          urlParams = js.Array(),
           headers = Map.empty
         )
         .map(Operation.apply)
@@ -48,19 +48,19 @@ object OperationService extends ApiService {
     }
   }
 
-  def getOperationsByCountry(country: String): Future[Seq[Operation]] = {
+  def getOperationsByCountry(country: String): Future[js.Array[Operation]] = {
     listOperations().map { operations =>
       operations.filter(operation => operation.countriesConfiguration.map(_.countryCode).contains(country))
     }
   }
 
-  def listOperations(): Future[Seq[Operation]] = {
+  def listOperations(): Future[js.Array[Operation]] = {
 
-    val futureOperations: Future[Seq[Operation]] = operationsCache match {
+    val futureOperations: Future[js.Array[Operation]] = operationsCache match {
       case Some(matchingFutureOperations) => matchingFutureOperations
       case _ =>
-        val futureOperations: Future[Seq[Operation]] = client
-          .get[js.Array[OperationResponse]](apiEndpoint = resourceName, urlParams = Seq.empty, headers = Map.empty)
+        val futureOperations: Future[js.Array[Operation]] = client
+          .get[js.Array[OperationResponse]](apiEndpoint = resourceName, urlParams = js.Array(), headers = Map.empty)
           .map(_.map(Operation.apply))
         operationsCache = Some(futureOperations)
         futureOperations

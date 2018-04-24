@@ -14,6 +14,8 @@ import org.make.front.styles._
 import org.make.front.styles.base.TextStyles
 import org.make.services.tracking.TrackingService.TrackingContext
 
+import scala.scalajs.js
+
 object RegisterWithSocialNetworks {
 
   case class RegisterWithSocialNetworksProps(trackingContext: TrackingContext,
@@ -27,7 +29,7 @@ object RegisterWithSocialNetworks {
         displayName = "RegisterWithSocialNetworks",
         render = { self =>
           <.div(^.className := RegisterWithSocialNetworksStyles.wrapper)(
-            <.p(^.className := Seq(RegisterWithSocialNetworksStyles.text, TextStyles.smallText))(
+            <.p(^.className := js.Array(RegisterWithSocialNetworksStyles.text, TextStyles.smallText))(
               unescape(I18n.t("authenticate.register.with-social-networks.intro") + "&nbsp;")
             ),
             <.div(^.className := RegisterWithSocialNetworksStyles.buttonWrapper)(
@@ -41,7 +43,7 @@ object RegisterWithSocialNetworks {
                 )
               )()
             ),
-            <.p(^.className := Seq(RegisterWithSocialNetworksStyles.text, TextStyles.smallText))(
+            <.p(^.className := js.Array(RegisterWithSocialNetworksStyles.text, TextStyles.smallText))(
               unescape("&nbsp;" + I18n.t("authenticate.register.with-social-networks.separator") + "&nbsp;")
             ),
             <.div(^.className := RegisterWithSocialNetworksStyles.buttonWrapper)(

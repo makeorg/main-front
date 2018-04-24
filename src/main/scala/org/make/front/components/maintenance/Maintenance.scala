@@ -12,6 +12,8 @@ import org.make.front.styles.ThemeStyles
 import org.make.front.styles.base.{LayoutRulesStyles, RWDHideRulesStyles, TableLayoutStyles, TextStyles}
 import org.make.front.styles.utils._
 
+import scala.scalajs.js
+
 object Maintenance {
 
   lazy val reactClass: ReactClass =
@@ -21,9 +23,9 @@ object Maintenance {
           displayName = "Maintenance",
           render = { self =>
             <("maintenance")()(
-              <.div(^.className := Seq(TableLayoutStyles.fullHeightWrapper))(
+              <.div(^.className := js.Array(TableLayoutStyles.fullHeightWrapper))(
                 <.div(^.className := TableLayoutStyles.row)(
-                  <.div(^.className := Seq(TableLayoutStyles.cell, MaintenanceStyles.mainHeaderWrapper))(
+                  <.div(^.className := js.Array(TableLayoutStyles.cell, MaintenanceStyles.mainHeaderWrapper))(
                     <.div(^.className := RWDHideRulesStyles.invisible)(<.CookieAlertContainerComponent.empty),
                     <.div(^.className := MaintenanceStyles.fixedMainHeaderWrapper)(
                       <.CookieAlertContainerComponent.empty,
@@ -31,19 +33,17 @@ object Maintenance {
                     )
                   )
                 ),
-                <.div(^.className := Seq(TableLayoutStyles.row, MaintenanceStyles.fullHeight))(
-                  <.div(^.className := Seq(TableLayoutStyles.cell, MaintenanceStyles.articleCell))(
-                    <.div(^.className := Seq(LayoutRulesStyles.centeredRow, MaintenanceStyles.fullHeight))(
+                <.div(^.className := js.Array(TableLayoutStyles.row, MaintenanceStyles.fullHeight))(
+                  <.div(^.className := js.Array(TableLayoutStyles.cell, MaintenanceStyles.articleCell))(
+                    <.div(^.className := js.Array(LayoutRulesStyles.centeredRow, MaintenanceStyles.fullHeight))(
                       <.article(^.className := MaintenanceStyles.article)(
                         <.div(^.className := TableLayoutStyles.fullHeightWrapper)(
                           <.div(
-                            ^.className := Seq(
-                              TableLayoutStyles.cellVerticalAlignMiddle,
-                              MaintenanceStyles.articleInnerWrapper
-                            )
+                            ^.className := js
+                              .Array(TableLayoutStyles.cellVerticalAlignMiddle, MaintenanceStyles.articleInnerWrapper)
                           )(
                             <.div(^.className := LayoutRulesStyles.row)(
-                              <.p(^.className := Seq(MaintenanceStyles.intro, TextStyles.mediumIntro))(
+                              <.p(^.className := js.Array(MaintenanceStyles.intro, TextStyles.mediumIntro))(
                                 unescape(I18n.t("maintenance.intro"))
                               ),
                               <.div(^.className := MaintenanceStyles.titleWrapper)(
@@ -51,13 +51,13 @@ object Maintenance {
                               ),
                               <.div(^.className := MaintenanceStyles.textWrapper)(
                                 <.p(
-                                  ^.className := Seq(MaintenanceStyles.text, TextStyles.mediumText),
+                                  ^.className := js.Array(MaintenanceStyles.text, TextStyles.mediumText),
                                   ^.dangerouslySetInnerHTML := I18n.t("maintenance.explanation-1")
                                 )()
                               ),
                               <.div(^.className := MaintenanceStyles.textWrapper)(
                                 <.p(
-                                  ^.className := Seq(MaintenanceStyles.text, TextStyles.mediumText),
+                                  ^.className := js.Array(MaintenanceStyles.text, TextStyles.mediumText),
                                   ^.dangerouslySetInnerHTML := I18n.t("maintenance.explanation-2")
                                 )()
                               )

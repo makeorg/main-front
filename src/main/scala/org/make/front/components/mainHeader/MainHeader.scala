@@ -15,6 +15,8 @@ import org.make.front.styles.utils._
 import org.make.services.tracking.TrackingService.TrackingContext
 import org.make.services.tracking.{TrackingLocation, TrackingService}
 
+import scala.scalajs.js
+
 object MainHeader {
   final case class MainHeaderProps(country: String)
 
@@ -37,8 +39,10 @@ object MainHeader {
 
             <.header(^.className := MainHeaderStyles.wrapper)(
               <.div(^.className := LayoutRulesStyles.centeredRow)(
-                <.div(^.className := Seq(TableLayoutStyles.wrapper, MainHeaderStyles.innerWrapper))(
-                  <.div(^.className := Seq(TableLayoutStyles.cellVerticalAlignMiddle, MainHeaderStyles.logoWrapper))(
+                <.div(^.className := js.Array(TableLayoutStyles.wrapper, MainHeaderStyles.innerWrapper))(
+                  <.div(
+                    ^.className := js.Array(TableLayoutStyles.cellVerticalAlignMiddle, MainHeaderStyles.logoWrapper)
+                  )(
                     <.button(^.onClick := trackLogoClick)(
                       <.img(
                         ^.className := MainHeaderStyles.logo,
@@ -49,17 +53,20 @@ object MainHeader {
                       )()
                     )
                   ),
-                  <.div(^.className := Seq(TableLayoutStyles.cellVerticalAlignMiddle, MainHeaderStyles.searchWrapper))(
-                    <.SearchFormContainer.empty
-                  ),
-                  <.div(^.className := Seq(TableLayoutStyles.cellVerticalAlignMiddle, MainHeaderStyles.menusWrapper))(
+                  <.div(
+                    ^.className := js.Array(TableLayoutStyles.cellVerticalAlignMiddle, MainHeaderStyles.searchWrapper)
+                  )(<.SearchFormContainer.empty),
+                  <.div(
+                    ^.className := js.Array(TableLayoutStyles.cellVerticalAlignMiddle, MainHeaderStyles.menusWrapper)
+                  )(
                     <.div(^.className := MainHeaderStyles.menusInnerWrapper)(
-                      <.nav(^.className := Seq(RWDHideRulesStyles.showInlineBlockBeyondMedium))(
+                      <.nav(^.className := js.Array(RWDHideRulesStyles.showInlineBlockBeyondMedium))(
                         <.ul()(
                           <.li(^.className := MainHeaderStyles.menuItem)(
                             <.button(
                               ^.onClick := trackAboutUsClick,
-                              ^.className := Seq(MainHeaderStyles.menuItemLink, TextStyles.title, TextStyles.smallText)
+                              ^.className := js
+                                .Array(MainHeaderStyles.menuItemLink, TextStyles.title, TextStyles.smallText)
                             )(unescape(I18n.t("main-header.menu.item-1.label")))
                           )
                         )

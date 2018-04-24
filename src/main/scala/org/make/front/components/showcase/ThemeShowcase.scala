@@ -12,10 +12,7 @@ import org.make.front.components.Components.{RichVirtualDOMElements, _}
 import org.make.front.components.proposal.ProposalTile.ProposalTileProps
 import org.make.front.components.showcase.PromptingToProposeInRelationToThemeTile.PromptingToProposeInRelationToThemeTileProps
 import org.make.front.facades.ReactSlick.{ReactTooltipVirtualDOMAttributes, ReactTooltipVirtualDOMElements}
-import io.github.shogowada.scalajs.reactjs.router.dom.RouterDOM.{
-  RouterDOMVirtualDOMElements,
-  RouterVirtualDOMAttributes
-}
+import io.github.shogowada.scalajs.reactjs.router.dom.RouterDOM.{RouterDOMVirtualDOMElements, RouterVirtualDOMAttributes}
 import org.make.front.facades.Unescape.unescape
 import org.make.front.facades.{HexToRgba, I18n, Replacements}
 import org.make.front.helpers.NumberFormat
@@ -30,6 +27,7 @@ import org.make.services.tracking.{TrackingLocation, TrackingService}
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
+import scala.scalajs.js
 import scala.util.{Failure, Success}
 
 object ThemeShowcase {
@@ -43,11 +41,11 @@ object ThemeShowcase {
                                       maybeLocation: Option[LocationModel] = None,
                                       country: String)
 
-  final case class ThemeShowcaseState(proposals: Seq[ProposalModel])
+  final case class ThemeShowcaseState(proposals: js.Array[ProposalModel])
 
   lazy val reactClass: ReactClass =
     WithRouter(React.createClass[ThemeShowcaseProps, ThemeShowcaseState](displayName = "Showcase", getInitialState = { _ =>
-      ThemeShowcaseState(Seq.empty)
+      ThemeShowcaseState(js.Array())
     },
       componentWillReceiveProps = { (self, props) =>
         props.wrapped.proposals().onComplete {
@@ -97,38 +95,38 @@ object ThemeShowcase {
               self.props.history.push(s"/${self.props.wrapped.country}/theme/${self.props.wrapped.theme.slug}")
             }
 
-          def sliderContent() = Seq(
+          def sliderContent() = js.Array(
             self.state.proposals.map(
               proposal =>
                 <.div(
                   ^.className :=
-                    Seq(ColRulesStyles.col,
+                    js.Array(ColRulesStyles.col,
                       ThemeShowcaseStyles.propasalItem))(
                   proposalTile(self, proposal)
                 )
-            ),
+            ).toSeq,
             <.div(
               ^.className :=
-                Seq(ColRulesStyles.col,
+                js.Array(ColRulesStyles.col,
                   ThemeShowcaseStyles.propasalItem))(
               <.PromptingToProposeInRelationToThemeTileComponent(
                 ^.wrapped :=
                   PromptingToProposeInRelationToThemeTileProps(
                     theme = self.props.wrapped.theme
                   ))()
-            ))
+            )).toSeq
 
           if (self.props.wrapped.theme.title.nonEmpty) {
-            <.section(^.className := Seq(ThemeShowcaseStyles.wrapper, DynamicThemeShowcaseStyles.gradient(index)))(
-              Seq(
+            <.section(^.className := js.Array(ThemeShowcaseStyles.wrapper, DynamicThemeShowcaseStyles.gradient(index)))(
+              js.Array(
                 <.header(^.className := LayoutRulesStyles.centeredRow)(
                   if (self.props.wrapped.maybeIntro.nonEmpty) {
-                    <.p(^.className := Seq(ThemeShowcaseStyles.intro, TextStyles.mediumText, TextStyles.intro))(
+                    <.p(^.className := js.Array(ThemeShowcaseStyles.intro, TextStyles.mediumText, TextStyles.intro))(
                       self.props.wrapped.maybeIntro
                     )
                   },
                   <.div(^.className := ThemeShowcaseStyles.themeNameWrapper)(
-                    <.h2(^.className := Seq(ThemeShowcaseStyles.themeName, TextStyles.bigTitle))(
+                    <.h2(^.className := js.Array(ThemeShowcaseStyles.themeName, TextStyles.bigTitle))(
                       <.Link(^.to := s"/${self.props.wrapped.country}/theme/${self.props.wrapped.theme.slug}")(
                         self.props.wrapped.theme.title
                       )
@@ -142,9 +140,9 @@ object ThemeShowcase {
                           ^.dangerouslySetInnerHTML := self.props.wrapped.maybeNews.getOrElse(""))()
                       )
                     } else {
-                      <.ul(^.className := Seq(TableLayoutBeyondMediumStyles.wrapper, TextStyles.title))(
+                      <.ul(^.className := js.Array(TableLayoutBeyondMediumStyles.wrapper, TextStyles.title))(
                         if (self.props.wrapped.theme.proposalsCount > 0) {
-                          <.li(^.className := Seq(ThemeShowcaseStyles.themeData, TableLayoutBeyondMediumStyles.cell))(
+                          <.li(^.className := js.Array(ThemeShowcaseStyles.themeData, TableLayoutBeyondMediumStyles.cell))(
                             <.em(^.className := ThemeShowcaseStyles.themeDataValue)(NumberFormat.formatToKilo(self.props.wrapped.theme.proposalsCount)),
                             unescape(
                               I18n.t("theme-showcase.data-units.proposals")
@@ -152,7 +150,7 @@ object ThemeShowcase {
                           )
                         },
                         if (self.props.wrapped.theme.votesCount > 0) {
-                          <.li(^.className := Seq(ThemeShowcaseStyles.themeData, TableLayoutBeyondMediumStyles.cell))(
+                          <.li(^.className := js.Array(ThemeShowcaseStyles.themeData, TableLayoutBeyondMediumStyles.cell))(
                             <.em(^.className := ThemeShowcaseStyles.themeDataValue)(NumberFormat.formatToKilo(self.props.wrapped.theme.votesCount)),
                             unescape(
                               I18n.t("theme-showcase.data-units.votes")
@@ -160,7 +158,7 @@ object ThemeShowcase {
                           )
                         },
                         if (self.props.wrapped.theme.actionsCount > 0) {
-                          <.li(^.className := Seq(ThemeShowcaseStyles.themeData, TableLayoutBeyondMediumStyles.cell))(
+                          <.li(^.className := js.Array(ThemeShowcaseStyles.themeData, TableLayoutBeyondMediumStyles.cell))(
                             <.em(^.className := ThemeShowcaseStyles.themeDataValue)(NumberFormat.formatToKilo(self.props.wrapped.theme.actionsCount)),
                             unescape(
                               I18n.t("theme-showcase.data-units.actions")
@@ -189,22 +187,22 @@ object ThemeShowcase {
                   )*/
                   /*TODO: dev filter functions and reactivate template part*/
                 ),
-                <.div(^.className := Seq(RWDHideRulesStyles.hideBeyondMedium, LayoutRulesStyles.centeredRowWithCols, ThemeShowcaseStyles.slideshow))(
+                <.div(^.className := js.Array(RWDHideRulesStyles.hideBeyondMedium, LayoutRulesStyles.centeredRowWithCols, ThemeShowcaseStyles.slideshow))(
                   <.Slider(^.infinite := false, ^.arrows := false)(
                     sliderContent()
                   )
                 ),
-                <.div(^.className := Seq(RWDHideRulesStyles.showBlockBeyondMedium, RWDHideRulesStyles.hideBeyondLarge, LayoutRulesStyles.centeredRowWithCols, ThemeShowcaseStyles.slideshow))(
+                <.div(^.className := js.Array(RWDHideRulesStyles.showBlockBeyondMedium, RWDHideRulesStyles.hideBeyondLarge, LayoutRulesStyles.centeredRowWithCols, ThemeShowcaseStyles.slideshow))(
                   <.Slider(^.infinite := false, ^.arrows := false, ^.slidesToShow := 2, ^.slidesToScroll := 2)(
                     sliderContent()
                   )
                 ),
                 <.div(^.className := RWDHideRulesStyles.showBlockBeyondLarge)(
-                  <.ul(^.className := Seq(LayoutRulesStyles.centeredRowWithCols, ThemeShowcaseStyles.propasalsList))(
+                  <.ul(^.className := js.Array(LayoutRulesStyles.centeredRowWithCols, ThemeShowcaseStyles.propasalsList))(
                     self.state.proposals.map(
                       proposal =>
                         <.li(
-                          ^.className := Seq(
+                          ^.className := js.Array(
                             ThemeShowcaseStyles.propasalItem,
                             ColRulesStyles.col,
                             ColRulesStyles.colQuarterBeyondLarge
@@ -212,9 +210,9 @@ object ThemeShowcase {
                         )(
                           proposalTile(self, proposal)
                         )
-                    ),
+                    ).toSeq,
                     <.li(
-                      ^.className := Seq(
+                      ^.className := js.Array(
                         ThemeShowcaseStyles.propasalItem,
                         ColRulesStyles.col,
                         ColRulesStyles.colHalfBeyondMedium,
@@ -229,25 +227,19 @@ object ThemeShowcase {
                     )
                   )
                 ),
-                <.p(^.className := Seq(LayoutRulesStyles.centeredRow, ThemeShowcaseStyles.seeMoreLinkWrapper))(
+                <.p(^.className := js.Array(LayoutRulesStyles.centeredRow, ThemeShowcaseStyles.seeMoreLinkWrapper))(
                   <.Link(
-                    ^.className := Seq(CTAStyles.basic, CTAStyles.basicOnA),
+                    ^.className := js.Array(CTAStyles.basic, CTAStyles.basicOnA),
                     ^.to := s"/${self.props.wrapped.country}/theme/${self.props.wrapped.theme.slug}"
                   )(
-                    I18n
-                      .t(
+                    I18n.t(
                         "theme-showcase.see-all",
-                        Replacements(
-                          (
-                            "themeName",
-                            self.props.wrapped.theme.title
-                          )
-                        )
+                        Replacements("themeName" ->  self.props.wrapped.theme.title)
                       )
                   )
                 ),
                 <.style()(ThemeShowcaseStyles.render[String], DynamicThemeShowcaseStyles.render[String])
-              )
+              ).toSeq
             )
           } else <.div.empty
       })

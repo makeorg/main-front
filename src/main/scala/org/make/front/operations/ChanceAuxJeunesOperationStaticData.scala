@@ -3,6 +3,8 @@ package org.make.front.operations
 import org.make.front.facades.{chanceAuxJeunesLogo, chanceAuxJeunesLogoWhite}
 import org.make.front.models._
 
+import scala.scalajs.js
+
 object ChanceAuxJeunesOperationStaticData extends StaticDataOfOperation {
 
   override val data: OperationStaticData = {
@@ -14,7 +16,7 @@ object ChanceAuxJeunesOperationStaticData extends StaticDataOfOperation {
       logoUrl = chanceAuxJeunesLogo.toString,
       whiteLogoUrl = chanceAuxJeunesLogoWhite.toString,
       shareUrl = "/chance-aux-jeunes.html_UTM_#/FR/consultation/chance-aux-jeunes/selection",
-      wording = Seq(
+      wording = js.Array(
         OperationWording(
           language = "fr",
           title = "Une chance pour chaque jeune",
@@ -23,13 +25,14 @@ object ChanceAuxJeunesOperationStaticData extends StaticDataOfOperation {
         )
       ),
       extraSlides = (params: OperationExtraSlidesParams) => {
-        Seq(
+        js.Array(
           Slides.displaySequenceIntroCard(
             params,
             introWording = OperationIntroWording(
               title = Some("Ensemble, changeons l'avenir des jeunes !"),
               explanation1 = Some("Éducation, logement, emploi, pouvoir d'achat... nous devons trouver des solutions."),
-              explanation2 = Some("Les propositions les + soutenues seront mises en action par Make.org et ses partenaires.")
+              explanation2 =
+                Some("Les propositions les + soutenues seront mises en action par Make.org et ses partenaires.")
             )
           ),
           Slides.displaySignUpCard(params, !params.isConnected),

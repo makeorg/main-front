@@ -14,6 +14,8 @@ import org.make.front.styles.base.{RWDHideRulesStyles, TableLayoutBeyondMediumSt
 import org.make.front.styles.ui.CTAStyles
 import org.make.front.styles.utils._
 
+import scala.scalajs.js
+
 object ProposalSOperationInfos {
 
   final case class ProposalSOperationInfosProps(operation: OperationModel, language: String, country: String)
@@ -36,17 +38,17 @@ object ProposalSOperationInfos {
           <.div(^.className := ProposalSOperationInfosStyles.wrapper)(
             <.div(^.className := TableLayoutBeyondMediumStyles.wrapper)(
               <.p(
-                ^.className := Seq(
+                ^.className := js.Array(
                   ProposalSOperationInfosStyles.infosWrapper,
                   TableLayoutBeyondMediumStyles.cellVerticalAlignMiddle
                 )
               )(
-                <.span(^.className := Seq(ProposalSOperationInfosStyles.intro, TextStyles.smallText))(
+                <.span(^.className := js.Array(ProposalSOperationInfosStyles.intro, TextStyles.smallText))(
                   unescape(I18n.t("proposal.proposal-s-operation-infos.intro"))
                 ),
                 <.span(^.className := RWDHideRulesStyles.hideBeyondMedium)(" "),
                 <.span(
-                  ^.className := Seq(
+                  ^.className := js.Array(
                     TextStyles.verySmallTitle,
                     ProposalSOperationInfosStyles.operationName,
                     DynamicProposalSOperationInfosStyles.operationName
@@ -54,7 +56,7 @@ object ProposalSOperationInfos {
                 )(unescape(wording.title))
               ),
               <.div(
-                ^.className := Seq(
+                ^.className := js.Array(
                   ProposalSOperationInfosStyles.CTAsWrapper,
                   TableLayoutBeyondMediumStyles.cellVerticalAlignMiddle
                 )
@@ -63,20 +65,22 @@ object ProposalSOperationInfos {
                   if (!self.props.wrapped.operation.landingSequenceId.value.isEmpty) {
                     <.Link(
                       ^.to := s"/${self.props.wrapped.country}/consultation/${self.props.wrapped.operation.slug}/selection",
-                      ^.className := Seq(CTAStyles.basic, CTAStyles.basicOnA)
+                      ^.className := js.Array(CTAStyles.basic, CTAStyles.basicOnA)
                     )(unescape(I18n.t("proposal.proposal-s-operation-infos.participate")))
                   } else {
                     <.Link(
                       ^.to := s"/${self.props.wrapped.country}/consultation/${self.props.wrapped.operation.slug}",
-                      ^.className := Seq(CTAStyles.basic, CTAStyles.basicOnA)
+                      ^.className := js.Array(CTAStyles.basic, CTAStyles.basicOnA)
                     )(unescape(I18n.t("proposal.proposal-s-operation-infos.participate")))
                   }
                 ),
                 wording.learnMoreUrl.map { url =>
                   <.p(^.className := ProposalSOperationInfosStyles.CTA)(
-                    <.a(^.href := url, ^.className := Seq(CTAStyles.basic, CTAStyles.basicOnA), ^.target := "_blank")(
-                      unescape(I18n.t("proposal.proposal-s-operation-infos.see-more"))
-                    )
+                    <.a(
+                      ^.href := url,
+                      ^.className := js.Array(CTAStyles.basic, CTAStyles.basicOnA),
+                      ^.target := "_blank"
+                    )(unescape(I18n.t("proposal.proposal-s-operation-infos.see-more")))
                   )
                 }
               )

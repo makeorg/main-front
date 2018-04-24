@@ -32,11 +32,13 @@ object SearchForm {
 
   val autoSuggestTheme: Dictionary[String] =
     Map[String, String](
-      "container" -> Seq(
-        InputStyles.wrapper.htmlClass,
-        InputStyles.withIcon.htmlClass,
-        SearchFormStyles.searchInputWithIconWrapper.htmlClass
-      ).mkString(" "),
+      "container" -> js
+        .Array(
+          InputStyles.wrapper.htmlClass,
+          InputStyles.withIcon.htmlClass,
+          SearchFormStyles.searchInputWithIconWrapper.htmlClass
+        )
+        .mkString(" "),
       "containerOpen" -> "",
       "input" -> "",
       "inputOpen" -> "",
@@ -135,7 +137,7 @@ trait ProposalSuggestion extends js.Object {
 }
 
 object ProposalSuggestion {
-  def apply(id: String, title: String, content: String, tags: Seq[String]): ProposalSuggestion = {
+  def apply(id: String, title: String, content: String, tags: js.Array[String]): ProposalSuggestion = {
     Dynamic
       .literal(id = id, title = title, content = content, tags = tags.toJSArray)
       .asInstanceOf[ProposalSuggestion]

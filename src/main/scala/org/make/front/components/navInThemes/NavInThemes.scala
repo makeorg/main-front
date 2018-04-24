@@ -14,9 +14,11 @@ import org.make.front.styles._
 import org.make.front.styles.base.{ColRulesStyles, LayoutRulesStyles, TextStyles}
 import org.make.front.styles.utils._
 
+import scala.scalajs.js
+
 object NavInThemes {
 
-  case class NavInThemesProps(themes: Seq[TranslatedThemeModel], shouldDisplayTheme: Boolean, country: String)
+  case class NavInThemesProps(themes: js.Array[TranslatedThemeModel], shouldDisplayTheme: Boolean, country: String)
 
   lazy val reactClass: ReactClass =
     React
@@ -24,7 +26,7 @@ object NavInThemes {
         displayName = "NavInThemes",
         render = self => {
 
-          val themes: Seq[TranslatedThemeModel] = self.props.wrapped.themes
+          val themes: js.Array[TranslatedThemeModel] = self.props.wrapped.themes
           val colors: Map[Int, String] = themes.map(theme => theme.order -> theme.color).toMap
 
           object DynamicNavInThemesStyles extends StyleSheet.Inline {
@@ -39,7 +41,7 @@ object NavInThemes {
             theme =>
               <.li(
                 ^.key := theme.slug,
-                ^.className := Seq(
+                ^.className := js.Array(
                   NavInThemesStyles.themeItem,
                   ColRulesStyles.col,
                   ColRulesStyles.colHalfBeyondSmall,
@@ -51,13 +53,13 @@ object NavInThemes {
                   ^.className := NavInThemesStyles.themeLink
                 )(
                   <.div(
-                    ^.className := Seq(
+                    ^.className := js.Array(
                       NavInThemesStyles.themeItemContentWrapper,
                       DynamicNavInThemesStyles.themesColor(theme.order)
                     )
                   )(
                     <.h3(^.className := TextStyles.smallerTitle)(theme.title),
-                    <.p(^.className := Seq(NavInThemesStyles.actionsCounter, TextStyles.smallText))(
+                    <.p(^.className := js.Array(NavInThemesStyles.actionsCounter, TextStyles.smallText))(
                       unescape(
                         I18n.t(
                           "nav-in-themes.total-of-actions",
@@ -68,7 +70,7 @@ object NavInThemes {
                         )
                       )
                     ),
-                    <.p(^.className := Seq(NavInThemesStyles.propositionsCounter, TextStyles.smallText))(
+                    <.p(^.className := js.Array(NavInThemesStyles.propositionsCounter, TextStyles.smallText))(
                       unescape(
                         I18n.t(
                           "nav-in-themes.total-of-proposals",
@@ -82,22 +84,25 @@ object NavInThemes {
                   )
                 )
               )
-          }
+          }.toSeq
 
           <.nav(^.className := NavInThemesStyles.wrapper)(if (self.props.wrapped.shouldDisplayTheme) {
-            Seq(
-              <.div(^.className := Seq(NavInThemesStyles.titleWrapper, LayoutRulesStyles.centeredRow))(
-                <.h2(^.className := Seq(TextStyles.mediumTitle))(unescape(I18n.t("nav-in-themes.title")))
-              ),
-              if (themes.nonEmpty) {
-                <.ul(^.className := Seq(NavInThemesStyles.themesList, LayoutRulesStyles.centeredRowWithCols))(listTheme)
-              } else {
-                <.p(^.className := Seq(NavInThemesStyles.spinnerWrapper, LayoutRulesStyles.centeredRow))(
-                  <.SpinnerComponent.empty
-                )
-              },
-              <.style()(NavInThemesStyles.render[String], DynamicNavInThemesStyles.render[String])
-            )
+            js.Array(
+                <.div(^.className := js.Array(NavInThemesStyles.titleWrapper, LayoutRulesStyles.centeredRow))(
+                  <.h2(^.className := js.Array(TextStyles.mediumTitle))(unescape(I18n.t("nav-in-themes.title")))
+                ),
+                if (themes.nonEmpty) {
+                  <.ul(^.className := js.Array(NavInThemesStyles.themesList, LayoutRulesStyles.centeredRowWithCols))(
+                    listTheme
+                  )
+                } else {
+                  <.p(^.className := js.Array(NavInThemesStyles.spinnerWrapper, LayoutRulesStyles.centeredRow))(
+                    <.SpinnerComponent.empty
+                  )
+                },
+                <.style()(NavInThemesStyles.render[String], DynamicNavInThemesStyles.render[String])
+              )
+              .toSeq
           })
         }
       )

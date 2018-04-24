@@ -9,6 +9,8 @@ import org.make.front.styles.ThemeStyles
 import org.make.front.styles.base.{RWDHideRulesStyles, TableLayoutStyles}
 import org.make.front.styles.utils._
 
+import scala.scalajs.js
+
 object WaitingForSequence {
 
   val reactClass: ReactClass =
@@ -16,9 +18,9 @@ object WaitingForSequence {
       .createClass[Unit, Unit](
         displayName = "WaitingForSequence",
         render = { _ =>
-          <.section(^.className := Seq(TableLayoutStyles.fullHeightWrapper, WaitingForSequenceStyles.wrapper))(
+          <.section(^.className := js.Array(TableLayoutStyles.fullHeightWrapper, WaitingForSequenceStyles.wrapper))(
             <.div(^.className := TableLayoutStyles.row)(
-              <.div(^.className := Seq(TableLayoutStyles.cell, WaitingForSequenceStyles.mainHeaderWrapper))(
+              <.div(^.className := js.Array(TableLayoutStyles.cell, WaitingForSequenceStyles.mainHeaderWrapper))(
                 <.div(^.className := RWDHideRulesStyles.invisible)(<.CookieAlertContainerComponent.empty),
                 <.div(^.className := WaitingForSequenceStyles.fixedMainHeaderWrapper)(
                   <.CookieAlertContainerComponent.empty,
@@ -27,9 +29,9 @@ object WaitingForSequence {
               )
             ),
             <.div(^.className := TableLayoutStyles.row)(
-              <.div(^.className := Seq(WaitingForSequenceStyles.content, TableLayoutStyles.cellVerticalAlignMiddle))(
-                <.SpinnerComponent.empty
-              )
+              <.div(
+                ^.className := js.Array(WaitingForSequenceStyles.content, TableLayoutStyles.cellVerticalAlignMiddle)
+              )(<.SpinnerComponent.empty)
             ),
             <.style()(WaitingForSequenceStyles.render[String])
           )

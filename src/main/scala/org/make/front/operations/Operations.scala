@@ -15,6 +15,8 @@ import org.make.front.models._
 import org.make.services.tracking.{TrackingLocation, TrackingService}
 import org.make.services.tracking.TrackingService.TrackingContext
 
+import scala.scalajs.js
+
 trait StaticDataOfOperation {
   val data: OperationStaticData
 }
@@ -22,7 +24,7 @@ trait StaticDataOfOperation {
 object Operations {
   val featuredOperationSlug: String = "vff"
 
-  val operationStaticDataList: Seq[OperationStaticData] = Seq(
+  val operationStaticDataList: js.Array[OperationStaticData] = js.Array(
     VFFOperationStaticData.data,
     VFFITOperationStaticData.data,
     VFFGBOperationStaticData.data,
@@ -40,7 +42,9 @@ object Slides {
   def defaultTrackingParameters(params: OperationExtraSlidesParams) =
     Map("sequenceId" -> params.sequence.sequenceId.value)
 
-  def displaySequenceIntroCard(params: OperationExtraSlidesParams, displayed: Boolean = true, introWording: OperationIntroWording): ExtraSlide = {
+  def displaySequenceIntroCard(params: OperationExtraSlidesParams,
+                               displayed: Boolean = true,
+                               introWording: OperationIntroWording): ExtraSlide = {
     ExtraSlide(
       reactClass = IntroductionOfTheSequence.reactClass,
       props = { (handler: () => Unit) =>

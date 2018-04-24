@@ -10,11 +10,11 @@ import scala.scalajs.js
 final case class Operation(status: String,
                            operationId: OperationId,
                            slug: String,
-                           translations: Seq[OperationTranslation] = Seq.empty,
+                           translations: js.Array[OperationTranslation] = js.Array(),
                            defaultLanguage: String,
                            createdAt: Option[js.Date],
                            updatedAt: Option[js.Date],
-                           countriesConfiguration: Seq[OperationCountryConfiguration])
+                           countriesConfiguration: js.Array[OperationCountryConfiguration])
 object Operation {
   def apply(operationResponse: OperationResponse): Operation = {
     Operation(
@@ -51,7 +51,7 @@ object OperationTranslation {
 }
 
 final case class OperationCountryConfiguration(countryCode: String,
-                                               tagIds: Seq[Tag],
+                                               tagIds: js.Array[Tag],
                                                landingSequenceId: SequenceId,
                                                startDate: Option[js.Date],
                                                endDate: Option[js.Date])

@@ -11,6 +11,8 @@ import org.make.front.styles.base.{TableLayoutStyles, TextStyles}
 import org.make.front.styles.utils._
 import org.make.front.Main.CssSettings._
 
+import scala.scalajs.js
+
 object NoPoliticalAction {
 
   lazy val reactClass: ReactClass =
@@ -20,7 +22,7 @@ object NoPoliticalAction {
         render = (self) => {
 
           <.article(^.className := TableLayoutStyles.wrapper)(
-            <.p(^.className := Seq(TableLayoutStyles.cell, NoPoliticalActionStyles.imageWrapper))(
+            <.p(^.className := js.Array(TableLayoutStyles.cell, NoPoliticalActionStyles.imageWrapper))(
               <.img(
                 ^.className := NoPoliticalActionStyles.image,
                 ^.src := cone.toString,
@@ -28,12 +30,12 @@ object NoPoliticalAction {
               )()
             ),
             <.div(
-              ^.className := Seq(TableLayoutStyles.cellVerticalAlignMiddle, NoPoliticalActionStyles.contentWrapper)
+              ^.className := js.Array(TableLayoutStyles.cellVerticalAlignMiddle, NoPoliticalActionStyles.contentWrapper)
             )(
-              <.p(^.className := Seq(TextStyles.boldText, TextStyles.mediumText, NoPoliticalActionStyles.text))(
+              <.p(^.className := js.Array(TextStyles.boldText, TextStyles.mediumText, NoPoliticalActionStyles.text))(
                 unescape(I18n.t("no-political-action.intro"))
               ),
-              <.p(^.className := Seq(TextStyles.boldText, TextStyles.mediumText, NoPoliticalActionStyles.text))(
+              <.p(^.className := js.Array(TextStyles.boldText, TextStyles.mediumText, NoPoliticalActionStyles.text))(
                 unescape(I18n.t("no-political-action.text"))
               )
             ),

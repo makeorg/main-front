@@ -15,7 +15,7 @@ import scala.scalajs.js.annotation.JSImport
   * you can use it that way:
   *
   * <.Autosuggest(
-  *   ^.suggestions := Seq(
+  *   ^.suggestions := js.Array(
   *     ProposalSuggestion(
   *       id = "id-1",
   *       title = "tile - proposal 1",

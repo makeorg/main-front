@@ -26,17 +26,20 @@ import org.make.services.tracking.{TrackingLocation, TrackingService}
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
+import scala.scalajs.js
 import scala.util.{Failure, Success}
 
 object SearchResults {
-  final case class SearchResultsProps(onMoreResultsRequested: (Seq[Proposal], Option[String]) => Future[SearchResult],
-                                      searchValue: Option[String],
-                                      maybeSequence: Option[SequenceId],
-                                      maybeOperation: Option[OperationModel],
-                                      maybeLocation: Option[Location],
-                                      isConnected: Boolean)
+  final case class SearchResultsProps(
+    onMoreResultsRequested: (js.Array[Proposal], Option[String]) => Future[SearchResult],
+    searchValue: Option[String],
+    maybeSequence: Option[SequenceId],
+    maybeOperation: Option[OperationModel],
+    maybeLocation: Option[Location],
+    isConnected: Boolean
+  )
 
-  final case class SearchResultsState(listProposals: Seq[Proposal],
+  final case class SearchResultsState(listProposals: js.Array[Proposal],
                                       initialLoad: Boolean,
                                       hasRequestedMore: Boolean,
                                       hasMore: Boolean,
@@ -45,7 +48,7 @@ object SearchResults {
   object SearchResultsState {
     val empty =
       SearchResultsState(
-        listProposals = Seq.empty,
+        listProposals = js.Array(),
         initialLoad = true,
         hasRequestedMore = false,
         hasMore = false,
@@ -60,7 +63,7 @@ object SearchResults {
       }, shouldComponentUpdate = { (self, props, state) =>
         self.props.wrapped.isConnected != props.wrapped.isConnected ||
         self.state.listProposals.lengthCompare(state.listProposals.size) != 0 ||
-        state.listProposals.size == 0
+        state.listProposals.isEmpty
       }, componentWillReceiveProps = (self, props) => {
         if (self.props.wrapped.searchValue != props.wrapped.searchValue) {
           self.setState(SearchResultsState.empty)
@@ -86,7 +89,7 @@ object SearchResults {
                     self.setState(
                       s =>
                         s.copy(
-                          listProposals = searchResult.results,
+                          listProposals = s.listProposals ++ searchResult.results,
                           hasMore = searchResult.total > searchResult.results.size,
                           initialLoad = false,
                           resultsCount = searchResult.total,
@@ -97,45 +100,48 @@ object SearchResults {
                 }
           }
 
-          def proposals(proposals: Seq[Proposal]) =
-            Seq(
-              <.InfiniteScroll(
-                ^.element := "ul",
-                ^.className := Seq(SearchResultsStyles.itemsList, LayoutRulesStyles.centeredRowWithCols),
-                ^.hasMore := (self.state.initialLoad || self.state.hasMore && self.state.hasRequestedMore),
-                ^.initialLoad := true,
-                ^.pageStart := 1,
-                ^.loadMore := onSeeMore,
-                ^.loader := <.li(^.className := SearchResultsStyles.spinnerWrapper)(<.SpinnerComponent.empty)
-              )(if (proposals.nonEmpty) {
-                val counter = new Counter()
-                proposals.map(
-                  proposal =>
-                    <.li(
-                      ^.className := Seq(
-                        SearchResultsStyles.item,
-                        ColRulesStyles.col,
-                        ColRulesStyles.colHalfBeyondMedium,
-                        ColRulesStyles.colQuarterBeyondLarge
-                      )
-                    )(
-                      <.ProposalTileWithThemeContainerComponent(
-                        ^.wrapped :=
-                          ProposalTileWithThemeContainerProps(
-                            proposal = proposal,
-                            index = counter.getAndIncrement(),
-                            maybeSequenceId = self.props.wrapped.maybeSequence,
-                            maybeOperation = self.props.wrapped.maybeOperation,
-                            maybeLocation = self.props.wrapped.maybeLocation,
-                            trackingLocation = TrackingLocation.searchResultsPage
+          def proposals(proposals: js.Array[Proposal]) =
+            js.Array(
+                <.InfiniteScroll(
+                  ^.element := "ul",
+                  ^.className := js.Array(SearchResultsStyles.itemsList, LayoutRulesStyles.centeredRowWithCols),
+                  ^.hasMore := (self.state.initialLoad || self.state.hasMore && self.state.hasRequestedMore),
+                  ^.initialLoad := true,
+                  ^.pageStart := 1,
+                  ^.loadMore := onSeeMore,
+                  ^.loader := <.li(^.className := SearchResultsStyles.spinnerWrapper)(<.SpinnerComponent.empty)
+                )(if (proposals.nonEmpty) {
+                  val counter = new Counter()
+                  proposals
+                    .map(
+                      proposal =>
+                        <.li(
+                          ^.className := js.Array(
+                            SearchResultsStyles.item,
+                            ColRulesStyles.col,
+                            ColRulesStyles.colHalfBeyondMedium,
+                            ColRulesStyles.colQuarterBeyondLarge
                           )
-                      )()
-                  )
-                )
-              } else { <.div.empty }),
-              if (self.state.hasMore && !self.state.hasRequestedMore) {
-                <.div(^.className := Seq(SearchResultsStyles.seeMoreButtonWrapper, LayoutRulesStyles.centeredRow))(
-                  <.button(^.onClick := { () =>
+                        )(
+                          <.ProposalTileWithThemeContainerComponent(
+                            ^.wrapped :=
+                              ProposalTileWithThemeContainerProps(
+                                proposal = proposal,
+                                index = counter.getAndIncrement(),
+                                maybeSequenceId = self.props.wrapped.maybeSequence,
+                                maybeOperation = self.props.wrapped.maybeOperation,
+                                maybeLocation = self.props.wrapped.maybeLocation,
+                                trackingLocation = TrackingLocation.searchResultsPage
+                              )
+                          )()
+                      )
+                    )
+                    .toSeq
+                } else { <.div.empty }),
+                if (self.state.hasMore && !self.state.hasRequestedMore) {
+                  <.div(
+                    ^.className := js.Array(SearchResultsStyles.seeMoreButtonWrapper, LayoutRulesStyles.centeredRow)
+                  )(<.button(^.onClick := { () =>
                     onSeeMore(1)
                     TrackingService
                       .track(
@@ -145,24 +151,20 @@ object SearchResults {
                           self.props.wrapped.maybeOperation.map(_.slug)
                         )
                       )
-                  }, ^.className := Seq(CTAStyles.basic, CTAStyles.basicOnButton))(
-                    unescape(I18n.t("search.results.see-more"))
-                  )
-                )
-              }
-            )
+                  }, ^.className := js.Array(CTAStyles.basic, CTAStyles.basicOnButton))(unescape(I18n.t("search.results.see-more"))))
+                }
+              )
+              .toSeq
 
-          val proposalsToDisplay: Seq[Proposal] = self.state.listProposals
+          val proposalsToDisplay: js.Array[Proposal] = self.state.listProposals
 
           <.section(^.className := SearchResultsStyles.wrapper)(
             <.div(
-              ^.className := Seq(
-                TableLayoutStyles.fullHeightWrapper,
-                SearchResultsStyles.background(proposalsToDisplay.nonEmpty)
-              )
+              ^.className := js
+                .Array(TableLayoutStyles.fullHeightWrapper, SearchResultsStyles.background(proposalsToDisplay.nonEmpty))
             )(
               <.div(^.className := TableLayoutStyles.row)(
-                <.div(^.className := Seq(TableLayoutStyles.cell, SearchResultsStyles.mainHeaderWrapper))(
+                <.div(^.className := js.Array(TableLayoutStyles.cell, SearchResultsStyles.mainHeaderWrapper))(
                   <.div(^.className := RWDHideRulesStyles.invisible)(<.CookieAlertContainerComponent.empty),
                   <.div(^.className := SearchResultsStyles.fixedMainHeaderWrapper)(
                     <.CookieAlertContainerComponent.empty,
@@ -173,18 +175,27 @@ object SearchResults {
               <.div(^.className := TableLayoutStyles.fullHeightRow)(
                 <.div(^.className := TableLayoutStyles.cellVerticalAlignMiddle)(
                   if (self.state.initialLoad || proposalsToDisplay.nonEmpty) {
-                    Seq(<.div(^.className := Seq(SearchResultsStyles.resultsWrapper))(if (proposalsToDisplay.nonEmpty) {
-                      <.header(^.className := Seq(SearchResultsStyles.resultsHeader, LayoutRulesStyles.centeredRow))(
-                        <.h1(
-                          ^.className := Seq(TextStyles.mediumText, SearchResultsStyles.searchedExpressionIntro),
-                          ^.dangerouslySetInnerHTML := I18n
-                            .t("search.results.intro", Replacements(("total", self.state.resultsCount.toString)))
-                        )(),
-                        <.h2(^.className := Seq(SearchResultsStyles.searchedExpression, TextStyles.mediumTitle))(
-                          unescape("«&nbsp;" + self.props.wrapped.searchValue.getOrElse("") + "&nbsp;»")
+                    js.Array(
+                        <.div(^.className := js.Array(SearchResultsStyles.resultsWrapper))(
+                          if (proposalsToDisplay.nonEmpty) {
+                            <.header(
+                              ^.className := js.Array(SearchResultsStyles.resultsHeader, LayoutRulesStyles.centeredRow)
+                            )(
+                              <.h1(
+                                ^.className := js
+                                  .Array(TextStyles.mediumText, SearchResultsStyles.searchedExpressionIntro),
+                                ^.dangerouslySetInnerHTML := I18n
+                                  .t("search.results.intro", Replacements(("total", self.state.resultsCount.toString)))
+                              )(),
+                              <.h2(
+                                ^.className := js.Array(SearchResultsStyles.searchedExpression, TextStyles.mediumTitle)
+                              )(unescape("«&nbsp;" + self.props.wrapped.searchValue.getOrElse("") + "&nbsp;»"))
+                            )
+                          },
+                          proposals(proposalsToDisplay)
                         )
                       )
-                    }, proposals(proposalsToDisplay)))
+                      .toSeq
                   },
                   if (!self.state.initialLoad && proposalsToDisplay.isEmpty) {
                     <.NoResultToSearchComponent(

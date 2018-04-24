@@ -16,6 +16,7 @@ import org.make.services.tracking.TrackingService.TrackingContext
 import org.make.services.tracking.{TrackingLocation, TrackingService}
 
 import scala.language.postfixOps
+import scala.scalajs.js
 
 object MVEOperationIntro {
 
@@ -37,30 +38,28 @@ object MVEOperationIntro {
           val operation: OperationModel =
             self.props.wrapped.operation
 
-          val partners = Seq(
+          val partners = js.Array(
             OperationPartnerModel(name = "BlaBlaCar", imageUrl = blaBlaCarLogo.toString, imageWidth = 120),
             OperationPartnerModel(name = "Orange", imageUrl = orangeLogo.toString, imageWidth = 37),
             OperationPartnerModel(name = "AccorHotels", imageUrl = accorHotelsLogoMVE.toString, imageWidth = 132),
             OperationPartnerModel(name = "Mairie de Paris", imageUrl = mairieDeParisLogo.toString, imageWidth = 146)
           )
 
-          <.div(^.className := Seq(OperationIntroStyles.wrapper, MVEOperationIntroStyles.wrapper))(
-            <.div(^.className := Seq(OperationIntroStyles.headingWrapper, LayoutRulesStyles.centeredRow))(
+          <.div(^.className := js.Array(OperationIntroStyles.wrapper, MVEOperationIntroStyles.wrapper))(
+            <.div(^.className := js.Array(OperationIntroStyles.headingWrapper, LayoutRulesStyles.centeredRow))(
               <.div(^.className := MVEOperationIntroStyles.logoWrapper)(
                 <.p(^.className := OperationIntroStyles.labelWrapper)(
                   <.span(^.className := TextStyles.label)(unescape(I18n.t("operation.mve.intro.label")))
                 ),
                 <.img(^.src := mveLogo.toString, ^.alt := unescape(I18n.t("operation.mve.intro.title")))()
               ),
-              <.div(^.className := Seq(TableLayoutStyles.wrapper, OperationIntroStyles.separator))(
+              <.div(^.className := js.Array(TableLayoutStyles.wrapper, OperationIntroStyles.separator))(
                 <.div(
-                  ^.className := Seq(
-                    TableLayoutStyles.cellVerticalAlignMiddle,
-                    OperationIntroStyles.separatorLineWrapper
-                  )
+                  ^.className := js
+                    .Array(TableLayoutStyles.cellVerticalAlignMiddle, OperationIntroStyles.separatorLineWrapper)
                 )(
                   <.hr(
-                    ^.className := Seq(
+                    ^.className := js.Array(
                       OperationIntroStyles.separatorLine,
                       MVEOperationIntroStyles.separatorLine,
                       OperationIntroStyles.separatorLineToTheLeft,
@@ -68,9 +67,9 @@ object MVEOperationIntro {
                     )
                   )()
                 ),
-                <.div(^.className := Seq(TableLayoutStyles.cell, OperationIntroStyles.separatorTextWrapper))(
+                <.div(^.className := js.Array(TableLayoutStyles.cell, OperationIntroStyles.separatorTextWrapper))(
                   <.p(
-                    ^.className := Seq(
+                    ^.className := js.Array(
                       OperationIntroStyles.separatorText,
                       MVEOperationIntroStyles.separatorText,
                       TextStyles.smallerText
@@ -78,13 +77,11 @@ object MVEOperationIntro {
                   )(unescape(I18n.t("operation.mve.intro.partners.intro")))
                 ),
                 <.div(
-                  ^.className := Seq(
-                    TableLayoutStyles.cellVerticalAlignMiddle,
-                    OperationIntroStyles.separatorLineWrapper
-                  )
+                  ^.className := js
+                    .Array(TableLayoutStyles.cellVerticalAlignMiddle, OperationIntroStyles.separatorLineWrapper)
                 )(
                   <.hr(
-                    ^.className := Seq(
+                    ^.className := js.Array(
                       OperationIntroStyles.separatorLine,
                       MVEOperationIntroStyles.separatorLine,
                       OperationIntroStyles.separatorLineToTheRight,
@@ -94,28 +91,32 @@ object MVEOperationIntro {
                 )
               ),
               <.ul(
-                ^.className := Seq(OperationIntroStyles.partnersList, LayoutRulesStyles.narrowerCenteredRowWithCols)
+                ^.className := js
+                  .Array(OperationIntroStyles.partnersList, LayoutRulesStyles.narrowerCenteredRowWithCols)
               )(
-                partners.map(
-                  partner =>
-                    <.li(^.className := OperationIntroStyles.partnerItem)(
-                      <.img(
-                        ^.src := partner.imageUrl,
-                        ^.alt := partner.name,
-                        ^("width") := partner.imageWidth.toString,
-                        ^.className := OperationIntroStyles.partnerLogo
-                      )()
+                partners
+                  .map(
+                    partner =>
+                      <.li(^.className := OperationIntroStyles.partnerItem)(
+                        <.img(
+                          ^.src := partner.imageUrl,
+                          ^.alt := partner.name,
+                          ^("width") := partner.imageWidth.toString,
+                          ^.className := OperationIntroStyles.partnerLogo
+                        )()
+                    )
                   )
-                )
+                  .toSeq
               )
             ),
             <.div(
-              ^.className := Seq(OperationIntroStyles.explanationWrapper, MVEOperationIntroStyles.explanationWrapper)
+              ^.className := js
+                .Array(OperationIntroStyles.explanationWrapper, MVEOperationIntroStyles.explanationWrapper)
             )(
               <.div(^.className := LayoutRulesStyles.narrowerCenteredRow)(
                 <.p(^.className := TextStyles.label)(unescape(I18n.t("operation.mve.intro.article.title"))),
                 <.div(^.className := OperationIntroStyles.explanationTextWrapper)(
-                  <.p(^.className := Seq(OperationIntroStyles.explanationText, TextStyles.smallText))(
+                  <.p(^.className := js.Array(OperationIntroStyles.explanationText, TextStyles.smallText))(
                     unescape(I18n.t("operation.mve.intro.article.text"))
                   )
                 ),
@@ -123,7 +124,7 @@ object MVEOperationIntro {
                   <.a(
                     ^.onClick := onClick,
                     ^.href := unescape(I18n.t("operation.mve.intro.article.see-more.link")),
-                    ^.className := Seq(CTAStyles.basic, CTAStyles.basicOnA),
+                    ^.className := js.Array(CTAStyles.basic, CTAStyles.basicOnA),
                     ^.target := "_blank"
                   )(unescape(I18n.t("operation.mve.intro.article.see-more.label")))
                 )

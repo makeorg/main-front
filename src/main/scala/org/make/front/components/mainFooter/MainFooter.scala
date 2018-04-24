@@ -11,6 +11,8 @@ import org.make.front.styles.base._
 import org.make.front.styles.utils._
 import org.make.front.Main.CssSettings._
 
+import scala.scalajs.js
+
 object MainFooter {
 
   lazy val reactClass: ReactClass =
@@ -22,7 +24,7 @@ object MainFooter {
 
           <.footer(^.className := MainFooterStyles.wrapper)(
             <.div(^.className := LayoutRulesStyles.centeredRow)(
-              <.div(^.className := Seq(TableLayoutStyles.wrapper, MainFooterStyles.innerWrapper))(
+              <.div(^.className := js.Array(TableLayoutStyles.wrapper, MainFooterStyles.innerWrapper))(
                 <.p(^.className := TableLayoutStyles.cellVerticalAlignMiddle)(
                   <.img(
                     ^.className := MainFooterStyles.logo,
@@ -33,14 +35,14 @@ object MainFooter {
                 ),
                 <.div(^.className := TableLayoutStyles.cellVerticalAlignMiddle)(
                   <.ul(^.className := MainFooterStyles.menu)(
-                    /*<.li(^.className := Seq(MainFooterStyles.menuItem, MainFooterStyles.emphasizedMenuItem))(
-                        <.p(^.className := Seq(TextStyles.title, TextStyles.smallText))(
+                    /*<.li(^.className := js.Array(MainFooterStyles.menuItem, MainFooterStyles.emphasizedMenuItem))(
+                        <.p(^.className := js.Array(TextStyles.title, TextStyles.smallText))(
                           <.a(
                             ^.href := I18n.t("main-footer.menu.item-1.link"),
                             ^.className := MainFooterStyles.menuItemLink
                           )(
                             <.i(
-                              ^.className := Seq(
+                              ^.className := js.Array(
                                 MainFooterStyles.menuItemIcon,
                                 FontAwesomeStyles.bullhorn
                               )
@@ -53,13 +55,11 @@ object MainFooter {
                       item =>
                         <.li(^.className := MainFooterStyles.menuItem)(
                           <.p(
-                            ^.className := Seq(
-                              TextStyles.title.htmlClass,
-                              TextStyles.smallText.htmlClass,
-                              if (item == 3) {
+                            ^.className := js
+                              .Array(TextStyles.title.htmlClass, TextStyles.smallText.htmlClass, if (item == 3) {
                                 RWDHideRulesStyles.hideBeyondMedium.htmlClass
-                              }
-                            ).mkString(" ")
+                              })
+                              .mkString(" ")
                           )(
                             <.a(
                               ^.href := I18n.t(s"main-footer.menu.item-$item.link"),

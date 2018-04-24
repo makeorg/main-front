@@ -21,6 +21,7 @@ import org.scalajs.dom.raw.HTMLInputElement
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
+import scala.scalajs.js
 import scala.util.{Failure, Success}
 
 object LoginWithEmail {
@@ -108,23 +109,27 @@ object LoginWithEmail {
                 }
               }
           }
-          val loginWithEmailInputWrapperClasses = Seq(
-            InputStyles.wrapper.htmlClass,
-            InputStyles.withIcon.htmlClass,
-            LoginWithEmailStyles.emailInputWithIconWrapper.htmlClass,
-            if (self.state.emailErrorMessage.isDefined) {
-              InputStyles.withError.htmlClass
-            }
-          ).mkString(" ")
+          val loginWithEmailInputWrapperClasses = js
+            .Array(
+              InputStyles.wrapper.htmlClass,
+              InputStyles.withIcon.htmlClass,
+              LoginWithEmailStyles.emailInputWithIconWrapper.htmlClass,
+              if (self.state.emailErrorMessage.isDefined) {
+                InputStyles.withError.htmlClass
+              }
+            )
+            .mkString(" ")
 
-          val updatePasswordInputWrapperClasses = Seq(
-            InputStyles.wrapper.htmlClass,
-            InputStyles.withIcon.htmlClass,
-            LoginWithEmailStyles.passwordInputWithIconWrapper.htmlClass,
-            if (self.state.passwordErrorMessage.isDefined) {
-              InputStyles.withError.htmlClass
-            }
-          ).mkString(" ")
+          val updatePasswordInputWrapperClasses = js
+            .Array(
+              InputStyles.wrapper.htmlClass,
+              InputStyles.withIcon.htmlClass,
+              LoginWithEmailStyles.passwordInputWithIconWrapper.htmlClass,
+              if (self.state.passwordErrorMessage.isDefined) {
+                InputStyles.withError.htmlClass
+              }
+            )
+            .mkString(" ")
 
           <.form(^.onSubmit := handleSubmit, ^.novalidate := true)(
             <.label(^.className := loginWithEmailInputWrapperClasses)(
@@ -150,11 +155,11 @@ object LoginWithEmail {
               <.p(^.className := InputStyles.errorMessage)(self.state.passwordErrorMessage.get)
             },
             if (props.note != "") {
-              <.p(^.className := Seq(LoginWithEmailStyles.note, TextStyles.smallerText))(props.note)
+              <.p(^.className := js.Array(LoginWithEmailStyles.note, TextStyles.smallerText))(props.note)
             },
             <.div(^.className := LoginWithEmailStyles.submitButtonWrapper)(
-              <.button(^.className := Seq(CTAStyles.basic, CTAStyles.basicOnButton), ^.`type`.submit)(
-                <.i(^.className := Seq(FontAwesomeStyles.thumbsUp))(),
+              <.button(^.className := js.Array(CTAStyles.basic, CTAStyles.basicOnButton), ^.`type`.submit)(
+                <.i(^.className := js.Array(FontAwesomeStyles.thumbsUp))(),
                 unescape("&nbsp;" + I18n.t("authenticate.login.send-cta"))
               )
             ),

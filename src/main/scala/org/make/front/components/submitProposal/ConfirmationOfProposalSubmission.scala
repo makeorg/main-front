@@ -17,6 +17,8 @@ import org.make.front.styles.vendors.FontAwesomeStyles
 import org.make.services.tracking.TrackingService.TrackingContext
 import org.make.services.tracking.{TrackingLocation, TrackingService}
 
+import scala.scalajs.js
+
 object ConfirmationOfProposalSubmission {
 
   case class ConfirmationOfProposalSubmissionProps(trackingParameters: Map[String, String],
@@ -54,20 +56,21 @@ object ConfirmationOfProposalSubmission {
               self.props.wrapped.trackingParameters
             )
             self.props.wrapped.onBack()
-        }
+          }
 
           <.article(^.className := ConfirmationOfProposalSubmissionStyles.wrapper)(
-            <.p(^.className := Seq(TextStyles.bigTitle, ConfirmationOfProposalSubmissionStyles.title))(
+            <.p(^.className := js.Array(TextStyles.bigTitle, ConfirmationOfProposalSubmissionStyles.title))(
               <.i(^.className := FontAwesomeStyles.handPeaceO)(),
               unescape("&nbsp;"),
               <.span(^.dangerouslySetInnerHTML := I18n.t("submit-proposal.confirmation.title"))()
             ),
             <.p(
-              ^.className := Seq(TextStyles.mediumText, ConfirmationOfProposalSubmissionStyles.message),
+              ^.className := js.Array(TextStyles.mediumText, ConfirmationOfProposalSubmissionStyles.message),
               ^.dangerouslySetInnerHTML := I18n.t("submit-proposal.confirmation.info")
             )(),
             <.button(
-              ^.className := Seq(ConfirmationOfProposalSubmissionStyles.cta, CTAStyles.basic, CTAStyles.basicOnButton),
+              ^.className := js
+                .Array(ConfirmationOfProposalSubmissionStyles.cta, CTAStyles.basic, CTAStyles.basicOnButton),
               ^.onClick := handleClickOnBackButton
             )(<.i(^.className := FontAwesomeStyles.handOLeft)(), unescape("&nbsp;"), self.props.wrapped.maybeTheme.map {
               theme =>
@@ -80,7 +83,8 @@ object ConfirmationOfProposalSubmission {
             }),
             <.br()(),
             <.button(
-              ^.className := Seq(ConfirmationOfProposalSubmissionStyles.cta, CTAStyles.basic, CTAStyles.basicOnButton),
+              ^.className := js
+                .Array(ConfirmationOfProposalSubmissionStyles.cta, CTAStyles.basic, CTAStyles.basicOnButton),
               ^.onClick := handleClickOnButton
             )(
               <.i(^.className := FontAwesomeStyles.lightbulbTransparent)(),

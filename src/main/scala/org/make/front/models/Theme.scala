@@ -27,21 +27,21 @@ final case class TranslatedTheme(id: ThemeId,
                                  order: Int,
                                  color: String,
                                  gradient: Option[GradientColor] = None,
-                                 tags: Seq[Tag] = Seq.empty)
+                                 tags: js.Array[Tag] = js.Array())
 
 object TranslatedTheme {
-  val empty = TranslatedTheme(ThemeId("fake"), "", "", 0, 0, 0, "", 0, "", None, Seq.empty)
+  val empty = TranslatedTheme(ThemeId("fake"), "", "", 0, 0, 0, "", 0, "", None, js.Array())
 }
 
 final case class Theme(id: ThemeId,
-                       translations: Seq[ThemeTranslation],
+                       translations: js.Array[ThemeTranslation],
                        proposalsCount: Int,
                        votesCount: Int,
                        actionsCount: Int,
                        country: String,
                        color: String,
                        gradient: Option[GradientColor] = None,
-                       tags: Seq[Tag] = Seq.empty) {
+                       tags: js.Array[Tag] = js.Array()) {
 
   def title(language: String): Option[String] = translations.find(_.language == language).map(_.title)
   def slug(language: String): Option[String] = translations.find(_.language == language).map(_.slug)
@@ -92,9 +92,8 @@ object ThemeId {
 
 object Theme {
   def apply(themeResponse: ThemeResponse): Theme = {
-    val seqTranslations: Seq[ThemeTranslation] = themeResponse.translations.map(ThemeTranslation.apply)
-    val seqTags: Seq[Tag] = themeResponse.tags.filter(tag => !tag.label.contains(":")).map(Tag.apply)
-
+    val seqTranslations: js.Array[ThemeTranslation] = themeResponse.translations.map(ThemeTranslation.apply)
+    val seqTags: js.Array[Tag] = themeResponse.tags.filter(tag => !tag.label.contains(":")).map(Tag.apply)
 
     Theme(
       id = ThemeId(themeResponse.themeId),

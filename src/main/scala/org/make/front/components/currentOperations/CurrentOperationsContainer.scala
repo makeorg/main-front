@@ -21,17 +21,18 @@ import org.make.services.tag.TagService
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
+import scala.scalajs.js
 
 object CurrentOperationsContainer {
 
   lazy val reactClass: ReactClass = ReactRedux.connectAdvanced(selectorFactory)(DataLoader.reactClass)
 
-  def selectorFactory: (Dispatch) => (AppState, Props[Unit]) => DataLoaderProps[Seq[OperationExpandedModel]] =
+  def selectorFactory: (Dispatch) => (AppState, Props[Unit]) => DataLoaderProps[js.Array[OperationExpandedModel]] =
     (dispatch: Dispatch) => { (appState: AppState, props: Props[Unit]) =>
       {}
       val countryCode: String = props.`match`.params.get("country").getOrElse("FR").toUpperCase
 
-      val supportedCountries: Seq[CountryConfiguration] = appState.configuration.map {
+      val supportedCountries: js.Array[CountryConfiguration] = appState.configuration.map {
         businessConfiguration: BusinessConfiguration =>
           businessConfiguration.supportedCountries.map { countryConfiguration: CountryConfiguration =>
             countryConfiguration.defaultLanguage match {
@@ -45,7 +46,7 @@ object CurrentOperationsContainer {
                 countryConfiguration.copy(flagUrl = "")
             }
           }
-      }.getOrElse(Seq.empty)
+      }.getOrElse(js.Array())
 
       if (!supportedCountries.exists(country => country.countryCode == countryCode)) {
         props.history.push("/404")
@@ -61,8 +62,8 @@ object CurrentOperationsContainer {
         dispatch(SetCountry(countryCode))
       }
 
-      val operationExpanded: () => Future[Option[Seq[OperationExpandedModel]]] = () => {
-        val operationsAndTags: Future[(Seq[OperationModel], Seq[TagModel])] = for {
+      val operationExpanded: () => Future[Option[js.Array[OperationExpandedModel]]] = () => {
+        val operationsAndTags: Future[(js.Array[OperationModel], js.Array[TagModel])] = for {
           operations <- OperationService.getOperationsByCountry(countryCode)
           tags       <- TagService.getTags
         } yield (operations, tags)
@@ -75,11 +76,11 @@ object CurrentOperationsContainer {
         }.map(Some(_))
       }
 
-      val hasCountryChanged: (Option[Seq[OperationExpandedModel]]) => Boolean = { maybeOperation =>
+      val hasCountryChanged: (Option[js.Array[OperationExpandedModel]]) => Boolean = { maybeOperation =>
         maybeOperation.forall(_.forall(operation => operation.country != countryCode))
       }
 
-      DataLoaderProps[Seq[OperationExpandedModel]](
+      DataLoaderProps[js.Array[OperationExpandedModel]](
         future = operationExpanded,
         shouldComponentUpdate = hasCountryChanged,
         componentDisplayedMeanwhileReactClass = WaitingForCurrentOperations.reactClass,

@@ -1,5 +1,6 @@
 package org.make.core.URI
 
+import scala.scalajs.js
 import scala.scalajs.js.URIUtils
 
 // Inspired by https://github.com/lemonlabsuk/scala-uri/blob/master/shared/src/main/scala/io/lemonlabs/uri/dsl/UrlDsl.scala
@@ -15,7 +16,7 @@ class UriDsl(val uri: String) extends AnyVal {
     case (key, value)       => s"${urlify(key)}=${urlify(value.toString)}"
   }
 
-  def paramsToString(params: Seq[(String, Any)], separator: String = "&"): String =
+  def paramsToString(params: js.Array[(String, Any)], separator: String = "&"): String =
     params.map(paramToString).mkString(separator)
 
   def ?(param: (String, Any)) = s"$uri?${paramToString(param)}"
@@ -26,7 +27,7 @@ class UriDsl(val uri: String) extends AnyVal {
 
   def /(path: String) = s"$uri/$path"
 
-  def addParams(params: Seq[(String, Any)]): String =
+  def addParams(params: js.Array[(String, Any)]): String =
     if (params.isEmpty) {
       uri
     } else if (hasParams(uri)) {

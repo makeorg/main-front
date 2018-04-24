@@ -18,6 +18,8 @@ import org.make.front.styles._
 import org.make.front.styles.base.{LayoutRulesStyles, TextStyles}
 import org.make.front.styles.utils._
 
+import scala.scalajs.js
+
 object Notifications {
   type NotificationsProps = Unit
 
@@ -59,15 +61,16 @@ object Notifications {
         }
 
         def NotificationClasses(level: NotificationLevelModel) =
-          Seq(NotificationsStyles.notification.htmlClass, level match {
-            case Error   => NotificationsStyles.error.htmlClass
-            case Alert   => NotificationsStyles.alert.htmlClass
-            case Success => NotificationsStyles.success.htmlClass
-            case Info    => NotificationsStyles.info.htmlClass
-          }).mkString(" ")
+          js.Array(NotificationsStyles.notification.htmlClass, level match {
+              case Error   => NotificationsStyles.error.htmlClass
+              case Alert   => NotificationsStyles.alert.htmlClass
+              case Success => NotificationsStyles.success.htmlClass
+              case Info    => NotificationsStyles.info.htmlClass
+            })
+            .mkString(" ")
 
         <.ul(^.className := LayoutRulesStyles.centeredRow)(self.state.notifications.map(notification => {
-          <.li(^.className := Seq(NotificationsStyles.item))(
+          <.li(^.className := js.Array(NotificationsStyles.item))(
             <.div(^.className := NotificationClasses(notification.level))(
               <.button(
                 ^.className := NotificationsStyles.closeButton,

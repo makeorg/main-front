@@ -18,6 +18,8 @@ import org.make.services.tracking.{TrackingLocation, TrackingService}
 import org.make.services.tracking.TrackingService.TrackingContext
 import org.scalajs.dom.raw.HTMLElement
 
+import scala.scalajs.js
+
 object OperationHeader {
 
   case class OperationHeaderProps(operation: OperationModel, maybeLocation: Option[LocationModel], language: String)
@@ -57,11 +59,11 @@ object OperationHeader {
 
         <.header(^.className := OperationHeaderStyles.wrapper)(
           <.div(^.className := LayoutRulesStyles.centeredRow)(
-            <.h1(^.className := Seq(TextStyles.smallTitle, OperationHeaderStyles.title))(
+            <.h1(^.className := js.Array(TextStyles.smallTitle, OperationHeaderStyles.title))(
               unescape(I18n.t("operation.proposal-form-in-header.intro"))
             ),
             <.p(
-              ^.className := Seq(
+              ^.className := js.Array(
                 TextStyles.bigText,
                 TextStyles.intro,
                 OperationHeaderStyles.proposalInputIntro,
@@ -69,7 +71,7 @@ object OperationHeader {
               )
             )(unescape(wording.question)),
             <.p(
-              ^.className := Seq(
+              ^.className := js.Array(
                 InputStyles.wrapper,
                 InputStyles.withIcon,
                 InputStyles.biggerWithIcon,
@@ -77,7 +79,7 @@ object OperationHeader {
               )
             )(
               <.span(^.className := TableLayoutStyles.wrapper)(
-                <.span(^.className := Seq(TableLayoutStyles.cell, OperationHeaderStyles.inputWrapper))(
+                <.span(^.className := js.Array(TableLayoutStyles.cell, OperationHeaderStyles.inputWrapper))(
                   <.input(
                     ^.`type`.text,
                     ^.value := I18n.t("common.bait"),
@@ -87,7 +89,7 @@ object OperationHeader {
                   )()
                 ),
                 <.span(^.className := TableLayoutStyles.cellVerticalAlignMiddle)(
-                  <.span(^.className := Seq(TextStyles.smallText, OperationHeaderStyles.textLimitInfo))(
+                  <.span(^.className := js.Array(TextStyles.smallText, OperationHeaderStyles.textLimitInfo))(
                     I18n.t("operation.proposal-form-in-header.limit-of-chars-info")
                   )
                 )

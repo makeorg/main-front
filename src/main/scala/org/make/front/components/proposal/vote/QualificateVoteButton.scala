@@ -17,6 +17,8 @@ import scala.concurrent.Future
 import scala.util.{Failure, Success}
 import org.make.front.Main.CssSettings._
 
+import scala.scalajs.js
+
 object QualificateVoteButton {
 
   case class QualificateVoteButtonProps(updateState: Boolean,
@@ -69,29 +71,30 @@ object QualificateVoteButton {
       }
 
       val buttonClasses =
-        Seq(QualificateVoteButtonStyles.button.htmlClass, self.props.wrapped.voteKey match {
-          case "agree" =>
-            QualificateVoteButtonStyles.agree.htmlClass + " " + (if (self.state.isSelected)
-                                                                   QualificateVoteButtonStyles.agreeActivated.htmlClass
-                                                                 else "")
-          case "disagree" =>
-            QualificateVoteButtonStyles.disagree.htmlClass + " " + (if (self.state.isSelected)
-                                                                      QualificateVoteButtonStyles.disagreeActivated.htmlClass
-                                                                    else "")
-          case "neutral" =>
-            QualificateVoteButtonStyles.neutral.htmlClass + " " + (if (self.state.isSelected)
-                                                                     QualificateVoteButtonStyles.neutralActivated.htmlClass
+        js.Array(QualificateVoteButtonStyles.button.htmlClass, self.props.wrapped.voteKey match {
+            case "agree" =>
+              QualificateVoteButtonStyles.agree.htmlClass + " " + (if (self.state.isSelected)
+                                                                     QualificateVoteButtonStyles.agreeActivated.htmlClass
                                                                    else "")
-          case _ =>
-            QualificateVoteButtonStyles.neutral.htmlClass + " " + (if (self.state.isSelected)
-                                                                     QualificateVoteButtonStyles.neutralActivated.htmlClass
-                                                                   else "")
-        }).mkString(" ")
+            case "disagree" =>
+              QualificateVoteButtonStyles.disagree.htmlClass + " " + (if (self.state.isSelected)
+                                                                        QualificateVoteButtonStyles.disagreeActivated.htmlClass
+                                                                      else "")
+            case "neutral" =>
+              QualificateVoteButtonStyles.neutral.htmlClass + " " + (if (self.state.isSelected)
+                                                                       QualificateVoteButtonStyles.neutralActivated.htmlClass
+                                                                     else "")
+            case _ =>
+              QualificateVoteButtonStyles.neutral.htmlClass + " " + (if (self.state.isSelected)
+                                                                       QualificateVoteButtonStyles.neutralActivated.htmlClass
+                                                                     else "")
+          })
+          .mkString(" ")
 
       <.button(^.className := buttonClasses, ^.onClick := qualifyVote(self.props.wrapped.qualification.key))(
         <.span(^.className := TableLayoutStyles.fullHeightWrapper)(
           <.span(
-            ^.className := Seq(
+            ^.className := js.Array(
               TextStyles.smallerText,
               TextStyles.boldText,
               TableLayoutStyles.cellVerticalAlignMiddle,
@@ -102,7 +105,7 @@ object QualificateVoteButton {
             )
           )(),
           <.span(
-            ^.className := Seq(
+            ^.className := js.Array(
               TableLayoutStyles.cellVerticalAlignMiddle,
               QualificateVoteButtonStyles.votesCounter,
               TextStyles.mediumText,

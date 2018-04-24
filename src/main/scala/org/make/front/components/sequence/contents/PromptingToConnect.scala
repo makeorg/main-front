@@ -19,6 +19,8 @@ import org.make.front.styles.vendors.FontAwesomeStyles
 import org.make.services.tracking.TrackingService
 import org.make.services.tracking.TrackingService.TrackingContext
 
+import scala.scalajs.js
+
 object PromptingToConnect {
 
   final case class PromptingToConnectProps(operation: OperationModel,
@@ -62,8 +64,8 @@ object PromptingToConnect {
           }
 
           <.div(^.className := PromptingToConnectStyles.wrapper)(
-            <.div(^.className := Seq(LayoutRulesStyles.row, PromptingToConnectStyles.titleWrapper))(
-              <.p(^.className := Seq(TextStyles.bigText, TextStyles.boldText))(
+            <.div(^.className := js.Array(LayoutRulesStyles.row, PromptingToConnectStyles.titleWrapper))(
+              <.p(^.className := js.Array(TextStyles.bigText, TextStyles.boldText))(
                 unescape(I18n.t("sequence.prompting-to-connect.title"))
               )
             ),
@@ -86,16 +88,16 @@ object PromptingToConnect {
                 ),
                 <.li(^.className := PromptingToConnectStyles.mailConnectButtonWrapper)(
                   <.button(
-                    ^.className := Seq(PromptingToConnectStyles.cta, CTAStyles.basic, CTAStyles.basicOnButton),
+                    ^.className := js.Array(PromptingToConnectStyles.cta, CTAStyles.basic, CTAStyles.basicOnButton),
                     ^.onClick := openRegisterAuthenticateModal
                   )(
-                    <.i(^.className := Seq(FontAwesomeStyles.envelopeTransparent))(),
+                    <.i(^.className := js.Array(FontAwesomeStyles.envelopeTransparent))(),
                     unescape("&nbsp;" + I18n.t("sequence.prompting-to-connect.authenticate-with-email-cta"))
                   )
                 )
               ),
               <.div(^.className := PromptingToConnectStyles.loginScreenAccessWrapper)(
-                <.p(^.className := Seq(PromptingToConnectStyles.loginScreenAccess, TextStyles.smallText))(
+                <.p(^.className := js.Array(PromptingToConnectStyles.loginScreenAccess, TextStyles.smallText))(
                   unescape(I18n.t("sequence.prompting-to-connect.login-screen-access.intro") + " "),
                   <.button(^.className := TextStyles.boldText, ^.onClick := openLoginAuthenticateModal)(
                     unescape(I18n.t("sequence.prompting-to-connect.login-screen-access.link-support"))
@@ -123,7 +125,7 @@ object PromptingToConnect {
               ),
               <.hr(^.className := PromptingToConnectStyles.separator)(),
               <.button(
-                ^.className := Seq(
+                ^.className := js.Array(
                   PromptingToConnectStyles.cta,
                   CTAStyles.basic,
                   CTAStyles.basicOnButton,
@@ -131,7 +133,7 @@ object PromptingToConnect {
                 ),
                 ^.onClick := skipSignup
               )(
-                <.i(^.className := Seq(FontAwesomeStyles.stepForward))(),
+                <.i(^.className := js.Array(FontAwesomeStyles.stepForward))(),
                 unescape("&nbsp;" + I18n.t("sequence.prompting-to-connect.next-cta"))
               )
             ),

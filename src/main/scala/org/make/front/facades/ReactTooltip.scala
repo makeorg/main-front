@@ -137,7 +137,7 @@ object ReactTooltip {
   case class GetContentAttribute(name: String) extends AttributeSpec {
     def :=(getContent: () => String): Attribute[js.Function0[String]] =
       Attribute(name = name, value = getContent, AS_IS)
-    def :=(getContents: Seq[() => String]): Attribute[js.Array[js.Function0[String]]] =
+    def :=(getContents: js.Array[() => String]): Attribute[js.Array[js.Function0[String]]] =
       Attribute(name = name, value = getContents.map(_.asInstanceOf[js.Function0[String]]).toJSArray, AS_IS)
   }
 

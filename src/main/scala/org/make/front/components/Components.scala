@@ -13,7 +13,7 @@ object Components {
   implicit class RichSpaceSeparatedStringAttributeSpec(val spec: SpaceSeparatedStringAttributeSpec) extends AnyVal {
     def :=(style: StyleA): Attribute[Iterable[String]] = spec := style.htmlClass
 
-    def :=(styleSeq: Seq[StyleA]): Attribute[Iterable[String]] = spec := styleSeq.map(_.htmlClass)
+    def :=(styleSeq: js.Array[StyleA]): Attribute[Iterable[String]] = spec := styleSeq.map(_.htmlClass).toSeq
   }
 
   object DangerouslySetInnerHtmlParameters {

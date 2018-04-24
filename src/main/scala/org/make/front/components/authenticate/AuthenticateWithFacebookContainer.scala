@@ -14,6 +14,7 @@ import org.scalajs.dom.experimental.Response
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
+import scala.scalajs.js
 import scala.util.{Failure, Success}
 
 object AuthenticateWithFacebookContainer {
@@ -53,7 +54,7 @@ object AuthenticateWithFacebookContainer {
           trackingParameters = props.wrapped.trackingParameters,
           isConnected = state.connectedUser.isDefined,
           facebookAppId = Configuration.facebookAppId,
-          errorMessages = Seq.empty,
+          errorMessages = js.Array(),
           signIn = signIn,
           isLookingLikeALink = props.wrapped.isLookingLikeALink
         )

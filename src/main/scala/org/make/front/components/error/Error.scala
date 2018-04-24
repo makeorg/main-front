@@ -15,72 +15,76 @@ import org.make.front.styles.ui.CTAStyles
 import org.make.front.styles.utils._
 import org.make.front.styles.vendors.FontAwesomeStyles
 
+import scala.scalajs.js
+
 object Error {
 
   case class ErrorProps(redirectToRandomTheme: () => Unit)
 
   lazy val reactClass: ReactClass =
     WithRouter(
-      React.createClass[ErrorProps, Unit](
-        displayName = "Error",
-        render = { self =>
-          <("error")()(
-            <.div(^.className := Seq(TableLayoutStyles.fullHeightWrapper))(
-              <.div(^.className := TableLayoutStyles.row)(
-                <.div(^.className := Seq(TableLayoutStyles.cell, ErrorStyles.mainHeaderWrapper))(
-                  <.div(^.className := RWDHideRulesStyles.invisible)(<.CookieAlertContainerComponent.empty),
-                  <.div(^.className := ErrorStyles.fixedMainHeaderWrapper)(
-                    <.CookieAlertContainerComponent.empty,
-                    <.MainHeaderContainer.empty
+      React
+        .createClass[ErrorProps, Unit](displayName = "Error", render = {
+          self =>
+            <("error")()(
+              <.div(^.className := js.Array(TableLayoutStyles.fullHeightWrapper))(
+                <.div(^.className := TableLayoutStyles.row)(
+                  <.div(^.className := js.Array(TableLayoutStyles.cell, ErrorStyles.mainHeaderWrapper))(
+                    <.div(^.className := RWDHideRulesStyles.invisible)(<.CookieAlertContainerComponent.empty),
+                    <.div(^.className := ErrorStyles.fixedMainHeaderWrapper)(
+                      <.CookieAlertContainerComponent.empty,
+                      <.MainHeaderContainer.empty
+                    )
                   )
-                )
-              ),
-              <.div(^.className := Seq(TableLayoutStyles.row, ErrorStyles.fullHeight))(
-                <.div(^.className := Seq(TableLayoutStyles.cell, ErrorStyles.articleCell))(
-                  <.div(^.className := Seq(LayoutRulesStyles.centeredRow, ErrorStyles.fullHeight))(
-                    <.article(^.className := ErrorStyles.article)(
-                      <.div(^.className := TableLayoutStyles.fullHeightWrapper)(
-                        <.div(
-                          ^.className := Seq(TableLayoutStyles.cellVerticalAlignMiddle, ErrorStyles.articleInnerWrapper)
-                        )(
-                          <.div(^.className := LayoutRulesStyles.row)(
-                            <.p(^.className := Seq(ErrorStyles.intro, TextStyles.mediumIntro))(
-                              unescape(I18n.t("error.intro"))
-                            ),
-                            <.div(^.className := ErrorStyles.titleWrapper)(
-                              <.h1(^.className := TextStyles.veryBigTitle)(unescape(I18n.t("error.title")))
-                            ),
-                            <.div(^.className := ErrorStyles.textWrapper)(
-                              <.p(^.className := Seq(ErrorStyles.text, TextStyles.mediumText))(
-                                unescape(I18n.t("error.recherche-intro"))
-                              )
-                            ),
-                            <.div(^.className := ErrorStyles.searchFormWrapper)(<.SearchFormContainer.empty),
-                            <.div(
-                              ^.className := Seq(
-                                RWDHideRulesStyles.showBlockBeyondMedium,
-                                LayoutRulesStyles.evenNarrowerCenteredRow
-                              )
-                            )(<.hr(^.className := ErrorStyles.separatorLine)()),
-                            <.div(^.className := ErrorStyles.textWrapper)(
-                              <.p(^.className := Seq(ErrorStyles.text, TextStyles.mediumText))(
-                                unescape(I18n.t("error.redirection-intro"))
-                              )
-                            ),
-                            <.ul(^.className := ErrorStyles.ctasWrapper)(
-                              <.li(^.className := ErrorStyles.ctaWrapper)(
-                                <.Link(^.className := Seq(CTAStyles.basic, CTAStyles.basicOnA), ^.to := s"/")(
-                                  <.i(^.className := FontAwesomeStyles.home)(),
-                                  unescape("&nbsp;" + I18n.t("error.redirect-to-home"))
+                ),
+                <.div(^.className := js.Array(TableLayoutStyles.row, ErrorStyles.fullHeight))(
+                  <.div(^.className := js.Array(TableLayoutStyles.cell, ErrorStyles.articleCell))(
+                    <.div(^.className := js.Array(LayoutRulesStyles.centeredRow, ErrorStyles.fullHeight))(
+                      <.article(^.className := ErrorStyles.article)(
+                        <.div(^.className := TableLayoutStyles.fullHeightWrapper)(
+                          <.div(
+                            ^.className := js
+                              .Array(TableLayoutStyles.cellVerticalAlignMiddle, ErrorStyles.articleInnerWrapper)
+                          )(
+                            <.div(^.className := LayoutRulesStyles.row)(
+                              <.p(^.className := js.Array(ErrorStyles.intro, TextStyles.mediumIntro))(
+                                unescape(I18n.t("error.intro"))
+                              ),
+                              <.div(^.className := ErrorStyles.titleWrapper)(
+                                <.h1(^.className := TextStyles.veryBigTitle)(unescape(I18n.t("error.title")))
+                              ),
+                              <.div(^.className := ErrorStyles.textWrapper)(
+                                <.p(^.className := js.Array(ErrorStyles.text, TextStyles.mediumText))(
+                                  unescape(I18n.t("error.recherche-intro"))
                                 )
                               ),
-                              <.li(^.className := ErrorStyles.ctaWrapper)(
-                                <.button(
-                                  ^.className := Seq(CTAStyles.basic, CTAStyles.basicOnButton),
-                                  ^.onClick := self.props.wrapped.redirectToRandomTheme
-                                )(
-                                  <.i(^.className := FontAwesomeStyles.random)(),
-                                  unescape("&nbsp;" + I18n.t("error.redirect-to-random-theme"))
+                              <.div(^.className := ErrorStyles.searchFormWrapper)(<.SearchFormContainer.empty),
+                              <.div(
+                                ^.className := js.Array(
+                                  RWDHideRulesStyles.showBlockBeyondMedium,
+                                  LayoutRulesStyles.evenNarrowerCenteredRow
+                                )
+                              )(<.hr(^.className := ErrorStyles.separatorLine)()),
+                              <.div(^.className := ErrorStyles.textWrapper)(
+                                <.p(^.className := js.Array(ErrorStyles.text, TextStyles.mediumText))(
+                                  unescape(I18n.t("error.redirection-intro"))
+                                )
+                              ),
+                              <.ul(^.className := ErrorStyles.ctasWrapper)(
+                                <.li(^.className := ErrorStyles.ctaWrapper)(
+                                  <.Link(^.className := js.Array(CTAStyles.basic, CTAStyles.basicOnA), ^.to := s"/")(
+                                    <.i(^.className := FontAwesomeStyles.home)(),
+                                    unescape("&nbsp;" + I18n.t("error.redirect-to-home"))
+                                  )
+                                ),
+                                <.li(^.className := ErrorStyles.ctaWrapper)(
+                                  <.button(
+                                    ^.className := js.Array(CTAStyles.basic, CTAStyles.basicOnButton),
+                                    ^.onClick := self.props.wrapped.redirectToRandomTheme
+                                  )(
+                                    <.i(^.className := FontAwesomeStyles.random)(),
+                                    unescape("&nbsp;" + I18n.t("error.redirect-to-random-theme"))
+                                  )
                                 )
                               )
                             )
@@ -90,13 +94,11 @@ object Error {
                     )
                   )
                 )
-              )
-            ),
-            <.NavInThemesContainerComponent.empty,
-            <.style()(ErrorStyles.render[String])
-          )
-        }
-      )
+              ),
+              <.NavInThemesContainerComponent.empty,
+              <.style()(ErrorStyles.render[String])
+            )
+        })
     )
 }
 

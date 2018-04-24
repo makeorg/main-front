@@ -14,9 +14,10 @@ import org.make.front.models.{
 import org.make.front.styles.ThemeStyles
 import org.make.front.styles.base.{RWDHideRulesStyles, TableLayoutStyles}
 import org.make.front.styles.utils._
-
 import scalacss.internal.StyleA
 import scalacss.internal.mutable.StyleSheet
+
+import scala.scalajs.js
 
 object MaybeTheme {
 
@@ -38,9 +39,9 @@ object MaybeTheme {
               )
             )()
           }.getOrElse(
-            <.section(^.className := Seq(TableLayoutStyles.fullHeightWrapper, MaybeThemeStyles.wrapper))(
+            <.section(^.className := js.Array(TableLayoutStyles.fullHeightWrapper, MaybeThemeStyles.wrapper))(
               <.div(^.className := TableLayoutStyles.row)(
-                <.div(^.className := Seq(TableLayoutStyles.cell, MaybeThemeStyles.mainHeaderWrapper))(
+                <.div(^.className := js.Array(TableLayoutStyles.cell, MaybeThemeStyles.mainHeaderWrapper))(
                   <.div(^.className := RWDHideRulesStyles.invisible)(<.CookieAlertContainerComponent.empty),
                   <.div(^.className := MaybeThemeStyles.fixedMainHeaderWrapper)(
                     <.CookieAlertContainerComponent.empty,
@@ -49,7 +50,7 @@ object MaybeTheme {
                 )
               ),
               <.div(^.className := TableLayoutStyles.row)(
-                <.div(^.className := Seq(MaybeThemeStyles.content, TableLayoutStyles.cellVerticalAlignMiddle))(
+                <.div(^.className := js.Array(MaybeThemeStyles.content, TableLayoutStyles.cellVerticalAlignMiddle))(
                   <.SpinnerComponent.empty
                 )
               ),

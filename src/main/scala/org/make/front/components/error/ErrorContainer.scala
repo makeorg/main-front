@@ -5,8 +5,9 @@ import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import io.github.shogowada.scalajs.reactjs.redux.ReactRedux
 import io.github.shogowada.scalajs.reactjs.redux.Redux.Dispatch
 import io.github.shogowada.scalajs.reactjs.router.RouterProps._
-import org.make.front.actions.{LoadConfiguration}
+import org.make.front.actions.LoadConfiguration
 import org.make.front.components.AppState
+
 import scala.util.Random
 
 object ErrorContainer {
@@ -20,7 +21,7 @@ object ErrorContainer {
           dispatch(LoadConfiguration)
         }
 
-        val randomThemeSlug = Random.shuffle(state.themes).head.slug
+        val randomThemeSlug = Random.shuffle(state.themes.toSeq).head.slug
         props.history.push(s"/theme/$randomThemeSlug")
       }
 

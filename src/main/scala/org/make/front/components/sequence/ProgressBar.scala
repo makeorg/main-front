@@ -9,8 +9,9 @@ import org.make.front.helpers.NumberFormat
 import org.make.front.styles.ThemeStyles
 import org.make.front.styles.base.TextStyles
 import org.make.front.styles.utils._
-
 import scalacss.internal.Attr
+
+import scala.scalajs.js
 
 object ProgressBar {
 
@@ -55,7 +56,7 @@ object ProgressBar {
         }
         <.div(^.className := ProgressBarStyles.progressBar)(
           <.p(
-            ^.className := Seq(
+            ^.className := js.Array(
               ProgressBarStyles.progressValue,
               DynamicProgressBarStyles.progressValue(progressionInPercent),
               DynamicProgressBarStyles
@@ -65,7 +66,7 @@ object ProgressBar {
             self.state.value + 1 + "/" + self.state.total
           } else { "0/0" })),
           <.p(
-            ^.className := Seq(
+            ^.className := js.Array(
               ProgressBarStyles.progressBarTrack,
               DynamicProgressBarStyles
                 .progressBar(progressionInPercent, self.props.wrapped.maybeThemeColor.getOrElse("rgba(0, 0, 0, 0.2)"))

@@ -16,6 +16,8 @@ import org.make.front.styles.base.TextStyles
 import org.make.front.styles.utils._
 import org.make.services.tracking.TrackingService.TrackingContext
 
+import scala.scalajs.js
+
 object RegisterWithSocialNetworksOrEmail {
 
   case class RegisterWithSocialNetworksOrEmailProps(operationId: Option[OperationId],
@@ -36,7 +38,7 @@ object RegisterWithSocialNetworksOrEmail {
           )
         )(),
         <.div(^.className := RegisterWithSocialNetworksOrEmailStyles.separatorWrapper)(
-          <.p(^.className := Seq(RegisterWithSocialNetworksOrEmailStyles.separator, TextStyles.smallText))(
+          <.p(^.className := js.Array(RegisterWithSocialNetworksOrEmailStyles.separator, TextStyles.smallText))(
             I18n.t("authenticate.register.separator")
           )
         ),
@@ -72,7 +74,7 @@ object RegisterWithSocialNetworksOrEmail {
         )
       )(),
       <.div(^.className := RegisterWithSocialNetworksOrEmailStyles.separatorWrapper)(
-        <.p(^.className := Seq(RegisterWithSocialNetworksOrEmailStyles.separator, TextStyles.mediumText))(
+        <.p(^.className := js.Array(RegisterWithSocialNetworksOrEmailStyles.separator, TextStyles.mediumText))(
           I18n.t("authenticate.register.separator")
         )
       ),

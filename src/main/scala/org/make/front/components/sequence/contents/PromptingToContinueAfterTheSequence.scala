@@ -9,15 +9,17 @@ import org.make.front.components.share.ShareProposal.ShareProps
 import org.make.front.facades.I18n
 import org.make.front.facades.Unescape.unescape
 import org.make.front.models.{
-  OperationWording => OperationWordingModel,
-  GradientColor => GradientColorModel,
-  OperationExpanded => OperationModel
+  GradientColor     => GradientColorModel,
+  OperationExpanded => OperationModel,
+  OperationWording  => OperationWordingModel
 }
 import org.make.front.styles.ThemeStyles
 import org.make.front.styles.base.{ColRulesStyles, LayoutRulesStyles, TextStyles, _}
 import org.make.front.styles.ui.CTAStyles
 import org.make.front.styles.utils._
 import org.make.front.styles.vendors.FontAwesomeStyles
+
+import scala.scalajs.js
 
 object PromptingToContinueAfterTheSequence {
 
@@ -48,54 +50,52 @@ object PromptingToContinueAfterTheSequence {
 
           <.div(^.className := TableLayoutStyles.fullHeightWrapper)(
             <.div(^.className := TableLayoutStyles.row)(
-              <.div(^.className := Seq(TableLayoutStyles.cell))(
+              <.div(^.className := js.Array(TableLayoutStyles.cell))(
                 <.div(
-                  ^.className := Seq(LayoutRulesStyles.row, PromptingToContinueAfterTheSequenceStyles.introWrapper)
+                  ^.className := js.Array(LayoutRulesStyles.row, PromptingToContinueAfterTheSequenceStyles.introWrapper)
                 )(
                   <.p(
-                    ^.className := Seq(
-                      PromptingToContinueAfterTheSequenceStyles.intro,
-                      TextStyles.bigText,
-                      TextStyles.boldText
-                    )
+                    ^.className := js
+                      .Array(PromptingToContinueAfterTheSequenceStyles.intro, TextStyles.bigText, TextStyles.boldText)
                   )(unescape(I18n.t("sequence.prompting-to-continue.intro")))
                 )
               )
             ),
             <.div(^.className := TableLayoutStyles.fullHeightRow)(
-              <.div(^.className := Seq(TableLayoutStyles.cell, LayoutRulesStyles.rowWithCols))(
+              <.div(^.className := js.Array(TableLayoutStyles.cell, LayoutRulesStyles.rowWithCols))(
                 <.div(
-                  ^.className := Seq(
+                  ^.className := js.Array(
                     PromptingToContinueAfterTheSequenceStyles.contentWrapper,
                     TableLayoutBeyondMediumStyles.fullHeightWrapper
                   )
                 )(
                   <.div(
-                    ^.className := Seq(
+                    ^.className := js.Array(
                       TableLayoutBeyondMediumStyles.cell,
                       ColRulesStyles.col,
                       ColRulesStyles.colTwoThirdsBeyondMedium
                     )
                   )(
                     <.div(
-                      ^.className := Seq(
+                      ^.className := js.Array(
                         PromptingToContinueAfterTheSequenceStyles.nextSequenceAccessWrapper,
                         TableLayoutBeyondMediumStyles.fullHeightWrapper,
                         DynamicPromptingToContinueAfterTheSequenceStyles.gradient
                       )
                     )(
                       <.div(
-                        ^.className := Seq(TableLayoutBeyondMediumStyles.cellVerticalAlignMiddle, LayoutRulesStyles.row)
+                        ^.className := js
+                          .Array(TableLayoutBeyondMediumStyles.cellVerticalAlignMiddle, LayoutRulesStyles.row)
                       )(
                         <.p(
-                          ^.className := Seq(
+                          ^.className := js.Array(
                             PromptingToContinueAfterTheSequenceStyles.nextSequenceAccessIntro,
                             TextStyles.mediumText
                           )
                         )(unescape(I18n.t("sequence.prompting-to-continue.continue.intro"))),
                         <.div(^.className := PromptingToContinueAfterTheSequenceStyles.nextSequenceAccessTitleWrapper)(
                           <.p(
-                            ^.className := Seq(
+                            ^.className := js.Array(
                               PromptingToContinueAfterTheSequenceStyles.nextSequenceAccessTitle,
                               TextStyles.biggerMediumText,
                               TextStyles.boldText
@@ -104,10 +104,10 @@ object PromptingToContinueAfterTheSequence {
                         ),
                         <.div(^.className := PromptingToContinueAfterTheSequenceStyles.ctaWrapper)(
                           <.button(
-                            ^.className := Seq(CTAStyles.basic, CTAStyles.basicOnButton),
+                            ^.className := js.Array(CTAStyles.basic, CTAStyles.basicOnButton),
                             ^.onClick := self.props.wrapped.clickOnButtonHandler
                           )(
-                            <.i(^.className := Seq(FontAwesomeStyles.play))(),
+                            <.i(^.className := js.Array(FontAwesomeStyles.play))(),
                             unescape("&nbsp;" + I18n.t("sequence.prompting-to-continue.continue.cta"))
                           )
                         )
@@ -115,23 +115,24 @@ object PromptingToContinueAfterTheSequence {
                     )
                   ),
                   <.div(
-                    ^.className := Seq(
+                    ^.className := js.Array(
                       TableLayoutBeyondMediumStyles.cell,
                       ColRulesStyles.col,
                       ColRulesStyles.colThirdBeyondMedium
                     )
                   )(
                     <.div(
-                      ^.className := Seq(
+                      ^.className := js.Array(
                         TableLayoutBeyondMediumStyles.fullHeightWrapper,
                         PromptingToContinueAfterTheSequenceStyles.learnMoreAccessWrapper
                       )
                     )(
                       <.div(
-                        ^.className := Seq(TableLayoutBeyondMediumStyles.cellVerticalAlignMiddle, LayoutRulesStyles.row)
+                        ^.className := js
+                          .Array(TableLayoutBeyondMediumStyles.cellVerticalAlignMiddle, LayoutRulesStyles.row)
                       )(
                         <.p(
-                          ^.className := Seq(
+                          ^.className := js.Array(
                             PromptingToContinueAfterTheSequenceStyles.learnMoreAccessIntro,
                             TextStyles.mediumText
                           )
@@ -142,7 +143,7 @@ object PromptingToContinueAfterTheSequence {
                         <.p(^.className := PromptingToContinueAfterTheSequenceStyles.ctaWrapper)(
                           <.Link(
                             ^.to := s"${self.props.wrapped.operation.country}/consultation/${self.props.wrapped.operation.slug}",
-                            ^.className := Seq(CTAStyles.basic, CTAStyles.basicOnA)
+                            ^.className := js.Array(CTAStyles.basic, CTAStyles.basicOnA)
                           )(unescape(I18n.t("sequence.prompting-to-continue.learn-more.cta")))
                         )
                       )
@@ -152,9 +153,9 @@ object PromptingToContinueAfterTheSequence {
               )
             ),
             <.div(^.className := TableLayoutStyles.row)(
-              <.div(^.className := Seq(TableLayoutStyles.cell))(
+              <.div(^.className := js.Array(TableLayoutStyles.cell))(
                 <.div(
-                  ^.className := Seq(LayoutRulesStyles.row, PromptingToContinueAfterTheSequenceStyles.shareWrapper)
+                  ^.className := js.Array(LayoutRulesStyles.row, PromptingToContinueAfterTheSequenceStyles.shareWrapper)
                 )(
                   <.ShareComponent(
                     ^.wrapped := ShareProps(
