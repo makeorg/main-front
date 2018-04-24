@@ -177,7 +177,7 @@ enablePlugins(GitHooks)
 useYarn := true
 
 git.formattedShaVersion := git.gitHeadCommit.value.map { sha =>
-  sha.take(7)
+  sha.take(10)
 }
 
 version in ThisBuild := {
