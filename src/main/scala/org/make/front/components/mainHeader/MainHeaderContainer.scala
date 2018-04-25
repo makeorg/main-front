@@ -11,7 +11,7 @@ object MainHeaderContainer {
   lazy val reactClass: ReactClass = ReactRedux.connectAdvanced(selectorFactory)(MainHeader.reactClass)
 
   def selectorFactory: (Dispatch) => (AppState, Props[Unit]) => MainHeader.MainHeaderProps =
-    (dispatch: Dispatch) => { (appState: AppState, props: Props[Unit]) =>
+    (_: Dispatch) => { (appState: AppState, _: Props[Unit]) =>
       {
         MainHeader.MainHeaderProps(country = appState.country)
       }

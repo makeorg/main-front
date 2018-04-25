@@ -5,12 +5,13 @@ import io.github.shogowada.scalajs.reactjs.VirtualDOM._
 import io.github.shogowada.scalajs.reactjs.router.WithRouter
 import org.make.front.Main.CssSettings._
 import org.make.front.components.Components.{RichVirtualDOMElements, _}
-import org.make.front.styles.base.{ColRulesStyles, RWDHideRulesStyles, LayoutRulesStyles, TextStyles, _}
+import org.make.front.components.users.authenticate.TriggerSignUp.TriggerSignUpProps
+import org.make.front.styles.base.{ColRulesStyles, LayoutRulesStyles, RWDHideRulesStyles, TextStyles, _}
 import org.make.front.styles.ui._
 
 object App {
 
-  final case class AppProps(language: String, country: String)
+  final case class AppProps(language: String, country: String, nVotesTriggerConnexion: Int)
 
   final case class AppState(language: String, country: String)
 
@@ -41,6 +42,7 @@ object App {
             ),
             <.ContainerComponent.empty,
             <.MainFooterComponent.empty,
+            <.TriggerSignUpComponent(^.wrapped := TriggerSignUpProps(self.props.wrapped.nVotesTriggerConnexion))(),
             <.style()(RWDHideRulesStyles.render[String])
           )
         }

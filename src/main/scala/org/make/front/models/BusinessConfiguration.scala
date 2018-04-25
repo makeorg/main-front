@@ -16,7 +16,9 @@ trait BusinessConfigurationResponse extends js.Object {
 case class BusinessConfiguration(proposalMinLength: Int,
                                  proposalMaxLength: Int,
                                  supportedCountries: Seq[CountryConfiguration],
-                                 themes: Seq[Theme]) {
+                                 themes: Seq[Theme],
+                                 nVotesTriggerConnexion: Int = 5,
+                                 maxTriggerConnexion: Int = 101010) {
   def themesForLocale(country: String, language: String): Seq[TranslatedTheme] = {
     val counter = new Counter()
     themes.filter(_.country == country).flatMap(_.toTranslatedTheme(language, counter))
