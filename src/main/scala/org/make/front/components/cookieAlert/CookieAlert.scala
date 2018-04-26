@@ -8,7 +8,7 @@ import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import io.github.shogowada.scalajs.reactjs.events.MouseSyntheticEvent
 import org.make.front.Main.CssSettings._
 import org.make.front.components.Components._
-import org.make.front.facades.I18n
+import org.make.front.facades.{I18n, Replacements}
 import org.make.front.middlewares.CookieAlertMiddleware
 import org.make.front.middlewares.CookieAlertMiddleware.CookieAlertListener
 import org.make.front.styles._
@@ -44,9 +44,9 @@ object CookieAlert {
         componentWillReceiveProps = { (self, props) =>
           self.setState(_.copy(isAlertOpened = props.wrapped.isAlertOpened))
         },
-        render = (self) => {
+        render = self => {
 
-          def close(): (MouseSyntheticEvent) => Unit = { event =>
+          def close(): MouseSyntheticEvent => Unit = { event =>
             event.preventDefault()
             self.setState(_.copy(isAlertOpened = false))
             self.props.wrapped.closeCallback()
@@ -71,7 +71,12 @@ object CookieAlert {
                 ),
                 <.p(
                   ^.className := js.Array(TextStyles.smallText, CookieAlertStyles.message),
-                  ^.dangerouslySetInnerHTML := I18n.t("cookie-alert")
+                  ^.dangerouslySetInnerHTML := I18n
+                    .t(
+                      "cookie-alert",
+                      replacements =
+                        Replacements(("link-cgu", I18n.t("link-cgu")), ("link-data-policy", I18n.t("link-data-policy")))
+                    )
                 )()
               ),
               <.style()(CookieAlertStyles.render[String])
@@ -104,7 +109,7 @@ object CookieAlertStyles extends StyleSheet.Inline {
   val message: StyleA = style(
     unsafeChild("a")(color(ThemeStyles.ThemeColor.primary)),
     paddingRight(20.pxToEm(13)),
-    ThemeStyles.MediaQueries.beyondSmall(paddingRight(20.pxToEm(16))),
+    ThemeStyles.MediaQueries.beyondSmall(paddingRight(20.pxToEm())),
     ThemeStyles.MediaQueries.beyondLarge(paddingRight.initial)
   )
 }
