@@ -136,7 +136,7 @@ object CurrentOperations {
                           ColRulesStyles.colHalfBeyondMedium
                         )
                       )(operationTile(operation))
-                    })
+                    }.toSeq)
                   } else {
                     <.div(
                       ^.className := js.Array(CurrentOperationsStyles.operationItem, LayoutRulesStyles.centeredRow)
@@ -159,7 +159,7 @@ object CurrentOperations {
                         ColRulesStyles.colThirdBeyondLarge
                       )
                     )(countryTile(country))
-                  })
+                  }.toSeq)
                 )
               )
             ),
