@@ -28,7 +28,7 @@ import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 import scala.scalajs.js
 import scala.util.{Failure, Success}
-
+import scalajs.js.Dynamic.{global => g}
 object SearchResults {
   final case class SearchResultsProps(
     onMoreResultsRequested: (js.Array[Proposal], Option[String]) => Future[SearchResult],
@@ -36,14 +36,16 @@ object SearchResults {
     maybeSequence: Option[SequenceId],
     maybeOperation: Option[OperationModel],
     maybeLocation: Option[Location],
-    isConnected: Boolean
+    isConnected: Boolean,
+    language: String
   )
 
   final case class SearchResultsState(listProposals: js.Array[Proposal],
                                       initialLoad: Boolean,
                                       hasRequestedMore: Boolean,
                                       hasMore: Boolean,
-                                      resultsCount: Int)
+                                      resultsCount: Int,
+                                      maybeOperation: Option[OperationModel])
 
   object SearchResultsState {
     val empty =
@@ -52,14 +54,22 @@ object SearchResults {
         initialLoad = true,
         hasRequestedMore = false,
         hasMore = false,
-        resultsCount = 0
+        resultsCount = 0,
+        maybeOperation = None
       )
   }
 
   lazy val reactClass: ReactClass =
     WithRouter(
-      React.createClass[SearchResultsProps, SearchResultsState](displayName = "SearchResults", getInitialState = { _ =>
-        SearchResultsState.empty
+      React.createClass[SearchResultsProps, SearchResultsState](displayName = "SearchResults", getInitialState = { self =>
+        SearchResultsState(
+          listProposals = js.Array(),
+          initialLoad = true,
+          hasRequestedMore = false,
+          hasMore = false,
+          resultsCount = 0,
+          maybeOperation = self.props.wrapped.maybeOperation
+        )
       }, shouldComponentUpdate = { (self, props, state) =>
         self.props.wrapped.isConnected != props.wrapped.isConnected ||
         self.state.listProposals.lengthCompare(state.listProposals.size) != 0 ||
@@ -81,7 +91,7 @@ object SearchResults {
                         "display-search-results-page",
                         TrackingContext(
                           TrackingLocation.searchResultsPage,
-                          self.props.wrapped.maybeOperation.map(_.slug)
+                          self.state.maybeOperation.map(_.slug)
                         ),
                         Map("results-count" -> searchResult.total.toString)
                       )
@@ -129,7 +139,7 @@ object SearchResults {
                                 proposal = proposal,
                                 index = counter.getAndIncrement(),
                                 maybeSequenceId = self.props.wrapped.maybeSequence,
-                                maybeOperation = self.props.wrapped.maybeOperation,
+                                maybeOperation = self.state.maybeOperation,
                                 maybeLocation = self.props.wrapped.maybeLocation,
                                 trackingLocation = TrackingLocation.searchResultsPage
                               )
@@ -148,7 +158,7 @@ object SearchResults {
                         "click-proposal-viewmore",
                         TrackingContext(
                           TrackingLocation.searchResultsPage,
-                          self.props.wrapped.maybeOperation.map(_.slug)
+                          self.state.maybeOperation.map(_.slug)
                         )
                       )
                   }, ^.className := js.Array(CTAStyles.basic, CTAStyles.basicOnButton))(unescape(I18n.t("search.results.see-more"))))
@@ -201,7 +211,9 @@ object SearchResults {
                     <.NoResultToSearchComponent(
                       ^.wrapped := NoResultToSearchProps(
                         searchValue = self.props.wrapped.searchValue,
-                        maybeLocation = self.props.wrapped.maybeLocation
+                        maybeLocation = self.props.wrapped.maybeLocation,
+                        maybeOperation = self.state.maybeOperation,
+                        language = self.props.wrapped.language
                       )
                     )()
                   }

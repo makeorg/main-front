@@ -39,6 +39,7 @@ object SearchResultsContainer {
       {
         val operationSlug: Option[String] = props.`match`.params.get("operationSlug")
         val themeSlug: Option[String] = props.`match`.params.get("themeSlug")
+        val countryCode: String = props.`match`.params.get("country").getOrElse("FR").toUpperCase
 
         val futureMaybeOperation: Future[Option[OperationModel]] = operationSlug match {
           case Some(slug) => OperationService.getOperationBySlug(slug)
@@ -144,7 +145,8 @@ object SearchResultsContainer {
               maybeSequence = None,
               maybeOperation = maybeOperation,
               maybeLocation = Some(LocationModel.SearchResultsPage),
-              isConnected = appState.connectedUser.isDefined
+              isConnected = appState.connectedUser.isDefined,
+              language = appState.language
             )
           },
           onNotFound = () => {
