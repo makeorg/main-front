@@ -9,6 +9,8 @@ import org.make.front.styles.ThemeStyles
 import org.make.front.styles.base.TableLayoutStyles
 import org.make.front.styles.utils._
 
+import scala.scalajs.js
+
 object WaitingForCurrentOperations {
 
   lazy val reactClass: ReactClass =
@@ -17,15 +19,18 @@ object WaitingForCurrentOperations {
         displayName = "WaitingForCurrentOperations",
         render = (_) => {
 
-          <.div(^.className := Seq(WaitingForCurrentOperationsStyles.wrapper, TableLayoutStyles.fullHeightWrapper))(
+          <.div(
+            ^.className := js.Array(WaitingForCurrentOperationsStyles.wrapper, TableLayoutStyles.fullHeightWrapper)
+          )(
             <.div(^.className := TableLayoutStyles.row)(
-              <.div(^.className := Seq(TableLayoutStyles.cell, WaitingForCurrentOperationsStyles.mainHeaderWrapper))(
-                <.MainHeaderContainer.empty
-              )
+              <.div(
+                ^.className := js.Array(TableLayoutStyles.cell, WaitingForCurrentOperationsStyles.mainHeaderWrapper)
+              )(<.MainHeaderContainer.empty)
             ),
             <.div(^.className := TableLayoutStyles.row)(
               <.div(
-                ^.className := Seq(WaitingForCurrentOperationsStyles.content, TableLayoutStyles.cellVerticalAlignMiddle)
+                ^.className := js
+                  .Array(WaitingForCurrentOperationsStyles.content, TableLayoutStyles.cellVerticalAlignMiddle)
               )(<.SpinnerComponent.empty)
             ),
             <.style()(WaitingForCurrentOperationsStyles.render[String])

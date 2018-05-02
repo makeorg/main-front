@@ -24,6 +24,8 @@ import org.make.front.styles.ThemeStyles
 import org.make.front.styles.base.{TableLayoutStyles, TextStyles}
 import org.make.services.tracking.TrackingLocation
 
+import scala.scalajs.js
+
 object ProposalTileWithTheme {
 
   final case class ProposalTileWithThemeProps(proposal: ProposalModel,
@@ -57,12 +59,12 @@ object ProposalTileWithTheme {
             }
 
             <.article(^.className := ProposalTileStyles.wrapper)(
-              <.div(^.className := Seq(TableLayoutStyles.fullHeightWrapper, ProposalTileStyles.innerWrapper))(
+              <.div(^.className := js.Array(TableLayoutStyles.fullHeightWrapper, ProposalTileStyles.innerWrapper))(
                 <.div(^.className := TableLayoutStyles.row)(
                   <.div(^.className := TableLayoutStyles.cell)(
                     intro,
                     <.div(^.className := ProposalTileStyles.contentWrapper)(
-                      <.h3(^.className := Seq(TextStyles.mediumText, TextStyles.boldText))(
+                      <.h3(^.className := js.Array(TextStyles.mediumText, TextStyles.boldText))(
                         <.Link(
                           ^.to := s"/${self.props.wrapped.country}/proposal/${self.props.wrapped.proposal.slug}",
                           ^.className := ProposalTileStyles.proposalLinkOnTitle
@@ -87,11 +89,11 @@ object ProposalTileWithTheme {
                   <.div(^.className := TableLayoutStyles.row)(
                     <.div(^.className := TableLayoutStyles.cellVerticalAlignBottom)(
                       <.footer(^.className := ProposalTileStyles.footer)(
-                        <.p(^.className := Seq(TextStyles.smallerText, ProposalTileWithThemeStyles.themeInfo))(
+                        <.p(^.className := js.Array(TextStyles.smallerText, ProposalTileWithThemeStyles.themeInfo))(
                           unescape(I18n.t("proposal.associated-with-the-theme")),
                           <.Link(
                             ^.to := s"/${self.props.wrapped.country}/theme/${self.props.wrapped.themeSlug}",
-                            ^.className := Seq(TextStyles.title, ProposalTileWithThemeStyles.themeName)
+                            ^.className := js.Array(TextStyles.title, ProposalTileWithThemeStyles.themeName)
                           )(self.props.wrapped.themeName)
                         )
                       )

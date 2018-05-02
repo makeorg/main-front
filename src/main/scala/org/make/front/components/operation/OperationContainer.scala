@@ -8,13 +8,14 @@ import io.github.shogowada.scalajs.reactjs.router.RouterProps._
 import org.make.front.actions.SetCountry
 import org.make.front.components.DataLoader.DataLoaderProps
 import org.make.front.components.{AppState, DataLoader}
-import org.make.front.models.{Operation => OperationModel, OperationExpanded, Tag}
+import org.make.front.models.{OperationExpanded, Tag, Operation => OperationModel}
 import org.make.services.operation.OperationService
 import org.make.services.tag.TagService
 import org.scalajs.dom
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
+import scala.scalajs.js
 
 object OperationContainer {
 
@@ -31,7 +32,7 @@ object OperationContainer {
         }
 
         val operationExpanded: () => Future[Option[OperationExpanded]] = () => {
-          val operationAndTags: Future[(Option[OperationModel], Seq[Tag])] = for {
+          val operationAndTags: Future[(Option[OperationModel], js.Array[Tag])] = for {
             operation <- OperationService.getOperationBySlugAndCountry(slug, countryCode)
             tags      <- TagService.getTags
 

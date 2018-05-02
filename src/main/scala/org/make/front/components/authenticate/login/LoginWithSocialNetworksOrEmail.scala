@@ -15,6 +15,8 @@ import org.make.front.styles.base.TextStyles
 import org.make.front.styles.utils._
 import org.make.services.tracking.TrackingService.TrackingContext
 
+import scala.scalajs.js
+
 object LoginWithSocialNetworksOrEmail {
 
   case class LoginWithSocialNetworksOrEmailProps(trackingContext: TrackingContext,
@@ -39,7 +41,7 @@ object LoginWithSocialNetworksOrEmail {
             )
           )(),
           <.div(^.className := LoginWithSocialNetworksOrEmailStyles.separatorWrapper)(
-            <.p(^.className := Seq(LoginWithSocialNetworksOrEmailStyles.separator, TextStyles.smallText))(
+            <.p(^.className := js.Array(LoginWithSocialNetworksOrEmailStyles.separator, TextStyles.smallText))(
               I18n.t("authenticate.login.separator")
             )
           ),

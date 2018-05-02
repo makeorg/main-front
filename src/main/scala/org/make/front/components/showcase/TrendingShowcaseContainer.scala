@@ -8,6 +8,8 @@ import org.make.front.components.AppState
 import org.make.front.models.{Location => LocationModel}
 import org.make.services.proposal.ProposalService
 
+import scala.scalajs.js
+
 object TrendingShowcaseContainer {
 
   final case class TrendingShowcaseContainerProps(intro: String,
@@ -26,8 +28,6 @@ object TrendingShowcaseContainer {
             .searchProposals(
               trending = Some(props.wrapped.trending),
               limit = Some(2),
-              sort = Seq.empty,
-              skip = None,
               isRandom = Some(true),
               language = Some(appState.language),
               country = Some(appState.country)

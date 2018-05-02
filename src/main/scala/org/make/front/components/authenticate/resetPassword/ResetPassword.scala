@@ -19,6 +19,8 @@ import org.make.front.styles.utils._
 import org.make.front.styles.vendors.FontAwesomeStyles
 import org.scalajs.dom.raw.HTMLInputElement
 
+import scala.scalajs.js
+
 object PasswordReset {
 
   case class PasswordResetProps(handleSubmit: (Self[PasswordResetProps, PasswordResetState])    => Unit,
@@ -48,8 +50,8 @@ object PasswordReset {
       render = self => {
         <.div(^.className := ResetPasswordStyles.wrapper)(
           <.div(^.className := ResetPasswordStyles.mainHeaderWrapper)(<.MainHeaderContainer.empty),
-          <.div(^.className := Seq(LayoutRulesStyles.centeredRow))(
-            <.div(^.className := Seq(ResetPasswordStyles.contentWrapper))(if (self.state.success) {
+          <.div(^.className := js.Array(LayoutRulesStyles.centeredRow))(
+            <.div(^.className := js.Array(ResetPasswordStyles.contentWrapper))(if (self.state.success) {
               successMessage
             } else if (self.state.isValidResetToken) {
               resetPasswordForm(self)
@@ -62,17 +64,17 @@ object PasswordReset {
       }
     )
 
-  def resetPasswordForm(self: Self[PasswordResetProps, PasswordResetState]): Seq[ReactElement] = {
-    Seq(
-      <.div(^.className := Seq(LayoutRulesStyles.centeredRow))(
-        <.h1(^.className := Seq(ResetPasswordStyles.title, TextStyles.mediumTitle))(
+  def resetPasswordForm(self: Self[PasswordResetProps, PasswordResetState]): js.Array[ReactElement] = {
+    js.Array(
+      <.div(^.className := js.Array(LayoutRulesStyles.centeredRow))(
+        <.h1(^.className := js.Array(ResetPasswordStyles.title, TextStyles.mediumTitle))(
           unescape(I18n.t("authenticate.reset-password.title"))
         )
       ),
       <.div(^.className := ResetPasswordStyles.content)(
-        <.div(^.className := Seq(LayoutRulesStyles.evenNarrowerCenteredRow))(
+        <.div(^.className := js.Array(LayoutRulesStyles.evenNarrowerCenteredRow))(
           <.div(^.className := ColRulesStyles.col)(
-            <.p(^.className := Seq(ResetPasswordStyles.message, TextStyles.smallText))(
+            <.p(^.className := js.Array(ResetPasswordStyles.message, TextStyles.smallText))(
               unescape(I18n.t("authenticate.reset-password.info")),
               <.form(^.onSubmit := handleSubmit(self), ^.novalidate := true)(
                 <.div(^.className := ResetPasswordStyles.newPasswordInputComponentWrapper)(
@@ -91,10 +93,10 @@ object PasswordReset {
                 },
                 <.div(^.className := ResetPasswordStyles.submitButtonWrapper)(
                   <.button(
-                    ^.className := Seq(CTAStyles.basicOnButton, CTAStyles.basic, CTAStyles.moreDiscreet),
+                    ^.className := js.Array(CTAStyles.basicOnButton, CTAStyles.basic, CTAStyles.moreDiscreet),
                     ^.`type` := "submit"
                   )(
-                    <.i(^.className := Seq(FontAwesomeStyles.thumbsUp))(),
+                    <.i(^.className := js.Array(FontAwesomeStyles.thumbsUp))(),
                     unescape("&nbsp;" + I18n.t("authenticate.reset-password.send-cta"))
                   )
                 )
@@ -106,11 +108,11 @@ object PasswordReset {
     )
   }
 
-  val invalidToken: Seq[ReactElement] = {
-    Seq(
-      <.div(^.className := Seq(LayoutRulesStyles.evenNarrowerCenteredRow))(
+  val invalidToken: js.Array[ReactElement] = {
+    js.Array(
+      <.div(^.className := js.Array(LayoutRulesStyles.evenNarrowerCenteredRow))(
         <.div(^.className := ColRulesStyles.col)(
-          <.p(^.className := Seq(ResetPasswordStyles.message, TextStyles.smallText))(
+          <.p(^.className := js.Array(ResetPasswordStyles.message, TextStyles.smallText))(
             unescape(I18n.t("authenticate.reset-password.failure.title"))
           )
         )
@@ -119,18 +121,18 @@ object PasswordReset {
   }
 
   val successMessage =
-    Seq(
-      <.div(^.className := Seq(LayoutRulesStyles.centeredRow))(
+    js.Array(
+      <.div(^.className := js.Array(LayoutRulesStyles.centeredRow))(
         <.div(^.className := ColRulesStyles.col)(
-          <.h1(^.className := Seq(ResetPasswordStyles.title, TextStyles.mediumTitle))(
+          <.h1(^.className := js.Array(ResetPasswordStyles.title, TextStyles.mediumTitle))(
             unescape(I18n.t("authenticate.reset-password.success.title"))
           )
         )
       ),
       <.div(^.className := ResetPasswordStyles.content)(
-        <.div(^.className := Seq(LayoutRulesStyles.evenNarrowerCenteredRow))(
+        <.div(^.className := js.Array(LayoutRulesStyles.evenNarrowerCenteredRow))(
           <.div(^.className := ColRulesStyles.col)(
-            <.p(^.className := Seq(ResetPasswordStyles.message, TextStyles.smallText))(
+            <.p(^.className := js.Array(ResetPasswordStyles.message, TextStyles.smallText))(
               unescape(I18n.t("authenticate.reset-password.success.info"))
             )
           )
@@ -148,7 +150,7 @@ object PasswordReset {
     self.setState(self.state.copy(errorMessage = ""))
     e.preventDefault()
 
-    val errors: Seq[String] = PasswordConstraint
+    val errors: js.Array[String] = PasswordConstraint
       .validate(Some(self.state.password), Map("minMessage" -> "authenticate.inputs.password.format-error-message"))
       .map(_.message)
 

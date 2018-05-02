@@ -20,6 +20,7 @@ import org.make.services.tracking.TrackingLocation
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
+import scala.scalajs.js
 import scala.util.{Failure, Success}
 
 object TrendingShowcase {
@@ -30,7 +31,7 @@ object TrendingShowcase {
                                          maybeLocation: Option[LocationModel],
                                          country: String)
 
-  final case class TrendingShowcaseState(proposals: Seq[ProposalModel])
+  final case class TrendingShowcaseState(proposals: js.Array[ProposalModel])
 
   def proposalTile(proposal: ProposalModel,
                    maybeLocation: Option[LocationModel],
@@ -69,7 +70,7 @@ object TrendingShowcase {
     React.createClass[TrendingShowcaseProps, TrendingShowcaseState](
       displayName = "TrendingShowcase",
       getInitialState = { _ =>
-        TrendingShowcaseState(Seq.empty)
+        TrendingShowcaseState(js.Array())
       },
       componentWillReceiveProps = { (self, props) =>
         props.wrapped.proposals().onComplete {
@@ -83,54 +84,61 @@ object TrendingShowcase {
 
         if (self.state.proposals.nonEmpty) {
           <.section(^.className := TrendingShowcaseStyles.wrapper)(
-            Seq(
-              <.header(^.className := LayoutRulesStyles.centeredRow)(
-                <.p(^.className := Seq(TrendingShowcaseStyles.intro, TextStyles.mediumText, TextStyles.intro))(
-                  self.props.wrapped.intro
-                ),
-                <.h2(^.className := TextStyles.mediumTitle)(
-                  self.props.wrapped.title,
-                  <.span(^.style := Map("display" -> "none"))("Make.org"),
-                  <.img(
-                    ^.className := TrendingShowcaseStyles.logo,
-                    ^.src := logoMake.toString,
-                    ^.alt := "Make.org",
-                    ^("data-pin-no-hover") := "true"
-                  )()
-                )
-              ),
-              <.div(
-                ^.className := Seq(
-                  RWDHideRulesStyles.hideBeyondMedium,
-                  LayoutRulesStyles.centeredRowWithCols,
-                  TrendingShowcaseStyles.slideshow
-                )
-              )(
-                <.Slider(^.infinite := false, ^.arrows := false)(
-                  self.state.proposals.map(
-                    proposal =>
-                      <.div(
-                        ^.className :=
-                          Seq(ColRulesStyles.col, TrendingShowcaseStyles.propasalItem)
-                      )(proposalTile(proposal, maybeLocation, counter, self.props.wrapped.country))
+            js.Array(
+                <.header(^.className := LayoutRulesStyles.centeredRow)(
+                  <.p(^.className := js.Array(TrendingShowcaseStyles.intro, TextStyles.mediumText, TextStyles.intro))(
+                    self.props.wrapped.intro
+                  ),
+                  <.h2(^.className := TextStyles.mediumTitle)(
+                    self.props.wrapped.title,
+                    <.span(^.style := Map("display" -> "none"))("Make.org"),
+                    <.img(
+                      ^.className := TrendingShowcaseStyles.logo,
+                      ^.src := logoMake.toString,
+                      ^.alt := "Make.org",
+                      ^("data-pin-no-hover") := "true"
+                    )()
                   )
-                )
-              ),
-              <.div(^.className := RWDHideRulesStyles.showBlockBeyondMedium)(
-                <.ul(^.className := Seq(TrendingShowcaseStyles.propasalsList, LayoutRulesStyles.centeredRowWithCols))(
-                  self.state.proposals.map(
-                    proposal =>
-                      <.li(
-                        ^.className := Seq(
-                          TrendingShowcaseStyles.propasalItem,
-                          ColRulesStyles.col,
-                          ColRulesStyles.colHalfBeyondMedium
-                        )
-                      )(proposalTile(proposal, maybeLocation, counter, self.props.wrapped.country))
+                ),
+                <.div(
+                  ^.className := js.Array(
+                    RWDHideRulesStyles.hideBeyondMedium,
+                    LayoutRulesStyles.centeredRowWithCols,
+                    TrendingShowcaseStyles.slideshow
+                  )
+                )(
+                  <.Slider(^.infinite := false, ^.arrows := false)(
+                    self.state.proposals
+                      .map(
+                        proposal =>
+                          <.div(
+                            ^.className :=
+                              js.Array(ColRulesStyles.col, TrendingShowcaseStyles.propasalItem)
+                          )(proposalTile(proposal, maybeLocation, counter, self.props.wrapped.country))
+                      )
+                      .toSeq
+                  )
+                ),
+                <.div(^.className := RWDHideRulesStyles.showBlockBeyondMedium)(
+                  <.ul(
+                    ^.className := js.Array(TrendingShowcaseStyles.propasalsList, LayoutRulesStyles.centeredRowWithCols)
+                  )(
+                    self.state.proposals
+                      .map(
+                        proposal =>
+                          <.li(
+                            ^.className := js.Array(
+                              TrendingShowcaseStyles.propasalItem,
+                              ColRulesStyles.col,
+                              ColRulesStyles.colHalfBeyondMedium
+                            )
+                          )(proposalTile(proposal, maybeLocation, counter, self.props.wrapped.country))
+                      )
+                      .toSeq
                   )
                 )
               )
-            ),
+              .toSeq,
             <.style()(TrendingShowcaseStyles.render[String])
           )
 

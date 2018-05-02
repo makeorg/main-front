@@ -18,6 +18,8 @@ import org.make.front.styles.vendors.FontAwesomeStyles
 import org.make.services.tracking.TrackingService.TrackingContext
 import org.make.services.tracking.{TrackingLocation, TrackingService}
 
+import scala.scalajs.js
+
 object PromptingToProposeInRelationToThemeTile {
 
   final case class PromptingToProposeInRelationToThemeTileProps(theme: TranslatedThemeModel)
@@ -45,13 +47,13 @@ object PromptingToProposeInRelationToThemeTile {
         }
 
         <.article(
-          ^.className := Seq(PromptingToProposeInRelationToThemeTileStyles.wrapper),
+          ^.className := js.Array(PromptingToProposeInRelationToThemeTileStyles.wrapper),
           ^.onClick := openProposalModalFromInput
         )(
           <.div(^.className := TableLayoutStyles.fullHeightWrapper)(
-            <.div(^.className := Seq(TableLayoutStyles.row, PromptingToProposeInRelationToThemeTileStyles.row))(
+            <.div(^.className := js.Array(TableLayoutStyles.row, PromptingToProposeInRelationToThemeTileStyles.row))(
               <.div(
-                ^.className := Seq(
+                ^.className := js.Array(
                   TableLayoutStyles.cell,
                   TableLayoutStyles.cellVerticalAlignBottom,
                   PromptingToProposeInRelationToThemeTileStyles.cell,
@@ -59,14 +61,14 @@ object PromptingToProposeInRelationToThemeTile {
                 )
               )(
                 <.div(^.className := TableLayoutStyles.wrapper)(
-                  <.div(^.className := Seq(TableLayoutStyles.cell, TableLayoutStyles.cellVerticalAlignBottom))(
-                    <.h3(^.className := Seq(TextStyles.mediumText, TextStyles.boldText))(
+                  <.div(^.className := js.Array(TableLayoutStyles.cell, TableLayoutStyles.cellVerticalAlignBottom))(
+                    <.h3(^.className := js.Array(TextStyles.mediumText, TextStyles.boldText))(
                       unescape(I18n.t("theme-showcase.prompting-to-propose-tile.intro"))
                     )
                   ),
-                  <.div(^.className := Seq(TableLayoutStyles.cell, TableLayoutStyles.cellVerticalAlignBottom))(
+                  <.div(^.className := js.Array(TableLayoutStyles.cell, TableLayoutStyles.cellVerticalAlignBottom))(
                     <.span(
-                      ^.className := Seq(
+                      ^.className := js.Array(
                         FontAwesomeStyles.lightbulbTransparent,
                         PromptingToProposeInRelationToThemeTileStyles.picto
                       )
@@ -75,16 +77,16 @@ object PromptingToProposeInRelationToThemeTile {
                 )
               )
             ),
-            <.div(^.className := Seq(TableLayoutStyles.row, PromptingToProposeInRelationToThemeTileStyles.row))(
+            <.div(^.className := js.Array(TableLayoutStyles.row, PromptingToProposeInRelationToThemeTileStyles.row))(
               <.div(
-                ^.className := Seq(
+                ^.className := js.Array(
                   TableLayoutStyles.cell,
                   PromptingToProposeInRelationToThemeTileStyles.cell,
                   PromptingToProposeInRelationToThemeTileStyles.inputWrapper
                 )
               )(
                 <.p(
-                  ^.className := Seq(
+                  ^.className := js.Array(
                     InputStyles.wrapper,
                     PromptingToProposeInRelationToThemeTileStyles.proposalInputWithIconWrapper
                   )

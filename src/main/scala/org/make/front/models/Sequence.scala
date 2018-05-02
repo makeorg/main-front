@@ -4,7 +4,10 @@ import org.make.services.sequence.SequenceResponse
 
 import scala.scalajs.js
 
-final case class Sequence(sequenceId: SequenceId, slug: String, title: String, proposals: Seq[Proposal] = Seq.empty)
+final case class Sequence(sequenceId: SequenceId,
+                          slug: String,
+                          title: String,
+                          proposals: js.Array[Proposal] = js.Array())
 
 object Sequence {
   def apply(sequenceResponse: SequenceResponse): Sequence = {

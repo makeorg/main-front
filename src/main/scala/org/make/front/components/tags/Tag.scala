@@ -9,6 +9,8 @@ import org.make.front.components.Components._
 import org.make.front.models.{Tag => TagModel}
 import org.make.front.styles.ui.TagStyles
 
+import scala.scalajs.js
+
 /**
   * Tag Element Component
   *
@@ -32,7 +34,8 @@ object Tag {
     displayName = "Tag",
     getInitialState = (_) => TagComponentState(isSelected = false),
     render = (self) => {
-      val tagClasses = if (self.state.isSelected) Seq(TagStyles.basic, TagStyles.activated) else Seq(TagStyles.basic)
+      val tagClasses =
+        if (self.state.isSelected) js.Array(TagStyles.basic, TagStyles.activated) else js.Array(TagStyles.basic)
       <("tag")()(<.a(^.className := tagClasses, ^.onClick := onClickTag(self))(self.props.wrapped.tag.label))
     }
   )

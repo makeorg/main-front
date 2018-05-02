@@ -4,6 +4,8 @@ import org.make.front.models._
 import org.make.services.tracking.TrackingLocation
 import org.make.services.tracking.TrackingService.TrackingContext
 
+import scala.scalajs.js
+
 object VFFOperationStaticData extends StaticDataOfOperation {
   override val data: OperationStaticData = OperationStaticData(
     slug = "vff",
@@ -13,7 +15,7 @@ object VFFOperationStaticData extends StaticDataOfOperation {
     logoUrl = VFFLogo.toString,
     whiteLogoUrl = VFFWhiteLogo.toString,
     shareUrl = "/vff.html_UTM_#/FR/consultation/vff/selection",
-    wording = Seq(
+    wording = js.Array(
       OperationWording(
         language = "fr",
         title = "Stop aux Violences Faites aux&nbsp;Femmes",
@@ -22,7 +24,7 @@ object VFFOperationStaticData extends StaticDataOfOperation {
       )
     ),
     extraSlides = (params: OperationExtraSlidesParams) => {
-      Seq(
+      js.Array(
         Slides.displaySequenceIntroCard(params, displayed = false, introWording = OperationIntroWording()),
         Slides.displaySignUpCard(params, !params.isConnected),
         Slides.displayProposalPushCard(params),
@@ -38,7 +40,7 @@ object VFFITOperationStaticData extends StaticDataOfOperation {
     logoUrl = VFFITLogo.toString,
     whiteLogoUrl = VFFITWhiteLogo.toString,
     shareUrl = "/vff-it.html_UTM_#/IT/consultation/vff/selection",
-    wording = Seq(
+    wording = js.Array(
       OperationWording(
         language = "it",
         title = "Stop alla violenza sulle donne",
@@ -49,7 +51,7 @@ object VFFITOperationStaticData extends StaticDataOfOperation {
     extraSlides = (params: OperationExtraSlidesParams) => {
       val trackingContext = TrackingContext(TrackingLocation.sequencePage, Some(params.operation.slug))
       val defaultTrackingParameters = Map("sequenceId" -> params.sequence.sequenceId.value)
-      Seq(
+      js.Array(
         Slides.displaySequenceIntroCard(params, introWording = OperationIntroWording()),
         Slides.displaySignUpCard(params, !params.isConnected),
         Slides.displayProposalPushCard(params),
@@ -65,7 +67,7 @@ object VFFGBOperationStaticData extends StaticDataOfOperation {
     logoUrl = VFFGBLogo.toString,
     whiteLogoUrl = VFFGBWhiteLogo.toString,
     shareUrl = "/vff-gb.html_UTM_#/GB/consultation/vff/selection",
-    wording = Seq(
+    wording = js.Array(
       OperationWording(
         language = "en",
         title = "Stop violence against women",
@@ -74,7 +76,7 @@ object VFFGBOperationStaticData extends StaticDataOfOperation {
       )
     ),
     extraSlides = (params: OperationExtraSlidesParams) => {
-      Seq(
+      js.Array(
         Slides.displaySequenceIntroCard(params, introWording = OperationIntroWording()),
         Slides.displaySignUpCard(params, !params.isConnected),
         Slides.displayProposalPushCard(params),

@@ -27,6 +27,7 @@ import org.make.services.tracking.TrackingLocation
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
+import scala.scalajs.js
 import scala.util.{Failure, Success}
 
 object Proposal {
@@ -66,13 +67,11 @@ object Proposal {
         render = { self =>
           <("proposal")()(
             <.div(
-              ^.className := Seq(
-                TableLayoutStyles.fullHeightWrapper,
-                ProposalStyles.wrapper(self.state.maybeProposal.isDefined)
-              )
+              ^.className := js
+                .Array(TableLayoutStyles.fullHeightWrapper, ProposalStyles.wrapper(self.state.maybeProposal.isDefined))
             )(
               <.div(^.className := TableLayoutStyles.row)(
-                <.div(^.className := Seq(TableLayoutStyles.cell, ProposalStyles.mainHeaderWrapper))(
+                <.div(^.className := js.Array(TableLayoutStyles.cell, ProposalStyles.mainHeaderWrapper))(
                   <.div(^.className := RWDHideRulesStyles.invisible)(<.CookieAlertContainerComponent.empty),
                   <.div(^.className := ProposalStyles.fixedMainHeaderWrapper)(
                     <.CookieAlertContainerComponent.empty,
@@ -80,28 +79,26 @@ object Proposal {
                   )
                 )
               ),
-              <.div(^.className := Seq(TableLayoutStyles.row, ProposalStyles.fullHeight))(
-                <.div(^.className := Seq(TableLayoutStyles.cell, ProposalStyles.articleCell))(
+              <.div(^.className := js.Array(TableLayoutStyles.row, ProposalStyles.fullHeight))(
+                <.div(^.className := js.Array(TableLayoutStyles.cell, ProposalStyles.articleCell))(
                   if (self.state.maybeProposal.isDefined) {
-                    <.div(^.className := Seq(LayoutRulesStyles.centeredRow, ProposalStyles.fullHeight))(
+                    <.div(^.className := js.Array(LayoutRulesStyles.centeredRow, ProposalStyles.fullHeight))(
                       <.article(^.className := ProposalStyles.article)(
                         <.div(^.className := TableLayoutStyles.fullHeightWrapper)(
                           <.div(
-                            ^.className := Seq(
-                              TableLayoutStyles.cellVerticalAlignMiddle,
-                              ProposalStyles.articleInnerWrapper
-                            )
+                            ^.className := js
+                              .Array(TableLayoutStyles.cellVerticalAlignMiddle, ProposalStyles.articleInnerWrapper)
                           )(
                             <.div(^.className := LayoutRulesStyles.row)(
                               <.div(^.className := ProposalStyles.infosWrapper)(
-                                <.p(^.className := Seq(TextStyles.mediumText, ProposalStyles.infos))(
+                                <.p(^.className := js.Array(TextStyles.mediumText, ProposalStyles.infos))(
                                   self.state.maybeProposal.map { proposal =>
                                     ProposalAuthorInfosFormat.apply(proposal)
                                   }
                                 )
                               ),
                               <.div(^.className := ProposalStyles.contentWrapper)(
-                                <.h1(^.className := Seq(TextStyles.bigText, TextStyles.boldText))(
+                                <.h1(^.className := js.Array(TextStyles.bigText, TextStyles.boldText))(
                                   self.state.maybeProposal.map(_.content)
                                 ),
                                 <.div(^.className := ProposalStyles.voteWrapper)(self.state.maybeProposal.map {
@@ -132,11 +129,11 @@ object Proposal {
                               } else {
                                 self.state.maybeTheme.map { theme =>
                                   <.div(^.className := ProposalStyles.themeInfoWrapper)(
-                                    <.p(^.className := Seq(TextStyles.mediumText, ProposalStyles.themeInfo))(
+                                    <.p(^.className := js.Array(TextStyles.mediumText, ProposalStyles.themeInfo))(
                                       unescape(I18n.t("proposal.associated-with-the-theme")),
                                       <.Link(
                                         ^.to := s"/${self.props.wrapped.country}/theme/${theme.slug}",
-                                        ^.className := Seq(TextStyles.title, ProposalStyles.themeName)
+                                        ^.className := js.Array(TextStyles.title, ProposalStyles.themeName)
                                       )(theme.title)
                                     )
                                   )
@@ -152,8 +149,8 @@ object Proposal {
                   }
                 )
               ) /*,
-              <.div(^.className := Seq(TableLayoutStyles.row))(
-                <.div(^.className := Seq(TableLayoutStyles.cell, ProposalStyles.shareArticleCell))(
+              <.div(^.className := js.Array(TableLayoutStyles.row))(
+                <.div(^.className := js.Array(TableLayoutStyles.cell, ProposalStyles.shareArticleCell))(
                   <.div(^.className := LayoutRulesStyles.centeredRow)(
                     <.ShareComponent(^.wrapped := ShareProps(intro = Some(unescape(I18n.t("proposal.share-intro")))))()
                   )

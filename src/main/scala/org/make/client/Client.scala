@@ -9,26 +9,29 @@ import js.JSConverters._
 trait Client {
   def baseUrl: String
 
-  def get[ENTITY <: js.Object](apiEndpoint: String, urlParams: Seq[(String, Any)], headers: Map[String, String]): Future[ENTITY]
+  def get[ENTITY <: js.Object](apiEndpoint: String,
+                               urlParams: js.Array[(String, Any)],
+                               headers: Map[String, String]): Future[ENTITY]
 
-  def post[ENTITY <: js.Object](apiEndpoint: String, urlParams: Seq[(String, Any)], data: InputData, headers: Map[String, String]): Future[ENTITY]
+  def post[ENTITY <: js.Object](apiEndpoint: String,
+                                urlParams: js.Array[(String, Any)],
+                                data: InputData,
+                                headers: Map[String, String]): Future[ENTITY]
 
   def put[ENTITY <: js.Object](apiEndpoint: String,
-                  urlParams: Seq[(String, Any)],
-                  data: InputData,
-                  headers: Map[String, String] = Map.empty): Future[ENTITY]
+                               urlParams: js.Array[(String, Any)],
+                               data: InputData,
+                               headers: Map[String, String] = Map.empty): Future[ENTITY]
 
   def patch[ENTITY <: js.Object](apiEndpoint: String,
-                    urlParams: Seq[(String, Any)],
-                    data: InputData,
-                    headers: Map[String, String] = Map.empty): Future[ENTITY]
+                                 urlParams: js.Array[(String, Any)],
+                                 data: InputData,
+                                 headers: Map[String, String] = Map.empty): Future[ENTITY]
 
-  def delete[ENTITY <: js.Object](
-    apiEndpoint: String,
-    urlParams: Seq[(String, Any)],
-    data: InputData,
-    headers: Map[String, String] = Map.empty
-  ): Future[ENTITY]
+  def delete[ENTITY <: js.Object](apiEndpoint: String,
+                                  urlParams: js.Array[(String, Any)],
+                                  data: InputData,
+                                  headers: Map[String, String] = Map.empty): Future[ENTITY]
 }
 
 trait HttpException extends Exception
@@ -48,11 +51,11 @@ object ValidationError {
 }
 
 trait ValidationFailedHttpException extends HttpException {
-  val errors: Seq[ValidationError]
+  val errors: js.Array[ValidationError]
   override def getMessage: String = { errors.toJSArray.toString }
 }
 
-case class BadRequestHttpException(override val errors: Seq[ValidationError]) extends ValidationFailedHttpException
+case class BadRequestHttpException(override val errors: js.Array[ValidationError]) extends ValidationFailedHttpException
 case object UnauthorizedHttpException extends HttpException
 case object ForbiddenHttpException extends HttpException
 case object NotFoundHttpException extends HttpException

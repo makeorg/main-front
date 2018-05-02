@@ -11,10 +11,10 @@ import org.make.front.components.share.ShareProposal.ShareProps
 import org.make.front.facades.I18n
 import org.make.front.facades.Unescape.unescape
 import org.make.front.models.{
-  OperationWording => OperationWordingModel,
-  SequenceId => SequenceIdModel,
-  GradientColor => GradientColorModel,
-  OperationExpanded => OperationModel
+  GradientColor     => GradientColorModel,
+  OperationExpanded => OperationModel,
+  OperationWording  => OperationWordingModel,
+  SequenceId        => SequenceIdModel
 }
 import org.make.front.styles.ThemeStyles
 import org.make.front.styles.base.{LayoutRulesStyles, TextStyles, _}
@@ -22,6 +22,8 @@ import org.make.front.styles.ui.CTAStyles
 import org.make.front.styles.utils._
 import org.make.services.tracking.TrackingService.TrackingContext
 import org.make.services.tracking.{TrackingLocation, TrackingService}
+
+import scala.scalajs.js
 
 object PromptingToGoBackToOperation {
 
@@ -68,64 +70,57 @@ object PromptingToGoBackToOperation {
             <.div(^.className := TableLayoutStyles.fullHeightWrapper)(
               <.div(^.className := TableLayoutStyles.row)(
                 <.div(^.className := TableLayoutStyles.cell)(
-                  <.div(^.className := Seq(LayoutRulesStyles.row, PromptingToGoBackToOperationStyles.introWrapper))(
+                  <.div(
+                    ^.className := js.Array(LayoutRulesStyles.row, PromptingToGoBackToOperationStyles.introWrapper)
+                  )(
                     <.p(
-                      ^.className := Seq(
-                        PromptingToGoBackToOperationStyles.intro,
-                        TextStyles.bigText,
-                        TextStyles.boldText
-                      )
+                      ^.className := js
+                        .Array(PromptingToGoBackToOperationStyles.intro, TextStyles.bigText, TextStyles.boldText)
                     )(unescape(I18n.t("sequence.prompting-to-continue.intro")))
                   )
                 )
               ),
               <.div(^.className := TableLayoutStyles.fullHeightRow)(
-                <.div(^.className := Seq(TableLayoutStyles.cell, LayoutRulesStyles.rowWithCols))(
+                <.div(^.className := js.Array(TableLayoutStyles.cell, LayoutRulesStyles.rowWithCols))(
                   <.div(
-                    ^.className := Seq(
+                    ^.className := js.Array(
                       PromptingToGoBackToOperationStyles.contentWrapper,
                       TableLayoutBeyondMediumStyles.fullHeightWrapper
                     )
                   )(
                     <.div(
-                      ^.className := Seq(
+                      ^.className := js.Array(
                         TableLayoutBeyondMediumStyles.cell,
                         ColRulesStyles.col,
                         ColRulesStyles.colHalfBeyondMedium
                       )
                     )(
                       <.div(
-                        ^.className := Seq(
+                        ^.className := js.Array(
                           TableLayoutBeyondMediumStyles.fullHeightWrapper,
                           PromptingToGoBackToOperationStyles.learnMoreAccessWrapper
                         )
                       )(
                         <.div(
-                          ^.className := Seq(
-                            TableLayoutBeyondMediumStyles.cellVerticalAlignMiddle,
-                            LayoutRulesStyles.row
-                          )
+                          ^.className := js
+                            .Array(TableLayoutBeyondMediumStyles.cellVerticalAlignMiddle, LayoutRulesStyles.row)
                         )(
                           <.div(^.className := PromptingToGoBackToOperationStyles.learnMoreAccessContent)(
                             <.p(
-                              ^.className := Seq(
-                                PromptingToGoBackToOperationStyles.learnMoreAccessIntro,
-                                TextStyles.mediumText
-                              )
+                              ^.className := js
+                                .Array(PromptingToGoBackToOperationStyles.learnMoreAccessIntro, TextStyles.mediumText)
                             )(unescape(I18n.t("sequence.prompting-to-continue.learn-more.intro"))),
                             <.p(^.className := PromptingToGoBackToOperationStyles.learnMoreAccessLogoWrapper)(
                               <.img(^.src := self.props.wrapped.operation.logoUrl, ^.alt := wording.title)()
                             ),
                             <.p(
-                              ^.className := Seq(
-                                PromptingToGoBackToOperationStyles.learnMoreAccessIntro,
-                                TextStyles.mediumText
-                              )
+                              ^.className := js
+                                .Array(PromptingToGoBackToOperationStyles.learnMoreAccessIntro, TextStyles.mediumText)
                             )(unescape(I18n.t("sequence.prompting-to-continue.learn-more.following-intro"))),
                             <.p(^.className := PromptingToGoBackToOperationStyles.ctaWrapper)(
                               <.button(
                                 ^.onClick := onClick,
-                                ^.className := Seq(CTAStyles.basic, CTAStyles.basicOnButton)
+                                ^.className := js.Array(CTAStyles.basic, CTAStyles.basicOnButton)
                               )(unescape(I18n.t("sequence.prompting-to-continue.learn-more.cta")))
                             )
                           )
@@ -133,27 +128,26 @@ object PromptingToGoBackToOperation {
                       )
                     ),
                     <.div(
-                      ^.className := Seq(
+                      ^.className := js.Array(
                         TableLayoutBeyondMediumStyles.cell,
                         ColRulesStyles.col,
                         ColRulesStyles.colHalfBeyondMedium
                       )
                     )(
                       <.div(
-                        ^.className := Seq(
+                        ^.className := js.Array(
                           TableLayoutBeyondMediumStyles.fullHeightWrapper,
                           PromptingToGoBackToOperationStyles.sharingWrapper
                         )
                       )(
                         <.div(
-                          ^.className := Seq(
-                            TableLayoutBeyondMediumStyles.cellVerticalAlignMiddle,
-                            LayoutRulesStyles.row
-                          )
+                          ^.className := js
+                            .Array(TableLayoutBeyondMediumStyles.cellVerticalAlignMiddle, LayoutRulesStyles.row)
                         )(
                           <.div(^.className := PromptingToGoBackToOperationStyles.sharingIntroWrapper)(
                             <.p(
-                              ^.className := Seq(PromptingToGoBackToOperationStyles.sharingIntro, TextStyles.mediumText)
+                              ^.className := js
+                                .Array(PromptingToGoBackToOperationStyles.sharingIntro, TextStyles.mediumText)
                             )(unescape(I18n.t("sequence.prompting-to-continue.share.intro")))
                           ),
                           <.ShareComponent(^.wrapped := ShareProps(operation = self.props.wrapped.operation))()

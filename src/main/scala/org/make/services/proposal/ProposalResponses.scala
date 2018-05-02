@@ -16,7 +16,7 @@ trait SearchResultResponse extends js.Object {
   val seed: js.UndefOr[Int]
 }
 
-case class SearchResult(total: Int, results: Seq[Proposal], seed: Option[Int])
+case class SearchResult(total: Int, results: js.Array[Proposal], seed: Option[Int])
 
 object SearchResult {
   def apply(searchResultResponse: SearchResultResponse): SearchResult = {

@@ -15,25 +15,27 @@ import org.make.front.styles.base.TextStyles
 import org.make.front.styles.utils._
 import org.make.front.styles.vendors.FontAwesomeStyles
 
+import scala.scalajs.js
+
 object FilterByTags {
 
   type FilterByTagsSelf = Self[FilterByTagsProps, FilterByTagsState]
 
-  case class FilterByTagsProps(tags: Seq[TagModel], onTagSelectionChange: Seq[TagModel] => Unit)
+  case class FilterByTagsProps(tags: js.Array[TagModel], onTagSelectionChange: js.Array[TagModel] => Unit)
 
-  case class FilterByTagsState(showAll: Boolean, selectedTags: Seq[TagModel])
+  case class FilterByTagsState(showAll: Boolean, selectedTags: js.Array[TagModel])
 
   lazy val reactClass: ReactClass =
     React.createClass[FilterByTagsProps, FilterByTagsState](
       displayName = "FilterByTags",
-      getInitialState = (_) => FilterByTagsState(showAll = false, selectedTags = Seq.empty),
+      getInitialState = (_) => FilterByTagsState(showAll = false, selectedTags = js.Array()),
       render = { self =>
         def handleSelectedTags(tag: TagModel): Unit = {
           val previouslySelectedTags = self.state.selectedTags
           val selectedTags = if (previouslySelectedTags.contains(tag)) {
             previouslySelectedTags.filterNot(_ == tag)
           } else {
-            previouslySelectedTags ++ Seq(tag)
+            previouslySelectedTags ++ js.Array(tag)
           }
           self.setState(_.copy(selectedTags = selectedTags))
           self.props.wrapped.onTagSelectionChange(selectedTags)
@@ -47,8 +49,8 @@ object FilterByTags {
 
         <.nav(^.className := FilterByTagsStyles.wrapper)(
           <.div(^.className := FilterByTagsStyles.introWrapper)(
-            <.p(^.className := Seq(FilterByTagsStyles.intro, TextStyles.smallText))(
-              <.i(^.className := Seq(FilterByTagsStyles.illInIntro, FontAwesomeStyles.lineChart))(),
+            <.p(^.className := js.Array(FilterByTagsStyles.intro, TextStyles.smallText))(
+              <.i(^.className := js.Array(FilterByTagsStyles.illInIntro, FontAwesomeStyles.lineChart))(),
               unescape(I18n.t("tags.filter.intro"))
             )
           ),

@@ -3,6 +3,8 @@ package org.make.front.operations
 import org.make.front.facades.mveLogo
 import org.make.front.models._
 
+import scala.scalajs.js
+
 object MVEOperationStaticData extends StaticDataOfOperation {
 
   override val data: OperationStaticData = {
@@ -16,7 +18,7 @@ object MVEOperationStaticData extends StaticDataOfOperation {
       logoUrl = mveLogo.toString,
       whiteLogoUrl = mveLogo.toString,
       shareUrl = "/mieux-vivre-ensemble.html_UTM_#/FR/consultation/mieux-vivre-ensemble/selection",
-      wording = Seq(
+      wording = js.Array(
         OperationWording(
           language = "fr",
           title = "Mieux Vivre Ensemble",
@@ -25,10 +27,11 @@ object MVEOperationStaticData extends StaticDataOfOperation {
         )
       ),
       extraSlides = (params: OperationExtraSlidesParams) => {
-        Seq(
-          Slides.displaySequenceIntroCard(params, introWording = OperationIntroWording(
-            duration = Some("Durée: 2 minutes")
-          )),
+        js.Array(
+          Slides.displaySequenceIntroCard(
+            params,
+            introWording = OperationIntroWording(duration = Some("Durée: 2 minutes"))
+          ),
           Slides.displaySignUpCard(params, !params.isConnected),
           Slides.displayProposalPushCard(params, displayed = false),
           Slides.displayFinalCard(params)

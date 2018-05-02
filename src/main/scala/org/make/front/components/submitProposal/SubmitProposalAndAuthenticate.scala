@@ -20,6 +20,7 @@ import org.make.services.tracking.TrackingService.TrackingContext
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
+import scala.scalajs.js
 import scala.util.{Failure, Success}
 
 object SubmitProposalAndAuthenticate {
@@ -98,7 +99,7 @@ object SubmitProposalAndAuthenticate {
               <.div(^.className := LayoutRulesStyles.narrowerCenteredRow)(
                 <.p(^.className := SubmitProposalAndAuthenticateStyles.title)(
                   <.span(^.className := SubmitProposalAndAuthenticateStyles.intro)(
-                    <.span(^.className := Seq(TextStyles.mediumText, TextStyles.intro))(
+                    <.span(^.className := js.Array(TextStyles.mediumText, TextStyles.intro))(
                       unescape(I18n.t("submit-proposal.authenticate.intro"))
                     )
                   ),

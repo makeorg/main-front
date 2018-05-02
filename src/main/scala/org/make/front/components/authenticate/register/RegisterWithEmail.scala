@@ -20,6 +20,7 @@ import org.make.services.tracking.TrackingService
 import org.scalajs.dom.raw.HTMLInputElement
 
 import scala.concurrent.ExecutionContext.Implicits.global
+import scala.scalajs.js
 import scala.util.{Failure, Success}
 
 object RegisterWithEmail {
@@ -46,8 +47,8 @@ object RegisterWithEmail {
           )
         }
 
-        val fieldsValidation: Seq[(String, Constraint, Map[String, String])] = {
-          Seq(
+        val fieldsValidation: js.Array[(String, Constraint, Map[String, String])] = {
+          js.Array(
             (
               "email",
               NotBlankConstraint.&(EmailConstraint),
@@ -116,11 +117,8 @@ object RegisterWithEmail {
 
         <.form(^.onSubmit := onSubmit, ^.novalidate := true)(
           <.label(
-            ^.className := Seq(
-              InputStyles.wrapper,
-              InputStyles.withIcon,
-              RegisterWithEmailStyles.emailInputWithIconWrapper
-            )
+            ^.className := js
+              .Array(InputStyles.wrapper, InputStyles.withIcon, RegisterWithEmailStyles.emailInputWithIconWrapper)
           )(
             <.input(
               ^.`type`.email,
@@ -148,16 +146,13 @@ object RegisterWithEmail {
             <.p(^.className := InputStyles.errorMessage)(unescape(self.state.errors.getOrElse("password", "")))
           },
           <.label(
-            ^.className := Seq(
-              InputStyles.wrapper,
-              InputStyles.withIcon,
-              RegisterWithEmailStyles.firstNameInputWithIconWrapper
-            )
+            ^.className := js
+              .Array(InputStyles.wrapper, InputStyles.withIcon, RegisterWithEmailStyles.firstNameInputWithIconWrapper)
           )(
             <.input(
               ^.`type`.text,
               ^.required := true,
-              ^.className := Seq(InputStyles.withIcon),
+              ^.className := js.Array(InputStyles.withIcon),
               ^.placeholder := s"${I18n.t("authenticate.inputs.first-name.placeholder")} ${I18n.t("authenticate.inputs.required")}",
               ^.onChange := updateField("firstName"),
               ^.value := self.state.fields.getOrElse("firstName", "")
@@ -171,13 +166,13 @@ object RegisterWithEmail {
           },
           if (self.props.wrapped.note != "") {
             <.p(
-              ^.className := Seq(RegisterWithEmailStyles.note, TextStyles.smallerText),
+              ^.className := js.Array(RegisterWithEmailStyles.note, TextStyles.smallerText),
               ^.dangerouslySetInnerHTML := self.props.wrapped.note
             )()
           },
           <.div(^.className := RegisterWithEmailStyles.submitButtonWrapper)(
-            <.button(^.className := Seq(CTAStyles.basicOnButton, CTAStyles.basic), ^.`type` := "submit")(
-              <.i(^.className := Seq(FontAwesomeStyles.thumbsUp))(),
+            <.button(^.className := js.Array(CTAStyles.basicOnButton, CTAStyles.basic), ^.`type` := "submit")(
+              <.i(^.className := js.Array(FontAwesomeStyles.thumbsUp))(),
               unescape("&nbsp;" + I18n.t("authenticate.register.send-cta"))
             )
           ),

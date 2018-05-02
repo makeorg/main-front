@@ -13,6 +13,8 @@ import org.make.front.styles.base.TextStyles
 import org.make.front.styles.utils._
 import org.make.services.tracking.TrackingService.TrackingContext
 
+import scala.scalajs.js
+
 object AuthenticateWithSocialNetworks {
 
   case class AuthenticateWithSocialNetworksProps(trackingContext: TrackingContext,
@@ -51,7 +53,7 @@ object AuthenticateWithSocialNetworks {
             ),
             if (self.props.wrapped.note != "") {
               <.div(^.className := AuthenticateWithSocialNetworksStyles.noteWrapper)(
-                <.p(^.className := Seq(AuthenticateWithSocialNetworksStyles.note, TextStyles.smallText))(
+                <.p(^.className := js.Array(AuthenticateWithSocialNetworksStyles.note, TextStyles.smallText))(
                   self.props.wrapped.note
                 )
               )

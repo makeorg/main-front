@@ -1,7 +1,6 @@
 package org.make.client
 
 import io.github.shogowada.statictags.MediaTypes
-import org.scalajs.dom
 import org.make.core.URI._
 import org.make.front.facades.Configuration
 import org.make.front.models.{OperationId, Token, TokenResponse}
@@ -26,19 +25,16 @@ object MakeApiClient extends Client {
 
   def getDefaultHeaders: Map[String, String] = {
     defaultHeaders ++
-    MakeApiClient.getToken.map { authToken =>
-      "Authorization" -> s"${authToken.token_type} ${authToken.access_token}"
+      MakeApiClient.getToken.map { authToken =>
+        "Authorization" -> s"${authToken.token_type} ${authToken.access_token}"
       } ++
       MakeApiClient.xSessionId.map { xSessionId =>
-      xSessionIdHeader -> xSessionId
+        xSessionIdHeader -> xSessionId
       }
   }
 
   var defaultHeaders: Map[String, String] = {
-    Map(
-      "Accept" -> MediaTypes.`application/json`,
-      "Content-Type" -> "application/json;charset=UTF-8"
-    )
+    Map("Accept" -> MediaTypes.`application/json`, "Content-Type" -> "application/json;charset=UTF-8")
   }
 
   def addHeaders(headers: Map[String, String]): Unit = {
@@ -75,7 +71,7 @@ object MakeApiClient extends Client {
       case AjaxException(response: XMLHttpRequest) =>
         response.status match {
           case 400 =>
-            val errors: Seq[JsValidationError] =
+            val errors: js.Array[JsValidationError] =
               JSON.parse(response.responseText).asInstanceOf[js.Array[JsValidationError]]
             Future.failed(BadRequestHttpException(errors.map(ValidationError.apply)))
           case 401                => Future.failed(UnauthorizedHttpException)
@@ -90,11 +86,11 @@ object MakeApiClient extends Client {
     }
   }
 
-  private def urlFrom(apiEndpoint: String, urlParams: Seq[(String, Any)] = Seq.empty): String =
-      (baseUrl / apiEndpoint).addParams(urlParams)
+  private def urlFrom(apiEndpoint: String, urlParams: js.Array[(String, Any)] = js.Array()): String =
+    (baseUrl / apiEndpoint).addParams(urlParams)
 
   override def get[ENTITY <: js.Object](apiEndpoint: String = "",
-                                        urlParams: Seq[(String, Any)] = Seq.empty,
+                                        urlParams: js.Array[(String, Any)] = js.Array(),
                                         headers: Map[String, String] = Map.empty): Future[ENTITY] = {
     val requestData = RequestData(
       method = "GET",
@@ -125,7 +121,7 @@ object MakeApiClient extends Client {
   }
 
   override def post[ENTITY <: js.Object](apiEndpoint: String = "",
-                                         urlParams: Seq[(String, Any)] = Seq.empty,
+                                         urlParams: js.Array[(String, Any)] = js.Array(),
                                          data: InputData = "",
                                          headers: Map[String, String] = Map.empty): Future[ENTITY] = {
     val requestData = RequestData(
@@ -141,7 +137,7 @@ object MakeApiClient extends Client {
   }
 
   override def put[ENTITY <: js.Object](apiEndpoint: String,
-                                        urlParams: Seq[(String, Any)],
+                                        urlParams: js.Array[(String, Any)],
                                         data: InputData,
                                         headers: Map[String, String]): Future[ENTITY] = {
     val requestData = RequestData(
@@ -157,7 +153,7 @@ object MakeApiClient extends Client {
   }
 
   override def patch[ENTITY <: js.Object](apiEndpoint: String,
-                                          urlParams: Seq[(String, Any)],
+                                          urlParams: js.Array[(String, Any)],
                                           data: InputData,
                                           headers: Map[String, String]): Future[ENTITY] = {
     val requestData = RequestData(
@@ -173,7 +169,7 @@ object MakeApiClient extends Client {
   }
 
   override def delete[ENTITY <: js.Object](apiEndpoint: String,
-                                           urlParams: Seq[(String, Any)],
+                                           urlParams: js.Array[(String, Any)],
                                            data: InputData,
                                            headers: Map[String, String]): Future[ENTITY] = {
     val requestData = RequestData(
@@ -199,7 +195,7 @@ object MakeApiClient extends Client {
   private def askForAccessToken(username: String, password: String): Future[Boolean] = {
     post[TokenResponse](
       "oauth" / "make_access_token",
-      data = "".paramsToString(Seq("username" -> username, "password" -> password, "grant_type" -> "password")),
+      data = "".paramsToString(js.Array("username" -> username, "password" -> password, "grant_type" -> "password")),
       headers = Map("Content-Type" -> MediaTypes.`application/x-www-form-urlencoded`)
     ).map(Token.apply).map { newToken =>
       MakeApiClient.setToken(Option(newToken))
@@ -207,7 +203,11 @@ object MakeApiClient extends Client {
     }
   }
 
-  def authenticateSocial(provider: String, token: String, country: String, language: String, operationId: Option[OperationId]): Future[Boolean] = {
+  def authenticateSocial(provider: String,
+                         token: String,
+                         country: String,
+                         language: String,
+                         operationId: Option[OperationId]): Future[Boolean] = {
     if (MakeApiClient.isAuthenticated) {
       Future.successful(true)
     } else {
@@ -221,13 +221,19 @@ object MakeApiClient extends Client {
     }
   }
 
-  private def askForAccessTokenSocial(provider: String, token: String, country: String, language: String, operationId: Option[OperationId]): Future[Boolean] = {
+  private def askForAccessTokenSocial(provider: String,
+                                      token: String,
+                                      country: String,
+                                      language: String,
+                                      operationId: Option[OperationId]): Future[Boolean] = {
     val headers = MakeApiClient.getDefaultHeaders ++ operationId.map(op => MakeApiClient.operationHeader -> op.value)
 
     post[TokenResponse](
       "user" / "login" / "social",
       headers = headers,
-      data = JSON.stringify(js.Dictionary("provider" -> provider, "token" -> token, "country" -> country, "language" -> language))
+      data = JSON.stringify(
+        js.Dictionary("provider" -> provider, "token" -> token, "country" -> country, "language" -> language)
+      )
     ).map(Token.apply).map { newToken =>
       MakeApiClient.setToken(Option(newToken))
       MakeApiClient.isAuthenticated
@@ -236,7 +242,12 @@ object MakeApiClient extends Client {
 
   def logout(): Future[Unit] =
     Ajax
-      .post(url = urlFrom("logout"), timeout = maxTimeout, headers = getDefaultHeaders, withCredentials = withCredentials)
+      .post(
+        url = urlFrom("logout"),
+        timeout = maxTimeout,
+        headers = getDefaultHeaders,
+        withCredentials = withCredentials
+      )
       .map(_ => MakeApiClient.removeToken())
 
 }

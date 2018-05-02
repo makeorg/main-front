@@ -9,6 +9,8 @@ import org.make.front.styles.ThemeStyles
 import org.make.front.styles.base.{RWDHideRulesStyles, TableLayoutStyles}
 import org.make.front.styles.utils._
 
+import scala.scalajs.js
+
 object WaitingForOperation {
 
   lazy val reactClass: ReactClass =
@@ -17,9 +19,9 @@ object WaitingForOperation {
         displayName = "WaitingForOperation",
         render = (self) => {
 
-          <.div(^.className := Seq(WaitingForOperationStyles.wrapper, TableLayoutStyles.fullHeightWrapper))(
+          <.div(^.className := js.Array(WaitingForOperationStyles.wrapper, TableLayoutStyles.fullHeightWrapper))(
             <.div(^.className := TableLayoutStyles.row)(
-              <.div(^.className := Seq(TableLayoutStyles.cell, WaitingForOperationStyles.mainHeaderWrapper))(
+              <.div(^.className := js.Array(TableLayoutStyles.cell, WaitingForOperationStyles.mainHeaderWrapper))(
                 <.div(^.className := RWDHideRulesStyles.invisible)(<.CookieAlertContainerComponent.empty),
                 <.div(^.className := WaitingForOperationStyles.fixedMainHeaderWrapper)(
                   <.CookieAlertContainerComponent.empty,
@@ -28,9 +30,9 @@ object WaitingForOperation {
               )
             ),
             <.div(^.className := TableLayoutStyles.row)(
-              <.div(^.className := Seq(WaitingForOperationStyles.content, TableLayoutStyles.cellVerticalAlignMiddle))(
-                <.SpinnerComponent.empty
-              )
+              <.div(
+                ^.className := js.Array(WaitingForOperationStyles.content, TableLayoutStyles.cellVerticalAlignMiddle)
+              )(<.SpinnerComponent.empty)
             ),
             <.style()(WaitingForOperationStyles.render[String])
           )

@@ -26,6 +26,8 @@ import org.make.front.styles.utils._
 import org.make.front.styles.vendors.FontAwesomeStyles
 import org.make.services.tracking.TrackingLocation
 
+import scala.scalajs.js
+
 object ProposalInsideSequence {
 
   final case class ProposalInsideSequenceProps(proposal: ProposalModel,
@@ -55,14 +57,16 @@ object ProposalInsideSequence {
           self.setState(ProposalInsideSequenceState(hasBeenVoted = props.wrapped.hasBeenVoted))
         },
         render = { self =>
-          <.div(^.className := Seq(LayoutRulesStyles.row))(
+          <.div(^.className := js.Array(LayoutRulesStyles.row))(
             <.div(^.className := ProposalInsideSequenceStyles.infosWrapper)(
-              <.p(^.className := Seq(TextStyles.mediumText, ProposalInsideSequenceStyles.infos))(
+              <.p(^.className := js.Array(TextStyles.mediumText, ProposalInsideSequenceStyles.infos))(
                 ProposalAuthorInfosFormat.apply(self.props.wrapped.proposal)
               )
             ),
             <.div(^.className := ProposalInsideSequenceStyles.contentWrapper)(
-              <.h3(^.className := Seq(TextStyles.bigText, TextStyles.boldText))(self.props.wrapped.proposal.content),
+              <.h3(^.className := js.Array(TextStyles.bigText, TextStyles.boldText))(
+                self.props.wrapped.proposal.content
+              ),
               <.div(^.className := ProposalInsideSequenceStyles.voteWrapper)(
                 <.VoteContainerComponent(
                   ^.wrapped := VoteContainerProps(
@@ -81,7 +85,7 @@ object ProposalInsideSequence {
                 )(),
                 <.div(^.className := ProposalInsideSequenceStyles.ctaWrapper)(
                   <.button(
-                    ^.className := Seq(
+                    ^.className := js.Array(
                       CTAStyles.basic,
                       CTAStyles.basicOnButton,
                       ProposalInsideSequenceStyles.ctaVisibility(self.props.wrapped.hasBeenVoted)

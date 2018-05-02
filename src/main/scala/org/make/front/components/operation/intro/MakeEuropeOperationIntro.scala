@@ -14,6 +14,8 @@ import org.make.front.styles.utils._
 import org.make.services.tracking.TrackingService.TrackingContext
 import org.make.services.tracking.{TrackingLocation, TrackingService}
 
+import scala.scalajs.js
+
 object MakeEuropeOperationIntro {
 
   case class MakeEuropeOperationIntroProps(operation: OperationModel, language: String)
@@ -39,7 +41,7 @@ object MakeEuropeOperationIntro {
 
           final case class CountryModel(flagUrl: String, code: String)
 
-          val countries = Seq(
+          val countries = js.Array(
             CountryModel(flagUrl = atFlag.toString, code = "Austria"),
             CountryModel(flagUrl = beFlag.toString, code = "Belgium"),
             CountryModel(flagUrl = bgFlag.toString, code = "Bulgaria"),
@@ -75,7 +77,7 @@ object MakeEuropeOperationIntro {
           }
 
           <.div(
-            ^.className := Seq(
+            ^.className := js.Array(
               OperationIntroStyles.wrapper,
               MakeEuropeOperationIntroStyles.wrapper,
               DynamicMakeEuropeOperationIntroStyles.gradient
@@ -88,24 +90,26 @@ object MakeEuropeOperationIntro {
               ^.alt := I18n.t("operation.make-europe.intro.title"),
               ^("data-pin-no-hover") := "true"
             )(),
-            <.div(^.className := Seq(OperationIntroStyles.headingWrapper, LayoutRulesStyles.centeredRow))(
-              <.p(^.className := Seq(MakeEuropeOperationIntroStyles.logoWrapper))(
+            <.div(^.className := js.Array(OperationIntroStyles.headingWrapper, LayoutRulesStyles.centeredRow))(
+              <.p(^.className := js.Array(MakeEuropeOperationIntroStyles.logoWrapper))(
                 <.img(
                   ^.src := makeEuropeWhiteLogo.toString,
                   ^.alt := unescape(I18n.t("operation.make-europe.intro.title"))
                 )()
               ),
               <.ul(^.className := MakeEuropeOperationIntroStyles.countriesList)(
-                countries.map(
-                  country =>
-                    <.li(^.className := MakeEuropeOperationIntroStyles.countryItem)(
-                      <.img(
-                        ^.src := country.flagUrl,
-                        ^.alt := country.code,
-                        ^.className := MakeEuropeOperationIntroStyles.countryLogo
-                      )()
+                countries
+                  .map(
+                    country =>
+                      <.li(^.className := MakeEuropeOperationIntroStyles.countryItem)(
+                        <.img(
+                          ^.src := country.flagUrl,
+                          ^.alt := country.code,
+                          ^.className := MakeEuropeOperationIntroStyles.countryLogo
+                        )()
+                    )
                   )
-                )
+                  .toSeq
               )
             ),
             <.style()(

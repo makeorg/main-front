@@ -14,11 +14,13 @@ import org.make.front.styles.utils._
 import scala.concurrent.Future
 import org.make.front.Main.CssSettings._
 
+import scala.scalajs.js
+
 object QualificateVote {
 
   final case class QualificateVoteProps(updateState: Boolean,
                                         voteKey: String,
-                                        qualifications: Seq[Qualification],
+                                        qualifications: js.Array[Qualification],
                                         qualify: (String)             => Future[Qualification],
                                         removeQualification: (String) => Future[Qualification],
                                         guide: Option[String] = None)
@@ -54,7 +56,7 @@ object QualificateVote {
                 )(),
                 <.style()(QualificateVoteStyles.render[String])
               )
-          }), if (self.props.wrapped.guide.getOrElse("") != "") {
+          }.toSeq), if (self.props.wrapped.guide.getOrElse("") != "") {
             <.p(^.className := QualificateVoteStyles.guide)(
               <.span(
                 ^.className := TextStyles.smallerText,

@@ -15,6 +15,8 @@ import org.make.front.facades.{
 }
 import org.make.front.models.{FeaturedArticle => FeaturedArticleModel}
 
+import scala.scalajs.js
+
 object FeaturedArticlesShowcaseContainer {
 
   lazy val reactClass: ReactClass = ReactRedux.connectAdvanced(selectorFactory)(FeaturedArticlesShowcase.reactClass)
@@ -22,7 +24,7 @@ object FeaturedArticlesShowcaseContainer {
   def selectorFactory: (Dispatch) => (AppState, Props[Unit]) => FeaturedArticlesShowcase.FeaturedArticlesShowcaseProps =
     (dispatch: Dispatch) => { (state: AppState, props: Props[Unit]) =>
       FeaturedArticlesShowcase.FeaturedArticlesShowcaseProps(
-        articles = Seq(
+        articles = js.Array(
           FeaturedArticleModel(
             illUrl = mveShowcase.toString,
             ill2xUrl = mveShowcaseX2.toString,

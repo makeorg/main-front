@@ -22,8 +22,9 @@ import org.make.front.styles.base.TextStyles
 import org.make.front.styles.utils._
 import org.make.services.tracking.TrackingLocation
 import org.make.services.tracking.TrackingService.TrackingContext
-
 import scalacss.internal.Attr
+
+import scala.scalajs.js
 
 object SubmitProposalInRelationToOperation {
 
@@ -71,15 +72,12 @@ object SubmitProposalInRelationToOperation {
               <.div()(
                 <.p(^.className := SubmitProposalInRelationToOperationStyles.title)(
                   <.span(
-                    ^.className := Seq(
-                      TextStyles.mediumText,
-                      TextStyles.intro,
-                      SubmitProposalInRelationToOperationStyles.intro
-                    )
+                    ^.className := js
+                      .Array(TextStyles.mediumText, TextStyles.intro, SubmitProposalInRelationToOperationStyles.intro)
                   )(unescape(I18n.t("operation.submit-proposal.intro"))),
                   <.br()(),
                   <.strong(
-                    ^.className := Seq(
+                    ^.className := js.Array(
                       TextStyles.veryBigTitle,
                       SubmitProposalInRelationToOperationStyles.operation,
                       DynamicSubmitProposalInRelationToOperationStyles.titleBackground

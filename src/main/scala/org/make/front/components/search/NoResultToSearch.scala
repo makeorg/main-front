@@ -19,6 +19,8 @@ import org.make.front.styles.vendors.FontAwesomeStyles
 import org.make.services.tracking.{TrackingLocation, TrackingService}
 import org.make.services.tracking.TrackingService.TrackingContext
 
+import scala.scalajs.js
+
 object NoResultToSearch {
 
   final case class NoResultToSearchProps(searchValue: Option[String], maybeLocation: Option[Location])
@@ -43,28 +45,25 @@ object NoResultToSearch {
           )
           self.setState(state => state.copy(isProposalModalOpened = true))
         }
-        <.article(^.className := Seq(LayoutRulesStyles.centeredRow, NoResultToSearchStyles.wrapper))(
+        <.article(^.className := js.Array(LayoutRulesStyles.centeredRow, NoResultToSearchStyles.wrapper))(
           <.p(^.className := NoResultToSearchStyles.sadSmiley)("😞"),
           <.h1(
-            ^.className := Seq(TextStyles.mediumText, NoResultToSearchStyles.searchedExpressionIntro),
+            ^.className := js.Array(TextStyles.mediumText, NoResultToSearchStyles.searchedExpressionIntro),
             ^.dangerouslySetInnerHTML := I18n.t("search.no-results.intro")
           )(),
-          <.h2(^.className := Seq(TextStyles.mediumTitle, NoResultToSearchStyles.searchedExpression))(
+          <.h2(^.className := js.Array(TextStyles.mediumTitle, NoResultToSearchStyles.searchedExpression))(
             unescape("«&nbsp;" + self.props.wrapped.searchValue.getOrElse("") + "&nbsp;»")
           ),
           <.hr(^.className := NoResultToSearchStyles.messageSeparator)(),
-          <.p(^.className := Seq(TextStyles.mediumText, NoResultToSearchStyles.openProposalModalIntro))(
+          <.p(^.className := js.Array(TextStyles.mediumText, NoResultToSearchStyles.openProposalModalIntro))(
             unescape(I18n.t("search.no-results.prompting-to-propose"))
           ),
           <.button(
-            ^.className := Seq(
-              NoResultToSearchStyles.openProposalModalButton,
-              CTAStyles.basic,
-              CTAStyles.basicOnButton
-            ),
+            ^.className := js
+              .Array(NoResultToSearchStyles.openProposalModalButton, CTAStyles.basic, CTAStyles.basicOnButton),
             ^.onClick := openProposalModal
           )(
-            <.i(^.className := Seq(FontAwesomeStyles.pencil))(),
+            <.i(^.className := js.Array(FontAwesomeStyles.pencil))(),
             unescape("&nbsp;" + I18n.t("search.no-results.propose-cta"))
           ),
           <.FullscreenModalComponent(

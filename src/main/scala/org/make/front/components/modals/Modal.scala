@@ -10,6 +10,8 @@ import org.make.front.styles._
 import org.make.front.styles.base.{RWDHideRulesStyles, TableLayoutStyles}
 import org.make.front.styles.utils._
 
+import scala.scalajs.js
+
 object Modal {
 
   case class ModalProps(isModalOpened: Boolean, closeCallback: () => Unit)
@@ -32,17 +34,15 @@ object Modal {
           ^.shouldCloseOnOverlayClick := true
         )(
           <.div(
-            ^.className := Seq(
-              TableLayoutStyles.fullHeightWrapper,
-              ModalStyles.preventMainScroll(!self.state.isModalOpened)
-            )
+            ^.className := js
+              .Array(TableLayoutStyles.fullHeightWrapper, ModalStyles.preventMainScroll(!self.state.isModalOpened))
           )(
             <.div(^.className := TableLayoutStyles.row)(
-              <.div(^.className := Seq(TableLayoutStyles.cell, ModalStyles.mainHeaderWrapper))(
+              <.div(^.className := js.Array(TableLayoutStyles.cell, ModalStyles.mainHeaderWrapper))(
                 <.div(^.className := RWDHideRulesStyles.invisible)(<.CookieAlertContainerComponent.empty)
               )
             ),
-            <.div(^.className := Seq(TableLayoutStyles.row, ModalStyles.contentWrapper))(
+            <.div(^.className := js.Array(TableLayoutStyles.row, ModalStyles.contentWrapper))(
               <.div(^.className := TableLayoutStyles.cellVerticalAlignMiddle)(
                 <.div(^.className := ModalStyles.centeredRow)(
                   <.div(^.className := ModalStyles.contentInnerWrapper)(

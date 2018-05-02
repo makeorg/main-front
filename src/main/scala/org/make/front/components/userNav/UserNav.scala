@@ -23,6 +23,8 @@ import org.make.front.styles.vendors.FontAwesomeStyles
 import org.make.services.tracking.TrackingLocation
 import org.make.services.tracking.TrackingService.TrackingContext
 
+import scala.scalajs.js
+
 object UserNav {
 
   case class UserNavProps(isConnected: Boolean,
@@ -75,10 +77,10 @@ object ConnectedUserNavElement {
               ^("data-pin-no-hover") := "true"
             )()
           } else {
-            <.i(^.className := Seq(UserNavStyles.avatarPlaceholder, FontAwesomeStyles.user))()
+            <.i(^.className := js.Array(UserNavStyles.avatarPlaceholder, FontAwesomeStyles.user))()
           }),
           <.span(
-            ^.className := Seq(
+            ^.className := js.Array(
               UserNavStyles.userNameWrapper,
               RWDHideRulesStyles.showInlineBlockBeyondMedium,
               TextStyles.title,
@@ -107,23 +109,25 @@ object UnconnectedUserNavElement {
 
     <.ul(^.className := UserNavStyles.menu)(
       <.li(^.className := UserNavStyles.menuItem)(
-        <.button(^.onClick := openLoginAuthenticateModal, ^.className := Seq(UserNavStyles.menuItemLink))(
-          <.i(^.className := Seq(UserNavStyles.menuItemIcon, FontAwesomeStyles.user))(),
+        <.button(^.onClick := openLoginAuthenticateModal, ^.className := js.Array(UserNavStyles.menuItemLink))(
+          <.i(^.className := js.Array(UserNavStyles.menuItemIcon, FontAwesomeStyles.user))(),
           <.span(
-            ^.className := Seq(RWDHideRulesStyles.showInlineBlockBeyondMedium, TextStyles.title, TextStyles.smallText)
+            ^.className := js
+              .Array(RWDHideRulesStyles.showInlineBlockBeyondMedium, TextStyles.title, TextStyles.smallText)
           )(I18n.t("user-nav.login"))
         ),
         <.span(
-          ^.className := Seq(
+          ^.className := js.Array(
             UserNavStyles.slash,
             RWDHideRulesStyles.showInlineBlockBeyondMedium,
             TextStyles.title,
             TextStyles.smallText
           )
         )(unescape("&nbsp;/&nbsp;")),
-        <.button(^.onClick := openRegisterAuthenticateModal, ^.className := Seq(UserNavStyles.menuItemLink))(
+        <.button(^.onClick := openRegisterAuthenticateModal, ^.className := js.Array(UserNavStyles.menuItemLink))(
           <.span(
-            ^.className := Seq(RWDHideRulesStyles.showInlineBlockBeyondMedium, TextStyles.title, TextStyles.smallText)
+            ^.className := js
+              .Array(RWDHideRulesStyles.showInlineBlockBeyondMedium, TextStyles.title, TextStyles.smallText)
           )(I18n.t("user-nav.register"))
         ),
         <.ModalComponent(

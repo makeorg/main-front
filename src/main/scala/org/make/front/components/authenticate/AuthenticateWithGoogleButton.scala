@@ -21,6 +21,7 @@ import org.scalajs.dom.experimental.Response
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
+import scala.scalajs.js
 import scala.scalajs.js.JSConverters._
 import scala.util.{Failure, Success}
 
@@ -31,16 +32,16 @@ object AuthenticateWithGoogleButton {
                                                isConnected: Boolean,
                                                signIn: (Response) => Future[_],
                                                googleAppId: String,
-                                               errorMessages: Seq[String],
+                                               errorMessages: js.Array[String],
                                                isLookingLikeALink: Boolean)
 
-  case class AuthenticateWithGoogleButtonState(errorMessages: Seq[String] = Seq.empty)
+  case class AuthenticateWithGoogleButtonState(errorMessages: js.Array[String] = js.Array())
 
   val reactClass: ReactClass =
     React.createClass[AuthenticateWithGoogleButtonProps, AuthenticateWithGoogleButtonState](
       displayName = "AuthenticateWithGoogle",
       getInitialState = { _ =>
-        AuthenticateWithGoogleButtonState(Seq.empty)
+        AuthenticateWithGoogleButtonState(js.Array())
       },
       render = { self =>
         def trackFailure(provider: String): Unit = {
@@ -64,33 +65,34 @@ object AuthenticateWithGoogleButton {
               self.setState(AuthenticateWithGoogleButtonState())
             case Failure(UnauthorizedHttpException) =>
               trackFailure(provider)
-              self.setState(state => state.copy(errorMessages = Seq("authenticate.no-account-found")))
+              self.setState(state => state.copy(errorMessages = js.Array("authenticate.no-account-found")))
             case Failure(BadRequestHttpException(_)) =>
               trackFailure(provider)
-              self.setState(state => state.copy(errorMessages = Seq("authenticate.no-email-found")))
+              self.setState(state => state.copy(errorMessages = js.Array("authenticate.no-email-found")))
             case Failure(_) =>
               trackFailure(provider)
-              self.setState(state => state.copy(errorMessages = Seq("authenticate.error-message")))
+              self.setState(state => state.copy(errorMessages = js.Array("authenticate.error-message")))
           }
         }
 
         val googleCallbackResponse: (Response) => Unit = { response =>
-          self.setState(self.state.copy(errorMessages = Seq.empty))
+          self.setState(self.state.copy(errorMessages = js.Array()))
           handleCallback(self.props.wrapped.signIn(response), "Google")
         }
 
         val googleCallbackFailure: (Response) => Unit = { _ =>
-          self.setState(self.state.copy(errorMessages = Seq(I18n.t("authenticate.no-account-found"))))
+          self.setState(self.state.copy(errorMessages = js.Array(I18n.t("authenticate.no-account-found"))))
         }
 
         val buttonClasses: String =
-          Seq(if (self.props.wrapped.isLookingLikeALink) {
-            TextStyles.smallText.htmlClass + " " +
-              AuthenticateWithGoogleButtonStyles.buttonLookingLikeALink.htmlClass
-          } else {
-            CTAStyles.basic.htmlClass + " " + CTAStyles.basicOnButton.htmlClass + " " +
-              AuthenticateWithGoogleButtonStyles.button.htmlClass
-          }).mkString(" ")
+          js.Array(if (self.props.wrapped.isLookingLikeALink) {
+              TextStyles.smallText.htmlClass + " " +
+                AuthenticateWithGoogleButtonStyles.buttonLookingLikeALink.htmlClass
+            } else {
+              CTAStyles.basic.htmlClass + " " + CTAStyles.basicOnButton.htmlClass + " " +
+                AuthenticateWithGoogleButtonStyles.button.htmlClass
+            })
+            .mkString(" ")
 
         <.ReactGoogleLogin(
           ^.clientID := self.props.wrapped.googleAppId,

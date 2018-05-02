@@ -29,22 +29,23 @@ import org.make.services.tracking.TrackingService.TrackingContext
 import org.make.services.tracking.{TrackingLocation, TrackingService}
 
 import scala.concurrent.Future
+import scala.scalajs.js
 
 object SequenceOfTheOperation {
 
   final case class SequenceOfTheOperationProps(isConnected: Boolean,
                                                operation: OperationModel,
-                                               startSequence: (Seq[ProposalId]) => Future[SequenceModel],
-                                               redirectHome: ()                 => Unit,
+                                               startSequence: (js.Array[ProposalId]) => Future[SequenceModel],
+                                               redirectHome: ()                      => Unit,
                                                sequence: SequenceModel,
                                                language: String,
                                                country: String,
-                                               handleCanUpdate: (Boolean)       => Unit)
+                                               handleCanUpdate: (Boolean) => Unit)
 
   final case class SequenceOfTheOperationState(isProposalModalOpened: Boolean,
                                                numberOfProposals: Int,
                                                operation: OperationModel,
-                                               extraSlides: Seq[ExtraSlide])
+                                               extraSlides: js.Array[ExtraSlide])
 
   lazy val reactClass: ReactClass =
     React.createClass[SequenceOfTheOperationProps, SequenceOfTheOperationState](
@@ -120,9 +121,9 @@ object SequenceOfTheOperation {
         }
 
         if (operation.isActive) {
-          <.section(^.className := Seq(TableLayoutStyles.fullHeightWrapper, SequenceOfTheOperationStyles.wrapper))(
-            <.div(^.className := Seq(TableLayoutStyles.row))(
-              <.div(^.className := Seq(TableLayoutStyles.cell, SequenceOfTheOperationStyles.mainHeaderWrapper))(
+          <.section(^.className := js.Array(TableLayoutStyles.fullHeightWrapper, SequenceOfTheOperationStyles.wrapper))(
+            <.div(^.className := js.Array(TableLayoutStyles.row))(
+              <.div(^.className := js.Array(TableLayoutStyles.cell, SequenceOfTheOperationStyles.mainHeaderWrapper))(
                 <.div(^.className := RWDHideRulesStyles.invisible)(<.CookieAlertContainerComponent.empty),
                 <.div(^.className := SequenceOfTheOperationStyles.fixedMainHeaderWrapper)(
                   <.CookieAlertContainerComponent.empty,
@@ -130,41 +131,37 @@ object SequenceOfTheOperation {
                 )
               )
             ),
-            <.div(^.className := Seq(TableLayoutStyles.row, DynamicSequenceOfTheOperationStyles.gradient))(
+            <.div(^.className := js.Array(TableLayoutStyles.row, DynamicSequenceOfTheOperationStyles.gradient))(
               <.div(^.className := TableLayoutStyles.cellVerticalAlignMiddle)(
                 <.div(^.className := LayoutRulesStyles.centeredRow)(
-                  <.header(^.className := Seq(TableLayoutStyles.wrapper, SequenceOfTheOperationStyles.header))(
+                  <.header(^.className := js.Array(TableLayoutStyles.wrapper, SequenceOfTheOperationStyles.header))(
                     <.p(
-                      ^.className := Seq(
-                        TableLayoutStyles.cellVerticalAlignMiddle,
-                        SequenceOfTheOperationStyles.backLinkWrapper
-                      )
+                      ^.className := js
+                        .Array(TableLayoutStyles.cellVerticalAlignMiddle, SequenceOfTheOperationStyles.backLinkWrapper)
                     )(
                       <.Link(
                         ^.className := SequenceOfTheOperationStyles.backLink,
                         ^.to := s"/${self.props.wrapped.country}/consultation/${operation.slug}"
                       )(
                         <.i(
-                          ^.className := Seq(SequenceOfTheOperationStyles.backLinkArrow, FontAwesomeStyles.angleLeft)
+                          ^.className := js
+                            .Array(SequenceOfTheOperationStyles.backLinkArrow, FontAwesomeStyles.angleLeft)
                         )(),
                         <.span(
-                          ^.className := Seq(
-                            TextStyles.smallText,
-                            TextStyles.title,
-                            RWDHideRulesStyles.showBlockBeyondMedium
-                          ),
+                          ^.className := js
+                            .Array(TextStyles.smallText, TextStyles.title, RWDHideRulesStyles.showBlockBeyondMedium),
                           ^.dangerouslySetInnerHTML := I18n.t("operation.sequence.header.back-cta")
                         )()
                       )
                     ),
-                    <.div(^.className := Seq(TableLayoutStyles.cell, SequenceOfTheOperationStyles.titleWrapper))(
-                      <.h1(^.className := Seq(SequenceOfTheOperationStyles.title, TextStyles.smallTitle))(
+                    <.div(^.className := js.Array(TableLayoutStyles.cell, SequenceOfTheOperationStyles.titleWrapper))(
+                      <.h1(^.className := js.Array(SequenceOfTheOperationStyles.title, TextStyles.smallTitle))(
                         unescape(
                           self.props.wrapped.operation.getWordingByLanguageOrError(self.props.wrapped.language).question
                         )
                       ),
                       <.h2(
-                        ^.className := Seq(
+                        ^.className := js.Array(
                           SequenceOfTheOperationStyles.totalOfPropositions,
                           TextStyles.smallText,
                           TextStyles.boldText
@@ -183,14 +180,12 @@ object SequenceOfTheOperation {
                       )
                     ),
                     <.div(
-                      ^.className := Seq(
-                        TableLayoutStyles.cell,
-                        SequenceOfTheOperationStyles.openProposalModalButtonWrapper
-                      )
+                      ^.className := js
+                        .Array(TableLayoutStyles.cell, SequenceOfTheOperationStyles.openProposalModalButtonWrapper)
                     )(
                       <.div(^.className := SequenceOfTheOperationStyles.openProposalModalButtonInnerWrapper)(
                         <.button(
-                          ^.className := Seq(
+                          ^.className := js.Array(
                             CTAStyles.basic,
                             CTAStyles.basicOnButton,
                             SequenceOfTheOperationStyles.openProposalModalButton,
@@ -198,7 +193,7 @@ object SequenceOfTheOperation {
                           ),
                           ^.onClick := openProposalModal
                         )(
-                          <.i(^.className := Seq(FontAwesomeStyles.pencil))(),
+                          <.i(^.className := js.Array(FontAwesomeStyles.pencil))(),
                           <.span(^.className := RWDHideRulesStyles.showInlineBlockBeyondMedium)(
                             unescape("&nbsp;" + I18n.t("operation.sequence.header.propose-cta"))
                           )
@@ -233,7 +228,7 @@ object SequenceOfTheOperation {
                 )
               )
             ),
-            <.div(^.className := Seq(TableLayoutStyles.fullHeightRow, SequenceOfTheOperationStyles.contentRow))(
+            <.div(^.className := js.Array(TableLayoutStyles.fullHeightRow, SequenceOfTheOperationStyles.contentRow))(
               <.div(^.className := TableLayoutStyles.cellVerticalAlignMiddle)(
                 <.SequenceContainerComponent(
                   ^.wrapped := SequenceContainerProps(

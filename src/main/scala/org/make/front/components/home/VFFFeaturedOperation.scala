@@ -14,6 +14,8 @@ import org.make.front.styles.utils._
 import org.make.services.tracking.TrackingService.TrackingContext
 import org.make.services.tracking.{TrackingLocation, TrackingService}
 
+import scala.scalajs.js
+
 object VFFFeaturedOperation {
 
   final case class VFFFeaturedOperationProps(trackingLocation: TrackingLocation)
@@ -30,9 +32,10 @@ object VFFFeaturedOperation {
             scalajs.js.Dynamic.global.window.open(I18n.t("home.featured-operation.vff.learn-more.link"), "_blank")
           }
 
-          <.section(^.className := Seq(TableLayoutStyles.wrapper, VFFFeaturedOperationStyles.wrapper))(
+          <.section(^.className := js.Array(TableLayoutStyles.wrapper, VFFFeaturedOperationStyles.wrapper))(
             <.div(
-              ^.className := Seq(TableLayoutStyles.cellVerticalAlignMiddle, VFFFeaturedOperationStyles.innerWrapper)
+              ^.className := js
+                .Array(TableLayoutStyles.cellVerticalAlignMiddle, VFFFeaturedOperationStyles.innerWrapper)
             )(
               <.img(
                 ^.className := VFFFeaturedOperationStyles.illustration,
@@ -41,18 +44,18 @@ object VFFFeaturedOperation {
                 ^.alt := I18n.t("home.featured-operation.vff.title"),
                 ^("data-pin-no-hover") := "true"
               )(),
-              <.div(^.className := Seq(VFFFeaturedOperationStyles.innerSubWrapper, LayoutRulesStyles.centeredRow))(
+              <.div(^.className := js.Array(VFFFeaturedOperationStyles.innerSubWrapper, LayoutRulesStyles.centeredRow))(
                 <.div(^.className := VFFFeaturedOperationStyles.labelWrapper)(
                   <.p(^.className := TextStyles.label)(unescape(I18n.t("home.featured-operation.vff.label")))
                 ),
-                <.h2(^.className := Seq(VFFFeaturedOperationStyles.title, TextStyles.veryBigText, TextStyles.boldText))(
-                  unescape(I18n.t("home.featured-operation.vff.title"))
-                ),
-                <.h3(^.className := Seq(TextStyles.mediumText, VFFFeaturedOperationStyles.subTitle))(
+                <.h2(
+                  ^.className := js.Array(VFFFeaturedOperationStyles.title, TextStyles.veryBigText, TextStyles.boldText)
+                )(unescape(I18n.t("home.featured-operation.vff.title"))),
+                <.h3(^.className := js.Array(TextStyles.mediumText, VFFFeaturedOperationStyles.subTitle))(
                   unescape(I18n.t("home.featured-operation.vff.purpose"))
                 ),
                 <.p(^.className := VFFFeaturedOperationStyles.ctaWrapper)(
-                  <.button(^.onClick := onclick, ^.className := Seq(CTAStyles.basic, CTAStyles.basicOnButton))(
+                  <.button(^.onClick := onclick, ^.className := js.Array(CTAStyles.basic, CTAStyles.basicOnButton))(
                     unescape(I18n.t("home.featured-operation.vff.learn-more.label"))
                   )
                 ),

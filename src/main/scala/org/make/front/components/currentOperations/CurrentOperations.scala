@@ -20,12 +20,14 @@ import org.make.front.styles.base._
 import org.make.front.styles.ui.CTAStyles
 import org.make.front.styles.utils._
 
+import scala.scalajs.js
+
 object CurrentOperations {
 
   final case class CurrentOperationsProps(country: String,
                                           language: String,
-                                          operations: Seq[OperationExpandedModel],
-                                          supportedCountries: Seq[CountryConfigurationModel])
+                                          operations: js.Array[OperationExpandedModel],
+                                          supportedCountries: js.Array[CountryConfigurationModel])
 
   lazy val reactClass: ReactClass =
     React
@@ -56,24 +58,24 @@ object CurrentOperations {
             <.article(^.className := OperationTileStyles.wrapper)(
               <.Link(^.to := s"/${self.props.wrapped.country}/consultation/${operation.slug}/selection")(
                 <.div(
-                  ^.className := Seq(
-                    OperationTileStyles.figure(isLongerBeyondMedium),
-                    DynamicOperationTileStyles.gradient(index)
-                  )
+                  ^.className := js
+                    .Array(OperationTileStyles.figure(isLongerBeyondMedium), DynamicOperationTileStyles.gradient(index))
                 )(
                   <.div(^.className := OperationTileStyles.illWrapper)(
                     <.img(^.src := operation.whiteLogoUrl, ^.alt := unescape(wording.title))()
                   )
                 )
               ),
-              <.div(^.className := Seq(OperationTileStyles.contentWrapper, TableLayoutStyles.wrapper))(
-                <.div(^.className := Seq(OperationTileStyles.titleWrapper, TableLayoutStyles.cellVerticalAlignMiddle))(
-                  <.p(^.className := TextStyles.verySmallTitle)(unescape(wording.question))
-                ),
-                <.div(^.className := Seq(OperationTileStyles.CTAWrapper, TableLayoutStyles.cellVerticalAlignMiddle))(
+              <.div(^.className := js.Array(OperationTileStyles.contentWrapper, TableLayoutStyles.wrapper))(
+                <.div(
+                  ^.className := js.Array(OperationTileStyles.titleWrapper, TableLayoutStyles.cellVerticalAlignMiddle)
+                )(<.p(^.className := TextStyles.verySmallTitle)(unescape(wording.question))),
+                <.div(
+                  ^.className := js.Array(OperationTileStyles.CTAWrapper, TableLayoutStyles.cellVerticalAlignMiddle)
+                )(
                   <.Link(
                     ^.to := s"/${self.props.wrapped.country}/consultation/${operation.slug}/selection",
-                    ^.className := Seq(CTAStyles.basic, CTAStyles.basicOnButton)
+                    ^.className := js.Array(CTAStyles.basic, CTAStyles.basicOnButton)
                   )(unescape(I18n.t("current-operations.see-operation-cta")))
                 )
               ),
@@ -83,23 +85,25 @@ object CurrentOperations {
 
           def countryTile(country: CountryConfigurationModel) =
             <.Link(^.to := s"/${country.countryCode}/")(
-              <.span(^.className := Seq(CountryTileStyles.wrapper, TableLayoutStyles.wrapper))(
-                <.span(^.className := Seq(CountryTileStyles.innerWrapper, TableLayoutStyles.cellVerticalAlignMiddle))(
+              <.span(^.className := js.Array(CountryTileStyles.wrapper, TableLayoutStyles.wrapper))(
+                <.span(
+                  ^.className := js.Array(CountryTileStyles.innerWrapper, TableLayoutStyles.cellVerticalAlignMiddle)
+                )(
                   <.img(
                     ^.className := CountryTileStyles.flag,
                     ^.src := country.flagUrl,
                     ^.alt := country.defaultLanguage
                   )(),
-                  <.span(^.className := Seq(CountryTileStyles.label, TextStyles.mediumText))(
+                  <.span(^.className := js.Array(CountryTileStyles.label, TextStyles.mediumText))(
                     I18n.t(s"current-operations.${country.countryCode}")
                   )
                 )
               )
             )
 
-          <.div(^.className := Seq(CurrentOperationsStyles.wrapper, TableLayoutStyles.fullHeightWrapper))(
+          <.div(^.className := js.Array(CurrentOperationsStyles.wrapper, TableLayoutStyles.fullHeightWrapper))(
             <.div(^.className := TableLayoutStyles.row)(
-              <.div(^.className := Seq(TableLayoutStyles.cell, CurrentOperationsStyles.mainHeaderWrapper))(
+              <.div(^.className := js.Array(TableLayoutStyles.cell, CurrentOperationsStyles.mainHeaderWrapper))(
                 <.div(^.className := RWDHideRulesStyles.invisible)(<.CookieAlertContainerComponent.empty),
                 <.div(^.className := CurrentOperationsStyles.fixedMainHeaderWrapper)(
                   <.CookieAlertContainerComponent.empty,
@@ -107,7 +111,7 @@ object CurrentOperations {
                 )
               )
             ),
-            <.div(^.className := Seq(TableLayoutStyles.row, CurrentOperationsStyles.fullHeight))(
+            <.div(^.className := js.Array(TableLayoutStyles.row, CurrentOperationsStyles.fullHeight))(
               <.div(^.className := TableLayoutStyles.cell)(
                 <.section(^.className := CurrentOperationsStyles.operations)(
                   <.header(^.className := LayoutRulesStyles.centeredRow)(
@@ -122,10 +126,11 @@ object CurrentOperations {
                   ),
                   if (self.props.wrapped.operations.lengthCompare(1) > 0) {
                     <.ul(
-                      ^.className := Seq(CurrentOperationsStyles.operationsList, LayoutRulesStyles.centeredRowWithCols)
+                      ^.className := js
+                        .Array(CurrentOperationsStyles.operationsList, LayoutRulesStyles.centeredRowWithCols)
                     )(self.props.wrapped.operations.map { operation =>
                       <.li(
-                        ^.className := Seq(
+                        ^.className := js.Array(
                           CurrentOperationsStyles.operationItem,
                           ColRulesStyles.col,
                           ColRulesStyles.colHalfBeyondMedium
@@ -133,9 +138,9 @@ object CurrentOperations {
                       )(operationTile(operation))
                     })
                   } else {
-                    <.div(^.className := Seq(CurrentOperationsStyles.operationItem, LayoutRulesStyles.centeredRow))(
-                      operationTile(self.props.wrapped.operations.head, isLongerBeyondMedium = true)
-                    )
+                    <.div(
+                      ^.className := js.Array(CurrentOperationsStyles.operationItem, LayoutRulesStyles.centeredRow)
+                    )(operationTile(self.props.wrapped.operations.head, isLongerBeyondMedium = true))
                   }
                 ),
                 <.section(^.className := CurrentOperationsStyles.countries)(
@@ -143,10 +148,11 @@ object CurrentOperations {
                     <.h2(^.className := TextStyles.mediumTitle)(unescape(I18n.t("current-operations.countries-intro")))
                   ),
                   <.ul(
-                    ^.className := Seq(CurrentOperationsStyles.countriesList, LayoutRulesStyles.centeredRowWithCols)
+                    ^.className := js
+                      .Array(CurrentOperationsStyles.countriesList, LayoutRulesStyles.centeredRowWithCols)
                   )(self.props.wrapped.supportedCountries.map { country =>
                     <.li(
-                      ^.className := Seq(
+                      ^.className := js.Array(
                         CurrentOperationsStyles.countryItem,
                         ColRulesStyles.col,
                         ColRulesStyles.colHalfBeyondSmall,

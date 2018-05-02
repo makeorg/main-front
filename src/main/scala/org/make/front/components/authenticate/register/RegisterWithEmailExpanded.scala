@@ -20,6 +20,7 @@ import org.make.services.tracking.TrackingService
 import org.scalajs.dom.raw.HTMLInputElement
 
 import scala.concurrent.ExecutionContext.Implicits.global
+import scala.scalajs.js
 import scala.util.{Failure, Success}
 
 object RegisterWithEmailExpanded {
@@ -46,8 +47,8 @@ object RegisterWithEmailExpanded {
           )
         }
 
-        val fieldsValidation: Seq[(String, Constraint, Map[String, String])] = {
-          Seq(
+        val fieldsValidation: js.Array[(String, Constraint, Map[String, String])] = {
+          js.Array(
             (
               "email",
               NotBlankConstraint.&(EmailConstraint),
@@ -115,7 +116,7 @@ object RegisterWithEmailExpanded {
 
         <.form(^.onSubmit := onSubmit, ^.novalidate := true)(
           <.label(
-            ^.className := Seq(
+            ^.className := js.Array(
               InputStyles.wrapper,
               InputStyles.withIcon,
               RegisterWithEmailExpandedStyles.emailInputWithIconWrapper
@@ -147,7 +148,7 @@ object RegisterWithEmailExpanded {
             <.p(^.className := InputStyles.errorMessage)(unescape(self.state.errors.getOrElse("password", "")))
           },
           <.label(
-            ^.className := Seq(
+            ^.className := js.Array(
               InputStyles.wrapper,
               InputStyles.withIcon,
               RegisterWithEmailExpandedStyles.firstNameInputWithIconWrapper
@@ -165,11 +166,8 @@ object RegisterWithEmailExpanded {
             <.p(^.className := InputStyles.errorMessage)(unescape(self.state.errors.getOrElse("firstName", "")))
           },
           <.label(
-            ^.className := Seq(
-              InputStyles.wrapper,
-              InputStyles.withIcon,
-              RegisterWithEmailExpandedStyles.ageInputWithIconWrapper
-            )
+            ^.className := js
+              .Array(InputStyles.wrapper, InputStyles.withIcon, RegisterWithEmailExpandedStyles.ageInputWithIconWrapper)
           )(
             // TODO: avoid number out of limit
             <.input(
@@ -186,7 +184,7 @@ object RegisterWithEmailExpanded {
             <.p(^.className := InputStyles.errorMessage)(unescape(self.state.errors.getOrElse("age", "")))
           },
           <.label(
-            ^.className := Seq(
+            ^.className := js.Array(
               InputStyles.wrapper,
               InputStyles.withIcon,
               RegisterWithEmailExpandedStyles.postalCodeInputWithIconWrapper
@@ -204,7 +202,7 @@ object RegisterWithEmailExpanded {
             <.p(^.className := InputStyles.errorMessage)(unescape(self.state.errors.getOrElse("postalCode", "")))
           },
           <.label(
-            ^.className := Seq(
+            ^.className := js.Array(
               InputStyles.wrapper,
               InputStyles.withIcon,
               RegisterWithEmailExpandedStyles.professionInputWithIconWrapper
@@ -226,13 +224,13 @@ object RegisterWithEmailExpanded {
           },
           if (self.props.wrapped.note != "") {
             <.p(
-              ^.className := Seq(RegisterWithEmailExpandedStyles.note, TextStyles.smallerText),
+              ^.className := js.Array(RegisterWithEmailExpandedStyles.note, TextStyles.smallerText),
               ^.dangerouslySetInnerHTML := self.props.wrapped.note
             )()
           },
           <.div(^.className := RegisterWithEmailExpandedStyles.submitButtonWrapper)(
-            <.button(^.className := Seq(CTAStyles.basicOnButton, CTAStyles.basic), ^.`type` := "submit")(
-              <.i(^.className := Seq(FontAwesomeStyles.thumbsUp))(),
+            <.button(^.className := js.Array(CTAStyles.basicOnButton, CTAStyles.basic), ^.`type` := "submit")(
+              <.i(^.className := js.Array(FontAwesomeStyles.thumbsUp))(),
               unescape("&nbsp;" + I18n.t("authenticate.register.send-cta"))
             )
           ),

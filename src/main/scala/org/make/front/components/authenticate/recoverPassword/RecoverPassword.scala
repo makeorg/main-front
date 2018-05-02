@@ -18,6 +18,7 @@ import org.scalajs.dom.raw.HTMLInputElement
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
+import scala.scalajs.js
 import scala.util.{Failure, Success}
 
 object RecoverPassword {
@@ -40,7 +41,7 @@ object RecoverPassword {
 
         val handleSubmit = (e: SyntheticEvent) => {
           e.preventDefault()
-          val errors: Seq[ConstraintError] =
+          val errors: js.Array[ConstraintError] =
             EmailConstraint
               .validate(Some(self.state.email), Map("invalid" -> "authenticate.inputs.email.format-error-message"))
 
@@ -63,20 +64,22 @@ object RecoverPassword {
           }
         }
 
-        val emailInputWrapperClasses = Seq(
-          InputStyles.wrapper.htmlClass,
-          InputStyles.withIcon.htmlClass,
-          RecoverPasswordStyles.emailInputWithIconWrapper.htmlClass,
-          if (self.state.errorMessage != "") {
-            InputStyles.withError.htmlClass
-          }
-        ).mkString(" ")
+        val emailInputWrapperClasses = js
+          .Array(
+            InputStyles.wrapper.htmlClass,
+            InputStyles.withIcon.htmlClass,
+            RecoverPasswordStyles.emailInputWithIconWrapper.htmlClass,
+            if (self.state.errorMessage != "") {
+              InputStyles.withError.htmlClass
+            }
+          )
+          .mkString(" ")
 
         <.div()(
           <.div(^.className := RecoverPasswordStyles.introWrapper)(
             <.p(^.className := TextStyles.smallTitle)(unescape(I18n.t("authenticate.recover-password.title")))
           ),
-          <.p(^.className := Seq(RecoverPasswordStyles.text, TextStyles.smallText))(
+          <.p(^.className := js.Array(RecoverPasswordStyles.text, TextStyles.smallText))(
             unescape(I18n.t("authenticate.recover-password.info"))
           ),
           <.form(^.onSubmit := handleSubmit, ^.novalidate := true)(
@@ -93,8 +96,8 @@ object RecoverPassword {
               <.p(^.className := InputStyles.errorMessage)(unescape(self.state.errorMessage))
             },
             <.div(^.className := RecoverPasswordStyles.submitButtonWrapper)(
-              <.button(^.className := Seq(CTAStyles.basic, CTAStyles.basicOnButton), ^.`type`.submit)(
-                <.i(^.className := Seq(FontAwesomeStyles.paperPlaneTransparent))(),
+              <.button(^.className := js.Array(CTAStyles.basic, CTAStyles.basicOnButton), ^.`type`.submit)(
+                <.i(^.className := js.Array(FontAwesomeStyles.paperPlaneTransparent))(),
                 unescape("&nbsp;" + I18n.t("authenticate.recover-password.send-cta"))
               )
             )

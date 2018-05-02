@@ -14,6 +14,8 @@ import org.make.front.styles.utils._
 import org.make.services.tracking.TrackingService.TrackingContext
 import org.make.services.tracking.{TrackingLocation, TrackingService}
 
+import scala.scalajs.js
+
 object CAJFeaturedOperation {
 
   final case class CAJFeaturedOperationProps(trackingLocation: TrackingLocation)
@@ -34,9 +36,10 @@ object CAJFeaturedOperation {
               .open(I18n.t("home.featured-operation.chance-aux-jeunes.learn-more.link"), "_blank")
           }
 
-          <.section(^.className := Seq(TableLayoutStyles.wrapper, CAJFeaturedOperationStyles.wrapper))(
+          <.section(^.className := js.Array(TableLayoutStyles.wrapper, CAJFeaturedOperationStyles.wrapper))(
             <.div(
-              ^.className := Seq(TableLayoutStyles.cellVerticalAlignMiddle, CAJFeaturedOperationStyles.innerWrapper)
+              ^.className := js
+                .Array(TableLayoutStyles.cellVerticalAlignMiddle, CAJFeaturedOperationStyles.innerWrapper)
             )(
               <.img(
                 ^.className := CAJFeaturedOperationStyles.illustration,
@@ -45,20 +48,20 @@ object CAJFeaturedOperation {
                 ^.alt := I18n.t("home.featured-operation.chance-aux-jeunes.intro.title"),
                 ^("data-pin-no-hover") := "true"
               )(),
-              <.div(^.className := Seq(CAJFeaturedOperationStyles.innerSubWrapper, LayoutRulesStyles.centeredRow))(
+              <.div(^.className := js.Array(CAJFeaturedOperationStyles.innerSubWrapper, LayoutRulesStyles.centeredRow))(
                 <.div(^.className := CAJFeaturedOperationStyles.labelWrapper)(
                   <.p(^.className := TextStyles.label)(
                     unescape(I18n.t("home.featured-operation.chance-aux-jeunes.label"))
                   )
                 ),
-                <.h2(^.className := Seq(CAJFeaturedOperationStyles.title, TextStyles.veryBigText, TextStyles.boldText))(
-                  unescape(I18n.t("home.featured-operation.chance-aux-jeunes.title"))
-                ),
-                <.h3(^.className := Seq(TextStyles.mediumText, CAJFeaturedOperationStyles.subTitle))(
+                <.h2(
+                  ^.className := js.Array(CAJFeaturedOperationStyles.title, TextStyles.veryBigText, TextStyles.boldText)
+                )(unescape(I18n.t("home.featured-operation.chance-aux-jeunes.title"))),
+                <.h3(^.className := js.Array(TextStyles.mediumText, CAJFeaturedOperationStyles.subTitle))(
                   unescape(I18n.t("home.featured-operation.chance-aux-jeunes.purpose"))
                 ),
                 <.p(^.className := CAJFeaturedOperationStyles.ctaWrapper)(
-                  <.button(^.onClick := onclick, ^.className := Seq(CTAStyles.basic, CTAStyles.basicOnButton))(
+                  <.button(^.onClick := onclick, ^.className := js.Array(CTAStyles.basic, CTAStyles.basicOnButton))(
                     unescape(I18n.t("home.featured-operation.chance-aux-jeunes.learn-more.label"))
                   )
                 ),

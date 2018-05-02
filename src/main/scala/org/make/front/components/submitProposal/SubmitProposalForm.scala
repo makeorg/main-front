@@ -19,6 +19,8 @@ import org.make.services.tracking.{TrackingLocation, TrackingService}
 import org.make.services.tracking.TrackingService.TrackingContext
 import org.scalajs.dom.raw.HTMLInputElement
 
+import scala.scalajs.js
+
 object SubmitProposalForm {
 
   type SubmitProposalFormSelf = React.Self[SubmitProposalFormProps, SubmitProposalFormState]
@@ -119,7 +121,7 @@ object SubmitProposalForm {
               )
             },
             <.label(
-              ^.className := Seq(
+              ^.className := js.Array(
                 InputStyles.wrapper,
                 InputStyles.withIcon,
                 InputStyles.biggerWithIcon,
@@ -127,7 +129,7 @@ object SubmitProposalForm {
               )
             )(
               <.span(^.className := TableLayoutStyles.wrapper)(
-                <.span(^.className := Seq(TableLayoutStyles.cell, SubmitProposalFormStyles.textareaWapper))(
+                <.span(^.className := js.Array(TableLayoutStyles.cell, SubmitProposalFormStyles.textareaWapper))(
                   <.TextareaAutosize(
                     ^.className := SubmitProposalFormStyles.textarea,
                     ^.value := self.state.proposalContent,
@@ -137,7 +139,7 @@ object SubmitProposalForm {
                   )()
                 ),
                 <.span(^.className := TableLayoutStyles.cellVerticalAlignBottom)(
-                  <.span(^.className := Seq(TextStyles.smallText, SubmitProposalFormStyles.textLimitInfo))(
+                  <.span(^.className := js.Array(TextStyles.smallText, SubmitProposalFormStyles.textLimitInfo))(
                     self.state.proposalContent.length,
                     "/",
                     props.proposalContentMaxLength
@@ -157,7 +159,7 @@ object SubmitProposalForm {
             )()
           ),
           <.button(
-            ^.className := Seq(SubmitProposalFormStyles.submitButton, CTAStyles.basic, CTAStyles.basicOnButton),
+            ^.className := js.Array(SubmitProposalFormStyles.submitButton, CTAStyles.basic, CTAStyles.basicOnButton),
             ^.`type`.submit
           )(
             <.i(^.className := FontAwesomeStyles.pencil)(),

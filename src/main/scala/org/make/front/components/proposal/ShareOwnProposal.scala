@@ -12,6 +12,8 @@ import org.make.front.styles._
 import org.make.front.styles.base.{TableLayoutStyles, TextStyles}
 import org.make.front.styles.utils._
 
+import scala.scalajs.js
+
 object ShareOwnProposal {
 
   final case class ShareOwnProposalProps(proposal: ProposalModel)
@@ -23,14 +25,14 @@ object ShareOwnProposal {
         render = (self) => {
 
           <.div(^.className := TableLayoutStyles.wrapper)(
-            <.h4(^.className := Seq(TableLayoutStyles.cell, TextStyles.smallText, ShareOwnProposalStyles.intro))(
+            <.h4(^.className := js.Array(TableLayoutStyles.cell, TextStyles.smallText, ShareOwnProposalStyles.intro))(
               unescape(I18n.t("proposal.created-by-user"))
             ),
             /*<.div(^.className := TableLayoutStyles.cell)(
               <.ul(^.className := ShareOwnProposalStyles.shareButtonsList)(
                 <.li(^.className := ShareOwnProposalStyles.shareButtonItem)(
                   <.button(
-                    ^.className := Seq(
+                    ^.className := js.Array(
                       ShareOwnProposalStyles.shareButton,
                       ShareOwnProposalStyles.shareWithFacebookButton
                     )
@@ -38,7 +40,7 @@ object ShareOwnProposal {
                 ),
                 <.li(^.className := ShareOwnProposalStyles.shareButtonItem)(
                   <.button(
-                    ^.className := Seq(
+                    ^.className := js.Array(
                       ShareOwnProposalStyles.shareButton,
                       ShareOwnProposalStyles.shareWithTwitterButton
                     )
@@ -46,7 +48,7 @@ object ShareOwnProposal {
                 ),
                 <.li(^.className := ShareOwnProposalStyles.shareButtonItem)(
                   <.button(
-                    ^.className := Seq(
+                    ^.className := js.Array(
                       ShareOwnProposalStyles.shareButton,
                       ShareOwnProposalStyles.shareWithGooglePlusButton
                     )
@@ -54,7 +56,7 @@ object ShareOwnProposal {
                 ),
                 <.li(^.className := ShareOwnProposalStyles.shareButtonItem)(
                   <.button(
-                    ^.className := Seq(
+                    ^.className := js.Array(
                       ShareOwnProposalStyles.shareButton,
                       ShareOwnProposalStyles.shareWithLinkedInButton
                     )

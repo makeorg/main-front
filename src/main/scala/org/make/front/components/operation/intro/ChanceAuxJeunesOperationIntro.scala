@@ -16,6 +16,7 @@ import org.make.services.tracking.TrackingService.TrackingContext
 import org.make.services.tracking.{TrackingLocation, TrackingService}
 
 import scala.language.postfixOps
+import scala.scalajs.js
 
 object ChanceAuxJeunesOperationIntro {
 
@@ -34,7 +35,7 @@ object ChanceAuxJeunesOperationIntro {
             )
           }
 
-          val partners = Seq(
+          val partners = js.Array(
             OperationPartnerModel(name = "Bnp Paribas", imageUrl = bnpParibasLogo.toString, imageWidth = 123),
             OperationPartnerModel(name = "Hauts De France", imageUrl = hautsDeFranceLogo.toString, imageWidth = 112),
             OperationPartnerModel(name = "AccorHotels", imageUrl = accorHotelsLogoCAJ.toString, imageWidth = 127),
@@ -42,7 +43,7 @@ object ChanceAuxJeunesOperationIntro {
             OperationPartnerModel(name = "Viva Tech", imageUrl = vivaTechLogo.toString, imageWidth = 88)
           )
 
-          <.div(^.className := Seq(OperationIntroStyles.wrapper, ChanceAuxJeunesOperationIntroStyles.wrapper))(
+          <.div(^.className := js.Array(OperationIntroStyles.wrapper, ChanceAuxJeunesOperationIntroStyles.wrapper))(
             <.img(
               ^.className := ChanceAuxJeunesOperationIntroStyles.illustration,
               ^.src := chanceAuxJeunesIll.toString,
@@ -50,7 +51,7 @@ object ChanceAuxJeunesOperationIntro {
               ^.alt := I18n.t("operation.chance-aux-jeunes.intro.title"),
               ^("data-pin-no-hover") := "true"
             )(),
-            <.div(^.className := Seq(OperationIntroStyles.headingWrapper, LayoutRulesStyles.centeredRow))(
+            <.div(^.className := js.Array(OperationIntroStyles.headingWrapper, LayoutRulesStyles.centeredRow))(
               <.div(^.className := ChanceAuxJeunesOperationIntroStyles.logoWrapper)(
                 <.p(^.className := ChanceAuxJeunesOperationIntroStyles.labelWrapper)(
                   <.span(^.className := TextStyles.label)(unescape(I18n.t("operation.chance-aux-jeunes.intro.label")))
@@ -60,15 +61,13 @@ object ChanceAuxJeunesOperationIntro {
                   ^.alt := unescape(I18n.t("operation.chance-aux-jeunes.intro.title"))
                 )()
               ),
-              <.div(^.className := Seq(TableLayoutStyles.wrapper, OperationIntroStyles.separator))(
+              <.div(^.className := js.Array(TableLayoutStyles.wrapper, OperationIntroStyles.separator))(
                 <.div(
-                  ^.className := Seq(
-                    TableLayoutStyles.cellVerticalAlignMiddle,
-                    OperationIntroStyles.separatorLineWrapper
-                  )
+                  ^.className := js
+                    .Array(TableLayoutStyles.cellVerticalAlignMiddle, OperationIntroStyles.separatorLineWrapper)
                 )(
                   <.hr(
-                    ^.className := Seq(
+                    ^.className := js.Array(
                       OperationIntroStyles.separatorLine,
                       ChanceAuxJeunesOperationIntroStyles.separatorLine,
                       OperationIntroStyles.separatorLineToTheLeft,
@@ -76,19 +75,17 @@ object ChanceAuxJeunesOperationIntro {
                     )
                   )()
                 ),
-                <.div(^.className := Seq(TableLayoutStyles.cell, OperationIntroStyles.separatorTextWrapper))(
-                  <.p(^.className := Seq(ChanceAuxJeunesOperationIntroStyles.separatorText, TextStyles.smallerText))(
-                    unescape(I18n.t("operation.chance-aux-jeunes.intro.partners.intro"))
-                  )
+                <.div(^.className := js.Array(TableLayoutStyles.cell, OperationIntroStyles.separatorTextWrapper))(
+                  <.p(
+                    ^.className := js.Array(ChanceAuxJeunesOperationIntroStyles.separatorText, TextStyles.smallerText)
+                  )(unescape(I18n.t("operation.chance-aux-jeunes.intro.partners.intro")))
                 ),
                 <.div(
-                  ^.className := Seq(
-                    TableLayoutStyles.cellVerticalAlignMiddle,
-                    OperationIntroStyles.separatorLineWrapper
-                  )
+                  ^.className := js
+                    .Array(TableLayoutStyles.cellVerticalAlignMiddle, OperationIntroStyles.separatorLineWrapper)
                 )(
                   <.hr(
-                    ^.className := Seq(
+                    ^.className := js.Array(
                       OperationIntroStyles.separatorLine,
                       ChanceAuxJeunesOperationIntroStyles.separatorLine,
                       OperationIntroStyles.separatorLineToTheRight,
@@ -98,33 +95,34 @@ object ChanceAuxJeunesOperationIntro {
                 )
               ),
               <.ul(
-                ^.className := Seq(OperationIntroStyles.partnersList, LayoutRulesStyles.narrowerCenteredRowWithCols)
+                ^.className := js
+                  .Array(OperationIntroStyles.partnersList, LayoutRulesStyles.narrowerCenteredRowWithCols)
               )(
-                partners.map(
-                  partner =>
-                    <.li(^.className := OperationIntroStyles.partnerItem)(
-                      <.img(
-                        ^.src := partner.imageUrl,
-                        ^.alt := partner.name,
-                        ^("width") := partner.imageWidth.toString,
-                        ^.className := OperationIntroStyles.partnerLogo
-                      )()
+                partners
+                  .map(
+                    partner =>
+                      <.li(^.className := OperationIntroStyles.partnerItem)(
+                        <.img(
+                          ^.src := partner.imageUrl,
+                          ^.alt := partner.name,
+                          ^("width") := partner.imageWidth.toString,
+                          ^.className := OperationIntroStyles.partnerLogo
+                        )()
+                    )
                   )
-                )
+                  .toSeq
               )
             ),
             <.div(
-              ^.className := Seq(
-                OperationIntroStyles.explanationWrapper,
-                ChanceAuxJeunesOperationIntroStyles.explanationWrapper
-              )
+              ^.className := js
+                .Array(OperationIntroStyles.explanationWrapper, ChanceAuxJeunesOperationIntroStyles.explanationWrapper)
             )(
               <.div(^.className := LayoutRulesStyles.narrowerCenteredRow)(
                 <.p(^.className := TextStyles.label)(
                   unescape(I18n.t("operation.chance-aux-jeunes.intro.article.title"))
                 ),
                 <.div(^.className := OperationIntroStyles.explanationTextWrapper)(
-                  <.p(^.className := Seq(OperationIntroStyles.explanationText, TextStyles.smallText))(
+                  <.p(^.className := js.Array(OperationIntroStyles.explanationText, TextStyles.smallText))(
                     unescape(I18n.t("operation.chance-aux-jeunes.intro.article.text"))
                   )
                 ),
@@ -132,7 +130,7 @@ object ChanceAuxJeunesOperationIntro {
                   <.a(
                     ^.onClick := onClick,
                     ^.href := unescape(I18n.t("operation.chance-aux-jeunes.intro.article.see-more.link")),
-                    ^.className := Seq(CTAStyles.basic, CTAStyles.basicOnA),
+                    ^.className := js.Array(CTAStyles.basic, CTAStyles.basicOnA),
                     ^.target := "_blank"
                   )(unescape(I18n.t("operation.chance-aux-jeunes.intro.article.see-more.label")))
                 )

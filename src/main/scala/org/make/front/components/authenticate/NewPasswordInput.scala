@@ -13,6 +13,8 @@ import org.make.front.styles.utils._
 import org.make.front.styles.vendors.FontAwesomeStyles
 import org.scalajs.dom.raw.HTMLInputElement
 
+import scala.scalajs.js
+
 object NewPasswordInput {
 
   final case class NewPasswordInputProps(value: String = "",
@@ -40,9 +42,11 @@ object NewPasswordInput {
 
         val props = self.props.wrapped
 
-        <.label(^.className := Seq(NewPasswordInputStyles.withIconWrapper, InputStyles.wrapper, InputStyles.withIcon))(
+        <.label(
+          ^.className := js.Array(NewPasswordInputStyles.withIconWrapper, InputStyles.wrapper, InputStyles.withIcon)
+        )(
           <.span(^.className := TableLayoutStyles.wrapper)(
-            <.span(^.className := Seq(TableLayoutStyles.cell, NewPasswordInputStyles.inputWrapper))(
+            <.span(^.className := js.Array(TableLayoutStyles.cell, NewPasswordInputStyles.inputWrapper))(
               <.input(
                 ^.required := props.required,
                 ^.`type` := self.state.passwordInputType,
@@ -52,11 +56,12 @@ object NewPasswordInput {
                 ^.onChange := props.onChange
               )()
             ),
-            <.span(^.className := Seq(TableLayoutStyles.cell, NewPasswordInputStyles.switchInputTypeButtonWrapper))(
+            <.span(
+              ^.className := js.Array(TableLayoutStyles.cell, NewPasswordInputStyles.switchInputTypeButtonWrapper)
+            )(
               <.button(
-                ^.className := Seq(
-                  NewPasswordInputStyles.switchInputTypeButton(self.state.passwordInputType == "password")
-                ),
+                ^.className := js
+                  .Array(NewPasswordInputStyles.switchInputTypeButton(self.state.passwordInputType == "password")),
                 ^.onClick := toggleHidePassword
               )()
             )

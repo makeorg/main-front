@@ -4,7 +4,6 @@ import io.github.shogowada.scalajs.reactjs.React
 import io.github.shogowada.scalajs.reactjs.VirtualDOM._
 import io.github.shogowada.scalajs.reactjs.router.WithRouter
 import io.github.shogowada.scalajs.reactjs.router.dom.RouterDOM._
-import org.make.front.components.Components.{RichVirtualDOMElements, _}
 import org.make.front.components.activateAccount.ActivateAccountContainer
 import org.make.front.components.authenticate.resetPassword.ResetPasswordContainer
 import org.make.front.components.currentOperations.CurrentOperationsContainer
@@ -19,6 +18,7 @@ import org.make.front.components.theme.MaybeThemeContainer
 import org.make.front.components.userProfile.UserProfileContainer
 import org.make.front.helpers.DetectedCountry.getDetectedCountry
 
+import scala.scalajs.js
 import scala.scalajs.js.Dynamic
 
 object Container {
@@ -34,15 +34,17 @@ object Container {
       render = (_) =>
         <.Switch()(
           // @deprecated
-          Seq(
-            "/proposal/:proposalSlug",
-            "/profile",
-            "/consultation/:operationSlug",
-            "/consultation/:operationSlug/selection",
-            "/theme/:themeSlug"
-          ).map { route =>
-            <.Route(^.exact := true, ^.path := route, ^.component := RedirectToCountryRoute())()
-          },
+          js.Array(
+              "/proposal/:proposalSlug",
+              "/profile",
+              "/consultation/:operationSlug",
+              "/consultation/:operationSlug/selection",
+              "/theme/:themeSlug"
+            )
+            .map { route =>
+              <.Route(^.exact := true, ^.path := route, ^.component := RedirectToCountryRoute())()
+            }
+            .toSeq,
           <.Route(
             ^.exact := true,
             ^.path := "/:country/password-recovery/:userId/:resetToken",

@@ -4,7 +4,7 @@ import scalajs.js
 
 class LengthConstraint(min: Option[Int] = None, max: Option[Int] = None, exact: Option[Int] = None) extends Constraint {
   override def validate(value: Option[String],
-                        constraintMessages: Map[String, String] = Map()): Seq[ConstraintError] = {
+                        constraintMessages: Map[String, String] = Map()): js.Array[ConstraintError] = {
 
     val errors = js.Array[ConstraintError]()
 

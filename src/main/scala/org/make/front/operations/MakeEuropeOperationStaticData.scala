@@ -3,6 +3,8 @@ package org.make.front.operations
 import org.make.front.facades.{makeEuropeLogo, makeEuropeWhiteLogo}
 import org.make.front.models._
 
+import scala.scalajs.js
+
 object MakeEuropeOperationStaticData extends StaticDataOfOperation {
   override val data: OperationStaticData =
     OperationStaticData(
@@ -13,7 +15,7 @@ object MakeEuropeOperationStaticData extends StaticDataOfOperation {
       logoUrl = makeEuropeLogo.toString,
       whiteLogoUrl = makeEuropeWhiteLogo.toString,
       shareUrl = "",
-      wording = Seq(
+      wording = js.Array(
         OperationWording(
           language = "en",
           title = "Consultation Européenne (démo)",
@@ -22,7 +24,7 @@ object MakeEuropeOperationStaticData extends StaticDataOfOperation {
         )
       ),
       extraSlides = (params: OperationExtraSlidesParams) => {
-        Seq(
+        js.Array(
           Slides.displaySequenceIntroCard(params, introWording = OperationIntroWording()),
           Slides.displaySignUpCard(params, !params.isConnected),
           Slides.displayProposalPushCard(params),

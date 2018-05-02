@@ -20,6 +20,7 @@ import org.make.front.styles.vendors.FontAwesomeStyles
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
+import scala.scalajs.js
 import scala.util.{Failure, Success}
 
 object VoteButton {
@@ -40,7 +41,7 @@ object VoteButton {
                              isHovered: Boolean,
                              resultsOfVoteAreDisplayed: Boolean,
                              votes: Map[String, Int],
-                             qualifications: Seq[Qualification])
+                             qualifications: js.Array[Qualification])
 
   lazy val reactClass: ReactClass =
     React.createClass[VoteButtonProps, VoteButtonState](displayName = "VoteButton", getInitialState = { self =>
@@ -140,36 +141,38 @@ object VoteButton {
       }
 
       val buttonClasses =
-        Seq(VoteButtonStyles.button.htmlClass, self.props.wrapped.vote.key match {
-          case "agree" =>
-            VoteButtonStyles.agree.htmlClass + " " + (if (self.state.isActivated)
-                                                        VoteButtonStyles.agreeActivated.htmlClass
-                                                      else "")
-          case "disagree" =>
-            VoteButtonStyles.disagree.htmlClass + " " + (if (self.state.isActivated)
-                                                           VoteButtonStyles.disagreeActivated.htmlClass
-                                                         else "")
-          case "neutral" =>
-            VoteButtonStyles.neutral.htmlClass + " " + (if (self.state.isActivated)
-                                                          VoteButtonStyles.neutralActivated.htmlClass
+        js.Array(VoteButtonStyles.button.htmlClass, self.props.wrapped.vote.key match {
+            case "agree" =>
+              VoteButtonStyles.agree.htmlClass + " " + (if (self.state.isActivated)
+                                                          VoteButtonStyles.agreeActivated.htmlClass
                                                         else "")
-          case _ =>
-            VoteButtonStyles.neutral.htmlClass + " " + (if (self.state.isActivated)
-                                                          VoteButtonStyles.neutralActivated.htmlClass
-                                                        else "")
-        }).mkString(" ")
+            case "disagree" =>
+              VoteButtonStyles.disagree.htmlClass + " " + (if (self.state.isActivated)
+                                                             VoteButtonStyles.disagreeActivated.htmlClass
+                                                           else "")
+            case "neutral" =>
+              VoteButtonStyles.neutral.htmlClass + " " + (if (self.state.isActivated)
+                                                            VoteButtonStyles.neutralActivated.htmlClass
+                                                          else "")
+            case _ =>
+              VoteButtonStyles.neutral.htmlClass + " " + (if (self.state.isActivated)
+                                                            VoteButtonStyles.neutralActivated.htmlClass
+                                                          else "")
+          })
+          .mkString(" ")
 
       val totalOfVotesClasses =
-        Seq(VoteButtonStyles.totalOfVotes.htmlClass, self.props.wrapped.vote.key match {
-          case "agree" =>
-            VoteButtonStyles.totalOfAgreeVotes.htmlClass
-          case "disagree" =>
-            VoteButtonStyles.totalOfDisagreeVotes.htmlClass
-          case "neutral" =>
-            VoteButtonStyles.totalOfNeutralVotes.htmlClass
-          case _ =>
-            VoteButtonStyles.totalOfNeutralVotes.htmlClass
-        }).mkString(" ")
+        js.Array(VoteButtonStyles.totalOfVotes.htmlClass, self.props.wrapped.vote.key match {
+            case "agree" =>
+              VoteButtonStyles.totalOfAgreeVotes.htmlClass
+            case "disagree" =>
+              VoteButtonStyles.totalOfDisagreeVotes.htmlClass
+            case "neutral" =>
+              VoteButtonStyles.totalOfNeutralVotes.htmlClass
+            case _ =>
+              VoteButtonStyles.totalOfNeutralVotes.htmlClass
+          })
+          .mkString(" ")
 
       <.div(^.className := VoteButtonStyles.wrapper(self.state.isActivated))(
         <.div(^.className := VoteButtonStyles.buttonAndResultsOfCurrentVoteWrapper)(
@@ -180,7 +183,7 @@ object VoteButton {
             ^.onMouseOut := handleMouseOut
           )(
             <.span(
-              ^.className := Seq(
+              ^.className := js.Array(
                 VoteButtonStyles.label,
                 VoteButtonStyles
                   .labelDisplay(self.props.wrapped.guideToVote.getOrElse("") == "" && !self.state.isActivated),
@@ -195,7 +198,7 @@ object VoteButton {
             ),
             if (self.props.wrapped.guideToVote.getOrElse("") != "") {
               <.span(
-                ^.className := Seq(VoteButtonStyles.label, VoteButtonStyles.labelDisplay(!self.state.isActivated))
+                ^.className := js.Array(VoteButtonStyles.label, VoteButtonStyles.labelDisplay(!self.state.isActivated))
               )(
                 <.span(
                   ^.className := TextStyles.smallerText,
@@ -208,21 +211,22 @@ object VoteButton {
             val totalOfVotes: Int = self.state.votes.values.sum
             val currentVotes: Int = self.state.votes.getOrElse(self.props.wrapped.vote.key, 0)
 
-            Seq(
-              <.p(^.className := totalOfVotesClasses)(formatToKilo(currentVotes)),
-              <.p(^.className := Seq(VoteButtonStyles.partOfVotes))(
-                unescape(
-                  I18n.t(
-                    "proposal.vote.partOfVotes",
-                    Replacements(("value", formatToPercent(currentVotes, totalOfVotes).toString))
+            js.Array(
+                <.p(^.className := totalOfVotesClasses)(formatToKilo(currentVotes)),
+                <.p(^.className := js.Array(VoteButtonStyles.partOfVotes))(
+                  unescape(
+                    I18n.t(
+                      "proposal.vote.partOfVotes",
+                      Replacements(("value", formatToPercent(currentVotes, totalOfVotes).toString))
+                    )
                   )
-                )
-              ),
-              <.button(
-                ^.className := Seq(VoteButtonStyles.resultsOfVoteAccessButton, FontAwesomeStyles.barChart),
-                ^.onClick := toggleResultsOfVote()
-              )()
-            )
+                ),
+                <.button(
+                  ^.className := js.Array(VoteButtonStyles.resultsOfVoteAccessButton, FontAwesomeStyles.barChart),
+                  ^.onClick := toggleResultsOfVote()
+                )()
+              )
+              .toSeq
           }
         ),
         <.div(^.className := VoteButtonStyles.qualificateVoteAndResultsOfVoteWrapper)(

@@ -12,6 +12,8 @@ import org.make.front.styles.utils._
 import org.make.front.styles.vendors.FontAwesomeStyles
 import org.make.front.Main.CssSettings._
 
+import scala.scalajs.js
+
 object PoliticalAction {
 
   case class PoliticalActionProps(politicalAction: PoliticalActionModel)
@@ -24,7 +26,7 @@ object PoliticalAction {
           val politicalAction = self.props.wrapped.politicalAction
 
           <.article(^.className := TableLayoutStyles.wrapper)(
-            <.p(^.className := Seq(TableLayoutStyles.cell, PoliticalActionStyles.imageWrapper))(
+            <.p(^.className := js.Array(TableLayoutStyles.cell, PoliticalActionStyles.imageWrapper))(
               <.img(
                 ^.className := PoliticalActionStyles.image,
                 ^.src := politicalAction.imageUrl,
@@ -32,23 +34,23 @@ object PoliticalAction {
                 ^("data-pin-no-hover") := "true"
               )()
             ),
-            <.div(^.className := Seq(TableLayoutStyles.cell, PoliticalActionStyles.contentWrapper))(
+            <.div(^.className := js.Array(TableLayoutStyles.cell, PoliticalActionStyles.contentWrapper))(
               politicalAction.introduction.map { introduction =>
-                <.p(^.className := Seq(TextStyles.smallerText, PoliticalActionStyles.info))(unescape(introduction))
+                <.p(^.className := js.Array(TextStyles.smallerText, PoliticalActionStyles.info))(unescape(introduction))
               },
               politicalAction.date.map { date =>
-                <.p(^.className := Seq(TextStyles.smallerText, PoliticalActionStyles.info))(
-                  <.i(^.className := Seq(PoliticalActionStyles.infoIcon, FontAwesomeStyles.calendarOpen))(),
+                <.p(^.className := js.Array(TextStyles.smallerText, PoliticalActionStyles.info))(
+                  <.i(^.className := js.Array(PoliticalActionStyles.infoIcon, FontAwesomeStyles.calendarOpen))(),
                   date
                 )
               },
               politicalAction.location.map { location =>
-                <.p(^.className := Seq(TextStyles.smallerText, PoliticalActionStyles.info))(
-                  <.i(^.className := Seq(PoliticalActionStyles.infoIcon, FontAwesomeStyles.mapMarker))(),
+                <.p(^.className := js.Array(TextStyles.smallerText, PoliticalActionStyles.info))(
+                  <.i(^.className := js.Array(PoliticalActionStyles.infoIcon, FontAwesomeStyles.mapMarker))(),
                   location
                 )
               },
-              <.p(^.className := Seq(TextStyles.boldText, TextStyles.mediumText, PoliticalActionStyles.text))(
+              <.p(^.className := js.Array(TextStyles.boldText, TextStyles.mediumText, PoliticalActionStyles.text))(
                 unescape(politicalAction.text),
                 <.br()(),
                 politicalAction.links.map(

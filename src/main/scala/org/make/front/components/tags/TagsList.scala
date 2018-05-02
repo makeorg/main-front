@@ -15,6 +15,8 @@ import org.make.front.styles._
 import org.make.front.styles.ui.TagStyles
 import org.make.front.styles.utils._
 
+import scala.scalajs.js
+
 /**
   * Generates a list of TagComponents
   *
@@ -24,7 +26,7 @@ import org.make.front.styles.utils._
   *
   * <.TagListComponent(
   * ^.wrapped := TagListComponentProps(
-  * tags = Seq(Tag(TagId("tag-hello"), "hello"), Tag(TagId("tag-world"), "world")),
+  * tags = js.Array(Tag(TagId("tag-hello"), "hello"), Tag(TagId("tag-world"), "world")),
   * toggleShowAll = false
   * )
   * )()
@@ -41,7 +43,7 @@ object TagsList {
   // TODO make variable dynamic / configurable
   private val showMaxCount: Int = 6
 
-  case class TagsListComponentProps(tags: Seq[TagModel],
+  case class TagsListComponentProps(tags: js.Array[TagModel],
                                     handleSelectedTags: (TagModel) => Unit,
                                     withShowMoreTagsButton: Boolean)
 
@@ -65,21 +67,23 @@ object TagsList {
             }
 
           <.ul(^.className := TagsListStyles.tagList)(
-            tagsList.map(
-              tag =>
-                <.li(^.className := TagsListStyles.tagListItem)(
-                  <.TagComponent(
-                    ^.wrapped := TagComponentProps(
-                      tag = tag,
-                      handleSelectedTags = self.props.wrapped.handleSelectedTags
-                    )
-                  )()
+            tagsList
+              .map(
+                tag =>
+                  <.li(^.className := TagsListStyles.tagListItem)(
+                    <.TagComponent(
+                      ^.wrapped := TagComponentProps(
+                        tag = tag,
+                        handleSelectedTags = self.props.wrapped.handleSelectedTags
+                      )
+                    )()
+                )
               )
-            ),
+              .toSeq,
             if (self.props.wrapped.withShowMoreTagsButton) {
               <.li(^.className := TagsListStyles.tagListItem)(
                 <.button(
-                  ^.className := Seq(TagStyles.basic, TagsListStyles.showMoreTags),
+                  ^.className := js.Array(TagStyles.basic, TagsListStyles.showMoreTags),
                   ^.onClick := onClickShowMoreTags(self)
                 )(unescape(I18n.t(if (self.state.showMore) "tags.list.show-less" else "tags.list.show-all")))
               )

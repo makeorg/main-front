@@ -5,10 +5,10 @@ import org.make.core.URI._
 import org.make.front.facades.I18n
 import org.make.front.models._
 import org.make.services.ApiService
-import org.make.services.operation.OperationService
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
+import scala.scalajs.js
 import scala.scalajs.js.JSON
 
 object ProposalService extends ApiService {
@@ -56,47 +56,54 @@ object ProposalService extends ApiService {
       .map(RegisterProposal.apply)
   }
 
-  def searchProposals(content: Option[String] = None,
+  def searchProposals(proposalIds: Option[js.Array[ProposalId]] = None,
+                      content: Option[String] = None,
                       slug: Option[String] = None,
-                      themesIds: Seq[ThemeId] = Seq.empty,
+                      themesIds: js.Array[ThemeId] = js.Array(),
                       operationId: Option[OperationId] = None,
-                      tagsIds: Seq[TagId] = Seq.empty,
+                      tagsIds: js.Array[TagId] = js.Array(),
                       trending: Option[String] = None,
-                      labelsIds: Option[Seq[String]] = None,
+                      labelsIds: Option[js.Array[String]] = None,
                       context: Option[ContextRequest] = Some(ContextRequest()),
-                      sort: Seq[SortOptionRequest] = Seq.empty,
+                      sort: Option[js.Array[SortOptionRequest]] = None,
                       limit: Option[Int] = None,
                       skip: Option[Int] = None,
                       isRandom: Option[Boolean] = Some(true),
                       seed: Option[Int] = None,
                       language: Option[String] = None,
                       country: Option[String] = None): Future[SearchResult] = {
-    MakeApiClient
-      .post[SearchResultResponse](
-        resourceName / "search",
-        data = JSON.stringify(
-          JsSearchRequest(
-            SearchRequest(
-              content = content,
-              slug = slug,
-              themesIds = if (themesIds.nonEmpty) Some(themesIds.map(_.value)) else None,
-              operationId = operationId.map(_.value),
-              tagsIds = if (tagsIds.nonEmpty) Some(tagsIds.map(_.value)) else None,
-              trending = trending,
-              labelsIds = labelsIds,
-              context = context,
-              limit = limit,
-              skip = skip,
-              sort = sort,
-              isRandom = isRandom,
-              seed = seed,
-              language = language,
-              country = country
-            )
-          )
+
+    val params =
+      js.Array[(String, Any)](
+          "proposalIds" -> proposalIds.map(_.map(_.value)).map(_.mkString(",")),
+          "themesIds" -> (if (themesIds.isEmpty) None else Some(themesIds.map(_.value).mkString(","))),
+          "tagsIds" -> (if (tagsIds.isEmpty) None else Some(tagsIds.map(_.value).mkString(","))),
+          "labelsIds" -> labelsIds.map(_.mkString(",")),
+          "operationId" -> operationId.map(_.value),
+          "trending" -> trending,
+          "content" -> content,
+          "slug" -> slug,
+          "seed" -> seed,
+          "source" -> context.flatMap(_.source),
+          "location" -> context.flatMap(_.location),
+          "question" -> context.flatMap(_.question),
+          "language" -> language,
+          "country" -> country,
+          "sort" -> sort.flatMap(_.headOption).map(_.field),
+          "order" -> sort.flatMap(_.headOption).flatMap(_.mode).map(_.shortName),
+          "limit" -> limit,
+          "skip" -> skip,
+          "isRandom" -> isRandom
         )
-      )
+        .filter {
+          case (_, None) => false
+          case _         => true
+        }
+
+    MakeApiClient
+      .get[SearchResultResponse](resourceName, params)
       .map(SearchResult.apply)
+
   }
 
   def vote(proposalId: ProposalId,

@@ -17,6 +17,8 @@ import org.make.services.tracking.{TrackingLocation, TrackingService}
 import org.make.services.tracking.TrackingService.TrackingContext
 import org.scalajs.dom.raw.HTMLElement
 
+import scala.scalajs.js
+
 object ThemeHeader {
 
   case class ThemeIllustrationsModel(SmallIllUrl: String = "",
@@ -195,9 +197,10 @@ object ThemeHeader {
           : String = self.state.themeIllustrations.SmallIllUrl + " 400w, " + self.state.themeIllustrations.SmallIllUrl2x + " 800w, " + self.state.themeIllustrations.MediumIllUrl + " 840w, " + self.state.themeIllustrations.MediumIllUrl2x + " 1680w, " + self.state.themeIllustrations.IllUrl + " 1350w, " + self.state.themeIllustrations.IllUrl2x + " 2700w"
 
         <.header(
-          ^.className := Seq(TableLayoutStyles.wrapper, ThemeHeaderStyles.wrapper, DynamicThemeHeaderStyles.gradient)
+          ^.className := js
+            .Array(TableLayoutStyles.wrapper, ThemeHeaderStyles.wrapper, DynamicThemeHeaderStyles.gradient)
         )(
-          <.div(^.className := Seq(TableLayoutStyles.cellVerticalAlignMiddle, ThemeHeaderStyles.innerWrapper))(
+          <.div(^.className := js.Array(TableLayoutStyles.cellVerticalAlignMiddle, ThemeHeaderStyles.innerWrapper))(
             <.img(
               ^.className := ThemeHeaderStyles.illustration,
               ^.src := imageSrc,
@@ -206,11 +209,11 @@ object ThemeHeader {
               ^("data-pin-no-hover") := "true"
             )(),
             <.div(^.className := LayoutRulesStyles.centeredRow)(
-              <.h1(^.className := Seq(TextStyles.veryBigTitle, ThemeHeaderStyles.title))(
+              <.h1(^.className := js.Array(TextStyles.veryBigTitle, ThemeHeaderStyles.title))(
                 self.props.wrapped.theme.title
               ),
               <.p(
-                ^.className := Seq(
+                ^.className := js.Array(
                   InputStyles.wrapper,
                   InputStyles.withIcon,
                   InputStyles.biggerWithIcon,
@@ -218,7 +221,7 @@ object ThemeHeader {
                 )
               )(
                 <.span(^.className := TableLayoutStyles.wrapper)(
-                  <.span(^.className := Seq(TableLayoutStyles.cell, ThemeHeaderStyles.inputWrapper))(
+                  <.span(^.className := js.Array(TableLayoutStyles.cell, ThemeHeaderStyles.inputWrapper))(
                     <.input(
                       ^.`type`.text,
                       ^.value := I18n.t("common.bait"),
@@ -228,7 +231,7 @@ object ThemeHeader {
                     )()
                   ),
                   <.span(^.className := TableLayoutStyles.cellVerticalAlignMiddle)(
-                    <.span(^.className := Seq(TextStyles.smallText, ThemeHeaderStyles.textLimitInfo))(
+                    <.span(^.className := js.Array(TextStyles.smallText, ThemeHeaderStyles.textLimitInfo))(
                       I18n.t("theme.proposal-form-in-header.limit-of-chars-info")
                     )
                   )

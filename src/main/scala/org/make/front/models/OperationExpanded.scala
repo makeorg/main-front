@@ -7,21 +7,23 @@ import scala.scalajs.js
 
 final case class OperationStaticData(country: String,
                                      slug: String,
-                                     wording: Seq[OperationWording],
+                                     wording: js.Array[OperationWording],
                                      color: String,
                                      gradient: Option[GradientColor],
                                      logoUrl: String,
                                      whiteLogoUrl: String,
                                      shareUrl: String,
-                                     extraSlides: (OperationExtraSlidesParams) => Seq[ExtraSlide])
+                                     extraSlides: (OperationExtraSlidesParams) => js.Array[ExtraSlide])
 
 object OperationStaticData {
   def findBySlugAndCountry(slug: String, country: String): Option[OperationStaticData] = {
-    val resultList: Seq[OperationStaticData] =
+    val resultList: js.Array[OperationStaticData] =
       Operations.operationStaticDataList.filter(operation => operation.slug == slug && operation.country == country)
-    resultList match {
-      case Seq(operation) => Some(operation)
-      case _              => None
+
+    if (resultList.size == 1) {
+      Some(resultList(0))
+    } else {
+      None
     }
   }
 }
@@ -61,9 +63,9 @@ final case class OperationExpanded(operationId: OperationId,
                                    logoUrl: String,
                                    whiteLogoUrl: String,
                                    shareUrl: String,
-                                   wordings: Seq[OperationWording],
-                                   extraSlides: (OperationExtraSlidesParams) => Seq[ExtraSlide],
-                                   tagIds: Seq[Tag],
+                                   wordings: js.Array[OperationWording],
+                                   extraSlides: (OperationExtraSlidesParams) => js.Array[ExtraSlide],
+                                   tagIds: js.Array[Tag],
                                    landingSequenceId: SequenceId) {
 
   def getWordingByLanguage(language: String): Option[OperationWording] = {
@@ -97,13 +99,13 @@ final case class OperationExpanded(operationId: OperationId,
 object OperationExpanded {
 
   def getOperationExpandedFromOperation(maybeOperation: Option[Operation],
-                                        tagsList: Seq[Tag],
+                                        tagsList: js.Array[Tag],
                                         country: String): Option[OperationExpanded] = {
     for {
       operation <- maybeOperation
       countryConfiguration <- operation.countriesConfiguration.filter(_.countryCode == country) match {
-        case Seq(countryConfig) => Some(countryConfig)
-        case _                  => None
+        case config if config.size == 1 => Some(config(0))
+        case _                          => None
       }
       operationStaticData <- OperationStaticData.findBySlugAndCountry(slug = operation.slug, country = country)
       operationTags <- countryConfiguration.tagIds.flatMap(

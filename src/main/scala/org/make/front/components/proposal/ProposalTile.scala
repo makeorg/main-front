@@ -21,6 +21,8 @@ import org.make.front.models.{
 import org.make.front.styles.base.TextStyles
 import org.make.services.tracking.TrackingLocation
 
+import scala.scalajs.js
+
 object ProposalTile {
 
   final case class ProposalTileProps(proposal: ProposalModel,
@@ -53,7 +55,7 @@ object ProposalTile {
             <.article(^.className := ProposalTileStyles.wrapper)(
               intro,
               <.div(^.className := ProposalTileStyles.contentWrapper)(
-                <.h3(^.className := Seq(TextStyles.mediumText, TextStyles.boldText))(
+                <.h3(^.className := js.Array(TextStyles.mediumText, TextStyles.boldText))(
                   <.Link(
                     ^.to := s"/${self.props.wrapped.country}/proposal/${self.props.wrapped.proposal.slug}",
                     ^.className := ProposalTileStyles.proposalLinkOnTitle

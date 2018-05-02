@@ -17,6 +17,8 @@ import org.make.front.styles.utils._
 import org.make.services.tracking.TrackingLocation
 import org.make.services.tracking.TrackingService.TrackingContext
 
+import scala.scalajs.js
+
 object SubmitProposal {
 
   case class SubmitProposalProps(trackingParameters: Map[String, String],
@@ -35,7 +37,7 @@ object SubmitProposal {
         render = { self =>
           val intro: (ReactElement) => ReactElement = { element =>
             <.div()(
-              <.p(^.className := Seq(TextStyles.mediumText, TextStyles.intro, SubmitProposalStyles.intro))(
+              <.p(^.className := js.Array(TextStyles.mediumText, TextStyles.intro, SubmitProposalStyles.intro))(
                 unescape(I18n.t("submit-proposal.intro"))
               ),
               element,

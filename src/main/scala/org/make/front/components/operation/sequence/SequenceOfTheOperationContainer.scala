@@ -23,6 +23,7 @@ import org.make.services.tag.TagService
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
+import scala.scalajs.js
 
 object SequenceOfTheOperationContainer {
 
@@ -52,12 +53,12 @@ object SequenceOfTheOperationContainer {
             case _               => None
           }
 
-        def startSequence(sequenceId: SequenceId)(proposals: Seq[ProposalId]): Future[SequenceModel] = {
+        def startSequence(sequenceId: SequenceId)(proposals: js.Array[ProposalId]): Future[SequenceModel] = {
           firstProposalSlug.map { slug =>
             ProposalService
               .searchProposals(slug = Some(slug), language = Some(state.language), country = Some(state.country))
               .map(_.results.map(_.id))
-          }.getOrElse(Future.successful(Seq.empty)).flatMap { proposalsToInclude =>
+          }.getOrElse(Future.successful(js.Array())).flatMap { proposalsToInclude =>
             SequenceService.startSequenceById(
               sequenceId,
               proposalsToInclude ++ proposals.filter(id => !proposalsToInclude.contains(id))
@@ -66,7 +67,7 @@ object SequenceOfTheOperationContainer {
         }
 
         val futureMaybeOperationAndSequence: () => Future[Option[(OperationModel, SequenceModel)]] = () => {
-          val operationAndTags: Future[(Option[Operation], Seq[Tag])] = for {
+          val operationAndTags: Future[(Option[Operation], js.Array[Tag])] = for {
             operation <- OperationService.getOperationBySlugAndCountry(operationSlug, state.country)
             tags      <- TagService.getTags
           } yield (operation, tags)
@@ -76,7 +77,7 @@ object SequenceOfTheOperationContainer {
           }.flatMap {
             case None => Future.successful(None)
             case Some(operation) =>
-              startSequence(operation.landingSequenceId)(Seq.empty)
+              startSequence(operation.landingSequenceId)(js.Array())
                 .map(sequence => Some((operation, sequence)))
           }
         }

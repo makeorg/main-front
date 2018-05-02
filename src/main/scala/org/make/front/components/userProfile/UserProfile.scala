@@ -13,8 +13,9 @@ import org.make.front.styles.base._
 import org.make.front.styles.ui.{CTAStyles, InputStyles}
 import org.make.front.styles.utils._
 import org.make.front.styles.vendors.FontAwesomeStyles
-
 import scalacss.internal.Attr
+
+import scala.scalajs.js
 
 object UserProfile {
 
@@ -34,10 +35,10 @@ object UserProfile {
                 <.MainHeaderContainer.empty
               )
             ),
-            <.div(^.className := Seq(LayoutRulesStyles.centeredRow))(
-              <.div(^.className := Seq(LayoutRulesStyles.centeredRowWithCols, UserProfileStyles.pageWrapper))(
+            <.div(^.className := js.Array(LayoutRulesStyles.centeredRow))(
+              <.div(^.className := js.Array(LayoutRulesStyles.centeredRowWithCols, UserProfileStyles.pageWrapper))(
                 <.div(
-                  ^.className := Seq(
+                  ^.className := js.Array(
                     UserProfileStyles.avatarAndNavWrapper,
                     ColRulesStyles.col,
                     ColRulesStyles.colQuarterBeyondMedium
@@ -52,25 +53,22 @@ object UserProfile {
                         ^("data-pin-no-hover") := "true"
                       )()
                     } else {
-                      <.i(^.className := Seq(UserProfileStyles.avatarPlaceholder, FontAwesomeStyles.user))()
+                      <.i(^.className := js.Array(UserProfileStyles.avatarPlaceholder, FontAwesomeStyles.user))()
                     }
                   ),
                   <.div(^.className := UserProfileStyles.disconnectButtonWrapper)(
                     <.button(
-                      ^.className := Seq(CTAStyles.basicOnButton, CTAStyles.basic, CTAStyles.moreDiscreet),
+                      ^.className := js.Array(CTAStyles.basicOnButton, CTAStyles.basic, CTAStyles.moreDiscreet),
                       ^.onClick := self.props.wrapped.logout
                     )(
-                      <.i(^.className := Seq(FontAwesomeStyles.signOut))(),
+                      <.i(^.className := js.Array(FontAwesomeStyles.signOut))(),
                       unescape("&nbsp;" + I18n.t("user-profile.disconnect-cta"))
                     )
                   )
                 ),
                 <.div(
-                  ^.className := Seq(
-                    UserProfileStyles.contentWrapper,
-                    ColRulesStyles.col,
-                    ColRulesStyles.colHalfBeyondMedium
-                  )
+                  ^.className := js
+                    .Array(UserProfileStyles.contentWrapper, ColRulesStyles.col, ColRulesStyles.colHalfBeyondMedium)
                 )(
                   <.header(^.className := UserProfileStyles.titleWrapper)(
                     <.h1(^.className := TextStyles.mediumTitle)(I18n.t("user-profile.title"))
@@ -79,11 +77,12 @@ object UserProfile {
                     <.div(^.className := TableLayoutBeyondSmallStyles.wrapper)(
                       <.div(^.className := TableLayoutBeyondSmallStyles.row)(
                         <.div(
-                          ^.className := Seq(TableLayoutBeyondSmallStyles.cell, UserProfileStyles.infoFieldLabelWrapper)
+                          ^.className := js
+                            .Array(TableLayoutBeyondSmallStyles.cell, UserProfileStyles.infoFieldLabelWrapper)
                         )(<.p(^.className := TextStyles.smallText)(I18n.t("authenticate.inputs.email.placeholder"))),
                         <.div(^.className := TableLayoutBeyondSmallStyles.cell)(
                           <.div(
-                            ^.className := Seq(
+                            ^.className := js.Array(
                               InputStyles.wrapper,
                               InputStyles.withIcon,
                               UserProfileStyles.emailInputWithIconWrapper
@@ -101,13 +100,14 @@ object UserProfile {
                       ),
                       <.div(^.className := TableLayoutBeyondSmallStyles.row)(
                         <.div(
-                          ^.className := Seq(TableLayoutBeyondSmallStyles.cell, UserProfileStyles.infoFieldLabelWrapper)
+                          ^.className := js
+                            .Array(TableLayoutBeyondSmallStyles.cell, UserProfileStyles.infoFieldLabelWrapper)
                         )(
                           <.p(^.className := TextStyles.smallText)(I18n.t("authenticate.inputs.first-name.placeholder"))
                         ),
                         <.div(^.className := TableLayoutBeyondSmallStyles.cell)(
                           <.div(
-                            ^.className := Seq(
+                            ^.className := js.Array(
                               InputStyles.wrapper,
                               InputStyles.withIcon,
                               UserProfileStyles.firstNameInputWithIconWrapper
@@ -129,10 +129,8 @@ object UserProfile {
                             .isDefined) {
                         <.div(^.className := TableLayoutBeyondSmallStyles.row)(
                           <.div(
-                            ^.className := Seq(
-                              TableLayoutBeyondSmallStyles.cell,
-                              UserProfileStyles.infoFieldLabelWrapper
-                            )
+                            ^.className := js
+                              .Array(TableLayoutBeyondSmallStyles.cell, UserProfileStyles.infoFieldLabelWrapper)
                           )(
                             <.p(^.className := TextStyles.smallText)(
                               I18n.t("authenticate.inputs.postal-code.placeholder")
@@ -140,7 +138,7 @@ object UserProfile {
                           ),
                           <.div(^.className := TableLayoutBeyondSmallStyles.cell)(
                             <.div(
-                              ^.className := Seq(
+                              ^.className := js.Array(
                                 InputStyles.wrapper,
                                 InputStyles.withIcon,
                                 UserProfileStyles.postalCodeInputWithIconWrapper
@@ -166,14 +164,12 @@ object UserProfile {
                             .isDefined) {
                         <.div(^.className := TableLayoutBeyondSmallStyles.row)(
                           <.div(
-                            ^.className := Seq(
-                              TableLayoutBeyondSmallStyles.cell,
-                              UserProfileStyles.infoFieldLabelWrapper
-                            )
+                            ^.className := js
+                              .Array(TableLayoutBeyondSmallStyles.cell, UserProfileStyles.infoFieldLabelWrapper)
                           )(<.p(^.className := TextStyles.smallText)(I18n.t("authenticate.inputs.job.placeholder"))),
                           <.div(^.className := TableLayoutBeyondSmallStyles.cell)(
                             <.div(
-                              ^.className := Seq(
+                              ^.className := js.Array(
                                 InputStyles.wrapper,
                                 InputStyles.withIcon,
                                 UserProfileStyles.professionInputWithIconWrapper

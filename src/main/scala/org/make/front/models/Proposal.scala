@@ -13,30 +13,30 @@ final case class Proposal(id: ProposalId,
                           status: String,
                           createdAt: js.Date,
                           updatedAt: Option[js.Date],
-                          votes: Seq[Vote],
+                          votes: js.Array[Vote],
                           context: ProposalContext,
                           trending: Option[String],
-                          labels: Seq[String],
+                          labels: js.Array[String],
                           author: Author,
                           country: String,
                           language: String,
                           themeId: Option[ThemeId],
                           operationId: Option[OperationId],
-                          tags: Seq[Tag],
+                          tags: js.Array[Tag],
                           myProposal: Boolean) {
   def votesAgree: Vote =
-    votes.find(_.key == "agree").getOrElse(Vote(key = "agree", qualifications = Seq.empty, hasVoted = false))
+    votes.find(_.key == "agree").getOrElse(Vote(key = "agree", qualifications = js.Array(), hasVoted = false))
   def votesDisagree: Vote =
-    votes.find(_.key == "disagree").getOrElse(Vote(key = "disagree", qualifications = Seq.empty, hasVoted = false))
+    votes.find(_.key == "disagree").getOrElse(Vote(key = "disagree", qualifications = js.Array(), hasVoted = false))
   def votesNeutral: Vote =
-    votes.find(_.key == "neutral").getOrElse(Vote(key = "neutral", qualifications = Seq.empty, hasVoted = false))
+    votes.find(_.key == "neutral").getOrElse(Vote(key = "neutral", qualifications = js.Array(), hasVoted = false))
 }
 
 object Proposal {
   def apply(proposalResponse: ProposalResponse): Proposal = {
-    val seqVotes: Seq[Vote] = proposalResponse.votes.map(Vote.apply)
-    val seqLabels: Seq[String] = proposalResponse.labels
-    val seqTags: Seq[Tag] = proposalResponse.tags.filter(tag => !tag.label.contains(":")).map(Tag.apply)
+    val seqVotes: js.Array[Vote] = proposalResponse.votes.map(Vote.apply)
+    val seqLabels: js.Array[String] = proposalResponse.labels
+    val seqTags: js.Array[Tag] = proposalResponse.tags.filter(tag => !tag.label.contains(":")).map(Tag.apply)
 
     Proposal(
       id = ProposalId(proposalResponse.id),
@@ -72,7 +72,7 @@ object RegisterProposal {
   }
 }
 
-final case class Vote(key: String, count: Int = 0, qualifications: Seq[Qualification], hasVoted: Boolean)
+final case class Vote(key: String, count: Int = 0, qualifications: js.Array[Qualification], hasVoted: Boolean)
 
 object Vote {
   def apply(voteResponse: VoteResponse): Vote = {
@@ -135,4 +135,4 @@ object Author {
 
 final case class ProposalId(value: String)
 
-case class ProposalSearchResult(proposals: Seq[Proposal], hasMore: Boolean)
+case class ProposalSearchResult(proposals: js.Array[Proposal], hasMore: Boolean)

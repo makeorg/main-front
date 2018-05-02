@@ -6,7 +6,7 @@ import sbt.Keys.baseDirectory
 
 organization := "org.make.front"
 name := "make-front"
-scalaVersion := "2.12.1"
+scalaVersion := "2.12.5"
 
 /* Npm versions */
 val npmReactVersion = "15.6.1"
@@ -105,7 +105,7 @@ emitSourceMaps := System.getenv("CI_BUILD") != "true"
 scalacOptions ++= {
   if (System.getenv("CI_BUILD") == "true") {
     // Seq("-Xelide-below", "OFF") do not uglify css until we know how to make it work correctly
-    Seq.empty
+    Seq()
   } else {
     Seq("-deprecation", "-feature")
   }

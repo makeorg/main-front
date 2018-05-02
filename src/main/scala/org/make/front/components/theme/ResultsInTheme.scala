@@ -22,7 +22,6 @@ import org.make.front.models.{
   Proposal          => ProposalModel,
   ProposalId        => ProposalIdModel,
   Qualification     => QualificationModel,
-  Sequence          => SequenceModel,
   Tag               => TagModel,
   TranslatedTheme   => TranslatedThemeModel,
   Vote              => VoteModel
@@ -32,27 +31,28 @@ import org.make.front.styles.base.{ColRulesStyles, LayoutRulesStyles, TextStyles
 import org.make.front.styles.ui.CTAStyles
 import org.make.front.styles.utils._
 import org.make.services.proposal.SearchResult
-import org.make.services.tracking.{TrackingLocation, TrackingService}
 import org.make.services.tracking.TrackingService.TrackingContext
+import org.make.services.tracking.{TrackingLocation, TrackingService}
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
+import scala.scalajs.js
 import scala.util.{Failure, Success}
 
 object ResultsInTheme {
 
   case class ResultsInThemeProps(
     theme: TranslatedThemeModel,
-    onMoreResultsRequested: (Seq[ProposalModel], Seq[TagModel], Option[Int]) => Future[SearchResult],
-    onTagSelectionChange: (Seq[TagModel], Option[Int])                       => Future[SearchResult],
-    preselectedTags: Seq[TagModel],
+    onMoreResultsRequested: (js.Array[ProposalModel], js.Array[TagModel], Option[Int]) => Future[SearchResult],
+    onTagSelectionChange: (js.Array[TagModel], Option[Int])                            => Future[SearchResult],
+    preselectedTags: js.Array[TagModel],
     maybeOperation: Option[OperationModel],
     maybeLocation: Option[LocationModel],
     country: String
   )
 
-  case class ResultsInThemeState(listProposals: Seq[ProposalModel],
-                                 selectedTags: Seq[TagModel],
+  case class ResultsInThemeState(listProposals: js.Array[ProposalModel],
+                                 selectedTags: js.Array[TagModel],
                                  initialLoad: Boolean,
                                  hasRequestedMore: Boolean,
                                  hasMore: Boolean,
@@ -112,7 +112,7 @@ object ResultsInTheme {
       getInitialState = { self =>
         ResultsInThemeState(
           selectedTags = self.props.wrapped.preselectedTags,
-          listProposals = Seq(),
+          listProposals = js.Array(),
           initialLoad = true,
           hasRequestedMore = false,
           hasMore = false
@@ -122,7 +122,7 @@ object ResultsInTheme {
         self.setState(
           ResultsInThemeState(
             selectedTags = nextProps.wrapped.preselectedTags,
-            listProposals = Seq(),
+            listProposals = js.Array(),
             initialLoad = true,
             hasRequestedMore = false,
             hasMore = false
@@ -154,15 +154,15 @@ object ResultsInTheme {
         }
 
         val noResults: ReactElement =
-          <.div(^.className := Seq(ResultsInThemeStyles.noResults, LayoutRulesStyles.centeredRow))(
+          <.div(^.className := js.Array(ResultsInThemeStyles.noResults, LayoutRulesStyles.centeredRow))(
             <.p(^.className := ResultsInThemeStyles.noResultsSmiley)("😞"),
             <.p(
-              ^.className := Seq(TextStyles.mediumText, ResultsInThemeStyles.noResultsMessage),
+              ^.className := js.Array(TextStyles.mediumText, ResultsInThemeStyles.noResultsMessage),
               ^.dangerouslySetInnerHTML := I18n.t("theme.results.no-results")
             )()
           )
 
-        val onTagsChange: (Seq[TagModel]) => Unit = {
+        val onTagsChange: (js.Array[TagModel]) => Unit = {
           tags =>
             val previousSelectedTags = self.state.selectedTags
             val changedTags = if (previousSelectedTags.lengthCompare(tags.size) > 0) {
@@ -200,68 +200,69 @@ object ResultsInTheme {
             }
         }
 
-        def proposals(proposals: Seq[ProposalModel], country: String) =
-          Seq(
-            <.InfiniteScroll(
-              ^.element := "ul",
-              ^.className := Seq(ResultsInThemeStyles.itemsList, LayoutRulesStyles.centeredRowWithCols),
-              ^.hasMore := (self.state.initialLoad || self.state.hasMore && self.state.hasRequestedMore),
-              ^.initialLoad := true,
-              ^.pageStart := 1,
-              ^.loadMore := onSeeMore,
-              ^.loader := <.li(^.className := ResultsInThemeStyles.spinnerWrapper)(<.SpinnerComponent.empty)
-            )(if (proposals.nonEmpty) {
-              val counter = new Counter()
-              proposals.map(
-                proposal =>
-                  <.li(
-                    ^.className := Seq(
-                      ResultsInThemeStyles.item,
-                      ColRulesStyles.col,
-                      ColRulesStyles.colHalfBeyondMedium,
-                      ColRulesStyles.colQuarterBeyondLarge
+        def proposals(proposals: js.Array[ProposalModel], country: String) =
+          js.Array(
+              <.InfiniteScroll(
+                ^.element := "ul",
+                ^.className := js.Array(ResultsInThemeStyles.itemsList, LayoutRulesStyles.centeredRowWithCols),
+                ^.hasMore := (self.state.initialLoad || self.state.hasMore && self.state.hasRequestedMore),
+                ^.initialLoad := true,
+                ^.pageStart := 1,
+                ^.loadMore := onSeeMore,
+                ^.loader := <.li(^.className := ResultsInThemeStyles.spinnerWrapper)(<.SpinnerComponent.empty)
+              )(if (proposals.nonEmpty) {
+                val counter = new Counter()
+                proposals
+                  .map(
+                    proposal =>
+                      <.li(
+                        ^.className := js.Array(
+                          ResultsInThemeStyles.item,
+                          ColRulesStyles.col,
+                          ColRulesStyles.colHalfBeyondMedium,
+                          ColRulesStyles.colQuarterBeyondLarge
+                        )
+                      )(
+                        <.ProposalTileWithTagsComponent(
+                          ^.wrapped := ProposalTileWithTagsProps(
+                            proposal = proposal,
+                            handleSuccessfulVote = onSuccessfulVote(proposal.id, self),
+                            handleSuccessfulQualification = onSuccessfulQualification(proposal.id, self),
+                            index = counter.getAndIncrement(),
+                            maybeTheme = Some(self.props.wrapped.theme),
+                            maybeOperation = self.props.wrapped.maybeOperation,
+                            maybeSequenceId = None,
+                            maybeLocation = self.props.wrapped.maybeLocation,
+                            trackingLocation = TrackingLocation.themePage,
+                            country = country
+                          )
+                        )()
                     )
-                  )(
-                    <.ProposalTileWithTagsComponent(
-                      ^.wrapped := ProposalTileWithTagsProps(
-                        proposal = proposal,
-                        handleSuccessfulVote = onSuccessfulVote(proposal.id, self),
-                        handleSuccessfulQualification = onSuccessfulQualification(proposal.id, self),
-                        index = counter.getAndIncrement(),
-                        maybeTheme = Some(self.props.wrapped.theme),
-                        maybeOperation = self.props.wrapped.maybeOperation,
-                        maybeSequenceId = None,
-                        maybeLocation = self.props.wrapped.maybeLocation,
-                        trackingLocation = TrackingLocation.themePage,
-                        country = country
-                      )
-                    )()
-                )
-              )
-            } else { <.div.empty }),
-            if (self.state.hasMore && !self.state.hasRequestedMore) {
-              <.div(^.className := Seq(ResultsInThemeStyles.seeMoreButtonWrapper, LayoutRulesStyles.centeredRow))(
-                <.button(^.onClick := (() => {
+                  )
+                  .toSeq
+              } else { <.div.empty }),
+              if (self.state.hasMore && !self.state.hasRequestedMore) {
+                <.div(
+                  ^.className := js.Array(ResultsInThemeStyles.seeMoreButtonWrapper, LayoutRulesStyles.centeredRow)
+                )(<.button(^.onClick := (() => {
                   onSeeMore(-1)
                   TrackingService.track(
                     "click-proposal-viewmore",
                     TrackingContext(TrackingLocation.themePage),
                     Map("themeId" -> self.props.wrapped.theme.id.value)
                   )
-                }), ^.className := Seq(CTAStyles.basic, CTAStyles.basicOnButton))(
-                  unescape(I18n.t("theme.results.see-more"))
-                )
-              )
-            }
-          )
+                }), ^.className := js.Array(CTAStyles.basic, CTAStyles.basicOnButton))(unescape(I18n.t("theme.results.see-more"))))
+              }
+            )
+            .toSeq
 
-        val proposalsToDisplay: Seq[ProposalModel] = self.state.listProposals
+        val proposalsToDisplay: js.Array[ProposalModel] = self.state.listProposals
 
         <.section(^.className := ResultsInThemeStyles.wrapper)(
           <.header(^.className := LayoutRulesStyles.centeredRow)(
             <.h2(^.className := TextStyles.mediumTitle)(unescape(I18n.t("theme.results.title")))
           ),
-          <.div(^.className := Seq(LayoutRulesStyles.centeredRow, ResultsInThemeStyles.tagsNavWrapper))(
+          <.div(^.className := js.Array(LayoutRulesStyles.centeredRow, ResultsInThemeStyles.tagsNavWrapper))(
             <.FilterByTagsComponent(^.wrapped := FilterByTagsProps(self.props.wrapped.theme.tags, onTagsChange))()
           ),
           if (self.state.initialLoad || proposalsToDisplay.nonEmpty) {

@@ -15,6 +15,8 @@ import org.make.front.styles._
 import org.make.front.styles.base.{LayoutRulesStyles, TextStyles}
 import org.make.front.styles.utils._
 
+import scala.scalajs.js
+
 object CookieAlert {
 
   final case class CookieAlertProps(isAlertOpened: Boolean, closeCallback: () => Unit)
@@ -51,8 +53,8 @@ object CookieAlert {
           }
 
           if (self.state.isAlertOpened) {
-            <.div(^.className := Seq(CookieAlertStyles.wrapper))(
-              <.div(^.className := Seq(LayoutRulesStyles.centeredRow, CookieAlertStyles.innerWrapper))(
+            <.div(^.className := js.Array(CookieAlertStyles.wrapper))(
+              <.div(^.className := js.Array(LayoutRulesStyles.centeredRow, CookieAlertStyles.innerWrapper))(
                 <.button(^.className := CookieAlertStyles.closeButton, ^.onClick := close())(
                   <("svg")(
                     ^("xmlns") := "http://www.w3.org/2000/svg",
@@ -68,7 +70,7 @@ object CookieAlert {
                   )
                 ),
                 <.p(
-                  ^.className := Seq(TextStyles.smallText, CookieAlertStyles.message),
+                  ^.className := js.Array(TextStyles.smallText, CookieAlertStyles.message),
                   ^.dangerouslySetInnerHTML := I18n.t("cookie-alert")
                 )()
               ),

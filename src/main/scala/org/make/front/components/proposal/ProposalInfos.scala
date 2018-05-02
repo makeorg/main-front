@@ -12,8 +12,9 @@ import org.make.front.styles._
 import org.make.front.styles.base.{TableLayoutStyles, TextStyles}
 import org.make.front.styles.utils._
 import org.make.front.styles.vendors.FontAwesomeStyles
-
 import scalacss.internal.Attr
+
+import scala.scalajs.js
 
 object ProposalInfos {
 
@@ -25,10 +26,10 @@ object ProposalInfos {
         displayName = "ProposalInfos",
         render = (self) => {
 
-          def label(trending: String): Seq[ReactElement] = {
+          def label(trending: String): js.Array[ReactElement] = {
             trending match {
               case "hot" =>
-                Seq(
+                js.Array(
                   <.div(^.className := TableLayoutStyles.cellVerticalAlignMiddle)(
                     <.p(^.className := ProposalInfosStyles.label)(
                       <("svg")(
@@ -47,30 +48,30 @@ object ProposalInfos {
                   )
                 )
               case "trending" =>
-                Seq(
+                js.Array(
                   <.div(^.className := TableLayoutStyles.cellVerticalAlignMiddle)(
                     <.p(^.className := ProposalInfosStyles.label)(
-                      <.i(^.className := Seq(FontAwesomeStyles.lineChart))()
+                      <.i(^.className := js.Array(FontAwesomeStyles.lineChart))()
                     )
                   )
                 )
               case "new" =>
-                Seq(
+                js.Array(
                   <.div(^.className := TableLayoutStyles.cellVerticalAlignMiddle)(
                     <.p(^.className := ProposalInfosStyles.label)("new")
                   )
                 )
-              case _ => Seq()
+              case _ => js.Array()
             }
           }
 
           <.div(^.className := TableLayoutStyles.wrapper)(
-            <.div(^.className := Seq(TableLayoutStyles.cellVerticalAlignMiddle, ProposalInfosStyles.infosWrapper))(
-              <.p(^.className := Seq(TextStyles.smallText, ProposalInfosStyles.infos))(
+            <.div(^.className := js.Array(TableLayoutStyles.cellVerticalAlignMiddle, ProposalInfosStyles.infosWrapper))(
+              <.p(^.className := js.Array(TextStyles.smallText, ProposalInfosStyles.infos))(
                 ProposalAuthorInfosFormat.apply(self.props.wrapped.proposal)
               )
             ),
-            self.props.wrapped.proposal.trending.map(label).getOrElse(Seq.empty),
+            self.props.wrapped.proposal.trending.map(label).getOrElse(js.Array()),
             <.style()(ProposalInfosStyles.render[String])
           )
 
