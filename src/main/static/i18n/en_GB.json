@@ -418,6 +418,7 @@
       "caution": "(Rest assured, nothing will be published without your&nbsp;consent.)",
       "separator": "or",
       "with-email-intro": "Sign up with your email address",
+      "with-email-intro-trigger": "Sign up with your email to be updated of next steps on this proposal",
       "terms": "By signing up, you agree to our  <a href=\"https://about.make.org/gb/terms-of-use\" target=\"_blank\">terms of use</a> and to occasionally receive emails from&nbsp;Make.org.",
       "send-cta": "Sign up",
       "error-message": {

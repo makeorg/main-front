@@ -23,7 +23,8 @@ object RegisterWithSocialNetworksOrEmail {
   case class RegisterWithSocialNetworksOrEmailProps(operationId: Option[OperationId],
                                                     trackingContext: TrackingContext,
                                                     trackingParameters: Map[String, String],
-                                                    onSuccessfulLogin: () => Unit = () => {})
+                                                    onSuccessfulLogin: () => Unit = () => {},
+                                                    registerTitle: Option[String] = None)
 
   val regular: ReactClass = React.createClass[RegisterWithSocialNetworksOrEmailProps, Unit](
     displayName = "RegisterWithSocialNetworksOrEmail",
@@ -43,7 +44,9 @@ object RegisterWithSocialNetworksOrEmail {
           )
         ),
         <.div(^.className := RegisterWithSocialNetworksOrEmailStyles.introWrapper)(
-          <.p(^.className := TextStyles.smallTitle)(unescape(I18n.t("authenticate.register.with-email-intro")))
+          <.p(^.className := TextStyles.smallTitle)(
+            self.props.wrapped.registerTitle.getOrElse(unescape(I18n.t("authenticate.register.with-email-intro")))
+          )
         ),
         <.RegisterWithEmailContainerComponent(
           ^.wrapped := RegisterUserProps(

@@ -93,7 +93,8 @@ object LoginOrRegister {
                   operationId = self.props.wrapped.operationId,
                   trackingContext = self.props.wrapped.trackingContext,
                   trackingParameters = self.props.wrapped.trackingParameters,
-                  onSuccessfulLogin = props.onSuccessfulLogin
+                  onSuccessfulLogin = props.onSuccessfulLogin,
+                  registerTitle = Some(unescape(I18n.t("authenticate.register.with-email-intro-trigger")))
                 )
               )()
             } else {
