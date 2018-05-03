@@ -44,22 +44,32 @@ object ActivateAccountContainer {
       def handleValidateAccount(child: Self[ActivateAccountProps, Unit]): Unit = {
         UserService.validateAccount(userId, verificationToken, operationId).onComplete {
           case Success(_) =>
-            redirectAfterValidation(operationId, country, child.props.history)
-            dispatch(NotifySuccess(message = I18n.t("activate-account.notifications.success")))
+            redirectAfterValidation(operationId, country, child.props.history, error = false)
           case Failure(_) =>
-            redirectAfterValidation(operationId, state.country, child.props.history)
-            dispatch(NotifyError(message = I18n.t("activate-account.notifications.error-message")))
+            redirectAfterValidation(operationId, state.country, child.props.history, error = true)
         }
       }
 
-      def redirectAfterValidation(operationId: Option[OperationId], country: String, history: History): Unit = {
+      def redirectAfterValidation(operationId: Option[OperationId],
+                                  country: String,
+                                  history: History,
+                                  error: Boolean): Unit = {
+        val notifyAction =
+          if (error) NotifyError(message = I18n.t("activate-account.notifications.error-message"))
+          else NotifySuccess(message = I18n.t("activate-account.notifications.success"))
         operationId match {
           case Some(value) =>
             OperationService.getOperationById(value).onComplete {
-              case Success(operation) => history.push(s"/$country/consultation/${operation.slug}")
-              case Failure(e)         => history.push(s"/$country")
+              case Success(operation) =>
+                history.push(s"/$country/consultation/${operation.slug}")
+                dispatch(notifyAction)
+              case Failure(_) =>
+                history.push(s"/$country")
+                dispatch(notifyAction)
             }
-          case _ => history.push(s"/$country")
+          case _ =>
+            history.push(s"/$country")
+            dispatch(notifyAction)
         }
       }
 
