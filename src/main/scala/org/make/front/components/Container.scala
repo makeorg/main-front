@@ -57,6 +57,16 @@ object Container {
           )(),
           <.Route(
             ^.exact := true,
+            ^.path := "/:country/consultation/:operationSlug/proposal/:proposalSlug",
+            ^.component := CountryDetector(ProposalContainer.reactClass)
+          )(),
+          <.Route(
+            ^.exact := true,
+            ^.path := "/:country/theme/:themeSlug/proposal/:proposalSlug",
+            ^.component := CountryDetector(ProposalContainer.reactClass)
+          )(),
+          <.Route(
+            ^.exact := true,
             ^.path := "/:country/proposal/:proposalSlug",
             ^.component := CountryDetector(ProposalContainer.reactClass)
           )(),

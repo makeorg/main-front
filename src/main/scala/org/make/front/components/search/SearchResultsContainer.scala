@@ -6,34 +6,67 @@ import io.github.shogowada.scalajs.reactjs.redux.ReactRedux
 import io.github.shogowada.scalajs.reactjs.redux.Redux.Dispatch
 import io.github.shogowada.scalajs.reactjs.router.RouterProps._
 import org.make.front.actions.NotifyError
-import org.make.front.components.AppState
-import org.make.front.components.search.SearchResults.SearchResultsProps
+import org.make.front.components.{AppState, DataLoader}
+import org.make.front.components.DataLoader.DataLoaderProps
+import org.make.front.components.operation.WaitingForOperation
 import org.make.front.facades.I18n
 import org.make.front.helpers.QueryString
-import org.make.front.models.{Location, Proposal}
+import org.make.front.models.{
+  OperationExpanded,
+  TranslatedTheme,
+  Location  => LocationModel,
+  Operation => OperationModel,
+  Proposal  => ProposalModel
+}
 import org.make.services.operation.OperationService
 import org.make.services.proposal.ProposalService.defaultResultsCount
 import org.make.services.proposal.{ProposalService, SearchResult}
+import org.make.services.tag.TagService
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 import scala.scalajs.js
-import scalajs.js.URIUtils
+import scala.scalajs.js.URIUtils
 import scala.util.{Failure, Success}
 
 object SearchResultsContainer {
 
-  lazy val reactClass: ReactClass = ReactRedux.connectAdvanced(selectorFactory)(SearchResults.reactClass)
+  lazy val reactClass: ReactClass = ReactRedux.connectAdvanced(selectorFactory)(DataLoader.reactClass)
 
-  def selectorFactory: (Dispatch) => (AppState, Props[Unit]) => SearchResultsProps =
+  def selectorFactory
+    : (Dispatch) => (AppState, Props[Unit]) => DataLoaderProps[Either[OperationExpanded, TranslatedTheme]] =
     (dispatch: Dispatch) => { (appState: AppState, props: Props[Unit]) =>
       {
         val operationSlug: Option[String] = props.`match`.params.get("operationSlug")
         val themeSlug: Option[String] = props.`match`.params.get("themeSlug")
 
+        val futureMaybeOperation: Future[Option[OperationModel]] = operationSlug match {
+          case Some(slug) => OperationService.getOperationBySlug(slug)
+          case _          => Future.successful(None)
+        }
+
+        val futureMaybeOperationExpanded: Future[Option[OperationExpanded]] = for {
+          maybeOperation <- futureMaybeOperation
+          tags           <- TagService.getTags
+        } yield OperationExpanded.getOperationExpandedFromOperation(maybeOperation, tags, appState.country)
+        val maybeTheme: Option[TranslatedTheme] = themeSlug.flatMap { slug =>
+          appState.findTheme(slug)
+        }
+
+        val futureOperationExpandedOrTheme: Future[Option[Either[OperationExpanded, TranslatedTheme]]] = {
+          maybeTheme match {
+            case Some(theme) => Future.successful(Some(Right(theme)))
+            case _ =>
+              futureMaybeOperationExpanded.map {
+                case Some(operation) => Some(Left(operation))
+                case _               => None
+              }
+          }
+        }
+
         val queryParams: Map[String, String] = QueryString.parse(props.location.search)
 
-        val searchValue: Option[String] = {
+        val searchQueryValue: Option[String] = {
           queryParams
             .get("q")
             .flatMap { value =>
@@ -46,13 +79,10 @@ object SearchResultsContainer {
             .map(URIUtils.decodeURI)
         }
 
-        def getProposals(originalProposals: js.Array[Proposal], content: Option[String]): Future[SearchResult] = {
+        def getProposals(originalProposals: js.Array[ProposalModel], content: Option[String]): Future[SearchResult] = {
 
           val result: Future[SearchResult] = for {
-            operation <- operationSlug match {
-              case None                     => Future.successful(None)
-              case Some(operationSlugValue) => OperationService.getOperationBySlug(operationSlugValue)
-            }
+            operation <- futureMaybeOperation
             proposals <- ProposalService
               .searchProposals(
                 content = content,
@@ -86,13 +116,40 @@ object SearchResultsContainer {
           result
         }
 
-        SearchResults.SearchResultsProps(
-          onMoreResultsRequested = getProposals,
-          searchValue = searchValue,
-          maybeSequence = None,
-          maybeOperation = None,
-          maybeLocation = Some(Location.SearchResultsPage),
-          isConnected = appState.connectedUser.isDefined
+        val shouldOperationUpdate: (Option[Either[OperationExpanded, TranslatedTheme]]) => Boolean = { maybeOperation =>
+          maybeOperation.forall(
+            operationOrTheme =>
+              operationOrTheme match {
+                case Left(operationExpanded) =>
+                  !operationSlug.contains(operationExpanded.slug) || operationExpanded.country != appState.country
+                case Right(translatedTheme) =>
+                  !themeSlug.contains(translatedTheme.slug) || translatedTheme.country != appState.country
+            }
+          )
+        }
+
+        DataLoaderProps[Either[OperationExpanded, TranslatedTheme]](
+          future = () => futureOperationExpandedOrTheme,
+          shouldComponentUpdate = shouldOperationUpdate,
+          componentDisplayedMeanwhileReactClass = WaitingForOperation.reactClass,
+          componentReactClass = SearchResults.reactClass,
+          componentProps = { operationExpandedOrTheme =>
+            val maybeOperation: Option[OperationExpanded] = operationExpandedOrTheme match {
+              case Left(operationExpanded) => Some(operationExpanded)
+              case _                       => None
+            }
+            SearchResults.SearchResultsProps(
+              onMoreResultsRequested = getProposals,
+              searchValue = searchQueryValue,
+              maybeSequence = None,
+              maybeOperation = maybeOperation,
+              maybeLocation = Some(LocationModel.SearchResultsPage),
+              isConnected = appState.connectedUser.isDefined
+            )
+          },
+          onNotFound = () => {
+            props.history.push("/404")
+          }
         )
       }
     }
