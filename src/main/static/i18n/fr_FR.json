@@ -512,6 +512,7 @@
       "caution": "(Rassurez-vous, nous ne publierons jamais rien sans votre&nbsp;accord.)",
       "separator": "ou",
       "with-email-intro": "Je m'inscris avec mon adresse&nbsp;email",
+      "with-email-intro-trigger": "Je m'inscris avec mon mail pour être informé(e) des actions à venir sur ces propositions",
       "terms": "En vous inscrivant, vous acceptez nos <a href=\"https://about.make.org/conditions-dutilisation\" target=\"_blank\">conditions générales d'utilisation</a> ainsi que de recevoir ponctuellement des emails de&nbsp;Make.org.",
       "send-cta": "s'inscrire",
       "error-message": {
