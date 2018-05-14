@@ -6,8 +6,8 @@ var WebpackMd5Hash = require('webpack-md5-hash');
 var scalajs = require('./scalajs.webpack.config')
 
 var htmlWebpackParams = {
-    "metaTitle": "Make.org",
-    "metaDescription": "Make.org",
+    "metaTitle": "Make.org, accélérateur d'intérêt collectif",
+    "metaDescription": "Proposez, votez, agissons : ensemble, trouvons des solutions aux grandes problématiques actuelles. Les plus soutenues seront mises en action par Make.org et ses partenaires.",
     "metaPicture": "https://uploads-ssl.webflow.com/598345cdee443e00013ae603/59a526e0a1a95c0001f8ca11_make.png",
     "template": path.join(__dirname, "index.template.ejs"),
     "apiUrl": "API_URL",
