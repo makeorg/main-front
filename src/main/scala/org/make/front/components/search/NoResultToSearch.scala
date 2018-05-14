@@ -7,10 +7,11 @@ import io.github.shogowada.scalajs.reactjs.events.MouseSyntheticEvent
 import org.make.front.Main.CssSettings._
 import org.make.front.components.Components.{RichVirtualDOMElements, _}
 import org.make.front.components.modals.FullscreenModal.FullscreenModalProps
+import org.make.front.components.operation.SubmitProposalInRelationToOperation.SubmitProposalInRelationToOperationProps
 import org.make.front.components.submitProposal.SubmitProposal.SubmitProposalProps
 import org.make.front.facades.I18n
 import org.make.front.facades.Unescape.unescape
-import org.make.front.models.Location
+import org.make.front.models.{Location => LocationModel, OperationExpanded => OperationModel}
 import org.make.front.styles.ThemeStyles
 import org.make.front.styles.base.{LayoutRulesStyles, TextStyles}
 import org.make.front.styles.ui.CTAStyles
@@ -23,7 +24,10 @@ import scala.scalajs.js
 
 object NoResultToSearch {
 
-  final case class NoResultToSearchProps(searchValue: Option[String], maybeLocation: Option[Location])
+  final case class NoResultToSearchProps(searchValue: Option[String],
+                                         maybeLocation: Option[LocationModel],
+                                         maybeOperation: Option[OperationModel],
+                                         language: String)
 
   final case class NoResultToSearchState(isProposalModalOpened: Boolean)
 
@@ -72,11 +76,26 @@ object NoResultToSearch {
               closeCallback = closeProposalModal
             )
           )(
-            <.SubmitProposalComponent(
-              ^.wrapped := SubmitProposalProps(trackingParameters = Map.empty, onProposalProposed = () => {
-                self.setState(_.copy(isProposalModalOpened = false))
-              }, maybeLocation = self.props.wrapped.maybeLocation)
-            )()
+            self.props.wrapped.maybeOperation.map { operation =>
+
+              <.SubmitProposalInRelationToOperationComponent(
+                ^.wrapped := SubmitProposalInRelationToOperationProps(
+                  operation = operation,
+                  onProposalProposed = () => {
+                    self.setState(_.copy(isProposalModalOpened = false))
+                  },
+                  maybeSequence = None,
+                  maybeLocation = self.props.wrapped.maybeLocation,
+                  language = self.props.wrapped.language
+                )
+              )()
+            } getOrElse {
+              <.SubmitProposalComponent(
+                ^.wrapped := SubmitProposalProps(trackingParameters = Map.empty, onProposalProposed = () => {
+                  self.setState(_.copy(isProposalModalOpened = false))
+                }, maybeLocation = self.props.wrapped.maybeLocation, maybeOperation = self.props.wrapped.maybeOperation)
+              )()
+            }
           ),
           <.style()(NoResultToSearchStyles.render[String])
         )

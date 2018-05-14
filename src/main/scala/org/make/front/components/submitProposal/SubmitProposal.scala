@@ -10,7 +10,7 @@ import org.make.front.components.Components._
 import org.make.front.components.submitProposal.SubmitProposalAndAuthenticateContainer.SubmitProposalAndAuthenticateContainerProps
 import org.make.front.facades.I18n
 import org.make.front.facades.Unescape.unescape
-import org.make.front.models.Location
+import org.make.front.models.{Location => LocationModel, OperationExpanded => OperationModel}
 import org.make.front.styles._
 import org.make.front.styles.base.TextStyles
 import org.make.front.styles.utils._
@@ -23,7 +23,8 @@ object SubmitProposal {
 
   case class SubmitProposalProps(trackingParameters: Map[String, String],
                                  onProposalProposed: () => Unit,
-                                 maybeLocation: Option[Location])
+                                 maybeLocation: Option[LocationModel],
+                                 maybeOperation: Option[OperationModel])
 
   case class SubmitProposalState()
 
@@ -53,7 +54,7 @@ object SubmitProposal {
                 intro = intro,
                 onProposalProposed = self.props.wrapped.onProposalProposed,
                 maybeTheme = None,
-                maybeOperation = None,
+                maybeOperation = self.props.wrapped.maybeOperation,
                 maybeSequence = None,
                 maybeLocation = self.props.wrapped.maybeLocation
               )
