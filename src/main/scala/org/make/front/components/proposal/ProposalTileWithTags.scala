@@ -60,6 +60,17 @@ object ProposalTileWithTags {
                 <.ProposalInfosComponent(^.wrapped := ProposalInfosProps(proposal = self.props.wrapped.proposal))()
               )
             }
+            val proposalLink: String = self.props.wrapped.maybeOperation match {
+              case Some(operationExpanded) =>
+                s"/${self.props.wrapped.country}/consultation/${operationExpanded.slug}/proposal/${self.props.wrapped.proposal.slug}"
+              case _ =>
+                self.props.wrapped.maybeTheme match {
+                  case Some(theme) =>
+                    s"/${self.props.wrapped.country}/theme/${theme.slug}/proposal/${self.props.wrapped.proposal.slug}"
+                  case _ => s"/${self.props.wrapped.country}/proposal/${self.props.wrapped.proposal.slug}"
+                }
+
+            }
 
             <.article(^.className := ProposalTileStyles.wrapper)(
               <.div(^.className := js.Array(TableLayoutStyles.fullHeightWrapper, ProposalTileStyles.innerWrapper))(
@@ -68,10 +79,9 @@ object ProposalTileWithTags {
                     intro,
                     <.div(^.className := ProposalTileStyles.contentWrapper)(
                       <.h3(^.className := js.Array(TextStyles.mediumText, TextStyles.boldText))(
-                        <.Link(
-                          ^.to := s"/${self.props.wrapped.country}/proposal/${self.props.wrapped.proposal.slug}",
-                          ^.className := ProposalTileStyles.proposalLinkOnTitle
-                        )(self.props.wrapped.proposal.content)
+                        <.Link(^.to := proposalLink, ^.className := ProposalTileStyles.proposalLinkOnTitle)(
+                          self.props.wrapped.proposal.content
+                        )
                       ),
                       <.VoteContainerComponent(
                         ^.wrapped := VoteContainerProps(
