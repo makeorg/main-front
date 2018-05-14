@@ -36,7 +36,7 @@ object ChanceAuxJeunesOperationStaticData extends StaticDataOfOperation {
             )
           ),
           Slides.displaySignUpCard(params, !params.isConnected),
-          Slides.displayProposalPushCard(params),
+          Slides.displayProposalPushCard(params, displayed = false),
           Slides.displayFinalCard(params)
         )
       }
