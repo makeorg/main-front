@@ -13,7 +13,7 @@ import org.make.front.components.maintenance.Maintenance
 import org.make.front.components.operation.OperationContainer
 import org.make.front.components.operation.sequence.SequenceOfTheOperationContainer
 import org.make.front.components.proposal.ProposalContainer
-import org.make.front.components.search.SearchResultsContainer
+import org.make.front.components.search.{HomeSearchResultsContainer, SearchResultsContainer}
 import org.make.front.components.theme.MaybeThemeContainer
 import org.make.front.components.userProfile.UserProfileContainer
 import org.make.front.helpers.DetectedCountry.getDetectedCountry
@@ -103,7 +103,7 @@ object Container {
           <.Route(
             ^.exact := true,
             ^.path := "/:country/search",
-            ^.component := CountryDetector(SearchResultsContainer.reactClass)
+            ^.component := CountryDetector(HomeSearchResultsContainer.reactClass)
           )(),
           <.Route(^.exact := true, ^.path := "/404", ^.component := ErrorContainer.reactClass)(),
           <.Route(^.exact := true, ^.path := "/maintenance", ^.component := Maintenance.reactClass)(),
