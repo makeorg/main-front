@@ -28,7 +28,7 @@ import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 import scala.scalajs.js
 import scala.util.{Failure, Success}
-import scalajs.js.Dynamic.{global => g}
+
 object SearchResults {
   final case class SearchResultsProps(
     onMoreResultsRequested: (js.Array[Proposal], Option[String]) => Future[SearchResult],
@@ -72,8 +72,7 @@ object SearchResults {
         )
       }, shouldComponentUpdate = { (self, props, state) =>
         self.props.wrapped.isConnected != props.wrapped.isConnected ||
-        self.state.listProposals.lengthCompare(state.listProposals.size) != 0 ||
-        state.listProposals.isEmpty
+        self.state.listProposals.lengthCompare(state.listProposals.size) != 0
       }, componentWillReceiveProps = (self, props) => {
         if (self.props.wrapped.searchValue != props.wrapped.searchValue) {
           self.setState(SearchResultsState.empty)
