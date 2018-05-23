@@ -72,7 +72,8 @@ object SearchResults {
         )
       }, shouldComponentUpdate = { (self, props, state) =>
         self.props.wrapped.isConnected != props.wrapped.isConnected ||
-        self.state.listProposals.lengthCompare(state.listProposals.size) != 0
+        self.state.listProposals.lengthCompare(state.listProposals.size) != 0 ||
+        (!state.initialLoad && state.listProposals.isEmpty)
       }, componentWillReceiveProps = (self, props) => {
         if (self.props.wrapped.searchValue != props.wrapped.searchValue) {
           self.setState(SearchResultsState.empty)
