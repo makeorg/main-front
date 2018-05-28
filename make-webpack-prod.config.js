@@ -39,11 +39,11 @@ var build = {
             },
             {
                 test: /\.(ttf|otf|eot|svg|woff(2)?)(\?[a-z0-9]+)?$/,
-                loader: 'file-loader?name=fonts/[name].[hash].[ext]'
+                loader: 'file-loader?name=/fonts/[name].[hash].[ext]'
             },
             {
                 test: /\.(jpe?g|gif|png)$/,
-                loader: 'file-loader?name=images/[name].[hash].[ext]',
+                loader: 'file-loader?name=/images/[name].[hash].[ext]',
                 include: [path.join(__dirname, "images")]
             },
             {

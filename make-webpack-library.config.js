@@ -78,12 +78,12 @@ module.exports.module.rules = [
     },
     {
         test: /\.(ttf|otf|eot|svg|woff(2)?)(\?[a-z0-9]+)?$/,
-        loader: 'file-loader?name=fonts/[name].[ext]',
+        loader: 'file-loader?name=/fonts/[name].[ext]',
         include: [path.join(__dirname, "fonts")],
     },
     {
         test: /\.(jpe?g|gif|svg|png)$/,
-        loader: 'file-loader?name=images/[name].[hash].[ext]',
+        loader: 'file-loader?name=/images/[name].[hash].[ext]',
         include: [path.join(__dirname, "images")]
     },
     {
