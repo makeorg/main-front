@@ -1,5 +1,7 @@
 package org.make.front.operations
 
+import org.make.front.components.operation.intro.MakeEuropeOperationIntro
+import org.make.front.components.operation.intro.MakeEuropeOperationIntro.MakeEuropeOperationIntroProps
 import org.make.front.facades.{makeEuropeLogo, makeEuropeWhiteLogo}
 import org.make.front.models._
 
@@ -30,6 +32,8 @@ object MakeEuropeOperationStaticData extends StaticDataOfOperation {
           Slides.displayProposalPushCard(params),
           Slides.displayFinalCard(params)
         )
-      }
+      },
+      headerComponent = MakeEuropeOperationIntro.reactClass,
+      headerProps = (operation) => MakeEuropeOperationIntroProps(operation)
     )
 }

@@ -1,4 +1,6 @@
 package org.make.front.operations
+import org.make.front.components.operation.intro.ClimatParisOperationIntro
+import org.make.front.components.operation.intro.ClimatParisOperationIntro.ClimatParisOperationIntroProps
 import org.make.front.facades._
 import org.make.front.models._
 import org.make.services.tracking.TrackingLocation
@@ -34,6 +36,8 @@ object ClimatParisOperationStaticData extends StaticDataOfOperation {
         Slides.displayProposalPushCard(params),
         Slides.displayFinalCard(params)
       )
-    }
+    },
+    headerComponent = ClimatParisOperationIntro.reactClass,
+    headerProps = (operation) => ClimatParisOperationIntroProps(operation)
   )
 }

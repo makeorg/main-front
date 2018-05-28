@@ -1,5 +1,7 @@
 package org.make.front.operations
 
+import org.make.front.components.operation.intro.MVEOperationIntro
+import org.make.front.components.operation.intro.MVEOperationIntro.MVEOperationIntroProps
 import org.make.front.facades.mveLogo
 import org.make.front.models._
 
@@ -36,7 +38,9 @@ object MVEOperationStaticData extends StaticDataOfOperation {
           Slides.displayProposalPushCard(params, displayed = false),
           Slides.displayFinalCard(params)
         )
-      }
+      },
+      headerComponent = MVEOperationIntro.reactClass,
+      headerProps = (operation) => MVEOperationIntroProps(operation)
     )
   }
 }

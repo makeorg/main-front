@@ -1,5 +1,6 @@
 package org.make.front.models
 
+import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import org.make.front.components.sequence.Sequence.ExtraSlide
 import org.make.front.operations.Operations
 
@@ -13,7 +14,9 @@ final case class OperationStaticData(country: String,
                                      logoUrl: String,
                                      whiteLogoUrl: String,
                                      shareUrl: String,
-                                     extraSlides: (OperationExtraSlidesParams) => js.Array[ExtraSlide])
+                                     extraSlides: (OperationExtraSlidesParams) => js.Array[ExtraSlide],
+                                     headerComponent: ReactClass,
+                                     headerProps: (OperationExpanded) => Any)
 
 object OperationStaticData {
   def findBySlugAndCountry(slug: String, country: String): Option[OperationStaticData] = {
@@ -66,7 +69,9 @@ final case class OperationExpanded(operationId: OperationId,
                                    wordings: js.Array[OperationWording],
                                    extraSlides: (OperationExtraSlidesParams) => js.Array[ExtraSlide],
                                    tagIds: js.Array[Tag],
-                                   landingSequenceId: SequenceId) {
+                                   landingSequenceId: SequenceId,
+                                   headerComponent: ReactClass,
+                                   headerProps: (OperationExpanded) => Any) {
 
   def getWordingByLanguage(language: String): Option[OperationWording] = {
     wordings.find(_.language == language)
@@ -144,7 +149,9 @@ object OperationExpanded {
         },
         extraSlides = operationStaticData.extraSlides,
         landingSequenceId = countryConfiguration.landingSequenceId,
-        tagIds = operationTags
+        tagIds = operationTags,
+        headerComponent = operationStaticData.headerComponent,
+        headerProps = operationStaticData.headerProps
       )
   }
 }

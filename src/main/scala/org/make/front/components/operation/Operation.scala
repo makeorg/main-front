@@ -45,7 +45,8 @@ object Operation {
             )
         },
         render = (self) => {
-          if (self.props.wrapped.operation.isActive) {
+          val operation = self.props.wrapped.operation
+          if (operation.isActive) {
             <("operation")()(
               <.div(^.className := OperationStyles.mainHeaderWrapper)(
                 <.div(^.className := RWDHideRulesStyles.invisible)(<.CookieAlertContainerComponent.empty),
@@ -54,83 +55,19 @@ object Operation {
                   <.MainHeaderContainer.empty
                 )
               ),
-              // @todo: refactor this part
-              if (self.props.wrapped.operation.slug == "climatparis") {
-                <.ClimatParisOperationIntroComponent(
-                  ^.wrapped := ClimatParisOperationIntroProps(
-                    operation = self.props.wrapped.operation,
-                    language = self.props.wrapped.language
-                  )
-                )()
-              },
-              if (self.props.wrapped.operation.slug == "lpae") {
-                <.LPAEOperationIntroComponent(
-                  ^.wrapped := LPAEOperationIntroProps(
-                    operation = self.props.wrapped.operation,
-                    language = self.props.wrapped.language
-                  )
-                )()
-              },
-              if (self.props.wrapped.operation.slug == "chance-aux-jeunes") {
-                <.ChanceAuxJeunesOperationIntroComponent(
-                  ^.wrapped := ChanceAuxJeunesOperationIntroProps(
-                    operation = self.props.wrapped.operation,
-                    language = self.props.wrapped.language
-                  )
-                )()
-              },
-              if (self.props.wrapped.operation.slug == "make-europe") {
-                <.MakeEuropeOperationIntroComponent(
-                  ^.wrapped := MakeEuropeOperationIntroProps(
-                    operation = self.props.wrapped.operation,
-                    language = self.props.wrapped.language
-                  )
-                )()
-              },
-              if (self.props.wrapped.operation.slug == "mieux-vivre-ensemble") {
-                <.MVEOperationIntroComponent(
-                  ^.wrapped := MVEOperationIntroProps(
-                    operation = self.props.wrapped.operation,
-                    language = self.props.wrapped.language
-                  )
-                )()
-              },
-              if (self.props.wrapped.operation.slug == "vff") {
-                if (self.props.wrapped.countryCode == "IT") {
-                  <.VFFITOperationIntroComponent(
-                    ^.wrapped := VFFITOperationIntroProps(
-                      operation = self.props.wrapped.operation,
-                      language = self.props.wrapped.language
-                    )
-                  )()
-                } else if (self.props.wrapped.countryCode == "GB") {
-                  <.VFFGBOperationIntroComponent(
-                    ^.wrapped := VFFGBOperationIntroProps(
-                      operation = self.props.wrapped.operation,
-                      language = self.props.wrapped.language
-                    )
-                  )()
-                } else {
-                  <.VFFOperationIntroComponent(
-                    ^.wrapped := VFFOperationIntroProps(
-                      operation = self.props.wrapped.operation,
-                      language = self.props.wrapped.language
-                    )
-                  )()
-                }
-              },
+              <(operation.headerComponent)(^.wrapped := operation.headerProps(operation)),
               <.OperationHeaderComponent(
                 ^.wrapped := OperationHeaderProps(
-                  self.props.wrapped.operation,
-                  maybeLocation = Some(LocationModel.OperationPage(self.props.wrapped.operation.operationId)),
+                  operation,
+                  maybeLocation = Some(LocationModel.OperationPage(operation.operationId)),
                   language = self.props.wrapped.language
                 )
               )(),
               <.div(^.className := OperationStyles.contentWrapper)(
                 <.ResultsInOperationContainerComponent(
                   ^.wrapped := ResultsInOperationContainerProps(
-                    currentOperation = self.props.wrapped.operation,
-                    maybeLocation = Some(LocationModel.OperationPage(self.props.wrapped.operation.operationId))
+                    currentOperation = operation,
+                    maybeLocation = Some(LocationModel.OperationPage(operation.operationId))
                   )
                 )()
               ),
