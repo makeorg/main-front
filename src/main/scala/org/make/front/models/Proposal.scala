@@ -1,6 +1,6 @@
 package org.make.front.models
 
-import org.make.client.models.AuthorResponse
+import org.make.client.models.{AuthorResponse, OrganisationInfoResponse}
 import org.make.services.proposal.{ProposalResponse, QualificationResponse, RegisterProposalResponse, VoteResponse}
 
 import scala.scalajs.js
@@ -18,6 +18,7 @@ final case class Proposal(id: ProposalId,
                           trending: Option[String],
                           labels: js.Array[String],
                           author: Author,
+                          organisations: js.Array[OrganisationInfo],
                           country: String,
                           language: String,
                           themeId: Option[ThemeId],
@@ -37,6 +38,7 @@ object Proposal {
     val seqVotes: js.Array[Vote] = proposalResponse.votes.map(Vote.apply)
     val seqLabels: js.Array[String] = proposalResponse.labels
     val seqTags: js.Array[Tag] = proposalResponse.tags.filter(tag => !tag.label.contains(":")).map(Tag.apply)
+    val seqOrganisationsInfo: js.Array[OrganisationInfo] = proposalResponse.organisations.map(OrganisationInfo(_))
 
     Proposal(
       id = ProposalId(proposalResponse.id),
@@ -51,6 +53,7 @@ object Proposal {
       trending = proposalResponse.trending.toOption,
       labels = seqLabels,
       author = Author(proposalResponse.author),
+      organisations = seqOrganisationsInfo,
       country = proposalResponse.country,
       language = proposalResponse.language,
       themeId = Option(proposalResponse.themeId).flatMap(_.toOption).map(ThemeId.apply),
@@ -121,16 +124,31 @@ trait ProposalContextResponse extends js.Object {
   val question: js.UndefOr[String]
 }
 
-final case class Author(firstName: Option[String], postalCode: Option[String], age: Option[Int])
+final case class Author(firstName: Option[String],
+                        organisationName: Option[String],
+                        postalCode: Option[String],
+                        age: Option[Int],
+                        avatarUrl: Option[String])
 
 object Author {
   def apply(authorResponse: AuthorResponse): Author = {
     Author(
       firstName = authorResponse.firstName.toOption,
+      organisationName = authorResponse.organisationName.toOption,
       postalCode = authorResponse.postalCode.toOption,
-      age = authorResponse.age.toOption
+      age = authorResponse.age.toOption,
+      avatarUrl = authorResponse.avatarUrl.toOption
     )
   }
+}
+
+final case class OrganisationInfo(organisationId: UserId, organisationName: Option[String])
+
+object OrganisationInfo {
+  def apply(organisationInfoResponse: OrganisationInfoResponse): OrganisationInfo = new OrganisationInfo(
+    organisationId = UserId(organisationInfoResponse.organisationId),
+    organisationName = organisationInfoResponse.organisationName.toOption
+  )
 }
 
 final case class ProposalId(value: String)
