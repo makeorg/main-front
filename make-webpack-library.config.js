@@ -9,7 +9,7 @@ module.exports = require('./scalajs.webpack.config');
 module.exports.module = module.exports.module || {};
 
 var htmlWebpackParams = {
-    "metaTitle": "Make.org, accélérateur d'intérêt collectif",
+    "metaTitle": "Make.org, accélérateur d'intérêt général",
     "metaDescription": "Proposez, votez, agissons : ensemble, trouvons des solutions aux grandes problématiques actuelles. Les plus soutenues seront mises en action par Make.org et ses partenaires.",
     "metaPicture": "https://uploads-ssl.webflow.com/598345cdee443e00013ae603/59a526e0a1a95c0001f8ca11_make.png",
     "template": path.join(__dirname, "index-library.template.ejs"),
