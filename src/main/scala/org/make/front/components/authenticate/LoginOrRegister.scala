@@ -26,7 +26,8 @@ object LoginOrRegister {
                                   trackingParameters: Map[String, String],
                                   registerView: String = "register",
                                   displayView: String,
-                                  onSuccessfulLogin: () => Unit = () => {})
+                                  onSuccessfulLogin: () => Unit = () => {},
+                                  registerTitle: Option[String] = None)
   case class LoginOrRegisterState(currentView: String = "login")
 
   object LoginOrRegisterState {
@@ -94,7 +95,8 @@ object LoginOrRegister {
                   trackingContext = self.props.wrapped.trackingContext,
                   trackingParameters = self.props.wrapped.trackingParameters,
                   onSuccessfulLogin = props.onSuccessfulLogin,
-                  registerTitle = Some(unescape(I18n.t("authenticate.register.with-email-intro-trigger")))
+                  registerTitle =
+                    Some(props.registerTitle.getOrElse(unescape(I18n.t("authenticate.register.with-email-intro"))))
                 )
               )()
             } else {

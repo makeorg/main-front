@@ -8,6 +8,8 @@ import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import org.make.front.components.authenticate.LoginOrRegister.LoginOrRegisterProps
 import org.make.front.components.Components._
 import org.make.front.components.modals.Modal.ModalProps
+import org.make.front.facades.I18n
+import org.make.front.facades.Unescape.unescape
 import org.make.front.middlewares.TriggerSignUpMiddleware
 import org.make.front.middlewares.TriggerSignUpMiddleware.TriggerSignUpListener
 import org.make.services.tracking.TrackingLocation
@@ -49,7 +51,8 @@ object TriggerSignUp {
               displayView = "register",
               onSuccessfulLogin = () => {
                 self.setState(_.copy(isAuthenticateModalOpened = false))
-              }
+              },
+              registerTitle = Some(unescape(I18n.t("authenticate.register.with-email-intro-trigger")))
             )
           )()
         )
