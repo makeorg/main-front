@@ -6,9 +6,9 @@ var WebpackMd5Hash = require('webpack-md5-hash');
 var scalajs = require('./scalajs.webpack.config')
 
 var htmlWebpackParams = {
-    "metaTitle": "Make.org, accélérateur d'intérêt général",
-    "metaDescription": "Proposez, votez, agissons : ensemble, trouvons des solutions aux grandes problématiques actuelles. Les plus soutenues seront mises en action par Make.org et ses partenaires.",
-    "metaPicture": "https://uploads-ssl.webflow.com/598345cdee443e00013ae603/59a526e0a1a95c0001f8ca11_make.png",
+    "metaTitle": "META_TITLE",
+    "metaDescription": "META_DESCRIPTION",
+    "metaPicture": "META_PICTURE",
     "template": path.join(__dirname, "index.template.ejs"),
     "apiUrl": "API_URL",
     "googleAppId": "810331964280-qtdupbrjusihad3b5da51i5p66qpmhmr.apps.googleusercontent.com",
@@ -91,7 +91,7 @@ var build = {
         })),
         new WebpackMd5Hash(),
         new ExtractTextPlugin({ // define where to save the file
-            filename: '[name].[chunkhash].bundle.css',
+            filename: '/[name].[chunkhash].bundle.css',
             allChunks: true
         }),
         new webpack.optimize.UglifyJsPlugin({

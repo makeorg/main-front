@@ -5,20 +5,17 @@ enablePlugins(DockerPlugin)
 dockerRepository := Some("nexus.prod.makeorg.tech")
 packageName in Docker := "make-front"
 
-val nginxContentDirectory = "/usr/share/nginx/html/make"
+val appContentDirectory = "/usr/src/app/front"
 val nginxEnvParams = "/etc/nginx/env_params"
 val nginxPerlModule = "/etc/nginx/modules/ngx_http_perl_module.so"
 
 dockerCommands := Seq(
-  Cmd("FROM", "nginx:1.13.3-perl"),
+  Cmd("FROM", "nexus.prod.makeorg.tech/front-runner:master-latest"),
   Cmd("MAINTAINER", "technical2@make.org"),
   Cmd("ENV", "API_URL", "https://api.prod.makeorg.tech"),
-  ExecCmd("RUN", "rm", "/etc/nginx/conf.d/default.conf"),
-  Cmd("COPY", "dist", nginxContentDirectory),
-  Cmd("COPY", "conf/nginx.conf", "/etc/nginx/conf.d/make.conf"),
-  Cmd("COPY", "conf/env_params", nginxEnvParams),
-  ExecCmd("RUN", "chmod", "-R", "+rw", nginxContentDirectory),
-  ExecCmd("CMD", "nginx", "-g", s"daemon off; load_module $nginxPerlModule; include $nginxEnvParams;")
+  Cmd("COPY", "dist", appContentDirectory),
+  ExecCmd("RUN", "chmod", "-R", "+rw", appContentDirectory),
+  ExecCmd("CMD", "nodemon", "bin/www")
 )
 
 val copyDockerResources: TaskKey[String] = taskKey[String]("copy directories")
