@@ -310,6 +310,9 @@
       "see-more": "See more proposals",
       "no-results": "We did not find <strong>any result</strong> corresponding to your tag selection.<br>Please make another selection."
     },
+    "consultation-proposal": {
+      "title": "Propose a solution"
+    },
     "proposal-form-in-header": {
       "intro": "Propose your solutions on this topic",
       "limit-of-chars-info": "8/140"

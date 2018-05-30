@@ -23,10 +23,12 @@ object ConsultationLogo {
         val consultation: OperationModel = self.props.wrapped.operation
         val wording: OperationWordingModel =
           self.props.wrapped.operation.getWordingByLanguageOrError(self.props.wrapped.language)
-        <.img(
-          ^.src := consultation.logoUrl,
-          ^.alt := wording.title
-        )()
+        <.h1()(
+          <.img(
+            ^.src := consultation.logoUrl,
+            ^.alt := wording.title
+          )()
+        )
       }
     )
 }

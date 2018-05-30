@@ -304,6 +304,9 @@
       "see-more": "Vedi&nbsp;più proposte",
       "no-results": "Non abbiamo trovato <strong>nessuno risultato</strong> corrispondente alla tua selezione di tag. <br>Fai un'altra selezione."
     },
+    "consultation-proposal": {
+      "title": "Proporre una soluzione"
+    },
     "proposal-form-in-header": {
       "intro": "Proponi la tua soluzione sul soggetto",
       "limit-of-chars-info": "8/140"

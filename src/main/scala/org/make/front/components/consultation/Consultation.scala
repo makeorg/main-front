@@ -6,6 +6,7 @@ import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import org.make.front.Main.CssSettings._
 import org.make.front.components.Components._
 import org.make.front.components.consultation.ConsultationHeader.ConsultationHeaderProps
+import org.make.front.components.consultation.ConsultationProposal.ConsultationProposalProps
 import org.make.front.models.{Location => LocationModel, OperationExpanded => OperationModel}
 import org.make.front.styles.ThemeStyles
 import org.make.front.styles.base.RWDHideRulesStyles
@@ -47,6 +48,15 @@ object Consultation {
                 )
               ),
               <.ConsultationHeaderComponent(^.wrapped := ConsultationHeaderProps(consultation, self.props.wrapped.language))(),
+              <.section(^.className := ConsultationStyles.mainContentWrapper)(
+                <.ConsultationProposalComponent(
+                  ^.wrapped := ConsultationProposalProps(
+                    consultation,
+                    maybeLocation = Some(LocationModel.OperationPage(consultation.operationId)),
+                    language = self.props.wrapped.language
+                  )
+                )()
+              ),
               <.style()(ConsultationStyles.render[String])
             )
           } else {
@@ -71,4 +81,10 @@ object ConsultationStyles extends StyleSheet.Inline {
   val contentWrapper: StyleA =
     style(display.block, backgroundColor(ThemeStyles.BackgroundColor.blackVeryTransparent))
 
+  val mainContentWrapper: StyleA =
+    style(
+      backgroundColor(ThemeStyles.BackgroundColor.grey),
+      paddingTop(20.pxToEm()),
+      paddingBottom(20.pxToEm())
+    )
 }

@@ -50,7 +50,7 @@ object ConsultationHeader {
 
           }
 
-          <.div(^.className :=  DynamicConsultationHeaderStyles.gradient)(
+          <.header(^.className :=  DynamicConsultationHeaderStyles.gradient)(
             <.div(^.className := js.Array(ConsultationHeaderStyles.titleWrapper, DynamicConsultationHeaderStyles.titleWidth))(
               <.p(^.className := ConsultationHeaderStyles.labelWrapper)(
                 <.span(^.className := TextStyles.label)(unescape(I18n.t("operation.vff-fr.intro.label")))
