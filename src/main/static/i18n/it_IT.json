@@ -1,6 +1,9 @@
 {
   "common": {
-    "bait": "C'è bisogno "
+    "bait": "C'è bisogno ",
+    "date": {
+      "long": "ll"
+    }
   },
   "error-message": {
     "main": "Ops! Abbiamo riscontrato delle difficoltà con il caricamento di questa pagine. Ricarica la pagina per piacere.",
@@ -272,6 +275,13 @@
     }
   },
   "operation": {
+    "intro": {
+      "consultation": "CONSULTAZIONE",
+      "action": "AZIONE",
+      "from": "del",
+      "to": "al",
+      "dateuntil": "a partire dal"
+    },
     "vff-it": {
       "intro": {
         "label": "Grande Causa Make.org",

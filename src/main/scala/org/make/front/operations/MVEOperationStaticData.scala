@@ -19,6 +19,7 @@ object MVEOperationStaticData extends StaticDataOfOperation {
       gradient = Some(GradientColor("#EE6380", "#77C4D1")), /*colors from logo*/
       logoUrl = mveLogo.toString,
       whiteLogoUrl = mveLogo.toString,
+      logoWidth = 480,
       shareUrl = "/mieux-vivre-ensemble.html_UTM_#/FR/consultation/mieux-vivre-ensemble/selection",
       wording = js.Array(
         OperationWording(

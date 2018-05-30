@@ -1,6 +1,9 @@
 {
   "common": {
-    "bait": "We should "
+    "bait": "We should ",
+    "date": {
+      "long": "ll"
+    }
   },
   "error-message": {
     "main": "Oops! We are having difficulties loading this page. Please reload it.",
@@ -273,6 +276,13 @@
     }
   },
   "operation": {
+    "intro": {
+      "consultation": "CONSULTATION",
+      "action": "ACTION",
+      "from": "from",
+      "to": "to",
+      "dateuntil": "until"
+    },
     "vff-gb": {
       "intro": {
         "label": "Make.org Grand Challenge",

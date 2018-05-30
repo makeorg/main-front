@@ -19,6 +19,7 @@ object VFFOperationStaticData extends StaticDataOfOperation {
     logoUrl = VFFLogo.toString,
     whiteLogoUrl = VFFWhiteLogo.toString,
     shareUrl = "/vff.html_UTM_#/FR/consultation/vff/selection",
+    logoWidth = 425,
     wording = js.Array(
       OperationWording(
         language = "fr",

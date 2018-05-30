@@ -16,6 +16,7 @@ object MakeEuropeOperationStaticData extends StaticDataOfOperation {
       gradient = Some(GradientColor("#00A5FF", "#003399")),
       logoUrl = makeEuropeLogo.toString,
       whiteLogoUrl = makeEuropeWhiteLogo.toString,
+      logoWidth = 306,
       shareUrl = "",
       wording = js.Array(
         OperationWording(

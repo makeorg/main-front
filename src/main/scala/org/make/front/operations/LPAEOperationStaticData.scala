@@ -15,6 +15,7 @@ object LPAEOperationStaticData extends StaticDataOfOperation {
     gradient = Some(GradientColor("#683577", "#782f8b")),
     logoUrl = lpaeLogo.toString,
     whiteLogoUrl = lpaeLogoWhite.toString,
+    logoWidth = 504,
     shareUrl = "/lpae.html_UTM_#/FR/consultation/lpae/selection",
     wording = js.Array(
       OperationWording(

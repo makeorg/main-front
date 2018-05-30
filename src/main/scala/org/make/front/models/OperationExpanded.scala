@@ -3,6 +3,7 @@ package org.make.front.models
 import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import org.make.front.components.sequence.Sequence.ExtraSlide
 import org.make.front.operations.Operations
+import scalacss.internal.Attrs.color
 
 import scala.scalajs.js
 
@@ -13,6 +14,7 @@ final case class OperationStaticData(country: String,
                                      gradient: Option[GradientColor],
                                      logoUrl: String,
                                      whiteLogoUrl: String,
+                                     logoWidth: Int,
                                      shareUrl: String,
                                      extraSlides: (OperationExtraSlidesParams) => js.Array[ExtraSlide],
                                      headerComponent: ReactClass,
@@ -65,6 +67,7 @@ final case class OperationExpanded(operationId: OperationId,
                                    gradient: Option[GradientColor],
                                    logoUrl: String,
                                    whiteLogoUrl: String,
+                                   logoWidth: Int,
                                    shareUrl: String,
                                    wordings: js.Array[OperationWording],
                                    extraSlides: (OperationExtraSlidesParams) => js.Array[ExtraSlide],
@@ -135,6 +138,7 @@ object OperationExpanded {
         gradient = operationStaticData.gradient,
         logoUrl = operationStaticData.logoUrl,
         whiteLogoUrl = operationStaticData.whiteLogoUrl,
+        logoWidth = operationStaticData.logoWidth,
         shareUrl = operationStaticData.shareUrl,
         wordings = operation.translations.flatMap { translation =>
           val language: String = translation.language.toLowerCase

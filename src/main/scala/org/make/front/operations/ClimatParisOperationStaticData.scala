@@ -17,6 +17,7 @@ object ClimatParisOperationStaticData extends StaticDataOfOperation {
     logoUrl = climatParisLogo.toString,
     whiteLogoUrl = climatParisLogoWhite.toString,
     shareUrl = "/climatparis.html_UTM_#/FR/consultation/climatparis/selection",
+    logoWidth = 358,
     wording = js.Array(
       OperationWording(
         language = "fr",

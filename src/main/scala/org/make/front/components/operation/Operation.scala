@@ -55,7 +55,7 @@ object Operation {
                   <.MainHeaderContainer.empty
                 )
               ),
-              <(operation.headerComponent)(^.wrapped := operation.headerProps(operation)),
+              <(operation.headerComponent)(^.wrapped := operation.headerProps(operation))(),
               <.OperationHeaderComponent(
                 ^.wrapped := OperationHeaderProps(
                   operation,

@@ -18,6 +18,7 @@ object ChanceAuxJeunesOperationStaticData extends StaticDataOfOperation {
       logoUrl = chanceAuxJeunesLogo.toString,
       whiteLogoUrl = chanceAuxJeunesLogoWhite.toString,
       shareUrl = "/chance-aux-jeunes.html_UTM_#/FR/consultation/chance-aux-jeunes/selection",
+      logoWidth = 446,
       wording = js.Array(
         OperationWording(
           language = "fr",

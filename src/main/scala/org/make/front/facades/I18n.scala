@@ -36,6 +36,7 @@ object I18n extends js.Object {
   def setHandleMissingTranslation(function: js.Function2[String, Replacements, String]): Unit = js.native
   def t(key: String, replacements: Replacements = Replacements()): String = js.native
   def l(key: String, options: LocalizeOptions): String = js.native
+  def l(date: js.Date, options: DateLocalizeOptions): String = js.native
   def forceComponentsUpdate(): Unit = js.native
 
 }
@@ -83,7 +84,8 @@ object Localize {
     lazy val dangerousHtml = NativeBooleanAttribute("dangerousHTML")
   }
 
-  trait DateLocalizeOptions {
+  @js.native
+  trait DateLocalizeOptions extends js.Object {
     def dateFormat: String
   }
 
@@ -94,7 +96,8 @@ object Localize {
   }
 
   // @see https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/NumberFormat
-  trait NumberLocalizeOptions {
+  @js.native
+  trait NumberLocalizeOptions extends js.Object {
     def localeMatcher: js.UndefOr[String]
     def style: js.UndefOr[String]
     def currency: js.UndefOr[String]
