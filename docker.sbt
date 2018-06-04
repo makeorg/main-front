@@ -10,12 +10,12 @@ val nginxEnvParams = "/etc/nginx/env_params"
 val nginxPerlModule = "/etc/nginx/modules/ngx_http_perl_module.so"
 
 dockerCommands := Seq(
-  Cmd("FROM", "nexus.prod.makeorg.tech/front-runner:master-latest"),
+  Cmd("FROM", "front-runner:latest"),
   Cmd("MAINTAINER", "technical2@make.org"),
   Cmd("ENV", "API_URL", "https://api.prod.makeorg.tech"),
   Cmd("COPY", "dist", appContentDirectory),
   ExecCmd("RUN", "chmod", "-R", "+rw", appContentDirectory),
-  ExecCmd("CMD", "nodemon", "bin/www")
+  ExecCmd("CMD", "PORT=80 nodemon", "bin/www")
 )
 
 val copyDockerResources: TaskKey[String] = taskKey[String]("copy directories")
