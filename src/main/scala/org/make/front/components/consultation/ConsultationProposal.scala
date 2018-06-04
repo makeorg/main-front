@@ -5,21 +5,25 @@ import io.github.shogowada.scalajs.reactjs.VirtualDOM.{<, _}
 import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import org.make.front.Main.CssSettings._
 import org.make.front.components.Components._
+import org.make.front.components.modals.FullscreenModal.FullscreenModalProps
+import org.make.front.components.operation.SubmitProposalInRelationToOperation.SubmitProposalInRelationToOperationProps
 import org.make.front.facades.I18n
 import org.make.front.facades.Unescape.unescape
 import org.make.front.models.{OperationWording, Location => LocationModel, OperationExpanded => OperationModel}
 import org.make.front.styles.ThemeStyles
 import org.make.front.styles.base._
 import org.make.front.styles.utils._
-import org.make.services.tracking.{TrackingLocation, TrackingService}
 import org.make.services.tracking.TrackingService.TrackingContext
+import org.make.services.tracking.{TrackingLocation, TrackingService}
 import org.scalajs.dom.raw.HTMLElement
 
 import scala.scalajs.js
 
 object ConsultationProposal {
 
-  case class ConsultationProposalProps(operation: OperationModel, maybeLocation: Option[LocationModel], language: String)
+  case class ConsultationProposalProps(operation: OperationModel,
+                                       maybeLocation: Option[LocationModel],
+                                       language: String)
 
   case class ConsultationProposalState(isProposalModalOpened: Boolean)
 
@@ -29,7 +33,7 @@ object ConsultationProposal {
       getInitialState = { _ =>
         ConsultationProposalState(isProposalModalOpened = false)
       },
-      render = (self) => {
+      render = self => {
 
         val consultation: OperationModel = self.props.wrapped.operation
         val wording: OperationWording = consultation.getWordingByLanguageOrError(self.props.wrapped.language)
@@ -49,7 +53,7 @@ object ConsultationProposal {
           proposalInput.foreach(_.blur())
         }
 
-        <.div(^.className := (ConsultationProposalStyles.Wrapper))(
+        <.div(^.className := ConsultationProposalStyles.Wrapper)(
           <.p()(
             //Todo check translations with product team
             unescape(I18n.t("operation.consultation-proposal.title"))
@@ -71,6 +75,22 @@ object ConsultationProposal {
               )
             )
           ),
+          <.FullscreenModalComponent(
+            ^.wrapped := FullscreenModalProps(
+              isModalOpened = self.state.isProposalModalOpened,
+              closeCallback = closeProposalModal
+            )
+          )(
+            <.SubmitProposalInRelationToOperationComponent(
+              ^.wrapped := SubmitProposalInRelationToOperationProps(
+                operation = self.props.wrapped.operation,
+                onProposalProposed = closeProposalModal,
+                maybeSequence = None,
+                maybeLocation = self.props.wrapped.maybeLocation,
+                language = self.props.wrapped.language
+              )
+            )()
+          ),
           <.style()(ConsultationProposalStyles.render[String])
         )
       }
@@ -81,8 +101,5 @@ object ConsultationProposalStyles extends StyleSheet.Inline {
   import dsl._
 
   val Wrapper: StyleA =
-    style(
-      backgroundColor(ThemeStyles.BackgroundColor.white),
-      padding(30.pxToEm())
-    )
+    style(backgroundColor(ThemeStyles.BackgroundColor.white), padding(30.pxToEm()))
 }
