@@ -22,6 +22,7 @@ import org.make.front.helpers.DetectedCountry.getDetectedCountry
 
 import scala.scalajs.js
 import scala.scalajs.js.Dynamic
+import io.github.shogowada.scalajs.reactjs.router.RouterProps._
 
 object Container {
 
@@ -85,6 +86,15 @@ object Container {
           <.Route(
             ^.exact := true,
             ^.path := "/:country/consultationV2/:operationSlug",
+            ^.render := { (props: React.Props[Unit]) =>
+              <.Redirect(
+                ^.to := s"/${props.`match`.params("country")}/consultationV2/${props.`match`.params("operationSlug")}/consultation"
+              )()
+            }
+          )(),
+          <.Route(
+            ^.exact := true,
+            ^.path := "/:country/consultationV2/:operationSlug/:activeTab",
             ^.component := CountryDetector(ConsultationContainer.reactClass)
           )(),
           <.Route(
