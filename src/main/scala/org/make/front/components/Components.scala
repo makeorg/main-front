@@ -163,7 +163,11 @@ object Components {
     def ConsultationHeaderComponent: ReactClassElementSpec = self(consultation.ConsultationHeader.reactClass)
     def ConsultationLogoComponent: ReactClassElementSpec = self(consultation.ConsultationLogo.reactClass)
     def ConsultationProposalComponent: ReactClassElementSpec = self(consultation.ConsultationProposal.reactClass)
-    def ConsultationLinkSequenceComponent: ReactClassElementSpec = self(consultation.ConsultationLinkSequence.reactClass)
+    def ConsultationLinkSequenceComponent: ReactClassElementSpec =
+      self(consultation.ConsultationLinkSequence.reactClass)
+    def ResultsInConsultationContainerComponent: ReactClassElementSpec =
+      self(consultation.ResultsInConsultationContainer.reactClass)
+    def ResultsInConsultationComponent: ReactClassElementSpec = self(consultation.ResultsInConsultation.reactClass)
 
     /*********************/
     def VFFOperationIntroComponent: ReactClassElementSpec = self(operation.intro.VFFOperationIntro.reactClass)
