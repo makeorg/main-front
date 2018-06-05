@@ -26,18 +26,8 @@ trait CookieOpts extends js.Object {
 }
 
 object CookieOpts {
-  def apply(
-             expires: Int,
-             path: String = "/",
-             domain: String = null,
-             secure: Boolean = false
-           ): CookieOpts = {
-    js.Dynamic.literal(
-      expires = expires,
-      path = path,
-      domain = domain,
-      secure = secure
-    ).asInstanceOf[CookieOpts]
+  def apply(expires: Int, path: String = "/", domain: String = null, secure: Boolean = false): CookieOpts = {
+    js.Dynamic.literal(expires = expires, path = path, domain = domain, secure = secure).asInstanceOf[CookieOpts]
   }
 }
 
@@ -48,8 +38,6 @@ trait Path extends js.Object {
 
 object Path {
   def apply(path: String = "/"): Path = {
-    js.Dynamic.literal(
-      path = path
-    ).asInstanceOf[Path]
+    js.Dynamic.literal(path = path).asInstanceOf[Path]
   }
 }

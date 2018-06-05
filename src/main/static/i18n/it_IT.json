@@ -278,6 +278,10 @@
     }
   },
   "operation": {
+    "presentation": {
+      "title": "Perché questa consutazione&nbsp;",
+      "seeMore": "Per saperne di&nbsp;più"
+    },
     "intro": {
       "consultation": "CONSULTAZIONE",
       "action": "AZIONE",

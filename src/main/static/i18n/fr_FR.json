@@ -313,6 +313,10 @@
     }
   },
   "operation": {
+    "presentation": {
+      "title": "Pourquoi cette consultation&nbsp;",
+      "seeMore": "En savoir&nbsp;+"
+    },
     "intro": {
       "consultation": "CONSULTATION",
       "action": "ACTION",

@@ -38,7 +38,8 @@ final case class OperationPartner(name: String, imageUrl: String, imageWidth: In
 final case class OperationWording(language: String,
                                   title: String,
                                   question: String,
-                                  learnMoreUrl: Option[String] = None)
+                                  learnMoreUrl: Option[String],
+                                  presentation: Option[String])
 
 final case class OperationExtraSlidesParams(operation: OperationExpanded,
                                             isConnected: Boolean,
@@ -147,7 +148,8 @@ object OperationExpanded {
               language = language,
               title = translation.title,
               question = operationWording.question,
-              learnMoreUrl = operationWording.learnMoreUrl
+              learnMoreUrl = operationWording.learnMoreUrl,
+              presentation = operationWording.presentation
             )
           }
         },
