@@ -48,5 +48,6 @@ object FontAwesomeStyles extends StyleSheet.Inline {
   val signOut: StyleA = style(addClassName("fa fa-sign-out"))
   val home: StyleA = style(addClassName("fa fa-home"))
   val random: StyleA = style(addClassName("fa fa-random"))
+  val checkCircle: StyleA = style(addClassName("fa fa-check-circle"))
 
 }
