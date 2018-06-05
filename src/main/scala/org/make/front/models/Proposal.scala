@@ -133,8 +133,8 @@ final case class Author(firstName: Option[String],
 object Author {
   def apply(authorResponse: AuthorResponse): Author = {
     Author(
-      firstName = authorResponse.firstName.toOption,
-      organisationName = authorResponse.organisationName.toOption,
+      firstName = Option(authorResponse.firstName).flatMap(_.toOption),
+      organisationName = Option(authorResponse.organisationName).flatMap(_.toOption),
       postalCode = authorResponse.postalCode.toOption,
       age = authorResponse.age.toOption,
       avatarUrl = authorResponse.avatarUrl.toOption

@@ -23,6 +23,10 @@ object ProposalAuthorInfosFormat {
       ""
     }
 
-    proposal.author.firstName.getOrElse(I18n.t("proposal.author-infos.anonymous")).toLowerCase.capitalize + age + postalCode
+    proposal.author.firstName
+      .orElse(proposal.author.organisationName)
+      .getOrElse(I18n.t("proposal.author-infos.anonymous"))
+      .toLowerCase
+      .capitalize + age + postalCode
   }
 }
