@@ -61,7 +61,9 @@ module.exports.plugins = [
     })
 ];
 
-
+module.exports.output = {
+    "filename": "[name]-bundle.js"
+}
 
 module.exports.module.rules = [
     {
