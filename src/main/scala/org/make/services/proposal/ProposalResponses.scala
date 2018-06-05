@@ -1,7 +1,8 @@
 package org.make.services.proposal
 
-import org.make.client.models.AuthorResponse
+import org.make.client.models.{AuthorResponse, OrganisationInfoResponse}
 import org.make.front.models._
+
 import scala.scalajs.js
 
 @js.native
@@ -42,6 +43,7 @@ trait ProposalResponse extends js.Object {
   val trending: js.UndefOr[String]
   val labels: js.Array[String]
   val author: AuthorResponse
+  val organisations: js.Array[OrganisationInfoResponse]
   val country: String
   val language: String
   val themeId: js.UndefOr[String]

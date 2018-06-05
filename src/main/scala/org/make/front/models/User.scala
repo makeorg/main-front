@@ -13,7 +13,8 @@ object Role {
     RoleAdmin.shortName -> RoleAdmin,
     RoleModerator.shortName -> RoleModerator,
     RolePolitical.shortName -> RolePolitical,
-    RoleCitizen.shortName -> RoleCitizen
+    RoleCitizen.shortName -> RoleCitizen,
+    RoleActor.shortName -> RoleActor
   )
 
   def apply(roleName: String): Role = {
@@ -40,14 +41,20 @@ object Role {
   case object RoleCitizen extends Role {
     val shortName: String = "ROLE_CITIZEN"
   }
+
+  case object RoleActor extends Role {
+    val shortName: String = "ROLE_ACTOR"
+  }
 }
 
 case class User(userId: UserId,
                 email: String,
                 firstName: Option[String],
                 lastName: Option[String],
+                organisationName: Option[String],
                 enabled: Boolean,
-                verified: Boolean,
+                emailVerified: Boolean,
+                isOrganisation: Boolean,
                 lastConnection: js.Date,
                 roles: js.Array[Role],
                 profile: Option[Profile],
@@ -63,8 +70,10 @@ object User {
       email = userResponse.email,
       firstName = Option(userResponse.firstName).flatMap(_.toOption),
       lastName = Option(userResponse.lastName).flatMap(_.toOption),
+      organisationName = Option(userResponse.organisationName).flatMap(_.toOption),
       enabled = userResponse.enabled,
-      verified = userResponse.verified,
+      emailVerified = userResponse.emailVerified,
+      isOrganisation = userResponse.isOrganisation,
       lastConnection = new js.Date(userResponse.lastConnection),
       roles = seqRoles.map(Role.apply),
       profile = if (userResponse.profile == null) None else userResponse.profile.toOption.map(Profile.apply),

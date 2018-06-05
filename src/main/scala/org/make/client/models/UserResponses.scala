@@ -8,8 +8,10 @@ trait UserResponse extends js.Object {
   val email: String
   val firstName: js.UndefOr[String]
   val lastName: js.UndefOr[String]
+  val organisationName: js.UndefOr[String]
   val enabled: Boolean
-  val verified: Boolean
+  val emailVerified: Boolean
+  val isOrganisation: Boolean
   val lastConnection: String
   val roles: js.Array[String]
   val profile: js.UndefOr[ProfileResponse]
@@ -36,6 +38,14 @@ trait ProfileResponse extends js.Object {
 @js.native
 trait AuthorResponse extends js.Object {
   val firstName: js.UndefOr[String]
+  val organisationName: js.UndefOr[String]
   val postalCode: js.UndefOr[String]
   val age: js.UndefOr[Int]
+  val avatarUrl: js.UndefOr[String]
+}
+
+@js.native
+trait OrganisationInfoResponse extends js.Object {
+  val organisationId: String
+  val organisationName: js.UndefOr[String]
 }
