@@ -1,5 +1,6 @@
 package org.make.client
 
+import org.make.front.helpers.UndefToOption.undefToOption
 import org.scalajs.dom.ext.Ajax.InputData
 
 import scala.concurrent.Future
@@ -46,7 +47,7 @@ case class ValidationError(field: String, message: Option[String])
 
 object ValidationError {
   def apply(jsValidationError: JsValidationError): ValidationError = {
-    ValidationError(field = jsValidationError.field, message = jsValidationError.message.toOption)
+    ValidationError(field = jsValidationError.field, message = undefToOption(jsValidationError.message))
   }
 }
 

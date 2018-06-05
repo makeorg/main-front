@@ -2,6 +2,7 @@ package org.make.front.models
 
 import scalajs.js
 
+import org.make.front.helpers.UndefToOption.undefToOption
 import org.make.client.models.ProfileResponse
 
 sealed trait Gender {
@@ -46,28 +47,28 @@ case class Profile(dateOfBirth: Option[js.Date],
 object Profile {
   def apply(profileResponse: ProfileResponse): Profile = {
     Profile(
-      dateOfBirth = profileResponse.dateOfBirth.toOption.flatMap { dateOfBirth =>
+      dateOfBirth = undefToOption(profileResponse.dateOfBirth).flatMap { dateOfBirth =>
         dateOfBirth match {
           case _ if Option(dateOfBirth).forall(_.isEmpty) => None
           case _                                          => Some(new js.Date(dateOfBirth))
         }
       },
-      avatarUrl = Option(profileResponse.avatarUrl).flatMap(_.toOption),
-      profession = Option(profileResponse.profession).flatMap(_.toOption),
-      phoneNumber = Option(profileResponse.phoneNumber).flatMap(_.toOption),
-      twitterId = Option(profileResponse.twitterId).flatMap(_.toOption),
-      facebookId = Option(profileResponse.facebookId).flatMap(_.toOption),
-      googleId = Option(profileResponse.googleId).flatMap(_.toOption),
-      gender = Option(profileResponse.genderName).flatMap(_.toOption).flatMap { gender =>
+      avatarUrl = undefToOption(profileResponse.avatarUrl),
+      profession = undefToOption(profileResponse.profession),
+      phoneNumber = undefToOption(profileResponse.phoneNumber),
+      twitterId = undefToOption(profileResponse.twitterId),
+      facebookId = undefToOption(profileResponse.facebookId),
+      googleId = undefToOption(profileResponse.googleId),
+      gender = undefToOption(profileResponse.genderName).flatMap { gender =>
         gender match {
           case _ if Option(gender).forall(_.isEmpty) => None
           case _                                     => Gender.matchGender(gender)
         }
       },
-      genderName = Option(profileResponse.genderName).flatMap(_.toOption),
-      departmentNumber = Option(profileResponse.departmentNumber).flatMap(_.toOption),
-      karmaLevel = Option(profileResponse.karmaLevel).flatMap(_.toOption),
-      locale = Option(profileResponse.locale).flatMap(_.toOption),
+      genderName = undefToOption(profileResponse.genderName),
+      departmentNumber = undefToOption(profileResponse.departmentNumber),
+      karmaLevel = undefToOption(profileResponse.karmaLevel),
+      locale = undefToOption(profileResponse.locale),
       optInNewsletter = profileResponse.optInNewsletter
     )
   }

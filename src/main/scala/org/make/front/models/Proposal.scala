@@ -1,6 +1,7 @@
 package org.make.front.models
 
 import org.make.client.models.{AuthorResponse, OrganisationInfoResponse}
+import org.make.front.helpers.UndefToOption.undefToOption
 import org.make.services.proposal.{ProposalResponse, QualificationResponse, RegisterProposalResponse, VoteResponse}
 
 import scala.scalajs.js
@@ -47,17 +48,17 @@ object Proposal {
       slug = proposalResponse.slug,
       status = proposalResponse.status,
       createdAt = new js.Date(proposalResponse.createdAt),
-      updatedAt = proposalResponse.updatedAt.toOption.map(new js.Date(_)),
+      updatedAt = undefToOption(proposalResponse.updatedAt).map(new js.Date(_)),
       votes = seqVotes,
       context = ProposalContext(proposalResponse.context),
-      trending = proposalResponse.trending.toOption,
+      trending = undefToOption(proposalResponse.trending),
       labels = seqLabels,
       author = Author(proposalResponse.author),
       organisations = seqOrganisationsInfo,
       country = proposalResponse.country,
       language = proposalResponse.language,
-      themeId = Option(proposalResponse.themeId).flatMap(_.toOption).map(ThemeId.apply),
-      operationId = Option(proposalResponse.operationId).flatMap(_.toOption).flatMap {
+      themeId = undefToOption(proposalResponse.themeId).map(ThemeId.apply),
+      operationId = undefToOption(proposalResponse.operationId).flatMap {
         case ""    => None
         case other => Some(OperationId(other))
       },
@@ -108,10 +109,10 @@ final case class ProposalContext(operation: Option[String],
 object ProposalContext {
   def apply(proposalContextResponse: ProposalContextResponse): ProposalContext = {
     ProposalContext(
-      operation = proposalContextResponse.operation.toOption,
-      source = proposalContextResponse.source.toOption,
-      location = proposalContextResponse.location.toOption,
-      question = proposalContextResponse.question.toOption
+      operation = undefToOption(proposalContextResponse.operation),
+      source = undefToOption(proposalContextResponse.source),
+      location = undefToOption(proposalContextResponse.location),
+      question = undefToOption(proposalContextResponse.question)
     )
   }
 }
@@ -133,11 +134,11 @@ final case class Author(firstName: Option[String],
 object Author {
   def apply(authorResponse: AuthorResponse): Author = {
     Author(
-      firstName = Option(authorResponse.firstName).flatMap(_.toOption),
-      organisationName = Option(authorResponse.organisationName).flatMap(_.toOption),
-      postalCode = authorResponse.postalCode.toOption,
-      age = authorResponse.age.toOption,
-      avatarUrl = Option(authorResponse.avatarUrl).flatMap(_.toOption)
+      firstName = undefToOption(authorResponse.firstName),
+      organisationName = undefToOption(authorResponse.organisationName),
+      postalCode = undefToOption(authorResponse.postalCode),
+      age = undefToOption(authorResponse.age),
+      avatarUrl = undefToOption(authorResponse.avatarUrl)
     )
   }
 }
@@ -147,7 +148,7 @@ final case class OrganisationInfo(organisationId: UserId, organisationName: Opti
 object OrganisationInfo {
   def apply(organisationInfoResponse: OrganisationInfoResponse): OrganisationInfo = new OrganisationInfo(
     organisationId = UserId(organisationInfoResponse.organisationId),
-    organisationName = organisationInfoResponse.organisationName.toOption
+    organisationName = undefToOption(organisationInfoResponse.organisationName)
   )
 }
 

@@ -1,5 +1,6 @@
 package org.make.services.proposal
 
+import org.make.front.helpers.UndefToOption.undefToOption
 import org.make.client.models.{AuthorResponse, OrganisationInfoResponse}
 import org.make.front.models._
 
@@ -24,7 +25,7 @@ object SearchResult {
     SearchResult(
       total = searchResultResponse.total,
       results = searchResultResponse.results.map(Proposal.apply),
-      seed = searchResultResponse.seed.toOption
+      seed = undefToOption(searchResultResponse.seed)
     )
   }
 }
