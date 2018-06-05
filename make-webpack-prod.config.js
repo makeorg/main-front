@@ -26,7 +26,8 @@ var build = {
     },
     output: {
         path: path.join(__dirname, 'dist'),
-        "filename": "[name].[chunkhash].js"
+        "filename": "[name].[chunkhash].js",
+        publicPath: '/'
     },
     module: {
         rules: [
@@ -39,11 +40,11 @@ var build = {
             },
             {
                 test: /\.(ttf|otf|eot|svg|woff(2)?)(\?[a-z0-9]+)?$/,
-                loader: 'file-loader?name=/fonts/[name].[hash].[ext]'
+                loader: 'file-loader?name=fonts/[name].[hash].[ext]'
             },
             {
                 test: /\.(jpe?g|gif|png)$/,
-                loader: 'file-loader?name=/images/[name].[hash].[ext]',
+                loader: 'file-loader?name=images/[name].[hash].[ext]',
                 include: [path.join(__dirname, "images")]
             },
             {
@@ -91,7 +92,7 @@ var build = {
         })),
         new WebpackMd5Hash(),
         new ExtractTextPlugin({ // define where to save the file
-            filename: '/[name].[chunkhash].bundle.css',
+            filename: '[name].[chunkhash].bundle.css',
             allChunks: true
         }),
         new webpack.optimize.UglifyJsPlugin({
