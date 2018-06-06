@@ -158,6 +158,12 @@ object Components {
     def ResultsInThemeComponent: ReactClassElementSpec = self(theme.ResultsInTheme.reactClass)
 
     /*********************/
+    def ConsultationComponent: ReactClassElementSpec = self(consultation.Consultation.reactClass)
+    def ConsultationHeaderComponent: ReactClassElementSpec = self(consultation.ConsultationHeader.reactClass)
+    def ConsultationLogoComponent: ReactClassElementSpec = self(consultation.ConsultationLogo.reactClass)
+    def ConsultationProposalComponent: ReactClassElementSpec = self(consultation.ConsultationProposal.reactClass)
+
+    /*********************/
     def VFFOperationIntroComponent: ReactClassElementSpec = self(operation.intro.VFFOperationIntro.reactClass)
     def VFFITOperationIntroComponent: ReactClassElementSpec = self(operation.intro.VFFITOperationIntro.reactClass)
     def VFFGBOperationIntroComponent: ReactClassElementSpec = self(operation.intro.VFFGBOperationIntro.reactClass)

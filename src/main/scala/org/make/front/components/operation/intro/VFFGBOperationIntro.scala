@@ -22,7 +22,7 @@ import scala.scalajs.js
 
 object VFFGBOperationIntro {
 
-  case class VFFGBOperationIntroProps(operation: OperationModel, language: String)
+  case class VFFGBOperationIntroProps(operation: OperationModel)
 
   lazy val reactClass: ReactClass =
     React

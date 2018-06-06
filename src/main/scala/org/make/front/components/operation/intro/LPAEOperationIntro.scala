@@ -22,7 +22,7 @@ import scala.scalajs.js
 
 object LPAEOperationIntro {
 
-  case class LPAEOperationIntroProps(operation: OperationModel, language: String)
+  case class LPAEOperationIntroProps(operation: OperationModel)
 
   lazy val reactClass: ReactClass =
     React

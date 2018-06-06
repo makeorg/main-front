@@ -27,7 +27,7 @@ import scala.scalajs.js
 
 object ClimatParisOperationIntro {
 
-  case class ClimatParisOperationIntroProps(operation: OperationModel, language: String)
+  case class ClimatParisOperationIntroProps(operation: OperationModel)
 
   lazy val reactClass: ReactClass =
     React

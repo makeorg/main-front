@@ -1,5 +1,7 @@
 package org.make.front.operations
 
+import org.make.front.components.operation.intro.ChanceAuxJeunesOperationIntro
+import org.make.front.components.operation.intro.ChanceAuxJeunesOperationIntro.ChanceAuxJeunesOperationIntroProps
 import org.make.front.facades.{chanceAuxJeunesLogo, chanceAuxJeunesLogoWhite}
 import org.make.front.models._
 
@@ -16,6 +18,7 @@ object ChanceAuxJeunesOperationStaticData extends StaticDataOfOperation {
       logoUrl = chanceAuxJeunesLogo.toString,
       whiteLogoUrl = chanceAuxJeunesLogoWhite.toString,
       shareUrl = "/chance-aux-jeunes.html_UTM_#/FR/consultation/chance-aux-jeunes/selection",
+      logoWidth = 446,
       wording = js.Array(
         OperationWording(
           language = "fr",
@@ -39,6 +42,10 @@ object ChanceAuxJeunesOperationStaticData extends StaticDataOfOperation {
           Slides.displayProposalPushCard(params, displayed = false),
           Slides.displayFinalCard(params)
         )
+      },
+      headerComponent = ChanceAuxJeunesOperationIntro.reactClass,
+      headerProps = (operation) => {
+        ChanceAuxJeunesOperationIntroProps(operation = operation)
       }
     )
   }

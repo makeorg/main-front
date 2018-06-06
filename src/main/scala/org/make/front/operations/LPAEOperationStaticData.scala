@@ -1,5 +1,7 @@
 package org.make.front.operations
 
+import org.make.front.components.operation.intro.LPAEOperationIntro
+import org.make.front.components.operation.intro.LPAEOperationIntro.LPAEOperationIntroProps
 import org.make.front.facades._
 import org.make.front.models._
 
@@ -13,6 +15,7 @@ object LPAEOperationStaticData extends StaticDataOfOperation {
     gradient = Some(GradientColor("#683577", "#782f8b")),
     logoUrl = lpaeLogo.toString,
     whiteLogoUrl = lpaeLogoWhite.toString,
+    logoWidth = 504,
     shareUrl = "/lpae.html_UTM_#/FR/consultation/lpae/selection",
     wording = js.Array(
       OperationWording(
@@ -29,6 +32,8 @@ object LPAEOperationStaticData extends StaticDataOfOperation {
         Slides.displayProposalPushCard(params),
         Slides.displayFinalCard(params)
       )
-    }
+    },
+    headerComponent = LPAEOperationIntro.reactClass,
+    headerProps = (operation) => LPAEOperationIntroProps(operation)
   )
 }

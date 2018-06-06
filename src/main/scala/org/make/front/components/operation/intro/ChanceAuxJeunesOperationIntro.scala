@@ -15,12 +15,11 @@ import org.make.front.styles.utils._
 import org.make.services.tracking.TrackingService.TrackingContext
 import org.make.services.tracking.{TrackingLocation, TrackingService}
 
-import scala.language.postfixOps
 import scala.scalajs.js
 
 object ChanceAuxJeunesOperationIntro {
 
-  case class ChanceAuxJeunesOperationIntroProps(operation: OperationModel, language: String)
+  case class ChanceAuxJeunesOperationIntroProps(operation: OperationModel)
 
   lazy val reactClass: ReactClass =
     React

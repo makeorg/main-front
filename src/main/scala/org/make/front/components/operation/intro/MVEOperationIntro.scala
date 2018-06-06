@@ -20,7 +20,7 @@ import scala.scalajs.js
 
 object MVEOperationIntro {
 
-  case class MVEOperationIntroProps(operation: OperationModel, language: String)
+  case class MVEOperationIntroProps(operation: OperationModel)
 
   lazy val reactClass: ReactClass =
     React

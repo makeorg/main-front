@@ -6,11 +6,13 @@ import io.github.shogowada.scalajs.reactjs.router.WithRouter
 import io.github.shogowada.scalajs.reactjs.router.dom.RouterDOM._
 import org.make.front.components.activateAccount.ActivateAccountContainer
 import org.make.front.components.authenticate.resetPassword.ResetPasswordContainer
+import org.make.front.components.consultation.ConsultationContainer
 import org.make.front.components.currentOperations.CurrentOperationsContainer
 import org.make.front.components.error.ErrorContainer
 import org.make.front.components.home.HomeContainer
 import org.make.front.components.maintenance.Maintenance
 import org.make.front.components.operation.OperationContainer
+import org.make.front.components.consultation.ConsultationContainer
 import org.make.front.components.operation.sequence.SequenceOfTheOperationContainer
 import org.make.front.components.proposal.ProposalContainer
 import org.make.front.components.search.{HomeSearchResultsContainer, SearchResultsContainer}
@@ -79,6 +81,11 @@ object Container {
             ^.exact := true,
             ^.path := "/:country/consultation/:operationSlug",
             ^.component := CountryDetector(OperationContainer.reactClass)
+          )(),
+          <.Route(
+            ^.exact := true,
+            ^.path := "/:country/consultationV2/:operationSlug",
+            ^.component := CountryDetector(ConsultationContainer.reactClass)
           )(),
           <.Route(
             ^.exact := true,

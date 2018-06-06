@@ -18,7 +18,7 @@ import scala.scalajs.js
 
 object MakeEuropeOperationIntro {
 
-  case class MakeEuropeOperationIntroProps(operation: OperationModel, language: String)
+  case class MakeEuropeOperationIntroProps(operation: OperationModel)
 
   lazy val reactClass: ReactClass =
     React

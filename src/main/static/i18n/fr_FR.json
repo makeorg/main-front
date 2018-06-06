@@ -1,6 +1,9 @@
 {
   "common": {
-    "bait": "Il faut "
+    "bait": "Il faut ",
+    "date": {
+      "long": "ll"
+    }
   },
   "error-message": {
     "main": "Oups ! Nous rencontrons quelques difficultés avec le chargement de cette page. Merci de bien vouloir la&nbsp;recharger.",
@@ -307,6 +310,13 @@
     }
   },
   "operation": {
+    "intro": {
+      "consultation": "CONSULTATION",
+      "action": "ACTION",
+      "from": "du",
+      "to": "au",
+      "datefrom": "à partir du"
+    },
     "vff-fr": {
       "intro": {
         "label": "Grande cause Make.org",
@@ -393,6 +403,9 @@
       "title": "Votez sur les&nbsp;propositions",
       "see-more": "Voir + de propositions",
       "no-results": "Nous n’avons trouvé <strong>aucun résultat</strong> correspondant à votre sélection de&nbsp;tag(s). <br> Vous pouvez sélectionner d’autres combinaisons de&nbsp;tags."
+    },
+    "consultation-proposal": {
+      "title": "Proposez une solution"
     },
     "proposal-form-in-header": {
       "intro": "Proposez vos solutions sur le&nbsp;sujet",
