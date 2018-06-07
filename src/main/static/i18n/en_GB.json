@@ -329,6 +329,10 @@
         "guide": {
           "propose-cta": "Submit a solution at any time by clicking this button."
         }
+      },
+      "link": {
+        "presentation": "Votez sur les dernières propositions issues de la consultation.",
+        "cta": "Participer"
       }
     }
   },
