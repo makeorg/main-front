@@ -82,7 +82,8 @@ object ConsultationSection {
                   ^.wrapped := ConsultationCommunityProps(self.props.wrapped.operation, self.props.wrapped.language)
                 )()
               },
-              maybePresentationComponent
+              maybePresentationComponent,
+              <.ConsultationFooterComponent()()
             )
           }
         )
