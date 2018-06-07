@@ -179,7 +179,10 @@
     },
     "qualificate-vote": {
       "increment": "+1"
-    }
+    },
+    "actor-voted_1": " actor-voted",
+    "actor-voted": " actor-voted",
+    "actor-voted-and": " and "
   },
   "submit-proposal": {
     "intro": "Share your proposal",

@@ -40,6 +40,7 @@ object ProposalTile {
         .createClass[ProposalTileProps, Unit](
           displayName = "ProposalTile",
           render = (self) => {
+
             val intro: ReactElement = if (self.props.wrapped.proposal.myProposal) {
               <.div(^.className := ProposalTileStyles.shareOwnProposalWrapper)(
                 <.ShareOwnProposalComponent(

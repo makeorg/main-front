@@ -112,6 +112,7 @@ object Components {
       self(proposal.ProposalTileWithThemeContainer.reactClass)
     def ProposalTileWithThemeComponent: ReactClassElementSpec = self(proposal.ProposalTileWithTheme.reactClass)
     def ProposalTileWithTagsComponent: ReactClassElementSpec = self(proposal.ProposalTileWithTags.reactClass)
+    def ProposalActorVotedComponent: ReactClassElementSpec = self(proposal.ProposalActorVoted.reactClass)
 
     /*********************/
     def TrendingShowcaseContainerComponent: ReactClassElementSpec = self(showcase.TrendingShowcaseContainer.reactClass)

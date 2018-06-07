@@ -178,7 +178,10 @@
     },
     "qualificate-vote": {
       "increment": "+1"
-    }
+    },
+    "actor-voted_1": " actor-voted",
+    "actor-voted": " actor-voted",
+    "actor-voted-and": " actor-voted-and "
   },
   "submit-proposal": {
     "intro": "Condividi la tua proposta",
