@@ -18,7 +18,8 @@ final case class OperationStaticData(country: String,
                                      shareUrl: String,
                                      extraSlides: (OperationExtraSlidesParams) => js.Array[ExtraSlide],
                                      headerComponent: ReactClass,
-                                     headerProps: (OperationExpanded) => Any)
+                                     headerProps: (OperationExpanded) => Any,
+                                     startDateActions: Option[js.Date] = None)
 
 object OperationStaticData {
   def findBySlugAndCountry(slug: String, country: String): Option[OperationStaticData] = {
@@ -75,7 +76,8 @@ final case class OperationExpanded(operationId: OperationId,
                                    tagIds: js.Array[Tag],
                                    landingSequenceId: SequenceId,
                                    headerComponent: ReactClass,
-                                   headerProps: (OperationExpanded) => Any) {
+                                   headerProps: (OperationExpanded) => Any,
+                                   startDateActions: Option[js.Date]) {
 
   def getWordingByLanguage(language: String): Option[OperationWording] = {
     wordings.find(_.language == language)
@@ -157,7 +159,8 @@ object OperationExpanded {
         landingSequenceId = countryConfiguration.landingSequenceId,
         tagIds = operationTags,
         headerComponent = operationStaticData.headerComponent,
-        headerProps = operationStaticData.headerProps
+        headerProps = operationStaticData.headerProps,
+        startDateActions = operationStaticData.startDateActions
       )
   }
 }

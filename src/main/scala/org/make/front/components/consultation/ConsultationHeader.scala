@@ -14,7 +14,6 @@ import org.make.front.facades._
 import org.make.front.models.{GradientColor => GradientColorModel, OperationExpanded => OperationModel}
 import org.make.front.styles.ThemeStyles
 import org.make.front.styles.base._
-import org.make.front.styles.ui.CTAStyles
 import org.make.front.styles.utils._
 
 import scala.scalajs.js
@@ -55,8 +54,9 @@ object ConsultationHeader {
 
               val titleWidth: StyleA =
                 style(maxWidth(consultation.logoWidth.pxToEm()))
-
             }
+
+            val startDateActions: Option[js.Date] = self.props.wrapped.operation.startDateActions
 
             <.header(^.className := DynamicConsultationHeaderStyles.gradient)(
               <.div(
@@ -104,10 +104,12 @@ object ConsultationHeader {
                   ^.onClick := changeTab("actions")
                 )(
                   <.span(^.className := ConsultationHeaderStyles.titleLink)(unescape(I18n.t("operation.intro.action"))),
-                  <.span(^.className := ConsultationHeaderStyles.dateLink)(
-                    unescape(I18n.t("operation.intro.datefrom"))
-                      + " date de début action"
-                  )
+                  startDateActions.map { date =>
+                    <.span(^.className := ConsultationHeaderStyles.dateLink)(
+                      unescape(I18n.t("operation.intro.datefrom")) + " " +
+                        unescape(I18n.l(date, DateLocalizeOptions("common.date.long")))
+                    )
+                  }
                 )
               ),
               <.style()(ConsultationHeaderStyles.render[String], DynamicConsultationHeaderStyles.render[String])
