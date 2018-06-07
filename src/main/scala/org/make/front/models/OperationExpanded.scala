@@ -18,6 +18,7 @@ final case class OperationStaticData(country: String,
                                      shareUrl: String,
                                      extraSlides: (OperationExtraSlidesParams) => js.Array[ExtraSlide],
                                      headerComponent: ReactClass,
+                                     partnersComponent: ReactClass,
                                      headerProps: (OperationExpanded) => Any,
                                      startDateActions: Option[js.Date] = None)
 
@@ -76,6 +77,7 @@ final case class OperationExpanded(operationId: OperationId,
                                    tagIds: js.Array[Tag],
                                    landingSequenceId: SequenceId,
                                    headerComponent: ReactClass,
+                                   partnersComponent: ReactClass,
                                    headerProps: (OperationExpanded) => Any,
                                    startDateActions: Option[js.Date]) {
 
@@ -159,6 +161,7 @@ object OperationExpanded {
         landingSequenceId = countryConfiguration.landingSequenceId,
         tagIds = operationTags,
         headerComponent = operationStaticData.headerComponent,
+        partnersComponent = operationStaticData.partnersComponent,
         headerProps = operationStaticData.headerProps,
         startDateActions = operationStaticData.startDateActions
       )

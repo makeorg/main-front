@@ -2,6 +2,7 @@ package org.make.front.operations
 
 import org.make.front.components.operation.intro.ChanceAuxJeunesOperationIntro
 import org.make.front.components.operation.intro.ChanceAuxJeunesOperationIntro.ChanceAuxJeunesOperationIntroProps
+import org.make.front.components.operation.partners.ChanceAuxJeunesOperationPartners
 import org.make.front.facades.{chanceAuxJeunesLogo, chanceAuxJeunesLogoWhite}
 import org.make.front.models._
 
@@ -47,6 +48,7 @@ object ChanceAuxJeunesOperationStaticData extends StaticDataOfOperation {
         )
       },
       headerComponent = ChanceAuxJeunesOperationIntro.reactClass,
+      partnersComponent = ChanceAuxJeunesOperationPartners.reactClass,
       headerProps = (operation) => {
         ChanceAuxJeunesOperationIntroProps(operation = operation)
       },

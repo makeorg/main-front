@@ -3,15 +3,11 @@ package org.make.front.components.consultation
 import io.github.shogowada.scalajs.reactjs.React
 import io.github.shogowada.scalajs.reactjs.VirtualDOM._
 import io.github.shogowada.scalajs.reactjs.classes.ReactClass
-import io.github.shogowada.scalajs.reactjs.elements.ReactElement
 import org.make.front.Main.CssSettings._
 import org.make.front.components.Components._
 import org.make.front.components.consultation.ConsultationHeader.ConsultationHeaderProps
-import org.make.front.components.consultation.ConsultationPresentation.ConsultationPresentationProps
-import org.make.front.components.consultation.ConsultationPresentationMobile.ConsultationPresentationMobileProps
 import org.make.front.components.consultation.ConsultationSection.ConsultationSectionProps
-import org.make.front.facades.DeviceDetect
-import org.make.front.models.{OperationWording, OperationExpanded => OperationModel}
+import org.make.front.models.{OperationExpanded => OperationModel}
 import org.make.front.styles.ThemeStyles
 import org.make.front.styles.base.RWDHideRulesStyles
 import org.make.front.styles.utils._
