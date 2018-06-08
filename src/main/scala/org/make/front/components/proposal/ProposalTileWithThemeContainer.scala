@@ -43,8 +43,8 @@ object ProposalTileWithThemeContainer {
 
       ProposalTileWithTheme.ProposalTileWithThemeProps(
         proposal = props.wrapped.proposal,
-        themeName = themeName.orNull,
-        themeSlug = themeSlug.orNull,
+        themeName = themeName.getOrElse(""),
+        themeSlug = themeSlug.getOrElse(""),
         index = props.wrapped.index,
         maybeTheme = theme,
         maybeOperation = props.wrapped.maybeOperation,

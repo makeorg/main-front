@@ -1,10 +1,12 @@
 package org.make.front.models
 
+import org.make.front.helpers.UndefToOption.undefToOption
 import org.make.services.operation.{
   OperationCountryConfigurationResponse,
   OperationResponse,
   OperationTranslationResponse
 }
+
 import scala.scalajs.js
 
 final case class Operation(status: String,
@@ -24,8 +26,8 @@ object Operation {
       translations =
         operationResponse.translations.map(translationResponse => OperationTranslation.apply(translationResponse)),
       defaultLanguage = operationResponse.defaultLanguage,
-      createdAt = Option(operationResponse.createdAt).flatMap(_.toOption).map(new js.Date(_)),
-      updatedAt = Option(operationResponse.updatedAt).flatMap(_.toOption).map(new js.Date(_)),
+      createdAt = undefToOption(operationResponse.createdAt).map(new js.Date(_)),
+      updatedAt = undefToOption(operationResponse.updatedAt).map(new js.Date(_)),
       countriesConfiguration = operationResponse.countriesConfiguration.map(
         countryConfigurationResponse => OperationCountryConfiguration.apply(countryConfigurationResponse)
       )
@@ -62,14 +64,13 @@ object OperationCountryConfiguration {
     OperationCountryConfiguration(
       countryCode = operationCountryConfigurationResponse.countryCode,
       tagIds = operationCountryConfigurationResponse.tagIds.map(tagId => Tag(tagId = TagId(tagId), label = tagId)),
-      landingSequenceId = Option(operationCountryConfigurationResponse.landingSequenceId)
-        .flatMap(_.toOption)
+      landingSequenceId = undefToOption(operationCountryConfigurationResponse.landingSequenceId)
         .map(SequenceId(_)) match {
         case Some(sequenceId) => sequenceId
         case _                => throw new IllegalArgumentException("a landing sequence id is required")
       },
-      startDate = Option(operationCountryConfigurationResponse.startDate).flatMap(_.toOption).map(new js.Date(_)),
-      endDate = Option(operationCountryConfigurationResponse.endDate).flatMap(_.toOption).map(new js.Date(_))
+      startDate = undefToOption(operationCountryConfigurationResponse.startDate).map(new js.Date(_)),
+      endDate = undefToOption(operationCountryConfigurationResponse.endDate).map(new js.Date(_))
     )
   }
 }

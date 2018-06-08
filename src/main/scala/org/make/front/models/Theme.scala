@@ -3,6 +3,8 @@ package org.make.front.models
 import io.github.shogowada.scalajs.reactjs.redux.Store
 import org.make.core.Counter
 import org.make.front.components.AppState
+import org.make.front.helpers.UndefToOption.undefToOption
+
 import scala.scalajs.js
 
 @js.native
@@ -103,7 +105,7 @@ object Theme {
       actionsCount = themeResponse.actionsCount,
       country = themeResponse.country,
       color = themeResponse.color,
-      gradient = themeResponse.gradient.toOption,
+      gradient = undefToOption(themeResponse.gradient),
       tags = seqTags
     )
   }

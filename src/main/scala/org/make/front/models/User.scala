@@ -1,5 +1,6 @@
 package org.make.front.models
 
+import org.make.front.helpers.UndefToOption.undefToOption
 import org.make.client.models.UserResponse
 
 import scala.scalajs.js
@@ -68,15 +69,15 @@ object User {
     User(
       userId = UserId(userResponse.userId),
       email = userResponse.email,
-      firstName = Option(userResponse.firstName).flatMap(_.toOption),
-      lastName = Option(userResponse.lastName).flatMap(_.toOption),
-      organisationName = Option(userResponse.organisationName).flatMap(_.toOption),
+      firstName = undefToOption(userResponse.firstName),
+      lastName = undefToOption(userResponse.lastName),
+      organisationName = undefToOption(userResponse.organisationName),
       enabled = userResponse.enabled,
       emailVerified = userResponse.emailVerified,
       isOrganisation = userResponse.isOrganisation,
       lastConnection = new js.Date(userResponse.lastConnection),
       roles = seqRoles.map(Role.apply),
-      profile = if (userResponse.profile == null) None else userResponse.profile.toOption.map(Profile.apply),
+      profile = undefToOption(userResponse.profile).map(Profile.apply),
       country = userResponse.country,
       language = userResponse.language
     )
