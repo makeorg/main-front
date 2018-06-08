@@ -7,7 +7,6 @@ import org.make.front.Main.CssSettings._
 import org.make.front.components.Components._
 import org.make.front.components.consultation.ConsultationHeader.ConsultationHeaderProps
 import org.make.front.components.consultation.ConsultationSection.ConsultationSectionProps
-import org.make.front.components.consultation.ConsultationShare.ConsultationShareProps
 import org.make.front.models.{OperationExpanded => OperationModel}
 import org.make.front.styles.ThemeStyles
 import org.make.front.styles.base.RWDHideRulesStyles
@@ -65,11 +64,6 @@ object Consultation {
                       operation = consultation,
                       language = self.props.wrapped.language,
                       countryCode = self.props.wrapped.countryCode
-                    )
-                  )()
-                  <.ConsultationShareComponent(
-                    ^.wrapped := ConsultationShareProps(
-                      operation = consultation
                     )
                   )()
                 } else {
