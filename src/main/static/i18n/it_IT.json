@@ -323,6 +323,10 @@
         "guide": {
           "propose-cta": "Proponi una solizione in ogni momento cliccando su questo bottone."
         }
+      },
+      "link": {
+        "presentation": "Votez sur les dernières propositions issues de la consultation.",
+        "cta": "Participer"
       }
     }
   },

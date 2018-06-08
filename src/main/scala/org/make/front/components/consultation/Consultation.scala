@@ -6,6 +6,7 @@ import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import org.make.front.Main.CssSettings._
 import org.make.front.components.Components._
 import org.make.front.components.consultation.ConsultationHeader.ConsultationHeaderProps
+import org.make.front.components.consultation.ConsultationLinkSequence.ConsultationLinkSequenceProps
 import org.make.front.components.consultation.ConsultationProposal.ConsultationProposalProps
 import org.make.front.models.{Location => LocationModel, OperationExpanded => OperationModel}
 import org.make.front.styles.ThemeStyles
@@ -57,6 +58,12 @@ object Consultation {
                   )
                 )()
               ),
+              <.ConsultationLinkSequenceComponent(
+                ^.wrapped := ConsultationLinkSequenceProps(
+                  operation = consultation,
+                  country = self.props.wrapped.countryCode
+                )
+              )(),
               <.style()(ConsultationStyles.render[String])
             )
           } else {

@@ -423,6 +423,10 @@
         "guide": {
           "propose-cta": "Proposez une solution à tout moment en cliquant sur ce bouton."
         }
+      },
+      "link": {
+        "presentation": "Votez sur les dernières propositions issues de la consultation.",
+        "cta": "Participer"
       }
     }
   },
