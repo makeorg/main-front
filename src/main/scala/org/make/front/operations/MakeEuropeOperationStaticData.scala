@@ -23,7 +23,8 @@ object MakeEuropeOperationStaticData extends StaticDataOfOperation {
           language = "en",
           title = "Consultation Européenne (démo)",
           question = "How to reinvent Europe concretely?",
-          learnMoreUrl = None
+          learnMoreUrl = None,
+          presentation = None
         )
       ),
       extraSlides = (params: OperationExtraSlidesParams) => {

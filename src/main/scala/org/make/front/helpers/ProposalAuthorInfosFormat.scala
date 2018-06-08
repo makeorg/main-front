@@ -10,7 +10,7 @@ import org.make.front.styles.vendors.FontAwesomeStyles
 object ProposalAuthorInfosFormat {
 
   def apply(proposal: Proposal): ReactElement = {
-    val age: String = if (proposal.author.age.get != 0) {
+    val age: String = if (proposal.author.age.getOrElse(0) != 0) {
       I18n
         .t("proposal.author-infos.age", Replacements(("age", s"${proposal.author.age.getOrElse("")}")))
     } else {
@@ -31,12 +31,12 @@ object ProposalAuthorInfosFormat {
     }
 
     if (proposal.author.organisationName.isDefined) {
-      <.p()(
+      <.span()(
         formatAuthorName(proposal.author.organisationName) + " ",
         <.i(^.className := FontAwesomeStyles.checkCircle)()
       )
     } else {
-      <.p()(formatAuthorName(proposal.author.firstName) + age + postalCode)
+      <.span()(formatAuthorName(proposal.author.firstName) + age + postalCode)
     }
   }
 }

@@ -24,7 +24,10 @@ object ChanceAuxJeunesOperationStaticData extends StaticDataOfOperation {
           language = "fr",
           title = "Une chance pour chaque jeune",
           question = "Comment donner une chance à chaque jeune&nbsp;?",
-          learnMoreUrl = Some("http://www.UneChancePourChaqueJeune.org")
+          learnMoreUrl = Some("http://www.UneChancePourChaqueJeune.org"),
+          presentation = Some(
+            "Précarité, chômage, inégalités, désamour du politique... La France ne semble plus offrir de place à ses jeunes. Cette fracture fragilise notre capacité à relever les défis collectifs futurs et nous pousse à imaginer ensemble un moyen d'offrir à chaque jeune une chance de se réaliser."
+          )
         )
       ),
       extraSlides = (params: OperationExtraSlidesParams) => {

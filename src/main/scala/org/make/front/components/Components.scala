@@ -168,6 +168,10 @@ object Components {
     def ResultsInConsultationContainerComponent: ReactClassElementSpec =
       self(consultation.ResultsInConsultationContainer.reactClass)
     def ResultsInConsultationComponent: ReactClassElementSpec = self(consultation.ResultsInConsultation.reactClass)
+    def ConsultationPresentationComponent: ReactClassElementSpec =
+      self(consultation.ConsultationPresentation.reactClass)
+    def ConsultationPresentationMobileComponent: ReactClassElementSpec =
+      self(consultation.ConsultationPresentationMobile.reactClass)
 
     /*********************/
     def VFFOperationIntroComponent: ReactClassElementSpec = self(operation.intro.VFFOperationIntro.reactClass)

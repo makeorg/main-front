@@ -25,7 +25,10 @@ object VFFOperationStaticData extends StaticDataOfOperation {
         language = "fr",
         title = "Stop aux Violences Faites aux&nbsp;Femmes",
         question = "Comment lutter contre les violences faites aux&nbsp;femmes&nbsp;?",
-        learnMoreUrl = Some("https://stopvff.make.org/about-vff")
+        learnMoreUrl = Some("https://stopvff.make.org/about-vff"),
+        presentation = Some(
+          "Les violences faites aux femmes sont au coeur de l’actualité politique et médiatique. Les mentalités sont en train de changer. Mais pour autant tout commence maintenant. À nous de transformer cette prise de conscience généralisée en actions concrètes et d’apporter une réponse décisive face à ce&nbsp;fléau."
+        )
       )
     ),
     extraSlides = (params: OperationExtraSlidesParams) => {
@@ -52,7 +55,10 @@ object VFFITOperationStaticData extends StaticDataOfOperation {
         language = "it",
         title = "Stop alla violenza sulle donne",
         question = "Come far fronte alla violenza sulle donne?",
-        learnMoreUrl = Some("https://about.make.org/it/about-vff")
+        learnMoreUrl = Some("https://about.make.org/it/about-vff"),
+        presentation = Some(
+          "La violenza sulle donne è al centro dell'attualità politica e mediatica. Le idee stanno cambiando, ma tutto inizia da qui. Sta a noi trasformare questa presa di coscienza generale in azioni concrete e dare una risposta decisiva a questo flagello."
+        )
       )
     ),
     extraSlides = (params: OperationExtraSlidesParams) => {
@@ -81,7 +87,10 @@ object VFFGBOperationStaticData extends StaticDataOfOperation {
         language = "en",
         title = "Stop violence against women",
         question = "How to combat violence against women?",
-        learnMoreUrl = Some("https://about.make.org/gb/about-vff")
+        learnMoreUrl = Some("https://about.make.org/gb/about-vff"),
+        presentation = Some(
+          "Violence against women is at the heart of political events and news coverage. Mindsets are changing. But it all begins now. It is up to us to transform this generalised awareness into concrete actions and to provide a decisive response to this epidemic."
+        )
       )
     ),
     extraSlides = (params: OperationExtraSlidesParams) => {

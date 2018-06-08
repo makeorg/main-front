@@ -37,6 +37,7 @@ val npmJsCookie = "2.1.4"
 val scalaJsReactVersion = "0.14.0"
 val scalajsDomVersion = "0.9.1"
 val scalaCssCoreVersion = "0.5.3"
+val npmReactDeviceDetect = "1.3.4"
 
 enablePlugins(ScalaJSPlugin, ScalaJSBundlerPlugin)
 
@@ -65,7 +66,8 @@ npmDependencies in Compile ++= Seq(
   "react-share" -> npmReactShareVersion,
   "hex-to-rgba" -> npmHexToRgba,
   "jquery" -> npmJquery,
-  "js-cookie" -> npmJsCookie
+  "js-cookie" -> npmJsCookie,
+  "react-device-detect" -> npmReactDeviceDetect
 )
 
 npmDevDependencies in Compile ++= Seq(
