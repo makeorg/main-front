@@ -6,6 +6,7 @@ import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import io.github.shogowada.scalajs.reactjs.elements.ReactElement
 import org.make.front.Main.CssSettings._
 import org.make.front.components.Components._
+import org.make.front.components.userNav.UserNavStyles
 import org.make.front.helpers.ProposalAuthorInfosFormat
 import org.make.front.models.{Proposal => ProposalModel}
 import org.make.front.styles._
@@ -65,8 +66,15 @@ object ProposalInfos {
             }
           }
 
+          val avatarUrl = self.props.wrapped.proposal.author.avatarUrl.getOrElse("")
+
           <.div(^.className := TableLayoutStyles.wrapper)(
             <.div(^.className := js.Array(TableLayoutStyles.cellVerticalAlignMiddle, ProposalInfosStyles.infosWrapper))(
+              <.span(^.className := UserNavStyles.avatarWrapper)(if (avatarUrl.nonEmpty) {
+                <.img(^.src := avatarUrl, ^.className := UserNavStyles.avatar, ^("data-pin-no-hover") := "true")()
+              } else {
+                <.i(^.className := js.Array(UserNavStyles.avatarPlaceholder, FontAwesomeStyles.user))()
+              }),
               <.p(^.className := js.Array(TextStyles.smallText, ProposalInfosStyles.infos))(
                 ProposalAuthorInfosFormat.apply(self.props.wrapped.proposal)
               )

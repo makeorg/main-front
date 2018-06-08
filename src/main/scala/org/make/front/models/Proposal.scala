@@ -137,7 +137,7 @@ object Author {
       organisationName = Option(authorResponse.organisationName).flatMap(_.toOption),
       postalCode = authorResponse.postalCode.toOption,
       age = authorResponse.age.toOption,
-      avatarUrl = authorResponse.avatarUrl.toOption
+      avatarUrl = Option(authorResponse.avatarUrl).flatMap(_.toOption)
     )
   }
 }
