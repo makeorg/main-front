@@ -126,7 +126,7 @@ object OperationExpanded {
           tagsList.filter(tagToFilter => tag.tagId.value == tagToFilter.tagId.value && !tagToFilter.label.contains(":"))
       ) match {
         case tags if tags.nonEmpty => Some(tags)
-        case _                     => None
+        case _                     => Some(js.Array[Tag]())
       }
     } yield
       OperationExpanded(

@@ -15,8 +15,7 @@ dockerCommands := Seq(
   Cmd("ENV", "API_URL", "https://api.prod.makeorg.tech"),
   Cmd("ENV", "PORT", "80"),
   Cmd("COPY", "dist", appContentDirectory),
-  ExecCmd("RUN", "chmod", "-R", "+rw", appContentDirectory),
-  ExecCmd("CMD", "nodemon", "bin/www")
+  ExecCmd("RUN", "chmod", "-R", "+rw", appContentDirectory)
 )
 
 val copyDockerResources: TaskKey[String] = taskKey[String]("copy directories")
