@@ -213,7 +213,10 @@
     },
     "qualificate-vote": {
       "increment": "+1"
-    }
+    },
+    "actor-voted_1": " a voté sur cette proposition",
+    "actor-voted": " ont voté sur cette proposition",
+    "actor-voted-and": " et "
   },
   "submit-proposal": {
     "intro": "Partagez votre proposition",
