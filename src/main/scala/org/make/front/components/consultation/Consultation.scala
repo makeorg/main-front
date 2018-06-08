@@ -8,6 +8,7 @@ import org.make.front.components.Components._
 import org.make.front.components.consultation.ConsultationHeader.ConsultationHeaderProps
 import org.make.front.components.consultation.ConsultationLinkSequence.ConsultationLinkSequenceProps
 import org.make.front.components.consultation.ConsultationProposal.ConsultationProposalProps
+import org.make.front.components.consultation.ResultsInConsultationContainer.ResultsInConsultationContainerProps
 import org.make.front.models.{Location => LocationModel, OperationExpanded => OperationModel}
 import org.make.front.styles.ThemeStyles
 import org.make.front.styles.base.RWDHideRulesStyles
@@ -18,9 +19,9 @@ import org.make.services.tracking.{TrackingLocation, TrackingService}
 object Consultation {
 
   final case class ConsultationProps(operation: OperationModel,
-                                  countryCode: String,
-                                  language: String,
-                                  onWillMount: () => Unit)
+                                     countryCode: String,
+                                     language: String,
+                                     onWillMount: () => Unit)
 
   lazy val reactClass: ReactClass =
     React
@@ -37,7 +38,7 @@ object Consultation {
               Map("id" -> self.props.wrapped.operation.operationId.value)
             )
         },
-        render = (self) => {
+        render = self => {
           val consultation = self.props.wrapped.operation
           if (consultation.isActive) {
             <("consultation")()(
@@ -48,13 +49,21 @@ object Consultation {
                   <.MainHeaderContainer.empty
                 )
               ),
-              <.ConsultationHeaderComponent(^.wrapped := ConsultationHeaderProps(consultation, self.props.wrapped.language))(),
+              <.ConsultationHeaderComponent(
+                ^.wrapped := ConsultationHeaderProps(consultation, self.props.wrapped.language)
+              )(),
               <.section(^.className := ConsultationStyles.mainContentWrapper)(
                 <.ConsultationProposalComponent(
                   ^.wrapped := ConsultationProposalProps(
                     consultation,
                     maybeLocation = Some(LocationModel.OperationPage(consultation.operationId)),
                     language = self.props.wrapped.language
+                  )
+                )(),
+                <.ResultsInConsultationContainerComponent(
+                  ^.wrapped := ResultsInConsultationContainerProps(
+                    currentConsultation = consultation,
+                    maybeLocation = Some(LocationModel.OperationPage(consultation.operationId))
                   )
                 )()
               ),
@@ -89,9 +98,5 @@ object ConsultationStyles extends StyleSheet.Inline {
     style(display.block, backgroundColor(ThemeStyles.BackgroundColor.blackVeryTransparent))
 
   val mainContentWrapper: StyleA =
-    style(
-      backgroundColor(ThemeStyles.BackgroundColor.grey),
-      paddingTop(20.pxToEm()),
-      paddingBottom(20.pxToEm())
-    )
+    style(backgroundColor(ThemeStyles.BackgroundColor.grey), paddingTop(20.pxToEm()), paddingBottom(20.pxToEm()))
 }
