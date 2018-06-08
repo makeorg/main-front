@@ -44,7 +44,8 @@ object MVEOperationStaticData extends StaticDataOfOperation {
         )
       },
       headerComponent = MVEOperationIntro.reactClass,
-      headerProps = (operation) => MVEOperationIntroProps(operation)
+      headerProps = (operation) => MVEOperationIntroProps(operation),
+      startDateActions = None
     )
   }
 }

@@ -42,6 +42,7 @@ object ClimatParisOperationStaticData extends StaticDataOfOperation {
       )
     },
     headerComponent = ClimatParisOperationIntro.reactClass,
-    headerProps = (operation) => ClimatParisOperationIntroProps(operation)
+    headerProps = (operation) => ClimatParisOperationIntroProps(operation),
+    startDateActions = None
   )
 }

@@ -36,6 +36,7 @@ object MakeEuropeOperationStaticData extends StaticDataOfOperation {
         )
       },
       headerComponent = MakeEuropeOperationIntro.reactClass,
-      headerProps = (operation) => MakeEuropeOperationIntroProps(operation)
+      headerProps = (operation) => MakeEuropeOperationIntroProps(operation),
+      startDateActions = None
     )
 }

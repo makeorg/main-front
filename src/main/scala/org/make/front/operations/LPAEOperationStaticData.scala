@@ -37,6 +37,7 @@ object LPAEOperationStaticData extends StaticDataOfOperation {
       )
     },
     headerComponent = LPAEOperationIntro.reactClass,
-    headerProps = (operation) => LPAEOperationIntroProps(operation)
+    headerProps = (operation) => LPAEOperationIntroProps(operation),
+    startDateActions = None
   )
 }

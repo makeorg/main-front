@@ -40,7 +40,8 @@ object VFFOperationStaticData extends StaticDataOfOperation {
       )
     },
     headerComponent = VFFOperationIntro.reactClass,
-    headerProps = (operation) => VFFOperationIntroProps(operation)
+    headerProps = (operation) => VFFOperationIntroProps(operation),
+    startDateActions = None
   )
 }
 
@@ -72,7 +73,8 @@ object VFFITOperationStaticData extends StaticDataOfOperation {
       )
     },
     headerComponent = VFFITOperationIntro.reactClass,
-    headerProps = (operation) => VFFITOperationIntroProps(operation)
+    headerProps = (operation) => VFFITOperationIntroProps(operation),
+    startDateActions = None
   )
 }
 
@@ -102,6 +104,7 @@ object VFFGBOperationStaticData extends StaticDataOfOperation {
       )
     },
     headerComponent = VFFGBOperationIntro.reactClass,
-    headerProps = (operation) => VFFGBOperationIntroProps(operation)
+    headerProps = (operation) => VFFGBOperationIntroProps(operation),
+    startDateActions = None
   )
 }

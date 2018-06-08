@@ -49,7 +49,8 @@ object ChanceAuxJeunesOperationStaticData extends StaticDataOfOperation {
       headerComponent = ChanceAuxJeunesOperationIntro.reactClass,
       headerProps = (operation) => {
         ChanceAuxJeunesOperationIntroProps(operation = operation)
-      }
+      },
+      startDateActions = None
     )
   }
 }
