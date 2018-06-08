@@ -26,6 +26,14 @@ object ConsultationContainer {
     (dispatch: Dispatch) => { (appState: AppState, props: Props[Unit]) =>
       {
         val slug = props.`match`.params("operationSlug")
+
+        val tabs: Seq[String] = Seq("consultation", "actions")
+
+        val activeTab: String = props.`match`.params("activeTab")
+        if (!tabs.contains(activeTab)) {
+          props.history.push("/404")
+        }
+
         // toDo remove default "FR" when backward compatibility not anymore required
         val countryCode: String = props.`match`.params.get("country").getOrElse("FR").toUpperCase
         if (appState.country != countryCode) {
@@ -69,7 +77,8 @@ object ConsultationContainer {
                     props.history.push("/404")
                   }
                 }
-              }
+              },
+              activeTab = activeTab
             )
           },
           onNotFound = () => {

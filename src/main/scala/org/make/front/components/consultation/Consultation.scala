@@ -7,13 +7,11 @@ import io.github.shogowada.scalajs.reactjs.elements.ReactElement
 import org.make.front.Main.CssSettings._
 import org.make.front.components.Components._
 import org.make.front.components.consultation.ConsultationHeader.ConsultationHeaderProps
-import org.make.front.components.consultation.ConsultationLinkSequence.ConsultationLinkSequenceProps
 import org.make.front.components.consultation.ConsultationPresentation.ConsultationPresentationProps
 import org.make.front.components.consultation.ConsultationPresentationMobile.ConsultationPresentationMobileProps
-import org.make.front.components.consultation.ConsultationProposal.ConsultationProposalProps
-import org.make.front.components.consultation.ResultsInConsultationContainer.ResultsInConsultationContainerProps
+import org.make.front.components.consultation.ConsultationSection.ConsultationSectionProps
 import org.make.front.facades.DeviceDetect
-import org.make.front.models.{OperationWording, Location => LocationModel, OperationExpanded => OperationModel}
+import org.make.front.models.{OperationWording, OperationExpanded => OperationModel}
 import org.make.front.styles.ThemeStyles
 import org.make.front.styles.base.RWDHideRulesStyles
 import org.make.front.styles.utils._
@@ -25,7 +23,8 @@ object Consultation {
   final case class ConsultationProps(operation: OperationModel,
                                      countryCode: String,
                                      language: String,
-                                     onWillMount: () => Unit)
+                                     onWillMount: () => Unit,
+                                     activeTab: String)
 
   lazy val reactClass: ReactClass =
     React
@@ -44,24 +43,6 @@ object Consultation {
         },
         render = self => {
           val consultation: OperationModel = self.props.wrapped.operation
-          val maybeWording: Option[OperationWording] =
-            consultation.getWordingByLanguage(self.props.wrapped.language)
-          val maybePresentationComponent: Option[ReactElement] = maybeWording.flatMap { wording =>
-            wording.presentation.map { content =>
-              if (DeviceDetect.isMobileOnly) {
-                <.ConsultationPresentationMobileComponent(
-                  ^.wrapped := ConsultationPresentationMobileProps(
-                    content = content,
-                    learnMoreUrl = wording.learnMoreUrl
-                  )
-                )()
-              } else {
-                <.ConsultationPresentationComponent(
-                  ^.wrapped := ConsultationPresentationProps(content = content, learnMoreUrl = wording.learnMoreUrl)
-                )()
-              }
-            }
-          }
 
           if (consultation.isActive) {
             <("consultation")()(
@@ -73,31 +54,27 @@ object Consultation {
                 )
               ),
               <.ConsultationHeaderComponent(
-                ^.wrapped := ConsultationHeaderProps(consultation, self.props.wrapped.language)
-              )(),
-              <.section(^.className := ConsultationStyles.mainContentWrapper)(
-                <.ConsultationProposalComponent(
-                  ^.wrapped := ConsultationProposalProps(
-                    consultation,
-                    maybeLocation = Some(LocationModel.OperationPage(consultation.operationId)),
-                    language = self.props.wrapped.language
-                  )
-                )(),
-                <.ResultsInConsultationContainerComponent(
-                  ^.wrapped := ResultsInConsultationContainerProps(
-                    currentConsultation = consultation,
-                    maybeLocation = Some(LocationModel.OperationPage(consultation.operationId))
-                  )
-                )()
-              ),
-              <.ConsultationLinkSequenceComponent(
-                ^.wrapped := ConsultationLinkSequenceProps(
+                ^.wrapped := ConsultationHeaderProps(
                   operation = consultation,
-                  country = self.props.wrapped.countryCode
+                  language = self.props.wrapped.language,
+                  activeTab = self.props.wrapped.activeTab,
+                  countryCode = self.props.wrapped.countryCode
                 )
               )(),
-              maybePresentationComponent,
-              <.style()(ConsultationStyles.render[String])
+              <.section(^.className := ConsultationStyles.mainContentWrapper)(
+                if (self.props.wrapped.activeTab == "consultation") {
+                  <.ConsultationSection(
+                    ^.wrapped := ConsultationSectionProps(
+                      operation = consultation,
+                      language = self.props.wrapped.language,
+                      countryCode = self.props.wrapped.countryCode
+                    )
+                  )()
+                } else {
+                  <.ActionsSection()()
+                },
+                <.style()(ConsultationStyles.render[String])
+              )
             )
           } else {
             <.div.empty
