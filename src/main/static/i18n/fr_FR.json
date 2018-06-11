@@ -324,14 +324,22 @@
   "operation": {
     "presentation": {
       "title": "Pourquoi cette consultation&nbsp;",
-      "seeMore": "En savoir&nbsp;+"
+      "seeMore": "En savoir&nbsp;+",
+      "community": "La communauté d'actions",
+      "citizens": "citoyens",
+      "participated": "ont déjà participé",
+      "also": "Eux aussi participent :",
+      "morePartners": "Voir tous les partenaires"
     },
     "intro": {
       "consultation": "CONSULTATION",
-      "action": "ACTION",
+      "action": "ACTIONS",
       "from": "du",
       "to": "au",
       "datefrom": "à partir du"
+    },
+    "share": {
+      "title": "Partagez cette consultation"
     },
     "community": {
       "title": "Comunauté d'actions",

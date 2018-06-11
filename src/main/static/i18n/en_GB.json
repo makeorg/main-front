@@ -280,8 +280,13 @@
   },
   "operation": {
     "presentation": {
-        "title": "Why this consultation&nbsp;",
-        "seeMore": "Find out more"
+      "title": "Why this consultation&nbsp;",
+      "seeMore": "Find out more",
+      "community": "The community of actions",
+      "citizens": "citizens",
+      "participated": "have already  participated",
+      "also": "They are involved too :",
+      "morePartners": "See all partners"
     },
     "intro": {
       "consultation": "CONSULTATION",
@@ -289,6 +294,9 @@
       "from": "from",
       "to": "to",
       "dateuntil": "until"
+    },
+    "share": {
+      "title": "Partagez cette consultation"
     },
     "community": {
       "title": "Comunauté d'actions",

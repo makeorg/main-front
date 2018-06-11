@@ -63,11 +63,56 @@ object ShareProposal {
             )
           }
 
-          <.div(^.className := ShareStyles.wrapper)(if (self.props.wrapped.intro.isDefined) {
+          if (self.props.wrapped.intro.isDefined) {
             <.div(^.className := ShareStyles.intro)(
               <.p(^.className := TextStyles.smallerTitle)(self.props.wrapped.intro.getOrElse(""))
             )
-          }, <.ul(^.className := ShareStyles.list)(<.li(^.className := ShareStyles.item)(<.FacebookShareButton(^.url := shareUrl("Facebook"), ^.beforeOnClick := trackOnClick("Facebook"))(<.button(^.className := js.Array(ShareStyles.button, ShareStyles.shareWithFacebookButton))())), <.li(^.className := ShareStyles.item)(<.TwitterShareButton(^.url := shareUrl("Twitter"), ^.beforeOnClick := trackOnClick("Twitter"))(<.button(^.className := js.Array(ShareStyles.button, ShareStyles.shareWithTwitterButton))())), <.li(^.className := ShareStyles.item)(<.GooglePlusShareButton(^.url := shareUrl("Google"), ^.beforeOnClick := trackOnClick("Google"))(<.button(^.className := js.Array(ShareStyles.button, ShareStyles.shareWithGooglePlusButton))())), <.li(^.className := ShareStyles.item)(<.LinkedinShareButton(^.url := shareUrl("Linkedin"), ^.beforeOnClick := trackOnClick("Linkedin"))(<.button(^.className := js.Array(ShareStyles.button, ShareStyles.shareWithLinkedInButton))()))), <.style()(ShareStyles.render[String]))
+          }
+          <.ul(^.className := ShareStyles.list)(
+            <.li(^.className := ShareStyles.item)(
+              <.FacebookShareButton(
+                ^.url := shareUrl("Facebook"),
+                ^.beforeOnClick := trackOnClick("Facebook"))(
+                  <.button(
+                    ^.className := js.Array(
+                      ShareStyles.button,
+                      ShareStyles.shareWithFacebookButton)
+                  )()
+                )
+            ),
+            <.li(^.className := ShareStyles.item)(
+              <.TwitterShareButton(
+                ^.url := shareUrl("Twitter"),
+                ^.beforeOnClick := trackOnClick("Twitter"))(
+                <.button(
+                  ^.className := js.Array(
+                    ShareStyles.button,
+                    ShareStyles.shareWithTwitterButton)
+                )()
+              )
+            ),
+            <.li(^.className := ShareStyles.item)(
+              <.GooglePlusShareButton(
+                ^.url := shareUrl("Google"),
+                ^.beforeOnClick := trackOnClick("Google"))(
+                <.button(
+                  ^.className := js.Array(
+                    ShareStyles.button,
+                    ShareStyles.shareWithGooglePlusButton)
+                )()
+              )
+            ),
+            <.li(^.className := ShareStyles.item)(
+              <.LinkedinShareButton(^.url := shareUrl("Linkedin"),
+                ^.beforeOnClick := trackOnClick("Linkedin"))(
+                <.button(
+                  ^.className := js.Array(
+                    ShareStyles.button,
+                    ShareStyles.shareWithLinkedInButton)
+                )()
+              )
+            ),<.style()(ShareStyles.render[String])
+          )
         }
       )
 }
@@ -76,8 +121,6 @@ object ShareStyles extends StyleSheet.Inline {
 
   import dsl._
 
-  val wrapper: StyleA =
-    style(textAlign.center)
 
   val intro: StyleA = style(
     display.inlineBlock,

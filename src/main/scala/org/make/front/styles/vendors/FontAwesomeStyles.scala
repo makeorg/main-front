@@ -36,6 +36,7 @@ object FontAwesomeStyles extends StyleSheet.Inline {
   val facebookOfficial: StyleA = style(addClassName("fa fa-facebook-official"))
   val twitter: StyleA = style(addClassName("fa fa-twitter"))
   val googlePlus: StyleA = style(addClassName("fa fa-google-plus"))
+  val linkedin: StyleA = style(addClassName("fa fa-linkedin"))
   val warning: StyleA = style(addClassName("fa fa-exclamation-triangle"))
   val infoCircle: StyleA = style(addClassName("fa fa-info-circle"))
   val angleLeft: StyleA = style(addClassName("fa fa-angle-left"))
@@ -49,5 +50,6 @@ object FontAwesomeStyles extends StyleSheet.Inline {
   val home: StyleA = style(addClassName("fa fa-home"))
   val random: StyleA = style(addClassName("fa fa-random"))
   val checkCircle: StyleA = style(addClassName("fa fa-check-circle"))
+  val share: StyleA = style(addClassName("fa fa-share"))
 
 }

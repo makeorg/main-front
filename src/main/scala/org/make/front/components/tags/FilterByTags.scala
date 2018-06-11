@@ -50,7 +50,6 @@ object FilterByTags {
         <.nav(^.className := FilterByTagsStyles.wrapper)(
           <.div(^.className := FilterByTagsStyles.introWrapper)(
             <.p(^.className := js.Array(FilterByTagsStyles.intro, TextStyles.smallText))(
-              <.i(^.className := js.Array(FilterByTagsStyles.illInIntro, FontAwesomeStyles.lineChart))(),
               unescape(I18n.t("tags.filter.intro"))
             )
           ),
@@ -76,8 +75,5 @@ object FilterByTagsStyles extends StyleSheet.Inline {
 
   val intro: StyleA =
     style(color(ThemeStyles.TextColor.light))
-
-  val illInIntro: StyleA =
-    style(verticalAlign.baseline, marginRight((ThemeStyles.SpacingValue.smaller / 2).pxToEm()))
 
 }
