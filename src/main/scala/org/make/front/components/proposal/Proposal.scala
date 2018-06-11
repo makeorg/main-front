@@ -93,7 +93,7 @@ object Proposal {
                               <.div(^.className := ProposalStyles.infosWrapper)(
                                 <.p(^.className := js.Array(TextStyles.mediumText, ProposalStyles.infos))(
                                   self.state.maybeProposal.map { proposal =>
-                                    ProposalAuthorInfosFormat.apply(proposal)
+                                    ProposalAuthorInfosFormat.apply(proposal,"","")
                                   }
                                 )
                               ),

@@ -181,13 +181,11 @@ object UserNavStyles extends StyleSheet.Inline {
       position.relative,
       display.inlineBlock,
       verticalAlign.middle,
-      width(32.pxToEm()),
-      height(32.pxToEm()),
-      ThemeStyles.MediaQueries.beyondSmall(width(40.pxToEm()), height(40.pxToEm())),
+      width(30.pxToEm()),
+      height(30.pxToEm()),
       overflow.hidden,
       backgroundColor(ThemeStyles.BackgroundColor.white),
       borderRadius(50.%%),
-      border(2.px, solid, ThemeStyles.BorderColor.base),
       textAlign.center
     )
 
@@ -195,7 +193,6 @@ object UserNavStyles extends StyleSheet.Inline {
     style(
       width(100.%%),
       lineHeight(28.pxToEm(16)),
-      ThemeStyles.MediaQueries.beyondSmall(lineHeight(36.pxToEm(16))),
       fontSize(16.pxToEm()),
       color(ThemeStyles.TextColor.lighter)
     )
@@ -206,8 +203,7 @@ object UserNavStyles extends StyleSheet.Inline {
       top(50.%%),
       left(50.%%),
       transform := s"translate(-50%, -50%)",
-      width(32.pxToEm()),
-      ThemeStyles.MediaQueries.beyondSmall(width(40.pxToEm())),
+      width(30.pxToEm()),
       minWidth(100.%%),
       minHeight(100.%%),
       maxWidth.none,

@@ -1,6 +1,6 @@
 package org.make.front.helpers
 
-import io.github.shogowada.scalajs.reactjs.VirtualDOM._
+import io.github.shogowada.scalajs.reactjs.VirtualDOM.{<, _}
 import io.github.shogowada.scalajs.reactjs.elements.ReactElement
 import org.make.front.components.Components._
 import org.make.front.facades.{I18n, Replacements}
@@ -9,7 +9,7 @@ import org.make.front.styles.vendors.FontAwesomeStyles
 
 object ProposalAuthorInfosFormat {
 
-  def apply(proposal: Proposal): ReactElement = {
+  def apply(proposal: Proposal, wrapperclass: String, linkclass: String): ReactElement = {
     val age: String = if (proposal.author.age.getOrElse(0) != 0) {
       I18n
         .t("proposal.author-infos.age", Replacements(("age", s"${proposal.author.age.getOrElse("")}")))
@@ -31,12 +31,12 @@ object ProposalAuthorInfosFormat {
     }
 
     if (proposal.author.organisationName.isDefined) {
-      <.span()(
-        formatAuthorName(proposal.author.organisationName) + " ",
+      <.p(^.className := wrapperclass)(
+        <.span()(formatAuthorName(proposal.author.organisationName) + " "),
         <.i(^.className := FontAwesomeStyles.checkCircle)()
       )
     } else {
-      <.span()(formatAuthorName(proposal.author.firstName) + age + postalCode)
+      <.p(^.className := wrapperclass)(formatAuthorName(proposal.author.firstName)+ age + postalCode)
     }
   }
 }

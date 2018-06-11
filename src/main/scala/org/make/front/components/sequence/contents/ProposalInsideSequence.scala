@@ -60,7 +60,7 @@ object ProposalInsideSequence {
           <.div(^.className := js.Array(LayoutRulesStyles.row))(
             <.div(^.className := ProposalInsideSequenceStyles.infosWrapper)(
               <.p(^.className := js.Array(TextStyles.mediumText, ProposalInsideSequenceStyles.infos))(
-                ProposalAuthorInfosFormat.apply(self.props.wrapped.proposal)
+                ProposalAuthorInfosFormat.apply(self.props.wrapped.proposal,"","")
               )
             ),
             <.div(^.className := ProposalInsideSequenceStyles.contentWrapper)(
