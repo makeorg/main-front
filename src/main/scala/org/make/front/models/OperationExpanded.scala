@@ -49,7 +49,8 @@ final case class OperationExtraSlidesParams(operation: OperationExpanded,
                                             maybeLocation: Option[Location],
                                             language: String,
                                             country: String,
-                                            handleCanUpdate: (Boolean) => Unit)
+                                            handleCanUpdate: (Boolean) => Unit,
+                                            redirect: (String)         => Unit = _ => {})
 
 final case class OperationIntroWording(title: Option[String] = None,
                                        explanation1: Option[String] = None,
