@@ -6,19 +6,11 @@ import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import io.github.shogowada.scalajs.reactjs.router.WithRouter
 import org.make.front.Main.CssSettings._
 import org.make.front.components.Components._
+import org.make.front.components.proposal.ProposalAuthorInfos.ProposalAuthorInfosProps
 import org.make.front.components.proposal.vote.VoteContainer.VoteContainerProps
 import org.make.front.facades.I18n
 import org.make.front.facades.Unescape.unescape
-import org.make.front.helpers.ProposalAuthorInfosFormat
-import org.make.front.models.{
-  SequenceId,
-  Location          => LocationModel,
-  OperationExpanded => OperationModel,
-  Proposal          => ProposalModel,
-  Qualification     => QualificationModel,
-  TranslatedTheme   => TranslatedThemeModel,
-  Vote              => VoteModel
-}
+import org.make.front.models.{SequenceId, Location => LocationModel, OperationExpanded => OperationModel, Proposal => ProposalModel, Qualification => QualificationModel, TranslatedTheme => TranslatedThemeModel, Vote => VoteModel}
 import org.make.front.styles.ThemeStyles
 import org.make.front.styles.base.{LayoutRulesStyles, TextStyles}
 import org.make.front.styles.ui.CTAStyles
@@ -60,7 +52,7 @@ object ProposalInsideSequence {
           <.div(^.className := js.Array(LayoutRulesStyles.row))(
             <.div(^.className := ProposalInsideSequenceStyles.infosWrapper)(
               <.p(^.className := js.Array(TextStyles.mediumText, ProposalInsideSequenceStyles.infos))(
-                ProposalAuthorInfosFormat.apply(self.props.wrapped.proposal,"","")
+                <.ProposalAuthorInfos(^.wrapped := ProposalAuthorInfosProps(proposal = self.props.wrapped.proposal))()
               )
             ),
             <.div(^.className := ProposalInsideSequenceStyles.contentWrapper)(

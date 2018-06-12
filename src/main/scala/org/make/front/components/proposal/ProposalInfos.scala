@@ -6,12 +6,12 @@ import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import io.github.shogowada.scalajs.reactjs.elements.ReactElement
 import org.make.front.Main.CssSettings._
 import org.make.front.components.Components._
+import org.make.front.components.proposal.ProposalAuthorInfos.ProposalAuthorInfosProps
 import org.make.front.components.userNav.UserNavStyles
-import org.make.front.helpers.ProposalAuthorInfosFormat
 import org.make.front.models.{Proposal => ProposalModel}
-import org.make.front.facades.{userPlaceholder}
+import org.make.front.facades.userPlaceholder
 import org.make.front.styles._
-import org.make.front.styles.base.{TableLayoutStyles}
+import org.make.front.styles.base.TableLayoutStyles
 import org.make.front.styles.utils._
 import org.make.front.styles.vendors.FontAwesomeStyles
 import scalacss.internal.Attr
@@ -76,7 +76,7 @@ object ProposalInfos {
               } else {
                 <.img(^.src := userPlaceholder.toString)()
               }),
-              ProposalAuthorInfosFormat.apply(self.props.wrapped.proposal, ProposalInfosStyles.infos.className.value, "")
+              <.ProposalAuthorInfos(^.wrapped := ProposalAuthorInfosProps(proposal = self.props.wrapped.proposal))()
             ),
             self.props.wrapped.proposal.trending.map(label).getOrElse(js.Array()),
             <.style()(ProposalInfosStyles.render[String])
