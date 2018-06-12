@@ -12,6 +12,7 @@ import org.make.front.components.consultation.ConsultationLinkSequence.Consultat
 import org.make.front.components.consultation.ConsultationPresentation.ConsultationPresentationProps
 import org.make.front.components.consultation.ConsultationPresentationMobile.ConsultationPresentationMobileProps
 import org.make.front.components.consultation.ConsultationProposal.ConsultationProposalProps
+import org.make.front.components.consultation.ConsultationShare.ConsultationShareProps
 import org.make.front.components.consultation.ResultsInConsultationContainer.ResultsInConsultationContainerProps
 import org.make.front.facades.DeviceDetect
 import org.make.front.models.{OperationWording, Location => LocationModel, OperationExpanded => OperationModel}
@@ -83,7 +84,8 @@ object ConsultationSection {
                 )()
               },
               maybePresentationComponent,
-              <.ConsultationFooterComponent()()
+              <.ConsultationFooterComponent()(),
+              <.ConsultationShareComponent(^.wrapped := ConsultationShareProps(operation = consultation))()
             )
           }
         )
