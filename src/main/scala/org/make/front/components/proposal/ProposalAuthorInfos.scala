@@ -32,15 +32,6 @@ object ProposalAuthorInfos {
           ""
         }
 
-        val postalCode: String = if (proposal.author.postalCode.isDefined) {
-          I18n.t(
-            "proposal.author-infos.postal-code",
-            Replacements(("postalCode", s"${proposal.author.postalCode.map(_.substring(0, 2)).getOrElse("")}"))
-          )
-        } else {
-          ""
-        }
-
         def formatAuthorName(maybeName: Option[String]): String = {
           maybeName.getOrElse(I18n.t("proposal.author-infos.anonymous")).toLowerCase.capitalize
         }
