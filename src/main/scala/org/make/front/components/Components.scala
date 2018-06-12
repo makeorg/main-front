@@ -174,6 +174,9 @@ object Components {
       self(consultation.ConsultationPresentationMobile.reactClass)
     def ConsultationSection: ReactClassElementSpec = self(consultation.ConsultationSection.reactClass)
     def ActionsSection: ReactClassElementSpec = self(consultation.ActionsSection.reactClass)
+    def ConsultationCommunityComponent: ReactClassElementSpec = self(consultation.ConsultationCommunity.reactClass)
+    def ConsultationCommunityMobileComponent: ReactClassElementSpec =
+      self(consultation.ConsultationCommunityMobile.reactClass)
 
     /*********************/
     def VFFOperationIntroComponent: ReactClassElementSpec = self(operation.intro.VFFOperationIntro.reactClass)

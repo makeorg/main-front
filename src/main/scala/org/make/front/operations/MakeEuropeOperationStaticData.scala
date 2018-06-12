@@ -2,6 +2,7 @@ package org.make.front.operations
 
 import org.make.front.components.operation.intro.MakeEuropeOperationIntro
 import org.make.front.components.operation.intro.MakeEuropeOperationIntro.MakeEuropeOperationIntroProps
+import org.make.front.components.operation.partners.MakeEuropeOperationPartners
 import org.make.front.facades.{makeEuropeLogo, makeEuropeWhiteLogo}
 import org.make.front.models._
 
@@ -36,6 +37,7 @@ object MakeEuropeOperationStaticData extends StaticDataOfOperation {
         )
       },
       headerComponent = MakeEuropeOperationIntro.reactClass,
+      partnersComponent = MakeEuropeOperationPartners.reactClass,
       headerProps = (operation) => MakeEuropeOperationIntroProps(operation),
       startDateActions = None
     )

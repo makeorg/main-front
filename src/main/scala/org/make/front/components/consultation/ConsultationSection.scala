@@ -6,6 +6,8 @@ import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import io.github.shogowada.scalajs.reactjs.elements.ReactElement
 import io.github.shogowada.scalajs.reactjs.router.WithRouter
 import org.make.front.components.Components._
+import org.make.front.components.consultation.ConsultationCommunity.ConsultationCommunityProps
+import org.make.front.components.consultation.ConsultationCommunityMobile.ConsultationCommunityMobileProps
 import org.make.front.components.consultation.ConsultationLinkSequence.ConsultationLinkSequenceProps
 import org.make.front.components.consultation.ConsultationPresentation.ConsultationPresentationProps
 import org.make.front.components.consultation.ConsultationPresentationMobile.ConsultationPresentationMobileProps
@@ -56,18 +58,30 @@ object ConsultationSection {
                   language = self.props.wrapped.language
                 )
               )(),
-              <.ResultsInConsultationContainerComponent(
-                ^.wrapped := ResultsInConsultationContainerProps(
-                  currentConsultation = consultation,
-                  maybeLocation = Some(LocationModel.OperationPage(consultation.operationId))
-                )
-              )(),
               <.ConsultationLinkSequenceComponent(
                 ^.wrapped := ConsultationLinkSequenceProps(
                   operation = consultation,
                   country = self.props.wrapped.countryCode
                 )
               )(),
+              <.ResultsInConsultationContainerComponent(
+                ^.wrapped := ResultsInConsultationContainerProps(
+                  currentConsultation = consultation,
+                  maybeLocation = Some(LocationModel.OperationPage(consultation.operationId))
+                )
+              )(),
+              if (DeviceDetect.isMobileOnly) {
+                <.ConsultationCommunityMobileComponent(
+                  ^.wrapped := ConsultationCommunityMobileProps(
+                    self.props.wrapped.operation,
+                    self.props.wrapped.language
+                  )
+                )()
+              } else {
+                <.ConsultationCommunityComponent(
+                  ^.wrapped := ConsultationCommunityProps(self.props.wrapped.operation, self.props.wrapped.language)
+                )()
+              },
               maybePresentationComponent
             )
           }

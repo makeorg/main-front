@@ -2,6 +2,7 @@ package org.make.front.operations
 
 import org.make.front.components.operation.intro.MVEOperationIntro
 import org.make.front.components.operation.intro.MVEOperationIntro.MVEOperationIntroProps
+import org.make.front.components.operation.partners.MVEOperationPartners
 import org.make.front.facades.mveLogo
 import org.make.front.models._
 
@@ -44,6 +45,7 @@ object MVEOperationStaticData extends StaticDataOfOperation {
         )
       },
       headerComponent = MVEOperationIntro.reactClass,
+      partnersComponent = MVEOperationPartners.reactClass,
       headerProps = (operation) => MVEOperationIntroProps(operation),
       startDateActions = None
     )

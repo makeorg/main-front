@@ -324,6 +324,19 @@
       "to": "au",
       "datefrom": "à partir du"
     },
+    "community": {
+      "title": "Comunauté d'actions",
+      "partner": {
+        "title": "Eux aussi participent:",
+        "see-more": "Voir tous les  partenaires"
+      },
+      "citizen-count": "%{count} citoyens ",
+      "already-participate": "ont déjà participé",
+      "learn-more": {
+        "label": "Participer",
+        "link": "https://make.org/#/fr/consultation/%{operation-slug}/selection"
+      }
+    },
     "vff-fr": {
       "intro": {
         "label": "Grande cause Make.org",

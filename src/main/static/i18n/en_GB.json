@@ -290,6 +290,19 @@
       "to": "to",
       "dateuntil": "until"
     },
+    "community": {
+      "title": "Comunauté d'actions",
+      "partner": {
+        "title": "Eux aussi participent:",
+        "see-more": "Voir tous les  partenaires"
+      },
+      "citizen-count": "%{count} citoyens ",
+      "already-participate": "ont déjà participé",
+      "learn-more": {
+        "label": "Participer",
+        "link": "https://make.org/#/gb/consultation/%{operation-slug}/selection"
+      }
+    },
     "vff-gb": {
       "intro": {
         "label": "Make.org Grand Challenge",
