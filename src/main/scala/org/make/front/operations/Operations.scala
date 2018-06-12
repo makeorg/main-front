@@ -32,7 +32,8 @@ object Operations {
     LPAEOperationStaticData.data,
     MVEOperationStaticData.data,
     ChanceAuxJeunesOperationStaticData.data,
-    MakeEuropeOperationStaticData.data
+    MakeEuropeOperationStaticData.data,
+    CultureOperationStaticData.data
   )
 }
 
