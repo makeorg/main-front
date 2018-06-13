@@ -4,15 +4,14 @@ import io.github.shogowada.scalajs.reactjs.React
 import io.github.shogowada.scalajs.reactjs.React.Self
 import io.github.shogowada.scalajs.reactjs.VirtualDOM.{<, _}
 import io.github.shogowada.scalajs.reactjs.classes.ReactClass
-import io.github.shogowada.scalajs.reactjs.router.RouterProps._
 import io.github.shogowada.scalajs.reactjs.router.WithRouter
+import io.github.shogowada.scalajs.reactjs.router.dom.RouterDOM.{RouterDOMVirtualDOMElements, RouterVirtualDOMAttributes}
 import org.make.core.Counter
 import org.make.front.Main.CssSettings._
 import org.make.front.components.Components.{RichVirtualDOMElements, _}
 import org.make.front.components.proposal.ProposalTile.ProposalTileProps
 import org.make.front.components.showcase.PromptingToProposeInRelationToThemeTile.PromptingToProposeInRelationToThemeTileProps
 import org.make.front.facades.ReactSlick.{ReactTooltipVirtualDOMAttributes, ReactTooltipVirtualDOMElements}
-import io.github.shogowada.scalajs.reactjs.router.dom.RouterDOM.{RouterDOMVirtualDOMElements, RouterVirtualDOMAttributes}
 import org.make.front.facades.Unescape.unescape
 import org.make.front.facades.{HexToRgba, I18n, Replacements}
 import org.make.front.helpers.NumberFormat
@@ -22,8 +21,7 @@ import org.make.front.styles.base._
 import org.make.front.styles.ui.CTAStyles
 import org.make.front.styles.utils._
 import org.make.services.proposal.SearchResult
-import org.make.services.tracking.TrackingService.TrackingContext
-import org.make.services.tracking.{TrackingLocation, TrackingService}
+import org.make.services.tracking.TrackingLocation
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
@@ -62,8 +60,9 @@ object ThemeShowcase {
 
             import dsl._
 
-            val gradient: (Int) => StyleA =
-              styleF.int(Range(index, index + 1)) { index =>
+            // needed to get a different class name by theme
+            val gradient: Int => StyleA =
+              styleF.int(Range(index, index + 1)) { _ =>
                 styleS(
                   background := s"linear-gradient(130deg, ${HexToRgba(gradientValues.from, 0.1F)}, ${HexToRgba(gradientValues.to, 0.1F)})"
                 )
@@ -85,15 +84,6 @@ object ThemeShowcase {
                   country = self.props.wrapped.country
                 )
             )()
-
-            val goToTheme: () => Unit = () => {
-              TrackingService.track(
-                "click-proposal-viewmore",
-                TrackingContext(TrackingLocation.showcaseHomepage),
-                Map("themeId" -> self.props.wrapped.theme.id.value)
-              )
-              self.props.history.push(s"/${self.props.wrapped.country}/theme/${self.props.wrapped.theme.slug}")
-            }
 
           def sliderContent() = js.Array(
             self.state.proposals.map(

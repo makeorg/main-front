@@ -30,7 +30,7 @@ object TrackingService {
       ("location" -> trackingContext.location.name) +
       ("source" -> trackingContext.source.name) +
       ("referer" -> dom.document.referrer) +
-      ("url" -> dom.window.location.href )
+      ("url" -> dom.window.location.href)
 
     trackingContext.operationSlug.foreach { slug =>
       allParameters += "operation" -> slug
@@ -80,7 +80,6 @@ object TrackingLocation {
   val navBar: TrackingLocation = MakeTrackingLocation("nav-bar")
   val proposalPage: TrackingLocation = MakeTrackingLocation("proposal-page")
   val triggerFromVote: TrackingLocation = MakeTrackingLocation("trigger-vote")
-
 }
 
 sealed trait GlobalTrackingParameter extends BasicEnum
