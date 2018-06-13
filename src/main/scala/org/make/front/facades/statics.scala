@@ -721,6 +721,14 @@ object cultureIll2x extends js.Object
 @JSImport("./images/operations/culture/culture-ill-4320x1605.jpg", "default")
 object cultureIll3x extends js.Object
 
+@js.native
+@JSImport("./images/operations/culture/partners/engie-foundation.svg", "default")
+object engieFoundationLogo extends js.Object
+
+@js.native
+@JSImport("./images/operations/culture/partners/ministere-culture.svg", "default")
+object ministereCultureLogo extends js.Object
+
 /* FLAGS */
 
 @js.native

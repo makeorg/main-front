@@ -78,6 +78,15 @@
           "label": "Participer à la consultation",
           "link": "https://make.org/?utm_source=core&utm_medium=push-hp&utm_campaign=jeunes#/fr/consultation/chance-aux-jeunes/selection"
         }
+      },
+      "culture": {
+        "title": "Accès à la culture pour tous",
+        "label": "Grande cause Make.org",
+        "purpose": "Votez et proposez des solutions pour rendre la culture accessible à tous.",
+        "learn-more": {
+          "label": "Participer à la consultation",
+          "link": "https://make.org/?utm_source=core&utm_medium=push-hp&utm_campaign=jeunes#/fr/consultation/culture/selection"
+        }
       }
     },
     "explanations": {
