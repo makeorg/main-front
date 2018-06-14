@@ -9,12 +9,11 @@ This application is an integration of the make.org site using scala-js and react
   
 ### Running the app
   
-  In order to run the front app, you should launch `sbt` 
-  and than launch the webpack dev server
-  
-  * fastOptJS::startWebpackDevServer 
+````
+make package-docker-image
+docker run -p 9009:8080 -e API_URL=https://api.preprod.makeorg.tech nexus.prod.makeorg.tech/make-front:latest
 
-you can lauch the server in incremental way by adding `~`
+````
 
 After that you can watch you work at the address [http://localhost:9009/webpack-dev-server/](http://localhost:9009/webpack-dev-server/)
 
