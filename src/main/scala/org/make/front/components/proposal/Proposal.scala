@@ -7,19 +7,14 @@ import io.github.shogowada.scalajs.reactjs.router.WithRouter
 import io.github.shogowada.scalajs.reactjs.router.dom.RouterDOM._
 import org.make.front.Main.CssSettings._
 import org.make.front.components.Components.{RichVirtualDOMElements, _}
+import org.make.front.components.proposal.ProposalAuthorInfos.ProposalAuthorInfosProps
 import org.make.front.components.proposal.ProposalContainer.ProposalAndThemeOrOperationModel
 import org.make.front.components.proposal.ProposalSOperationInfos.ProposalSOperationInfosProps
 import org.make.front.components.proposal.vote.VoteContainer.VoteContainerProps
 import org.make.front.components.showcase.ThemeShowcaseContainer.ThemeShowcaseContainerProps
 import org.make.front.facades.I18n
 import org.make.front.facades.Unescape.unescape
-import org.make.front.helpers.ProposalAuthorInfosFormat
-import org.make.front.models.{
-  Location          => LocationModel,
-  OperationExpanded => OperationModel,
-  Proposal          => ProposalModel,
-  TranslatedTheme   => TranslatedThemeModel
-}
+import org.make.front.models.{Location => LocationModel, OperationExpanded => OperationModel, Proposal => ProposalModel, TranslatedTheme => TranslatedThemeModel}
 import org.make.front.styles.ThemeStyles
 import org.make.front.styles.base.{LayoutRulesStyles, RWDHideRulesStyles, TableLayoutStyles, TextStyles}
 import org.make.front.styles.utils._
@@ -93,7 +88,7 @@ object Proposal {
                               <.div(^.className := ProposalStyles.infosWrapper)(
                                 <.p(^.className := js.Array(TextStyles.mediumText, ProposalStyles.infos))(
                                   self.state.maybeProposal.map { proposal =>
-                                    ProposalAuthorInfosFormat.apply(proposal)
+                                    <.ProposalAuthorInfos(^.wrapped := ProposalAuthorInfosProps(proposal = proposal))()
                                   }
                                 )
                               ),
