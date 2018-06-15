@@ -699,6 +699,36 @@ object makeEuropeIll extends js.Object
 @JSImport("./images/operations/make-europe/make-europe-ill-1350x500@2x.jpg", "default")
 object makeEuropeIll2x extends js.Object
 
+/* OPERATION CULTURE */
+
+@js.native
+@JSImport("./images/operations/culture/culture-pour-tous-logo.svg", "default")
+object cultureLogo extends js.Object
+
+@js.native
+@JSImport("./images/operations/culture/culture-pour-tous-logo-dark.svg", "default")
+object cultureLogoWhite extends js.Object
+
+@js.native
+@JSImport("./images/operations/culture/culture-ill-1440x530.jpg", "default")
+object cultureIll extends js.Object
+
+@js.native
+@JSImport("./images/operations/culture/culture-ill-2880x1070.jpg", "default")
+object cultureIll2x extends js.Object
+
+@js.native
+@JSImport("./images/operations/culture/culture-ill-4320x1605.jpg", "default")
+object cultureIll3x extends js.Object
+
+@js.native
+@JSImport("./images/operations/culture/partners/engie-foundation.svg", "default")
+object engieFoundationLogo extends js.Object
+
+@js.native
+@JSImport("./images/operations/culture/partners/ministere-culture.svg", "default")
+object ministereCultureLogo extends js.Object
+
 /* FLAGS */
 
 @js.native
