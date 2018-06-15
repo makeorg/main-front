@@ -112,23 +112,26 @@ object Slides {
     )
   }
 
-  def displayFinalCard(params: OperationExtraSlidesParams, displayed: Boolean = true) = ExtraSlide(
-    reactClass = PromptingToGoBackToOperation.reactClass,
-    props = { handler =>
-      PromptingToGoBackToOperationProps(
-        operation = params.operation,
-        clickOnButtonHandler = handler,
-        sequenceId = params.sequence.sequenceId,
-        language = params.language,
-        country = params.country
-      )
-    },
-    position = { slides =>
-      slides.size
-    },
-    displayed = displayed,
-    maybeTracker =
-      Some(DisplayTracker("display-finale-card", trackingContext(params), defaultTrackingParameters(params)))
-  )
+  def displayFinalCard(params: OperationExtraSlidesParams, displayed: Boolean = true, onFocus: () => Unit = () => {}) =
+    ExtraSlide(
+      reactClass = PromptingToGoBackToOperation.reactClass,
+      props = { handler =>
+        PromptingToGoBackToOperationProps(
+          operation = params.operation,
+          clickOnButtonHandler = handler,
+          sequenceId = params.sequence.sequenceId,
+          language = params.language,
+          country = params.country
+        )
+      },
+      position = { slides =>
+        slides.size
+      },
+      displayed = displayed,
+      maybeTracker =
+        Some(DisplayTracker("display-finale-card", trackingContext(params), defaultTrackingParameters(params))),
+      onFocus = onFocus
+    )
 
+  def redirect(time: Int, destination: String): Unit = {}
 }

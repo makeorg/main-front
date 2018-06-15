@@ -5,6 +5,7 @@ import io.github.shogowada.scalajs.reactjs.React.Self
 import io.github.shogowada.scalajs.reactjs.VirtualDOM.{<, _}
 import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import io.github.shogowada.scalajs.reactjs.elements.ReactElement
+import io.github.shogowada.scalajs.reactjs.router.WithRouter
 import org.make.front.Main.CssSettings._
 import org.make.front.components.Components._
 import org.make.front.components.sequence.ProgressBar.ProgressBarProps
@@ -40,7 +41,9 @@ object Sequence {
                               props: (() => Unit) => Any,
                               position: (js.Array[Slide]) => Int,
                               displayed: Boolean = true,
-                              maybeTracker: Option[DisplayTracker] = None)
+                              maybeTracker: Option[DisplayTracker] = None,
+                              onFocus: () => Unit = () => {},
+                              onBlur: ()  => Unit = () => {})
 
   final case class SequenceProps(loadSequence: (js.Array[ProposalIdModel]) => Future[SequenceModel],
                                  sequence: SequenceModel,
@@ -60,6 +63,62 @@ object Sequence {
     def component(index: Int): ReactElement
     def optional: Boolean
     def maybeTracker: Option[DisplayTracker] = None
+    def onFocus: () => Unit = () => {}
+    def onBlur: ()  => Unit = () => {}
+  }
+
+  class SlideCollection {
+    protected var currentSlides: js.Array[Slide] = js.Array()
+    def getSlides: js.Array[Slide] = currentSlides
+    def addSlide(slide: Slide): Unit = currentSlides = currentSlides ++ js.Array(slide)
+    def addSlides(slides: Array[Slide]): Unit = slides.foreach(addSlide)
+    def addSlideAtIndex(slide: Slide, position: Int): Unit = addSlidesAtPosition(Array(slide), position)
+    def addSlidesAtPosition(slides: Array[Slide], position: Int): Unit =
+      currentSlides = currentSlides.take(position) ++ slides ++ currentSlides.drop(position)
+    def length: Int = currentSlides.length
+    def isEmpty: Boolean = currentSlides.isEmpty
+    def nonEmpty: Boolean = currentSlides.nonEmpty
+    def lastIndex: Int = currentSlides.size - 1
+    def getSlide(index: Int): Slide = currentSlides(index)
+  }
+
+  class MakeSlideCollection extends SlideCollection {
+    def firstNonVotedSlideIndex: Option[Int] = {
+      currentSlides.indexWhere { slide =>
+        slide.isInstanceOf[ProposalSlide] && !slide.asInstanceOf[ProposalSlide].voted
+      } match {
+        case -1    => None
+        case index => Some(index)
+      }
+    }
+
+    def slideIsOptional(index: Int): Boolean = {
+      val slide = getSlide(index)
+      slide.optional || (slide
+        .isInstanceOf[ProposalSlide] &&
+      slide.asInstanceOf[ProposalSlide].voted)
+    }
+
+    def slideCountToDisplay(currentIndex: Int): Int = {
+      if (slideIsOptional(currentIndex)) {
+        currentIndex + 2
+      } else {
+        currentIndex + 1
+      }
+    }
+
+    def hasVotedProposalSlide: Boolean = {
+      currentSlides.indexWhere { slide =>
+        slide.isInstanceOf[ProposalSlide] && slide.asInstanceOf[ProposalSlide].voted
+      } match {
+        case -1 => false
+        case _  => true
+      }
+    }
+
+    def nextIndexToReach: Int = {
+      if (!hasVotedProposalSlide) 0 else firstNonVotedSlideIndex.getOrElse(lastIndex)
+    }
   }
 
   class EmptyElementSlide(element: ReactClass, override val optional: Boolean = false) extends Slide {
@@ -69,11 +128,12 @@ object Sequence {
   class BasicSlide(element: ReactClass,
                    props: Any,
                    override val optional: Boolean = false,
-                   override val maybeTracker: Option[DisplayTracker] = None)
+                   override val maybeTracker: Option[DisplayTracker] = None,
+                   override val onFocus: () => Unit = () => {},
+                   override val onBlur: ()  => Unit = () => {})
       extends Slide {
 
-    override def component(index: Int): ReactElement =
-      <(element)(^.wrapped := props)()
+    override def component(index: Int): ReactElement = <(element)(^.wrapped := props)()
   }
 
   class ProposalSlide(proposal: ProposalModel,
@@ -84,7 +144,9 @@ object Sequence {
                       maybeTheme: Option[TranslatedThemeModel],
                       maybeOperation: Option[OperationModel],
                       sequenceId: SequenceId,
-                      maybeLocation: Option[LocationModel])
+                      maybeLocation: Option[LocationModel],
+                      override val onFocus: () => Unit = () => {},
+                      override val onBlur: ()  => Unit = () => {})
       extends Slide {
 
     val voted: Boolean = proposal.votes.exists(_.hasVoted)
@@ -133,7 +195,7 @@ object Sequence {
       }
     }
 
-    def next: () => Unit = { () =>
+    def next(): Unit = {
       slider.foreach(_.slickNext())
     }
 
@@ -171,9 +233,13 @@ object Sequence {
           self.state.displayedSlidesCount
         }
 
-        val slides = createSlides(self, updatedProposals)
+        val slideCollection: MakeSlideCollection = createSlides(self, updatedProposals)
         self.setState(
-          _.copy(slides = slides, proposals = updatedProposals, displayedSlidesCount = displayedSlidesCount)
+          _.copy(
+            slides = slideCollection.getSlides,
+            proposals = updatedProposals,
+            displayedSlidesCount = displayedSlidesCount
+          )
         )
     }
 
@@ -201,20 +267,165 @@ object Sequence {
         }
 
         val updatedProposals = self.state.proposals.map(mapProposal)
-        val slides = createSlides(self, updatedProposals)
-        self.setState(_.copy(slides = slides, proposals = updatedProposals))
+        val slideCollection: MakeSlideCollection = createSlides(self, updatedProposals)
+        self.setState(_.copy(slides = slideCollection.getSlides, proposals = updatedProposals))
     }
 
     def createSlides(self: Self[SequenceProps, SequenceState],
-                     allProposals: js.Array[ProposalModel]): js.Array[Slide] = {
+                     allProposals: js.Array[ProposalModel]): MakeSlideCollection = {
 
-      var slides: js.Array[Slide] = allProposals.map({ proposal =>
-        new ProposalSlide(
-          proposal,
-          onSuccessfulVote(_, self),
-          onSuccessfulQualification(_, self),
-          canScrollNext = (slideIndex) => {
-            val currentSlideIndex = slideIndex
+      val slideCollection = new MakeSlideCollection
+
+      allProposals.foreach({ proposal =>
+        slideCollection.addSlide(
+          new ProposalSlide(
+            proposal,
+            onSuccessfulVote(_, self),
+            onSuccessfulQualification(_, self),
+            canScrollNext = (slideIndex) => {
+              val currentSlideIndex = slideIndex
+              val slides = self.state.slides
+              if (currentSlideIndex + 1 < slides.size) {
+                slides(currentSlideIndex) match {
+                  case slide if slide.isInstanceOf[ProposalSlide] => slide.asInstanceOf[ProposalSlide].voted
+                  case slide                                      => slide.optional
+                }
+              } else {
+                false
+              }
+            },
+            nextProposal = nextProposal,
+            maybeTheme = self.props.wrapped.maybeTheme,
+            maybeOperation = self.props.wrapped.maybeOperation,
+            sequenceId = self.props.wrapped.sequence.sequenceId,
+            maybeLocation = self.props.wrapped.maybeLocation
+          )
+        )
+      })
+
+      self.props.wrapped.extraSlides.foreach { extraSlide =>
+        if (extraSlide.displayed) {
+          slideCollection.addSlideAtIndex(
+            new BasicSlide(
+              element = extraSlide.reactClass,
+              props = extraSlide.props(() => next()),
+              optional = true,
+              maybeTracker = extraSlide.maybeTracker,
+              onFocus = () => extraSlide.onFocus(),
+              onBlur = extraSlide.onBlur
+            ),
+            extraSlide.position(slideCollection.getSlides)
+          )
+        }
+      }
+
+      slideCollection
+    }
+
+    def onSequenceRetrieved(self: Self[SequenceProps, SequenceState], sequence: SequenceModel): Unit = {
+      val slideCollection: MakeSlideCollection = createSlides(self, sequence.proposals)
+      if (slideCollection.nonEmpty) {
+        self.setState(
+          _.copy(
+            slides = slideCollection.getSlides,
+            proposals = sequence.proposals,
+            currentSlideIndex = slideCollection.nextIndexToReach,
+            displayedSlidesCount = slideCollection.slideCountToDisplay(slideCollection.nextIndexToReach)
+          )
+        )
+      } else {
+        self.setState(_.copy(proposals = sequence.proposals))
+      }
+    }
+
+    WithRouter(
+      React.createClass[SequenceProps, SequenceState](
+        displayName = "Sequence",
+        getInitialState = { _ =>
+          SequenceState(slides = js.Array(), displayedSlidesCount = 0, currentSlideIndex = -1, proposals = js.Array())
+        },
+        componentWillReceiveProps = { (self, props) =>
+          if (props.wrapped.sequence.sequenceId.value != self.props.wrapped.sequence.sequenceId.value) {
+            onSequenceRetrieved(self, props.wrapped.sequence)
+          } else if (self.props.wrapped.isConnected != props.wrapped.isConnected) {
+            val votedProposalIds = self.state.proposals.filter(_.votes.exists(_.hasVoted)).map(_.id)
+            props.wrapped.loadSequence(votedProposalIds).onComplete {
+              case Success(sequence) => onSequenceRetrieved(self, sequence)
+              case Failure(_)        =>
+            }
+          }
+        },
+        componentDidMount = { self =>
+          onSequenceRetrieved(self, self.props.wrapped.sequence)
+          TrackingService
+            .track(
+              "display-sequence",
+              TrackingContext(TrackingLocation.sequencePage, self.props.wrapped.maybeOperation.map(_.slug)),
+              Map(
+                "sequenceId" -> self.props.wrapped.sequence.sequenceId.value,
+                "operationId" -> self.props.wrapped.maybeOperation.map(_.operationId.value).getOrElse("")
+              )
+            )
+        },
+        componentWillUpdate = { (self, props, state) =>
+          slider.foreach(_.slickGoTo(state.currentSlideIndex))
+          val firstIndex = state.slides.takeWhile(!_.isInstanceOf[ProposalSlide]).size
+          if (self.state.currentSlideIndex != state.currentSlideIndex) {
+            state.slides(state.currentSlideIndex).maybeTracker.foreach { tracker =>
+              TrackingService
+                .track(
+                  tracker.name,
+                  tracker.context,
+                  tracker.parameters + ("card-position" -> state.currentSlideIndex.toString)
+                )
+            }
+          }
+          if (state.currentSlideIndex == firstIndex &&
+              state.proposals.nonEmpty &&
+              self.state.currentSlideIndex != state.currentSlideIndex) {
+
+            TrackingService
+              .track(
+                "display-sequence-first-proposal",
+                TrackingContext(TrackingLocation.sequencePage, props.wrapped.maybeOperation.map(_.slug)),
+                Map(
+                  "sequenceId" -> self.props.wrapped.sequence.sequenceId.value,
+                  "proposalId" -> state.proposals.headOption.map(_.id.value).getOrElse("")
+                )
+              )
+          }
+        },
+        render = { self =>
+          def updateCurrentSlideIndex(currentSlide: Int): Unit = {
+            val oldSlideIndex = self.state.currentSlideIndex
+            // If user went back, log it
+            if (currentSlide < oldSlideIndex) {
+              TrackingService.track(
+                "click-sequence-previous-card",
+                TrackingContext(TrackingLocation.sequencePage, self.props.wrapped.maybeOperation.map(_.slug)),
+                Map(
+                  "sequenceId" -> self.props.wrapped.sequence.sequenceId.value,
+                  "card-position" -> oldSlideIndex.toString
+                )
+              )
+            } else if (currentSlide > oldSlideIndex) {
+              TrackingService.track(
+                "click-sequence-next-card",
+                TrackingContext(TrackingLocation.sequencePage, self.props.wrapped.maybeOperation.map(_.slug)),
+                Map(
+                  "sequenceId" -> self.props.wrapped.sequence.sequenceId.value,
+                  "card-position" -> oldSlideIndex.toString
+                )
+              )
+            }
+
+            self.state.slides(oldSlideIndex).onBlur()
+            self.state.slides(currentSlide).onFocus()
+            self.setState(state => state.copy(currentSlideIndex = currentSlide))
+          }
+
+          def canScrollNext: Boolean = {
+            val currentSlideIndex = self.state.currentSlideIndex
             val slides = self.state.slides
             if (currentSlideIndex + 1 < slides.size) {
               slides(currentSlideIndex) match {
@@ -224,236 +435,81 @@ object Sequence {
             } else {
               false
             }
-          },
-          nextProposal = nextProposal,
-          maybeTheme = self.props.wrapped.maybeTheme,
-          maybeOperation = self.props.wrapped.maybeOperation,
-          sequenceId = self.props.wrapped.sequence.sequenceId,
-          maybeLocation = self.props.wrapped.maybeLocation
-        )
-      })
 
-      self.props.wrapped.extraSlides.foreach { extraSlide =>
-        if (extraSlide.displayed) {
-          val position = extraSlide.position(slides)
-          slides = slides.take(position) ++
-            js.Array(
-              new BasicSlide(
-                element = extraSlide.reactClass,
-                props = extraSlide.props(next),
-                optional = true,
-                maybeTracker = extraSlide.maybeTracker
-              )
-            ) ++
-            slides.drop(position)
-        }
-      }
-
-      slides
-    }
-
-    def onSequenceRetrieved(self: Self[SequenceProps, SequenceState], sequence: SequenceModel): Unit = {
-      val slides: js.Array[Slide] = createSlides(self, sequence.proposals)
-      if (slides.nonEmpty) {
-        val firstNonVotedSlideIndex: Int = slides.indexWhere { slide =>
-          slide.isInstanceOf[ProposalSlide] && !slide.asInstanceOf[ProposalSlide].voted
-        }
-        val hasVotedProposals: Boolean = sequence.proposals.headOption.exists(_.votes.exists(_.hasVoted))
-        val lastSlideIndex: Int = slides.size - 1
-        val indexToReach =
-          if (!hasVotedProposals) 0
-          else if (firstNonVotedSlideIndex == -1) lastSlideIndex
-          else firstNonVotedSlideIndex
-        val currentSlideIsOptional: Boolean = slides(indexToReach).optional || (slides(indexToReach)
-          .isInstanceOf[ProposalSlide] &&
-          slides(indexToReach).asInstanceOf[ProposalSlide].voted)
-
-        val displayedSlidesCount: Int = if (currentSlideIsOptional) {
-          indexToReach + 2
-        } else {
-          indexToReach + 1
-        }
-
-        self.setState(
-          _.copy(
-            slides = slides,
-            proposals = sequence.proposals,
-            currentSlideIndex = indexToReach,
-            displayedSlidesCount = displayedSlidesCount
-          )
-        )
-      } else {
-        self.setState(_.copy(proposals = sequence.proposals))
-      }
-    }
-
-    React.createClass[SequenceProps, SequenceState](
-      displayName = "Sequence",
-      getInitialState = { _ =>
-        SequenceState(slides = js.Array(), displayedSlidesCount = 0, currentSlideIndex = -1, proposals = js.Array())
-      },
-      componentWillReceiveProps = { (self, props) =>
-        if (props.wrapped.sequence.sequenceId.value != self.props.wrapped.sequence.sequenceId.value) {
-          onSequenceRetrieved(self, props.wrapped.sequence)
-        } else if (self.props.wrapped.isConnected != props.wrapped.isConnected) {
-          val votedProposalIds = self.state.proposals.filter(_.votes.exists(_.hasVoted)).map(_.id)
-          props.wrapped.loadSequence(votedProposalIds).onComplete {
-            case Success(sequence) => onSequenceRetrieved(self, sequence)
-            case Failure(_)        =>
-          }
-        }
-      },
-      componentDidMount = { self =>
-        onSequenceRetrieved(self, self.props.wrapped.sequence)
-        TrackingService
-          .track(
-            "display-sequence",
-            TrackingContext(TrackingLocation.sequencePage, self.props.wrapped.maybeOperation.map(_.slug)),
-            Map(
-              "sequenceId" -> self.props.wrapped.sequence.sequenceId.value,
-              "operationId" -> self.props.wrapped.maybeOperation.map(_.operationId.value).getOrElse("")
-            )
-          )
-      },
-      componentWillUpdate = { (self, props, state) =>
-        slider.foreach(_.slickGoTo(state.currentSlideIndex))
-        val firstIndex = state.slides.takeWhile(!_.isInstanceOf[ProposalSlide]).size
-        if (self.state.currentSlideIndex != state.currentSlideIndex) {
-          state.slides(state.currentSlideIndex).maybeTracker.foreach { tracker =>
-            TrackingService
-              .track(
-                tracker.name,
-                tracker.context,
-                tracker.parameters + ("card-position" -> state.currentSlideIndex.toString)
-              )
-          }
-        }
-        if (state.currentSlideIndex == firstIndex &&
-            state.proposals.nonEmpty &&
-            self.state.currentSlideIndex != state.currentSlideIndex) {
-
-          TrackingService
-            .track(
-              "display-sequence-first-proposal",
-              TrackingContext(TrackingLocation.sequencePage, props.wrapped.maybeOperation.map(_.slug)),
-              Map(
-                "sequenceId" -> self.props.wrapped.sequence.sequenceId.value,
-                "proposalId" -> state.proposals.headOption.map(_.id.value).getOrElse("")
-              )
-            )
-        }
-      },
-      render = { self =>
-        def updateCurrentSlideIndex(currentSlide: Int): Unit = {
-          val oldSlideIndex = self.state.currentSlideIndex
-          // If user went back, log it
-          if (currentSlide < oldSlideIndex) {
-            TrackingService.track(
-              "click-sequence-previous-card",
-              TrackingContext(TrackingLocation.sequencePage, self.props.wrapped.maybeOperation.map(_.slug)),
-              Map(
-                "sequenceId" -> self.props.wrapped.sequence.sequenceId.value,
-                "card-position" -> oldSlideIndex.toString
-              )
-            )
-          } else if (currentSlide > oldSlideIndex) {
-            TrackingService.track(
-              "click-sequence-next-card",
-              TrackingContext(TrackingLocation.sequencePage, self.props.wrapped.maybeOperation.map(_.slug)),
-              Map(
-                "sequenceId" -> self.props.wrapped.sequence.sequenceId.value,
-                "card-position" -> oldSlideIndex.toString
-              )
-            )
-          }
-          self.setState(state => state.copy(currentSlideIndex = currentSlide))
-        }
-
-        def canScrollNext: Boolean = {
-          val currentSlideIndex = self.state.currentSlideIndex
-          val slides = self.state.slides
-          if (currentSlideIndex + 1 < slides.size) {
-            slides(currentSlideIndex) match {
-              case slide if slide.isInstanceOf[ProposalSlide] => slide.asInstanceOf[ProposalSlide].voted
-              case slide                                      => slide.optional
-            }
-          } else {
-            false
           }
 
-        }
+          def maxIndex = maxScrollableIndex(self.state.slides.toList)
 
-        def maxIndex = maxScrollableIndex(self.state.slides.toList)
-
-        <.div(^.className := js.Array(TableLayoutStyles.fullHeightWrapper, SequenceStyles.wrapper))(
-          <.div(^.className := TableLayoutStyles.row)(
-            <.div(
-              ^.className := js.Array(TableLayoutStyles.cellVerticalAlignBottom, SequenceStyles.progressBarWrapper)
-            )(
-              <.div(^.className := js.Array(SequenceStyles.centeredRow))(
-                <.ProgressBarComponent(
-                  ^.wrapped := ProgressBarProps(
-                    value = self.state.currentSlideIndex,
-                    total = self.state.slides.size,
-                    maybeThemeColor = self.props.wrapped.progressBarColor
-                  )
-                )()
+          <.div(^.className := js.Array(TableLayoutStyles.fullHeightWrapper, SequenceStyles.wrapper))(
+            <.div(^.className := TableLayoutStyles.row)(
+              <.div(
+                ^.className := js.Array(TableLayoutStyles.cellVerticalAlignBottom, SequenceStyles.progressBarWrapper)
+              )(
+                <.div(^.className := js.Array(SequenceStyles.centeredRow))(
+                  <.ProgressBarComponent(
+                    ^.wrapped := ProgressBarProps(
+                      value = self.state.currentSlideIndex,
+                      total = self.state.slides.size,
+                      maybeThemeColor = self.props.wrapped.progressBarColor
+                    )
+                  )()
+                )
               )
-            )
-          ),
-          if (self.state.slides.nonEmpty) {
-            var counter: Int = -1
-            <.div(^.className := TableLayoutStyles.fullHeightRow)(
-              <.div(^.className := js.Array(TableLayoutStyles.cell, SequenceStyles.slideshowInnerWrapper))(
-                <.div(^.className := js.Array(SequenceStyles.centeredRow, SequenceStyles.fullHeight))(
-                  <.div(^.className := SequenceStyles.slideshow)(
-                    if (self.state.currentSlideIndex > 0)
-                      <.button(
-                        ^.className := SequenceStyles.showPrevSlideButton,
-                        ^.onClick := previous,
-                        ^.disabled := self.state.currentSlideIndex == 0
-                      )(),
-                    <.Slider(^.ref := { (slideshow: HTMLElement) =>
-                      slider = Option(slideshow.asInstanceOf[Slider])
-                      slider.foreach { s =>
-                        val oldSlideHandler: js.Function1[Int, Unit] = s.innerSlider.slideHandler
-                        s.innerSlider.slideHandler = { index =>
-                          if (index > maxIndex) {
-                            oldSlideHandler(maxIndex)
-                          } else {
-                            oldSlideHandler(index)
+            ),
+            if (self.state.slides.nonEmpty) {
+              var counter: Int = -1
+              <.div(^.className := TableLayoutStyles.fullHeightRow)(
+                <.div(^.className := js.Array(TableLayoutStyles.cell, SequenceStyles.slideshowInnerWrapper))(
+                  <.div(^.className := js.Array(SequenceStyles.centeredRow, SequenceStyles.fullHeight))(
+                    <.div(^.className := SequenceStyles.slideshow)(
+                      if (self.state.currentSlideIndex > 0)
+                        <.button(
+                          ^.className := SequenceStyles.showPrevSlideButton,
+                          ^.onClick := previous,
+                          ^.disabled := self.state.currentSlideIndex == 0
+                        )(),
+                      <.Slider(^.ref := { (slideshow: HTMLElement) =>
+                        slider = Option(slideshow.asInstanceOf[Slider])
+                        slider.foreach { s =>
+                          val oldSlideHandler: js.Function1[Int, Unit] = s.innerSlider.slideHandler
+                          s.innerSlider.slideHandler = { index =>
+                            if (index > maxIndex) {
+                              oldSlideHandler(maxIndex)
+                            } else {
+                              oldSlideHandler(index)
+                            }
                           }
                         }
-                      }
-                    }, ^.infinite := false, ^.arrows := false, ^.accessibility := true, ^.swipe := true, ^.afterChange := updateCurrentSlideIndex, ^.initialSlide := self.state.currentSlideIndex)(
-                      self.state.slides.map { slide =>
-                        counter += 1
-                        <.div(^.className := SequenceStyles.slideWrapper)(
-                          <.article(^.className := SequenceStyles.slide)(
-                            <.div(^.className := js.Array(SequenceStyles.slideInnerSubWrapper))(
-                              slide.component(counter)
+                      }, ^.infinite := false, ^.arrows := false, ^.accessibility := true, ^.swipe := true, ^.afterChange := updateCurrentSlideIndex, ^.initialSlide := self.state.currentSlideIndex)(
+                        self.state.slides.map { slide =>
+                          counter += 1
+                          <.div(^.className := SequenceStyles.slideWrapper)(
+                            <.article(^.className := SequenceStyles.slide)(
+                              <.div(^.className := js.Array(SequenceStyles.slideInnerSubWrapper))(
+                                slide.component(counter)
+                              )
                             )
                           )
-                        )
-                      }.toSeq
-                    ),
-                    if (canScrollNext) {
-                      <.button(^.className := SequenceStyles.showNextSlideButton, ^.onClick := next)()
-                    }
+                        }.toSeq
+                      ),
+                      if (canScrollNext) {
+                        <.button(^.className := SequenceStyles.showNextSlideButton, ^.onClick := (() => next()))()
+                      }
+                    )
                   )
                 )
               )
-            )
-          } else {
-            <.div(^.className := TableLayoutStyles.fullHeightRow)(
-              <.div(^.className := TableLayoutStyles.cellVerticalAlignMiddle)(
-                <.div(^.className := SequenceStyles.centeredRow)(<.SpinnerComponent.empty)
+            } else {
+              <.div(^.className := TableLayoutStyles.fullHeightRow)(
+                <.div(^.className := TableLayoutStyles.cellVerticalAlignMiddle)(
+                  <.div(^.className := SequenceStyles.centeredRow)(<.SpinnerComponent.empty)
+                )
               )
-            )
-          },
-          <.style()(SequenceStyles.render[String])
-        )
-      }
+            },
+            <.style()(SequenceStyles.render[String])
+          )
+        }
+      )
     )
   }
 }
