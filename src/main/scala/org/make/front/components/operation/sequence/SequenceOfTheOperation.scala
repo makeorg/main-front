@@ -159,7 +159,11 @@ object SequenceOfTheOperation {
                           )(),
                           <.span(
                             ^.className := js
-                              .Array(TextStyles.smallText, TextStyles.title, RWDHideRulesStyles.showBlockBeyondMedium),
+                              .Array(
+                                TextStyles.smallText,
+                                TextStyles.title,
+                                RWDRulesMediumStyles.showBlockBeyondMedium
+                              ),
                             ^.dangerouslySetInnerHTML := I18n.t("operation.sequence.header.back-cta")
                           )()
                         )
@@ -206,7 +210,7 @@ object SequenceOfTheOperation {
                             ^.onClick := openProposalModal
                           )(
                             <.i(^.className := js.Array(FontAwesomeStyles.pencil))(),
-                            <.span(^.className := RWDHideRulesStyles.showInlineBlockBeyondMedium)(
+                            <.span(^.className := RWDRulesMediumStyles.showInlineBlockBeyondMedium)(
                               unescape("&nbsp;" + I18n.t("operation.sequence.header.propose-cta"))
                             )
                           ),

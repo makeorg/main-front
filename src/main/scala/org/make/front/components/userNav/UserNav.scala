@@ -17,7 +17,7 @@ import org.make.front.components.userNav.UserNav.{UserNavProps, UserNavState}
 import org.make.front.facades.I18n
 import org.make.front.facades.Unescape.unescape
 import org.make.front.styles.ThemeStyles
-import org.make.front.styles.base.{RWDHideRulesStyles, TextStyles}
+import org.make.front.styles.base.{RWDHideRulesStyles, RWDRulesMediumStyles, TextStyles}
 import org.make.front.styles.utils._
 import org.make.front.styles.vendors.FontAwesomeStyles
 import org.make.services.tracking.TrackingLocation
@@ -82,7 +82,7 @@ object ConnectedUserNavElement {
           <.span(
             ^.className := js.Array(
               UserNavStyles.userNameWrapper,
-              RWDHideRulesStyles.showInlineBlockBeyondMedium,
+              RWDRulesMediumStyles.showInlineBlockBeyondMedium,
               TextStyles.title,
               TextStyles.smallText
             )
@@ -113,13 +113,13 @@ object UnconnectedUserNavElement {
           <.i(^.className := js.Array(UserNavStyles.menuItemIcon, FontAwesomeStyles.user))(),
           <.span(
             ^.className := js
-              .Array(RWDHideRulesStyles.showInlineBlockBeyondMedium, TextStyles.title, TextStyles.smallText)
+              .Array(RWDRulesMediumStyles.showInlineBlockBeyondMedium, TextStyles.title, TextStyles.smallText)
           )(I18n.t("user-nav.login"))
         ),
         <.span(
           ^.className := js.Array(
             UserNavStyles.slash,
-            RWDHideRulesStyles.showInlineBlockBeyondMedium,
+            RWDRulesMediumStyles.showInlineBlockBeyondMedium,
             TextStyles.title,
             TextStyles.smallText
           )
@@ -127,7 +127,7 @@ object UnconnectedUserNavElement {
         <.button(^.onClick := openRegisterAuthenticateModal, ^.className := js.Array(UserNavStyles.menuItemLink))(
           <.span(
             ^.className := js
-              .Array(RWDHideRulesStyles.showInlineBlockBeyondMedium, TextStyles.title, TextStyles.smallText)
+              .Array(RWDRulesMediumStyles.showInlineBlockBeyondMedium, TextStyles.title, TextStyles.smallText)
           )(I18n.t("user-nav.register"))
         ),
         <.ModalComponent(
@@ -190,12 +190,7 @@ object UserNavStyles extends StyleSheet.Inline {
     )
 
   val avatarPlaceholder: StyleA =
-    style(
-      width(100.%%),
-      lineHeight(28.pxToEm(16)),
-      fontSize(16.pxToEm()),
-      color(ThemeStyles.TextColor.lighter)
-    )
+    style(width(100.%%), lineHeight(28.pxToEm(16)), fontSize(16.pxToEm()), color(ThemeStyles.TextColor.lighter))
 
   val avatar: StyleA =
     style(

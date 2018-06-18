@@ -10,7 +10,7 @@ import org.make.front.facades.I18n
 import org.make.front.facades.Unescape.unescape
 import org.make.front.models.{OperationWording, OperationExpanded => OperationModel}
 import org.make.front.styles.ThemeStyles
-import org.make.front.styles.base.{RWDHideRulesStyles, TableLayoutBeyondMediumStyles, TextStyles}
+import org.make.front.styles.base.{RWDRulesMediumStyles, TableLayoutBeyondMediumStyles, TextStyles}
 import org.make.front.styles.ui.CTAStyles
 import org.make.front.styles.utils._
 
@@ -46,7 +46,7 @@ object ProposalSOperationInfos {
                 <.span(^.className := js.Array(ProposalSOperationInfosStyles.intro, TextStyles.smallText))(
                   unescape(I18n.t("proposal.proposal-s-operation-infos.intro"))
                 ),
-                <.span(^.className := RWDHideRulesStyles.hideBeyondMedium)(" "),
+                <.span(^.className := RWDRulesMediumStyles.hideBeyondMedium)(" "),
                 <.span(
                   ^.className := js.Array(
                     TextStyles.verySmallTitle,

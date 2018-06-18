@@ -10,7 +10,7 @@ import org.make.front.components.Components.{RichVirtualDOMElements, _}
 import org.make.front.facades.I18n
 import org.make.front.facades.Unescape.unescape
 import org.make.front.styles.ThemeStyles
-import org.make.front.styles.base.{LayoutRulesStyles, RWDHideRulesStyles, TableLayoutStyles, TextStyles}
+import org.make.front.styles.base._
 import org.make.front.styles.ui.CTAStyles
 import org.make.front.styles.utils._
 import org.make.front.styles.vendors.FontAwesomeStyles
@@ -24,8 +24,9 @@ object Error {
   lazy val reactClass: ReactClass =
     WithRouter(
       React
-        .createClass[ErrorProps, Unit](displayName = "Error", render = {
-          self =>
+        .createClass[ErrorProps, Unit](
+          displayName = "Error",
+          render = { self =>
             <("error")()(
               <.div(^.className := js.Array(TableLayoutStyles.fullHeightWrapper))(
                 <.div(^.className := TableLayoutStyles.row)(
@@ -61,7 +62,7 @@ object Error {
                               <.div(^.className := ErrorStyles.searchFormWrapper)(<.SearchFormContainer.empty),
                               <.div(
                                 ^.className := js.Array(
-                                  RWDHideRulesStyles.showBlockBeyondMedium,
+                                  RWDRulesMediumStyles.showBlockBeyondMedium,
                                   LayoutRulesStyles.evenNarrowerCenteredRow
                                 )
                               )(<.hr(^.className := ErrorStyles.separatorLine)()),
@@ -98,7 +99,8 @@ object Error {
               <.NavInThemesContainerComponent.empty,
               <.style()(ErrorStyles.render[String])
             )
-        })
+          }
+        )
     )
 }
 

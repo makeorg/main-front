@@ -39,12 +39,15 @@ object App {
               InputStyles.render[String],
               TagStyles.render[String],
               TooltipStyles.render[String],
-              AccordionStyles.render[String]
+              AccordionStyles.render[String],
+              RWDRulesSmallStyles.render[String],
+              RWDRulesMediumStyles.render[String],
+              RWDRulesLargeMediumStyles.render[String],
+              RWDHideRulesStyles.render[String]
             ),
             <.ContainerComponent.empty,
             <.MainFooterComponent.empty,
-            <.TriggerSignUpComponent(^.wrapped := TriggerSignUpProps(self.props.wrapped.nVotesTriggerConnexion))(),
-            <.style()(RWDHideRulesStyles.render[String])
+            <.TriggerSignUpComponent(^.wrapped := TriggerSignUpProps(self.props.wrapped.nVotesTriggerConnexion))()
           )
         }
       )
