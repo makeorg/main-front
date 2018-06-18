@@ -946,5 +946,8 @@ object translationsItIT extends js.Object
 object cone extends js.Object
 
 @js.native
+@JSImport("./images/close.svg", "default")
+object close extends js.Object
+@js.native
 @JSImport("./images/user-placeholder.svg", "default")
 object userPlaceholder extends js.Object

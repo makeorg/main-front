@@ -58,6 +58,7 @@ object Components {
       self(userProfile.UserProfile.reactClass)
 
     def ShareComponent: ReactClassElementSpec = self(share.ShareProposal.reactClass)
+    def ShareMobileComponent: ReactClassElementSpec = self(share.ShareMobile.reactClass)
 
     /*********************/
     def ActivateAccountContainerComponent: ReactClassElementSpec =
@@ -171,13 +172,9 @@ object Components {
     def ResultsInConsultationComponent: ReactClassElementSpec = self(consultation.ResultsInConsultation.reactClass)
     def ConsultationPresentationComponent: ReactClassElementSpec =
       self(consultation.ConsultationPresentation.reactClass)
-    def ConsultationPresentationMobileComponent: ReactClassElementSpec =
-      self(consultation.ConsultationPresentationMobile.reactClass)
     def ConsultationSection: ReactClassElementSpec = self(consultation.ConsultationSection.reactClass)
     def ActionsSection: ReactClassElementSpec = self(consultation.ActionsSection.reactClass)
     def ConsultationCommunityComponent: ReactClassElementSpec = self(consultation.ConsultationCommunity.reactClass)
-    def ConsultationCommunityMobileComponent: ReactClassElementSpec =
-      self(consultation.ConsultationCommunityMobile.reactClass)
     def ConsultationFooterComponent: ReactClassElementSpec = self(consultation.ConsultationFooter.reactClass)
     def ConsultationShareComponent: ReactClassElementSpec = self(consultation.ConsultationShare.reactClass)
     def ConsultationShareMobileComponent: ReactClassElementSpec = self(consultation.ConsultationShareMobile.reactClass)

@@ -185,7 +185,10 @@ object PromptingToContinueAfterTheSequenceStyles extends StyleSheet.Inline {
     style(marginBottom(ThemeStyles.SpacingValue.medium.pxToEm()))
 
   val shareWrapper: StyleA =
-    style(marginTop(ThemeStyles.SpacingValue.medium.pxToEm()))
+    style(
+      marginTop(ThemeStyles.SpacingValue.medium.pxToEm()),
+      textAlign.center
+    )
 
   val contentWrapper: StyleA = style(maxWidth(1030.pxToEm()), margin(`0`, auto))
 

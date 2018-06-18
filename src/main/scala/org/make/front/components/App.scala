@@ -38,7 +38,8 @@ object App {
               CTAStyles.render[String],
               InputStyles.render[String],
               TagStyles.render[String],
-              TooltipStyles.render[String]
+              TooltipStyles.render[String],
+              AccordionStyles.render[String]
             ),
             <.ContainerComponent.empty,
             <.MainFooterComponent.empty,

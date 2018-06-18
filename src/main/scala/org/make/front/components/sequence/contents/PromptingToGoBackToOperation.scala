@@ -150,7 +150,9 @@ object PromptingToGoBackToOperation {
                                 .Array(PromptingToGoBackToOperationStyles.sharingIntro, TextStyles.mediumText)
                             )(unescape(I18n.t("sequence.prompting-to-continue.share.intro")))
                           ),
-                          <.ShareComponent(^.wrapped := ShareProps(operation = self.props.wrapped.operation))()
+                          <.div(^.className := PromptingToGoBackToOperationStyles.alignshare)(
+                            <.ShareComponent(^.wrapped := ShareProps(operation = self.props.wrapped.operation))()
+                          )
                         )
                       )
                     )
@@ -213,4 +215,9 @@ object PromptingToGoBackToOperationStyles extends StyleSheet.Inline {
 
   val sharingIntro: StyleA =
     style(color(ThemeStyles.TextColor.lighter))
+
+  val alignshare: StyleA =
+    style(
+      textAlign.center
+    )
 }

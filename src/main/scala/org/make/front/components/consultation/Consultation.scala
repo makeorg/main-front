@@ -95,5 +95,5 @@ object ConsultationStyles extends StyleSheet.Inline {
     style(display.block, backgroundColor(ThemeStyles.BackgroundColor.blackVeryTransparent))
 
   val mainContentWrapper: StyleA =
-    style(backgroundColor(ThemeStyles.BackgroundColor.grey), paddingTop(20.pxToEm()), paddingBottom(20.pxToEm()))
+    style(backgroundColor(ThemeStyles.BackgroundColor.grey))
 }

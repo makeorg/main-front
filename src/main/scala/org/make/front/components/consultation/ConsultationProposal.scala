@@ -11,8 +11,10 @@ import org.make.front.facades.I18n
 import org.make.front.facades.Unescape.unescape
 import org.make.front.models.{OperationWording, Location => LocationModel, OperationExpanded => OperationModel}
 import org.make.front.styles.ThemeStyles
+import org.make.front.styles.ui.InputStyles
 import org.make.front.styles.base._
 import org.make.front.styles.utils._
+import org.make.front.styles.vendors.FontAwesomeStyles
 import org.make.services.tracking.TrackingService.TrackingContext
 import org.make.services.tracking.{TrackingLocation, TrackingService}
 import org.scalajs.dom.raw.HTMLElement
@@ -43,6 +45,13 @@ object ConsultationProposal {
           self.setState(state => state.copy(isProposalModalOpened = false))
         }
 
+        object DynamicConsultationProposalStyles extends StyleSheet.Inline {
+          import dsl._
+
+          val TitleColor = style(color :=! consultation.color)
+
+        }
+
         def openProposalModalFromInput() = () => {
           self.setState(state => state.copy(isProposalModalOpened = true))
           TrackingService
@@ -53,25 +62,41 @@ object ConsultationProposal {
           proposalInput.foreach(_.blur())
         }
 
-        <.div(^.className := ConsultationProposalStyles.Wrapper)(
-          <.p()(
+        <.div(^.className := js.Array(ConsultationProposalStyles.wrapper)
+        )(
+          <.p(^.className := TextStyles.smallerTitle)(
+            <.i(^.className := js.Array(
+              ConsultationProposalStyles.icon,
+              FontAwesomeStyles.lightbulbTransparent)
+            )(),
             //Todo check translations with product team
             unescape(I18n.t("operation.consultation-proposal.title"))
           ),
-          <.h1()(unescape(wording.question)),
-          <.span(^.className := TableLayoutStyles.wrapper)(
-            <.span(^.className := js.Array(TableLayoutStyles.cell))(
-              <.input(
-                ^.`type`.text,
-                ^.value := I18n.t("common.bait"),
-                ^.ref := ((input: HTMLElement) => proposalInput = Some(input)),
-                ^.onFocus := openProposalModalFromInput(),
-                ^.readOnly := true
-              )()
-            ),
-            <.span(^.className := TableLayoutStyles.cellVerticalAlignMiddle)(
-              <.span(^.className := js.Array(TextStyles.smallText))(
-                I18n.t("operation.proposal-form-in-header.limit-of-chars-info")
+          <.h1(^.className := js.Array(
+            ConsultationProposalStyles.proposalTitle,
+            DynamicConsultationProposalStyles.TitleColor
+          ))(unescape(wording.question)),
+          <.div(^.className := js.Array(
+            InputStyles.wrapper,
+            ConsultationProposalStyles.proposalInputWrapper
+          ))(
+            <.span(^.className := TableLayoutStyles.wrapper)(
+              <.span(^.className := TableLayoutStyles.cell)(
+                <.input(
+                  ^.`type`.text,
+                  ^.value := I18n.t("common.bait"),
+                  ^.ref := ((input: HTMLElement) => proposalInput = Some(input)),
+                  ^.onFocus := openProposalModalFromInput(),
+                  ^.readOnly := true
+                )()
+              ),
+              <.span(^.className := js.Array(
+                TableLayoutStyles.cellVerticalAlignMiddle,
+                ConsultationProposalStyles.charsLimit)
+              )(
+                <.span(^.className := TextStyles.smallText)(
+                  (unescape(I18n.t("operation.proposal-form-in-header.limit-of-chars-info")))
+                )
               )
             )
           ),
@@ -91,7 +116,7 @@ object ConsultationProposal {
               )
             )()
           ),
-          <.style()(ConsultationProposalStyles.render[String])
+          <.style()(ConsultationProposalStyles.render[String],DynamicConsultationProposalStyles.render[String])
         )
       }
     )
@@ -100,6 +125,41 @@ object ConsultationProposal {
 object ConsultationProposalStyles extends StyleSheet.Inline {
   import dsl._
 
-  val Wrapper: StyleA =
-    style(backgroundColor(ThemeStyles.BackgroundColor.white), padding(30.pxToEm()))
+  val wrapper: StyleA =
+    style(backgroundColor(
+      ThemeStyles.BackgroundColor.white),
+      padding(
+        ThemeStyles.SpacingValue.medium.pxToEm(),
+        ThemeStyles.SpacingValue.small.pxToEm()
+      ),
+      boxShadow := s"0 1px 1px 0 rgba(0, 0, 0, .5)"
+    )
+
+  val icon: StyleA =
+    style(marginRight(ThemeStyles.SpacingValue.smaller.pxToEm()))
+
+  val proposalTitle: StyleA =
+    style(
+      ThemeStyles.Font.circularStdBold,
+      fontSize(15.pxToEm()),
+      lineHeight(1),
+      ThemeStyles.MediaQueries.beyondSmall(fontSize(20.pxToEm()))
+    )
+
+  val proposalInputWrapper: StyleA =
+    style(
+      marginTop(ThemeStyles.SpacingValue.smaller.pxToEm()),
+      padding(`0`, ThemeStyles.SpacingValue.smaller.pxToEm()),
+      unsafeChild("input")(
+        ThemeStyles.Font.circularStdBold,
+        cursor.text,
+        borderColor(ThemeStyles.BorderColor.lighter)
+      )
+    )
+
+  val charsLimit: StyleA =
+    style(
+      textAlign.right,
+      color(ThemeStyles.TextColor.lighter)
+    )
 }

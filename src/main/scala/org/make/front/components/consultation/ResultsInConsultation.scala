@@ -10,23 +10,18 @@ import org.make.front.components.Components._
 import org.make.front.components.proposal.ProposalTileWithTags.ProposalTileWithTagsProps
 import org.make.front.components.tags.FilterByTags.FilterByTagsProps
 import org.make.front.facades.I18n
-import org.make.front.facades.ReactInfiniteScroller.{
-  ReactInfiniteScrollerVirtualDOMAttributes,
-  ReactInfiniteScrollerVirtualDOMElements
-}
+import org.make.front.facades.ReactInfiniteScroller.{ReactInfiniteScrollerVirtualDOMAttributes, ReactInfiniteScrollerVirtualDOMElements}
 import org.make.front.facades.Unescape.unescape
-import org.make.front.models.{
-  Location          => LocationModel,
-  OperationExpanded => OperationModel,
-  Proposal          => ProposalModel,
-  ProposalId        => ProposalIdModel,
-  Qualification     => QualificationModel,
-  Tag               => TagModel,
-  Vote              => VoteModel
-}
+import org.make.front.models.{Location => LocationModel, OperationExpanded => OperationModel, Proposal => ProposalModel, ProposalId => ProposalIdModel, Qualification => QualificationModel, Tag => TagModel, Vote => VoteModel}
+import org.make.front.styles.base.{LayoutRulesStyles, TextStyles}
+import org.make.front.styles.vendors.FontAwesomeStyles
 import org.make.services.proposal.SearchResult
 import org.make.services.tracking.TrackingService.TrackingContext
 import org.make.services.tracking.{TrackingLocation, TrackingService}
+import org.make.front.Main.CssSettings._
+import org.make.front.styles.ThemeStyles
+import org.make.front.styles.ui.CTAStyles
+import org.make.front.styles.utils._
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
@@ -224,7 +219,13 @@ object ResultsInConsultation {
                   .toSeq
               } else { <.div.empty }),
               if (self.state.hasMore && !self.state.hasRequestedMore) {
-                <.div()(<.button(^.onClick := (() => {
+                <.button(
+                  ^.className := js.Array(
+                    CTAStyles.basic,
+                    CTAStyles.basicOnA,
+                    ResultsInConsultationStyles.moreResults
+                  ),
+                  ^.onClick := (() => {
                   onSeeMore(1)
                   TrackingService.track(
                     "click-proposal-viewmore",
@@ -233,25 +234,77 @@ object ResultsInConsultation {
                       operationSlug = Some(self.props.wrapped.operation.slug)
                     )
                   )
-                }))(unescape(I18n.t("operation.results.see-more"))))
+                }))(unescape(I18n.t("operation.results.see-more")))
               }
             )
             .toSeq
 
         val proposalsToDisplay: js.Array[ProposalModel] = self.state.listProposals
 
-        <.section()(
-          <.header()(<.h2()(unescape(I18n.t("operation.results.title")))),
-          <.div()(
-            <.FilterByTagsComponent(^.wrapped := FilterByTagsProps(self.props.wrapped.operation.tagIds, onTagsChange))()
+        <.div()(
+          <.header(^.className := ResultsInConsultationStyles.wrapper)(
+            <.h2(^.className := TextStyles.smallerTitle)(
+              <.i(
+                ^.className := js.Array(
+                  FontAwesomeStyles.thumbsUp,
+                  ResultsInConsultationStyles.icon
+                )
+              )(),
+              unescape(I18n.t("operation.results.title"))
+            ),
+            <.div(^.className := js.Array(
+              ResultsInConsultationStyles.wrapper,
+              ResultsInConsultationStyles.tagsContainer)
+            )(
+              <.FilterByTagsComponent(^.wrapped := FilterByTagsProps(self.props.wrapped.operation.tagIds, onTagsChange))()
+            )
           ),
           if (self.state.initialLoad || proposalsToDisplay.nonEmpty) {
             proposals(proposalsToDisplay, self.props.wrapped.country)
           } else {
             noResults
-          }
+          },
+          <.style()(ResultsInConsultationStyles.render[String])
         )
       }
     )
   }
+}
+
+object ResultsInConsultationStyles extends StyleSheet.Inline {
+
+  import dsl._
+
+  val wrapper: StyleA =
+    style(
+      marginTop(ThemeStyles.SpacingValue.small.pxToEm()),
+      marginBottom(ThemeStyles.SpacingValue.small.pxToEm()),
+      paddingLeft(ThemeStyles.SpacingValue.small.pxToEm()),
+      paddingRight(ThemeStyles.SpacingValue.small.pxToEm()),
+      ThemeStyles.MediaQueries.beyondLargeMedium(
+        paddingLeft(`0`),
+        paddingRight(`0`)
+      )
+    )
+
+  val tagsContainer: StyleA =
+    style(
+      paddingBottom(ThemeStyles.SpacingValue.smaller.pxToEm()),
+      borderBottom(2.pxToEm(), solid, ThemeStyles.BorderColor.lighter)
+    )
+
+  val icon: StyleA =
+    style(
+      marginRight(ThemeStyles.SpacingValue.smaller.pxToEm())
+    )
+
+  val moreResults: StyleA =
+    style(
+      display.block,
+      margin(
+        `0`,
+        auto,
+        ThemeStyles.SpacingValue.small.pxToEm()
+      )
+    )
 }

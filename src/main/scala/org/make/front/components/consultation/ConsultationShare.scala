@@ -7,8 +7,13 @@ import org.make.front.Main.CssSettings._
 import org.make.front.components.Components._
 import org.make.front.models.{OperationExpanded => OperationModel}
 import org.make.front.components.share.ShareProposal.ShareProps
+import org.make.front.facades.I18n
+import org.make.front.facades.Unescape.unescape
 import org.make.front.styles.ThemeStyles
+import org.make.front.styles.base.{LayoutRulesStyles, TextStyles}
 import org.make.front.styles.utils._
+
+import scala.scalajs.js
 
 object ConsultationShare {
 
@@ -19,10 +24,17 @@ object ConsultationShare {
       .createClass[ConsultationShareProps, Unit](
       displayName = "ConsultationShare",
       render = { self =>
-        <.article(^.className := ConsultationShareStyles.wrapper)(
-          <.div(^.className := ConsultationShareStyles.contentWrapper)(
-            <.ShareComponent(^.wrapped := ShareProps(operation = self.props.wrapped.operation))()
+        <.article(^.className := js.Array(
+          ConsultationShareStyles.wrapper,
+          LayoutRulesStyles.centeredRow)
+        )(
+          <.h3(^.className := js.Array(
+            TextStyles.smallerTitle,
+            ConsultationShareStyles.title)
+          )(
+            unescape(I18n.t("operation.share.title"))
           ),
+          <.ShareComponent(^.wrapped := ShareProps(operation = self.props.wrapped.operation))(),
           <.style()(ConsultationShareStyles.render[String])
         )
       }
@@ -35,23 +47,18 @@ object ConsultationShareStyles extends StyleSheet.Inline {
 
   val wrapper: StyleA =
     style(
-      position.relative,
-      height(100.%%),
-      minHeight(360.pxToEm()),
-      ThemeStyles.MediaQueries.belowMedium(minHeight.inherit),
-      minWidth(240.pxToEm()),
       backgroundColor(ThemeStyles.BackgroundColor.white),
-      boxShadow := "0 1px 1px 0 rgba(0,0,0,0.50)"
-    )
-
-  val contentWrapper: StyleA =
-    style(
+      boxShadow := "0 1px 1px 0 rgba(0,0,0,0.50)",
       padding(
+        20.pxToEm(),
         ThemeStyles.SpacingValue.small.pxToEm(),
-        ThemeStyles.SpacingValue.small.pxToEm(),
-        ThemeStyles.SpacingValue.medium.pxToEm()
+        ThemeStyles.SpacingValue.small.pxToEm()
       ),
-      overflow.hidden
+      marginTop(ThemeStyles.SpacingValue.small.pxToEm())
     )
 
+  val title: StyleA =
+    style(
+      paddingBottom(ThemeStyles.SpacingValue.smaller.pxToEm())
+    )
 }
