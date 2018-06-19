@@ -10,20 +10,20 @@ scalaVersion := "2.12.5"
 
 /* Npm versions */
 val npmReactVersion = "15.6.1"
-val npmWebpackVersion = "3.6.0"
+val npmWebpackVersion = "4.12.0"
 val npmReactRouterVersion = "4.1.2"
 val npmReactAutosuggestVersion = "9.3.1"
-val npmExtractTextWebpackPluginVersion = "3.0.0"
-val npmCssLoaderVersion = "0.28.4"
-val npmStyleLoaderVersion = "0.18.2"
+val npmExtractTextWebpackPluginVersion = "v4.0.0-beta.0"
+val npmCssLoaderVersion = "0.28.11"
+val npmStyleLoaderVersion = "0.21.0"
 val npmReactModalVersion = "3.3.2"
 val npmReactSlickVersion = "0.15.4"
 val npmReactI18nifyVersion = "1.8.7"
-val npmCleanWebpackPluginVersion = "0.1.16"
-val npmHtmlWebpackPluginVersion = "2.29.0"
-val npmWebpackMd5HashVersion = "0.0.5"
-val npmFileLoaderVersion = "0.11.2"
-val npmHardSourceWebpackVersion = "0.4.9"
+val npmCleanWebpackPluginVersion = "0.1.19"
+val npmHtmlWebpackPluginVersion = "3.2.0"
+val npmWebpackMd5HashVersion = "0.0.6"
+val npmFileLoaderVersion = "1.1.11"
+val npmHardSourceWebpackVersion = "0.8.1"
 val npmSourceMapLoaderVersion = "0.2.1"
 val npmReactGoogleLogin = "2.9.3"
 val npmReactFacebookLogin = "3.6.2"
@@ -71,7 +71,7 @@ npmDependencies in Compile ++= Seq(
 )
 
 npmDevDependencies in Compile ++= Seq(
-  "ajv" -> "5.2.2",
+  "ajv" -> "6.5.1",
   "clean-webpack-plugin" -> npmCleanWebpackPluginVersion,
   "css-loader" -> npmCssLoaderVersion,
   "extract-text-webpack-plugin" -> npmExtractTextWebpackPluginVersion,
@@ -79,8 +79,9 @@ npmDevDependencies in Compile ++= Seq(
   "hard-source-webpack-plugin" -> npmHardSourceWebpackVersion,
   "html-webpack-plugin" -> npmHtmlWebpackPluginVersion,
   "style-loader" -> npmStyleLoaderVersion,
-  "webpack-dev-server" -> "2.8.2",
+  "webpack-dev-server" -> "3.1.4",
   "webpack-md5-hash" -> npmWebpackMd5HashVersion,
+  "uglifyjs-webpack-plugin" -> "1.2.5",
   "webpack" -> npmWebpackVersion
 )
 

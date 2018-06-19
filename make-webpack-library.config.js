@@ -61,10 +61,7 @@ module.exports.plugins = [
     })
 ];
 
-module.exports.output = {
-    filename: "[name]-bundle.js",
-    publicPath: '/'
-}
+module.exports.output.publicPath = '/'
 
 module.exports.module.rules = [
     {
@@ -88,9 +85,5 @@ module.exports.module.rules = [
         test: /\.(jpe?g|gif|svg|png)$/,
         loader: 'file-loader?name=images/[name].[hash].[ext]',
         include: [path.join(__dirname, "images")]
-    },
-    {
-        test: /\.json$/,
-        loader: 'json-loader'
     }
 ];

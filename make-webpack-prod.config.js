@@ -4,6 +4,7 @@ var ExtractTextPlugin = require('extract-text-webpack-plugin');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
 var WebpackMd5Hash = require('webpack-md5-hash');
 var scalajs = require('./scalajs.webpack.config')
+var UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 
 var htmlWebpackParams = {
     "metaTitle": "META_TITLE",
@@ -46,10 +47,6 @@ var build = {
                 test: /\.(jpe?g|gif|png)$/,
                 loader: 'file-loader?name=images/[name].[hash].[ext]',
                 include: [path.join(__dirname, "images")]
-            },
-            {
-                test: /\.json$/,
-                loader: 'json-loader'
             }
         ]
     },
@@ -94,38 +91,25 @@ var build = {
         new ExtractTextPlugin({ // define where to save the file
             filename: '[name].[chunkhash].bundle.css',
             allChunks: true
-        }),
-        new webpack.optimize.UglifyJsPlugin({
-            compressor: {
-                warnings: false
-            }
         })
-    ]
+
+    ],
+    optimization: {
+      minimizer: [
+        new UglifyJsPlugin({
+            cache: true,
+            parallel: true,
+            uglifyOptions: {
+              compress: false,
+              ecma: 6,
+              mangle: true
+            },
+            sourceMap: true
+          })
+      ]
+    }
 
 };
 
 
-// Content to avoid crashes from the scalajs-bundler
-// I hope this hack can be removed some day
-var fake =
-    {
-        name: "fake",
-        entry: scalajs.entry,
-        output: scalajs.output,
-        module: {
-            rules: [
-                {
-                    test: /\.(ttf|otf|eot|svg|woff(2)?)(\?[a-z0-9]+)?$/,
-                    loader: 'file-loader?name=fonts/[name].[ext]'
-                },
-                {
-                    test: /\.(jpe?g|gif|png)$/,
-                    loader: 'file-loader?name=images/[name].[ext]',
-                    include: [path.join(__dirname, "images")]
-                }
-            ]
-        }
-    };
-
-
-module.exports = [fake, build];
+module.exports = build;
