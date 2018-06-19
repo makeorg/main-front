@@ -187,12 +187,12 @@ object ThemeShowcase {
                   )*/
                   /*TODO: dev filter functions and reactivate template part*/
                 ),
-                <.div(^.className := js.Array(RWDHideRulesStyles.hideBeyondMedium, LayoutRulesStyles.centeredRowWithCols, ThemeShowcaseStyles.slideshow))(
+                <.div(^.className := js.Array(RWDRulesMediumStyles.hideBeyondMedium, LayoutRulesStyles.centeredRowWithCols, ThemeShowcaseStyles.slideshow))(
                   <.Slider(^.infinite := false, ^.arrows := false)(
                     sliderContent()
                   )
                 ),
-                <.div(^.className := js.Array(RWDHideRulesStyles.showBlockBeyondMedium, RWDHideRulesStyles.hideBeyondLarge, LayoutRulesStyles.centeredRowWithCols, ThemeShowcaseStyles.slideshow))(
+                <.div(^.className := js.Array(RWDRulesMediumStyles.showBlockBeyondMedium, RWDHideRulesStyles.hideBeyondLarge, LayoutRulesStyles.centeredRowWithCols, ThemeShowcaseStyles.slideshow))(
                   <.Slider(^.infinite := false, ^.arrows := false, ^.slidesToShow := 2, ^.slidesToScroll := 2)(
                     sliderContent()
                   )

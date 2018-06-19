@@ -17,7 +17,7 @@ import org.make.front.components.consultation.ResultsInConsultationContainer.Res
 import org.make.front.facades.DeviceDetect
 import org.make.front.models.{OperationWording, Location => LocationModel, OperationExpanded => OperationModel}
 import org.make.front.styles.ThemeStyles
-import org.make.front.styles.base.{RWDHideRulesStyles}
+import org.make.front.styles.base.{RWDHideRulesStyles, RWDRulesLargeMediumStyles}
 
 object ConsultationSection {
 
@@ -36,74 +36,59 @@ object ConsultationSection {
             val consultation = self.props.wrapped.operation
             val maybeWording: Option[OperationWording] =
               consultation.getWordingByLanguage(self.props.wrapped.language)
-              <.div(^.className := ConsultationSectionStyles.wrapper)(
-                <.div(^.className := ConsultationSectionStyles.main)(
-                  <.ConsultationProposalComponent(
-                    ^.wrapped := ConsultationProposalProps(
-                      self.props.wrapped.operation,
-                      maybeLocation = Some(LocationModel.OperationPage(self.props.wrapped.operation.operationId)),
-                      language = self.props.wrapped.language
-                    )
-                  )(),
-                  <.ConsultationLinkSequenceComponent(
-                    ^.wrapped := ConsultationLinkSequenceProps(
-                      operation = consultation,
-                      country = self.props.wrapped.countryCode
-                    )
-                  )(),
-                  maybeWording.flatMap { wording =>
-                    wording.presentation.map { content =>
-                      <.div(^.className := RWDHideRulesStyles.hideBeyondLargeMedium)(
-                        <.ConsultationPresentationComponent(
-                          ^.wrapped := ConsultationPresentationProps(
-                            operation = consultation,
-                            language = self.props.wrapped.language,
-                            content = content,
-                            learnMoreUrl = wording.learnMoreUrl,
-                            isCollapsed = true
-                          )
-                        )()
-                      )
-                    }
-                  },
-                  <.ResultsInConsultationContainerComponent(
-                    ^.wrapped := ResultsInConsultationContainerProps(
-                      currentConsultation = consultation,
-                      maybeLocation = Some(LocationModel.OperationPage(consultation.operationId))
-                    )
-                  )()
-                ),
-                <.aside(^.className := ConsultationSectionStyles.sidebar)(
+            <.div(^.className := ConsultationSectionStyles.wrapper)(
+              <.div(^.className := ConsultationSectionStyles.main)(
+                <.ConsultationProposalComponent(
+                  ^.wrapped := ConsultationProposalProps(
+                    self.props.wrapped.operation,
+                    maybeLocation = Some(LocationModel.OperationPage(self.props.wrapped.operation.operationId)),
+                    language = self.props.wrapped.language
+                  )
+                )(),
+                <.ConsultationLinkSequenceComponent(
+                  ^.wrapped := ConsultationLinkSequenceProps(
+                    operation = consultation,
+                    country = self.props.wrapped.countryCode
+                  )
+                )(),
                 maybeWording.flatMap { wording =>
                   wording.presentation.map { content =>
-                    <.div(^.className := RWDHideRulesStyles.showBlockBeyondLargeMedium)(
+                    <.div(^.className := RWDRulesLargeMediumStyles.hideBeyondLargeMedium)(
                       <.ConsultationPresentationComponent(
                         ^.wrapped := ConsultationPresentationProps(
                           operation = consultation,
                           language = self.props.wrapped.language,
                           content = content,
                           learnMoreUrl = wording.learnMoreUrl,
-                          isCollapsed = false
+                          isCollapsed = true
                         )
                       )()
                     )
                   }
                 },
-                <.div(^.className := RWDHideRulesStyles.showBlockBeyondLargeMedium)(
-                  <.ConsultationShareComponent(
-                    ^.wrapped := ConsultationShareProps(operation = consultation)
-                  )()
-                ),
-                <.ConsultationShareMobileComponent(
-                  ^.wrapped := ConsultationShareMobileProps(operation = consultation)
-                )(),
-                <.div(^.className := RWDHideRulesStyles.showBlockBeyondLargeMedium)(
-                  <.ConsultationCommunityComponent(
-                    ^.wrapped := ConsultationCommunityProps(self.props.wrapped.operation, self.props.wrapped.language)
-                  )(),
-                  <.ConsultationFooterComponent()()
-                )
-                ),<.style()(ConsultationSectionStyles.render[String])
+                <.ResultsInConsultationContainerComponent(
+                  ^.wrapped := ResultsInConsultationContainerProps(
+                    currentConsultation = consultation,
+                    maybeLocation = Some(LocationModel.OperationPage(consultation.operationId))
+                  )
+                )()
+              ),
+              <.aside(^.className := ConsultationSectionStyles.sidebar)(maybeWording.flatMap { wording =>
+                wording.presentation.map { content =>
+                  <.div(^.className := RWDRulesLargeMediumStyles.showBlockBeyondLargeMedium)(
+                    <.ConsultationPresentationComponent(
+                      ^.wrapped := ConsultationPresentationProps(
+                        operation = consultation,
+                        language = self.props.wrapped.language,
+                        content = content,
+                        learnMoreUrl = wording.learnMoreUrl,
+                        isCollapsed = false
+                      )
+                    )()
+                  )
+                }
+              }, <.div(^.className := RWDRulesLargeMediumStyles.showBlockBeyondLargeMedium)(<.ConsultationShareComponent(^.wrapped := ConsultationShareProps(operation = consultation))()), <.ConsultationShareMobileComponent(^.wrapped := ConsultationShareMobileProps(operation = consultation))(), <.div(^.className := RWDRulesLargeMediumStyles.showBlockBeyondLargeMedium)(<.ConsultationCommunityComponent(^.wrapped := ConsultationCommunityProps(self.props.wrapped.operation, self.props.wrapped.language))(), <.ConsultationFooterComponent()())),
+              <.style()(ConsultationSectionStyles.render[String])
             )
           }
         )
@@ -132,17 +117,10 @@ object ConsultationSectionStyles extends StyleSheet.Inline {
 
   val main: StyleA =
     style(
-      ThemeStyles.MediaQueries.beyondLargeMedium(
-        maxWidth(750.pxToPercent(1140)),
-        marginRight(30.pxToPercent(1140))
-      )
+      ThemeStyles.MediaQueries.beyondLargeMedium(maxWidth(750.pxToPercent(1140)), marginRight(30.pxToPercent(1140)))
     )
 
   val sidebar: StyleA =
-    style(
-      ThemeStyles.MediaQueries.beyondLargeMedium(
-        maxWidth(360.pxToPercent(1140))
-      )
-    )
+    style(ThemeStyles.MediaQueries.beyondLargeMedium(maxWidth(360.pxToPercent(1140))))
 
 }

@@ -7,10 +7,10 @@ import org.make.front.Main.CssSettings._
 import org.make.front.components.Components._
 import org.make.front.components.consultation.ConsultationCommunity.ConsultationCommunityProps
 import org.make.front.models.{OperationExpanded => OperationModel}
-import org.make.front.facades.{I18n}
+import org.make.front.facades.I18n
 import org.make.front.facades.Unescape.unescape
 import org.make.front.styles.ThemeStyles
-import org.make.front.styles.base.{RWDHideRulesStyles, TextStyles}
+import org.make.front.styles.base.{RWDHideRulesStyles, RWDRulesLargeMediumStyles, TextStyles}
 import org.make.front.styles.ui.AccordionStyles
 import org.make.front.styles.utils._
 import org.make.front.styles.vendors.FontAwesomeStyles
@@ -34,7 +34,6 @@ object ConsultationPresentation {
           ConsultationPresentationState(self.props.wrapped.isCollapsed)
         },
         render = { self =>
-
           val consultation: OperationModel = self.props.wrapped.operation
 
           def changeCollapse(): () => Unit = { () =>
@@ -51,54 +50,48 @@ object ConsultationPresentation {
                 ^.className := js.Array(
                   AccordionStyles.collapseTrigger,
                   ConsultationPresentationStyles.triggerWrapper,
-                  ConsultationPresentationStyles.collapseTrigger(self.state.isCollapsed)),
+                  ConsultationPresentationStyles.collapseTrigger(self.state.isCollapsed)
+                ),
                 ^.onClick := changeCollapse()
               )(
                 <.h3(^.className := TextStyles.smallerTitle)(
                   unescape(I18n.t("operation.presentation.title")),
-                  <.i(^.className := js.Array(
-                    ConsultationPresentationStyles.triggerIcon,
-                    FontAwesomeStyles.angleRight,
-                    AccordionStyles.collapseIcon,
-                    AccordionStyles.collapseIconToggle(self.state.isCollapsed))
+                  <.i(
+                    ^.className := js.Array(
+                      ConsultationPresentationStyles.triggerIcon,
+                      FontAwesomeStyles.angleRight,
+                      AccordionStyles.collapseIcon,
+                      AccordionStyles.collapseIconToggle(self.state.isCollapsed)
+                    )
                   )()
                 )
               )
             ),
-            <.div(^.className := js.Array(
-              AccordionStyles.collapseWrapper,
-              AccordionStyles.collapseWrapperToggle(self.state.isCollapsed))
+            <.div(
+              ^.className := js
+                .Array(AccordionStyles.collapseWrapper, AccordionStyles.collapseWrapperToggle(self.state.isCollapsed))
             )(
-              <.p(^.className := js.Array(
-                TextStyles.smallerText,
-                ConsultationPresentationStyles.presentationText)
-              )(
+              <.p(^.className := js.Array(TextStyles.smallerText, ConsultationPresentationStyles.presentationText))(
                 unescape(self.props.wrapped.content),
                 unescape("&nbsp"),
                 self.props.wrapped.learnMoreUrl.map { url =>
-                  <.a(^.onClick := onclick(url), ^.className := js.Array(
-                    TextStyles.boldText,
-                    ConsultationPresentationStyles.presentationlink)
-                  )(
-                    unescape(I18n.t("operation.presentation.seeMore"))
-                  )
+                  <.a(
+                    ^.onClick := onclick(url),
+                    ^.className := js.Array(TextStyles.boldText, ConsultationPresentationStyles.presentationlink)
+                  )(unescape(I18n.t("operation.presentation.seeMore")))
                 },
-                <.hr(^.className := js.Array(
-                  ConsultationPresentationStyles.sep,
-                  RWDHideRulesStyles.hideBeyondLargeMedium)
+                <.hr(
+                  ^.className := js
+                    .Array(ConsultationPresentationStyles.sep, RWDRulesLargeMediumStyles.hideBeyondLargeMedium)
                 )()
               ),
-              <.div(^.className := RWDHideRulesStyles.hideBeyondLargeMedium)(
+              <.div(^.className := RWDRulesLargeMediumStyles.hideBeyondLargeMedium)(
                 <.ConsultationCommunityComponent(
-                  ^.wrapped := ConsultationCommunityProps(
-                    consultation,
-                    self.props.wrapped.language)
+                  ^.wrapped := ConsultationCommunityProps(consultation, self.props.wrapped.language)
                 )()
               )
             ),
-            <.style()(
-              ConsultationPresentationStyles.render[String]
-            )
+            <.style()(ConsultationPresentationStyles.render[String])
           )
         }
       )
@@ -118,55 +111,40 @@ object ConsultationPresentationStyles extends StyleSheet.Inline {
     )
 
   val collapseWrapper: StyleA =
-    style(
-      padding(
-        `0`,
-        ThemeStyles.SpacingValue.small.pxToEm()
-      ),
-    )
+    style(padding(`0`, ThemeStyles.SpacingValue.small.pxToEm()))
 
   val triggerWrapper: StyleA =
     style(
       paddingTop(ThemeStyles.SpacingValue.small.pxToEm()),
       paddingBottom(ThemeStyles.SpacingValue.small.pxToEm()),
-      ThemeStyles.MediaQueries.beyondLargeMedium(
-        paddingTop(25.pxToEm()),
-        borderBottom(1.pxToEm(),solid,ThemeStyles.BorderColor.veryLight)
-      )
+      ThemeStyles.MediaQueries
+        .beyondLargeMedium(paddingTop(25.pxToEm()), borderBottom(1.pxToEm(), solid, ThemeStyles.BorderColor.veryLight))
     )
 
   val collapseTrigger: Boolean => StyleA = styleF.bool(
     active =>
       if (active) {
+        styleS(ThemeStyles.MediaQueries.beyondLargeMedium(borderBottom(none)))
+      } else
         styleS(
-          ThemeStyles.MediaQueries.beyondLargeMedium(borderBottom(none))
-        )
-      } else styleS(
-        ThemeStyles.MediaQueries.beyondLargeMedium(borderBottom(1.pxToEm(),solid,ThemeStyles.BorderColor.veryLight))
+          ThemeStyles.MediaQueries.beyondLargeMedium(borderBottom(1.pxToEm(), solid, ThemeStyles.BorderColor.veryLight))
       )
   )
 
-  val triggerIcon:  StyleA =
-    style(
-      position.relative,
-      top(-4.pxToEm())
-    )
+  val triggerIcon: StyleA =
+    style(position.relative, top(-4.pxToEm()))
 
   val presentationText: StyleA =
     style(
       color(ThemeStyles.TextColor.lighter),
       paddingRight(ThemeStyles.SpacingValue.small.pxToEm()),
       paddingLeft(ThemeStyles.SpacingValue.small.pxToEm()),
-      ThemeStyles.MediaQueries.beyondLargeMedium(
-        marginTop(ThemeStyles.SpacingValue.small.pxToEm()),
-        paddingBottom(20.pxToEm())
-      )
+      ThemeStyles.MediaQueries
+        .beyondLargeMedium(marginTop(ThemeStyles.SpacingValue.small.pxToEm()), paddingBottom(20.pxToEm()))
     )
 
   val presentationlink: StyleA =
-    style(
-      color(ThemeStyles.ThemeColor.primary)
-    )
+    style(color(ThemeStyles.ThemeColor.primary))
 
   val sep: StyleA =
     style(

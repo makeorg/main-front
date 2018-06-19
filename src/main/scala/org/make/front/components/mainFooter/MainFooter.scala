@@ -3,13 +3,13 @@ package org.make.front.components.mainFooter
 import io.github.shogowada.scalajs.reactjs.React
 import io.github.shogowada.scalajs.reactjs.VirtualDOM.{<, _}
 import io.github.shogowada.scalajs.reactjs.classes.ReactClass
+import org.make.front.Main.CssSettings._
 import org.make.front.components.Components._
 import org.make.front.facades.Unescape.unescape
 import org.make.front.facades.{logoMake, I18n}
 import org.make.front.styles._
 import org.make.front.styles.base._
 import org.make.front.styles.utils._
-import org.make.front.Main.CssSettings._
 
 import scala.scalajs.js
 
@@ -57,7 +57,7 @@ object MainFooter {
                           <.p(
                             ^.className := js
                               .Array(TextStyles.title.htmlClass, TextStyles.smallText.htmlClass, if (item == 3) {
-                                RWDHideRulesStyles.hideBeyondMedium.htmlClass
+                                RWDRulesMediumStyles.hideBeyondMedium.htmlClass
                               })
                               .mkString(" ")
                           )(

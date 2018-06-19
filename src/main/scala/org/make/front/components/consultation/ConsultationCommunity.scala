@@ -9,7 +9,7 @@ import org.make.front.facades.Unescape.unescape
 import org.make.front.facades.{I18n, Replacements}
 import org.make.front.models.OperationExpanded
 import org.make.front.styles.ThemeStyles
-import org.make.front.styles.base.{LayoutRulesStyles, RWDHideRulesStyles, TextStyles}
+import org.make.front.styles.base.{LayoutRulesStyles, RWDHideRulesStyles, RWDRulesLargeMediumStyles, TextStyles}
 import org.make.front.styles.ui.CTAStyles
 import org.make.front.styles.utils._
 import org.make.front.styles.vendors.FontAwesomeStyles
@@ -53,62 +53,40 @@ object ConsultationCommunity {
               .map(_ + "#partenaires")
               .getOrElse("/#/404")
 
-          <.aside(^.className := js.Array(
-            ConsultationCommunityStyles.wrapper,
-            LayoutRulesStyles.centeredRow)
-          )(
-              <.h3(^.className := js.Array(
-                TextStyles.smallerTitle,
-                ConsultationCommunityStyles.title)
-              )(
-                unescape(I18n.t("operation.community.title"))
-              ),
-              <.p(^.className := js.Array(
-                TextStyles.smallerText,
-                ConsultationCommunityStyles.communityCount)
-              )(
+          <.aside(^.className := js.Array(ConsultationCommunityStyles.wrapper, LayoutRulesStyles.centeredRow))(
+            <.h3(^.className := js.Array(TextStyles.smallerTitle, ConsultationCommunityStyles.title))(
+              unescape(I18n.t("operation.community.title"))
+            ),
+            <.p(^.className := js.Array(TextStyles.smallerText, ConsultationCommunityStyles.communityCount))(
 //                todo count citizen who participate
-              <.span(^.className := js.Array(
-                TextStyles.smallerTitle,
-                DynamicConsultationCommunityStyles.consultationColor)
-              )(
-                unescape(I18n.t("operation.community.citizen-count", Replacements(("count", "52341"))))),
-                unescape(I18n.t("operation.community.already-participate"))
-              ),
-              <.button(^.onClick := openSlugLink, ^.className := js.Array(
-                RWDHideRulesStyles.showBlockBeyondLargeMedium,
+              <.span(
+                ^.className := js.Array(TextStyles.smallerTitle, DynamicConsultationCommunityStyles.consultationColor)
+              )(unescape(I18n.t("operation.community.citizen-count", Replacements(("count", "52341"))))),
+              unescape(I18n.t("operation.community.already-participate"))
+            ),
+            <.button(
+              ^.onClick := openSlugLink,
+              ^.className := js.Array(
+                RWDRulesLargeMediumStyles.showBlockBeyondLargeMedium,
                 CTAStyles.basic,
                 CTAStyles.basicOnA,
                 ConsultationCommunityStyles.cta
               )
-              )(
-                <.i(
-                  ^.className := js.Array(
-                    FontAwesomeStyles.play,
-                    ConsultationCommunityStyles.ctaIcon
-                  )
-                )(),
-                unescape(I18n.t("operation.community.learn-more.label"))
-              ),
-              <.h3(^.className := js.Array(
-                TextStyles.smallerTitle,
-                ConsultationCommunityStyles.title)
-              )(
-                unescape(I18n.t("operation.community.partner.title"))
-              ),
-              <(self.props.wrapped.operation.partnersComponent).empty,
-              <.a(
-                ^.href := linkPartner,
-                ^.className := js.Array(
-                  TextStyles.boldText,
-                  ConsultationCommunityStyles.communityLink),
-                ^.target := "_blank"
-              )(
-                unescape(I18n.t("operation.community.partner.see-more"))
-              ),
-            <.style()(ConsultationCommunityStyles.render[String],
-              DynamicConsultationCommunityStyles.render[String])
-            )
+            )(
+              <.i(^.className := js.Array(FontAwesomeStyles.play, ConsultationCommunityStyles.ctaIcon))(),
+              unescape(I18n.t("operation.community.learn-more.label"))
+            ),
+            <.h3(^.className := js.Array(TextStyles.smallerTitle, ConsultationCommunityStyles.title))(
+              unescape(I18n.t("operation.community.partner.title"))
+            ),
+            <(self.props.wrapped.operation.partnersComponent).empty,
+            <.a(
+              ^.href := linkPartner,
+              ^.className := js.Array(TextStyles.boldText, ConsultationCommunityStyles.communityLink),
+              ^.target := "_blank"
+            )(unescape(I18n.t("operation.community.partner.see-more"))),
+            <.style()(ConsultationCommunityStyles.render[String], DynamicConsultationCommunityStyles.render[String])
+          )
 
         }
       )
@@ -122,11 +100,7 @@ object ConsultationCommunityStyles extends StyleSheet.Inline {
   val wrapper: StyleA =
     style(
       backgroundColor(ThemeStyles.BackgroundColor.white),
-      padding(
-        `0`,
-        ThemeStyles.SpacingValue.small.pxToEm(),
-        ThemeStyles.SpacingValue.small.pxToEm()
-      ),
+      padding(`0`, ThemeStyles.SpacingValue.small.pxToEm(), ThemeStyles.SpacingValue.small.pxToEm()),
       ThemeStyles.MediaQueries.beyondLargeMedium(
         paddingTop(25.pxToEm()),
         paddingBottom(20.pxToEm()),
@@ -142,29 +116,20 @@ object ConsultationCommunityStyles extends StyleSheet.Inline {
       ThemeStyles.MediaQueries.beyondLargeMedium(
         paddingTop(`0`),
         marginBottom(ThemeStyles.SpacingValue.small.pxToEm()),
-        borderBottom(1.pxToEm(),solid,ThemeStyles.BorderColor.veryLight)
+        borderBottom(1.pxToEm(), solid, ThemeStyles.BorderColor.veryLight)
       )
     )
 
   val cta: StyleA =
-    style(
-      marginTop(ThemeStyles.SpacingValue.small.pxToEm()),
-      marginBottom(ThemeStyles.SpacingValue.medium.pxToEm())
-    )
+    style(marginTop(ThemeStyles.SpacingValue.small.pxToEm()), marginBottom(ThemeStyles.SpacingValue.medium.pxToEm()))
 
   val ctaIcon: StyleA =
-    style(
-      marginRight(ThemeStyles.SpacingValue.small.pxToEm())
-    )
+    style(marginRight(ThemeStyles.SpacingValue.small.pxToEm()))
 
   val communityCount: StyleA =
-    style(
-      color(ThemeStyles.TextColor.lighter)
-    )
+    style(color(ThemeStyles.TextColor.lighter))
 
   val communityLink: StyleA =
-    style(
-      color(ThemeStyles.ThemeColor.primary)
-    )
+    style(color(ThemeStyles.ThemeColor.primary))
 
 }

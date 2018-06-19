@@ -13,7 +13,7 @@ import org.make.front.facades.ReactSlick.{ReactTooltipVirtualDOMAttributes, Reac
 import org.make.front.facades.logoMake
 import org.make.front.models.{Location => LocationModel, Proposal => ProposalModel}
 import org.make.front.styles._
-import org.make.front.styles.base.{ColRulesStyles, LayoutRulesStyles, RWDHideRulesStyles, TextStyles}
+import org.make.front.styles.base._
 import org.make.front.styles.utils._
 import org.make.services.proposal.SearchResult
 import org.make.services.tracking.TrackingLocation
@@ -102,7 +102,7 @@ object TrendingShowcase {
                 ),
                 <.div(
                   ^.className := js.Array(
-                    RWDHideRulesStyles.hideBeyondMedium,
+                    RWDRulesMediumStyles.hideBeyondMedium,
                     LayoutRulesStyles.centeredRowWithCols,
                     TrendingShowcaseStyles.slideshow
                   )
@@ -119,7 +119,7 @@ object TrendingShowcase {
                       .toSeq
                   )
                 ),
-                <.div(^.className := RWDHideRulesStyles.showBlockBeyondMedium)(
+                <.div(^.className := RWDRulesMediumStyles.showBlockBeyondMedium)(
                   <.ul(
                     ^.className := js.Array(TrendingShowcaseStyles.propasalsList, LayoutRulesStyles.centeredRowWithCols)
                   )(

@@ -10,7 +10,7 @@ import org.make.front.facades.ReactSlick.{ReactTooltipVirtualDOMAttributes, Reac
 import org.make.front.facades.Unescape.unescape
 import org.make.front.models.{FeaturedArticle => FeaturedArticleModel}
 import org.make.front.styles.ThemeStyles
-import org.make.front.styles.base.{ColRulesStyles, LayoutRulesStyles, RWDHideRulesStyles, TextStyles}
+import org.make.front.styles.base._
 import org.make.front.styles.utils._
 
 import scala.scalajs.js
@@ -58,7 +58,7 @@ object FeaturedArticlesShowcase {
             ),
             <.div(
               ^.className := js.Array(
-                RWDHideRulesStyles.hideBeyondMedium,
+                RWDRulesMediumStyles.hideBeyondMedium,
                 LayoutRulesStyles.centeredRowWithCols,
                 FeaturedArticlesShowcaseStyles.slideshow
               )
@@ -77,7 +77,7 @@ object FeaturedArticlesShowcase {
             ),
             <.div(
               ^.className := js.Array(
-                RWDHideRulesStyles.showBlockBeyondMedium,
+                RWDRulesMediumStyles.showBlockBeyondMedium,
                 RWDHideRulesStyles.hideBeyondLarge,
                 LayoutRulesStyles.centeredRowWithCols,
                 FeaturedArticlesShowcaseStyles.slideshow

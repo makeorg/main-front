@@ -60,7 +60,7 @@ object MainHeader {
                     ^.className := js.Array(TableLayoutStyles.cellVerticalAlignMiddle, MainHeaderStyles.menusWrapper)
                   )(
                     <.div(^.className := MainHeaderStyles.menusInnerWrapper)(
-                      <.nav(^.className := js.Array(RWDHideRulesStyles.showInlineBlockBeyondMedium))(
+                      <.nav(^.className := js.Array(RWDRulesMediumStyles.showInlineBlockBeyondMedium))(
                         <.ul()(
                           <.li(^.className := MainHeaderStyles.menuItem)(
                             <.button(
