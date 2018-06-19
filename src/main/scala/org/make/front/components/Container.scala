@@ -34,6 +34,11 @@ object Container {
       },
       render = (_) =>
         <.Switch()(
+          <.Route(^.exact := true, ^.path := "/", ^.render := { (_: React.Props[Unit]) =>
+            <.Redirect(^.to := s"/$getDetectedCountry")()
+          })(),
+          <.Route(^.exact := true, ^.path := "/404", ^.component := ErrorContainer.reactClass)(),
+          <.Route(^.exact := true, ^.path := "/maintenance", ^.component := Maintenance.reactClass)(),
           // @deprecated
           js.Array(
               "/proposal/:proposalSlug",
@@ -48,6 +53,11 @@ object Container {
             .toSeq,
           <.Route(
             ^.exact := true,
+            ^.path := "/:country([A-Za-z]{2,3})/soon",
+            ^.component := CurrentOperationsContainer.reactClass
+          )(),
+          <.Route(
+            ^.exact := true,
             ^.path := "/:country/password-recovery/:userId/:resetToken",
             ^.component := CountryDetector(ResetPasswordContainer.reactClass)
           )(),
@@ -55,11 +65,6 @@ object Container {
             ^.exact := true,
             ^.path := "/:country/account-activation/:userId/:verificationToken",
             ^.component := CountryDetector(ActivateAccountContainer.reactClass)
-          )(),
-          <.Route(
-            ^.exact := true,
-            ^.path := "/:country/consultation/:operationSlug/proposal/:proposalSlug",
-            ^.component := CountryDetector(ProposalContainer.reactClass)
           )(),
           <.Route(
             ^.exact := true,
@@ -75,6 +80,11 @@ object Container {
             ^.exact := true,
             ^.path := "/:country/profile",
             ^.component := CountryDetector(UserProfileContainer.reactClass)
+          )(),
+          <.Route(
+            ^.exact := true,
+            ^.path := "/:country/consultation/:operationSlug/proposal/:proposalSlug",
+            ^.component := CountryDetector(ProposalContainer.reactClass)
           )(),
           <.Route(
             ^.exact := true,
@@ -115,13 +125,22 @@ object Container {
             ^.path := "/:country/search",
             ^.component := CountryDetector(HomeSearchResultsContainer.reactClass)
           )(),
-          <.Route(^.exact := true, ^.path := "/404", ^.component := ErrorContainer.reactClass)(),
-          <.Route(^.exact := true, ^.path := "/maintenance", ^.component := Maintenance.reactClass)(),
-          <.Route(^.exact := true, ^.path := "/:country/soon", ^.component := CurrentOperationsContainer.reactClass)(),
-          <.Route(^.exact := true, ^.path := "/:country", ^.component := CountryDetector(HomeContainer.reactClass))(),
-          <.Route(^.exact := true, ^.path := "/", ^.render := { (_: React.Props[Unit]) =>
-            <.Redirect(^.to := s"/$getDetectedCountry")()
-          })(),
+          <.Route(
+            ^.exact := true,
+            ^.path := "/:country([A-Za-z]{2,3})/:operationSlug",
+            ^.render := { (props: React.Props[Unit]) =>
+              <.Redirect(
+                ^.to := s"/${props.`match`.params("country")}/consultation/${props.`match`.params("operationSlug")}/consultation"
+              )()
+            }
+          )(),
+          // toDo: change patterns /:country and /:operationSlug to avoid conflicts
+          <.Route(
+            ^.exact := true,
+            ^.path := "/:country([A-Za-z]{2,3})",
+            ^.component := CountryDetector(HomeContainer.reactClass)
+          )(),
+          <.Route(^.exact := true, ^.path := "/:operationSlug", ^.component := RedirectToCountryRoute())(),
           <.Route(^.exact := false, ^.path := "/", ^.component := ErrorContainer.reactClass)()
       )
     )
