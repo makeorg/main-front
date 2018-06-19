@@ -3,7 +3,7 @@ import org.make.front.components.operation.intro.CultureOperationIntro
 import org.make.front.components.operation.intro.CultureOperationIntro.CultureOperationIntroProps
 import org.make.front.components.operation.partners.CultureOperationPartners
 import org.make.front.facades.{cultureLogo, cultureLogoWhite}
-import org.make.front.models.{OperationExtraSlidesParams, OperationIntroWording, OperationStaticData, OperationWording}
+import org.make.front.models._
 
 import scala.scalajs.js
 
@@ -21,7 +21,7 @@ object CultureOperationStaticData extends StaticDataOfOperation {
       )
     ),
     color = "#6B26E8",
-    gradient = None,
+    gradient = Some(GradientColor("#7921DB", "#FEC736")),
     logoUrl = cultureLogo.toString,
     whiteLogoUrl = cultureLogoWhite.toString,
     logoWidth = 295,
@@ -31,15 +31,11 @@ object CultureOperationStaticData extends StaticDataOfOperation {
         Slides.displaySequenceIntroCard(params, introWording = OperationIntroWording()),
         Slides.displaySignUpCard(params, !params.isConnected),
         Slides.displayProposalPushCard(params),
-        Slides.displayFinalCard(
-          params
-//      import scala.scalajs.js.timers.SetTimeoutHandle
-//          , onFocus = () => {
-//            js.timers.setTimeout(3000d) {
-//              params.redirect(s"/${params.country}/consultation/${params.operation.slug}")
-//            }
-//          }
-        )
+        Slides.displayFinalCard(params, onFocus = () => {
+          js.timers.setTimeout(3000d) {
+            params.redirect(s"/${params.country}/consultationV2/${params.operation.slug}/consultation")
+          }
+        })
       )
     },
     headerComponent = CultureOperationIntro.reactClass,
