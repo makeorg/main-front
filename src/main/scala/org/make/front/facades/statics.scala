@@ -702,11 +702,11 @@ object makeEuropeIll2x extends js.Object
 /* OPERATION CULTURE */
 
 @js.native
-@JSImport("./images/operations/culture/culture-pour-tous-logo.svg", "default")
+@JSImport("./images/operations/culture/culture-pour-tous-logo-dark.svg", "default")
 object cultureLogo extends js.Object
 
 @js.native
-@JSImport("./images/operations/culture/culture-pour-tous-logo-dark.svg", "default")
+@JSImport("./images/operations/culture/culture-pour-tous-logo-white.svg", "default")
 object cultureLogoWhite extends js.Object
 
 @js.native

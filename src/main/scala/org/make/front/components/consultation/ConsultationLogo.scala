@@ -3,10 +3,7 @@ package org.make.front.components.consultation
 import io.github.shogowada.scalajs.reactjs.React
 import io.github.shogowada.scalajs.reactjs.VirtualDOM._
 import io.github.shogowada.scalajs.reactjs.classes.ReactClass
-import org.make.front.models.{
-  OperationExpanded => OperationModel,
-  OperationWording  => OperationWordingModel
-}
+import org.make.front.models.{OperationExpanded => OperationModel, OperationWording => OperationWordingModel}
 
 import scala.scalajs.js
 
@@ -17,18 +14,10 @@ object ConsultationLogo {
 
   lazy val reactClass: ReactClass =
     React
-      .createClass[ConsultationLogoProps, Unit](
-      displayName = "ConsultationLogo",
-      render = (self) => {
+      .createClass[ConsultationLogoProps, Unit](displayName = "ConsultationLogo", render = (self) => {
         val consultation: OperationModel = self.props.wrapped.operation
         val wording: OperationWordingModel =
           self.props.wrapped.operation.getWordingByLanguageOrError(self.props.wrapped.language)
-        <.h1()(
-          <.img(
-            ^.src := consultation.logoUrl,
-            ^.alt := wording.title
-          )()
-        )
-      }
-    )
+        <.h1()(<.img(^.src := consultation.whiteLogoUrl, ^.alt := wording.title)())
+      })
 }
