@@ -221,17 +221,7 @@ object OperationShowcase {
                   <.Link(
                     ^.className := js.Array(CTAStyles.basic, CTAStyles.basicOnA),
                     ^.to := s"/${self.props.wrapped.country}/consultation/${self.props.wrapped.operation.slug}"
-                  )(
-                    I18n.t(
-                      "operation-showcase.see-all",
-                      Replacements(
-                        "operationName" -> self.props.wrapped.operation.wordings
-                          .find(_.language == self.props.wrapped.language)
-                          .map(_.title)
-                          .getOrElse("")
-                      )
-                    )
-                  )
+                  )(I18n.t("operation-showcase.see-all"))
                 ),
                 <.style()(OperationShowcaseStyles.render[String], DynamicOperationShowcaseStyles.render[String])
               )

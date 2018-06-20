@@ -81,7 +81,7 @@
     }
   },
   "operation-showcase": {
-    "see-all": "Vedere tutte le proposte sul operazione %{operationName}",
+    "see-all": "Vedere tutte le proposte",
     "prompting-to-propose-tile": {
       "intro": "E tu? Qual è la tua proposta?",
       "bait": "C'è bisogno..."
