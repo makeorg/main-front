@@ -82,7 +82,7 @@
     }
   },
   "operation-showcase": {
-    "see-all": "See all the topic's proposals about %{operationName}",
+    "see-all": "View all proposals",
     "prompting-to-propose-tile": {
       "intro": "How about you, do you have a solution?",
       "bait": "We should..."

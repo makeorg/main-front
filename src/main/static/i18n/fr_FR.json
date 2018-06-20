@@ -124,7 +124,7 @@
     }
   },
   "operation-showcase": {
-    "see-all": "Voir toutes les propositions de la consultation %{operationName}",
+    "see-all": "Voir toutes les propositions",
     "prompting-to-propose-tile": {
       "intro": "Et vous, quelle est votre proposition&nbsp;?",
       "bait": "Il faut..."

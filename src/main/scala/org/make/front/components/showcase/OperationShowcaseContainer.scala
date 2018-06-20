@@ -21,7 +21,6 @@ object OperationShowcaseContainer {
     (_: Dispatch) => { (appState: AppState, props: Props[OperationShowcaseContainerProps]) =>
       val proposals: Future[SearchResult] = ProposalService.searchProposals(
         operationId = Some(props.wrapped.operation.operationId),
-        labelsIds = Some(js.Array(LabelModel.Star.name)),
         limit = Some(3),
         language = Some(appState.language),
         country = Some(appState.country)
