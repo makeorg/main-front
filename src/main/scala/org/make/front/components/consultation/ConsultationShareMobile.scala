@@ -79,7 +79,7 @@ object ConsultationShareMobileStyles extends StyleSheet.Inline {
       verticalAlign.middle,
       textAlign.center,
       position.fixed,
-      zIndex(20),
+      zIndex(8),
       bottom(25.pxToEm()),
       right(25.pxToEm()),
       width(56.pxToEm()),
@@ -132,7 +132,7 @@ object ConsultationShareMobileStyles extends StyleSheet.Inline {
   val contentWrapper: StyleA =
     style(
       position.fixed,
-      zIndex(10),
+      zIndex(7),
       width(100.vw),
       height(100.vh),
       top(`0`),
