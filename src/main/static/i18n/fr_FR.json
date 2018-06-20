@@ -123,6 +123,18 @@
       "title": "AGIR AVEC MAKE.ORG"
     }
   },
+  "operation-showcase": {
+    "see-all": "Voir toutes les propositions de la consultation %{operationName}",
+    "prompting-to-propose-tile": {
+      "intro": "Et vous, quelle est votre proposition&nbsp;?",
+      "bait": "Il faut..."
+    },
+    "data-units": {
+      "actions": "actions",
+      "votes": "votes",
+      "proposals": "propositions"
+    }
+  },
   "theme-showcase": {
     "see-all": "Voir toutes les propositions du thème %{themeName}",
     "prompting-to-propose-tile": {

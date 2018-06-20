@@ -81,6 +81,18 @@
       "title": "AGIR AVEC MAKE.ORG"
     }
   },
+  "operation-showcase": {
+    "see-all": "See all the topic's proposals about %{operationName}",
+    "prompting-to-propose-tile": {
+      "intro": "How about you, do you have a solution?",
+      "bait": "We should..."
+    },
+    "data-units": {
+      "actions": "actions",
+      "votes": "votes",
+      "proposals": "proposals"
+    }
+  },
   "theme-showcase": {
     "see-all": "See all the topic's proposals about %{themeName}",
     "prompting-to-propose-tile": {

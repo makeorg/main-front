@@ -11,10 +11,16 @@ import org.make.front.components.proposal.ProposalAuthorInfos.ProposalAuthorInfo
 import org.make.front.components.proposal.ProposalContainer.ProposalAndThemeOrOperationModel
 import org.make.front.components.proposal.ProposalSOperationInfos.ProposalSOperationInfosProps
 import org.make.front.components.proposal.vote.VoteContainer.VoteContainerProps
+import org.make.front.components.showcase.OperationShowcaseContainer.OperationShowcaseContainerProps
 import org.make.front.components.showcase.ThemeShowcaseContainer.ThemeShowcaseContainerProps
 import org.make.front.facades.I18n
 import org.make.front.facades.Unescape.unescape
-import org.make.front.models.{Location => LocationModel, OperationExpanded => OperationModel, Proposal => ProposalModel, TranslatedTheme => TranslatedThemeModel}
+import org.make.front.models.{
+  Location          => LocationModel,
+  OperationExpanded => OperationModel,
+  Proposal          => ProposalModel,
+  TranslatedTheme   => TranslatedThemeModel
+}
 import org.make.front.styles.ThemeStyles
 import org.make.front.styles.base.{LayoutRulesStyles, RWDHideRulesStyles, TableLayoutStyles, TextStyles}
 import org.make.front.styles.utils._
@@ -160,9 +166,11 @@ object Proposal {
                 )
               )()
             },
-            if (self.state.maybeOperation.isEmpty) {
-              <.NavInThemesContainerComponent.empty
-            },
+            self.state.maybeOperation.map { operation =>
+              <.OperationShowcaseContainerComponent(
+                ^.wrapped := OperationShowcaseContainerProps(operation = operation)
+              )()
+            }.getOrElse(<.NavInThemesContainerComponent.empty),
             <.style()(ProposalStyles.render[String])
           )
         }

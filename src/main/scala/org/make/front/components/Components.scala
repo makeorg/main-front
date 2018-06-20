@@ -122,8 +122,12 @@ object Components {
     /*********************/
     def TrendingShowcaseContainerComponent: ReactClassElementSpec = self(showcase.TrendingShowcaseContainer.reactClass)
     def ThemeShowcaseContainerComponent: ReactClassElementSpec = self(showcase.ThemeShowcaseContainer.reactClass)
+    def OperationShowcaseContainerComponent: ReactClassElementSpec =
+      self(showcase.OperationShowcaseContainer.reactClass)
     def PromptingToProposeInRelationToThemeTileComponent: ReactClassElementSpec =
       self(showcase.PromptingToProposeInRelationToThemeTile.reactClass)
+    def PromptingToProposeInRelationToOperationTileComponent: ReactClassElementSpec =
+      self(showcase.PromptingToProposeInRelationToOperationTile.reactClass)
     def LabelShowcaseContainerComponent: ReactClassElementSpec = self(showcase.LabelShowcaseContainer.reactClass)
 
     def FeaturedArticlesShowcaseContainerComponent: ReactClassElementSpec =
