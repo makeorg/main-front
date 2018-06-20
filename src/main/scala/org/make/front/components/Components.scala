@@ -36,6 +36,8 @@ object Components {
   implicit class RichVirtualDOMElements(val self: VirtualDOMElements) extends AnyVal {
 
     def AppContainerComponent: ReactClassElementSpec = self(org.make.front.components.AppContainer.reactClass)
+    def RedirectToCountryRouteComponent: ReactClassElementSpec =
+      self(org.make.front.components.RedirectToCountryRoute.apply())
     def ContainerComponent: ReactClassElementSpec = self(org.make.front.components.Container.reactClass)
     def SpinnerComponent: ReactClassElementSpec = self(spinner.Spinner.reactClass)
     def NotificationsComponent: ReactClassElementSpec = self(notifications.Notifications.reactClass)
