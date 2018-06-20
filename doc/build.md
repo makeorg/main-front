@@ -52,4 +52,3 @@ sbt fastOptJS::startWebpackDevServer ~fastOptJS
 The bundling of the Production file is maded by
 fullOptJS (full Scala.js-specific optimizations). It's an sbt task that compile
 scala file into js and group them into one file fully optimized (minimification..).
-
