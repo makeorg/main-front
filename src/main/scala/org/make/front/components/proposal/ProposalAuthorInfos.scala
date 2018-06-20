@@ -5,13 +5,16 @@ import io.github.shogowada.scalajs.reactjs.VirtualDOM.{<, _}
 import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import org.make.front.Main.CssSettings._
 import org.make.front.components.Components._
-import org.make.front.facades.Localize.{DateLocalizeOptions}
+import org.make.front.facades.Localize.DateLocalizeOptions
 import org.make.front.facades.{I18n, Replacements}
 import org.make.front.models.{Proposal => ProposalModel}
 import org.make.front.facades.Unescape.unescape
 import org.make.front.styles.ThemeStyles
 import org.make.front.styles.utils._
 import org.make.front.styles.vendors.FontAwesomeStyles
+import scalacss.internal.ValueT
+
+import scala.scalajs.js
 
 object ProposalAuthorInfos {
 
@@ -38,10 +41,18 @@ object ProposalAuthorInfos {
 
         <.p(^.className := ProposalAuthorInfosStyles.infos)(
           if (proposal.author.organisationName.isDefined) {
-            formatAuthorName(proposal.author.organisationName) + " "
-            <.i(^.className := FontAwesomeStyles.checkCircle)()
+            <.span()(
+              formatAuthorName(proposal.author.organisationName),
+              <.i(^.className := js.Array(
+              FontAwesomeStyles.checkCircle,
+              ProposalAuthorInfosStyles.checkCircle))()
+            )
           } else {
-            formatAuthorName(proposal.author.firstName) + age + unescape("&nbsp;&#8226;&nbsp;") + I18n.l(proposal.createdAt, DateLocalizeOptions("common.date.long"))
+            <.span()(
+              formatAuthorName(proposal.author.firstName),
+              age + unescape("&nbsp;&#8226;&nbsp;"),
+              I18n.l(proposal.createdAt, DateLocalizeOptions("common.date.long"))
+            )
           },
           <.style()(ProposalAuthorInfosStyles.render[String])
         )
@@ -53,6 +64,8 @@ object ProposalAuthorInfos {
 object ProposalAuthorInfosStyles extends StyleSheet.Inline {
 
   import dsl._
+
+  val blue: ValueT[ValueT.Color] = rgb(74, 144, 226)
 
   val infos: StyleA =
     style(
@@ -67,6 +80,12 @@ object ProposalAuthorInfosStyles extends StyleSheet.Inline {
   val userName: StyleA =
     style(
       color(ThemeStyles.ThemeColor.primary)
+    )
+
+  val checkCircle: StyleA =
+    style(
+      color(blue),
+      marginLeft(ThemeStyles.SpacingValue.smaller.pxToEm())
     )
 
 }
