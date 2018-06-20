@@ -16,8 +16,10 @@ object CultureOperationStaticData extends StaticDataOfOperation {
         language = "fr",
         title = "Accès à la culture pour tous",
         question = "Comment rendre la culture accessible à tous ?",
-        learnMoreUrl = None,
-        presentation = None
+        learnMoreUrl = Some("https://about.make.org/about-culture"),
+        presentation = Some(
+          "Malgré sa démocratisation, la culture demeure difficilement accessible en dehors des élites urbaines et diplômées alors qu’elle constitue un marqueur fort d’inclusion dans la société. Les inégalités sociales et géographiques dont souffrent les Français.e.s nous poussent à inventer ensemble de nouveaux dispositifs d’inclusion culturelle."
+        )
       )
     ),
     color = "#6B26E8",
@@ -25,7 +27,7 @@ object CultureOperationStaticData extends StaticDataOfOperation {
     logoUrl = cultureLogo.toString,
     whiteLogoUrl = cultureLogoWhite.toString,
     logoWidth = 295,
-    shareUrl = "/culture.html_UTM_#/FR/consultation/vff/selection",
+    shareUrl = "/culture.html_UTM_#/FR/consultation/culture/selection",
     extraSlides = (params: OperationExtraSlidesParams) => {
       js.Array(
         Slides.displaySequenceIntroCard(params, introWording = OperationIntroWording()),
@@ -40,7 +42,7 @@ object CultureOperationStaticData extends StaticDataOfOperation {
     },
     headerComponent = CultureOperationIntro.reactClass,
     partnersComponent = CultureOperationPartners.reactClass,
-    headerProps = (operation) => CultureOperationIntroProps(operation),
+    headerProps = operation => CultureOperationIntroProps(operation),
     startDateActions = None,
     consultationVersion = ConsultationVersion.V2
   )
