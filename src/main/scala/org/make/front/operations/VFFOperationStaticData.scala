@@ -52,7 +52,7 @@ object VFFITOperationStaticData extends StaticDataOfOperation {
     country = "IT",
     logoUrl = VFFITLogo.toString,
     whiteLogoUrl = VFFITWhiteLogo.toString,
-    shareUrl = "/vff-it.html_UTM_#/IT/consultation/vff/selection",
+    shareUrl = "/IT/consultation/vff/selection_UTM_&language=it#/IT/consultation/vff/selection",
     wording = js.Array(
       OperationWording(
         language = "it",
@@ -85,7 +85,7 @@ object VFFGBOperationStaticData extends StaticDataOfOperation {
     country = "GB",
     logoUrl = VFFGBLogo.toString,
     whiteLogoUrl = VFFGBWhiteLogo.toString,
-    shareUrl = "/vff-gb.html_UTM_#/GB/consultation/vff/selection",
+    shareUrl = "/GB/consultation/vff/selection_UTM_&language=en#/GB/consultation/vff/selection",
     wording = js.Array(
       OperationWording(
         language = "en",

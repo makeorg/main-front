@@ -27,7 +27,7 @@ object CultureOperationStaticData extends StaticDataOfOperation {
     logoUrl = cultureLogo.toString,
     whiteLogoUrl = cultureLogoWhite.toString,
     logoWidth = 295,
-    shareUrl = "/culture.html_UTM_#/FR/consultation/culture/selection",
+    shareUrl = "/FR/consultation/culture/selection_UTM_&language=fr#/FR/consultation/culture/selection",
     extraSlides = (params: OperationExtraSlidesParams) => {
       js.Array(
         Slides.displaySequenceIntroCard(params, introWording = OperationIntroWording()),

@@ -21,7 +21,8 @@ object MVEOperationStaticData extends StaticDataOfOperation {
       logoUrl = mveLogo.toString,
       whiteLogoUrl = mveLogo.toString,
       logoWidth = 480,
-      shareUrl = "/mieux-vivre-ensemble.html_UTM_#/FR/consultation/mieux-vivre-ensemble/selection",
+      shareUrl =
+        "/FR/consultation/mieux-vivre-ensemble/selection_UTM_&language=fr#/FR/consultation/mieux-vivre-ensemble/selection",
       wording = js.Array(
         OperationWording(
           language = "fr",

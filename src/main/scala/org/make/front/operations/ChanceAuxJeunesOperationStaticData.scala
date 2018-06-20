@@ -18,7 +18,8 @@ object ChanceAuxJeunesOperationStaticData extends StaticDataOfOperation {
       gradient = Some(GradientColor("#2999D5", "#B6D0CE")),
       logoUrl = chanceAuxJeunesLogo.toString,
       whiteLogoUrl = chanceAuxJeunesLogoWhite.toString,
-      shareUrl = "/chance-aux-jeunes.html_UTM_#/FR/consultation/chance-aux-jeunes/selection",
+      shareUrl =
+        "/FR/consultation/chance-aux-jeunes/selection_UTM_&language=fr#/FR/consultation/chance-aux-jeunes/selection",
       logoWidth = 446,
       wording = js.Array(
         OperationWording(
