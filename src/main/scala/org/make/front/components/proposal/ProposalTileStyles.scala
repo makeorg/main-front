@@ -44,9 +44,7 @@ object ProposalTileStyles extends StyleSheet.Inline {
   val contentWrapper: StyleA =
     style(
       padding(
-        ThemeStyles.SpacingValue.small.pxToEm(),
-        ThemeStyles.SpacingValue.small.pxToEm(),
-        ThemeStyles.SpacingValue.medium.pxToEm()
+        ThemeStyles.SpacingValue.small.pxToEm()
       ),
       overflow.hidden
     )

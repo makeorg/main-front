@@ -7,13 +7,13 @@ import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import io.github.shogowada.scalajs.reactjs.elements.ReactElement
 import org.make.core.Counter
 import org.make.front.components.Components._
-import org.make.front.components.proposal.ProposalTileWithTags.ProposalTileWithTagsProps
+import org.make.front.components.proposal.ProposalTileWithOrganisationsVotes.ProposalTileWithOrganisationsVotesProps
 import org.make.front.components.tags.FilterByTags.FilterByTagsProps
 import org.make.front.facades.I18n
 import org.make.front.facades.ReactInfiniteScroller.{ReactInfiniteScrollerVirtualDOMAttributes, ReactInfiniteScrollerVirtualDOMElements}
 import org.make.front.facades.Unescape.unescape
 import org.make.front.models.{Location => LocationModel, OperationExpanded => OperationModel, Proposal => ProposalModel, ProposalId => ProposalIdModel, Qualification => QualificationModel, Tag => TagModel, Vote => VoteModel}
-import org.make.front.styles.base.{LayoutRulesStyles, TextStyles}
+import org.make.front.styles.base.{TextStyles}
 import org.make.front.styles.vendors.FontAwesomeStyles
 import org.make.services.proposal.SearchResult
 import org.make.services.tracking.TrackingService.TrackingContext
@@ -200,8 +200,8 @@ object ResultsInConsultation {
                   .map(
                     proposal =>
                       <.li()(
-                        <.ProposalTileWithTagsComponent(
-                          ^.wrapped := ProposalTileWithTagsProps(
+                        <.ProposalTileWithOrganisationsVotesComponent(
+                          ^.wrapped := ProposalTileWithOrganisationsVotesProps(
                             proposal = proposal,
                             handleSuccessfulVote = onSuccessfulVote(proposal.id, self),
                             handleSuccessfulQualification = onSuccessfulQualification(proposal.id, self),
