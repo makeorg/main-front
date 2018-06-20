@@ -20,7 +20,8 @@ final case class OperationStaticData(country: String,
                                      headerComponent: ReactClass,
                                      partnersComponent: ReactClass,
                                      headerProps: (OperationExpanded) => Any,
-                                     startDateActions: Option[js.Date] = None)
+                                     startDateActions: Option[js.Date] = None,
+                                     consultationVersion: ConsultationVersion = ConsultationVersion.V1)
 
 object OperationStaticData {
   def findBySlugAndCountry(slug: String, country: String): Option[OperationStaticData] = {
@@ -32,6 +33,18 @@ object OperationStaticData {
     } else {
       None
     }
+  }
+}
+
+sealed trait ConsultationVersion {
+  def version: Int
+}
+object ConsultationVersion {
+  case object V1 extends ConsultationVersion {
+    override val version: Int = 1
+  }
+  case object V2 extends ConsultationVersion {
+    override val version: Int = 2
   }
 }
 
@@ -80,7 +93,8 @@ final case class OperationExpanded(operationId: OperationId,
                                    headerComponent: ReactClass,
                                    partnersComponent: ReactClass,
                                    headerProps: (OperationExpanded) => Any,
-                                   startDateActions: Option[js.Date]) {
+                                   startDateActions: Option[js.Date],
+                                   consultationVersion: ConsultationVersion) {
 
   def getWordingByLanguage(language: String): Option[OperationWording] = {
     wordings.find(_.language == language)
@@ -164,7 +178,8 @@ object OperationExpanded {
         headerComponent = operationStaticData.headerComponent,
         partnersComponent = operationStaticData.partnersComponent,
         headerProps = operationStaticData.headerProps,
-        startDateActions = operationStaticData.startDateActions
+        startDateActions = operationStaticData.startDateActions,
+        consultationVersion = operationStaticData.consultationVersion
       )
   }
 }

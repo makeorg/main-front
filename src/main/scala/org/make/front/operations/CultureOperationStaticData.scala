@@ -33,7 +33,7 @@ object CultureOperationStaticData extends StaticDataOfOperation {
         Slides.displayProposalPushCard(params),
         Slides.displayFinalCard(params, onFocus = () => {
           js.timers.setTimeout(3000d) {
-            params.redirect(s"/${params.country}/consultationV2/${params.operation.slug}/consultation")
+            params.redirect(s"/${params.country}/consultation/${params.operation.slug}/consultation")
           }
         })
       )
@@ -41,6 +41,7 @@ object CultureOperationStaticData extends StaticDataOfOperation {
     headerComponent = CultureOperationIntro.reactClass,
     partnersComponent = CultureOperationPartners.reactClass,
     headerProps = (operation) => CultureOperationIntroProps(operation),
-    startDateActions = None
+    startDateActions = None,
+    consultationVersion = ConsultationVersion.V2
   )
 }
