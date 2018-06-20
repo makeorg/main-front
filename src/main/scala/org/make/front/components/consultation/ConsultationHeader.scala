@@ -37,7 +37,7 @@ object ConsultationHeader {
           render = { self =>
             def changeTab(newTab: String): () => Unit = { () =>
               self.props.history.replace(
-                s"/${self.props.wrapped.countryCode}/consultationV2/${self.props.wrapped.operation.slug}/$newTab"
+                s"/${self.props.wrapped.countryCode}/consultation/${self.props.wrapped.operation.slug}/$newTab"
               )
             }
 
