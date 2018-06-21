@@ -14,6 +14,8 @@ import org.make.front.styles.base.{RWDHideRulesStyles, RWDRulesLargeMediumStyles
 import org.make.front.styles.ui.AccordionStyles
 import org.make.front.styles.utils._
 import org.make.front.styles.vendors.FontAwesomeStyles
+import org.make.services.tracking.TrackingService.TrackingContext
+import org.make.services.tracking.{TrackingLocation, TrackingService}
 
 import scala.scalajs.js
 
@@ -40,8 +42,13 @@ object ConsultationPresentation {
             self.setState(_.copy(isCollapsed = !self.state.isCollapsed))
           }
 
-          def onclick(url: String): () => Unit = { () =>
+          def trackingActions(url: String): () => Unit = { () =>
             scalajs.js.Dynamic.global.window.open(url, "_blank")
+            TrackingService
+              .track(
+                "click-button-learn-more",
+                TrackingContext(TrackingLocation.operationPage, operationSlug = Some(consultation.slug))
+              )
           }
 
           <.article(^.className := ConsultationPresentationStyles.wrapper)(
@@ -76,7 +83,7 @@ object ConsultationPresentation {
                 unescape("&nbsp"),
                 self.props.wrapped.learnMoreUrl.map { url =>
                   <.a(
-                    ^.onClick := onclick(url),
+                    ^.onClick := trackingActions(url),
                     ^.className := js.Array(TextStyles.boldText, ConsultationPresentationStyles.presentationlink)
                   )(unescape(I18n.t("operation.presentation.seeMore")))
                 },

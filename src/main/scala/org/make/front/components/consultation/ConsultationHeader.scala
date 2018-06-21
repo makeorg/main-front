@@ -15,6 +15,8 @@ import org.make.front.models.{GradientColor => GradientColorModel, OperationExpa
 import org.make.front.styles.ThemeStyles
 import org.make.front.styles.base._
 import org.make.front.styles.utils._
+import org.make.services.tracking.{TrackingLocation, TrackingService}
+import org.make.services.tracking.TrackingService.TrackingContext
 
 import scala.scalajs.js
 
@@ -39,6 +41,11 @@ object ConsultationHeader {
               self.props.history.replace(
                 s"/${self.props.wrapped.countryCode}/consultation/${self.props.wrapped.operation.slug}/$newTab"
               )
+              TrackingService
+                .track(
+                  "click-"+newTab+"-tab",
+                  TrackingContext(TrackingLocation.operationPage, operationSlug = Some(self.props.wrapped.operation.slug))
+                )
             }
 
             val consultation: OperationModel = self.props.wrapped.operation

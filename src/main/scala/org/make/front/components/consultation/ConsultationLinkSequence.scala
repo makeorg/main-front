@@ -13,6 +13,8 @@ import org.make.front.styles.utils._
 import org.make.front.styles.ThemeStyles
 import org.make.front.styles.ui.CTAStyles
 import org.make.front.styles.vendors.FontAwesomeStyles
+import org.make.services.tracking.{TrackingLocation, TrackingService}
+import org.make.services.tracking.TrackingService.TrackingContext
 
 import scala.scalajs.js
 
@@ -37,6 +39,15 @@ object ConsultationLinkSequence {
             style(background := s"linear-gradient(115deg, ${gradientValues.from}, ${gradientValues.to})")
         }
 
+        def trackingActions(): () => Unit = { () =>
+          TrackingService
+            .track(
+              "click-sequence-launch",
+              TrackingContext(TrackingLocation.operationPage, operationSlug = Some(consultation.slug)),
+              Map("sequenceId" -> consultation.landingSequenceId.value)
+            )
+        }
+
         <.aside(
           ^.className := js.Array(
             DynamicConsultationLinkSequenceStyles.gradient,
@@ -52,6 +63,7 @@ object ConsultationLinkSequence {
               CTAStyles.basic,
               CTAStyles.basicOnA
             ),
+            ^.onClick := (trackingActions()),
             ^.to := s"/${self.props.wrapped.country}/consultation/${consultation.slug}/selection"
           )(
             <.i(
