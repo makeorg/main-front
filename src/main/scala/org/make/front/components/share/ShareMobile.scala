@@ -141,10 +141,10 @@ object ShareMobileStyles extends StyleSheet.Inline {
   import dsl._
 
   val list: StyleA = style(
-    position.absolute,
+    position.fixed,
     bottom(100.pxToEm()),
     right(25.pxToEm()),
-    zIndex(25)
+    zIndex(10)
   )
 
   val item: StyleA = style(
