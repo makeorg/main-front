@@ -12,12 +12,12 @@ object ProposalTileStyles extends StyleSheet.Inline {
     style(
       position.relative,
       height(100.%%),
-      minHeight(360.pxToEm()),
       ThemeStyles.MediaQueries.belowMedium(minHeight.inherit),
       minWidth(240.pxToEm()),
       marginBottom(ThemeStyles.SpacingValue.smaller.pxToEm()),
       backgroundColor(ThemeStyles.BackgroundColor.white),
-      boxShadow := "0 1px 1px 0 rgba(0,0,0,0.50)"
+      boxShadow := "0 1px 1px 0 rgba(0,0,0,0.50)",
+      ThemeStyles.MediaQueries.beyondLargeMedium(marginBottom(ThemeStyles.SpacingValue.small.pxToEm()))
     )
 
   val innerWrapper: StyleA =
