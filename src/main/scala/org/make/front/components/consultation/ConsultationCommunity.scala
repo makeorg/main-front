@@ -13,6 +13,8 @@ import org.make.front.styles.base.{LayoutRulesStyles, RWDHideRulesStyles, RWDRul
 import org.make.front.styles.ui.CTAStyles
 import org.make.front.styles.utils._
 import org.make.front.styles.vendors.FontAwesomeStyles
+import org.make.services.tracking.{TrackingLocation, TrackingService}
+import org.make.services.tracking.TrackingService.TrackingContext
 
 import scala.scalajs.js
 
@@ -44,6 +46,12 @@ object ConsultationCommunity {
                 ),
                 "_blank"
               )
+            TrackingService
+              .track(
+                "click-participate-community",
+                TrackingContext(TrackingLocation.operationPage, operationSlug = Some(consultation.slug)),
+                Map("sequenceId" -> consultation.landingSequenceId.value)
+              )
           }
 
           def linkPartner =
@@ -52,6 +60,14 @@ object ConsultationCommunity {
               .flatMap(_.learnMoreUrl)
               .map(_ + "#partenaires")
               .getOrElse("/#/404")
+
+          def trackingPartners: () => Unit = { () =>
+            TrackingService
+              .track(
+                "click-see-more-community",
+                TrackingContext(TrackingLocation.operationPage, operationSlug = Some(consultation.slug))
+              )
+          }
 
           <.aside(^.className := js.Array(ConsultationCommunityStyles.wrapper, LayoutRulesStyles.centeredRow))(
             <.h3(^.className := js.Array(TextStyles.smallerTitle, ConsultationCommunityStyles.title))(
@@ -81,6 +97,7 @@ object ConsultationCommunity {
             ),
             <(self.props.wrapped.operation.partnersComponent).empty,
             <.a(
+              ^.onClick := trackingPartners,
               ^.href := linkPartner,
               ^.className := js.Array(TextStyles.boldText, ConsultationCommunityStyles.communityLink),
               ^.target := "_blank"
