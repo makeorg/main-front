@@ -309,6 +309,7 @@
     },
     "prompting-to-continue": {
       "intro": "Merci pour votre contribution. Continuez à vous engager sur cette&nbsp;cause&nbsp;:",
+      "intro-light": "Merci de votre contribution.",
       "continue": {
         "intro": "En poursuivant la consultation&nbsp;:",
         "cta": "Démarrer"

@@ -368,9 +368,19 @@ object Sequence {
             )
         },
         componentWillUpdate = { (self, props, state) =>
-          slider.foreach(_.slickGoTo(state.currentSlideIndex))
-          val firstIndex = state.slides.takeWhile(!_.isInstanceOf[ProposalSlide]).size
+          slider.foreach { activeSlider =>
+            activeSlider.slickGoTo(state.currentSlideIndex)
+            self.state.slides(self.state.currentSlideIndex).onBlur()
+            state.slides(state.currentSlideIndex).onFocus()
+          }
+
+          val firstProposalIndex = state.slides.takeWhile(!_.isInstanceOf[ProposalSlide]).size
           if (self.state.currentSlideIndex != state.currentSlideIndex) {
+            // At init
+            if (self.state.currentSlideIndex == -1) {
+              state.slides(state.currentSlideIndex).onFocus()
+            }
+
             state.slides(state.currentSlideIndex).maybeTracker.foreach { tracker =>
               TrackingService
                 .track(
@@ -380,7 +390,7 @@ object Sequence {
                 )
             }
           }
-          if (state.currentSlideIndex == firstIndex &&
+          if (state.currentSlideIndex == firstProposalIndex &&
               state.proposals.nonEmpty &&
               self.state.currentSlideIndex != state.currentSlideIndex) {
 
@@ -419,8 +429,6 @@ object Sequence {
               )
             }
 
-            self.state.slides(oldSlideIndex).onBlur()
-            self.state.slides(currentSlide).onFocus()
             self.setState(state => state.copy(currentSlideIndex = currentSlide))
           }
 
