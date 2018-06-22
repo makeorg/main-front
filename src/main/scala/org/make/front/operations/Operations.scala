@@ -4,12 +4,8 @@ import org.make.front.components.sequence.Sequence.{DisplayTracker, ExtraSlide}
 import org.make.front.components.sequence.contents.IntroductionOfTheSequence.IntroductionOfTheSequenceProps
 import org.make.front.components.sequence.contents.PromptingToConnect.PromptingToConnectProps
 import org.make.front.components.sequence.contents.PromptingToGoBackToOperation.PromptingToGoBackToOperationProps
-import org.make.front.components.sequence.contents.{
-  IntroductionOfTheSequence,
-  PromptingToConnect,
-  PromptingToGoBackToOperation,
-  PromptingToProposeInRelationToOperation
-}
+import org.make.front.components.sequence.contents.PromptingToGoBackToOperationLight.PromptingToGoBackToOperationLightProps
+import org.make.front.components.sequence.contents._
 import org.make.front.components.sequence.contents.PromptingToProposeInRelationToOperation.PromptingToProposeInRelationToOperationProps
 import org.make.front.models._
 import org.make.services.tracking.{TrackingLocation, TrackingService}
@@ -118,6 +114,29 @@ object Slides {
       reactClass = PromptingToGoBackToOperation.reactClass,
       props = { handler =>
         PromptingToGoBackToOperationProps(
+          operation = params.operation,
+          clickOnButtonHandler = handler,
+          sequenceId = params.sequence.sequenceId,
+          language = params.language,
+          country = params.country
+        )
+      },
+      position = { slides =>
+        slides.size
+      },
+      displayed = displayed,
+      maybeTracker =
+        Some(DisplayTracker("display-finale-card", trackingContext(params), defaultTrackingParameters(params))),
+      onFocus = onFocus
+    )
+
+  def displayLightFinalCard(params: OperationExtraSlidesParams,
+                            displayed: Boolean = true,
+                            onFocus: () => Unit = () => {}) =
+    ExtraSlide(
+      reactClass = PromptingToGoBackToOperationLight.reactClass,
+      props = { handler =>
+        PromptingToGoBackToOperationLightProps(
           operation = params.operation,
           clickOnButtonHandler = handler,
           sequenceId = params.sequence.sequenceId,

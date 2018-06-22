@@ -33,7 +33,7 @@ object CultureOperationStaticData extends StaticDataOfOperation {
         Slides.displaySequenceIntroCard(params, introWording = OperationIntroWording()),
         Slides.displaySignUpCard(params, !params.isConnected),
         Slides.displayProposalPushCard(params),
-        Slides.displayFinalCard(params, onFocus = () => {
+        Slides.displayLightFinalCard(params, onFocus = () => {
           js.timers.setTimeout(3000d) {
             params.redirect(s"/${params.country}/consultation/${params.operation.slug}/consultation")
           }

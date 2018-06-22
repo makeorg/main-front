@@ -266,6 +266,7 @@
     },
     "prompting-to-continue": {
       "intro": "Thank you for participating. Go one step further:",
+      "intro-light": "Thank you for participating.",
       "continue": {
         "intro": "By continuing the consultation:",
         "cta": "Start"

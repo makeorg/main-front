@@ -265,6 +265,7 @@
     },
     "prompting-to-continue": {
       "intro": "Grazie per il tuo contributo. Continua a impegnarti per questa causa:",
+      "intro-light": "Grazie per il tuo contributo.",
       "continue": {
         "intro": "Alla scoperta dell'intera operazione",
         "cta": "Inizia"
