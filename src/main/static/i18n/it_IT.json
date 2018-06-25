@@ -295,10 +295,13 @@
       "title": "Perché questa consutazione&nbsp;",
       "seeMore": "Per saperne di&nbsp;più",
       "community": "La comunità d'azione",
+      "community-text": "Migliaia di cittadini si impegnano partecipando alla consultazione.",
       "citizens": "persone",
       "participated": "avevano già partecipato",
       "also": "essi partecipano :",
-      "morePartners": "Verdere tutti i partner"
+      "also-text": "Sostengono la consultazione e il piano d'azione cittadino che seguirà.",
+      "morePartners": "Verdere tutti i partner",
+      "founder": "Socio fondatore"
     },
     "intro": {
       "consultation": "CONSULTAZIONE",

@@ -338,11 +338,14 @@
     "presentation": {
       "title": "Pourquoi cette consultation&nbsp;",
       "seeMore": "En savoir&nbsp;+",
-      "community": "La communauté d'actions",
+      "community": "Une mobilisation d'ampleur",
+      "community-text": "Des milliers de citoyens s'engagent en participant à la consultation.",
       "citizens": "citoyens",
       "participated": "ont déjà participé",
-      "also": "Eux aussi participent :",
-      "morePartners": "Voir tous les partenaires"
+      "also": "Nos partenaires s'engagent à nos côtés",
+      "also-text": "Ils soutiennent la consultation et le plan d'actions citoyen qui suivra.",
+      "morePartners": "Voir tous les partenaires",
+      "founder": "Partenaire Fondateur"
     },
     "intro": {
       "consultation": "CONSULTATION",

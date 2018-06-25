@@ -744,6 +744,42 @@ object engieFoundationLogo extends js.Object
 @JSImport("./images/operations/culture/partners/ministere-culture.svg", "default")
 object ministereCultureLogo extends js.Object
 
+@js.native
+@JSImport("./images/operations/culture/partners/engie_fondation.jpg", "default")
+object engiefondationAvatar extends js.Object
+
+@js.native
+@JSImport("./images/operations/culture/partners/ministere_de_la_culture.jpg", "default")
+object ministerecultureAvatar extends js.Object
+
+@js.native
+@JSImport("./images/operations/culture/partners/arte.jpg", "default")
+object arteAvatar extends js.Object
+
+@js.native
+@JSImport("./images/operations/culture/partners/culture_prioritaire.jpg", "default")
+object cultureprioritaireAvatar extends js.Object
+
+@js.native
+@JSImport("./images/operations/culture/partners/telemaque.jpg", "default")
+object telemaqueAvatar extends js.Object
+
+@js.native
+@JSImport("./images/operations/culture/partners/css.jpg", "default")
+object cssAvatar extends js.Object
+
+@js.native
+@JSImport("./images/operations/culture/partners/bsf.jpg", "default")
+object bsfAvatar extends js.Object
+
+@js.native
+@JSImport("./images/operations/culture/partners/acces_culture.jpg", "default")
+object accescultureAvatar extends js.Object
+
+@js.native
+@JSImport("./images/operations/culture/partners/cinema_difference.jpg", "default")
+object cinemadifferenceAvatar extends js.Object
+
 /* FLAGS */
 
 @js.native
