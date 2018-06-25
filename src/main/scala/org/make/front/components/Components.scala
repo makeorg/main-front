@@ -180,6 +180,7 @@ object Components {
     def ConsultationPresentationComponent: ReactClassElementSpec =
       self(consultation.ConsultationPresentation.reactClass)
     def ConsultationSection: ReactClassElementSpec = self(consultation.ConsultationSection.reactClass)
+    def ActionsSectionContainer: ReactClassElementSpec = self(consultation.ActionsSectionContainer.reactClass)
     def ActionsSection: ReactClassElementSpec = self(consultation.ActionsSection.reactClass)
     def ConsultationCommunityComponent: ReactClassElementSpec = self(consultation.ConsultationCommunity.reactClass)
     def ConsultationFooterComponent: ReactClassElementSpec = self(consultation.ConsultationFooter.reactClass)

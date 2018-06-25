@@ -14,10 +14,9 @@ import org.make.front.components.consultation.ConsultationProposal.ConsultationP
 import org.make.front.components.consultation.ConsultationShare.ConsultationShareProps
 import org.make.front.components.consultation.ConsultationShareMobile.ConsultationShareMobileProps
 import org.make.front.components.consultation.ResultsInConsultationContainer.ResultsInConsultationContainerProps
-import org.make.front.facades.DeviceDetect
 import org.make.front.models.{OperationWording, Location => LocationModel, OperationExpanded => OperationModel}
 import org.make.front.styles.ThemeStyles
-import org.make.front.styles.base.{RWDHideRulesStyles, RWDRulesLargeMediumStyles}
+import org.make.front.styles.base.{RWDRulesLargeMediumStyles}
 
 object ConsultationSection {
 

@@ -4,6 +4,21 @@ import scala.scalajs.js
 import scala.scalajs.js.annotation.JSImport
 
 /* ACTIONS */
+@js.native
+@JSImport("./images/actions/clapping.svg", "default")
+object clapping extends js.Object
+
+@js.native
+@JSImport("./images/actions/actions.png", "default")
+object actions extends js.Object
+
+@js.native
+@JSImport("./images/actions/actions@2x.png", "default")
+object actions2x extends js.Object
+
+@js.native
+@JSImport("./images/actions/actions@3x.png", "default")
+object actions3x extends js.Object
 
 @js.native
 @JSImport("./images/actions/le-refuge.png", "default")
@@ -948,6 +963,7 @@ object cone extends js.Object
 @js.native
 @JSImport("./images/close.svg", "default")
 object close extends js.Object
+
 @js.native
 @JSImport("./images/user-placeholder.svg", "default")
 object userPlaceholder extends js.Object

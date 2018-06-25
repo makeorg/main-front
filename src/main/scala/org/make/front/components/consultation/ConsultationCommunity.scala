@@ -9,7 +9,7 @@ import org.make.front.facades.Unescape.unescape
 import org.make.front.facades.{I18n, Replacements}
 import org.make.front.models.OperationExpanded
 import org.make.front.styles.ThemeStyles
-import org.make.front.styles.base.{LayoutRulesStyles, RWDHideRulesStyles, RWDRulesLargeMediumStyles, TextStyles}
+import org.make.front.styles.base.{LayoutRulesStyles, RWDRulesLargeMediumStyles, TextStyles}
 import org.make.front.styles.ui.CTAStyles
 import org.make.front.styles.utils._
 import org.make.front.styles.vendors.FontAwesomeStyles
