@@ -324,6 +324,23 @@
         "link": "https://make.org/#/gb/consultation/%{operation-slug}/selection"
       }
     },
+    "actions": {
+      "goals": "A l'issue de la consultation, citoyens et partenaires de la Grande Cause se réuniront pour construire le plan d'actions citoyen inspiré par les résultats de la consultation",
+      "know-more": "en savoir + sur le calcul des résultats",
+      "register-bait": "Vous souhaitez être informé(e) du lancement des ateliers et du début des actions sur ce sujet ?",
+      "register-button": "Inscrivez-vous",
+      "support-title": "Soutenez les actions",
+      "support-text": "Vous pourrez suivre ici les avancées et succès sur les différentes actions et vous aurez à tout moment la possibilité d'y prendre part.",
+      "actionplan-title": "Notre plan d'actions citoyen",
+      "actionplan-text": "Vous trouverez ici le plan d'actions citoyen issu de la consultation.",
+      "actionplan-list-title": "Qu'est ce qu'une action sur Make.org ?",
+      "actionpan-list-intro": "Pour nous une action se doit d'être :",
+      "actions-list-item1": "- citoyenne car issue de vos propositions, celles qui ont émergé de la consultation,",
+      "actions-list-item2": "- collective, et toujours ouverte à toutes et tous,",
+      "actions-list-item3": "- avec un impact fort, réel et mesurable.",
+      "partners-title": "Nos partenaires d'actions",
+      "partners-text": "Chez Make.org nous sommes convaincus que c'est en rassemblant tous les acteurs de la société civile (citoyens mais aussi entreprises, associations, institutions, ...) que nous pourrons changer la donne."
+    },
     "vff-gb": {
       "intro": {
         "label": "Make.org Grand Challenge",

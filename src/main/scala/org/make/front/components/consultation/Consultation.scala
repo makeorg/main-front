@@ -5,6 +5,7 @@ import io.github.shogowada.scalajs.reactjs.VirtualDOM._
 import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import org.make.front.Main.CssSettings._
 import org.make.front.components.Components._
+import org.make.front.components.consultation.ActionsSectionContainer.ActionsSectionContainerProps
 import org.make.front.components.consultation.ConsultationHeader.ConsultationHeaderProps
 import org.make.front.components.consultation.ConsultationSection.ConsultationSectionProps
 import org.make.front.models.{OperationExpanded => OperationModel}
@@ -67,7 +68,11 @@ object Consultation {
                     )
                   )()
                 } else {
-                  <.ActionsSection()()
+                  <.ActionsSectionContainer(^.wrapped := ActionsSectionContainerProps(
+                    operation = self.props.wrapped.operation,
+                    language = self.props.wrapped.language
+                  )
+                  )()
                 },
                 <.style()(ConsultationStyles.render[String])
               )
