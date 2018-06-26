@@ -18,7 +18,7 @@ object CultureOperationStaticData extends StaticDataOfOperation {
         question = "Comment rendre la culture accessible à tous ?",
         learnMoreUrl = Some("https://about.make.org/about-culture"),
         presentation = Some(
-          "Malgré sa démocratisation, la culture demeure difficilement accessible en dehors des élites urbaines et diplômées alors qu’elle constitue un marqueur fort d’inclusion dans la société. Les inégalités sociales et géographiques dont souffrent les Français.e.s nous poussent à inventer ensemble de nouveaux dispositifs d’inclusion culturelle."
+          """Grâce au soutien de ses partenaires fondateurs, le ministère de la Culture, la Fondation Engie et Arte, Make.org lance une vaste consultation citoyenne en ligne autour de la question : "Comment rendre la Culture accessible à tous ?". Les milliers de propositions citoyennes déposées vont nous permettre de bâtir le 1er grand Plan d'actions citoyen en faveur de la Culture. Toutes seront concrétisées. Entreprises, associations, pouvoirs publics, citoyens, nous nous donnons trois ans pour écrire ensemble cette histoire collective inédite."""
         )
       )
     ),
