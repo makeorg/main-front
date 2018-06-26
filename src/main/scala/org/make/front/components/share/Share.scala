@@ -1,3 +1,23 @@
+/*
+ *
+ * Make.org Main Front
+ * Copyright (C) 2018 Make.org
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ *
+ */
+
 package org.make.front.components.share
 
 import io.github.shogowada.scalajs.reactjs.React
@@ -70,48 +90,26 @@ object ShareProposal {
           }
           <.ul(^.className := ShareStyles.list)(
             <.li(^.className := ShareStyles.item)(
-              <.FacebookShareButton(
-                ^.url := shareUrl("Facebook"),
-                ^.beforeOnClick := trackOnClick("Facebook"))(
-                  <.button(
-                    ^.className := js.Array(
-                      ShareStyles.button,
-                      ShareStyles.shareWithFacebookButton)
-                  )()
-                )
-            ),
-            <.li(^.className := ShareStyles.item)(
-              <.TwitterShareButton(
-                ^.url := shareUrl("Twitter"),
-                ^.beforeOnClick := trackOnClick("Twitter"))(
-                <.button(
-                  ^.className := js.Array(
-                    ShareStyles.button,
-                    ShareStyles.shareWithTwitterButton)
-                )()
+              <.FacebookShareButton(^.url := shareUrl("Facebook"), ^.beforeOnClick := trackOnClick("Facebook"))(
+                <.button(^.className := js.Array(ShareStyles.button, ShareStyles.shareWithFacebookButton))()
               )
             ),
             <.li(^.className := ShareStyles.item)(
-              <.GooglePlusShareButton(
-                ^.url := shareUrl("Google"),
-                ^.beforeOnClick := trackOnClick("Google"))(
-                <.button(
-                  ^.className := js.Array(
-                    ShareStyles.button,
-                    ShareStyles.shareWithGooglePlusButton)
-                )()
+              <.TwitterShareButton(^.url := shareUrl("Twitter"), ^.beforeOnClick := trackOnClick("Twitter"))(
+                <.button(^.className := js.Array(ShareStyles.button, ShareStyles.shareWithTwitterButton))()
               )
             ),
             <.li(^.className := ShareStyles.item)(
-              <.LinkedinShareButton(^.url := shareUrl("Linkedin"),
-                ^.beforeOnClick := trackOnClick("Linkedin"))(
-                <.button(
-                  ^.className := js.Array(
-                    ShareStyles.button,
-                    ShareStyles.shareWithLinkedInButton)
-                )()
+              <.GooglePlusShareButton(^.url := shareUrl("Google"), ^.beforeOnClick := trackOnClick("Google"))(
+                <.button(^.className := js.Array(ShareStyles.button, ShareStyles.shareWithGooglePlusButton))()
               )
-            ),<.style()(ShareStyles.render[String])
+            ),
+            <.li(^.className := ShareStyles.item)(
+              <.LinkedinShareButton(^.url := shareUrl("Linkedin"), ^.beforeOnClick := trackOnClick("Linkedin"))(
+                <.button(^.className := js.Array(ShareStyles.button, ShareStyles.shareWithLinkedInButton))()
+              )
+            ),
+            <.style()(ShareStyles.render[String])
           )
         }
       )
@@ -120,7 +118,6 @@ object ShareProposal {
 object ShareStyles extends StyleSheet.Inline {
 
   import dsl._
-
 
   val intro: StyleA = style(
     display.inlineBlock,

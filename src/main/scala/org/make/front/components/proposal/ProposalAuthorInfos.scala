@@ -1,3 +1,23 @@
+/*
+ *
+ * Make.org Main Front
+ * Copyright (C) 2018 Make.org
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ *
+ */
+
 package org.make.front.components.proposal
 
 import io.github.shogowada.scalajs.reactjs.React
@@ -23,29 +43,26 @@ object ProposalAuthorInfos {
   val reactClass: ReactClass =
     React
       .createClass[ProposalAuthorInfosProps, Unit](
-      displayName = "ProposalAuthorInfos",
-      render = (self) => {
+        displayName = "ProposalAuthorInfos",
+        render = (self) => {
 
-        val proposal: ProposalModel = self.props.wrapped.proposal
+          val proposal: ProposalModel = self.props.wrapped.proposal
 
-        val age: String = if (proposal.author.age.getOrElse(0) != 0) {
-          I18n
-            .t("proposal.author-infos.age", Replacements(("age", s"${proposal.author.age.getOrElse("")}")))
-        } else {
-          ""
-        }
+          val age: String = if (proposal.author.age.getOrElse(0) != 0) {
+            I18n
+              .t("proposal.author-infos.age", Replacements(("age", s"${proposal.author.age.getOrElse("")}")))
+          } else {
+            ""
+          }
 
-        def formatAuthorName(maybeName: Option[String]): String = {
-          maybeName.getOrElse(I18n.t("proposal.author-infos.anonymous")).toLowerCase.capitalize
-        }
+          def formatAuthorName(maybeName: Option[String]): String = {
+            maybeName.getOrElse(I18n.t("proposal.author-infos.anonymous")).toLowerCase.capitalize
+          }
 
-        <.p(^.className := ProposalAuthorInfosStyles.infos)(
-          if (proposal.author.organisationName.isDefined) {
+          <.p(^.className := ProposalAuthorInfosStyles.infos)(if (proposal.author.organisationName.isDefined) {
             <.span()(
               formatAuthorName(proposal.author.organisationName),
-              <.i(^.className := js.Array(
-              FontAwesomeStyles.checkCircle,
-              ProposalAuthorInfosStyles.checkCircle))()
+              <.i(^.className := js.Array(FontAwesomeStyles.checkCircle, ProposalAuthorInfosStyles.checkCircle))()
             )
           } else {
             <.span()(
@@ -53,13 +70,10 @@ object ProposalAuthorInfos {
               age + unescape("&nbsp;&#8226;&nbsp;"),
               I18n.l(proposal.createdAt, DateLocalizeOptions("common.date.long"))
             )
-          },
-          <.style()(ProposalAuthorInfosStyles.render[String])
-        )
-      }
-    )
+          }, <.style()(ProposalAuthorInfosStyles.render[String]))
+        }
+      )
 }
-
 
 object ProposalAuthorInfosStyles extends StyleSheet.Inline {
 
@@ -78,14 +92,9 @@ object ProposalAuthorInfosStyles extends StyleSheet.Inline {
     )
 
   val userName: StyleA =
-    style(
-      color(ThemeStyles.ThemeColor.primary)
-    )
+    style(color(ThemeStyles.ThemeColor.primary))
 
   val checkCircle: StyleA =
-    style(
-      color(blue),
-      marginLeft(ThemeStyles.SpacingValue.smaller.pxToEm())
-    )
+    style(color(blue), marginLeft(ThemeStyles.SpacingValue.smaller.pxToEm()))
 
 }

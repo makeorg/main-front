@@ -1,3 +1,23 @@
+/*
+ *
+ * Make.org Main Front
+ * Copyright (C) 2018 Make.org
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ *
+ */
+
 package org.make.front.components.consultation
 
 import io.github.shogowada.scalajs.reactjs.React
@@ -62,24 +82,17 @@ object ConsultationProposal {
           proposalInput.foreach(_.blur())
         }
 
-        <.div(^.className := js.Array(ConsultationProposalStyles.wrapper)
-        )(
+        <.div(^.className := js.Array(ConsultationProposalStyles.wrapper))(
           <.p(^.className := TextStyles.smallerTitle)(
-            <.i(^.className := js.Array(
-              ConsultationProposalStyles.icon,
-              FontAwesomeStyles.lightbulbTransparent)
-            )(),
+            <.i(^.className := js.Array(ConsultationProposalStyles.icon, FontAwesomeStyles.lightbulbTransparent))(),
             //Todo check translations with product team
             unescape(I18n.t("operation.consultation-proposal.title"))
           ),
-          <.h1(^.className := js.Array(
-            ConsultationProposalStyles.proposalTitle,
-            DynamicConsultationProposalStyles.TitleColor
-          ))(unescape(wording.question)),
-          <.div(^.className := js.Array(
-            InputStyles.wrapper,
-            ConsultationProposalStyles.proposalInputWrapper
-          ))(
+          <.h1(
+            ^.className := js
+              .Array(ConsultationProposalStyles.proposalTitle, DynamicConsultationProposalStyles.TitleColor)
+          )(unescape(wording.question)),
+          <.div(^.className := js.Array(InputStyles.wrapper, ConsultationProposalStyles.proposalInputWrapper))(
             <.span(^.className := TableLayoutStyles.wrapper)(
               <.span(^.className := TableLayoutStyles.cell)(
                 <.input(
@@ -90,9 +103,9 @@ object ConsultationProposal {
                   ^.readOnly := true
                 )()
               ),
-              <.span(^.className := js.Array(
-                TableLayoutStyles.cellVerticalAlignMiddle,
-                ConsultationProposalStyles.charsLimit)
+              <.span(
+                ^.className := js
+                  .Array(TableLayoutStyles.cellVerticalAlignMiddle, ConsultationProposalStyles.charsLimit)
               )(
                 <.span(^.className := TextStyles.smallText)(
                   (unescape(I18n.t("operation.proposal-form-in-header.limit-of-chars-info")))
@@ -116,7 +129,7 @@ object ConsultationProposal {
               )
             )()
           ),
-          <.style()(ConsultationProposalStyles.render[String],DynamicConsultationProposalStyles.render[String])
+          <.style()(ConsultationProposalStyles.render[String], DynamicConsultationProposalStyles.render[String])
         )
       }
     )
@@ -126,12 +139,9 @@ object ConsultationProposalStyles extends StyleSheet.Inline {
   import dsl._
 
   val wrapper: StyleA =
-    style(backgroundColor(
-      ThemeStyles.BackgroundColor.white),
-      padding(
-        ThemeStyles.SpacingValue.medium.pxToEm(),
-        ThemeStyles.SpacingValue.small.pxToEm()
-      ),
+    style(
+      backgroundColor(ThemeStyles.BackgroundColor.white),
+      padding(ThemeStyles.SpacingValue.medium.pxToEm(), ThemeStyles.SpacingValue.small.pxToEm()),
       boxShadow := s"0 1px 1px 0 rgba(0, 0, 0, .5)"
     )
 
@@ -150,16 +160,9 @@ object ConsultationProposalStyles extends StyleSheet.Inline {
     style(
       marginTop(ThemeStyles.SpacingValue.smaller.pxToEm()),
       padding(`0`, ThemeStyles.SpacingValue.smaller.pxToEm()),
-      unsafeChild("input")(
-        ThemeStyles.Font.circularStdBold,
-        cursor.text,
-        borderColor(ThemeStyles.BorderColor.lighter)
-      )
+      unsafeChild("input")(ThemeStyles.Font.circularStdBold, cursor.text, borderColor(ThemeStyles.BorderColor.lighter))
     )
 
   val charsLimit: StyleA =
-    style(
-      textAlign.right,
-      color(ThemeStyles.TextColor.lighter)
-    )
+    style(textAlign.right, color(ThemeStyles.TextColor.lighter))
 }

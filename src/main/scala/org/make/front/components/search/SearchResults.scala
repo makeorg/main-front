@@ -1,3 +1,23 @@
+/*
+ *
+ * Make.org Main Front
+ * Copyright (C) 2018 Make.org
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ *
+ */
+
 package org.make.front.components.search
 
 import io.github.shogowada.scalajs.reactjs.React
@@ -61,25 +81,29 @@ object SearchResults {
 
   lazy val reactClass: ReactClass =
     WithRouter(
-      React.createClass[SearchResultsProps, SearchResultsState](displayName = "SearchResults", getInitialState = { self =>
-        SearchResultsState(
-          listProposals = js.Array(),
-          initialLoad = true,
-          hasRequestedMore = false,
-          hasMore = false,
-          resultsCount = 0,
-          maybeOperation = self.props.wrapped.maybeOperation
-        )
-      }, shouldComponentUpdate = { (self, props, state) =>
-        self.props.wrapped.isConnected != props.wrapped.isConnected ||
-        self.state.listProposals.lengthCompare(state.listProposals.size) != 0 ||
-        (!state.initialLoad && state.listProposals.isEmpty)
-      }, componentWillReceiveProps = (self, props) => {
-        if (self.props.wrapped.searchValue != props.wrapped.searchValue) {
-          self.setState(SearchResultsState.empty)
-        }
-      }, render = {
-        self =>
+      React.createClass[SearchResultsProps, SearchResultsState](
+        displayName = "SearchResults",
+        getInitialState = { self =>
+          SearchResultsState(
+            listProposals = js.Array(),
+            initialLoad = true,
+            hasRequestedMore = false,
+            hasMore = false,
+            resultsCount = 0,
+            maybeOperation = self.props.wrapped.maybeOperation
+          )
+        },
+        shouldComponentUpdate = { (self, props, state) =>
+          self.props.wrapped.isConnected != props.wrapped.isConnected ||
+          self.state.listProposals.lengthCompare(state.listProposals.size) != 0 ||
+          (!state.initialLoad && state.listProposals.isEmpty)
+        },
+        componentWillReceiveProps = (self, props) => {
+          if (self.props.wrapped.searchValue != props.wrapped.searchValue) {
+            self.setState(SearchResultsState.empty)
+          }
+        },
+        render = { self =>
           val onSeeMore: (Int) => Unit = {
             _ =>
               self.props.wrapped
@@ -89,10 +113,7 @@ object SearchResults {
                     if (self.state.initialLoad) {
                       TrackingService.track(
                         "display-search-results-page",
-                        TrackingContext(
-                          TrackingLocation.searchResultsPage,
-                          self.state.maybeOperation.map(_.slug)
-                        ),
+                        TrackingContext(TrackingLocation.searchResultsPage, self.state.maybeOperation.map(_.slug)),
                         Map("results-count" -> searchResult.total.toString)
                       )
                     }
@@ -156,10 +177,7 @@ object SearchResults {
                     TrackingService
                       .track(
                         "click-proposal-viewmore",
-                        TrackingContext(
-                          TrackingLocation.searchResultsPage,
-                          self.state.maybeOperation.map(_.slug)
-                        )
+                        TrackingContext(TrackingLocation.searchResultsPage, self.state.maybeOperation.map(_.slug))
                       )
                   }, ^.className := js.Array(CTAStyles.basic, CTAStyles.basicOnButton))(unescape(I18n.t("search.results.see-more"))))
                 }
@@ -226,7 +244,8 @@ object SearchResults {
             )(<.NavInThemesContainerComponent.empty),
             <.style()(SearchResultsStyles.render[String])
           )
-      })
+        }
+      )
     )
 }
 

@@ -1,3 +1,23 @@
+/*
+ *
+ * Make.org Main Front
+ * Copyright (C) 2018 Make.org
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ *
+ */
+
 package org.make.front.components.consultation
 
 import io.github.shogowada.scalajs.reactjs.React
@@ -25,64 +45,53 @@ object ConsultationLinkSequence {
   lazy val reactClass: ReactClass =
     React
       .createClass[ConsultationLinkSequenceProps, Unit](
-      displayName = "ConsultationLinkSequence",
-      render = (self) => {
-        val consultation: OperationModel = self.props.wrapped.operation
+        displayName = "ConsultationLinkSequence",
+        render = (self) => {
+          val consultation: OperationModel = self.props.wrapped.operation
 
-        val gradientValues: GradientColorModel =
-          consultation.gradient.getOrElse(GradientColorModel("#ab92ca", "#ab92ca"))
+          val gradientValues: GradientColorModel =
+            consultation.gradient.getOrElse(GradientColorModel("#ab92ca", "#ab92ca"))
 
-        object DynamicConsultationLinkSequenceStyles extends StyleSheet.Inline {
-          import dsl._
+          object DynamicConsultationLinkSequenceStyles extends StyleSheet.Inline {
+            import dsl._
 
-          val gradient: StyleA =
-            style(background := s"linear-gradient(115deg, ${gradientValues.from}, ${gradientValues.to})")
-        }
+            val gradient: StyleA =
+              style(background := s"linear-gradient(115deg, ${gradientValues.from}, ${gradientValues.to})")
+          }
 
-        def trackingActions(): () => Unit = { () =>
-          TrackingService
-            .track(
-              "click-sequence-launch",
-              TrackingContext(TrackingLocation.operationPage, operationSlug = Some(consultation.slug)),
-              Map("sequenceId" -> consultation.landingSequenceId.value)
-            )
-        }
-
-        <.aside(
-          ^.className := js.Array(
-            DynamicConsultationLinkSequenceStyles.gradient,
-            ConsultationLinkSequenceStyles.wrapper
-          )
-        )(
-          <.p(^.className := ConsultationLinkSequenceStyles.presentation)(
-            unescape(I18n.t("operation.sequence.link.presentation"))
-          ),
-          <.div(^.className := ConsultationLinkSequenceStyles.sep)(),
-          <.Link(
-            ^.className := js.Array(
-              CTAStyles.basic,
-              CTAStyles.basicOnA
-            ),
-            ^.onClick := (trackingActions()),
-            ^.to := s"/${self.props.wrapped.country}/consultation/${consultation.slug}/selection"
-          )(
-            <.i(
-              ^.className := js.Array(
-              FontAwesomeStyles.play,
-              ConsultationLinkSequenceStyles.ctaIcon
+          def trackingActions(): () => Unit = { () =>
+            TrackingService
+              .track(
+                "click-sequence-launch",
+                TrackingContext(TrackingLocation.operationPage, operationSlug = Some(consultation.slug)),
+                Map("sequenceId" -> consultation.landingSequenceId.value)
               )
-            )(),
-            unescape(I18n.t("operation.sequence.link.cta"))
-          ),
-          <.style()(
-            ConsultationLinkSequenceStyles.render[String],
-            DynamicConsultationLinkSequenceStyles.render[String]
-          )
-        )
-      }
-    )
-}
+          }
 
+          <.aside(
+            ^.className := js
+              .Array(DynamicConsultationLinkSequenceStyles.gradient, ConsultationLinkSequenceStyles.wrapper)
+          )(
+            <.p(^.className := ConsultationLinkSequenceStyles.presentation)(
+              unescape(I18n.t("operation.sequence.link.presentation"))
+            ),
+            <.div(^.className := ConsultationLinkSequenceStyles.sep)(),
+            <.Link(
+              ^.className := js.Array(CTAStyles.basic, CTAStyles.basicOnA),
+              ^.onClick := (trackingActions()),
+              ^.to := s"/${self.props.wrapped.country}/consultation/${consultation.slug}/selection"
+            )(
+              <.i(^.className := js.Array(FontAwesomeStyles.play, ConsultationLinkSequenceStyles.ctaIcon))(),
+              unescape(I18n.t("operation.sequence.link.cta"))
+            ),
+            <.style()(
+              ConsultationLinkSequenceStyles.render[String],
+              DynamicConsultationLinkSequenceStyles.render[String]
+            )
+          )
+        }
+      )
+}
 
 object ConsultationLinkSequenceStyles extends StyleSheet.Inline {
   import dsl._
@@ -91,14 +100,8 @@ object ConsultationLinkSequenceStyles extends StyleSheet.Inline {
     style(
       display.flex,
       alignItems.center,
-      padding(
-        40.pxToEm(),
-        ThemeStyles.SpacingValue.smaller.pxToEm()
-      ),
-      margin(
-        20.pxToEm(),
-        `0`
-      )
+      padding(40.pxToEm(), ThemeStyles.SpacingValue.smaller.pxToEm()),
+      margin(20.pxToEm(), `0`)
     )
 
   val presentation: StyleA =
@@ -123,7 +126,5 @@ object ConsultationLinkSequenceStyles extends StyleSheet.Inline {
     )
 
   val ctaIcon: StyleA =
-    style(
-      marginRight(ThemeStyles.SpacingValue.small.pxToEm())
-    )
+    style(marginRight(ThemeStyles.SpacingValue.small.pxToEm()))
 }
