@@ -39,11 +39,14 @@ import org.make.front.styles.utils._
 import org.make.services.tracking.TrackingService.TrackingContext
 import org.make.services.tracking.{TrackingLocation, TrackingService}
 
+import scala.scalajs.js
+
 object Theme {
 
   final case class ThemeProps(theme: TranslatedThemeModel,
                               maybeOperation: Option[OperationModel],
-                              maybeLocation: Option[LocationModel])
+                              maybeLocation: Option[LocationModel],
+                              queryTags: js.Array[String])
 
   lazy val reactClass: ReactClass =
     React
@@ -57,7 +60,7 @@ object Theme {
               Map("themeId" -> self.props.wrapped.theme.id.value)
             )
         },
-        render = (self) => {
+        render = self => {
           <("theme")()(
             <.div(^.className := ThemePageStyles.mainHeaderWrapper)(
               <.div(^.className := RWDHideRulesStyles.invisible)(<.CookieAlertContainerComponent.empty),
@@ -75,7 +78,8 @@ object Theme {
                 ^.wrapped := ResultsInThemeContainerProps(
                   currentTheme = self.props.wrapped.theme,
                   maybeOperation = self.props.wrapped.maybeOperation,
-                  maybeLocation = self.props.wrapped.maybeLocation
+                  maybeLocation = self.props.wrapped.maybeLocation,
+                  queryTags = self.props.wrapped.queryTags
                 )
               )(),
               <.NavInThemesContainerComponent.empty

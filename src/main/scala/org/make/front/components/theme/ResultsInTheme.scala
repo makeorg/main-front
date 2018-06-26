@@ -37,6 +37,7 @@ import org.make.front.facades.ReactInfiniteScroller.{
 }
 import org.make.front.facades.Unescape.unescape
 import org.make.front.models.{
+  TagId,
   Location          => LocationModel,
   OperationExpanded => OperationModel,
   Proposal          => ProposalModel,
@@ -63,9 +64,10 @@ object ResultsInTheme {
 
   case class ResultsInThemeProps(
     theme: TranslatedThemeModel,
-    onMoreResultsRequested: (js.Array[ProposalModel], js.Array[TagModel], Option[Int]) => Future[SearchResult],
-    onTagSelectionChange: (js.Array[TagModel], Option[Int])                            => Future[SearchResult],
+    onMoreResultsRequested: (js.Array[ProposalModel], js.Array[TagId], Option[Int]) => Future[SearchResult],
+    onTagSelectionChange: (js.Array[TagId], Option[Int])                            => Future[SearchResult],
     preselectedTags: js.Array[TagModel],
+    queryTags: js.Array[TagId],
     maybeOperation: Option[OperationModel],
     maybeLocation: Option[LocationModel],
     country: String
@@ -80,7 +82,7 @@ object ResultsInTheme {
 
   lazy val reactClass: ReactClass = {
     def onSuccessfulVote(proposalId: ProposalIdModel,
-                         self: Self[ResultsInThemeProps, ResultsInThemeState]): (VoteModel) => Unit = { (voteModel) =>
+                         self: Self[ResultsInThemeProps, ResultsInThemeState]): VoteModel => Unit = { voteModel =>
       def mapProposal(proposal: ProposalModel): ProposalModel = {
         if (proposal.id == proposalId) {
           proposal.copy(votes = proposal.votes.map { vote =>
@@ -152,11 +154,15 @@ object ResultsInTheme {
       shouldComponentUpdate = { (self, _, state) =>
         self.state.listProposals.map(_.id).toSet != state.listProposals.map(_.id).toSet
       },
-      render = { (self) =>
-        val onSeeMore: (Int) => Unit = {
+      render = { self =>
+        val onSeeMore: Int => Unit = {
           _ =>
+            val tagIds: js.Array[TagId] =
+              if (self.state.selectedTags.nonEmpty) self.state.selectedTags.map(_.tagId)
+              else self.props.wrapped.queryTags
+
             self.props.wrapped
-              .onMoreResultsRequested(self.state.listProposals, self.state.selectedTags, self.state.maybeSeed)
+              .onMoreResultsRequested(self.state.listProposals, tagIds, self.state.maybeSeed)
               .onComplete {
                 case Success(searchResult) =>
                   self.setState(
@@ -182,7 +188,7 @@ object ResultsInTheme {
             )()
           )
 
-        val onTagsChange: (js.Array[TagModel]) => Unit = {
+        val onTagsChange: js.Array[TagModel] => Unit = {
           tags =>
             val previousSelectedTags = self.state.selectedTags
             val changedTags = if (previousSelectedTags.lengthCompare(tags.size) > 0) {
@@ -207,7 +213,7 @@ object ResultsInTheme {
             }
 
             self.setState(_.copy(selectedTags = tags))
-            self.props.wrapped.onTagSelectionChange(tags, self.state.maybeSeed).onComplete {
+            self.props.wrapped.onTagSelectionChange(tags.map(_.tagId), self.state.maybeSeed).onComplete {
               case Success(searchResult) =>
                 self.setState(
                   _.copy(

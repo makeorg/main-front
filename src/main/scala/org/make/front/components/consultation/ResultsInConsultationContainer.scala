@@ -28,7 +28,7 @@ import org.make.front.actions.NotifyError
 import org.make.front.components.AppState
 import org.make.front.components.consultation.ResultsInConsultation.ResultsInConsultationProps
 import org.make.front.facades.I18n
-import org.make.front.models.{Proposal, Location => LocationModel, OperationExpanded => OperationModel, Tag => TagModel}
+import org.make.front.models.{Proposal, TagId, Location => LocationModel, OperationExpanded => OperationModel}
 import org.make.services.proposal.ProposalService.defaultResultsCount
 import org.make.services.proposal.{ProposalService, SearchResult}
 
@@ -39,7 +39,8 @@ import scala.util.{Failure, Success}
 
 object ResultsInConsultationContainer {
   case class ResultsInConsultationContainerProps(currentConsultation: OperationModel,
-                                                 maybeLocation: Option[LocationModel])
+                                                 maybeLocation: Option[LocationModel],
+                                                 queryTags: js.Array[String])
 
   case class ResultsInConsultationContainerState(currentConsultation: OperationModel, results: js.Array[Proposal])
 
@@ -49,11 +50,11 @@ object ResultsInConsultationContainer {
     : Dispatch => (AppState,
                    Props[ResultsInConsultationContainerProps]) => ResultsInConsultation.ResultsInConsultationProps =
     (dispatch: Dispatch) => { (appState: AppState, props: Props[ResultsInConsultationContainerProps]) =>
-      def getProposals(tags: js.Array[TagModel], skip: Int, seed: Option[Int] = None): Future[SearchResult] = {
+      def getProposals(tagIds: js.Array[TagId], skip: Int, seed: Option[Int] = None): Future[SearchResult] = {
         ProposalService
           .searchProposals(
             operationId = Some(props.wrapped.currentConsultation.operationId),
-            tagsIds = tags.map(_.tagId),
+            tagsIds = tagIds,
             content = None,
             seed = seed,
             limit = Some(defaultResultsCount),
@@ -64,9 +65,9 @@ object ResultsInConsultationContainer {
       }
 
       def nextProposals(currentProposals: js.Array[Proposal],
-                        tags: js.Array[TagModel],
+                        tagIds: js.Array[TagId],
                         seed: Option[Int] = None): Future[SearchResult] = {
-        val result = getProposals(tags = tags, skip = currentProposals.size, seed = seed).map { results =>
+        val result = getProposals(tagIds = tagIds, skip = currentProposals.size, seed = seed).map { results =>
           results.copy(results = currentProposals ++ results.results)
         }
 
@@ -78,8 +79,8 @@ object ResultsInConsultationContainer {
         result
       }
 
-      def searchOnSelectedTags(selectedTags: js.Array[TagModel], seed: Option[Int] = None): Future[SearchResult] = {
-        val result = getProposals(tags = selectedTags, skip = 0, seed = seed)
+      def searchOnSelectedTags(selectedTags: js.Array[TagId], seed: Option[Int] = None): Future[SearchResult] = {
+        val result = getProposals(tagIds = selectedTags, skip = 0, seed = seed)
 
         result.onComplete {
           case Success(_) => // Let child handle results
@@ -94,6 +95,7 @@ object ResultsInConsultationContainer {
         onMoreResultsRequested = nextProposals,
         onTagSelectionChange = searchOnSelectedTags,
         preselectedTags = js.Array(),
+        queryTags = props.wrapped.queryTags.map(TagId),
         maybeLocation = props.wrapped.maybeLocation,
         country = appState.country
       )

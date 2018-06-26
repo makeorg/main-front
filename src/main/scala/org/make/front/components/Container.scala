@@ -52,9 +52,9 @@ object Container {
       componentWillUpdate = { (_, _, _) =>
         Dynamic.global.scrollTo(0, 0)
       },
-      render = (_) =>
+      render = _ =>
         <.Switch()(
-          <.Route(^.exact := true, ^.path := "/", ^.render := { (_: React.Props[Unit]) =>
+          <.Route(^.exact := true, ^.path := "/", ^.render := { _: React.Props[Unit] =>
             <.Redirect(^.to := s"/$getDetectedCountry")()
           })(),
           <.Route(^.exact := true, ^.path := "/404", ^.component := ErrorContainer.reactClass)(),
@@ -109,7 +109,7 @@ object Container {
           <.Route(
             ^.exact := true,
             ^.path := "/:country/consultation/:operationSlug",
-            ^.render := { (props: React.Props[Unit]) =>
+            ^.render := { props: React.Props[Unit] =>
               <.Redirect(
                 ^.to := s"/${props.`match`.params("country")}/consultation/${props.`match`.params("operationSlug")}/consultation"
               )()
@@ -148,7 +148,7 @@ object Container {
           <.Route(
             ^.exact := true,
             ^.path := "/:country([A-Za-z]{2,3})/:operationSlug",
-            ^.render := { (props: React.Props[Unit]) =>
+            ^.render := { props: React.Props[Unit] =>
               <.Redirect(
                 ^.to := s"/${props.`match`.params("country")}/consultation/${props.`match`.params("operationSlug")}/consultation"
               )()
