@@ -71,29 +71,35 @@ object ConsultationCommunity {
 
           <.aside(^.className := js.Array(ConsultationCommunityStyles.wrapper, LayoutRulesStyles.centeredRow))(
             <.h3(^.className := js.Array(TextStyles.smallerTitle, ConsultationCommunityStyles.title))(
-              unescape(I18n.t("operation.community.title"))
+              unescape(I18n.t("operation.presentation.community"))
             ),
-            <.p(^.className := js.Array(TextStyles.smallerText, ConsultationCommunityStyles.communityCount))(
-//                todo count citizen who participate
-              <.span(
-                ^.className := js.Array(TextStyles.smallerTitle, DynamicConsultationCommunityStyles.consultationColor)
-              )(unescape(I18n.t("operation.community.citizen-count", Replacements(("count", "52341"))))),
-              unescape(I18n.t("operation.community.already-participate"))
+            <.p(^.className := js.Array(TextStyles.smallerText, ConsultationCommunityStyles.communityText))(
+              unescape(I18n.t("operation.presentation.community-text"))
             ),
-            <.button(
-              ^.onClick := openSlugLink,
-              ^.className := js.Array(
-                RWDRulesLargeMediumStyles.showBlockBeyondLargeMedium,
-                CTAStyles.basic,
-                CTAStyles.basicOnA,
-                ConsultationCommunityStyles.cta
+            <.div (^.className := ConsultationCommunityStyles.commitingWrapper)(
+              <.button(
+                ^.onClick := openSlugLink,
+                ^.className := js.Array(
+                  RWDRulesLargeMediumStyles.showBlockBeyondLargeMedium,
+                  CTAStyles.basic,
+                  CTAStyles.basicOnA,
+                  ConsultationCommunityStyles.cta
+                )
+              )(
+                <.i(^.className := js.Array(FontAwesomeStyles.play, ConsultationCommunityStyles.ctaIcon))(),
+                unescape(I18n.t("operation.community.learn-more.label"))
+              ),
+              <.div(^.className := js.Array(TextStyles.smallerText, ConsultationCommunityStyles.communityText))(
+                //                todo count citizen who participate
+                <.p(^.className := js.Array(TextStyles.smallerTitle, DynamicConsultationCommunityStyles.consultationColor))(unescape(I18n.t("operation.community.citizen-count", Replacements(("count", "52341"))))),
+                <.p()(unescape(I18n.t("operation.community.already-participate")))
               )
-            )(
-              <.i(^.className := js.Array(FontAwesomeStyles.play, ConsultationCommunityStyles.ctaIcon))(),
-              unescape(I18n.t("operation.community.learn-more.label"))
             ),
             <.h3(^.className := js.Array(TextStyles.smallerTitle, ConsultationCommunityStyles.title))(
-              unescape(I18n.t("operation.community.partner.title"))
+              unescape(I18n.t("operation.presentation.also"))
+            ),
+            <.p(^.className := js.Array(TextStyles.smallerText, ConsultationCommunityStyles.communityText))(
+              unescape(I18n.t("operation.presentation.also-text"))
             ),
             <(self.props.wrapped.operation.partnersComponent).empty,
             <.a(
@@ -137,14 +143,32 @@ object ConsultationCommunityStyles extends StyleSheet.Inline {
       )
     )
 
+  val commitingWrapper: StyleA =
+    style(
+      display.flex,
+      marginTop(ThemeStyles.SpacingValue.small.pxToEm()),
+      marginBottom(ThemeStyles.SpacingValue.medium.pxToEm())
+    )
+
   val cta: StyleA =
-    style(marginTop(ThemeStyles.SpacingValue.small.pxToEm()), marginBottom(ThemeStyles.SpacingValue.medium.pxToEm()))
+    style(
+      ThemeStyles.MediaQueries.beyondLargeMedium(
+        display.flex
+      )
+    )
 
   val ctaIcon: StyleA =
     style(marginRight(ThemeStyles.SpacingValue.small.pxToEm()))
 
-  val communityCount: StyleA =
-    style(color(ThemeStyles.TextColor.lighter))
+  val communityText: StyleA =
+    style(
+      display.flex,
+      flexFlow := s"column",
+      alignItems.center,
+      color(ThemeStyles.TextColor.lighter),
+      paddingLeft(ThemeStyles.SpacingValue.smaller.pxToEm()),
+      paddingRight(ThemeStyles.SpacingValue.smaller.pxToEm())
+    )
 
   val communityLink: StyleA =
     style(color(ThemeStyles.ThemeColor.primary))

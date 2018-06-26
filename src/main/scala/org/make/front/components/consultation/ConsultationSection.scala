@@ -86,7 +86,15 @@ object ConsultationSection {
                     )()
                   )
                 }
-              }, <.div(^.className := RWDRulesLargeMediumStyles.showBlockBeyondLargeMedium)(<.ConsultationShareComponent(^.wrapped := ConsultationShareProps(operation = consultation))()), <.ConsultationShareMobileComponent(^.wrapped := ConsultationShareMobileProps(operation = consultation))(), <.div(^.className := RWDRulesLargeMediumStyles.showBlockBeyondLargeMedium)(<.ConsultationCommunityComponent(^.wrapped := ConsultationCommunityProps(self.props.wrapped.operation, self.props.wrapped.language))(), <.ConsultationFooterComponent()())),
+              },
+              <.div(^.className := RWDRulesLargeMediumStyles.showBlockBeyondLargeMedium)(
+                <.ConsultationCommunityComponent(^.wrapped := ConsultationCommunityProps(self.props.wrapped.operation, self.props.wrapped.language))()
+              ),
+              <.ConsultationShareMobileComponent(^.wrapped := ConsultationShareMobileProps(operation = consultation))(),
+              <.div(^.className := RWDRulesLargeMediumStyles.showBlockBeyondLargeMedium)(
+                <.ConsultationShareComponent(^.wrapped := ConsultationShareProps(operation = consultation))(),
+                <.ConsultationFooterComponent()())
+              ),
               <.style()(ConsultationSectionStyles.render[String])
             )
           }

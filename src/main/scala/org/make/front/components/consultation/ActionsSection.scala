@@ -217,6 +217,7 @@ object ActionsSection {
               )(
                 unescape(I18n.t("operation.actions.partners-text"))
               ),
+              <(self.props.wrapped.operation.partnersComponent).empty,
               <.a(
                 ^.onClick := trackingPartners,
                 ^.href := linkPartner,

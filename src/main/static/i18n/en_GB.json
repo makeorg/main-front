@@ -296,10 +296,13 @@
       "title": "Why this consultation&nbsp;",
       "seeMore": "Find out more",
       "community": "The community of actions",
+      "community-text": "Thousands of citizens commit themselves by participating in the consultation.",
       "citizens": "citizens",
       "participated": "have already  participated",
       "also": "They are involved too :",
-      "morePartners": "See all partners"
+      "also-text": "They support the consultation and the citizen action plan that will follow.",
+      "morePartners": "See all partners",
+      "founder": "Founder Partner"
     },
     "intro": {
       "consultation": "CONSULTATION",
