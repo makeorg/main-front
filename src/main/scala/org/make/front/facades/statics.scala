@@ -781,6 +781,10 @@ object ministerecultureAvatar extends js.Object
 object arteAvatar extends js.Object
 
 @js.native
+@JSImport("./images/operations/culture/partners/sacem.jpg", "default")
+object sacemAvatar extends js.Object
+
+@js.native
 @JSImport("./images/operations/culture/partners/culture_prioritaire.jpg", "default")
 object cultureprioritaireAvatar extends js.Object
 

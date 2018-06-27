@@ -8,7 +8,7 @@ import org.make.core.Counter
 import org.make.front.facades.Unescape.unescape
 import org.make.front.Main.CssSettings._
 import org.make.front.components.Components._
-import org.make.front.facades.{I18n, accescultureAvatar, arteAvatar, bsfAvatar, cinemadifferenceAvatar, cssAvatar, cultureprioritaireAvatar, engiefondationAvatar, ministerecultureAvatar, telemaqueAvatar}
+import org.make.front.facades.{I18n, accescultureAvatar, arteAvatar, bsfAvatar, cinemadifferenceAvatar, cssAvatar, cultureprioritaireAvatar, engiefondationAvatar, ministerecultureAvatar, sacemAvatar, telemaqueAvatar}
 
 object CultureOperationPartners {
 
@@ -33,6 +33,11 @@ object CultureOperationPartners {
           <.li(^.className := PartnersStyles.item)(
             <.div(^.className := PartnersStyles.avatar)(
               <.img(^.src := arteAvatar.toString,^.alt := "Arte")()
+            )
+          ),
+          <.li(^.className := PartnersStyles.item)(
+            <.div(^.className := PartnersStyles.avatar)(
+              <.img(^.src := sacemAvatar.toString,^.alt := "Sacem")()
             )
           ),
           <.li(^.className := PartnersStyles.item)(
