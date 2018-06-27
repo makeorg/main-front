@@ -88,12 +88,12 @@ object ConsultationCommunity {
               )(
                 <.i(^.className := js.Array(FontAwesomeStyles.play, ConsultationCommunityStyles.ctaIcon))(),
                 unescape(I18n.t("operation.community.learn-more.label"))
-              ),
+              )
+              /* Todo Counting citizens who participated to the operation
               <.div(^.className := js.Array(TextStyles.smallerText, ConsultationCommunityStyles.communityText))(
-                //                todo count citizen who participate
                 <.p(^.className := js.Array(TextStyles.smallerTitle, DynamicConsultationCommunityStyles.consultationColor))(unescape(I18n.t("operation.community.citizen-count", Replacements(("count", "52341"))))),
                 <.p()(unescape(I18n.t("operation.community.already-participate")))
-              )
+              )*/
             ),
             <.h3(^.className := js.Array(TextStyles.smallerTitle, ConsultationCommunityStyles.title))(
               unescape(I18n.t("operation.presentation.also"))
