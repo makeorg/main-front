@@ -725,6 +725,30 @@ object cultureLogo extends js.Object
 object cultureLogoWhite extends js.Object
 
 @js.native
+@JSImport("./images/operations/culture/culture-400x500.jpg", "default")
+object cultureSmall extends js.Object
+
+@js.native
+@JSImport("./images/operations/culture/culture-400x500@2x.png", "default")
+object cultureSmall2x extends js.Object
+
+@js.native
+@JSImport("./images/operations/culture/culture-840x500.jpg", "default")
+object cultureMedium extends js.Object
+
+@js.native
+@JSImport("./images/operations/culture/culture-840x500@2x.png", "default")
+object cultureMedium2x extends js.Object
+
+@js.native
+@JSImport("./images/operations/culture/culture-1350x500.jpg", "default")
+object cultureLarge extends js.Object
+
+@js.native
+@JSImport("./images/operations/culture/culture-1350x500@2x.png", "default")
+object cultureLarge2x extends js.Object
+
+@js.native
 @JSImport("./images/operations/culture/culture-ill-1440x530.jpg", "default")
 object cultureIll extends js.Object
 
