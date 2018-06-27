@@ -12,6 +12,7 @@ val nginxPerlModule = "/etc/nginx/modules/ngx_http_perl_module.so"
 dockerCommands := Seq(
   Cmd("FROM", "nexus.prod.makeorg.tech/front-runner:master-latest"),
   Cmd("MAINTAINER", "technical2@make.org"),
+  Cmd("RUN", "apk --no-cache add curl"),
   Cmd("ENV", "API_URL", "https://api.prod.makeorg.tech"),
   Cmd("ENV", "PORT", "80"),
   Cmd("COPY", "dist", appContentDirectory),
