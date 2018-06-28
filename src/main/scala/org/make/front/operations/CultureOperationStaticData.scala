@@ -1,7 +1,7 @@
 package org.make.front.operations
 import org.make.front.components.operation.intro.CultureOperationIntro
 import org.make.front.components.operation.intro.CultureOperationIntro.CultureOperationIntroProps
-import org.make.front.components.operation.partners.CultureOperationPartners
+import org.make.front.components.consultation.partners.CulturePartnersList
 import org.make.front.facades.{cultureLogo, cultureLogoWhite}
 import org.make.front.models._
 
@@ -41,7 +41,7 @@ object CultureOperationStaticData extends StaticDataOfOperation {
       )
     },
     headerComponent = CultureOperationIntro.reactClass,
-    partnersComponent = CultureOperationPartners.reactClass,
+    partnersComponent = CulturePartnersList.reactClass,
     headerProps = operation => CultureOperationIntroProps(operation),
     startDateActions = None,
     consultationVersion = ConsultationVersion.V2

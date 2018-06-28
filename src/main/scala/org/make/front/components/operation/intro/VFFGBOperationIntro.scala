@@ -44,9 +44,10 @@ object VFFGBOperationIntro {
             OperationPartnerModel(
               name = "Kering Foundation",
               imageUrl = keringFoundationLogo.toString,
-              imageWidth = 80
+              imageWidth = 80,
+              isFounder = true
             ),
-            OperationPartnerModel(name = "Facebook", imageUrl = facebookLogo.toString, imageWidth = 80)
+            OperationPartnerModel(name = "Facebook", imageUrl = facebookLogo.toString, imageWidth = 80, isFounder = true)
           )
 
           val gradientValues: GradientColorModel =

@@ -5,6 +5,7 @@ import io.github.shogowada.scalajs.reactjs.VirtualDOM.VirtualDOMElements.ReactCl
 import io.github.shogowada.scalajs.reactjs.VirtualDOM.{VirtualDOMAttributes, VirtualDOMElements}
 import io.github.shogowada.statictags.{Attribute, BooleanAttributeSpec, SpaceSeparatedStringAttributeSpec}
 import org.make.front.Main.CssSettings._
+import org.make.front.components.consultation.partners.PartnersItems
 
 import scala.scalajs.js
 
@@ -186,6 +187,7 @@ object Components {
     def ConsultationFooterComponent: ReactClassElementSpec = self(consultation.ConsultationFooter.reactClass)
     def ConsultationShareComponent: ReactClassElementSpec = self(consultation.ConsultationShare.reactClass)
     def ConsultationShareMobileComponent: ReactClassElementSpec = self(consultation.ConsultationShareMobile.reactClass)
+    def PartnersItemsComponent: ReactClassElementSpec = self(PartnersItems.reactClass)
 
     /*********************/
     def VFFOperationIntroComponent: ReactClassElementSpec = self(operation.intro.VFFOperationIntro.reactClass)
