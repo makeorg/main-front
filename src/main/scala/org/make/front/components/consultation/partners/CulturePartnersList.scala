@@ -6,8 +6,8 @@ import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import org.make.front.Main.CssSettings._
 import org.make.front.components.Components._
 import org.make.front.components.consultation.partners.PartnersItems.PartnersItemProps
-import org.make.front.facades.{accescultureAvatar, arteAvatar, bsfAvatar, cinemadifferenceAvatar, cssAvatar, cultureprioritaireAvatar, engiefondationAvatar, ministerecultureAvatar, sacemAvatar, telemaqueAvatar}
-import org.make.front.models.{OperationExpanded => OperationModel, OperationPartner => OperationPartnerModel}
+import org.make.front.facades.{accescultureAvatar, arteAvatar, bsfAvatar, cinemadifferenceAvatar, cssAvatar, engiefondationAvatar, ministerecultureAvatar, operadeparisAvatar, sacemAvatar, telemaqueAvatar}
+import org.make.front.models.{OperationPartner => OperationPartnerModel}
 
 import scala.scalajs.js
 
@@ -22,7 +22,7 @@ object CulturePartnersList {
         val partners =
           js.Array(
             OperationPartnerModel(
-              name = "Engie Fondation",
+              name = "Fondation ENGIE",
               imageUrl = engiefondationAvatar.toString,
               imageWidth = 60,
               isFounder = true
@@ -34,38 +34,14 @@ object CulturePartnersList {
               isFounder = true
             ),
             OperationPartnerModel(
-              name = "Arte",
-              imageUrl = arteAvatar.toString,
-              imageWidth = 60,
-              isFounder = false
-            ),
-            OperationPartnerModel(
               name = "Sacem",
               imageUrl = sacemAvatar.toString,
               imageWidth = 60,
-              isFounder = false
+              isFounder = true
             ),
             OperationPartnerModel(
-              name = "Culture Prioritaire",
-              imageUrl = cultureprioritaireAvatar.toString,
-              imageWidth = 60,
-              isFounder = false
-            ),
-            OperationPartnerModel(
-              name = "Télémaque",
-              imageUrl = telemaqueAvatar.toString,
-              imageWidth = 60,
-              isFounder = false
-            ),
-            OperationPartnerModel(
-              name = "Culture & Sport Solidaires",
-              imageUrl = cssAvatar.toString,
-              imageWidth = 60,
-              isFounder = false
-            ),
-            OperationPartnerModel(
-              name = "Bibliothèques Sans Frontières",
-              imageUrl = bsfAvatar.toString,
+              name = "ARTE",
+              imageUrl = arteAvatar.toString,
               imageWidth = 60,
               isFounder = false
             ),
@@ -76,8 +52,32 @@ object CulturePartnersList {
               isFounder = false
             ),
             OperationPartnerModel(
-              name = "Cinéma Différence",
+              name = "Opéra de Paris",
+              imageUrl = operadeparisAvatar.toString,
+              imageWidth = 60,
+              isFounder = false
+            ),
+            OperationPartnerModel(
+              name = "Ciné Ma Différence",
               imageUrl = cinemadifferenceAvatar.toString,
+              imageWidth = 60,
+              isFounder = false
+            ),
+            OperationPartnerModel(
+              name = "Culture et Sport solidaires 34",
+              imageUrl = cssAvatar.toString,
+              imageWidth = 60,
+              isFounder = false
+            ),
+            OperationPartnerModel(
+              name = "Bibliothèque Sans Frontière",
+              imageUrl = bsfAvatar.toString,
+              imageWidth = 60,
+              isFounder = false
+            ),
+            OperationPartnerModel(
+              name = "Institut Télémaque",
+              imageUrl = telemaqueAvatar.toString,
               imageWidth = 60,
               isFounder = false
             )

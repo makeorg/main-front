@@ -785,8 +785,8 @@ object arteAvatar extends js.Object
 object sacemAvatar extends js.Object
 
 @js.native
-@JSImport("./images/operations/culture/partners/culture_prioritaire.jpg", "default")
-object cultureprioritaireAvatar extends js.Object
+@JSImport("./images/operations/culture/partners/opera_de_paris.jpg", "default")
+object operadeparisAvatar extends js.Object
 
 @js.native
 @JSImport("./images/operations/culture/partners/telemaque.jpg", "default")
