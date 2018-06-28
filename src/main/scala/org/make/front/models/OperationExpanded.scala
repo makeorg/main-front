@@ -3,7 +3,6 @@ package org.make.front.models
 import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import org.make.front.components.sequence.Sequence.ExtraSlide
 import org.make.front.operations.Operations
-import scalacss.internal.Attrs.color
 
 import scala.scalajs.js
 
@@ -48,7 +47,7 @@ object ConsultationVersion {
   }
 }
 
-final case class OperationPartner(name: String, imageUrl: String, imageWidth: Int)
+final case class OperationPartner(name: String, imageUrl: String, imageWidth: Int, isFounder: Boolean)
 
 final case class OperationWording(language: String,
                                   title: String,

@@ -44,10 +44,11 @@ object LPAEOperationIntro {
             OperationPartnerModel(
               name = "Le Cercle des Economistes",
               imageUrl = cercleEconomistesLogo.toString,
-              imageWidth = 74
+              imageWidth = 74,
+              isFounder = true
             ),
-            OperationPartnerModel(name = "x", imageUrl = xPartners.toString, imageWidth = 9),
-            OperationPartnerModel(name = "Make.org", imageUrl = makeOrgLogo.toString, imageWidth = 51)
+            OperationPartnerModel(name = "x", imageUrl = xPartners.toString, imageWidth = 9, isFounder = true),
+            OperationPartnerModel(name = "Make.org", imageUrl = makeOrgLogo.toString, imageWidth = 51, isFounder = true)
           )
 
           val gradientValues: GradientColorModel =

@@ -1,4 +1,4 @@
-package org.make.front.components.operation.partners
+package org.make.front.components.consultation.partners
 
 import org.make.front.Main.CssSettings._
 import org.make.front.styles.ThemeStyles
@@ -55,10 +55,12 @@ object PartnersStyles extends StyleSheet.Inline {
     active =>
       if (active) {
         styleS(
-          opacity(1)
+          opacity(1),
+          zIndex(1)
         )
       } else styleS(
-        opacity(0)
+        opacity(0),
+        zIndex(-1)
       )
   )
 

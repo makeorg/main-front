@@ -35,11 +35,11 @@ object ChanceAuxJeunesOperationIntro {
           }
 
           val partners = js.Array(
-            OperationPartnerModel(name = "Bnp Paribas", imageUrl = bnpParibasLogo.toString, imageWidth = 123),
-            OperationPartnerModel(name = "Hauts De France", imageUrl = hautsDeFranceLogo.toString, imageWidth = 112),
-            OperationPartnerModel(name = "AccorHotels", imageUrl = accorHotelsLogoCAJ.toString, imageWidth = 127),
-            OperationPartnerModel(name = "Google", imageUrl = googleLogo.toString, imageWidth = 80),
-            OperationPartnerModel(name = "Viva Tech", imageUrl = vivaTechLogo.toString, imageWidth = 88)
+            OperationPartnerModel(name = "Bnp Paribas", imageUrl = bnpParibasLogo.toString, imageWidth = 123, isFounder = true),
+            OperationPartnerModel(name = "Hauts De France", imageUrl = hautsDeFranceLogo.toString, imageWidth = 112, isFounder = true),
+            OperationPartnerModel(name = "AccorHotels", imageUrl = accorHotelsLogoCAJ.toString, imageWidth = 127, isFounder = true),
+            OperationPartnerModel(name = "Google", imageUrl = googleLogo.toString, imageWidth = 80, isFounder = true),
+            OperationPartnerModel(name = "Viva Tech", imageUrl = vivaTechLogo.toString, imageWidth = 88, isFounder = true)
           )
 
           <.div(^.className := js.Array(OperationIntroStyles.wrapper, ChanceAuxJeunesOperationIntroStyles.wrapper))(

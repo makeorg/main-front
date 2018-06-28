@@ -47,12 +47,14 @@ object CultureOperationIntro {
               OperationPartnerModel(
                 name = "Fondation Engie",
                 imageUrl = engieFoundationLogo.toString,
-                imageWidth = 108
+                imageWidth = 108,
+                isFounder = true
               ),
               OperationPartnerModel(
                 name = "Ministère Culture",
                 imageUrl = ministereCultureLogo.toString,
-                imageWidth = 41
+                imageWidth = 41,
+                isFounder = true
               )
             )
           <.div(^.className := js.Array(OperationIntroStyles.wrapper, CultureOperationIntroStyles.wrapper))(

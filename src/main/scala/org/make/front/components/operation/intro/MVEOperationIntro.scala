@@ -39,10 +39,10 @@ object MVEOperationIntro {
             self.props.wrapped.operation
 
           val partners = js.Array(
-            OperationPartnerModel(name = "BlaBlaCar", imageUrl = blaBlaCarLogo.toString, imageWidth = 120),
-            OperationPartnerModel(name = "Orange", imageUrl = orangeLogo.toString, imageWidth = 37),
-            OperationPartnerModel(name = "AccorHotels", imageUrl = accorHotelsLogoMVE.toString, imageWidth = 132),
-            OperationPartnerModel(name = "Mairie de Paris", imageUrl = mairieDeParisLogo.toString, imageWidth = 146)
+            OperationPartnerModel(name = "BlaBlaCar", imageUrl = blaBlaCarLogo.toString, imageWidth = 120, isFounder = true),
+            OperationPartnerModel(name = "Orange", imageUrl = orangeLogo.toString, imageWidth = 37, isFounder = true),
+            OperationPartnerModel(name = "AccorHotels", imageUrl = accorHotelsLogoMVE.toString, imageWidth = 132, isFounder = true),
+            OperationPartnerModel(name = "Mairie de Paris", imageUrl = mairieDeParisLogo.toString, imageWidth = 146, isFounder = true)
           )
 
           <.div(^.className := js.Array(OperationIntroStyles.wrapper, MVEOperationIntroStyles.wrapper))(
