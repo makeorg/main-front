@@ -172,7 +172,7 @@ object Proposal {
                               )
                             )()
                         }
-                      }
+                      }.toSeq
                     )
                   } else {
                     <.SpinnerComponent.empty
