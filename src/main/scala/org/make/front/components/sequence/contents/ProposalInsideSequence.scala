@@ -64,17 +64,18 @@ object ProposalInsideSequence {
                                                sequenceId: SequenceId,
                                                maybeLocation: Option[LocationModel])
 
-  final case class ProposalInsideSequenceState(hasBeenVoted: Boolean)
+  final case class ProposalInsideSequenceState(hasBeenVoted: Boolean,
+                                               isProposalSharable : Boolean)
 
   lazy val reactClass: ReactClass =
     WithRouter(
       React.createClass[ProposalInsideSequenceProps, ProposalInsideSequenceState](
         displayName = "ProposalInsideSequence",
         getInitialState = { self =>
-          ProposalInsideSequenceState(hasBeenVoted = false)
+          ProposalInsideSequenceState(hasBeenVoted = false, isProposalSharable  = false)
         },
         componentWillReceiveProps = { (self, props) =>
-          self.setState(ProposalInsideSequenceState(hasBeenVoted = props.wrapped.hasBeenVoted))
+          self.setState(ProposalInsideSequenceState(hasBeenVoted = props.wrapped.hasBeenVoted, isProposalSharable  = false))
         },
         render = { self =>
           <.div(^.className := js.Array(LayoutRulesStyles.row))(
@@ -100,7 +101,8 @@ object ProposalInsideSequence {
                     maybeTheme = self.props.wrapped.maybeTheme,
                     maybeOperation = self.props.wrapped.maybeOperation,
                     maybeSequenceId = Some(self.props.wrapped.sequenceId),
-                    maybeLocation = self.props.wrapped.maybeLocation
+                    maybeLocation = self.props.wrapped.maybeLocation,
+                    isProposalSharable  = false
                   )
                 )(),
                 <.div(^.className := ProposalInsideSequenceStyles.ctaWrapper)(

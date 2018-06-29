@@ -31,7 +31,7 @@ import org.make.front.components.proposal.vote.ResultsOfVote.ResultsOfVoteProps
 import org.make.front.facades.Unescape.unescape
 import org.make.front.facades.{I18n, Replacements}
 import org.make.front.helpers.NumberFormat._
-import org.make.front.models.{ProposalId, Qualification, Vote => VoteModel}
+import org.make.front.models.{OperationExpanded, Proposal, ProposalId, Qualification, Vote => VoteModel}
 import org.make.front.styles._
 import org.make.front.styles.base.TextStyles
 import org.make.front.styles.ui.TooltipStyles
@@ -45,7 +45,9 @@ import scala.util.{Failure, Success}
 
 object VoteButton {
 
-  case class VoteButtonProps(index: Int,
+  case class VoteButtonProps(proposal: Proposal,
+                             maybeOperation: Option[OperationExpanded],
+                             index: Int,
                              updateState: Boolean,
                              proposalId: ProposalId,
                              votes: Map[String, Int],
@@ -55,7 +57,8 @@ object VoteButton {
                              qualifyVote: (String, String)             => Future[Qualification],
                              removeVoteQualification: (String, String) => Future[Qualification],
                              guideToVote: Option[String] = None,
-                             guideToQualification: Option[String] = None)
+                             guideToQualification: Option[String] = None,
+                             isProposalSharable : Boolean)
 
   case class VoteButtonState(isActivated: Boolean,
                              isHovered: Boolean,
@@ -261,12 +264,15 @@ object VoteButton {
               } else {
                 <.QualificateVoteComponent(
                   ^.wrapped := QualificateVoteProps(
+                    proposal = self.props.wrapped.proposal,
+                    maybeOperation = self.props.wrapped.maybeOperation,
                     updateState = self.props.wrapped.updateState,
                     qualifications = self.state.qualifications,
                     voteKey = self.props.wrapped.vote.key,
                     qualify = qualify,
                     removeQualification = removeQualification,
-                    guide = self.props.wrapped.guideToQualification
+                    guide = self.props.wrapped.guideToQualification,
+                    isProposalSharable  = self.props.wrapped.isProposalSharable
                   )
                 )()
               }

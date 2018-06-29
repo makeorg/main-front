@@ -64,11 +64,18 @@ object ProposalTileWithOrganisationsVotes {
     country: String
   )
 
+  final case class ProposalTileWithOrganisationsVotesState (isProposalSharable : Boolean)
+
   val reactClass: ReactClass =
     WithRouter(
       React
-        .createClass[ProposalTileWithOrganisationsVotesProps, Unit](
+        .createClass[ProposalTileWithOrganisationsVotesProps, ProposalTileWithOrganisationsVotesState](
           displayName = "ProposalTileWithTags",
+          getInitialState = { self =>
+            ProposalTileWithOrganisationsVotesState(
+              isProposalSharable  = true
+            )
+          },
           render = (self) => {
 
             val intro: ReactElement = if (self.props.wrapped.proposal.myProposal) {
@@ -115,7 +122,8 @@ object ProposalTileWithOrganisationsVotes {
                           maybeTheme = self.props.wrapped.maybeTheme,
                           maybeOperation = self.props.wrapped.maybeOperation,
                           maybeSequenceId = self.props.wrapped.maybeSequenceId,
-                          maybeLocation = self.props.wrapped.maybeLocation
+                          maybeLocation = self.props.wrapped.maybeLocation,
+                          isProposalSharable  = self.state.isProposalSharable
                         )
                       )(),
                       <.ProposalActorVotedComponent(

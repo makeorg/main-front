@@ -26,7 +26,7 @@ import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import org.make.front.Main.CssSettings._
 import org.make.front.components.Components._
 import org.make.front.components.proposal.vote.VoteButton.VoteButtonProps
-import org.make.front.models.{Proposal => ProposalModel, Qualification => QualificationModel, Vote => VoteModel}
+import org.make.front.models.{OperationExpanded, Proposal => ProposalModel, Qualification => QualificationModel, Vote => VoteModel}
 import org.make.front.styles._
 import org.make.front.styles.utils._
 
@@ -37,15 +37,17 @@ import scala.util.{Failure, Success}
 object Vote {
 
   // TODO: figure out how to handle that gracefully
-  final case class VoteProps(index: Int,
+  final case class VoteProps(proposal: ProposalModel,
+                             maybeOperation: Option[OperationExpanded],
+                             index: Int,
                              updateState: Boolean = true,
-                             proposal: ProposalModel,
                              vote: (String)                            => Future[VoteModel],
                              unvote: (String)                          => Future[VoteModel],
                              qualifyVote: (String, String)             => Future[QualificationModel],
                              removeVoteQualification: (String, String) => Future[QualificationModel],
                              guideToVote: Option[String] = None,
-                             guideToQualification: Option[String] = None)
+                             guideToQualification: Option[String] = None,
+                             isProposalSharable : Boolean)
 
   final case class VoteState(votes: Map[String, VoteModel])
 
@@ -104,6 +106,8 @@ object Vote {
             )(
               <.VoteButtonComponent(
                 ^.wrapped := VoteButtonProps(
+                  proposal = self.props.wrapped.proposal,
+                  maybeOperation = self.props.wrapped.maybeOperation,
                   updateState = self.props.wrapped.updateState,
                   proposalId = self.props.wrapped.proposal.id,
                   votes = votes,
@@ -113,7 +117,8 @@ object Vote {
                   qualifyVote = self.props.wrapped.qualifyVote,
                   removeVoteQualification = self.props.wrapped.removeVoteQualification,
                   index = self.props.wrapped.index,
-                  guideToQualification = self.props.wrapped.guideToQualification
+                  guideToQualification = self.props.wrapped.guideToQualification,
+                  isProposalSharable  = self.props.wrapped.isProposalSharable
                 )
               )()
             ),
@@ -123,6 +128,8 @@ object Vote {
             )(
               <.VoteButtonComponent(
                 ^.wrapped := VoteButtonProps(
+                  proposal = self.props.wrapped.proposal,
+                  maybeOperation = self.props.wrapped.maybeOperation,
                   updateState = self.props.wrapped.updateState,
                   proposalId = self.props.wrapped.proposal.id,
                   votes = votes,
@@ -133,7 +140,8 @@ object Vote {
                   removeVoteQualification = self.props.wrapped.removeVoteQualification,
                   guideToVote = self.props.wrapped.guideToVote,
                   guideToQualification = self.props.wrapped.guideToQualification,
-                  index = self.props.wrapped.index
+                  index = self.props.wrapped.index,
+                  isProposalSharable  = self.props.wrapped.isProposalSharable
                 )
               )()
             ),
@@ -143,6 +151,8 @@ object Vote {
             )(
               <.VoteButtonComponent(
                 ^.wrapped := VoteButtonProps(
+                  proposal = self.props.wrapped.proposal,
+                  maybeOperation = self.props.wrapped.maybeOperation,
                   updateState = self.props.wrapped.updateState,
                   proposalId = self.props.wrapped.proposal.id,
                   votes = votes,
@@ -152,7 +162,8 @@ object Vote {
                   qualifyVote = self.props.wrapped.qualifyVote,
                   removeVoteQualification = self.props.wrapped.removeVoteQualification,
                   guideToQualification = self.props.wrapped.guideToQualification,
-                  index = self.props.wrapped.index
+                  index = self.props.wrapped.index,
+                  isProposalSharable  = self.props.wrapped.isProposalSharable
                 )
               )()
             ),

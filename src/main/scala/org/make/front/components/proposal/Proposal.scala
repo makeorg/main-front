@@ -56,14 +56,15 @@ object Proposal {
   final case class ProposalState(maybeProposal: Option[ProposalModel] = None,
                                  maybeTheme: Option[TranslatedThemeModel] = None,
                                  maybeOperation: Option[OperationModel] = None,
-                                 maybeLocation: Option[LocationModel] = None)
+                                 maybeLocation: Option[LocationModel] = None,
+                                 isProposalSharable : Boolean)
 
   lazy val reactClass: ReactClass =
     WithRouter(
       React.createClass[ProposalProps, ProposalState](
         displayName = "Proposal",
         getInitialState = { _ =>
-          ProposalState()
+          ProposalState(isProposalSharable  = false)
         },
         componentWillReceiveProps = { (self, props) =>
           props.wrapped.futureProposal.onComplete {
@@ -128,7 +129,8 @@ object Proposal {
                                         maybeOperation = self.state.maybeOperation,
                                         maybeSequenceId = None,
                                         maybeLocation = self.state.maybeLocation,
-                                        trackingLocation = TrackingLocation.proposalPage
+                                        trackingLocation = TrackingLocation.proposalPage,
+                                        isProposalSharable  = self.state.isProposalSharable
                                       )
                                     )()
                                 })
