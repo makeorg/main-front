@@ -5,15 +5,13 @@ import io.github.shogowada.scalajs.reactjs.VirtualDOM._
 import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import org.make.front.Main.CssSettings._
 import org.make.front.components.Components._
-import org.make.front.facades.ReactShare._
 import org.make.front.facades.I18n
+import org.make.front.facades.ReactShare._
 import org.make.front.facades.Unescape.unescape
 import org.make.front.models.{OperationExpanded, Proposal => ProposalModel}
 import org.make.front.styles._
 import org.make.front.styles.base.{TableLayoutStyles, TextStyles}
 import org.make.front.styles.utils._
-import org.make.services.tracking.{TrackingLocation, TrackingService}
-import org.make.services.tracking.TrackingService.TrackingContext
 import org.scalajs.dom
 
 import scala.scalajs.js
@@ -28,61 +26,53 @@ object ShareProposalPage {
   val reactClass: ReactClass =
     React
       .createClass[ShareProposalProps, Unit](
-      displayName = "ShareProposal",
-      render = (self) => {
+        displayName = "ShareProposal",
+        render = self => {
 
-        val url: String = s"${dom.window.location.origin}/#/${self.props.wrapped.country}/proposal/${self.props.wrapped.proposal.slug}?utm_source=core&utm_medium=share&utm_campaign=${self.props.wrapped.operation.slug}?utm_content=${self.props.wrapped.proposal.id}&shared_proposal=voted-proposal#/${self.props.wrapped.country}/proposal/${self.props.wrapped.proposal.slug}"
+          def url(network: String): String =
+            s"${dom.window.location.origin}/${self.props.wrapped.country}/proposal/${self.props.wrapped.proposal.slug}?utm_source=$network&utm_medium=user-share&utm_campaign=${self.props.wrapped.operation.slug}&utm_content=${self.props.wrapped.proposal.id.value}&shared_proposal=voted-proposal#/${self.props.wrapped.country}/proposal/${self.props.wrapped.proposal.slug}"
 
-
-        <.div(^.className := js.Array(TableLayoutStyles.wrapper,ShareProposalStyles.wrapper))(
-          <.h2(^.className := js.Array(
-            TextStyles.verySmallTitle,
-            ShareProposalStyles.title)
-          )(
-            unescape(I18n.t("proposal.share-page"))
-          ),
-          <.ul(^.className := ShareProposalStyles.shareButtonsList)(
-            <.li(^.className := ShareProposalStyles.shareButtonItem)(
-              <.FacebookShareButton(^.url := url)(
-                <.button(
-                  ^.className := js.Array(
-                    ShareProposalStyles.shareButton,
-                    ShareProposalStyles.shareWithFacebookButton)
-                )()
+          <.div(^.className := js.Array(TableLayoutStyles.wrapper, ShareProposalStyles.wrapper))(
+            <.h2(^.className := js.Array(TextStyles.verySmallTitle, ShareProposalStyles.title))(
+              unescape(I18n.t("proposal.share-page"))
+            ),
+            <.ul(^.className := ShareProposalStyles.shareButtonsList)(
+              <.li(^.className := ShareProposalStyles.shareButtonItem)(
+                <.FacebookShareButton(^.url := url("Facebook"))(
+                  <.button(
+                    ^.className := js
+                      .Array(ShareProposalStyles.shareButton, ShareProposalStyles.shareWithFacebookButton)
+                  )()
+                )
+              ),
+              <.li(^.className := ShareProposalStyles.shareButtonItem)(
+                <.TwitterShareButton(^.url := url("Twitter"))(
+                  <.button(
+                    ^.className := js.Array(ShareProposalStyles.shareButton, ShareProposalStyles.shareWithTwitterButton)
+                  )()
+                )
+              ),
+              <.li(^.className := ShareProposalStyles.shareButtonItem)(
+                <.GooglePlusShareButton(^.url := url("Google"))(
+                  <.button(
+                    ^.className := js
+                      .Array(ShareProposalStyles.shareButton, ShareProposalStyles.shareWithGooglePlusButton)
+                  )()
+                )
+              ),
+              <.li(^.className := ShareProposalStyles.shareButtonItem)(
+                <.LinkedinShareButton(^.url := url("Linkedin"))(
+                  <.button(
+                    ^.className := js
+                      .Array(ShareProposalStyles.shareButton, ShareProposalStyles.shareWithLinkedInButton)
+                  )()
+                )
               )
             ),
-            <.li(^.className := ShareProposalStyles.shareButtonItem)(
-              <.TwitterShareButton(^.url := url)(
-                <.button(
-                  ^.className := js.Array(
-                    ShareProposalStyles.shareButton,
-                    ShareProposalStyles.shareWithTwitterButton)
-                )()
-              )
-            ),
-            <.li(^.className := ShareProposalStyles.shareButtonItem)(
-              <.GooglePlusShareButton(^.url := url)(
-                <.button(
-                  ^.className := js.Array(
-                    ShareProposalStyles.shareButton,
-                    ShareProposalStyles.shareWithGooglePlusButton)
-                )()
-              )
-            ),
-            <.li(^.className := ShareProposalStyles.shareButtonItem)(
-              <.LinkedinShareButton(^.url := url)(
-                <.button(
-                  ^.className := js.Array(
-                    ShareProposalStyles.shareButton,
-                    ShareProposalStyles.shareWithLinkedInButton)
-                )()
-              )
-            )
-          ),
-          <.style()(ShareProposalStyles.render[String])
-        )
-      }
-    )
+            <.style()(ShareProposalStyles.render[String])
+          )
+        }
+      )
 }
 
 object ShareProposalStyles extends StyleSheet.Inline {
@@ -93,35 +83,21 @@ object ShareProposalStyles extends StyleSheet.Inline {
     style(
       marginTop(20.pxToEm()),
       height :=! s"calc(10% - ${20.pxToEm().value})",
-      ThemeStyles.MediaQueries.beyondMedium(
-        textAlign.center
-      )
+      ThemeStyles.MediaQueries.beyondMedium(textAlign.center)
     )
 
   val title: StyleA =
     style(
       textAlign.center,
       color(ThemeStyles.TextColor.lighter),
-      ThemeStyles.MediaQueries.beyondMedium(
-        display.inlineBlock
-      )
+      ThemeStyles.MediaQueries.beyondMedium(display.inlineBlock)
     )
 
   val shareButtonsList: StyleA =
-    style(
-      textAlign.center,
-      ThemeStyles.MediaQueries.beyondMedium(
-        display.inlineBlock,
-        verticalAlign.middle
-      )
-    )
+    style(textAlign.center, ThemeStyles.MediaQueries.beyondMedium(display.inlineBlock, verticalAlign.middle))
 
   val shareButtonItem: StyleA =
-    style(
-      display.inlineBlock,
-      verticalAlign.middle,
-      marginLeft(ThemeStyles.SpacingValue.smaller.pxToEm())
-    )
+    style(display.inlineBlock, verticalAlign.middle, marginLeft(ThemeStyles.SpacingValue.smaller.pxToEm()))
 
   val shareButton: StyleA = style(
     display.inlineBlock,
@@ -139,17 +115,14 @@ object ShareProposalStyles extends StyleSheet.Inline {
       lineHeight(24.pxToEm(12)),
       ThemeStyles.Font.fontAwesome,
       textAlign.center,
-      color(ThemeStyles.TextColor.white)
-    ),
-    &.hover(boxShadow := s"0 ${1.pxToEm().value} ${1.pxToEm().value} 0 rgba(0, 0, 0, .5)"),
-    ThemeStyles.MediaQueries.beyondMedium(
-      width(40.pxToEm()),
-      height(40.pxToEm()),
-      &.before(
+      color(ThemeStyles.TextColor.white),
+      ThemeStyles.MediaQueries.beyondMedium(
         fontSize(18.pxToEm()),
         lineHeight(24.pxToEm(18)),
       )
-    )
+    ),
+    &.hover(boxShadow := s"0 ${1.pxToEm().value} ${1.pxToEm().value} 0 rgba(0, 0, 0, .5)"),
+    ThemeStyles.MediaQueries.beyondMedium(width(40.pxToEm()), height(40.pxToEm()))
   )
 
   val shareWithFacebookButton: StyleA =
