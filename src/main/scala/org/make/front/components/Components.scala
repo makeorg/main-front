@@ -62,6 +62,7 @@ object Components {
 
     def ShareComponent: ReactClassElementSpec = self(share.ShareProposal.reactClass)
     def ShareMobileComponent: ReactClassElementSpec = self(share.ShareMobile.reactClass)
+    def ShareProposalPageComponent: ReactClassElementSpec = self(share.ShareProposalPage.reactClass)
 
     /*********************/
     def ActivateAccountContainerComponent: ReactClassElementSpec =

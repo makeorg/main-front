@@ -11,16 +11,12 @@ import org.make.front.components.proposal.ProposalAuthorInfos.ProposalAuthorInfo
 import org.make.front.components.proposal.ProposalContainer.ProposalAndThemeOrOperationModel
 import org.make.front.components.proposal.ProposalSOperationInfos.ProposalSOperationInfosProps
 import org.make.front.components.proposal.vote.VoteContainer.VoteContainerProps
+import org.make.front.components.share.ShareProposalPage.ShareProposalProps
 import org.make.front.components.showcase.OperationShowcaseContainer.OperationShowcaseContainerProps
 import org.make.front.components.showcase.ThemeShowcaseContainer.ThemeShowcaseContainerProps
 import org.make.front.facades.I18n
 import org.make.front.facades.Unescape.unescape
-import org.make.front.models.{
-  Location          => LocationModel,
-  OperationExpanded => OperationModel,
-  Proposal          => ProposalModel,
-  TranslatedTheme   => TranslatedThemeModel
-}
+import org.make.front.models.{Location => LocationModel, OperationExpanded => OperationModel, Proposal => ProposalModel, TranslatedTheme => TranslatedThemeModel}
 import org.make.front.styles.ThemeStyles
 import org.make.front.styles.base.{LayoutRulesStyles, RWDHideRulesStyles, TableLayoutStyles, TextStyles}
 import org.make.front.styles.utils._
@@ -84,7 +80,7 @@ object Proposal {
                 <.div(^.className := js.Array(TableLayoutStyles.cell, ProposalStyles.articleCell))(
                   if (self.state.maybeProposal.isDefined) {
                     <.div(^.className := js.Array(LayoutRulesStyles.centeredRow, ProposalStyles.fullHeight))(
-                      <.article(^.className := ProposalStyles.article)(
+                      <.article(^.className := js.Array(ProposalStyles.article))(
                         <.div(^.className := TableLayoutStyles.fullHeightWrapper)(
                           <.div(
                             ^.className := js
@@ -143,20 +139,26 @@ object Proposal {
                             )
                           )
                         )
-                      )
+                      ),
+                      self.state.maybeOperation.map { operation =>
+                        self.state.maybeProposal.map {
+                          proposal =>
+                            <.ShareProposalPageComponent(
+                              ^.wrapped := ShareProposalProps(
+                                proposal = proposal,
+                                operation = operation,
+                                language = self.props.wrapped.language,
+                                country = self.props.wrapped.country
+                              )
+                            )()
+                        }
+                      }
                     )
                   } else {
                     <.SpinnerComponent.empty
                   }
                 )
-              ) /*,
-              <.div(^.className := js.Array(TableLayoutStyles.row))(
-                <.div(^.className := js.Array(TableLayoutStyles.cell, ProposalStyles.shareArticleCell))(
-                  <.div(^.className := LayoutRulesStyles.centeredRow)(
-                    <.ShareComponent(^.wrapped := ShareProps(intro = Some(unescape(I18n.t("proposal.share-intro")))))()
-                  )
-                )
-              )*/
+              )
             ),
             if (self.state.maybeTheme.isDefined) {
               <.ThemeShowcaseContainerComponent(
@@ -209,8 +211,7 @@ object ProposalStyles extends StyleSheet.Inline {
   val articleCell: StyleA =
     style(
       verticalAlign.middle,
-      padding(ThemeStyles.SpacingValue.larger.pxToEm(), `0`)
-      /*TODO: restaure medium with reactivation of sharing part*/
+      padding(ThemeStyles.SpacingValue.medium.pxToEm(), `0`)
     )
 
   val shareArticleCell: StyleA =
@@ -218,7 +219,7 @@ object ProposalStyles extends StyleSheet.Inline {
 
   val article: StyleA =
     style(
-      height(100.%%),
+      height(90.%%),
       backgroundColor(ThemeStyles.BackgroundColor.white),
       boxShadow := "0 1px 1px 0 rgba(0,0,0,0.50)"
     )
