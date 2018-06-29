@@ -1,3 +1,23 @@
+/*
+ *
+ * Make.org Main Front
+ * Copyright (C) 2018 Make.org
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ *
+ */
+
 package org.make.front.components.search
 
 import io.github.shogowada.scalajs.reactjs.React
@@ -35,49 +55,48 @@ object NoResultToSearch {
     React.createClass[NoResultToSearchProps, NoResultToSearchState](
       displayName = "NoResultToSearch",
       getInitialState = (_) => NoResultToSearchState(isProposalModalOpened = false),
-      render = { self =>
-        val closeProposalModal: () => Unit = () => {
-          self.setState(state => state.copy(isProposalModalOpened = false))
-        }
+      render = {
+        self =>
+          val closeProposalModal: () => Unit = () => {
+            self.setState(state => state.copy(isProposalModalOpened = false))
+          }
 
-        val openProposalModal: (MouseSyntheticEvent) => Unit = { event =>
-          event.preventDefault()
-          TrackingService.track(
-            "click-proposal-submit-form-open",
-            TrackingContext(TrackingLocation.searchResultsPage),
-            self.props.wrapped.searchValue.map(query => Map("query" -> query)).getOrElse(Map.empty)
-          )
-          self.setState(state => state.copy(isProposalModalOpened = true))
-        }
-        <.article(^.className := js.Array(LayoutRulesStyles.centeredRow, NoResultToSearchStyles.wrapper))(
-          <.p(^.className := NoResultToSearchStyles.sadSmiley)("😞"),
-          <.h1(
-            ^.className := js.Array(TextStyles.mediumText, NoResultToSearchStyles.searchedExpressionIntro),
-            ^.dangerouslySetInnerHTML := I18n.t("search.no-results.intro")
-          )(),
-          <.h2(^.className := js.Array(TextStyles.mediumTitle, NoResultToSearchStyles.searchedExpression))(
-            unescape("«&nbsp;" + self.props.wrapped.searchValue.getOrElse("") + "&nbsp;»")
-          ),
-          <.hr(^.className := NoResultToSearchStyles.messageSeparator)(),
-          <.p(^.className := js.Array(TextStyles.mediumText, NoResultToSearchStyles.openProposalModalIntro))(
-            unescape(I18n.t("search.no-results.prompting-to-propose"))
-          ),
-          <.button(
-            ^.className := js
-              .Array(NoResultToSearchStyles.openProposalModalButton, CTAStyles.basic, CTAStyles.basicOnButton),
-            ^.onClick := openProposalModal
-          )(
-            <.i(^.className := js.Array(FontAwesomeStyles.pencil))(),
-            unescape("&nbsp;" + I18n.t("search.no-results.propose-cta"))
-          ),
-          <.FullscreenModalComponent(
-            ^.wrapped := FullscreenModalProps(
-              isModalOpened = self.state.isProposalModalOpened,
-              closeCallback = closeProposalModal
+          val openProposalModal: (MouseSyntheticEvent) => Unit = { event =>
+            event.preventDefault()
+            TrackingService.track(
+              "click-proposal-submit-form-open",
+              TrackingContext(TrackingLocation.searchResultsPage),
+              self.props.wrapped.searchValue.map(query => Map("query" -> query)).getOrElse(Map.empty)
             )
-          )(
-            self.props.wrapped.maybeOperation.map { operation =>
-
+            self.setState(state => state.copy(isProposalModalOpened = true))
+          }
+          <.article(^.className := js.Array(LayoutRulesStyles.centeredRow, NoResultToSearchStyles.wrapper))(
+            <.p(^.className := NoResultToSearchStyles.sadSmiley)("😞"),
+            <.h1(
+              ^.className := js.Array(TextStyles.mediumText, NoResultToSearchStyles.searchedExpressionIntro),
+              ^.dangerouslySetInnerHTML := I18n.t("search.no-results.intro")
+            )(),
+            <.h2(^.className := js.Array(TextStyles.mediumTitle, NoResultToSearchStyles.searchedExpression))(
+              unescape("«&nbsp;" + self.props.wrapped.searchValue.getOrElse("") + "&nbsp;»")
+            ),
+            <.hr(^.className := NoResultToSearchStyles.messageSeparator)(),
+            <.p(^.className := js.Array(TextStyles.mediumText, NoResultToSearchStyles.openProposalModalIntro))(
+              unescape(I18n.t("search.no-results.prompting-to-propose"))
+            ),
+            <.button(
+              ^.className := js
+                .Array(NoResultToSearchStyles.openProposalModalButton, CTAStyles.basic, CTAStyles.basicOnButton),
+              ^.onClick := openProposalModal
+            )(
+              <.i(^.className := js.Array(FontAwesomeStyles.pencil))(),
+              unescape("&nbsp;" + I18n.t("search.no-results.propose-cta"))
+            ),
+            <.FullscreenModalComponent(
+              ^.wrapped := FullscreenModalProps(
+                isModalOpened = self.state.isProposalModalOpened,
+                closeCallback = closeProposalModal
+              )
+            )(self.props.wrapped.maybeOperation.map { operation =>
               <.SubmitProposalInRelationToOperationComponent(
                 ^.wrapped := SubmitProposalInRelationToOperationProps(
                   operation = operation,
@@ -89,16 +108,15 @@ object NoResultToSearch {
                   language = self.props.wrapped.language
                 )
               )()
-            } getOrElse {
+            }.getOrElse {
               <.SubmitProposalComponent(
                 ^.wrapped := SubmitProposalProps(trackingParameters = Map.empty, onProposalProposed = () => {
                   self.setState(_.copy(isProposalModalOpened = false))
                 }, maybeLocation = self.props.wrapped.maybeLocation, maybeOperation = self.props.wrapped.maybeOperation)
               )()
-            }
-          ),
-          <.style()(NoResultToSearchStyles.render[String])
-        )
+            }),
+            <.style()(NoResultToSearchStyles.render[String])
+          )
       }
     )
 }

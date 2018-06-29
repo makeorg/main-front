@@ -1,3 +1,23 @@
+/*
+ *
+ * Make.org Main Front
+ * Copyright (C) 2018 Make.org
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ *
+ */
+
 package org.make.front.components.operation.intro
 
 import io.github.shogowada.scalajs.reactjs.React
@@ -35,11 +55,31 @@ object ChanceAuxJeunesOperationIntro {
           }
 
           val partners = js.Array(
-            OperationPartnerModel(name = "Bnp Paribas", imageUrl = bnpParibasLogo.toString, imageWidth = 123, isFounder = true),
-            OperationPartnerModel(name = "Hauts De France", imageUrl = hautsDeFranceLogo.toString, imageWidth = 112, isFounder = true),
-            OperationPartnerModel(name = "AccorHotels", imageUrl = accorHotelsLogoCAJ.toString, imageWidth = 127, isFounder = true),
+            OperationPartnerModel(
+              name = "Bnp Paribas",
+              imageUrl = bnpParibasLogo.toString,
+              imageWidth = 123,
+              isFounder = true
+            ),
+            OperationPartnerModel(
+              name = "Hauts De France",
+              imageUrl = hautsDeFranceLogo.toString,
+              imageWidth = 112,
+              isFounder = true
+            ),
+            OperationPartnerModel(
+              name = "AccorHotels",
+              imageUrl = accorHotelsLogoCAJ.toString,
+              imageWidth = 127,
+              isFounder = true
+            ),
             OperationPartnerModel(name = "Google", imageUrl = googleLogo.toString, imageWidth = 80, isFounder = true),
-            OperationPartnerModel(name = "Viva Tech", imageUrl = vivaTechLogo.toString, imageWidth = 88, isFounder = true)
+            OperationPartnerModel(
+              name = "Viva Tech",
+              imageUrl = vivaTechLogo.toString,
+              imageWidth = 88,
+              isFounder = true
+            )
           )
 
           <.div(^.className := js.Array(OperationIntroStyles.wrapper, ChanceAuxJeunesOperationIntroStyles.wrapper))(

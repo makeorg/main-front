@@ -1,3 +1,23 @@
+/*
+ *
+ * Make.org Main Front
+ * Copyright (C) 2018 Make.org
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ *
+ */
+
 package org.make.front.components.consultation
 
 import io.github.shogowada.scalajs.reactjs.React
@@ -10,9 +30,20 @@ import org.make.front.components.Components._
 import org.make.front.components.proposal.ProposalTileWithOrganisationsVotes.ProposalTileWithOrganisationsVotesProps
 import org.make.front.components.tags.FilterByTags.FilterByTagsProps
 import org.make.front.facades.I18n
-import org.make.front.facades.ReactInfiniteScroller.{ReactInfiniteScrollerVirtualDOMAttributes, ReactInfiniteScrollerVirtualDOMElements}
+import org.make.front.facades.ReactInfiniteScroller.{
+  ReactInfiniteScrollerVirtualDOMAttributes,
+  ReactInfiniteScrollerVirtualDOMElements
+}
 import org.make.front.facades.Unescape.unescape
-import org.make.front.models.{Location => LocationModel, OperationExpanded => OperationModel, Proposal => ProposalModel, ProposalId => ProposalIdModel, Qualification => QualificationModel, Tag => TagModel, Vote => VoteModel}
+import org.make.front.models.{
+  Location          => LocationModel,
+  OperationExpanded => OperationModel,
+  Proposal          => ProposalModel,
+  ProposalId        => ProposalIdModel,
+  Qualification     => QualificationModel,
+  Tag               => TagModel,
+  Vote              => VoteModel
+}
 import org.make.front.styles.base.{TextStyles}
 import org.make.front.styles.vendors.FontAwesomeStyles
 import org.make.services.proposal.SearchResult
@@ -220,21 +251,18 @@ object ResultsInConsultation {
               } else { <.div.empty }),
               if (self.state.hasMore && !self.state.hasRequestedMore) {
                 <.button(
-                  ^.className := js.Array(
-                    CTAStyles.basic,
-                    CTAStyles.basicOnA,
-                    ResultsInConsultationStyles.moreResults
-                  ),
+                  ^.className := js.Array(CTAStyles.basic, CTAStyles.basicOnA, ResultsInConsultationStyles.moreResults),
                   ^.onClick := (() => {
-                  onSeeMore(1)
-                  TrackingService.track(
-                    "click-proposal-viewmore",
-                    TrackingContext(
-                      TrackingLocation.operationPage,
-                      operationSlug = Some(self.props.wrapped.operation.slug)
+                    onSeeMore(1)
+                    TrackingService.track(
+                      "click-proposal-viewmore",
+                      TrackingContext(
+                        TrackingLocation.operationPage,
+                        operationSlug = Some(self.props.wrapped.operation.slug)
+                      )
                     )
-                  )
-                }))(unescape(I18n.t("operation.results.see-more")))
+                  })
+                )(unescape(I18n.t("operation.results.see-more")))
               }
             )
             .toSeq
@@ -244,19 +272,15 @@ object ResultsInConsultation {
         <.div()(
           <.header(^.className := ResultsInConsultationStyles.wrapper)(
             <.h2(^.className := TextStyles.smallerTitle)(
-              <.i(
-                ^.className := js.Array(
-                  FontAwesomeStyles.thumbsUp,
-                  ResultsInConsultationStyles.icon
-                )
-              )(),
+              <.i(^.className := js.Array(FontAwesomeStyles.thumbsUp, ResultsInConsultationStyles.icon))(),
               unescape(I18n.t("operation.results.title"))
             ),
-            <.div(^.className := js.Array(
-              ResultsInConsultationStyles.wrapper,
-              ResultsInConsultationStyles.tagsContainer)
+            <.div(
+              ^.className := js.Array(ResultsInConsultationStyles.wrapper, ResultsInConsultationStyles.tagsContainer)
             )(
-              <.FilterByTagsComponent(^.wrapped := FilterByTagsProps(self.props.wrapped.operation.tagIds, onTagsChange))()
+              <.FilterByTagsComponent(
+                ^.wrapped := FilterByTagsProps(self.props.wrapped.operation.tagIds, onTagsChange)
+              )()
             )
           ),
           if (self.state.initialLoad || proposalsToDisplay.nonEmpty) {
@@ -281,10 +305,7 @@ object ResultsInConsultationStyles extends StyleSheet.Inline {
       marginBottom(ThemeStyles.SpacingValue.small.pxToEm()),
       paddingLeft(ThemeStyles.SpacingValue.small.pxToEm()),
       paddingRight(ThemeStyles.SpacingValue.small.pxToEm()),
-      ThemeStyles.MediaQueries.beyondLargeMedium(
-        paddingLeft(`0`),
-        paddingRight(`0`)
-      )
+      ThemeStyles.MediaQueries.beyondLargeMedium(paddingLeft(`0`), paddingRight(`0`))
     )
 
   val tagsContainer: StyleA =
@@ -294,17 +315,8 @@ object ResultsInConsultationStyles extends StyleSheet.Inline {
     )
 
   val icon: StyleA =
-    style(
-      marginRight(ThemeStyles.SpacingValue.smaller.pxToEm())
-    )
+    style(marginRight(ThemeStyles.SpacingValue.smaller.pxToEm()))
 
   val moreResults: StyleA =
-    style(
-      display.block,
-      margin(
-        `0`,
-        auto,
-        ThemeStyles.SpacingValue.small.pxToEm()
-      )
-    )
+    style(display.block, margin(`0`, auto, ThemeStyles.SpacingValue.small.pxToEm()))
 }

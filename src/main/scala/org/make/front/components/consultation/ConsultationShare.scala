@@ -1,3 +1,23 @@
+/*
+ *
+ * Make.org Main Front
+ * Copyright (C) 2018 Make.org
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ *
+ */
+
 package org.make.front.components.consultation
 
 import io.github.shogowada.scalajs.reactjs.React
@@ -22,23 +42,17 @@ object ConsultationShare {
   lazy val reactClass: ReactClass =
     React
       .createClass[ConsultationShareProps, Unit](
-      displayName = "ConsultationShare",
-      render = { self =>
-        <.article(^.className := js.Array(
-          ConsultationShareStyles.wrapper,
-          LayoutRulesStyles.centeredRow)
-        )(
-          <.h3(^.className := js.Array(
-            TextStyles.smallerTitle,
-            ConsultationShareStyles.title)
-          )(
-            unescape(I18n.t("operation.share.title"))
-          ),
-          <.ShareComponent(^.wrapped := ShareProps(operation = self.props.wrapped.operation))(),
-          <.style()(ConsultationShareStyles.render[String])
-        )
-      }
-    )
+        displayName = "ConsultationShare",
+        render = { self =>
+          <.article(^.className := js.Array(ConsultationShareStyles.wrapper, LayoutRulesStyles.centeredRow))(
+            <.h3(^.className := js.Array(TextStyles.smallerTitle, ConsultationShareStyles.title))(
+              unescape(I18n.t("operation.share.title"))
+            ),
+            <.ShareComponent(^.wrapped := ShareProps(operation = self.props.wrapped.operation))(),
+            <.style()(ConsultationShareStyles.render[String])
+          )
+        }
+      )
 
 }
 
@@ -49,16 +63,10 @@ object ConsultationShareStyles extends StyleSheet.Inline {
     style(
       backgroundColor(ThemeStyles.BackgroundColor.white),
       boxShadow := "0 1px 1px 0 rgba(0,0,0,0.50)",
-      padding(
-        20.pxToEm(),
-        ThemeStyles.SpacingValue.small.pxToEm(),
-        ThemeStyles.SpacingValue.small.pxToEm()
-      ),
+      padding(20.pxToEm(), ThemeStyles.SpacingValue.small.pxToEm(), ThemeStyles.SpacingValue.small.pxToEm()),
       marginTop(ThemeStyles.SpacingValue.small.pxToEm())
     )
 
   val title: StyleA =
-    style(
-      paddingBottom(ThemeStyles.SpacingValue.smaller.pxToEm())
-    )
+    style(paddingBottom(ThemeStyles.SpacingValue.smaller.pxToEm()))
 }

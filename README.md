@@ -25,3 +25,7 @@ You should first install ModHeader extension to be able to add request header :
  - [ModHeader for Firefox](https://addons.mozilla.org/en-US/firefox/addon/modheader-firefox/)
 
 Open it and add an request header named x-forced-country with the country code desired as value.
+
+### License
+
+This project is licenced under the GNU GPL license version 3 or later. See the [license](LICENSE.md)

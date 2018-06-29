@@ -1,3 +1,23 @@
+/*
+ *
+ * Make.org Main Front
+ * Copyright (C) 2018 Make.org
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ *
+ */
+
 package org.make.front.components.home
 
 import io.github.shogowada.scalajs.reactjs.React
@@ -23,54 +43,56 @@ object CultureFeaturedOperation {
   lazy val reactClass: ReactClass =
     React
       .createClass[CultureFeaturedOperationProps, Unit](
-      displayName = "FeaturedOperation",
-      render = (self) => {
+        displayName = "FeaturedOperation",
+        render = (self) => {
 
-        def learnMoreOnFeaturedOperation: () => Unit = { () =>
-          TrackingService
-            .track(
-              "click-homepage-header",
-              TrackingContext(self.props.wrapped.trackingLocation, Some("chance-aux-jeunes"))
-            )
-          scalajs.js.Dynamic.global.window
-            .open(I18n.t("home.featured-operation.culture.learn-more.link"), "_blank")
-        }
+          def learnMoreOnFeaturedOperation: () => Unit = { () =>
+            TrackingService
+              .track(
+                "click-homepage-header",
+                TrackingContext(self.props.wrapped.trackingLocation, Some("chance-aux-jeunes"))
+              )
+            scalajs.js.Dynamic.global.window
+              .open(I18n.t("home.featured-operation.culture.learn-more.link"), "_blank")
+          }
 
-        <.section(^.className := js.Array(TableLayoutStyles.wrapper, CultureFeaturedOperationStyles.wrapper))(
-          <.div(
-            ^.className := js
-              .Array(TableLayoutStyles.cellVerticalAlignMiddle, CultureFeaturedOperationStyles.innerWrapper)
-          )(
-            <.img(
-              ^.className := CultureFeaturedOperationStyles.illustration,
-              ^.src := cultureLarge.toString,
-              ^("srcset") := cultureSmall.toString + " 400w, " + cultureSmall2x.toString + " 800w, " + cultureMedium.toString + " 840w, " + cultureMedium2x.toString + " 1680w, " + cultureLarge.toString + " 1350w, " + cultureLarge2x.toString + " 2700w",
-              ^.alt := I18n.t("home.featured-operation.culture.intro.title"),
-              ^("data-pin-no-hover") := "true"
-            )(),
-            <.div(^.className := js.Array(CultureFeaturedOperationStyles.innerSubWrapper, LayoutRulesStyles.centeredRow))(
-              <.div(^.className := CultureFeaturedOperationStyles.labelWrapper)(
-                <.p(^.className := TextStyles.label)(
-                  unescape(I18n.t("home.featured-operation.culture.label"))
-                )
-              ),
-              <.h2(
-                ^.className := js.Array(CultureFeaturedOperationStyles.title, TextStyles.veryBigText, TextStyles.boldText)
-              )(unescape(I18n.t("home.featured-operation.culture.title"))),
-              <.h3(^.className := js.Array(TextStyles.mediumText, CultureFeaturedOperationStyles.subTitle))(
-                unescape(I18n.t("home.featured-operation.culture.purpose"))
-              ),
-              <.p(^.className := CultureFeaturedOperationStyles.ctaWrapper)(
-                <.button(^.onClick := learnMoreOnFeaturedOperation, ^.className := js.Array(CTAStyles.basic, CTAStyles.basicOnButton))(
-                  unescape(I18n.t("home.featured-operation.culture.learn-more.label"))
-                )
-              ),
-              <.style()(CultureFeaturedOperationStyles.render[String])
+          <.section(^.className := js.Array(TableLayoutStyles.wrapper, CultureFeaturedOperationStyles.wrapper))(
+            <.div(
+              ^.className := js
+                .Array(TableLayoutStyles.cellVerticalAlignMiddle, CultureFeaturedOperationStyles.innerWrapper)
+            )(
+              <.img(
+                ^.className := CultureFeaturedOperationStyles.illustration,
+                ^.src := cultureLarge.toString,
+                ^("srcset") := cultureSmall.toString + " 400w, " + cultureSmall2x.toString + " 800w, " + cultureMedium.toString + " 840w, " + cultureMedium2x.toString + " 1680w, " + cultureLarge.toString + " 1350w, " + cultureLarge2x.toString + " 2700w",
+                ^.alt := I18n.t("home.featured-operation.culture.intro.title"),
+                ^("data-pin-no-hover") := "true"
+              )(),
+              <.div(
+                ^.className := js.Array(CultureFeaturedOperationStyles.innerSubWrapper, LayoutRulesStyles.centeredRow)
+              )(
+                <.div(^.className := CultureFeaturedOperationStyles.labelWrapper)(
+                  <.p(^.className := TextStyles.label)(unescape(I18n.t("home.featured-operation.culture.label")))
+                ),
+                <.h2(
+                  ^.className := js
+                    .Array(CultureFeaturedOperationStyles.title, TextStyles.veryBigText, TextStyles.boldText)
+                )(unescape(I18n.t("home.featured-operation.culture.title"))),
+                <.h3(^.className := js.Array(TextStyles.mediumText, CultureFeaturedOperationStyles.subTitle))(
+                  unescape(I18n.t("home.featured-operation.culture.purpose"))
+                ),
+                <.p(^.className := CultureFeaturedOperationStyles.ctaWrapper)(
+                  <.button(
+                    ^.onClick := learnMoreOnFeaturedOperation,
+                    ^.className := js.Array(CTAStyles.basic, CTAStyles.basicOnButton)
+                  )(unescape(I18n.t("home.featured-operation.culture.learn-more.label")))
+                ),
+                <.style()(CultureFeaturedOperationStyles.render[String])
+              )
             )
           )
-        )
-      }
-    )
+        }
+      )
 }
 
 object CultureFeaturedOperationStyles extends StyleSheet.Inline {
