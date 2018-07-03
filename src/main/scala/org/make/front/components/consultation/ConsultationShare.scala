@@ -45,7 +45,7 @@ object ConsultationShare {
         displayName = "ConsultationShare",
         render = { self =>
           <.article(^.className := js.Array(ConsultationShareStyles.wrapper, LayoutRulesStyles.centeredRow))(
-            <.h3(^.className := js.Array(TextStyles.smallerTitle, ConsultationShareStyles.title))(
+            <.h3(^.className := ConsultationShareStyles.title)(
               unescape(I18n.t("operation.share.title"))
             ),
             <.ShareComponent(^.wrapped := ShareProps(operation = self.props.wrapped.operation))(),
@@ -63,10 +63,25 @@ object ConsultationShareStyles extends StyleSheet.Inline {
     style(
       backgroundColor(ThemeStyles.BackgroundColor.white),
       boxShadow := "0 1px 1px 0 rgba(0,0,0,0.50)",
-      padding(20.pxToEm(), ThemeStyles.SpacingValue.small.pxToEm(), ThemeStyles.SpacingValue.small.pxToEm()),
-      marginTop(ThemeStyles.SpacingValue.small.pxToEm())
+      padding(ThemeStyles.SpacingValue.small.pxToEm()),
+      marginTop(ThemeStyles.SpacingValue.small.pxToEm()),
+      ThemeStyles.MediaQueries.beyondLargeMedium(
+        padding(20.pxToEm()),
+        marginTop(20.pxToEm())
+      )
     )
 
   val title: StyleA =
-    style(paddingBottom(ThemeStyles.SpacingValue.smaller.pxToEm()))
+    style(
+      TextStyles.title,
+      fontSize(15.pxToEm()),
+      lineHeight(1),
+      style(paddingBottom(ThemeStyles.SpacingValue.small.pxToEm(15))),
+      ThemeStyles.MediaQueries.beyondSmall(
+        fontSize(18.pxToEm()),
+        paddingBottom(15.pxToEm(18)),
+        marginBottom(20.pxToEm(18)),
+        borderBottom(1.pxToEm(18), solid, ThemeStyles.BorderColor.veryLight)
+      )
+    )
 }

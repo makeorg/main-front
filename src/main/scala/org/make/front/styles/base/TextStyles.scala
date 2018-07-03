@@ -97,6 +97,9 @@ object TextStyles extends StyleSheet.Inline {
       ThemeStyles.MediaQueries.beyondSmall(fontSize(18.pxToEm()), lineHeight(23.0 / 18.0))
     )
 
+  val smallerTitleAlt: StyleA =
+    style(title, fontSize(15.pxToEm()), lineHeight(1), ThemeStyles.MediaQueries.beyondSmall(fontSize(18.pxToEm())))
+
   val smallerTitle: StyleA =
     style(title, fontSize(15.pxToEm()), lineHeight(1), ThemeStyles.MediaQueries.beyondSmall(fontSize(20.pxToEm())))
 

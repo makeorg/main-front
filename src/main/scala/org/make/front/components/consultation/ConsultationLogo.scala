@@ -23,21 +23,39 @@ package org.make.front.components.consultation
 import io.github.shogowada.scalajs.reactjs.React
 import io.github.shogowada.scalajs.reactjs.VirtualDOM._
 import io.github.shogowada.scalajs.reactjs.classes.ReactClass
+import io.github.shogowada.scalajs.reactjs.router.WithRouter
+import org.make.front.Main.CssSettings._
+import org.make.front.components.Components._
+import org.make.front.styles.utils._
 import org.make.front.models.{OperationExpanded => OperationModel, OperationWording => OperationWordingModel}
 
-import scala.scalajs.js
 
 object ConsultationLogo {
 
   case class ConsultationLogoProps(operation: OperationModel, language: String)
-  case class ConsultationWordingProps(operation: OperationWordingModel)
 
   lazy val reactClass: ReactClass =
-    React
-      .createClass[ConsultationLogoProps, Unit](displayName = "ConsultationLogo", render = (self) => {
-        val consultation: OperationModel = self.props.wrapped.operation
-        val wording: OperationWordingModel =
-          self.props.wrapped.operation.getWordingByLanguageOrError(self.props.wrapped.language)
-        <.h1()(<.img(^.src := consultation.whiteLogoUrl, ^.alt := wording.title)())
-      })
+    WithRouter(
+      React
+        .createClass[ConsultationLogoProps, Unit](displayName = "ConsultationLogo", render = (self) => {
+          val consultation: OperationModel = self.props.wrapped.operation
+          val wording: OperationWordingModel =
+            self.props.wrapped.operation.getWordingByLanguageOrError(self.props.wrapped.language)
+          <.h1()(<.img(^.className := ConsultationLogoStyles.logo, ^.src := consultation.whiteLogoUrl, ^.alt := wording.title)(),
+            <.style()(ConsultationLogoStyles.render[String]))
+        })
+    )
+}
+
+object ConsultationLogoStyles extends StyleSheet.Inline {
+  import dsl._
+
+  val logo: StyleA =
+    style(
+      maxHeight(90.pxToEm()),
+      maxWidth(1000.%%),
+      display.block,
+      marginLeft(auto),
+      marginRight(auto)
+    )
 }

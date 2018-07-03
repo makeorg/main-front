@@ -44,8 +44,8 @@ object ProposalTileStyles extends StyleSheet.Inline {
     style(tableLayout.fixed)
 
   val proposalInfosWrapper: StyleA = style(
-    margin(`0`, ThemeStyles.SpacingValue.small.pxToEm()),
-    padding(ThemeStyles.SpacingValue.small.pxToEm(), `0`, ThemeStyles.SpacingValue.smaller.pxToEm()),
+    margin(`0`, 20.pxToEm()),
+    padding(20.pxToEm(), `0`, ThemeStyles.SpacingValue.smaller.pxToEm()),
     borderBottom(1.px, solid, ThemeStyles.BorderColor.veryLight)
   )
 
@@ -62,11 +62,24 @@ object ProposalTileStyles extends StyleSheet.Inline {
   val proposalLinkOnTitle: StyleA = style(color(ThemeStyles.TextColor.base))
 
   val contentWrapper: StyleA =
-    style(padding(ThemeStyles.SpacingValue.small.pxToEm()))
+    style(
+      padding(
+        ThemeStyles.SpacingValue.small.pxToEm(),
+        20.pxToEm()
+      ),
+      overflow.hidden
+    )
 
   val footer: StyleA = style(
-    margin(`0`, ThemeStyles.SpacingValue.small.pxToEm()),
-    padding(ThemeStyles.SpacingValue.smaller.pxToEm(), `0`, ThemeStyles.SpacingValue.small.pxToEm()),
+    margin(
+      `0`,
+      ThemeStyles.SpacingValue.small.pxToEm()
+    ),
+    padding(
+      ThemeStyles.SpacingValue.smaller.pxToEm(),
+      `0`,
+      20.pxToEm()
+    ),
     borderTop(1.px, solid, ThemeStyles.BorderColor.veryLight)
   )
 

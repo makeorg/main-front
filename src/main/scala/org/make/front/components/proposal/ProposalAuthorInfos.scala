@@ -59,42 +59,18 @@ object ProposalAuthorInfos {
             maybeName.getOrElse(I18n.t("proposal.author-infos.anonymous")).toLowerCase.capitalize
           }
 
-          <.p(^.className := ProposalAuthorInfosStyles.infos)(if (proposal.author.organisationName.isDefined) {
-            <.span()(
+          if (proposal.author.organisationName.isDefined) {
+            <.span(^.className := ProposalInfosStyles.infos)(
               formatAuthorName(proposal.author.organisationName),
-              <.i(^.className := js.Array(FontAwesomeStyles.checkCircle, ProposalAuthorInfosStyles.checkCircle))()
+              <.i(^.className := js.Array(FontAwesomeStyles.checkCircle, ProposalInfosStyles.checkCircle))()
             )
           } else {
-            <.span()(
+            <.span(^.className := ProposalInfosStyles.infos)(
               formatAuthorName(proposal.author.firstName),
               age + unescape("&nbsp;&#8226;&nbsp;"),
               I18n.l(proposal.createdAt, DateLocalizeOptions("common.date.long"))
             )
-          }, <.style()(ProposalAuthorInfosStyles.render[String]))
+          }
         }
       )
-}
-
-object ProposalAuthorInfosStyles extends StyleSheet.Inline {
-
-  import dsl._
-
-  val blue: ValueT[ValueT.Color] = rgb(74, 144, 226)
-
-  val infos: StyleA =
-    style(
-      display.inlineBlock,
-      verticalAlign.middle,
-      ThemeStyles.Font.circularStdBook,
-      fontSize(14.pxToEm()),
-      marginLeft(ThemeStyles.SpacingValue.small.pxToEm()),
-      color(ThemeStyles.TextColor.lighter)
-    )
-
-  val userName: StyleA =
-    style(color(ThemeStyles.ThemeColor.primary))
-
-  val checkCircle: StyleA =
-    style(color(blue), marginLeft(ThemeStyles.SpacingValue.smaller.pxToEm()))
-
 }

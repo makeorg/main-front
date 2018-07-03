@@ -21,7 +21,7 @@
 package org.make.front.components.proposal
 
 import io.github.shogowada.scalajs.reactjs.React
-import io.github.shogowada.scalajs.reactjs.VirtualDOM._
+import io.github.shogowada.scalajs.reactjs.VirtualDOM.{<, _}
 import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import io.github.shogowada.scalajs.reactjs.elements.ReactElement
 import org.make.front.Main.CssSettings._
@@ -34,7 +34,7 @@ import org.make.front.styles._
 import org.make.front.styles.base.TableLayoutStyles
 import org.make.front.styles.utils._
 import org.make.front.styles.vendors.FontAwesomeStyles
-import scalacss.internal.Attr
+import scalacss.internal.{Attr, ValueT}
 
 import scala.scalajs.js
 
@@ -91,11 +91,13 @@ object ProposalInfos {
 
           <.div(^.className := TableLayoutStyles.wrapper)(
             <.div(^.className := js.Array(TableLayoutStyles.cellVerticalAlignMiddle, ProposalInfosStyles.infosWrapper))(
-              <.span(^.className := UserNavStyles.avatarWrapper)(if (avatarUrl.nonEmpty) {
-                <.img(^.src := avatarUrl, ^.className := UserNavStyles.avatar, ^("data-pin-no-hover") := "true")()
-              } else {
-                <.img(^.src := userPlaceholder.toString)()
-              }),
+              <.div(^.className := js.Array(UserNavStyles.avatarWrapper, ProposalInfosStyles.avatar))(
+                  if (avatarUrl.nonEmpty) {
+                  <.img(^.src := avatarUrl, ^.className := UserNavStyles.avatar, ^("data-pin-no-hover") := "true")()
+                } else {
+                  <.img(^.src := userPlaceholder.toString)()
+                }
+              ),
               <.ProposalAuthorInfos(^.wrapped := ProposalAuthorInfosProps(proposal = self.props.wrapped.proposal))()
             ),
             self.props.wrapped.proposal.trending.map(label).getOrElse(js.Array()),
@@ -110,20 +112,32 @@ object ProposalInfosStyles extends StyleSheet.Inline {
 
   import dsl._
 
-  val infosWrapper: StyleA = style(width(100.%%))
+  val infosWrapper: StyleA =
+    style(
+      width(100.%%)
+    )
+
+  val avatar: StyleA =
+    style(
+      marginRight(ThemeStyles.SpacingValue.smaller.pxToEm())
+    )
 
   val infos: StyleA =
     style(
-      display.inlineBlock,
-      verticalAlign.middle,
       ThemeStyles.Font.circularStdBook,
       fontSize(14.pxToEm()),
-      marginLeft(ThemeStyles.SpacingValue.small.pxToEm()),
+      lineHeight(30.pxToEm()),
       color(ThemeStyles.TextColor.lighter)
     )
 
-  val userName: StyleA =
-    style(color(ThemeStyles.ThemeColor.primary))
+  val blue: ValueT[ValueT.Color] = rgb(74, 144, 226)
+
+  val checkCircle: StyleA =
+    style(
+      color(blue),
+      marginLeft(ThemeStyles.SpacingValue.smaller.pxToEm())
+    )
+
 
   val label: StyleA = style(
     ThemeStyles.Font.circularStdBold,

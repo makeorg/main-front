@@ -89,7 +89,7 @@ object ConnectedUserNavElement {
     <.ul(^.className := UserNavStyles.menu)(
       <.li(^.className := UserNavStyles.menuItem)(
         <.Link(^.to := s"/$country/profile")(
-          <.span(^.className := UserNavStyles.avatarWrapper)(if (avatarUrl.nonEmpty) {
+          <.div(^.className := UserNavStyles.avatarWrapper)(if (avatarUrl.nonEmpty) {
             <.img(
               ^.src := avatarUrl,
               ^.alt := userFirstName,
@@ -99,7 +99,7 @@ object ConnectedUserNavElement {
           } else {
             <.i(^.className := js.Array(UserNavStyles.avatarPlaceholder, FontAwesomeStyles.user))()
           }),
-          <.span(
+          <.div(
             ^.className := js.Array(
               UserNavStyles.userNameWrapper,
               RWDRulesMediumStyles.showInlineBlockBeyondMedium,
@@ -206,6 +206,7 @@ object UserNavStyles extends StyleSheet.Inline {
       overflow.hidden,
       backgroundColor(ThemeStyles.BackgroundColor.white),
       borderRadius(50.%%),
+      border(1.pxToEm(), solid, ThemeStyles.BorderColor.lighter),
       textAlign.center
     )
 

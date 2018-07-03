@@ -33,8 +33,15 @@ object PartnersStyles extends StyleSheet.Inline {
   val wrapper: StyleA =
     style(
       marginTop(ThemeStyles.SpacingValue.small.pxToEm()),
-      marginBottom(ThemeStyles.SpacingValue.small.pxToEm()),
-      &.after(Attr.real("content") := "''", clear.both, display.table)
+      paddingLeft(ThemeStyles.SpacingValue.small.pxToEm()),
+      paddingRight(ThemeStyles.SpacingValue.small.pxToEm()),
+      &.after(
+        Attr.real("content") := "''", clear.both, display.table
+      ),
+      ThemeStyles.MediaQueries.beyondLargeMedium(
+        paddingLeft(20.pxToEm()),
+        paddingRight(20.pxToEm()),
+      )
     )
 
   val BorderColor: ValueT[ValueT.Color] = rgba(0, 0, 0, 0.5)
@@ -44,27 +51,43 @@ object PartnersStyles extends StyleSheet.Inline {
       position.relative,
       float.left,
       marginBottom(ThemeStyles.SpacingValue.small.pxToEm()),
-      marginRight(15.pxToPercent(330)),
+      marginRight(14.pxToPercent(320)),
+      ThemeStyles.MediaQueries.beyondLargeMedium(
+        width(50.pxToPercent(320))
+      )
     )
 
   val avatar: StyleA =
     style(
-      width(60.pxToEm()),
-      height(60.pxToEm()),
-      borderRadius(60.pxToEm()),
+      width(50.pxToEm()),
+      height(50.pxToEm()),
+      borderRadius(50.pxToEm()),
       border(1.pxToEm(), solid, BorderColor),
       overflow.hidden,
-      ThemeStyles.MediaQueries.beyondLargeMedium(width(50.pxToEm()), height(50.pxToEm()), borderRadius(50.pxToEm()))
+      ThemeStyles.MediaQueries.beyondLargeMedium(
+        width(100.%%),
+        height.auto
+      )
     )
 
   val tooltip: StyleA =
-    style(TooltipStyles.topPositioned, minWidth(200.pxToEm()), transition := "opacity .25s ease-in-out")
+    style(
+      TooltipStyles.topPositioned,
+      minWidth(200.pxToEm()),
+      transition := "opacity .25s ease-in-out"
+    )
 
   val tooltipTrigger: Boolean => StyleA = styleF.bool(
     active =>
       if (active) {
-        styleS(opacity(1), zIndex(1))
-      } else styleS(opacity(0), zIndex(-1))
+        styleS(
+          opacity(1),
+          zIndex(1)
+        )
+      } else styleS(
+        opacity(0),
+        zIndex(-1)
+      )
   )
 
 }

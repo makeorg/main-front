@@ -155,7 +155,7 @@ object ConsultationShareMobileStyles extends StyleSheet.Inline {
       zIndex(7),
       width(100.vw),
       height(100.vh),
-      top(`0`),
+      bottom(`0`),
       backgroundColor(rgba(0, 0, 0, 0.8)),
       transition := "all .25s ease-in-out"
     )

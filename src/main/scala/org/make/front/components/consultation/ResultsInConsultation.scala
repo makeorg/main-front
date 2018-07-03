@@ -271,7 +271,7 @@ object ResultsInConsultation {
 
         <.div()(
           <.header(^.className := ResultsInConsultationStyles.wrapper)(
-            <.h2(^.className := TextStyles.smallerTitle)(
+            <.h2(^.className := ResultsInConsultationStyles.title)(
               <.i(^.className := js.Array(FontAwesomeStyles.thumbsUp, ResultsInConsultationStyles.icon))(),
               unescape(I18n.t("operation.results.title"))
             ),
@@ -312,6 +312,16 @@ object ResultsInConsultationStyles extends StyleSheet.Inline {
     style(
       paddingBottom(ThemeStyles.SpacingValue.smaller.pxToEm()),
       borderBottom(2.pxToEm(), solid, ThemeStyles.BorderColor.lighter)
+    )
+
+  val title: StyleA =
+    style(
+      TextStyles.title,
+      fontSize(15.pxToEm()),
+      lineHeight(1),
+      ThemeStyles.MediaQueries.beyondSmall(
+        fontSize(18.pxToEm())
+      )
     )
 
   val icon: StyleA =

@@ -81,7 +81,7 @@ object ConsultationPresentation {
                 ),
                 ^.onClick := changeCollapse()
               )(
-                <.h3(^.className := TextStyles.smallerTitle)(
+                <.h3(^.className := ConsultationPresentationStyles.title)(
                   unescape(I18n.t("operation.presentation.title")),
                   <.i(
                     ^.className := js.Array(
@@ -106,12 +106,12 @@ object ConsultationPresentation {
                     ^.onClick := trackingActions(url),
                     ^.className := js.Array(TextStyles.boldText, ConsultationPresentationStyles.presentationlink)
                   )(unescape(I18n.t("operation.presentation.seeMore")))
-                },
-                <.hr(
-                  ^.className := js
-                    .Array(ConsultationPresentationStyles.sep, RWDRulesLargeMediumStyles.hideBeyondLargeMedium)
-                )()
+                }
               ),
+              <.hr(
+                ^.className := js
+                  .Array(ConsultationPresentationStyles.sep, RWDRulesLargeMediumStyles.hideBeyondLargeMedium)
+              )(),
               <.div(^.className := RWDRulesLargeMediumStyles.hideBeyondLargeMedium)(
                 <.ConsultationCommunityComponent(
                   ^.wrapped := ConsultationCommunityProps(consultation, self.props.wrapped.language)
@@ -138,14 +138,33 @@ object ConsultationPresentationStyles extends StyleSheet.Inline {
     )
 
   val collapseWrapper: StyleA =
-    style(padding(`0`, ThemeStyles.SpacingValue.small.pxToEm()))
+    style(
+      padding(`0`, ThemeStyles.SpacingValue.small.pxToEm()),
+      ThemeStyles.MediaQueries.beyondLargeMedium(
+        paddingRight(20.pxToEm()),
+        paddingLeft(20.pxToEm())
+      )
+    )
+
+  val title: StyleA =
+    style(
+      TextStyles.title,
+      fontSize(15.pxToEm()),
+      lineHeight(1),
+      ThemeStyles.MediaQueries.beyondSmall(
+        fontSize(18.pxToEm())
+      )
+    )
 
   val triggerWrapper: StyleA =
     style(
       paddingTop(ThemeStyles.SpacingValue.small.pxToEm()),
-      paddingBottom(ThemeStyles.SpacingValue.small.pxToEm()),
-      ThemeStyles.MediaQueries
-        .beyondLargeMedium(paddingTop(25.pxToEm()), borderBottom(1.pxToEm(), solid, ThemeStyles.BorderColor.veryLight))
+      paddingBottom(ThemeStyles.SpacingValue.smaller.pxToEm()),
+      ThemeStyles.MediaQueries.beyondLargeMedium(
+        paddingTop(20.pxToEm()),
+        paddingBottom(15.pxToEm()),
+        borderBottom(1.pxToEm(), solid, ThemeStyles.BorderColor.veryLight)
+      )
     )
 
   val collapseTrigger: Boolean => StyleA = styleF.bool(
@@ -164,10 +183,15 @@ object ConsultationPresentationStyles extends StyleSheet.Inline {
   val presentationText: StyleA =
     style(
       color(ThemeStyles.TextColor.lighter),
-      paddingRight(ThemeStyles.SpacingValue.small.pxToEm()),
-      paddingLeft(ThemeStyles.SpacingValue.small.pxToEm()),
+      paddingRight(ThemeStyles.SpacingValue.small.pxToEm(13)),
+      paddingLeft(ThemeStyles.SpacingValue.small.pxToEm(13)),
       ThemeStyles.MediaQueries
-        .beyondLargeMedium(marginTop(ThemeStyles.SpacingValue.small.pxToEm()), paddingBottom(20.pxToEm()))
+        .beyondLargeMedium(
+          marginTop(ThemeStyles.SpacingValue.small.pxToEm(14)),
+          paddingRight(20.pxToEm(14)),
+          paddingLeft(20.pxToEm(14)),
+          paddingBottom(20.pxToEm(14))
+        )
     )
 
   val presentationlink: StyleA =
@@ -176,9 +200,9 @@ object ConsultationPresentationStyles extends StyleSheet.Inline {
   val sep: StyleA =
     style(
       width(100.%%),
-      height(2.pxToEm(13)),
+      height(2.pxToEm()),
       backgroundColor(ThemeStyles.BorderColor.veryLight),
-      marginTop(ThemeStyles.SpacingValue.smaller.pxToEm(13))
+      marginTop(ThemeStyles.SpacingValue.smaller.pxToEm())
     )
 
 }
