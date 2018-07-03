@@ -69,8 +69,12 @@ object PartnersItems {
                 TextStyles.smallerText,
                 PartnersStyles.tooltipTrigger(self.state.tooltipState)
               )
-            )(<.p()(self.props.wrapped.partnerName), if (self.props.wrapped.founder) {
-              <.p()(<.p()(" - "), <.p()(unescape(I18n.t("operation.presentation.founder"))))
+            )(<.p()(self.props.wrapped.partnerName),
+              if (self.props.wrapped.founder) {
+              <.div()(
+                <.p()(" - "),
+                <.p()(unescape(I18n.t("operation.presentation.founder")))
+              )
             }),
             <.style()(PartnersStyles.render[String])
           )

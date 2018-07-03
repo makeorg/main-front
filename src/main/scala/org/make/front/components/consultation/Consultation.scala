@@ -115,11 +115,18 @@ object ConsultationStyles extends StyleSheet.Inline {
   )
 
   val fixedMainHeaderWrapper: StyleA =
-    style(position.fixed, top(`0`), left(`0`), width(100.%%), zIndex(10), boxShadow := s"0 2px 4px 0 rgba(0,0,0,0.50)")
+    style(
+      position.fixed,
+      top(`0`),
+      left(`0`),
+      width(100.%%),
+      zIndex(10),
+      boxShadow := s"0 2px 4px 0 rgba(0,0,0,0.50)"
+    )
 
   val contentWrapper: StyleA =
     style(display.block, backgroundColor(ThemeStyles.BackgroundColor.blackVeryTransparent))
 
   val mainContentWrapper: StyleA =
-    style(backgroundColor(ThemeStyles.BackgroundColor.grey))
+    style(backgroundColor(ThemeStyles.BackgroundColor.lightGrey))
 }

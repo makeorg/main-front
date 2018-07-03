@@ -167,7 +167,10 @@ object ConsultationHeaderStyles extends StyleSheet.Inline {
     )
 
   val labelWrapper: StyleA =
-    style(marginBottom(15.pxToEm()))
+    style(
+      textAlign.center,
+      marginBottom(15.pxToEm())
+    )
 
   val tabWrapper: StyleA =
     style(display.flex)

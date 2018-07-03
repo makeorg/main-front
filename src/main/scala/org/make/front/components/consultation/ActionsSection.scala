@@ -80,7 +80,7 @@ object ActionsSection {
           <.div(^.className := ActionsSectionStyles.mainWrapper)(
             <.article(^.className := ActionsSectionStyles.main)(
               <.div(^.className := js.Array(ActionsSectionStyles.wrapper, LayoutRulesStyles.centeredRow))(
-                <.h3(^.className := js.Array(TextStyles.smallerTitle, ActionsSectionStyles.title))(
+                <.h3(^.className := ActionsSectionStyles.title)(
                   <.img(^.className := ActionsSectionStyles.logo, ^.src := logoMake.toString, ^.alt := "Make.org")()
                 ),
                 <.p(
@@ -132,7 +132,7 @@ object ActionsSection {
                 }
               ),
               <.div(^.className := js.Array(ActionsSectionStyles.wrapperAlt, LayoutRulesStyles.centeredRow))(
-                <.h3(^.className := js.Array(TextStyles.smallerTitle, ActionsSectionStyles.title))(
+                <.h3(^.className := ActionsSectionStyles.title)(
                   <.img(^.className := ActionsSectionStyles.icon, ^.src := clapping.toString, ^.alt := "Make.org")(),
                   unescape(I18n.t("operation.actions.support-title"))
                 ),
@@ -149,7 +149,7 @@ object ActionsSection {
             ),
             <.aside(^.className := ActionsSectionStyles.sidebar)(
               <.div(^.className := js.Array(ActionsSectionStyles.wrapper, LayoutRulesStyles.centeredRow))(
-                <.h3(^.className := js.Array(TextStyles.smallerTitle, ActionsSectionStyles.title))(
+                <.h3(^.className := ActionsSectionStyles.title)(
                   unescape(I18n.t("operation.actions.actionsplan-title"))
                 ),
                 <.p(^.className := js.Array(TextStyles.smallerText, ActionsSectionStyles.presentationText))(
@@ -183,8 +183,8 @@ object ActionsSection {
                   )
                 )
               ),
-              <.div(^.className := js.Array(ActionsSectionStyles.wrapper, LayoutRulesStyles.centeredRow))(
-                <.h3(^.className := js.Array(TextStyles.smallerTitle, ActionsSectionStyles.title))(
+              <.div(^.className := js.Array(ActionsSectionStyles.wrapper, ActionsSectionStyles.eraseMargin, LayoutRulesStyles.centeredRow))(
+                <.h3(^.className := ActionsSectionStyles.title)(
                   unescape(I18n.t("operation.actions.partners-title"))
                 ),
                 <.p(^.className := js.Array(TextStyles.smallerText, ActionsSectionStyles.presentationText))(
@@ -222,7 +222,9 @@ object ActionsSectionStyles extends StyleSheet.Inline {
       paddingBottom(20.pxToEm()),
       ThemeStyles.MediaQueries.beyondLargeMedium(
         flexFlow := s"row",
+        paddingTop(40.pxToEm()),
         paddingRight(ThemeStyles.SpacingValue.medium.pxToEm()),
+        paddingBottom(40.pxToEm()),
         paddingLeft(ThemeStyles.SpacingValue.medium.pxToEm())
       )
     )
@@ -239,15 +241,19 @@ object ActionsSectionStyles extends StyleSheet.Inline {
     style(
       backgroundColor(ThemeStyles.BackgroundColor.white),
       boxShadow := "0 1px 1px 0 rgba(0,0,0,0.50)",
-      padding(20.pxToEm(), ThemeStyles.SpacingValue.small.pxToEm(), ThemeStyles.SpacingValue.small.pxToEm()),
-      marginTop(ThemeStyles.SpacingValue.small.pxToEm())
+      padding(20.pxToEm()),
+      marginBottom(20.pxToEm())
     )
 
   val wrapperAlt: StyleA =
     style(
       padding(20.pxToEm(), ThemeStyles.SpacingValue.small.pxToEm(), ThemeStyles.SpacingValue.small.pxToEm()),
-      marginTop(ThemeStyles.SpacingValue.small.pxToEm()),
       ThemeStyles.MediaQueries.beyondLargeMedium(paddingLeft(`0`), paddingRight(`0`))
+    )
+
+  val eraseMargin: StyleA =
+    style(
+      marginBottom(`0`)
     )
 
   val logo: StyleA =
@@ -262,10 +268,16 @@ object ActionsSectionStyles extends StyleSheet.Inline {
 
   val title: StyleA =
     style(
-      paddingBottom(ThemeStyles.SpacingValue.smaller.pxToEm()),
+      TextStyles.title,
+      fontSize(15.pxToEm()),
+      lineHeight(1),
+      paddingBottom(ThemeStyles.SpacingValue.smaller.pxToEm(15)),
+      ThemeStyles.MediaQueries.beyondSmall(
+        fontSize(18.pxToEm())
+      ),
       ThemeStyles.MediaQueries.beyondLargeMedium(
-        marginBottom(ThemeStyles.SpacingValue.small.pxToEm()),
-        borderBottom(1.pxToEm(), solid, ThemeStyles.BorderColor.veryLight)
+        marginBottom(ThemeStyles.SpacingValue.small.pxToEm(18)),
+        borderBottom(1.pxToEm(18), solid, ThemeStyles.BorderColor.veryLight)
       )
     )
 

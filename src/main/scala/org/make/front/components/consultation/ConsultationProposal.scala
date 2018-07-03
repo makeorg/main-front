@@ -83,7 +83,7 @@ object ConsultationProposal {
         }
 
         <.div(^.className := js.Array(ConsultationProposalStyles.wrapper))(
-          <.p(^.className := TextStyles.smallerTitle)(
+          <.p(^.className := ConsultationProposalStyles.preTitle)(
             <.i(^.className := js.Array(ConsultationProposalStyles.icon, FontAwesomeStyles.lightbulbTransparent))(),
             //Todo check translations with product team
             unescape(I18n.t("operation.consultation-proposal.title"))
@@ -141,8 +141,21 @@ object ConsultationProposalStyles extends StyleSheet.Inline {
   val wrapper: StyleA =
     style(
       backgroundColor(ThemeStyles.BackgroundColor.white),
-      padding(ThemeStyles.SpacingValue.medium.pxToEm(), ThemeStyles.SpacingValue.small.pxToEm()),
-      boxShadow := s"0 1px 1px 0 rgba(0, 0, 0, .5)"
+      padding(ThemeStyles.SpacingValue.small.pxToEm()),
+      boxShadow := s"0 1px 1px 0 rgba(0, 0, 0, .5)",
+      ThemeStyles.MediaQueries.beyondLargeMedium(
+        padding(20.pxToEm())
+      )
+    )
+
+  val preTitle: StyleA =
+    style(
+      TextStyles.title,
+      fontSize(15.pxToEm()),
+      lineHeight(1),
+      ThemeStyles.MediaQueries.beyondSmall(
+        fontSize(18.pxToEm())
+      )
     )
 
   val icon: StyleA =
@@ -153,7 +166,7 @@ object ConsultationProposalStyles extends StyleSheet.Inline {
       ThemeStyles.Font.circularStdBold,
       fontSize(15.pxToEm()),
       lineHeight(1),
-      ThemeStyles.MediaQueries.beyondSmall(fontSize(20.pxToEm()))
+      ThemeStyles.MediaQueries.beyondSmall(fontSize(18.pxToEm()))
     )
 
   val proposalInputWrapper: StyleA =

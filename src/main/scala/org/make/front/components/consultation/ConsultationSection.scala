@@ -127,9 +127,12 @@ object ConsultationSectionStyles extends StyleSheet.Inline {
       marginRight(auto),
       paddingTop(20.pxToEm()),
       paddingBottom(20.pxToEm()),
+      overflowX.hidden,
       ThemeStyles.MediaQueries.beyondLargeMedium(
         flexFlow := s"row",
+        paddingTop(40.pxToEm()),
         paddingRight(ThemeStyles.SpacingValue.medium.pxToEm()),
+        paddingBottom(40.pxToEm()),
         paddingLeft(ThemeStyles.SpacingValue.medium.pxToEm())
       )
     )
