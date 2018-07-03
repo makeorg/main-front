@@ -42,7 +42,7 @@ import scala.scalajs.js
 object ActionsSection {
 
   case class ActionsSectionProps(operation: OperationExpanded, language: String, isConnected: Boolean)
-  case class ActionsSectionState(isAuthenticateModalOpened: Boolean, loginOrRegisterView: String = "register")
+  case class ActionsSectionState(isAuthenticateModalOpened: Boolean, loginOrRegisterView: String = "actions")
 
   lazy val reactClass: ReactClass =
     React
@@ -65,12 +65,8 @@ object ActionsSection {
               )
           }
 
-          def openLoginAuthenticateModal() = () => {
-            self.setState(state => state.copy(isAuthenticateModalOpened = true, loginOrRegisterView = "login"))
-          }
-
           def openRegisterAuthenticateModal() = () => {
-            self.setState(state => state.copy(isAuthenticateModalOpened = true, loginOrRegisterView = "register"))
+            self.setState(state => state.copy(isAuthenticateModalOpened = true, loginOrRegisterView = "actions"))
           }
 
           def toggleAuthenticateModal() = () => {
@@ -120,9 +116,10 @@ object ActionsSection {
                   )(
                     <.LoginOrRegisterComponent(
                       ^.wrapped := LoginOrRegisterProps(
+                        registerView = self.state.loginOrRegisterView,
                         displayView = self.state.loginOrRegisterView,
-                        trackingContext = TrackingContext(TrackingLocation.navBar),
-                        trackingParameters = Map.empty,
+                        trackingContext = TrackingContext(TrackingLocation.actionsPlaceholder, Some(self.props.wrapped.operation.slug)),
+                        trackingParameters = Map("signup-type" -> "light"),
                         onSuccessfulLogin = () => {
                           self.setState(_.copy(isAuthenticateModalOpened = false))
                         }
