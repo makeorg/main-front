@@ -62,7 +62,7 @@ object ProposalTileStyles extends StyleSheet.Inline {
   val proposalLinkOnTitle: StyleA = style(color(ThemeStyles.TextColor.base))
 
   val contentWrapper: StyleA =
-    style(padding(ThemeStyles.SpacingValue.small.pxToEm()), overflow.hidden)
+    style(padding(ThemeStyles.SpacingValue.small.pxToEm()))
 
   val footer: StyleA = style(
     margin(`0`, ThemeStyles.SpacingValue.small.pxToEm()),

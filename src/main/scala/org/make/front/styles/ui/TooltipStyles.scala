@@ -32,19 +32,13 @@ object TooltipStyles extends StyleSheet.Inline {
     position.absolute,
     zIndex(1),
     width(100.%%),
-    right(50.%%),
-    transform := "translateX(50%)",
     padding(10.pxToEm()),
     textAlign.center,
     color(ThemeStyles.TextColor.white),
     backgroundColor(ThemeStyles.BackgroundColor.darkGrey),
     &.after(
       content := "''",
-      position.absolute,
-      right(50.%%),
-      transform := "translateX(50%)",
-      borderRight(5.pxToEm(), solid, transparent),
-      borderLeft(5.pxToEm(), solid, transparent)
+      position.absolute
     )
   )
 
@@ -52,16 +46,57 @@ object TooltipStyles extends StyleSheet.Inline {
     style(
       base,
       top(100.%%),
+      right(50.%%),
+      bottom(auto),
+      left(auto),
+      transform := "translate(50%,0)",
       marginTop(ThemeStyles.SpacingValue.smaller.pxToEm()),
-      &.after(bottom(100.%%), borderBottom(5.pxToEm(), solid, ThemeStyles.BackgroundColor.darkGrey))
+      &.after(
+        right(50.%%),
+        bottom(100.%%),
+        borderBottom(5.pxToEm(), solid, ThemeStyles.BackgroundColor.darkGrey),
+        borderRight(5.pxToEm(), solid, transparent),
+        borderLeft(5.pxToEm(), solid, transparent),
+        transform := "translate(50%,0)"
+      )
     )
 
   val topPositioned: StyleA =
     style(
       base,
+      top(auto),
+      right(50.%%),
       bottom(100.%%),
+      left(auto),
+      transform := "translate(50%,0)",
       marginBottom(ThemeStyles.SpacingValue.smaller.pxToEm()),
-      &.after(top(100.%%), borderTop(5.pxToEm(), solid, ThemeStyles.BackgroundColor.darkGrey))
+      &.after(
+        right(50.%%),
+        top(100.%%),
+        borderTop(5.pxToEm(), solid, ThemeStyles.BackgroundColor.darkGrey),
+        borderRight(5.pxToEm(), solid, transparent),
+        borderLeft(5.pxToEm(), solid, transparent),
+        transform := "translate(50%,0)"
+      )
+    )
+
+  val rightPositioned: StyleA =
+    style(
+      base,
+      top(auto),
+      right(auto),
+      bottom(50.%%),
+      left(100.%%),
+      transform := "translate(0,50%)",
+      marginLeft(ThemeStyles.SpacingValue.smaller.pxToEm()),
+      &.after(
+        bottom(50.%%),
+        right(100.%%),
+        borderRight(5.pxToEm(), solid, ThemeStyles.BackgroundColor.darkGrey),
+        borderTop(5.pxToEm(), solid, transparent),
+        borderBottom(5.pxToEm(), solid, transparent),
+        transform := "translate(0,50%)"
+      )
     )
 
 }

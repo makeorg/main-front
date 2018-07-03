@@ -59,11 +59,18 @@ object ProposalTileWithTheme {
                                               trackingLocation: TrackingLocation,
                                               country: String)
 
+  final case class ProposalTileWithThemeState (isProposalSharable : Boolean)
+
   val reactClass: ReactClass =
     WithRouter(
       React
-        .createClass[ProposalTileWithThemeProps, Unit](
+        .createClass[ProposalTileWithThemeProps, ProposalTileWithThemeState](
           displayName = "ProposalTileWithTheme",
+          getInitialState = { self =>
+            ProposalTileWithThemeState(
+              isProposalSharable  = false
+            )
+          },
           render = (self) => {
 
             val intro: ReactElement = if (self.props.wrapped.proposal.myProposal) {
@@ -110,7 +117,8 @@ object ProposalTileWithTheme {
                           maybeOperation = self.props.wrapped.maybeOperation,
                           maybeSequenceId = self.props.wrapped.maybeSequenceId,
                           maybeLocation = self.props.wrapped.maybeLocation,
-                          trackingLocation = self.props.wrapped.trackingLocation
+                          trackingLocation = self.props.wrapped.trackingLocation,
+                          isProposalSharable  = self.state.isProposalSharable
                         )
                       )()
                     )

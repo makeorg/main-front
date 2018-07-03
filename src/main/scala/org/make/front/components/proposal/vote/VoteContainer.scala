@@ -57,7 +57,8 @@ object VoteContainer {
                                       maybeTheme: Option[TranslatedThemeModel],
                                       maybeOperation: Option[OperationModel],
                                       maybeSequenceId: Option[SequenceId],
-                                      maybeLocation: Option[LocationModel])
+                                      maybeLocation: Option[LocationModel],
+                                      isProposalSharable : Boolean)
 
   lazy val reactClass: ReactClass = ReactRedux.connectAdvanced(selectorFactory)(Vote.reactClass)
 
@@ -178,13 +179,15 @@ object VoteContainer {
 
       Vote.VoteProps(
         proposal = props.wrapped.proposal,
+        maybeOperation = props.wrapped.maybeOperation,
         vote = vote,
         unvote = unvote,
         qualifyVote = qualify,
         removeVoteQualification = removeQualification,
         guideToVote = props.wrapped.guideToVote,
         guideToQualification = props.wrapped.guideToQualification,
-        index = props.wrapped.index
+        index = props.wrapped.index,
+        isProposalSharable  = props.wrapped.isProposalSharable
       )
     }
 }

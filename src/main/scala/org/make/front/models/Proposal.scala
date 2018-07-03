@@ -116,7 +116,7 @@ object Qualification {
     Qualification(
       key = qualificationResponse.qualificationKey,
       count = qualificationResponse.count,
-      hasQualified = qualificationResponse.hasQualified
+      hasQualified = qualificationResponse.hasQualified,
     )
   }
 }
