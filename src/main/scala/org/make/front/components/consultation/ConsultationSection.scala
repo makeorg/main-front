@@ -36,12 +36,15 @@ import org.make.front.components.consultation.ConsultationShareMobile.Consultati
 import org.make.front.components.consultation.ResultsInConsultationContainer.ResultsInConsultationContainerProps
 import org.make.front.models.{OperationWording, Location => LocationModel, OperationExpanded => OperationModel}
 import org.make.front.styles.ThemeStyles
-import org.make.front.styles.base.{RWDRulesLargeMediumStyles}
+import org.make.front.styles.base.RWDRulesLargeMediumStyles
 
 object ConsultationSection {
 
   case class ConsultationSectionState()
-  case class ConsultationSectionProps(operation: OperationModel, language: String, countryCode: String)
+  case class ConsultationSectionProps(operation: OperationModel,
+                                      language: String,
+                                      countryCode: String,
+                                      isSequenceDone: Boolean)
 
   lazy val reactClass: ReactClass =
     WithRouter(
@@ -64,12 +67,14 @@ object ConsultationSection {
                     language = self.props.wrapped.language
                   )
                 )(),
-                <.ConsultationLinkSequenceComponent(
-                  ^.wrapped := ConsultationLinkSequenceProps(
-                    operation = consultation,
-                    country = self.props.wrapped.countryCode
-                  )
-                )(),
+                if (!self.props.wrapped.isSequenceDone) {
+                  <.ConsultationLinkSequenceComponent(
+                    ^.wrapped := ConsultationLinkSequenceProps(
+                      operation = consultation,
+                      country = self.props.wrapped.countryCode
+                    )
+                  )()
+                },
                 maybeWording.flatMap { wording =>
                   wording.presentation.map { content =>
                     <.div(^.className := RWDRulesLargeMediumStyles.hideBeyondLargeMedium)(

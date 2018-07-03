@@ -29,6 +29,7 @@ import org.make.front.actions.SetCountry
 import org.make.front.components.DataLoader.DataLoaderProps
 import org.make.front.components.operation.{Operation, WaitingForOperation}
 import org.make.front.components.{AppState, DataLoader}
+import org.make.front.helpers.QueryString
 import org.make.front.models.{
   ConsultationVersion,
   OperationExpanded,
@@ -43,12 +44,13 @@ import org.scalajs.dom
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 import scala.scalajs.js
+import scala.util.Try
 
 object ConsultationContainer {
 
   lazy val reactClass: ReactClass = ReactRedux.connectAdvanced(selectorFactory)(DataLoader.reactClass)
 
-  def selectorFactory: (Dispatch) => (AppState, Props[Unit]) => DataLoaderProps[OperationExpanded] =
+  def selectorFactory: Dispatch => (AppState, Props[Unit]) => DataLoaderProps[OperationExpanded] =
     (dispatch: Dispatch) => { (appState: AppState, props: Props[Unit]) =>
       {
         val slug = props.`match`.params("operationSlug")
@@ -81,7 +83,7 @@ object ConsultationContainer {
           }
         }
 
-        val shouldOperationUpdate: (Option[OperationExpanded]) => Boolean = { maybeOperation =>
+        val shouldOperationUpdate: Option[OperationExpanded] => Boolean = { maybeOperation =>
           maybeOperation.forall(operation => operation.slug != slug || operation.country != countryCode)
         }
 
@@ -106,7 +108,7 @@ object ConsultationContainer {
                     props.history.push("/404")
                   }
                 }
-              }, activeTab = activeTab)
+              }, activeTab = activeTab, isSequenceDone = appState.isSequenceDone)
             } else {
               Operation.OperationProps(
                 operation = operation,

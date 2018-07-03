@@ -41,7 +41,8 @@ object Consultation {
                                      countryCode: String,
                                      language: String,
                                      onWillMount: () => Unit,
-                                     activeTab: String)
+                                     activeTab: String,
+                                     isSequenceDone: Boolean)
 
   lazy val reactClass: ReactClass =
     React
@@ -84,7 +85,8 @@ object Consultation {
                     ^.wrapped := ConsultationSectionProps(
                       operation = consultation,
                       language = self.props.wrapped.language,
-                      countryCode = self.props.wrapped.countryCode
+                      countryCode = self.props.wrapped.countryCode,
+                      isSequenceDone = self.props.wrapped.isSequenceDone
                     )
                   )()
                 } else {
