@@ -34,9 +34,12 @@ final case class AppState(configuration: Option[BusinessConfigurationModel],
                           bait: String = "Il faut ",
                           connectedUser: Option[UserModel],
                           country: String = "FR",
-                          language: String = "fr") {
+                          language: String = "fr",
+                          sequenceDone: js.Array[String] = js.Array()) {
 
   def themes: js.Array[TranslatedThemeModel] =
     configuration.map(_.themesForLocale(country, language)).getOrElse(js.Array())
   def findTheme(slug: String): Option[TranslatedThemeModel] = themes.find(_.slug == slug)
+
+  def isSequenceDone(sequenceId: String): Boolean = sequenceDone.contains(sequenceId)
 }

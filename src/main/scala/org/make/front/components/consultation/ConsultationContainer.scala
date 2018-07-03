@@ -106,7 +106,7 @@ object ConsultationContainer {
                     props.history.push("/404")
                   }
                 }
-              }, activeTab = activeTab)
+              }, activeTab = activeTab, isSequenceDone = appState.isSequenceDone(operation.landingSequenceId.value))
             } else {
               Operation.OperationProps(
                 operation = operation,

@@ -39,8 +39,10 @@ import org.make.front.styles.base.RWDRulesLargeMediumStyles
 import org.make.front.styles.utils._
 
 object ConsultationSection {
-
-  case class ConsultationSectionProps(operation: OperationModel, language: String, countryCode: String)
+  case class ConsultationSectionProps(operation: OperationModel,
+                                      language: String,
+                                      countryCode: String,
+                                      isSequenceDone: Boolean)
 
   lazy val reactClass: ReactClass =
     WithRouter(
@@ -65,12 +67,29 @@ object ConsultationSection {
                       language = self.props.wrapped.language
                     )
                   )(),
-                  <.ConsultationLinkSequenceComponent(
-                    ^.wrapped := ConsultationLinkSequenceProps(
-                      operation = consultation,
-                      country = self.props.wrapped.countryCode
-                    )
-                  )(),
+                  if (!self.props.wrapped.isSequenceDone) {
+                    <.ConsultationLinkSequenceComponent(
+                      ^.wrapped := ConsultationLinkSequenceProps(
+                        operation = consultation,
+                        country = self.props.wrapped.countryCode
+                      )
+                    )()
+                  },
+                  maybeWording.flatMap { wording =>
+                    wording.presentation.map { content =>
+                      <.div(^.className := RWDRulesLargeMediumStyles.hideBeyondLargeMedium)(
+                        <.ConsultationPresentationComponent(
+                          ^.wrapped := ConsultationPresentationProps(
+                            operation = consultation,
+                            language = self.props.wrapped.language,
+                            content = content,
+                            learnMoreUrl = wording.learnMoreUrl,
+                            isCollapsed = true
+                          )
+                        )()
+                      )
+                    }
+                  },
                   maybeWording.flatMap { wording =>
                     wording.presentation.map { content =>
                       <.div(^.className := RWDRulesLargeMediumStyles.hideBeyondLargeMedium)(
