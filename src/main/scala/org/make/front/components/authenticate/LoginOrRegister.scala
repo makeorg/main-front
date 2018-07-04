@@ -108,7 +108,8 @@ object LoginOrRegister {
             )
             .toSeq
         } else {
-          js.Array(if (self.props.wrapped.registerView == "register") {
+          js.Array(
+            if (self.props.wrapped.registerView == "register") {
               <.RegisterWithSocialNetworksOrEmailComponent(
                 ^.wrapped := RegisterWithSocialNetworksOrEmailProps(
                   operationId = self.props.wrapped.operationId,
@@ -119,7 +120,20 @@ object LoginOrRegister {
                     Some(props.registerTitle.getOrElse(unescape(I18n.t("authenticate.register.with-email-intro"))))
                 )
               )()
-            } else {
+            }
+            else if (self.props.wrapped.registerView == "actions") {
+              <.RegisterWithSocialNetworksOrEmailComponent(
+                ^.wrapped := RegisterWithSocialNetworksOrEmailProps(
+                  operationId = self.props.wrapped.operationId,
+                  trackingContext = self.props.wrapped.trackingContext,
+                  trackingParameters = self.props.wrapped.trackingParameters,
+                  onSuccessfulLogin = props.onSuccessfulLogin,
+                  registerTitle =
+                    Some(props.registerTitle.getOrElse(unescape(I18n.t("authenticate.register.with-email-intro-trigger"))))
+                )
+              )()
+            }
+            else {
               <.RegisterWithSocialNetworksOrEmailExpandedComponent(
                 ^.wrapped := RegisterWithSocialNetworksOrEmailProps(
                   operationId = self.props.wrapped.operationId,

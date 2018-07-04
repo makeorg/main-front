@@ -92,6 +92,7 @@ object TrackingLocation {
   val showcaseHomepage: TrackingLocation = MakeTrackingLocation("showcase-home")
   val themePage: TrackingLocation = MakeTrackingLocation("page-theme")
   val operationPage: TrackingLocation = MakeTrackingLocation("page-operation")
+  val actionsPlaceholder: TrackingLocation = MakeTrackingLocation("actions-placeholder")
   val sequencePage: TrackingLocation = MakeTrackingLocation("sequence")
   val sequenceProposalPushCard: TrackingLocation = MakeTrackingLocation("sequence-proposal-push-card")
   val searchResultsPage: TrackingLocation = MakeTrackingLocation("page-searchresults")
