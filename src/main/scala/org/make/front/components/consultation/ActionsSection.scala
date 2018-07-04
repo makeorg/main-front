@@ -211,7 +211,7 @@ object ActionsSectionStyles extends StyleSheet.Inline {
   val mainWrapper: StyleA =
     style(
       display.flex,
-      flexFlow := s"column-reverse",
+      flexFlow := s"column",
       maxWidth(ThemeStyles.containerMaxWidth),
       marginLeft(auto),
       marginRight(auto),
@@ -228,7 +228,12 @@ object ActionsSectionStyles extends StyleSheet.Inline {
 
   val main: StyleA =
     style(
-      ThemeStyles.MediaQueries.beyondLargeMedium(maxWidth(750.pxToPercent(1140)), marginRight(30.pxToPercent(1140)))
+      display.flex,
+      flexFlow := s"column-reverse",
+      ThemeStyles.MediaQueries.beyondLargeMedium(
+        flexFlow := s"column",
+        maxWidth(750.pxToPercent(1140)), marginRight(30.pxToPercent(1140))
+      )
     )
 
   val sidebar: StyleA =
