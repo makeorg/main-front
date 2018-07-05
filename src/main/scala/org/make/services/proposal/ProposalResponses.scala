@@ -86,6 +86,7 @@ trait QualificationResponse extends js.Object {
   val qualificationKey: String
   val count: Int
   val hasQualified: Boolean
+  val activateTooltip: Boolean
 }
 
 @js.native

@@ -88,12 +88,13 @@ object ShareLikeItProposalStyles extends StyleSheet.Inline {
       ThemeStyles.Font.circularStdBook,
       fontSize(11.pxToEm()),
       textAlign.left,
-      lineHeight(1),
+      lineHeight(18.pxToEm(11)),
       color(ThemeStyles.TextColor.white),
       textAlign.center,
       ThemeStyles.MediaQueries.beyondMedium(
         textAlign.left,
-        fontSize(14.pxToEm())
+        fontSize(14.pxToEm()),
+          lineHeight(18.pxToEm(14))
       )
     )
 
@@ -102,7 +103,7 @@ object ShareLikeItProposalStyles extends StyleSheet.Inline {
       display.block,
       marginLeft(auto),
       marginRight(auto),
-      marginTop(ThemeStyles.SpacingValue.smaller.pxToEm()),
+      marginTop(5.pxToEm()),
       ThemeStyles.MediaQueries.beyondMedium(
         display.flex,
         justifyContent.spaceBetween,

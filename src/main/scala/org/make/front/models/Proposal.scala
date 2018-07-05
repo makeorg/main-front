@@ -109,7 +109,7 @@ object Vote {
   }
 }
 
-final case class Qualification(key: String, count: Int = 0, hasQualified: Boolean)
+final case class Qualification(key: String, count: Int = 0, hasQualified: Boolean, activateTooltip: Boolean)
 
 object Qualification {
   def apply(qualificationResponse: QualificationResponse): Qualification = {
@@ -117,6 +117,7 @@ object Qualification {
       key = qualificationResponse.qualificationKey,
       count = qualificationResponse.count,
       hasQualified = qualificationResponse.hasQualified,
+      activateTooltip = false
     )
   }
 }

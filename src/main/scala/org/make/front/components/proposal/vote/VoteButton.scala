@@ -118,7 +118,8 @@ object VoteButton {
                       Qualification(
                         key = qualifications.key,
                         count = qualifications.count,
-                        hasQualified = qualifications.hasQualified
+                        hasQualified = qualifications.hasQualified,
+                        activateTooltip = true
                       )
                     } else {
                       qualification
@@ -145,7 +146,8 @@ object VoteButton {
                       Qualification(
                         key = qualifications.key,
                         count = qualifications.count,
-                        hasQualified = qualifications.hasQualified
+                        hasQualified = qualifications.hasQualified,
+                        activateTooltip = false
                       )
                     } else {
                       qualification
