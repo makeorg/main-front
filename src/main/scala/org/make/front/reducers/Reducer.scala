@@ -31,8 +31,7 @@ object Reducer {
       language = LanguageReducer.reduce(maybeState.map(_.language), action).getOrElse("fr"),
       configuration = ConfigurationReducer.reduce(maybeState.flatMap(_.configuration), action),
       politicalActions = PoliticalActionReducer.reduce(maybeState.map(_.politicalActions), action),
-      connectedUser = ConnectedUserReducer.reduce(maybeState.flatMap(_.connectedUser), action),
-      isSequenceDone = IsSequenceDoneReducer.reduce(maybeState.map(_.isSequenceDone), action).getOrElse(false)
+      connectedUser = ConnectedUserReducer.reduce(maybeState.flatMap(_.connectedUser), action)
     )
   }
 }

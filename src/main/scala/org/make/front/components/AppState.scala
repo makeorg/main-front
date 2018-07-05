@@ -34,8 +34,7 @@ final case class AppState(configuration: Option[BusinessConfigurationModel],
                           bait: String = "Il faut ",
                           connectedUser: Option[UserModel],
                           country: String = "FR",
-                          language: String = "fr",
-                          isSequenceDone: Boolean = false) {
+                          language: String = "fr") {
 
   def themes: js.Array[TranslatedThemeModel] =
     configuration.map(_.themesForLocale(country, language)).getOrElse(js.Array())

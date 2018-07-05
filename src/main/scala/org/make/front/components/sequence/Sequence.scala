@@ -59,21 +59,20 @@ object Sequence {
 
   final case class ExtraSlide(reactClass: ReactClass,
                               props: (() => Unit) => Any,
-                              position: js.Array[Slide] => Int,
+                              position: (js.Array[Slide]) => Int,
                               displayed: Boolean = true,
                               maybeTracker: Option[DisplayTracker] = None,
                               onFocus: () => Unit = () => {},
                               onBlur: ()  => Unit = () => {})
 
-  final case class SequenceProps(loadSequence: js.Array[ProposalIdModel] => Future[SequenceModel],
+  final case class SequenceProps(loadSequence: (js.Array[ProposalIdModel]) => Future[SequenceModel],
                                  sequence: SequenceModel,
                                  progressBarColor: Option[String],
                                  isConnected: Boolean,
                                  extraSlides: js.Array[ExtraSlide],
                                  maybeTheme: Option[TranslatedThemeModel],
                                  maybeOperation: Option[OperationModel],
-                                 maybeLocation: Option[LocationModel],
-                                 endSequence: () => Any)
+                                 maybeLocation: Option[LocationModel])
 
   final case class SequenceState(proposals: js.Array[ProposalModel],
                                  slides: js.Array[Slide],
@@ -158,9 +157,9 @@ object Sequence {
   }
 
   class ProposalSlide(proposal: ProposalModel,
-                      onSuccessfulVote: ProposalIdModel          => VoteModel => Unit,
+                      onSuccessfulVote: (ProposalIdModel)        => (VoteModel) => Unit,
                       onSuccessfulQualification: ProposalIdModel => (String, QualificationModel) => Unit,
-                      canScrollNext: Int                         => Boolean,
+                      canScrollNext: (Int)                       => Boolean,
                       nextProposal: ()                           => Unit,
                       maybeTheme: Option[TranslatedThemeModel],
                       maybeOperation: Option[OperationModel],
@@ -228,8 +227,8 @@ object Sequence {
       slider.foreach(_.slickPrev())
     }
 
-    def onSuccessfulVote(proposalId: ProposalIdModel, self: Self[SequenceProps, SequenceState]): VoteModel => Unit = {
-      voteModel =>
+    def onSuccessfulVote(proposalId: ProposalIdModel, self: Self[SequenceProps, SequenceState]): (VoteModel) => Unit = {
+      (voteModel) =>
         def mapProposal(proposal: ProposalModel) = {
           if (proposal.id == proposalId) {
             proposal.copy(votes = proposal.votes.map { vote =>
@@ -303,7 +302,7 @@ object Sequence {
             proposal,
             onSuccessfulVote(_, self),
             onSuccessfulQualification(_, self),
-            canScrollNext = slideIndex => {
+            canScrollNext = (slideIndex) => {
               val currentSlideIndex = slideIndex
               val slides = self.state.slides
               if (currentSlideIndex + 1 < slides.size) {
@@ -425,9 +424,6 @@ object Sequence {
                 )
               )
           }
-          if (state.currentSlideIndex == state.slides.size - 1) {
-            self.props.wrapped.endSequence()
-          }
         },
         render = { self =>
           def updateCurrentSlideIndex(currentSlide: Int): Unit = {
@@ -472,10 +468,6 @@ object Sequence {
 
           def maxIndex = maxScrollableIndex(self.state.slides.toList)
 
-          if (self.state.currentSlideIndex == self.state.slides.size - 1 && self.state.currentSlideIndex != -1) {
-            self.props.wrapped.endSequence()
-          }
-
           <.div(^.className := js.Array(TableLayoutStyles.fullHeightWrapper, SequenceStyles.wrapper))(
             <.div(^.className := TableLayoutStyles.row)(
               <.div(
@@ -504,7 +496,7 @@ object Sequence {
                           ^.onClick := previous,
                           ^.disabled := self.state.currentSlideIndex == 0
                         )(),
-                      <.Slider(^.ref := { slideshow: HTMLElement =>
+                      <.Slider(^.ref := { (slideshow: HTMLElement) =>
                         slider = Option(slideshow.asInstanceOf[Slider])
                         slider.foreach { s =>
                           val oldSlideHandler: js.Function1[Int, Unit] = s.innerSlider.slideHandler

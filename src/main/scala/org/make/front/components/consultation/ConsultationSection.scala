@@ -25,7 +25,6 @@ import io.github.shogowada.scalajs.reactjs.VirtualDOM._
 import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import io.github.shogowada.scalajs.reactjs.router.WithRouter
 import org.make.front.Main.CssSettings._
-import org.make.front.styles.utils._
 import org.make.front.components.Components._
 import org.make.front.components.consultation.ConsultationCommunity.ConsultationCommunityProps
 import org.make.front.components.consultation.ConsultationLinkSequence.ConsultationLinkSequenceProps
@@ -37,6 +36,7 @@ import org.make.front.components.consultation.ResultsInConsultationContainer.Res
 import org.make.front.models.{OperationWording, Location => LocationModel, OperationExpanded => OperationModel}
 import org.make.front.styles.ThemeStyles
 import org.make.front.styles.base.RWDRulesLargeMediumStyles
+import org.make.front.styles.utils._
 
 import scala.scalajs.js
 
@@ -46,7 +46,6 @@ object ConsultationSection {
   case class ConsultationSectionProps(operation: OperationModel,
                                       language: String,
                                       countryCode: String,
-                                      isSequenceDone: Boolean,
                                       queryTags: js.Array[String])
 
   lazy val reactClass: ReactClass =
@@ -70,14 +69,12 @@ object ConsultationSection {
                     language = self.props.wrapped.language
                   )
                 )(),
-                if (!self.props.wrapped.isSequenceDone) {
-                  <.ConsultationLinkSequenceComponent(
-                    ^.wrapped := ConsultationLinkSequenceProps(
-                      operation = consultation,
-                      country = self.props.wrapped.countryCode
-                    )
-                  )()
-                },
+                <.ConsultationLinkSequenceComponent(
+                  ^.wrapped := ConsultationLinkSequenceProps(
+                    operation = consultation,
+                    country = self.props.wrapped.countryCode
+                  )
+                )(),
                 maybeWording.flatMap { wording =>
                   wording.presentation.map { content =>
                     <.div(^.className := RWDRulesLargeMediumStyles.hideBeyondLargeMedium)(

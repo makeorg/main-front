@@ -24,7 +24,7 @@ import io.github.shogowada.scalajs.reactjs.React.Props
 import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import io.github.shogowada.scalajs.reactjs.redux.ReactRedux
 import io.github.shogowada.scalajs.reactjs.redux.Redux.Dispatch
-import org.make.front.actions.{NotifyError, SequenceDone}
+import org.make.front.actions.NotifyError
 import org.make.front.components.AppState
 import org.make.front.components.sequence.Sequence.ExtraSlide
 import org.make.front.facades.I18n
@@ -45,7 +45,7 @@ import scala.scalajs.js.JSConverters._
 
 object SequenceContainer {
 
-  final case class SequenceContainerProps(loadSequence: js.Array[ProposalId] => Future[SequenceModel],
+  final case class SequenceContainerProps(loadSequence: (js.Array[ProposalId]) => Future[SequenceModel],
                                           sequence: SequenceModel,
                                           progressBarColor: Option[String],
                                           extraSlides: js.Array[ExtraSlide],
@@ -59,12 +59,12 @@ object SequenceContainer {
     scala.util.Random.shuffle(proposals.toSeq).toJSArray
   }
 
-  def selectorFactory: Dispatch => (AppState, Props[SequenceContainerProps]) => Sequence.SequenceProps =
+  def selectorFactory: (Dispatch) => (AppState, Props[SequenceContainerProps]) => Sequence.SequenceProps =
     (dispatch: Dispatch) => { (state: AppState, props: Props[SequenceContainerProps]) =>
       {
         val isConnected: Boolean = state.connectedUser.nonEmpty
 
-        val reloadSequence: js.Array[ProposalId] => Future[SequenceModel] = { forcedProposals =>
+        val reloadSequence: (js.Array[ProposalId]) => Future[SequenceModel] = { forcedProposals =>
           val result = props.wrapped.loadSequence(forcedProposals).map { sequence =>
             val proposals = sequence.proposals
             val voted = proposals.filter(_.votes.exists(_.hasVoted))
@@ -79,12 +79,6 @@ object SequenceContainer {
           result
         }
 
-        def endSequence =
-          () =>
-            if (!state.isSequenceDone) {
-              dispatch(SequenceDone)
-          }
-
         Sequence.SequenceProps(
           loadSequence = reloadSequence,
           sequence = props.wrapped.sequence,
@@ -93,8 +87,7 @@ object SequenceContainer {
           isConnected = isConnected,
           maybeTheme = props.wrapped.maybeTheme,
           maybeOperation = props.wrapped.maybeOperation,
-          maybeLocation = props.wrapped.maybeLocation,
-          endSequence = endSequence
+          maybeLocation = props.wrapped.maybeLocation
         )
       }
     }
