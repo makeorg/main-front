@@ -228,10 +228,7 @@ object ActionsSectionStyles extends StyleSheet.Inline {
 
   val main: StyleA =
     style(
-      display.flex,
-      flexFlow := s"column-reverse",
       ThemeStyles.MediaQueries.beyondLargeMedium(
-        flexFlow := s"column",
         maxWidth(750.pxToPercent(1140)), marginRight(30.pxToPercent(1140))
       )
     )
