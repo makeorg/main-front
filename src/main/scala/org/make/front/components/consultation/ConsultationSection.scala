@@ -38,15 +38,10 @@ import org.make.front.styles.ThemeStyles
 import org.make.front.styles.base.RWDRulesLargeMediumStyles
 import org.make.front.styles.utils._
 
-import scala.scalajs.js
-
 object ConsultationSection {
 
   case class ConsultationSectionState()
-  case class ConsultationSectionProps(operation: OperationModel,
-                                      language: String,
-                                      countryCode: String,
-                                      queryTags: js.Array[String])
+  case class ConsultationSectionProps(operation: OperationModel, language: String, countryCode: String)
 
   lazy val reactClass: ReactClass =
     WithRouter(
@@ -93,8 +88,7 @@ object ConsultationSection {
                 <.ResultsInConsultationContainerComponent(
                   ^.wrapped := ResultsInConsultationContainerProps(
                     currentConsultation = consultation,
-                    maybeLocation = Some(LocationModel.OperationPage(consultation.operationId)),
-                    queryTags = self.props.wrapped.queryTags
+                    maybeLocation = Some(LocationModel.OperationPage(consultation.operationId))
                   )
                 )()
               ),

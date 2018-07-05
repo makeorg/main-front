@@ -30,9 +30,9 @@ import org.make.front.components.theme.ResultsInTheme.ResultsInThemeProps
 import org.make.front.facades.I18n
 import org.make.front.models.{
   Proposal,
-  TagId,
   Location          => LocationModel,
   OperationExpanded => OperationModel,
+  Tag               => TagModel,
   ThemeId           => ThemeIdModel,
   TranslatedTheme   => TranslatedThemeModel
 }
@@ -48,22 +48,21 @@ object ResultsInThemeContainer {
 
   case class ResultsInThemeContainerProps(currentTheme: TranslatedThemeModel,
                                           maybeOperation: Option[OperationModel],
-                                          maybeLocation: Option[LocationModel],
-                                          queryTags: js.Array[String])
+                                          maybeLocation: Option[LocationModel])
   case class ResultsInThemeContainerState(currentTheme: TranslatedThemeModel, results: js.Array[Proposal])
 
   lazy val reactClass: ReactClass = ReactRedux.connectAdvanced(selectorFactory)(ResultsInTheme.reactClass)
 
   def selectorFactory
-    : Dispatch => (AppState, Props[ResultsInThemeContainerProps]) => ResultsInTheme.ResultsInThemeProps =
+    : (Dispatch) => (AppState, Props[ResultsInThemeContainerProps]) => ResultsInTheme.ResultsInThemeProps =
     (dispatch: Dispatch) => { (appState: AppState, props: Props[ResultsInThemeContainerProps]) =>
       val themesIds: js.Array[ThemeIdModel] = js.Array(props.wrapped.currentTheme.id)
 
-      def getProposals(tagIds: js.Array[TagId], skip: Int, seed: Option[Int] = None): Future[SearchResult] = {
+      def getProposals(tags: js.Array[TagModel], skip: Int, seed: Option[Int] = None): Future[SearchResult] = {
         ProposalService
           .searchProposals(
             themesIds = themesIds,
-            tagsIds = tagIds,
+            tagsIds = tags.map(_.tagId),
             seed = seed,
             limit = Some(defaultResultsCount),
             skip = Some(skip),
@@ -73,9 +72,9 @@ object ResultsInThemeContainer {
       }
 
       def nextProposals(currentProposals: js.Array[Proposal],
-                        tagIds: js.Array[TagId],
+                        tags: js.Array[TagModel],
                         seed: Option[Int] = None): Future[SearchResult] = {
-        val result = getProposals(tagIds = tagIds, skip = currentProposals.size, seed = seed).map { results =>
+        val result = getProposals(tags = tags, skip = currentProposals.size, seed = seed).map { results =>
           results.copy(results = currentProposals ++ results.results)
         }
 
@@ -87,8 +86,8 @@ object ResultsInThemeContainer {
         result
       }
 
-      def searchOnSelectedTags(selectedTags: js.Array[TagId], seed: Option[Int] = None): Future[SearchResult] = {
-        val result = getProposals(tagIds = selectedTags, skip = 0, seed = seed)
+      def searchOnSelectedTags(selectedTags: js.Array[TagModel], seed: Option[Int] = None): Future[SearchResult] = {
+        val result = getProposals(tags = selectedTags, skip = 0, seed = seed)
 
         result.onComplete {
           case Success(_) => // Let child handle results
@@ -103,7 +102,6 @@ object ResultsInThemeContainer {
         onMoreResultsRequested = nextProposals,
         onTagSelectionChange = searchOnSelectedTags,
         preselectedTags = js.Array(),
-        queryTags = props.wrapped.queryTags.map(TagId),
         maybeOperation = props.wrapped.maybeOperation,
         maybeLocation = props.wrapped.maybeLocation,
         country = appState.country

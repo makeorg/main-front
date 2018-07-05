@@ -43,8 +43,7 @@ object MaybeTheme {
 
   final case class MaybeThemeProps(maybeTheme: Option[TranslatedThemeModel] = None,
                                    maybeOperation: Option[OperationModel],
-                                   maybeLocation: Option[LocationModel],
-                                   queryTags: js.Array[String])
+                                   maybeLocation: Option[LocationModel])
 
   lazy val reactClass: ReactClass =
     React
@@ -56,8 +55,7 @@ object MaybeTheme {
               ^.wrapped := ThemeProps(
                 theme = theme,
                 maybeOperation = self.props.wrapped.maybeOperation,
-                maybeLocation = self.props.wrapped.maybeLocation,
-                queryTags = self.props.wrapped.queryTags
+                maybeLocation = self.props.wrapped.maybeLocation
               )
             )()
           }.getOrElse(

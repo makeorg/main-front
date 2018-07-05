@@ -29,7 +29,6 @@ import org.make.front.actions.SetCountry
 import org.make.front.components.DataLoader.DataLoaderProps
 import org.make.front.components.operation.{Operation, WaitingForOperation}
 import org.make.front.components.{AppState, DataLoader}
-import org.make.front.helpers.QueryString
 import org.make.front.models.{
   ConsultationVersion,
   OperationExpanded,
@@ -44,7 +43,6 @@ import org.scalajs.dom
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 import scala.scalajs.js
-import scala.scalajs.js.JSConverters._
 
 object ConsultationContainer {
 
@@ -54,9 +52,6 @@ object ConsultationContainer {
     (dispatch: Dispatch) => { (appState: AppState, props: Props[Unit]) =>
       {
         val slug = props.`match`.params("operationSlug")
-
-        val queryTags: js.Array[String] =
-          QueryString.parse(props.location.search).get("tagIds").map(_.split(',').toJSArray).getOrElse(js.Array())
 
         val tabs: Seq[String] = Seq("consultation", "actions")
 
@@ -111,7 +106,7 @@ object ConsultationContainer {
                     props.history.push("/404")
                   }
                 }
-              }, activeTab = activeTab, queryTags = queryTags)
+              }, activeTab = activeTab)
             } else {
               Operation.OperationProps(
                 operation = operation,

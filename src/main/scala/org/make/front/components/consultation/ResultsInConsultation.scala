@@ -26,7 +26,6 @@ import io.github.shogowada.scalajs.reactjs.VirtualDOM._
 import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import io.github.shogowada.scalajs.reactjs.elements.ReactElement
 import org.make.core.Counter
-import org.make.front.Main.CssSettings._
 import org.make.front.components.Components._
 import org.make.front.components.proposal.ProposalTileWithOrganisationsVotes.ProposalTileWithOrganisationsVotesProps
 import org.make.front.components.tags.FilterByTags.FilterByTagsProps
@@ -37,7 +36,6 @@ import org.make.front.facades.ReactInfiniteScroller.{
 }
 import org.make.front.facades.Unescape.unescape
 import org.make.front.models.{
-  TagId,
   Location          => LocationModel,
   OperationExpanded => OperationModel,
   Proposal          => ProposalModel,
@@ -46,14 +44,15 @@ import org.make.front.models.{
   Tag               => TagModel,
   Vote              => VoteModel
 }
-import org.make.front.styles.ThemeStyles
-import org.make.front.styles.base.TextStyles
-import org.make.front.styles.ui.CTAStyles
-import org.make.front.styles.utils._
+import org.make.front.styles.base.{TextStyles}
 import org.make.front.styles.vendors.FontAwesomeStyles
 import org.make.services.proposal.SearchResult
 import org.make.services.tracking.TrackingService.TrackingContext
 import org.make.services.tracking.{TrackingLocation, TrackingService}
+import org.make.front.Main.CssSettings._
+import org.make.front.styles.ThemeStyles
+import org.make.front.styles.ui.CTAStyles
+import org.make.front.styles.utils._
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
@@ -64,10 +63,9 @@ object ResultsInConsultation {
 
   case class ResultsInConsultationProps(
     operation: OperationModel,
-    onMoreResultsRequested: (js.Array[ProposalModel], js.Array[TagId], Option[Int]) => Future[SearchResult],
-    onTagSelectionChange: (js.Array[TagId], Option[Int])                            => Future[SearchResult],
+    onMoreResultsRequested: (js.Array[ProposalModel], js.Array[TagModel], Option[Int]) => Future[SearchResult],
+    onTagSelectionChange: (js.Array[TagModel], Option[Int])                            => Future[SearchResult],
     preselectedTags: js.Array[TagModel],
-    queryTags: js.Array[TagId],
     maybeLocation: Option[LocationModel],
     country: String
   )
@@ -157,12 +155,8 @@ object ResultsInConsultation {
       render = { self =>
         val onSeeMore: Int => Unit = {
           _ =>
-            val tagIds: js.Array[TagId] =
-              if (self.state.selectedTags.nonEmpty) self.state.selectedTags.map(_.tagId)
-              else self.props.wrapped.queryTags
-
             self.props.wrapped
-              .onMoreResultsRequested(self.state.listProposals, tagIds, self.state.maybeSeed)
+              .onMoreResultsRequested(self.state.listProposals, self.state.selectedTags, self.state.maybeSeed)
               .onComplete {
                 case Success(searchResult) =>
                   self.setState(
@@ -210,7 +204,7 @@ object ResultsInConsultation {
             }
 
             self.setState(_.copy(selectedTags = tags))
-            self.props.wrapped.onTagSelectionChange(tags.map(_.tagId), self.state.maybeSeed).onComplete {
+            self.props.wrapped.onTagSelectionChange(tags, self.state.maybeSeed).onComplete {
               case Success(searchResult) =>
                 self.setState(
                   _.copy(

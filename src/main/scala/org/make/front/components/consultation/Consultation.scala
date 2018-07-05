@@ -35,16 +35,13 @@ import org.make.front.styles.utils._
 import org.make.services.tracking.TrackingService.TrackingContext
 import org.make.services.tracking.{TrackingLocation, TrackingService}
 
-import scala.scalajs.js
-
 object Consultation {
 
   final case class ConsultationProps(operation: OperationModel,
                                      countryCode: String,
                                      language: String,
                                      onWillMount: () => Unit,
-                                     activeTab: String,
-                                     queryTags: js.Array[String])
+                                     activeTab: String)
 
   lazy val reactClass: ReactClass =
     React
@@ -87,8 +84,7 @@ object Consultation {
                     ^.wrapped := ConsultationSectionProps(
                       operation = consultation,
                       language = self.props.wrapped.language,
-                      countryCode = self.props.wrapped.countryCode,
-                      queryTags = self.props.wrapped.queryTags
+                      countryCode = self.props.wrapped.countryCode
                     )
                   )()
                 } else {
