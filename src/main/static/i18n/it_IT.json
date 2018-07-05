@@ -493,6 +493,7 @@
       "separator": "o",
       "with-email-intro": "Iscriversi tramite indirizzo e-mail",
       "with-email-intro-trigger": "Accedi con l'indirzzo e-mail i tieniti aggiornato sull'evoluzione di queste proposte",
+      "with-email-actions-intro": "Mi registro con la mia email per essere informato dall'inizio delle azioni",
       "terms": "Iscrivendoti, accetti le nostre <a href=\"https://about.make.org/it/condizioni-di-utilizzo\" target=\"_blank\">condizioni generali d'utilizzo</a> e la recezione di e-mail da&nbsp;Make.org.",
       "send-cta": "registrati",
       "error-message": {
