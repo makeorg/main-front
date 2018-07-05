@@ -44,7 +44,6 @@ object Consultation {
                                      language: String,
                                      onWillMount: () => Unit,
                                      activeTab: String,
-                                     isSequenceDone: Boolean,
                                      queryTags: js.Array[String])
 
   lazy val reactClass: ReactClass =
@@ -89,7 +88,6 @@ object Consultation {
                       operation = consultation,
                       language = self.props.wrapped.language,
                       countryCode = self.props.wrapped.countryCode,
-                      isSequenceDone = self.props.wrapped.isSequenceDone,
                       queryTags = self.props.wrapped.queryTags
                     )
                   )()
