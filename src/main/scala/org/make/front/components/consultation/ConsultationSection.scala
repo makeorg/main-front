@@ -38,13 +38,16 @@ import org.make.front.models.{OperationWording, Location => LocationModel, Opera
 import org.make.front.styles.ThemeStyles
 import org.make.front.styles.base.RWDRulesLargeMediumStyles
 
+import scala.scalajs.js
+
 object ConsultationSection {
 
   case class ConsultationSectionState()
   case class ConsultationSectionProps(operation: OperationModel,
                                       language: String,
                                       countryCode: String,
-                                      isSequenceDone: Boolean)
+                                      isSequenceDone: Boolean,
+                                      queryTags: js.Array[String])
 
   lazy val reactClass: ReactClass =
     WithRouter(
@@ -93,7 +96,8 @@ object ConsultationSection {
                 <.ResultsInConsultationContainerComponent(
                   ^.wrapped := ResultsInConsultationContainerProps(
                     currentConsultation = consultation,
-                    maybeLocation = Some(LocationModel.OperationPage(consultation.operationId))
+                    maybeLocation = Some(LocationModel.OperationPage(consultation.operationId)),
+                    queryTags = self.props.wrapped.queryTags
                   )
                 )()
               ),

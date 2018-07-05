@@ -35,6 +35,8 @@ import org.make.front.styles.utils._
 import org.make.services.tracking.TrackingService.TrackingContext
 import org.make.services.tracking.{TrackingLocation, TrackingService}
 
+import scala.scalajs.js
+
 object Consultation {
 
   final case class ConsultationProps(operation: OperationModel,
@@ -42,7 +44,8 @@ object Consultation {
                                      language: String,
                                      onWillMount: () => Unit,
                                      activeTab: String,
-                                     isSequenceDone: Boolean)
+                                     isSequenceDone: Boolean,
+                                     queryTags: js.Array[String])
 
   lazy val reactClass: ReactClass =
     React
@@ -86,7 +89,8 @@ object Consultation {
                       operation = consultation,
                       language = self.props.wrapped.language,
                       countryCode = self.props.wrapped.countryCode,
-                      isSequenceDone = self.props.wrapped.isSequenceDone
+                      isSequenceDone = self.props.wrapped.isSequenceDone,
+                      queryTags = self.props.wrapped.queryTags
                     )
                   )()
                 } else {
@@ -117,14 +121,7 @@ object ConsultationStyles extends StyleSheet.Inline {
   )
 
   val fixedMainHeaderWrapper: StyleA =
-    style(
-      position.fixed,
-      top(`0`),
-      left(`0`),
-      width(100.%%),
-      zIndex(10),
-      boxShadow := s"0 2px 4px 0 rgba(0,0,0,0.50)"
-    )
+    style(position.fixed, top(`0`), left(`0`), width(100.%%), zIndex(10), boxShadow := s"0 2px 4px 0 rgba(0,0,0,0.50)")
 
   val contentWrapper: StyleA =
     style(display.block, backgroundColor(ThemeStyles.BackgroundColor.blackVeryTransparent))

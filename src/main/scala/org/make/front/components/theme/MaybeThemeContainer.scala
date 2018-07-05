@@ -27,15 +27,22 @@ import io.github.shogowada.scalajs.reactjs.redux.Redux.Dispatch
 import io.github.shogowada.scalajs.reactjs.router.RouterProps._
 import org.make.front.actions.LoadConfiguration
 import org.make.front.components.AppState
+import org.make.front.helpers.QueryString
+
+import scala.scalajs.js
+import scala.scalajs.js.JSConverters._
 
 object MaybeThemeContainer {
 
   lazy val reactClass: ReactClass = ReactRedux.connectAdvanced(selectorFactory)(MaybeTheme.reactClass)
 
-  def selectorFactory: (Dispatch) => (AppState, Props[Unit]) => MaybeTheme.MaybeThemeProps =
+  def selectorFactory: Dispatch => (AppState, Props[Unit]) => MaybeTheme.MaybeThemeProps =
     (dispatch: Dispatch) => { (state: AppState, props: Props[Unit]) =>
       {
         val slug = props.`match`.params("themeSlug")
+
+        val queryTags: js.Array[String] =
+          QueryString.parse(props.location.search).get("tagIds").map(_.split(',').toJSArray).getOrElse(js.Array())
 
         state.configuration match {
           case Some(config) =>
@@ -48,7 +55,8 @@ object MaybeThemeContainer {
         MaybeTheme.MaybeThemeProps(
           maybeTheme = state.findTheme(slug = slug),
           maybeOperation = None,
-          maybeLocation = None
+          maybeLocation = None,
+          queryTags = queryTags
         )
 
       }

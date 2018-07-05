@@ -44,7 +44,7 @@ import org.scalajs.dom
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 import scala.scalajs.js
-import scala.util.Try
+import scala.scalajs.js.JSConverters._
 
 object ConsultationContainer {
 
@@ -54,6 +54,9 @@ object ConsultationContainer {
     (dispatch: Dispatch) => { (appState: AppState, props: Props[Unit]) =>
       {
         val slug = props.`match`.params("operationSlug")
+
+        val queryTags: js.Array[String] =
+          QueryString.parse(props.location.search).get("tagIds").map(_.split(',').toJSArray).getOrElse(js.Array())
 
         val tabs: Seq[String] = Seq("consultation", "actions")
 
@@ -108,7 +111,7 @@ object ConsultationContainer {
                     props.history.push("/404")
                   }
                 }
-              }, activeTab = activeTab, isSequenceDone = appState.isSequenceDone)
+              }, activeTab = activeTab, isSequenceDone = appState.isSequenceDone, queryTags = queryTags)
             } else {
               Operation.OperationProps(
                 operation = operation,
