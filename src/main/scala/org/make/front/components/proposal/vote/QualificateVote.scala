@@ -49,7 +49,7 @@ object QualificateVote {
                                         guide: Option[String] = None,
                                         isProposalSharable : Boolean)
 
-  final case class QualificateVoteState(qualifications: Map[String, Qualification], tooltipOnHover: Boolean)
+  final case class QualificateVoteState(qualifications: Map[String, Qualification], activateTooltip: Boolean)
 
   lazy val reactClass: ReactClass =
     React
@@ -58,23 +58,23 @@ object QualificateVote {
         getInitialState = { self =>
           QualificateVoteState(
             qualifications = self.props.wrapped.qualifications.map { qualification => qualification.key -> qualification }.toMap,
-            tooltipOnHover = false
+            activateTooltip = false
           )
         },
         componentWillReceiveProps = { (self, props) =>
           self.setState(QualificateVoteState(
             qualifications = props.wrapped.qualifications.map { qualification => qualification.key -> qualification }.toMap,
-            tooltipOnHover = false)
+            activateTooltip = props.wrapped.qualifications.map { qualification => qualification.activateTooltip }.head)
           )
         },
         render = { self =>
 
           def tooltipOn() = () => {
-            self.setState(_.copy(tooltipOnHover = true))
+            self.setState(_.copy(activateTooltip = true))
           }
 
           def tooltipOff() = () => {
-            self.setState(_.copy(tooltipOnHover = false))
+            self.setState(_.copy(activateTooltip = false))
           }
 
           <.div(^.className := QualificateVoteStyles.wrapper, ^.onMouseOver := tooltipOn, ^.onMouseOut := tooltipOff)(
@@ -101,16 +101,14 @@ object QualificateVote {
               )()
             )
           },
-            self.props.wrapped.qualifications.map {
-              qualification =>
+            <.div (^.className := QualificateVoteStyles.tooltipTrigged(self.state.activateTooltip))(
+              self.props.wrapped.qualifications.map {
+                qualification =>
                 if(qualification.key == "likeIt" && qualification.hasQualified){
                   self.props.wrapped.maybeOperation.map {
                     operation =>
-                      <.div (^.className := js.Array(
-                        QualificateVoteStyles.tooltipTrigged(self.state.tooltipOnHover),
-                        QualificateVoteStyles.isProposalSharable (self.props.wrapped.isProposalSharable))
-                      )(
-                          <.ShareLikeItProposalComponent(
+                      <.div (^.className := QualificateVoteStyles.isProposalSharable(self.props.wrapped.isProposalSharable))(
+                        <.ShareLikeItProposalComponent(
                           ^.wrapped := ShareLikeItProposalProps(
                             proposal = self.props.wrapped.proposal,
                             operation = operation,
@@ -120,7 +118,8 @@ object QualificateVote {
                       )
                   }
                 }
-            }.toSeq
+              }.toSeq
+            )
           )
         }
       )
