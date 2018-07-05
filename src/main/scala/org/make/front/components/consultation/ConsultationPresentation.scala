@@ -60,6 +60,18 @@ object ConsultationPresentation {
 
           def changeCollapse(): () => Unit = { () =>
             self.setState(_.copy(isCollapsed = !self.state.isCollapsed))
+            TrackingService
+              .track(
+                "open-block-learn-more",
+                TrackingContext(TrackingLocation.operationPage, operationSlug = Some(consultation.slug)),
+                Map("action" -> {
+                  if(self.state.isCollapsed) {
+                    "open"
+                  } else {
+                    "close"
+                  }
+                })
+              )
           }
 
           def trackingActions(url: String): () => Unit = { () =>

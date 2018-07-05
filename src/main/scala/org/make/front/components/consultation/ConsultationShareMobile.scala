@@ -32,6 +32,8 @@ import org.make.front.styles.ThemeStyles
 import org.make.front.styles.base.RWDRulesLargeMediumStyles
 import org.make.front.styles.utils._
 import org.make.front.styles.vendors.FontAwesomeStyles
+import org.make.services.tracking.TrackingService.TrackingContext
+import org.make.services.tracking.{TrackingLocation, TrackingService}
 
 import scala.scalajs.js
 
@@ -50,6 +52,11 @@ object ConsultationShareMobile {
         render = { self =>
           def toggleSharing(): () => Unit = { () =>
             self.setState(_.copy(isOpen = !self.state.isOpen))
+            TrackingService
+              .track(
+                "click-open-share-sequence",
+                TrackingContext(TrackingLocation.operationPage, operationSlug = Some(self.props.wrapped.operation.slug))
+              )
           }
 
           <.aside(^.className := RWDRulesLargeMediumStyles.hideBeyondLargeMedium)(

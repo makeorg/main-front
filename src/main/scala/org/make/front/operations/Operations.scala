@@ -57,7 +57,10 @@ object Slides {
   def trackingContext(params: OperationExtraSlidesParams) =
     TrackingContext(TrackingLocation.sequencePage, Some(params.operation.slug))
   def defaultTrackingParameters(params: OperationExtraSlidesParams) =
-    Map("sequenceId" -> params.sequence.sequenceId.value)
+    Map(
+      "sequenceId" -> params.sequence.sequenceId.value,
+      "operation" -> params.operation.slug
+    )
 
   def displaySequenceIntroCard(params: OperationExtraSlidesParams,
                                displayed: Boolean = true,
