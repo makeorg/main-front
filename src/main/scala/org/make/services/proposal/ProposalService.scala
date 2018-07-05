@@ -91,7 +91,8 @@ object ProposalService extends ApiService {
                       isRandom: Option[Boolean] = Some(true),
                       seed: Option[Int] = None,
                       language: Option[String] = None,
-                      country: Option[String] = None): Future[SearchResult] = {
+                      country: Option[String] = None,
+                      sortAlgorithm: Option[SortAlgorithm] = None): Future[SearchResult] = {
 
     val params =
       js.Array[(String, Any)](
@@ -113,7 +114,8 @@ object ProposalService extends ApiService {
           "order" -> sort.flatMap(_.headOption).flatMap(_.mode).map(_.shortName),
           "limit" -> limit,
           "skip" -> skip,
-          "isRandom" -> isRandom
+          "isRandom" -> isRandom,
+          "sortAlgorithm" -> sortAlgorithm.map(_.shortName)
         )
         .filter {
           case (_, None) => false

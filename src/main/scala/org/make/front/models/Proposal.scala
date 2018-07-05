@@ -176,3 +176,21 @@ object OrganisationInfo {
 final case class ProposalId(value: String)
 
 case class ProposalSearchResult(proposals: js.Array[Proposal], hasMore: Boolean)
+
+sealed trait SortAlgorithm { val shortName: String }
+
+object SortAlgorithm {
+  val sortAlgorithms: Map[String, SortAlgorithm] = Map(
+    RandomAlgorithm.shortName -> RandomAlgorithm,
+    ActorVoteAlgorithm.shortName -> ActorVoteAlgorithm,
+    ControversyAlgorithm.shortName -> ControversyAlgorithm,
+    PopularAlgorithm.shortName -> PopularAlgorithm
+  )
+
+  def matchSortAlgorithm(sortAlgorithm: String): Option[SortAlgorithm] = sortAlgorithms.get(sortAlgorithm)
+}
+
+case object RandomAlgorithm extends SortAlgorithm { override val shortName: String = "random" }
+case object ActorVoteAlgorithm extends SortAlgorithm { override val shortName: String = "actorVote" }
+case object ControversyAlgorithm extends SortAlgorithm { override val shortName: String = "controversy" }
+case object PopularAlgorithm extends SortAlgorithm { override val shortName: String = "popular" }

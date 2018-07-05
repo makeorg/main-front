@@ -24,11 +24,21 @@ import io.github.shogowada.scalajs.reactjs.React.Props
 import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import io.github.shogowada.scalajs.reactjs.redux.ReactRedux
 import io.github.shogowada.scalajs.reactjs.redux.Redux.Dispatch
+import io.github.shogowada.scalajs.reactjs.router.RouterProps._
+import io.github.shogowada.scalajs.reactjs.router.WithRouter
 import org.make.front.actions.NotifyError
 import org.make.front.components.AppState
 import org.make.front.components.consultation.ResultsInConsultation.ResultsInConsultationProps
 import org.make.front.facades.I18n
-import org.make.front.models.{Proposal, Location => LocationModel, OperationExpanded => OperationModel, Tag => TagModel}
+import org.make.front.helpers.QueryString
+import org.make.front.models.{
+  ActorVoteAlgorithm,
+  Proposal,
+  SortAlgorithm,
+  Location          => LocationModel,
+  OperationExpanded => OperationModel,
+  Tag               => TagModel
+}
 import org.make.services.proposal.ProposalService.defaultResultsCount
 import org.make.services.proposal.{ProposalService, SearchResult}
 
@@ -43,12 +53,20 @@ object ResultsInConsultationContainer {
 
   case class ResultsInConsultationContainerState(currentConsultation: OperationModel, results: js.Array[Proposal])
 
-  lazy val reactClass: ReactClass = ReactRedux.connectAdvanced(selectorFactory)(ResultsInConsultation.reactClass)
+  lazy val reactClass: ReactClass = WithRouter(
+    ReactRedux.connectAdvanced(selectorFactory)(ResultsInConsultation.reactClass)
+  )
 
   def selectorFactory
     : Dispatch => (AppState,
                    Props[ResultsInConsultationContainerProps]) => ResultsInConsultation.ResultsInConsultationProps =
     (dispatch: Dispatch) => { (appState: AppState, props: Props[ResultsInConsultationContainerProps]) =>
+      val sortAlgorithm: SortAlgorithm = QueryString
+        .parse(props.location.search)
+        .get("sort-algorithm")
+        .flatMap(SortAlgorithm.matchSortAlgorithm)
+        .getOrElse(ActorVoteAlgorithm)
+
       def getProposals(tags: js.Array[TagModel], skip: Int, seed: Option[Int] = None): Future[SearchResult] = {
         ProposalService
           .searchProposals(
@@ -59,7 +77,8 @@ object ResultsInConsultationContainer {
             limit = Some(defaultResultsCount),
             skip = Some(skip),
             language = Some(appState.language),
-            country = Some(appState.country)
+            country = Some(appState.country),
+            sortAlgorithm = Some(sortAlgorithm)
           )
       }
 
