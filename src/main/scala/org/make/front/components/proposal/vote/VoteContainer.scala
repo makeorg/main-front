@@ -74,25 +74,34 @@ object VoteContainer {
       )
 
       def defaultVoteParameters: Map[String, String] = {
-        var parameters = Map("proposalId" -> props.wrapped.proposal.id.value)
-        props.wrapped.maybeTheme.foreach { theme =>
-          parameters += "themeId" -> theme.id.value
-        }
+        var parameters = Map("" -> "")
+
         props.wrapped.maybeSequenceId.foreach { sequenceId =>
-          parameters += "sequenceId" -> sequenceId.value
           parameters += "card-position" -> props.wrapped.index.toString
 
         }
         parameters
       }
 
+      def defaultVoteInternalOnlyParameters: Map[String, String] = {
+        var parameters = Map("proposalId" -> props.wrapped.proposal.id.value)
+        props.wrapped.maybeTheme.foreach { theme =>
+          parameters += "themeId" -> theme.id.value
+        }
+        props.wrapped.maybeSequenceId.foreach { sequenceId =>
+          parameters += "sequenceId" -> sequenceId.value
+        }
+        parameters
+      }
+
       def vote(key: String): Future[VoteModel] = {
-        val parameters = Map("nature" -> key) ++ defaultVoteParameters
+        val internalOnlyParameters = Map("nature" -> key) ++ defaultVoteInternalOnlyParameters
 
         TrackingService.track(
           "click-proposal-vote",
           TrackingContext(props.wrapped.trackingLocation, operationSlug = props.wrapped.maybeOperation.map(_.slug)),
-          parameters
+          defaultVoteParameters,
+          internalOnlyParameters
         )
         val future = ProposalService.vote(
           proposalId = props.wrapped.proposal.id,
@@ -111,12 +120,13 @@ object VoteContainer {
       }
 
       def unvote(key: String): Future[VoteModel] = {
-        val parameters = Map("nature" -> key) ++ defaultVoteParameters
+        val internalOnlyParameters = Map("nature" -> key) ++ defaultVoteInternalOnlyParameters
 
         TrackingService.track(
           "click-proposal-unvote",
           TrackingContext(props.wrapped.trackingLocation, operationSlug = props.wrapped.maybeOperation.map(_.slug)),
-          parameters
+          defaultVoteParameters,
+          internalOnlyParameters
         )
         val future = ProposalService.unvote(
           proposalId = props.wrapped.proposal.id,
@@ -132,12 +142,13 @@ object VoteContainer {
       }
 
       val qualify: (String, String) => Future[QualificationModel] = { (vote, qualification) =>
-        val parameters = Map("type" -> qualification, "nature" -> vote) ++ defaultVoteParameters
+        val internalOnlyParameters = Map("type" -> qualification, "nature" -> vote) ++ defaultVoteInternalOnlyParameters
 
         TrackingService.track(
           "click-proposal-qualify",
           TrackingContext(props.wrapped.trackingLocation, operationSlug = props.wrapped.maybeOperation.map(_.slug)),
-          parameters
+          defaultVoteParameters,
+          internalOnlyParameters
         )
 
         val future = ProposalService.qualifyVote(
@@ -155,12 +166,13 @@ object VoteContainer {
       }
 
       val removeQualification: (String, String) => Future[QualificationModel] = { (vote, qualification) =>
-        val parameters = Map("type" -> qualification, "nature" -> vote) ++ defaultVoteParameters
+        val internalOnlyParameters = Map("type" -> qualification, "nature" -> vote) ++ defaultVoteInternalOnlyParameters
 
         TrackingService.track(
           "click-proposal-unqualify",
           TrackingContext(props.wrapped.trackingLocation, operationSlug = props.wrapped.maybeOperation.map(_.slug)),
-          parameters
+          defaultVoteParameters,
+          internalOnlyParameters
         )
 
         val future = ProposalService.removeVoteQualification(

@@ -198,6 +198,7 @@ object ThemeHeader {
           TrackingService.track(
             "click-proposal-submit-form-open",
             TrackingContext(TrackingLocation.themePage),
+            Map.empty,
             Map("themeId" -> self.props.wrapped.theme.id.value)
           )
           proposalInput.foreach(_.blur())

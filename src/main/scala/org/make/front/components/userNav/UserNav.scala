@@ -161,6 +161,7 @@ object UnconnectedUserNavElement {
               displayView = self.state.loginOrRegisterView,
               trackingContext = TrackingContext(TrackingLocation.navBar),
               trackingParameters = Map.empty,
+              trackingInternalOnlyParameters = Map.empty,
               onSuccessfulLogin = () => {
                 self.setState(_.copy(isAuthenticateModalOpened = false))
               }

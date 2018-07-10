@@ -56,7 +56,8 @@ object RegisterWithEmail {
           .track(
             "display-signup-form",
             self.props.wrapped.trackingContext,
-            self.props.wrapped.trackingParameters + ("signup-type" -> "light")
+            self.props.wrapped.trackingParameters + ("signup-type" -> "light"),
+            self.props.wrapped.trackingInternalOnlyParameters
           )
       },
       render = { self =>

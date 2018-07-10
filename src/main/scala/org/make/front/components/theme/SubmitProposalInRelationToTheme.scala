@@ -99,7 +99,8 @@ object SubmitProposalInRelationToTheme {
             ^.wrapped :=
               SubmitProposalAndAuthenticateContainerProps(
                 trackingContext = TrackingContext(TrackingLocation.submitProposalPage),
-                trackingParameters = Map("themeId" -> self.props.wrapped.theme.id.value),
+                trackingParameters = Map.empty,
+                trackingInternalOnlyParameters = Map("themeId" -> self.props.wrapped.theme.id.value),
                 intro = intro,
                 onProposalProposed = self.props.wrapped.onProposalProposed,
                 maybeTheme = Some(self.props.wrapped.theme),

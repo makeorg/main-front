@@ -63,6 +63,7 @@ object PromptingToProposeInRelationToOperationTile {
             TrackingService.track(
               "click-proposal-submit-form-open",
               TrackingContext(TrackingLocation.showcaseHomepage),
+              Map.empty,
               Map("operationId" -> self.props.wrapped.operation.operationId.value)
             )
           }

@@ -53,7 +53,8 @@ object RegisterWithEmailExpanded {
           .track(
             "display-signup-form",
             self.props.wrapped.trackingContext,
-            self.props.wrapped.trackingParameters + ("signup-type" -> "standard")
+            self.props.wrapped.trackingParameters + ("signup-type" -> "standard"),
+            self.props.wrapped.trackingInternalOnlyParameters
           )
       },
       getInitialState = { _ =>

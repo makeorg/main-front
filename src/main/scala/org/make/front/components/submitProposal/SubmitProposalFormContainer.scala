@@ -31,6 +31,7 @@ object SubmitProposalFormContainer {
 
   case class SubmitProposalFormContainerProps(trackingContext: TrackingContext,
                                               trackingParameters: Map[String, String],
+                                              trackingInternalOnlyParameters: Map[String, String],
                                               maybeTheme: Option[TranslatedThemeModel],
                                               errorMessage: Option[String],
                                               handleSubmitProposalForm: (String) => Unit)
@@ -41,6 +42,7 @@ object SubmitProposalFormContainer {
         SubmitProposalFormProps(
           trackingContext = props.wrapped.trackingContext,
           trackingParameters = props.wrapped.trackingParameters,
+          trackingInternalOnlyParameters = props.wrapped.trackingInternalOnlyParameters,
           bait = state.bait,
           proposalContentMaxLength = state.configuration.map(_.proposalMaxLength).getOrElse(140),
           proposalContentMinLength = state.configuration.map(_.proposalMinLength).getOrElse(10),

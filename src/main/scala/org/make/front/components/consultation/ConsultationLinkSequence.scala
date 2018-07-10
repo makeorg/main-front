@@ -64,6 +64,7 @@ object ConsultationLinkSequence {
               .track(
                 "click-sequence-open",
                 TrackingContext(TrackingLocation.operationPage, operationSlug = Some(consultation.slug)),
+                Map.empty,
                 Map("sequenceId" -> consultation.landingSequenceId.value)
               )
           }

@@ -54,6 +54,7 @@ object Theme {
             .track(
               "display-page-theme",
               TrackingContext(TrackingLocation.themePage),
+              Map.empty,
               Map("themeId" -> self.props.wrapped.theme.id.value)
             )
         },

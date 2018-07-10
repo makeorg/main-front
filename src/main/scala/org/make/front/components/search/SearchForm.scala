@@ -107,6 +107,7 @@ object SearchForm {
                   .track(
                     "click-navbar-search-submit",
                     TrackingContext(TrackingLocation.navBar),
+                    Map.empty,
                     Map("query" -> self.state.value)
                   )
                 val currentValue: String = URIUtils.encodeURI(self.state.value)

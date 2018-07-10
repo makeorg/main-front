@@ -43,7 +43,10 @@ object TrackingService {
     globalTrackingContext = Map.empty
   }
 
-  def track(eventName: String, trackingContext: TrackingContext, parameters: Map[String, String] = Map.empty): Unit = {
+  def track(eventName: String,
+            trackingContext: TrackingContext,
+            parameters: Map[String, String] = Map.empty,
+            internalOnlyParameters: Map[String, String] = Map.empty): Unit = {
 
     val eventType: String = "trackCustom"
     var allParameters = parameters +
@@ -58,7 +61,7 @@ object TrackingService {
 
     allParameters = allParameters ++ globalTrackingContext
 
-    TrackingApiService.track(eventType, eventName, allParameters, trackingContext)
+    TrackingApiService.track(eventType, eventName, allParameters ++ internalOnlyParameters, trackingContext)
     FacebookPixel.fbq(eventType, eventName, allParameters.toJSDictionary)
     GoogleTag.gtag("event", eventName, allParameters.toJSDictionary)
 

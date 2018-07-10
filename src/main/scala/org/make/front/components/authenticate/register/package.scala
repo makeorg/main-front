@@ -44,7 +44,8 @@ package object register {
   case class RegisterProps(note: String,
                            register: (RegisterState) => Future[UserModel],
                            trackingContext: TrackingContext,
-                           trackingParameters: Map[String, String])
+                           trackingParameters: Map[String, String],
+                           trackingInternalOnlyParameters: Map[String, String])
 
   def getErrorsMessagesFromApiErrors(errors: js.Array[ValidationError]): js.Array[(String, String)] = {
     errors.map {

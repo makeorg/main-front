@@ -42,6 +42,7 @@ import scala.scalajs.js
 object ConfirmationOfProposalSubmission {
 
   case class ConfirmationOfProposalSubmissionProps(trackingParameters: Map[String, String],
+                                                   trackingInternalOnlyParameters: Map[String, String],
                                                    maybeTheme: Option[TranslatedThemeModel],
                                                    maybeOperation: Option[OperationModel],
                                                    onBack: ()                  => _,
@@ -56,7 +57,8 @@ object ConfirmationOfProposalSubmission {
             .track(
               "display-proposal-submit-validation",
               TrackingContext(TrackingLocation.submitProposalPage, self.props.wrapped.maybeOperation.map(_.slug)),
-              self.props.wrapped.trackingParameters
+              self.props.wrapped.trackingParameters,
+              self.props.wrapped.trackingInternalOnlyParameters
             )
         },
         render = { self =>
@@ -64,7 +66,8 @@ object ConfirmationOfProposalSubmission {
             TrackingService.track(
               "click-proposal-submit-form-open",
               TrackingContext(TrackingLocation.endProposalPage, self.props.wrapped.maybeOperation.map(_.slug)),
-              self.props.wrapped.trackingParameters
+              self.props.wrapped.trackingParameters,
+              self.props.wrapped.trackingInternalOnlyParameters
             )
             self.props.wrapped.onSubmitAnotherProposal()
           }
@@ -73,7 +76,8 @@ object ConfirmationOfProposalSubmission {
             TrackingService.track(
               "click-back-button-after-proposal-submit",
               TrackingContext(TrackingLocation.endProposalPage, self.props.wrapped.maybeOperation.map(_.slug)),
-              self.props.wrapped.trackingParameters
+              self.props.wrapped.trackingParameters,
+              self.props.wrapped.trackingInternalOnlyParameters
             )
             self.props.wrapped.onBack()
           }

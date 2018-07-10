@@ -62,6 +62,7 @@ object PromptingToProposeInRelationToThemeTile {
           TrackingService.track(
             "click-proposal-submit-form-open",
             TrackingContext(TrackingLocation.showcaseHomepage),
+            Map.empty,
             Map("themeId" -> self.props.wrapped.theme.id.value)
           )
         }

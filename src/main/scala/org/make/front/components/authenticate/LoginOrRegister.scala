@@ -44,6 +44,7 @@ object LoginOrRegister {
   case class LoginOrRegisterProps(operationId: Option[OperationId] = None,
                                   trackingContext: TrackingContext,
                                   trackingParameters: Map[String, String],
+                                  trackingInternalOnlyParameters: Map[String, String],
                                   registerView: String = "register",
                                   displayView: String,
                                   onSuccessfulLogin: () => Unit = () => {},
@@ -76,6 +77,7 @@ object LoginOrRegister {
                 ^.wrapped := LoginWithSocialNetworksOrEmailProps(
                   props.trackingContext,
                   props.trackingParameters,
+                  props.trackingInternalOnlyParameters,
                   props.onSuccessfulLogin,
                   props.operationId
                 )
@@ -115,6 +117,7 @@ object LoginOrRegister {
                   operationId = self.props.wrapped.operationId,
                   trackingContext = self.props.wrapped.trackingContext,
                   trackingParameters = self.props.wrapped.trackingParameters,
+                  trackingInternalOnlyParameters = self.props.wrapped.trackingInternalOnlyParameters,
                   onSuccessfulLogin = props.onSuccessfulLogin,
                   registerTitle =
                     Some(props.registerTitle.getOrElse(unescape(I18n.t("authenticate.register.with-email-intro"))))
@@ -127,6 +130,7 @@ object LoginOrRegister {
                   operationId = self.props.wrapped.operationId,
                   trackingContext = self.props.wrapped.trackingContext,
                   trackingParameters = self.props.wrapped.trackingParameters,
+                  trackingInternalOnlyParameters = self.props.wrapped.trackingInternalOnlyParameters,
                   onSuccessfulLogin = props.onSuccessfulLogin,
                   registerTitle =
                     Some(props.registerTitle.getOrElse(unescape(I18n.t("authenticate.register.with-email-actions-intro"))))
@@ -139,6 +143,7 @@ object LoginOrRegister {
                   operationId = self.props.wrapped.operationId,
                   trackingContext = self.props.wrapped.trackingContext,
                   trackingParameters = self.props.wrapped.trackingParameters,
+                  trackingInternalOnlyParameters = self.props.wrapped.trackingInternalOnlyParameters,
                   onSuccessfulLogin = props.onSuccessfulLogin
                 )
               )()

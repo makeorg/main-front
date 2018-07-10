@@ -39,6 +39,7 @@ object LoginWithEmailContainer {
   case class LoginWithEmailContainerProps(note: String,
                                           trackingContext: TrackingContext,
                                           trackingParameters: Map[String, String],
+                                          trackingInternalOnlyParameters: Map[String, String],
                                           onSuccessfulLogin: () => Unit = () => {})
 
   val reactClass: ReactClass = ReactRedux.connectAdvanced {
@@ -50,7 +51,8 @@ object LoginWithEmailContainer {
             TrackingService.track(
               "signin-email-success",
               props.wrapped.trackingContext,
-              props.wrapped.trackingParameters
+              props.wrapped.trackingParameters,
+              props.wrapped.trackingInternalOnlyParameters
             )
             dispatch(LoggedInAction(user))
             props.wrapped.onSuccessfulLogin()
@@ -58,7 +60,8 @@ object LoginWithEmailContainer {
             TrackingService.track(
               "signin-email-failure",
               props.wrapped.trackingContext,
-              props.wrapped.trackingParameters
+              props.wrapped.trackingParameters,
+              props.wrapped.trackingInternalOnlyParameters
             )
         }
         result
@@ -67,6 +70,7 @@ object LoginWithEmailContainer {
         note = props.wrapped.note,
         trackingContext = props.wrapped.trackingContext,
         trackingParameters = props.wrapped.trackingParameters,
+        trackingInternalOnlyParameters = props.wrapped.trackingInternalOnlyParameters,
         connectUser = signIn
       )
   }(LoginWithEmail.reactClass)

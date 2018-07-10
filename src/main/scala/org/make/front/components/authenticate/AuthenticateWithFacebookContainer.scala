@@ -41,6 +41,7 @@ object AuthenticateWithFacebookContainer {
 
   case class AuthenticateWithFacebookContainerProps(trackingContext: TrackingContext,
                                                     trackingParameters: Map[String, String],
+                                                    trackingInternalOnlyParameters: Map[String, String],
                                                     onSuccessfulLogin: () => Unit = () => {},
                                                     isLookingLikeALink: Boolean = false,
                                                     operationId: Option[OperationId])
@@ -72,6 +73,7 @@ object AuthenticateWithFacebookContainer {
         AuthenticateWithFacebookButtonProps(
           trackingContext = props.wrapped.trackingContext,
           trackingParameters = props.wrapped.trackingParameters,
+          trackingInternalOnlyParameters = props.wrapped.trackingInternalOnlyParameters,
           isConnected = state.connectedUser.isDefined,
           facebookAppId = Configuration.facebookAppId,
           errorMessages = js.Array(),

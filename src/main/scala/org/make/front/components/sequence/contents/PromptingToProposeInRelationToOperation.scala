@@ -73,6 +73,7 @@ object PromptingToProposeInRelationToOperation {
             TrackingService.track(
               "click-proposal-submit-form-open",
               TrackingContext(TrackingLocation.sequenceProposalPushCard, Some(self.props.wrapped.operation.slug)),
+              Map.empty,
               Map("sequenceId" -> self.props.wrapped.sequenceId.value)
             )
           }
@@ -82,6 +83,7 @@ object PromptingToProposeInRelationToOperation {
             TrackingService.track(
               "click-proposal-push-card-ignore",
               TrackingContext(TrackingLocation.sequencePage, Some(self.props.wrapped.operation.slug)),
+              Map.empty,
               Map("sequenceId" -> self.props.wrapped.sequenceId.value)
             )
           }

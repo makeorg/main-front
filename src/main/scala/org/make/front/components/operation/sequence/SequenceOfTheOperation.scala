@@ -138,6 +138,7 @@ object SequenceOfTheOperation {
             TrackingService.track(
               "click-proposal-submit-form-open",
               TrackingContext(TrackingLocation.sequencePage, Some(operation.slug)),
+              Map.empty,
               Map("sequenceId" -> self.props.wrapped.sequence.sequenceId.value)
             )
           }

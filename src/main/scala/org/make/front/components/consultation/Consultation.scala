@@ -55,6 +55,7 @@ object Consultation {
             .track(
               "display-page-operation",
               TrackingContext(TrackingLocation.operationPage, operationSlug = Some(self.props.wrapped.operation.slug)),
+              Map.empty,
               Map("id" -> self.props.wrapped.operation.operationId.value)
             )
         },

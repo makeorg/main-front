@@ -120,6 +120,7 @@ object ActionsSection {
                         displayView = self.state.loginOrRegisterView,
                         trackingContext = TrackingContext(TrackingLocation.actionsPlaceholder, Some(self.props.wrapped.operation.slug)),
                         trackingParameters = Map("signup-type" -> "light"),
+                        trackingInternalOnlyParameters = Map.empty,
                         onSuccessfulLogin = () => {
                           self.setState(_.copy(isAuthenticateModalOpened = false))
                         }

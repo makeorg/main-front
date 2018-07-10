@@ -66,6 +66,7 @@ object NoResultToSearch {
             TrackingService.track(
               "click-proposal-submit-form-open",
               TrackingContext(TrackingLocation.searchResultsPage),
+              Map.empty,
               self.props.wrapped.searchValue.map(query => Map("query" -> query)).getOrElse(Map.empty)
             )
             self.setState(state => state.copy(isProposalModalOpened = true))
@@ -110,7 +111,7 @@ object NoResultToSearch {
               )()
             }.getOrElse {
               <.SubmitProposalComponent(
-                ^.wrapped := SubmitProposalProps(trackingParameters = Map.empty, onProposalProposed = () => {
+                ^.wrapped := SubmitProposalProps(trackingParameters = Map.empty, trackingInternalOnlyParameters = Map.empty, onProposalProposed = () => {
                   self.setState(_.copy(isProposalModalOpened = false))
                 }, maybeLocation = self.props.wrapped.maybeLocation, maybeOperation = self.props.wrapped.maybeOperation)
               )()

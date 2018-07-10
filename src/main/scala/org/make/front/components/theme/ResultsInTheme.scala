@@ -202,7 +202,8 @@ object ResultsInTheme {
               TrackingService.track(
                 "click-tag-action",
                 TrackingContext(TrackingLocation.themePage),
-                Map("nature" -> action, "tag-name" -> tag.label, "themeId" -> self.props.wrapped.theme.id.value)
+                Map("nature" -> action, "tag-name" -> tag.label),
+                Map("themeId" -> self.props.wrapped.theme.id.value)
               )
             }
 
@@ -269,6 +270,7 @@ object ResultsInTheme {
                   TrackingService.track(
                     "click-proposal-viewmore",
                     TrackingContext(TrackingLocation.themePage),
+                    Map.empty,
                     Map("themeId" -> self.props.wrapped.theme.id.value)
                   )
                 }), ^.className := js.Array(CTAStyles.basic, CTAStyles.basicOnButton))(unescape(I18n.t("theme.results.see-more"))))

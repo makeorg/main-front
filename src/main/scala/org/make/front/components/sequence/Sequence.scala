@@ -55,7 +55,10 @@ import scala.scalajs.js
 import scala.util.{Failure, Success}
 object Sequence {
 
-  final case class DisplayTracker(name: String, context: TrackingContext, parameters: Map[String, String] = Map.empty)
+  final case class DisplayTracker(name: String,
+                                  context: TrackingContext,
+                                  parameters: Map[String, String] = Map.empty,
+                                  internalOnlyParameters: Map[String, String] = Map.empty)
 
   final case class ExtraSlide(reactClass: ReactClass,
                               props: (() => Unit) => Any,
@@ -381,6 +384,7 @@ object Sequence {
             .track(
               "display-sequence",
               TrackingContext(TrackingLocation.sequencePage, self.props.wrapped.maybeOperation.map(_.slug)),
+              Map.empty,
               Map(
                 "sequenceId" -> self.props.wrapped.sequence.sequenceId.value,
                 "operationId" -> self.props.wrapped.maybeOperation.map(_.operationId.value).getOrElse("")
@@ -406,7 +410,8 @@ object Sequence {
                 .track(
                   tracker.name,
                   tracker.context,
-                  tracker.parameters + ("card-position" -> state.currentSlideIndex.toString)
+                  tracker.parameters + ("card-position" -> state.currentSlideIndex.toString),
+                  tracker.internalOnlyParameters
                 )
             }
           }
@@ -418,6 +423,7 @@ object Sequence {
               .track(
                 "display-sequence-first-proposal",
                 TrackingContext(TrackingLocation.sequencePage, props.wrapped.maybeOperation.map(_.slug)),
+                Map.empty,
                 Map(
                   "sequenceId" -> self.props.wrapped.sequence.sequenceId.value,
                   "proposalId" -> state.proposals.headOption.map(_.id.value).getOrElse("")
@@ -433,6 +439,7 @@ object Sequence {
               TrackingService.track(
                 "click-sequence-previous-card",
                 TrackingContext(TrackingLocation.sequencePage, self.props.wrapped.maybeOperation.map(_.slug)),
+                Map.empty,
                 Map(
                   "sequenceId" -> self.props.wrapped.sequence.sequenceId.value,
                   "card-position" -> oldSlideIndex.toString
@@ -442,6 +449,7 @@ object Sequence {
               TrackingService.track(
                 "click-sequence-next-card",
                 TrackingContext(TrackingLocation.sequencePage, self.props.wrapped.maybeOperation.map(_.slug)),
+                Map.empty,
                 Map(
                   "sequenceId" -> self.props.wrapped.sequence.sequenceId.value,
                   "card-position" -> oldSlideIndex.toString

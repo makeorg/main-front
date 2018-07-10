@@ -44,6 +44,7 @@ object SubmitProposalAndAuthenticateContainer {
   case class SubmitProposalAndAuthenticateContainerProps(intro: (ReactElement) => ReactElement = identity,
                                                          trackingContext: TrackingContext,
                                                          trackingParameters: Map[String, String],
+                                                         trackingInternalOnlyParameters: Map[String, String],
                                                          onProposalProposed: () => Unit,
                                                          maybeTheme: Option[TranslatedThemeModel],
                                                          maybeOperation: Option[OperationModel],
@@ -74,6 +75,7 @@ object SubmitProposalAndAuthenticateContainer {
       SubmitProposalAndAuthenticateProps(
         trackingContext = props.wrapped.trackingContext,
         trackingParameters = props.wrapped.trackingParameters,
+        trackingInternalOnlyParameters = props.wrapped.trackingInternalOnlyParameters,
         intro = props.wrapped.intro,
         maybeTheme = props.wrapped.maybeTheme,
         maybeOperation = props.wrapped.maybeOperation,

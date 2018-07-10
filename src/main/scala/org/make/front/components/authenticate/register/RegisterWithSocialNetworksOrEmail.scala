@@ -43,6 +43,7 @@ object RegisterWithSocialNetworksOrEmail {
   case class RegisterWithSocialNetworksOrEmailProps(operationId: Option[OperationId],
                                                     trackingContext: TrackingContext,
                                                     trackingParameters: Map[String, String],
+                                                    trackingInternalOnlyParameters: Map[String, String],
                                                     onSuccessfulLogin: () => Unit = () => {},
                                                     registerTitle: Option[String] = None)
 
@@ -54,6 +55,7 @@ object RegisterWithSocialNetworksOrEmail {
           ^.wrapped := RegisterWithSocialNetworksProps(
             trackingContext = self.props.wrapped.trackingContext,
             trackingParameters = self.props.wrapped.trackingParameters,
+            trackingInternalOnlyParameters = self.props.wrapped.trackingInternalOnlyParameters,
             onSuccessfulLogin = self.props.wrapped.onSuccessfulLogin,
             operationId = self.props.wrapped.operationId
           )
@@ -73,6 +75,7 @@ object RegisterWithSocialNetworksOrEmail {
             note = I18n.t("authenticate.register.terms"),
             trackingContext = self.props.wrapped.trackingContext,
             trackingParameters = self.props.wrapped.trackingParameters,
+            trackingInternalOnlyParameters = self.props.wrapped.trackingInternalOnlyParameters,
             onSuccessfulRegistration = self.props.wrapped.onSuccessfulLogin,
             operationId = self.props.wrapped.operationId
           )
@@ -91,6 +94,7 @@ object RegisterWithSocialNetworksOrEmail {
         ^.wrapped := AuthenticateWithSocialNetworksProps(
           trackingContext = self.props.wrapped.trackingContext,
           trackingParameters = self.props.wrapped.trackingParameters,
+          trackingInternalOnlyParameters = self.props.wrapped.trackingInternalOnlyParameters,
           note = unescape(I18n.t("authenticate.register.caution")),
           onSuccessfulLogin = self.props.wrapped.onSuccessfulLogin,
           operationId = self.props.wrapped.operationId
@@ -109,6 +113,7 @@ object RegisterWithSocialNetworksOrEmail {
           note = I18n.t("authenticate.register.terms"),
           trackingContext = self.props.wrapped.trackingContext,
           trackingParameters = self.props.wrapped.trackingParameters,
+          trackingInternalOnlyParameters = self.props.wrapped.trackingInternalOnlyParameters,
           onSuccessfulRegistration = self.props.wrapped.onSuccessfulLogin,
           operationId = self.props.wrapped.operationId
         )

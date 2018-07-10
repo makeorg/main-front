@@ -68,7 +68,8 @@ object ShareProposal {
                 location = TrackingLocation.sequencePage,
                 operationSlug = Some(self.props.wrapped.operation.slug)
               ),
-              Map("sequenceId" -> self.props.wrapped.operation.landingSequenceId.value, "network" -> network)
+              Map("network" -> network),
+              Map("sequenceId" -> self.props.wrapped.operation.landingSequenceId.value)
             )
           }
 
@@ -79,7 +80,8 @@ object ShareProposal {
                 location = TrackingLocation.sequencePage,
                 operationSlug = Some(self.props.wrapped.operation.slug)
               ),
-              Map("sequenceId" -> self.props.wrapped.operation.landingSequenceId.value, "network" -> network)
+              Map("network" -> network),
+              Map("sequenceId" -> self.props.wrapped.operation.landingSequenceId.value)
             )
           }
 
