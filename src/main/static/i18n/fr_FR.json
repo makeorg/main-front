@@ -91,20 +91,20 @@
     },
     "explanations": {
       "article-1": {
-        "intro": "la politique ne suffit plus, faisons bouger les lignes&nbsp;ensemble",
+        "intro": "la politique ne suffit plus, faisons bouger les lignes ensemble",
         "title": "Proposez, votez, agissons",
-        "item-1": "<strong>Votez</strong> pour les propositions que vous&nbsp;défendez",
-        "item-2": "<strong>Proposez</strong> vos idées sur des thèmes qui vous&nbsp;inspirent",
-        "item-3": "Et demain, <strong>initiez des actions</strong> concrètes sur le&nbsp;terrain",
+        "item-1": "<strong>Votez</strong> pour les propositions que vous défendez",
+        "item-2": "<strong>Proposez</strong> vos idées sur les sujets en questions",
+        "item-3": "Et à l'issue de la consultation, <strong>participez à des actions</strong> concrètes sur le terrain",
         "see-more-link": "/",
-        "see-more": "En savoir&nbsp;+"
+        "see-more": "En savoir +"
       },
       "article-2": {
-        "intro": "qui sommes-nous&nbsp;?",
+        "intro": "qui sommes-nous ?",
         "title": "Make.org, neutre & indépendant",
-        "text": "Make.org est une initiative civique, Européenne et&nbsp;indépendante.",
+        "text": "Make.org est une initiative civique, Européenne et indépendante.",
         "see-more-link": "https://about.make.org/qui-sommes-nous",
-        "see-more": "En savoir&nbsp;+"
+        "see-more": "En savoir +"
       }
     },
     "showcase-1": {
