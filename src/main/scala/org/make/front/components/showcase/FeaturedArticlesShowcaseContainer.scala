@@ -53,7 +53,7 @@ object FeaturedArticlesShowcaseContainer {
             excerpt = "Votez et proposez des solutions pour mieux vivre ensemble.",
             seeMoreLabel = "Participer",
             seeMoreLink =
-              "https://make.org/?utm_source=core&utm_medium=push-hp&utm_campaign=mve#/fr/consultation/mieux-vivre-ensemble/selection"
+              "/?utm_source=core&utm_medium=push-hp&utm_campaign=mve#/fr/consultation/mieux-vivre-ensemble/selection"
           ),
           FeaturedArticleModel(
             illUrl = vffShowcase.toString,

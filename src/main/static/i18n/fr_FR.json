@@ -76,7 +76,7 @@
         "purpose": "Votez et proposez des solutions pour donner une chance à chaque jeune.",
         "learn-more": {
           "label": "Participer à la consultation",
-          "link": "https://make.org/?utm_source=core&utm_medium=push-hp&utm_campaign=jeunes#/fr/consultation/chance-aux-jeunes/selection"
+          "link": "/?utm_source=core&utm_medium=push-hp&utm_campaign=jeunes#/fr/consultation/chance-aux-jeunes/selection"
         }
       },
       "culture": {
@@ -85,7 +85,7 @@
         "purpose": "Votez et proposez des solutions pour rendre la culture accessible à tous.",
         "learn-more": {
           "label": "Participer à la consultation",
-          "link": "https://make.org/?utm_source=core&utm_medium=push-hp&utm_campaign=cpt#/fr/consultation/culture/selection"
+          "link": "/?utm_source=core&utm_medium=push-hp&utm_campaign=cpt#/fr/consultation/culture/selection"
         }
       }
     },
@@ -369,7 +369,7 @@
       "already-participate": "ont déjà participé",
       "learn-more": {
         "label": "Participer",
-        "link": "https://make.org/#/fr/consultation/%{operation-slug}/selection"
+        "link": "/#/fr/consultation/%{operation-slug}/selection"
       }
     },
     "actions": {

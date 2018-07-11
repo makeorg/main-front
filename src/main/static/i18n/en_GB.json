@@ -326,7 +326,7 @@
       "already-participate": "ont déjà participé",
       "learn-more": {
         "label": "Participer",
-        "link": "https://make.org/#/gb/consultation/%{operation-slug}/selection"
+        "link": "/#/gb/consultation/%{operation-slug}/selection"
       }
     },
     "actions": {

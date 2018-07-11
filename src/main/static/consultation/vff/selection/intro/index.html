@@ -151,7 +151,7 @@
     }
     function redirectHome() {
         triggerFBEvent(Event.StartSequence, {location: 'intro-vff'})()
-        window.location.href = "https://make.org"+window.location.search+"#/consultation/vff/selection"
+        window.location.href = window.location.search+"#/consultation/vff/selection"
     }
     triggerFBEvent(Event.PageView, {})() // default page view
     attachEventToElement("#start-sequence", $("#start-sequence"), TagEvents.Click, redirectHome)
