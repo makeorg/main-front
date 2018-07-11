@@ -40,7 +40,7 @@ object PartnersStyles extends StyleSheet.Inline {
       ),
       ThemeStyles.MediaQueries.beyondLargeMedium(
         paddingLeft(20.pxToEm()),
-        paddingRight(20.pxToEm()),
+        paddingRight(20.pxToEm())
       )
     )
 
@@ -89,5 +89,4 @@ object PartnersStyles extends StyleSheet.Inline {
         zIndex(-1)
       )
   )
-
 }

@@ -45,23 +45,23 @@ package object facades {
       Attribute(name = name, value = value, AS_IS)
   }
 
-  case class NativeFunction0Attribute[T](name: String) extends AttributeSpec {
-    def :=(value: () => T): Attribute[js.Function0[T]] =
+  case class NativeFunction0Attribute[RETURN](name: String) extends AttributeSpec {
+    def :=(value: () => RETURN): Attribute[js.Function0[RETURN]] =
       Attribute(name = name, value = value, AS_IS)
   }
 
-  case class NativeFunction1Attribute[T, R](name: String) extends AttributeSpec {
-    def :=(value: (T) => R): Attribute[js.Function1[T, R]] =
+  case class NativeFunction1Attribute[ARG0, RETURN](name: String) extends AttributeSpec {
+    def :=(value: (ARG0) => RETURN): Attribute[js.Function1[ARG0, RETURN]] =
       Attribute(name = name, value = value, AS_IS)
   }
 
-  case class NativeFunction2Attribute[T, U, R](name: String) extends AttributeSpec {
-    def :=(value: (T, U) => R): Attribute[js.Function2[T, U, R]] =
+  case class NativeFunction2Attribute[ARG0, ARG1, RETURN](name: String) extends AttributeSpec {
+    def :=(value: (ARG0, ARG1) => RETURN): Attribute[js.Function2[ARG0, ARG1, RETURN]] =
       Attribute(name = name, value = value, AS_IS)
   }
 
-  case class NativeFunction3Attribute[T, U, V, R](name: String) extends AttributeSpec {
-    def :=(value: (T, U, V) => R): Attribute[js.Function3[T, U, V, R]] =
+  case class NativeFunction3Attribute[ARG0, ARG1, ARG2, RETURN](name: String) extends AttributeSpec {
+    def :=(value: (ARG0, ARG1, ARG2) => RETURN): Attribute[js.Function3[ARG0, ARG1, ARG2, RETURN]] =
       Attribute(name = name, value = value, AS_IS)
   }
 

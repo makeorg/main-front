@@ -94,7 +94,7 @@ object ShareLikeItProposalStyles extends StyleSheet.Inline {
       ThemeStyles.MediaQueries.beyondMedium(
         textAlign.left,
         fontSize(14.pxToEm()),
-          lineHeight(18.pxToEm(14))
+        lineHeight(18.pxToEm(14))
       )
     )
 
@@ -106,7 +106,7 @@ object ShareLikeItProposalStyles extends StyleSheet.Inline {
       marginTop(5.pxToEm()),
       ThemeStyles.MediaQueries.beyondMedium(
         display.flex,
-        justifyContent.spaceBetween,
+        justifyContent.spaceBetween
       )
     )
 
@@ -130,7 +130,7 @@ object ShareLikeItProposalStyles extends StyleSheet.Inline {
     transition := "box-shadow .2s ease-in-out",
     ThemeStyles.MediaQueries.beyondMedium(
       width(40.pxToEm()),
-      height(40.pxToEm()),
+      height(40.pxToEm())
     ),
     &.before(
       display.inlineBlock,

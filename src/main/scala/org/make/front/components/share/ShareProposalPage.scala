@@ -118,7 +118,7 @@ object ShareProposalStyles extends StyleSheet.Inline {
       color(ThemeStyles.TextColor.white),
       ThemeStyles.MediaQueries.beyondMedium(
         fontSize(18.pxToEm()),
-        lineHeight(24.pxToEm(18)),
+        lineHeight(24.pxToEm(18))
       )
     ),
     &.hover(boxShadow := s"0 ${1.pxToEm().value} ${1.pxToEm().value} 0 rgba(0, 0, 0, .5)"),
