@@ -66,7 +66,8 @@ object Home {
               <.WelcomeComponent.empty
             },
             <.FeaturedArticlesShowcaseContainerComponent.empty,
-            <.ThemeShowcaseContainerComponent(
+            // Todo Product Team wanted to "hide" ThemeShowcase components, waiting for hoempage revamp
+            /*<.ThemeShowcaseContainerComponent(
               ^.wrapped := ThemeShowcaseContainerProps(
                 themeSlug = "democratie-vie-politique",
                 maybeIntro = Some(unescape(I18n.t("home.showcase-1.intro"))),
@@ -75,8 +76,7 @@ object Home {
                 maybeSequenceId = None,
                 maybeLocation = Some(Location.Homepage)
               )
-            )(),
-            <.ExplanationsComponent.empty,
+            )(),*/
             <.TrendingShowcaseContainerComponent(
               ^.wrapped := TrendingShowcaseContainerProps(
                 trending = "popular",
@@ -85,14 +85,15 @@ object Home {
                 maybeLocation = Some(Location.Homepage)
               )
             )(),
-            <.ThemeShowcaseContainerComponent(
+            <.ExplanationsComponent.empty,
+            /*<.ThemeShowcaseContainerComponent(
               ^.wrapped := ThemeShowcaseContainerProps(
                 themeSlug = "economie-emploi-travail",
                 maybeOperation = None,
                 maybeSequenceId = None,
                 maybeLocation = Some(Location.Homepage)
               )
-            )(),
+            )(),*/
             <.TrendingShowcaseContainerComponent(
               ^.wrapped := TrendingShowcaseContainerProps(
                 trending = "controversial",
@@ -101,7 +102,7 @@ object Home {
                 maybeLocation = Some(Location.Homepage)
               )
             )(),
-            <.ThemeShowcaseContainerComponent(
+            /*<.ThemeShowcaseContainerComponent(
               ^.wrapped := ThemeShowcaseContainerProps(
                 themeSlug = "vivre-ensemble-solidarites",
                 maybeOperation = None,
@@ -109,7 +110,7 @@ object Home {
                 maybeLocation = Some(Location.Homepage)
               )
             )(),
-            <.NavInThemesContainerComponent.empty,
+            <.NavInThemesContainerComponent.empty,*/
             <.style()(HomeStyles.render[String])
           )
         }

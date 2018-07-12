@@ -60,17 +60,17 @@ object Explanations {
                 <.h2(^.className := TextStyles.mediumTitle)(unescape(I18n.t("home.explanations.article-1.title"))),
                 <.ul()(
                   <.li(^.className := ExplanationsStyles.item)(
-                    <.span(^.className := js.Array(ExplanationsStyles.icon, FontAwesomeStyles.thumbsUp))(),
-                    <.p(
-                      ^.className := TextStyles.mediumText,
-                      ^.dangerouslySetInnerHTML := I18n.t("home.explanations.article-1.item-1")
-                    )()
-                  ),
-                  <.li(^.className := ExplanationsStyles.item)(
                     <.span(^.className := js.Array(ExplanationsStyles.icon, FontAwesomeStyles.lightbulbTransparent))(),
                     <.p(
                       ^.className := TextStyles.mediumText,
                       ^.dangerouslySetInnerHTML := I18n.t("home.explanations.article-1.item-2")
+                    )()
+                  ),
+                  <.li(^.className := ExplanationsStyles.item)(
+                    <.span(^.className := js.Array(ExplanationsStyles.icon, FontAwesomeStyles.thumbsUp))(),
+                    <.p(
+                      ^.className := TextStyles.mediumText,
+                      ^.dangerouslySetInnerHTML := I18n.t("home.explanations.article-1.item-1")
                     )()
                   ),
                   <.li(^.className := ExplanationsStyles.item)(
