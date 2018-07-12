@@ -62,7 +62,7 @@ object ConsultationLinkSequence {
           def trackingActions(): () => Unit = { () =>
             TrackingService
               .track(
-                "click-sequence-launch",
+                "click-sequence-open",
                 TrackingContext(TrackingLocation.operationPage, operationSlug = Some(consultation.slug)),
                 Map("sequenceId" -> consultation.landingSequenceId.value)
               )
