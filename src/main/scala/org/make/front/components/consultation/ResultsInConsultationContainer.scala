@@ -73,7 +73,7 @@ object ResultsInConsultationContainer {
         .parse(props.location.search).getOrElse("tagIds", "")
         .split(",")
 
-      val preselectedTag: js.Array[TagModel] = props.wrapped.currentConsultation.tagIds.filter(tag => tagIds.contains(tag.tagId.value))
+      val preselectedTag: js.Array[TagModel] = props.wrapped.currentConsultation.tags.filter(tag => tagIds.contains(tag.tagId.value))
 
       def getProposals(tags: js.Array[TagModel], skip: Int, seed: Option[Int] = None): Future[SearchResult] = {
         ProposalService
