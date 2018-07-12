@@ -136,10 +136,10 @@ object SequenceOfTheOperation {
             event.preventDefault()
             self.setState(state => state.copy(isProposalModalOpened = true))
             TrackingService.track(
-              "click-proposal-submit-form-open",
-              TrackingContext(TrackingLocation.sequencePage, Some(operation.slug)),
-              Map.empty,
-              Map("sequenceId" -> self.props.wrapped.sequence.sequenceId.value)
+              eventName = "click-proposal-submit-form-open",
+              trackingContext = TrackingContext(TrackingLocation.sequencePage, Some(operation.slug)),
+              parameters = Map.empty,
+              internalOnlyParameters = Map("sequenceId" -> self.props.wrapped.sequence.sequenceId.value)
             )
           }
 

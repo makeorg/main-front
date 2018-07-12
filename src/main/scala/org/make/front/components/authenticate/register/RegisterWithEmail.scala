@@ -54,10 +54,10 @@ object RegisterWithEmail {
       componentDidMount = { self =>
         TrackingService
           .track(
-            "display-signup-form",
-            self.props.wrapped.trackingContext,
-            self.props.wrapped.trackingParameters + ("signup-type" -> "light"),
-            self.props.wrapped.trackingInternalOnlyParameters
+            eventName = "display-signup-form",
+            trackingContext = self.props.wrapped.trackingContext,
+            parameters = self.props.wrapped.trackingParameters + ("signup-type" -> "light"),
+            internalOnlyParameters = self.props.wrapped.trackingInternalOnlyParameters
           )
       },
       render = { self =>

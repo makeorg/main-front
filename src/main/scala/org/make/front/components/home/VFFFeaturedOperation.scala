@@ -48,7 +48,7 @@ object VFFFeaturedOperation {
 
           def onclick: () => Unit = { () =>
             TrackingService
-              .track("click-homepage-header", TrackingContext(self.props.wrapped.trackingLocation, Some("vff")))
+              .track(eventName = "click-homepage-header", trackingContext = TrackingContext(self.props.wrapped.trackingLocation, Some("vff")))
             scalajs.js.Dynamic.global.window.open(I18n.t("home.featured-operation.vff.learn-more.link"), "_blank")
           }
 

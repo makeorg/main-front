@@ -73,10 +73,10 @@ object SubmitProposalAndAuthenticate {
         if (self.state.displayedComponent == "submit-proposal") {
           TrackingService
             .track(
-              "display-proposal-submit-journey",
-              TrackingContext(TrackingLocation.submitProposalPage, props.wrapped.trackingContext.operationSlug),
-              props.wrapped.trackingParameters,
-              props.wrapped.trackingInternalOnlyParameters
+              eventName = "display-proposal-submit-journey",
+              trackingContext = TrackingContext(TrackingLocation.submitProposalPage, props.wrapped.trackingContext.operationSlug),
+              parameters = props.wrapped.trackingParameters,
+              internalOnlyParameters = props.wrapped.trackingInternalOnlyParameters
             )
         }
       },

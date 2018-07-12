@@ -71,10 +71,10 @@ object Slides {
           val onClick: () => Unit = () => {
             TrackingService
               .track(
-                "click-sequence-launch",
-                trackingContext(params),
-                Map.empty,
-                defaultTrackingInternalOnlyParameters(params)
+                eventName = "click-sequence-launch",
+                trackingContext = trackingContext(params),
+                parameters = Map.empty,
+                internalOnlyParameters = defaultTrackingInternalOnlyParameters(params)
               )
             handler()
           }

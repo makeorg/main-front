@@ -51,10 +51,10 @@ object RegisterWithEmailExpanded {
       componentDidMount = { self =>
         TrackingService
           .track(
-            "display-signup-form",
-            self.props.wrapped.trackingContext,
-            self.props.wrapped.trackingParameters + ("signup-type" -> "standard"),
-            self.props.wrapped.trackingInternalOnlyParameters
+            eventName = "display-signup-form",
+            trackingContext = self.props.wrapped.trackingContext,
+            parameters = self.props.wrapped.trackingParameters + ("signup-type" -> "standard"),
+            internalOnlyParameters = self.props.wrapped.trackingInternalOnlyParameters
           )
       },
       getInitialState = { _ =>

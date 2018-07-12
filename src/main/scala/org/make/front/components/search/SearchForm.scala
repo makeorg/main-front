@@ -105,10 +105,10 @@ object SearchForm {
                 e.preventDefault()
                 TrackingService
                   .track(
-                    "click-navbar-search-submit",
-                    TrackingContext(TrackingLocation.navBar),
-                    Map.empty,
-                    Map("query" -> self.state.value)
+                    eventName = "click-navbar-search-submit",
+                    trackingContext = TrackingContext(TrackingLocation.navBar),
+                    parameters = Map.empty,
+                    internalOnlyParameters = Map("query" -> self.state.value)
                   )
                 val currentValue: String = URIUtils.encodeURI(self.state.value)
 

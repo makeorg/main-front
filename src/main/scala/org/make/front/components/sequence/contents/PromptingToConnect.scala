@@ -67,20 +67,20 @@ object PromptingToConnect {
             self.setState(state => state.copy(isAuthenticateModalOpened = true, loginOrRegisterView = "login"))
             TrackingService
               .track(
-                "click-sign-up-card-sign-in",
-                self.props.wrapped.trackingContext,
-                self.props.wrapped.trackingParameters,
-                defaultTrackingInternalOnlyParameters
+                eventName = "click-sign-up-card-sign-in",
+                trackingContext = self.props.wrapped.trackingContext,
+                parameters = self.props.wrapped.trackingParameters,
+                internalOnlyParameters = defaultTrackingInternalOnlyParameters
               )
           }
 
           def openRegisterAuthenticateModal() = () => {
             TrackingService
               .track(
-                "click-sign-up-card-email",
-                self.props.wrapped.trackingContext,
-                self.props.wrapped.trackingParameters,
-                defaultTrackingInternalOnlyParameters
+                eventName = "click-sign-up-card-email",
+                trackingContext = self.props.wrapped.trackingContext,
+                parameters = self.props.wrapped.trackingParameters,
+                internalOnlyParameters = defaultTrackingInternalOnlyParameters
               )
             self.setState(state => state.copy(isAuthenticateModalOpened = true, loginOrRegisterView = "register"))
           }
@@ -91,10 +91,10 @@ object PromptingToConnect {
 
           val skipSignup: () => Unit = { () =>
             TrackingService.track(
-              "skip-sign-up-card",
-              self.props.wrapped.trackingContext,
-              self.props.wrapped.trackingParameters,
-              defaultTrackingInternalOnlyParameters
+              eventName = "skip-sign-up-card",
+              trackingContext = self.props.wrapped.trackingContext,
+              parameters = self.props.wrapped.trackingParameters,
+              internalOnlyParameters = defaultTrackingInternalOnlyParameters
             )
             self.props.wrapped.clickOnButtonHandler()
           }

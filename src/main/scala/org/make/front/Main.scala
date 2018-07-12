@@ -71,9 +71,9 @@ object Main {
     NativeReactModal.defaultStyles.content.update("overflow", "auto")
 
     TrackingService.track(
-      "load-application",
-      TrackingContext(TrackingLocation.homepage),
-      Map("href" -> dom.window.location.href)
+      eventName = "load-application",
+      trackingContext = TrackingContext(TrackingLocation.homepage),
+      parameters = Map("href" -> dom.window.location.href)
     )
 
     val configurationFuture = ConfigurationService.fetchConfiguration()

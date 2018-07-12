@@ -42,7 +42,7 @@ object Welcome {
     displayName = "Welcome",
     render = { _ =>
       def onclick: () => Unit = { () =>
-        TrackingService.track("click-button-whoweare", TrackingContext(TrackingLocation.homepage))
+        TrackingService.track(eventName = "click-button-whoweare", trackingContext = TrackingContext(TrackingLocation.homepage))
         scalajs.js.Dynamic.global.window.open(I18n.t("welcome.intro.see-more-link"), "_blank")
       }
       <.section(^.className := js.Array(TableLayoutStyles.wrapper, WelcomeStyles.wrapper))(

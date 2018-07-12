@@ -123,10 +123,10 @@ object SubmitProposalForm {
             } else {
               self.props.wrapped.handleSubmitProposalForm(content)
               TrackingService.track(
-                "click-proposal-submit",
-                TrackingContext(TrackingLocation.submitProposalPage, self.props.wrapped.trackingContext.operationSlug),
-                self.props.wrapped.trackingParameters,
-                self.props.wrapped.trackingInternalOnlyParameters
+                eventName = "click-proposal-submit",
+                trackingContext = TrackingContext(TrackingLocation.submitProposalPage, self.props.wrapped.trackingContext.operationSlug),
+                parameters = self.props.wrapped.trackingParameters,
+                internalOnlyParameters = self.props.wrapped.trackingInternalOnlyParameters
               )
             }
             false

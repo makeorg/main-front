@@ -79,10 +79,10 @@ object PromptingToGoBackToOperation {
 
             val onClick: () => Unit = () => {
               TrackingService.track(
-                "click-finale-card-learnmore",
-                TrackingContext(TrackingLocation.sequencePage, Some(self.props.wrapped.operation.slug)),
-                Map.empty,
-                Map("sequenceId" -> self.props.wrapped.sequenceId.value)
+                eventName = "click-finale-card-learnmore",
+                trackingContext = TrackingContext(TrackingLocation.sequencePage, Some(self.props.wrapped.operation.slug)),
+                parameters = Map.empty,
+                internalOnlyParameters = Map("sequenceId" -> self.props.wrapped.sequenceId.value)
               )
               self.props.history
                 .push(s"/${self.props.wrapped.country}/consultation/${self.props.wrapped.operation.slug}")

@@ -52,10 +52,10 @@ object Theme {
         componentDidMount = { self =>
           TrackingService
             .track(
-              "display-page-theme",
-              TrackingContext(TrackingLocation.themePage),
-              Map.empty,
-              Map("themeId" -> self.props.wrapped.theme.id.value)
+              eventName = "display-page-theme",
+              trackingContext = TrackingContext(TrackingLocation.themePage),
+              parameters = Map.empty,
+              internalOnlyParameters = Map("themeId" -> self.props.wrapped.theme.id.value)
             )
         },
         render = (self) => {

@@ -60,8 +60,8 @@ object ActionsSection {
           def trackingPartners: () => Unit = { () =>
             TrackingService
               .track(
-                "click-see-more-community",
-                TrackingContext(TrackingLocation.operationPage, operationSlug = Some(self.props.wrapped.operation.slug))
+                eventName = "click-see-more-community",
+                trackingContext = TrackingContext(TrackingLocation.operationPage, operationSlug = Some(self.props.wrapped.operation.slug))
               )
           }
 

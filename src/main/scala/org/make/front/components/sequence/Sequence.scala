@@ -382,10 +382,10 @@ object Sequence {
           onSequenceRetrieved(self, self.props.wrapped.sequence)
           TrackingService
             .track(
-              "display-sequence",
-              TrackingContext(TrackingLocation.sequencePage, self.props.wrapped.maybeOperation.map(_.slug)),
-              Map.empty,
-              Map(
+              eventName = "display-sequence",
+              trackingContext = TrackingContext(TrackingLocation.sequencePage, self.props.wrapped.maybeOperation.map(_.slug)),
+              parameters = Map.empty,
+              internalOnlyParameters = Map(
                 "sequenceId" -> self.props.wrapped.sequence.sequenceId.value,
                 "operationId" -> self.props.wrapped.maybeOperation.map(_.operationId.value).getOrElse("")
               )
@@ -408,10 +408,10 @@ object Sequence {
             state.slides(state.currentSlideIndex).maybeTracker.foreach { tracker =>
               TrackingService
                 .track(
-                  tracker.name,
-                  tracker.context,
-                  tracker.parameters + ("card-position" -> state.currentSlideIndex.toString),
-                  tracker.internalOnlyParameters
+                  eventName = tracker.name,
+                  trackingContext = tracker.context,
+                  parameters = tracker.parameters + ("card-position" -> state.currentSlideIndex.toString),
+                  internalOnlyParameters = tracker.internalOnlyParameters
                 )
             }
           }
@@ -421,10 +421,10 @@ object Sequence {
 
             TrackingService
               .track(
-                "display-sequence-first-proposal",
-                TrackingContext(TrackingLocation.sequencePage, props.wrapped.maybeOperation.map(_.slug)),
-                Map.empty,
-                Map(
+                eventName = "display-sequence-first-proposal",
+                trackingContext = TrackingContext(TrackingLocation.sequencePage, props.wrapped.maybeOperation.map(_.slug)),
+                parameters = Map.empty,
+                internalOnlyParameters = Map(
                   "sequenceId" -> self.props.wrapped.sequence.sequenceId.value,
                   "proposalId" -> state.proposals.headOption.map(_.id.value).getOrElse("")
                 )
@@ -437,20 +437,20 @@ object Sequence {
             // If user went back, log it
             if (currentSlide < oldSlideIndex) {
               TrackingService.track(
-                "click-sequence-previous-card",
-                TrackingContext(TrackingLocation.sequencePage, self.props.wrapped.maybeOperation.map(_.slug)),
-                Map.empty,
-                Map(
+                eventName = "click-sequence-previous-card",
+                trackingContext = TrackingContext(TrackingLocation.sequencePage, self.props.wrapped.maybeOperation.map(_.slug)),
+                parameters = Map.empty,
+                internalOnlyParameters = Map(
                   "sequenceId" -> self.props.wrapped.sequence.sequenceId.value,
                   "card-position" -> oldSlideIndex.toString
                 )
               )
             } else if (currentSlide > oldSlideIndex) {
               TrackingService.track(
-                "click-sequence-next-card",
-                TrackingContext(TrackingLocation.sequencePage, self.props.wrapped.maybeOperation.map(_.slug)),
-                Map.empty,
-                Map(
+                eventName = "click-sequence-next-card",
+                trackingContext = TrackingContext(TrackingLocation.sequencePage, self.props.wrapped.maybeOperation.map(_.slug)),
+                parameters = Map.empty,
+                internalOnlyParameters = Map(
                   "sequenceId" -> self.props.wrapped.sequence.sequenceId.value,
                   "card-position" -> oldSlideIndex.toString
                 )

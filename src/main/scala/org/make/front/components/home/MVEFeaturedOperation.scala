@@ -49,8 +49,8 @@ object MVEFeaturedOperation {
           def onclick: () => Unit = { () =>
             TrackingService
               .track(
-                "click-homepage-header",
-                TrackingContext(self.props.wrapped.trackingLocation, Some("mieux-vivre-ensemble"))
+                eventName = "click-homepage-header",
+                trackingContext = TrackingContext(self.props.wrapped.trackingLocation, Some("mieux-vivre-ensemble"))
               )
             scalajs.js.Dynamic.global.window.open(I18n.t("home.featured-operation.mve.learn-more.link"), "_blank")
           }

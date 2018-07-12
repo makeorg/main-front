@@ -67,10 +67,10 @@ object LoginWithEmail {
         componentDidMount = { self =>
           TrackingService
             .track(
-              "display-signin-form",
-              self.props.wrapped.trackingContext,
-              self.props.wrapped.trackingParameters,
-              self.props.wrapped.trackingInternalOnlyParameters
+              eventName = "display-signin-form",
+              trackingContext = self.props.wrapped.trackingContext,
+              parameters = self.props.wrapped.trackingParameters,
+              internalOnlyParameters = self.props.wrapped.trackingInternalOnlyParameters
             )
         },
         getInitialState = (_) => LoginWithEmailState.empty,

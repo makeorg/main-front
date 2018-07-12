@@ -49,19 +49,19 @@ object LoginWithEmailContainer {
         result.onComplete {
           case Success(user) =>
             TrackingService.track(
-              "signin-email-success",
-              props.wrapped.trackingContext,
-              props.wrapped.trackingParameters,
-              props.wrapped.trackingInternalOnlyParameters
+              eventName = "signin-email-success",
+              trackingContext = props.wrapped.trackingContext,
+              parameters = props.wrapped.trackingParameters,
+              internalOnlyParameters = props.wrapped.trackingInternalOnlyParameters
             )
             dispatch(LoggedInAction(user))
             props.wrapped.onSuccessfulLogin()
           case Failure(_) =>
             TrackingService.track(
-              "signin-email-failure",
-              props.wrapped.trackingContext,
-              props.wrapped.trackingParameters,
-              props.wrapped.trackingInternalOnlyParameters
+              eventName = "signin-email-failure",
+              trackingContext = props.wrapped.trackingContext,
+              parameters = props.wrapped.trackingParameters,
+              internalOnlyParameters = props.wrapped.trackingInternalOnlyParameters
             )
         }
         result

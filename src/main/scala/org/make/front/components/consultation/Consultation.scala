@@ -53,10 +53,10 @@ object Consultation {
         componentDidMount = { self =>
           TrackingService
             .track(
-              "display-page-operation",
-              TrackingContext(TrackingLocation.operationPage, operationSlug = Some(self.props.wrapped.operation.slug)),
-              Map.empty,
-              Map("id" -> self.props.wrapped.operation.operationId.value)
+              eventName =  "display-page-operation",
+              trackingContext = TrackingContext(TrackingLocation.operationPage, operationSlug = Some(self.props.wrapped.operation.slug)),
+              parameters = Map.empty,
+              internalOnlyParameters = Map("id" -> self.props.wrapped.operation.operationId.value)
             )
         },
         render = self => {

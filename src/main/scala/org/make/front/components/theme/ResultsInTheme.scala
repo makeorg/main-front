@@ -200,10 +200,10 @@ object ResultsInTheme {
             }
             changedTags.foreach { tag =>
               TrackingService.track(
-                "click-tag-action",
-                TrackingContext(TrackingLocation.themePage),
-                Map("nature" -> action, "tag-name" -> tag.label),
-                Map("themeId" -> self.props.wrapped.theme.id.value)
+                eventName = "click-tag-action",
+                trackingContext = TrackingContext(TrackingLocation.themePage),
+                parameters = Map.empty,
+                internalOnlyParameters = Map("themeId" -> self.props.wrapped.theme.id.value, "nature" -> action, "tag-name" -> tag.label)
               )
             }
 
@@ -268,10 +268,10 @@ object ResultsInTheme {
                 )(<.button(^.onClick := (() => {
                   onSeeMore(-1)
                   TrackingService.track(
-                    "click-proposal-viewmore",
-                    TrackingContext(TrackingLocation.themePage),
-                    Map.empty,
-                    Map("themeId" -> self.props.wrapped.theme.id.value)
+                    eventName = "click-proposal-viewmore",
+                    trackingContext = TrackingContext(TrackingLocation.themePage),
+                    parameters = Map.empty,
+                    internalOnlyParameters = Map("themeId" -> self.props.wrapped.theme.id.value)
                   )
                 }), ^.className := js.Array(CTAStyles.basic, CTAStyles.basicOnButton))(unescape(I18n.t("theme.results.see-more"))))
               }

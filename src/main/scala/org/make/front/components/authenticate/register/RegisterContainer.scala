@@ -67,10 +67,10 @@ object RegisterContainer {
           case Success(user) =>
             TrackingService
               .track(
-                "signup-email-success",
-                props.wrapped.trackingContext,
-                props.wrapped.trackingParameters,
-                props.wrapped.trackingInternalOnlyParameters
+                eventName = "signup-email-success",
+                trackingContext = props.wrapped.trackingContext,
+                parameters = props.wrapped.trackingParameters,
+                internalOnlyParameters = props.wrapped.trackingInternalOnlyParameters
               )
             dispatch(LoggedInAction(user))
             dispatch(NotifyInfo(message = I18n.t("authenticate.register.notifications.success")))
@@ -78,10 +78,10 @@ object RegisterContainer {
           case Failure(_) =>
             TrackingService
               .track(
-                "signup-email-failure",
-                props.wrapped.trackingContext,
-                props.wrapped.trackingParameters,
-                props.wrapped.trackingInternalOnlyParameters
+                eventName = "signup-email-failure",
+                trackingContext = props.wrapped.trackingContext,
+                parameters = props.wrapped.trackingParameters,
+                internalOnlyParameters = props.wrapped.trackingInternalOnlyParameters
               )
         }
 
