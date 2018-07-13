@@ -35,9 +35,10 @@ import org.make.front.models.{
   ActorVoteAlgorithm,
   Proposal,
   SortAlgorithm,
-  Location          => LocationModel,
-  OperationExpanded => OperationModel,
-  Tag               => TagModel
+  Location => LocationModel,
+  OperationExpanded =>
+  OperationModel,
+  Tag => TagModel
 }
 import org.make.services.proposal.ProposalService.defaultResultsCount
 import org.make.services.proposal.{ProposalService, SearchResult}
@@ -61,11 +62,18 @@ object ResultsInConsultationContainer {
     : Dispatch => (AppState,
                    Props[ResultsInConsultationContainerProps]) => ResultsInConsultation.ResultsInConsultationProps =
     (dispatch: Dispatch) => { (appState: AppState, props: Props[ResultsInConsultationContainerProps]) =>
+
       val sortAlgorithm: SortAlgorithm = QueryString
         .parse(props.location.search)
         .get("sort-algorithm")
         .flatMap(SortAlgorithm.matchSortAlgorithm)
         .getOrElse(ActorVoteAlgorithm)
+
+      val tagIds: Array[String] = QueryString
+        .parse(props.location.search).getOrElse("tagIds", "")
+        .split(",")
+
+      val preselectedTag: js.Array[TagModel] = props.wrapped.currentConsultation.tags.filter(tag => tagIds.contains(tag.tagId.value))
 
       def getProposals(tags: js.Array[TagModel], skip: Int, seed: Option[Int] = None): Future[SearchResult] = {
         ProposalService
@@ -112,7 +120,7 @@ object ResultsInConsultationContainer {
         operation = props.wrapped.currentConsultation,
         onMoreResultsRequested = nextProposals,
         onTagSelectionChange = searchOnSelectedTags,
-        preselectedTags = js.Array(),
+        preselectedTags = preselectedTag,
         maybeLocation = props.wrapped.maybeLocation,
         country = appState.country
       )

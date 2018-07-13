@@ -276,7 +276,7 @@ object ResultsInConsultation {
               ^.className := js.Array(ResultsInConsultationStyles.wrapper, ResultsInConsultationStyles.tagsContainer)
             )(
               <.FilterByTagsComponent(
-                ^.wrapped := FilterByTagsProps(self.props.wrapped.operation.tagIds, onTagsChange)
+                ^.wrapped := FilterByTagsProps(self.props.wrapped.operation.tags, onTagsChange)
               )()
             )
           ),

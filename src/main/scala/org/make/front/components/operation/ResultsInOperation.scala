@@ -286,7 +286,7 @@ object ResultsInOperation {
             <.h2(^.className := TextStyles.mediumTitle)(unescape(I18n.t("operation.results.title")))
           ),
           <.div(^.className := js.Array(ResultsInOperationStyles.tagsNavWrapper, LayoutRulesStyles.centeredRow))(
-            <.FilterByTagsComponent(^.wrapped := FilterByTagsProps(self.props.wrapped.operation.tagIds, onTagsChange))()
+            <.FilterByTagsComponent(^.wrapped := FilterByTagsProps(self.props.wrapped.operation.tags, onTagsChange))()
           ),
           if (self.state.initialLoad || proposalsToDisplay.nonEmpty) {
             proposals(proposalsToDisplay, self.props.wrapped.country)
