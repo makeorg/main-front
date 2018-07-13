@@ -48,4 +48,5 @@ object AccordionStyles extends StyleSheet.Inline {
         styleS(height(`0`), opacity(0))
       } else styleS(height.auto, opacity(1))
   )
+
 }

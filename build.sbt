@@ -55,11 +55,12 @@ val npmReactShareVersion = "2.0.0"
 val npmHexToRgba = "1.0.1"
 val npmJquery = "3.2.1"
 val npmJsCookie = "2.1.4"
+val npmReactDeviceDetect = "1.3.4"
+val npmReactTransitionGroup = "2.4.0"
 /* scala libraries version */
 val scalaJsReactVersion = "0.14.0"
 val scalajsDomVersion = "0.9.1"
 val scalaCssCoreVersion = "0.5.3"
-val npmReactDeviceDetect = "1.3.4"
 
 enablePlugins(ScalaJSPlugin, ScalaJSBundlerPlugin)
 
@@ -89,7 +90,8 @@ npmDependencies in Compile ++= Seq(
   "hex-to-rgba" -> npmHexToRgba,
   "jquery" -> npmJquery,
   "js-cookie" -> npmJsCookie,
-  "react-device-detect" -> npmReactDeviceDetect
+  "react-device-detect" -> npmReactDeviceDetect,
+  "react-transition-group " -> npmReactTransitionGroup
 )
 
 npmDevDependencies in Compile ++= Seq(

@@ -29,30 +29,21 @@ import org.make.core.Counter
 import org.make.front.components.Components._
 import org.make.front.components.proposal.ProposalTileWithOrganisationsVotes.ProposalTileWithOrganisationsVotesProps
 import org.make.front.components.tags.FilterByTags.FilterByTagsProps
-import org.make.front.facades.I18n
-import org.make.front.facades.ReactInfiniteScroller.{
-  ReactInfiniteScrollerVirtualDOMAttributes,
-  ReactInfiniteScrollerVirtualDOMElements
-}
+import org.make.front.facades.{I18n}
+import org.make.front.facades.ReactInfiniteScroller.{ReactInfiniteScrollerVirtualDOMAttributes, ReactInfiniteScrollerVirtualDOMElements}
 import org.make.front.facades.Unescape.unescape
-import org.make.front.models.{
-  Location          => LocationModel,
-  OperationExpanded => OperationModel,
-  Proposal          => ProposalModel,
-  ProposalId        => ProposalIdModel,
-  Qualification     => QualificationModel,
-  Tag               => TagModel,
-  Vote              => VoteModel
-}
-import org.make.front.styles.base.{TextStyles}
+import org.make.front.models.{Location => LocationModel, OperationExpanded => OperationModel, Proposal => ProposalModel, ProposalId => ProposalIdModel, Qualification => QualificationModel, Tag => TagModel, Vote => VoteModel}
+import org.make.front.styles.base.{LayoutRulesStyles, TextStyles}
 import org.make.front.styles.vendors.FontAwesomeStyles
 import org.make.services.proposal.SearchResult
 import org.make.services.tracking.TrackingService.TrackingContext
 import org.make.services.tracking.{TrackingLocation, TrackingService}
 import org.make.front.Main.CssSettings._
 import org.make.front.styles.ThemeStyles
-import org.make.front.styles.ui.CTAStyles
+import org.make.front.styles.ui.{AnimationsStyles, CTAStyles}
 import org.make.front.styles.utils._
+import org.make.front.facades.ReactCSSTransition.{ReactCSSTransitionDOMAttributes, ReactCSSTransitionVirtualDOMElements, TransitionClasses}
+import org.make.front.facades.ReactTransition.ReactTransitionDOMAttributes
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
@@ -174,7 +165,13 @@ object ResultsInConsultation {
         }
 
         val noResults: ReactElement =
-          <.div()(<.p()("😞"), <.p(^.dangerouslySetInnerHTML := I18n.t("operation.results.no-results"))())
+          <.div(^.className := js.Array(ResultsInConsultationStyles.noResults, LayoutRulesStyles.centeredRow))(
+            <.p(^.className := ResultsInConsultationStyles.noResultsSmiley)("😞"),
+            <.p(
+              ^.className := js.Array(TextStyles.mediumText, ResultsInConsultationStyles.noResultsMessage),
+              ^.dangerouslySetInnerHTML := I18n.t("operation.results.no-results")
+            )()
+          )
 
         val onTagsChange: js.Array[TagModel] => Unit = {
           tags =>
@@ -284,7 +281,18 @@ object ResultsInConsultation {
             )
           ),
           if (self.state.initialLoad || proposalsToDisplay.nonEmpty) {
-            proposals(proposalsToDisplay, self.props.wrapped.country)
+            <.CSSTransition(
+              ^.timeout := 250,
+              ^.in := proposalsToDisplay.nonEmpty ,
+              ^.classNamesMap := TransitionClasses(
+                enter = AnimationsStyles.fadeOn250.htmlClass,
+                enterDone = AnimationsStyles.showChildren.htmlClass
+              )
+            )(
+              <.div()(
+                proposals(proposalsToDisplay, self.props.wrapped.country)
+              )
+            )
           } else {
             noResults
           },
@@ -329,4 +337,23 @@ object ResultsInConsultationStyles extends StyleSheet.Inline {
 
   val moreResults: StyleA =
     style(display.block, margin(`0`, auto, ThemeStyles.SpacingValue.small.pxToEm()))
+
+  val noResults: StyleA = style(
+    paddingTop(ThemeStyles.SpacingValue.small.pxToEm()),
+    paddingBottom((ThemeStyles.SpacingValue.small).pxToEm()),
+    textAlign.center
+  )
+
+  val noResultsSmiley: StyleA =
+    style(
+      display.inlineBlock,
+      marginBottom(ThemeStyles.SpacingValue.small.pxToEm(34)),
+      fontSize(34.pxToEm()),
+      lineHeight(1),
+      ThemeStyles.MediaQueries
+        .beyondSmall(marginBottom(ThemeStyles.SpacingValue.small.pxToEm(48)), fontSize(48.pxToEm()))
+    )
+
+  val noResultsMessage: StyleA =
+    style(unsafeChild("strong")(ThemeStyles.Font.circularStdBold))
 }

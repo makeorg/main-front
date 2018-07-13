@@ -175,6 +175,4 @@ object Slides {
         Some(DisplayTracker("display-finale-card", trackingContext(params), defaultTrackingParameters(params))),
       onFocus = onFocus
     )
-
-  def redirect(time: Int, destination: String): Unit = {}
 }

@@ -82,7 +82,7 @@ final case class OperationExtraSlidesParams(operation: OperationExpanded,
                                             language: String,
                                             country: String,
                                             handleCanUpdate: (Boolean) => Unit,
-                                            redirect: (String)         => Unit = _ => {})
+                                            closeSequence: ()          => Unit)
 
 final case class OperationIntroWording(title: Option[String] = None,
                                        explanation1: Option[String] = None,

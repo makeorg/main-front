@@ -60,6 +60,7 @@ object App {
               TagStyles.render[String],
               TooltipStyles.render[String],
               AccordionStyles.render[String],
+              AnimationsStyles.render[String],
               RWDRulesSmallStyles.render[String],
               RWDRulesMediumStyles.render[String],
               RWDRulesLargeMediumStyles.render[String],

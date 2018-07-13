@@ -66,8 +66,7 @@ object ProposalTileStyles extends StyleSheet.Inline {
       padding(
         ThemeStyles.SpacingValue.small.pxToEm(),
         20.pxToEm()
-      ),
-      overflow.hidden
+      )
     )
 
   val footer: StyleA = style(

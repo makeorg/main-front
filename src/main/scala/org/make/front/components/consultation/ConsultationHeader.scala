@@ -196,7 +196,7 @@ object ConsultationHeaderStyles extends StyleSheet.Inline {
         width(100.%%),
         height(4.pxToEm()),
         backgroundColor(ThemeStyles.BackgroundColor.black),
-        transition := "opacity .2s ease-in-out",
+        transition := "opacity .2s ease-in-out"
       )
     )
 
@@ -214,6 +214,6 @@ object ConsultationHeaderStyles extends StyleSheet.Inline {
     style(
       ThemeStyles.Font.circularStdBook,
       fontSize(12.pxToEm()),
-      ThemeStyles.MediaQueries.beyondMedium(fontSize(14.pxToEm())),
+      ThemeStyles.MediaQueries.beyondMedium(fontSize(14.pxToEm()))
     )
 }
