@@ -67,7 +67,7 @@ object SubmitProposalInRelationToOperation {
           val wording: OperationWording =
             self.props.wrapped.operation.getWordingByLanguageOrError(self.props.wrapped.language)
 
-          val trackingParameters = self.props.wrapped.maybeSequence.map { sequenceId =>
+          val trackingInternalOnlyParameters = self.props.wrapped.maybeSequence.map { sequenceId =>
             Map("sequenceId" -> sequenceId.value)
           }.getOrElse(Map.empty) + ("operationId" -> self.props.wrapped.operation.operationId.value)
           val trackingLocation = self.props.wrapped.maybeSequence
@@ -117,7 +117,8 @@ object SubmitProposalInRelationToOperation {
               SubmitProposalAndAuthenticateContainerProps(
                 intro = intro,
                 trackingContext = TrackingContext(trackingLocation, Some(self.props.wrapped.operation.slug)),
-                trackingParameters = trackingParameters,
+                trackingParameters = Map.empty,
+                trackingInternalOnlyParameters = trackingInternalOnlyParameters,
                 onProposalProposed = self.props.wrapped.onProposalProposed,
                 maybeTheme = None,
                 maybeOperation = Some(self.props.wrapped.operation),

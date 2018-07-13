@@ -56,12 +56,11 @@ object Operations {
 object Slides {
   def trackingContext(params: OperationExtraSlidesParams) =
     TrackingContext(TrackingLocation.sequencePage, Some(params.operation.slug))
-  def defaultTrackingParameters(params: OperationExtraSlidesParams) =
+  def defaultTrackingInternalOnlyParameters(params: OperationExtraSlidesParams) =
     Map(
       "sequenceId" -> params.sequence.sequenceId.value,
       "operation" -> params.operation.slug
     )
-
   def displaySequenceIntroCard(params: OperationExtraSlidesParams,
                                displayed: Boolean = true,
                                introWording: OperationIntroWording): ExtraSlide = {
@@ -71,7 +70,12 @@ object Slides {
         {
           val onClick: () => Unit = () => {
             TrackingService
-              .track("click-sequence-launch", trackingContext(params), defaultTrackingParameters(params))
+              .track(
+                eventName = "click-sequence-launch",
+                trackingContext = trackingContext(params),
+                parameters = Map.empty,
+                internalOnlyParameters = defaultTrackingInternalOnlyParameters(params)
+              )
             handler()
           }
           IntroductionOfTheSequenceProps(clickOnButtonHandler = onClick, introWording = introWording)
@@ -83,7 +87,8 @@ object Slides {
         DisplayTracker(
           name = "display-sequence-intro-card",
           context = trackingContext(params),
-          parameters = defaultTrackingParameters(params)
+          parameters = Map.empty,
+          internalOnlyParameters = defaultTrackingInternalOnlyParameters(params)
         )
       )
     )
@@ -96,7 +101,8 @@ object Slides {
         operation = params.operation,
         sequenceId = params.sequence.sequenceId,
         trackingContext = trackingContext(params),
-        trackingParameters = defaultTrackingParameters(params),
+        trackingParameters = Map.empty,
+        trackingInternalOnlyParameters = defaultTrackingInternalOnlyParameters(params),
         clickOnButtonHandler = handler,
         authenticateHandler = () => {}
       )
@@ -106,7 +112,7 @@ object Slides {
     },
     displayed = displayed,
     maybeTracker =
-      Some(DisplayTracker("display-sign-up-card", trackingContext(params), defaultTrackingParameters(params)))
+      Some(DisplayTracker("display-sign-up-card", trackingContext(params), Map.empty, defaultTrackingInternalOnlyParameters(params)))
   )
 
   def displayProposalPushCard(params: OperationExtraSlidesParams, displayed: Boolean = true): ExtraSlide = {
@@ -128,7 +134,7 @@ object Slides {
       },
       displayed = displayed,
       maybeTracker =
-        Some(DisplayTracker("display-proposal-push-card", trackingContext(params), defaultTrackingParameters(params)))
+        Some(DisplayTracker("display-proposal-push-card", trackingContext(params), Map.empty, defaultTrackingInternalOnlyParameters(params)))
     )
   }
 
@@ -149,7 +155,7 @@ object Slides {
       },
       displayed = displayed,
       maybeTracker =
-        Some(DisplayTracker("display-finale-card", trackingContext(params), defaultTrackingParameters(params))),
+        Some(DisplayTracker("display-finale-card", trackingContext(params), Map.empty, defaultTrackingInternalOnlyParameters(params))),
       onFocus = onFocus
     )
 
@@ -172,7 +178,7 @@ object Slides {
       },
       displayed = displayed,
       maybeTracker =
-        Some(DisplayTracker("display-finale-card", trackingContext(params), defaultTrackingParameters(params))),
+        Some(DisplayTracker("display-finale-card", trackingContext(params), Map.empty, defaultTrackingInternalOnlyParameters(params))),
       onFocus = onFocus
     )
 }

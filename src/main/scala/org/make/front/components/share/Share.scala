@@ -63,23 +63,25 @@ object ShareProposal {
 
           def trackOnClick(network: String) = () => {
             TrackingService.track(
-              "click-share-sequence",
-              TrackingContext(
+              eventName = "click-share-sequence",
+              trackingContext = TrackingContext(
                 location = TrackingLocation.sequencePage,
                 operationSlug = Some(self.props.wrapped.operation.slug)
               ),
-              Map("sequenceId" -> self.props.wrapped.operation.landingSequenceId.value, "network" -> network)
+              parameters = Map("network" -> network),
+              internalOnlyParameters = Map("sequenceId" -> self.props.wrapped.operation.landingSequenceId.value)
             )
           }
 
           def trackOnClose(network: String) = () => {
             TrackingService.track(
-              "click-share-sequence-validate",
-              TrackingContext(
+              eventName = "click-share-sequence-validate",
+              trackingContext = TrackingContext(
                 location = TrackingLocation.sequencePage,
                 operationSlug = Some(self.props.wrapped.operation.slug)
               ),
-              Map("sequenceId" -> self.props.wrapped.operation.landingSequenceId.value, "network" -> network)
+              parameters = Map("network" -> network),
+              internalOnlyParameters = Map("sequenceId" -> self.props.wrapped.operation.landingSequenceId.value)
             )
           }
 

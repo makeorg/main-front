@@ -57,6 +57,7 @@ object SubmitProposalAndAuthenticate {
   case class SubmitProposalAndAuthenticateProps(intro: (ReactElement) => ReactElement,
                                                 trackingContext: TrackingContext,
                                                 trackingParameters: Map[String, String],
+                                                trackingInternalOnlyParameters: Map[String, String],
                                                 maybeTheme: Option[TranslatedThemeModel],
                                                 maybeOperation: Option[OperationModel],
                                                 onProposalProposed: () => Unit,
@@ -72,9 +73,10 @@ object SubmitProposalAndAuthenticate {
         if (self.state.displayedComponent == "submit-proposal") {
           TrackingService
             .track(
-              "display-proposal-submit-journey",
-              TrackingContext(TrackingLocation.submitProposalPage, props.wrapped.trackingContext.operationSlug),
-              props.wrapped.trackingParameters
+              eventName = "display-proposal-submit-journey",
+              trackingContext = TrackingContext(TrackingLocation.submitProposalPage, props.wrapped.trackingContext.operationSlug),
+              parameters = props.wrapped.trackingParameters,
+              internalOnlyParameters = props.wrapped.trackingInternalOnlyParameters
             )
         }
       },
@@ -105,6 +107,7 @@ object SubmitProposalAndAuthenticate {
                 ^.wrapped := SubmitProposalFormContainerProps(
                   trackingContext = self.props.wrapped.trackingContext,
                   trackingParameters = self.props.wrapped.trackingParameters,
+                  trackingInternalOnlyParameters = self.props.wrapped.trackingInternalOnlyParameters,
                   maybeTheme = props.maybeTheme,
                   errorMessage = None,
                   handleSubmitProposalForm = handleSubmitProposal
@@ -138,6 +141,7 @@ object SubmitProposalAndAuthenticate {
                   self.props.wrapped.trackingContext.operationSlug
                 ),
                 trackingParameters = self.props.wrapped.trackingParameters,
+                trackingInternalOnlyParameters = self.props.wrapped.trackingInternalOnlyParameters,
                 intro = intro,
                 onceConnected = onConnectionOk,
                 defaultView = "register-expanded",
@@ -152,6 +156,7 @@ object SubmitProposalAndAuthenticate {
             <.ConfirmationOfProposalSubmissionComponent(
               ^.wrapped := ConfirmationOfProposalSubmissionProps(
                 trackingParameters = self.props.wrapped.trackingParameters,
+                trackingInternalOnlyParameters = self.props.wrapped.trackingInternalOnlyParameters,
                 maybeTheme = self.props.wrapped.maybeTheme,
                 maybeOperation = self.props.wrapped.maybeOperation,
                 onBack = self.props.wrapped.onProposalProposed,

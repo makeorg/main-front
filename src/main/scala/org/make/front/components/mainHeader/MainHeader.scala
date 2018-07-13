@@ -48,12 +48,12 @@ object MainHeader {
           shouldComponentUpdate = (_, _, _) => true,
           render = { self =>
             val trackLogoClick: () => Unit = () => {
-              TrackingService.track("click-navbar-logo", TrackingContext(TrackingLocation.navBar))
+              TrackingService.track(eventName = "click-navbar-logo", trackingContext = TrackingContext(TrackingLocation.navBar))
               self.props.history.push(s"/${self.props.wrapped.country}")
             }
 
             val trackAboutUsClick: () => Unit = () => {
-              TrackingService.track("click-navbar-whoarewe", TrackingContext(TrackingLocation.navBar))
+              TrackingService.track(eventName = "click-navbar-whoarewe", trackingContext = TrackingContext(TrackingLocation.navBar))
               scalajs.js.Dynamic.global.window.open(I18n.t("main-header.menu.item-1.link"), "_blank")
             }
 

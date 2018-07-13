@@ -199,12 +199,12 @@ object ResultsInOperation {
             }
             changedTags.foreach { tag =>
               TrackingService.track(
-                "click-tag-action",
-                TrackingContext(
+                eventName = "click-tag-action",
+                trackingContext = TrackingContext(
                   TrackingLocation.operationPage,
                   operationSlug = Some(self.props.wrapped.operation.slug)
                 ),
-                Map("nature" -> action, "tag-name" -> tag.label)
+                parameters = Map("nature" -> action, "tag-name" -> tag.label)
               )
             }
 
@@ -268,8 +268,8 @@ object ResultsInOperation {
                 )(<.button(^.onClick := (() => {
                   onSeeMore(1)
                   TrackingService.track(
-                    "click-proposal-viewmore",
-                    TrackingContext(
+                    eventName = "click-proposal-viewmore",
+                    trackingContext = TrackingContext(
                       TrackingLocation.operationPage,
                       operationSlug = Some(self.props.wrapped.operation.slug)
                     )

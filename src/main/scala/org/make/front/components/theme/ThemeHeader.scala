@@ -196,9 +196,10 @@ object ThemeHeader {
         def openProposalModalFromInput() = () => {
           self.setState(state => state.copy(isProposalModalOpened = true))
           TrackingService.track(
-            "click-proposal-submit-form-open",
-            TrackingContext(TrackingLocation.themePage),
-            Map("themeId" -> self.props.wrapped.theme.id.value)
+            eventName = "click-proposal-submit-form-open",
+            trackingContext = TrackingContext(TrackingLocation.themePage),
+            parameters = Map.empty,
+            internalOnlyParameters = Map("themeId" -> self.props.wrapped.theme.id.value)
           )
           proposalInput.foreach(_.blur())
         }

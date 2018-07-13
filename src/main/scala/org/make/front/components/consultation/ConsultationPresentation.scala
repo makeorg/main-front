@@ -78,8 +78,8 @@ object ConsultationPresentation {
             scalajs.js.Dynamic.global.window.open(url, "_blank")
             TrackingService
               .track(
-                "click-button-learn-more",
-                TrackingContext(TrackingLocation.operationPage, operationSlug = Some(consultation.slug))
+                eventName = "click-button-learn-more",
+                trackingContext = TrackingContext(TrackingLocation.operationPage, operationSlug = Some(consultation.slug))
               )
           }
 

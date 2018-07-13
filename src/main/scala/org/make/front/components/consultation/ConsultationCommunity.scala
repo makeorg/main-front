@@ -68,9 +68,10 @@ object ConsultationCommunity {
               )
             TrackingService
               .track(
-                "click-participate-community",
-                TrackingContext(TrackingLocation.operationPage, operationSlug = Some(consultation.slug)),
-                Map("sequenceId" -> consultation.landingSequenceId.value)
+                eventName = "click-participate-community",
+                trackingContext = TrackingContext(TrackingLocation.operationPage, operationSlug = Some(consultation.slug)),
+                parameters = Map.empty,
+                internalOnlyParameters = Map("sequenceId" -> consultation.landingSequenceId.value)
               )
           }
 
@@ -84,8 +85,8 @@ object ConsultationCommunity {
           def trackingPartners: () => Unit = { () =>
             TrackingService
               .track(
-                "click-see-more-community",
-                TrackingContext(TrackingLocation.operationPage, operationSlug = Some(consultation.slug))
+                eventName = "click-see-more-community",
+                trackingContext = TrackingContext(TrackingLocation.operationPage, operationSlug = Some(consultation.slug))
               )
           }
 

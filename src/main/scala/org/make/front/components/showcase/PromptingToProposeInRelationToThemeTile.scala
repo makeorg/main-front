@@ -60,9 +60,10 @@ object PromptingToProposeInRelationToThemeTile {
         def openProposalModalFromInput() = () => {
           self.setState(state => state.copy(isProposalModalOpened = true))
           TrackingService.track(
-            "click-proposal-submit-form-open",
-            TrackingContext(TrackingLocation.showcaseHomepage),
-            Map("themeId" -> self.props.wrapped.theme.id.value)
+            eventName = "click-proposal-submit-form-open",
+            trackingContext = TrackingContext(TrackingLocation.showcaseHomepage),
+            parameters = Map.empty,
+            internalOnlyParameters = Map("themeId" -> self.props.wrapped.theme.id.value)
           )
         }
 

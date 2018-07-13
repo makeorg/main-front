@@ -49,6 +49,7 @@ object LoginWithEmail {
   case class LoginWithEmailProps(note: String,
                                  trackingContext: TrackingContext,
                                  trackingParameters: Map[String, String],
+                                 trackingInternalOnlyParameters: Map[String, String],
                                  connectUser: (String, String) => Future[_])
   case class LoginWithEmailState(email: String,
                                  emailErrorMessage: Option[String],
@@ -65,7 +66,12 @@ object LoginWithEmail {
         displayName = "LoginWithEmail",
         componentDidMount = { self =>
           TrackingService
-            .track("display-signin-form", self.props.wrapped.trackingContext, self.props.wrapped.trackingParameters)
+            .track(
+              eventName = "display-signin-form",
+              trackingContext = self.props.wrapped.trackingContext,
+              parameters = self.props.wrapped.trackingParameters,
+              internalOnlyParameters = self.props.wrapped.trackingInternalOnlyParameters
+            )
         },
         getInitialState = (_) => LoginWithEmailState.empty,
         render = { self =>

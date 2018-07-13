@@ -48,6 +48,7 @@ object AuthenticateWithFacebookButton {
 
   case class AuthenticateWithFacebookButtonProps(trackingContext: TrackingContext,
                                                  trackingParameters: Map[String, String],
+                                                 trackingInternalOnlyParameters: Map[String, String],
                                                  isConnected: Boolean,
                                                  signIn: (Response) => Future[_],
                                                  facebookAppId: String,
@@ -66,9 +67,10 @@ object AuthenticateWithFacebookButton {
         def trackFailure(provider: String): Unit = {
           TrackingService
             .track(
-              "authen-social-failure",
-              self.props.wrapped.trackingContext,
-              self.props.wrapped.trackingParameters + ("social-network" -> provider)
+              eventName = "authen-social-failure",
+              trackingContext = self.props.wrapped.trackingContext,
+              parameters = self.props.wrapped.trackingParameters + ("social-network" -> provider),
+              internalOnlyParameters = self.props.wrapped.trackingInternalOnlyParameters
             )
         }
 
@@ -78,9 +80,10 @@ object AuthenticateWithFacebookButton {
             case Success(_) =>
               TrackingService
                 .track(
-                  "authen-social-success",
-                  self.props.wrapped.trackingContext,
-                  self.props.wrapped.trackingParameters + ("social-network" -> provider)
+                  eventName = "authen-social-success",
+                  trackingContext = self.props.wrapped.trackingContext,
+                  parameters = self.props.wrapped.trackingParameters + ("social-network" -> provider),
+                  internalOnlyParameters = self.props.wrapped.trackingInternalOnlyParameters
                 )
               self.setState(AuthenticateWithFacebookButtonState())
             case Failure(UnauthorizedHttpException) =>

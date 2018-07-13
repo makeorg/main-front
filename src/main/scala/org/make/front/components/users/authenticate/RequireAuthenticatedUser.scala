@@ -34,6 +34,7 @@ object RequireAuthenticatedUser {
   case class RequireAuthenticatedUserProps(operationId: Option[OperationId],
                                            trackingContext: TrackingContext,
                                            trackingParameters: Map[String, String],
+                                           trackingInternalOnlyParameters: Map[String, String],
                                            intro: ReactElement,
                                            registerView: String,
                                            defaultView: String = "register",
@@ -68,6 +69,7 @@ object RequireAuthenticatedUser {
               ^.wrapped := LoginOrRegisterProps(
                 trackingContext = self.props.wrapped.trackingContext,
                 trackingParameters = self.props.wrapped.trackingParameters,
+                trackingInternalOnlyParameters = self.props.wrapped.trackingInternalOnlyParameters,
                 operationId = self.props.wrapped.operationId,
                 registerView = props.registerView,
                 displayView = props.defaultView,

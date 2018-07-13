@@ -63,8 +63,8 @@ object ConsultationHeader {
               )
               TrackingService
                 .track(
-                  "click-" + newTab + "-tab",
-                  TrackingContext(
+                  eventName = "click-" + newTab + "-tab",
+                  trackingContext = TrackingContext(
                     TrackingLocation.operationPage,
                     operationSlug = Some(self.props.wrapped.operation.slug)
                   )

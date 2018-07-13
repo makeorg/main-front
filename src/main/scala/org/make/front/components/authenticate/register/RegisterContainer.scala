@@ -40,6 +40,7 @@ object RegisterContainer {
   case class RegisterUserProps(note: String,
                                trackingContext: TrackingContext,
                                trackingParameters: Map[String, String],
+                               trackingInternalOnlyParameters: Map[String, String],
                                onSuccessfulRegistration: () => Unit = () => {},
                                operationId: Option[OperationId])
 
@@ -65,13 +66,23 @@ object RegisterContainer {
         future.onComplete {
           case Success(user) =>
             TrackingService
-              .track("signup-email-success", props.wrapped.trackingContext, props.wrapped.trackingParameters)
+              .track(
+                eventName = "signup-email-success",
+                trackingContext = props.wrapped.trackingContext,
+                parameters = props.wrapped.trackingParameters,
+                internalOnlyParameters = props.wrapped.trackingInternalOnlyParameters
+              )
             dispatch(LoggedInAction(user))
             dispatch(NotifyInfo(message = I18n.t("authenticate.register.notifications.success")))
             props.wrapped.onSuccessfulRegistration()
           case Failure(_) =>
             TrackingService
-              .track("signup-email-failure", props.wrapped.trackingContext, props.wrapped.trackingParameters)
+              .track(
+                eventName = "signup-email-failure",
+                trackingContext = props.wrapped.trackingContext,
+                parameters = props.wrapped.trackingParameters,
+                internalOnlyParameters = props.wrapped.trackingInternalOnlyParameters
+              )
         }
 
         future
@@ -80,6 +91,7 @@ object RegisterContainer {
         props.wrapped.note,
         trackingContext = props.wrapped.trackingContext,
         trackingParameters = props.wrapped.trackingParameters,
+        trackingInternalOnlyParameters = props.wrapped.trackingInternalOnlyParameters,
         register = register()
       )
   }

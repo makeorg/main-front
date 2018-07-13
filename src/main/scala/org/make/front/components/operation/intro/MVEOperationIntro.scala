@@ -50,8 +50,8 @@ object MVEOperationIntro {
 
           def onClick: () => Unit = { () =>
             TrackingService.track(
-              "click-button-learn-more",
-              TrackingContext(TrackingLocation.operationPage, Some(self.props.wrapped.operation.slug))
+              eventName = "click-button-learn-more",
+              trackingContext = TrackingContext(TrackingLocation.operationPage, Some(self.props.wrapped.operation.slug))
             )
           }
 

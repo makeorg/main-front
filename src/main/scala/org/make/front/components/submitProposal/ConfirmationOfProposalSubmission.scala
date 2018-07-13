@@ -42,6 +42,7 @@ import scala.scalajs.js
 object ConfirmationOfProposalSubmission {
 
   case class ConfirmationOfProposalSubmissionProps(trackingParameters: Map[String, String],
+                                                   trackingInternalOnlyParameters: Map[String, String],
                                                    maybeTheme: Option[TranslatedThemeModel],
                                                    maybeOperation: Option[OperationModel],
                                                    onBack: ()                  => _,
@@ -54,26 +55,29 @@ object ConfirmationOfProposalSubmission {
         componentDidMount = { self =>
           TrackingService
             .track(
-              "display-proposal-submit-validation",
-              TrackingContext(TrackingLocation.submitProposalPage, self.props.wrapped.maybeOperation.map(_.slug)),
-              self.props.wrapped.trackingParameters
+              eventName = "display-proposal-submit-validation",
+              trackingContext = TrackingContext(TrackingLocation.submitProposalPage, self.props.wrapped.maybeOperation.map(_.slug)),
+              parameters = self.props.wrapped.trackingParameters,
+              internalOnlyParameters = self.props.wrapped.trackingInternalOnlyParameters
             )
         },
         render = { self =>
           def handleClickOnButton() = () => {
             TrackingService.track(
-              "click-proposal-submit-form-open",
-              TrackingContext(TrackingLocation.endProposalPage, self.props.wrapped.maybeOperation.map(_.slug)),
-              self.props.wrapped.trackingParameters
+              eventName = "click-proposal-submit-form-open",
+              trackingContext = TrackingContext(TrackingLocation.endProposalPage, self.props.wrapped.maybeOperation.map(_.slug)),
+              parameters = self.props.wrapped.trackingParameters,
+              internalOnlyParameters = self.props.wrapped.trackingInternalOnlyParameters
             )
             self.props.wrapped.onSubmitAnotherProposal()
           }
 
           def handleClickOnBackButton() = () => {
             TrackingService.track(
-              "click-back-button-after-proposal-submit",
-              TrackingContext(TrackingLocation.endProposalPage, self.props.wrapped.maybeOperation.map(_.slug)),
-              self.props.wrapped.trackingParameters
+              eventName = "click-back-button-after-proposal-submit",
+              trackingContext = TrackingContext(TrackingLocation.endProposalPage, self.props.wrapped.maybeOperation.map(_.slug)),
+              parameters = self.props.wrapped.trackingParameters,
+              internalOnlyParameters = self.props.wrapped.trackingInternalOnlyParameters
             )
             self.props.wrapped.onBack()
           }

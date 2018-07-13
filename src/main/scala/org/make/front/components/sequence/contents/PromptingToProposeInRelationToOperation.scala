@@ -71,18 +71,20 @@ object PromptingToProposeInRelationToOperation {
             self.setState(state => state.copy(isProposalModalOpened = true))
             self.props.wrapped.handleCanUpdate(false)
             TrackingService.track(
-              "click-proposal-submit-form-open",
-              TrackingContext(TrackingLocation.sequenceProposalPushCard, Some(self.props.wrapped.operation.slug)),
-              Map("sequenceId" -> self.props.wrapped.sequenceId.value)
+              eventName = "click-proposal-submit-form-open",
+              trackingContext = TrackingContext(TrackingLocation.sequenceProposalPushCard, Some(self.props.wrapped.operation.slug)),
+              parameters = Map.empty,
+              internalOnlyParameters = Map("sequenceId" -> self.props.wrapped.sequenceId.value)
             )
           }
 
           val onNextProposal: () => Unit = { () =>
             self.props.wrapped.clickOnButtonHandler()
             TrackingService.track(
-              "click-proposal-push-card-ignore",
-              TrackingContext(TrackingLocation.sequencePage, Some(self.props.wrapped.operation.slug)),
-              Map("sequenceId" -> self.props.wrapped.sequenceId.value)
+              eventName = "click-proposal-push-card-ignore",
+              trackingContext = TrackingContext(TrackingLocation.sequencePage, Some(self.props.wrapped.operation.slug)),
+              parameters = Map.empty,
+              internalOnlyParameters = Map("sequenceId" -> self.props.wrapped.sequenceId.value)
             )
           }
 

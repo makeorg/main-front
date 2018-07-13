@@ -46,6 +46,7 @@ object PromptingToConnect {
   final case class PromptingToConnectProps(operation: OperationModel,
                                            trackingContext: TrackingContext,
                                            trackingParameters: Map[String, String],
+                                           trackingInternalOnlyParameters: Map[String, String],
                                            sequenceId: SequenceId,
                                            clickOnButtonHandler: () => Unit,
                                            authenticateHandler: ()  => Unit)
@@ -60,17 +61,27 @@ object PromptingToConnect {
           PromptingToConnectState(isAuthenticateModalOpened = false)
         },
         render = { self =>
-          val defaultTrackingParameters = Map("sequenceId" -> self.props.wrapped.sequenceId.value)
+          val defaultTrackingInternalOnlyParameters = self.props.wrapped.trackingInternalOnlyParameters ++ Map("sequenceId" -> self.props.wrapped.sequenceId.value)
 
           def openLoginAuthenticateModal() = () => {
             self.setState(state => state.copy(isAuthenticateModalOpened = true, loginOrRegisterView = "login"))
             TrackingService
-              .track("click-sign-up-card-sign-in", self.props.wrapped.trackingContext, defaultTrackingParameters)
+              .track(
+                eventName = "click-sign-up-card-sign-in",
+                trackingContext = self.props.wrapped.trackingContext,
+                parameters = self.props.wrapped.trackingParameters,
+                internalOnlyParameters = defaultTrackingInternalOnlyParameters
+              )
           }
 
           def openRegisterAuthenticateModal() = () => {
             TrackingService
-              .track("click-sign-up-card-email", self.props.wrapped.trackingContext, defaultTrackingParameters)
+              .track(
+                eventName = "click-sign-up-card-email",
+                trackingContext = self.props.wrapped.trackingContext,
+                parameters = self.props.wrapped.trackingParameters,
+                internalOnlyParameters = defaultTrackingInternalOnlyParameters
+              )
             self.setState(state => state.copy(isAuthenticateModalOpened = true, loginOrRegisterView = "register"))
           }
 
@@ -79,7 +90,12 @@ object PromptingToConnect {
           }
 
           val skipSignup: () => Unit = { () =>
-            TrackingService.track("skip-sign-up-card", self.props.wrapped.trackingContext, defaultTrackingParameters)
+            TrackingService.track(
+              eventName = "skip-sign-up-card",
+              trackingContext = self.props.wrapped.trackingContext,
+              parameters = self.props.wrapped.trackingParameters,
+              internalOnlyParameters = defaultTrackingInternalOnlyParameters
+            )
             self.props.wrapped.clickOnButtonHandler()
           }
 
@@ -98,7 +114,8 @@ object PromptingToConnect {
                   <.AuthenticateWithFacebookContainerComponent(
                     ^.wrapped := AuthenticateWithFacebookContainerProps(
                       trackingContext = self.props.wrapped.trackingContext,
-                      trackingParameters = defaultTrackingParameters,
+                      trackingParameters = self.props.wrapped.trackingParameters,
+                      trackingInternalOnlyParameters = defaultTrackingInternalOnlyParameters,
                       onSuccessfulLogin = () => {
                         self.props.wrapped.authenticateHandler()
                       },
@@ -134,6 +151,7 @@ object PromptingToConnect {
                   ^.wrapped := LoginOrRegisterProps(
                     trackingContext = self.props.wrapped.trackingContext,
                     trackingParameters = self.props.wrapped.trackingParameters,
+                    trackingInternalOnlyParameters = defaultTrackingInternalOnlyParameters,
                     displayView = self.state.loginOrRegisterView,
                     onSuccessfulLogin = () => {
                       self.setState(_.copy(isAuthenticateModalOpened = false))

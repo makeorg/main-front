@@ -49,8 +49,8 @@ object CultureFeaturedOperation {
           def learnMoreOnFeaturedOperation: () => Unit = { () =>
             TrackingService
               .track(
-                "click-homepage-header",
-                TrackingContext(self.props.wrapped.trackingLocation, Some("chance-aux-jeunes"))
+                eventName = "click-homepage-header",
+                trackingContext = TrackingContext(self.props.wrapped.trackingLocation, Some("chance-aux-jeunes"))
               )
             scalajs.js.Dynamic.global.window
               .open(I18n.t("home.featured-operation.culture.learn-more.link"), "_blank")

@@ -112,9 +112,9 @@ object SearchResults {
                   case Success(searchResult) =>
                     if (self.state.initialLoad) {
                       TrackingService.track(
-                        "display-search-results-page",
-                        TrackingContext(TrackingLocation.searchResultsPage, self.state.maybeOperation.map(_.slug)),
-                        Map("results-count" -> searchResult.total.toString)
+                        eventName = "display-search-results-page",
+                        trackingContext = TrackingContext(TrackingLocation.searchResultsPage, self.state.maybeOperation.map(_.slug)),
+                        parameters = Map("results-count" -> searchResult.total.toString)
                       )
                     }
                     self.setState(
@@ -176,8 +176,8 @@ object SearchResults {
                     onSeeMore(1)
                     TrackingService
                       .track(
-                        "click-proposal-viewmore",
-                        TrackingContext(TrackingLocation.searchResultsPage, self.state.maybeOperation.map(_.slug))
+                        eventName = "click-proposal-viewmore",
+                        trackingContext = TrackingContext(TrackingLocation.searchResultsPage, self.state.maybeOperation.map(_.slug))
                       )
                   }, ^.className := js.Array(CTAStyles.basic, CTAStyles.basicOnButton))(unescape(I18n.t("search.results.see-more"))))
                 }

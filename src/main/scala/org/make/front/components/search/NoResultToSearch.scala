@@ -64,9 +64,10 @@ object NoResultToSearch {
           val openProposalModal: (MouseSyntheticEvent) => Unit = { event =>
             event.preventDefault()
             TrackingService.track(
-              "click-proposal-submit-form-open",
-              TrackingContext(TrackingLocation.searchResultsPage),
-              self.props.wrapped.searchValue.map(query => Map("query" -> query)).getOrElse(Map.empty)
+              eventName = "click-proposal-submit-form-open",
+              trackingContext = TrackingContext(TrackingLocation.searchResultsPage),
+              parameters = Map.empty,
+              internalOnlyParameters = self.props.wrapped.searchValue.map(query => Map("query" -> query)).getOrElse(Map.empty)
             )
             self.setState(state => state.copy(isProposalModalOpened = true))
           }
@@ -110,7 +111,7 @@ object NoResultToSearch {
               )()
             }.getOrElse {
               <.SubmitProposalComponent(
-                ^.wrapped := SubmitProposalProps(trackingParameters = Map.empty, onProposalProposed = () => {
+                ^.wrapped := SubmitProposalProps(trackingParameters = Map.empty, trackingInternalOnlyParameters = Map.empty, onProposalProposed = () => {
                   self.setState(_.copy(isProposalModalOpened = false))
                 }, maybeLocation = self.props.wrapped.maybeLocation, maybeOperation = self.props.wrapped.maybeOperation)
               )()

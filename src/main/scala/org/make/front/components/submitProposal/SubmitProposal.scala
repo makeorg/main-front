@@ -42,6 +42,7 @@ import scala.scalajs.js
 object SubmitProposal {
 
   case class SubmitProposalProps(trackingParameters: Map[String, String],
+                                 trackingInternalOnlyParameters: Map[String, String],
                                  onProposalProposed: () => Unit,
                                  maybeLocation: Option[LocationModel],
                                  maybeOperation: Option[OperationModel])
@@ -71,6 +72,7 @@ object SubmitProposal {
               SubmitProposalAndAuthenticateContainerProps(
                 trackingContext = TrackingContext(TrackingLocation.submitProposalPage),
                 trackingParameters = self.props.wrapped.trackingParameters,
+                trackingInternalOnlyParameters = self.props.wrapped.trackingInternalOnlyParameters,
                 intro = intro,
                 onProposalProposed = self.props.wrapped.onProposalProposed,
                 maybeTheme = None,

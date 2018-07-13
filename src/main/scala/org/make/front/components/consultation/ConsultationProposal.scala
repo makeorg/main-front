@@ -76,8 +76,8 @@ object ConsultationProposal {
           self.setState(state => state.copy(isProposalModalOpened = true))
           TrackingService
             .track(
-              "click-proposal-submit-form-open",
-              TrackingContext(TrackingLocation.operationPage, operationSlug = Some(consultation.slug))
+              eventName = "click-proposal-submit-form-open",
+              trackingContext = TrackingContext(TrackingLocation.operationPage, operationSlug = Some(consultation.slug))
             )
           proposalInput.foreach(_.blur())
         }

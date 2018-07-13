@@ -61,9 +61,10 @@ object PromptingToProposeInRelationToOperationTile {
           def openProposalModalFromInput(): () => Unit = () => {
             self.setState(state => state.copy(isProposalModalOpened = true))
             TrackingService.track(
-              "click-proposal-submit-form-open",
-              TrackingContext(TrackingLocation.showcaseHomepage),
-              Map("operationId" -> self.props.wrapped.operation.operationId.value)
+              eventName = "click-proposal-submit-form-open",
+              trackingContext = TrackingContext(TrackingLocation.showcaseHomepage),
+              parameters = Map.empty,
+              internalOnlyParameters = Map("operationId" -> self.props.wrapped.operation.operationId.value)
             )
           }
 

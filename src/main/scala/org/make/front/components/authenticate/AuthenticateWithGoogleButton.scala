@@ -49,6 +49,7 @@ object AuthenticateWithGoogleButton {
 
   case class AuthenticateWithGoogleButtonProps(trackingContext: TrackingContext,
                                                trackingParameters: Map[String, String],
+                                               trackingInternalOnlyParameters: Map[String, String],
                                                isConnected: Boolean,
                                                signIn: (Response) => Future[_],
                                                googleAppId: String,
@@ -67,9 +68,10 @@ object AuthenticateWithGoogleButton {
         def trackFailure(provider: String): Unit = {
           TrackingService
             .track(
-              "authen-social-failure",
-              self.props.wrapped.trackingContext,
-              self.props.wrapped.trackingParameters + ("social-network" -> provider)
+              eventName = "authen-social-failure",
+              trackingContext = self.props.wrapped.trackingContext,
+              parameters = self.props.wrapped.trackingParameters + ("social-network" -> provider),
+              internalOnlyParameters = self.props.wrapped.trackingInternalOnlyParameters
             )
         }
         // @toDo: manage specific errors
@@ -78,9 +80,10 @@ object AuthenticateWithGoogleButton {
             case Success(_) =>
               TrackingService
                 .track(
-                  "authen-social-success",
-                  self.props.wrapped.trackingContext,
-                  self.props.wrapped.trackingParameters + ("social-network" -> provider)
+                  eventName = "authen-social-success",
+                  trackingContext = self.props.wrapped.trackingContext,
+                  parameters = self.props.wrapped.trackingParameters + ("social-network" -> provider),
+                  internalOnlyParameters = self.props.wrapped.trackingInternalOnlyParameters
                 )
               self.setState(AuthenticateWithGoogleButtonState())
             case Failure(UnauthorizedHttpException) =>

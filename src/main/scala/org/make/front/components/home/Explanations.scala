@@ -45,7 +45,7 @@ object Explanations {
         displayName = "Explanations",
         render = { _ =>
           val openTarget: () => Unit = () => {
-            TrackingService.track("click-button-whoweare", TrackingContext(TrackingLocation.showcaseHomepage))
+            TrackingService.track(eventName = "click-button-whoweare", trackingContext = TrackingContext(TrackingLocation.showcaseHomepage))
             scalajs.js.Dynamic.global.window.open(I18n.t("home.explanations.article-2.see-more-link"), "_blank")
           }
           <.section(^.className := ExplanationsStyles.wrapper)(

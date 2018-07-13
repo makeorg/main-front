@@ -83,6 +83,7 @@ object TriggerSignUp {
               operationId = maybeOperationId,
               trackingContext = TrackingContext(TrackingLocation.triggerFromVote),
               trackingParameters = Map.empty,
+              trackingInternalOnlyParameters = Map.empty,
               displayView = "register",
               onSuccessfulLogin = () => {
                 self.setState(_.copy(isAuthenticateModalOpened = false, voteLocation = None))

@@ -41,6 +41,7 @@ object LoginWithSocialNetworksOrEmail {
 
   case class LoginWithSocialNetworksOrEmailProps(trackingContext: TrackingContext,
                                                  trackingParameters: Map[String, String],
+                                                 trackingInternalOnlyParameters: Map[String, String],
                                                  onSuccessfulLogin: () => Unit = () => {},
                                                  operationId: Option[OperationId])
 
@@ -56,6 +57,7 @@ object LoginWithSocialNetworksOrEmail {
             ^.wrapped := AuthenticateWithSocialNetworksProps(
               trackingContext = self.props.wrapped.trackingContext,
               trackingParameters = self.props.wrapped.trackingParameters,
+              trackingInternalOnlyParameters = self.props.wrapped.trackingInternalOnlyParameters,
               onSuccessfulLogin = self.props.wrapped.onSuccessfulLogin,
               operationId = self.props.wrapped.operationId
             )
@@ -73,6 +75,7 @@ object LoginWithSocialNetworksOrEmail {
               note = "",
               trackingContext = self.props.wrapped.trackingContext,
               trackingParameters = self.props.wrapped.trackingParameters,
+              trackingInternalOnlyParameters = self.props.wrapped.trackingInternalOnlyParameters,
               onSuccessfulLogin = self.props.wrapped.onSuccessfulLogin
             )
           )(),

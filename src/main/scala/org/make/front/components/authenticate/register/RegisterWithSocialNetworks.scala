@@ -40,6 +40,7 @@ object RegisterWithSocialNetworks {
 
   case class RegisterWithSocialNetworksProps(trackingContext: TrackingContext,
                                              trackingParameters: Map[String, String],
+                                             trackingInternalOnlyParameters: Map[String, String],
                                              onSuccessfulLogin: () => Unit = () => {},
                                              operationId: Option[OperationId])
 
@@ -57,6 +58,7 @@ object RegisterWithSocialNetworks {
                 ^.wrapped := AuthenticateWithFacebookContainerProps(
                   trackingContext = self.props.wrapped.trackingContext,
                   trackingParameters = self.props.wrapped.trackingParameters,
+                  trackingInternalOnlyParameters = self.props.wrapped.trackingInternalOnlyParameters,
                   onSuccessfulLogin = self.props.wrapped.onSuccessfulLogin,
                   isLookingLikeALink = true,
                   operationId = self.props.wrapped.operationId
@@ -71,6 +73,7 @@ object RegisterWithSocialNetworks {
                 ^.wrapped := AuthenticateWithGoogleContainerProps(
                   trackingContext = self.props.wrapped.trackingContext,
                   trackingParameters = self.props.wrapped.trackingParameters,
+                  trackingInternalOnlyParameters = self.props.wrapped.trackingInternalOnlyParameters,
                   onSuccessfulLogin = self.props.wrapped.onSuccessfulLogin,
                   isLookingLikeALink = true,
                   operationId = self.props.wrapped.operationId

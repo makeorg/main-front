@@ -49,6 +49,7 @@ object SubmitProposalForm {
 
   case class SubmitProposalFormProps(trackingContext: TrackingContext,
                                      trackingParameters: Map[String, String],
+                                     trackingInternalOnlyParameters: Map[String, String],
                                      bait: String,
                                      proposalContentMaxLength: Int,
                                      proposalContentMinLength: Int,
@@ -122,9 +123,10 @@ object SubmitProposalForm {
             } else {
               self.props.wrapped.handleSubmitProposalForm(content)
               TrackingService.track(
-                "click-proposal-submit",
-                TrackingContext(TrackingLocation.submitProposalPage, self.props.wrapped.trackingContext.operationSlug),
-                self.props.wrapped.trackingParameters
+                eventName = "click-proposal-submit",
+                trackingContext = TrackingContext(TrackingLocation.submitProposalPage, self.props.wrapped.trackingContext.operationSlug),
+                parameters = self.props.wrapped.trackingParameters,
+                internalOnlyParameters = self.props.wrapped.trackingInternalOnlyParameters
               )
             }
             false

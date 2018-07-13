@@ -60,8 +60,8 @@ object ActionsSection {
           def trackingPartners: () => Unit = { () =>
             TrackingService
               .track(
-                "click-see-more-community",
-                TrackingContext(TrackingLocation.operationPage, operationSlug = Some(self.props.wrapped.operation.slug))
+                eventName = "click-see-more-community",
+                trackingContext = TrackingContext(TrackingLocation.operationPage, operationSlug = Some(self.props.wrapped.operation.slug))
               )
           }
 
@@ -120,6 +120,7 @@ object ActionsSection {
                         displayView = self.state.loginOrRegisterView,
                         trackingContext = TrackingContext(TrackingLocation.actionsPlaceholder, Some(self.props.wrapped.operation.slug)),
                         trackingParameters = Map("signup-type" -> "light"),
+                        trackingInternalOnlyParameters = Map.empty,
                         onSuccessfulLogin = () => {
                           self.setState(_.copy(isAuthenticateModalOpened = false))
                         }
