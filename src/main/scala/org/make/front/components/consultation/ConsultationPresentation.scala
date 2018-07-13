@@ -28,17 +28,14 @@ import org.make.front.components.Components._
 import org.make.front.components.consultation.ConsultationCommunity.ConsultationCommunityProps
 import org.make.front.models.{OperationExpanded => OperationModel}
 import org.make.front.facades.I18n
-import org.make.front.facades.ReactCSSTransition.TransitionClasses
 import org.make.front.facades.Unescape.unescape
 import org.make.front.styles.ThemeStyles
 import org.make.front.styles.base.{RWDRulesLargeMediumStyles, TextStyles}
-import org.make.front.styles.ui.{AccordionStyles, AnimationsStyles}
+import org.make.front.styles.ui.AccordionStyles
 import org.make.front.styles.utils._
 import org.make.front.styles.vendors.FontAwesomeStyles
 import org.make.services.tracking.TrackingService.TrackingContext
 import org.make.services.tracking.{TrackingLocation, TrackingService}
-import org.make.front.facades.ReactCSSTransition.{ReactCSSTransitionDOMAttributes, ReactCSSTransitionVirtualDOMElements, TransitionClasses}
-import org.make.front.facades.ReactTransition.ReactTransitionDOMAttributes
 
 import scala.scalajs.js
 
@@ -109,36 +106,28 @@ object ConsultationPresentation {
                 )
               )
             ),
-            <.CSSTransition(
-              ^.timeout := 250,
-              ^.in := self.state.isCollapsed ,
-              ^.classNamesMap := TransitionClasses(
-                enter = AnimationsStyles.collapseOn250.htmlClass,
-                enterDone = AnimationsStyles.enableCollapse.htmlClass,
-                exit = AnimationsStyles.collapseOff250.htmlClass,
-                exitDone = AnimationsStyles.disableCollapse.htmlClass
-              )
+            <.div(
+              ^.className := js
+                .Array(AccordionStyles.collapseWrapper, AccordionStyles.collapseWrapperToggle(self.state.isCollapsed))
             )(
-              <.div()(
-                <.p(^.className := js.Array(TextStyles.smallerText, ConsultationPresentationStyles.presentationText))(
-                  unescape(self.props.wrapped.content),
-                  unescape("&nbsp"),
-                  self.props.wrapped.learnMoreUrl.map { url =>
-                    <.a(
-                      ^.onClick := trackingActions(url),
-                      ^.className := js.Array(TextStyles.boldText, ConsultationPresentationStyles.presentationlink)
-                    )(unescape(I18n.t("operation.presentation.seeMore")))
-                  }
-                ),
-                <.hr(
-                  ^.className := js
-                    .Array(ConsultationPresentationStyles.sep, RWDRulesLargeMediumStyles.hideBeyondLargeMedium)
-                )(),
-                <.div(^.className := RWDRulesLargeMediumStyles.hideBeyondLargeMedium)(
-                  <.ConsultationCommunityComponent(
-                    ^.wrapped := ConsultationCommunityProps(consultation, self.props.wrapped.language)
-                  )()
-                )
+              <.p(^.className := js.Array(TextStyles.smallerText, ConsultationPresentationStyles.presentationText))(
+                unescape(self.props.wrapped.content),
+                unescape("&nbsp"),
+                self.props.wrapped.learnMoreUrl.map { url =>
+                  <.a(
+                    ^.onClick := trackingActions(url),
+                    ^.className := js.Array(TextStyles.boldText, ConsultationPresentationStyles.presentationlink)
+                  )(unescape(I18n.t("operation.presentation.seeMore")))
+                }
+              ),
+              <.hr(
+                ^.className := js
+                  .Array(ConsultationPresentationStyles.sep, RWDRulesLargeMediumStyles.hideBeyondLargeMedium)
+              )(),
+              <.div(^.className := RWDRulesLargeMediumStyles.hideBeyondLargeMedium)(
+                <.ConsultationCommunityComponent(
+                  ^.wrapped := ConsultationCommunityProps(consultation, self.props.wrapped.language)
+                )()
               )
             ),
             <.style()(ConsultationPresentationStyles.render[String])
