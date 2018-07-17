@@ -285,7 +285,11 @@ object ResultsInTheme {
             <.h2(^.className := TextStyles.mediumTitle)(unescape(I18n.t("theme.results.title")))
           ),
           <.div(^.className := js.Array(LayoutRulesStyles.centeredRow, ResultsInThemeStyles.tagsNavWrapper))(
-            <.FilterByTagsComponent(^.wrapped := FilterByTagsProps(self.props.wrapped.theme.tags, onTagsChange))()
+            <.FilterByTagsComponent(^.wrapped := FilterByTagsProps(
+              tags = self.props.wrapped.theme.tags,
+              selectedTags = self.state.selectedTags,
+              onTagSelectionChange = onTagsChange
+            ))()
           ),
           if (self.state.initialLoad || proposalsToDisplay.nonEmpty) {
             proposals(proposalsToDisplay, self.props.wrapped.country)

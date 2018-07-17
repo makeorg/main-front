@@ -64,6 +64,7 @@ object TagsList {
   private val showMaxCount: Int = 6
 
   case class TagsListComponentProps(tags: js.Array[TagModel],
+                                    selectedTags: js.Array[TagModel],
                                     handleSelectedTags: (TagModel) => Unit,
                                     withShowMoreTagsButton: Boolean)
 
@@ -75,6 +76,11 @@ object TagsList {
         displayName = "TagsList",
         getInitialState = { _ =>
           TagsListComponentState(showMore = false)
+        },
+        componentWillReceiveProps = { (self, nextProps) =>
+          self.setState(
+            TagsListComponentState(showMore = nextProps.wrapped.selectedTags.nonEmpty)
+          )
         },
         render = { self =>
           // slice tagList if not showing all elements
@@ -94,7 +100,8 @@ object TagsList {
                     <.TagComponent(
                       ^.wrapped := TagComponentProps(
                         tag = tag,
-                        handleSelectedTags = self.props.wrapped.handleSelectedTags
+                        handleSelectedTags = self.props.wrapped.handleSelectedTags,
+                        isSelected = self.props.wrapped.selectedTags.contains(tag)
                       )
                     )()
                 )

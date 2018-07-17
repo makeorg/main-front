@@ -46,13 +46,18 @@ import scala.scalajs.js
   */
 object Tag {
 
-  case class TagComponentProps(tag: TagModel, handleSelectedTags: (TagModel) => Unit)
+  case class TagComponentProps(tag: TagModel, isSelected: Boolean, handleSelectedTags: (TagModel) => Unit)
 
   case class TagComponentState(isSelected: Boolean)
 
   lazy val reactClass: ReactClass = React.createClass[TagComponentProps, TagComponentState](
     displayName = "Tag",
-    getInitialState = (_) => TagComponentState(isSelected = false),
+    getInitialState = (self) => TagComponentState(isSelected = self.props.wrapped.isSelected),
+    componentWillReceiveProps = { (self, nextProps) =>
+      self.setState(
+        TagComponentState(isSelected = nextProps.wrapped.isSelected)
+      )
+    },
     render = (self) => {
       val tagClasses =
         if (self.state.isSelected) js.Array(TagStyles.basic, TagStyles.activated) else js.Array(TagStyles.basic)

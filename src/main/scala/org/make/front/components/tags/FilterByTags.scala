@@ -41,7 +41,7 @@ object FilterByTags {
 
   type FilterByTagsSelf = Self[FilterByTagsProps, FilterByTagsState]
 
-  case class FilterByTagsProps(tags: js.Array[TagModel], onTagSelectionChange: js.Array[TagModel] => Unit)
+  case class FilterByTagsProps(tags: js.Array[TagModel], selectedTags: js.Array[TagModel], onTagSelectionChange: js.Array[TagModel] => Unit)
 
   case class FilterByTagsState(showAll: Boolean, selectedTags: js.Array[TagModel])
 
@@ -49,6 +49,11 @@ object FilterByTags {
     React.createClass[FilterByTagsProps, FilterByTagsState](
       displayName = "FilterByTags",
       getInitialState = (_) => FilterByTagsState(showAll = false, selectedTags = js.Array()),
+      componentWillReceiveProps = { (self, nextProps) =>
+        self.setState(
+          FilterByTagsState(showAll = nextProps.wrapped.selectedTags.nonEmpty, selectedTags = nextProps.wrapped.selectedTags)
+        )
+      },
       render = { self =>
         def handleSelectedTags(tag: TagModel): Unit = {
           val previouslySelectedTags = self.state.selectedTags
@@ -63,6 +68,7 @@ object FilterByTags {
 
         val tagsListProps = TagsListComponentProps(
           tags = self.props.wrapped.tags,
+          selectedTags = self.state.selectedTags,
           withShowMoreTagsButton = self.props.wrapped.tags.size > 6,
           handleSelectedTags = handleSelectedTags
         )
