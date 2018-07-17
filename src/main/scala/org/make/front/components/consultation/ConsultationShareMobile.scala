@@ -54,8 +54,9 @@ object ConsultationShareMobile {
             self.setState(_.copy(isOpen = !self.state.isOpen))
             TrackingService
               .track(
-                "click-open-share-sequence",
-                TrackingContext(TrackingLocation.operationPage, operationSlug = Some(self.props.wrapped.operation.slug))
+                eventName = "click-open-share-sequence",
+                trackingContext = TrackingContext(TrackingLocation.operationPage, operationSlug = Some(self.props.wrapped.operation.slug)),
+                internalOnlyParameters = Map("sequenceId" -> self.props.wrapped.operation.landingSequenceId.value)
               )
           }
 
