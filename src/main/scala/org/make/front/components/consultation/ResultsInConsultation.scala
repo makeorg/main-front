@@ -276,7 +276,11 @@ object ResultsInConsultation {
               ^.className := js.Array(ResultsInConsultationStyles.wrapper, ResultsInConsultationStyles.tagsContainer)
             )(
               <.FilterByTagsComponent(
-                ^.wrapped := FilterByTagsProps(self.props.wrapped.operation.tags, onTagsChange)
+                ^.wrapped := FilterByTagsProps(
+                  tags = self.props.wrapped.operation.tags,
+                  selectedTags = self.state.selectedTags,
+                  onTagSelectionChange = onTagsChange
+                )
               )()
             )
           ),
