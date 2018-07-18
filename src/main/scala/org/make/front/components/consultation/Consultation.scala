@@ -43,10 +43,15 @@ object Consultation {
                                      onWillMount: () => Unit,
                                      activeTab: String)
 
+  final case class ConsultationState(activeTab: String)
+
   lazy val reactClass: ReactClass =
     React
-      .createClass[ConsultationProps, Unit](
+      .createClass[ConsultationProps, ConsultationState](
         displayName = "Consultation",
+        getInitialState = { self =>
+          ConsultationState(self.props.wrapped.activeTab)
+        },
         componentWillMount = { self =>
           self.props.wrapped.onWillMount()
         },
@@ -62,6 +67,10 @@ object Consultation {
         render = self => {
           val consultation: OperationModel = self.props.wrapped.operation
 
+          def changeActiveTab: String => Unit = { newTab =>
+            self.setState(_.copy(activeTab = newTab))
+          }
+
           if (consultation.isActive) {
             <("consultation")()(
               <.div(^.className := ConsultationStyles.mainHeaderWrapper)(
@@ -74,13 +83,14 @@ object Consultation {
               <.ConsultationHeaderComponent(
                 ^.wrapped := ConsultationHeaderProps(
                   operation = consultation,
+                  changeActiveTab = changeActiveTab,
                   language = self.props.wrapped.language,
-                  activeTab = self.props.wrapped.activeTab,
+                  activeTab = self.state.activeTab,
                   countryCode = self.props.wrapped.countryCode
                 )
               )(),
               <.section(^.className := ConsultationStyles.mainContentWrapper)(
-                if (self.props.wrapped.activeTab == "consultation") {
+                if (self.state.activeTab == "consultation") {
                   <.ConsultationSection(
                     ^.wrapped := ConsultationSectionProps(
                       operation = consultation,
