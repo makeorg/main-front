@@ -54,6 +54,7 @@ object WaitingForOperation {
                 ^.className := js.Array(WaitingForOperationStyles.content, TableLayoutStyles.cellVerticalAlignMiddle)
               )(<.SpinnerComponent.empty)
             ),
+            <.MainFooterComponent.empty,
             <.style()(WaitingForOperationStyles.render[String])
           )
         }

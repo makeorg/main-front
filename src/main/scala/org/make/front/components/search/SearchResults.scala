@@ -113,7 +113,8 @@ object SearchResults {
                     if (self.state.initialLoad) {
                       TrackingService.track(
                         eventName = "display-search-results-page",
-                        trackingContext = TrackingContext(TrackingLocation.searchResultsPage, self.state.maybeOperation.map(_.slug)),
+                        trackingContext =
+                          TrackingContext(TrackingLocation.searchResultsPage, self.state.maybeOperation.map(_.slug)),
                         parameters = Map("results-count" -> searchResult.total.toString)
                       )
                     }
@@ -177,7 +178,8 @@ object SearchResults {
                     TrackingService
                       .track(
                         eventName = "click-proposal-viewmore",
-                        trackingContext = TrackingContext(TrackingLocation.searchResultsPage, self.state.maybeOperation.map(_.slug))
+                        trackingContext =
+                          TrackingContext(TrackingLocation.searchResultsPage, self.state.maybeOperation.map(_.slug))
                       )
                   }, ^.className := js.Array(CTAStyles.basic, CTAStyles.basicOnButton))(unescape(I18n.t("search.results.see-more"))))
                 }
@@ -242,6 +244,7 @@ object SearchResults {
               ^.className :=
                 SearchResultsStyles.background(proposalsToDisplay.nonEmpty)
             )(<.NavInThemesContainerComponent.empty),
+            <.MainFooterComponent.empty,
             <.style()(SearchResultsStyles.render[String])
           )
         }

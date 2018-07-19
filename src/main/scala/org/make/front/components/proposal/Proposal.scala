@@ -36,7 +36,12 @@ import org.make.front.components.showcase.OperationShowcaseContainer.OperationSh
 import org.make.front.components.showcase.ThemeShowcaseContainer.ThemeShowcaseContainerProps
 import org.make.front.facades.I18n
 import org.make.front.facades.Unescape.unescape
-import org.make.front.models.{Location => LocationModel, OperationExpanded => OperationModel, Proposal => ProposalModel, TranslatedTheme => TranslatedThemeModel}
+import org.make.front.models.{
+  Location          => LocationModel,
+  OperationExpanded => OperationModel,
+  Proposal          => ProposalModel,
+  TranslatedTheme   => TranslatedThemeModel
+}
 import org.make.front.styles.ThemeStyles
 import org.make.front.styles.base.{LayoutRulesStyles, RWDHideRulesStyles, TableLayoutStyles, TextStyles}
 import org.make.front.styles.utils._
@@ -57,14 +62,14 @@ object Proposal {
                                  maybeTheme: Option[TranslatedThemeModel] = None,
                                  maybeOperation: Option[OperationModel] = None,
                                  maybeLocation: Option[LocationModel] = None,
-                                 isProposalSharable : Boolean)
+                                 isProposalSharable: Boolean)
 
   lazy val reactClass: ReactClass =
     WithRouter(
       React.createClass[ProposalProps, ProposalState](
         displayName = "Proposal",
         getInitialState = { _ =>
-          ProposalState(isProposalSharable  = false)
+          ProposalState(isProposalSharable = false)
         },
         componentWillReceiveProps = { (self, props) =>
           props.wrapped.futureProposal.onComplete {
@@ -130,7 +135,7 @@ object Proposal {
                                         maybeSequenceId = None,
                                         maybeLocation = self.state.maybeLocation,
                                         trackingLocation = TrackingLocation.proposalPage,
-                                        isProposalSharable  = self.state.isProposalSharable
+                                        isProposalSharable = self.state.isProposalSharable
                                       )
                                     )()
                                 })
@@ -163,16 +168,15 @@ object Proposal {
                         )
                       ),
                       self.state.maybeOperation.map { operation =>
-                        self.state.maybeProposal.map {
-                          proposal =>
-                            <.ShareProposalPageComponent(
-                              ^.wrapped := ShareProposalProps(
-                                proposal = proposal,
-                                operation = operation,
-                                language = self.props.wrapped.language,
-                                country = self.props.wrapped.country
-                              )
-                            )()
+                        self.state.maybeProposal.map { proposal =>
+                          <.ShareProposalPageComponent(
+                            ^.wrapped := ShareProposalProps(
+                              proposal = proposal,
+                              operation = operation,
+                              language = self.props.wrapped.language,
+                              country = self.props.wrapped.country
+                            )
+                          )()
                         }
                       }.toSeq
                     )
@@ -195,6 +199,7 @@ object Proposal {
                 ^.wrapped := OperationShowcaseContainerProps(operation = operation)
               )()
             }.getOrElse(<.NavInThemesContainerComponent.empty),
+            <.MainFooterComponent.empty,
             <.style()(ProposalStyles.render[String])
           )
         }
@@ -231,10 +236,7 @@ object ProposalStyles extends StyleSheet.Inline {
     )
 
   val articleCell: StyleA =
-    style(
-      verticalAlign.middle,
-      padding(ThemeStyles.SpacingValue.medium.pxToEm(), `0`)
-    )
+    style(verticalAlign.middle, padding(ThemeStyles.SpacingValue.medium.pxToEm(), `0`))
 
   val shareArticleCell: StyleA =
     style(paddingBottom(ThemeStyles.SpacingValue.larger.pxToEm()))

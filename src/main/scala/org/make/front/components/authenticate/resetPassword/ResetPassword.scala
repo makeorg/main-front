@@ -24,7 +24,6 @@ import io.github.shogowada.scalajs.reactjs.React
 import io.github.shogowada.scalajs.reactjs.React.Self
 import io.github.shogowada.scalajs.reactjs.VirtualDOM.{<, _}
 import io.github.shogowada.scalajs.reactjs.classes.ReactClass
-import io.github.shogowada.scalajs.reactjs.elements.ReactElement
 import io.github.shogowada.scalajs.reactjs.events.{FormSyntheticEvent, SyntheticEvent}
 import io.github.shogowada.statictags.Element
 import org.make.core.validation.PasswordConstraint
@@ -80,6 +79,7 @@ object PasswordReset {
               invalidToken
             })
           ),
+          <.MainFooterComponent.empty,
           <.style()(ResetPasswordStyles.render[String])
         )
       }

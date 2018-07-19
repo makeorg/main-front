@@ -81,6 +81,7 @@ object Theme {
               )(),
               <.NavInThemesContainerComponent.empty
             ),
+            <.MainFooterComponent.empty,
             <.style()(ThemePageStyles.render[String])
           )
         }

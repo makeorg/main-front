@@ -33,11 +33,21 @@ import org.make.front.components.modals.FullscreenModal.FullscreenModalProps
 import org.make.front.components.operation.SubmitProposalInRelationToOperation.SubmitProposalInRelationToOperationProps
 import org.make.front.components.sequence.Sequence.ExtraSlide
 import org.make.front.components.sequence.SequenceContainer.SequenceContainerProps
-import org.make.front.facades.ReactCSSTransition.{ReactCSSTransitionDOMAttributes, ReactCSSTransitionVirtualDOMElements, TransitionClasses}
+import org.make.front.facades.ReactCSSTransition.{
+  ReactCSSTransitionDOMAttributes,
+  ReactCSSTransitionVirtualDOMElements,
+  TransitionClasses
+}
 import org.make.front.facades.ReactTransition.ReactTransitionDOMAttributes
 import org.make.front.facades.Unescape.unescape
 import org.make.front.facades.{I18n, Replacements}
-import org.make.front.models.{OperationExtraSlidesParams, ProposalId, GradientColor => GradientColorModel, OperationExpanded => OperationModel, Sequence => SequenceModel}
+import org.make.front.models.{
+  OperationExtraSlidesParams,
+  ProposalId,
+  GradientColor     => GradientColorModel,
+  OperationExpanded => OperationModel,
+  Sequence          => SequenceModel
+}
 import org.make.front.styles._
 import org.make.front.styles.base._
 import org.make.front.styles.ui.{AnimationsStyles, CTAStyles, TooltipStyles}
@@ -144,9 +154,8 @@ object SequenceOfTheOperation {
           }
 
           def redirectAfterSequence: () => Unit = () => {
-            self.props.history.push(
-                s"/${self.state.operation.country}/consultation/${self.state.operation.slug}/consultation"
-              )
+            self.props.history
+              .push(s"/${self.state.operation.country}/consultation/${self.state.operation.slug}/consultation")
           }
 
           object DynamicSequenceOfTheOperationStyles extends StyleSheet.Inline {
@@ -158,160 +167,154 @@ object SequenceOfTheOperation {
           }
 
           if (operation.isActive) {
-              <.section(
-                ^.className := js.Array(TableLayoutStyles.fullHeightWrapper, SequenceOfTheOperationStyles.wrapper)
-              )(
-                <.div(^.className := js.Array(TableLayoutStyles.row))(
-                  <.div(
-                    ^.className := js.Array(TableLayoutStyles.cell, SequenceOfTheOperationStyles.mainHeaderWrapper)
-                  )(
-                    <.div(^.className := RWDHideRulesStyles.invisible)(<.CookieAlertContainerComponent.empty),
-                    <.div(^.className := SequenceOfTheOperationStyles.fixedMainHeaderWrapper)(
-                      <.CookieAlertContainerComponent.empty,
-                      <.MainHeaderContainer.empty
-                    )
+            <.section(
+              ^.className := js.Array(TableLayoutStyles.fullHeightWrapper, SequenceOfTheOperationStyles.wrapper)
+            )(
+              <.div(^.className := js.Array(TableLayoutStyles.row))(
+                <.div(^.className := js.Array(TableLayoutStyles.cell, SequenceOfTheOperationStyles.mainHeaderWrapper))(
+                  <.div(^.className := RWDHideRulesStyles.invisible)(<.CookieAlertContainerComponent.empty),
+                  <.div(^.className := SequenceOfTheOperationStyles.fixedMainHeaderWrapper)(
+                    <.CookieAlertContainerComponent.empty,
+                    <.MainHeaderContainer.empty
                   )
-                ),
-                <.div(^.className := js.Array(TableLayoutStyles.row, DynamicSequenceOfTheOperationStyles.gradient))(
-                  <.div(^.className := TableLayoutStyles.cellVerticalAlignMiddle)(
-                    <.div(^.className := LayoutRulesStyles.centeredRow)(
-                      <.header(^.className := js.Array(TableLayoutStyles.wrapper, SequenceOfTheOperationStyles.header))(
-                        <.p(
-                          ^.className := js
-                            .Array(
-                              TableLayoutStyles.cellVerticalAlignMiddle,
-                              SequenceOfTheOperationStyles.backLinkWrapper
-                            )
-                        )(
-                          <.Link(
-                            ^.className := SequenceOfTheOperationStyles.backLink,
-                            ^.to := s"/${self.props.wrapped.country}/consultation/${operation.slug}"
-                          )(
-                            <.i(
-                              ^.className := js
-                                .Array(SequenceOfTheOperationStyles.backLinkArrow, FontAwesomeStyles.angleLeft)
-                            )(),
-                            <.span(
-                              ^.className := js
-                                .Array(
-                                  TextStyles.smallText,
-                                  TextStyles.title,
-                                  RWDRulesMediumStyles.showBlockBeyondMedium
-                                ),
-                              ^.dangerouslySetInnerHTML := I18n.t("operation.sequence.header.back-cta")
-                            )()
+                )
+              ),
+              <.div(^.className := js.Array(TableLayoutStyles.row, DynamicSequenceOfTheOperationStyles.gradient))(
+                <.div(^.className := TableLayoutStyles.cellVerticalAlignMiddle)(
+                  <.div(^.className := LayoutRulesStyles.centeredRow)(
+                    <.header(^.className := js.Array(TableLayoutStyles.wrapper, SequenceOfTheOperationStyles.header))(
+                      <.p(
+                        ^.className := js
+                          .Array(
+                            TableLayoutStyles.cellVerticalAlignMiddle,
+                            SequenceOfTheOperationStyles.backLinkWrapper
                           )
-                        ),
-                        <.div(
-                          ^.className := js.Array(TableLayoutStyles.cell, SequenceOfTheOperationStyles.titleWrapper)
+                      )(
+                        <.Link(
+                          ^.className := SequenceOfTheOperationStyles.backLink,
+                          ^.to := s"/${self.props.wrapped.country}/consultation/${operation.slug}"
                         )(
-                          <.h1(^.className := js.Array(SequenceOfTheOperationStyles.title, TextStyles.smallTitle))(
-                            unescape(
-                              self.props.wrapped.operation
-                                .getWordingByLanguageOrError(self.props.wrapped.language)
-                                .question
-                            )
-                          ),
-                          <.h2(
-                            ^.className := js.Array(
-                              SequenceOfTheOperationStyles.totalOfPropositions,
-                              TextStyles.smallText,
-                              TextStyles.boldText
-                            )
-                          )(
-                            unescape(
-                              I18n
-                                .t(
-                                  "operation.sequence.header.total-of-proposals",
-                                  Replacements(
-                                    ("total", self.state.numberOfProposals.toString),
-                                    ("count", self.state.numberOfProposals.toString)
-                                  )
-                                )
-                            )
-                          )
-                        ),
-                        <.div(
-                          ^.className := js
-                            .Array(TableLayoutStyles.cell, SequenceOfTheOperationStyles.openProposalModalButtonWrapper)
-                        )(
-                          <.div(^.className := SequenceOfTheOperationStyles.openProposalModalButtonInnerWrapper)(
-                            <.button(
-                              ^.className := js.Array(
-                                CTAStyles.basic,
-                                CTAStyles.basicOnButton,
-                                SequenceOfTheOperationStyles.openProposalModalButton,
-                                SequenceOfTheOperationStyles.openProposalModalButtonExplained(guidedState)
+                          <.i(
+                            ^.className := js
+                              .Array(SequenceOfTheOperationStyles.backLinkArrow, FontAwesomeStyles.angleLeft)
+                          )(),
+                          <.span(
+                            ^.className := js
+                              .Array(
+                                TextStyles.smallText,
+                                TextStyles.title,
+                                RWDRulesMediumStyles.showBlockBeyondMedium
                               ),
-                              ^.onClick := openProposalModal
-                            )(
-                              <.i(^.className := js.Array(FontAwesomeStyles.pencil))(),
-                              <.span(^.className := RWDRulesMediumStyles.showInlineBlockBeyondMedium)(
-                                unescape("&nbsp;" + I18n.t("operation.sequence.header.propose-cta"))
-                              )
-                            ),
-                            if (guidedState) {
-                              <.p(^.className := SequenceOfTheOperationStyles.guideToPropose)(
-                                <.span(
-                                  ^.className := TextStyles.smallerText,
-                                  ^.dangerouslySetInnerHTML := I18n.t("operation.sequence.header.guide.propose-cta")
-                                )()
-                              )
-                            }
-                          ),
-                          <.FullscreenModalComponent(
-                            ^.wrapped := FullscreenModalProps(
-                              isModalOpened = self.state.isProposalModalOpened,
-                              closeCallback = closeProposalModal
-                            )
-                          )(
-                            <.SubmitProposalInRelationToOperationComponent(
-                              ^.wrapped := SubmitProposalInRelationToOperationProps(
-                                operation = operation,
-                                onProposalProposed = closeProposalModal,
-                                maybeSequence = Some(self.props.wrapped.sequence.sequenceId),
-                                maybeLocation = None,
-                                language = self.props.wrapped.language
-                              )
-                            )()
+                            ^.dangerouslySetInnerHTML := I18n.t("operation.sequence.header.back-cta")
+                          )()
+                        )
+                      ),
+                      <.div(^.className := js.Array(TableLayoutStyles.cell, SequenceOfTheOperationStyles.titleWrapper))(
+                        <.h1(^.className := js.Array(SequenceOfTheOperationStyles.title, TextStyles.smallTitle))(
+                          unescape(
+                            self.props.wrapped.operation
+                              .getWordingByLanguageOrError(self.props.wrapped.language)
+                              .question
                           )
+                        ),
+                        <.h2(
+                          ^.className := js.Array(
+                            SequenceOfTheOperationStyles.totalOfPropositions,
+                            TextStyles.smallText,
+                            TextStyles.boldText
+                          )
+                        )(
+                          unescape(
+                            I18n
+                              .t(
+                                "operation.sequence.header.total-of-proposals",
+                                Replacements(
+                                  ("total", self.state.numberOfProposals.toString),
+                                  ("count", self.state.numberOfProposals.toString)
+                                )
+                              )
+                          )
+                        )
+                      ),
+                      <.div(
+                        ^.className := js
+                          .Array(TableLayoutStyles.cell, SequenceOfTheOperationStyles.openProposalModalButtonWrapper)
+                      )(
+                        <.div(^.className := SequenceOfTheOperationStyles.openProposalModalButtonInnerWrapper)(
+                          <.button(
+                            ^.className := js.Array(
+                              CTAStyles.basic,
+                              CTAStyles.basicOnButton,
+                              SequenceOfTheOperationStyles.openProposalModalButton,
+                              SequenceOfTheOperationStyles.openProposalModalButtonExplained(guidedState)
+                            ),
+                            ^.onClick := openProposalModal
+                          )(
+                            <.i(^.className := js.Array(FontAwesomeStyles.pencil))(),
+                            <.span(^.className := RWDRulesMediumStyles.showInlineBlockBeyondMedium)(
+                              unescape("&nbsp;" + I18n.t("operation.sequence.header.propose-cta"))
+                            )
+                          ),
+                          if (guidedState) {
+                            <.p(^.className := SequenceOfTheOperationStyles.guideToPropose)(
+                              <.span(
+                                ^.className := TextStyles.smallerText,
+                                ^.dangerouslySetInnerHTML := I18n.t("operation.sequence.header.guide.propose-cta")
+                              )()
+                            )
+                          }
+                        ),
+                        <.FullscreenModalComponent(
+                          ^.wrapped := FullscreenModalProps(
+                            isModalOpened = self.state.isProposalModalOpened,
+                            closeCallback = closeProposalModal
+                          )
+                        )(
+                          <.SubmitProposalInRelationToOperationComponent(
+                            ^.wrapped := SubmitProposalInRelationToOperationProps(
+                              operation = operation,
+                              onProposalProposed = closeProposalModal,
+                              maybeSequence = Some(self.props.wrapped.sequence.sequenceId),
+                              maybeLocation = None,
+                              language = self.props.wrapped.language
+                            )
+                          )()
                         )
                       )
                     )
                   )
-                ),
-                <.CSSTransition(
-                  ^.timeout := 500,
-                  ^.in := self.state.fadeIn,
-                  ^.classNamesMap := TransitionClasses(
-                    enter = AnimationsStyles.fadeOn250.htmlClass,
-                    exit = AnimationsStyles.fadeOff500.htmlClass,
-                    exitDone = AnimationsStyles.hideChildren.htmlClass
-                  ),
-                  ^.onCSSTransitionExited := redirectAfterSequence
-                )(
-                  <.div(
-                    ^.className := js.Array(TableLayoutStyles.fullHeightRow, SequenceOfTheOperationStyles.contentRow)
-                  )(
-                    <.div(^.className := TableLayoutStyles.cellVerticalAlignMiddle)(
-                      <.SequenceContainerComponent(
-                        ^.wrapped := SequenceContainerProps(
-                          loadSequence = self.props.wrapped.startSequence,
-                          sequence = self.props.wrapped.sequence,
-                          progressBarColor = Some(gradientValues.from),
-                          extraSlides = self.state.extraSlides,
-                          maybeTheme = None,
-                          maybeOperation = Some(operation),
-                          maybeLocation = None
-                        )
-                      )()
-                    )
-                  )
-                ),
-                <.style()(
-                  SequenceOfTheOperationStyles.render[String],
-                  DynamicSequenceOfTheOperationStyles.render[String]
                 )
+              ),
+              <.CSSTransition(
+                ^.timeout := 500,
+                ^.in := self.state.fadeIn,
+                ^.classNamesMap := TransitionClasses(
+                  enter = AnimationsStyles.fadeOn250.htmlClass,
+                  exit = AnimationsStyles.fadeOff500.htmlClass,
+                  exitDone = AnimationsStyles.hideChildren.htmlClass
+                ),
+                ^.onCSSTransitionExited := redirectAfterSequence
+              )(
+                <.div(
+                  ^.className := js.Array(TableLayoutStyles.fullHeightRow, SequenceOfTheOperationStyles.contentRow)
+                )(
+                  <.div(^.className := TableLayoutStyles.cellVerticalAlignMiddle)(
+                    <.SequenceContainerComponent(
+                      ^.wrapped := SequenceContainerProps(
+                        loadSequence = self.props.wrapped.startSequence,
+                        sequence = self.props.wrapped.sequence,
+                        progressBarColor = Some(gradientValues.from),
+                        extraSlides = self.state.extraSlides,
+                        maybeTheme = None,
+                        maybeOperation = Some(operation),
+                        maybeLocation = None
+                      )
+                    )()
+                  )
+                )
+              ),
+              <.MainFooterComponent.empty,
+              <.style()(SequenceOfTheOperationStyles.render[String], DynamicSequenceOfTheOperationStyles.render[String])
             )
           } else {
             <.section()()
@@ -326,10 +329,7 @@ object SequenceOfTheOperationStyles extends StyleSheet.Inline {
   import dsl._
 
   val wrapper: StyleA =
-    style(
-      backgroundColor(ThemeStyles.BackgroundColor.blackVeryTransparent),
-      tableLayout.fixed
-    )
+    style(backgroundColor(ThemeStyles.BackgroundColor.blackVeryTransparent), tableLayout.fixed)
 
   val contentRow: StyleA =
     style(backgroundColor(ThemeStyles.BackgroundColor.blackVeryTransparent))
@@ -441,8 +441,6 @@ object SequenceOfTheOperationStyles extends StyleSheet.Inline {
     )
 
   val spinnerContainer: StyleA =
-    style(
-      height(100.%%)
-    )
+    style(height(100.%%))
 
 }

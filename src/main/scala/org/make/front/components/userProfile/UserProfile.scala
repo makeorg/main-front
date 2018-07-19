@@ -214,6 +214,7 @@ object UserProfile {
                 )
               )
             ),
+            <.MainFooterComponent.empty,
             <.style()(UserProfileStyles.render[String])
           )
         }

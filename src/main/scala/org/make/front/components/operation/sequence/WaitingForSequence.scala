@@ -53,6 +53,7 @@ object WaitingForSequence {
                 ^.className := js.Array(WaitingForSequenceStyles.content, TableLayoutStyles.cellVerticalAlignMiddle)
               )(<.SpinnerComponent.empty)
             ),
+            <.MainFooterComponent.empty,
             <.style()(WaitingForSequenceStyles.render[String])
           )
         }

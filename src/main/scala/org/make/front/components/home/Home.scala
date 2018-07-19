@@ -46,7 +46,8 @@ object Home {
       .createClass[HomeProps, Unit](
         displayName = "Home",
         componentDidMount = { _ =>
-          TrackingService.track(eventName = "display-page-home", trackingContext = TrackingContext(TrackingLocation.homepage))
+          TrackingService
+            .track(eventName = "display-page-home", trackingContext = TrackingContext(TrackingLocation.homepage))
         },
         render = (self) => {
           <.div(^.className := HomeStyles.wrapper)(
@@ -111,6 +112,7 @@ object Home {
               )
             )(),
             <.NavInThemesContainerComponent.empty,*/
+            <.MainFooterComponent.empty,
             <.style()(HomeStyles.render[String])
           )
         }

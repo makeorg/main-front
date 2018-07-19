@@ -67,7 +67,6 @@ object App {
               RWDHideRulesStyles.render[String]
             ),
             <.ContainerComponent.empty,
-            <.MainFooterComponent.empty,
             <.TriggerSignUpComponent(^.wrapped := TriggerSignUpProps(self.props.wrapped.nVotesTriggerConnexion))()
           )
         }
