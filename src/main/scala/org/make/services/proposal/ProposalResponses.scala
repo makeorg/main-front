@@ -93,4 +93,5 @@ trait QualificationResponse extends js.Object {
 trait TagResponse extends js.Object {
   val tagId: String
   val label: String
+  val display: Boolean
 }
