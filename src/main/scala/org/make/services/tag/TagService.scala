@@ -36,6 +36,10 @@ object TagService extends ApiService {
 
   def getTags: Future[js.Array[Tag]] =
     client
-      .get[js.Array[TagResponse]](apiEndpoint = resourceName, urlParams = js.Array(), headers = Map.empty)
+      .get[js.Array[TagResponse]](
+        apiEndpoint = s"$resourceName?displayed=true",
+        urlParams = js.Array(),
+        headers = Map.empty
+      )
       .map(_.map(Tag.apply))
 }
