@@ -63,7 +63,8 @@ object ConsultationLinkSequence {
             TrackingService
               .track(
                 eventName = "click-sequence-open",
-                trackingContext = TrackingContext(TrackingLocation.operationPage, operationSlug = Some(consultation.slug)),
+                trackingContext =
+                  TrackingContext(TrackingLocation.operationPage, operationSlug = Some(consultation.slug)),
                 parameters = Map.empty,
                 internalOnlyParameters = Map("sequenceId" -> consultation.landingSequenceId.value)
               )
@@ -101,7 +102,7 @@ object ConsultationLinkSequenceStyles extends StyleSheet.Inline {
     style(
       display.flex,
       alignItems.center,
-      padding(40.pxToEm(), ThemeStyles.SpacingValue.smaller.pxToEm()),
+      padding(20.pxToEm(), ThemeStyles.SpacingValue.smaller.pxToEm()),
       margin(20.pxToEm(), `0`)
     )
 

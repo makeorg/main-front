@@ -30,9 +30,20 @@ import org.make.front.components.Components._
 import org.make.front.components.proposal.ProposalTileWithOrganisationsVotes.ProposalTileWithOrganisationsVotesProps
 import org.make.front.components.tags.FilterByTags.FilterByTagsProps
 import org.make.front.facades.{I18n}
-import org.make.front.facades.ReactInfiniteScroller.{ReactInfiniteScrollerVirtualDOMAttributes, ReactInfiniteScrollerVirtualDOMElements}
+import org.make.front.facades.ReactInfiniteScroller.{
+  ReactInfiniteScrollerVirtualDOMAttributes,
+  ReactInfiniteScrollerVirtualDOMElements
+}
 import org.make.front.facades.Unescape.unescape
-import org.make.front.models.{Location => LocationModel, OperationExpanded => OperationModel, Proposal => ProposalModel, ProposalId => ProposalIdModel, Qualification => QualificationModel, Tag => TagModel, Vote => VoteModel}
+import org.make.front.models.{
+  Location          => LocationModel,
+  OperationExpanded => OperationModel,
+  Proposal          => ProposalModel,
+  ProposalId        => ProposalIdModel,
+  Qualification     => QualificationModel,
+  Tag               => TagModel,
+  Vote              => VoteModel
+}
 import org.make.front.styles.base.{LayoutRulesStyles, TextStyles}
 import org.make.front.styles.vendors.FontAwesomeStyles
 import org.make.services.proposal.SearchResult
@@ -42,7 +53,11 @@ import org.make.front.Main.CssSettings._
 import org.make.front.styles.ThemeStyles
 import org.make.front.styles.ui.{AnimationsStyles, CTAStyles}
 import org.make.front.styles.utils._
-import org.make.front.facades.ReactCSSTransition.{ReactCSSTransitionDOMAttributes, ReactCSSTransitionVirtualDOMElements, TransitionClasses}
+import org.make.front.facades.ReactCSSTransition.{
+  ReactCSSTransitionDOMAttributes,
+  ReactCSSTransitionVirtualDOMElements,
+  TransitionClasses
+}
 import org.make.front.facades.ReactTransition.ReactTransitionDOMAttributes
 
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -287,16 +302,12 @@ object ResultsInConsultation {
           if (self.state.initialLoad || proposalsToDisplay.nonEmpty) {
             <.CSSTransition(
               ^.timeout := 250,
-              ^.in := proposalsToDisplay.nonEmpty ,
+              ^.in := proposalsToDisplay.nonEmpty,
               ^.classNamesMap := TransitionClasses(
                 enter = AnimationsStyles.fadeOn250.htmlClass,
                 enterDone = AnimationsStyles.showChildren.htmlClass
               )
-            )(
-              <.div()(
-                proposals(proposalsToDisplay, self.props.wrapped.country)
-              )
-            )
+            )(<.div()(proposals(proposalsToDisplay, self.props.wrapped.country)))
           } else {
             noResults
           },
@@ -313,7 +324,7 @@ object ResultsInConsultationStyles extends StyleSheet.Inline {
 
   val wrapper: StyleA =
     style(
-      marginTop(ThemeStyles.SpacingValue.small.pxToEm()),
+      marginTop(40.pxToEm()),
       marginBottom(ThemeStyles.SpacingValue.small.pxToEm()),
       paddingLeft(ThemeStyles.SpacingValue.small.pxToEm()),
       paddingRight(ThemeStyles.SpacingValue.small.pxToEm()),
@@ -331,9 +342,7 @@ object ResultsInConsultationStyles extends StyleSheet.Inline {
       TextStyles.title,
       fontSize(15.pxToEm()),
       lineHeight(1),
-      ThemeStyles.MediaQueries.beyondSmall(
-        fontSize(18.pxToEm())
-      )
+      ThemeStyles.MediaQueries.beyondSmall(fontSize(18.pxToEm()))
     )
 
   val icon: StyleA =

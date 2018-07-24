@@ -143,9 +143,7 @@ object ConsultationProposalStyles extends StyleSheet.Inline {
       backgroundColor(ThemeStyles.BackgroundColor.white),
       padding(ThemeStyles.SpacingValue.small.pxToEm()),
       boxShadow := s"0 1px 1px 0 rgba(0, 0, 0, .5)",
-      ThemeStyles.MediaQueries.beyondLargeMedium(
-        padding(20.pxToEm())
-      )
+      ThemeStyles.MediaQueries.beyondLargeMedium(padding(20.pxToEm()))
     )
 
   val preTitle: StyleA =
@@ -153,9 +151,7 @@ object ConsultationProposalStyles extends StyleSheet.Inline {
       TextStyles.title,
       fontSize(15.pxToEm()),
       lineHeight(1),
-      ThemeStyles.MediaQueries.beyondSmall(
-        fontSize(18.pxToEm())
-      )
+      ThemeStyles.MediaQueries.beyondSmall(fontSize(18.pxToEm()))
     )
 
   val icon: StyleA =
@@ -166,7 +162,9 @@ object ConsultationProposalStyles extends StyleSheet.Inline {
       ThemeStyles.Font.circularStdBold,
       fontSize(15.pxToEm()),
       lineHeight(1),
-      ThemeStyles.MediaQueries.beyondSmall(fontSize(18.pxToEm()))
+      marginTop(10.pxToEm(15)),
+      marginBottom(12.pxToEm(15)),
+      ThemeStyles.MediaQueries.beyondSmall(fontSize(18.pxToEm()), marginTop(10.pxToEm(18)), marginBottom(12.pxToEm(18)))
     )
 
   val proposalInputWrapper: StyleA =
