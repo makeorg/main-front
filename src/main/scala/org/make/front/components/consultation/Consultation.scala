@@ -30,7 +30,7 @@ import org.make.front.components.consultation.ConsultationHeader.ConsultationHea
 import org.make.front.components.consultation.ConsultationSection.ConsultationSectionProps
 import org.make.front.models.{OperationExpanded => OperationModel}
 import org.make.front.styles.ThemeStyles
-import org.make.front.styles.base.RWDHideRulesStyles
+import org.make.front.styles.base.{RWDHideRulesStyles, RWDRulesLargeMediumStyles}
 import org.make.front.styles.utils._
 import org.make.services.tracking.TrackingService.TrackingContext
 import org.make.services.tracking.{TrackingLocation, TrackingService}
@@ -58,8 +58,11 @@ object Consultation {
         componentDidMount = { self =>
           TrackingService
             .track(
-              eventName =  "display-page-operation",
-              trackingContext = TrackingContext(TrackingLocation.operationPage, operationSlug = Some(self.props.wrapped.operation.slug)),
+              eventName = "display-page-operation",
+              trackingContext = TrackingContext(
+                TrackingLocation.operationPage,
+                operationSlug = Some(self.props.wrapped.operation.slug)
+              ),
               parameters = Map.empty,
               internalOnlyParameters = Map("id" -> self.props.wrapped.operation.operationId.value)
             )
@@ -73,13 +76,8 @@ object Consultation {
 
           if (consultation.isActive) {
             <("consultation")()(
-              <.div(^.className := ConsultationStyles.mainHeaderWrapper)(
-                <.div(^.className := RWDHideRulesStyles.invisible)(<.CookieAlertContainerComponent.empty),
-                <.div(^.className := ConsultationStyles.fixedMainHeaderWrapper)(
-                  <.CookieAlertContainerComponent.empty,
-                  <.MainHeaderContainer.empty
-                )
-              ),
+              <.CookieAlertContainerComponent.empty,
+              <.MainHeaderContainer.empty,
               <.ConsultationHeaderComponent(
                 ^.wrapped := ConsultationHeaderProps(
                   operation = consultation,
@@ -107,7 +105,8 @@ object Consultation {
                   )()
                 },
                 <.style()(ConsultationStyles.render[String])
-              )
+              ),
+              <.div(^.className := RWDRulesLargeMediumStyles.hideBeyondLargeMedium)(<.MainFooterComponent.empty)
             )
           } else {
             <.div.empty
@@ -119,14 +118,6 @@ object Consultation {
 object ConsultationStyles extends StyleSheet.Inline {
 
   import dsl._
-
-  val mainHeaderWrapper: StyleA = style(
-    paddingBottom(50.pxToEm()),
-    ThemeStyles.MediaQueries.beyondSmall(paddingBottom(ThemeStyles.mainNavDefaultHeight))
-  )
-
-  val fixedMainHeaderWrapper: StyleA =
-    style(position.fixed, top(`0`), left(`0`), width(100.%%), zIndex(10), boxShadow := s"0 2px 4px 0 rgba(0,0,0,0.50)")
 
   val contentWrapper: StyleA =
     style(display.block, backgroundColor(ThemeStyles.BackgroundColor.blackVeryTransparent))

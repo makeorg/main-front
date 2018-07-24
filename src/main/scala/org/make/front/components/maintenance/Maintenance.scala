@@ -90,6 +90,7 @@ object Maintenance {
                 )
               ),
               <.NavInThemesContainerComponent.empty,
+              <.MainFooterComponent.empty,
               <.style()(MaintenanceStyles.render[String])
             )
           }

@@ -40,73 +40,78 @@ import org.make.front.styles.utils._
 
 object ConsultationSection {
 
-  case class ConsultationSectionState()
   case class ConsultationSectionProps(operation: OperationModel, language: String, countryCode: String)
 
   lazy val reactClass: ReactClass =
     WithRouter(
       React
-        .createClass[ConsultationSectionProps, ConsultationSectionState](
+        .createClass[ConsultationSectionProps, Unit](
           displayName = "ConsultationSection",
-          getInitialState = { _ =>
-            ConsultationSectionState()
+          componentDidMount = { _ =>
+            AffixMethods.sidebarAffixrAF()
           },
           render = { self =>
             val consultation = self.props.wrapped.operation
             val maybeWording: Option[OperationWording] =
               consultation.getWordingByLanguage(self.props.wrapped.language)
-            <.div(^.className := ConsultationSectionStyles.wrapper)(
+
+            <.div(^.className := ConsultationSectionStyles.wrapper, ^.id := "wrapperContainer")(
               <.div(^.className := ConsultationSectionStyles.main)(
-                <.ConsultationProposalComponent(
-                  ^.wrapped := ConsultationProposalProps(
-                    self.props.wrapped.operation,
-                    maybeLocation = Some(LocationModel.OperationPage(self.props.wrapped.operation.operationId)),
-                    language = self.props.wrapped.language
-                  )
-                )(),
-                <.ConsultationLinkSequenceComponent(
-                  ^.wrapped := ConsultationLinkSequenceProps(
-                    operation = consultation,
-                    country = self.props.wrapped.countryCode
-                  )
-                )(),
-                maybeWording.flatMap { wording =>
-                  wording.presentation.map { content =>
-                    <.div(^.className := RWDRulesLargeMediumStyles.hideBeyondLargeMedium)(
-                      <.ConsultationPresentationComponent(
-                        ^.wrapped := ConsultationPresentationProps(
-                          operation = consultation,
-                          language = self.props.wrapped.language,
-                          content = content,
-                          learnMoreUrl = wording.learnMoreUrl,
-                          isCollapsed = true
-                        )
-                      )()
+                <.div(^.id := "mainContainer")(
+                  <.ConsultationProposalComponent(
+                    ^.wrapped := ConsultationProposalProps(
+                      self.props.wrapped.operation,
+                      maybeLocation = Some(LocationModel.OperationPage(self.props.wrapped.operation.operationId)),
+                      language = self.props.wrapped.language
                     )
-                  }
-                },
-                <.ResultsInConsultationContainerComponent(
-                  ^.wrapped := ResultsInConsultationContainerProps(
-                    currentConsultation = consultation,
-                    maybeLocation = Some(LocationModel.OperationPage(consultation.operationId))
-                  )
-                )()
-              ),
-              <.aside(^.className := ConsultationSectionStyles.sidebar)(maybeWording.flatMap { wording =>
-                wording.presentation.map { content =>
-                  <.div(^.className := RWDRulesLargeMediumStyles.showBlockBeyondLargeMedium)(
-                    <.ConsultationPresentationComponent(
-                      ^.wrapped := ConsultationPresentationProps(
-                        operation = consultation,
-                        language = self.props.wrapped.language,
-                        content = content,
-                        learnMoreUrl = wording.learnMoreUrl,
-                        isCollapsed = false
+                  )(),
+                  <.ConsultationLinkSequenceComponent(
+                    ^.wrapped := ConsultationLinkSequenceProps(
+                      operation = consultation,
+                      country = self.props.wrapped.countryCode
+                    )
+                  )(),
+                  maybeWording.flatMap { wording =>
+                    wording.presentation.map { content =>
+                      <.div(^.className := RWDRulesLargeMediumStyles.hideBeyondLargeMedium)(
+                        <.ConsultationPresentationComponent(
+                          ^.wrapped := ConsultationPresentationProps(
+                            operation = consultation,
+                            language = self.props.wrapped.language,
+                            content = content,
+                            learnMoreUrl = wording.learnMoreUrl,
+                            isCollapsed = true
+                          )
+                        )()
                       )
-                    )()
-                  )
-                }
-              }, <.div(^.className := RWDRulesLargeMediumStyles.showBlockBeyondLargeMedium)(<.ConsultationCommunityComponent(^.wrapped := ConsultationCommunityProps(self.props.wrapped.operation, self.props.wrapped.language))()), <.ConsultationShareMobileComponent(^.wrapped := ConsultationShareMobileProps(operation = consultation))(), <.div(^.className := RWDRulesLargeMediumStyles.showBlockBeyondLargeMedium)(<.ConsultationShareComponent(^.wrapped := ConsultationShareProps(operation = consultation))(), <.ConsultationFooterComponent()())),
+                    }
+                  },
+                  <.ResultsInConsultationContainerComponent(
+                    ^.wrapped := ResultsInConsultationContainerProps(
+                      currentConsultation = consultation,
+                      maybeLocation = Some(LocationModel.OperationPage(consultation.operationId))
+                    )
+                  )()
+                )
+              ),
+              <.aside(^.className := ConsultationSectionStyles.sidebar, ^.id := "asideContainer")(
+                <.div(^.id := "sidebarAffixContainer")(<.div(^.id := "sidebarAffixElement")(maybeWording.flatMap {
+                  wording =>
+                    wording.presentation.map { content =>
+                      <.div(^.className := RWDRulesLargeMediumStyles.showBlockBeyondLargeMedium)(
+                        <.ConsultationPresentationComponent(
+                          ^.wrapped := ConsultationPresentationProps(
+                            operation = consultation,
+                            language = self.props.wrapped.language,
+                            content = content,
+                            learnMoreUrl = wording.learnMoreUrl,
+                            isCollapsed = false
+                          )
+                        )()
+                      )
+                    }
+                }, <.div(^.className := RWDRulesLargeMediumStyles.showBlockBeyondLargeMedium)(<.ConsultationCommunityComponent(^.wrapped := ConsultationCommunityProps(self.props.wrapped.operation, self.props.wrapped.language))()), <.ConsultationShareMobileComponent(^.wrapped := ConsultationShareMobileProps(operation = consultation))(), <.div(^.className := RWDRulesLargeMediumStyles.showBlockBeyondLargeMedium)(<.ConsultationShareComponent(^.wrapped := ConsultationShareProps(operation = consultation))(), <.ConsultationFooterComponent()())))
+              ),
               <.style()(ConsultationSectionStyles.render[String])
             )
           }

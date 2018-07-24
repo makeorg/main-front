@@ -60,7 +60,10 @@ object Operation {
           TrackingService
             .track(
               eventName = "display-page-operation",
-              trackingContext = TrackingContext(TrackingLocation.operationPage, operationSlug = Some(self.props.wrapped.operation.slug)),
+              trackingContext = TrackingContext(
+                TrackingLocation.operationPage,
+                operationSlug = Some(self.props.wrapped.operation.slug)
+              ),
               parameters = Map.empty,
               internalOnlyParameters = Map("id" -> self.props.wrapped.operation.operationId.value)
             )
@@ -92,6 +95,7 @@ object Operation {
                   )
                 )()
               ),
+              <.MainFooterComponent.empty,
               <.style()(OperationStyles.render[String])
             )
           } else {

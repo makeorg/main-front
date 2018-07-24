@@ -24,8 +24,6 @@ import org.make.front.Main.CssSettings._
 import org.make.front.styles.ThemeStyles
 import org.make.front.styles.utils._
 
-import scalacss.internal.ValueT
-
 object LayoutRulesStyles extends StyleSheet.Inline {
 
   import dsl._

@@ -183,6 +183,7 @@ object CurrentOperations {
                 )
               )
             ),
+            <.MainFooterComponent.empty,
             <.style()(
               CurrentOperationsStyles.render[String],
               OperationTileStyles.render[String],

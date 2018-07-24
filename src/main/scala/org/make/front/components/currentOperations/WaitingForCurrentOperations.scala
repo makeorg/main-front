@@ -53,6 +53,7 @@ object WaitingForCurrentOperations {
                   .Array(WaitingForCurrentOperationsStyles.content, TableLayoutStyles.cellVerticalAlignMiddle)
               )(<.SpinnerComponent.empty)
             ),
+            <.MainFooterComponent.empty,
             <.style()(WaitingForCurrentOperationsStyles.render[String])
           )
         }
