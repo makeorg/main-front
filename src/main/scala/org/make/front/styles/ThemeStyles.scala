@@ -68,6 +68,7 @@ object ThemeStyles extends StyleSheet.Inline {
     val lightGrey: ValueT[ValueT.Color] = rgb(242, 242, 242)
     val lightBlueGrey: ValueT[ValueT.Color] = rgb(230, 230, 240)
     val grey: ValueT[ValueT.Color] = rgb(231, 231, 231)
+    val altGrey: ValueT[ValueT.Color] = rgb(218, 218, 218)
     val darkGrey: ValueT[ValueT.Color] = rgb(51, 51, 51)
     val black: ValueT[ValueT.Color] = rgb(0, 0, 0)
     val blackTransparent: ValueT[ValueT.Color] = rgba(0, 0, 0, 0.2)
@@ -82,6 +83,7 @@ object ThemeStyles extends StyleSheet.Inline {
     val light: ValueT[ValueT.Color] = rgba(0, 0, 0, 0.5)
     val lighter: ValueT[ValueT.Color] = rgba(0, 0, 0, 0.3)
     val veryLight: ValueT[ValueT.Color] = rgba(0, 0, 0, 0.1)
+    val transparent: ValueT[ValueT.Color] = rgba(255, 255, 255, 0)
     val danger: ValueT[ValueT.Color] = rgba(208, 2, 27, 1)
   }
 
