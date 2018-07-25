@@ -51,7 +51,7 @@ object ConsultationHeader {
       .createClass[ConsultationHeaderProps, Unit](
         displayName = "ConsultationHeader",
         componentDidMount = { _ =>
-          AffixMethods.tabAffixrAF()
+          AffixMethods.tabAffixScrollrAF
         },
         render = { self =>
           def changeTab(newTab: String): () => Unit = { () =>
@@ -157,8 +157,9 @@ object ConsultationHeaderStyles extends StyleSheet.Inline {
     style(
       marginRight.auto,
       marginLeft.auto,
+      marginBottom(ThemeStyles.SpacingValue.small.pxToEm()),
       paddingTop(30.pxToEm()),
-      paddingBottom(10.pxToEm()),
+      paddingBottom(5.pxToEm()),
       paddingRight(ThemeStyles.SpacingValue.small.pxToEm()),
       paddingLeft(ThemeStyles.SpacingValue.small.pxToEm()),
       ThemeStyles.MediaQueries.beyondSmall(
@@ -171,17 +172,25 @@ object ConsultationHeaderStyles extends StyleSheet.Inline {
     style(textAlign.center, marginBottom(15.pxToEm()))
 
   val tabWrapper: StyleA =
-    style(display.flex)
+    style(
+      padding(`0`),
+      paddingTop(ThemeStyles.SpacingValue.small.pxToEm()),
+      ThemeStyles.MediaQueries.beyondSmall(
+        paddingRight(ThemeStyles.SpacingValue.medium.pxToEm()),
+        paddingLeft(ThemeStyles.SpacingValue.medium.pxToEm())
+      )
+    )
 
   val tab: StyleA =
     style(
       position.relative,
       display.inlineBlock,
-      width(50.%%),
-      paddingTop(20.pxToEm()),
-      paddingBottom(20.pxToEm()),
+      verticalAlign.bottom,
+      width :=! "calc(50% - 1px)",
+      paddingTop(14.pxToEm()),
+      paddingBottom(7.pxToEm()),
+      backgroundColor(ThemeStyles.BackgroundColor.altGrey),
       textAlign.center,
-      color(ThemeStyles.TextColor.white),
       textShadow := s"0 1px 1px rgba(0, 0, 0, 0.5)",
       unsafeChild("span")(display.block),
       ThemeStyles.MediaQueries
@@ -189,20 +198,24 @@ object ConsultationHeaderStyles extends StyleSheet.Inline {
       &.before(
         content := "''",
         position.absolute,
-        bottom(-4.pxToEm()),
+        top(-4.pxToEm()),
         left(`0`),
         width(100.%%),
         height(4.pxToEm()),
         backgroundColor(ThemeStyles.BackgroundColor.black),
-        transition := "opacity .2s ease-in-out"
       )
     )
 
   val tabSelection: Boolean => StyleA = styleF.bool(
     active =>
       if (active) {
-        styleS(&.before(opacity(1)))
-      } else styleS(&.before(opacity(0)))
+        styleS(
+          paddingTop(19.pxToEm()),
+          backgroundColor(ThemeStyles.BackgroundColor.lightGrey),
+          borderBottom(1.pxToEm(), solid, ThemeStyles.BackgroundColor.lightGrey),
+          &.before(opacity(1))
+        )
+      } else styleS(border(1.pxToEm(), solid, ThemeStyles.BackgroundColor.black), &.before(opacity(0)))
   )
 
   val titleLink: StyleA =
@@ -216,5 +229,5 @@ object ConsultationHeaderStyles extends StyleSheet.Inline {
     )
 
   val affixOn: StyleA =
-    style(width(100.%%), left(`0`), top(`0`), zIndex(2), position.fixed)
+    style(width(100.%%), left(`0`), top(`0`), zIndex(2), position.fixed, boxShadow := s"0 1px 5px rgba(0, 0, 0, 0.5)")
 }

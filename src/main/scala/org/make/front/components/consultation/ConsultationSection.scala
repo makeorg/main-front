@@ -48,7 +48,7 @@ object ConsultationSection {
         .createClass[ConsultationSectionProps, Unit](
           displayName = "ConsultationSection",
           componentDidMount = { _ =>
-            AffixMethods.sidebarAffixrAF()
+            AffixMethods.sidebarAffixrAF
           },
           render = { self =>
             val consultation = self.props.wrapped.operation
@@ -94,7 +94,7 @@ object ConsultationSection {
                   )()
                 )
               ),
-              <.aside(^.className := ConsultationSectionStyles.sidebar, ^.id := "asideContainer")(
+              <.aside(^.className := ConsultationSectionStyles.sidebar)(
                 <.div(^.id := "sidebarAffixContainer")(<.div(^.id := "sidebarAffixElement")(maybeWording.flatMap {
                   wording =>
                     wording.presentation.map { content =>

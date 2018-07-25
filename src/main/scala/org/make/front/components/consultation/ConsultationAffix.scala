@@ -62,110 +62,147 @@ object AffixMethods {
 
   /*  Tab Affix Methods   */
 
-  // optimizing handleTabAffix with rAF method
-  def tabAffixrAF(): Unit = {
-    window.requestAnimationFrame(AffixMethods.handleTabAffix _)
-  }
+  // Optimizing enablingTabAffix with rAF method on scroll event
+  def tabAffixScrollrAF: Unit = {
+    var ticking: Boolean = false
 
-  // Combining scroll in one method
-  def handleTabAffix(timestamp: Double): Unit = {
-    enablingTabAffix()
-  }
+    def updaterAF(timestamp: Double): Unit = {
+      enablingTabAffix
+      ticking = false
+    }
 
-  // handling tab Affix Methods on scroll event
-  def enablingTabAffix: () => Unit = { () =>
-    window.addEventListener("scroll", { e: Event =>
-      if (affixConditions.tabAffixThresold) {
-        setTabContainerValues()
-        enablingTabElementAffix()
-        addGradientClass()
-      } else {
-        unsetTabContainerValues()
-        disablingTabElementAffix()
-        removeGradientClass()
+    def activaterAF: Unit = {
+      if (!ticking) {
+        window.requestAnimationFrame(updaterAF)
+        ticking = true
       }
+    }
+
+    window.addEventListener("scroll", { e: Event =>
+      activaterAF
     }, false)
   }
 
+  // handling tab Affix Methods on scroll event
+  def enablingTabAffix: Unit = {
+    if (affixConditions.tabAffixThresold) {
+      setTabContainerValues
+      enablingTabElementAffix
+      addGradientClass
+    } else {
+      unsetTabContainerValues
+      disablingTabElementAffix
+      removeGradientClass
+    }
+  }
+
   /* Declaring private Tab Affix Methods */
-  private def enablingTabElementAffix: () => Unit = { () =>
+  private def enablingTabElementAffix: Unit = {
     AffixValues.tabAffixElement.classList.add(ConsultationHeaderStyles.affixOn.htmlClass)
   }
 
-  private def disablingTabElementAffix: () => Unit = { () =>
+  private def disablingTabElementAffix: Unit = {
     AffixValues.tabAffixElement.classList.remove(ConsultationHeaderStyles.affixOn.htmlClass)
   }
 
   /*  Sidebar Affix Methods   */
 
-  // Optimizing handleSidebarAffix with rAF method
+  // Combining handleSidebarAffix with rAF method
   def sidebarAffixrAF(): Unit = {
-    window.requestAnimationFrame(AffixMethods.handleSidebarAffix _)
+    sidebarAffixScrollrAF
+    sidebarAffixResizerAF
   }
 
-  // Combining resize & scroll in one method
-  def handleSidebarAffix(timestamp: Double): Unit = {
-    scrollSidebarAffix()
-    eesizingSidebarAffix()
-  }
+  // Optimizing scrollSidebarAffix with rAF method on scroll event
+  def sidebarAffixScrollrAF: Unit = {
+    var ticking: Boolean = false
 
-  // Handling Sidebar Affix Methods on scroll event
-  def scrollSidebarAffix: () => Unit = { () =>
+    def updaterAF(timestamp: Double): Unit = {
+      enablingSidebarAffix
+      ticking = false
+    }
+
+    def activaterAF: Unit = {
+      if (!ticking) {
+        window.requestAnimationFrame(updaterAF)
+        ticking = true
+      }
+    }
+
     window.addEventListener("scroll", { e: Event =>
-      enablingSidebarAffix()
+      activaterAF
+    }, false)
+  }
+
+  // Optimizing resizingSidebarAffix with rAF method on resize event
+  def sidebarAffixResizerAF: Unit = {
+    var ticking: Boolean = false
+
+    def updaterAF(timestamp: Double): Unit = {
+      resizingSidebarAffix
+      ticking = false
+    }
+
+    def activaterAF: Unit = {
+      if (!ticking) {
+        window.requestAnimationFrame(updaterAF)
+        ticking = true
+      }
+    }
+
+    window.addEventListener("resize", { e: Event =>
+      activaterAF
     }, false)
   }
 
   // Handling Sidebar Affix Methods on resize event
-  def eesizingSidebarAffix: () => Unit = { () =>
-    window.addEventListener("resize", { e: Event =>
-      if (window.innerWidth > 1000) {
-        AffixMethods.enablingSidebarAffix()
-      } else {
-        AffixMethods.disablingSidebarAffix()
-      }
-    }, false)
+  def resizingSidebarAffix: Unit = {
+    if (window.innerWidth > 1000) {
+      AffixMethods.enablingSidebarAffix
+    } else {
+      AffixMethods.disablingSidebarAffix
+    }
   }
 
   // Declaring Sidebar Affix enabling Method
-  def enablingSidebarAffix: () => Unit = { () =>
+  def enablingSidebarAffix: Unit = {
     if (affixConditions.sidebarAffixStart && affixConditions.minHeightForSidebarAffix) {
-      setSidebarContainerValues()
-      enablingSidebarElementAffix()
+      setSidebarContainerValues
+      enablingSidebarElementAffix
     } else if (affixConditions.sidebarAffixStop && affixConditions.minHeightForSidebarAffix) {
-      stoppingSidebarElementAffix()
+      stoppingSidebarElementAffix
     } else {
-      unsetSidebarContainerValues()
-      disablingSidebarElementAffix()
+      unsetSidebarContainerValues
+      disablingSidebarElementAffix
     }
   }
 
   // declaring Sidebar Affix disabling Method
-  def disablingSidebarAffix: () => Unit = { () =>
-    unsetSidebarContainerValues()
-    disablingSidebarElementAffix()
+  def disablingSidebarAffix: Unit = {
+    unsetSidebarContainerValues
+    disablingSidebarElementAffix
   }
 
   /* Declaring private Sidebar Affix Methods */
-  private def setTabContainerValues: () => Unit = { () =>
+  private def setTabContainerValues: Unit = {
     AffixValues.tabAffixContainer
       .setAttribute("style", "min-height: " + AffixValues.tabAffixElementHeight.pxToEm().value + ";")
   }
 
-  private def unsetTabContainerValues: () => Unit = { () =>
+  private def unsetTabContainerValues: Unit = {
     AffixValues.tabAffixContainer
       .setAttribute("style", "min-height: 0;")
   }
 
-  private def addGradientClass: () => Unit = { () =>
+  private def addGradientClass: Unit = {
     AffixValues.tabAffixElement.classList.add("ConsultationHeader_DynamicConsultationHeaderStyles_2-gradient")
   }
 
-  private def removeGradientClass: () => Unit = { () =>
+  private def removeGradientClass: Unit = {
     AffixValues.tabAffixElement.classList.remove("ConsultationHeader_DynamicConsultationHeaderStyles_2-gradient")
   }
 
-  private def enablingSidebarElementAffix: () => Unit = { () =>
+  private def enablingSidebarElementAffix: Unit = {
     AffixValues.sidebarAffixElement
       .setAttribute(
         "style",
@@ -178,7 +215,7 @@ object AffixMethods {
       )
   }
 
-  private def stoppingSidebarElementAffix: () => Unit = { () =>
+  private def stoppingSidebarElementAffix: Unit = {
     AffixValues.sidebarAffixElement
       .setAttribute(
         "style",
@@ -194,12 +231,12 @@ object AffixMethods {
       )
   }
 
-  private def disablingSidebarElementAffix: () => Unit = { () =>
+  private def disablingSidebarElementAffix: Unit = {
     AffixValues.sidebarAffixElement
       .setAttribute("style", "width: auto; position: inherit;")
   }
 
-  private def setSidebarContainerValues: () => Unit = { () =>
+  private def setSidebarContainerValues: Unit = {
     AffixValues.sidebarAffixContainer
       .setAttribute(
         "style",
@@ -211,7 +248,7 @@ object AffixMethods {
       )
   }
 
-  private def unsetSidebarContainerValues: () => Unit = { () =>
+  private def unsetSidebarContainerValues: Unit = {
     AffixValues.sidebarAffixContainer
       .setAttribute("style", "min-height: 0; width: auto;")
   }
