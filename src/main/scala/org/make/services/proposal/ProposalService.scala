@@ -136,7 +136,7 @@ object ProposalService extends ApiService {
            question: Option[String] = None): Future[Vote] = {
     var headers =
       Map[String, String](MakeApiClient.sourceHeader -> source, MakeApiClient.locationHeader -> location.name)
-    operation.foreach(op => headers += MakeApiClient.operationHeader -> op.label)
+    operation.foreach(op => headers += MakeApiClient.operationHeader -> op.operationId.value)
     question.foreach(q   => headers += MakeApiClient.questionHeader -> q)
 
     MakeApiClient
@@ -156,7 +156,7 @@ object ProposalService extends ApiService {
              question: Option[String] = None): Future[Vote] = {
     var headers =
       Map[String, String](MakeApiClient.sourceHeader -> source, MakeApiClient.locationHeader -> location.name)
-    operation.foreach(op => headers += MakeApiClient.operationHeader -> op.label)
+    operation.foreach(op => headers += MakeApiClient.operationHeader -> op.operationId.value)
     question.foreach(q   => headers += MakeApiClient.questionHeader -> q)
 
     MakeApiClient
@@ -177,7 +177,7 @@ object ProposalService extends ApiService {
                   question: Option[String] = None): Future[Qualification] = {
     var headers =
       Map[String, String](MakeApiClient.sourceHeader -> source, MakeApiClient.locationHeader -> location.name)
-    operation.foreach(op => headers += MakeApiClient.operationHeader -> op.label)
+    operation.foreach(op => headers += MakeApiClient.operationHeader -> op.operationId.value)
     question.foreach(q   => headers += MakeApiClient.questionHeader -> q)
 
     MakeApiClient
@@ -199,7 +199,7 @@ object ProposalService extends ApiService {
                               question: Option[String] = None): Future[Qualification] = {
     var headers =
       Map[String, String](MakeApiClient.sourceHeader -> source, MakeApiClient.locationHeader -> location.name)
-    operation.foreach(op => headers += MakeApiClient.operationHeader -> op.label)
+    operation.foreach(op => headers += MakeApiClient.operationHeader -> op.operationId.value)
     question.foreach(q   => headers += MakeApiClient.questionHeader -> q)
 
     MakeApiClient
