@@ -201,7 +201,7 @@ object ConsultationHeaderStyles extends StyleSheet.Inline {
         left(`0`),
         width(100.%%),
         height(4.pxToEm()),
-        backgroundColor(ThemeStyles.BackgroundColor.black),
+        backgroundColor(ThemeStyles.BackgroundColor.black)
       )
     )
 

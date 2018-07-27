@@ -80,7 +80,8 @@ case class User(userId: UserId,
                 roles: js.Array[Role],
                 profile: Option[Profile],
                 country: String,
-                language: String)
+                language: String,
+                hasPassword: Boolean)
 
 object User {
   def apply(userResponse: UserResponse): User = {
@@ -99,7 +100,8 @@ object User {
       roles = seqRoles.map(Role.apply),
       profile = undefToOption(userResponse.profile).map(Profile.apply),
       country = userResponse.country,
-      language = userResponse.language
+      language = userResponse.language,
+      hasPassword = userResponse.hasPassword
     )
   }
 }

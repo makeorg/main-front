@@ -37,6 +37,7 @@ trait UserResponse extends js.Object {
   val profile: js.UndefOr[ProfileResponse]
   val country: String
   val language: String
+  val hasPassword: Boolean
 }
 
 @js.native
