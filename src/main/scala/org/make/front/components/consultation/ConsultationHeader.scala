@@ -191,6 +191,7 @@ object ConsultationHeaderStyles extends StyleSheet.Inline {
       paddingBottom(7.pxToEm()),
       backgroundColor(ThemeStyles.BackgroundColor.altGrey),
       textAlign.center,
+      textShadow := s"0 1px 1px rgba(0, 0, 0, 0.5)",
       unsafeChild("span")(display.block),
       ThemeStyles.MediaQueries
         .beyondLarge(unsafeChild("span")(display.inlineBlock, paddingLeft(5.pxToEm()), paddingRight(5.pxToEm()))),

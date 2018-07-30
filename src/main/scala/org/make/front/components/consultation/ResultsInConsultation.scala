@@ -29,7 +29,7 @@ import org.make.core.Counter
 import org.make.front.components.Components._
 import org.make.front.components.proposal.ProposalTileWithOrganisationsVotes.ProposalTileWithOrganisationsVotesProps
 import org.make.front.components.tags.FilterByTags.FilterByTagsProps
-import org.make.front.facades.I18n
+import org.make.front.facades.{I18n}
 import org.make.front.facades.ReactInfiniteScroller.{
   ReactInfiniteScrollerVirtualDOMAttributes,
   ReactInfiniteScrollerVirtualDOMElements
@@ -46,11 +46,10 @@ import org.make.front.models.{
 }
 import org.make.front.styles.base.{LayoutRulesStyles, TextStyles}
 import org.make.front.styles.vendors.FontAwesomeStyles
-import org.make.services.proposal.{ProposalService, SearchResult}
+import org.make.services.proposal.SearchResult
 import org.make.services.tracking.TrackingService.TrackingContext
 import org.make.services.tracking.{TrackingLocation, TrackingService}
 import org.make.front.Main.CssSettings._
-import org.make.front.components.proposal.ProposalTileWithVideo.ProposalTileWithVideoProps
 import org.make.front.styles.ThemeStyles
 import org.make.front.styles.ui.{AnimationsStyles, CTAStyles}
 import org.make.front.styles.utils._
@@ -82,8 +81,7 @@ object ResultsInConsultation {
                                         initialLoad: Boolean,
                                         hasRequestedMore: Boolean,
                                         hasMore: Boolean,
-                                        maybeSeed: Option[Int] = None,
-                                        proposalWithVideo: Option[ProposalModel])
+                                        maybeSeed: Option[Int] = None)
 
   lazy val reactClass: ReactClass = {
     def onSuccessfulVote(proposalId: ProposalIdModel,
@@ -143,13 +141,12 @@ object ResultsInConsultation {
           listProposals = js.Array(),
           initialLoad = true,
           hasRequestedMore = false,
-          hasMore = false,
-          proposalWithVideo = None
+          hasMore = false
         )
       },
       componentWillReceiveProps = { (self, nextProps) =>
         self.setState(
-          _.copy(
+          ResultsInConsultationState(
             selectedTags = nextProps.wrapped.preselectedTags,
             listProposals = js.Array(),
             initialLoad = true,
@@ -157,17 +154,6 @@ object ResultsInConsultation {
             hasMore = false
           )
         )
-        ProposalService
-          .searchProposals(
-            slug = Some(
-              "il-faut-soutenir-les-festivals-pour-leur-permettre-d-etre-itinerants-afin-de-se-deployer-sur-le-territoire"
-            )
-          )
-          .onComplete {
-            case Success(SearchResult(_, proposals, _)) =>
-              self.setState(_.copy(proposalWithVideo = proposals.toSeq.headOption))
-            case Failure(_) =>
-          }
       },
       shouldComponentUpdate = { (self, _, state) =>
         self.state.listProposals.map(_.id).toSet != state.listProposals.map(_.id).toSet
@@ -243,8 +229,7 @@ object ResultsInConsultation {
             }
         }
 
-        def proposals(proposals: js.Array[ProposalModel], country: String) = {
-          val counter = new Counter()
+        def proposals(proposals: js.Array[ProposalModel], country: String) =
           js.Array(
               <.InfiniteScroll(
                 ^.element := "ul",
@@ -252,25 +237,8 @@ object ResultsInConsultation {
                 ^.initialLoad := false,
                 ^.loadMore := onSeeMore,
                 ^.loader := <.li()(<.SpinnerComponent.empty)
-              )(self.state.proposalWithVideo.map {
-                proposal =>
-                  <.li()(
-                    <.ProposalTileWithVideoComponent(
-                      ^.wrapped := ProposalTileWithVideoProps(
-                        proposal = proposal,
-                        handleSuccessfulVote = onSuccessfulVote(proposal.id, self),
-                        handleSuccessfulQualification = onSuccessfulQualification(proposal.id, self),
-                        index = counter.getAndIncrement(),
-                        trackingLocation = TrackingLocation.operationPage,
-                        maybeTheme = None,
-                        maybeOperation = Some(self.props.wrapped.operation),
-                        maybeSequenceId = None,
-                        maybeLocation = self.props.wrapped.maybeLocation,
-                        country = country
-                      )
-                    )()
-                  )
-              }, if (proposals.nonEmpty) {
+              )(if (proposals.nonEmpty) {
+                val counter = new Counter()
                 proposals
                   .map(
                     proposal =>
@@ -292,9 +260,7 @@ object ResultsInConsultation {
                     )
                   )
                   .toSeq
-              } else {
-                <.div.empty
-              }),
+              } else { <.div.empty }),
               if (self.state.hasMore && !self.state.hasRequestedMore) {
                 <.button(
                   ^.className := js.Array(CTAStyles.basic, CTAStyles.basicOnA, ResultsInConsultationStyles.moreResults),
@@ -312,7 +278,6 @@ object ResultsInConsultation {
               }
             )
             .toSeq
-        }
 
         val proposalsToDisplay: js.Array[ProposalModel] = self.state.listProposals
 
