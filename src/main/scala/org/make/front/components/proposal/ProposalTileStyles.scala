@@ -62,24 +62,36 @@ object ProposalTileStyles extends StyleSheet.Inline {
   val proposalLinkOnTitle: StyleA = style(color(ThemeStyles.TextColor.base))
 
   val contentWrapper: StyleA =
-    style(
-      padding(
-        ThemeStyles.SpacingValue.small.pxToEm(),
-        20.pxToEm()
-      )
-    )
+    style(padding(ThemeStyles.SpacingValue.small.pxToEm(), 20.pxToEm()))
 
   val footer: StyleA = style(
-    margin(
-      `0`,
-      ThemeStyles.SpacingValue.small.pxToEm()
-    ),
-    padding(
-      ThemeStyles.SpacingValue.smaller.pxToEm(),
-      `0`,
-      20.pxToEm()
-    ),
+    margin(`0`, ThemeStyles.SpacingValue.small.pxToEm()),
+    padding(ThemeStyles.SpacingValue.smaller.pxToEm(), `0`, 20.pxToEm()),
     borderTop(1.px, solid, ThemeStyles.BorderColor.veryLight)
   )
 
+  val tileWithVideoWrapper: StyleA =
+    style(display.flex, alignItems.center, flexFlow := s"row")
+
+  val tileWidth: Int = 750
+  val videoWith: Int = 312
+  val proposalWidth: Int = tileWidth - videoWith
+
+  val proposalWrapper: StyleA =
+    style(ThemeStyles.MediaQueries.beyondSmall(width(proposalWidth.pxToPercent(tileWidth))))
+
+  val videoWrapper: StyleA =
+    style(ThemeStyles.MediaQueries.beyondSmall(width(videoWith.pxToPercent(tileWidth))))
+
+  val specialRatioVideoContainer: StyleA =
+    style(position.relative, paddingBottom(125.%%), width(100.%%), height(`0`), overflow.hidden)
+
+  val verticalVideoContainer: StyleA =
+    style(position.relative, paddingBottom(177.77.%%), width(100.%%), height(`0`), overflow.hidden)
+
+  val horizontalVideoContainer: StyleA =
+    style(position.relative, paddingBottom(56.25.%%), width(100.%%), height(`0`), overflow.hidden)
+
+  val videoIframe: StyleA =
+    style(position.absolute, top(`0`), left(`0`), width(100.%%), height(100.%%))
 }
