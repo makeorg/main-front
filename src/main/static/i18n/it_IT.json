@@ -157,7 +157,23 @@
     "proposals-tab": "Proposte",
     "actions-tab": "Azione",
     "settings-tab": "Gestisci il mio account",
-    "years-old": "anni"
+    "years-old": "anni",
+    "reset-password": {
+      "title": "<NEED TRANSLATION>",
+      "required": "(obbligatorio)",
+      "error-message": "Si è verificato un errore, riprova tra qualche minuto.",
+      "send-cta": "<NEED TRANSLATION>",
+      "old-password": {
+        "label": "<NEED TRANSLATION>",
+        "placeholder": "<NEED TRANSLATION>",
+        "wrong-password": "<NEED TRANSLATION>"
+
+      },
+      "new-password": {
+        "label": "<NEED TRANSLATION>",
+        "placeholder": "<NEED TRANSLATION>"
+      }
+    }
   },
   "proposal": {
     "created-by-user": "La mia proposta",

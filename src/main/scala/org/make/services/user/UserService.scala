@@ -32,6 +32,7 @@ import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 import scala.scalajs.js
 import scala.scalajs.js.JSON
+import scala.scalajs.js.JSConverters._
 
 object UserService extends ApiService {
 
@@ -207,6 +208,15 @@ object UserService extends ApiService {
       _ =>
         {}
     }
+  }
+
+  def changePassword(userId: String, oldPassword: Option[String], newPassword: String): Future[Unit] = {
+    var data: Map[String, String] = Map("newPassword" -> newPassword)
+    oldPassword.foreach(oldPass => data ++= Map("actualPassword" -> oldPass))
+
+    MakeApiClient
+      .post[js.Object](resourceName / userId / "change-password", data = JSON.stringify(data.toJSDictionary))
+      .map(_ => {})
   }
 
   def logout(): Future[Unit] =
