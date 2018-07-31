@@ -60,6 +60,7 @@ case class Profile(dateOfBirth: Option[js.Date],
                    gender: Option[Gender],
                    genderName: Option[String],
                    departmentNumber: Option[String],
+                   postalCode: Option[String],
                    karmaLevel: Option[Int],
                    locale: Option[String],
                    optInNewsletter: Boolean = false)
@@ -87,6 +88,7 @@ object Profile {
       },
       genderName = undefToOption(profileResponse.genderName),
       departmentNumber = undefToOption(profileResponse.departmentNumber),
+      postalCode = undefToOption(profileResponse.postalCode),
       karmaLevel = undefToOption(profileResponse.karmaLevel),
       locale = undefToOption(profileResponse.locale),
       optInNewsletter = profileResponse.optInNewsletter
@@ -94,7 +96,7 @@ object Profile {
   }
 
   def isEmpty(profile: Profile): Boolean = profile match {
-    case Profile(None, None, None, None, None, None, None, None, None, None, None, None, false) => true
+    case Profile(None, None, None, None, None, None, None, None, None, None, None, None, None, false) => true
     case _                                                                                      => false
   }
 
@@ -108,6 +110,7 @@ object Profile {
                    gender: Option[Gender] = None,
                    genderName: Option[String] = None,
                    departmentNumber: Option[String] = None,
+                   postalCode: Option[String] = None,
                    karmaLevel: Option[Int] = None,
                    locale: Option[String] = None,
                    optInNewsletter: Boolean = false): Option[Profile] = {
@@ -123,6 +126,7 @@ object Profile {
       gender = gender,
       genderName = genderName,
       departmentNumber = departmentNumber,
+      postalCode = postalCode,
       karmaLevel = karmaLevel,
       locale = locale,
       optInNewsletter = optInNewsletter

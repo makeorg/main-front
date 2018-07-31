@@ -195,6 +195,33 @@
       "cta": "Enregistrer les modifications",
       "confirmation": "Votre demande a bien été prise en compte.",
       "error": "Oups ! Une erreur est survenue lors de l'enregistrement de vos informations. Veuillez ressayer ultérieurement."
+    },
+    "form": {
+      "inputs": {
+        "required": "(obligatoire)",
+        "format-error-message": "Format invalide",
+        "empty-field-error-message": "Veuillez renseigner ce&nbsp;champ.",
+        "submit": "Enregistrer les modifications",
+        "first-name": {
+          "label": "Prénom"
+        },
+        "last-name": {
+          "label": "Nom"
+        },
+        "age": {
+          "label": "Âge"
+        },
+        "postal-code": {
+          "label": "Code postal"
+        },
+        "profession": {
+          "label": "Profession"
+        }
+      }
+    },
+    "update": {
+      "confirmation": "Votre demande a bien été prise en compte.",
+      "error": "Oups ! Une erreur est survenue lors de l'enregistrement de vos informations. Veuillez ressayer ultérieurement."
     }
   },
   "proposal": {
