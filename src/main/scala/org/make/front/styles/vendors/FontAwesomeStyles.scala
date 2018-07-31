@@ -71,5 +71,8 @@ object FontAwesomeStyles extends StyleSheet.Inline {
   val random: StyleA = style(addClassName("fa fa-random"))
   val checkCircle: StyleA = style(addClassName("fa fa-check-circle"))
   val share: StyleA = style(addClassName("fa fa-share"))
-
+  val cog: StyleA = style(addClassName("fa fa-cog"))
+  val check: StyleA = style(addClassName("fa fa-check"))
+  val save: StyleA = style(addClassName("fa fa-save"))
+  val trashAlt: StyleA = style(addClassName("fa fa-trash-alt"))
 }

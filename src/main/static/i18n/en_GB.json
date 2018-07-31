@@ -146,7 +146,19 @@
   },
   "user-profile": {
     "title": "My personal information",
-    "disconnect-cta": "Log out"
+    "disconnect-cta": "Log out",
+    "show-more": "Show more",
+    "show-less": "Show less",
+    "edit-profile": "Edit my profile",
+    "manage-account": "Manage my account",
+    "back-to-profile": "Back to my profile",
+    "share-profile": "Share this profile",
+    "last-proposals": "Your last activity",
+    "summary-tab": "Activity summary",
+    "proposals-tab": "Proposals",
+    "actions-tab": "Actions",
+    "settings-tab": "Manage my account",
+    "years-old": "years old"
   },
   "proposal": {
     "created-by-user": "My proposal",
@@ -445,6 +457,9 @@
         "placeholder": "Firstname",
         "format-error-message": "Invalid format",
         "empty-field-error-message": "Please complete this&nbsp;field."
+      },
+      "last-name": {
+        "placeholder": "Lastname"
       },
       "password": {
         "placeholder": "Password",

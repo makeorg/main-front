@@ -18,7 +18,7 @@
  *
  */
 
-package org.make.front.components.consultation
+package org.make.front.components.mainFooter
 
 import io.github.shogowada.scalajs.reactjs.React
 import io.github.shogowada.scalajs.reactjs.VirtualDOM._
@@ -28,55 +28,55 @@ import org.make.front.components.Components._
 import org.make.front.facades.I18n
 import org.make.front.facades.Unescape.unescape
 import org.make.front.styles.ThemeStyles
-import org.make.front.styles.base.{LayoutRulesStyles, TextStyles}
+import org.make.front.styles.base.TextStyles
 import org.make.front.styles.utils._
 
 import scala.scalajs.js
 
-object ConsultationFooter {
+object AltFooter {
 
   lazy val reactClass: ReactClass =
     React
       .createClass[Unit, Unit](
-        displayName = "ConsultationFooter",
+        displayName = "AltFooter",
         render = _ => {
-          <.div(^.className := ConsultationFooterStyles.wrapper)(
+          <.div(^.className := AltFooterStyles.wrapper)(
             <.a(
-              ^.className := js.Array(TextStyles.smallerText, ConsultationFooterStyles.link),
+              ^.className := js.Array(TextStyles.smallerText, AltFooterStyles.link),
               ^.href := I18n.t(s"main-footer.menu.item-2.link"),
               ^.target := "_blank"
             )(unescape(I18n.t(s"main-footer.menu.item-2.label"))),
             " · ",
             <.a(
-              ^.className := js.Array(TextStyles.smallerText, ConsultationFooterStyles.link),
+              ^.className := js.Array(TextStyles.smallerText, AltFooterStyles.link),
               ^.href := I18n.t(s"main-footer.menu.item-4.link"),
               ^.target := "_blank"
             )(unescape(I18n.t(s"main-footer.menu.item-4.label"))),
             " · ",
             <.a(
-              ^.className := js.Array(TextStyles.smallerText, ConsultationFooterStyles.link),
+              ^.className := js.Array(TextStyles.smallerText, AltFooterStyles.link),
               ^.href := I18n.t(s"main-footer.menu.item-5.link"),
               ^.target := "_blank"
             )(unescape(I18n.t(s"main-footer.menu.item-5.label"))),
             " · ",
             <.a(
-              ^.className := js.Array(TextStyles.smallerText, ConsultationFooterStyles.link),
+              ^.className := js.Array(TextStyles.smallerText, AltFooterStyles.link),
               ^.href := I18n.t(s"main-footer.menu.item-6.link"),
               ^.target := "_blank"
             )(unescape(I18n.t(s"main-footer.menu.item-6.label"))),
             " · ",
             <.a(
-              ^.className := js.Array(TextStyles.smallerText, ConsultationFooterStyles.link),
+              ^.className := js.Array(TextStyles.smallerText, AltFooterStyles.link),
               ^.href := I18n.t(s"main-footer.menu.item-7.link"),
               ^.target := "_blank"
             )(unescape(I18n.t(s"main-footer.menu.item-7.label"))),
-            <.style()(ConsultationFooterStyles.render[String])
+            <.style()(AltFooterStyles.render[String])
           )
         }
       )
 }
 
-object ConsultationFooterStyles extends StyleSheet.Inline {
+object AltFooterStyles extends StyleSheet.Inline {
 
   import dsl._
 

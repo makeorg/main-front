@@ -61,7 +61,10 @@ object ActionsSection {
             TrackingService
               .track(
                 eventName = "click-see-more-community",
-                trackingContext = TrackingContext(TrackingLocation.operationPage, operationSlug = Some(self.props.wrapped.operation.slug))
+                trackingContext = TrackingContext(
+                  TrackingLocation.operationPage,
+                  operationSlug = Some(self.props.wrapped.operation.slug)
+                )
               )
           }
 
@@ -118,7 +121,8 @@ object ActionsSection {
                       ^.wrapped := LoginOrRegisterProps(
                         registerView = self.state.loginOrRegisterView,
                         displayView = self.state.loginOrRegisterView,
-                        trackingContext = TrackingContext(TrackingLocation.actionsPlaceholder, Some(self.props.wrapped.operation.slug)),
+                        trackingContext =
+                          TrackingContext(TrackingLocation.actionsPlaceholder, Some(self.props.wrapped.operation.slug)),
                         trackingParameters = Map("signup-type" -> "light"),
                         trackingInternalOnlyParameters = Map.empty,
                         onSuccessfulLogin = () => {
@@ -181,10 +185,11 @@ object ActionsSection {
                   )
                 )
               ),
-              <.div(^.className := js.Array(ActionsSectionStyles.wrapper, ActionsSectionStyles.eraseMargin, LayoutRulesStyles.centeredRow))(
-                <.h3(^.className := ActionsSectionStyles.title)(
-                  unescape(I18n.t("operation.actions.partners-title"))
-                ),
+              <.div(
+                ^.className := js
+                  .Array(ActionsSectionStyles.wrapper, ActionsSectionStyles.eraseMargin, LayoutRulesStyles.centeredRow)
+              )(
+                <.h3(^.className := ActionsSectionStyles.title)(unescape(I18n.t("operation.actions.partners-title"))),
                 <.p(^.className := js.Array(TextStyles.smallerText, ActionsSectionStyles.presentationText))(
                   unescape(I18n.t("operation.actions.partners-text"))
                 ),
@@ -196,9 +201,7 @@ object ActionsSection {
                   ^.target := "_blank"
                 )(unescape(I18n.t("operation.community.partner.see-more")))
               ),
-              <.div(^.className := RWDRulesLargeMediumStyles.showBlockBeyondLargeMedium)(
-                <.ConsultationFooterComponent()()
-              )
+              <.div(^.className := RWDRulesLargeMediumStyles.showBlockBeyondLargeMedium)(<.AltFooterComponent()())
             ),
             <.style()(ActionsSectionStyles.render[String])
           )
@@ -229,9 +232,7 @@ object ActionsSectionStyles extends StyleSheet.Inline {
 
   val main: StyleA =
     style(
-      ThemeStyles.MediaQueries.beyondLargeMedium(
-        maxWidth(750.pxToPercent(1140)), marginRight(30.pxToPercent(1140))
-      )
+      ThemeStyles.MediaQueries.beyondLargeMedium(maxWidth(750.pxToPercent(1140)), marginRight(30.pxToPercent(1140)))
     )
 
   val sidebar: StyleA =
@@ -252,9 +253,7 @@ object ActionsSectionStyles extends StyleSheet.Inline {
     )
 
   val eraseMargin: StyleA =
-    style(
-      marginBottom(`0`)
-    )
+    style(marginBottom(`0`))
 
   val logo: StyleA =
     style(width(40.pxToEm(15)), ThemeStyles.MediaQueries.beyondLargeMedium(width(40.pxToEm(20))))
@@ -272,9 +271,7 @@ object ActionsSectionStyles extends StyleSheet.Inline {
       fontSize(15.pxToEm()),
       lineHeight(1),
       paddingBottom(ThemeStyles.SpacingValue.smaller.pxToEm(15)),
-      ThemeStyles.MediaQueries.beyondSmall(
-        fontSize(18.pxToEm())
-      ),
+      ThemeStyles.MediaQueries.beyondSmall(fontSize(18.pxToEm())),
       ThemeStyles.MediaQueries.beyondLargeMedium(
         marginBottom(ThemeStyles.SpacingValue.small.pxToEm(18)),
         borderBottom(1.pxToEm(18), solid, ThemeStyles.BorderColor.veryLight)
