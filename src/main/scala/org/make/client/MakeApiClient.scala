@@ -149,9 +149,9 @@ object MakeApiClient extends Client {
   }
 
   override def put[ENTITY <: js.Object](apiEndpoint: String,
-                                        urlParams: js.Array[(String, Any)],
+                                        urlParams: js.Array[(String, Any)] = js.Array(),
                                         data: InputData,
-                                        headers: Map[String, String]): Future[ENTITY] = {
+                                        headers: Map[String, String] = Map.empty): Future[ENTITY] = {
     val requestData = RequestData(
       method = "PUT",
       url = urlFrom(apiEndpoint, urlParams),
@@ -165,9 +165,9 @@ object MakeApiClient extends Client {
   }
 
   override def patch[ENTITY <: js.Object](apiEndpoint: String,
-                                          urlParams: js.Array[(String, Any)],
+                                          urlParams: js.Array[(String, Any)] = js.Array(),
                                           data: InputData,
-                                          headers: Map[String, String]): Future[ENTITY] = {
+                                          headers: Map[String, String] = Map.empty): Future[ENTITY] = {
     val requestData = RequestData(
       method = "PATCH",
       url = urlFrom(apiEndpoint, urlParams),

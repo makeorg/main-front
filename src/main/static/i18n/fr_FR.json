@@ -188,7 +188,14 @@
   },
   "user-profile": {
     "title": "Mes infos personnelles",
-    "disconnect-cta": "Je me déconnecte"
+    "disconnect-cta": "Je me déconnecte",
+    "optin-newsletter": {
+      "title": "Gérer mes emails",
+      "description": "J’accepte de recevoir des informations de Make.org (votre adresse ne sera en aucun cas diffusée à des tiers)",
+      "cta": "Enregistrer les modifications",
+      "confirmation": "Votre demande a bien été prise en compte.",
+      "error": "Oups ! Une erreur est survenue lors de l'enregistrement de vos informations. Veuillez ressayer ultérieurement."
+    }
   },
   "proposal": {
     "bait": "Il faut ",
