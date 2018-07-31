@@ -26,6 +26,7 @@ import org.make.core.URI._
 import org.make.front.facades.I18n
 import org.make.front.models.{OperationId, User}
 import org.make.services.ApiService
+import org.make.services.proposal.{SearchResult, SearchResultResponse}
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
@@ -205,6 +206,10 @@ object UserService extends ApiService {
 
   def logout(): Future[Unit] =
     MakeApiClient.logout()
+
+  def getUserProposals(userId: String): Future[SearchResult] = {
+    MakeApiClient.get[SearchResultResponse](resourceName / userId / "proposals").map(SearchResult.apply)
+  }
 
   final case class NoTokenException(message: String = I18n.t("error-message.no-token")) extends Exception(message)
   final case class UserNotfoundException(message: String = I18n.t("error-message.user-not-found"))

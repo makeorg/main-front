@@ -83,7 +83,8 @@ object Components {
     def UserProfileInformationsComponent: ReactClassElementSpec = self(userProfile.UserProfileInformations.reactClass)
     def UserProfileNavComponent: ReactClassElementSpec = self(userProfile.UserProfileNav.reactClass)
     def UserProfileSummaryComponent: ReactClassElementSpec = self(userProfile.UserProfileSummary.reactClass)
-    def UserProfileProposalsComponent: ReactClassElementSpec = self(userProfile.UserProfileProposals.reactClass)
+    def UserProfileProposalsComponent: ReactClassElementSpec =
+      self(userProfile.UserProfileProposalsContainer.reactClass)
     def UserProfileActionsComponent: ReactClassElementSpec = self(userProfile.UserProfileActions.reactClass)
     def UserProfileSettingsComponent: ReactClassElementSpec = self(userProfile.UserProfileSettings.reactClass)
     def UserProfileOptinNewsletterContainerComponent: ReactClassElementSpec =
@@ -150,6 +151,7 @@ object Components {
     def ShareOwnProposalComponent: ReactClassElementSpec = self(proposal.ShareOwnProposal.reactClass)
     def ProposalSOperationInfosComponent: ReactClassElementSpec = self(proposal.ProposalSOperationInfos.reactClass)
     def ProposalTileComponent: ReactClassElementSpec = self(proposal.ProposalTile.reactClass)
+    def ProposalsTileWithoutVoteComponent: ReactClassElementSpec = self(proposal.ProposalTileWithoutVote.reactClass)
     def ProposalTileWithThemeContainerComponent: ReactClassElementSpec =
       self(proposal.ProposalTileWithThemeContainer.reactClass)
     def ProposalTileWithThemeComponent: ReactClassElementSpec = self(proposal.ProposalTileWithTheme.reactClass)

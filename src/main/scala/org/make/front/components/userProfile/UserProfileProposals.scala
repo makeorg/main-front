@@ -19,26 +19,37 @@
  */
 
 package org.make.front.components.userProfile
-
 import io.github.shogowada.scalajs.reactjs.React
-import io.github.shogowada.scalajs.reactjs.VirtualDOM.{<, _}
+import io.github.shogowada.scalajs.reactjs.VirtualDOM._
+import org.make.front.components.Components._
 import io.github.shogowada.scalajs.reactjs.classes.ReactClass
+import org.make.front.components.proposal.ProposalTileWithoutVote.ProposalTileWithoutVoteProps
+import org.make.front.models.Proposal
+import org.make.services.tracking.TrackingLocation
+
+import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.Future
+import scala.scalajs.js
+import scala.util.Success
 
 object UserProfileProposals {
 
-  final case class UserProfileProposalsProps()
-  final case class UserProfileProposalsState()
+  final case class UserProfileProposalsProps(getProposals: Future[js.Array[Proposal]])
+  final case class UserProfileProposalsState(proposals: js.Array[Proposal])
 
-  val reactClass: ReactClass =
-    React
-      .createClass[UserProfileProposalsProps, UserProfileProposalsState](
-        displayName = "UserProfileProposals",
-        getInitialState = { self =>
-          UserProfileProposalsState()
-        },
-        render = self => {
-
-          <("UserProfileProposals")()(<.div()("Proposals"))
-        }
-      )
+  lazy val reactClass: ReactClass = React.createClass[UserProfileProposalsProps, UserProfileProposalsState](
+    displayName = "UserProposals",
+    getInitialState = _ => UserProfileProposalsState(js.Array()),
+    componentDidMount = { self =>
+      self.props.wrapped.getProposals.onComplete {
+        case Success(proposals) => self.setState(_.copy(proposals = proposals))
+        case _                  =>
+      }
+    },
+    render = self => {
+      <.div()(self.state.proposals.map { proposal =>
+        <.ProposalsTileWithoutVoteComponent(^.wrapped := ProposalTileWithoutVoteProps(proposal = proposal))()
+      })
+    }
+  )
 }
