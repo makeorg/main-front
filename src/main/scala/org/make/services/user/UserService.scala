@@ -54,24 +54,56 @@ object UserService extends ApiService {
     val headers = MakeApiClient.getDefaultHeaders ++ operationId.map(op => MakeApiClient.operationHeader -> op.value)
     MakeApiClient
       .post[UserResponse](
-        resourceName,
-        data = JSON.stringify(
-          JsRegisterUserRequest(
-            RegisterUserRequest(
-              email = email,
-              firstName = firstName,
-              password = password,
-              profession = profession,
-              postalCode = postalCode,
-              dateOfBirth = age.map(age => s"${new js.Date().getUTCFullYear() - age}-01-01"),
-              country = country,
-              language = language
-            )
+      resourceName,
+      data = JSON.stringify(
+        JsRegisterUserRequest(
+          RegisterUserRequest(
+            email = email,
+            firstName = firstName,
+            password = password,
+            profession = profession,
+            postalCode = postalCode,
+            dateOfBirth = age.map(age => s"${new js.Date().getUTCFullYear() - age}-01-01"),
+            country = country,
+            language = language
           )
-        ),
-        headers = headers
-      )
+        )
+      ),
+      headers = headers
+    )
       .map(User.apply)
+  }
+
+  def updateUser(firstName: Option[String] = None,
+                 lastName: Option[String] = None,
+                 profession: Option[String] = None,
+                 age: Option[Int] = None,
+                 postalCode: Option[String] = None,
+                 phoneNumber: Option[String] = None,
+                 optInNewsletter: Option[Boolean] = None,
+                 language: Option[String] = None,
+                 country: Option[String] = None): Future[Unit] = {
+
+    MakeApiClient
+      .patch[UserResponse](
+      resourceName,
+      data = JSON.stringify(
+        JsUpdateUserRequest(
+          UpdateUserRequest(
+            firstName = firstName,
+            lastName = lastName,
+            profession = profession,
+            postalCode = postalCode,
+            phoneNumber = phoneNumber,
+            optInNewsletter = optInNewsletter,
+            dateOfBirth = age.map(age => s"${new js.Date().getUTCFullYear() - age}-01-01"),
+            country = country,
+            language = language
+          )
+        )
+      )
+    ).map{_ =>
+    }
   }
 
   def login(username: String, password: String): Future[User] = {

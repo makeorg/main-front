@@ -79,6 +79,8 @@ object Components {
 
     def UserProfileComponent: ReactClassElementSpec =
       self(userProfile.UserProfile.reactClass)
+    def UserProfileOptinNewsletterContainerComponent: ReactClassElementSpec =
+      self(userProfile.OptinNewsletterContainer.reactClass)
 
     def ShareComponent: ReactClassElementSpec = self(share.ShareProposal.reactClass)
     def ShareLikeItProposalComponent: ReactClassElementSpec = self(share.ShareLikeItProposal.reactClass)
