@@ -143,6 +143,7 @@ object Components {
     def ProposalTileWithTagsComponent: ReactClassElementSpec = self(proposal.ProposalTileWithTags.reactClass)
     def ProposalTileWithOrganisationsVotesComponent: ReactClassElementSpec =
       self(proposal.ProposalTileWithOrganisationsVotes.reactClass)
+    def ProposalTileWithVideoComponent: ReactClassElementSpec = self(proposal.ProposalTileWithVideo.reactClass)
     def ProposalActorVotedComponent: ReactClassElementSpec = self(proposal.ProposalActorVoted.reactClass)
 
     /*********************/
