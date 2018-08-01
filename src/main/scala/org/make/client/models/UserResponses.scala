@@ -51,6 +51,7 @@ trait ProfileResponse extends js.Object {
   val googleId: js.UndefOr[String]
   val genderName: js.UndefOr[String]
   val departmentNumber: js.UndefOr[String]
+  val postalCode: js.UndefOr[String]
   val karmaLevel: js.UndefOr[Int]
   val locale: js.UndefOr[String]
   val optInNewsletter: Boolean
