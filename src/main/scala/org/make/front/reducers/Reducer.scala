@@ -22,6 +22,8 @@ package org.make.front.reducers
 
 import org.make.front.components.AppState
 
+import scala.scalajs.js
+
 object Reducer {
   def reduce(maybeState: Option[AppState], action: Any): AppState = {
 
@@ -31,7 +33,8 @@ object Reducer {
       language = LanguageReducer.reduce(maybeState.map(_.language), action).getOrElse("fr"),
       configuration = ConfigurationReducer.reduce(maybeState.flatMap(_.configuration), action),
       politicalActions = PoliticalActionReducer.reduce(maybeState.map(_.politicalActions), action),
-      connectedUser = ConnectedUserReducer.reduce(maybeState.flatMap(_.connectedUser), action)
+      connectedUser = ConnectedUserReducer.reduce(maybeState.flatMap(_.connectedUser), action),
+      sequenceDone = SequenceDoneReducer.reduce(maybeState.map(_.sequenceDone), action).getOrElse(js.Array())
     )
   }
 }

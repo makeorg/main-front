@@ -41,7 +41,8 @@ object Consultation {
                                      countryCode: String,
                                      language: String,
                                      onWillMount: () => Unit,
-                                     activeTab: String)
+                                     activeTab: String,
+                                     isSequenceDone: Boolean)
 
   final case class ConsultationState(activeTab: String)
 
@@ -93,7 +94,8 @@ object Consultation {
                     ^.wrapped := ConsultationSectionProps(
                       operation = consultation,
                       language = self.props.wrapped.language,
-                      countryCode = self.props.wrapped.countryCode
+                      countryCode = self.props.wrapped.countryCode,
+                      isSequenceDone = self.props.wrapped.isSequenceDone
                     )
                   )()
                 } else {
