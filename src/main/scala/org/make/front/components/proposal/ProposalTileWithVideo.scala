@@ -31,6 +31,7 @@ import org.make.front.components.proposal.ProposalActorVoted.ProposalActorVotedP
 import org.make.front.components.proposal.ProposalInfos.ProposalInfosProps
 import org.make.front.components.proposal.ShareOwnProposal.ShareOwnProposalProps
 import org.make.front.components.proposal.vote.VoteContainer.VoteContainerProps
+import org.make.front.facades.VimeoPlayer
 import org.make.front.models.{
   SequenceId,
   Location          => LocationModel,
@@ -40,10 +41,10 @@ import org.make.front.models.{
   TranslatedTheme   => TranslatedThemeModel,
   Vote              => VoteModel
 }
-import org.make.front.styles.base.{RWDRulesMediumStyles, RWDRulesSmallStyles, TableLayoutStyles, TextStyles}
-import org.make.front.styles.ui.AnimationsStyles.style
+import org.make.front.styles.base.{RWDRulesSmallStyles, TableLayoutStyles, TextStyles}
 import org.make.front.styles.ui.TagStyles
-import org.make.services.tracking.TrackingLocation
+import org.make.services.tracking.TrackingService.TrackingContext
+import org.make.services.tracking.{TrackingLocation, TrackingService}
 
 import scala.scalajs.js
 
@@ -61,13 +62,49 @@ object ProposalTileWithVideo {
                                               maybeLocation: Option[LocationModel],
                                               country: String)
 
-  final case class ProposalTileWithVideoState(isProposalSharable: Boolean = true)
+  final case class ProposalTileWithVideoState(isProposalSharable: Boolean = true,
+                                              desktopPlayer: Option[VimeoPlayer] = None,
+                                              mobilePlayer: Option[VimeoPlayer] = None)
 
   val reactClass: ReactClass =
     React.createClass[ProposalTileWithVideoProps, ProposalTileWithVideoState](
       displayName = "ProposalTileWithVideo",
       getInitialState = { _ =>
         ProposalTileWithVideoState()
+      },
+      componentDidMount = { self =>
+        val desktopPlayer = new VimeoPlayer("desktop-iframe")
+        val mobilePlayer = new VimeoPlayer("mobile-iframe")
+
+        def tracking(eventName: String): Unit =
+          TrackingService.track(
+            eventName = eventName,
+            trackingContext =
+              TrackingContext(location = TrackingLocation.operationPage, operationSlug = Some("culture"))
+          )
+
+        desktopPlayer.on("play", _  => tracking("play-video"))
+        desktopPlayer.on("pause", _ => tracking("pause-video"))
+        desktopPlayer.on("ended", _ => tracking("ended-video"))
+
+        mobilePlayer.on("play", _  => tracking("play-video"))
+        mobilePlayer.on("pause", _ => tracking("pause-video"))
+        mobilePlayer.on("ended", _ => tracking("ended-video"))
+
+        self.setState(_.copy(desktopPlayer = Some(desktopPlayer), mobilePlayer = Some(mobilePlayer)))
+      },
+      componentWillUnmount = { self =>
+        self.state.desktopPlayer.foreach { player =>
+          player.off("play")
+          player.off("pause")
+          player.off("ended")
+        }
+
+        self.state.mobilePlayer.foreach { player =>
+          player.off("play")
+          player.off("pause")
+          player.off("ended")
+        }
       },
       render = { self =>
         val intro: ReactElement = if (self.props.wrapped.proposal.myProposal) {
@@ -104,6 +141,7 @@ object ProposalTileWithVideo {
                 <.div(^.className := js.Array(ProposalTileStyles.videoWrapper, RWDRulesSmallStyles.hideBeyondSmall))(
                   <.div(^.className := ProposalTileStyles.specialRatioVideoContainer)(
                     <.iframe(
+                      ^.id := "mobile-iframe",
                       ^.className := ProposalTileStyles.videoIframe,
                       ^.src := "https://player.vimeo.com/video/282274724?title=0&byline=0&portrait=0"
                     )()
@@ -157,6 +195,7 @@ object ProposalTileWithVideo {
           <.div(^.className := js.Array(ProposalTileStyles.videoWrapper, RWDRulesSmallStyles.showBlockBeyondSmall))(
             <.div(^.className := ProposalTileStyles.specialRatioVideoContainer)(
               <.iframe(
+                ^.id := "desktop-iframe",
                 ^.className := ProposalTileStyles.videoIframe,
                 ^.src := "https://player.vimeo.com/video/282274724?title=0&byline=0&portrait=0"
               )()
