@@ -57,6 +57,7 @@ val npmJquery = "3.2.1"
 val npmJsCookie = "2.1.4"
 val npmReactDeviceDetect = "1.3.4"
 val npmReactTransitionGroup = "2.4.0"
+val npmVimeoPlayer = "2.6.3"
 /* scala libraries version */
 val scalaJsReactVersion = "0.14.0"
 val scalajsDomVersion = "0.9.1"
@@ -91,7 +92,8 @@ npmDependencies in Compile ++= Seq(
   "jquery" -> npmJquery,
   "js-cookie" -> npmJsCookie,
   "react-device-detect" -> npmReactDeviceDetect,
-  "react-transition-group " -> npmReactTransitionGroup
+  "react-transition-group " -> npmReactTransitionGroup,
+  "@vimeo/player" -> npmVimeoPlayer
 )
 
 npmDevDependencies in Compile ++= Seq(
