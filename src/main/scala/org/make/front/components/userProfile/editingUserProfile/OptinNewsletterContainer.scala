@@ -18,15 +18,16 @@
  *
  */
 
-package org.make.front.components.userProfile
+package org.make.front.components.userProfile.editingUserProfile
 
 import io.github.shogowada.scalajs.reactjs.React.{Props, Self}
 import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import io.github.shogowada.scalajs.reactjs.events.FormSyntheticEvent
 import io.github.shogowada.scalajs.reactjs.redux.ReactRedux
 import io.github.shogowada.scalajs.reactjs.redux.Redux.Dispatch
+import org.make.front.actions.ReloadUserAction
 import org.make.front.components.AppState
-import org.make.front.components.userProfile.OptinNewsletter.{OptinNewsletterProps, OptinNewsletterState}
+import org.make.front.components.userProfile.editingUserProfile.OptinNewsletter.{OptinNewsletterProps, OptinNewsletterState}
 import org.make.front.facades.I18n
 import org.make.services.user.UserService
 import org.scalajs.dom.raw.HTMLInputElement
@@ -40,26 +41,21 @@ object OptinNewsletterContainer {
 
   def selectorFactory: (Dispatch) => (AppState, Props[Unit]) => OptinNewsletterProps =
     (dispatch: Dispatch) => { (state: AppState, props: Props[Unit]) =>
-      def handleOnSubmit(self: Self[OptinNewsletterProps, OptinNewsletterState]): FormSyntheticEvent[HTMLInputElement] => Unit =  {
-        event =>
-          event.preventDefault()
-          UserService.updateUser(optInNewsletter = Some(self.state.isChecked)).onComplete {
-            case Success(_) =>
-              self.setState(
-                self.state.copy(message = I18n.t("user-profile.optin-newsletter.confirmation"))
-              )
-            case Failure(e) =>
-              self.setState(
-                self.state.copy(message = I18n.t("user-profile.optin-newsletter.error"))
-              )
-          }
+      def handleOnSubmit(
+        self: Self[OptinNewsletterProps, OptinNewsletterState]
+      ): FormSyntheticEvent[HTMLInputElement] => Unit = { event =>
+        event.preventDefault()
+        UserService.updateUser(optInNewsletter = Some(self.state.isChecked)).onComplete {
+          case Success(_) =>
+            self.setState(self.state.copy(message = I18n.t("user-profile.optin-newsletter.confirmation")))
+            dispatch(ReloadUserAction)
+          case Failure(e) =>
+            self.setState(self.state.copy(message = I18n.t("user-profile.optin-newsletter.error")))
+        }
       }
 
-      OptinNewsletterProps(
-        handleOnSubmit = handleOnSubmit,
-        optInNewsletter = state.connectedUser.flatMap { user =>
-          user.profile.map(_.optInNewsletter)
-        }.getOrElse(false)
-      )
+      OptinNewsletterProps(handleOnSubmit = handleOnSubmit, optInNewsletter = state.connectedUser.flatMap { user =>
+        user.profile.map(_.optInNewsletter)
+      }.getOrElse(false))
     }
 }

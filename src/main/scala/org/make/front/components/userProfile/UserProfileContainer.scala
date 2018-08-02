@@ -34,16 +34,23 @@ object UserProfileContainer {
 
   def selectorFactory: (Dispatch) => (AppState, Props[Unit]) => UserProfile.UserProfileProps =
     (dispatch: Dispatch) => { (state: AppState, props: Props[Unit]) =>
+      val tabs: Seq[String] = Seq("summary", "proposals", "actions", "settings")
+      val activeTab: String = props.`match`.params.get("activeTab").getOrElse("settings")
+
+      if (!tabs.contains(activeTab)) {
+        props.history.push("/404")
+      }
+
       def logout: () => Unit = { () =>
         dispatch(LogoutAction)
         props.history.push(s"/${state.country}")
       }
 
       if (state.connectedUser.isDefined) {
-        UserProfile.UserProfileProps(user = state.connectedUser, logout = logout)
+        UserProfile.UserProfileProps(user = state.connectedUser, logout = logout, activeTab = activeTab)
       } else {
         props.history.push(s"/${state.country}")
-        UserProfile.UserProfileProps(user = None, logout = () => {})
+        UserProfile.UserProfileProps(user = None, logout = () => {}, activeTab = activeTab)
       }
     }
 }

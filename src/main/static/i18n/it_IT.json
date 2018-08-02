@@ -145,7 +145,19 @@
   },
   "user-profile": {
     "title": "Le mie informazioni personali",
-    "disconnect-cta": "Disconnetti"
+    "disconnect-cta": "Disconnetti",
+    "show-more": "Vedere +",
+    "show-less": "Vedere -",
+    "edit-profile": "Modifica il mio profilo",
+    "manage-account": "Manage my account",
+    "back-to-profile": "Torna al mio profilo",
+    "share-profile": "Condividi questo profilo",
+    "last-proposals": "la tua ultima attività",
+    "summary-tab": "Riepilogo delle attività",
+    "proposals-tab": "Proposte",
+    "actions-tab": "Azione",
+    "settings-tab": "Gestisci il mio account",
+    "years-old": "anni"
   },
   "proposal": {
     "created-by-user": "La mia proposta",
@@ -439,6 +451,9 @@
         "placeholder": "Nome",
         "format-error-message": "Fomato sconosciuto",
         "empty-field-error-message": "Completa questo campo."
+      },
+      "last-name": {
+        "placeholder": "Cognome"
       },
       "password": {
         "placeholder": "Password",

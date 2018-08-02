@@ -87,6 +87,11 @@ object ThemeStyles extends StyleSheet.Inline {
     val danger: ValueT[ValueT.Color] = rgba(208, 2, 27, 1)
   }
 
+  object inputsSpecialColors {
+    val fieldsBackground: ValueT[ValueT.Color] = rgb(247, 247, 247)
+    val fieldsBorder: ValueT[ValueT.Color] = rgb(204, 204, 204)
+  }
+
   /**TODO: functions with baseText value for em convertion**/
   object SpacingValue {
     val smaller: Int = 10

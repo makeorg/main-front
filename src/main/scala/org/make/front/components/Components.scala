@@ -67,6 +67,7 @@ object Components {
 
     def MainHeaderContainer: ReactClassElementSpec = self(mainHeader.MainHeaderContainer.reactClass)
     def MainFooterComponent: ReactClassElementSpec = self(mainFooter.MainFooter.reactClass)
+    def AltFooterComponent: ReactClassElementSpec = self(mainFooter.AltFooter.reactClass)
     def NavInThemesContainerComponent: ReactClassElementSpec = self(navInThemes.NavInThemesContainer.reactClass)
 
     def UserNavComponent: ReactClassElementSpec = self(userNav.UserNav.reactClass)
@@ -77,17 +78,27 @@ object Components {
     def ModalComponent: ReactClassElementSpec = self(modals.Modal.reactClass)
     def FullscreenModalComponent: ReactClassElementSpec = self(modals.FullscreenModal.reactClass)
 
-    def UserProfileComponent: ReactClassElementSpec =
-      self(userProfile.UserProfile.reactClass)
+    /*********************/
+    def UserProfileComponent: ReactClassElementSpec = self(userProfile.UserProfile.reactClass)
+    def UserProfileInformationsComponent: ReactClassElementSpec = self(userProfile.UserProfileInformations.reactClass)
+    def UserProfileNavComponent: ReactClassElementSpec = self(userProfile.UserProfileNav.reactClass)
+    def UserProfileSummaryComponent: ReactClassElementSpec = self(userProfile.UserProfileSummary.reactClass)
+    def UserProfileProposalsComponent: ReactClassElementSpec = self(userProfile.UserProfileProposals.reactClass)
+    def UserProfileActionsComponent: ReactClassElementSpec = self(userProfile.UserProfileActions.reactClass)
+    def UserProfileSettingsComponent: ReactClassElementSpec = self(userProfile.UserProfileSettings.reactClass)
     def UserProfileOptinNewsletterContainerComponent: ReactClassElementSpec =
-      self(userProfile.OptinNewsletterContainer.reactClass)
+      self(userProfile.editingUserProfile.OptinNewsletterContainer.reactClass)
     def UserProfileFormContainerComponent: ReactClassElementSpec =
-      self(userProfile.UserProfileFormContainer.reactClass)
+      self(userProfile.editingUserProfile.UserProfileFormContainer.reactClass)
+    def UserProfileDeleteAccountComponent: ReactClassElementSpec =
+      self(userProfile.editingUserProfile.DeleteAccount.reactClass)
 
+    /*********************/
     def ShareComponent: ReactClassElementSpec = self(share.ShareProposal.reactClass)
     def ShareLikeItProposalComponent: ReactClassElementSpec = self(share.ShareLikeItProposal.reactClass)
     def ShareMobileComponent: ReactClassElementSpec = self(share.ShareMobile.reactClass)
     def ShareProposalPageComponent: ReactClassElementSpec = self(share.ShareProposalPage.reactClass)
+    def ShareUserProfileComponent: ReactClassElementSpec = self(share.ShareUserProfile.reactClass)
 
     /*********************/
     def ActivateAccountContainerComponent: ReactClassElementSpec =
@@ -212,7 +223,6 @@ object Components {
     def ActionsSectionContainer: ReactClassElementSpec = self(consultation.ActionsSectionContainer.reactClass)
     def ActionsSection: ReactClassElementSpec = self(consultation.ActionsSection.reactClass)
     def ConsultationCommunityComponent: ReactClassElementSpec = self(consultation.ConsultationCommunity.reactClass)
-    def ConsultationFooterComponent: ReactClassElementSpec = self(consultation.ConsultationFooter.reactClass)
     def ConsultationShareComponent: ReactClassElementSpec = self(consultation.ConsultationShare.reactClass)
     def ConsultationShareMobileComponent: ReactClassElementSpec = self(consultation.ConsultationShareMobile.reactClass)
     def PartnersItemsComponent: ReactClassElementSpec = self(PartnersItems.reactClass)

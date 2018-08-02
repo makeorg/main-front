@@ -189,12 +189,57 @@
   "user-profile": {
     "title": "Mes infos personnelles",
     "disconnect-cta": "Je me déconnecte",
+    "show-more": "Voir +",
+    "show-less": "Voir -",
+    "edit-profile": "Modifier mon profil",
+    "manage-account": "Gérer mon compte",
+    "back-to-profile": "Retour à mon profil",
+    "share-profile": "Partagez ce profil",
+    "last-proposals": "Vos dernières activités",
+    "summary-tab": "Résumé de l'activité",
+    "proposals-tab": "Propositions",
+    "actions-tab": "Actions",
+    "settings-tab": "Gérer mon compte",
+    "years-old": "ans",
     "optin-newsletter": {
       "title": "Gérer mes emails",
       "description": "J’accepte de recevoir des informations de Make.org (votre adresse ne sera en aucun cas diffusée à des tiers)",
-      "cta": "Enregistrer les modifications",
       "confirmation": "Votre demande a bien été prise en compte.",
       "error": "Oups ! Une erreur est survenue lors de l'enregistrement de vos informations. Veuillez ressayer ultérieurement."
+    },
+    "form": {
+      "title": "Modifier mon profil",
+      "cta": "Enregistrer les modifications",
+      "inputs": {
+        "required": "(obligatoire)",
+        "format-error-message": "Format invalide",
+        "empty-field-error-message": "Veuillez renseigner ce&nbsp;champ.",
+        "submit": "Enregistrer les modifications",
+        "first-name": {
+          "label": "Prénom"
+        },
+        "last-name": {
+          "label": "Nom"
+        },
+        "age": {
+          "label": "Âge"
+        },
+        "postal-code": {
+          "label": "Code postal"
+        },
+        "profession": {
+          "label": "Profession"
+        }
+      }
+    },
+    "update": {
+      "confirmation": "Votre demande a bien été prise en compte.",
+      "error": "Oups ! Une erreur est survenue lors de l'enregistrement de vos informations. Veuillez ressayer ultérieurement."
+    },
+    "delete-account": {
+      "title": "Demander la suppression de mon compte",
+      "description": "Attention, cette action est irréversible. Vous perdrez vos propositions, leurs statistiques détaillées, ainsi que les propositions sur lesquelles vous vous êtes prononcé(e).",
+      "cta": "Demander la suppression de mon compte"
     }
   },
   "proposal": {
@@ -555,6 +600,9 @@
         "placeholder": "Prénom",
         "format-error-message": "Format invalide",
         "empty-field-error-message": "Veuillez renseigner ce&nbsp;champ."
+      },
+      "last-name": {
+        "placeholder": "Nom"
       },
       "password": {
         "placeholder": "Mot de passe",

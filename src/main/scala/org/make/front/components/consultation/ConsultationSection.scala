@@ -56,7 +56,21 @@ object ConsultationSection {
             val consultation = self.props.wrapped.operation
             val maybeWording: Option[OperationWording] =
               consultation.getWordingByLanguage(self.props.wrapped.language)
-
+            val mobilePresentation = maybeWording.flatMap { wording =>
+              wording.presentation.map { content =>
+                <.div(^.className := RWDRulesLargeMediumStyles.showBlockBeyondLargeMedium)(
+                  <.ConsultationPresentationComponent(
+                    ^.wrapped := ConsultationPresentationProps(
+                      operation = consultation,
+                      language = self.props.wrapped.language,
+                      content = content,
+                      learnMoreUrl = wording.learnMoreUrl,
+                      isCollapsed = false
+                    )
+                  )()
+                )
+              }
+            }
             <.div(^.className := ConsultationSectionStyles.wrapper, ^.id := "wrapperContainer")(
               <.div(^.className := ConsultationSectionStyles.main)(
                 <.div(^.id := "mainContainer")(
@@ -90,21 +104,6 @@ object ConsultationSection {
                       )
                     }
                   },
-                  maybeWording.flatMap { wording =>
-                    wording.presentation.map { content =>
-                      <.div(^.className := RWDRulesLargeMediumStyles.hideBeyondLargeMedium)(
-                        <.ConsultationPresentationComponent(
-                          ^.wrapped := ConsultationPresentationProps(
-                            operation = consultation,
-                            language = self.props.wrapped.language,
-                            content = content,
-                            learnMoreUrl = wording.learnMoreUrl,
-                            isCollapsed = true
-                          )
-                        )()
-                      )
-                    }
-                  },
                   <.ResultsInConsultationContainerComponent(
                     ^.wrapped := ResultsInConsultationContainerProps(
                       currentConsultation = consultation,
@@ -114,22 +113,26 @@ object ConsultationSection {
                 )
               ),
               <.aside(^.className := ConsultationSectionStyles.sidebar)(
-                <.div(^.id := "sidebarAffixContainer")(<.div(^.id := "sidebarAffixElement")(maybeWording.flatMap {
-                  wording =>
-                    wording.presentation.map { content =>
-                      <.div(^.className := RWDRulesLargeMediumStyles.showBlockBeyondLargeMedium)(
-                        <.ConsultationPresentationComponent(
-                          ^.wrapped := ConsultationPresentationProps(
-                            operation = consultation,
-                            language = self.props.wrapped.language,
-                            content = content,
-                            learnMoreUrl = wording.learnMoreUrl,
-                            isCollapsed = false
-                          )
-                        )()
-                      )
-                    }
-                }, <.div(^.className := RWDRulesLargeMediumStyles.showBlockBeyondLargeMedium)(<.ConsultationCommunityComponent(^.wrapped := ConsultationCommunityProps(self.props.wrapped.operation, self.props.wrapped.language))()), <.ConsultationShareMobileComponent(^.wrapped := ConsultationShareMobileProps(operation = consultation))(), <.div(^.className := RWDRulesLargeMediumStyles.showBlockBeyondLargeMedium)(<.ConsultationShareComponent(^.wrapped := ConsultationShareProps(operation = consultation))(), <.ConsultationFooterComponent()())))
+                <.div(^.id := "sidebarAffixContainer")(
+                  <.div(^.id := "sidebarAffixElement")(
+                    mobilePresentation,
+                    <.div(^.className := RWDRulesLargeMediumStyles.showBlockBeyondLargeMedium)(
+                      <.ConsultationCommunityComponent(
+                        ^.wrapped := ConsultationCommunityProps(
+                          self.props.wrapped.operation,
+                          self.props.wrapped.language
+                        )
+                      )()
+                    ),
+                    <.ConsultationShareMobileComponent(
+                      ^.wrapped := ConsultationShareMobileProps(operation = consultation)
+                    )(),
+                    <.div(^.className := RWDRulesLargeMediumStyles.showBlockBeyondLargeMedium)(
+                      <.ConsultationShareComponent(^.wrapped := ConsultationShareProps(operation = consultation))(),
+                      <.AltFooterComponent()()
+                    )
+                  )
+                )
               ),
               <.style()(ConsultationSectionStyles.render[String])
             )
