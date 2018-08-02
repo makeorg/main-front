@@ -26,14 +26,10 @@ import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import org.make.front.Main.CssSettings._
 import org.make.front.components.Components._
 import org.make.front.facades.I18n
-import org.make.front.facades.ReactCSSTransition.{
-  ReactCSSTransitionDOMAttributes,
-  ReactCSSTransitionVirtualDOMElements,
-  TransitionClasses
-}
+import org.make.front.facades.ReactCSSTransition.{ReactCSSTransitionDOMAttributes, ReactCSSTransitionVirtualDOMElements, TransitionClasses}
 import org.make.front.facades.ReactTransition.ReactTransitionDOMAttributes
 import org.make.front.facades.Unescape.unescape
-import org.make.front.models.{User => UserModel}
+import org.make.front.models.{Profile, User => UserModel}
 import org.make.front.styles.ThemeStyles
 import org.make.front.styles.base._
 import org.make.front.styles.ui.CTAStyles
@@ -56,11 +52,11 @@ object UserProfileInformations {
       .createClass[UserProfileInformationsProps, UserProfileInformationsState](
         displayName = "UserProfileInformations",
         getInitialState = self => {
-          val userProfile = self.props.wrapped.user.profile
           UserProfileInformationsState(expandSlidingPannel = false)
         },
         render = self => {
-          val userProfile = self.props.wrapped.user.profile
+          val user: UserModel = self.props.wrapped.user
+          val userProfile: Option[Profile] = user.profile
           val userAge = userProfile.flatMap(_.dateOfBirth).map { date =>
             Math.abs((new Date(Date.now() - date.getTime())).getUTCFullYear() - 1970)
           }
@@ -80,7 +76,7 @@ object UserProfileInformations {
                 <.img(
                   ^.src := userProfile.flatMap(_.avatarUrl).getOrElse(""),
                   ^.className := UserProfileInformationsStyles.avatar,
-                  ^.alt := self.props.wrapped.user.firstName.toString,
+                  ^.alt := user.firstName.getOrElse(""),
                   ^("data-pin-no-hover") := "true"
                 )()
               } else {
@@ -88,27 +84,25 @@ object UserProfileInformations {
               }
             ),
             <.div(^.className := UserProfileInformationsStyles.personnalInformations)(
-              if (self.props.wrapped.user.firstName.getOrElse("firstName") != "") {
-                <.h1(^.className := UserProfileInformationsStyles.userName)(self.props.wrapped.user.firstName.get)
-              },
-              if (userProfile.flatMap(_.postalCode).getOrElse("postalCode") != "") {
+              user.firstName.map { firstName =>
+                <.h1(^.className := UserProfileInformationsStyles.userName)(firstName)
+              }.toSeq,
+              userProfile.flatMap(_.postalCode).map { postalCode =>
                 <.p(^.className := UserProfileInformationsStyles.basicInformations)(
                   <.i(^.className := js.Array(FontAwesomeStyles.mapMarker, UserProfileInformationsStyles.marker))(),
-                  userProfile.flatMap(_.postalCode).get
+                  postalCode
                 )
-              },
-              if (userAge.getOrElse("dateOfBirth") != 0) {
+              }.toSeq,
+              userAge.map { age =>
                 <.p(^.className := UserProfileInformationsStyles.basicInformations)(
-                  userAge,
+                  age,
                   unescape("&nbsp;"),
                   I18n.t("user-profile.years-old")
                 )
-              },
-              if (userProfile.flatMap(_.profession).getOrElse("profession") != "") {
-                <.p(^.className := UserProfileInformationsStyles.basicInformations)(
-                  userProfile.flatMap(_.profession).get
-                )
-              }
+              }.toSeq,
+              userProfile.flatMap(_.profession).map { profession =>
+                <.p(^.className := UserProfileInformationsStyles.basicInformations)(profession)
+              }.toSeq
             ),
             // Todo Uncomment when biography is ready
             /*<.CSSTransition(
