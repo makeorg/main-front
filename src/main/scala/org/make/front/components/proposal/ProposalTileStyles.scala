@@ -74,7 +74,7 @@ object ProposalTileStyles extends StyleSheet.Inline {
     style(display.flex, alignItems.center, flexFlow := s"row")
 
   val tileWidth: Int = 750
-  val videoWith: Int = 312
+  val videoWith: Int = 256
   val proposalWidth: Int = tileWidth - videoWith
 
   val proposalWrapper: StyleA =
