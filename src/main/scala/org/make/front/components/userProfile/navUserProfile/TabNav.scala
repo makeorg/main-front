@@ -58,21 +58,24 @@ object TabNav {
             )
           } else {
             <.nav(^.className := js.Array(LayoutRulesStyles.centeredRow, TabNavStyles.tabWrapper))(
-              /*<.button(
-                ^.className := js
-                  .Array(TabNavStyles.tab, TabNavStyles.tabSelection(self.props.wrapped.activeTab == "summary")),
-                ^.onClick := changeTab("summary")
-              )(<.span(^.className := TabNavStyles.titleLink)(unescape(I18n.t("user-profile.summary-tab")))),*/
               <.button(
                 ^.className := js
                   .Array(TabNavStyles.tab, TabNavStyles.tabSelection(self.props.wrapped.activeTab == "proposals")),
                 ^.onClick := changeTab("proposals")
               )(<.span(^.className := TabNavStyles.titleLink)(unescape(I18n.t("user-profile.proposals-tab")))),
-              /*<.button(
+              <.button(
                 ^.className := js
-                  .Array(TabNavStyles.tab, TabNavStyles.tabSelection(self.props.wrapped.activeTab == "actions")),
-                ^.onClick := changeTab("actions")
-              )(<.span(^.className := TabNavStyles.titleLink)(unescape(I18n.t("user-profile.actions-tab")))),*/
+                  .Array(
+                    TabNavStyles.tab,
+                    TabNavStyles.tabSelection(self.props.wrapped.activeTab == "likeitproposals")
+                  ),
+                ^.onClick := changeTab("likeitproposals")
+              )(
+                <.span(
+                  ^.className := TabNavStyles.titleLink,
+                  ^.dangerouslySetInnerHTML := I18n.t(s"user-profile.likeItproposal.tab")
+                )()
+              ),
               <.div(^.className := TabNavStyles.sep)()
             )
           }, <.style()(TabNavStyles.render[String]))
@@ -100,6 +103,7 @@ object TabNavStyles extends StyleSheet.Inline {
       padding(14.pxToEm(), 14.pxToEm(), 7.pxToEm()),
       backgroundColor(ThemeStyles.BackgroundColor.altGrey),
       textAlign.center,
+      unsafeChild(".fa")(color(ThemeStyles.ThemeColor.assertive)),
       ThemeStyles.MediaQueries
         .beyondLarge(unsafeChild("span")(display.inlineBlock, paddingLeft(5.pxToEm()), paddingRight(5.pxToEm()))),
     )

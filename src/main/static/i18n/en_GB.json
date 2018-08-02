@@ -161,6 +161,16 @@
     "years-old": "years old",
     "vote": "vote",
     "votes": "votes",
+    "likeItproposal": {
+      "tab": "Outstanding",
+      "title": "Outstanding",
+      "empty": "<NEED TRANSLATION>",
+      "explanation-first-part":"<NEED TRANSLATION>",
+      "explanation-second-part":"<NEED TRANSLATION>",
+      "explanation-third-part":"<NEED TRANSLATION>",
+      "explanation-fourth-part":"<NEED TRANSLATION>",
+      "fake-proposal": "<NEED TRANSLATION>"
+    },
     "reset-password": {
       "title": "Edit password",
       "required": "(required)",

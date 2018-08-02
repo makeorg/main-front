@@ -25,6 +25,7 @@ import io.github.shogowada.scalajs.reactjs.VirtualDOM.{<, ^, _}
 import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import org.make.front.Main.CssSettings._
 import org.make.front.components.Components._
+import org.make.front.components.userProfile.UserLikeItProposalsContainer.UserLikeItProposalsContainerProps
 import org.make.front.components.userProfile.UserProfileInformations.UserProfileInformationsProps
 import org.make.front.components.userProfile.UserProfileProposalsContainer.UserProposalsContainerProps
 import org.make.front.components.userProfile.UserProfileSettings.UserProfileSettingsProps
@@ -93,6 +94,12 @@ object UserProfile {
                       self.props.wrapped.user.map {
                         user =>
                           <.UserProfileProposalsContainerComponent(^.wrapped := UserProposalsContainerProps(user = user, userId = user.userId.value ))()
+                      }.toSeq
+                    } else if (self.state.activeTab == "likeitproposals") {
+
+                      self.props.wrapped.user.map {
+                        user =>
+                          <.UserLikeItProposalsContainerComponent(^.wrapped := UserLikeItProposalsContainerProps(userId = user.userId.value))()
                       }.toSeq
                     } else if (self.state.activeTab == "actions") {
                       <.UserProfileActionsComponent()()

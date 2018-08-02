@@ -25,7 +25,6 @@ import io.github.shogowada.scalajs.reactjs.VirtualDOM.{<, _}
 import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import org.make.front.components.Components._
 import org.make.front.models.{User => UserModel}
-import org.make.front.components.userProfile.editingUserProfile.DeleteAccount.DeleteAccountProps
 
 object UserProfileSettings {
 

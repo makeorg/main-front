@@ -155,11 +155,23 @@
     "last-proposals": "la tua ultima attività",
     "summary-tab": "Riepilogo delle attività",
     "proposals-tab": "Proposte",
+    "heart-icon": "<span class=\"fa fa-heart\"></span>",
+    "thumb-icon": "<span class=\"fa fa-thumbs-up\"></span>",
     "actions-tab": "Azione",
     "settings-tab": "Gestisci il mio account",
     "years-old": "anni",
     "vote": "<NEED TRANSLATION>",
     "votes": "<NEED TRANSLATION>",
+    "likeItproposal": {
+      "tab": "Ammirabile",
+      "title": "Ammirabile",
+      "empty": "<NEED TRANSLATION>",
+      "explanation-first-part":"<NEED TRANSLATION>",
+      "explanation-second-part":"<NEED TRANSLATION>",
+      "explanation-third-part":"<NEED TRANSLATION>",
+      "explanation-fourth-part":"<NEED TRANSLATION>",
+      "fake-proposal": "<NEED TRANSLATION>"
+    },
     "reset-password": {
       "title": "<NEED TRANSLATION>",
       "required": "(obbligatorio)",
