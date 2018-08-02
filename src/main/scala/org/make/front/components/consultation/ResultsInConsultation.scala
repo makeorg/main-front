@@ -322,9 +322,7 @@ object ResultsInConsultation {
               <.i(^.className := js.Array(FontAwesomeStyles.thumbsUp, ResultsInConsultationStyles.icon))(),
               unescape(I18n.t("operation.results.title"))
             ),
-            <.div(
-              ^.className := js.Array(ResultsInConsultationStyles.wrapper, ResultsInConsultationStyles.tagsContainer)
-            )(
+            <.div(^.className := ResultsInConsultationStyles.tagsContainer)(
               <.FilterByTagsComponent(
                 ^.wrapped := FilterByTagsProps(
                   tags = self.props.wrapped.operation.tags,
@@ -368,6 +366,7 @@ object ResultsInConsultationStyles extends StyleSheet.Inline {
 
   val tagsContainer: StyleA =
     style(
+      marginTop(ThemeStyles.SpacingValue.smaller.pxToEm()),
       paddingBottom(ThemeStyles.SpacingValue.smaller.pxToEm()),
       borderBottom(2.pxToEm(), solid, ThemeStyles.BorderColor.lighter)
     )
