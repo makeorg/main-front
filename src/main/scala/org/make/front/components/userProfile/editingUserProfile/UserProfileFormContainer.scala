@@ -25,7 +25,7 @@ import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import io.github.shogowada.scalajs.reactjs.events.FormSyntheticEvent
 import io.github.shogowada.scalajs.reactjs.redux.ReactRedux
 import io.github.shogowada.scalajs.reactjs.redux.Redux.Dispatch
-import org.make.core.validation.{Constraint, NotBlankConstraint}
+import org.make.core.validation.{Constraint, NotBlankConstraint, LengthConstraint}
 import org.make.front.actions.ReloadUserAction
 import org.make.front.components.AppState
 import org.make.front.components.userProfile.editingUserProfile.UserProfileForm.{UserProfileFormProps, UserProfileFormState}
@@ -49,6 +49,11 @@ object UserProfileFormContainer {
             "firstName",
             NotBlankConstraint,
             Map("notBlank" -> I18n.t("user-profile.form.inputs.empty-field-error-message"))
+          ),
+          (
+            "postalCode",
+            new LengthConstraint(max = Some(7)),
+            Map("maxMessage" -> I18n.t("user-profile.form.inputs.format-error-message"))
           )
         )
       }
@@ -75,7 +80,7 @@ object UserProfileFormContainer {
           UserService
             .updateUser(
               firstName = self.state.fields.get("firstName"),
-              age = self.state.fields.get("age").map(_.toInt),
+              age = self.state.fields.get("age"),
               profession = self.state.fields.get("profession"),
               postalCode = self.state.fields.get("postalCode")
             )
@@ -84,7 +89,9 @@ object UserProfileFormContainer {
                 self.setState(self.state.copy(message = I18n.t("user-profile.update.confirmation")))
                 dispatch(ReloadUserAction)
               case Failure(e) =>
-                self.setState(self.state.copy(message = I18n.t("user-profile.update.error")))
+                self.setState(
+                  state => state.copy(errors = state.errors + ("global" -> I18n.t("user-profile.update.error")))
+                )
             }
         }
       }

@@ -44,32 +44,35 @@ object UserProfileForm {
                                         ) => Unit,
                                         user: UserModel)
 
-  final case class UserProfileFormState(fields: Map[String, String], errors: Map[String, String], message: String = "")
+  final case class UserProfileFormState(fields: Map[String, String],
+                                        errors: Map[String, String],
+                                        message: String = "",
+                                        isEdited: Boolean)
 
   val reactClass: ReactClass =
     React
       .createClass[UserProfileFormProps, UserProfileFormState](
         displayName = "UserProfileForm",
         getInitialState = self => {
-          UserProfileFormState(fields = Map(), errors = Map())
+          UserProfileFormState(fields = Map(), errors = Map(), isEdited = false)
         },
         componentWillReceiveProps = { (self, props) =>
           self.setState(
             _.copy(
               fields = Map(
                 "firstName" -> props.wrapped.user.firstName
-                  .getOrElse(I18n.t("user-profile.form.inputs.first-name.label")),
+                  .getOrElse(""),
                 "age" -> props.wrapped.user.profile.flatMap { profile =>
                   profile.dateOfBirth.map { date =>
-                    Math.abs((new Date(Date.now() - date.getTime())).getUTCFullYear() - 1970)
+                    Math.abs(new Date(Date.now() - date.getTime()).getUTCFullYear() - 1970).toString
                   }
-                }.getOrElse(0).toString,
+                }.getOrElse(""),
                 "profession" -> props.wrapped.user.profile
                   .flatMap(_.profession)
-                  .getOrElse(I18n.t("user-profile.form.inputs.profession.label")),
+                  .getOrElse(""),
                 "postalCode" -> props.wrapped.user.profile
                   .flatMap(_.postalCode)
-                  .getOrElse(I18n.t("user-profile.form.inputs.postal-code.label"))
+                  .getOrElse("")
               )
             )
           )
@@ -78,9 +81,20 @@ object UserProfileForm {
           def updateField(name: String): (FormSyntheticEvent[HTMLInputElement]) => Unit = { event =>
             val inputValue = event.target.value
             self.setState(
-              state => state.copy(fields = state.fields + (name -> inputValue), errors = state.errors + (name -> ""))
+              state =>
+                state.copy(
+                  fields = state.fields + (name -> inputValue),
+                  errors = state.errors + (name -> ""),
+                  message = "",
+                  isEdited = true
+              )
             )
           }
+
+          def disableButtonState: () => Unit = { () =>
+            self.setState(_.copy(isEdited = false))
+          }
+
           <.div(^.className := EditingUserProfileStyles.wrapper)(
             <.h2(^.className := EditingUserProfileStyles.title)(s"${I18n.t("user-profile.form.title")}"),
             <.form(^.onSubmit := self.props.wrapped.handleOnSubmit(self))(
@@ -89,18 +103,22 @@ object UserProfileForm {
                   ^.`for` := s"firstName",
                   ^.className := js.Array(EditingUserProfileStyles.inputLabel, EditingUserProfileStyles.label)
                 )(I18n.t("user-profile.form.inputs.first-name.label")),
-                <.input(
-                  ^.id := s"firstName",
-                  ^.className := EditingUserProfileStyles.inputField,
-                  ^.`type`.text,
-                  ^.placeholder := I18n.t("user-profile.form.inputs.first-name.label"),
-                  ^.value := self.state.fields
-                    .getOrElse("firstName", I18n.t("user-profile.form.inputs.first-name.label")),
-                  ^.onChange := updateField("firstName")
-                )()
+                <.div(
+                  ^.className := js
+                    .Array(EditingUserProfileStyles.inputField, EditingUserProfileStyles.firstNameInputWithIconWrapper)
+                )(
+                  <.input(
+                    ^.id := s"firstName",
+                    ^.`type`.text,
+                    ^.required := true,
+                    ^.value := self.state.fields
+                      .getOrElse("firstName", ""),
+                    ^.onChange := updateField("firstName")
+                  )()
+                )
               ),
               if (self.state.errors.getOrElse("firstName", "") != "") {
-                <.p(^.className := InputStyles.errorMessage.htmlClass)(
+                <.p(^.className := js.Array(InputStyles.errorMessage, EditingUserProfileStyles.inlineMessage))(
                   unescape(self.state.errors.getOrElse("firstName", ""))
                 )
               },
@@ -109,35 +127,47 @@ object UserProfileForm {
                   ^.`for` := s"age",
                   ^.className := js.Array(EditingUserProfileStyles.inputLabel, EditingUserProfileStyles.label)
                 )(I18n.t("user-profile.form.inputs.age.label")),
-                <.input(
-                  ^.id := s"age",
-                  ^.className := EditingUserProfileStyles.inputField,
-                  ^.`type`.number,
-                  ^.placeholder := I18n.t("user-profile.form.inputs.age.label"),
-                  ^.value := self.state.fields.getOrElse("age", I18n.t("user-profile.form.inputs.age.label")),
-                  ^.onChange := updateField("age")
-                )()
+                <.div(
+                  ^.className := js
+                    .Array(EditingUserProfileStyles.inputField, EditingUserProfileStyles.ageInputWithIconWrapper)
+                )(
+                  <.input(
+                    ^.id := s"age",
+                    ^.`type`.number,
+                    ^.required := false,
+                    ^.min := 13,
+                    ^.max := 128,
+                    ^.value := self.state.fields.getOrElse("age", ""),
+                    ^.onChange := updateField("age")
+                  )()
+                )
               ),
               if (self.state.errors.getOrElse("age", "") != "") {
-                <.p(^.className := InputStyles.errorMessage.htmlClass)(unescape(self.state.errors.getOrElse("age", "")))
+                <.p(^.className := js.Array(InputStyles.errorMessage, EditingUserProfileStyles.inlineMessage))(
+                  unescape(self.state.errors.getOrElse("age", ""))
+                )
               },
               <.div(^.className := EditingUserProfileStyles.inputGroup)(
                 <.label(
                   ^.`for` := s"profession",
                   ^.className := js.Array(EditingUserProfileStyles.inputLabel, EditingUserProfileStyles.label)
                 )(I18n.t("user-profile.form.inputs.profession.label")),
-                <.input(
-                  ^.id := s"profession",
-                  ^.className := EditingUserProfileStyles.inputField,
-                  ^.`type`.text,
-                  ^.placeholder := I18n.t("user-profile.form.inputs.profession.label"),
-                  ^.value := self.state.fields
-                    .getOrElse("profession", I18n.t("user-profile.form.inputs.profession.label")),
-                  ^.onChange := updateField("profession")
-                )()
+                <.div(
+                  ^.className := js
+                    .Array(EditingUserProfileStyles.inputField, EditingUserProfileStyles.professionInputWithIconWrapper)
+                )(
+                  <.input(
+                    ^.id := s"profession",
+                    ^.`type`.text,
+                    ^.required := false,
+                    ^.value := self.state.fields
+                      .getOrElse("profession", ""),
+                    ^.onChange := updateField("profession")
+                  )()
+                )
               ),
               if (self.state.errors.getOrElse("profession", "") != "") {
-                <.p(^.className := InputStyles.errorMessage.htmlClass)(
+                <.p(^.className := js.Array(InputStyles.errorMessage, EditingUserProfileStyles.inlineMessage))(
                   unescape(self.state.errors.getOrElse("profession", ""))
                 )
               },
@@ -146,29 +176,43 @@ object UserProfileForm {
                   ^.`for` := s"postalCode",
                   ^.className := js.Array(EditingUserProfileStyles.inputLabel, EditingUserProfileStyles.label)
                 )(I18n.t("user-profile.form.inputs.postal-code.label")),
-                <.input(
-                  ^.id := s"postalCode",
-                  ^.className := EditingUserProfileStyles.inputField,
-                  ^.`type`.text,
-                  ^.placeholder := I18n.t("user-profile.form.inputs.postal-code.label"),
-                  ^.value := self.state.fields
-                    .getOrElse("postalCode", I18n.t("user-profile.form.inputs.postal-code.label")),
-                  ^.onChange := updateField("postalCode")
-                )()
+                <.div(
+                  ^.className := js
+                    .Array(EditingUserProfileStyles.inputField, EditingUserProfileStyles.postalCodeInputWithIconWrapper)
+                )(
+                  <.input(
+                    ^.id := s"postalCode",
+                    ^.`type`.text,
+                    ^.required := false,
+                    ^.value := self.state.fields
+                      .getOrElse("postalCode", ""),
+                    ^.onChange := updateField("postalCode")
+                  )()
+                )
               ),
               if (self.state.errors.getOrElse("postalCode", "") != "") {
-                <.p(^.className := InputStyles.errorMessage.htmlClass)(
+                <.p(^.className := js.Array(InputStyles.errorMessage, EditingUserProfileStyles.inlineMessage))(
                   unescape(self.state.errors.getOrElse("postalCode", ""))
                 )
               },
               <.div(^.className := js.Array(EditingUserProfileStyles.buttonGroup, EditingUserProfileStyles.success))(
                 self.state.message
               ),
+              if (self.state.errors.getOrElse("global", "") != "") {
+                <.p(^.className := js.Array(EditingUserProfileStyles.buttonGroup, InputStyles.errorMessage))(
+                  unescape(self.state.errors.getOrElse("global", ""))
+                )
+              },
               <.div(^.className := EditingUserProfileStyles.buttonGroup)(
                 <.button(
                   ^.className := js
-                    .Array(CTAStyles.basic, CTAStyles.basicOnButton, EditingUserProfileStyles.submitGreyButton),
-                  ^.`type` := s"submit"
+                    .Array(
+                      CTAStyles.basic,
+                      CTAStyles.basicOnButton,
+                      EditingUserProfileStyles.submitButton(self.state.isEdited)
+                    ),
+                  ^.`type` := s"submit",
+                  ^.onClick := disableButtonState
                 )(
                   <.i(^.className := js.Array(FontAwesomeStyles.save, EditingUserProfileStyles.submitButtonIcon))(),
                   <.span()(s"${I18n.t("user-profile.form.cta")}")

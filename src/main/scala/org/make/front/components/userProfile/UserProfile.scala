@@ -27,6 +27,7 @@ import org.make.front.Main.CssSettings._
 import org.make.front.components.Components._
 import org.make.front.components.userProfile.UserProfileInformations.UserProfileInformationsProps
 import org.make.front.components.userProfile.UserProfileNav.UserProfileNavProps
+import org.make.front.components.userProfile.UserProfileSettings.UserProfileSettingsProps
 import org.make.front.components.userProfile.editingUserProfile.OptinNewsletter.OptinNewsletterProps
 import org.make.front.facades.I18n
 import org.make.front.facades.Unescape.unescape
@@ -65,14 +66,16 @@ object UserProfile {
               <.div(^.className := UserProfileStyles.regularColorWrapper)(
                 <.section(^.className := UserProfileStyles.wrapper)(
                   <.aside(^.className := UserProfileStyles.sidebar)(
-                    <.UserProfileInformationsComponent(
-                      ^.wrapped := UserProfileInformationsProps(
-                        user = self.props.wrapped.user.get,
-                        logout = self.props.wrapped.logout,
-                        activeTab = self.state.activeTab,
-                        changeActiveTab = changeActiveTab
-                      )
-                    )(),
+                    self.props.wrapped.user.map { user =>
+                      <.UserProfileInformationsComponent(
+                        ^.wrapped := UserProfileInformationsProps(
+                          user = user,
+                          logout = self.props.wrapped.logout,
+                          activeTab = self.state.activeTab,
+                          changeActiveTab = changeActiveTab
+                        )
+                      )()
+                    }.toSeq,
                     <.div(^.className := RWDRulesLargeMediumStyles.showBlockBeyondLargeMedium)(
                       // Todo Uncomment when Summary, Proposals and Actions' tabs are ready
                       // <.ShareUserProfileComponent.empty,
@@ -93,7 +96,9 @@ object UserProfile {
                     } else if (self.state.activeTab == "actions") {
                       <.UserProfileActionsComponent()()
                     } else if (self.state.activeTab == "settings") {
-                      <.UserProfileSettingsComponent()()
+                      self.props.wrapped.user.map { user =>
+                        <.UserProfileSettingsComponent(^.wrapped := UserProfileSettingsProps(user = user))()
+                      }.toSeq
                     }
                   ),
                   <.style()(UserProfileStyles.render[String])

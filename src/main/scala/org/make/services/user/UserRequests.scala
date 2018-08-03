@@ -91,7 +91,7 @@ object JsUpdateUserRequest {
       .literal(
         firstName = updateUserRequest.firstName.orUndefined,
         lastName = updateUserRequest.lastName.orUndefined,
-        dateOfBirth = updateUserRequest.dateOfBirth.map(_.toString).orUndefined,
+        dateOfBirth = updateUserRequest.dateOfBirth.orUndefined,
         profession = updateUserRequest.profession.orUndefined,
         postalCode = updateUserRequest.postalCode.orUndefined,
         phoneNumber = updateUserRequest.phoneNumber.orUndefined,

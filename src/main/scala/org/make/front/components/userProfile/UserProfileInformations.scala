@@ -88,10 +88,12 @@ object UserProfileInformations {
                 <.h1(^.className := UserProfileInformationsStyles.userName)(firstName)
               }.toSeq,
               userProfile.flatMap(_.postalCode).map { postalCode =>
-                <.p(^.className := UserProfileInformationsStyles.basicInformations)(
-                  <.i(^.className := js.Array(FontAwesomeStyles.mapMarker, UserProfileInformationsStyles.marker))(),
-                  postalCode
-                )
+                if (postalCode.nonEmpty) {
+                  <.p(^.className := UserProfileInformationsStyles.basicInformations)(
+                    <.i(^.className := js.Array(FontAwesomeStyles.mapMarker, UserProfileInformationsStyles.marker))(),
+                    postalCode
+                  )
+                }
               }.toSeq,
               userAge.map { age =>
                 <.p(^.className := UserProfileInformationsStyles.basicInformations)(
@@ -295,7 +297,7 @@ object UserProfileInformationsStyles extends StyleSheet.Inline {
       backgroundColor(ThemeStyles.BackgroundColor.white),
       boxShadow := "0 1px 1px 0 rgba(0,0,0,0.50)",
       padding(ThemeStyles.SpacingValue.small.pxToEm()),
-      ThemeStyles.MediaQueries.beyondLargeMedium(padding(20.pxToEm()), marginTop(-40.pxToEm()))
+      ThemeStyles.MediaQueries.beyondLargeMedium(padding(50.pxToEm()), marginTop(-49.pxToEm()))
     )
 
   val avatarWrapper: StyleA =
@@ -304,7 +306,7 @@ object UserProfileInformationsStyles extends StyleSheet.Inline {
       float.left,
       width(ThemeStyles.SpacingValue.evenLarger.pxToEm()),
       height(ThemeStyles.SpacingValue.evenLarger.pxToEm()),
-      marginTop(-40.pxToEm()),
+      marginTop(-49.pxToEm()),
       marginRight(ThemeStyles.SpacingValue.small.pxToEm()),
       overflow.hidden,
       backgroundColor(ThemeStyles.BackgroundColor.white),

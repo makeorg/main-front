@@ -40,22 +40,26 @@ object OptinNewsletter {
     optInNewsletter: Boolean,
     handleOnSubmit: (Self[OptinNewsletterProps, OptinNewsletterState]) => (FormSyntheticEvent[HTMLInputElement]) => Unit
   )
-  final case class OptinNewsletterState(isChecked: Boolean = false, message: String = "")
+  final case class OptinNewsletterState(isChecked: Boolean = false, message: String = "", isEdited: Boolean)
 
   val reactClass: ReactClass =
     React
       .createClass[OptinNewsletterProps, OptinNewsletterState](
         displayName = "OptinNewsletter",
         getInitialState = self => {
-          OptinNewsletterState()
+          OptinNewsletterState(isChecked = self.props.wrapped.optInNewsletter, isEdited = false)
         },
         componentWillReceiveProps = { (self, props) =>
-          self.setState(_.copy(isChecked = props.wrapped.optInNewsletter))
+          self.setState(_.copy(isChecked = props.wrapped.optInNewsletter, isEdited = false))
         },
         render = self => {
 
           def toggleCheckbox: () => Unit = { () =>
-            self.setState(_.copy(!self.state.isChecked))
+            self.setState(_.copy(!self.state.isChecked, message = "", isEdited = true))
+          }
+
+          def disableButtonState: () => Unit = { () =>
+            self.setState(_.copy(isEdited = false))
           }
 
           <.div(^.className := EditingUserProfileStyles.wrapper)(
@@ -83,8 +87,13 @@ object OptinNewsletter {
               <.div(^.className := EditingUserProfileStyles.buttonGroup)(
                 <.button(
                   ^.className := js
-                    .Array(CTAStyles.basic, CTAStyles.basicOnButton, EditingUserProfileStyles.submitGreyButton),
-                  ^.`type` := s"submit"
+                    .Array(
+                      CTAStyles.basic,
+                      CTAStyles.basicOnButton,
+                      EditingUserProfileStyles.submitButton(self.state.isEdited)
+                    ),
+                  ^.`type` := s"submit",
+                  ^.onClick := disableButtonState
                 )(
                   <.i(^.className := js.Array(FontAwesomeStyles.save, EditingUserProfileStyles.submitButtonIcon))(),
                   <.span()(s"${I18n.t("user-profile.form.cta")}")

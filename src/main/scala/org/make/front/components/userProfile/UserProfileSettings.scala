@@ -24,10 +24,12 @@ import io.github.shogowada.scalajs.reactjs.React
 import io.github.shogowada.scalajs.reactjs.VirtualDOM.{<, _}
 import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import org.make.front.components.Components._
+import org.make.front.models.{User => UserModel}
+import org.make.front.components.userProfile.editingUserProfile.DeleteAccount.DeleteAccountProps
 
 object UserProfileSettings {
 
-  final case class UserProfileSettingsProps()
+  final case class UserProfileSettingsProps(user: UserModel)
   final case class UserProfileSettingsState()
 
   val reactClass: ReactClass =
@@ -42,7 +44,7 @@ object UserProfileSettings {
             <.div()(
               <.UserProfileFormContainerComponent()(),
               <.UserProfileOptinNewsletterContainerComponent()(),
-              <.UserProfileDeleteAccountComponent()()
+              <.UserProfileDeleteAccountComponent(^.wrapped := DeleteAccountProps(user = self.props.wrapped.user))()
             )
           )
         }

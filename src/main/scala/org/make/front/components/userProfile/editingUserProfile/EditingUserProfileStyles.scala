@@ -21,6 +21,7 @@
 package org.make.front.components.userProfile.editingUserProfile
 
 import org.make.front.Main.CssSettings._
+import org.make.front.components.authenticate.register.RegisterWithEmailExpandedStyles.{&, style}
 import org.make.front.styles._
 import org.make.front.styles.base.TextStyles
 import org.make.front.styles.ui.InputStyles
@@ -108,6 +109,7 @@ object EditingUserProfileStyles extends StyleSheet.Inline {
   val inputField: StyleA =
     style(
       InputStyles.wrapper,
+      InputStyles.withIcon,
       backgroundColor(ThemeStyles.inputsSpecialColors.fieldsBackground),
       borderColor(ThemeStyles.inputsSpecialColors.fieldsBorder),
       ThemeStyles.MediaQueries
@@ -120,12 +122,38 @@ object EditingUserProfileStyles extends StyleSheet.Inline {
       ThemeStyles.MediaQueries.beyondLargeMedium(marginLeft(200.pxToPercent(750)))
     )
 
+  val inlineMessage: StyleA =
+    style(ThemeStyles.MediaQueries.beyondLargeMedium(marginLeft(200.pxToPercent(750))))
+
+  val submitButton: Boolean => StyleA = styleF.bool(
+    active =>
+      if (active) {
+        styleS()
+      } else
+        styleS(backgroundColor(ThemeStyles.TextColor.lighter))
+  )
+
   val submitGreyButton: StyleA =
-    style(backgroundColor(ThemeStyles.TextColor.lighter))
+    style(backgroundColor(ThemeStyles.TextColor.lighter), &.hover(backgroundColor(ThemeStyles.ThemeColor.primary)))
 
   val submitButtonIcon: StyleA =
     style(marginRight(5.pxToEm()))
 
+  val contactLink: StyleA =
+    style(color(ThemeStyles.ThemeColor.primary))
+
   val success: StyleA =
     style(TextStyles.smallerText, color(ThemeStyles.ThemeColor.positive))
+
+  val firstNameInputWithIconWrapper: StyleA =
+    style(&.before(content := "'\\f007'"))
+
+  val ageInputWithIconWrapper: StyleA =
+    style(&.before(content := "'\\f1ae'"))
+
+  val postalCodeInputWithIconWrapper: StyleA =
+    style(&.before(content := "'\\f041'"))
+
+  val professionInputWithIconWrapper: StyleA =
+    style(&.before(content := "'\\f0f2'"))
 }

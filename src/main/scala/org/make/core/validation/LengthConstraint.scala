@@ -26,38 +26,44 @@ class LengthConstraint(min: Option[Int] = None, max: Option[Int] = None, exact: 
   override def validate(value: Option[String],
                         constraintMessages: Map[String, String] = Map()): js.Array[ConstraintError] = {
 
-    val errors = js.Array[ConstraintError]()
+    var errors = js.Array[ConstraintError]()
 
     val valueLength = value.getOrElse("").length
 
-    if (max.isDefined && valueLength > max.get) {
-      errors.concat(
-        js.Array(
-          ConstraintError(
-            constraintMessages
-              .getOrElse("maxMessage", "This value is too long. It should have %{max} characters or less")
+    max.foreach { maxValue =>
+      if (valueLength > maxValue) {
+        errors = errors.concat(
+          js.Array(
+            ConstraintError(
+              constraintMessages
+                .getOrElse("maxMessage", "This value is too long. It should have %{max} characters or less")
+            )
           )
         )
-      )
+      }
     }
-    if (min.isDefined && valueLength < min.get) {
-      errors.concat(
-        js.Array(
-          ConstraintError(
-            constraintMessages
-              .getOrElse("minMessage", "This value is too short. It should have %{min} characters or more")
+    min.foreach { minValue =>
+      if (valueLength < minValue) {
+        errors = errors.concat(
+          js.Array(
+            ConstraintError(
+              constraintMessages
+                .getOrElse("minMessage", "This value is too short. It should have %{min} characters or more")
+            )
           )
         )
-      )
+      }
     }
-    if (exact.isDefined && valueLength != exact.get) {
-      errors.concat(
-        js.Array(
-          ConstraintError(
-            constraintMessages.getOrElse("exactMessage", "This value should have exactly %{exact} characters")
+    exact.foreach { exactValue =>
+      if (valueLength != exactValue) {
+        errors = errors.concat(
+          js.Array(
+            ConstraintError(
+              constraintMessages.getOrElse("exactMessage", "This value should have exactly %{exact} characters")
+            )
           )
         )
-      )
+      }
     }
 
     errors
