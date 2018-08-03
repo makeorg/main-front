@@ -23,25 +23,30 @@ package org.make.front.components.userProfile.editingUserProfile
 import io.github.shogowada.scalajs.reactjs.React
 import io.github.shogowada.scalajs.reactjs.VirtualDOM.{<, _}
 import io.github.shogowada.scalajs.reactjs.classes.ReactClass
-import org.make.front.facades.I18n
+import org.make.front.facades.{I18n, Unescape}
 import org.make.front.Main.CssSettings._
 import org.make.front.components.Components._
 import org.make.front.styles.ui.CTAStyles
 import org.make.front.styles.vendors.FontAwesomeStyles
-import org.scalajs.dom.{window}
+import org.scalajs.dom.window
+import org.make.front.models.{User => UserModel}
+import org.make.front.facades.Unescape.unescape
 
 import scala.scalajs.js
 
 object DeleteAccount {
+  final case class DeleteAccountProps(user: UserModel)
 
   val reactClass: ReactClass =
     React
-      .createClass[Unit, Unit](
-        displayName = "OptinNewsletter",
+      .createClass[DeleteAccountProps, Unit](
+        displayName = "DeleteAccount",
         render = self => {
-
-          def mailTo: () => Unit = { () =>
-            window.location.assign("mailto:contact@make.org?subject=Suppression%20de%20mon%20compte%20Make.org")
+          def mailTo: () => Unit = {
+            () =>
+              window.location.assign(
+                "mailto:contact@make.org?subject=Demande%20de%20suppression%20de%20compte&body=Je%20demande%20la%20suppression%20de%20mon%20compte%20Make.org%20associé%20à%20l'adresse%20" + self.props.wrapped.user.email + ".%20J'ai%20bien%20noté%20que%20cette%20suppression%20entrainera%20la%20perte%20de%20mes%20propositions,%20de%20mes%20votes%20ainsi%20que%20de%20mes%20statistiques."
+              )
           }
 
           <.div(^.className := EditingUserProfileStyles.wrapper)(
@@ -60,6 +65,13 @@ object DeleteAccount {
                 <.i(^.className := js.Array(FontAwesomeStyles.trashAlt, EditingUserProfileStyles.submitButtonIcon))(),
                 <.span()(s"${I18n.t("user-profile.delete-account.cta")}")
               )
+            ),
+            <.p(^.className := js.Array(EditingUserProfileStyles.buttonGroup, EditingUserProfileStyles.label))(
+              I18n.t("user-profile.delete-account.extra"),
+              <.a(^.href := "mailto:contact@make.org", ^.className := EditingUserProfileStyles.contactLink)(
+                s"contact@make.org"
+              ),
+              unescape(".")
             ),
             <.style()(EditingUserProfileStyles.render[String])
           )

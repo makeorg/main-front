@@ -78,12 +78,17 @@ object UserService extends ApiService {
   def updateUser(firstName: Option[String] = None,
                  lastName: Option[String] = None,
                  profession: Option[String] = None,
-                 age: Option[Int] = None,
+                 age: Option[String] = None,
                  postalCode: Option[String] = None,
                  phoneNumber: Option[String] = None,
                  optInNewsletter: Option[Boolean] = None,
                  language: Option[String] = None,
                  country: Option[String] = None): Future[Unit] = {
+
+    val dateOfBirth: Option[String] = age match {
+      case Some(age) if age.nonEmpty => Some(s"${new js.Date().getUTCFullYear() - age.toInt}-01-01")
+      case _ => None
+    }
 
     MakeApiClient
       .patch[UserResponse](
@@ -97,7 +102,7 @@ object UserService extends ApiService {
             postalCode = postalCode,
             phoneNumber = phoneNumber,
             optInNewsletter = optInNewsletter,
-            dateOfBirth = age.map(age => s"${new js.Date().getUTCFullYear() - age}-01-01"),
+            dateOfBirth = dateOfBirth,
             country = country,
             language = language
           )

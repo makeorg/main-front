@@ -239,7 +239,8 @@
     "delete-account": {
       "title": "Demander la suppression de mon compte",
       "description": "Attention, cette action est irréversible. Vous perdrez vos propositions, leurs statistiques détaillées, ainsi que les propositions sur lesquelles vous vous êtes prononcé(e).",
-      "cta": "Demander la suppression de mon compte"
+      "extra": "ou envoyez un email à ",
+      "cta": "Demander la suppression définitive de mon compte"
     }
   },
   "proposal": {
