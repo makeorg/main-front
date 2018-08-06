@@ -87,6 +87,8 @@ object Components {
       self(userProfile.UserProfileProposalsContainer.reactClass)
     def UserProfileActionsComponent: ReactClassElementSpec = self(userProfile.UserProfileActions.reactClass)
     def UserProfileSettingsComponent: ReactClassElementSpec = self(userProfile.UserProfileSettings.reactClass)
+    def UserProfileProfileResetPasswordContainerComponent: ReactClassElementSpec =
+      self(userProfile.ResetPasswordContainer.reactClass)
     def UserProfileOptinNewsletterContainerComponent: ReactClassElementSpec =
       self(userProfile.editingUserProfile.OptinNewsletterContainer.reactClass)
     def UserProfileFormContainerComponent: ReactClassElementSpec =

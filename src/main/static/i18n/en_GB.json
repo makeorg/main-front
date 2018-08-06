@@ -158,7 +158,23 @@
     "proposals-tab": "Proposals",
     "actions-tab": "Actions",
     "settings-tab": "Manage my account",
-    "years-old": "years old"
+    "years-old": "years old",
+    "reset-password": {
+      "title": "Edit password",
+      "required": "(required)",
+      "error-message": "An error has occurred, please try again in a few minutes.",
+      "send-cta": "Save",
+      "old-password": {
+        "label": "Current password",
+        "placeholder": "Current password",
+        "wrong-password": "Incorrect current password. Have you forgotten your password?"
+
+      },
+      "new-password": {
+        "label": "New password",
+        "placeholder": "New password"
+      }
+    }
   },
   "proposal": {
     "created-by-user": "My proposal",

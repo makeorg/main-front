@@ -239,8 +239,23 @@
     "delete-account": {
       "title": "Demander la suppression de mon compte",
       "description": "Attention, cette action est irréversible. Vous perdrez vos propositions, leurs statistiques détaillées, ainsi que les propositions sur lesquelles vous vous êtes prononcé(e).",
-      "extra": "ou envoyez un email à ",
-      "cta": "Demander la suppression définitive de mon compte"
+      "cta": "Demander la suppression de mon compte",
+      "extra": "ou envoyez un email à "
+    },
+    "reset-password": {
+      "title": "Modifier mon mot de passe",
+      "required": "(obligatoire)",
+      "send-cta": "Enregistrer les modifications",
+      "error-message": "Une erreur s'est produite, réessayez dans quelques minutes.",
+      "old-password": {
+        "label": "Mot de passe actuel",
+        "placeholder": "Mot de passe actuel",
+        "wrong-password": "Le mot de passe actuel que vous avez indiqué est incorrect. Avez-vous oublié votre mot de passe ?"
+      },
+      "new-password": {
+        "label": "Nouveau mot de passe",
+        "placeholder": "Nouveau mot de passe"
+      }
     }
   },
   "proposal": {
