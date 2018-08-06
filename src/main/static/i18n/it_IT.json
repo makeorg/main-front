@@ -166,8 +166,9 @@
       "old-password": {
         "label": "<NEED TRANSLATION>",
         "placeholder": "<NEED TRANSLATION>",
-        "wrong-password": "<NEED TRANSLATION>"
-
+        "wrong-password": "<NEED TRANSLATION>",
+        "wrong-password-alt": "<NEED TRANSLATION>",
+        "wrong-password-alt-extra": "<NEED TRANSLATION>"
       },
       "new-password": {
         "label": "<NEED TRANSLATION>",

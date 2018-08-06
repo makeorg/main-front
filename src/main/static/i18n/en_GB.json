@@ -167,8 +167,9 @@
       "old-password": {
         "label": "Current password",
         "placeholder": "Current password",
-        "wrong-password": "Incorrect current password. Have you forgotten your password?"
-
+        "wrong-password": "Incorrect current password. Have you forgotten your password?",
+        "wrong-password-alt": "Incorrect current password.",
+        "wrong-password-alt-extra": "Have you forgotten your password ?"
       },
       "new-password": {
         "label": "New password",

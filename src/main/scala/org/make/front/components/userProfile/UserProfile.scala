@@ -127,7 +127,7 @@ object UserProfileStyles extends StyleSheet.Inline {
     style(
       backgroundColor(ThemeStyles.ThemeColor.secondary),
       paddingTop(ThemeStyles.SpacingValue.largerMedium.pxToEm()),
-      ThemeStyles.MediaQueries.beyondLargeMedium(paddingTop(ThemeStyles.SpacingValue.evenLarger.pxToEm()))
+      ThemeStyles.MediaQueries.beyondLargeMedium(paddingTop(100.pxToEm()))
     )
 
   val regularColorWrapper: StyleA =

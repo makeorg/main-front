@@ -37,11 +37,16 @@ import scala.scalajs.js
 
 object NewPasswordInput {
 
-  final case class NewPasswordInputProps(value: String = "",
-                                         placeHolder: String = "",
-                                         className: String = "",
-                                         required: Boolean = false,
-                                         onChange: (FormSyntheticEvent[HTMLInputElement]) => Unit = (_) => {})
+  final case class NewPasswordInputProps(
+    id: String = "",
+    htmlClass: js.Array[StyleA] =
+      js.Array(NewPasswordInputStyles.withIconWrapper, InputStyles.wrapper, InputStyles.withIcon),
+    value: String = "",
+    placeHolder: String = "",
+    className: String = "",
+    required: Boolean = false,
+    onChange: (FormSyntheticEvent[HTMLInputElement]) => Unit = (_) => {}
+  )
   final case class NewPasswordInputState(passwordInputType: String)
 
   val reactClass: ReactClass =
@@ -62,12 +67,11 @@ object NewPasswordInput {
 
         val props = self.props.wrapped
 
-        <.label(
-          ^.className := js.Array(NewPasswordInputStyles.withIconWrapper, InputStyles.wrapper, InputStyles.withIcon)
-        )(
+        <.label(^.className := props.htmlClass)(
           <.span(^.className := TableLayoutStyles.wrapper)(
             <.span(^.className := js.Array(TableLayoutStyles.cell, NewPasswordInputStyles.inputWrapper))(
               <.input(
+                ^.id := props.id,
                 ^.required := props.required,
                 ^.`type` := self.state.passwordInputType,
                 ^.value := props.value,
