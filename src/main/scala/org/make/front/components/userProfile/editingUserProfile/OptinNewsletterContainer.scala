@@ -27,7 +27,10 @@ import io.github.shogowada.scalajs.reactjs.redux.ReactRedux
 import io.github.shogowada.scalajs.reactjs.redux.Redux.Dispatch
 import org.make.front.actions.ReloadUserAction
 import org.make.front.components.AppState
-import org.make.front.components.userProfile.editingUserProfile.OptinNewsletter.{OptinNewsletterProps, OptinNewsletterState}
+import org.make.front.components.userProfile.editingUserProfile.OptinNewsletter.{
+  OptinNewsletterProps,
+  OptinNewsletterState
+}
 import org.make.front.facades.I18n
 import org.make.services.user.UserService
 import org.scalajs.dom.raw.HTMLInputElement
