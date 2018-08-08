@@ -41,7 +41,11 @@ object UserProfileSettings {
         },
         render = self => {
           <("UserProfileSettings")()(
-            <.UserProfileFormContainerComponent()(),
+            if (self.props.wrapped.user.isOrganisation) {
+              <.OrganisationProfileFormContainerComponent()()
+            } else {
+              <.UserProfileFormContainerComponent()()
+            },
             <.UserProfileResetPasswordContainerComponent()(),
             <.UserProfileOptinNewsletterContainerComponent()(),
             <.UserProfileDeleteAccountComponent(^.wrapped := DeleteAccountProps(user = self.props.wrapped.user))()

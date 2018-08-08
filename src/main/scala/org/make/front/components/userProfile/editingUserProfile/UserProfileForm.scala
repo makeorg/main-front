@@ -39,10 +39,10 @@ import scala.scalajs.js.Date
 
 object UserProfileForm {
 
-  final case class UserProfileFormProps(handleOnSubmit: (Self[UserProfileFormProps, UserProfileFormState]) => (
-                                          FormSyntheticEvent[HTMLInputElement]
-                                        ) => Unit,
-                                        user: UserModel)
+  final case class UserProfileFormProps(
+    handleOnSubmit: Self[UserProfileFormProps, UserProfileFormState] => FormSyntheticEvent[HTMLInputElement] => Unit,
+    user: UserModel
+  )
 
   final case class UserProfileFormState(fields: Map[String, String],
                                         errors: Map[String, String],
@@ -53,7 +53,7 @@ object UserProfileForm {
     React
       .createClass[UserProfileFormProps, UserProfileFormState](
         displayName = "UserProfileForm",
-        getInitialState = self => {
+        getInitialState = _ => {
           UserProfileFormState(fields = Map(), errors = Map(), isEdited = false)
         },
         componentWillReceiveProps = { (self, props) =>
@@ -78,7 +78,7 @@ object UserProfileForm {
           )
         },
         render = self => {
-          def updateField(name: String): (FormSyntheticEvent[HTMLInputElement]) => Unit = { event =>
+          def updateField(name: String): FormSyntheticEvent[HTMLInputElement] => Unit = { event =>
             val inputValue = event.target.value
             self.setState(
               state =>
