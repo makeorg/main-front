@@ -18,7 +18,7 @@
  *
  */
 
-package org.make.front.components.userProfile
+package org.make.front.components.userProfile.navUserProfile
 
 import io.github.shogowada.scalajs.reactjs.React
 import io.github.shogowada.scalajs.reactjs.VirtualDOM.{<, ^, _}
@@ -30,66 +30,57 @@ import org.make.front.facades.Unescape.unescape
 import org.make.front.styles.ThemeStyles
 import org.make.front.styles.base._
 import org.make.front.styles.utils._
-import org.make.services.tracking.TrackingService
 
 import scala.scalajs.js
 
-object UserProfileNav {
+object TabNav {
 
-  final case class UserProfileNavProps(activeTab: String, changeActiveTab: String => Unit)
+  final case class TabNavProps(activeTab: String, changeActiveTab: String => Unit)
 
   val reactClass: ReactClass =
     React
-      .createClass[UserProfileNavProps, Unit](
-        displayName = "UserProfileNav",
+      .createClass[TabNavProps, Unit](
+        displayName = "TabNav",
         render = self => {
 
           def changeTab(newTab: String): () => Unit = { () =>
             self.props.wrapped.changeActiveTab(newTab)
           }
 
-          <("UserProfileNav")()(if (self.props.wrapped.activeTab == "settings") {
-            <.nav(^.className := js.Array(LayoutRulesStyles.centeredRow, UserProfileNavStyles.tabWrapper))(
+          <("TabNav")()(if (self.props.wrapped.activeTab == "settings") {
+            <.nav(^.className := js.Array(LayoutRulesStyles.centeredRow, TabNavStyles.tabWrapper))(
               <.button(
-                ^.className := js.Array(
-                  UserProfileNavStyles.tab,
-                  UserProfileNavStyles.tabSelection(self.props.wrapped.activeTab == "settings")
-                ),
+                ^.className := js
+                  .Array(TabNavStyles.tab, TabNavStyles.tabSelection(self.props.wrapped.activeTab == "settings")),
                 ^.onClick := changeTab("settings")
-              )(<.span(^.className := UserProfileNavStyles.titleLink)(unescape(I18n.t("user-profile.settings-tab")))),
-              <.div(^.className := UserProfileNavStyles.sep)()
+              )(<.span(^.className := TabNavStyles.titleLink)(unescape(I18n.t("user-profile.settings-tab")))),
+              <.div(^.className := TabNavStyles.sep)()
             )
           } else {
-            <.nav(^.className := js.Array(LayoutRulesStyles.centeredRow, UserProfileNavStyles.tabWrapper))(
-              <.button(
-                ^.className := js.Array(
-                  UserProfileNavStyles.tab,
-                  UserProfileNavStyles.tabSelection(self.props.wrapped.activeTab == "summary")
-                ),
+            <.nav(^.className := js.Array(LayoutRulesStyles.centeredRow, TabNavStyles.tabWrapper))(
+              /*<.button(
+                ^.className := js
+                  .Array(TabNavStyles.tab, TabNavStyles.tabSelection(self.props.wrapped.activeTab == "summary")),
                 ^.onClick := changeTab("summary")
-              )(<.span(^.className := UserProfileNavStyles.titleLink)(unescape(I18n.t("user-profile.summary-tab")))),
+              )(<.span(^.className := TabNavStyles.titleLink)(unescape(I18n.t("user-profile.summary-tab")))),*/
               <.button(
-                ^.className := js.Array(
-                  UserProfileNavStyles.tab,
-                  UserProfileNavStyles.tabSelection(self.props.wrapped.activeTab == "proposals")
-                ),
+                ^.className := js
+                  .Array(TabNavStyles.tab, TabNavStyles.tabSelection(self.props.wrapped.activeTab == "proposals")),
                 ^.onClick := changeTab("proposals")
-              )(<.span(^.className := UserProfileNavStyles.titleLink)(unescape(I18n.t("user-profile.proposals-tab")))),
-              <.button(
-                ^.className := js.Array(
-                  UserProfileNavStyles.tab,
-                  UserProfileNavStyles.tabSelection(self.props.wrapped.activeTab == "actions")
-                ),
+              )(<.span(^.className := TabNavStyles.titleLink)(unescape(I18n.t("user-profile.proposals-tab")))),
+              /*<.button(
+                ^.className := js
+                  .Array(TabNavStyles.tab, TabNavStyles.tabSelection(self.props.wrapped.activeTab == "actions")),
                 ^.onClick := changeTab("actions")
-              )(<.span(^.className := UserProfileNavStyles.titleLink)(unescape(I18n.t("user-profile.actions-tab")))),
-              <.div(^.className := UserProfileNavStyles.sep)()
+              )(<.span(^.className := TabNavStyles.titleLink)(unescape(I18n.t("user-profile.actions-tab")))),*/
+              <.div(^.className := TabNavStyles.sep)()
             )
-          }, <.style()(UserProfileNavStyles.render[String]))
+          }, <.style()(TabNavStyles.render[String]))
         }
       )
 }
 
-object UserProfileNavStyles extends StyleSheet.Inline {
+object TabNavStyles extends StyleSheet.Inline {
   import dsl._
 
   val tabWrapper: StyleA =

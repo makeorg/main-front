@@ -158,6 +158,8 @@
     "actions-tab": "Azione",
     "settings-tab": "Gestisci il mio account",
     "years-old": "anni",
+    "vote": "<NEED TRANSLATION>",
+    "votes": "<NEED TRANSLATION>",
     "reset-password": {
       "title": "<NEED TRANSLATION>",
       "required": "(obbligatorio)",
@@ -173,6 +175,10 @@
       "new-password": {
         "label": "<NEED TRANSLATION>",
         "placeholder": "<NEED TRANSLATION>"
+      },
+      "proposal": {
+        "title": "<NEED TRANSLATION>",
+        "empty": "<NEED TRANSLATION>"
       }
     },
     "delete-account": {

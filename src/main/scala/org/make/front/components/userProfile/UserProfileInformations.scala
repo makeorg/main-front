@@ -25,14 +25,12 @@ import io.github.shogowada.scalajs.reactjs.VirtualDOM.{<, ^, _}
 import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import org.make.front.Main.CssSettings._
 import org.make.front.components.Components._
+import org.make.front.components.userProfile.navUserProfile.ButtonNav.ButtonNavProps
 import org.make.front.facades.I18n
-import org.make.front.facades.ReactCSSTransition.{ReactCSSTransitionDOMAttributes, ReactCSSTransitionVirtualDOMElements, TransitionClasses}
-import org.make.front.facades.ReactTransition.ReactTransitionDOMAttributes
 import org.make.front.facades.Unescape.unescape
 import org.make.front.models.{Profile, User => UserModel}
 import org.make.front.styles.ThemeStyles
 import org.make.front.styles.base._
-import org.make.front.styles.ui.CTAStyles
 import org.make.front.styles.utils._
 import org.make.front.styles.vendors.FontAwesomeStyles
 
@@ -45,14 +43,17 @@ object UserProfileInformations {
                                                 logout: () => Unit,
                                                 activeTab: String,
                                                 changeActiveTab: String => Unit)
-  final case class UserProfileInformationsState(expandSlidingPannel: Boolean)
+  final case class UserProfileInformationsState(expandSlidingPannel: Boolean, previousTab: String)
 
   lazy val reactClass: ReactClass =
     React
       .createClass[UserProfileInformationsProps, UserProfileInformationsState](
         displayName = "UserProfileInformations",
         getInitialState = self => {
-          UserProfileInformationsState(expandSlidingPannel = false)
+          UserProfileInformationsState(expandSlidingPannel = false, previousTab = self.props.wrapped.activeTab)
+        },
+        componentWillReceiveProps = { (self, nextProps) =>
+          self.setState(UserProfileInformationsState(expandSlidingPannel = self.state.expandSlidingPannel, previousTab = self.props.wrapped.activeTab))
         },
         render = self => {
           val user: UserModel = self.props.wrapped.user
@@ -63,6 +64,10 @@ object UserProfileInformations {
 
           def changeTab(newTab: String): () => Unit = { () =>
             self.props.wrapped.changeActiveTab(newTab)
+          }
+
+          def backToPreviousTab: () => Unit = { () =>
+            self.props.wrapped.changeActiveTab(self.state.previousTab)
           }
 
           // Toggle biography collapse method for "show more / show less" button
@@ -137,147 +142,70 @@ object UserProfileInformations {
               )
             ),*/
             if (self.props.wrapped.activeTab == "settings") {
-              <.div(^.className := RWDRulesLargeMediumStyles.hideBeyondLargeMedium)(
-                // Todo Uncomment when Summary, Proposals and Actions' tabs are ready
-                /*<.div(^.className := UserProfileInformationsStyles.slidingPannelButtonGroup)(
-                  <.button(
-                    ^.className := js
-                      .Array(CTAStyles.basic, CTAStyles.basicOnButton, UserProfileInformationsStyles.slidingPannelGreyButton),
-                    ^.onClick := changeTab("summary")
-                  )(
-                    <.i(
-                      ^.className := js
-                        .Array(FontAwesomeStyles.angleLeft, UserProfileInformationsStyles.slidingPannelButtonIcon)
-                    )(),
-                    <.span()(I18n.t("user-profile.back-to-profile"))
-                  )
-                ),*/
-                <.div(^.className := UserProfileInformationsStyles.slidingPannelButtonGroup)(
-                  <.button(
-                    ^.className := js
-                      .Array(
-                        CTAStyles.basic,
-                        CTAStyles.basicOnButton,
-                        UserProfileInformationsStyles.slidingPannelGreyButton
-                      ),
-                    ^.onClick := self.props.wrapped.logout
-                  )(
-                    <.i(
-                      ^.className := js
-                        .Array(FontAwesomeStyles.signOut, UserProfileInformationsStyles.slidingPannelButtonIcon)
-                    )(),
-                    <.span()(I18n.t("user-profile.disconnect-cta"))
-                  )
-                )
-              )
-            } else {
-              <.div(^.className := RWDRulesLargeMediumStyles.hideBeyondLargeMedium)(
-                // Todo Uncomment when Summary, Proposals and Actions' tabs are ready
-                /*<.div(^.className := UserProfileInformationsStyles.slidingPannelButtonGroup)(
-                  <.button(
-                    ^.className := js
-                      .Array(CTAStyles.basic, CTAStyles.basicOnButton, UserProfileInformationsStyles.slidingPannelGreyButton),
-                    ^.onClick := changeTab("settings")
-                  )(
-                    <.i(
-                      ^.className := js.Array(FontAwesomeStyles.pencil, UserProfileInformationsStyles.slidingPannelButtonIcon)
-                    )(),
-                    <.span()(I18n.t("user-profile.edit-profile"))
+              <("SettingsTab")()(
+                <.div(^.className := RWDRulesLargeMediumStyles.hideBeyondLargeMedium)(
+                  // Todo Uncomment when Summary, Proposals and Actions' tabs are ready
+                  <.div(^.className := UserProfileInformationsStyles.slidingPannelButtonGroup)(
+                    <.ButtonNavComponent(^.wrapped := ButtonNavProps(onClickMethod = backToPreviousTab,
+                      icon = FontAwesomeStyles.angleLeft,
+                      wording = I18n.t("user-profile.back-to-profile")))()
                   ),
-                  <.button(
-                    ^.className := js
-                      .Array(CTAStyles.basic, CTAStyles.basicOnButton, UserProfileInformationsStyles.slidingPannelGreyButton),
-                    ^.onClick := changeTab("settings")
-                  )(
-                    <.i(
-                      ^.className := js.Array(FontAwesomeStyles.cog, UserProfileInformationsStyles.slidingPannelButtonIcon)
-                    )(),
-                    <.span()(I18n.t("user-profile.manage-account"))
+                  <.div(^.className := UserProfileInformationsStyles.slidingPannelButtonGroup)(
+                    <.ButtonNavComponent(^.wrapped := ButtonNavProps(onClickMethod = self.props.wrapped.logout,
+                    icon = FontAwesomeStyles.signOut,
+                    wording = I18n.t("user-profile.disconnect-cta")))()
                   )
-                ),*/
-                <.div(^.className := UserProfileInformationsStyles.slidingPannelButtonGroup)(
-                  <.button(
-                    ^.className := js
-                      .Array(
-                        CTAStyles.basic,
-                        CTAStyles.basicOnButton,
-                        UserProfileInformationsStyles.slidingPannelGreyButton
-                      ),
-                    ^.onClick := self.props.wrapped.logout
-                  )(
-                    <.i(
-                      ^.className := js
-                        .Array(FontAwesomeStyles.signOut, UserProfileInformationsStyles.slidingPannelButtonIcon)
-                    )(),
-                    <.span()(I18n.t("user-profile.disconnect-cta"))
-                  )
-                )
-              )
-            },
-            if (self.props.wrapped.activeTab == "settings") {
-              <.div(^.className := RWDRulesLargeMediumStyles.showBlockBeyondLargeMedium)(
-                // Todo Uncomment when Summary, Proposals and Actions' tabs are ready
-                /*<.div(^.className := UserProfileInformationsStyles.slidingPannelButtonGroup)(
-                  <.button(
-                    ^.className := js
-                      .Array(CTAStyles.basic, CTAStyles.basicOnButton, UserProfileInformationsStyles.slidingPannelGreyButton),
-                    ^.onClick := changeTab("summary")
-                  )(
-                    <.i(
-                      ^.className := js
-                        .Array(FontAwesomeStyles.angleLeft, UserProfileInformationsStyles.slidingPannelButtonIcon)
-                    )(),
-                    <.span()(I18n.t("user-profile.back-to-profile"))
-                  )
-                ),*/
-                <.div(^.className := UserProfileInformationsStyles.slidingPannelButtonGroup)(
-                  <.button(
-                    ^.className := js
-                      .Array(
-                        CTAStyles.basic,
-                        CTAStyles.basicOnButton,
-                        UserProfileInformationsStyles.slidingPannelGreyButton
-                      ),
-                    ^.onClick := self.props.wrapped.logout
-                  )(
-                    <.i(
-                      ^.className := js
-                        .Array(FontAwesomeStyles.signOut, UserProfileInformationsStyles.slidingPannelButtonIcon)
-                    )(),
-                    <.span()(I18n.t("user-profile.disconnect-cta"))
+                ),
+                <.div(^.className := RWDRulesLargeMediumStyles.showBlockBeyondLargeMedium)(
+                  // Todo Uncomment when Summary, Proposals and Actions' tabs are ready
+                  <.div(^.className := UserProfileInformationsStyles.slidingPannelButtonGroup)(
+                    <.div(^.className := UserProfileInformationsStyles.slidingPannelButtonGroup)(
+                      <.ButtonNavComponent(
+                        ^.wrapped := ButtonNavProps(onClickMethod = backToPreviousTab,
+                        icon = FontAwesomeStyles.angleLeft,
+                        wording = I18n.t("user-profile.back-to-profile")))()
+                    )
+                  ),
+                  <.div(^.className := UserProfileInformationsStyles.slidingPannelButtonGroup)(
+                    <.div(^.className := UserProfileInformationsStyles.slidingPannelButtonGroup)(
+                      <.ButtonNavComponent(
+                        ^.wrapped := ButtonNavProps(onClickMethod = self.props.wrapped.logout,
+                        icon = FontAwesomeStyles.signOut,
+                        wording = I18n.t("user-profile.disconnect-cta")))()
+                    )
                   )
                 )
               )
             } else {
-              <.div(^.className := RWDRulesLargeMediumStyles.showBlockBeyondLargeMedium)(
-                // Todo Uncomment when Summary, Proposals and Actions' tabs are ready
-                /*<.div(^.className := UserProfileInformationsStyles.slidingPannelButtonGroup)(
-                  <.button(
-                    ^.className := js
-                      .Array(CTAStyles.basic, CTAStyles.basicOnButton, UserProfileInformationsStyles.slidingPannelGreyButton),
-                    ^.onClick := changeTab("settings")
-                  )(
-                    <.i(
-                      ^.className := js.Array(FontAwesomeStyles.cog, UserProfileInformationsStyles.slidingPannelButtonIcon)
-                    )(),
-                    <.span()(I18n.t("user-profile.manage-account"))
+              <("OtherTabs")()(
+                <.div(^.className := RWDRulesLargeMediumStyles.hideBeyondLargeMedium)(
+                  // Todo Uncomment when Summary, Proposals and Actions' tabs are ready
+                  <.div(^.className := UserProfileInformationsStyles.slidingPannelButtonGroup)(
+                    <.ButtonNavComponent(^.wrapped := ButtonNavProps(onClickMethod = changeTab("settings"),
+                      icon = FontAwesomeStyles.pencil,
+                      wording = I18n.t("user-profile.edit-profile")))(),
+                    <.ButtonNavComponent(^.wrapped := ButtonNavProps(onClickMethod = changeTab("settings"),
+                      icon = FontAwesomeStyles.cog,
+                      wording = I18n.t("user-profile.manage-account")))()
+                  ),
+                  <.div(^.className := UserProfileInformationsStyles.slidingPannelButtonGroup)(
+                    <.ButtonNavComponent(^.wrapped := ButtonNavProps(onClickMethod = self.props.wrapped.logout,
+                      icon = FontAwesomeStyles.signOut,
+                      wording = I18n.t("user-profile.disconnect-cta")))()
                   )
-                ),*/
-                <.div(^.className := UserProfileInformationsStyles.slidingPannelButtonGroup)(
-                  <.button(
-                    ^.className := js
-                      .Array(
-                        CTAStyles.basic,
-                        CTAStyles.basicOnButton,
-                        UserProfileInformationsStyles.slidingPannelGreyButton
-                      ),
-                    ^.onClick := self.props.wrapped.logout
-                  )(
-                    <.i(
-                      ^.className := js
-                        .Array(FontAwesomeStyles.signOut, UserProfileInformationsStyles.slidingPannelButtonIcon)
-                    )(),
-                    <.span()(I18n.t("user-profile.disconnect-cta"))
+                ),
+                <.div(^.className := RWDRulesLargeMediumStyles.showBlockBeyondLargeMedium)(
+                  // Todo Uncomment when Summary, Proposals and Actions' tabs are ready
+                  <.div(^.className := UserProfileInformationsStyles.slidingPannelButtonGroup)(
+                    <.ButtonNavComponent(^.wrapped := ButtonNavProps(onClickMethod = changeTab("settings"),
+                      icon = FontAwesomeStyles.cog,
+                      wording = I18n.t("user-profile.manage-account")))()
+                  ),
+                  <.div(^.className := UserProfileInformationsStyles.slidingPannelButtonGroup)(
+                    <.ButtonNavComponent(
+                      ^.wrapped := ButtonNavProps(onClickMethod = self.props.wrapped.logout,
+                      icon = FontAwesomeStyles.signOut,
+                      wording = I18n.t("user-profile.disconnect-cta")))()
                   )
                 )
               )
@@ -432,12 +360,6 @@ object UserProfileInformationsStyles extends StyleSheet.Inline {
       backgroundColor(ThemeStyles.BackgroundColor.white),
       marginTop(20.pxToEm()),
     )
-
-  val slidingPannelGreyButton: StyleA =
-    style(backgroundColor(ThemeStyles.TextColor.lighter))
-
-  val slidingPannelButtonIcon: StyleA =
-    style(marginRight(5.pxToEm()))
 
   val collapseEnterAnimation =
     keyframes(0.%% -> keyframe(maxHeight(100.pxToEm())), 100.%% -> keyframe(maxHeight(100.%%)))

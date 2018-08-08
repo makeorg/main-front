@@ -26,13 +26,14 @@ import io.github.shogowada.scalajs.reactjs.redux.ReactRedux
 import io.github.shogowada.scalajs.reactjs.redux.Redux.Dispatch
 import org.make.front.components.AppState
 import org.make.front.components.userProfile.UserProfileProposals.UserProfileProposalsProps
+import org.make.front.models.User
 import org.make.services.user.UserService
 
 import scala.concurrent.ExecutionContext.Implicits.global
 
 object UserProfileProposalsContainer {
 
-  final case class UserProposalsContainerProps(userId: String)
+  final case class UserProposalsContainerProps(user: User, userId: String)
 
   lazy val reactClass: ReactClass = ReactRedux.connectAdvanced(selectorFactory)(UserProfileProposals.reactClass)
 
@@ -41,7 +42,7 @@ object UserProfileProposalsContainer {
     (_: Dispatch) => { (_: AppState, props: Props[UserProposalsContainerProps]) =>
       def getProposals = UserService.getUserProposals(props.wrapped.userId).map(_.results)
 
-      UserProfileProposalsProps(getProposals = getProposals)
+      UserProfileProposalsProps(user = props.wrapped.user, getProposals = getProposals)
     }
 
 }
