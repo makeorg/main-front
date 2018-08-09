@@ -175,6 +175,21 @@
         "label": "New password",
         "placeholder": "New password"
       }
+    },
+    "delete-account": {
+      "title": "<NEED TRANSLATION>",
+      "description": "<NEED TRANSLATION>",
+      "cta": "<NEED TRANSLATION>",
+      "extra": "<NEED TRANSLATION>",
+      "confirmation": "<NEED TRANSLATION>",
+      "password": {
+        "label": "Password",
+        "placeholder": "<NEED TRANSLATION>",
+        "error": "<NEED TRANSLATION>"
+      },
+      "inputs": {
+        "required": "(required)"
+      }
     }
   },
   "proposal": {

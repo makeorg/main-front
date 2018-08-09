@@ -57,6 +57,8 @@ package object register {
         "email" -> I18n.t("authenticate.inputs.email.format-error-message")
       case ValidationError("password", Some(message)) if message.contains("required") =>
         "password" -> I18n.t("authenticate.inputs.password.empty-field-error-message")
+      case ValidationError("password", Some(message)) if message.contains("Wrong password") =>
+        "password" -> I18n.t("user-profile.delete-account.password.error")
       case ValidationError("password", _) =>
         "password" -> I18n.t(
           "authenticate.inputs.password.format-error-message",

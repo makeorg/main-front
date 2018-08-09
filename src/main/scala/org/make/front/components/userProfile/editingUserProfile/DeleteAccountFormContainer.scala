@@ -25,80 +25,86 @@ import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import io.github.shogowada.scalajs.reactjs.events.FormSyntheticEvent
 import io.github.shogowada.scalajs.reactjs.redux.ReactRedux
 import io.github.shogowada.scalajs.reactjs.redux.Redux.Dispatch
-import org.make.core.validation.{Constraint, LengthConstraint, NotBlankConstraint}
-import org.make.front.actions.ReloadUserAction
+import org.make.client.BadRequestHttpException
+import org.make.core.validation.{Constraint, PasswordConstraint}
+import org.make.front.actions.{LogoutAction, NotifySuccess}
 import org.make.front.components.AppState
-import org.make.front.components.userProfile.editingUserProfile.UserProfileForm.{
-  UserProfileFormProps,
-  UserProfileFormState
+import org.make.front.components.authenticate.register.getErrorsMessagesFromApiErrors
+import org.make.front.components.userProfile.editingUserProfile.DeleteAccountForm.{
+  DeleteAccountFormProps,
+  DeleteAccountFormState
 }
-import org.make.front.facades.I18n
+import org.make.front.facades.{I18n, Replacements}
 import org.make.services.user.UserService
 import org.scalajs.dom.raw.HTMLInputElement
 
 import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.Future
 import scala.scalajs.js
 import scala.util.{Failure, Success}
 
-object UserProfileFormContainer {
+object DeleteAccountFormContainer {
 
-  lazy val reactClass: ReactClass = ReactRedux.connectAdvanced(selectorFactory)(UserProfileForm.reactClass)
+  lazy val reactClass: ReactClass = ReactRedux.connectAdvanced(selectorFactory)(DeleteAccountForm.reactClass)
 
-  def selectorFactory: (Dispatch) => (AppState, Props[Unit]) => UserProfileFormProps =
+  def selectorFactory: (Dispatch) => (AppState, Props[Unit]) => DeleteAccountFormProps =
     (dispatch: Dispatch) => { (state: AppState, props: Props[Unit]) =>
       val fieldsValidation: js.Array[(String, Constraint, Map[String, String])] = {
         js.Array(
           (
-            "firstName",
-            NotBlankConstraint,
-            Map("notBlank" -> I18n.t("user-profile.form.inputs.empty-field-error-message"))
-          ),
-          (
-            "postalCode",
-            new LengthConstraint(max = Some(7)),
-            Map("maxMessage" -> I18n.t("user-profile.form.inputs.format-error-message"))
+            "password",
+            PasswordConstraint,
+            Map(
+              "minMessage" -> I18n.t(
+                "authenticate.inputs.password.format-error-message",
+                Replacements("min" -> PasswordConstraint.min.toString)
+              )
+            )
           )
         )
       }
       def handleOnSubmit(
-        self: Self[UserProfileFormProps, UserProfileFormState]
+        self: Self[DeleteAccountFormProps, DeleteAccountFormState]
       ): FormSyntheticEvent[HTMLInputElement] => Unit = { event =>
         event.preventDefault()
         var errors: Map[String, String] = Map.empty
 
         fieldsValidation.foreach {
-          case (fieldName, constraint, translation) => {
+          case (fieldName, constraint, translation) =>
             val fieldErrors = constraint
               .validate(self.state.fields.get(fieldName), translation)
               .map(_.message)
             if (fieldErrors.nonEmpty) {
               errors += (fieldName -> fieldErrors.head)
             }
-          }
         }
 
         if (errors.nonEmpty) {
           self.setState(_.copy(errors = errors))
         } else {
-          UserService
-            .updateUser(
-              firstName = self.state.fields.get("firstName"),
-              age = self.state.fields.get("age"),
-              profession = self.state.fields.get("profession"),
-              postalCode = self.state.fields.get("postalCode")
-            )
-            .onComplete {
+          state.connectedUser.foreach { user =>
+            val result: Future[Unit] =
+              UserService.removeUser(userId = user.userId, password = self.state.fields.get("password"))
+
+            result.onComplete {
               case Success(_) =>
-                self.setState(self.state.copy(message = I18n.t("user-profile.update.confirmation")))
-                dispatch(ReloadUserAction)
+                dispatch(LogoutAction)
+                dispatch(NotifySuccess(message = I18n.t("user-profile.delete-account.confirmation")))
               case Failure(e) =>
-                self.setState(
-                  state => state.copy(errors = state.errors + ("global" -> I18n.t("user-profile.update.error")))
-                )
+                e match {
+                  case exception: BadRequestHttpException =>
+                    self.setState(_.copy(errors = getErrorsMessagesFromApiErrors(exception.errors).toMap))
+                  case _ =>
+                    self.setState(_.copy(errors = Map("global" -> I18n.t("error-message.unexpected-behaviour"))))
+                }
             }
+          }
         }
       }
 
-      UserProfileFormProps(handleOnSubmit = handleOnSubmit, user = state.connectedUser.get)
+      DeleteAccountFormProps(
+        handleOnSubmit = handleOnSubmit,
+        userHasPassword = state.connectedUser.forall(_.hasPassword)
+      )
     }
 }

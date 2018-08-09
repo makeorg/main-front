@@ -240,7 +240,16 @@
       "title": "Demander la suppression de mon compte",
       "description": "Attention, cette action est irréversible. Vous perdrez vos propositions, leurs statistiques détaillées, ainsi que les propositions sur lesquelles vous vous êtes prononcé(e).",
       "cta": "Demander la suppression de mon compte",
-      "extra": "ou envoyez un email à "
+      "extra": "ou envoyez un email à ",
+      "confirmation":"Votre demande a bien été prise en compte.",
+      "password": {
+        "label": "Mot de passe",
+        "placeholder": "J'indique mon mot de passe pour supprimer mon compte",
+        "error": "Votre mot de passe n'est pas valide, merci de bien vouloir le renseigner à nouveau."
+      },
+      "inputs": {
+        "required": "(obligatoire)"
+      }
     },
     "reset-password": {
       "title": "Modifier mon mot de passe",

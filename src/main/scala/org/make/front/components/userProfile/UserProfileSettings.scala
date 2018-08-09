@@ -45,7 +45,8 @@ object UserProfileSettings {
               <.UserProfileFormContainerComponent()(),
               <.UserProfileResetPasswordContainerComponent()(),
               <.UserProfileOptinNewsletterContainerComponent()(),
-              <.UserProfileDeleteAccountComponent(^.wrapped := DeleteAccountProps(user = self.props.wrapped.user))()
+              <.UserProfileDeleteAccountComponent(^.wrapped := DeleteAccountProps(user = self.props.wrapped.user))(),
+              //<.UserProfileDeleteAccountFormContainerComponent()()
             )
           )
         }
