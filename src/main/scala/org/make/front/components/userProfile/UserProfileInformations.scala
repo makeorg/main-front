@@ -306,7 +306,7 @@ object UserProfileInformationsStyles extends StyleSheet.Inline {
       float.left,
       width(ThemeStyles.SpacingValue.evenLarger.pxToEm()),
       height(ThemeStyles.SpacingValue.evenLarger.pxToEm()),
-      marginTop(-49.pxToEm()),
+      marginTop(-40.pxToEm()),
       marginRight(ThemeStyles.SpacingValue.small.pxToEm()),
       overflow.hidden,
       backgroundColor(ThemeStyles.BackgroundColor.white),
@@ -319,6 +319,7 @@ object UserProfileInformationsStyles extends StyleSheet.Inline {
         verticalAlign.middle,
         width(160.pxToEm()),
         height(160.pxToEm()),
+        marginTop(-69.pxToEm()),
         borderWidth(5.px),
         marginLeft.auto,
         marginRight.auto

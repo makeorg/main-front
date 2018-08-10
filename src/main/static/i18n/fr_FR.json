@@ -250,7 +250,9 @@
       "old-password": {
         "label": "Mot de passe actuel",
         "placeholder": "Mot de passe actuel",
-        "wrong-password": "Le mot de passe actuel que vous avez indiqué est incorrect. Avez-vous oublié votre mot de passe ?"
+        "wrong-password": "Le mot de passe actuel que vous avez indiqué est incorrect. Avez-vous oublié votre mot de passe ?",
+        "wrong-password-alt": "Le mot de passe actuel que vous avez indiqué est incorrect.",
+        "wrong-password-alt-extra": "Avez-vous oublié votre mot de passe ?"
       },
       "new-password": {
         "label": "Nouveau mot de passe",
