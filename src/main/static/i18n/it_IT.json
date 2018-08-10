@@ -192,6 +192,11 @@
         "placeholder": "<NEED TRANSLATION>",
         "error": "<NEED TRANSLATION>"
       },
+      "email": {
+        "label": "Email",
+        "placeholder": "<NEED TRANSLATION>",
+        "error": "<NEED TRANSLATION>"
+      },
       "inputs": {
         "required": "(obbligatorio)"
       }
