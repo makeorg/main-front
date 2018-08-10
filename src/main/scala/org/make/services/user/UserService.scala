@@ -24,7 +24,7 @@ import org.make.client.MakeApiClient
 import org.make.client.models.UserResponse
 import org.make.core.URI._
 import org.make.front.facades.I18n
-import org.make.front.models.{OperationId, User}
+import org.make.front.models.{OperationId, User, UserId}
 import org.make.services.ApiService
 import org.make.services.proposal.{SearchResult, SearchResultResponse}
 
@@ -110,6 +110,15 @@ object UserService extends ApiService {
           )
         )
       )
+      .map { _ =>
+        }
+  }
+
+  def removeUser(userId: UserId, password: Option[String]): Future[Unit] = {
+    MakeApiClient
+      .post[js.Object](resourceName / userId.value / "delete", data = JSON.stringify(password.map { value =>
+        js.Dictionary("password" -> value)
+      }.getOrElse(js.Dictionary.empty)))
       .map { _ =>
         }
   }

@@ -95,6 +95,10 @@ object Components {
       self(userProfile.editingUserProfile.UserProfileFormContainer.reactClass)
     def UserProfileDeleteAccountComponent: ReactClassElementSpec =
       self(userProfile.editingUserProfile.DeleteAccount.reactClass)
+    def UserProfileDeleteAccountFormContainerComponent: ReactClassElementSpec =
+      self(userProfile.editingUserProfile.DeleteAccountFormContainer.reactClass)
+    def UserProfileDeleteAccountFormComponent: ReactClassElementSpec =
+      self(userProfile.editingUserProfile.DeleteAccountForm.reactClass)
 
     /*********************/
     def ShareComponent: ReactClassElementSpec = self(share.ShareProposal.reactClass)

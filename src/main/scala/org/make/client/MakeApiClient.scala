@@ -81,7 +81,6 @@ object MakeApiClient extends Client {
 
   private def retryOnFailure[T](fn: => Future[T], retries: Int): Future[T] = {
     fn.recoverWith {
-      case ajaxException: AjaxException if ajaxException.isTimeout && retries > 0 => retryOnFailure(fn, retries - 1)
       case AjaxException(response: XMLHttpRequest) =>
         response.status match {
           case 400 =>
@@ -96,7 +95,8 @@ object MakeApiClient extends Client {
           case 502                => Future.failed(BadGatewayHttpException)
           case _                  => Future.failed(NotImplementedHttpException)
         }
-      case other => Future.failed(other)
+      case ajaxException: AjaxException if ajaxException.isTimeout && retries > 0 => retryOnFailure(fn, retries - 1)
+      case other                                                                  => Future.failed(other)
     }
   }
 
@@ -127,8 +127,11 @@ object MakeApiClient extends Client {
       withCredentials = requestData.withCredentials,
       responseType = requestData.responseType
     ).map { response =>
-      if (response.responseText.nonEmpty) JSON.parse(response.responseText).asInstanceOf[ENTITY]
-      else response.response.asInstanceOf[ENTITY]
+      response match {
+        case resp if resp.responseText == "OK"  => Map.empty.asInstanceOf[ENTITY]
+        case resp if resp.responseText.nonEmpty => JSON.parse(response.responseText).asInstanceOf[ENTITY]
+        case _                                  => response.response.asInstanceOf[ENTITY]
+      }
     }
   }
 
