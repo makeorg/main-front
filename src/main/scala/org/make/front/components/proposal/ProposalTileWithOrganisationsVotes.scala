@@ -64,7 +64,7 @@ object ProposalTileWithOrganisationsVotes {
     country: String
   )
 
-  final case class ProposalTileWithOrganisationsVotesState (isProposalSharable : Boolean)
+  final case class ProposalTileWithOrganisationsVotesState(isProposalSharable: Boolean)
 
   val reactClass: ReactClass =
     WithRouter(
@@ -72,23 +72,15 @@ object ProposalTileWithOrganisationsVotes {
         .createClass[ProposalTileWithOrganisationsVotesProps, ProposalTileWithOrganisationsVotesState](
           displayName = "ProposalTileWithTags",
           getInitialState = { self =>
-            ProposalTileWithOrganisationsVotesState(
-              isProposalSharable  = true
-            )
+            ProposalTileWithOrganisationsVotesState(isProposalSharable = true)
           },
           render = (self) => {
 
-            val intro: ReactElement = if (self.props.wrapped.proposal.myProposal) {
-              <.div(^.className := ProposalTileStyles.shareOwnProposalWrapper)(
-                <.ShareOwnProposalComponent(
-                  ^.wrapped := ShareOwnProposalProps(proposal = self.props.wrapped.proposal)
-                )()
-              )
-            } else {
+            val intro: ReactElement =
               <.div(^.className := ProposalTileStyles.proposalInfosWrapper)(
                 <.ProposalInfosComponent(^.wrapped := ProposalInfosProps(proposal = self.props.wrapped.proposal))()
               )
-            }
+
             val proposalLink: String = self.props.wrapped.maybeOperation match {
               case Some(operationExpanded) =>
                 s"/${self.props.wrapped.country}/consultation/${operationExpanded.slug}/proposal/${self.props.wrapped.proposal.slug}"
@@ -123,7 +115,7 @@ object ProposalTileWithOrganisationsVotes {
                           maybeOperation = self.props.wrapped.maybeOperation,
                           maybeSequenceId = self.props.wrapped.maybeSequenceId,
                           maybeLocation = self.props.wrapped.maybeLocation,
-                          isProposalSharable  = self.state.isProposalSharable
+                          isProposalSharable = self.state.isProposalSharable
                         )
                       )(),
                       <.ProposalActorVotedComponent(

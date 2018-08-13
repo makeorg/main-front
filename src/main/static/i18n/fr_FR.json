@@ -201,6 +201,8 @@
     "actions-tab": "Actions",
     "settings-tab": "Gérer mon compte",
     "years-old": "ans",
+    "vote": "vote",
+    "votes": "votes",
     "optin-newsletter": {
       "title": "Gérer mes emails",
       "description": "J’accepte de recevoir des informations de Make.org (votre adresse ne sera en aucun cas diffusée à des tiers)",
@@ -267,6 +269,10 @@
         "label": "Nouveau mot de passe",
         "placeholder": "Nouveau mot de passe"
       }
+    },
+    "proposal": {
+      "title": "Vos dernières propositions",
+      "empty": "n'a pas soumis de proposition sur Make.org"
     }
   },
   "proposal": {

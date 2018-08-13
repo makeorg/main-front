@@ -159,6 +159,8 @@
     "actions-tab": "Actions",
     "settings-tab": "Manage my account",
     "years-old": "years old",
+    "vote": "vote",
+    "votes": "votes",
     "reset-password": {
       "title": "Edit password",
       "required": "(required)",
@@ -190,6 +192,10 @@
       "inputs": {
         "required": "(required)"
       }
+    },
+    "proposal": {
+      "title": "Your last proposals",
+      "empty": "didn't submit proposals on Make.org"
     }
   },
   "proposal": {

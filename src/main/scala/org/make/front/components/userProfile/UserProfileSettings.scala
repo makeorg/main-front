@@ -41,13 +41,11 @@ object UserProfileSettings {
         },
         render = self => {
           <("UserProfileSettings")()(
-            <.div()(
-              <.UserProfileFormContainerComponent()(),
-              <.UserProfileResetPasswordContainerComponent()(),
-              <.UserProfileOptinNewsletterContainerComponent()(),
-              <.UserProfileDeleteAccountComponent(^.wrapped := DeleteAccountProps(user = self.props.wrapped.user))(),
-              //<.UserProfileDeleteAccountFormContainerComponent()()
-            )
+            <.UserProfileFormContainerComponent()(),
+            <.UserProfileResetPasswordContainerComponent()(),
+            <.UserProfileOptinNewsletterContainerComponent()(),
+            <.UserProfileDeleteAccountComponent(^.wrapped := DeleteAccountProps(user = self.props.wrapped.user))()
+            //<.UserProfileDeleteAccountFormContainerComponent()()
           )
         }
       )
