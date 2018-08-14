@@ -44,14 +44,13 @@ object ProposalService extends ApiService {
   def createProposal(content: String,
                      location: Location,
                      themeId: Option[String] = None,
-                     source: String = Source.Core.name,
                      operation: Option[OperationExpanded] = None,
                      question: Option[String] = None,
                      language: String,
                      country: String): Future[RegisterProposal] = {
 
     var headers =
-      Map[String, String](MakeApiClient.sourceHeader -> source, MakeApiClient.locationHeader -> location.name)
+      Map[String, String](MakeApiClient.locationHeader -> location.name)
     themeId.foreach(theme => headers += MakeApiClient.themeIdHeader -> theme)
 
     operation.foreach(op => headers += MakeApiClient.operationHeader -> op.operationId.value)
@@ -131,11 +130,10 @@ object ProposalService extends ApiService {
   def vote(proposalId: ProposalId,
            voteValue: String,
            location: Location,
-           source: String = Source.Core.name,
            operation: Option[OperationExpanded] = None,
            question: Option[String] = None): Future[Vote] = {
     var headers =
-      Map[String, String](MakeApiClient.sourceHeader -> source, MakeApiClient.locationHeader -> location.name)
+      Map[String, String](MakeApiClient.locationHeader -> location.name)
     operation.foreach(op => headers += MakeApiClient.operationHeader -> op.operationId.value)
     question.foreach(q   => headers += MakeApiClient.questionHeader -> q)
 
@@ -151,11 +149,10 @@ object ProposalService extends ApiService {
   def unvote(proposalId: ProposalId,
              oldVoteValue: String,
              location: Location,
-             source: String = Source.Core.name,
              operation: Option[OperationExpanded] = None,
              question: Option[String] = None): Future[Vote] = {
     var headers =
-      Map[String, String](MakeApiClient.sourceHeader -> source, MakeApiClient.locationHeader -> location.name)
+      Map[String, String](MakeApiClient.locationHeader -> location.name)
     operation.foreach(op => headers += MakeApiClient.operationHeader -> op.operationId.value)
     question.foreach(q   => headers += MakeApiClient.questionHeader -> q)
 
@@ -172,11 +169,10 @@ object ProposalService extends ApiService {
                   vote: String,
                   qualification: String,
                   location: Location,
-                  source: String = Source.Core.name,
                   operation: Option[OperationExpanded] = None,
                   question: Option[String] = None): Future[Qualification] = {
     var headers =
-      Map[String, String](MakeApiClient.sourceHeader -> source, MakeApiClient.locationHeader -> location.name)
+      Map[String, String](MakeApiClient.locationHeader -> location.name)
     operation.foreach(op => headers += MakeApiClient.operationHeader -> op.operationId.value)
     question.foreach(q   => headers += MakeApiClient.questionHeader -> q)
 
@@ -194,11 +190,10 @@ object ProposalService extends ApiService {
                               vote: String,
                               qualification: String,
                               location: Location,
-                              source: String = Source.Core.name,
                               operation: Option[OperationExpanded] = None,
                               question: Option[String] = None): Future[Qualification] = {
     var headers =
-      Map[String, String](MakeApiClient.sourceHeader -> source, MakeApiClient.locationHeader -> location.name)
+      Map[String, String](MakeApiClient.locationHeader -> location.name)
     operation.foreach(op => headers += MakeApiClient.operationHeader -> op.operationId.value)
     question.foreach(q   => headers += MakeApiClient.questionHeader -> q)
 

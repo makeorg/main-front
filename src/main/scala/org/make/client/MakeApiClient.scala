@@ -23,7 +23,7 @@ package org.make.client
 import io.github.shogowada.statictags.MediaTypes
 import org.make.core.URI._
 import org.make.front.facades.Configuration
-import org.make.front.models.{OperationId, Token, TokenResponse}
+import org.make.front.models.{OperationId, Source, Token, TokenResponse}
 import org.scalajs.dom.XMLHttpRequest
 import org.scalajs.dom.ext.Ajax.InputData
 import org.scalajs.dom.ext.{Ajax, AjaxException}
@@ -43,21 +43,6 @@ object MakeApiClient extends Client {
   private def removeToken(): Unit = authToken = None
   private def isAuthenticated: Boolean = authToken.isDefined
 
-  def getDefaultHeaders: Map[String, String] = {
-    defaultHeaders ++
-      MakeApiClient.getToken.map { authToken =>
-        "Authorization" -> s"${authToken.token_type} ${authToken.access_token}"
-      }
-  }
-
-  var defaultHeaders: Map[String, String] = {
-    Map("Accept" -> MediaTypes.`application/json`, "Content-Type" -> "application/json;charset=UTF-8")
-  }
-
-  def addHeaders(headers: Map[String, String]): Unit = {
-    defaultHeaders = defaultHeaders ++ headers
-  }
-
   val themeIdHeader: String = "x-make-theme-id"
   val operationHeader: String = "x-make-operation"
   val sourceHeader: String = "x-make-source"
@@ -67,9 +52,27 @@ object MakeApiClient extends Client {
   val countryHeader: String = "x-make-country"
 
   val retryAfterTimeout: Int = 4
-
   val maxTimeout: Int = 9000
   val withCredentials: Boolean = true
+
+  var defaultHeaders: Map[String, String] = {
+    Map(
+      "Accept" -> MediaTypes.`application/json`,
+      "Content-Type" -> "application/json;charset=UTF-8",
+      MakeApiClient.sourceHeader -> Source.Core.name
+    )
+  }
+
+  def getDefaultHeaders: Map[String, String] = {
+    defaultHeaders ++
+      MakeApiClient.getToken.map { authToken =>
+        "Authorization" -> s"${authToken.token_type} ${authToken.access_token}"
+      }
+  }
+
+  def addHeaders(headers: Map[String, String]): Unit = {
+    defaultHeaders = defaultHeaders ++ headers
+  }
 
   case class RequestData(method: String,
                          url: String,

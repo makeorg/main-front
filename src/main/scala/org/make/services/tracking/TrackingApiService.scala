@@ -39,9 +39,6 @@ object TrackingApiService extends ApiService {
             eventName: String,
             allParameters: Map[String, String] = Map.empty,
             trackingContext: TrackingContext): Future[Unit] = {
-    var headers =
-      Map[String, String](MakeApiClient.sourceHeader -> trackingContext.source.name)
-
     val params = js.Dictionary(
       "eventType" -> eventType,
       "eventName" -> eventName,
@@ -49,7 +46,7 @@ object TrackingApiService extends ApiService {
     )
 
     MakeApiClient
-      .post[js.Object](resourceName / "front", data = JSON.stringify(params), headers = headers)
+      .post[js.Object](resourceName / "front", data = JSON.stringify(params))
       .map { _ =>
         }
   }
