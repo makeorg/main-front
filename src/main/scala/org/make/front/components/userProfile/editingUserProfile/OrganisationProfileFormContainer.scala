@@ -25,12 +25,12 @@ import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import io.github.shogowada.scalajs.reactjs.events.FormSyntheticEvent
 import io.github.shogowada.scalajs.reactjs.redux.ReactRedux
 import io.github.shogowada.scalajs.reactjs.redux.Redux.Dispatch
-import org.make.core.validation.{Constraint, LengthConstraint, NotBlankConstraint}
+import org.make.core.validation.{Constraint, NotBlankConstraint}
 import org.make.front.actions.ReloadUserAction
 import org.make.front.components.AppState
-import org.make.front.components.userProfile.editingUserProfile.UserProfileForm.{
-  UserProfileFormProps,
-  UserProfileFormState
+import org.make.front.components.userProfile.editingUserProfile.OrganisationProfileForm.{
+  OrganisationProfileFormProps,
+  OrganisationProfileFormState
 }
 import org.make.front.facades.I18n
 import org.make.services.user.UserService
@@ -40,28 +40,23 @@ import scala.concurrent.ExecutionContext.Implicits.global
 import scala.scalajs.js
 import scala.util.{Failure, Success}
 
-object UserProfileFormContainer {
+object OrganisationProfileFormContainer {
 
-  lazy val reactClass: ReactClass = ReactRedux.connectAdvanced(selectorFactory)(UserProfileForm.reactClass)
+  lazy val reactClass: ReactClass = ReactRedux.connectAdvanced(selectorFactory)(OrganisationProfileForm.reactClass)
 
-  def selectorFactory: Dispatch => (AppState, Props[Unit]) => UserProfileFormProps =
+  def selectorFactory: Dispatch => (AppState, Props[Unit]) => OrganisationProfileFormProps =
     (dispatch: Dispatch) => { (state: AppState, _: Props[Unit]) =>
       val fieldsValidation: js.Array[(String, Constraint, Map[String, String])] = {
         js.Array(
           (
-            "firstName",
+            "organisationName",
             NotBlankConstraint,
             Map("notBlank" -> I18n.t("user-profile.form.inputs.empty-field-error-message"))
-          ),
-          (
-            "postalCode",
-            new LengthConstraint(max = Some(7)),
-            Map("maxMessage" -> I18n.t("user-profile.form.inputs.format-error-message"))
           )
         )
       }
       def handleOnSubmit(
-        self: Self[UserProfileFormProps, UserProfileFormState]
+        self: Self[OrganisationProfileFormProps, OrganisationProfileFormState]
       ): FormSyntheticEvent[HTMLInputElement] => Unit = { event =>
         event.preventDefault()
         var errors: Map[String, String] = Map.empty
@@ -80,12 +75,7 @@ object UserProfileFormContainer {
           self.setState(_.copy(errors = errors))
         } else {
           UserService
-            .updateUser(
-              firstName = self.state.fields.get("firstName"),
-              age = self.state.fields.get("age"),
-              profession = self.state.fields.get("profession"),
-              postalCode = self.state.fields.get("postalCode")
-            )
+            .updateUser(organisationName = self.state.fields.get("organisationName"))
             .onComplete {
               case Success(_) =>
                 self.setState(self.state.copy(message = I18n.t("user-profile.update.confirmation")))
@@ -98,6 +88,6 @@ object UserProfileFormContainer {
         }
       }
 
-      UserProfileFormProps(handleOnSubmit = handleOnSubmit, user = state.connectedUser.get)
+      OrganisationProfileFormProps(handleOnSubmit = handleOnSubmit, user = state.connectedUser.get)
     }
 }

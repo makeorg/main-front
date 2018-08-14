@@ -220,6 +220,9 @@
         "first-name": {
           "label": "Prénom"
         },
+        "organisation_name": {
+          "label": "Nom"
+        },
         "last-name": {
           "label": "Nom"
         },

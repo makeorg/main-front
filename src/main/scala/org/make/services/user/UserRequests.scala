@@ -65,6 +65,7 @@ object JsRegisterUserRequest {
 
 final case class UpdateUserRequest(firstName: Option[String] = None,
                                    lastName: Option[String] = None,
+                                   organisationName: Option[String] = None,
                                    dateOfBirth: Option[String] = None,
                                    profession: Option[String] = None,
                                    postalCode: Option[String] = None,
@@ -76,6 +77,7 @@ final case class UpdateUserRequest(firstName: Option[String] = None,
 trait JsUpdateUserRequest extends js.Object {
   val firstName: js.UndefOr[String]
   val lastName: js.UndefOr[String]
+  val organisationName: js.UndefOr[String]
   val dateOfBirth: js.UndefOr[String]
   val profession: js.UndefOr[String]
   val postalCode: js.UndefOr[String]
@@ -91,6 +93,7 @@ object JsUpdateUserRequest {
       .literal(
         firstName = updateUserRequest.firstName.orUndefined,
         lastName = updateUserRequest.lastName.orUndefined,
+        organisationName = updateUserRequest.organisationName.orUndefined,
         dateOfBirth = updateUserRequest.dateOfBirth.orUndefined,
         profession = updateUserRequest.profession.orUndefined,
         postalCode = updateUserRequest.postalCode.orUndefined,
@@ -102,4 +105,3 @@ object JsUpdateUserRequest {
       .asInstanceOf[JsUpdateUserRequest]
   }
 }
-

@@ -92,6 +92,8 @@ object Components {
       self(userProfile.editingUserProfile.OptinNewsletterContainer.reactClass)
     def UserProfileFormContainerComponent: ReactClassElementSpec =
       self(userProfile.editingUserProfile.UserProfileFormContainer.reactClass)
+    def OrganisationProfileFormContainerComponent: ReactClassElementSpec =
+      self(userProfile.editingUserProfile.OrganisationProfileFormContainer.reactClass)
     def UserProfileDeleteAccountComponent: ReactClassElementSpec =
       self(userProfile.editingUserProfile.DeleteAccount.reactClass)
     def UserProfileDeleteAccountFormContainerComponent: ReactClassElementSpec =

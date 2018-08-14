@@ -78,6 +78,7 @@ object UserService extends ApiService {
 
   def updateUser(firstName: Option[String] = None,
                  lastName: Option[String] = None,
+                 organisationName: Option[String] = None,
                  profession: Option[String] = None,
                  age: Option[String] = None,
                  postalCode: Option[String] = None,
@@ -99,6 +100,7 @@ object UserService extends ApiService {
             UpdateUserRequest(
               firstName = firstName,
               lastName = lastName,
+              organisationName = organisationName,
               profession = profession,
               postalCode = postalCode,
               phoneNumber = phoneNumber,

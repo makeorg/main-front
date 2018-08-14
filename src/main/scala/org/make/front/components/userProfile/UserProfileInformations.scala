@@ -59,7 +59,7 @@ object UserProfileInformations {
           val user: UserModel = self.props.wrapped.user
           val userProfile: Option[Profile] = user.profile
           val userAge = userProfile.flatMap(_.dateOfBirth).map { date =>
-            Math.abs((new Date(Date.now() - date.getTime())).getUTCFullYear() - 1970)
+            Math.abs(new Date(Date.now() - date.getTime()).getUTCFullYear() - 1970)
           }
 
           def changeTab(newTab: String): () => Unit = { () =>
@@ -81,7 +81,7 @@ object UserProfileInformations {
                 <.img(
                   ^.src := userProfile.flatMap(_.avatarUrl).getOrElse(""),
                   ^.className := UserProfileInformationsStyles.avatar,
-                  ^.alt := user.firstName.getOrElse(""),
+                  ^.alt := user.firstName.getOrElse(user.organisationName.getOrElse("")),
                   ^("data-pin-no-hover") := "true"
                 )()
               } else {
@@ -89,17 +89,23 @@ object UserProfileInformations {
               }
             ),
             <.div(^.className := UserProfileInformationsStyles.personnalInformations)(
-              user.firstName.map { firstName =>
-                <.h1(^.className := UserProfileInformationsStyles.userName)(firstName)
-              }.toSeq,
-              userProfile.flatMap(_.postalCode).map { postalCode =>
-                if (postalCode.nonEmpty) {
-                  <.p(^.className := UserProfileInformationsStyles.basicInformations)(
-                    <.i(^.className := js.Array(FontAwesomeStyles.mapMarker, UserProfileInformationsStyles.marker))(),
-                    postalCode
-                  )
+              user.firstName
+                .orElse(user.organisationName)
+                .map { name =>
+                  <.h1(^.className := UserProfileInformationsStyles.userName)(name)
                 }
-              }.toSeq,
+                .toSeq,
+              userProfile
+                .flatMap(_.postalCode)
+                .map { postalCode =>
+                  if (postalCode.nonEmpty) {
+                    <.p(^.className := UserProfileInformationsStyles.basicInformations)(
+                      <.i(^.className := js.Array(FontAwesomeStyles.mapMarker, UserProfileInformationsStyles.marker))(),
+                      postalCode
+                    )
+                  }
+                }
+                .toSeq,
               userAge.map { age =>
                 <.p(^.className := UserProfileInformationsStyles.basicInformations)(
                   age,
@@ -107,9 +113,12 @@ object UserProfileInformations {
                   I18n.t("user-profile.years-old")
                 )
               }.toSeq,
-              userProfile.flatMap(_.profession).map { profession =>
-                <.p(^.className := UserProfileInformationsStyles.basicInformations)(profession)
-              }.toSeq
+              userProfile
+                .flatMap(_.profession)
+                .map { profession =>
+                  <.p(^.className := UserProfileInformationsStyles.basicInformations)(profession)
+                }
+                .toSeq
             ),
             // Todo Uncomment when biography is ready
             /*<.CSSTransition(
