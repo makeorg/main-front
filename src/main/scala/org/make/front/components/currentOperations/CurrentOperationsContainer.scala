@@ -25,7 +25,7 @@ import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import io.github.shogowada.scalajs.reactjs.redux.ReactRedux
 import io.github.shogowada.scalajs.reactjs.redux.Redux.Dispatch
 import io.github.shogowada.scalajs.reactjs.router.RouterProps._
-import org.make.front.actions.SetCountry
+import org.make.front.actions.{SetCountry, SetLanguage}
 import org.make.front.components.DataLoader.DataLoaderProps
 import org.make.front.components.{AppState, DataLoader}
 import org.make.front.facades._
@@ -68,8 +68,8 @@ object CurrentOperationsContainer {
           }
       }.getOrElse(js.Array())
 
-      if (!supportedCountries.exists(country => country.countryCode == countryCode)) {
-        props.history.push("/404")
+      if (!supportedCountries.exists(country => country.countryCode == countryCode) && appState.language != "en") {
+        dispatch(SetLanguage("en"))
       }
 
       val openCoreCountry = supportedCountries.filter(countryConfiguration => countryConfiguration.coreIsAvailable)
