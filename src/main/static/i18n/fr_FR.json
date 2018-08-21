@@ -252,6 +252,11 @@
         "placeholder": "J'indique mon mot de passe pour supprimer mon compte",
         "error": "Votre mot de passe n'est pas valide, merci de bien vouloir le renseigner à nouveau."
       },
+      "email": {
+        "label": "Email",
+        "placeholder": "J'indique mon email pour supprimer mon compte",
+        "error": "Cet email n'est pas associé à votre compte, merci de bien vouloir saisir votre email à nouveau."
+      },
       "inputs": {
         "required": "(obligatoire)"
       }

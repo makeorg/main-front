@@ -26,7 +26,7 @@ import io.github.shogowada.scalajs.reactjs.events.FormSyntheticEvent
 import io.github.shogowada.scalajs.reactjs.redux.ReactRedux
 import io.github.shogowada.scalajs.reactjs.redux.Redux.Dispatch
 import org.make.client.BadRequestHttpException
-import org.make.core.validation.{Constraint, PasswordConstraint}
+import org.make.core.validation.{Constraint, PasswordConstraint, RegexConstraint, SameConstraint}
 import org.make.front.actions.{LogoutAction, NotifySuccess}
 import org.make.front.components.AppState
 import org.make.front.components.authenticate.register.getErrorsMessagesFromApiErrors
@@ -60,6 +60,11 @@ object DeleteAccountFormContainer {
                 Replacements("min" -> PasswordConstraint.min.toString)
               )
             )
+          ),
+          (
+            "email",
+            new SameConstraint(state.connectedUser.map(_.email).getOrElse("")),
+            Map("invalid" -> I18n.t("user-profile.delete-account.email.error"))
           )
         )
       }
