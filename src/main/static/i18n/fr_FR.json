@@ -234,6 +234,9 @@
         },
         "profession": {
           "label": "Profession"
+        },
+        "organisation-name": {
+          "label": "Nom"
         }
       }
     },
