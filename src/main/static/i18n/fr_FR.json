@@ -35,7 +35,7 @@
     "explanation-1": "Pour pouvoir vous proposer un site toujours plus&nbsp;performant,<br>Make.org est actuellement en&nbsp;maintenance.",
     "explanation-2": "N’hésitez pas à repasser d’ici quelques minutes."
   },
-  "cookie-alert": "En poursuivant votre navigation vous consentez à nos <a href=%{link-cgu}>conditions générales d’utilisation</a>, à notre <a href=%{link-data-policy}>politique d'utilisation des données personnelles</a>, ainsi que l'utilisation de cookies sur notre site afin d'améliorer notre service.",
+  "cookie-alert": "En poursuivant votre navigation vous consentez à nos <a href=%{link-cgu}>conditions générales d’utilisation</a>, à notre <a href=%{link-data-policy}>politique d'utilisation des données personnelles</a>, ainsi qu'à l'utilisation de cookies sur notre site dans un but d'améliorer notre service.",
   "link-cgu": "https://about.make.org/conditions-dutilisation",
   "link-data-policy": "https://about.make.org/politique-donnees",
   "home": {
