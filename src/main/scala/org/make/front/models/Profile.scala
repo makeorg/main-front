@@ -54,6 +54,7 @@ case class Profile(dateOfBirth: Option[js.Date],
                    avatarUrl: Option[String],
                    profession: Option[String],
                    phoneNumber: Option[String],
+                   description: Option[String],
                    twitterId: Option[String],
                    facebookId: Option[String],
                    googleId: Option[String],
@@ -77,6 +78,7 @@ object Profile {
       avatarUrl = undefToOption(profileResponse.avatarUrl),
       profession = undefToOption(profileResponse.profession),
       phoneNumber = undefToOption(profileResponse.phoneNumber),
+      description = undefToOption(profileResponse.description),
       twitterId = undefToOption(profileResponse.twitterId),
       facebookId = undefToOption(profileResponse.facebookId),
       googleId = undefToOption(profileResponse.googleId),
@@ -96,14 +98,15 @@ object Profile {
   }
 
   def isEmpty(profile: Profile): Boolean = profile match {
-    case Profile(None, None, None, None, None, None, None, None, None, None, None, None, None, false) => true
-    case _                                                                                      => false
+    case Profile(None, None, None, None, None, None, None, None, None, None, None, None, None, None, false) => true
+    case _                                                                                                  => false
   }
 
   def parseProfile(dateOfBirth: Option[js.Date] = None,
                    avatarUrl: Option[String] = None,
                    profession: Option[String] = None,
                    phoneNumber: Option[String] = None,
+                   description: Option[String] = None,
                    twitterId: Option[String] = None,
                    facebookId: Option[String] = None,
                    googleId: Option[String] = None,
@@ -120,6 +123,7 @@ object Profile {
       avatarUrl = avatarUrl,
       profession = profession,
       phoneNumber = phoneNumber,
+      description = description,
       twitterId = twitterId,
       facebookId = facebookId,
       googleId = googleId,
