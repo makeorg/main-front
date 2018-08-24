@@ -25,6 +25,7 @@ import io.github.shogowada.scalajs.reactjs.VirtualDOM.{<, _}
 import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import io.github.shogowada.scalajs.reactjs.elements.ReactElement
 import io.github.shogowada.scalajs.reactjs.router.WithRouter
+import io.github.shogowada.scalajs.reactjs.router.dom.RouterDOM._
 import org.make.front.Main.CssSettings._
 import org.make.front.components.Components.{RichVirtualDOMElements, _}
 import org.make.front.components.proposal.ProposalActorVoted.ProposalActorVotedProps
@@ -64,6 +65,9 @@ object ProposalTileWithoutVoteAction {
                 <.ProposalInfosComponent(^.wrapped := ProposalInfosProps(proposal = self.props.wrapped.proposal))()
               )
 
+            val proposalLink: String =
+              s"/${self.props.wrapped.proposal.country}/proposal/${self.props.wrapped.proposal.slug}"
+
             <.article(^.className := ProposalTileStyles.wrapper)(
               <.div(^.className := js.Array(TableLayoutStyles.fullHeightWrapper, ProposalTileStyles.innerWrapper))(
                 <.div(^.className := TableLayoutStyles.row)(
@@ -73,7 +77,11 @@ object ProposalTileWithoutVoteAction {
                       <.h3(
                         ^.className := js
                           .Array(TextStyles.mediumText, TextStyles.boldText, ProposalTileStyles.proposalLinkOnTitle)
-                      )(self.props.wrapped.proposal.content),
+                      )(
+                        <.Link(^.to := proposalLink, ^.className := ProposalTileStyles.proposalLinkOnTitle)(
+                          self.props.wrapped.proposal.content
+                        )
+                      ),
                       <.DisplayVotesDataComponent(
                         ^.wrapped := DisplayVotesDataProps(
                           vote = self.state.votes,
