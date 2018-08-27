@@ -83,6 +83,7 @@ object UserService extends ApiService {
                  age: Option[String] = None,
                  postalCode: Option[String] = None,
                  phoneNumber: Option[String] = None,
+                 description: Option[String] = None,
                  optInNewsletter: Option[Boolean] = None,
                  language: Option[String] = None,
                  country: Option[String] = None): Future[Unit] = {
@@ -104,6 +105,7 @@ object UserService extends ApiService {
               profession = profession,
               postalCode = postalCode,
               phoneNumber = phoneNumber,
+              description = description,
               optInNewsletter = optInNewsletter,
               dateOfBirth = dateOfBirth,
               country = country,

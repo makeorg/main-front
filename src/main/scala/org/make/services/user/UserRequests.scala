@@ -70,6 +70,7 @@ final case class UpdateUserRequest(firstName: Option[String] = None,
                                    profession: Option[String] = None,
                                    postalCode: Option[String] = None,
                                    phoneNumber: Option[String] = None,
+                                   description: Option[String] = None,
                                    optInNewsletter: Option[Boolean],
                                    language: Option[String],
                                    country: Option[String])

@@ -46,6 +46,7 @@ trait ProfileResponse extends js.Object {
   val avatarUrl: js.UndefOr[String]
   val profession: js.UndefOr[String]
   val phoneNumber: js.UndefOr[String]
+  val description: js.UndefOr[String]
   val twitterId: js.UndefOr[String]
   val facebookId: js.UndefOr[String]
   val googleId: js.UndefOr[String]
