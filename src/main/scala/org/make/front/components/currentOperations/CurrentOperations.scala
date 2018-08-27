@@ -144,7 +144,7 @@ object CurrentOperations {
                       )
                     )
                   ),
-                  if (self.props.wrapped.operations.lengthCompare(1) > 0) {
+                  if (self.props.wrapped.operations.length > 1) {
                     <.ul(
                       ^.className := js
                         .Array(CurrentOperationsStyles.operationsList, LayoutRulesStyles.centeredRowWithCols)
@@ -157,10 +157,12 @@ object CurrentOperations {
                         )
                       )(operationTile(operation))
                     }.toSeq)
-                  } else {
+                  } else if (self.props.wrapped.operations.length == 1) {
                     <.div(
                       ^.className := js.Array(CurrentOperationsStyles.operationItem, LayoutRulesStyles.centeredRow)
                     )(operationTile(self.props.wrapped.operations.head, isLongerBeyondMedium = true))
+                  } else {
+                    <.div()()
                   }
                 ),
                 <.section(^.className := CurrentOperationsStyles.countries)(

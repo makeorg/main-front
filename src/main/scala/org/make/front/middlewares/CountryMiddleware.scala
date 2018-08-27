@@ -39,10 +39,10 @@ object CountryMiddleware {
           _.supportedCountries.find(_.countryCode == newCountry)
         }
 
-        countryConfiguration.map { countryConfiguration =>
-          if (countryConfiguration.supportedLanguages.contains(appStore.getState.language)) {
-            dispatch(SetCountry(country = newCountry))
-          } else {
+        if (countryConfiguration.forall(_.supportedLanguages.contains(appStore.getState.language))) {
+          dispatch(SetCountry(country = newCountry))
+        } else {
+          countryConfiguration.foreach { countryConfiguration =>
             LanguageMiddleware.updateServicesLanguage(countryConfiguration.defaultLanguage)
             dispatch(SetCountryLanguage(country = newCountry, language = countryConfiguration.defaultLanguage))
           }
