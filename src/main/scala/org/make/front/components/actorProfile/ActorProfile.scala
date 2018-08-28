@@ -23,12 +23,25 @@ package org.make.front.components.actorProfile
 import io.github.shogowada.scalajs.reactjs.React
 import io.github.shogowada.scalajs.reactjs.VirtualDOM._
 import io.github.shogowada.scalajs.reactjs.classes.ReactClass
+import org.make.front.components.Components._
+import org.make.front.components.actorProfile.ActorProfileProposalsContainer.ActorProposalsContainerProps
+import org.make.front.models.{Organisation => OrganisationModel}
 
 object ActorProfile {
 
+  final case class ActorProfileProps(actor: OrganisationModel)
+
   val reactClass: ReactClass =
     React
-      .createClass[Unit, Unit](displayName = "ActorProfile", render = _ => {
-        <.div()()
-      })
+      .createClass[ActorProfileProps, Unit](
+        displayName = "ActorProfile",
+        render = self => {
+
+          <.div()(
+            <.ActorProfileProposalsContainerComponent(
+              ^.wrapped := ActorProposalsContainerProps(actor = self.props.wrapped.actor)
+            )()
+          )
+        }
+      )
 }

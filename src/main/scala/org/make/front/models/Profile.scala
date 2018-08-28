@@ -21,10 +21,7 @@
 package org.make.front.models
 
 import scalajs.js
-
 import org.make.front.helpers.UndefToOption.undefToOption
-import org.make.client.models.ProfileResponse
-
 sealed trait Gender {
   def shortName: String
 }

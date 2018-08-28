@@ -26,7 +26,7 @@ import io.github.shogowada.scalajs.reactjs.router.RouterProps._
 import io.github.shogowada.scalajs.reactjs.router.WithRouter
 import io.github.shogowada.scalajs.reactjs.router.dom.RouterDOM._
 import org.make.front.components.activateAccount.ActivateAccountContainer
-import org.make.front.components.actorProfile.ActorProfile
+import org.make.front.components.actorProfile.{ActorProfile, ActorProfileContainer}
 import org.make.front.components.authenticate.resetPassword.ResetPasswordContainer
 import org.make.front.components.consultation.ConsultationContainer
 import org.make.front.components.currentOperations.CurrentOperationsContainer
@@ -105,7 +105,7 @@ object Container {
           <.Route(
             ^.exact := true,
             ^.path := "/:country/profile/:organisationSlug",
-            ^.component := CountryDetector(ActorProfile.reactClass)
+            ^.component := CountryDetector(ActorProfileContainer.reactClass)
           )(),
           <.Route(
             ^.exact := true,
