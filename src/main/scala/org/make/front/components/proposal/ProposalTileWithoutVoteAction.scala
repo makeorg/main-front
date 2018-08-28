@@ -28,7 +28,6 @@ import io.github.shogowada.scalajs.reactjs.router.WithRouter
 import io.github.shogowada.scalajs.reactjs.router.dom.RouterDOM._
 import org.make.front.Main.CssSettings._
 import org.make.front.components.Components.{RichVirtualDOMElements, _}
-import org.make.front.components.proposal.ProposalActorVoted.ProposalActorVotedProps
 import org.make.front.components.proposal.ProposalInfos.ProposalInfosProps
 import org.make.front.components.proposal.vote.DisplayVotesData.DisplayVotesDataProps
 import org.make.front.facades.I18n
@@ -40,7 +39,7 @@ import scala.scalajs.js
 
 object ProposalTileWithoutVoteAction {
 
-  final case class ProposalTileWithoutVoteActionProps(proposal: ProposalModel, index: Int)
+  final case class ProposalTileWithoutVoteActionProps(proposal: ProposalModel, index: Int, country: String)
 
   final case class ProposalTileWithoutVoteActionState(votes: js.Array[VoteModel],
                                                       voteKeyMap: Map[String, String],
@@ -60,7 +59,7 @@ object ProposalTileWithoutVoteAction {
               qualification = self.props.wrapped.proposal.votes.flatMap(vote => vote.qualifications)
             )
           },
-          render = (self) => {
+          render = self => {
 
             val overlayClass =
               js.Array(ProposalTileStyles.wrapperOverlay.htmlClass, self.props.wrapped.proposal.status match {
@@ -90,7 +89,12 @@ object ProposalTileWithoutVoteAction {
 
             val intro: ReactElement =
               <.div(^.className := ProposalTileStyles.proposalInfosWrapper)(
-                <.ProposalInfosComponent(^.wrapped := ProposalInfosProps(proposal = self.props.wrapped.proposal))(),
+                <.ProposalInfosComponent(
+                  ^.wrapped := ProposalInfosProps(
+                    proposal = self.props.wrapped.proposal,
+                    country = Some(self.props.wrapped.country)
+                  )
+                )(),
                 <.div(^.className := proposalStatusClass)(
                   unescape(I18n.t(s"proposal.status.${self.props.wrapped.proposal.status}"))
                 )

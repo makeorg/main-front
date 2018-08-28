@@ -41,7 +41,7 @@ import scala.scalajs.js
 
 object ProposalInfos {
 
-  final case class ProposalInfosProps(proposal: ProposalModel)
+  final case class ProposalInfosProps(proposal: ProposalModel, country: Option[String])
 
   val reactClass: ReactClass =
     React
@@ -99,7 +99,12 @@ object ProposalInfos {
                   <.img(^.src := userPlaceholder.toString)()
                 }
               ),
-              <.ProposalAuthorInfos(^.wrapped := ProposalAuthorInfosProps(proposal = self.props.wrapped.proposal))()
+              <.ProposalAuthorInfos(
+                ^.wrapped := ProposalAuthorInfosProps(
+                  proposal = self.props.wrapped.proposal,
+                  country = self.props.wrapped.country
+                )
+              )()
             ),
             self.props.wrapped.proposal.trending.map(label).getOrElse(js.Array()),
             <.style()(ProposalInfosStyles.render[String])
@@ -149,5 +154,8 @@ object ProposalInfosStyles extends StyleSheet.Inline {
   )
 
   val displayFlex: StyleA = style(display.flex)
+
+  val actorLink: StyleA =
+    style(color(ThemeStyles.ThemeColor.primary))
 
 }

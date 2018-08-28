@@ -62,7 +62,7 @@ object ProposalTileWithTags {
                                              maybeLocation: Option[LocationModel],
                                              country: String)
 
-  final case class ProposalTileWithTagsState (isProposalSharable : Boolean)
+  final case class ProposalTileWithTagsState(isProposalSharable: Boolean)
 
   val reactClass: ReactClass =
     WithRouter(
@@ -70,9 +70,7 @@ object ProposalTileWithTags {
         .createClass[ProposalTileWithTagsProps, ProposalTileWithTagsState](
           displayName = "ProposalTileWithTags",
           getInitialState = { self =>
-            ProposalTileWithTagsState(
-              isProposalSharable  = false
-            )
+            ProposalTileWithTagsState(isProposalSharable = false)
           },
           render = (self) => {
 
@@ -84,7 +82,12 @@ object ProposalTileWithTags {
               )
             } else {
               <.div(^.className := ProposalTileStyles.proposalInfosWrapper)(
-                <.ProposalInfosComponent(^.wrapped := ProposalInfosProps(proposal = self.props.wrapped.proposal))()
+                <.ProposalInfosComponent(
+                  ^.wrapped := ProposalInfosProps(
+                    proposal = self.props.wrapped.proposal,
+                    country = Some(self.props.wrapped.country)
+                  )
+                )()
               )
             }
             val proposalLink: String = self.props.wrapped.maybeOperation match {
@@ -121,7 +124,7 @@ object ProposalTileWithTags {
                           maybeOperation = self.props.wrapped.maybeOperation,
                           maybeSequenceId = self.props.wrapped.maybeSequenceId,
                           maybeLocation = self.props.wrapped.maybeLocation,
-                          isProposalSharable  = self.state.isProposalSharable
+                          isProposalSharable = self.state.isProposalSharable
                         )
                       )()
                     )

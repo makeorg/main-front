@@ -20,27 +20,19 @@
 
 package org.make.front.components.userProfile
 import io.github.shogowada.scalajs.reactjs.React
-import io.github.shogowada.scalajs.reactjs.React.Self
 import io.github.shogowada.scalajs.reactjs.VirtualDOM._
 import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import org.make.core.Counter
 import org.make.front.Main.CssSettings._
 import org.make.front.components.Components._
-import org.make.front.components.proposal.ProposalTileWithOrganisationsVotes.ProposalTileWithOrganisationsVotesProps
 import org.make.front.components.proposal.ProposalTileWithoutVoteAction.ProposalTileWithoutVoteActionProps
 import org.make.front.facades.I18n
 import org.make.front.facades.Unescape.unescape
-import org.make.front.models.{
-  Proposal,
-  ProposalId    => ProposalIdModel,
-  Qualification => QualificationModel,
-  Vote          => VoteModel
-}
+import org.make.front.models.Proposal
 import org.make.front.styles.ThemeStyles
 import org.make.front.styles.base.TextStyles
 import org.make.front.styles.utils._
 import org.make.front.styles.vendors.FontAwesomeStyles
-import org.make.services.tracking.TrackingLocation
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
@@ -53,55 +45,6 @@ object UserLikeItProposals {
   final case class UserLikeItProposalsState(proposals: js.Array[Proposal])
 
   lazy val reactClass: ReactClass = {
-    def onSuccessfulVote(proposalId: ProposalIdModel,
-                         self: Self[UserLikeItProposalsProps, UserLikeItProposalsState]): VoteModel => Unit = {
-      voteModel =>
-        def mapProposal(proposal: Proposal): Proposal = {
-          if (proposal.id == proposalId) {
-            proposal.copy(votes = proposal.votes.map { vote =>
-              if (vote.key == voteModel.key) {
-                voteModel
-              } else {
-                vote
-              }
-            })
-          } else {
-            proposal
-          }
-        }
-
-        val updatedProposals = self.state.proposals.map(mapProposal)
-        self.setState(_.copy(proposals = updatedProposals))
-    }
-
-    def onSuccessfulQualification(
-      proposalId: ProposalIdModel,
-      self: Self[UserLikeItProposalsProps, UserLikeItProposalsState]
-    ): (String, QualificationModel) => Unit = { (voteKey, qualificationModel) =>
-      def mapProposal(proposal: Proposal): Proposal = {
-        if (proposal.id == proposalId) {
-          proposal.copy(votes = proposal.votes.map { vote =>
-            if (vote.key == voteKey) {
-              vote.copy(qualifications = vote.qualifications.map { qualification =>
-                if (qualification.key == qualificationModel.key) {
-                  qualificationModel
-                } else {
-                  qualification
-                }
-              })
-            } else {
-              vote
-            }
-          })
-        } else {
-          proposal
-        }
-      }
-
-      val updatedProposals = self.state.proposals.map(mapProposal)
-      self.setState(_.copy(proposals = updatedProposals))
-    }
-
     React.createClass[UserLikeItProposalsProps, UserLikeItProposalsState](
       displayName = "UserLikeItProposals",
       getInitialState = _ => UserLikeItProposalsState(js.Array()),
@@ -143,7 +86,8 @@ object UserLikeItProposals {
                   <.ProposalTileWithoutVoteActionComponent(
                     ^.wrapped := ProposalTileWithoutVoteActionProps(
                       proposal = proposal,
-                      index = counter.getAndIncrement()
+                      index = counter.getAndIncrement(),
+                      country = proposal.country
                     ),
                     ^.key := s"proposal_${proposal.id.value}"
                   )()

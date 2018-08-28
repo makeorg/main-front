@@ -23,28 +23,25 @@ package org.make.front.components.proposal
 import io.github.shogowada.scalajs.reactjs.React
 import io.github.shogowada.scalajs.reactjs.VirtualDOM.{<, _}
 import io.github.shogowada.scalajs.reactjs.classes.ReactClass
-import org.make.front.Main.CssSettings._
+import io.github.shogowada.scalajs.reactjs.router.dom.RouterDOM._
 import org.make.front.components.Components._
 import org.make.front.facades.Localize.DateLocalizeOptions
+import org.make.front.facades.Unescape.unescape
 import org.make.front.facades.{I18n, Replacements}
 import org.make.front.models.{Proposal => ProposalModel}
-import org.make.front.facades.Unescape.unescape
-import org.make.front.styles.ThemeStyles
-import org.make.front.styles.utils._
 import org.make.front.styles.vendors.FontAwesomeStyles
-import scalacss.internal.ValueT
 
 import scala.scalajs.js
 
 object ProposalAuthorInfos {
 
-  final case class ProposalAuthorInfosProps(proposal: ProposalModel)
+  final case class ProposalAuthorInfosProps(proposal: ProposalModel, country: Option[String])
 
   val reactClass: ReactClass =
     React
       .createClass[ProposalAuthorInfosProps, Unit](
         displayName = "ProposalAuthorInfos",
-        render = (self) => {
+        render = self => {
 
           val proposal: ProposalModel = self.props.wrapped.proposal
 
@@ -61,8 +58,20 @@ object ProposalAuthorInfos {
 
           if (proposal.author.organisationName.isDefined) {
             <.span(^.className := ProposalInfosStyles.infos)(
-              formatAuthorName(proposal.author.organisationName),
-              <.i(^.className := js.Array(FontAwesomeStyles.checkCircle, ProposalInfosStyles.checkCircle))()
+              (self.props.wrapped.proposal.author.organisationSlug, self.props.wrapped.country) match {
+                case (Some(slug), Some(country)) =>
+                  <.Link(^.className := ProposalInfosStyles.actorLink, ^.to := s"/$country/profile/$slug")(
+                    formatAuthorName(proposal.author.organisationName)
+                  )
+                case (Some(slug), None) =>
+                  <.Link(^.className := ProposalInfosStyles.actorLink, ^.to := s"/FR/profile/$slug")(
+                    formatAuthorName(proposal.author.organisationName)
+                  )
+                case _ => formatAuthorName(proposal.author.organisationName)
+              },
+              <.i(^.className := js.Array(FontAwesomeStyles.checkCircle, ProposalInfosStyles.checkCircle))(),
+              unescape("&nbsp;&#8226;&nbsp;"),
+              I18n.l(proposal.createdAt, DateLocalizeOptions("common.date.long"))
             )
           } else {
             <.span(^.className := ProposalInfosStyles.infos)(

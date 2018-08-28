@@ -64,6 +64,7 @@ trait ProfileResponse extends js.Object {
 trait AuthorResponse extends js.Object {
   val firstName: js.UndefOr[String]
   val organisationName: js.UndefOr[String]
+  val organisationSlug: js.UndefOr[String]
   val postalCode: js.UndefOr[String]
   val age: js.UndefOr[Int]
   val avatarUrl: js.UndefOr[String]
@@ -73,6 +74,7 @@ trait AuthorResponse extends js.Object {
 trait OrganisationInfoResponse extends js.Object {
   val organisationId: String
   val organisationName: js.UndefOr[String]
+  val organisationSlug: js.UndefOr[String]
 }
 
 sealed trait Role {
