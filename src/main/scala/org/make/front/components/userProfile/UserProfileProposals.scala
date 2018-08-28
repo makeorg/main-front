@@ -75,14 +75,15 @@ object UserProfileProposals {
               )
             )
           } else {
-            val counter = new Counter()
+            val counter: Counter = new Counter()
             <.ul()(self.state.proposals.map { proposal =>
               <.li(^.className := UserProfileProposalsStyles.proposalItem)(
                 <.ProposalTileWithoutVoteActionComponent(
                   ^.wrapped := ProposalTileWithoutVoteActionProps(
                     proposal = proposal,
                     index = counter.getAndIncrement()
-                  )
+                  ),
+                  ^.key := s"proposal_${proposal.id.value}"
                 )()
               )
             }.toSeq)
