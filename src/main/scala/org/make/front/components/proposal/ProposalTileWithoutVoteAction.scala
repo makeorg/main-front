@@ -49,7 +49,7 @@ object ProposalTileWithoutVoteAction {
     WithRouter(
       React
         .createClass[ProposalTileWithoutVoteActionProps, ProposalTileWithoutVoteActionState](
-          displayName = "ProposalTileWithTags",
+          displayName = "ProposalTileWithoutVoteAction",
           getInitialState = { self =>
             ProposalTileWithoutVoteActionState(
               votes = self.props.wrapped.proposal.votes.map(vote => vote),
@@ -77,11 +77,13 @@ object ProposalTileWithoutVoteAction {
                       <.h3(
                         ^.className := js
                           .Array(TextStyles.mediumText, TextStyles.boldText, ProposalTileStyles.proposalLinkOnTitle)
-                      )(
+                      )(if (self.props.wrapped.proposal.isAccepted) {
                         <.Link(^.to := proposalLink, ^.className := ProposalTileStyles.proposalLinkOnTitle)(
                           self.props.wrapped.proposal.content
                         )
-                      ),
+                      } else {
+                        self.props.wrapped.proposal.content
+                      }),
                       <.DisplayVotesDataComponent(
                         ^.wrapped := DisplayVotesDataProps(
                           vote = self.state.votes,

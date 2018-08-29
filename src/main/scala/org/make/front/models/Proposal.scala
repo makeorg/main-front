@@ -52,9 +52,16 @@ final case class Proposal(id: ProposalId,
     votes.find(_.key == "disagree").getOrElse(Vote(key = "disagree", qualifications = js.Array(), hasVoted = false))
   def votesNeutral: Vote =
     votes.find(_.key == "neutral").getOrElse(Vote(key = "neutral", qualifications = js.Array(), hasVoted = false))
+
+  def isPending: Boolean = status == "Pending"
+  def isPostponed: Boolean = status == "Postponed"
+  def isAccepted: Boolean = status == "Accepted"
+  def isRefused: Boolean = status == "Refused"
+  def isArchived: Boolean = status == "Archived"
 }
 
 object Proposal {
+
   def apply(proposalResponse: ProposalResponse): Proposal = {
     val seqVotes: js.Array[Vote] = proposalResponse.votes.map(Vote.apply)
     val seqLabels: js.Array[String] = proposalResponse.labels

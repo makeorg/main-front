@@ -148,18 +148,17 @@ object DisplayVotesData {
                       percentageOfVotes = partOfAgreeVotes
                     )
                   )(),
-                  <.div(^.className := DisplayVotesDataStyles.qualificationWrapper)(
-                    self.state.agreeQualifications.map(
-                      qualification =>
-                        <.DisplayVotesQualificationsComponent(
-                          ^.wrapped := DisplayVotesQualificationsProps(
-                            voteKey = self.state.votesAgreeKey,
-                            qualification = qualification,
-                            resultsColor = DisplayVotesDataStyles.agreeVoteQualification
-                          )
-                        )()
-                    )
-                  )
+                  <.div(^.className := DisplayVotesDataStyles.qualificationWrapper)(self.state.agreeQualifications.map {
+                    qualification =>
+                      <.DisplayVotesQualificationsComponent(
+                        ^.wrapped := DisplayVotesQualificationsProps(
+                          voteKey = self.state.votesAgreeKey,
+                          qualification = qualification,
+                          resultsColor = DisplayVotesDataStyles.agreeVoteQualification
+                        ),
+                        ^.key := s"qualification_agree_${self.props.wrapped.index}_${qualification.key}"
+                      )()
+                  })
                 )
               ),
               <.li(^.className := DisplayVotesDataStyles.listSep)(),
@@ -174,16 +173,16 @@ object DisplayVotesData {
                     )
                   )(),
                   <.div(^.className := DisplayVotesDataStyles.qualificationWrapper)(
-                    self.state.disagreeQualifications.map(
-                      qualification =>
-                        <.DisplayVotesQualificationsComponent(
-                          ^.wrapped := DisplayVotesQualificationsProps(
-                            voteKey = self.state.votesDisagreeKey,
-                            qualification = qualification,
-                            resultsColor = DisplayVotesDataStyles.disagreeVoteQualification
-                          )
-                        )()
-                    )
+                    self.state.disagreeQualifications.map { qualification =>
+                      <.DisplayVotesQualificationsComponent(
+                        ^.wrapped := DisplayVotesQualificationsProps(
+                          voteKey = self.state.votesDisagreeKey,
+                          qualification = qualification,
+                          resultsColor = DisplayVotesDataStyles.disagreeVoteQualification
+                        ),
+                        ^.key := s"qualification_disagree_${self.props.wrapped.index}_${qualification.key}}"
+                      )()
+                    }
                   )
                 )
               ),
@@ -199,16 +198,16 @@ object DisplayVotesData {
                     )
                   )(),
                   <.div(^.className := DisplayVotesDataStyles.qualificationWrapper)(
-                    self.state.neutralQualifications.map(
-                      qualification =>
-                        <.DisplayVotesQualificationsComponent(
-                          ^.wrapped := DisplayVotesQualificationsProps(
-                            voteKey = self.state.votesNeutralKey,
-                            qualification = qualification,
-                            resultsColor = DisplayVotesDataStyles.neutralVoteQualification
-                          )
-                        )()
-                    )
+                    self.state.neutralQualifications.map { qualification =>
+                      <.DisplayVotesQualificationsComponent(
+                        ^.wrapped := DisplayVotesQualificationsProps(
+                          voteKey = self.state.votesNeutralKey,
+                          qualification = qualification,
+                          resultsColor = DisplayVotesDataStyles.neutralVoteQualification
+                        ),
+                        ^.key := s"qualification_neutral_${self.props.wrapped.index}_${qualification.key}"
+                      )()
+                    }
                   )
                 )
               ),
