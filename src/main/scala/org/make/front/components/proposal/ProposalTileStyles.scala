@@ -22,6 +22,7 @@ package org.make.front.components.proposal
 
 import org.make.front.Main.CssSettings._
 import org.make.front.styles._
+import org.make.front.styles.base.TextStyles
 import org.make.front.styles.utils._
 
 object ProposalTileStyles extends StyleSheet.Inline {
@@ -40,13 +41,57 @@ object ProposalTileStyles extends StyleSheet.Inline {
       ThemeStyles.MediaQueries.beyondLargeMedium(marginBottom(ThemeStyles.SpacingValue.small.pxToEm()))
     )
 
+  val wrapperOverlay: StyleA = style(
+    position.absolute,
+    width(100.%%),
+    height(100.%%),
+    top(`0`),
+    left(`0`),
+    zIndex(1),
+    backgroundColor(ThemeStyles.BackgroundColor.white)
+  )
+
+  val noOverlay: StyleA = style(display.none)
+
+  val hardOpacity: StyleA = style(opacity(0.75))
+
+  val lightOpacity: StyleA = style(opacity(0.5))
+
   val innerWrapper: StyleA =
     style(tableLayout.fixed)
 
   val proposalInfosWrapper: StyleA = style(
+    display.flex,
+    flexFlow := s"column",
+    alignItems.center,
     margin(`0`, 20.pxToEm()),
     padding(20.pxToEm(), `0`, ThemeStyles.SpacingValue.smaller.pxToEm()),
-    borderBottom(1.px, solid, ThemeStyles.BorderColor.veryLight)
+    borderBottom(1.px, solid, ThemeStyles.BorderColor.veryLight),
+    ThemeStyles.MediaQueries.beyondSmall(flexFlow := s"row")
+  )
+
+  val proposalStatus: StyleA =
+    style(
+      display.flex,
+      alignSelf.flexEnd,
+      textAlign.center,
+      TextStyles.smallerText,
+      position.relative,
+      zIndex(2),
+      color(ThemeStyles.TextColor.white),
+      padding(3.pxToEm(13), 10.pxToEm(13)),
+      ThemeStyles.MediaQueries.beyondSmall(padding(3.pxToEm(14), 10.pxToEm(14)))
+    )
+
+  val proposalAccepted: StyleA = style(backgroundColor(ThemeStyles.ThemeColor.positive))
+
+  val proposalRefused: StyleA = style(backgroundColor(ThemeStyles.ThemeColor.assertive))
+
+  val proposalWaiting: StyleA = style(
+    width(100.%%),
+    maxWidth(180.pxToEm(13)),
+    backgroundColor(ThemeStyles.ThemeColor.prominent),
+    ThemeStyles.MediaQueries.beyondSmall(maxWidth(180.pxToEm(14)))
   )
 
   val shareOwnProposalWrapper: StyleA = style(

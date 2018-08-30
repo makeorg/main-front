@@ -209,6 +209,12 @@
     "share-page": "Support this proposal by sharing it :",
     "share-likeit": "You liked this proposal, share it!",
     "associated-with-the-theme": "published in ",
+    "status": {
+      "Accepted": "Published",
+      "Refused": "Refused",
+      "Postponed": "Awaiting moderation",
+      "Pending": "Awaiting modration"
+    },
     "proposal-s-operation-infos": {
       "intro": "This proposal was submitted during the operation",
       "participate": "Participate",

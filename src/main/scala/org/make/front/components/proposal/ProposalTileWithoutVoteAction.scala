@@ -31,6 +31,8 @@ import org.make.front.components.Components.{RichVirtualDOMElements, _}
 import org.make.front.components.proposal.ProposalActorVoted.ProposalActorVotedProps
 import org.make.front.components.proposal.ProposalInfos.ProposalInfosProps
 import org.make.front.components.proposal.vote.DisplayVotesData.DisplayVotesDataProps
+import org.make.front.facades.I18n
+import org.make.front.facades.Unescape.unescape
 import org.make.front.models.{Qualification, Proposal => ProposalModel, Vote => VoteModel}
 import org.make.front.styles.base.{TableLayoutStyles, TextStyles}
 
@@ -60,15 +62,45 @@ object ProposalTileWithoutVoteAction {
           },
           render = (self) => {
 
+            val overlayClass =
+              js.Array(ProposalTileStyles.wrapperOverlay.htmlClass, self.props.wrapped.proposal.status match {
+                  case "Accepted" =>
+                    ProposalTileStyles.noOverlay.htmlClass
+                  case "Refused" =>
+                    ProposalTileStyles.hardOpacity.htmlClass
+                  case "Pending" =>
+                    ProposalTileStyles.lightOpacity.htmlClass
+                  case "Postponed" =>
+                    ProposalTileStyles.lightOpacity.htmlClass
+                })
+                .mkString(" ")
+
+            val proposalStatusClass =
+              js.Array(ProposalTileStyles.proposalStatus.htmlClass, self.props.wrapped.proposal.status match {
+                  case "Accepted" =>
+                    ProposalTileStyles.proposalAccepted.htmlClass
+                  case "Refused" =>
+                    ProposalTileStyles.proposalRefused.htmlClass
+                  case "Pending" =>
+                    ProposalTileStyles.proposalWaiting.htmlClass
+                  case "Postponed" =>
+                    ProposalTileStyles.proposalWaiting.htmlClass
+                })
+                .mkString(" ")
+
             val intro: ReactElement =
               <.div(^.className := ProposalTileStyles.proposalInfosWrapper)(
-                <.ProposalInfosComponent(^.wrapped := ProposalInfosProps(proposal = self.props.wrapped.proposal))()
+                <.ProposalInfosComponent(^.wrapped := ProposalInfosProps(proposal = self.props.wrapped.proposal))(),
+                <.div(^.className := proposalStatusClass)(
+                  unescape(I18n.t(s"proposal.status.${self.props.wrapped.proposal.status}"))
+                )
               )
 
             val proposalLink: String =
               s"/${self.props.wrapped.proposal.country}/proposal/${self.props.wrapped.proposal.slug}"
 
             <.article(^.className := ProposalTileStyles.wrapper)(
+              <.div(^.className := overlayClass)(),
               <.div(^.className := js.Array(TableLayoutStyles.fullHeightWrapper, ProposalTileStyles.innerWrapper))(
                 <.div(^.className := TableLayoutStyles.row)(
                   <.div(^.className := TableLayoutStyles.cell)(
@@ -78,23 +110,22 @@ object ProposalTileWithoutVoteAction {
                         ^.className := js
                           .Array(TextStyles.mediumText, TextStyles.boldText, ProposalTileStyles.proposalLinkOnTitle)
                       )(if (self.props.wrapped.proposal.isAccepted) {
-                        <.Link(^.to := proposalLink, ^.className := ProposalTileStyles.proposalLinkOnTitle)(
-                          self.props.wrapped.proposal.content
+                        <.div()(
+                          <.Link(^.to := proposalLink, ^.className := ProposalTileStyles.proposalLinkOnTitle)(
+                            self.props.wrapped.proposal.content
+                          ),
+                          <.DisplayVotesDataComponent(
+                            ^.wrapped := DisplayVotesDataProps(
+                              vote = self.state.votes,
+                              voteKeyMap = self.state.voteKeyMap,
+                              voteCountMap = self.state.voteCountMap,
+                              index = self.props.wrapped.index
+                            )
+                          )()
                         )
                       } else {
                         self.props.wrapped.proposal.content
-                      }),
-                      <.DisplayVotesDataComponent(
-                        ^.wrapped := DisplayVotesDataProps(
-                          vote = self.state.votes,
-                          voteKeyMap = self.state.voteKeyMap,
-                          voteCountMap = self.state.voteCountMap,
-                          index = self.props.wrapped.index
-                        )
-                      )(),
-                      <.ProposalActorVotedComponent(
-                        ^.wrapped := ProposalActorVotedProps(organisations = self.props.wrapped.proposal.organisations)
-                      )()
+                      })
                     )
                   )
                 )

@@ -75,7 +75,7 @@ object UserProfile {
                       )()
                     }.toSeq,
                     <.div(^.className := RWDRulesLargeMediumStyles.showBlockBeyondLargeMedium)(
-                      // Todo Uncomment when Summary, Proposals and Actions' tabs are ready
+                      // Todo Uncomment when "Follow" Feature is ready
                       // <.ShareUserProfileComponent.empty,
                       <.AltFooterComponent()()
                     )
