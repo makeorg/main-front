@@ -25,18 +25,15 @@ import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import org.make.core.Counter
 import org.make.front.Main.CssSettings._
 import org.make.front.components.Components._
-import org.make.front.components.proposal.ProposalTileWithOrganisationsVotes.ProposalTileWithOrganisationsVotesProps
 import org.make.front.components.proposal.ProposalTileWithoutVoteAction.ProposalTileWithoutVoteActionProps
 import org.make.front.facades.I18n
-import org.make.front.models.Proposal
+import org.make.front.facades.Unescape.unescape
+import org.make.front.models.{Proposal, User => UserModel}
 import org.make.front.styles.ThemeStyles
 import org.make.front.styles.base.TextStyles
 import org.make.front.styles.utils._
 import org.make.front.styles.vendors.FontAwesomeStyles
-import org.make.front.models.{User => UserModel}
 import scalacss.internal.ValueT
-import org.make.front.facades.Unescape.unescape
-import org.make.services.tracking.TrackingLocation
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
@@ -58,6 +55,38 @@ object UserProfileProposals {
       }
     },
     render = self => {
+      <("UserProfileProposals")()(
+        <.section(^.className := UserProfileProposalsStyles.wrapper)(
+          <.header(^.className := UserProfileProposalsStyles.headerWrapper)(
+            <.h2(^.className := UserProfileProposalsStyles.title)(I18n.t("user-profile.proposal.title"))
+          ),
+          if (self.state.proposals.isEmpty) {
+            <.div(^.className := UserProfileProposalsStyles.emptyWrapper)(
+              <.i(
+                ^.className := js.Array(FontAwesomeStyles.lightbulbTransparent, UserProfileProposalsStyles.emptyIcon)
+              )(),
+              <.p(^.className := UserProfileProposalsStyles.emptyDesc)(
+                self.props.wrapped.user.firstName,
+                unescape("&nbsp;"),
+                I18n.t("user-profile.proposal.empty")
+              )
+            )
+          } else {
+            val counter = new Counter()
+            <.ul()(self.state.proposals.map { proposal =>
+              <.li(^.className := UserProfileProposalsStyles.proposalItem)(
+                <.ProposalTileWithoutVoteActionComponent(
+                  ^.wrapped := ProposalTileWithoutVoteActionProps(
+                    proposal = proposal,
+                    index = counter.getAndIncrement()
+                  )
+                )()
+              )
+            }.toSeq)
+          }
+        ),
+        <.style()(UserProfileProposalsStyles.render[String])
+      )
       <("UserProfileProposals")()(
         <.section(^.className := UserProfileProposalsStyles.wrapper)(
           <.header(^.className := UserProfileProposalsStyles.headerWrapper)(

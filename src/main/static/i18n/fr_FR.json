@@ -203,6 +203,16 @@
     "years-old": "ans",
     "vote": "vote",
     "votes": "votes",
+    "likeItproposal": {
+      "tab": "Mes coups de <span class=\"fa fa-heart\"></span>",
+      "title": "Mes coups de coeur",
+      "empty": "Vous n’avez pas encore de coup de coeur sur Make.org.",
+      "explanation-first-part":"Vous pouvez placer une proposition en coup de ",
+      "explanation-second-part":" juste après avoir voté",
+      "explanation-third-part":"« ",
+      "explanation-fourth-part":" D'accord » pour cette proposition.",
+      "fake-proposal": "Il faut soutenir les propositions de qualité."
+    },
     "optin-newsletter": {
       "title": "Gérer mes emails",
       "description": "J’accepte de recevoir des informations de Make.org (votre adresse ne sera en aucun cas diffusée à des tiers)",

@@ -31,8 +31,8 @@ import org.make.services.proposal.{SearchResult, SearchResultResponse}
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 import scala.scalajs.js
-import scala.scalajs.js.JSON
 import scala.scalajs.js.JSConverters._
+import scala.scalajs.js.JSON
 
 object UserService extends ApiService {
 
@@ -238,6 +238,12 @@ object UserService extends ApiService {
 
   def getUserProposals(userId: String): Future[SearchResult] = {
     MakeApiClient.get[SearchResultResponse](resourceName / userId / "proposals").map(SearchResult.apply)
+  }
+
+  def getUserLikeItProposals(userId: String): Future[SearchResult] = {
+    MakeApiClient
+      .get[SearchResultResponse](resourceName / userId / "votes?qualifications=likeIt")
+      .map(SearchResult.apply)
   }
 
   final case class NoTokenException(message: String = I18n.t("error-message.no-token")) extends Exception(message)
