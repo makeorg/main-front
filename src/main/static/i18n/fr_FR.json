@@ -293,6 +293,12 @@
     "share-page": "Soutenez cette proposition en la partageant :",
     "share-likeit": "Vous avez aimé cette proposition, partagez-la !",
     "associated-with-the-theme": "postée dans ",
+    "status": {
+      "Accepted": "Publiée",
+      "Refused": "Refusée",
+      "Postponed": "En attente de modération",
+      "Pending": "En attente de modération"
+    },
     "proposal-s-operation-infos": {
       "intro": "Cette proposition a été soumise dans le cadre de l'opération",
       "participate": "Participer",
