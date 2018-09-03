@@ -27,6 +27,7 @@ import org.make.core.Counter
 import org.make.front.Main.CssSettings._
 import org.make.front.components.Components._
 import org.make.front.components.proposal.ProposalTileWithOrganisationsVotes.ProposalTileWithOrganisationsVotesProps
+import org.make.front.components.proposal.ProposalTileWithoutVoteAction.ProposalTileWithoutVoteActionProps
 import org.make.front.facades.I18n
 import org.make.front.facades.Unescape.unescape
 import org.make.front.models.{
@@ -137,25 +138,16 @@ object UserLikeItProposals {
               )
             } else {
               val counter: Counter = new Counter()
-              <.ul()(self.state.proposals.map {
-                proposal =>
-                  <.li(^.className := UserLikeItProposalsStyles.proposalItem)(
-                    <.ProposalTileWithOrganisationsVotesComponent(
-                      ^.wrapped := ProposalTileWithOrganisationsVotesProps(
-                        proposal = proposal,
-                        handleSuccessfulVote = onSuccessfulVote(proposal.id, self),
-                        handleSuccessfulQualification = onSuccessfulQualification(proposal.id, self),
-                        index = counter.getAndIncrement(),
-                        trackingLocation = TrackingLocation.operationPage,
-                        maybeTheme = None,
-                        maybeOperation = None,
-                        maybeSequenceId = None,
-                        maybeLocation = None,
-                        country = proposal.country
-                      ),
-                      ^.key := s"proposal_${proposal.id.value}"
-                    )()
-                  )
+              <.ul()(self.state.proposals.map { proposal =>
+                <.li(^.className := UserLikeItProposalsStyles.proposalItem)(
+                  <.ProposalTileWithoutVoteActionComponent(
+                    ^.wrapped := ProposalTileWithoutVoteActionProps(
+                      proposal = proposal,
+                      index = counter.getAndIncrement()
+                    ),
+                    ^.key := s"proposal_${proposal.id.value}"
+                  )()
+                )
               }.toSeq)
             }
           ),

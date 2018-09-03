@@ -51,7 +51,7 @@ object ActorProfileProposals {
             <.h2(^.className := ActorProfileProposalsStyles.title)(
               I18n
                 .t(
-                  "actor-profile.proposal.empty",
+                  "actor-profile.proposal.title",
                   replacements = Replacements(("actor-name", self.props.wrapped.actor.organisationName.getOrElse("")))
                 )
             )

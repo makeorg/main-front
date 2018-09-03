@@ -27,6 +27,12 @@ import org.make.front.Main.CssSettings._
 import org.make.front.components.Components._
 import org.make.front.components.userProfile.navUserProfile.ButtonNav.ButtonNavProps
 import org.make.front.facades.I18n
+import org.make.front.facades.ReactCSSTransition.{
+  ReactCSSTransitionDOMAttributes,
+  ReactCSSTransitionVirtualDOMElements,
+  TransitionClasses
+}
+import org.make.front.facades.ReactTransition.ReactTransitionDOMAttributes
 import org.make.front.facades.Unescape.unescape
 import org.make.front.models.{Profile, User => UserModel}
 import org.make.front.styles.ThemeStyles
@@ -53,7 +59,12 @@ object UserProfileInformations {
           UserProfileInformationsState(expandSlidingPannel = false, previousTab = self.props.wrapped.activeTab)
         },
         componentWillReceiveProps = { (self, nextProps) =>
-          self.setState(UserProfileInformationsState(expandSlidingPannel = self.state.expandSlidingPannel, previousTab = self.props.wrapped.activeTab))
+          self.setState(
+            UserProfileInformationsState(
+              expandSlidingPannel = self.state.expandSlidingPannel,
+              previousTab = self.props.wrapped.activeTab
+            )
+          )
         },
         render = self => {
           val user: UserModel = self.props.wrapped.user
@@ -120,16 +131,24 @@ object UserProfileInformations {
                 }
                 .toSeq
             ),
-            // Todo Uncomment when biography is ready
-            /*<.CSSTransition(
-              ^.timeout := 25,
-              ^.in := self.state.expandSlidingPannel,
-              ^.classNamesMap := TransitionClasses(enterDone = UserProfileInformationsStyles.expandTransitionOn.htmlClass)
-            )(
-              <.p(^.className := js.Array(UserProfileInformationsStyles.biography, UserProfileInformationsStyles.basicInformations))(
-                "Deceptions strong virtues passion ultimate faith christianity derive. Fearful victorious of free decieve. Revaluation eternal-return enlightenment decieve fearful self depths dead abstract free holiest. Hatred christianity battle spirit disgust ultimate transvaluation suicide ocean ideal christian gains hope reason. Madness oneself joy ultimate value. God madness dead abstract hope free contradict faithful disgust prejudice decrepit. Pinnacle derive virtues convictions good horror convictions fearful. Selfish decrepit battle zarathustra philosophy prejudice ideal. Will pious against dead ascetic ocean faithful. Holiest derive inexpedient faithful truth passion derive abstract good hope faithful law. Aversion love suicide play overcome hatred prejudice selfish play holiest. Aversion virtues hatred sexuality self transvaluation good evil marvelous. Self sea pinnacle revaluation deceptions passion moral philosophy ubermensch contradict suicide. Snare depths suicide grandeur ubermensch sexuality. Selfish evil ideal justice will hatred good god of depths snare holiest christian. Abstract war value suicide dead merciful ocean selfish convictions transvaluation passion battle philosophy."
-              )
-            ),<.div(^.className := RWDRulesLargeMediumStyles.hideBeyondLargeMedium)(
+            self.props.wrapped.user.profile
+              .flatMap(_.description)
+              .map { description =>
+                <.CSSTransition(
+                  ^.timeout := 25,
+                  ^.in := self.state.expandSlidingPannel,
+                  ^.classNamesMap := TransitionClasses(
+                    enterDone = UserProfileInformationsStyles.expandTransitionOn.htmlClass
+                  )
+                )(
+                  <.p(
+                    ^.className := js
+                      .Array(UserProfileInformationsStyles.biography, UserProfileInformationsStyles.basicInformations)
+                  )(description)
+                )
+              }
+              .toSeq,
+            <.div(^.className := RWDRulesLargeMediumStyles.hideBeyondLargeMedium)(
               <.CSSTransition(
                 ^.timeout := 25,
                 ^.in := !self.state.expandSlidingPannel,
@@ -140,29 +159,38 @@ object UserProfileInformations {
               )(<.div(^.className := UserProfileInformationsStyles.slidingPannelGradient)()),
               <.div(^.className := UserProfileInformationsStyles.slidingPannelHeader)(
                 <.div(^.className := UserProfileInformationsStyles.slidingPannelSep)(),
-                <.button(^.className := UserProfileInformationsStyles.slidingPannelButton, ^.onClick := toggleSlidingPannel)(
-                  if (self.state.expandSlidingPannel) {
-                    I18n.t("user-profile.show-less")
-                  } else {
-                    I18n.t("user-profile.show-more")
-                  }
-                ),
+                <.button(
+                  ^.className := UserProfileInformationsStyles.slidingPannelButton,
+                  ^.onClick := toggleSlidingPannel
+                )(if (self.state.expandSlidingPannel) {
+                  I18n.t("user-profile.show-less")
+                } else {
+                  I18n.t("user-profile.show-more")
+                }),
                 <.div(^.className := UserProfileInformationsStyles.slidingPannelSep)()
               )
-            ),*/
+            ),
             if (self.props.wrapped.activeTab == "settings") {
               <("SettingsTab")()(
                 <.div(^.className := RWDRulesLargeMediumStyles.hideBeyondLargeMedium)(
                   // Todo Uncomment when Summary, Proposals and Actions' tabs are ready
                   <.div(^.className := UserProfileInformationsStyles.slidingPannelButtonGroup)(
-                    <.ButtonNavComponent(^.wrapped := ButtonNavProps(onClickMethod = backToPreviousTab,
-                      icon = FontAwesomeStyles.angleLeft,
-                      wording = I18n.t("user-profile.back-to-profile")))()
+                    <.ButtonNavComponent(
+                      ^.wrapped := ButtonNavProps(
+                        onClickMethod = backToPreviousTab,
+                        icon = FontAwesomeStyles.angleLeft,
+                        wording = I18n.t("user-profile.back-to-profile")
+                      )
+                    )()
                   ),
                   <.div(^.className := UserProfileInformationsStyles.slidingPannelButtonGroup)(
-                    <.ButtonNavComponent(^.wrapped := ButtonNavProps(onClickMethod = self.props.wrapped.logout,
-                    icon = FontAwesomeStyles.signOut,
-                    wording = I18n.t("user-profile.disconnect-cta")))()
+                    <.ButtonNavComponent(
+                      ^.wrapped := ButtonNavProps(
+                        onClickMethod = self.props.wrapped.logout,
+                        icon = FontAwesomeStyles.signOut,
+                        wording = I18n.t("user-profile.disconnect-cta")
+                      )
+                    )()
                   )
                 ),
                 <.div(^.className := RWDRulesLargeMediumStyles.showBlockBeyondLargeMedium)(
@@ -170,17 +198,23 @@ object UserProfileInformations {
                   <.div(^.className := UserProfileInformationsStyles.slidingPannelButtonGroup)(
                     <.div(^.className := UserProfileInformationsStyles.slidingPannelButtonGroup)(
                       <.ButtonNavComponent(
-                        ^.wrapped := ButtonNavProps(onClickMethod = backToPreviousTab,
-                        icon = FontAwesomeStyles.angleLeft,
-                        wording = I18n.t("user-profile.back-to-profile")))()
+                        ^.wrapped := ButtonNavProps(
+                          onClickMethod = backToPreviousTab,
+                          icon = FontAwesomeStyles.angleLeft,
+                          wording = I18n.t("user-profile.back-to-profile")
+                        )
+                      )()
                     )
                   ),
                   <.div(^.className := UserProfileInformationsStyles.slidingPannelButtonGroup)(
                     <.div(^.className := UserProfileInformationsStyles.slidingPannelButtonGroup)(
                       <.ButtonNavComponent(
-                        ^.wrapped := ButtonNavProps(onClickMethod = self.props.wrapped.logout,
-                        icon = FontAwesomeStyles.signOut,
-                        wording = I18n.t("user-profile.disconnect-cta")))()
+                        ^.wrapped := ButtonNavProps(
+                          onClickMethod = self.props.wrapped.logout,
+                          icon = FontAwesomeStyles.signOut,
+                          wording = I18n.t("user-profile.disconnect-cta")
+                        )
+                      )()
                     )
                   )
                 )
@@ -190,31 +224,50 @@ object UserProfileInformations {
                 <.div(^.className := RWDRulesLargeMediumStyles.hideBeyondLargeMedium)(
                   // Todo Uncomment when Summary, Proposals and Actions' tabs are ready
                   <.div(^.className := UserProfileInformationsStyles.slidingPannelButtonGroup)(
-                    <.ButtonNavComponent(^.wrapped := ButtonNavProps(onClickMethod = changeTab("settings"),
-                      icon = FontAwesomeStyles.pencil,
-                      wording = I18n.t("user-profile.edit-profile")))(),
-                    <.ButtonNavComponent(^.wrapped := ButtonNavProps(onClickMethod = changeTab("settings"),
-                      icon = FontAwesomeStyles.cog,
-                      wording = I18n.t("user-profile.manage-account")))()
+                    <.ButtonNavComponent(
+                      ^.wrapped := ButtonNavProps(
+                        onClickMethod = changeTab("settings"),
+                        icon = FontAwesomeStyles.pencil,
+                        wording = I18n.t("user-profile.edit-profile")
+                      )
+                    )(),
+                    <.ButtonNavComponent(
+                      ^.wrapped := ButtonNavProps(
+                        onClickMethod = changeTab("settings"),
+                        icon = FontAwesomeStyles.cog,
+                        wording = I18n.t("user-profile.manage-account")
+                      )
+                    )()
                   ),
                   <.div(^.className := UserProfileInformationsStyles.slidingPannelButtonGroup)(
-                    <.ButtonNavComponent(^.wrapped := ButtonNavProps(onClickMethod = self.props.wrapped.logout,
-                      icon = FontAwesomeStyles.signOut,
-                      wording = I18n.t("user-profile.disconnect-cta")))()
+                    <.ButtonNavComponent(
+                      ^.wrapped := ButtonNavProps(
+                        onClickMethod = self.props.wrapped.logout,
+                        icon = FontAwesomeStyles.signOut,
+                        wording = I18n.t("user-profile.disconnect-cta")
+                      )
+                    )()
                   )
                 ),
                 <.div(^.className := RWDRulesLargeMediumStyles.showBlockBeyondLargeMedium)(
                   // Todo Uncomment when Summary, Proposals and Actions' tabs are ready
                   <.div(^.className := UserProfileInformationsStyles.slidingPannelButtonGroup)(
-                    <.ButtonNavComponent(^.wrapped := ButtonNavProps(onClickMethod = changeTab("settings"),
-                      icon = FontAwesomeStyles.cog,
-                      wording = I18n.t("user-profile.manage-account")))()
+                    <.ButtonNavComponent(
+                      ^.wrapped := ButtonNavProps(
+                        onClickMethod = changeTab("settings"),
+                        icon = FontAwesomeStyles.cog,
+                        wording = I18n.t("user-profile.manage-account")
+                      )
+                    )()
                   ),
                   <.div(^.className := UserProfileInformationsStyles.slidingPannelButtonGroup)(
                     <.ButtonNavComponent(
-                      ^.wrapped := ButtonNavProps(onClickMethod = self.props.wrapped.logout,
-                      icon = FontAwesomeStyles.signOut,
-                      wording = I18n.t("user-profile.disconnect-cta")))()
+                      ^.wrapped := ButtonNavProps(
+                        onClickMethod = self.props.wrapped.logout,
+                        icon = FontAwesomeStyles.signOut,
+                        wording = I18n.t("user-profile.disconnect-cta")
+                      )
+                    )()
                   )
                 )
               )

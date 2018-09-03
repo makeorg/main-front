@@ -297,6 +297,8 @@
     }
   },
   "actor-profile": {
+    "proposals-tab": "Propositions",
+    "contributions-tab": "Prises de position",
     "proposal": {
       "title": "Les dernières propositions de %{actor-name} :",
       "empty": "n'a pas soumis de proposition sur Make.org"
