@@ -27,6 +27,7 @@ import io.github.shogowada.scalajs.reactjs.elements.ReactElement
 import org.make.front.Main.CssSettings._
 import org.make.front.components.Components._
 import org.make.front.components.proposal.ProposalAuthorInfos.ProposalAuthorInfosProps
+import org.make.front.components.proposal.ProposalTileStyles.style
 import org.make.front.components.userNav.UserNavStyles
 import org.make.front.models.{Proposal => ProposalModel}
 import org.make.front.facades.userPlaceholder
@@ -89,10 +90,10 @@ object ProposalInfos {
 
           val avatarUrl = self.props.wrapped.proposal.author.avatarUrl.getOrElse("")
 
-          <.div(^.className := TableLayoutStyles.wrapper)(
+          <.div(^.className := js.Array(TableLayoutStyles.wrapper, ProposalInfosStyles.displayFlex))(
             <.div(^.className := js.Array(TableLayoutStyles.cellVerticalAlignMiddle, ProposalInfosStyles.infosWrapper))(
               <.div(^.className := js.Array(UserNavStyles.avatarWrapper, ProposalInfosStyles.avatar))(
-                  if (avatarUrl.nonEmpty) {
+                if (avatarUrl.nonEmpty) {
                   <.img(^.src := avatarUrl, ^.className := UserNavStyles.avatar, ^("data-pin-no-hover") := "true")()
                 } else {
                   <.img(^.src := userPlaceholder.toString)()
@@ -113,14 +114,10 @@ object ProposalInfosStyles extends StyleSheet.Inline {
   import dsl._
 
   val infosWrapper: StyleA =
-    style(
-      width(100.%%)
-    )
+    style(width(100.%%))
 
   val avatar: StyleA =
-    style(
-      marginRight(ThemeStyles.SpacingValue.smaller.pxToEm())
-    )
+    style(marginRight(ThemeStyles.SpacingValue.smaller.pxToEm()))
 
   val infos: StyleA =
     style(
@@ -133,11 +130,7 @@ object ProposalInfosStyles extends StyleSheet.Inline {
   val blue: ValueT[ValueT.Color] = rgb(74, 144, 226)
 
   val checkCircle: StyleA =
-    style(
-      color(blue),
-      marginLeft(ThemeStyles.SpacingValue.smaller.pxToEm())
-    )
-
+    style(color(blue), marginLeft(ThemeStyles.SpacingValue.smaller.pxToEm()))
 
   val label: StyleA = style(
     ThemeStyles.Font.circularStdBold,
@@ -154,5 +147,7 @@ object ProposalInfosStyles extends StyleSheet.Inline {
     textAlign.center,
     unsafeChild("path")(Attr.real("fill") := ThemeStyles.TextColor.white)
   )
+
+  val displayFlex: StyleA = style(display.flex)
 
 }
