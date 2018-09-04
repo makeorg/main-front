@@ -126,7 +126,7 @@ object AuthenticateWithFacebookButton {
             } else {
               FontAwesomeStyles.facebook
             }))(<.style()(AuthenticateWithFacebookButtonStyles.render[String])),
-          ^.textButton := " facebook"
+          ^.textButton := " Facebook"
         )()
       }
     )

@@ -23,6 +23,7 @@ package org.make.front.components.userProfile.navUserProfile
 import io.github.shogowada.scalajs.reactjs.React
 import io.github.shogowada.scalajs.reactjs.VirtualDOM.{<, ^, _}
 import io.github.shogowada.scalajs.reactjs.classes.ReactClass
+import io.github.shogowada.statictags.Element
 import org.make.front.Main.CssSettings._
 import org.make.front.components.Components._
 import org.make.front.facades.I18n
@@ -47,6 +48,40 @@ object TabNav {
             self.props.wrapped.changeActiveTab(newTab)
           }
 
+          val listTabs: Seq[Element] = {
+            val tabNames = Seq("proposals", "likeitproposals")
+            val tabContents = Seq(
+              <.span(^.className := TabNavStyles.titleLink)(unescape(I18n.t("user-profile.proposals-tab"))),
+              <.span(
+                ^.className := TabNavStyles.titleLink,
+                ^.dangerouslySetInnerHTML := I18n.t("user-profile.likeItproposal.tab")
+              )()
+            )
+
+            def isLeftToActiveTab(tabName: String) =
+              tabNames.indexOf(tabName) == tabNames.indexOf(self.props.wrapped.activeTab) - 1
+            def isFirstTab(tabName: String) =
+              tabNames.indexOf(tabName) == 0
+
+            def isActive(tabName: String) = self.props.wrapped.activeTab == tabName
+
+            def tabButton(tabName: String, content: Element) =
+              <.button(
+                ^.className := js
+                  .Array(
+                    TabNavStyles.tab,
+                    TabNavStyles.tabSelection(isActive(tabName)),
+                    TabNavStyles.isLeftToActiveTab(isLeftToActiveTab(tabName)),
+                    TabNavStyles.withLeftBorder(isFirstTab(tabName) || isActive(tabName))
+                  ),
+                ^.onClick := changeTab(tabName)
+              )(content)
+
+            tabNames.zip(tabContents).map {
+              case (tabName, content) => tabButton(tabName, content)
+            }
+          }
+
           <("TabNav")()(if (self.props.wrapped.activeTab == "settings") {
             <.nav(^.className := js.Array(LayoutRulesStyles.centeredRow, TabNavStyles.tabWrapper))(
               <.button(
@@ -58,24 +93,7 @@ object TabNav {
             )
           } else {
             <.nav(^.className := js.Array(LayoutRulesStyles.centeredRow, TabNavStyles.tabWrapper))(
-              <.button(
-                ^.className := js
-                  .Array(TabNavStyles.tab, TabNavStyles.tabSelection(self.props.wrapped.activeTab == "proposals")),
-                ^.onClick := changeTab("proposals")
-              )(<.span(^.className := TabNavStyles.titleLink)(unescape(I18n.t("user-profile.proposals-tab")))),
-              <.button(
-                ^.className := js
-                  .Array(
-                    TabNavStyles.tab,
-                    TabNavStyles.tabSelection(self.props.wrapped.activeTab == "likeitproposals")
-                  ),
-                ^.onClick := changeTab("likeitproposals")
-              )(
-                <.span(
-                  ^.className := TabNavStyles.titleLink,
-                  ^.dangerouslySetInnerHTML := I18n.t(s"user-profile.likeItproposal.tab")
-                )()
-              ),
+              listTabs,
               <.div(^.className := TabNavStyles.sep)()
             )
           }, <.style()(TabNavStyles.render[String]))
@@ -121,6 +139,24 @@ object TabNavStyles extends StyleSheet.Inline {
         )
       } else
         styleS(border(1.pxToEm(), solid, ThemeStyles.BackgroundColor.black))
+  )
+
+  val isLeftToActiveTab: Boolean => StyleA = styleF.bool(
+    isLeft =>
+      if (isLeft) {
+        styleS(borderRight(0.em))
+      } else {
+        styleS()
+    }
+  )
+
+  val withLeftBorder: Boolean => StyleA = styleF.bool(
+    withLeft =>
+      if (!withLeft) {
+        styleS(borderLeft(0.em))
+      } else {
+        styleS()
+    }
   )
 
   val titleLink: StyleA =
