@@ -296,6 +296,12 @@
       "empty": "n'a pas soumis de proposition sur Make.org"
     }
   },
+  "actor-profile": {
+    "proposal": {
+      "title": "Les dernières propositions de %{actor-name} :",
+      "empty": "n'a pas soumis de proposition sur Make.org"
+    }
+  },
   "proposal": {
     "bait": "Il faut ",
     "created-by-user": "Ma proposition",

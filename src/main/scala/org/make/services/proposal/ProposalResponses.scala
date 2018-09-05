@@ -21,7 +21,6 @@
 package org.make.services.proposal
 
 import org.make.front.helpers.UndefToOption.undefToOption
-import org.make.client.models.{AuthorResponse, OrganisationInfoResponse}
 import org.make.front.models._
 
 import scala.scalajs.js

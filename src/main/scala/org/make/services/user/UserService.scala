@@ -21,10 +21,9 @@
 package org.make.services.user
 
 import org.make.client.MakeApiClient
-import org.make.client.models.UserResponse
 import org.make.core.URI._
 import org.make.front.facades.I18n
-import org.make.front.models.{OperationId, User, UserId}
+import org.make.front.models.{OperationId, User, UserId, UserResponse}
 import org.make.services.ApiService
 import org.make.services.proposal.{SearchResult, SearchResultResponse}
 

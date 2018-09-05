@@ -20,7 +20,6 @@
 
 package org.make.front.models
 
-import org.make.client.models.{AuthorResponse, OrganisationInfoResponse}
 import org.make.front.helpers.UndefToOption.undefToOption
 import org.make.services.proposal.{ProposalResponse, QualificationResponse, RegisterProposalResponse, VoteResponse}
 
