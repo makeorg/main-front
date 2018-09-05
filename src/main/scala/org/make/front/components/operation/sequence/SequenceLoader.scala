@@ -41,7 +41,8 @@ object SequenceLoader {
                                        language: String,
                                        redirectHome: () => Unit,
                                        isConnected: Boolean,
-                                       startSequence: (SequenceId) => (js.Array[ProposalId]) => Future[SequenceModel])
+                                       startSequence: (SequenceId) => (js.Array[ProposalId]) => Future[SequenceModel],
+                                       config: Map[String, Boolean])
 
   final case class SequenceLoaderState(operation: Option[OperationModel],
                                        sequence: Option[SequenceModel],
@@ -103,7 +104,8 @@ object SequenceLoader {
               sequence = sequence,
               language = self.props.wrapped.language,
               country = self.props.wrapped.country,
-              handleCanUpdate = handleCanUpdate
+              handleCanUpdate = handleCanUpdate,
+              config = self.props.wrapped.config
             )
           )()).getOrElse(<.WaitingForSequence.empty)
       }

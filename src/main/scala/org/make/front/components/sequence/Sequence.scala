@@ -61,6 +61,7 @@ object Sequence {
                                   internalOnlyParameters: Map[String, String] = Map.empty)
 
   final case class ExtraSlide(reactClass: ReactClass,
+                              slideName: String,
                               props: (() => Unit) => Any,
                               position: js.Array[Slide] => Int,
                               displayed: Boolean = true,

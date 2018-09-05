@@ -57,15 +57,13 @@ object Slides {
   def trackingContext(params: OperationExtraSlidesParams) =
     TrackingContext(TrackingLocation.sequencePage, Some(params.operation.slug))
   def defaultTrackingInternalOnlyParameters(params: OperationExtraSlidesParams) =
-    Map(
-      "sequenceId" -> params.sequence.sequenceId.value,
-      "operation" -> params.operation.slug
-    )
+    Map("sequenceId" -> params.sequence.sequenceId.value, "operation" -> params.operation.slug)
   def displaySequenceIntroCard(params: OperationExtraSlidesParams,
                                displayed: Boolean = true,
                                introWording: OperationIntroWording): ExtraSlide = {
     ExtraSlide(
       reactClass = IntroductionOfTheSequence.reactClass,
+      slideName = "intro",
       props = { (handler: () => Unit) =>
         {
           val onClick: () => Unit = () => {
@@ -96,6 +94,7 @@ object Slides {
 
   def displaySignUpCard(params: OperationExtraSlidesParams, displayed: Boolean = true) = ExtraSlide(
     reactClass = PromptingToConnect.reactClass,
+    slideName = "register",
     props = { handler =>
       PromptingToConnectProps(
         operation = params.operation,
@@ -111,13 +110,20 @@ object Slides {
       slides.size
     },
     displayed = displayed,
-    maybeTracker =
-      Some(DisplayTracker("display-sign-up-card", trackingContext(params), Map.empty, defaultTrackingInternalOnlyParameters(params)))
+    maybeTracker = Some(
+      DisplayTracker(
+        "display-sign-up-card",
+        trackingContext(params),
+        Map.empty,
+        defaultTrackingInternalOnlyParameters(params)
+      )
+    )
   )
 
   def displayProposalPushCard(params: OperationExtraSlidesParams, displayed: Boolean = true): ExtraSlide = {
     ExtraSlide(
       reactClass = PromptingToProposeInRelationToOperation.reactClass,
+      slideName = "propose",
       props = { handler =>
         PromptingToProposeInRelationToOperationProps(
           operation = params.operation,
@@ -133,14 +139,21 @@ object Slides {
         slides.size / 2
       },
       displayed = displayed,
-      maybeTracker =
-        Some(DisplayTracker("display-proposal-push-card", trackingContext(params), Map.empty, defaultTrackingInternalOnlyParameters(params)))
+      maybeTracker = Some(
+        DisplayTracker(
+          "display-proposal-push-card",
+          trackingContext(params),
+          Map.empty,
+          defaultTrackingInternalOnlyParameters(params)
+        )
+      )
     )
   }
 
   def displayFinalCard(params: OperationExtraSlidesParams, displayed: Boolean = true, onFocus: () => Unit = () => {}) =
     ExtraSlide(
       reactClass = PromptingToGoBackToOperation.reactClass,
+      slideName = "finale",
       props = { handler =>
         PromptingToGoBackToOperationProps(
           operation = params.operation,
@@ -154,16 +167,23 @@ object Slides {
         slides.size
       },
       displayed = displayed,
-      maybeTracker =
-        Some(DisplayTracker("display-finale-card", trackingContext(params), Map.empty, defaultTrackingInternalOnlyParameters(params))),
+      maybeTracker = Some(
+        DisplayTracker(
+          "display-finale-card",
+          trackingContext(params),
+          Map.empty,
+          defaultTrackingInternalOnlyParameters(params)
+        )
+      ),
       onFocus = onFocus
     )
 
-  def displayLightFinalCard(params: OperationExtraSlidesParams,
-                            displayed: Boolean = true,
-                            onFocus: () => Unit = () => {}) =
+  def redirectToConsultationCard(params: OperationExtraSlidesParams,
+                                 displayed: Boolean = true,
+                                 onFocus: () => Unit = () => {}) =
     ExtraSlide(
       reactClass = PromptingToGoBackToOperationLight.reactClass,
+      slideName = "redirect",
       props = { handler =>
         PromptingToGoBackToOperationLightProps(
           operation = params.operation,
@@ -177,8 +197,14 @@ object Slides {
         slides.size
       },
       displayed = displayed,
-      maybeTracker =
-        Some(DisplayTracker("display-finale-card", trackingContext(params), Map.empty, defaultTrackingInternalOnlyParameters(params))),
+      maybeTracker = Some(
+        DisplayTracker(
+          "display-finale-card",
+          trackingContext(params),
+          Map.empty,
+          defaultTrackingInternalOnlyParameters(params)
+        )
+      ),
       onFocus = onFocus
     )
 }

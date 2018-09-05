@@ -68,7 +68,8 @@ object SequenceOfTheOperation {
                                                sequence: SequenceModel,
                                                language: String,
                                                country: String,
-                                               handleCanUpdate: (Boolean) => Unit)
+                                               handleCanUpdate: (Boolean) => Unit,
+                                               config: Map[String, Boolean])
 
   final case class SequenceOfTheOperationState(isProposalModalOpened: Boolean,
                                                numberOfProposals: Int,
@@ -84,20 +85,24 @@ object SequenceOfTheOperation {
           SequenceOfTheOperationState(
             isProposalModalOpened = false,
             numberOfProposals = self.props.wrapped.sequence.proposals.size,
-            extraSlides = self.props.wrapped.operation.extraSlides(
-              OperationExtraSlidesParams(
-                operation = self.props.wrapped.operation,
-                isConnected = self.props.wrapped.isConnected,
-                sequence = self.props.wrapped.sequence,
-                maybeLocation = None,
-                language = self.props.wrapped.language,
-                country = self.props.wrapped.country,
-                handleCanUpdate = self.props.wrapped.handleCanUpdate,
-                closeSequence = () => {
-                  self.setState(_.copy(fadeIn = false))
-                }
+            extraSlides = self.props.wrapped.operation
+              .extraSlides(
+                OperationExtraSlidesParams(
+                  operation = self.props.wrapped.operation,
+                  isConnected = self.props.wrapped.isConnected,
+                  sequence = self.props.wrapped.sequence,
+                  maybeLocation = None,
+                  language = self.props.wrapped.language,
+                  country = self.props.wrapped.country,
+                  handleCanUpdate = self.props.wrapped.handleCanUpdate,
+                  closeSequence = () => {
+                    self.setState(_.copy(fadeIn = false))
+                  }
+                )
               )
-            ),
+              .map(
+                slide => slide.copy(displayed = self.props.wrapped.config.getOrElse(slide.slideName, slide.displayed))
+              ),
             operation = self.props.wrapped.operation,
             fadeIn = false
           )
@@ -113,20 +118,25 @@ object SequenceOfTheOperation {
               self.props.wrapped.country != nextProps.wrapped.country) {
             self.setState(
               _.copy(
-                extraSlides = self.props.wrapped.operation.extraSlides(
-                  OperationExtraSlidesParams(
-                    operation = nextProps.wrapped.operation,
-                    isConnected = nextProps.wrapped.isConnected,
-                    sequence = nextProps.wrapped.sequence,
-                    maybeLocation = None,
-                    language = nextProps.wrapped.language,
-                    country = nextProps.wrapped.country,
-                    handleCanUpdate = self.props.wrapped.handleCanUpdate,
-                    closeSequence = () => {
-                      self.setState(_.copy(fadeIn = false))
-                    }
+                extraSlides = self.props.wrapped.operation
+                  .extraSlides(
+                    OperationExtraSlidesParams(
+                      operation = nextProps.wrapped.operation,
+                      isConnected = nextProps.wrapped.isConnected,
+                      sequence = nextProps.wrapped.sequence,
+                      maybeLocation = None,
+                      language = nextProps.wrapped.language,
+                      country = nextProps.wrapped.country,
+                      handleCanUpdate = self.props.wrapped.handleCanUpdate,
+                      closeSequence = () => {
+                        self.setState(_.copy(fadeIn = false))
+                      }
+                    )
                   )
-                )
+                  .map(
+                    slide =>
+                      slide.copy(displayed = self.props.wrapped.config.getOrElse(slide.slideName, slide.displayed))
+                  )
               )
             )
           }
