@@ -28,6 +28,7 @@ import io.github.shogowada.scalajs.reactjs.router.RouterProps._
 import org.make.front.actions.SetCountry
 import org.make.front.components.AppState
 import org.make.front.components.operation.sequence.SequenceLoader.SequenceLoaderProps
+import org.make.front.helpers.QueryString
 import org.make.front.models.{
   Operation,
   ProposalId,
@@ -59,6 +60,20 @@ object SequenceOfTheOperationContainer {
         if (countryChanged) {
           dispatch(SetCountry(countryCode))
         }
+
+        val queryParams: Map[String, String] = QueryString.parse(props.location.search)
+        val configParameter: String = queryParams.getOrElse("config", "")
+
+        val config: Map[String, Boolean] = configParameter
+          .split(",")
+          .map { slideConfig =>
+            slideConfig.split(":") match {
+              case Array(slideName, "on")  => slideName -> true
+              case Array(slideName, "off") => slideName -> false
+              case _                       => "" -> false
+            }
+          }
+          .toMap
 
         val search = org.scalajs.dom.window.location.search
         val firstProposalSlug = (if (search.startsWith("?")) { search.substring(1) } else { search })
@@ -117,7 +132,8 @@ object SequenceOfTheOperationContainer {
           country = state.country,
           redirectHome = () => props.history.push("/"),
           isConnected = state.connectedUser.isDefined,
-          startSequence = startSequence
+          startSequence = startSequence,
+          config = config
         )
 
       }

@@ -53,7 +53,7 @@ object CultureOperationStaticData extends StaticDataOfOperation {
         Slides.displaySequenceIntroCard(params, introWording = OperationIntroWording()),
         Slides.displaySignUpCard(params, !params.isConnected),
         Slides.displayProposalPushCard(params),
-        Slides.displayLightFinalCard(params, onFocus = () => {
+        Slides.redirectToConsultationCard(params, onFocus = () => {
           params.closeSequence()
         })
       )
