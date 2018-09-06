@@ -109,8 +109,13 @@ object Components {
     /*********************/
     def ActorProfileContainerComponent: ReactClassElementSpec = self(actorProfile.ActorProfileContainer.reactClass)
     def ActorProfileComponent: ReactClassElementSpec = self(actorProfile.ActorProfile.reactClass)
+    def ActorProfileInformationsComponent: ReactClassElementSpec =
+      self(actorProfile.ActorProfileInformations.reactClass)
     def ActorProfileProposalsContainerComponent: ReactClassElementSpec =
       self(actorProfile.ActorProfileProposalsContainer.reactClass)
+    def ActorTabNavComponent: ReactClassElementSpec = self(actorProfile.navActorProfile.ActorTabNav.reactClass)
+    def ActorButtonNavComponent: ReactClassElementSpec =
+      self(actorProfile.navActorProfile.ActorButtonNav.reactClass)
 
     /*********************/
     def ShareComponent: ReactClassElementSpec = self(share.ShareProposal.reactClass)
