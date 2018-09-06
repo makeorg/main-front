@@ -23,6 +23,7 @@ package org.make.front.components.proposal
 import io.github.shogowada.scalajs.reactjs.React
 import io.github.shogowada.scalajs.reactjs.VirtualDOM.{<, _}
 import io.github.shogowada.scalajs.reactjs.classes.ReactClass
+import io.github.shogowada.scalajs.reactjs.router.dom.RouterDOM._
 import org.make.front.components.Components._
 import org.make.front.Main.CssSettings._
 import org.make.front.styles.utils._
@@ -34,25 +35,55 @@ import org.make.front.styles.base.TextStyles
 import scala.scalajs.js
 
 object ProposalActorVoted {
-  final case class ProposalActorVotedProps(organisations: Seq[OrganisationInfo])
+  final case class ProposalActorVotedProps(organisations: Seq[OrganisationInfo], country: String)
 
   val reactClass: ReactClass =
     React
       .createClass[ProposalActorVotedProps, Unit](
         displayName = "ProposalActorVoted",
-        render = (self) => {
+        render = self => {
           val organisationElementList: Seq[Any] =
-            self.props.wrapped.organisations.flatMap(_.organisationName).map { name =>
-              name
-            } match {
-              case Seq(organisationElement) => Seq(organisationElement)
+            self.props.wrapped.organisations match {
+              case Seq(organisationElement) =>
+                (organisationElement.organisationSlug, organisationElement.organisationName) match {
+                  case (Some(slug), Some(name)) =>
+                    Seq(
+                      <.Link(
+                        ^.className := ProposalActorStyles.actorLink,
+                        ^.to := s"/${self.props.wrapped.country}/profile/$slug"
+                      )(name)
+                    )
+                  case (None, Some(name)) => Seq(name)
+                  case _                  => Seq.empty
+                }
               case organisationElements if organisationElements.length > 1 =>
                 organisationElements
                   .dropRight(1)
-                  .foldLeft(Seq.empty[Any]) { (a, b) =>
-                    a :+ b :+ ", "
+                  .flatMap { organisation =>
+                    (organisation.organisationSlug, organisation.organisationName) match {
+                      case (Some(slug), Some(name)) =>
+                        Seq(
+                          <.Link(
+                            ^.className := ProposalActorStyles.actorLink,
+                            ^.to := s"/${self.props.wrapped.country}/profile/$slug"
+                          )(name),
+                          ", "
+                        )
+                      case (None, Some(name)) => Seq(name, ", ")
+                      case _                  => Seq.empty
+                    }
                   }
-                  .dropRight(1) :+ I18n.t("proposal.actor-voted-and") :+ organisationElements.last
+                  .dropRight(1) :+ I18n.t("proposal.actor-voted-and") :+ {
+                  (organisationElements.last.organisationSlug, organisationElements.last.organisationName) match {
+                    case (Some(slug), Some(name)) =>
+                      <.Link(
+                        ^.className := ProposalActorStyles.actorLink,
+                        ^.to := s"/${self.props.wrapped.country}/profile/$slug"
+                      )(name)
+                    case (None, Some(name)) => name
+                    case _                  => ""
+                  }
+                }
               case _ => Seq.empty
             }
 
@@ -80,4 +111,7 @@ object ProposalActorStyles extends StyleSheet.Inline {
       marginTop(ThemeStyles.SpacingValue.small.pxToEm()),
       color(ThemeStyles.TextColor.lighter)
     )
+
+  val actorLink: StyleA =
+    style(color(ThemeStyles.ThemeColor.primary))
 }

@@ -113,7 +113,12 @@ object ProposalTileWithVideo {
           )
         } else {
           <.div(^.className := ProposalTileStyles.proposalInfosWrapper)(
-            <.ProposalInfosComponent(^.wrapped := ProposalInfosProps(proposal = self.props.wrapped.proposal))()
+            <.ProposalInfosComponent(
+              ^.wrapped := ProposalInfosProps(
+                proposal = self.props.wrapped.proposal,
+                country = Some(self.props.wrapped.country)
+              )
+            )()
           )
         }
         val proposalLink: String = self.props.wrapped.maybeOperation match {
@@ -168,7 +173,10 @@ object ProposalTileWithVideo {
                     )
                   )(),
                   <.ProposalActorVotedComponent(
-                    ^.wrapped := ProposalActorVotedProps(organisations = self.props.wrapped.proposal.organisations)
+                    ^.wrapped := ProposalActorVotedProps(
+                      organisations = self.props.wrapped.proposal.organisations,
+                      country = self.props.wrapped.country
+                    )
                   )()
                 )
               )

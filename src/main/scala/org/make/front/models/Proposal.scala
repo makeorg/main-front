@@ -154,6 +154,7 @@ trait ProposalContextResponse extends js.Object {
 
 final case class Author(firstName: Option[String],
                         organisationName: Option[String],
+                        organisationSlug: Option[String],
                         postalCode: Option[String],
                         age: Option[Int],
                         avatarUrl: Option[String])
@@ -163,6 +164,7 @@ object Author {
     Author(
       firstName = undefToOption(authorResponse.firstName),
       organisationName = undefToOption(authorResponse.organisationName),
+      organisationSlug = undefToOption(authorResponse.organisationSlug),
       postalCode = undefToOption(authorResponse.postalCode),
       age = undefToOption(authorResponse.age),
       avatarUrl = undefToOption(authorResponse.avatarUrl)
@@ -170,12 +172,15 @@ object Author {
   }
 }
 
-final case class OrganisationInfo(organisationId: UserId, organisationName: Option[String])
+final case class OrganisationInfo(organisationId: UserId,
+                                  organisationName: Option[String],
+                                  organisationSlug: Option[String])
 
 object OrganisationInfo {
   def apply(organisationInfoResponse: OrganisationInfoResponse): OrganisationInfo = new OrganisationInfo(
     organisationId = UserId(organisationInfoResponse.organisationId),
-    organisationName = undefToOption(organisationInfoResponse.organisationName)
+    organisationName = undefToOption(organisationInfoResponse.organisationName),
+    organisationSlug = undefToOption(organisationInfoResponse.organisationSlug)
   )
 }
 

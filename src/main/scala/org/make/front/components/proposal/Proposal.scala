@@ -116,7 +116,12 @@ object Proposal {
                               <.div(^.className := ProposalStyles.infosWrapper)(
                                 <.p(^.className := js.Array(TextStyles.mediumText, ProposalStyles.infos))(
                                   self.state.maybeProposal.map { proposal =>
-                                    <.ProposalAuthorInfos(^.wrapped := ProposalAuthorInfosProps(proposal = proposal))()
+                                    <.ProposalAuthorInfos(
+                                      ^.wrapped := ProposalAuthorInfosProps(
+                                        proposal = proposal,
+                                        country = Some(self.props.wrapped.country)
+                                      )
+                                    )()
                                   }
                                 )
                               ),
@@ -214,7 +219,7 @@ object ProposalStyles extends StyleSheet.Inline {
   val fullHeight: StyleA =
     style(height(100.%%))
 
-  val wrapper: (Boolean) => StyleA = styleF.bool(
+  val wrapper: Boolean => StyleA = styleF.bool(
     isLoaded =>
       if (isLoaded) {
         styleS(

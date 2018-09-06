@@ -54,7 +54,7 @@ object ProposalTile {
                                      trackingLocation: TrackingLocation,
                                      country: String)
 
-  final case class ProposalTileState (isProposalSharable : Boolean)
+  final case class ProposalTileState(isProposalSharable: Boolean)
 
   val reactClass: ReactClass =
     WithRouter(
@@ -62,9 +62,7 @@ object ProposalTile {
         .createClass[ProposalTileProps, ProposalTileState](
           displayName = "ProposalTile",
           getInitialState = { self =>
-            ProposalTileState(
-              isProposalSharable  = true
-            )
+            ProposalTileState(isProposalSharable = true)
           },
           render = (self) => {
 
@@ -76,7 +74,12 @@ object ProposalTile {
               )
             } else {
               <.div(^.className := ProposalTileStyles.proposalInfosWrapper)(
-                <.ProposalInfosComponent(^.wrapped := ProposalInfosProps(proposal = self.props.wrapped.proposal))()
+                <.ProposalInfosComponent(
+                  ^.wrapped := ProposalInfosProps(
+                    proposal = self.props.wrapped.proposal,
+                    country = Some(self.props.wrapped.country)
+                  )
+                )()
               )
             }
 
@@ -109,7 +112,7 @@ object ProposalTile {
                     maybeSequenceId = self.props.wrapped.maybeSequenceId,
                     maybeLocation = self.props.wrapped.maybeLocation,
                     trackingLocation = self.props.wrapped.trackingLocation,
-                    isProposalSharable  = self.state.isProposalSharable
+                    isProposalSharable = self.state.isProposalSharable
                   )
                 )()
               ),

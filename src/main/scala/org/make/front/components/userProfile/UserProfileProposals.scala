@@ -78,7 +78,8 @@ object UserProfileProposals {
                 <.ProposalTileWithoutVoteActionComponent(
                   ^.wrapped := ProposalTileWithoutVoteActionProps(
                     proposal = proposal,
-                    index = counter.getAndIncrement()
+                    index = counter.getAndIncrement(),
+                    country = self.props.wrapped.user.country
                   )
                 )()
               )
@@ -110,7 +111,8 @@ object UserProfileProposals {
                 <.ProposalTileWithoutVoteActionComponent(
                   ^.wrapped := ProposalTileWithoutVoteActionProps(
                     proposal = proposal,
-                    index = counter.getAndIncrement()
+                    index = counter.getAndIncrement(),
+                    country = self.props.wrapped.user.country
                   ),
                   ^.key := s"proposal_${proposal.id.value}"
                 )()

@@ -64,24 +64,27 @@ object ProposalInsideSequence {
                                                sequenceId: SequenceId,
                                                maybeLocation: Option[LocationModel])
 
-  final case class ProposalInsideSequenceState(hasBeenVoted: Boolean,
-                                               isProposalSharable : Boolean)
+  final case class ProposalInsideSequenceState(hasBeenVoted: Boolean, isProposalSharable: Boolean)
 
   lazy val reactClass: ReactClass =
     WithRouter(
       React.createClass[ProposalInsideSequenceProps, ProposalInsideSequenceState](
         displayName = "ProposalInsideSequence",
         getInitialState = { self =>
-          ProposalInsideSequenceState(hasBeenVoted = false, isProposalSharable  = false)
+          ProposalInsideSequenceState(hasBeenVoted = false, isProposalSharable = false)
         },
         componentWillReceiveProps = { (self, props) =>
-          self.setState(ProposalInsideSequenceState(hasBeenVoted = props.wrapped.hasBeenVoted, isProposalSharable  = false))
+          self.setState(
+            ProposalInsideSequenceState(hasBeenVoted = props.wrapped.hasBeenVoted, isProposalSharable = false)
+          )
         },
         render = { self =>
           <.div(^.className := js.Array(LayoutRulesStyles.row))(
             <.div(^.className := ProposalInsideSequenceStyles.infosWrapper)(
               <.p(^.className := js.Array(TextStyles.mediumText, ProposalInsideSequenceStyles.infos))(
-                <.ProposalAuthorInfos(^.wrapped := ProposalAuthorInfosProps(proposal = self.props.wrapped.proposal))()
+                <.ProposalAuthorInfos(
+                  ^.wrapped := ProposalAuthorInfosProps(proposal = self.props.wrapped.proposal, None)
+                )()
               )
             ),
             <.div(^.className := ProposalInsideSequenceStyles.contentWrapper)(
@@ -102,7 +105,7 @@ object ProposalInsideSequence {
                     maybeOperation = self.props.wrapped.maybeOperation,
                     maybeSequenceId = Some(self.props.wrapped.sequenceId),
                     maybeLocation = self.props.wrapped.maybeLocation,
-                    isProposalSharable  = false
+                    isProposalSharable = false
                   )
                 )(),
                 <.div(^.className := ProposalInsideSequenceStyles.ctaWrapper)(
