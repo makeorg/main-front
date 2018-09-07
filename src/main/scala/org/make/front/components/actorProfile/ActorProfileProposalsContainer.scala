@@ -30,7 +30,6 @@ import org.make.front.components.actorProfile.ActorProfileProposals.ActorProfile
 import org.make.front.components.{AppState, DataLoader}
 import org.make.front.models.{Organisation, Proposal}
 import org.make.services.organisation.OrganisationService
-import org.make.services.proposal.SearchResult
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
@@ -46,9 +45,8 @@ object ActorProfileProposalsContainer {
     : Dispatch => (AppState, Props[ActorProposalsContainerProps]) => DataLoaderProps[js.Array[Proposal]] =
     (_: Dispatch) => { (_: AppState, props: Props[ActorProposalsContainerProps]) =>
       def getActorProposals: () => Future[Option[js.Array[Proposal]]] = () => {
-        OrganisationService.getOrganisationProposals(props.wrapped.actor.organisationId.value).map {
-          case SearchResult(total, results, _) if total > 0 => Some(results)
-          case _                                            => None
+        OrganisationService.getOrganisationProposals(props.wrapped.actor.organisationId.value).map { searchResult =>
+          Some(searchResult.results)
         }
       }
 
