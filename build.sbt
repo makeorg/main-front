@@ -174,6 +174,18 @@ prepareAssets in ThisBuild := {
     overwrite = true
   )
 
+  IO.copyDirectory(
+    baseDirectory.value / "src" / "main" / "static" / "consultation" / "images",
+    npmDirectory / "dist" / "consultation" / "images",
+    overwrite = true
+  )
+
+  IO.copyDirectory(
+    baseDirectory.value / "src" / "main" / "static" / "consultation" / "fonts",
+    npmDirectory / "dist" / "consultation" / "fonts",
+    overwrite = true
+  )
+
   IO.listFiles(baseDirectory.value / "src" / "main" / "static" / "favicon").foreach {
     file =>
       IO.copyFile(file, npmDirectory / "dist" / file.name)
