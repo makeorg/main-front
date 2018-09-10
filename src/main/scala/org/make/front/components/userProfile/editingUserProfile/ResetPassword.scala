@@ -168,9 +168,16 @@ object ResetPassword {
                 <.p(^.className := js.Array(InputStyles.errorMessage, EditingUserProfileStyles.inlineMessage))(
                   self.state.errorOldPassword,
                   unescape("&nbsp;"),
-                  <.button(^.onClick := openForgotPasswordModal())(
+                  <.p()(
                     I18n
-                      .t("user-profile.reset-password.old-password.wrong-password-alt-extra")
+                      .t("user-profile.reset-password.old-password.wrong-password-alt-extra-1"),
+                    <.button(
+                      ^.className := EditingUserProfileStyles.forgottenPasswordLink,
+                      ^.onClick := openForgotPasswordModal()
+                    )(
+                      I18n
+                        .t("user-profile.reset-password.old-password.wrong-password-alt-extra-2")
+                    )
                   )
                 )
               }
@@ -220,11 +227,12 @@ object ResetPassword {
                 isModalOpened = self.state.isForgotPasswordModalOpened,
                 closeCallback = toggleResetPasswordModal()
               )
-            )(<.div(^.className := LayoutRulesStyles.evenNarrowerCenteredRow)(
-              <.RecoverPasswordContainerComponent(^.wrapped := RecoverPasswordContainerProps(
-              onRecoverPasswordSuccess = toggleResetPasswordModal()
-            ))()
-            )
+            )(
+              <.div(^.className := LayoutRulesStyles.evenNarrowerCenteredRow)(
+                <.RecoverPasswordContainerComponent(
+                  ^.wrapped := RecoverPasswordContainerProps(onRecoverPasswordSuccess = toggleResetPasswordModal())
+                )()
+              )
             ),
             <.style()(EditingUserProfileStyles.render[String])
           )

@@ -182,7 +182,8 @@
         "placeholder": "<NEED TRANSLATION>",
         "wrong-password": "<NEED TRANSLATION>",
         "wrong-password-alt": "<NEED TRANSLATION>",
-        "wrong-password-alt-extra": "<NEED TRANSLATION>"
+        "wrong-password-alt-extra-1": "<NEED TRANSLATION>",
+        "wrong-password-alt-extra-2": "<NEED TRANSLATION>"
       },
       "new-password": {
         "label": "<NEED TRANSLATION>",

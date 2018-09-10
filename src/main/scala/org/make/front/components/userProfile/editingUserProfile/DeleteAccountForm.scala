@@ -119,9 +119,13 @@ object DeleteAccountForm {
                         <("Error")()(
                           unescape(error),
                           unescape("&nbsp;"),
-                          <.button(^.onClick := openForgotPasswordModal())(
+                          <.p()(
                             I18n
-                              .t("user-profile.reset-password.old-password.wrong-password-alt-extra")
+                              .t("user-profile.reset-password.old-password.wrong-password-alt-extra-1"),
+                            <.button(^.className := EditingUserProfileStyles.forgottenPasswordLink ,^.onClick := openForgotPasswordModal())(
+                              I18n
+                                .t("user-profile.reset-password.old-password.wrong-password-alt-extra-2")
+                            )
                           )
                         )
 

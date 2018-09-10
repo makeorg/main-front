@@ -74,6 +74,11 @@ object ConsultationLinkSequence {
             ^.className := js
               .Array(DynamicConsultationLinkSequenceStyles.gradient, ConsultationLinkSequenceStyles.wrapper)
           )(
+            <.Link(
+              ^.className := ConsultationLinkSequenceStyles.blockLink,
+              ^.onClick := (trackingActions()),
+              ^.to := s"/${self.props.wrapped.country}/consultation/${consultation.slug}/selection"
+            )(),
             <.p(^.className := ConsultationLinkSequenceStyles.presentation)(
               unescape(I18n.t("operation.sequence.link.presentation"))
             ),
@@ -100,11 +105,16 @@ object ConsultationLinkSequenceStyles extends StyleSheet.Inline {
 
   val wrapper: StyleA =
     style(
+      position.relative,
       display.flex,
       alignItems.center,
       padding(20.pxToEm(), ThemeStyles.SpacingValue.smaller.pxToEm()),
-      margin(20.pxToEm(), `0`)
+      margin(20.pxToEm(), `0`),
+      boxShadow := s"0 1px 1px 0 rgba(0, 0, 0, .5)"
     )
+
+  val blockLink: StyleA =
+    style(position.absolute, width(100.%%), height(100.%%), top(`0`), left(`0`))
 
   val presentation: StyleA =
     style(

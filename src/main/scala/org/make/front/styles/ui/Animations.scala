@@ -33,19 +33,28 @@ object AnimationsStyles extends StyleSheet.Inline {
   val fadeExitAnimation =
     keyframes(0.%% -> keyframe(opacity(1)), 100.%% -> keyframe(opacity(0)))
 
-  val fadeOn250: StyleA = style(animationName(fadeEnterAnimation), animationTimingFunction.easeIn, animationDuration :=! s"0.25s")
+  val fadeOn250: StyleA =
+    style(animationName(fadeEnterAnimation), animationTimingFunction.easeIn, animationDuration :=! s"0.25s")
 
-  val fadeOff250: StyleA = style(animationName(fadeExitAnimation), animationTimingFunction.easeIn, animationDuration :=! s"0.25s")
+  val fadeOff250: StyleA =
+    style(animationName(fadeExitAnimation), animationTimingFunction.easeIn, animationDuration :=! s"0.25s")
 
-  val fadeOn500: StyleA = style(animationName(fadeEnterAnimation), animationTimingFunction.easeIn, animationDuration :=! s"0.5s")
+  val fadeOff250Delayed500: StyleA = style(
+    animationName(fadeExitAnimation),
+    animationTimingFunction.easeIn,
+    animationDuration :=! s"0.25s",
+    animationDelay :=! s"0.5s"
+  )
 
-  val fadeOff500: StyleA = style(animationName(fadeExitAnimation), animationTimingFunction.easeIn, animationDuration :=! s"0.5s")
+  val fadeOn500: StyleA =
+    style(animationName(fadeEnterAnimation), animationTimingFunction.easeIn, animationDuration :=! s"0.5s")
+
+  val fadeOff500: StyleA =
+    style(animationName(fadeExitAnimation), animationTimingFunction.easeIn, animationDuration :=! s"0.5s")
 
   val hideChildren: StyleA = style(opacity(0), display.none)
 
   val showChildren: StyleA = style(opacity(1))
-
-
 
   // Collapse Animations
   val collapseEnterAnimation =
@@ -54,9 +63,19 @@ object AnimationsStyles extends StyleSheet.Inline {
   val collapseExitAnimation =
     keyframes(0.%% -> keyframe(transform := s"scaleY(0)"), 100.%% -> keyframe(transform := s"scaleY(1)"))
 
-  val collapseOn250: StyleA = style(animationName(collapseEnterAnimation), animationTimingFunction.easeIn, animationDuration :=! s"0.25s", transformOrigin := s"top")
+  val collapseOn250: StyleA = style(
+    animationName(collapseEnterAnimation),
+    animationTimingFunction.easeIn,
+    animationDuration :=! s"0.25s",
+    transformOrigin := s"top"
+  )
 
-  val collapseOff250: StyleA = style(animationName(collapseExitAnimation), animationTimingFunction.easeIn, animationDuration :=! s"0.25s", transformOrigin := s"top")
+  val collapseOff250: StyleA = style(
+    animationName(collapseExitAnimation),
+    animationTimingFunction.easeIn,
+    animationDuration :=! s"0.25s",
+    transformOrigin := s"top"
+  )
 
   val enableCollapse: StyleA = style(height(`0`), overflow.hidden)
 

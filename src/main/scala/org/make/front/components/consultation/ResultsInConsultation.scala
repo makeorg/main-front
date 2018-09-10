@@ -368,7 +368,7 @@ object ResultsInConsultationStyles extends StyleSheet.Inline {
     style(
       marginTop(ThemeStyles.SpacingValue.smaller.pxToEm()),
       paddingBottom(ThemeStyles.SpacingValue.smaller.pxToEm()),
-      borderBottom(2.pxToEm(), solid, ThemeStyles.BorderColor.lighter)
+      borderBottom(1.pxToEm(), solid, ThemeStyles.BorderColor.veryLight),
     )
 
   val title: StyleA =
