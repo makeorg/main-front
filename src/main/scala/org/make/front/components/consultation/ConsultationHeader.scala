@@ -48,12 +48,10 @@ object ConsultationHeader {
 
   lazy val reactClass: ReactClass =
     React
-      .createClass[ConsultationHeaderProps, Unit](
-        displayName = "ConsultationHeader",
-        componentDidMount = { _ =>
-          AffixMethods.tabAffixScrollrAF
-        },
-        render = { self =>
+      .createClass[ConsultationHeaderProps, Unit](displayName = "ConsultationHeader", componentDidMount = { _ =>
+        AffixMethods.tabAffixScrollrAF
+      }, render = {
+        self =>
           def changeTab(newTab: String): () => Unit = { () =>
             self.props.wrapped.changeActiveTab(newTab)
             TrackingService
@@ -83,10 +81,14 @@ object ConsultationHeader {
 
           val startDateActions: Option[js.Date] = self.props.wrapped.operation.startDateActions
 
-          <.header(^.className := DynamicConsultationHeaderStyles.gradient)(
+          <.header(^.className := js.Array(DynamicConsultationHeaderStyles.gradient))(
             <.div(
               ^.className := js
-                .Array(ConsultationHeaderStyles.titleWrapper, DynamicConsultationHeaderStyles.titleWidth)
+                .Array(
+                  ConsultationHeaderStyles.titleWrapper,
+                  DynamicConsultationHeaderStyles.titleWidth,
+                  ConsultationHeaderStyles.headerWrapper(self.props.wrapped.operation.isConsultationOnly)
+                )
             )(
               <.p(^.className := ConsultationHeaderStyles.labelWrapper)(
                 <.span(^.className := TextStyles.label)(unescape(I18n.t("operation.vff-fr.intro.label")))
@@ -95,71 +97,79 @@ object ConsultationHeader {
                 ^.wrapped := ConsultationLogoProps(consultation, self.props.wrapped.language)
               )()
             ),
-            <.div(^.id := "tabAffixContainer")(
-              <.div(^.id := "tabAffixElement")(
-                <.div(^.className := js.Array(LayoutRulesStyles.centeredRow, ConsultationHeaderStyles.tabWrapper))(
-                  <.button(
-                    ^.className := js.Array(
-                      ConsultationHeaderStyles.tab,
-                      ConsultationHeaderStyles.tabSelection(self.props.wrapped.activeTab == "consultation")
-                    ),
-                    ^.onClick := changeTab("consultation")
-                  )(
-                    <.span(^.className := ConsultationHeaderStyles.titleLink)(
-                      unescape(I18n.t("operation.intro.consultation"))
-                    ),
-                    <.span(^.className := ConsultationHeaderStyles.dateLink)(
-                      unescape(I18n.t("operation.intro.from")) +
-                        " " +
-                        unescape(
-                          I18n
-                            .l(consultation.startDate.getOrElse(new js.Date()), DateLocalizeOptions("common.date.long"))
-                        ) +
-                        " " +
-                        unescape(I18n.t("operation.intro.to")) +
-                        " " +
-                        unescape(
-                          I18n
-                            .l(consultation.endDate.getOrElse(new js.Date()), DateLocalizeOptions("common.date.long"))
-                        )
-                    )
-                  ),
-                  <.button(
-                    ^.className := js.Array(
-                      ConsultationHeaderStyles.tab,
-                      ConsultationHeaderStyles.tabSelection(self.props.wrapped.activeTab != "consultation")
-                    ),
-                    ^.onClick := changeTab("actions")
-                  )(
-                    <.span(^.className := ConsultationHeaderStyles.titleLink)(
-                      unescape(I18n.t("operation.intro.action"))
-                    ),
-                    startDateActions.map { date =>
+            if (!self.props.wrapped.operation.isConsultationOnly) {
+              <.div(^.id := "tabAffixContainer")(
+                <.div(^.id := "tabAffixElement")(
+                  <.div(^.className := js.Array(LayoutRulesStyles.centeredRow, ConsultationHeaderStyles.tabWrapper))(
+                    <.button(
+                      ^.className := js.Array(
+                        ConsultationHeaderStyles.tab,
+                        ConsultationHeaderStyles.tabSelection(self.props.wrapped.activeTab == "consultation")
+                      ),
+                      ^.onClick := changeTab("consultation")
+                    )(
+                      <.span(^.className := ConsultationHeaderStyles.titleLink)(
+                        unescape(I18n.t("operation.intro.consultation"))
+                      ),
                       <.span(^.className := ConsultationHeaderStyles.dateLink)(
-                        unescape(I18n.t("operation.intro.datefrom")) + " " +
-                          unescape(I18n.l(date, DateLocalizeOptions("common.date.long")))
+                        unescape(I18n.t("operation.intro.from")) +
+                          " " +
+                          unescape(
+                            I18n
+                              .l(
+                                consultation.startDate.getOrElse(new js.Date()),
+                                DateLocalizeOptions("common.date.long")
+                              )
+                          ) +
+                          " " +
+                          unescape(I18n.t("operation.intro.to")) +
+                          " " +
+                          unescape(
+                            I18n
+                              .l(consultation.endDate.getOrElse(new js.Date()), DateLocalizeOptions("common.date.long"))
+                          )
                       )
-                    }
+                    ),
+                    <.button(
+                      ^.className := js.Array(
+                        ConsultationHeaderStyles.tab,
+                        ConsultationHeaderStyles.tabSelection(self.props.wrapped.activeTab != "consultation")
+                      ),
+                      ^.onClick := changeTab("actions")
+                    )(
+                      <.span(^.className := ConsultationHeaderStyles.titleLink)(
+                        unescape(I18n.t("operation.intro.action"))
+                      ),
+                      startDateActions.map { date =>
+                        <.span(^.className := ConsultationHeaderStyles.dateLink)(
+                          unescape(I18n.t("operation.intro.datefrom")) + " " +
+                            unescape(I18n.l(date, DateLocalizeOptions("common.date.long")))
+                        )
+                      }
+                    )
                   )
                 )
               )
-            ),
+            },
             <.style()(ConsultationHeaderStyles.render[String], DynamicConsultationHeaderStyles.render[String])
           )
-        }
-      )
+      })
 }
 
 object ConsultationHeaderStyles extends StyleSheet.Inline {
   import dsl._
 
+  def headerWrapper: (Boolean) => StyleA =
+    styleF.bool {
+      case true  => styleS(paddingBottom(ThemeStyles.SpacingValue.medium.pxToEm()))
+      case false => styleS(paddingBottom(ThemeStyles.SpacingValue.small.pxToEm()))
+    }
+
   val titleWrapper: StyleA =
     style(
       marginRight.auto,
       marginLeft.auto,
-      marginBottom(ThemeStyles.SpacingValue.small.pxToEm()),
-      paddingTop(30.pxToEm()),
-      paddingBottom(5.pxToEm()),
+      paddingTop(ThemeStyles.SpacingValue.medium.pxToEm()),
       paddingRight(ThemeStyles.SpacingValue.small.pxToEm()),
       paddingLeft(ThemeStyles.SpacingValue.small.pxToEm()),
       ThemeStyles.MediaQueries.beyondSmall(
