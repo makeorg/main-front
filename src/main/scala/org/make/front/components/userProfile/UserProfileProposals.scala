@@ -98,11 +98,7 @@ object UserProfileProposals {
               <.i(
                 ^.className := js.Array(FontAwesomeStyles.lightbulbTransparent, UserProfileProposalsStyles.emptyIcon)
               )(),
-              <.p(^.className := UserProfileProposalsStyles.emptyDesc)(
-                self.props.wrapped.user.firstName,
-                unescape("&nbsp;"),
-                I18n.t("user-profile.proposal.empty")
-              )
+              <.p(^.className := UserProfileProposalsStyles.emptyDesc)(I18n.t("user-profile.proposal.empty"))
             )
           } else {
             val counter: Counter = new Counter()
@@ -154,6 +150,8 @@ object UserProfileProposalsStyles extends StyleSheet.Inline {
   val emptyIcon: StyleA =
     style(
       color(specialYellow),
+      fontSize(42.pxToEm()),
+      margin(ThemeStyles.SpacingValue.small.pxToEm(42), `0`),
       ThemeStyles.MediaQueries
         .beyondLargeMedium(
           fontSize(72.pxToEm()),

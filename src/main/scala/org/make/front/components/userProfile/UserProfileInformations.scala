@@ -27,12 +27,6 @@ import org.make.front.Main.CssSettings._
 import org.make.front.components.Components._
 import org.make.front.components.userProfile.navUserProfile.ButtonNav.ButtonNavProps
 import org.make.front.facades.I18n
-import org.make.front.facades.ReactCSSTransition.{
-  ReactCSSTransitionDOMAttributes,
-  ReactCSSTransitionVirtualDOMElements,
-  TransitionClasses
-}
-import org.make.front.facades.ReactTransition.ReactTransitionDOMAttributes
 import org.make.front.facades.Unescape.unescape
 import org.make.front.models.{Profile, User => UserModel}
 import org.make.front.styles.ThemeStyles
@@ -131,7 +125,8 @@ object UserProfileInformations {
                 }
                 .toSeq
             ),
-            self.props.wrapped.user.profile
+            //Todo Uncomment when Biography is ready
+            /*self.props.wrapped.user.profile
               .flatMap(_.description)
               .map { description =>
                 <.CSSTransition(
@@ -169,11 +164,10 @@ object UserProfileInformations {
                 }),
                 <.div(^.className := UserProfileInformationsStyles.slidingPannelSep)()
               )
-            ),
+            ),*/
             if (self.props.wrapped.activeTab == "settings") {
               <("SettingsTab")()(
                 <.div(^.className := RWDRulesLargeMediumStyles.hideBeyondLargeMedium)(
-                  // Todo Uncomment when Summary, Proposals and Actions' tabs are ready
                   <.div(^.className := UserProfileInformationsStyles.slidingPannelButtonGroup)(
                     <.ButtonNavComponent(
                       ^.wrapped := ButtonNavProps(
@@ -194,7 +188,6 @@ object UserProfileInformations {
                   )
                 ),
                 <.div(^.className := RWDRulesLargeMediumStyles.showBlockBeyondLargeMedium)(
-                  // Todo Uncomment when Summary, Proposals and Actions' tabs are ready
                   <.div(^.className := UserProfileInformationsStyles.slidingPannelButtonGroup)(
                     <.div(^.className := UserProfileInformationsStyles.slidingPannelButtonGroup)(
                       <.ButtonNavComponent(
@@ -222,7 +215,6 @@ object UserProfileInformations {
             } else {
               <("OtherTabs")()(
                 <.div(^.className := RWDRulesLargeMediumStyles.hideBeyondLargeMedium)(
-                  // Todo Uncomment when Summary, Proposals and Actions' tabs are ready
                   <.div(^.className := UserProfileInformationsStyles.slidingPannelButtonGroup)(
                     <.ButtonNavComponent(
                       ^.wrapped := ButtonNavProps(
@@ -250,7 +242,6 @@ object UserProfileInformations {
                   )
                 ),
                 <.div(^.className := RWDRulesLargeMediumStyles.showBlockBeyondLargeMedium)(
-                  // Todo Uncomment when Summary, Proposals and Actions' tabs are ready
                   <.div(^.className := UserProfileInformationsStyles.slidingPannelButtonGroup)(
                     <.ButtonNavComponent(
                       ^.wrapped := ButtonNavProps(
@@ -284,16 +275,16 @@ object UserProfileInformationsStyles extends StyleSheet.Inline {
 
   val wrapper: StyleA =
     style(
+      display.flex,
       backgroundColor(ThemeStyles.BackgroundColor.white),
       boxShadow := "0 1px 1px 0 rgba(0,0,0,0.50)",
       padding(ThemeStyles.SpacingValue.small.pxToEm()),
-      ThemeStyles.MediaQueries.beyondLargeMedium(padding(50.pxToEm()), marginTop(-49.pxToEm()))
+      ThemeStyles.MediaQueries.beyondLargeMedium(padding(20.pxToEm()), marginTop(-49.pxToEm()), flexFlow := s"column")
     )
 
   val avatarWrapper: StyleA =
     style(
       position.relative,
-      float.left,
       width(ThemeStyles.SpacingValue.evenLarger.pxToEm()),
       height(ThemeStyles.SpacingValue.evenLarger.pxToEm()),
       marginTop(-40.pxToEm()),
@@ -309,7 +300,7 @@ object UserProfileInformationsStyles extends StyleSheet.Inline {
         verticalAlign.middle,
         width(160.pxToEm()),
         height(160.pxToEm()),
-        marginTop(-69.pxToEm()),
+        marginTop(-49.pxToEm()),
         borderWidth(5.px),
         marginLeft.auto,
         marginRight.auto
@@ -341,7 +332,6 @@ object UserProfileInformationsStyles extends StyleSheet.Inline {
 
   val personnalInformations: StyleA =
     style(
-      float.left,
       ThemeStyles.MediaQueries.beyondLargeMedium(float.none),
       marginBottom(ThemeStyles.SpacingValue.small.pxToEm()),
       ThemeStyles.MediaQueries.beyondLargeMedium(textAlign.center, marginTop(20.pxToEm()))

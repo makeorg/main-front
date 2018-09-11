@@ -97,7 +97,8 @@ object ActorProfileInformations {
                 }
                 .toSeq
             ),
-            self.props.wrapped.actor.description.map { description =>
+            //Todo Uncomment when Biography is ready
+            /*self.props.wrapped.actor.description.map { description =>
               <.CSSTransition(
                 ^.timeout := 25,
                 ^.in := self.state.expandSlidingPannel,
@@ -126,13 +127,13 @@ object ActorProfileInformations {
                   ^.className := ActorProfileInformationsStyles.slidingPannelButton,
                   ^.onClick := toggleSlidingPannel
                 )(if (self.state.expandSlidingPannel) {
-                  I18n.t("actor-profile.show-less")
+                  I18n.t("user-profile.show-less")
                 } else {
-                  I18n.t("actor-profile.show-more")
+                  I18n.t("user-profile.show-more")
                 }),
                 <.div(^.className := ActorProfileInformationsStyles.slidingPannelSep)()
               )
-            ),
+            ),*/
             <.style()(ActorProfileInformationsStyles.render[String])
           )
         }
@@ -145,16 +146,16 @@ object ActorProfileInformationsStyles extends StyleSheet.Inline {
 
   val wrapper: StyleA =
     style(
+      display.flex,
       backgroundColor(ThemeStyles.BackgroundColor.white),
       boxShadow := "0 1px 1px 0 rgba(0,0,0,0.50)",
       padding(ThemeStyles.SpacingValue.small.pxToEm()),
-      ThemeStyles.MediaQueries.beyondLargeMedium(padding(50.pxToEm()), marginTop(-49.pxToEm()))
+      ThemeStyles.MediaQueries.beyondLargeMedium(padding(20.pxToEm()), marginTop(-49.pxToEm()), flexFlow := s"column")
     )
 
   val avatarWrapper: StyleA =
     style(
       position.relative,
-      float.left,
       width(ThemeStyles.SpacingValue.evenLarger.pxToEm()),
       height(ThemeStyles.SpacingValue.evenLarger.pxToEm()),
       marginTop(-40.pxToEm()),
@@ -165,12 +166,11 @@ object ActorProfileInformationsStyles extends StyleSheet.Inline {
       border(2.px, solid, ThemeStyles.BorderColor.lighter),
       textAlign.center,
       ThemeStyles.MediaQueries.beyondLargeMedium(
-        float.none,
         display.block,
         verticalAlign.middle,
         width(160.pxToEm()),
         height(160.pxToEm()),
-        marginTop(-69.pxToEm()),
+        marginTop(-49.pxToEm()),
         borderWidth(5.px),
         marginLeft.auto,
         marginRight.auto
@@ -202,8 +202,6 @@ object ActorProfileInformationsStyles extends StyleSheet.Inline {
 
   val personnalInformations: StyleA =
     style(
-      float.left,
-      ThemeStyles.MediaQueries.beyondLargeMedium(float.none),
       marginBottom(ThemeStyles.SpacingValue.small.pxToEm()),
       ThemeStyles.MediaQueries.beyondLargeMedium(textAlign.center, marginTop(20.pxToEm()))
     )
