@@ -100,53 +100,45 @@ object ProposalTileWithOrganisationsVotes {
 
             <.article(^.className := ProposalTileStyles.wrapper)(
               <.div(^.className := js.Array(TableLayoutStyles.fullHeightWrapper, ProposalTileStyles.innerWrapper))(
-                <.div(^.className := TableLayoutStyles.row)(
-                  <.div(^.className := TableLayoutStyles.cell)(
-                    intro,
-                    <.div(^.className := ProposalTileStyles.contentWrapper)(
-                      <.h3(^.className := js.Array(TextStyles.mediumText, TextStyles.boldText))(
-                        <.Link(^.to := proposalLink, ^.className := ProposalTileStyles.proposalLinkOnTitle)(
-                          self.props.wrapped.proposal.content
-                        )
-                      ),
-                      <.VoteContainerComponent(
-                        ^.wrapped := VoteContainerProps(
-                          proposal = self.props.wrapped.proposal,
-                          onSuccessfulVote = self.props.wrapped.handleSuccessfulVote,
-                          onSuccessfulQualification = self.props.wrapped.handleSuccessfulQualification,
-                          index = self.props.wrapped.index,
-                          trackingLocation = self.props.wrapped.trackingLocation,
-                          maybeTheme = self.props.wrapped.maybeTheme,
-                          maybeOperation = self.props.wrapped.maybeOperation,
-                          maybeSequenceId = self.props.wrapped.maybeSequenceId,
-                          maybeLocation = self.props.wrapped.maybeLocation,
-                          isProposalSharable = self.state.isProposalSharable
-                        )
-                      )(),
-                      <.ProposalActorVotedComponent(
-                        ^.wrapped := ProposalActorVotedProps(
-                          organisations = self.props.wrapped.proposal.organisations,
-                          country = self.props.wrapped.country
-                        )
-                      )()
+                intro,
+                <.div(^.className := ProposalTileStyles.contentWrapper)(
+                  <.h3(^.className := js.Array(TextStyles.mediumText, TextStyles.boldText))(
+                    <.Link(^.to := proposalLink, ^.className := ProposalTileStyles.proposalLinkOnTitle)(
+                      self.props.wrapped.proposal.content
                     )
-                  )
+                  ),
+                  <.VoteContainerComponent(
+                    ^.wrapped := VoteContainerProps(
+                      proposal = self.props.wrapped.proposal,
+                      onSuccessfulVote = self.props.wrapped.handleSuccessfulVote,
+                      onSuccessfulQualification = self.props.wrapped.handleSuccessfulQualification,
+                      index = self.props.wrapped.index,
+                      trackingLocation = self.props.wrapped.trackingLocation,
+                      maybeTheme = self.props.wrapped.maybeTheme,
+                      maybeOperation = self.props.wrapped.maybeOperation,
+                      maybeSequenceId = self.props.wrapped.maybeSequenceId,
+                      maybeLocation = self.props.wrapped.maybeLocation,
+                      isProposalSharable = self.state.isProposalSharable
+                    )
+                  )(),
+                  <.ProposalActorVotedComponent(
+                    ^.wrapped := ProposalActorVotedProps(
+                      organisations = self.props.wrapped.proposal.organisations,
+                      country = self.props.wrapped.country
+                    )
+                  )()
                 ),
                 if (self.props.wrapped.proposal.tags.nonEmpty) {
-                  <.div(^.className := TableLayoutStyles.row)(
-                    <.div(^.className := TableLayoutStyles.cellVerticalAlignBottom)(
-                      <.footer(^.className := ProposalTileStyles.footer)(
-                        <.ul(^.className := ProposalTileWithOragnisationsVotesStyles.tagList)(
-                          self.props.wrapped.proposal.tags
-                            .map(
-                              tag =>
-                                <.li(^.className := ProposalTileWithOragnisationsVotesStyles.tagListItem)(
-                                  <.span(^.className := TagStyles.basic)(tag.label)
-                              )
-                            )
-                            .toSeq
+                  <.footer(^.className := ProposalTileStyles.footer)(
+                    <.ul(^.className := ProposalTileWithOragnisationsVotesStyles.tagList)(
+                      self.props.wrapped.proposal.tags
+                        .map(
+                          tag =>
+                            <.li(^.className := ProposalTileWithOragnisationsVotesStyles.tagListItem)(
+                              <.span(^.className := TagStyles.basic)(tag.label)
+                          )
                         )
-                      )
+                        .toSeq
                     )
                   )
                 }

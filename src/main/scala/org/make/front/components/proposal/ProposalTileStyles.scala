@@ -58,7 +58,7 @@ object ProposalTileStyles extends StyleSheet.Inline {
   val lightOpacity: StyleA = style(opacity(0.5))
 
   val innerWrapper: StyleA =
-    style(tableLayout.fixed)
+    style(display.flex, flexFlow := "column", justifyContent.spaceBetween)
 
   val proposalInfosWrapper: StyleA = style(
     display.flex,
@@ -67,6 +67,7 @@ object ProposalTileStyles extends StyleSheet.Inline {
     margin(`0`, 20.pxToEm()),
     padding(20.pxToEm(), `0`, ThemeStyles.SpacingValue.smaller.pxToEm()),
     borderBottom(1.px, solid, ThemeStyles.BorderColor.veryLight),
+    minHeight(60.pxToEm()),
     ThemeStyles.MediaQueries.beyondSmall(flexFlow := s"row")
   )
 
@@ -107,26 +108,37 @@ object ProposalTileStyles extends StyleSheet.Inline {
   val proposalLinkOnTitle: StyleA = style(color(ThemeStyles.TextColor.base))
 
   val contentWrapper: StyleA =
-    style(padding(ThemeStyles.SpacingValue.small.pxToEm(), 20.pxToEm()))
+    style(display.flex, flexFlow := "column", padding(ThemeStyles.SpacingValue.small.pxToEm(), 20.pxToEm()))
+
+  val orgVotesWrapper: StyleA =
+    style(
+      marginLeft(ThemeStyles.SpacingValue.small.pxToEm()),
+      marginRight(ThemeStyles.SpacingValue.small.pxToEm()),
+      marginBottom(ThemeStyles.SpacingValue.smaller.pxToEm())
+    )
 
   val footer: StyleA = style(
+    display.flex,
+    minHeight(55.pxToEm()),
     margin(`0`, ThemeStyles.SpacingValue.small.pxToEm()),
     padding(ThemeStyles.SpacingValue.smaller.pxToEm(), `0`, 20.pxToEm()),
     borderTop(1.px, solid, ThemeStyles.BorderColor.veryLight)
   )
 
   val tileWithVideoWrapper: StyleA =
-    style(display.flex, alignItems.center, flexFlow := s"row")
+    style(display.grid, gridTemplateColumns := s"repeat(50, 1fr)", alignContent.stretch)
 
   val tileWidth: Int = 750
-  val videoWith: Int = 256
+  val videoWith: Int = 316
   val proposalWidth: Int = tileWidth - videoWith
 
   val proposalWrapper: StyleA =
-    style(ThemeStyles.MediaQueries.beyondSmall(width(proposalWidth.pxToPercent(tileWidth))))
+    style(gridColumn := "1/51", ThemeStyles.MediaQueries.beyondSmall(gridColumn := "1/28", gridRow := "1/2"))
 
   val videoWrapper: StyleA =
-    style(ThemeStyles.MediaQueries.beyondSmall(width(videoWith.pxToPercent(tileWidth))))
+    style(
+      ThemeStyles.MediaQueries.beyondSmall(gridColumn := "28/51", gridRow := "1/2", display.flex, alignItems.center)
+    )
 
   val specialRatioVideoContainer: StyleA =
     style(position.relative, paddingBottom(125.%%), width(100.%%), height(`0`), overflow.hidden)

@@ -85,7 +85,6 @@ object ConsultationProposal {
         <.div(^.className := js.Array(ConsultationProposalStyles.wrapper))(
           <.p(^.className := ConsultationProposalStyles.preTitle)(
             <.i(^.className := js.Array(ConsultationProposalStyles.icon, FontAwesomeStyles.lightbulbTransparent))(),
-            //Todo check translations with product team
             unescape(I18n.t("operation.consultation-proposal.title"))
           ),
           <.h1(

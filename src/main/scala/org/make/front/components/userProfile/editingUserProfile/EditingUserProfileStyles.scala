@@ -125,6 +125,9 @@ object EditingUserProfileStyles extends StyleSheet.Inline {
   val inlineMessage: StyleA =
     style(ThemeStyles.MediaQueries.beyondLargeMedium(marginLeft(200.pxToPercent(750))))
 
+  val forgottenPasswordLink: StyleA =
+    style(textDecoration := "underline")
+
   val submitButton: Boolean => StyleA = styleF.bool(
     active =>
       if (active) {
