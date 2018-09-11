@@ -46,7 +46,7 @@ object FeaturedArticlesShowcase {
         render = { self =>
           def articleTile(article: FeaturedArticleModel) = <.article()(
             <.div(^.className := FeaturedArticleTileStyles.illWrapper)(
-              <.a(^.href := article.seeMoreLink, ^.className := TextStyles.boldText, ^.target := "_blank")(
+              <.a(^.href := article.seeMoreLink, ^.className := TextStyles.boldText)(
                 <.img(
                   ^.src := article.illUrl,
                   ^.srcset := article.illUrl + " 1x," + article.ill2xUrl + " 2x",
@@ -64,9 +64,7 @@ object FeaturedArticlesShowcase {
                 <.p(^.className := TextStyles.mediumText)(
                   article.excerpt,
                   <.br()(),
-                  <.a(^.href := article.seeMoreLink, ^.className := TextStyles.boldText, ^.target := "_blank")(
-                    article.seeMoreLabel
-                  )
+                  <.a(^.href := article.seeMoreLink, ^.className := TextStyles.boldText)(article.seeMoreLabel)
                 )
               )
             )

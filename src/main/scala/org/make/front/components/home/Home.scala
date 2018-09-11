@@ -67,17 +67,6 @@ object Home {
               <.WelcomeComponent.empty
             },
             <.FeaturedArticlesShowcaseContainerComponent.empty,
-            // Todo Product Team wanted to "hide" ThemeShowcase components, waiting for hoempage revamp
-            /*<.ThemeShowcaseContainerComponent(
-              ^.wrapped := ThemeShowcaseContainerProps(
-                themeSlug = "democratie-vie-politique",
-                maybeIntro = Some(unescape(I18n.t("home.showcase-1.intro"))),
-                maybeNews = Some(I18n.t("home.showcase-1.news")),
-                maybeOperation = None,
-                maybeSequenceId = None,
-                maybeLocation = Some(Location.Homepage)
-              )
-            )(),*/
             <.TrendingShowcaseContainerComponent(
               ^.wrapped := TrendingShowcaseContainerProps(
                 trending = "popular",
@@ -87,14 +76,6 @@ object Home {
               )
             )(),
             <.ExplanationsComponent.empty,
-            /*<.ThemeShowcaseContainerComponent(
-              ^.wrapped := ThemeShowcaseContainerProps(
-                themeSlug = "economie-emploi-travail",
-                maybeOperation = None,
-                maybeSequenceId = None,
-                maybeLocation = Some(Location.Homepage)
-              )
-            )(),*/
             <.TrendingShowcaseContainerComponent(
               ^.wrapped := TrendingShowcaseContainerProps(
                 trending = "controversial",
@@ -103,15 +84,6 @@ object Home {
                 maybeLocation = Some(Location.Homepage)
               )
             )(),
-            /*<.ThemeShowcaseContainerComponent(
-              ^.wrapped := ThemeShowcaseContainerProps(
-                themeSlug = "vivre-ensemble-solidarites",
-                maybeOperation = None,
-                maybeSequenceId = None,
-                maybeLocation = Some(Location.Homepage)
-              )
-            )(),
-            <.NavInThemesContainerComponent.empty,*/
             <.MainFooterComponent.empty,
             <.style()(HomeStyles.render[String])
           )

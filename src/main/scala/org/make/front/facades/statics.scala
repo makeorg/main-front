@@ -941,6 +941,14 @@ object itFlag extends js.Object
 /* SHOWCASES */
 
 @js.native
+@JSImport("./images/showcase/caj_showcase.jpg", "default")
+object cajShowcase extends js.Object
+
+@js.native
+@JSImport("./images/showcase/caj_showcase@2x.jpg", "default")
+object cajShowcaseX2 extends js.Object
+
+@js.native
 @JSImport("./images/showcase/vff_showcase.png", "default")
 object vffShowcase extends js.Object
 
@@ -955,22 +963,6 @@ object mveShowcase extends js.Object
 @js.native
 @JSImport("./images/showcase/mve_showcase@2x.jpg", "default")
 object mveShowcaseX2 extends js.Object
-
-@js.native
-@JSImport("./images/showcase/endometri_showcase.png", "default")
-object endometriShowcase extends js.Object
-
-@js.native
-@JSImport("./images/showcase/endometri_showcase@2x.png", "default")
-object endometriShowcaseX2 extends js.Object
-
-@js.native
-@JSImport("./images/showcase/tromplin_showcase.png", "default")
-object tromplinShowcase extends js.Object
-
-@js.native
-@JSImport("./images/showcase/tromplin_showcase@2x.png", "default")
-object tromplinShowcaseX2 extends js.Object
 
 /* FONTS */
 
