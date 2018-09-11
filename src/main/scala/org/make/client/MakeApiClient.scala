@@ -51,6 +51,9 @@ object MakeApiClient extends Client {
   val languageHeader: String = "x-make-language"
   val countryHeader: String = "x-make-country"
 
+  private var xSessionId: Option[String] = None
+  private val xSessionIdHeader: String = "x-session-id"
+
   val retryAfterTimeout: Int = 4
   val maxTimeout: Int = 9000
   val withCredentials: Boolean = true
@@ -67,6 +70,9 @@ object MakeApiClient extends Client {
     defaultHeaders ++
       MakeApiClient.getToken.map { authToken =>
         "Authorization" -> s"${authToken.token_type} ${authToken.access_token}"
+      } ++
+      MakeApiClient.xSessionId.map { xSessionId =>
+        xSessionIdHeader -> xSessionId
       }
   }
 
@@ -130,6 +136,8 @@ object MakeApiClient extends Client {
       withCredentials = requestData.withCredentials,
       responseType = requestData.responseType
     ).map { response =>
+      MakeApiClient.xSessionId =
+        Option(response.getResponseHeader(xSessionIdHeader)).filterNot(_.isEmpty).orElse(xSessionId)
       response match {
         case resp if resp.responseText == "OK"  => Map.empty.asInstanceOf[ENTITY]
         case resp if resp.responseText.nonEmpty => JSON.parse(response.responseText).asInstanceOf[ENTITY]
