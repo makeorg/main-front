@@ -296,11 +296,11 @@ object SequenceOfTheOperation {
                 )
               ),
               <.CSSTransition(
-                ^.timeout := 750,
+                ^.timeout := 1500,
                 ^.in := self.state.fadeIn,
                 ^.classNamesMap := TransitionClasses(
                   enter = AnimationsStyles.fadeOn250.htmlClass,
-                  exit = AnimationsStyles.fadeOff250Delayed500.htmlClass,
+                  exit = AnimationsStyles.fadeOff250Delayed1250.htmlClass,
                   exitDone = AnimationsStyles.hideChildren.htmlClass
                 ),
                 ^.onCSSTransitionExited := redirectAfterSequence

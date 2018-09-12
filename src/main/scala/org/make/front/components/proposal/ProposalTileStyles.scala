@@ -137,6 +137,7 @@ object ProposalTileStyles extends StyleSheet.Inline {
 
   val videoWrapper: StyleA =
     style(
+      backgroundColor(ThemeStyles.BackgroundColor.blackMoreTransparent),
       ThemeStyles.MediaQueries.beyondSmall(gridColumn := "28/51", gridRow := "1/2", display.flex, alignItems.center)
     )
 
