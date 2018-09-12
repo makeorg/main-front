@@ -77,8 +77,6 @@ object Consultation {
 
           if (consultation.isActive) {
             <("consultation")()(
-              <.CookieAlertContainerComponent.empty,
-              <.MainHeaderContainer.empty,
               <.ConsultationHeaderComponent(
                 ^.wrapped := ConsultationHeaderProps(
                   operation = consultation,

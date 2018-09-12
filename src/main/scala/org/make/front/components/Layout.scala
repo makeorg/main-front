@@ -18,51 +18,48 @@
  *
  */
 
-package org.make.front.components.operation
+package org.make.front.components
 
 import io.github.shogowada.scalajs.reactjs.React
 import io.github.shogowada.scalajs.reactjs.VirtualDOM._
 import io.github.shogowada.scalajs.reactjs.classes.ReactClass
+import io.github.shogowada.scalajs.reactjs.elements.ReactElement
 import org.make.front.Main.CssSettings._
 import org.make.front.components.Components._
 import org.make.front.styles.ThemeStyles
 import org.make.front.styles.base.{RWDHideRulesStyles, TableLayoutStyles}
 import org.make.front.styles.utils._
+import scalacss.internal.mutable.StyleSheet
 
 import scala.scalajs.js
 
-object WaitingForOperation {
-
-  lazy val reactClass: ReactClass =
+object Layout {
+  def reactClass(children: ReactElement, withFooter: Boolean = true): ReactClass =
     React
       .createClass[Unit, Unit](
-        displayName = "WaitingForOperation",
-        render =
-          (self) => {
-
-//          <.div(^.className := js.Array(WaitingForOperationStyles.wrapper, TableLayoutStyles.fullHeightWrapper))(
-//            <.div(^.className := TableLayoutStyles.row)(
-//              <.div(^.className := js.Array(TableLayoutStyles.cell, WaitingForOperationStyles.mainHeaderWrapper))(
-//                <.div(^.className := RWDHideRulesStyles.invisible)(<.CookieAlertContainerComponent.empty),
-//                <.div(^.className := WaitingForOperationStyles.fixedMainHeaderWrapper)(
-//                  <.CookieAlertContainerComponent.empty,
-//                  <.MainHeaderContainer.empty
-//                )
-//              )
-//            ),
-//            <.div(^.className := TableLayoutStyles.row)(
-            <.div(
-              ^.className := js.Array(WaitingForOperationStyles.content, TableLayoutStyles.cellVerticalAlignMiddle)
-            )(<.SpinnerComponent.empty)
-//            ),
-//            <.MainFooterComponent.empty,
-//            <.style()(WaitingForOperationStyles.render[String])
-//          )
-          }
+        displayName = "Layout",
+        render = self => {
+          <.div(^.className := js.Array(LayoutStyles.wrapper, TableLayoutStyles.fullHeightWrapper))(
+            <.div(^.className := TableLayoutStyles.row)(
+              <.div(^.className := js.Array(TableLayoutStyles.cell, LayoutStyles.mainHeaderWrapper))(
+                <.div(^.className := RWDHideRulesStyles.invisible)(<.CookieAlertContainerComponent.empty),
+                <.div(^.className := LayoutStyles.fixedMainHeaderWrapper)(
+                  <.CookieAlertContainerComponent.empty,
+                  <.MainHeaderContainer.empty
+                )
+              )
+            ),
+            <.div(^.className := TableLayoutStyles.row)(children),
+            if (withFooter) {
+              <.MainFooterComponent.empty
+            },
+            <.style()(LayoutStyles.render[String])
+          )
+        }
       )
 }
 
-object WaitingForOperationStyles extends StyleSheet.Inline {
+object LayoutStyles extends StyleSheet.Inline {
 
   import dsl._
 
