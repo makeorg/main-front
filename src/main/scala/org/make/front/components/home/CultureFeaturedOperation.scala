@@ -50,10 +50,10 @@ object CultureFeaturedOperation {
             TrackingService
               .track(
                 eventName = "click-homepage-header",
-                trackingContext = TrackingContext(self.props.wrapped.trackingLocation, Some("chance-aux-jeunes"))
+                trackingContext = TrackingContext(self.props.wrapped.trackingLocation, Some("culture"))
               )
             scalajs.js.Dynamic.global.window
-              .open(I18n.t("home.featured-operation.culture.learn-more.link"), "_blank")
+              .open(I18n.t("home.featured-operation.culture.learn-more.link"))
           }
 
           <.section(^.className := js.Array(TableLayoutStyles.wrapper, CultureFeaturedOperationStyles.wrapper))(

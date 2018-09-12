@@ -25,14 +25,7 @@ import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import io.github.shogowada.scalajs.reactjs.redux.ReactRedux
 import io.github.shogowada.scalajs.reactjs.redux.Redux.Dispatch
 import org.make.front.components.AppState
-import org.make.front.facades.{
-  mveShowcase,
-  mveShowcaseX2,
-  tromplinShowcase,
-  tromplinShowcaseX2,
-  vffShowcase,
-  vffShowcaseX2
-}
+import org.make.front.facades.{cajShowcase, cajShowcaseX2, mveShowcase, mveShowcaseX2, vffShowcase, vffShowcaseX2}
 import org.make.front.models.{FeaturedArticle => FeaturedArticleModel}
 
 import scala.scalajs.js
@@ -46,32 +39,31 @@ object FeaturedArticlesShowcaseContainer {
       FeaturedArticlesShowcase.FeaturedArticlesShowcaseProps(
         articles = js.Array(
           FeaturedArticleModel(
+            illUrl = cajShowcase.toString,
+            ill2xUrl = cajShowcaseX2.toString,
+            imageAlt = Some("Une chance pour chaque jeune"),
+            label = "Consultation terminée",
+            excerpt = "Découvrez prochainement les idées qui ont émergé de notre consultation.",
+            seeMoreLabel = "En savoir + sur la consultation",
+            seeMoreLink = "https://about.make.org/about-chance-aux-jeunes"
+          ),
+          FeaturedArticleModel(
             illUrl = mveShowcase.toString,
             ill2xUrl = mveShowcaseX2.toString,
-            imageAlt = Some("Votez et proposez des solutions pour mieux vivre ensemble."),
-            label = "Grande cause Make.org",
-            excerpt = "Votez et proposez des solutions pour mieux vivre ensemble.",
-            seeMoreLabel = "Participer",
-            seeMoreLink =
-              "/?utm_source=core&utm_medium=push-hp&utm_campaign=mve#/fr/consultation/mieux-vivre-ensemble/selection"
+            imageAlt = Some("Comment mieux vivre ensemble ?"),
+            label = "Consultation terminée",
+            excerpt = "Découvrez prochainement les idées qui ont émergé de notre consultation.",
+            seeMoreLabel = "En savoir + sur la consultation",
+            seeMoreLink = "https://about.make.org/about-mieux-vivre-ensemble"
           ),
           FeaturedArticleModel(
             illUrl = vffShowcase.toString,
             ill2xUrl = vffShowcaseX2.toString,
-            imageAlt = Some("Grâce aux idées issues de la consultation, 8 actions nationales ont été identifiées."),
-            label = "Grande cause Make.org",
+            imageAlt = Some("Stop aux violences faîtes aux femmes"),
+            label = "Actions",
             excerpt = "Grâce aux idées issues de la consultation, 8 actions nationales ont été identifiées.",
             seeMoreLabel = "Voir le plan d'actions",
-            seeMoreLink = "https://stopvff.make.org/about-vff"
-          ),
-          FeaturedArticleModel(
-            illUrl = tromplinShowcase.toString,
-            ill2xUrl = tromplinShowcaseX2.toString,
-            imageAlt = Some("La \"Dotation tremplin\" devient une proposition de loi !"),
-            label = "Action en cours",
-            excerpt = "La \"Dotation tremplin\" devient une proposition de loi !",
-            seeMoreLabel = "En savoir +",
-            seeMoreLink = "https://about.make.org/post/dotation-tremplin-dot"
+            seeMoreLink = "https://about.make.org/about-vff"
           )
         )
       )
