@@ -49,16 +49,13 @@ object ActorTabNav {
           }
 
           val listTabs: Seq[Element] = {
-            val tabNames = Seq("proposals" /*, "contributions"*/ )
+            val tabNames = Seq("proposals", "contributions")
             val tabContents = Seq(
-              <.span(^.className := ActorTabNavStyles.titleLink)(unescape(I18n.t("actor-profile.proposals-tab")))
-              /*
-              //TODO uncomment for #330
+              <.span(^.className := ActorTabNavStyles.titleLink)(unescape(I18n.t("actor-profile.proposals-tab"))),
               <.span(
                 ^.className := ActorTabNavStyles.titleLink,
                 ^.dangerouslySetInnerHTML := I18n.t(s"actor-profile.contributions-tab")
               )()
-             */
             )
 
             def isLeftToActiveTab(tabName: String) =

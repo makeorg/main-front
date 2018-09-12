@@ -135,7 +135,7 @@ object ProposalInfosStyles extends StyleSheet.Inline {
   val blue: ValueT[ValueT.Color] = rgb(74, 144, 226)
 
   val checkCircle: StyleA =
-    style(color(blue), marginLeft(ThemeStyles.SpacingValue.smaller.pxToEm()))
+    style(color(blue), marginLeft(5.pxToEm()))
 
   val label: StyleA = style(
     ThemeStyles.Font.circularStdBold,

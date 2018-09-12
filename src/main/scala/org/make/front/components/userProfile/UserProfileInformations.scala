@@ -73,10 +73,6 @@ object UserProfileInformations {
             self.props.wrapped.changeActiveTab(newTab)
           }
 
-          def backToPreviousTab: () => Unit = { () =>
-            self.props.wrapped.changeActiveTab(self.state.previousTab)
-          }
-
           // Toggle biography collapse method for "show more / show less" button
           def toggleSlidingPannel: () => Unit = { () =>
             self.setState(_.copy(expandSlidingPannel = !self.state.expandSlidingPannel))
@@ -154,7 +150,7 @@ object UserProfileInformations {
                   <.div(^.className := UserProfileInformationsStyles.slidingPannelButtonGroup)(
                     <.ButtonNavComponent(
                       ^.wrapped := ButtonNavProps(
-                        onClickMethod = backToPreviousTab,
+                        onClickMethod = changeTab("proposals"),
                         icon = FontAwesomeStyles.angleLeft,
                         wording = I18n.t("user-profile.back-to-profile")
                       )
@@ -174,7 +170,7 @@ object UserProfileInformations {
                   <.div(^.className := UserProfileInformationsStyles.slidingPannelButtonGroup)(
                     <.ButtonNavComponent(
                       ^.wrapped := ButtonNavProps(
-                        onClickMethod = backToPreviousTab,
+                        onClickMethod = changeTab("proposals"),
                         icon = FontAwesomeStyles.angleLeft,
                         wording = I18n.t("user-profile.back-to-profile")
                       )

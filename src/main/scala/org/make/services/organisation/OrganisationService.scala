@@ -23,7 +23,12 @@ import org.make.client.{Client, MakeApiClient}
 import org.make.core.URI._
 import org.make.front.models.{Organisation, OrganisationSearchResult, OrganisationSearchResultResponse}
 import org.make.services.ApiService
-import org.make.services.proposal.{SearchResult, SearchResultResponse}
+import org.make.services.proposal.{
+  ProposalsResultWithUserVoteSeeded,
+  ProposalsResultWithUserVoteSeededResponse,
+  SearchResult,
+  SearchResultResponse
+}
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
@@ -55,6 +60,18 @@ object OrganisationService extends ApiService {
         urlParams = js.Array(("sort", "createdAt"), ("order", "DESC"))
       )
       .map(SearchResult.apply)
+  }
+
+  def getOrganisationVotes(organisationId: String,
+                           filterVotes: Seq[String],
+                           filterQualifications: Seq[String]): Future[ProposalsResultWithUserVoteSeeded] = {
+
+    MakeApiClient
+      .get[ProposalsResultWithUserVoteSeededResponse](
+        apiEndpoint = resourceName / organisationId / "votes",
+        urlParams = js.Array(("votes", filterVotes.mkString(",")))
+      )
+      .map(ProposalsResultWithUserVoteSeeded.apply)
   }
 
 }

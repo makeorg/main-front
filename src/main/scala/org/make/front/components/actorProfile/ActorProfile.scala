@@ -25,9 +25,12 @@ import io.github.shogowada.scalajs.reactjs.VirtualDOM.{<, ^, _}
 import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import org.make.front.Main.CssSettings._
 import org.make.front.components.Components._
+import org.make.front.components.actorProfile.ActorProfileContributions.ActorProfileContributionsProps
+import org.make.front.components.actorProfile.ActorProfileContributionsContainer.ActorProfileContributionsContainerProps
 import org.make.front.components.actorProfile.ActorProfileInformations.ActorProfileInformationsProps
 import org.make.front.components.actorProfile.ActorProfileProposalsContainer.ActorProposalsContainerProps
 import org.make.front.components.actorProfile.navActorProfile.ActorTabNav.ActorTabNavProps
+import org.make.front.components.proposal.ProposalTileWithActorPosition.ProposalTileWithActorPositionProps
 import org.make.front.models.{Organisation => OrganisationModel}
 import org.make.front.styles.ThemeStyles
 import org.make.front.styles.base.{RWDHideRulesStyles, RWDRulesLargeMediumStyles}
@@ -35,10 +38,10 @@ import org.make.front.styles.utils._
 
 object ActorProfile {
 
-  final case class ActorProfileProps(actor: OrganisationModel, activeTab: String = "proposals")
+  final case class ActorProfileProps(actor: OrganisationModel, activeTab: String = "proposals", country: String)
   final case class ActorProfileState(activeTab: String)
 
-  val reactClass: ReactClass =
+  lazy val reactClass: ReactClass =
     React
       .createClass[ActorProfileProps, ActorProfileState](
         displayName = "ActorProfile",
@@ -75,11 +78,14 @@ object ActorProfile {
                         ^.wrapped := ActorProposalsContainerProps(actor = self.props.wrapped.actor)
                       )()
                     }
-                    /*
                     //TODO uncomment for #330
                     else if (self.state.activeTab == "contributions") {
-                      <.div()(")
-                    }*/
+                      <.div()(
+                        <.ActorProfileContributionsContainerComponent(
+                          ^.wrapped := ActorProfileContributionsContainerProps(actor = self.props.wrapped.actor)
+                        )()
+                      )
+                    }
                   ),
                   <.style()(ActorProfileStyles.render[String])
                 )
