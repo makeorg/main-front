@@ -26,6 +26,7 @@ import io.github.shogowada.scalajs.reactjs.VirtualDOM.{VirtualDOMAttributes, Vir
 import io.github.shogowada.statictags.{Attribute, BooleanAttributeSpec, SpaceSeparatedStringAttributeSpec}
 import org.make.front.Main.CssSettings._
 import org.make.front.components.consultation.partners.PartnersItems
+import org.make.front.components.currentOperations.CurrentOperationsContainer
 
 import scala.scalajs.js
 
@@ -74,6 +75,7 @@ object Components {
     def UserNavContainerComponent: ReactClassElementSpec = self(userNav.UserNavContainer.reactClass)
     def SearchFormContainer: ReactClassElementSpec = self(search.SearchFormContainer.reactClass)
     def SearchResultsContainerComponent: ReactClassElementSpec = self(search.SearchResultsContainer.reactClass)
+    def HomeSearchResultsContainerComponent: ReactClassElementSpec = self(search.HomeSearchResultsContainer.reactClass)
     def NoResultToSearchComponent: ReactClassElementSpec = self(search.NoResultToSearch.reactClass)
     def ModalComponent: ReactClassElementSpec = self(modals.Modal.reactClass)
     def FullscreenModalComponent: ReactClassElementSpec = self(modals.FullscreenModal.reactClass)
@@ -260,6 +262,7 @@ object Components {
     def ConsultationShareComponent: ReactClassElementSpec = self(consultation.ConsultationShare.reactClass)
     def ConsultationShareMobileComponent: ReactClassElementSpec = self(consultation.ConsultationShareMobile.reactClass)
     def PartnersItemsComponent: ReactClassElementSpec = self(PartnersItems.reactClass)
+    def CurrentOperationsContainerComponent: ReactClassElementSpec = self(CurrentOperationsContainer.reactClass)
 
     /*********************/
     def VFFOperationIntroComponent: ReactClassElementSpec = self(operation.intro.VFFOperationIntro.reactClass)

@@ -37,24 +37,13 @@ object WaitingForActorProposals {
     React
       .createClass[Unit, Unit](
         displayName = "WaitingForActorProposals",
-        render = self => {
+        render = _ => {
 
-          <.div(^.className := js.Array(WaitingForActorProposalsStyles.wrapper, TableLayoutStyles.fullHeightWrapper))(
-            <.div(^.className := TableLayoutStyles.row)(
-              <.div(^.className := js.Array(TableLayoutStyles.cell, WaitingForActorProposalsStyles.mainHeaderWrapper))(
-                <.div(^.className := RWDHideRulesStyles.invisible)(<.CookieAlertContainerComponent.empty),
-                <.div(^.className := WaitingForActorProposalsStyles.fixedMainHeaderWrapper)(
-                  <.CookieAlertContainerComponent.empty,
-                  <.MainHeaderContainer.empty
-                )
-              )
-            ),
-            <.div(^.className := TableLayoutStyles.row)(
-              <.div(
-                ^.className := js
-                  .Array(WaitingForActorProposalsStyles.content, TableLayoutStyles.cellVerticalAlignMiddle)
-              )(<.SpinnerComponent.empty)
-            ),
+          <.div(^.className := TableLayoutStyles.fullHeightWrapper)(
+            <.div(
+              ^.className := js
+                .Array(WaitingForActorProposalsStyles.content, TableLayoutStyles.cellVerticalAlignMiddle)
+            )(<.SpinnerComponent.empty),
             <.style()(WaitingForActorProposalsStyles.render[String])
           )
         }
@@ -62,26 +51,13 @@ object WaitingForActorProposals {
 }
 
 object WaitingForActorProposalsStyles extends StyleSheet.Inline {
-
   import dsl._
 
-  val wrapper: StyleA =
-    style(tableLayout.fixed)
-
+  val wrapper: StyleA = style(tableLayout.fixed)
   val content: StyleA =
     style(
       height(100.%%),
       paddingBottom(ThemeStyles.SpacingValue.large.pxToEm()),
       ThemeStyles.MediaQueries.beyondSmall(paddingBottom(ThemeStyles.SpacingValue.evenLarger.pxToEm()))
     )
-
-  val mainHeaderWrapper: StyleA =
-    style(
-      paddingBottom(50.pxToEm()),
-      ThemeStyles.MediaQueries.beyondSmall(paddingBottom(ThemeStyles.mainNavDefaultHeight))
-    )
-
-  val fixedMainHeaderWrapper: StyleA =
-    style(position.fixed, top(`0`), left(`0`), width(100.%%), zIndex(10), boxShadow := s"0 2px 4px 0 rgba(0,0,0,0.50)")
-
 }

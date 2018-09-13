@@ -25,10 +25,10 @@ import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import io.github.shogowada.scalajs.reactjs.redux.ReactRedux
 import io.github.shogowada.scalajs.reactjs.redux.Redux.Dispatch
 import io.github.shogowada.scalajs.reactjs.router.RouterProps._
+import io.github.shogowada.scalajs.reactjs.router.WithRouter
 import org.make.front.actions.NotifyError
-import org.make.front.components.{AppState, DataLoader}
 import org.make.front.components.DataLoader.DataLoaderProps
-import org.make.front.components.operation.WaitingForOperation
+import org.make.front.components.{AppState, DataLoader}
 import org.make.front.facades.I18n
 import org.make.front.helpers.QueryString
 import org.make.front.models.{
@@ -51,7 +51,7 @@ import scala.util.{Failure, Success}
 
 object SearchResultsContainer {
 
-  lazy val reactClass: ReactClass = ReactRedux.connectAdvanced(selectorFactory)(DataLoader.reactClass)
+  lazy val reactClass: ReactClass = WithRouter(ReactRedux.connectAdvanced(selectorFactory)(DataLoader.reactClass))
 
   def selectorFactory
     : (Dispatch) => (AppState, Props[Unit]) => DataLoaderProps[Either[OperationExpanded, TranslatedTheme]] =
@@ -152,7 +152,7 @@ object SearchResultsContainer {
         DataLoaderProps[Either[OperationExpanded, TranslatedTheme]](
           future = () => futureOperationExpandedOrTheme,
           shouldComponentUpdate = shouldOperationUpdate,
-          componentDisplayedMeanwhileReactClass = WaitingForOperation.reactClass,
+          componentDisplayedMeanwhileReactClass = WaitingForSearchResults.reactClass,
           componentReactClass = SearchResults.reactClass,
           componentProps = { operationExpandedOrTheme =>
             val maybeOperation: Option[OperationExpanded] = operationExpandedOrTheme match {

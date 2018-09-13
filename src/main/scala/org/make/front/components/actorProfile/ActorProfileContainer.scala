@@ -24,6 +24,7 @@ import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import io.github.shogowada.scalajs.reactjs.redux.ReactRedux
 import io.github.shogowada.scalajs.reactjs.redux.Redux.Dispatch
 import io.github.shogowada.scalajs.reactjs.router.RouterProps._
+import io.github.shogowada.scalajs.reactjs.router.WithRouter
 import org.make.front.components.DataLoader.DataLoaderProps
 import org.make.front.components.{AppState, DataLoader}
 import org.make.front.components.actorProfile.ActorProfile.ActorProfileProps
@@ -34,7 +35,7 @@ import scala.concurrent.Future
 
 object ActorProfileContainer {
 
-  lazy val reactClass: ReactClass = ReactRedux.connectAdvanced(selectorFactory)(DataLoader.reactClass)
+  lazy val reactClass: ReactClass = WithRouter(ReactRedux.connectAdvanced(selectorFactory)(DataLoader.reactClass))
 
   def selectorFactory: (Dispatch) => (AppState, Props[Unit]) => DataLoaderProps[OrganisationModel] =
     (_: Dispatch) => { (_: AppState, props: Props[Unit]) =>

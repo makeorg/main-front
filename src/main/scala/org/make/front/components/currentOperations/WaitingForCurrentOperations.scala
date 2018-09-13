@@ -37,23 +37,13 @@ object WaitingForCurrentOperations {
     React
       .createClass[Unit, Unit](
         displayName = "WaitingForCurrentOperations",
-        render = (_) => {
+        render = _ => {
 
-          <.div(
-            ^.className := js.Array(WaitingForCurrentOperationsStyles.wrapper, TableLayoutStyles.fullHeightWrapper)
-          )(
-            <.div(^.className := TableLayoutStyles.row)(
-              <.div(
-                ^.className := js.Array(TableLayoutStyles.cell, WaitingForCurrentOperationsStyles.mainHeaderWrapper)
-              )(<.MainHeaderContainer.empty)
-            ),
-            <.div(^.className := TableLayoutStyles.row)(
-              <.div(
-                ^.className := js
-                  .Array(WaitingForCurrentOperationsStyles.content, TableLayoutStyles.cellVerticalAlignMiddle)
-              )(<.SpinnerComponent.empty)
-            ),
-            <.MainFooterComponent.empty,
+          <.div(^.className := js.Array(TableLayoutStyles.row, WaitingForCurrentOperationsStyles.wrapper))(
+            <.div(
+              ^.className := js
+                .Array(WaitingForCurrentOperationsStyles.content, TableLayoutStyles.cellVerticalAlignMiddle)
+            )(<.SpinnerComponent.empty),
             <.style()(WaitingForCurrentOperationsStyles.render[String])
           )
         }
@@ -61,11 +51,10 @@ object WaitingForCurrentOperations {
 }
 
 object WaitingForCurrentOperationsStyles extends StyleSheet.Inline {
-
   import dsl._
 
   val wrapper: StyleA =
-    style(tableLayout.fixed, backgroundColor(ThemeStyles.BackgroundColor.blackVeryTransparent))
+    style(backgroundColor(ThemeStyles.BackgroundColor.blackVeryTransparent))
 
   val content: StyleA =
     style(
@@ -73,8 +62,4 @@ object WaitingForCurrentOperationsStyles extends StyleSheet.Inline {
       paddingBottom(ThemeStyles.SpacingValue.large.pxToEm()),
       ThemeStyles.MediaQueries.beyondSmall(paddingBottom(ThemeStyles.SpacingValue.evenLarger.pxToEm()))
     )
-
-  val mainHeaderWrapper: StyleA =
-    style(visibility.hidden)
-
 }

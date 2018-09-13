@@ -122,15 +122,6 @@ object CurrentOperations {
             )
 
           <.div(^.className := js.Array(CurrentOperationsStyles.wrapper, TableLayoutStyles.fullHeightWrapper))(
-            <.div(^.className := TableLayoutStyles.row)(
-              <.div(^.className := js.Array(TableLayoutStyles.cell, CurrentOperationsStyles.mainHeaderWrapper))(
-                <.div(^.className := RWDHideRulesStyles.invisible)(<.CookieAlertContainerComponent.empty),
-                <.div(^.className := CurrentOperationsStyles.fixedMainHeaderWrapper)(
-                  <.CookieAlertContainerComponent.empty,
-                  <.MainHeaderContainer.empty
-                )
-              )
-            ),
             <.div(^.className := js.Array(TableLayoutStyles.row, CurrentOperationsStyles.fullHeight))(
               <.div(^.className := TableLayoutStyles.cell)(
                 <.section(^.className := CurrentOperationsStyles.operations)(
@@ -185,7 +176,6 @@ object CurrentOperations {
                 )
               )
             ),
-            <.MainFooterComponent.empty,
             <.style()(
               CurrentOperationsStyles.render[String],
               OperationTileStyles.render[String],

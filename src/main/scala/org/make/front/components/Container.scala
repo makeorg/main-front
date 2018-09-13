@@ -25,12 +25,10 @@ import io.github.shogowada.scalajs.reactjs.VirtualDOM._
 import io.github.shogowada.scalajs.reactjs.router.RouterProps._
 import io.github.shogowada.scalajs.reactjs.router.WithRouter
 import io.github.shogowada.scalajs.reactjs.router.dom.RouterDOM._
-import org.make.front.components.activateAccount.ActivateAccountContainer
-import org.make.front.components.actorProfile.ActorProfileContainer
-import org.make.front.components.authenticate.resetPassword.ResetPasswordContainer
-import org.make.front.components.currentOperations.CurrentOperationsContainer
-import org.make.front.components.error.ErrorContainer
 import org.make.front.components.Components._
+import org.make.front.components.activateAccount.ActivateAccountContainer
+import org.make.front.components.authenticate.resetPassword.ResetPasswordContainer
+import org.make.front.components.error.ErrorContainer
 import org.make.front.components.home.HomeContainer
 import org.make.front.components.maintenance.Maintenance
 import org.make.front.components.operation.sequence.SequenceOfTheOperationContainer
@@ -75,7 +73,7 @@ object Container {
           <.Route(
             ^.exact := true,
             ^.path := "/:country([A-Za-z]{2,3})/soon",
-            ^.component := CurrentOperationsContainer.reactClass
+            ^.component := Layout.reactClass(<.CurrentOperationsContainerComponent.empty)
           )(),
           <.Route(
             ^.exact := true,
@@ -105,7 +103,9 @@ object Container {
           <.Route(
             ^.exact := true,
             ^.path := "/:country/profile/:organisationSlug",
-            ^.component := CountryDetector(ActorProfileContainer.reactClass)
+            ^.component := CountryDetector(
+              Layout.reactClass(<.ActorProfileContainerComponent.empty, withFooter = false)
+            )
           )(),
           <.Route(
             ^.exact := true,
@@ -129,12 +129,14 @@ object Container {
           <.Route(
             ^.exact := true,
             ^.path := "/:country/consultation/:operationSlug/search",
-            ^.component := CountryDetector(SearchResultsContainer.reactClass)
+            ^.component := CountryDetector(Layout.reactClass(<.SearchResultsContainerComponent.empty))
           )(),
           <.Route(
             ^.exact := true,
             ^.path := "/:country/consultation/:operationSlug/:activeTab(consultation|actions)",
-            ^.component := CountryDetector(Layout.reactClass(<.ConsultationContainerComponent.empty, false))
+            ^.component := CountryDetector(
+              Layout.reactClass(<.ConsultationContainerComponent.empty, withFooter = false)
+            )
           )(),
           <.Route(
             ^.exact := true,
@@ -144,12 +146,12 @@ object Container {
           <.Route(
             ^.exact := true,
             ^.path := "/:country/theme/:themeSlug/search",
-            ^.component := CountryDetector(SearchResultsContainer.reactClass)
+            ^.component := CountryDetector(Layout.reactClass(<.SearchResultsContainerComponent.empty))
           )(),
           <.Route(
             ^.exact := true,
             ^.path := "/:country/search",
-            ^.component := CountryDetector(HomeSearchResultsContainer.reactClass)
+            ^.component := CountryDetector(Layout.reactClass(<.HomeSearchResultsContainerComponent.empty))
           )(),
           <.Route(
             ^.exact := true,

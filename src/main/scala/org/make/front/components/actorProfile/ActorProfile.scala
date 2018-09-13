@@ -49,13 +49,6 @@ object ActorProfile {
           }
 
           <("ActorProfile")()(
-            <.div(^.className := ActorProfileStyles.mainHeaderWrapper)(
-              <.div(^.className := RWDHideRulesStyles.invisible)(<.CookieAlertContainerComponent.empty),
-              <.div(^.className := ActorProfileStyles.fixedMainHeaderWrapper)(
-                <.CookieAlertContainerComponent.empty,
-                <.MainHeaderContainer.empty
-              )
-            ),
             <.div(^.className := ActorProfileStyles.specialColorWrapper)(
               <.div(^.className := ActorProfileStyles.regularColorWrapper)(
                 <.section(^.className := ActorProfileStyles.wrapper)(
