@@ -40,7 +40,8 @@ final case class OperationStaticData(country: String,
                                      partnersComponent: ReactClass,
                                      headerProps: (OperationExpanded) => Any,
                                      startDateActions: Option[js.Date] = None,
-                                     consultationVersion: ConsultationVersion = ConsultationVersion.V1)
+                                     consultationVersion: ConsultationVersion = ConsultationVersion.V1,
+                                     isConsultationOnly: Boolean = false)
 
 object OperationStaticData {
   def findBySlugAndCountry(slug: String, country: String): Option[OperationStaticData] = {
@@ -113,7 +114,8 @@ final case class OperationExpanded(operationId: OperationId,
                                    partnersComponent: ReactClass,
                                    headerProps: (OperationExpanded) => Any,
                                    startDateActions: Option[js.Date],
-                                   consultationVersion: ConsultationVersion) {
+                                   consultationVersion: ConsultationVersion,
+                                   isConsultationOnly: Boolean) {
 
   def getWordingByLanguage(language: String): Option[OperationWording] = {
     wordings.find(_.language == language)
@@ -197,7 +199,8 @@ object OperationExpanded {
         partnersComponent = operationStaticData.partnersComponent,
         headerProps = operationStaticData.headerProps,
         startDateActions = operationStaticData.startDateActions,
-        consultationVersion = operationStaticData.consultationVersion
+        consultationVersion = operationStaticData.consultationVersion,
+        isConsultationOnly = operationStaticData.isConsultationOnly
       )
   }
 }

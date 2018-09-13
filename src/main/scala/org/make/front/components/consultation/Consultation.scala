@@ -89,7 +89,7 @@ object Consultation {
                 )
               )(),
               <.section(^.className := ConsultationStyles.mainContentWrapper)(
-                if (self.state.activeTab == "consultation") {
+                if (self.state.activeTab == "consultation" || self.props.wrapped.operation.isConsultationOnly) {
                   <.ConsultationSection(
                     ^.wrapped := ConsultationSectionProps(
                       operation = consultation,
