@@ -39,11 +39,11 @@ object AnimationsStyles extends StyleSheet.Inline {
   val fadeOff250: StyleA =
     style(animationName(fadeExitAnimation), animationTimingFunction.easeIn, animationDuration :=! s"0.25s")
 
-  val fadeOff250Delayed500: StyleA = style(
+  val fadeOff250Delayed1250: StyleA = style(
     animationName(fadeExitAnimation),
     animationTimingFunction.easeIn,
     animationDuration :=! s"0.25s",
-    animationDelay :=! s"0.5s"
+    animationDelay :=! s"1.25s"
   )
 
   val fadeOn500: StyleA =
