@@ -72,13 +72,6 @@ object Operation {
           val operation = self.props.wrapped.operation
           if (operation.isActive) {
             <("operation")()(
-              <.div(^.className := OperationStyles.mainHeaderWrapper)(
-                <.div(^.className := RWDHideRulesStyles.invisible)(<.CookieAlertContainerComponent.empty),
-                <.div(^.className := OperationStyles.fixedMainHeaderWrapper)(
-                  <.CookieAlertContainerComponent.empty,
-                  <.MainHeaderContainer.empty
-                )
-              ),
               <(operation.headerComponent)(^.wrapped := operation.headerProps(operation))(),
               <.OperationHeaderComponent(
                 ^.wrapped := OperationHeaderProps(

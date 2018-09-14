@@ -18,7 +18,7 @@
  *
  */
 
-package org.make.front.components.actorProfile
+package org.make.front.components.search
 
 import io.github.shogowada.scalajs.reactjs.React
 import io.github.shogowada.scalajs.reactjs.VirtualDOM._
@@ -31,29 +31,27 @@ import org.make.front.styles.utils._
 
 import scala.scalajs.js
 
-object WaitingForActorProfile {
+object WaitingForSearchResults {
 
   lazy val reactClass: ReactClass =
     React
       .createClass[Unit, Unit](
-        displayName = "WaitingForActorProfile",
+        displayName = "WaitingForSearchResults",
         render = _ => {
 
           <.div(^.className := TableLayoutStyles.fullHeightWrapper)(
             <.div(
-              ^.className := js
-                .Array(WaitingForActorProfileStyles.content, TableLayoutStyles.cellVerticalAlignMiddle)
+              ^.className := js.Array(WaitingForSearchResultsStyles.content, TableLayoutStyles.cellVerticalAlignMiddle)
             )(<.SpinnerComponent.empty),
-            <.style()(WaitingForActorProfileStyles.render[String])
+            <.style()(WaitingForSearchResultsStyles.render[String])
           )
         }
       )
 }
 
-object WaitingForActorProfileStyles extends StyleSheet.Inline {
+object WaitingForSearchResultsStyles extends StyleSheet.Inline {
   import dsl._
 
-  val wrapper: StyleA = style(tableLayout.fixed)
   val content: StyleA =
     style(
       height(100.%%),

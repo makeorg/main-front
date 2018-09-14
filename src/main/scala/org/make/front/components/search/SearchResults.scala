@@ -193,15 +193,6 @@ object SearchResults {
               ^.className := js
                 .Array(TableLayoutStyles.fullHeightWrapper, SearchResultsStyles.background(proposalsToDisplay.nonEmpty))
             )(
-              <.div(^.className := TableLayoutStyles.row)(
-                <.div(^.className := js.Array(TableLayoutStyles.cell, SearchResultsStyles.mainHeaderWrapper))(
-                  <.div(^.className := RWDHideRulesStyles.invisible)(<.CookieAlertContainerComponent.empty),
-                  <.div(^.className := SearchResultsStyles.fixedMainHeaderWrapper)(
-                    <.CookieAlertContainerComponent.empty,
-                    <.MainHeaderContainer.empty
-                  )
-                )
-              ),
               <.div(^.className := TableLayoutStyles.fullHeightRow)(
                 <.div(^.className := TableLayoutStyles.cellVerticalAlignMiddle)(
                   if (self.state.initialLoad || proposalsToDisplay.nonEmpty) {
@@ -244,7 +235,6 @@ object SearchResults {
               ^.className :=
                 SearchResultsStyles.background(proposalsToDisplay.nonEmpty)
             )(<.NavInThemesContainerComponent.empty),
-            <.MainFooterComponent.empty,
             <.style()(SearchResultsStyles.render[String])
           )
         }

@@ -25,6 +25,7 @@ import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import io.github.shogowada.scalajs.reactjs.redux.ReactRedux
 import io.github.shogowada.scalajs.reactjs.redux.Redux.Dispatch
 import io.github.shogowada.scalajs.reactjs.router.RouterProps._
+import io.github.shogowada.scalajs.reactjs.router.WithRouter
 import org.make.front.actions.NotifyError
 import org.make.front.components.search.SearchResults.SearchResultsProps
 import org.make.front.components.AppState
@@ -43,7 +44,7 @@ import scala.util.{Failure, Success}
 
 object HomeSearchResultsContainer {
 
-  lazy val reactClass: ReactClass = ReactRedux.connectAdvanced(selectorFactory)(SearchResults.reactClass)
+  lazy val reactClass: ReactClass = WithRouter(ReactRedux.connectAdvanced(selectorFactory)(SearchResults.reactClass))
 
   def selectorFactory: (Dispatch) => (AppState, Props[Unit]) => SearchResultsProps =
     (dispatch: Dispatch) => { (appState: AppState, props: Props[Unit]) =>
