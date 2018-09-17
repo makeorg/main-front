@@ -294,7 +294,7 @@
     },
     "proposal": {
       "title": "Vos dernières propositions",
-      "empty": "n'a pas soumis de proposition sur Make.org"
+      "empty": "Vous n'avez pas soumis de proposition sur Make.org"
     }
   },
   "actor-profile": {

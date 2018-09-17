@@ -44,53 +44,59 @@ object ActorProfileProposals {
   final case class ActorProfileProposalsProps(actor: OrganisationModel, actorProposals: js.Array[Proposal])
 
   lazy val reactClass: ReactClass =
-    React.createClass[ActorProfileProposalsProps, Unit](displayName = "ActorProfileProposals", render = self => {
-      <("ActorProfileProposals")()(
-        <.section(^.className := ActorProfileProposalsStyles.wrapper)(
-          <.header(^.className := ActorProfileProposalsStyles.headerWrapper)(
-            <.h2(^.className := ActorProfileProposalsStyles.title)(
-              I18n
-                .t(
-                  "actor-profile.proposal.title",
-                  replacements = Replacements(("actor-name", self.props.wrapped.actor.organisationName.getOrElse("")))
-                )
-            )
-          ),
-          if (self.props.wrapped.actorProposals.isEmpty) {
-            <.div(^.className := ActorProfileProposalsStyles.emptyWrapper)(
-              <.i(
-                ^.className := js.Array(FontAwesomeStyles.lightbulbTransparent, ActorProfileProposalsStyles.emptyIcon)
-              )(),
-              <.p(^.className := ActorProfileProposalsStyles.emptyDesc)(
-                self.props.wrapped.actor.organisationName,
-                unescape("&nbsp;"),
-                I18n.t("actor-profile.proposal.empty")
-              )
-            )
-          } else {
-            val counter = new Counter()
-            <.ul()(self.props.wrapped.actorProposals.map { proposal =>
-              <.li(^.className := ActorProfileProposalsStyles.proposalItem)(
-                <.ProposalTileComponent(
-                  ^.wrapped :=
-                    ProposalTileProps(
-                      proposal = proposal,
-                      index = counter.getAndIncrement(),
-                      maybeTheme = None,
-                      maybeOperation = None,
-                      maybeSequenceId = None,
-                      maybeLocation = None,
-                      trackingLocation = TrackingLocation.actorProfile,
-                      country = proposal.country
+    React
+      .createClass[ActorProfileProposalsProps, Unit](
+        displayName = "ActorProfileProposals",
+        render = self => {
+          <("ActorProfileProposals")()(
+            <.section(^.className := ActorProfileProposalsStyles.wrapper)(
+              <.header(^.className := ActorProfileProposalsStyles.headerWrapper)(
+                <.h2(^.className := ActorProfileProposalsStyles.title)(
+                  I18n
+                    .t(
+                      "actor-profile.proposal.title",
+                      replacements =
+                        Replacements(("actor-name", self.props.wrapped.actor.organisationName.getOrElse("")))
                     )
-                )()
-              )
-            }.toSeq)
-          }
-        ),
-        <.style()(ActorProfileProposalsStyles.render[String])
+                )
+              ),
+              if (self.props.wrapped.actorProposals.isEmpty) {
+                <.div(^.className := ActorProfileProposalsStyles.emptyWrapper)(
+                  <.i(
+                    ^.className := js
+                      .Array(FontAwesomeStyles.lightbulbTransparent, ActorProfileProposalsStyles.emptyIcon)
+                  )(),
+                  <.p(^.className := ActorProfileProposalsStyles.emptyDesc)(
+                    self.props.wrapped.actor.organisationName,
+                    unescape("&nbsp;"),
+                    I18n.t("actor-profile.proposal.empty")
+                  )
+                )
+              } else {
+                val counter = new Counter()
+                <.ul()(self.props.wrapped.actorProposals.map { proposal =>
+                  <.li(^.className := ActorProfileProposalsStyles.proposalItem)(
+                    <.ProposalTileComponent(
+                      ^.wrapped :=
+                        ProposalTileProps(
+                          proposal = proposal,
+                          index = counter.getAndIncrement(),
+                          maybeTheme = None,
+                          maybeOperation = None,
+                          maybeSequenceId = None,
+                          maybeLocation = None,
+                          trackingLocation = TrackingLocation.actorProfile,
+                          country = proposal.country
+                        )
+                    )()
+                  )
+                }.toSeq)
+              }
+            ),
+            <.style()(ActorProfileProposalsStyles.render[String])
+          )
+        }
       )
-    })
 }
 
 object ActorProfileProposalsStyles extends StyleSheet.Inline {
@@ -121,6 +127,8 @@ object ActorProfileProposalsStyles extends StyleSheet.Inline {
   val emptyIcon: StyleA =
     style(
       color(specialYellow),
+      fontSize(42.pxToEm()),
+      margin(ThemeStyles.SpacingValue.small.pxToEm(42), `0`),
       ThemeStyles.MediaQueries
         .beyondLargeMedium(
           fontSize(72.pxToEm()),
