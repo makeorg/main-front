@@ -32,7 +32,7 @@ import org.make.front.components.userProfile.editingUserProfile.UserProfileForm.
   UserProfileFormProps,
   UserProfileFormState
 }
-import org.make.front.facades.I18n
+import org.make.front.facades.{I18n, Replacements}
 import org.make.services.user.UserService
 import org.scalajs.dom.raw.HTMLInputElement
 
@@ -57,6 +57,16 @@ object UserProfileFormContainer {
             "postalCode",
             new LengthConstraint(max = Some(7)),
             Map("maxMessage" -> I18n.t("user-profile.form.inputs.format-error-message"))
+          ),
+          (
+            "description",
+            new LengthConstraint(min = Some(15), max = Some(450)),
+            Map(
+              "minMessage" -> I18n
+                .t("user-profile.form.inputs.min-error-message", replacements = Replacements(("min", "15"))),
+              "maxMessage" -> I18n
+                .t("user-profile.form.inputs.max-error-message", replacements = Replacements(("max", "450")))
+            )
           )
         )
       }
@@ -84,7 +94,8 @@ object UserProfileFormContainer {
               firstName = self.state.fields.get("firstName"),
               age = self.state.fields.get("age"),
               profession = self.state.fields.get("profession"),
-              postalCode = self.state.fields.get("postalCode")
+              postalCode = self.state.fields.get("postalCode"),
+              description = self.state.fields.get("description")
             )
             .onComplete {
               case Success(_) =>

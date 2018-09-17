@@ -116,6 +116,22 @@ object EditingUserProfileStyles extends StyleSheet.Inline {
         .beyondLargeMedium(width(550.pxToPercent(750)))
     )
 
+  val inputTextArea: StyleA =
+    style(
+      InputStyles.wrapper,
+      InputStyles.withIcon,
+      backgroundColor(ThemeStyles.inputsSpecialColors.fieldsBackground),
+      borderColor(ThemeStyles.inputsSpecialColors.fieldsBorder),
+      ThemeStyles.MediaQueries
+        .beyondLargeMedium(width(550.pxToPercent(750))),
+      unsafeChild("textarea")(
+        height.auto,
+        resize.vertical,
+        ThemeStyles.MediaQueries
+          .beyondSmall(height.auto)
+      )
+    )
+
   val buttonGroup: StyleA =
     style(
       marginTop(ThemeStyles.SpacingValue.small.pxToEm()),
@@ -156,6 +172,9 @@ object EditingUserProfileStyles extends StyleSheet.Inline {
 
   val postalCodeInputWithIconWrapper: StyleA =
     style(&.before(content := "'\\f041'"))
+
+  val descriptionInputWithIconWrapper: StyleA =
+    style(&.before(content := "'\\f040'"))
 
   val professionInputWithIconWrapper: StyleA =
     style(&.before(content := "'\\f0f2'"))

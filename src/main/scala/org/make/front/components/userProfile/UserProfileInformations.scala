@@ -25,6 +25,7 @@ import io.github.shogowada.scalajs.reactjs.VirtualDOM.{<, ^, _}
 import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import org.make.front.Main.CssSettings._
 import org.make.front.components.Components._
+import org.make.front.components.userProfile.UserDescription.UserDescriptionProps
 import org.make.front.components.userProfile.navUserProfile.ButtonNav.ButtonNavProps
 import org.make.front.facades.I18n
 import org.make.front.facades.Unescape.unescape
@@ -66,6 +67,7 @@ object UserProfileInformations {
           val userAge = userProfile.flatMap(_.dateOfBirth).map { date =>
             Math.abs(new Date(Date.now() - date.getTime()).getUTCFullYear() - 1970)
           }
+          val descriptionLength = userProfile.flatMap(_.description).map(_.length).getOrElse(-1)
 
           def changeTab(newTab: String): () => Unit = { () =>
             self.props.wrapped.changeActiveTab(newTab)
@@ -81,90 +83,71 @@ object UserProfileInformations {
           }
 
           <.div(^.className := UserProfileInformationsStyles.wrapper)(
-            <.div(^.className := UserProfileInformationsStyles.avatarWrapper)(
-              if (userProfile.flatMap(_.avatarUrl).nonEmpty) {
-                <.img(
-                  ^.src := userProfile.flatMap(_.avatarUrl).getOrElse(""),
-                  ^.className := UserProfileInformationsStyles.avatar,
-                  ^.alt := user.firstName.getOrElse(user.organisationName.getOrElse("")),
-                  ^("data-pin-no-hover") := "true"
-                )()
-              } else {
-                <.i(^.className := js.Array(UserProfileInformationsStyles.avatarPlaceholder, FontAwesomeStyles.user))()
-              }
-            ),
-            <.div(^.className := UserProfileInformationsStyles.personnalInformations)(
-              user.firstName
-                .orElse(user.organisationName)
-                .map { name =>
-                  <.h1(^.className := UserProfileInformationsStyles.userName)(name)
-                }
-                .toSeq,
-              userProfile
-                .flatMap(_.postalCode)
-                .map { postalCode =>
-                  if (postalCode.nonEmpty) {
-                    <.p(^.className := UserProfileInformationsStyles.basicInformations)(
-                      <.i(^.className := js.Array(FontAwesomeStyles.mapMarker, UserProfileInformationsStyles.marker))(),
-                      postalCode
-                    )
-                  }
-                }
-                .toSeq,
-              userAge.map { age =>
-                <.p(^.className := UserProfileInformationsStyles.basicInformations)(
-                  age,
-                  unescape("&nbsp;"),
-                  I18n.t("user-profile.years-old")
-                )
-              }.toSeq,
-              userProfile
-                .flatMap(_.profession)
-                .map { profession =>
-                  <.p(^.className := UserProfileInformationsStyles.basicInformations)(profession)
-                }
-                .toSeq
-            ),
-            //Todo Uncomment when Biography is ready
-            /*self.props.wrapped.user.profile
-              .flatMap(_.description)
-              .map { description =>
-                <.CSSTransition(
-                  ^.timeout := 25,
-                  ^.in := self.state.expandSlidingPannel,
-                  ^.classNamesMap := TransitionClasses(
-                    enterDone = UserProfileInformationsStyles.expandTransitionOn.htmlClass
-                  )
-                )(
-                  <.p(
-                    ^.className := js
-                      .Array(UserProfileInformationsStyles.biography, UserProfileInformationsStyles.basicInformations)
-                  )(description)
-                )
-              }
-              .toSeq,
-            <.div(^.className := RWDRulesLargeMediumStyles.hideBeyondLargeMedium)(
-              <.CSSTransition(
-                ^.timeout := 25,
-                ^.in := !self.state.expandSlidingPannel,
-                ^.classNamesMap := TransitionClasses(
-                  enterDone = UserProfileInformationsStyles.showGradient.htmlClass,
-                  exitDone = UserProfileInformationsStyles.hideGradient.htmlClass
-                )
-              )(<.div(^.className := UserProfileInformationsStyles.slidingPannelGradient)()),
-              <.div(^.className := UserProfileInformationsStyles.slidingPannelHeader)(
-                <.div(^.className := UserProfileInformationsStyles.slidingPannelSep)(),
-                <.button(
-                  ^.className := UserProfileInformationsStyles.slidingPannelButton,
-                  ^.onClick := toggleSlidingPannel
-                )(if (self.state.expandSlidingPannel) {
-                  I18n.t("user-profile.show-less")
+            <.div(^.className := UserProfileInformationsStyles.headerInfosWrapper)(
+              <.div(^.className := UserProfileInformationsStyles.avatarWrapper)(
+                if (userProfile.flatMap(_.avatarUrl).nonEmpty) {
+                  <.img(
+                    ^.src := userProfile.flatMap(_.avatarUrl).getOrElse(""),
+                    ^.className := UserProfileInformationsStyles.avatar,
+                    ^.alt := user.firstName.getOrElse(user.organisationName.getOrElse("")),
+                    ^("data-pin-no-hover") := "true"
+                  )()
                 } else {
-                  I18n.t("user-profile.show-more")
-                }),
-                <.div(^.className := UserProfileInformationsStyles.slidingPannelSep)()
+                  <.i(
+                    ^.className := js.Array(UserProfileInformationsStyles.avatarPlaceholder, FontAwesomeStyles.user)
+                  )()
+                }
+              ),
+              <.div(^.className := UserProfileInformationsStyles.personnalInformations)(
+                user.firstName
+                  .orElse(user.organisationName)
+                  .map { name =>
+                    <.h1(^.className := UserProfileInformationsStyles.userName)(name)
+                  }
+                  .toSeq,
+                userProfile
+                  .flatMap(_.postalCode)
+                  .map { postalCode =>
+                    if (postalCode.nonEmpty) {
+                      <.p(^.className := UserProfileInformationsStyles.basicInformations)(
+                        <.i(
+                          ^.className := js.Array(FontAwesomeStyles.mapMarker, UserProfileInformationsStyles.marker)
+                        )(),
+                        postalCode
+                      )
+                    }
+                  }
+                  .toSeq,
+                userAge.map { age =>
+                  <.p(^.className := UserProfileInformationsStyles.basicInformations)(
+                    age,
+                    unescape("&nbsp;"),
+                    I18n.t("user-profile.years-old")
+                  )
+                }.toSeq,
+                userProfile
+                  .flatMap(_.profession)
+                  .map { profession =>
+                    <.p(^.className := UserProfileInformationsStyles.basicInformations)(profession)
+                  }
+                  .toSeq
               )
-            ),*/
+            ),
+            if (descriptionLength >= 150) {
+              <.UserDescriptionComponent(^.wrapped := UserDescriptionProps(user = self.props.wrapped.user))()
+            } else if (descriptionLength >= 15) {
+              <.p(
+                ^.className := js
+                  .Array(UserProfileInformationsStyles.biography, UserProfileInformationsStyles.basicInformations)
+              )(
+                userProfile
+                  .flatMap(_.description)
+                  .map { description =>
+                    description
+                  }
+                  .toSeq
+              )
+            },
             if (self.props.wrapped.activeTab == "settings") {
               <("SettingsTab")()(
                 <.div(^.className := RWDRulesLargeMediumStyles.hideBeyondLargeMedium)(
@@ -189,26 +172,22 @@ object UserProfileInformations {
                 ),
                 <.div(^.className := RWDRulesLargeMediumStyles.showBlockBeyondLargeMedium)(
                   <.div(^.className := UserProfileInformationsStyles.slidingPannelButtonGroup)(
-                    <.div(^.className := UserProfileInformationsStyles.slidingPannelButtonGroup)(
-                      <.ButtonNavComponent(
-                        ^.wrapped := ButtonNavProps(
-                          onClickMethod = backToPreviousTab,
-                          icon = FontAwesomeStyles.angleLeft,
-                          wording = I18n.t("user-profile.back-to-profile")
-                        )
-                      )()
-                    )
+                    <.ButtonNavComponent(
+                      ^.wrapped := ButtonNavProps(
+                        onClickMethod = backToPreviousTab,
+                        icon = FontAwesomeStyles.angleLeft,
+                        wording = I18n.t("user-profile.back-to-profile")
+                      )
+                    )()
                   ),
                   <.div(^.className := UserProfileInformationsStyles.slidingPannelButtonGroup)(
-                    <.div(^.className := UserProfileInformationsStyles.slidingPannelButtonGroup)(
-                      <.ButtonNavComponent(
-                        ^.wrapped := ButtonNavProps(
-                          onClickMethod = self.props.wrapped.logout,
-                          icon = FontAwesomeStyles.signOut,
-                          wording = I18n.t("user-profile.disconnect-cta")
-                        )
-                      )()
-                    )
+                    <.ButtonNavComponent(
+                      ^.wrapped := ButtonNavProps(
+                        onClickMethod = self.props.wrapped.logout,
+                        icon = FontAwesomeStyles.signOut,
+                        wording = I18n.t("user-profile.disconnect-cta")
+                      )
+                    )()
                   )
                 )
               )
@@ -275,12 +254,14 @@ object UserProfileInformationsStyles extends StyleSheet.Inline {
 
   val wrapper: StyleA =
     style(
-      display.flex,
       backgroundColor(ThemeStyles.BackgroundColor.white),
       boxShadow := "0 1px 1px 0 rgba(0,0,0,0.50)",
       padding(ThemeStyles.SpacingValue.small.pxToEm()),
-      ThemeStyles.MediaQueries.beyondLargeMedium(padding(20.pxToEm()), marginTop(-49.pxToEm()), flexFlow := s"column")
+      ThemeStyles.MediaQueries.beyondLargeMedium(padding(20.pxToEm()), marginTop(-49.pxToEm()))
     )
+
+  val headerInfosWrapper: StyleA =
+    style(display.flex, ThemeStyles.MediaQueries.beyondLargeMedium(flexFlow := s"column"))
 
   val avatarWrapper: StyleA =
     style(
@@ -357,12 +338,9 @@ object UserProfileInformationsStyles extends StyleSheet.Inline {
   val biography: StyleA =
     style(
       display.flex,
-      clear.left,
-      height(100.pxToEm()),
-      flex := s"0",
       transition := s"flex 0.25s ease-in",
       overflow.hidden,
-      marginBottom(-50.pxToEm()),
+      whiteSpace.preLine,
       ThemeStyles.MediaQueries.beyondLargeMedium(
         height.auto,
         paddingTop(ThemeStyles.SpacingValue.small.pxToEm()),
@@ -371,23 +349,6 @@ object UserProfileInformationsStyles extends StyleSheet.Inline {
         borderBottom(1.pxToEm(), solid, ThemeStyles.BorderColor.veryLight),
         marginBottom(`0`)
       )
-    )
-
-  val slidingPannelGradient: StyleA =
-    style(
-      position.relative,
-      height(55.pxToEm()),
-      background := s"linear-gradient(to bottom, rgba(255,255,255,0) 0%, rgba(255,255,255, 0.5) 25%, rgba(255,255,255, 0.7) 50%, rgba(255,255,255, 0.8) 75%, rgba(255,255,255, 1) 85%)",
-      filter := s"blur(1px)"
-    )
-
-  val slidingPannelHeader: StyleA =
-    style(
-      display.flex,
-      flexFlow := s"row",
-      alignItems.center,
-      justifyContent.spaceBetween,
-      backgroundColor(ThemeStyles.BackgroundColor.white)
     )
 
   val slidingPannelButton: StyleA =
@@ -413,18 +374,4 @@ object UserProfileInformationsStyles extends StyleSheet.Inline {
       marginTop(20.pxToEm()),
     )
 
-  val collapseEnterAnimation =
-    keyframes(0.%% -> keyframe(maxHeight(100.pxToEm())), 100.%% -> keyframe(maxHeight(100.%%)))
-
-  val collapseExitAnimation =
-    keyframes(0.%% -> keyframe(maxHeight(100.%%)), 100.%% -> keyframe(maxHeight(100.pxToEm())))
-
-  val expandTransitionOn: StyleA =
-    style(height.auto, flex := s"1", transition := s"flex 0.25s ease-in")
-
-  val showGradient: StyleA =
-    style(zIndex(1))
-
-  val hideGradient: StyleA =
-    style(zIndex(-1))
 }

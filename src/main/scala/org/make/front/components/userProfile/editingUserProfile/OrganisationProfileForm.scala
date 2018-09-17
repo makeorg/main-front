@@ -62,7 +62,8 @@ object OrganisationProfileForm {
             _.copy(
               fields = Map(
                 "organisationName" -> props.wrapped.user.organisationName
-                  .getOrElse("")
+                  .getOrElse(""),
+                "description" -> props.wrapped.user.profile.flatMap(_.description).getOrElse("")
               )
             )
           )
@@ -112,6 +113,40 @@ object OrganisationProfileForm {
                   unescape(self.state.errors.getOrElse("organisationName", ""))
                 )
               },
+              <.div(^.className := EditingUserProfileStyles.inputGroup)(
+                <.label(
+                  ^.`for` := s"description",
+                  ^.className := js.Array(EditingUserProfileStyles.inputLabel, EditingUserProfileStyles.label)
+                )(
+                  I18n.t("user-profile.form.inputs.description.label"),
+                  <.p()(unescape(" ("), if (self.state.fields.get("description").isEmpty) {
+                    unescape("0")
+                  } else {
+                    self.state.fields
+                      .get("description")
+                      .map { field =>
+                        field.length
+                      }
+                      .toSeq
+                  }, unescape("/450 "), I18n.t("user-profile.form.inputs.char"), unescape(")"))
+                ),
+                <.div(
+                  ^.className := js
+                    .Array(
+                      EditingUserProfileStyles.inputTextArea,
+                      EditingUserProfileStyles.descriptionInputWithIconWrapper
+                    )
+                )(
+                  <.textarea(
+                    ^.id := s"description",
+                    ^.`type`.text,
+                    ^.required := false,
+                    ^.value := self.state.fields.getOrElse("description", ""),
+                    ^.onChange := updateField("description"),
+                    ^.rows := 5
+                  )()
+                )
+              ),
               <.div(^.className := js.Array(EditingUserProfileStyles.buttonGroup, EditingUserProfileStyles.success))(
                 self.state.message
               ),
