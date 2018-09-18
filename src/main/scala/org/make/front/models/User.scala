@@ -40,6 +40,7 @@ trait UserResponse extends js.Object {
   val country: String
   val language: String
   val hasPassword: Boolean
+  val followedUsers: js.Array[String]
 }
 
 @js.native
@@ -133,7 +134,8 @@ case class User(userId: UserId,
                 profile: Option[Profile],
                 country: String,
                 language: String,
-                hasPassword: Boolean)
+                hasPassword: Boolean,
+                followedUsers: Seq[UserId])
 
 object User {
   def apply(userResponse: UserResponse): User = {
@@ -153,7 +155,8 @@ object User {
       profile = undefToOption(userResponse.profile).map(Profile.apply),
       country = userResponse.country,
       language = userResponse.language,
-      hasPassword = userResponse.hasPassword
+      hasPassword = userResponse.hasPassword,
+      followedUsers = userResponse.followedUsers.map(UserId.apply)
     )
   }
 }
