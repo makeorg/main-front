@@ -49,7 +49,8 @@ object Operations {
     MVEOperationStaticData.data,
     ChanceAuxJeunesOperationStaticData.data,
     MakeEuropeOperationStaticData.data,
-    CultureOperationStaticData.data
+    CultureOperationStaticData.data,
+    AinesOperationStaticData.data
   )
 }
 

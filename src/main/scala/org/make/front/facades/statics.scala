@@ -828,6 +828,15 @@ object accescultureAvatar extends js.Object
 @JSImport("./images/operations/culture/partners/cinema_difference.jpg", "default")
 object cinemadifferenceAvatar extends js.Object
 
+/** Operation Aines **/
+@js.native
+@JSImport("./images/operations/aines/aines-logo-dark.svg", "default")
+object ainesLogo extends js.Object
+
+@js.native
+@JSImport("./images/operations/aines/aines-logo-white.svg", "default")
+object ainesLogoWhite extends js.Object
+
 /* FLAGS */
 
 @js.native
