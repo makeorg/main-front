@@ -26,7 +26,7 @@ import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import org.make.front.Main.CssSettings._
 import org.make.front.components.Components._
 import org.make.front.components.consultation.partners.PartnersItems.PartnersItemProps
-import org.make.front.facades.{accescultureAvatar, arteAvatar, bsfAvatar, cinemadifferenceAvatar, cssAvatar, engiefondationAvatar, ministereCultureLogo, ministerecultureAvatar, operadeparisAvatar, sacemAvatar, telemaqueAvatar}
+import org.make.front.facades.{ageVillage, armeeDuSalut, associationFranceDependance, careit, klesia, korian, laposte, lesTalentsDalphonse, ocirp, siel}
 import org.make.front.models.{OperationPartner => OperationPartnerModel}
 
 import scala.scalajs.js
@@ -43,63 +43,63 @@ object AinesPartnersList {
             js.Array(
               OperationPartnerModel(
                 name = "Klesia",
-                imageUrl = ministereCultureLogo.toString,
-                imageWidth = 41,
+                imageUrl = klesia.toString,
+                imageWidth = 60,
                 isFounder = true
               ),
               OperationPartnerModel(
                 name = "Korian",
-                imageUrl = ministereCultureLogo.toString,
-                imageWidth = 41,
+                imageUrl = korian.toString,
+                imageWidth = 60,
                 isFounder = true
               ),
               OperationPartnerModel(
-                name = "CAREIT",
-                imageUrl = ministereCultureLogo.toString,
-                imageWidth = 41,
+                name = "Laposte",
+                imageUrl = laposte.toString,
+                imageWidth = 60,
                 isFounder = true
               ),
               OperationPartnerModel(
                 name = "OCIRP",
-                imageUrl = ministereCultureLogo.toString,
-                imageWidth = 41,
+                imageUrl = ocirp.toString,
+                imageWidth = 60,
                 isFounder = true
               ),
               OperationPartnerModel(
-                name = "Association France Dépendance",
-                imageUrl = ministereCultureLogo.toString,
-                imageWidth = 41,
+                name = "CAREIT",
+                imageUrl = careit.toString,
+                imageWidth = 60,
                 isFounder = true
               ),
               OperationPartnerModel(
                 name = "Les Talents d'Alphonse",
-                imageUrl = ministereCultureLogo.toString,
-                imageWidth = 41,
-                isFounder = true
+                imageUrl = lesTalentsDalphonse.toString,
+                imageWidth = 60,
+                isFounder = false
               ),
               OperationPartnerModel(
                 name = "Siel Bleu",
-                imageUrl = ministereCultureLogo.toString,
-                imageWidth = 41,
-                isFounder = true
+                imageUrl = siel.toString,
+                imageWidth = 60,
+                isFounder = false
               ),
               OperationPartnerModel(
                 name = "fondation de l'armée du salut",
-                imageUrl = ministereCultureLogo.toString,
-                imageWidth = 41,
-                isFounder = true
+                imageUrl = armeeDuSalut.toString,
+                imageWidth = 60,
+                isFounder = false
               ),
               OperationPartnerModel(
                 name = "Age village",
-                imageUrl = ministereCultureLogo.toString,
-                imageWidth = 41,
-                isFounder = true
+                imageUrl = ageVillage.toString,
+                imageWidth = 60,
+                isFounder = false
               ),
               OperationPartnerModel(
-                name = "Responsage",
-                imageUrl = ministereCultureLogo.toString,
-                imageWidth = 41,
-                isFounder = true
+                name = "Association France Dépendance",
+                imageUrl = associationFranceDependance.toString,
+                imageWidth = 60,
+                isFounder = false
               )
             )
 

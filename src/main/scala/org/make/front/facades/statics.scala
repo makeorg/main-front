@@ -837,6 +837,46 @@ object ainesLogo extends js.Object
 @JSImport("./images/operations/aines/aines-logo-white.svg", "default")
 object ainesLogoWhite extends js.Object
 
+@js.native
+@JSImport("./images/operations/aines/partners/klesia.png", "default")
+object klesia extends js.Object
+
+@js.native
+@JSImport("./images/operations/aines/partners/fondation-korian.png", "default")
+object korian extends js.Object
+
+@js.native
+@JSImport("./images/operations/aines/partners/laposte.png", "default")
+object laposte extends js.Object
+
+@js.native
+@JSImport("./images/operations/aines/partners/care-it.png", "default")
+object careit extends js.Object
+
+@js.native
+@JSImport("./images/operations/aines/partners/ocirp.png", "default")
+object ocirp extends js.Object
+
+@js.native
+@JSImport("./images/operations/aines/partners/les-talents-dalphonse.png", "default")
+object lesTalentsDalphonse extends js.Object
+
+@js.native
+@JSImport("./images/operations/aines/partners/siel.png", "default")
+object siel extends js.Object
+
+@js.native
+@JSImport("./images/operations/aines/partners/armee-du-salut.png", "default")
+object armeeDuSalut extends js.Object
+
+@js.native
+@JSImport("./images/operations/aines/partners/age-village.png", "default")
+object ageVillage extends js.Object
+
+@js.native
+@JSImport("./images/operations/aines/partners/association-france-dependance.png", "default")
+object associationFranceDependance extends js.Object
+
 /* FLAGS */
 
 @js.native
