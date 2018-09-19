@@ -22,25 +22,18 @@ package org.make.front.components.operation.intro
 
 import io.github.shogowada.scalajs.reactjs.React
 import io.github.shogowada.scalajs.reactjs.VirtualDOM.{<, _}
+import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import org.make.front.Main.CssSettings._
 import org.make.front.components.Components._
-import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import org.make.front.facades.Unescape.unescape
-import org.make.front.styles.utils._
-import org.make.front.facades.{
-  cultureIll,
-  cultureIll2x,
-  cultureIll3x,
-  cultureLogoWhite,
-  ministereCultureLogo,
-  I18n
-}
+import org.make.front.facades.{I18n, ageVillage, ainesIll, ainesIll2x, ainesIll3x, ainesLogoWhite, armeeDuSalut, associationFranceDependance, careit, klesia, korian, laposte, lesTalentsDalphonse, ocirp, siel}
 import org.make.front.models.{OperationExpanded => OperationModel, OperationPartner => OperationPartnerModel}
 import org.make.front.styles.ThemeStyles
 import org.make.front.styles.base.{LayoutRulesStyles, TableLayoutStyles, TextStyles}
 import org.make.front.styles.ui.CTAStyles
-import org.make.services.tracking.{TrackingLocation, TrackingService}
+import org.make.front.styles.utils._
 import org.make.services.tracking.TrackingService.TrackingContext
+import org.make.services.tracking.{TrackingLocation, TrackingService}
 
 import scala.scalajs.js
 
@@ -63,72 +56,72 @@ object AinesOperationIntro {
 
         val partners =
           js.Array(
-            OperationPartnerModel(
-              name = "Klesia",
-              imageUrl = ministereCultureLogo.toString,
-              imageWidth = 41,
-              isFounder = true
-            ),
-            OperationPartnerModel(
-              name = "Korian",
-              imageUrl = ministereCultureLogo.toString,
-              imageWidth = 41,
-              isFounder = true
-            ),
-            OperationPartnerModel(
-              name = "CAREIT",
-              imageUrl = ministereCultureLogo.toString,
-              imageWidth = 41,
-              isFounder = true
-            ),
-            OperationPartnerModel(
-              name = "OCIRP",
-              imageUrl = ministereCultureLogo.toString,
-              imageWidth = 41,
-              isFounder = true
-            ),
-            OperationPartnerModel(
-              name = "Association France Dépendance",
-              imageUrl = ministereCultureLogo.toString,
-              imageWidth = 41,
-              isFounder = true
-            ),
-            OperationPartnerModel(
-              name = "Les Talents d'Alphonse",
-              imageUrl = ministereCultureLogo.toString,
-              imageWidth = 41,
-              isFounder = true
-            ),
-            OperationPartnerModel(
-              name = "Siel Bleu",
-              imageUrl = ministereCultureLogo.toString,
-              imageWidth = 41,
-              isFounder = true
-            ),
-            OperationPartnerModel(
-              name = "fondation de l'armée du salut",
-              imageUrl = ministereCultureLogo.toString,
-              imageWidth = 41,
-              isFounder = true
-            ),
-            OperationPartnerModel(
-              name = "Age village",
-              imageUrl = ministereCultureLogo.toString,
-              imageWidth = 41,
-              isFounder = true
-            ),
-            OperationPartnerModel(
-              name = "Responsage",
-              imageUrl = ministereCultureLogo.toString,
-              imageWidth = 41,
-              isFounder = true
-            ),
-          )
+              OperationPartnerModel(
+                name = "Klesia",
+                imageUrl = klesia.toString,
+                imageWidth = 60,
+                isFounder = true
+              ),
+              OperationPartnerModel(
+                name = "Korian",
+                imageUrl = korian.toString,
+                imageWidth = 60,
+                isFounder = true
+              ),
+              OperationPartnerModel(
+                name = "Laposte",
+                imageUrl = laposte.toString,
+                imageWidth = 60,
+                isFounder = true
+              ),
+              OperationPartnerModel(
+                name = "OCIRP",
+                imageUrl = ocirp.toString,
+                imageWidth = 60,
+                isFounder = true
+              ),
+              OperationPartnerModel(
+                name = "CAREIT",
+                imageUrl = careit.toString,
+                imageWidth = 60,
+                isFounder = true
+              ),
+              OperationPartnerModel(
+                name = "Les Talents d'Alphonse",
+                imageUrl = lesTalentsDalphonse.toString,
+                imageWidth = 60,
+                isFounder = false
+              ),
+              OperationPartnerModel(
+                name = "Siel Bleu",
+                imageUrl = siel.toString,
+                imageWidth = 60,
+                isFounder = false
+              ),
+              OperationPartnerModel(
+                name = "fondation de l'armée du salut",
+                imageUrl = armeeDuSalut.toString,
+                imageWidth = 60,
+                isFounder = false
+              ),
+              OperationPartnerModel(
+                name = "Age village",
+                imageUrl = ageVillage.toString,
+                imageWidth = 60,
+                isFounder = false
+              ),
+              OperationPartnerModel(
+                name = "Association France Dépendance",
+                imageUrl = associationFranceDependance.toString,
+                imageWidth = 60,
+                isFounder = false
+              )
+            )
         <.div(^.className := js.Array(OperationIntroStyles.wrapper, AinesOperationIntroStyles.wrapper))(
           <.img(
             ^.className := AinesOperationIntroStyles.illustration,
-            ^.src := cultureIll.toString,
-            ^("srcset") := cultureIll.toString + " 400w, " + cultureIll2x.toString + " 800w, " + cultureIll3x.toString + " 840w, ",
+            ^.src := ainesIll.toString,
+            ^("srcset") := ainesIll.toString + " 400w, " + ainesIll2x.toString + " 800w, " + ainesIll3x.toString + " 840w, ",
             ^.alt := I18n.t("operation.aines.intro.title"),
             ^("data-pin-no-hover") := "true"
           )(),
@@ -137,7 +130,7 @@ object AinesOperationIntro {
               <.p(^.className := AinesOperationIntroStyles.labelWrapper)(
                 <.span(^.className := TextStyles.label)(unescape(I18n.t("operation.aines.intro.label")))
               ),
-              <.img(^.src := cultureLogoWhite.toString, ^.alt := unescape(I18n.t("operation.aines.intro.title")))()
+              <.img(^.src := ainesLogoWhite.toString, ^.alt := unescape(I18n.t("operation.aines.intro.title")))()
             ),
             <.div(^.className := js.Array(TableLayoutStyles.wrapper, OperationIntroStyles.separator))(
               <.div(

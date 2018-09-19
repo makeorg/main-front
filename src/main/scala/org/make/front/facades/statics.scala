@@ -830,6 +830,18 @@ object cinemadifferenceAvatar extends js.Object
 
 /** Operation Aines **/
 @js.native
+@JSImport("./images/operations/aines/aines-ill-1440x530.jpg", "default")
+object ainesIll extends js.Object
+
+@js.native
+@JSImport("./images/operations/aines/aines-ill-2880x1070.jpg", "default")
+object ainesIll2x extends js.Object
+
+@js.native
+@JSImport("./images/operations/aines/aines-ill-4320x1605.jpg", "default")
+object ainesIll3x extends js.Object
+
+@js.native
 @JSImport("./images/operations/aines/aines-logo-dark.svg", "default")
 object ainesLogo extends js.Object
 
