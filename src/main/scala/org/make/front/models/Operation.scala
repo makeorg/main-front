@@ -65,6 +65,17 @@ object OperationId {
   }
 }
 
+@js.native
+trait QuestionId extends js.Object {
+  val value: String
+}
+
+object QuestionId {
+  def apply(value: String): QuestionId = {
+    js.Dynamic.literal(value = value).asInstanceOf[QuestionId]
+  }
+}
+
 final case class OperationTranslation(title: String, language: String)
 object OperationTranslation {
   def apply(operationResponse: OperationTranslationResponse): OperationTranslation = {
@@ -76,7 +87,8 @@ final case class OperationCountryConfiguration(countryCode: String,
                                                tagIds: js.Array[Tag],
                                                landingSequenceId: SequenceId,
                                                startDate: Option[js.Date],
-                                               endDate: Option[js.Date])
+                                               endDate: Option[js.Date],
+                                               questionId: QuestionId)
 object OperationCountryConfiguration {
   def apply(
     operationCountryConfigurationResponse: OperationCountryConfigurationResponse
@@ -90,7 +102,8 @@ object OperationCountryConfiguration {
         case _                => throw new IllegalArgumentException("a landing sequence id is required")
       },
       startDate = undefToOption(operationCountryConfigurationResponse.startDate).map(new js.Date(_)),
-      endDate = undefToOption(operationCountryConfigurationResponse.endDate).map(new js.Date(_))
+      endDate = undefToOption(operationCountryConfigurationResponse.endDate).map(new js.Date(_)),
+      questionId = QuestionId(operationCountryConfigurationResponse.questionId)
     )
   }
 }

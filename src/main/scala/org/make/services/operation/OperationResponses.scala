@@ -56,4 +56,5 @@ trait OperationCountryConfigurationResponse extends js.Object {
   val landingSequenceId: js.UndefOr[String]
   val startDate: js.UndefOr[String]
   val endDate: js.UndefOr[String]
+  val questionId: String
 }
