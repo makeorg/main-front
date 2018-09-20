@@ -54,6 +54,20 @@ object OperationService extends ApiService {
     }
   }
 
+  def getActiveOperations(country: String): Future[js.Array[QuestionId]] = {
+    listOperations().map { operations =>
+      operations
+        .flatMap(_.countriesConfiguration)
+        .filter { configuration =>
+          val now = new js.Date().getTime()
+          configuration.countryCode == country &&
+          configuration.startDate.forall(_.getTime() <= now) &&
+          configuration.endDate.forall(_.getTime() >= now)
+        }
+        .map(_.questionId)
+    }
+  }
+
   def getOperationBySlug(slug: String): Future[Option[Operation]] = {
     listOperations().map { operations =>
       operations.find(_.slug == slug)

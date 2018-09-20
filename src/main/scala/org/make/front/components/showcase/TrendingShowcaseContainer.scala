@@ -25,10 +25,14 @@ import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import io.github.shogowada.scalajs.reactjs.redux.ReactRedux
 import io.github.shogowada.scalajs.reactjs.redux.Redux.Dispatch
 import org.make.front.components.AppState
-import org.make.front.models.{Location => LocationModel}
-import org.make.services.proposal.ProposalService
+import org.make.front.models.{QuestionId, Location => LocationModel}
+import org.make.services.operation.OperationService
+import org.make.services.proposal.{ProposalService, SearchResult}
 
+import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.Future
 import scala.scalajs.js
+import scala.util.{Failure, Success}
 
 object TrendingShowcaseContainer {
 
@@ -42,16 +46,33 @@ object TrendingShowcaseContainer {
   def selectorFactory
     : (Dispatch) => (AppState, Props[TrendingShowcaseContainerProps]) => TrendingShowcase.TrendingShowcaseProps =
     (_: Dispatch) => { (appState: AppState, props: Props[TrendingShowcaseContainerProps]) =>
-      TrendingShowcase.TrendingShowcaseProps(
-        proposals = () =>
+      def results: () => Future[SearchResult] = () => {
+        OperationService.getActiveOperations(appState.country).flatMap { questionIds =>
+          val questionId = questionIds.headOption
           ProposalService
             .searchProposals(
+              questionId = questionId,
               trending = Some(props.wrapped.trending),
               limit = Some(2),
               isRandom = Some(true),
               language = Some(appState.language),
               country = Some(appState.country)
-          ),
+            )
+            .flatMap {
+              case results if results.total == 2 => Future.successful(results)
+              case _ =>
+                ProposalService.searchProposals(
+                  questionId = questionId,
+                  limit = Some(2),
+                  isRandom = Some(true),
+                  language = Some(appState.language),
+                  country = Some(appState.country)
+                )
+            }
+        }
+      }
+      TrendingShowcase.TrendingShowcaseProps(
+        proposals = results,
         intro = props.wrapped.intro,
         title = props.wrapped.title,
         maybeLocation = props.wrapped.maybeLocation,
