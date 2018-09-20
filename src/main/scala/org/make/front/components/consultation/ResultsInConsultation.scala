@@ -252,24 +252,26 @@ object ResultsInConsultation {
                 ^.initialLoad := false,
                 ^.loadMore := onSeeMore,
                 ^.loader := <.li()(<.SpinnerComponent.empty)
-              )(self.state.proposalWithVideo.map {
-                proposal =>
-                  <.li()(
-                    <.ProposalTileWithVideoComponent(
-                      ^.wrapped := ProposalTileWithVideoProps(
-                        proposal = proposal,
-                        handleSuccessfulVote = onSuccessfulVote(proposal.id, self),
-                        handleSuccessfulQualification = onSuccessfulQualification(proposal.id, self),
-                        index = counter.getAndIncrement(),
-                        trackingLocation = TrackingLocation.operationPage,
-                        maybeTheme = None,
-                        maybeOperation = Some(self.props.wrapped.operation),
-                        maybeSequenceId = None,
-                        maybeLocation = self.props.wrapped.maybeLocation,
-                        country = country
-                      )
-                    )()
-                  )
+              )(if (self.props.wrapped.operation.slug == "culture") {
+                self.state.proposalWithVideo.map {
+                  proposal =>
+                    <.li()(
+                      <.ProposalTileWithVideoComponent(
+                        ^.wrapped := ProposalTileWithVideoProps(
+                          proposal = proposal,
+                          handleSuccessfulVote = onSuccessfulVote(proposal.id, self),
+                          handleSuccessfulQualification = onSuccessfulQualification(proposal.id, self),
+                          index = counter.getAndIncrement(),
+                          trackingLocation = TrackingLocation.operationPage,
+                          maybeTheme = None,
+                          maybeOperation = Some(self.props.wrapped.operation),
+                          maybeSequenceId = None,
+                          maybeLocation = self.props.wrapped.maybeLocation,
+                          country = country
+                        )
+                      )()
+                    )
+                }
               }, if (proposals.nonEmpty) {
                 proposals
                   .map(

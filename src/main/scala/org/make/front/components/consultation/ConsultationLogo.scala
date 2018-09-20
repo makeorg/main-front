@@ -29,7 +29,6 @@ import org.make.front.components.Components._
 import org.make.front.styles.utils._
 import org.make.front.models.{OperationExpanded => OperationModel, OperationWording => OperationWordingModel}
 
-
 object ConsultationLogo {
 
   case class ConsultationLogoProps(operation: OperationModel, language: String)
@@ -41,8 +40,14 @@ object ConsultationLogo {
           val consultation: OperationModel = self.props.wrapped.operation
           val wording: OperationWordingModel =
             self.props.wrapped.operation.getWordingByLanguageOrError(self.props.wrapped.language)
-          <.h1()(<.img(^.className := ConsultationLogoStyles.logo, ^.src := consultation.whiteLogoUrl, ^.alt := wording.title)(),
-            <.style()(ConsultationLogoStyles.render[String]))
+          <.h1()(
+            <.img(
+              ^.className := ConsultationLogoStyles.logo,
+              ^.src := consultation.whiteLogoUrl,
+              ^.alt := wording.title
+            )(),
+            <.style()(ConsultationLogoStyles.render[String])
+          )
         })
     )
 }
@@ -51,11 +56,5 @@ object ConsultationLogoStyles extends StyleSheet.Inline {
   import dsl._
 
   val logo: StyleA =
-    style(
-      maxHeight(90.pxToEm()),
-      maxWidth(1000.%%),
-      display.block,
-      marginLeft(auto),
-      marginRight(auto)
-    )
+    style(maxHeight(90.pxToEm()), maxWidth(100.%%), display.block, marginLeft(auto), marginRight(auto))
 }
