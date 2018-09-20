@@ -106,32 +106,28 @@ object ProposalTileWithoutVoteAction {
             <.article(^.className := ProposalTileStyles.wrapper)(
               <.div(^.className := overlayClass)(),
               <.div(^.className := js.Array(TableLayoutStyles.fullHeightWrapper, ProposalTileStyles.innerWrapper))(
-                <.div(^.className := TableLayoutStyles.row)(
-                  <.div(^.className := TableLayoutStyles.cell)(
-                    intro,
-                    <.div(^.className := ProposalTileStyles.contentWrapper)(
-                      <.h3(
-                        ^.className := js
-                          .Array(TextStyles.mediumText, TextStyles.boldText, ProposalTileStyles.proposalLinkOnTitle)
-                      )(if (self.props.wrapped.proposal.isAccepted) {
-                        <.div()(
-                          <.Link(^.to := proposalLink, ^.className := ProposalTileStyles.proposalLinkOnTitle)(
-                            self.props.wrapped.proposal.content
-                          ),
-                          <.DisplayVotesDataComponent(
-                            ^.wrapped := DisplayVotesDataProps(
-                              vote = self.state.votes,
-                              voteKeyMap = self.state.voteKeyMap,
-                              voteCountMap = self.state.voteCountMap,
-                              index = self.props.wrapped.index
-                            )
-                          )()
-                        )
-                      } else {
+                intro,
+                <.div(^.className := ProposalTileStyles.contentWrapper)(
+                  <.h3(
+                    ^.className := js
+                      .Array(TextStyles.mediumText, TextStyles.boldText, ProposalTileStyles.proposalLinkOnTitle)
+                  )(if (self.props.wrapped.proposal.isAccepted) {
+                    <.div()(
+                      <.Link(^.to := proposalLink, ^.className := ProposalTileStyles.proposalLinkOnTitle)(
                         self.props.wrapped.proposal.content
-                      })
+                      ),
+                      <.DisplayVotesDataComponent(
+                        ^.wrapped := DisplayVotesDataProps(
+                          vote = self.state.votes,
+                          voteKeyMap = self.state.voteKeyMap,
+                          voteCountMap = self.state.voteCountMap,
+                          index = self.props.wrapped.index
+                        )
+                      )()
                     )
-                  )
+                  } else {
+                    self.props.wrapped.proposal.content
+                  })
                 )
               ),
               <.style()(ProposalTileStyles.render[String])
