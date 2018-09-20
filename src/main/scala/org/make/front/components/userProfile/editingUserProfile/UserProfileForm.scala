@@ -53,7 +53,7 @@ object UserProfileForm {
     React
       .createClass[UserProfileFormProps, UserProfileFormState](
         displayName = "UserProfileForm",
-        getInitialState = _ => {
+        getInitialState = self => {
           UserProfileFormState(fields = Map(), errors = Map(), isEdited = false)
         },
         componentWillReceiveProps = { (self, props) =>
@@ -72,6 +72,9 @@ object UserProfileForm {
                   .getOrElse(""),
                 "postalCode" -> props.wrapped.user.profile
                   .flatMap(_.postalCode)
+                  .getOrElse(""),
+                "description" -> props.wrapped.user.profile
+                  .flatMap(_.description)
                   .getOrElse("")
               )
             )
@@ -193,6 +196,45 @@ object UserProfileForm {
               if (self.state.errors.getOrElse("postalCode", "") != "") {
                 <.p(^.className := js.Array(InputStyles.errorMessage, EditingUserProfileStyles.inlineMessage))(
                   unescape(self.state.errors.getOrElse("postalCode", ""))
+                )
+              },
+              <.div(^.className := EditingUserProfileStyles.inputGroup)(
+                <.label(
+                  ^.`for` := s"description",
+                  ^.className := js.Array(EditingUserProfileStyles.inputLabel, EditingUserProfileStyles.label)
+                )(
+                  I18n.t("user-profile.form.inputs.description.label"),
+                  <.p()(unescape(" ("), if (self.state.fields.get("description").isEmpty) {
+                    unescape("0")
+                  } else {
+                    self.state.fields
+                      .get("description")
+                      .map { field =>
+                        field.length
+                      }
+                      .toSeq
+                  }, unescape("/450 "), I18n.t("user-profile.form.inputs.char"), unescape(")"))
+                ),
+                <.div(
+                  ^.className := js
+                    .Array(
+                      EditingUserProfileStyles.inputTextArea,
+                      EditingUserProfileStyles.descriptionInputWithIconWrapper
+                    )
+                )(
+                  <.textarea(
+                    ^.id := s"description",
+                    ^.`type`.text,
+                    ^.required := false,
+                    ^.value := self.state.fields.getOrElse("description", ""),
+                    ^.onChange := updateField("description"),
+                    ^.rows := 5
+                  )()
+                )
+              ),
+              if (self.state.errors.getOrElse("description", "") != "") {
+                <.p(^.className := js.Array(InputStyles.errorMessage, EditingUserProfileStyles.inlineMessage))(
+                  unescape(self.state.errors.getOrElse("description", ""))
                 )
               },
               <.div(^.className := js.Array(EditingUserProfileStyles.buttonGroup, EditingUserProfileStyles.success))(

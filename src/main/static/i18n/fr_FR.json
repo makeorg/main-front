@@ -224,6 +224,10 @@
       "cta": "Enregistrer les modifications",
       "inputs": {
         "required": "(obligatoire)",
+        "max-error-message": "Votre message doit être inférieur à %{max} caractères.",
+        "min-error-message": "Votre message doit être supérieurs à %{min} caractères.",
+        "char": "caractères",
+        "current-length-message": "caractères.",
         "format-error-message": "Format invalide",
         "empty-field-error-message": "Veuillez renseigner ce&nbsp;champ.",
         "submit": "Enregistrer les modifications",
@@ -244,6 +248,9 @@
         },
         "profession": {
           "label": "Profession"
+        },
+        "description": {
+          "label": "Biographie"
         },
         "organisation-name": {
           "label": "Nom"

@@ -86,6 +86,7 @@ trait JsUpdateUserRequest extends js.Object {
   val optInNewsletter: js.UndefOr[Boolean]
   val language: js.UndefOr[String]
   val country: js.UndefOr[String]
+  val description: js.UndefOr[String]
 }
 
 object JsUpdateUserRequest {
@@ -101,7 +102,8 @@ object JsUpdateUserRequest {
         phoneNumber = updateUserRequest.phoneNumber.orUndefined,
         optInNewsletter = updateUserRequest.optInNewsletter.orUndefined,
         country = updateUserRequest.country.orUndefined,
-        language = updateUserRequest.language.orUndefined
+        language = updateUserRequest.language.orUndefined,
+        description = updateUserRequest.description.orUndefined
       )
       .asInstanceOf[JsUpdateUserRequest]
   }

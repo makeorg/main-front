@@ -25,14 +25,14 @@ import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import io.github.shogowada.scalajs.reactjs.events.FormSyntheticEvent
 import io.github.shogowada.scalajs.reactjs.redux.ReactRedux
 import io.github.shogowada.scalajs.reactjs.redux.Redux.Dispatch
-import org.make.core.validation.{Constraint, NotBlankConstraint}
+import org.make.core.validation.{Constraint, LengthConstraint, NotBlankConstraint}
 import org.make.front.actions.ReloadUserAction
 import org.make.front.components.AppState
 import org.make.front.components.userProfile.editingUserProfile.OrganisationProfileForm.{
   OrganisationProfileFormProps,
   OrganisationProfileFormState
 }
-import org.make.front.facades.I18n
+import org.make.front.facades.{I18n, Replacements}
 import org.make.services.user.UserService
 import org.scalajs.dom.raw.HTMLInputElement
 
@@ -52,6 +52,16 @@ object OrganisationProfileFormContainer {
             "organisationName",
             NotBlankConstraint,
             Map("notBlank" -> I18n.t("user-profile.form.inputs.empty-field-error-message"))
+          ),
+          (
+            "description",
+            new LengthConstraint(min = Some(15), max = Some(450)),
+            Map(
+              "minMessage" -> I18n
+                .t("user-profile.form.inputs.min-error-message", replacements = Replacements(("min", "15"))),
+              "maxMessage" -> I18n
+                .t("user-profile.form.inputs.max-error-message", replacements = Replacements(("max", "450")))
+            )
           )
         )
       }
@@ -75,7 +85,10 @@ object OrganisationProfileFormContainer {
           self.setState(_.copy(errors = errors))
         } else {
           UserService
-            .updateUser(organisationName = self.state.fields.get("organisationName"))
+            .updateUser(
+              organisationName = self.state.fields.get("organisationName"),
+              description = self.state.fields.get("description")
+            )
             .onComplete {
               case Success(_) =>
                 self.setState(self.state.copy(message = I18n.t("user-profile.update.confirmation")))

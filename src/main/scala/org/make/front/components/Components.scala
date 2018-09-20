@@ -83,6 +83,7 @@ object Components {
     /*********************/
     def UserProfileComponent: ReactClassElementSpec = self(userProfile.UserProfile.reactClass)
     def UserProfileInformationsComponent: ReactClassElementSpec = self(userProfile.UserProfileInformations.reactClass)
+    def UserDescriptionComponent: ReactClassElementSpec = self(userProfile.UserDescription.reactClass)
     def UserProfileSummaryComponent: ReactClassElementSpec = self(userProfile.UserProfileSummary.reactClass)
     def UserProfileProposalsContainerComponent: ReactClassElementSpec =
       self(userProfile.UserProfileProposalsContainer.reactClass)
@@ -111,6 +112,7 @@ object Components {
     /*********************/
     def ActorProfileContainerComponent: ReactClassElementSpec = self(actorProfile.ActorProfileContainer.reactClass)
     def ActorProfileComponent: ReactClassElementSpec = self(actorProfile.ActorProfile.reactClass)
+    def ActorDescriptionComponent: ReactClassElementSpec = self(actorProfile.ActorDescription.reactClass)
     def ActorProfileInformationsComponent: ReactClassElementSpec =
       self(actorProfile.ActorProfileInformations.reactClass)
     def ActorProfileProposalsContainerComponent: ReactClassElementSpec =
