@@ -46,7 +46,7 @@ object AinesOperationStaticData extends StaticDataOfOperation {
         )
       )
     ),
-    color = "#6B26E8",
+    color = "#9C6BDA",
     gradient = Some(GradientColor("#9c6bda", "#8ddcf6")),
     logoUrl = ainesLogo.toString,
     whiteLogoUrl = ainesLogoWhite.toString,

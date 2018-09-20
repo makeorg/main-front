@@ -26,7 +26,23 @@ import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import org.make.front.Main.CssSettings._
 import org.make.front.components.Components._
 import org.make.front.facades.Unescape.unescape
-import org.make.front.facades.{I18n, ageVillage, ainesIll, ainesIll2x, ainesIll3x, ainesLogoWhite, armeeDuSalut, associationFranceDependance, careit, klesia, korian, laposte, lesTalentsDalphonse, ocirp, siel}
+import org.make.front.facades.{
+  ageVillage,
+  ainesIll,
+  ainesIll2x,
+  ainesIll3x,
+  ainesLogoWhite,
+  armeeDuSalut,
+  associationFranceDependance,
+  careit,
+  klesia,
+  korian,
+  laposte,
+  lesTalentsDalphonse,
+  ocirp,
+  siel,
+  I18n
+}
 import org.make.front.models.{OperationExpanded => OperationModel, OperationPartner => OperationPartnerModel}
 import org.make.front.styles.ThemeStyles
 import org.make.front.styles.base.{LayoutRulesStyles, TableLayoutStyles, TextStyles}
@@ -44,60 +60,30 @@ object AinesOperationIntro {
   lazy val reactClass: ReactClass =
     React
       .createClass[AinesOperationIntroProps, Unit](
-      displayName = "AinesOperationIntro",
-      render = self => {
+        displayName = "AinesOperationIntro",
+        render = self => {
 
-        def onClick: () => Unit = { () =>
-          TrackingService.track(
-            eventName = "click-button-learn-more",
-            trackingContext = TrackingContext(TrackingLocation.operationPage, Some(self.props.wrapped.operation.slug))
-          )
-        }
+          def onClick: () => Unit = { () =>
+            TrackingService.track(
+              eventName = "click-button-learn-more",
+              trackingContext = TrackingContext(TrackingLocation.operationPage, Some(self.props.wrapped.operation.slug))
+            )
+          }
 
-        val partners =
-          js.Array(
-              OperationPartnerModel(
-                name = "Klesia",
-                imageUrl = klesia.toString,
-                imageWidth = 60,
-                isFounder = true
-              ),
-              OperationPartnerModel(
-                name = "Korian",
-                imageUrl = korian.toString,
-                imageWidth = 60,
-                isFounder = true
-              ),
-              OperationPartnerModel(
-                name = "Laposte",
-                imageUrl = laposte.toString,
-                imageWidth = 60,
-                isFounder = true
-              ),
-              OperationPartnerModel(
-                name = "OCIRP",
-                imageUrl = ocirp.toString,
-                imageWidth = 60,
-                isFounder = true
-              ),
-              OperationPartnerModel(
-                name = "CAREIT",
-                imageUrl = careit.toString,
-                imageWidth = 60,
-                isFounder = true
-              ),
+          val partners =
+            js.Array(
+              OperationPartnerModel(name = "Klesia", imageUrl = klesia.toString, imageWidth = 60, isFounder = true),
+              OperationPartnerModel(name = "Korian", imageUrl = korian.toString, imageWidth = 60, isFounder = true),
+              OperationPartnerModel(name = "La Poste", imageUrl = laposte.toString, imageWidth = 60, isFounder = true),
+              OperationPartnerModel(name = "OCIRP", imageUrl = ocirp.toString, imageWidth = 60, isFounder = true),
+              OperationPartnerModel(name = "CAREIT", imageUrl = careit.toString, imageWidth = 60, isFounder = true),
               OperationPartnerModel(
                 name = "Les Talents d'Alphonse",
                 imageUrl = lesTalentsDalphonse.toString,
                 imageWidth = 60,
                 isFounder = false
               ),
-              OperationPartnerModel(
-                name = "Siel Bleu",
-                imageUrl = siel.toString,
-                imageWidth = 60,
-                isFounder = false
-              ),
+              OperationPartnerModel(name = "Siel Bleu", imageUrl = siel.toString, imageWidth = 60, isFounder = false),
               OperationPartnerModel(
                 name = "fondation de l'armée du salut",
                 imageUrl = armeeDuSalut.toString,
@@ -117,98 +103,98 @@ object AinesOperationIntro {
                 isFounder = false
               )
             )
-        <.div(^.className := js.Array(OperationIntroStyles.wrapper, AinesOperationIntroStyles.wrapper))(
-          <.img(
-            ^.className := AinesOperationIntroStyles.illustration,
-            ^.src := ainesIll.toString,
-            ^("srcset") := ainesIll.toString + " 400w, " + ainesIll2x.toString + " 800w, " + ainesIll3x.toString + " 840w, ",
-            ^.alt := I18n.t("operation.aines.intro.title"),
-            ^("data-pin-no-hover") := "true"
-          )(),
-          <.div(^.className := js.Array(OperationIntroStyles.headingWrapper, LayoutRulesStyles.centeredRow))(
-            <.div(^.className := AinesOperationIntroStyles.logoWrapper)(
-              <.p(^.className := AinesOperationIntroStyles.labelWrapper)(
-                <.span(^.className := TextStyles.label)(unescape(I18n.t("operation.aines.intro.label")))
+          <.div(^.className := js.Array(OperationIntroStyles.wrapper, AinesOperationIntroStyles.wrapper))(
+            <.img(
+              ^.className := AinesOperationIntroStyles.illustration,
+              ^.src := ainesIll.toString,
+              ^("srcset") := ainesIll.toString + " 400w, " + ainesIll2x.toString + " 800w, " + ainesIll3x.toString + " 840w, ",
+              ^.alt := I18n.t("operation.aines.intro.title"),
+              ^("data-pin-no-hover") := "true"
+            )(),
+            <.div(^.className := js.Array(OperationIntroStyles.headingWrapper, LayoutRulesStyles.centeredRow))(
+              <.div(^.className := AinesOperationIntroStyles.logoWrapper)(
+                <.p(^.className := AinesOperationIntroStyles.labelWrapper)(
+                  <.span(^.className := TextStyles.label)(unescape(I18n.t("operation.aines.intro.label")))
+                ),
+                <.img(^.src := ainesLogoWhite.toString, ^.alt := unescape(I18n.t("operation.aines.intro.title")))()
               ),
-              <.img(^.src := ainesLogoWhite.toString, ^.alt := unescape(I18n.t("operation.aines.intro.title")))()
-            ),
-            <.div(^.className := js.Array(TableLayoutStyles.wrapper, OperationIntroStyles.separator))(
-              <.div(
-                ^.className := js
-                  .Array(TableLayoutStyles.cellVerticalAlignMiddle, OperationIntroStyles.separatorLineWrapper)
-              )(
-                <.hr(
-                  ^.className := js.Array(
-                    OperationIntroStyles.separatorLine,
-                    AinesOperationIntroStyles.separatorLine,
-                    OperationIntroStyles.separatorLineToTheLeft,
-                    AinesOperationIntroStyles.separatorLineToTheLeft
-                  )
-                )()
-              ),
-              <.div(^.className := js.Array(TableLayoutStyles.cell, OperationIntroStyles.separatorTextWrapper))(
-                <.p(^.className := js.Array(AinesOperationIntroStyles.separatorText, TextStyles.smallerText))(
-                  unescape(I18n.t("operation.aines.intro.partners.intro"))
-                )
-              ),
-              <.div(
-                ^.className := js
-                  .Array(TableLayoutStyles.cellVerticalAlignMiddle, OperationIntroStyles.separatorLineWrapper)
-              )(
-                <.hr(
-                  ^.className := js.Array(
-                    OperationIntroStyles.separatorLine,
-                    AinesOperationIntroStyles.separatorLine,
-                    OperationIntroStyles.separatorLineToTheRight,
-                    AinesOperationIntroStyles.separatorLineToTheRight
-                  )
-                )()
-              )
-            ),
-            <.ul(
-              ^.className := js
-                .Array(OperationIntroStyles.partnersList, LayoutRulesStyles.narrowerCenteredRowWithCols)
-            )(
-              partners
-                .map(
-                  partner =>
-                    <.li(^.className := OperationIntroStyles.partnerItem)(
-                      <.img(
-                        ^.src := partner.imageUrl,
-                        ^.alt := partner.name,
-                        ^("width") := partner.imageWidth.toString,
-                        ^.className := OperationIntroStyles.partnerLogo
-                      )()
+              <.div(^.className := js.Array(TableLayoutStyles.wrapper, OperationIntroStyles.separator))(
+                <.div(
+                  ^.className := js
+                    .Array(TableLayoutStyles.cellVerticalAlignMiddle, OperationIntroStyles.separatorLineWrapper)
+                )(
+                  <.hr(
+                    ^.className := js.Array(
+                      OperationIntroStyles.separatorLine,
+                      AinesOperationIntroStyles.separatorLine,
+                      OperationIntroStyles.separatorLineToTheLeft,
+                      AinesOperationIntroStyles.separatorLineToTheLeft
                     )
-                )
-                .toSeq
-            )
-          ),
-          <.div(
-            ^.className := js
-              .Array(OperationIntroStyles.explanationWrapper, AinesOperationIntroStyles.explanationWrapper)
-          )(
-            <.div(^.className := LayoutRulesStyles.narrowerCenteredRow)(
-              <.p(^.className := TextStyles.label)(unescape(I18n.t("operation.aines.intro.article.title"))),
-              <.div(^.className := OperationIntroStyles.explanationTextWrapper)(
-                <.p(^.className := js.Array(OperationIntroStyles.explanationText, TextStyles.smallText))(
-                  unescape(I18n.t("operation.aines.intro.article.text"))
+                  )()
+                ),
+                <.div(^.className := js.Array(TableLayoutStyles.cell, OperationIntroStyles.separatorTextWrapper))(
+                  <.p(^.className := js.Array(AinesOperationIntroStyles.separatorText, TextStyles.smallerText))(
+                    unescape(I18n.t("operation.aines.intro.partners.intro"))
+                  )
+                ),
+                <.div(
+                  ^.className := js
+                    .Array(TableLayoutStyles.cellVerticalAlignMiddle, OperationIntroStyles.separatorLineWrapper)
+                )(
+                  <.hr(
+                    ^.className := js.Array(
+                      OperationIntroStyles.separatorLine,
+                      AinesOperationIntroStyles.separatorLine,
+                      OperationIntroStyles.separatorLineToTheRight,
+                      AinesOperationIntroStyles.separatorLineToTheRight
+                    )
+                  )()
                 )
               ),
-              <.p(^.className := OperationIntroStyles.ctaWrapper)(
-                <.a(
-                  ^.onClick := onClick,
-                  ^.href := unescape(I18n.t("operation.aines.intro.article.see-more.link")),
-                  ^.className := js.Array(CTAStyles.basic, CTAStyles.basicOnA),
-                  ^.target := "_blank"
-                )(unescape(I18n.t("operation.aines.intro.article.see-more.label")))
+              <.ul(
+                ^.className := js
+                  .Array(OperationIntroStyles.partnersList, LayoutRulesStyles.narrowerCenteredRowWithCols)
+              )(
+                partners
+                  .map(
+                    partner =>
+                      <.li(^.className := OperationIntroStyles.partnerItem)(
+                        <.img(
+                          ^.src := partner.imageUrl,
+                          ^.alt := partner.name,
+                          ^("width") := partner.imageWidth.toString,
+                          ^.className := OperationIntroStyles.partnerLogo
+                        )()
+                    )
+                  )
+                  .toSeq
               )
-            )
-          ),
-          <.style()(OperationIntroStyles.render[String], AinesOperationIntroStyles.render[String])
-        )
-      }
-    )
+            ),
+            <.div(
+              ^.className := js
+                .Array(OperationIntroStyles.explanationWrapper, AinesOperationIntroStyles.explanationWrapper)
+            )(
+              <.div(^.className := LayoutRulesStyles.narrowerCenteredRow)(
+                <.p(^.className := TextStyles.label)(unescape(I18n.t("operation.aines.intro.article.title"))),
+                <.div(^.className := OperationIntroStyles.explanationTextWrapper)(
+                  <.p(^.className := js.Array(OperationIntroStyles.explanationText, TextStyles.smallText))(
+                    unescape(I18n.t("operation.aines.intro.article.text"))
+                  )
+                ),
+                <.p(^.className := OperationIntroStyles.ctaWrapper)(
+                  <.a(
+                    ^.onClick := onClick,
+                    ^.href := unescape(I18n.t("operation.aines.intro.article.see-more.link")),
+                    ^.className := js.Array(CTAStyles.basic, CTAStyles.basicOnA),
+                    ^.target := "_blank"
+                  )(unescape(I18n.t("operation.aines.intro.article.see-more.label")))
+                )
+              )
+            ),
+            <.style()(OperationIntroStyles.render[String], AinesOperationIntroStyles.render[String])
+          )
+        }
+      )
 }
 
 object AinesOperationIntroStyles extends StyleSheet.Inline {
