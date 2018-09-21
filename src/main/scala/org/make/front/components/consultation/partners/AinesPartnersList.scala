@@ -26,7 +26,18 @@ import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import org.make.front.Main.CssSettings._
 import org.make.front.components.Components._
 import org.make.front.components.consultation.partners.PartnersItems.PartnersItemProps
-import org.make.front.facades.{ageVillage, armeeDuSalut, associationFranceDependance, careit, klesia, korian, laposte, lesTalentsDalphonse, ocirp, siel}
+import org.make.front.facades.{
+  ageVillage,
+  armeeDuSalut,
+  associationFranceDependance,
+  careit,
+  klesia,
+  korian,
+  laposte,
+  lesTalentsDalphonse,
+  ocirp,
+  siel
+}
 import org.make.front.models.{OperationPartner => OperationPartnerModel}
 
 import scala.scalajs.js
@@ -41,48 +52,18 @@ object AinesPartnersList {
 
           val partners =
             js.Array(
-              OperationPartnerModel(
-                name = "Klesia",
-                imageUrl = klesia.toString,
-                imageWidth = 60,
-                isFounder = true
-              ),
-              OperationPartnerModel(
-                name = "Korian",
-                imageUrl = korian.toString,
-                imageWidth = 60,
-                isFounder = true
-              ),
-              OperationPartnerModel(
-                name = "Laposte",
-                imageUrl = laposte.toString,
-                imageWidth = 60,
-                isFounder = true
-              ),
-              OperationPartnerModel(
-                name = "OCIRP",
-                imageUrl = ocirp.toString,
-                imageWidth = 60,
-                isFounder = true
-              ),
-              OperationPartnerModel(
-                name = "CAREIT",
-                imageUrl = careit.toString,
-                imageWidth = 60,
-                isFounder = true
-              ),
+              OperationPartnerModel(name = "Klesia", imageUrl = klesia.toString, imageWidth = 60, isFounder = true),
+              OperationPartnerModel(name = "Korian", imageUrl = korian.toString, imageWidth = 60, isFounder = true),
+              OperationPartnerModel(name = "La Poste", imageUrl = laposte.toString, imageWidth = 60, isFounder = true),
+              OperationPartnerModel(name = "OCIRP", imageUrl = ocirp.toString, imageWidth = 60, isFounder = true),
+              OperationPartnerModel(name = "CAREIT", imageUrl = careit.toString, imageWidth = 60, isFounder = true),
               OperationPartnerModel(
                 name = "Les Talents d'Alphonse",
                 imageUrl = lesTalentsDalphonse.toString,
                 imageWidth = 60,
                 isFounder = false
               ),
-              OperationPartnerModel(
-                name = "Siel Bleu",
-                imageUrl = siel.toString,
-                imageWidth = 60,
-                isFounder = false
-              ),
+              OperationPartnerModel(name = "Siel Bleu", imageUrl = siel.toString, imageWidth = 60, isFounder = false),
               OperationPartnerModel(
                 name = "fondation de l'armée du salut",
                 imageUrl = armeeDuSalut.toString,
