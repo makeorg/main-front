@@ -51,7 +51,7 @@ object AinesOperationStaticData extends StaticDataOfOperation {
     logoUrl = ainesLogo.toString,
     whiteLogoUrl = ainesLogoWhite.toString,
     logoWidth = 295,
-    shareUrl = "/FR/consultation/aines/selection_UTM_&language=fr#/FR/aines/culture/selection",
+    shareUrl = "/FR/consultation/aines/selection_UTM_&language=fr#/FR/consultation/aines/selection",
     extraSlides = (params: OperationExtraSlidesParams) => {
       js.Array(
         Slides.displaySequenceIntroCard(params, introWording = OperationIntroWording()),
