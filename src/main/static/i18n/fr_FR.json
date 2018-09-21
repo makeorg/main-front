@@ -236,7 +236,9 @@
       "empty": "n'a pas encore pris position sur Make.org",
       "agree": "est d'accord avec cette proposition",
       "disagree": "n'est pas d'accord avec cette proposition"
-    }
+    },
+    "follow": "Suivre",
+    "followed": "Suivi"
   },
   "proposal": {
     "created-by-user": "Ma proposition",
