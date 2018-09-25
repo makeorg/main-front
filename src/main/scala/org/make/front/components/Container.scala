@@ -135,7 +135,7 @@ object Container {
             ^.exact := true,
             ^.path := "/:country/consultation/:operationSlug/:activeTab(consultation|actions)",
             ^.component := CountryDetector(
-              Layout.reactClass(<.ConsultationContainerComponent.empty, withFooter = false)
+              Layout.reactClass(<.ConsultationContainerComponent.empty, fixedHeader = false, withFooter = false)
             )
           )(),
           <.Route(

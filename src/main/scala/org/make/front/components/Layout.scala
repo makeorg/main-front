@@ -34,12 +34,13 @@ import scalacss.internal.mutable.StyleSheet
 import scala.scalajs.js
 
 object Layout {
-  def reactClass(children: ReactElement, withFooter: Boolean = true): ReactClass =
+  def reactClass(children: ReactElement, fixedHeader: Boolean = true, withFooter: Boolean = true): ReactClass =
     React
       .createClass[Unit, Unit](
         displayName = "Layout",
         render = self => {
-          <.div(^.className := js.Array(LayoutStyles.wrapper, TableLayoutStyles.fullHeightWrapper))(
+
+          <.div(^.className := js.Array(LayoutStyles.wrapper, TableLayoutStyles.fullHeightWrapper))(if (fixedHeader) {
             <.div(^.className := TableLayoutStyles.row)(
               <.div(^.className := js.Array(TableLayoutStyles.cell, LayoutStyles.mainHeaderWrapper))(
                 <.div(^.className := RWDHideRulesStyles.invisible)(<.CookieAlertContainerComponent.empty),
@@ -48,13 +49,18 @@ object Layout {
                   <.MainHeaderContainer.empty
                 )
               )
-            ),
-            <.div(^.className := TableLayoutStyles.row)(children),
-            if (withFooter) {
-              <.MainFooterComponent.empty
-            },
-            <.style()(LayoutStyles.render[String])
-          )
+            )
+          } else {
+            <.div()(
+              <.div(^.className := RWDHideRulesStyles.invisible)(<.CookieAlertContainerComponent.empty),
+              <.div(^.className := LayoutStyles.headerWrapper)(
+                <.CookieAlertContainerComponent.empty,
+                <.MainHeaderContainer.empty
+              )
+            )
+          }, <.div(^.className := TableLayoutStyles.row)(children), if (withFooter) {
+            <.MainFooterComponent.empty
+          }, <.style()(LayoutStyles.render[String]))
         }
       )
 }
@@ -81,5 +87,8 @@ object LayoutStyles extends StyleSheet.Inline {
 
   val fixedMainHeaderWrapper: StyleA =
     style(position.fixed, top(`0`), left(`0`), width(100.%%), zIndex(10), boxShadow := s"0 2px 4px 0 rgba(0,0,0,0.50)")
+
+  val headerWrapper: StyleA =
+    style(width(100.%%), boxShadow := s"0 2px 4px 0 rgba(0,0,0,0.50)")
 
 }
