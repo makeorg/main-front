@@ -249,7 +249,7 @@ object ResultsInConsultation {
               <.InfiniteScroll(
                 ^.element := "ul",
                 ^.hasMore := (self.state.initialLoad || self.state.hasMore && self.state.hasRequestedMore),
-                ^.initialLoad := false,
+                ^.initialLoad := true,
                 ^.loadMore := onSeeMore,
                 ^.loader := <.li()(<.SpinnerComponent.empty)
               )(if (self.props.wrapped.operation.slug == "culture") {
