@@ -26,6 +26,7 @@ import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import io.github.shogowada.scalajs.reactjs.router.WithRouter
 import io.github.shogowada.scalajs.reactjs.router.dom.RouterDOM._
 import org.make.front.Main.CssSettings._
+import io.github.shogowada.scalajs.reactjs.router.RouterProps._
 import org.make.front.components.Components.{RichVirtualDOMElements, _}
 import org.make.front.components.proposal.ProposalAuthorInfos.ProposalAuthorInfosProps
 import org.make.front.components.proposal.ProposalContainer.ProposalAndThemeOrOperationModel
@@ -66,28 +67,28 @@ object Proposal {
 
   lazy val reactClass: ReactClass =
     WithRouter(
-      React.createClass[ProposalProps, ProposalState](
-        displayName = "Proposal",
-        getInitialState = { _ =>
-          ProposalState(isProposalSharable = false)
-        },
-        componentWillReceiveProps = { (self, props) =>
+      React.createClass[ProposalProps, ProposalState](displayName = "Proposal", getInitialState = { _ =>
+        ProposalState(isProposalSharable = false)
+      }, componentWillReceiveProps = {
+        (self, props) =>
           props.wrapped.futureProposal.onComplete {
-            case Failure(_) =>
-            case Success(futureProposal) =>
+            case Failure(_) => props.history.push("/404")
+            case Success(proposal) if proposal.maybeProposal.isEmpty =>
+              props.history.push("/404")
+            case Success(proposal) =>
               self.setState(
                 _.copy(
-                  maybeProposal = futureProposal.maybeProposal,
-                  maybeTheme = futureProposal.maybeTheme,
-                  maybeOperation = futureProposal.maybeOperation,
-                  maybeLocation = futureProposal.maybeProposal.map { proposal =>
+                  maybeProposal = proposal.maybeProposal,
+                  maybeTheme = proposal.maybeTheme,
+                  maybeOperation = proposal.maybeOperation,
+                  maybeLocation = proposal.maybeProposal.map { proposal =>
                     LocationModel.ProposalPage(proposal.id)
                   }
                 )
               )
           }
-        },
-        render = { self =>
+      }, render = {
+        self =>
           <("proposal")()(
             <.div(
               ^.className := js
@@ -207,8 +208,7 @@ object Proposal {
             <.MainFooterComponent.empty,
             <.style()(ProposalStyles.render[String])
           )
-        }
-      )
+      })
     )
 }
 

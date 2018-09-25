@@ -128,7 +128,8 @@ object ProposalTileWithVideo {
             self.props.wrapped.maybeTheme match {
               case Some(theme) =>
                 s"/${self.props.wrapped.country}/theme/${theme.slug}/proposal/${self.props.wrapped.proposal.slug}"
-              case _ => s"/${self.props.wrapped.country}/proposal/${self.props.wrapped.proposal.slug}"
+              case _ =>
+                s"/${self.props.wrapped.country}/proposal/${self.props.wrapped.proposal.id.value}/${self.props.wrapped.proposal.slug}"
             }
         }
 

@@ -101,7 +101,7 @@ object ProposalTileWithoutVoteAction {
               )
 
             val proposalLink: String =
-              s"/${self.props.wrapped.proposal.country}/proposal/${self.props.wrapped.proposal.slug}"
+              s"/${self.props.wrapped.proposal.country}/proposal/${self.props.wrapped.proposal.id.value}/${self.props.wrapped.proposal.slug}"
 
             <.article(^.className := ProposalTileStyles.wrapper)(
               <.div(^.className := overlayClass)(),
