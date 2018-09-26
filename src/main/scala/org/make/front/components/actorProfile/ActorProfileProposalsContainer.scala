@@ -30,6 +30,7 @@ import org.make.front.components.DataLoader.DataLoaderProps
 import org.make.front.components.actorProfile.ActorProfileProposals.ActorProfileProposalsProps
 import org.make.front.components.{AppState, DataLoader}
 import org.make.front.models.{Organisation, Proposal}
+import org.make.services.operation.OperationService
 import org.make.services.organisation.OrganisationService
 
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -46,8 +47,23 @@ object ActorProfileProposalsContainer {
     : Dispatch => (AppState, Props[ActorProposalsContainerProps]) => DataLoaderProps[js.Array[Proposal]] =
     (_: Dispatch) => { (_: AppState, props: Props[ActorProposalsContainerProps]) =>
       def getActorProposals: () => Future[Option[js.Array[Proposal]]] = () => {
-        OrganisationService.getOrganisationProposals(props.wrapped.actor.organisationId.value).map { searchResult =>
-          Some(searchResult.results)
+        OrganisationService.getOrganisationProposals(props.wrapped.actor.organisationId.value).flatMap {
+          proposalsSearchResult =>
+            OperationService
+              .listOperations()
+              .map(
+                operations =>
+                  Option(
+                    proposalsSearchResult.results.filter(
+                      proposal =>
+                        proposal.themeId.isDefined ||
+                          proposal.operationId.exists(opId => operations.map(_.operationId.value).contains(opId.value))
+                    )
+                )
+              )
+              .recover {
+                case _ => Some(proposalsSearchResult.results)
+              }
         }
       }
 

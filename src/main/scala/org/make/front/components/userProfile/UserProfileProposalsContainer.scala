@@ -26,10 +26,13 @@ import io.github.shogowada.scalajs.reactjs.redux.ReactRedux
 import io.github.shogowada.scalajs.reactjs.redux.Redux.Dispatch
 import org.make.front.components.AppState
 import org.make.front.components.userProfile.UserProfileProposals.UserProfileProposalsProps
-import org.make.front.models.User
+import org.make.front.models.{Proposal, User}
+import org.make.services.operation.OperationService
 import org.make.services.user.UserService
 
 import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.Future
+import scala.scalajs.js
 
 object UserProfileProposalsContainer {
 
@@ -40,7 +43,25 @@ object UserProfileProposalsContainer {
   def selectorFactory
     : Dispatch => (AppState, Props[UserProposalsContainerProps]) => UserProfileProposals.UserProfileProposalsProps =
     (_: Dispatch) => { (_: AppState, props: Props[UserProposalsContainerProps]) =>
-      def getProposals = UserService.getUserProposals(props.wrapped.userId).map(_.results)
+      def getProposals: Future[js.Array[Proposal]] = {
+
+        UserService
+          .getUserProposals(props.wrapped.userId)
+          .flatMap { proposalsSearchResult =>
+            OperationService
+              .listOperations()
+              .map { operations =>
+                proposalsSearchResult.results.filter(
+                  proposal =>
+                    proposal.themeId.isDefined ||
+                      proposal.operationId.exists(opId => operations.map(_.operationId.value).contains(opId.value))
+                )
+              }
+              .recover {
+                case _ => proposalsSearchResult.results
+              }
+          }
+      }
 
       UserProfileProposalsProps(user = props.wrapped.user, getProposals = getProposals)
     }
