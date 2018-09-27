@@ -28,7 +28,7 @@ import io.github.shogowada.scalajs.reactjs.router.RouterProps._
 import org.make.front.actions.SetCountry
 import org.make.front.components.AppState
 import org.make.front.components.operation.sequence.SequenceLoader.SequenceLoaderProps
-import org.make.front.helpers.QueryString
+import org.make.front.helpers.{Normalizer, QueryString}
 import org.make.front.models.{
   Operation,
   ProposalId,
@@ -53,7 +53,7 @@ object SequenceOfTheOperationContainer {
   def selectorFactory: (Dispatch) => (AppState, Props[Unit]) => SequenceLoaderProps =
     (dispatch: Dispatch) => { (state: AppState, props: Props[Unit]) =>
       {
-        val operationSlug: String = props.`match`.params("operationSlug")
+        val operationSlug: String = Normalizer.normalizeSlug(props.`match`.params("operationSlug"))
         // toDo remove default "FR" when backward compatibility not anymore required
         val countryCode: String = props.`match`.params.get("country").getOrElse("FR").toUpperCase
         val countryChanged = state.country != countryCode

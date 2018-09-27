@@ -30,6 +30,7 @@ import org.make.front.actions.SetCountry
 import org.make.front.components.DataLoader.DataLoaderProps
 import org.make.front.components.operation.{Operation, WaitingForOperation}
 import org.make.front.components.{AppState, DataLoader}
+import org.make.front.helpers.Normalizer
 import org.make.front.models.{
   ConsultationVersion,
   OperationExpanded,
@@ -52,7 +53,7 @@ object ConsultationContainer {
   def selectorFactory: Dispatch => (AppState, Props[Unit]) => DataLoaderProps[OperationExpanded] =
     (dispatch: Dispatch) => { (appState: AppState, props: Props[Unit]) =>
       {
-        val slug = props.`match`.params("operationSlug")
+        val slug = Normalizer.normalizeSlug(props.`match`.params("operationSlug"))
 
         val tabs: Seq[String] = Seq("consultation", "actions")
 
