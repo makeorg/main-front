@@ -43,7 +43,6 @@ object Layout {
           <.div(^.className := js.Array(LayoutStyles.wrapper, TableLayoutStyles.fullHeightWrapper))(if (fixedHeader) {
             <.div(^.className := TableLayoutStyles.row)(
               <.div(^.className := js.Array(TableLayoutStyles.cell, LayoutStyles.mainHeaderWrapper))(
-                <.div(^.className := RWDHideRulesStyles.invisible)(<.CookieAlertContainerComponent.empty),
                 <.div(^.className := LayoutStyles.fixedMainHeaderWrapper)(
                   <.CookieAlertContainerComponent.empty,
                   <.MainHeaderContainer.empty
@@ -52,7 +51,6 @@ object Layout {
             )
           } else {
             <.div()(
-              <.div(^.className := RWDHideRulesStyles.invisible)(<.CookieAlertContainerComponent.empty),
               <.div(^.className := LayoutStyles.headerWrapper)(
                 <.CookieAlertContainerComponent.empty,
                 <.MainHeaderContainer.empty
