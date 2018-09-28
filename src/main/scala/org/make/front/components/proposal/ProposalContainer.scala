@@ -30,6 +30,7 @@ import org.make.front.components.AppState
 import org.make.front.facades.I18n
 import org.make.front.models.{
   Operation,
+  ProposalId,
   Tag,
   OperationExpanded => OperationModel,
   Proposal          => ProposalModel,
@@ -52,21 +53,38 @@ object ProposalContainer {
 
   lazy val reactClass: ReactClass = ReactRedux.connectAdvanced(selectorFactory)(Proposal.reactClass)
 
-  def selectorFactory: (Dispatch) => (AppState, Props[Unit]) => Proposal.ProposalProps =
+  def selectorFactory: Dispatch => (AppState, Props[Unit]) => Proposal.ProposalProps =
     (dispatch: Dispatch) => { (state: AppState, props: Props[Unit]) =>
       {
 
         val futureProposal: Future[ProposalAndThemeOrOperationModel] = {
 
           val proposalSlug = props.`match`.params("proposalSlug")
+          val proposalId: Option[String] = props.`match`.params.get("proposalId")
 
-          val futureSearchResult: Future[SearchResult] =
-            ProposalService.searchProposals(
-              slug = Some(proposalSlug),
-              limit = Some(1),
-              language = Some(state.language),
-              country = Some(state.country)
-            )
+          val futureProposalResult: Future[Option[ProposalModel]] = {
+            val futureSearchResults = proposalId match {
+              case Some(id) => ProposalService.searchProposals(proposalIds = Some(js.Array(ProposalId(id))))
+              case None     =>
+                //TODO: remove once the route with slug only has been deprecated
+                ProposalService
+                  .searchProposals(
+                    slug = Some(proposalSlug),
+                    limit = Some(1),
+                    language = Some(state.language),
+                    country = Some(state.country)
+                  )
+            }
+            futureSearchResults.map { searchResult =>
+              val proposal = searchResult.results.headOption
+              if (searchResult.total > 0 && proposal.exists(_.slug == proposalSlug)) {
+                proposal
+              } else {
+                None
+              }
+            }
+
+          }
 
           def getProposalAndThemeOrOperationModelFromProposal(
             proposal: ProposalModel
@@ -102,10 +120,9 @@ object ProposalContainer {
           }
 
           val futureProposalAndThemeOrOperationModel: Future[ProposalAndThemeOrOperationModel] =
-            futureSearchResult.flatMap {
-              case searchResult if searchResult.total > 0 =>
-                getProposalAndThemeOrOperationModelFromProposal(searchResult.results.head)
-              case _ => Future.successful(ProposalAndThemeOrOperationModel())
+            futureProposalResult.flatMap {
+              case Some(proposal) => getProposalAndThemeOrOperationModelFromProposal(proposal)
+              case _              => Future.successful(ProposalAndThemeOrOperationModel())
             }
 
           futureProposalAndThemeOrOperationModel.onComplete {

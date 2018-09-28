@@ -33,7 +33,6 @@ import org.make.front.components.home.HomeContainer
 import org.make.front.components.maintenance.Maintenance
 import org.make.front.components.operation.sequence.SequenceOfTheOperationContainer
 import org.make.front.components.proposal.ProposalContainer
-import org.make.front.components.search.{HomeSearchResultsContainer, SearchResultsContainer}
 import org.make.front.components.theme.MaybeThemeContainer
 import org.make.front.components.userProfile.UserProfileContainer
 import org.make.front.helpers.DetectedCountry.getDetectedCountry
@@ -58,7 +57,7 @@ object Container {
           })(),
           <.Route(^.exact := true, ^.path := "/404", ^.component := ErrorContainer.reactClass)(),
           <.Route(^.exact := true, ^.path := "/maintenance", ^.component := Maintenance.reactClass)(),
-          // @deprecated
+          // @deprecated => Warning: /consultation/:operationSlug/selection is used by front-proxy (offline URL)
           js.Array(
               "/proposal/:proposalSlug",
               "/profile",
@@ -90,9 +89,15 @@ object Container {
             ^.path := "/:country/theme/:themeSlug/proposal/:proposalSlug",
             ^.component := CountryDetector(ProposalContainer.reactClass)
           )(),
+          //@Deprecated
           <.Route(
             ^.exact := true,
             ^.path := "/:country/proposal/:proposalSlug",
+            ^.component := CountryDetector(ProposalContainer.reactClass)
+          )(),
+          <.Route(
+            ^.exact := true,
+            ^.path := "/:country/proposal/:proposalId/:proposalSlug",
             ^.component := CountryDetector(ProposalContainer.reactClass)
           )(),
           <.Route(

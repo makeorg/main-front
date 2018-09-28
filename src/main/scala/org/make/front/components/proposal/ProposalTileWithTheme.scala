@@ -96,7 +96,8 @@ object ProposalTileWithTheme {
                 self.props.wrapped.maybeOperation match {
                   case Some(operationExpanded) =>
                     s"/${self.props.wrapped.country}/consultation/${operationExpanded.slug}/proposal/${self.props.wrapped.proposal.slug}"
-                  case _ => s"/${self.props.wrapped.country}/proposal/${self.props.wrapped.proposal.slug}"
+                  case _ =>
+                    s"/${self.props.wrapped.country}/proposal/${self.props.wrapped.proposal.id.value}/${self.props.wrapped.proposal.slug}"
                 }
 
               }

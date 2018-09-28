@@ -37,10 +37,6 @@ object ProposalService extends ApiService {
 
   val defaultResultsCount = 20
 
-  def getProposalById(proposalId: ProposalId): Future[Proposal] = {
-    MakeApiClient.get[ProposalResponse](resourceName / proposalId.value).map(Proposal.apply)
-  }
-
   def createProposal(content: String,
                      location: Location,
                      themeId: Option[String] = None,
