@@ -77,11 +77,6 @@ object TagsList {
         getInitialState = { _ =>
           TagsListComponentState(showMore = false)
         },
-        componentWillReceiveProps = { (self, nextProps) =>
-          self.setState(
-            TagsListComponentState(showMore = nextProps.wrapped.selectedTags.nonEmpty)
-          )
-        },
         render = { self =>
           // slice tagList if not showing all elements
 
