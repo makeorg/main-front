@@ -30,7 +30,7 @@ import org.make.front.actions.{NotifyError, NotifySuccess}
 import org.make.front.components.AppState
 import org.make.front.components.activateAccount.ActivateAccount.ActivateAccountProps
 import org.make.front.facades.I18n
-import org.make.front.models.OperationId
+import org.make.front.models.{OperationId, OperationStaticData}
 import org.make.services.operation.OperationService
 import org.make.services.user.UserService
 
@@ -81,7 +81,10 @@ object ActivateAccountContainer {
           case Some(value) =>
             OperationService.getOperationById(value).onComplete {
               case Success(operation) =>
-                history.push(s"/$country/consultation/${operation.slug}")
+                OperationStaticData.findBySlugAndCountry(operation.slug, country) match {
+                  case Some(_) => history.push(s"/$country/consultation/${operation.slug}")
+                  case _       => history.push(s"/$country")
+                }
                 dispatch(notifyAction)
               case Failure(_) =>
                 history.push(s"/$country")
