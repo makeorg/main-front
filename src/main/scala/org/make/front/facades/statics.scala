@@ -829,6 +829,31 @@ object accescultureAvatar extends js.Object
 object cinemadifferenceAvatar extends js.Object
 
 /** Operation Aines **/
+
+@js.native
+@JSImport("./images/operations/aines/aines-400x500.jpg", "default")
+object ainesSmall extends js.Object
+
+@js.native
+@JSImport("./images/operations/aines/aines-400x500@2x.jpg", "default")
+object ainesSmall2x extends js.Object
+
+@js.native
+@JSImport("./images/operations/aines/aines-840x500.jpg", "default")
+object ainesMedium extends js.Object
+
+@js.native
+@JSImport("./images/operations/aines/aines-840x500@2x.jpg", "default")
+object ainesMedium2x extends js.Object
+
+@js.native
+@JSImport("./images/operations/aines/aines-1350x500.jpg", "default")
+object ainesLarge extends js.Object
+
+@js.native
+@JSImport("./images/operations/aines/aines-1350x500@2x.jpg", "default")
+object ainesLarge2x extends js.Object
+
 @js.native
 @JSImport("./images/operations/aines/aines-ill-1440x530.jpg", "default")
 object ainesIll extends js.Object

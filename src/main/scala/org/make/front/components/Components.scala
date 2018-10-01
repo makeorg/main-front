@@ -296,6 +296,7 @@ object Components {
     def MVEFeaturedOperationComponent: ReactClassElementSpec = self(home.MVEFeaturedOperation.reactClass)
     def CAJFeaturedOperationComponent: ReactClassElementSpec = self(home.CAJFeaturedOperation.reactClass)
     def CultureFeaturedOperationComponent: ReactClassElementSpec = self(home.CultureFeaturedOperation.reactClass)
+    def AinesFeaturedOperationComponent: ReactClassElementSpec = self(home.AinesFeaturedOperation.reactClass)
     def ExplanationsComponent: ReactClassElementSpec = self(home.Explanations.reactClass)
 
   }
