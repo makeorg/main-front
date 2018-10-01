@@ -73,7 +73,12 @@ object AinesOperationIntro {
           val partners =
             js.Array(
               OperationPartnerModel(name = "Klesia", imageUrl = klesia.toString, imageWidth = 60, isFounder = true),
-              OperationPartnerModel(name = "Korian", imageUrl = korian.toString, imageWidth = 60, isFounder = true),
+              OperationPartnerModel(
+                name = "Fondation Korian pour le Bien-vieillir",
+                imageUrl = korian.toString,
+                imageWidth = 60,
+                isFounder = true
+              ),
               OperationPartnerModel(name = "La Poste", imageUrl = laposte.toString, imageWidth = 60, isFounder = true),
               OperationPartnerModel(name = "OCIRP", imageUrl = ocirp.toString, imageWidth = 60, isFounder = true),
               OperationPartnerModel(name = "CAREIT", imageUrl = careit.toString, imageWidth = 60, isFounder = true),
@@ -85,7 +90,7 @@ object AinesOperationIntro {
               ),
               OperationPartnerModel(name = "Siel Bleu", imageUrl = siel.toString, imageWidth = 60, isFounder = false),
               OperationPartnerModel(
-                name = "fondation de l'armée du salut",
+                name = "Fondation de l'Armée du Salut",
                 imageUrl = armeeDuSalut.toString,
                 imageWidth = 60,
                 isFounder = false
