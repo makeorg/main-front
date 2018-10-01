@@ -87,6 +87,15 @@
           "label": "Participer à la consultation",
           "link": "/?utm_source=core&utm_medium=push-hp&utm_campaign=cpt#/FR/consultation/culture/consultation"
         }
+      },
+      "aines": {
+        "title":  "Comment mieux prendre soin de nos aînés ?",
+        "label": "Grande cause Make.org",
+        "purpose": "Votez et proposez des solutions pour mieux prendre soin de nos aînés.",
+        "learn-more": {
+          "label": "Participer à la consultation",
+          "link": "/?utm_source=core&utm_medium=push-hp&utm_campaign=aines#/FR/consultation/aines/consultation"
+        }
       }
     },
     "explanations": {

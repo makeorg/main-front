@@ -25,8 +25,7 @@ import io.github.shogowada.scalajs.reactjs.VirtualDOM.{<, _}
 import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import org.make.front.Main.CssSettings._
 import org.make.front.components.Components.{RichVirtualDOMElements, _}
-import org.make.front.components.home.CultureFeaturedOperation.CultureFeaturedOperationProps
-import org.make.front.components.showcase.ThemeShowcaseContainer.ThemeShowcaseContainerProps
+import org.make.front.components.home.AinesFeaturedOperation.AinesFeaturedOperationProps
 import org.make.front.components.showcase.TrendingShowcaseContainer.TrendingShowcaseContainerProps
 import org.make.front.facades.I18n
 import org.make.front.facades.Unescape.unescape
@@ -60,8 +59,8 @@ object Home {
             ),
             <.h1(^.style := Map("display" -> "none"))("Make.org"),
             if (self.props.wrapped.countryCode == "FR") {
-              <.CultureFeaturedOperationComponent(
-                ^.wrapped := CultureFeaturedOperationProps(trackingLocation = TrackingLocation.homepage)
+              <.AinesFeaturedOperationComponent(
+                ^.wrapped := AinesFeaturedOperationProps(trackingLocation = TrackingLocation.homepage)
               )()
             } else {
               <.WelcomeComponent.empty
