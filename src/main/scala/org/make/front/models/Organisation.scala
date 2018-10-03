@@ -30,7 +30,7 @@ trait OrganisationResponse extends js.Object {
   val slug: js.UndefOr[String]
   val avatarUrl: js.UndefOr[String]
   val description: js.UndefOr[String]
-  val canBeFollowed: Boolean
+  val publicProfile: Boolean
   val proposalsCount: js.UndefOr[Int]
   val votesCount: js.UndefOr[Int]
   val country: String
@@ -58,7 +58,7 @@ case class Organisation(organisationId: UserId,
                         slug: Option[String],
                         avatarUrl: Option[String],
                         description: Option[String],
-                        canBeFollowed: Boolean,
+                        publicProfile: Boolean,
                         proposalsCount: Option[Int],
                         votesCount: Option[Int],
                         language: String,
@@ -71,7 +71,7 @@ object Organisation {
       slug = undefToOption(organisationResponse.slug),
       avatarUrl = undefToOption(organisationResponse.avatarUrl),
       description = undefToOption(organisationResponse.description),
-      canBeFollowed = organisationResponse.canBeFollowed,
+      publicProfile = organisationResponse.publicProfile,
       proposalsCount = undefToOption(organisationResponse.proposalsCount),
       votesCount = undefToOption(organisationResponse.votesCount),
       language = organisationResponse.language,

@@ -117,6 +117,8 @@ object Components {
       self(actorProfile.ActorProfileInformations.reactClass)
     def ActorProfileProposalsContainerComponent: ReactClassElementSpec =
       self(actorProfile.ActorProfileProposalsContainer.reactClass)
+    def ActorProfileContributionsContainerComponent: ReactClassElementSpec =
+      self(actorProfile.ActorProfileContributionsContainer.reactClass)
     def ActorTabNavComponent: ReactClassElementSpec = self(actorProfile.navActorProfile.ActorTabNav.reactClass)
     def ActorButtonNavComponent: ReactClassElementSpec =
       self(actorProfile.navActorProfile.ActorButtonNav.reactClass)
@@ -186,6 +188,8 @@ object Components {
     def ProposalTileWithTagsComponent: ReactClassElementSpec = self(proposal.ProposalTileWithTags.reactClass)
     def ProposalTileWithOrganisationsVotesComponent: ReactClassElementSpec =
       self(proposal.ProposalTileWithOrganisationsVotes.reactClass)
+    def ProposalTileWithActorPositionComponent: ReactClassElementSpec =
+      self(proposal.ProposalTileWithActorPosition.reactClass)
     def ProposalTileWithVideoComponent: ReactClassElementSpec = self(proposal.ProposalTileWithVideo.reactClass)
     def FakeProposalTileComponent: ReactClassElementSpec = self(proposal.FakeProposalTile.reactClass)
     def ProposalActorVotedComponent: ReactClassElementSpec = self(proposal.ProposalActorVoted.reactClass)

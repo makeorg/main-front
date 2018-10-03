@@ -38,7 +38,7 @@ object ActorProfileContainer {
   lazy val reactClass: ReactClass = WithRouter(ReactRedux.connectAdvanced(selectorFactory)(DataLoader.reactClass))
 
   def selectorFactory: (Dispatch) => (AppState, Props[Unit]) => DataLoaderProps[OrganisationModel] =
-    (_: Dispatch) => { (_: AppState, props: Props[Unit]) =>
+    (_: Dispatch) => { (state: AppState, props: Props[Unit]) =>
       val actorSlug = props.`match`.params("organisationSlug")
 
       def futureActor: () => Future[Option[OrganisationModel]] = () => {
@@ -55,7 +55,7 @@ object ActorProfileContainer {
         componentDisplayedMeanwhileReactClass = WaitingForActorProfile.reactClass,
         componentReactClass = ActorProfile.reactClass,
         componentProps = { actor =>
-          ActorProfileProps(actor = actor)
+          ActorProfileProps(actor = actor, country = state.country)
         },
         onNotFound = () => {
           props.history.push("/404")

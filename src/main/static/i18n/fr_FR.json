@@ -319,6 +319,12 @@
     "proposal": {
       "title": "Les dernières propositions de %{actor-name} :",
       "empty": "n'a pas soumis de proposition sur Make.org"
+    },
+    "contributions": {
+      "title": "Les dernières prises de position de %{actor-name} :",
+      "empty": "n'a pas encore pris position sur Make.org",
+      "agree": "est d'accord avec cette proposition",
+      "disagree": "n'est pas d'accord avec cette proposition"
     }
   },
   "proposal": {

@@ -188,7 +188,7 @@ object SearchResults {
 
           val proposalsToDisplay: js.Array[Proposal] = self.state.listProposals
 
-          <.section(^.className := SearchResultsStyles.wrapper)(
+          <.section()(
             <.div(
               ^.className := js
                 .Array(TableLayoutStyles.fullHeightWrapper, SearchResultsStyles.background(proposalsToDisplay.nonEmpty))
@@ -245,9 +245,6 @@ object SearchResults {
 object SearchResultsStyles extends StyleSheet.Inline {
 
   import dsl._
-
-  val wrapper: StyleA =
-    style(display.inherit)
 
   val background: (Boolean) => StyleA = styleF.bool(
     hasResults =>

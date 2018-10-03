@@ -50,6 +50,38 @@ object SearchResult {
 }
 
 @js.native
+trait ProposalResultWithUserVoteResponse extends js.Object {
+  val proposal: ProposalResponse
+  val vote: String
+}
+
+case class ProposalResultWithUserVote(proposal: Proposal, vote: String)
+
+object ProposalResultWithUserVote {
+  def apply(response: ProposalResultWithUserVoteResponse): ProposalResultWithUserVote = {
+    ProposalResultWithUserVote(proposal = Proposal(response.proposal), vote = response.vote)
+  }
+}
+
+@js.native
+trait ProposalsResultWithUserVoteSeededResponse extends js.Object {
+  val total: Int
+  val results: js.Array[ProposalResultWithUserVoteResponse]
+  val seed: js.UndefOr[Int]
+}
+
+case class ProposalsResultWithUserVoteSeeded(total: Int, results: Seq[ProposalResultWithUserVote], seed: Option[Int])
+
+object ProposalsResultWithUserVoteSeeded {
+  def apply(response: ProposalsResultWithUserVoteSeededResponse): ProposalsResultWithUserVoteSeeded = {
+    ProposalsResultWithUserVoteSeeded(
+      total = response.total,
+      results = response.results.map(ProposalResultWithUserVote.apply),
+      seed = undefToOption(response.seed)
+    )
+  }
+}
+@js.native
 trait ProposalResponse extends js.Object {
   val id: String
   val userId: String
