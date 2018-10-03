@@ -19,28 +19,71 @@
  */
 
 package org.make.front.components.userProfile
+
 import io.github.shogowada.scalajs.reactjs.React.Props
 import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import io.github.shogowada.scalajs.reactjs.redux.ReactRedux
 import io.github.shogowada.scalajs.reactjs.redux.Redux.Dispatch
-import org.make.front.components.AppState
+import io.github.shogowada.scalajs.reactjs.router.RouterProps._
+import io.github.shogowada.scalajs.reactjs.router.WithRouter
+import org.make.front.components.DataLoader.DataLoaderProps
 import org.make.front.components.userProfile.UserLikeItProposals.UserLikeItProposalsProps
+import org.make.front.components.{AppState, DataLoader}
+import org.make.front.models.{Proposal, User => UserModel}
+import org.make.services.operation.OperationService
 import org.make.services.user.UserService
 
 import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.Future
+import scala.scalajs.js
 
 object UserLikeItProposalsContainer {
 
-  final case class UserLikeItProposalsContainerProps(userId: String)
-
-  lazy val reactClass: ReactClass = ReactRedux.connectAdvanced(selectorFactory)(UserLikeItProposals.reactClass)
+  final case class UserLikeItProposalsContainerProps(user: UserModel)
+  lazy val reactClass: ReactClass = WithRouter(ReactRedux.connectAdvanced(selectorFactory)(DataLoader.reactClass))
 
   def selectorFactory
-    : Dispatch => (AppState, Props[UserLikeItProposalsContainerProps]) => UserLikeItProposals.UserLikeItProposalsProps =
-    (_: Dispatch) => { (_: AppState, props: Props[UserLikeItProposalsContainerProps]) =>
-      def getLikeItProposals = UserService.getUserLikeItProposals(props.wrapped.userId).map(_.results)
+    : Dispatch => (AppState, Props[UserLikeItProposalsContainerProps]) => DataLoaderProps[js.Array[Proposal]] =
+    (_: Dispatch) => { (state: AppState, props: Props[UserLikeItProposalsContainerProps]) =>
+      def getLikeItProposals: () => Future[Option[js.Array[Proposal]]] = () => {
 
-      UserLikeItProposalsProps(getLikeItProposals = getLikeItProposals)
+        UserService
+          .getUserLikeItProposals(props.wrapped.user.userId.value)
+          .flatMap { proposalsSearchResult =>
+            OperationService
+              .listOperations()
+              .map { operations =>
+                Option(
+                  proposalsSearchResult.results.filter(
+                    proposal =>
+                      proposal.themeId.isDefined ||
+                        proposal.operationId.exists(opId => operations.map(_.operationId.value).contains(opId.value))
+                  )
+                )
+              }
+              .recover {
+                case _ => Some(proposalsSearchResult.results)
+              }
+          }
+      }
+
+      val shouldUserLikeitProposalsUpdate: Option[js.Array[Proposal]] => Boolean = { userProposals =>
+        userProposals.forall(_.exists(_.userId.value == props.wrapped.user.userId.value))
+      }
+
+      DataLoaderProps[js.Array[Proposal]](
+        future = getLikeItProposals,
+        shouldComponentUpdate = shouldUserLikeitProposalsUpdate,
+        componentDisplayedMeanwhileReactClass = WaitingForUserLikeItProposals.reactClass,
+        componentReactClass = UserLikeItProposals.reactClass,
+        componentProps = { proposals =>
+          UserLikeItProposalsProps(proposals = proposals)
+        },
+        onNotFound = () => {
+          props.history.push("/404")
+        }
+      )
+
     }
 
 }

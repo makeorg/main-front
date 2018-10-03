@@ -24,9 +24,12 @@ import io.github.shogowada.scalajs.reactjs.React.Props
 import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import io.github.shogowada.scalajs.reactjs.redux.ReactRedux
 import io.github.shogowada.scalajs.reactjs.redux.Redux.Dispatch
-import org.make.front.components.AppState
+import io.github.shogowada.scalajs.reactjs.router.RouterProps._
+import io.github.shogowada.scalajs.reactjs.router.WithRouter
+import org.make.front.components.DataLoader.DataLoaderProps
 import org.make.front.components.userProfile.UserProfileProposals.UserProfileProposalsProps
-import org.make.front.models.{Proposal, User}
+import org.make.front.components.{AppState, DataLoader}
+import org.make.front.models.{Proposal, User => UserModel}
 import org.make.services.operation.OperationService
 import org.make.services.user.UserService
 
@@ -36,34 +39,51 @@ import scala.scalajs.js
 
 object UserProfileProposalsContainer {
 
-  final case class UserProposalsContainerProps(user: User, userId: String)
-
-  lazy val reactClass: ReactClass = ReactRedux.connectAdvanced(selectorFactory)(UserProfileProposals.reactClass)
+  final case class UserProfileProposalsContainerProps(user: UserModel)
+  lazy val reactClass: ReactClass = WithRouter(ReactRedux.connectAdvanced(selectorFactory)(DataLoader.reactClass))
 
   def selectorFactory
-    : Dispatch => (AppState, Props[UserProposalsContainerProps]) => UserProfileProposals.UserProfileProposalsProps =
-    (_: Dispatch) => { (_: AppState, props: Props[UserProposalsContainerProps]) =>
-      def getProposals: Future[js.Array[Proposal]] = {
+    : Dispatch => (AppState, Props[UserProfileProposalsContainerProps]) => DataLoaderProps[js.Array[Proposal]] =
+    (_: Dispatch) => { (state: AppState, props: Props[UserProfileProposalsContainerProps]) =>
+      def getProposals: () => Future[Option[js.Array[Proposal]]] = () => {
 
         UserService
-          .getUserProposals(props.wrapped.userId)
+          .getUserProposals(props.wrapped.user.userId.value)
           .flatMap { proposalsSearchResult =>
             OperationService
               .listOperations()
               .map { operations =>
-                proposalsSearchResult.results.filter(
-                  proposal =>
-                    proposal.themeId.isDefined ||
-                      proposal.operationId.exists(opId => operations.map(_.operationId.value).contains(opId.value))
+                Option(
+                  proposalsSearchResult.results.filter(
+                    proposal =>
+                      proposal.themeId.isDefined ||
+                        proposal.operationId.exists(opId => operations.map(_.operationId.value).contains(opId.value))
+                  )
                 )
               }
               .recover {
-                case _ => proposalsSearchResult.results
+                case _ => Some(proposalsSearchResult.results)
               }
           }
       }
 
-      UserProfileProposalsProps(user = props.wrapped.user, getProposals = getProposals)
+      val shouldUSerProposalsUpdate: Option[js.Array[Proposal]] => Boolean = { userProposals =>
+        userProposals.forall(_.exists(_.userId.value == props.wrapped.user.userId.value))
+      }
+
+      DataLoaderProps[js.Array[Proposal]](
+        future = getProposals,
+        shouldComponentUpdate = shouldUSerProposalsUpdate,
+        componentDisplayedMeanwhileReactClass = WaitingForUserProfileProposals.reactClass,
+        componentReactClass = UserProfileProposals.reactClass,
+        componentProps = { proposals =>
+          UserProfileProposalsProps(user = props.wrapped.user, proposals = proposals)
+        },
+        onNotFound = () => {
+          props.history.push("/404")
+        }
+      )
+
     }
 
 }

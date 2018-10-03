@@ -61,20 +61,25 @@ object ActorProfileInformations {
           val descriptionLength = actor.description.map(_.length).getOrElse(-1)
 
           <.div(^.className := ActorProfileInformationsStyles.wrapper)(
-            <.div(^.className := ActorProfileInformationsStyles.avatarWrapper)(if (actor.avatarUrl.nonEmpty) {
-              <.img(
-                ^.src := actor.avatarUrl.get,
-                ^.className := ActorProfileInformationsStyles.avatar,
-                ^.alt := actor.organisationName.getOrElse(""),
-                ^("data-pin-no-hover") := "true"
-              )()
-            } else {
-              <.i(^.className := js.Array(ActorProfileInformationsStyles.avatarPlaceholder, FontAwesomeStyles.user))()
-            }),
-            <.div(^.className := ActorProfileInformationsStyles.personnalInformations)(
-              <.h1(^.className := ActorProfileInformationsStyles.actorName)(actor.organisationName.map { name =>
-                name
-              }.toSeq)
+            <.div(^.className := ActorProfileInformationsStyles.headerInfosWrapper)(
+              <.div(^.className := ActorProfileInformationsStyles.avatarWrapper)(if (actor.avatarUrl.nonEmpty) {
+                actor.avatarUrl.map(
+                  avatarUrl =>
+                    <.img(
+                      ^.src := avatarUrl,
+                      ^.className := ActorProfileInformationsStyles.avatar,
+                      ^.alt := actor.organisationName.getOrElse(""),
+                      ^("data-pin-no-hover") := "true"
+                    )()
+                )
+              } else {
+                <.i(^.className := js.Array(ActorProfileInformationsStyles.avatarPlaceholder, FontAwesomeStyles.user))()
+              }),
+              <.div(^.className := ActorProfileInformationsStyles.personnalInformations)(
+                <.h1(^.className := ActorProfileInformationsStyles.actorName)(actor.organisationName.map { name =>
+                  name
+                }.toSeq)
+              )
             ),
             if (descriptionLength >= 150) {
               <.ActorDescriptionComponent(^.wrapped := ActorDescriptionProps(actor = self.props.wrapped.actor))()
