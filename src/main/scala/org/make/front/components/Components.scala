@@ -184,7 +184,6 @@ object Components {
     def ProposalTileComponent: ReactClassElementSpec = self(proposal.ProposalTile.reactClass)
     def ProposalTileWithThemeContainerComponent: ReactClassElementSpec =
       self(proposal.ProposalTileWithThemeContainer.reactClass)
-    def ProposalTileWithThemeComponent: ReactClassElementSpec = self(proposal.ProposalTileWithTheme.reactClass)
     def ProposalTileWithTagsComponent: ReactClassElementSpec = self(proposal.ProposalTileWithTags.reactClass)
     def ProposalTileWithOrganisationsVotesComponent: ReactClassElementSpec =
       self(proposal.ProposalTileWithOrganisationsVotes.reactClass)
@@ -203,7 +202,6 @@ object Components {
       self(showcase.PromptingToProposeInRelationToThemeTile.reactClass)
     def PromptingToProposeInRelationToOperationTileComponent: ReactClassElementSpec =
       self(showcase.PromptingToProposeInRelationToOperationTile.reactClass)
-    def LabelShowcaseContainerComponent: ReactClassElementSpec = self(showcase.LabelShowcaseContainer.reactClass)
 
     def FeaturedArticlesShowcaseContainerComponent: ReactClassElementSpec =
       self(showcase.FeaturedArticlesShowcaseContainer.reactClass)

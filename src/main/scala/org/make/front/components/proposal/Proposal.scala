@@ -160,7 +160,7 @@ object Proposal {
                                 self.state.maybeTheme.map { theme =>
                                   <.div(^.className := ProposalStyles.themeInfoWrapper)(
                                     <.p(^.className := js.Array(TextStyles.mediumText, ProposalStyles.themeInfo))(
-                                      unescape(I18n.t("proposal.associated-with-the-theme")),
+                                      unescape(I18n.t("proposal.posted-in")),
                                       <.Link(
                                         ^.to := s"/${self.props.wrapped.country}/theme/${theme.slug}",
                                         ^.className := js.Array(TextStyles.title, ProposalStyles.themeName)

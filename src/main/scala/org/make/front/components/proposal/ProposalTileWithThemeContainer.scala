@@ -25,6 +25,7 @@ import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import io.github.shogowada.scalajs.reactjs.redux.ReactRedux
 import io.github.shogowada.scalajs.reactjs.redux.Redux.Dispatch
 import org.make.front.components.AppState
+import org.make.front.components.proposal.ProposalTile.PostedIn
 import org.make.front.models.{
   SequenceId,
   Location          => LocationModel,
@@ -44,11 +45,10 @@ object ProposalTileWithThemeContainer {
                                                        maybeLocation: Option[LocationModel],
                                                        trackingLocation: TrackingLocation)
 
-  lazy val reactClass: ReactClass = ReactRedux.connectAdvanced(selectorFactory)(ProposalTileWithTheme.reactClass)
+  lazy val reactClass: ReactClass = ReactRedux.connectAdvanced(selectorFactory)(ProposalTile.reactClass)
 
   def selectorFactory
-    : (Dispatch) => (AppState,
-                     Props[ProposalTileWithThemeContainerProps]) => ProposalTileWithTheme.ProposalTileWithThemeProps =
+    : (Dispatch) => (AppState, Props[ProposalTileWithThemeContainerProps]) => ProposalTile.ProposalTileProps =
     (_: Dispatch) => { (appState: AppState, props: Props[ProposalTileWithThemeContainerProps]) =>
       def searchThemeById(themeId: ThemeIdModel): Option[TranslatedThemeModel] = {
         appState.themes.find(_.id.value == themeId.value)
@@ -61,17 +61,21 @@ object ProposalTileWithThemeContainer {
 
       val themeSlug: Option[String] = theme.map(_.slug)
 
-      ProposalTileWithTheme.ProposalTileWithThemeProps(
+      ProposalTile.ProposalTileProps(
         proposal = props.wrapped.proposal,
-        themeName = themeName.getOrElse(""),
-        themeSlug = themeSlug.getOrElse(""),
         index = props.wrapped.index,
         maybeTheme = theme,
         maybeOperation = props.wrapped.maybeOperation,
         maybeSequenceId = props.wrapped.maybeSequenceId,
         maybeLocation = props.wrapped.maybeLocation,
         trackingLocation = props.wrapped.trackingLocation,
-        country = appState.country
+        country = appState.country,
+        maybePostedIn = Some(
+          PostedIn(
+            name = themeName.getOrElse(""),
+            link = s"/${props.wrapped.proposal.country}/theme/${themeSlug.getOrElse("")}"
+          )
+        )
       )
     }
 }

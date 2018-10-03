@@ -25,14 +25,13 @@ import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import io.github.shogowada.scalajs.reactjs.redux.ReactRedux
 import io.github.shogowada.scalajs.reactjs.redux.Redux.Dispatch
 import org.make.front.components.AppState
-import org.make.front.models.{QuestionId, Location => LocationModel}
+import org.make.front.models.{Operation, Location => LocationModel}
 import org.make.services.operation.OperationService
 import org.make.services.proposal.{ProposalService, SearchResult}
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 import scala.scalajs.js
-import scala.util.{Failure, Success}
 
 object TrendingShowcaseContainer {
 
@@ -71,8 +70,12 @@ object TrendingShowcaseContainer {
             }
         }
       }
+
+      def operations: () => Future[js.Array[Operation]] = () => OperationService.listOperations()
+
       TrendingShowcase.TrendingShowcaseProps(
         proposals = results,
+        operations = operations,
         intro = props.wrapped.intro,
         title = props.wrapped.title,
         maybeLocation = props.wrapped.maybeLocation,

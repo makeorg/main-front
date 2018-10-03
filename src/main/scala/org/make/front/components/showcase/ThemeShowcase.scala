@@ -29,12 +29,12 @@ import io.github.shogowada.scalajs.reactjs.router.dom.RouterDOM.{RouterDOMVirtua
 import org.make.core.Counter
 import org.make.front.Main.CssSettings._
 import org.make.front.components.Components.{RichVirtualDOMElements, _}
-import org.make.front.components.proposal.ProposalTile.ProposalTileProps
+import org.make.front.components.proposal.ProposalTile.{PostedIn, ProposalTileProps}
 import org.make.front.components.showcase.PromptingToProposeInRelationToThemeTile.PromptingToProposeInRelationToThemeTileProps
 import org.make.front.facades.ReactSlick.{ReactTooltipVirtualDOMAttributes, ReactTooltipVirtualDOMElements}
 import org.make.front.facades.Unescape.unescape
 import org.make.front.facades.{HexToRgba, I18n, Replacements}
-import org.make.front.helpers.NumberFormat
+import org.make.front.helpers.{NumberFormat, RouteHelper}
 import org.make.front.models.{SequenceId, GradientColor => GradientColorModel, Location => LocationModel, OperationExpanded => OperationModel, Proposal => ProposalModel, TranslatedTheme => TranslatedThemeModel}
 import org.make.front.styles._
 import org.make.front.styles.base._
@@ -101,7 +101,14 @@ object ThemeShowcase {
                   maybeSequenceId = self.props.wrapped.maybeSequenceId,
                   maybeLocation = self.props.wrapped.maybeLocation,
                   trackingLocation = TrackingLocation.showcaseHomepage,
-                  country = self.props.wrapped.country
+                  country = self.props.wrapped.country,
+                  maybePostedIn = Some(
+                    PostedIn(
+                      name = self.props.wrapped.theme.title,
+                      link = RouteHelper.operationRoute(self.props.wrapped.country, self.props.wrapped.theme.slug)
+                    )
+                  )
+
                 )
             )()
 
