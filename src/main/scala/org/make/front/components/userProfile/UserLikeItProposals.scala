@@ -45,50 +45,61 @@ object UserLikeItProposals {
 
   lazy val reactClass: ReactClass = {
     React
-      .createClass[UserLikeItProposalsProps, Unit](displayName = "UserLikeItProposals", render = self => {
-        <("UserLikeItProposals")()(
-          <.section(^.className := UserLikeItProposalsStyles.wrapper)(
-            <.header(^.className := UserLikeItProposalsStyles.headerWrapper)(
-              <.h2(^.className := UserLikeItProposalsStyles.title)(I18n.t("user-profile.likeItproposal.title"))
-            ),
-            if (self.props.wrapped.proposals.isEmpty) {
-              <.div(^.className := UserLikeItProposalsStyles.emptyWrapper)(
-                <.i(^.className := js.Array(FontAwesomeStyles.heart, UserLikeItProposalsStyles.emptyIcon))(),
-                <.p(^.className := UserLikeItProposalsStyles.emptyDesc)(I18n.t("user-profile.likeItproposal.empty")),
-                <.p(^.className := UserLikeItProposalsStyles.emptyDescAlt)(
-                  I18n.t("user-profile.likeItproposal.explanation-first-part"),
-                  <.i(^.className := js.Array(FontAwesomeStyles.heart, UserLikeItProposalsStyles.emptyDescHeartIcon))(),
-                  I18n.t("user-profile.likeItproposal.explanation-second-part"),
-                ),
-                <.p(^.className := UserLikeItProposalsStyles.emptyDesc)(
-                  I18n.t("user-profile.likeItproposal.explanation-third-part"),
-                  unescape("&nbsp;"),
+      .createClass[UserLikeItProposalsProps, Unit](
+        displayName = "UserLikeItProposals",
+        render = self => {
+          <("UserLikeItProposals")()(
+            <.section(^.className := ProfileProposalListStyles.wrapper)(
+              <.header(^.className := ProfileProposalListStyles.headerWrapper)(
+                <.h2(^.className := ProfileProposalListStyles.title)(I18n.t("user-profile.likeItproposal.title"))
+              ),
+              if (self.props.wrapped.proposals.isEmpty) {
+                <.div(^.className := ProfileProposalListStyles.emptyWrapper)(
                   <.i(
-                    ^.className := js.Array(FontAwesomeStyles.thumbsUp, UserLikeItProposalsStyles.emptyDescThumbIcon)
+                    ^.className := js.Array(
+                      FontAwesomeStyles.heart,
+                      ProfileProposalListStyles.emptyIcon,
+                      UserLikeItProposalsStyles.emptyIcon
+                    )
                   )(),
-                  I18n.t("user-profile.likeItproposal.explanation-fourth-part")
-                ),
-                <.FakeProposalTileComponent()()
-              )
-            } else {
-              val counter: Counter = new Counter()
-              <.ul()(self.props.wrapped.proposals.map { proposal =>
-                <.li(^.className := UserLikeItProposalsStyles.proposalItem)(
-                  <.ProposalTileWithoutVoteActionComponent(
-                    ^.wrapped := ProposalTileWithoutVoteActionProps(
-                      proposal = proposal,
-                      index = counter.getAndIncrement(),
-                      country = proposal.country
-                    ),
-                    ^.key := s"proposal_${proposal.id.value}"
-                  )()
+                  <.p(^.className := ProfileProposalListStyles.emptyDesc)(I18n.t("user-profile.likeItproposal.empty")),
+                  <.p(^.className := UserLikeItProposalsStyles.emptyDescAlt)(
+                    I18n.t("user-profile.likeItproposal.explanation-first-part"),
+                    <.i(
+                      ^.className := js.Array(FontAwesomeStyles.heart, UserLikeItProposalsStyles.emptyDescHeartIcon)
+                    )(),
+                    I18n.t("user-profile.likeItproposal.explanation-second-part"),
+                  ),
+                  <.p(^.className := ProfileProposalListStyles.emptyDesc)(
+                    I18n.t("user-profile.likeItproposal.explanation-third-part"),
+                    unescape("&nbsp;"),
+                    <.i(
+                      ^.className := js.Array(FontAwesomeStyles.thumbsUp, UserLikeItProposalsStyles.emptyDescThumbIcon)
+                    )(),
+                    I18n.t("user-profile.likeItproposal.explanation-fourth-part")
+                  ),
+                  <.FakeProposalTileComponent()()
                 )
-              }.toSeq)
-            }
-          ),
-          <.style()(UserLikeItProposalsStyles.render[String])
-        )
-      })
+              } else {
+                val counter: Counter = new Counter()
+                <.ul()(self.props.wrapped.proposals.map { proposal =>
+                  <.li(^.className := ProfileProposalListStyles.proposalItem)(
+                    <.ProposalTileWithoutVoteActionComponent(
+                      ^.wrapped := ProposalTileWithoutVoteActionProps(
+                        proposal = proposal,
+                        index = counter.getAndIncrement(),
+                        country = proposal.country
+                      ),
+                      ^.key := s"proposal_${proposal.id.value}"
+                    )()
+                  )
+                }.toSeq)
+              }
+            ),
+            <.style()(ProfileProposalListStyles.render[String], UserLikeItProposalsStyles.render[String])
+          )
+        }
+      )
   }
 }
 
@@ -96,50 +107,12 @@ object UserLikeItProposalsStyles extends StyleSheet.Inline {
 
   import dsl._
 
-  val wrapper: StyleA =
-    style(padding(20.pxToEm(), `0`), ThemeStyles.MediaQueries.beyondLargeMedium(padding(40.pxToEm(), `0`)))
-
-  val headerWrapper: StyleA =
-    style(
-      borderBottom(1.pxToEm(), solid, ThemeStyles.BorderColor.lighter),
-      padding(`0`, 20.pxToEm()),
-      ThemeStyles.MediaQueries.beyondLargeMedium(padding(`0`))
-    )
-
-  val title: StyleA =
-    style(
-      TextStyles.title,
-      fontSize(15.pxToEm()),
-      lineHeight(1),
-      marginBottom(ThemeStyles.SpacingValue.small.pxToEm()),
-      ThemeStyles.MediaQueries
-        .beyondSmall(fontSize(18.pxToEm()), marginBottom(ThemeStyles.SpacingValue.small.pxToEm(18)))
-    )
-
-  val emptyWrapper: StyleA =
-    style(
-      display.flex,
-      flexFlow := s"column",
-      alignItems.center,
-      padding(`0`, 20.pxToEm()),
-      ThemeStyles.MediaQueries.beyondLargeMedium(padding(`0`))
-    )
-
   val emptyIcon: StyleA =
-    style(
-      fontSize(42.pxToEm()),
-      margin(ThemeStyles.SpacingValue.medium.pxToEm(42), `0`, ThemeStyles.SpacingValue.small.pxToEm(42)),
-      color(ThemeStyles.ThemeColor.assertive),
-      ThemeStyles.MediaQueries
-        .beyondLargeMedium(fontSize(72.pxToEm()), margin(ThemeStyles.SpacingValue.large.pxToEm(72), `0`, 20.pxToEm(72)))
-    )
-
-  val emptyDesc: StyleA =
-    style(TextStyles.mediumText, fontWeight.bold)
+    style(color(ThemeStyles.ThemeColor.assertive))
 
   val emptyDescAlt: StyleA =
     style(
-      emptyDesc,
+      ProfileProposalListStyles.emptyDesc,
       marginTop(ThemeStyles.SpacingValue.medium.pxToEm(15)),
       ThemeStyles.MediaQueries
         .beyondLargeMedium(marginTop(ThemeStyles.SpacingValue.medium.pxToEm(18)))
@@ -150,8 +123,5 @@ object UserLikeItProposalsStyles extends StyleSheet.Inline {
 
   val emptyDescThumbIcon: StyleA =
     style(color(ThemeStyles.ThemeColor.positive))
-
-  val proposalItem: StyleA =
-    style(marginTop(20.pxToEm()))
 
 }

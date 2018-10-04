@@ -27,6 +27,7 @@ import org.make.core.Counter
 import org.make.front.Main.CssSettings._
 import org.make.front.components.Components._
 import org.make.front.components.proposal.ProposalTile.{PostedIn, ProposalTileProps}
+import org.make.front.components.userProfile.ProfileProposalListStyles
 import org.make.front.facades.Unescape.unescape
 import org.make.front.facades.{I18n, Replacements}
 import org.make.front.helpers.RouteHelper
@@ -64,9 +65,9 @@ object ActorProfileProposals {
         },
         render = self => {
           <("ActorProfileProposals")()(
-            <.section(^.className := ActorProfileProposalsStyles.wrapper)(
-              <.header(^.className := ActorProfileProposalsStyles.headerWrapper)(
-                <.h2(^.className := ActorProfileProposalsStyles.title)(
+            <.section(^.className := ProfileProposalListStyles.wrapper)(
+              <.header(^.className := ProfileProposalListStyles.headerWrapper)(
+                <.h2(^.className := ProfileProposalListStyles.title)(
                   I18n
                     .t(
                       "actor-profile.proposal.title",
@@ -76,12 +77,16 @@ object ActorProfileProposals {
                 )
               ),
               if (self.props.wrapped.actorProposals.isEmpty) {
-                <.div(^.className := ActorProfileProposalsStyles.emptyWrapper)(
+                <.div(^.className := ProfileProposalListStyles.emptyWrapper)(
                   <.i(
                     ^.className := js
-                      .Array(FontAwesomeStyles.lightbulbTransparent, ActorProfileProposalsStyles.emptyIcon)
+                      .Array(
+                        FontAwesomeStyles.lightbulbTransparent,
+                        ProfileProposalListStyles.emptyIcon,
+                        ActorProfileProposalsStyles.emptyIcon
+                      )
                   )(),
-                  <.p(^.className := ActorProfileProposalsStyles.emptyDesc)(
+                  <.p(^.className := ProfileProposalListStyles.emptyDesc)(
                     self.props.wrapped.actor.organisationName,
                     unescape("&nbsp;"),
                     I18n.t("actor-profile.proposal.empty")
@@ -104,7 +109,7 @@ object ActorProfileProposals {
                             link = RouteHelper.operationRoute(op.country, op.slug)
                           )
                         }
-                    <.li(^.className := ActorProfileProposalsStyles.proposalItem)(
+                    <.li(^.className := ProfileProposalListStyles.proposalItem)(
                       <.ProposalTileComponent(
                         ^.wrapped :=
                           ProposalTileProps(
@@ -123,7 +128,7 @@ object ActorProfileProposals {
                 }.toSeq)
               }
             ),
-            <.style()(ActorProfileProposalsStyles.render[String])
+            <.style()(ProfileProposalListStyles.render[String], ActorProfileProposalsStyles.render[String])
           )
         }
       )
@@ -133,43 +138,9 @@ object ActorProfileProposalsStyles extends StyleSheet.Inline {
 
   import dsl._
 
-  val wrapper: StyleA =
-    style(padding(20.pxToEm()), ThemeStyles.MediaQueries.beyondLargeMedium(padding(40.pxToEm(), `0`)))
-
-  val headerWrapper: StyleA =
-    style(borderBottom(1.pxToEm(), solid, ThemeStyles.BorderColor.lighter))
-
-  val title: StyleA =
-    style(
-      TextStyles.title,
-      fontSize(15.pxToEm()),
-      lineHeight(1),
-      marginBottom(ThemeStyles.SpacingValue.small.pxToEm()),
-      ThemeStyles.MediaQueries
-        .beyondSmall(fontSize(18.pxToEm()), marginBottom(ThemeStyles.SpacingValue.small.pxToEm(18)))
-    )
-
-  val emptyWrapper: StyleA =
-    style(display.flex, flexFlow := s"column", alignItems.center)
-
   val specialYellow: ValueT[ValueT.Color] = rgb(255, 212, 0)
 
   val emptyIcon: StyleA =
-    style(
-      color(specialYellow),
-      fontSize(42.pxToEm()),
-      margin(ThemeStyles.SpacingValue.small.pxToEm(42), `0`),
-      ThemeStyles.MediaQueries
-        .beyondLargeMedium(
-          fontSize(72.pxToEm()),
-          margin(ThemeStyles.SpacingValue.medium.pxToEm(72), `0`, 20.pxToEm(72))
-        )
-    )
-
-  val emptyDesc: StyleA =
-    style(TextStyles.mediumText, fontWeight.bold)
-
-  val proposalItem: StyleA =
-    style(marginTop(20.pxToEm()))
+    style(color(specialYellow))
 
 }

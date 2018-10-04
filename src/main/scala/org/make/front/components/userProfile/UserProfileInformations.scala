@@ -176,20 +176,6 @@ object UserProfileInformations {
                     )
                   )()
                 ),
-                <.div(
-                  ^.className := js.Array(
-                    UserProfileInformationsStyles.slidingPannelButtonGroup,
-                    UserProfileInformationsStyles.slidingPannelMobileButtonGroup
-                  )
-                )(
-                  <.ButtonNavComponent(
-                    ^.wrapped := ButtonNavProps(
-                      onClickMethod = changeTab("settings"),
-                      icon = FontAwesomeStyles.cog,
-                      wording = I18n.t("user-profile.manage-account")
-                    )
-                  )()
-                ),
                 <.div(^.className := UserProfileInformationsStyles.slidingPannelButtonGroup)(
                   <.ButtonNavComponent(
                     ^.wrapped := ButtonNavProps(

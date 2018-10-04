@@ -30,7 +30,7 @@ import org.make.front.components.consultation.ConsultationHeader.ConsultationHea
 import org.make.front.components.consultation.ConsultationSection.ConsultationSectionProps
 import org.make.front.models.{OperationExpanded => OperationModel}
 import org.make.front.styles.ThemeStyles
-import org.make.front.styles.base.{RWDHideRulesStyles, RWDRulesLargeMediumStyles}
+import org.make.front.styles.base.{FlexLayoutStyles, RWDHideRulesStyles, RWDRulesLargeMediumStyles}
 import org.make.front.styles.utils._
 import org.make.services.tracking.TrackingService.TrackingContext
 import org.make.services.tracking.{TrackingLocation, TrackingService}
@@ -76,7 +76,7 @@ object Consultation {
           }
 
           if (consultation.isActive) {
-            <("consultation")()(
+            <("consultation")(^.className := FlexLayoutStyles.fullHeightContent)(
               <.ConsultationHeaderComponent(
                 ^.wrapped := ConsultationHeaderProps(
                   operation = consultation,

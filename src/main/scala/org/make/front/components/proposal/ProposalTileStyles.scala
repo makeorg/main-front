@@ -31,6 +31,9 @@ object ProposalTileStyles extends StyleSheet.Inline {
 
   val wrapper: StyleA =
     style(
+      display.flex,
+      flexFlow := "column",
+      justifyContent.spaceBetween,
       position.relative,
       height(100.%%),
       ThemeStyles.MediaQueries.belowMedium(minHeight.inherit),
@@ -108,7 +111,13 @@ object ProposalTileStyles extends StyleSheet.Inline {
   val proposalLinkOnTitle: StyleA = style(color(ThemeStyles.TextColor.base))
 
   val contentWrapper: StyleA =
-    style(display.flex, flexFlow := "column", padding(ThemeStyles.SpacingValue.small.pxToEm(), 20.pxToEm()))
+    style(
+      display.flex,
+      flexFlow := "column",
+      width(100.%%),
+      height(100.%%),
+      padding(ThemeStyles.SpacingValue.small.pxToEm(), 20.pxToEm())
+    )
 
   val orgVotesWrapper: StyleA =
     style(
@@ -121,7 +130,7 @@ object ProposalTileStyles extends StyleSheet.Inline {
     display.flex,
     minHeight(55.pxToEm()),
     margin(`0`, ThemeStyles.SpacingValue.small.pxToEm()),
-    padding(ThemeStyles.SpacingValue.smaller.pxToEm(), `0`, 20.pxToEm()),
+    padding(ThemeStyles.SpacingValue.smaller.pxToEm(), `0`),
     borderTop(1.px, solid, ThemeStyles.BorderColor.veryLight)
   )
 
