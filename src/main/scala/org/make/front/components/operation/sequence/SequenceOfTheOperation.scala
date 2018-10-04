@@ -41,6 +41,7 @@ import org.make.front.facades.ReactCSSTransition.{
 import org.make.front.facades.ReactTransition.ReactTransitionDOMAttributes
 import org.make.front.facades.Unescape.unescape
 import org.make.front.facades.{I18n, Replacements}
+import org.make.front.helpers.RouteHelper
 import org.make.front.models.{
   OperationExtraSlidesParams,
   ProposalId,
@@ -202,7 +203,7 @@ object SequenceOfTheOperation {
                       )(
                         <.Link(
                           ^.className := SequenceOfTheOperationStyles.backLink,
-                          ^.to := s"/${self.props.wrapped.country}/consultation/${operation.slug}"
+                          ^.to := RouteHelper.operationRoute(self.props.wrapped.country, operation.slug)
                         )(
                           <.i(
                             ^.className := js

@@ -31,6 +31,8 @@ import org.make.front.components.Components.{RichVirtualDOMElements, _}
 import org.make.front.components.proposal.ProposalInfos.ProposalInfosProps
 import org.make.front.components.proposal.ShareOwnProposal.ShareOwnProposalProps
 import org.make.front.components.proposal.vote.VoteContainer.VoteContainerProps
+import org.make.front.facades.I18n
+import org.make.front.facades.Unescape.unescape
 import org.make.front.models.{
   SequenceId,
   Location          => LocationModel,
@@ -38,12 +40,14 @@ import org.make.front.models.{
   Proposal          => ProposalModel,
   TranslatedTheme   => TranslatedThemeModel
 }
-import org.make.front.styles.base.TextStyles
+import org.make.front.styles.base.{TableLayoutStyles, TextStyles}
 import org.make.services.tracking.TrackingLocation
 
 import scala.scalajs.js
 
 object ProposalTile {
+
+  case class PostedIn(name: String, link: String)
 
   final case class ProposalTileProps(proposal: ProposalModel,
                                      index: Int,
@@ -52,7 +56,8 @@ object ProposalTile {
                                      maybeSequenceId: Option[SequenceId],
                                      maybeLocation: Option[LocationModel],
                                      trackingLocation: TrackingLocation,
-                                     country: String)
+                                     country: String,
+                                     maybePostedIn: Option[PostedIn])
 
   final case class ProposalTileState(isProposalSharable: Boolean)
 
@@ -117,6 +122,21 @@ object ProposalTile {
                   )
                 )()
               ),
+              self.props.wrapped.maybePostedIn.map { postedIn =>
+                <.div()(
+                  <.div()(
+                    <.footer(^.className := ProposalTileStyles.footer)(
+                      <.p(^.className := js.Array(TextStyles.smallerText, ProposalTileStyles.postedInInfo))(
+                        unescape(I18n.t("proposal.posted-in")),
+                        <.Link(
+                          ^.to := postedIn.link,
+                          ^.className := js.Array(TextStyles.title, ProposalTileStyles.postedInName)
+                        )(postedIn.name)
+                      )
+                    )
+                  )
+                )
+              },
               <.style()(ProposalTileStyles.render[String])
             )
           }

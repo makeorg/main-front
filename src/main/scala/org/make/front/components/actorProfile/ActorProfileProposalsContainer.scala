@@ -29,7 +29,7 @@ import io.github.shogowada.scalajs.reactjs.router.WithRouter
 import org.make.front.components.DataLoader.DataLoaderProps
 import org.make.front.components.actorProfile.ActorProfileProposals.ActorProfileProposalsProps
 import org.make.front.components.{AppState, DataLoader}
-import org.make.front.models.{Organisation, Proposal}
+import org.make.front.models.{Operation, OperationExpanded, Organisation, Proposal}
 import org.make.services.operation.OperationService
 import org.make.services.organisation.OrganisationService
 
@@ -67,6 +67,9 @@ object ActorProfileProposalsContainer {
         }
       }
 
+      def getOperations: () => Future[js.Array[Operation]] =
+        () => OperationService.listOperations()
+
       val shouldActorProposalsUpdate: Option[js.Array[Proposal]] => Boolean = { actorProposals =>
         actorProposals.forall(_.exists(_.userId != props.wrapped.actor.organisationId))
       }
@@ -77,7 +80,11 @@ object ActorProfileProposalsContainer {
         componentDisplayedMeanwhileReactClass = WaitingForActorProposals.reactClass,
         componentReactClass = ActorProfileProposals.reactClass,
         componentProps = { proposals =>
-          ActorProfileProposalsProps(actor = props.wrapped.actor, actorProposals = proposals)
+          ActorProfileProposalsProps(
+            actor = props.wrapped.actor,
+            actorProposals = proposals,
+            getOperations = getOperations
+          )
         },
         onNotFound = () => {
           props.history.push("/404")

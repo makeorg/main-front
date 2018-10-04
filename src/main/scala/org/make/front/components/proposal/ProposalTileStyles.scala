@@ -152,4 +152,8 @@ object ProposalTileStyles extends StyleSheet.Inline {
 
   val videoIframe: StyleA =
     style(position.absolute, top(`0`), left(`0`), width(100.%%), height(100.%%))
+
+  val postedInName: StyleA = style(color(ThemeStyles.ThemeColor.primary))
+
+  val postedInInfo: StyleA = style(color(ThemeStyles.TextColor.light))
 }

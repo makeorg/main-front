@@ -33,12 +33,12 @@ import io.github.shogowada.scalajs.reactjs.router.dom.RouterDOM.{
 import org.make.core.Counter
 import org.make.front.Main.CssSettings._
 import org.make.front.components.Components.{RichVirtualDOMElements, _}
-import org.make.front.components.proposal.ProposalTile.ProposalTileProps
+import org.make.front.components.proposal.ProposalTile.{PostedIn, ProposalTileProps}
 import org.make.front.components.showcase.PromptingToProposeInRelationToOperationTile.PromptingToProposeInRelationToOperationTileProps
 import org.make.front.facades.ReactSlick.{ReactTooltipVirtualDOMAttributes, ReactTooltipVirtualDOMElements}
 import org.make.front.facades.Unescape.unescape
-import org.make.front.facades.{HexToRgba, I18n, Replacements}
-import org.make.front.helpers.NumberFormat
+import org.make.front.facades.{HexToRgba, I18n}
+import org.make.front.helpers.{NumberFormat, RouteHelper}
 import org.make.front.models.{
   GradientColor     => GradientColorModel,
   OperationExpanded => OperationModel,
@@ -109,7 +109,16 @@ object OperationShowcase {
                   maybeLocation = None,
                   maybeTheme = None,
                   trackingLocation = TrackingLocation.showcaseHomepage,
-                  country = self.props.wrapped.country
+                  country = self.props.wrapped.country,
+                  maybePostedIn = Some(
+                    PostedIn(
+                      name = self.props.wrapped.operation.wordings
+                        .find(_.language == proposalModel.language)
+                        .map(_.title)
+                        .getOrElse(self.props.wrapped.operation.label),
+                      link = RouteHelper.operationRoute(self.props.wrapped.country, self.props.wrapped.operation.slug)
+                    )
+                  )
                 )
             )()
 
