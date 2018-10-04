@@ -41,26 +41,17 @@ import scala.util.Success
 
 object UserLikeItProposals {
 
-  final case class UserLikeItProposalsProps(getLikeItProposals: Future[js.Array[Proposal]])
-  final case class UserLikeItProposalsState(proposals: js.Array[Proposal])
+  final case class UserLikeItProposalsProps(proposals: js.Array[Proposal])
 
   lazy val reactClass: ReactClass = {
-    React.createClass[UserLikeItProposalsProps, UserLikeItProposalsState](
-      displayName = "UserLikeItProposals",
-      getInitialState = _ => UserLikeItProposalsState(js.Array()),
-      componentDidMount = { self =>
-        self.props.wrapped.getLikeItProposals.onComplete {
-          case Success(proposals) => self.setState(_.copy(proposals = proposals))
-          case _                  =>
-        }
-      },
-      render = self => {
+    React
+      .createClass[UserLikeItProposalsProps, Unit](displayName = "UserLikeItProposals", render = self => {
         <("UserLikeItProposals")()(
           <.section(^.className := UserLikeItProposalsStyles.wrapper)(
             <.header(^.className := UserLikeItProposalsStyles.headerWrapper)(
               <.h2(^.className := UserLikeItProposalsStyles.title)(I18n.t("user-profile.likeItproposal.title"))
             ),
-            if (self.state.proposals.isEmpty) {
+            if (self.props.wrapped.proposals.isEmpty) {
               <.div(^.className := UserLikeItProposalsStyles.emptyWrapper)(
                 <.i(^.className := js.Array(FontAwesomeStyles.heart, UserLikeItProposalsStyles.emptyIcon))(),
                 <.p(^.className := UserLikeItProposalsStyles.emptyDesc)(I18n.t("user-profile.likeItproposal.empty")),
@@ -81,7 +72,7 @@ object UserLikeItProposals {
               )
             } else {
               val counter: Counter = new Counter()
-              <.ul()(self.state.proposals.map { proposal =>
+              <.ul()(self.props.wrapped.proposals.map { proposal =>
                 <.li(^.className := UserLikeItProposalsStyles.proposalItem)(
                   <.ProposalTileWithoutVoteActionComponent(
                     ^.wrapped := ProposalTileWithoutVoteActionProps(
@@ -97,8 +88,7 @@ object UserLikeItProposals {
           ),
           <.style()(UserLikeItProposalsStyles.render[String])
         )
-      }
-    )
+      })
   }
 }
 
@@ -107,10 +97,14 @@ object UserLikeItProposalsStyles extends StyleSheet.Inline {
   import dsl._
 
   val wrapper: StyleA =
-    style(padding(20.pxToEm()), ThemeStyles.MediaQueries.beyondLargeMedium(padding(40.pxToEm(), `0`)))
+    style(padding(20.pxToEm(), `0`), ThemeStyles.MediaQueries.beyondLargeMedium(padding(40.pxToEm(), `0`)))
 
   val headerWrapper: StyleA =
-    style(borderBottom(1.pxToEm(), solid, ThemeStyles.BorderColor.lighter))
+    style(
+      borderBottom(1.pxToEm(), solid, ThemeStyles.BorderColor.lighter),
+      padding(`0`, 20.pxToEm()),
+      ThemeStyles.MediaQueries.beyondLargeMedium(padding(`0`))
+    )
 
   val title: StyleA =
     style(
@@ -123,18 +117,21 @@ object UserLikeItProposalsStyles extends StyleSheet.Inline {
     )
 
   val emptyWrapper: StyleA =
-    style(display.flex, flexFlow := s"column", alignItems.center)
+    style(
+      display.flex,
+      flexFlow := s"column",
+      alignItems.center,
+      padding(`0`, 20.pxToEm()),
+      ThemeStyles.MediaQueries.beyondLargeMedium(padding(`0`))
+    )
 
   val emptyIcon: StyleA =
     style(
       fontSize(42.pxToEm()),
-      margin(ThemeStyles.SpacingValue.small.pxToEm(42), `0`),
+      margin(ThemeStyles.SpacingValue.medium.pxToEm(42), `0`, ThemeStyles.SpacingValue.small.pxToEm(42)),
       color(ThemeStyles.ThemeColor.assertive),
       ThemeStyles.MediaQueries
-        .beyondLargeMedium(
-          fontSize(72.pxToEm()),
-          margin(ThemeStyles.SpacingValue.medium.pxToEm(72), `0`, 20.pxToEm(72))
-        )
+        .beyondLargeMedium(fontSize(72.pxToEm()), margin(ThemeStyles.SpacingValue.large.pxToEm(72), `0`, 20.pxToEm(72)))
     )
 
   val emptyDesc: StyleA =

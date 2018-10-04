@@ -42,25 +42,16 @@ import scala.util.Success
 
 object UserProfileProposals {
 
-  final case class UserProfileProposalsProps(user: UserModel, getProposals: Future[js.Array[Proposal]])
-  final case class UserProfileProposalsState(proposals: js.Array[Proposal])
+  final case class UserProfileProposalsProps(user: UserModel, proposals: js.Array[Proposal])
 
-  lazy val reactClass: ReactClass = React.createClass[UserProfileProposalsProps, UserProfileProposalsState](
-    displayName = "UserProfileProposals",
-    getInitialState = self => UserProfileProposalsState(proposals = js.Array()),
-    componentDidMount = { self =>
-      self.props.wrapped.getProposals.onComplete {
-        case Success(proposals) => self.setState(_.copy(proposals = proposals))
-        case _                  =>
-      }
-    },
-    render = self => {
+  lazy val reactClass: ReactClass =
+    React.createClass[UserProfileProposalsProps, Unit](displayName = "UserProfileProposals", render = self => {
       <("UserProfileProposals")()(
         <.section(^.className := UserProfileProposalsStyles.wrapper)(
           <.header(^.className := UserProfileProposalsStyles.headerWrapper)(
             <.h2(^.className := UserProfileProposalsStyles.title)(I18n.t("user-profile.proposal.title"))
           ),
-          if (self.state.proposals.isEmpty) {
+          if (self.props.wrapped.proposals.isEmpty) {
             <.div(^.className := UserProfileProposalsStyles.emptyWrapper)(
               <.i(
                 ^.className := js.Array(FontAwesomeStyles.lightbulbTransparent, UserProfileProposalsStyles.emptyIcon)
@@ -73,7 +64,7 @@ object UserProfileProposals {
             )
           } else {
             val counter = new Counter()
-            <.ul()(self.state.proposals.map { proposal =>
+            <.ul()(self.props.wrapped.proposals.map { proposal =>
               <.li(^.className := UserProfileProposalsStyles.proposalItem)(
                 <.ProposalTileWithoutVoteActionComponent(
                   ^.wrapped := ProposalTileWithoutVoteActionProps(
@@ -93,7 +84,7 @@ object UserProfileProposals {
           <.header(^.className := UserProfileProposalsStyles.headerWrapper)(
             <.h2(^.className := UserProfileProposalsStyles.title)(I18n.t("user-profile.proposal.title"))
           ),
-          if (self.state.proposals.isEmpty) {
+          if (self.props.wrapped.proposals.isEmpty) {
             <.div(^.className := UserProfileProposalsStyles.emptyWrapper)(
               <.i(
                 ^.className := js.Array(FontAwesomeStyles.lightbulbTransparent, UserProfileProposalsStyles.emptyIcon)
@@ -102,7 +93,7 @@ object UserProfileProposals {
             )
           } else {
             val counter: Counter = new Counter()
-            <.ul()(self.state.proposals.map { proposal =>
+            <.ul()(self.props.wrapped.proposals.map { proposal =>
               <.li(^.className := UserProfileProposalsStyles.proposalItem)(
                 <.ProposalTileWithoutVoteActionComponent(
                   ^.wrapped := ProposalTileWithoutVoteActionProps(
@@ -118,8 +109,7 @@ object UserProfileProposals {
         ),
         <.style()(UserProfileProposalsStyles.render[String])
       )
-    }
-  )
+    })
 }
 
 object UserProfileProposalsStyles extends StyleSheet.Inline {
@@ -127,10 +117,14 @@ object UserProfileProposalsStyles extends StyleSheet.Inline {
   import dsl._
 
   val wrapper: StyleA =
-    style(padding(20.pxToEm()), ThemeStyles.MediaQueries.beyondLargeMedium(padding(40.pxToEm(), `0`)))
+    style(padding(20.pxToEm(), `0`), ThemeStyles.MediaQueries.beyondLargeMedium(padding(40.pxToEm(), `0`)))
 
   val headerWrapper: StyleA =
-    style(borderBottom(1.pxToEm(), solid, ThemeStyles.BorderColor.lighter))
+    style(
+      borderBottom(1.pxToEm(), solid, ThemeStyles.BorderColor.lighter),
+      padding(`0`, 20.pxToEm()),
+      ThemeStyles.MediaQueries.beyondLargeMedium(padding(`0`))
+    )
 
   val title: StyleA =
     style(
@@ -143,7 +137,13 @@ object UserProfileProposalsStyles extends StyleSheet.Inline {
     )
 
   val emptyWrapper: StyleA =
-    style(display.flex, flexFlow := s"column", alignItems.center)
+    style(
+      display.flex,
+      flexFlow := s"column",
+      alignItems.center,
+      padding(`0`, 20.pxToEm()),
+      ThemeStyles.MediaQueries.beyondLargeMedium(padding(`0`))
+    )
 
   val specialYellow: ValueT[ValueT.Color] = rgb(255, 212, 0)
 
@@ -151,12 +151,9 @@ object UserProfileProposalsStyles extends StyleSheet.Inline {
     style(
       color(specialYellow),
       fontSize(42.pxToEm()),
-      margin(ThemeStyles.SpacingValue.small.pxToEm(42), `0`),
+      margin(ThemeStyles.SpacingValue.medium.pxToEm(42), `0`, ThemeStyles.SpacingValue.small.pxToEm(42)),
       ThemeStyles.MediaQueries
-        .beyondLargeMedium(
-          fontSize(72.pxToEm()),
-          margin(ThemeStyles.SpacingValue.medium.pxToEm(72), `0`, 20.pxToEm(72))
-        )
+        .beyondLargeMedium(fontSize(72.pxToEm()), margin(ThemeStyles.SpacingValue.large.pxToEm(72), `0`, 20.pxToEm(72)))
     )
 
   val emptyDesc: StyleA =

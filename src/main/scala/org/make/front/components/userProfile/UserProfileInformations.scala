@@ -146,95 +146,58 @@ object UserProfileInformations {
             },
             if (self.props.wrapped.activeTab == "settings") {
               <("SettingsTab")()(
-                <.div(^.className := RWDRulesLargeMediumStyles.hideBeyondLargeMedium)(
-                  <.div(^.className := UserProfileInformationsStyles.slidingPannelButtonGroup)(
-                    <.ButtonNavComponent(
-                      ^.wrapped := ButtonNavProps(
-                        onClickMethod = changeTab("proposals"),
-                        icon = FontAwesomeStyles.angleLeft,
-                        wording = I18n.t("user-profile.back-to-profile")
-                      )
-                    )()
-                  ),
-                  <.div(^.className := UserProfileInformationsStyles.slidingPannelButtonGroup)(
-                    <.ButtonNavComponent(
-                      ^.wrapped := ButtonNavProps(
-                        onClickMethod = self.props.wrapped.logout,
-                        icon = FontAwesomeStyles.signOut,
-                        wording = I18n.t("user-profile.disconnect-cta")
-                      )
-                    )()
-                  )
+                <.div(^.className := UserProfileInformationsStyles.slidingPannelButtonGroup)(
+                  <.ButtonNavComponent(
+                    ^.wrapped := ButtonNavProps(
+                      onClickMethod = changeTab("proposals"),
+                      icon = FontAwesomeStyles.angleLeft,
+                      wording = I18n.t("user-profile.back-to-profile")
+                    )
+                  )()
                 ),
-                <.div(^.className := RWDRulesLargeMediumStyles.showBlockBeyondLargeMedium)(
-                  <.div(^.className := UserProfileInformationsStyles.slidingPannelButtonGroup)(
-                    <.ButtonNavComponent(
-                      ^.wrapped := ButtonNavProps(
-                        onClickMethod = changeTab("proposals"),
-                        icon = FontAwesomeStyles.angleLeft,
-                        wording = I18n.t("user-profile.back-to-profile")
-                      )
-                    )()
-                  ),
-                  <.div(^.className := UserProfileInformationsStyles.slidingPannelButtonGroup)(
-                    <.ButtonNavComponent(
-                      ^.wrapped := ButtonNavProps(
-                        onClickMethod = self.props.wrapped.logout,
-                        icon = FontAwesomeStyles.signOut,
-                        wording = I18n.t("user-profile.disconnect-cta")
-                      )
-                    )()
-                  )
+                <.div(^.className := UserProfileInformationsStyles.slidingPannelButtonGroup)(
+                  <.ButtonNavComponent(
+                    ^.wrapped := ButtonNavProps(
+                      onClickMethod = self.props.wrapped.logout,
+                      icon = FontAwesomeStyles.signOut,
+                      wording = I18n.t("user-profile.disconnect-cta")
+                    )
+                  )()
                 )
               )
             } else {
               <("OtherTabs")()(
-                <.div(^.className := RWDRulesLargeMediumStyles.hideBeyondLargeMedium)(
-                  <.div(^.className := UserProfileInformationsStyles.slidingPannelButtonGroup)(
-                    <.ButtonNavComponent(
-                      ^.wrapped := ButtonNavProps(
-                        onClickMethod = changeTab("settings"),
-                        icon = FontAwesomeStyles.pencil,
-                        wording = I18n.t("user-profile.edit-profile")
-                      )
-                    )(),
-                    <.ButtonNavComponent(
-                      ^.wrapped := ButtonNavProps(
-                        onClickMethod = changeTab("settings"),
-                        icon = FontAwesomeStyles.cog,
-                        wording = I18n.t("user-profile.manage-account")
-                      )
-                    )()
-                  ),
-                  <.div(^.className := UserProfileInformationsStyles.slidingPannelButtonGroup)(
-                    <.ButtonNavComponent(
-                      ^.wrapped := ButtonNavProps(
-                        onClickMethod = self.props.wrapped.logout,
-                        icon = FontAwesomeStyles.signOut,
-                        wording = I18n.t("user-profile.disconnect-cta")
-                      )
-                    )()
-                  )
+                <.div(^.className := UserProfileInformationsStyles.slidingPannelButtonGroup)(
+                  <.ButtonNavComponent(
+                    ^.wrapped := ButtonNavProps(
+                      onClickMethod = changeTab("settings"),
+                      icon = FontAwesomeStyles.pencil,
+                      wording = I18n.t("user-profile.edit-profile")
+                    )
+                  )()
                 ),
-                <.div(^.className := RWDRulesLargeMediumStyles.showBlockBeyondLargeMedium)(
-                  <.div(^.className := UserProfileInformationsStyles.slidingPannelButtonGroup)(
-                    <.ButtonNavComponent(
-                      ^.wrapped := ButtonNavProps(
-                        onClickMethod = changeTab("settings"),
-                        icon = FontAwesomeStyles.cog,
-                        wording = I18n.t("user-profile.manage-account")
-                      )
-                    )()
-                  ),
-                  <.div(^.className := UserProfileInformationsStyles.slidingPannelButtonGroup)(
-                    <.ButtonNavComponent(
-                      ^.wrapped := ButtonNavProps(
-                        onClickMethod = self.props.wrapped.logout,
-                        icon = FontAwesomeStyles.signOut,
-                        wording = I18n.t("user-profile.disconnect-cta")
-                      )
-                    )()
+                <.div(
+                  ^.className := js.Array(
+                    UserProfileInformationsStyles.slidingPannelButtonGroup,
+                    UserProfileInformationsStyles.slidingPannelMobileButtonGroup
                   )
+                )(
+                  <.ButtonNavComponent(
+                    ^.wrapped := ButtonNavProps(
+                      onClickMethod = changeTab("settings"),
+                      icon = FontAwesomeStyles.cog,
+                      wording = I18n.t("user-profile.manage-account")
+                    )
+                  )()
+                ),
+                <.div(^.className := UserProfileInformationsStyles.slidingPannelButtonGroup)(
+                  <.ButtonNavComponent(
+                    ^.wrapped := ButtonNavProps(
+                      onClickMethod = self.props.wrapped.logout,
+                      icon = FontAwesomeStyles.signOut,
+                      wording = I18n.t("user-profile.disconnect-cta")
+                    )
+                  )()
                 )
               )
             },
@@ -363,11 +326,13 @@ object UserProfileInformationsStyles extends StyleSheet.Inline {
 
   val slidingPannelButtonGroup: StyleA =
     style(
-      clear.left,
       display.flex,
       justifyContent.spaceAround,
       backgroundColor(ThemeStyles.BackgroundColor.white),
       marginTop(20.pxToEm()),
     )
+
+  val slidingPannelMobileButtonGroup: StyleA =
+    style(ThemeStyles.MediaQueries.beyondLargeMedium(display.none))
 
 }
