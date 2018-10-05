@@ -27,6 +27,7 @@ import org.make.core.Counter
 import org.make.front.Main.CssSettings._
 import org.make.front.components.Components._
 import org.make.front.components.proposal.ProposalTileWithActorPosition.ProposalTileWithActorPositionProps
+import org.make.front.components.userProfile.ProfileProposalListStyles
 import org.make.front.facades.Unescape.unescape
 import org.make.front.facades.{I18n, Replacements}
 import org.make.front.models.{Organisation => OrganisationModel}
@@ -50,9 +51,9 @@ object ActorProfileContributions {
         displayName = "ActorProfileContributions",
         render = self => {
           <("ActorProfileContributions")()(
-            <.section(^.className := ActorProfileContributionsStyles.wrapper)(
-              <.header(^.className := ActorProfileContributionsStyles.headerWrapper)(
-                <.h2(^.className := ActorProfileContributionsStyles.title)(
+            <.section(^.className := ProfileProposalListStyles.wrapper)(
+              <.header(^.className := ProfileProposalListStyles.headerWrapper)(
+                <.h2(^.className := ProfileProposalListStyles.title)(
                   I18n
                     .t(
                       "actor-profile.contributions.title",
@@ -62,12 +63,16 @@ object ActorProfileContributions {
                 )
               ),
               if (self.props.wrapped.proposals.isEmpty) {
-                <.div(^.className := ActorProfileContributionsStyles.emptyWrapper)(
+                <.div(^.className := ProfileProposalListStyles.emptyWrapper)(
                   <.i(
                     ^.className := js
-                      .Array(FontAwesomeStyles.thumbsUp, ActorProfileContributionsStyles.emptyIcon)
+                      .Array(
+                        FontAwesomeStyles.thumbsUp,
+                        ProfileProposalListStyles.emptyIcon,
+                        ActorProfileContributionsStyles.emptyIcon
+                      )
                   )(),
-                  <.p(^.className := ActorProfileContributionsStyles.emptyDesc)(
+                  <.p(^.className := ProfileProposalListStyles.emptyDesc)(
                     self.props.wrapped.actor.organisationName,
                     unescape("&nbsp;"),
                     I18n.t("actor-profile.contributions.empty")
@@ -81,7 +86,7 @@ object ActorProfileContributions {
                       organisations = proposalWithVote.proposal.organisations
                         .filter(_.organisationId.value != self.props.wrapped.actor.organisationId.value)
                     )
-                    <.li(^.className := ActorProfileContributionsStyles.proposalItem)(
+                    <.li(^.className := ProfileProposalListStyles.proposalItem)(
                       <.ProposalTileWithActorPositionComponent(
                         ^.wrapped :=
                           ProposalTileWithActorPositionProps(
@@ -96,7 +101,7 @@ object ActorProfileContributions {
                 })
               }
             ),
-            <.style()(ActorProfileContributionsStyles.render[String])
+            <.style()(ProfileProposalListStyles.render[String], ActorProfileContributionsStyles.render[String])
           )
         }
       )
@@ -105,25 +110,6 @@ object ActorProfileContributions {
 object ActorProfileContributionsStyles extends StyleSheet.Inline {
 
   import dsl._
-
-  val wrapper: StyleA =
-    style(padding(20.pxToEm()), ThemeStyles.MediaQueries.beyondLargeMedium(padding(40.pxToEm(), `0`)))
-
-  val headerWrapper: StyleA =
-    style(borderBottom(1.pxToEm(), solid, ThemeStyles.BorderColor.lighter))
-
-  val title: StyleA =
-    style(
-      TextStyles.title,
-      fontSize(15.pxToEm()),
-      lineHeight(1),
-      marginBottom(ThemeStyles.SpacingValue.small.pxToEm()),
-      ThemeStyles.MediaQueries
-        .beyondSmall(fontSize(18.pxToEm()), marginBottom(ThemeStyles.SpacingValue.small.pxToEm(18)))
-    )
-
-  val emptyWrapper: StyleA =
-    style(display.flex, flexFlow := s"column", alignItems.center)
 
   val animThumb =
     keyframes(
@@ -140,18 +126,6 @@ object ActorProfileContributionsStyles extends StyleSheet.Inline {
       animationTimingFunction.easeIn,
       animationDuration :=! s"5s",
       animationIterationCount.infinite,
-      transition := s"all 5s ease-out",
-      ThemeStyles.MediaQueries
-        .beyondLargeMedium(
-          fontSize(72.pxToEm()),
-          margin(ThemeStyles.SpacingValue.medium.pxToEm(72), `0`, 20.pxToEm(72))
-        )
+      transition := s"all 5s ease-out"
     )
-
-  val emptyDesc: StyleA =
-    style(TextStyles.mediumText, fontWeight.bold)
-
-  val proposalItem: StyleA =
-    style(marginTop(20.pxToEm()))
-
 }

@@ -121,6 +121,19 @@ object ColRulesStyles extends StyleSheet.Inline {
 
 }
 
+object FlexLayoutStyles extends StyleSheet.Inline {
+  import dsl._
+
+  val fullHeightContent: StyleA =
+    style(
+      display.flex,
+      flexFlow := "column",
+      justifyContent.spaceBetween,
+      minHeight :=! "calc(100vh - 3.125em)",
+      ThemeStyles.MediaQueries.beyondSmall(minHeight :=! "calc(100vh - 5em)")
+    )
+}
+
 object TableLayoutStyles extends StyleSheet.Inline {
 
   import dsl._

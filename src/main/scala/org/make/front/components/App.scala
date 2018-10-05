@@ -51,6 +51,7 @@ object App {
               Basic.render[String],
               LayoutRulesStyles.render[String],
               ColRulesStyles.render[String],
+              FlexLayoutStyles.render[String],
               TableLayoutStyles.render[String],
               TableLayoutBeyondSmallStyles.render[String],
               TableLayoutBeyondMediumStyles.render[String],

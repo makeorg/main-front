@@ -262,7 +262,7 @@ object DisplayVotesDataStyles extends StyleSheet.Inline {
   val listItem: StyleA =
     style(
       display.flex,
-      minWidth(220.pxToEm()),
+      minWidth(240.pxToEm()),
       width(240.pxToPercent(710)),
       padding(`0`, ThemeStyles.SpacingValue.medium.pxToPercent(710)),
       ThemeStyles.MediaQueries.beyondMedium(minWidth(`0`))

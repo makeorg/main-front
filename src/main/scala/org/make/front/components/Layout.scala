@@ -40,13 +40,11 @@ object Layout {
         displayName = "Layout",
         render = self => {
 
-          <.div(^.className := js.Array(LayoutStyles.wrapper, TableLayoutStyles.fullHeightWrapper))(if (fixedHeader) {
-            <.div(^.className := TableLayoutStyles.row)(
-              <.div(^.className := js.Array(TableLayoutStyles.cell, LayoutStyles.mainHeaderWrapper))(
-                <.div(^.className := LayoutStyles.fixedMainHeaderWrapper)(
-                  <.CookieAlertContainerComponent.empty,
-                  <.MainHeaderContainer.empty
-                )
+          <.div(^.className := js.Array(LayoutStyles.wrapper))(if (fixedHeader) {
+            <.div(^.className := LayoutStyles.mainHeaderWrapper)(
+              <.div(^.className := LayoutStyles.fixedMainHeaderWrapper)(
+                <.CookieAlertContainerComponent.empty,
+                <.MainHeaderContainer.empty
               )
             )
           } else {
@@ -56,7 +54,7 @@ object Layout {
                 <.MainHeaderContainer.empty
               )
             )
-          }, <.div(^.className := TableLayoutStyles.row)(children), if (withFooter) {
+          }, <.div(^.className := LayoutStyles.mainContent)(children), if (withFooter) {
             <.MainFooterComponent.empty
           }, <.style()(LayoutStyles.render[String]))
         }
@@ -68,7 +66,14 @@ object LayoutStyles extends StyleSheet.Inline {
   import dsl._
 
   val wrapper: StyleA =
-    style(tableLayout.fixed, backgroundColor(ThemeStyles.BackgroundColor.blackVeryTransparent))
+    style(
+      display.flex,
+      flexFlow := "column",
+      justifyContent.spaceBetween,
+      width(100.%%),
+      minHeight(100.%%),
+      backgroundColor(ThemeStyles.BackgroundColor.blackVeryTransparent)
+    )
 
   val content: StyleA =
     style(
@@ -88,5 +93,8 @@ object LayoutStyles extends StyleSheet.Inline {
 
   val headerWrapper: StyleA =
     style(width(100.%%), boxShadow := s"0 2px 4px 0 rgba(0,0,0,0.50)")
+
+  val mainContent: StyleA =
+    style(display.flex, flexFlow := "column", justifyContent.spaceBetween, width(100.%%), height(100.%%))
 
 }

@@ -25,15 +25,13 @@ import io.github.shogowada.scalajs.reactjs.VirtualDOM.{<, ^, _}
 import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import org.make.front.Main.CssSettings._
 import org.make.front.components.Components._
-import org.make.front.components.actorProfile.ActorProfileContributions.ActorProfileContributionsProps
 import org.make.front.components.actorProfile.ActorProfileContributionsContainer.ActorProfileContributionsContainerProps
 import org.make.front.components.actorProfile.ActorProfileInformations.ActorProfileInformationsProps
 import org.make.front.components.actorProfile.ActorProfileProposalsContainer.ActorProposalsContainerProps
 import org.make.front.components.actorProfile.navActorProfile.ActorTabNav.ActorTabNavProps
-import org.make.front.components.proposal.ProposalTileWithActorPosition.ProposalTileWithActorPositionProps
 import org.make.front.models.{Organisation => OrganisationModel}
 import org.make.front.styles.ThemeStyles
-import org.make.front.styles.base.{RWDHideRulesStyles, RWDRulesLargeMediumStyles}
+import org.make.front.styles.base.{FlexLayoutStyles, RWDRulesLargeMediumStyles}
 import org.make.front.styles.utils._
 
 object ActorProfile {
@@ -51,7 +49,7 @@ object ActorProfile {
             self.setState(ActorProfileState(newTab))
           }
 
-          <("ActorProfile")()(
+          <("ActorProfile")(^.className := FlexLayoutStyles.fullHeightContent)(
             <.div(^.className := ActorProfileStyles.specialColorWrapper)(
               <.div(^.className := ActorProfileStyles.regularColorWrapper)(
                 <.section(^.className := ActorProfileStyles.wrapper)(

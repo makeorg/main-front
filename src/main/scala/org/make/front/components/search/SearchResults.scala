@@ -27,7 +27,7 @@ import io.github.shogowada.scalajs.reactjs.router.WithRouter
 import org.make.core.Counter
 import org.make.front.Main.CssSettings._
 import org.make.front.components.Components.{RichVirtualDOMElements, _}
-import org.make.front.components.proposal.ProposalTileWithThemeContainer.ProposalTileWithThemeContainerProps
+import org.make.front.components.proposal.ProposalTile.ProposalTileProps
 import org.make.front.components.search.NoResultToSearch.NoResultToSearchProps
 import org.make.front.facades.ReactInfiniteScroller.{
   ReactInfiniteScrollerVirtualDOMAttributes,
@@ -155,15 +155,18 @@ object SearchResults {
                             ColRulesStyles.colQuarterBeyondLarge
                           )
                         )(
-                          <.ProposalTileWithThemeContainerComponent(
+                          <.ProposalTileComponent(
                             ^.wrapped :=
-                              ProposalTileWithThemeContainerProps(
+                              ProposalTileProps(
                                 proposal = proposal,
                                 index = counter.getAndIncrement(),
                                 maybeSequenceId = self.props.wrapped.maybeSequence,
                                 maybeOperation = self.state.maybeOperation,
                                 maybeLocation = self.props.wrapped.maybeLocation,
-                                trackingLocation = TrackingLocation.searchResultsPage
+                                trackingLocation = TrackingLocation.searchResultsPage,
+                                maybeTheme = None,
+                                country = proposal.country,
+                                maybePostedIn = None
                               )
                           )()
                       )
@@ -189,10 +192,7 @@ object SearchResults {
           val proposalsToDisplay: js.Array[Proposal] = self.state.listProposals
 
           <.section()(
-            <.div(
-              ^.className := js
-                .Array(TableLayoutStyles.fullHeightWrapper, SearchResultsStyles.background(proposalsToDisplay.nonEmpty))
-            )(
+            <.div(^.className := TableLayoutStyles.fullHeightWrapper)(
               <.div(^.className := TableLayoutStyles.fullHeightRow)(
                 <.div(^.className := TableLayoutStyles.cellVerticalAlignMiddle)(
                   if (self.state.initialLoad || proposalsToDisplay.nonEmpty) {
@@ -231,10 +231,6 @@ object SearchResults {
                 )
               )
             ),
-            <.div(
-              ^.className :=
-                SearchResultsStyles.background(proposalsToDisplay.nonEmpty)
-            )(<.NavInThemesContainerComponent.empty),
             <.style()(SearchResultsStyles.render[String])
           )
         }
@@ -245,15 +241,6 @@ object SearchResults {
 object SearchResultsStyles extends StyleSheet.Inline {
 
   import dsl._
-
-  val background: (Boolean) => StyleA = styleF.bool(
-    hasResults =>
-      if (hasResults) {
-        styleS(backgroundColor(ThemeStyles.BackgroundColor.blackVeryTransparent))
-      } else {
-        styleS(backgroundColor(ThemeStyles.BackgroundColor.white))
-    }
-  )
 
   val mainHeaderWrapper: StyleA =
     style(

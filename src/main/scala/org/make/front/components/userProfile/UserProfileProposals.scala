@@ -45,121 +45,87 @@ object UserProfileProposals {
   final case class UserProfileProposalsProps(user: UserModel, proposals: js.Array[Proposal])
 
   lazy val reactClass: ReactClass =
-    React.createClass[UserProfileProposalsProps, Unit](displayName = "UserProfileProposals", render = self => {
-      <("UserProfileProposals")()(
-        <.section(^.className := UserProfileProposalsStyles.wrapper)(
-          <.header(^.className := UserProfileProposalsStyles.headerWrapper)(
-            <.h2(^.className := UserProfileProposalsStyles.title)(I18n.t("user-profile.proposal.title"))
-          ),
-          if (self.props.wrapped.proposals.isEmpty) {
-            <.div(^.className := UserProfileProposalsStyles.emptyWrapper)(
-              <.i(
-                ^.className := js.Array(FontAwesomeStyles.lightbulbTransparent, UserProfileProposalsStyles.emptyIcon)
-              )(),
-              <.p(^.className := UserProfileProposalsStyles.emptyDesc)(
-                self.props.wrapped.user.firstName,
-                unescape("&nbsp;"),
-                I18n.t("user-profile.proposal.empty")
-              )
-            )
-          } else {
-            val counter = new Counter()
-            <.ul()(self.props.wrapped.proposals.map { proposal =>
-              <.li(^.className := UserProfileProposalsStyles.proposalItem)(
-                <.ProposalTileWithoutVoteActionComponent(
-                  ^.wrapped := ProposalTileWithoutVoteActionProps(
-                    proposal = proposal,
-                    index = counter.getAndIncrement(),
-                    country = self.props.wrapped.user.country
+    React
+      .createClass[UserProfileProposalsProps, Unit](
+        displayName = "UserProfileProposals",
+        render = self => {
+          <("UserProfileProposals")()(
+            <.section(^.className := ProfileProposalListStyles.wrapper)(
+              <.header(^.className := ProfileProposalListStyles.headerWrapper)(
+                <.h2(^.className := ProfileProposalListStyles.title)(I18n.t("user-profile.proposal.title"))
+              ),
+              if (self.props.wrapped.proposals.isEmpty) {
+                <.div(^.className := ProfileProposalListStyles.emptyWrapper)(
+                  <.i(
+                    ^.className := js.Array(FontAwesomeStyles.lightbulbTransparent, ProfileProposalListStyles.emptyIcon)
+                  )(),
+                  <.p(^.className := ProfileProposalListStyles.emptyDesc)(
+                    self.props.wrapped.user.firstName,
+                    unescape("&nbsp;"),
+                    I18n.t("user-profile.proposal.empty")
                   )
-                )()
-              )
-            }.toSeq)
-          }
-        ),
-        <.style()(UserProfileProposalsStyles.render[String])
+                )
+              } else {
+                val counter = new Counter()
+                <.ul()(self.props.wrapped.proposals.map { proposal =>
+                  <.li(^.className := ProfileProposalListStyles.proposalItem)(
+                    <.ProposalTileWithoutVoteActionComponent(
+                      ^.wrapped := ProposalTileWithoutVoteActionProps(
+                        proposal = proposal,
+                        index = counter.getAndIncrement(),
+                        country = self.props.wrapped.user.country
+                      )
+                    )()
+                  )
+                }.toSeq)
+              }
+            ),
+            <.style()(ProfileProposalListStyles.render[String])
+          )
+          <("UserProfileProposals")()(
+            <.section(^.className := ProfileProposalListStyles.wrapper)(
+              <.header(^.className := ProfileProposalListStyles.headerWrapper)(
+                <.h2(^.className := ProfileProposalListStyles.title)(I18n.t("user-profile.proposal.title"))
+              ),
+              if (self.props.wrapped.proposals.isEmpty) {
+                <.div(^.className := ProfileProposalListStyles.emptyWrapper)(
+                  <.i(
+                    ^.className := js.Array(
+                      FontAwesomeStyles.lightbulbTransparent,
+                      ProfileProposalListStyles.emptyIcon,
+                      UserProfileProposalsStyles.emptyIcon
+                    )
+                  )(),
+                  <.p(^.className := ProfileProposalListStyles.emptyDesc)(I18n.t("user-profile.proposal.empty"))
+                )
+              } else {
+                val counter: Counter = new Counter()
+                <.ul()(self.props.wrapped.proposals.map { proposal =>
+                  <.li(^.className := ProfileProposalListStyles.proposalItem)(
+                    <.ProposalTileWithoutVoteActionComponent(
+                      ^.wrapped := ProposalTileWithoutVoteActionProps(
+                        proposal = proposal,
+                        index = counter.getAndIncrement(),
+                        country = self.props.wrapped.user.country
+                      ),
+                      ^.key := s"proposal_${proposal.id.value}"
+                    )()
+                  )
+                }.toSeq)
+              }
+            ),
+            <.style()(ProfileProposalListStyles.render[String], UserProfileProposalsStyles.render[String])
+          )
+        }
       )
-      <("UserProfileProposals")()(
-        <.section(^.className := UserProfileProposalsStyles.wrapper)(
-          <.header(^.className := UserProfileProposalsStyles.headerWrapper)(
-            <.h2(^.className := UserProfileProposalsStyles.title)(I18n.t("user-profile.proposal.title"))
-          ),
-          if (self.props.wrapped.proposals.isEmpty) {
-            <.div(^.className := UserProfileProposalsStyles.emptyWrapper)(
-              <.i(
-                ^.className := js.Array(FontAwesomeStyles.lightbulbTransparent, UserProfileProposalsStyles.emptyIcon)
-              )(),
-              <.p(^.className := UserProfileProposalsStyles.emptyDesc)(I18n.t("user-profile.proposal.empty"))
-            )
-          } else {
-            val counter: Counter = new Counter()
-            <.ul()(self.props.wrapped.proposals.map { proposal =>
-              <.li(^.className := UserProfileProposalsStyles.proposalItem)(
-                <.ProposalTileWithoutVoteActionComponent(
-                  ^.wrapped := ProposalTileWithoutVoteActionProps(
-                    proposal = proposal,
-                    index = counter.getAndIncrement(),
-                    country = self.props.wrapped.user.country
-                  ),
-                  ^.key := s"proposal_${proposal.id.value}"
-                )()
-              )
-            }.toSeq)
-          }
-        ),
-        <.style()(UserProfileProposalsStyles.render[String])
-      )
-    })
 }
 
 object UserProfileProposalsStyles extends StyleSheet.Inline {
 
   import dsl._
 
-  val wrapper: StyleA =
-    style(padding(20.pxToEm(), `0`), ThemeStyles.MediaQueries.beyondLargeMedium(padding(40.pxToEm(), `0`)))
-
-  val headerWrapper: StyleA =
-    style(
-      borderBottom(1.pxToEm(), solid, ThemeStyles.BorderColor.lighter),
-      padding(`0`, 20.pxToEm()),
-      ThemeStyles.MediaQueries.beyondLargeMedium(padding(`0`))
-    )
-
-  val title: StyleA =
-    style(
-      TextStyles.title,
-      fontSize(15.pxToEm()),
-      lineHeight(1),
-      marginBottom(ThemeStyles.SpacingValue.small.pxToEm()),
-      ThemeStyles.MediaQueries
-        .beyondSmall(fontSize(18.pxToEm()), marginBottom(ThemeStyles.SpacingValue.small.pxToEm(18)))
-    )
-
-  val emptyWrapper: StyleA =
-    style(
-      display.flex,
-      flexFlow := s"column",
-      alignItems.center,
-      padding(`0`, 20.pxToEm()),
-      ThemeStyles.MediaQueries.beyondLargeMedium(padding(`0`))
-    )
-
   val specialYellow: ValueT[ValueT.Color] = rgb(255, 212, 0)
 
   val emptyIcon: StyleA =
-    style(
-      color(specialYellow),
-      fontSize(42.pxToEm()),
-      margin(ThemeStyles.SpacingValue.medium.pxToEm(42), `0`, ThemeStyles.SpacingValue.small.pxToEm(42)),
-      ThemeStyles.MediaQueries
-        .beyondLargeMedium(fontSize(72.pxToEm()), margin(ThemeStyles.SpacingValue.large.pxToEm(72), `0`, 20.pxToEm(72)))
-    )
-
-  val emptyDesc: StyleA =
-    style(TextStyles.mediumText, fontWeight.bold)
-
-  val proposalItem: StyleA =
-    style(marginTop(20.pxToEm()))
-
+    style(color(specialYellow))
 }
