@@ -34,7 +34,6 @@ import org.make.front.components.proposal.ProposalSOperationInfos.ProposalSOpera
 import org.make.front.components.proposal.vote.VoteContainer.VoteContainerProps
 import org.make.front.components.share.ShareProposalPage.ShareProposalProps
 import org.make.front.components.showcase.OperationShowcaseContainer.OperationShowcaseContainerProps
-import org.make.front.components.showcase.ThemeShowcaseContainer.ThemeShowcaseContainerProps
 import org.make.front.facades.I18n
 import org.make.front.facades.Unescape.unescape
 import org.make.front.models.{
@@ -192,14 +191,6 @@ object Proposal {
                 )
               )
             ),
-            if (self.state.maybeTheme.isDefined) {
-              <.ThemeShowcaseContainerComponent(
-                ^.wrapped := ThemeShowcaseContainerProps(
-                  themeSlug = self.state.maybeTheme.map(_.slug).getOrElse(""),
-                  maybeLocation = self.state.maybeLocation
-                )
-              )()
-            },
             self.state.maybeOperation.map { operation =>
               <.OperationShowcaseContainerComponent(
                 ^.wrapped := OperationShowcaseContainerProps(operation = operation)

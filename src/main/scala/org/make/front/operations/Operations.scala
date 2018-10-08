@@ -48,7 +48,6 @@ object Operations {
     LPAEOperationStaticData.data,
     MVEOperationStaticData.data,
     ChanceAuxJeunesOperationStaticData.data,
-    MakeEuropeOperationStaticData.data,
     CultureOperationStaticData.data,
     AinesOperationStaticData.data
   )

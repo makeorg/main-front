@@ -94,8 +94,11 @@ object CookieAlert {
                   ^.dangerouslySetInnerHTML := I18n
                     .t(
                       "cookie-alert",
-                      replacements =
-                        Replacements(("link-cgu", I18n.t("link-cgu")), ("link-data-policy", I18n.t("link-data-policy")))
+                      replacements = Replacements(
+                        ("start-cgu-link", s"<a href=${I18n.t("link-cgu")}>"),
+                        ("start-policy-link", s"<a href=${I18n.t("link-data-policy")}>"),
+                        ("end-link", "</a>")
+                      )
                     )
                 )()
               ),

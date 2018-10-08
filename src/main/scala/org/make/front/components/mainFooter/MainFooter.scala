@@ -55,22 +55,6 @@ object MainFooter {
                 ),
                 <.div(^.className := TableLayoutStyles.cellVerticalAlignMiddle)(
                   <.ul(^.className := MainFooterStyles.menu)(
-                    /*<.li(^.className := js.Array(MainFooterStyles.menuItem, MainFooterStyles.emphasizedMenuItem))(
-                        <.p(^.className := js.Array(TextStyles.title, TextStyles.smallText))(
-                          <.a(
-                            ^.href := I18n.t("main-footer.menu.item-1.link"),
-                            ^.className := MainFooterStyles.menuItemLink
-                          )(
-                            <.i(
-                              ^.className := js.Array(
-                                MainFooterStyles.menuItemIcon,
-                                FontAwesomeStyles.bullhorn
-                              )
-                            )(),
-                            unescape(I18n.t("main-footer.menu.item-1.label"))
-                          )
-                        )
-                      ),*/
                     Range(2, 9).map(
                       item =>
                         <.li(^.className := MainFooterStyles.menuItem)(

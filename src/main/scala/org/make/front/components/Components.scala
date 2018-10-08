@@ -195,11 +195,8 @@ object Components {
 
     /*********************/
     def TrendingShowcaseContainerComponent: ReactClassElementSpec = self(showcase.TrendingShowcaseContainer.reactClass)
-    def ThemeShowcaseContainerComponent: ReactClassElementSpec = self(showcase.ThemeShowcaseContainer.reactClass)
     def OperationShowcaseContainerComponent: ReactClassElementSpec =
       self(showcase.OperationShowcaseContainer.reactClass)
-    def PromptingToProposeInRelationToThemeTileComponent: ReactClassElementSpec =
-      self(showcase.PromptingToProposeInRelationToThemeTile.reactClass)
     def PromptingToProposeInRelationToOperationTileComponent: ReactClassElementSpec =
       self(showcase.PromptingToProposeInRelationToOperationTile.reactClass)
 
@@ -278,8 +275,6 @@ object Components {
     def LPAEOperationIntroComponent: ReactClassElementSpec = self(operation.intro.LPAEOperationIntro.reactClass)
     def ChanceAuxJeunesOperationIntroComponent: ReactClassElementSpec =
       self(operation.intro.ChanceAuxJeunesOperationIntro.reactClass)
-    def MakeEuropeOperationIntroComponent: ReactClassElementSpec =
-      self(operation.intro.MakeEuropeOperationIntro.reactClass)
     def OperationHeaderComponent: ReactClassElementSpec = self(operation.OperationHeader.reactClass)
     def SubmitProposalInRelationToOperationComponent: ReactClassElementSpec =
       self(operation.SubmitProposalInRelationToOperation.reactClass)
