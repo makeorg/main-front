@@ -45,7 +45,10 @@ object Explanations {
         displayName = "Explanations",
         render = { _ =>
           val openTarget: () => Unit = () => {
-            TrackingService.track(eventName = "click-button-whoweare", trackingContext = TrackingContext(TrackingLocation.showcaseHomepage))
+            TrackingService.track(
+              eventName = "click-button-whoweare",
+              trackingContext = TrackingContext(TrackingLocation.showcaseHomepage)
+            )
             scalajs.js.Dynamic.global.window.open(I18n.t("home.explanations.article-2.see-more-link"), "_blank")
           }
           <.section(^.className := ExplanationsStyles.wrapper)(
@@ -80,12 +83,7 @@ object Explanations {
                       ^.dangerouslySetInnerHTML := I18n.t("home.explanations.article-1.item-3")
                     )()
                   )
-                ) /*,
-            <.p(^.className := IntroStyles.ctaWrapper)(
-              <.a(^.href := I18n.t("home.explanations.article-1.see-more-link"), ^.className := js.Array(CTAStyles.basic, CTAStyles.negative, CTAStyles.basicOnA))(
-                unescape(I18n.t("home.explanations.article-1.see-more"))
-              )
-            )*/
+                )
               ),
               <.article(
                 ^.className := js.Array(

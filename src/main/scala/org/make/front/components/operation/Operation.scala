@@ -31,7 +31,6 @@ import org.make.front.components.operation.intro.ChanceAuxJeunesOperationIntro.C
 import org.make.front.components.operation.intro.ClimatParisOperationIntro.ClimatParisOperationIntroProps
 import org.make.front.components.operation.intro.LPAEOperationIntro.LPAEOperationIntroProps
 import org.make.front.components.operation.intro.MVEOperationIntro.MVEOperationIntroProps
-import org.make.front.components.operation.intro.MakeEuropeOperationIntro.MakeEuropeOperationIntroProps
 import org.make.front.components.operation.intro.VFFGBOperationIntro.VFFGBOperationIntroProps
 import org.make.front.components.operation.intro.VFFITOperationIntro.VFFITOperationIntroProps
 import org.make.front.components.operation.intro.VFFOperationIntro.VFFOperationIntroProps

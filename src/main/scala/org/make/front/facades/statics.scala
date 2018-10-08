@@ -700,40 +700,6 @@ object hautsDeFranceLogo extends js.Object
 @JSImport("./images/operations/chance-aux-jeunes/partners/viva-tech.svg", "default")
 object vivaTechLogo extends js.Object
 
-/* OPERATION MAKE-EUROPE */
-
-@js.native
-@JSImport("./images/operations/make-europe/make-europe.svg", "default")
-object makeEuropeLogo extends js.Object
-
-@js.native
-@JSImport("./images/operations/make-europe/make-europe-white.svg", "default")
-object makeEuropeWhiteLogo extends js.Object
-
-@js.native
-@JSImport("./images/operations/make-europe/make-europe-ill-400x500.jpg", "default")
-object makeEuropeIllSmall extends js.Object
-
-@js.native
-@JSImport("./images/operations/make-europe/make-europe-ill-400x500@2x.jpg", "default")
-object makeEuropeIllSmall2x extends js.Object
-
-@js.native
-@JSImport("./images/operations/make-europe/make-europe-ill-840x500.jpg", "default")
-object makeEuropeIllMedium extends js.Object
-
-@js.native
-@JSImport("./images/operations/make-europe/make-europe-ill-840x500@2x.jpg", "default")
-object makeEuropeIllMedium2x extends js.Object
-
-@js.native
-@JSImport("./images/operations/make-europe/make-europe-ill-1350x500.jpg", "default")
-object makeEuropeIll extends js.Object
-
-@js.native
-@JSImport("./images/operations/make-europe/make-europe-ill-1350x500@2x.jpg", "default")
-object makeEuropeIll2x extends js.Object
-
 /* OPERATION CULTURE */
 
 @js.native

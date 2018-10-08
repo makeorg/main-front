@@ -27,7 +27,8 @@
     "countries-intro": "Vous pouvez également voir notre service dans d'autres pays.",
     "FR": "France",
     "IT": "Italie",
-    "GB": "Grande bretagne"
+    "GB": "Grande bretagne",
+    "DE": "Allemaqne"
   },
   "maintenance": {
     "intro": "oups",
@@ -35,7 +36,7 @@
     "explanation-1": "Pour pouvoir vous proposer un site toujours plus&nbsp;performant,<br>Make.org est actuellement en&nbsp;maintenance.",
     "explanation-2": "N’hésitez pas à repasser d’ici quelques minutes."
   },
-  "cookie-alert": "En poursuivant votre navigation vous consentez à nos <a href=%{link-cgu}>conditions générales d’utilisation</a>, à notre <a href=%{link-data-policy}>politique d'utilisation des données personnelles</a>, ainsi qu'à l'utilisation de cookies sur notre site dans un but d'améliorer notre service.",
+  "cookie-alert": "En poursuivant votre navigation vous consentez à nos %{start-cgu-link}conditions générales d’utilisation%{end-link}, à notre %{start-policy-link}politique d'utilisation des données personnelles%{end-link}, ainsi qu'à l'utilisation de cookies sur notre site dans un but d'améliorer notre service.",
   "link-cgu": "https://about.make.org/conditions-dutilisation",
   "link-data-policy": "https://about.make.org/politique-donnees",
   "home": {
@@ -43,8 +44,7 @@
       "baseline": "À propos",
       "title": "Proposez, votez, agissons",
       "subtitle": "Make.org est une initiative indépendante au service de l'intérêt&nbsp;général.",
-      "see-more": "En savoir&nbsp;+",
-      "see-more-link": "https://about.make.org/qui-sommes-nous"
+      "see-more": "En savoir&nbsp;+"
     },
     "featured-operation": {
       "vff":{
@@ -54,11 +54,6 @@
         "learn-more": {
           "label": "Découvrir les résultats",
           "link": "https://stopvff.make.org/about-vff"
-        }
-      },
-      "make-europe": {
-        "intro": {
-          "title": "Comment réinventer l'Europe ?"
         }
       },
       "mve":{
@@ -104,9 +99,7 @@
         "title": "Proposez, votez, agissons",
         "item-1": "Votez pour les propositions que vous défendez",
         "item-2": "Proposez vos idées sur les problématiques abordées",
-        "item-3": "Et à l'issue de la consultation, participer à la construction d'un plan d'actions citoyen",
-        "see-more-link": "/",
-        "see-more": "En savoir +"
+        "item-3": "Et à l'issue de la consultation, participer à la construction d'un plan d'actions citoyen"
       },
       "article-2": {
         "intro": "qui sommes-nous ?",
@@ -115,10 +108,6 @@
         "see-more-link": "https://about.make.org/qui-sommes-nous",
         "see-more": "En savoir +"
       }
-    },
-    "showcase-1": {
-      "intro": "le thème du mois&nbsp;",
-      "news": "Au moment où le Président de la République ouvre un grand chantier sur la réforme de nos Institutions, faites vous entendre en proposant vos idées."
     },
     "showcase-2": {
       "intro": "Exprimez-vous&nbsp;!",
@@ -140,25 +129,7 @@
     },
     "data-units": {
       "actions": "actions",
-      "votes": "votes",
       "proposals": "propositions"
-    }
-  },
-  "theme-showcase": {
-    "see-all": "Voir toutes les propositions du thème %{themeName}",
-    "prompting-to-propose-tile": {
-      "intro": "Et vous, quelle est votre proposition&nbsp;?",
-      "bait": "Il faut..."
-    },
-    "data-units": {
-      "actions": "actions",
-      "votes": "votes",
-      "proposals": "propositions"
-    },
-    "filter": {
-      "intro" : "Afficher les propositions&nbsp;:",
-      "the-most-popular": "les + populaires",
-      "the-most-original": "les + originales"
     }
   },
   "nav-in-themes": {
@@ -169,7 +140,6 @@
     "total-of-proposals": "%{total} propositions"
   },
   "main-header": {
-    "title": "Make.org",
     "menu" : {
       "item-1": {
         "label": "Qui sommes-nous&nbsp;?",
@@ -196,22 +166,15 @@
     "register": "S'inscrire"
   },
   "user-profile": {
-    "title": "Mes infos personnelles",
     "disconnect-cta": "Je me déconnecte",
     "show-more": "Voir +",
     "show-less": "Voir -",
     "edit-profile": "Modifier mon profil",
-    "manage-account": "Gérer mon compte",
     "back-to-profile": "Retour à mon profil",
     "share-profile": "Partagez ce profil",
-    "last-proposals": "Vos dernières activités",
-    "summary-tab": "Résumé de l'activité",
     "proposals-tab": "Propositions",
-    "actions-tab": "Actions",
     "settings-tab": "Gérer mon compte",
     "years-old": "ans",
-    "vote": "vote",
-    "votes": "votes",
     "likeItproposal": {
       "tab": "Mes coups de <span class=\"fa fa-heart\"></span>",
       "title": "Mes coups de coeur",
@@ -232,22 +195,13 @@
       "title": "Modifier mon profil",
       "cta": "Enregistrer les modifications",
       "inputs": {
-        "required": "(obligatoire)",
         "max-error-message": "Votre message doit être inférieur à %{max} caractères.",
         "min-error-message": "Votre message doit être supérieurs à %{min} caractères.",
         "char": "caractères",
-        "current-length-message": "caractères.",
         "format-error-message": "Format invalide",
         "empty-field-error-message": "Veuillez renseigner ce&nbsp;champ.",
-        "submit": "Enregistrer les modifications",
         "first-name": {
           "label": "Prénom"
-        },
-        "organisation_name": {
-          "label": "Nom"
-        },
-        "last-name": {
-          "label": "Nom"
         },
         "age": {
           "label": "Âge"
@@ -285,14 +239,10 @@
         "label": "Email",
         "placeholder": "J'indique mon email pour supprimer mon compte",
         "error": "Cet email n'est pas associé à votre compte, merci de bien vouloir saisir votre email à nouveau."
-      },
-      "inputs": {
-        "required": "(obligatoire)"
       }
     },
     "reset-password": {
       "title": "Modifier mon mot de passe",
-      "required": "(obligatoire)",
       "send-cta": "Enregistrer les modifications",
       "error-message": "Une erreur s'est produite, réessayez dans quelques minutes.",
       "old-password": {
@@ -328,9 +278,7 @@
     }
   },
   "proposal": {
-    "bait": "Il faut ",
     "created-by-user": "Ma proposition",
-    "share-intro": "Partagez cette proposition avec votre communauté",
     "share-page": "Soutenez cette proposition en la partageant :",
     "share-likeit": "Vous avez aimé cette proposition, partagez-la !",
     "posted-in": "postée dans ",
@@ -347,7 +295,6 @@
     },
     "author-infos": {
       "age": ", %{age} ans",
-      "postal-code": " (%{postalCode})",
       "anonymous": "anonyme"
     },
     "vote": {
@@ -392,11 +339,7 @@
       "limit-of-chars-reached-alert": "Oups&nbsp;! Vous avez dépassé la limite de 140 caractères 😅 Essayez d’être plus concis.e.&nbsp;🙏",
       "info": "Ne vous inquiétez pas, nous corrigerons vos éventuelles fautes&nbsp;d'orthographe.",
       "moderation-charter": "Pour en savoir plus sur notre charte de modération, <a href=\"https://about.make.org/moderation\" target=\"_blank\">cliquez&nbsp;ici.</a>",
-      "validate-cta": "Proposer",
-      "error-message": {
-        "limit-of-chars-exceeded": "Vous avez dépassé la limite de caractères.",
-        "not-enough-chars": "Votre proposition doit contenir au moins %{min} caractères."
-      }
+      "validate-cta": "Proposer"
     },
     "authenticate": {
       "intro": "Nous avons besoin de quelques informations",
@@ -410,11 +353,6 @@
       "new-proposal-cta": "Faire une nouvelle&nbsp;proposition"
     }
   },
-  "political-actions": {
-    "intro": "%{actions} actions issues de vos propositions",
-    "intro_0": "%{actions} action issue de vos propositions",
-    "intro_1": "%{actions} action issue de vos propositions"
-  },
   "no-political-action": {
     "intro": "Nous n’avons pas d’action à vous proposer sur ce thème pour le moment, mais nous y&nbsp;travaillons&nbsp;!",
     "text": "Rendez-vous très prochainement pour agir&nbsp;ensemble&nbsp;!"
@@ -424,9 +362,6 @@
       "title": "Votez sur les&nbsp;propositions",
       "see-more": "Voir + de propositions",
       "no-results": "Nous n’avons trouvé <strong>aucun résultat</strong> correspondant à votre sélection de&nbsp;tag(s). <br> Vous pouvez sélectionner d’autres combinaisons de&nbsp;tags."
-    },
-    "proposal-form-in-header": {
-      "limit-of-chars-info": "8/140"
     },
     "submit-proposal": {
       "intro": "Partagez votre proposition sur le&nbsp;thème"
@@ -444,7 +379,6 @@
       "title": "Des milliers de citoyens proposent des&nbsp;solutions.",
       "explanation-1": "Prenez position sur ces solutions et proposez les&nbsp;vôtres.",
       "explanation-2": "Les plus soutenues détermineront nos&nbsp;actions.",
-      "duration": "2 minutes",
       "cta": "Démarrer"
     },
     "prompting-to-propose": {
@@ -485,11 +419,8 @@
       "seeMore": "En savoir&nbsp;+",
       "community": "Une mobilisation d'ampleur",
       "community-text": "Des milliers de citoyens s'engagent en participant à la consultation.",
-      "citizens": "citoyens",
-      "participated": "ont déjà participé",
       "also": "Nos partenaires s'engagent à nos côtés",
       "also-text": "Ils soutiennent la consultation et le plan d'actions citoyen qui suivra.",
-      "morePartners": "Voir tous les partenaires",
       "founder": "Partenaire Fondateur"
     },
     "intro": {
@@ -503,9 +434,7 @@
       "title": "Partagez cette consultation"
     },
     "community": {
-      "title": "Comunauté d'actions",
       "partner": {
-        "title": "Eux aussi participent:",
         "see-more": "Voir tous les  partenaires"
       },
       "citizen-count": "%{count} citoyens ",
@@ -692,9 +621,6 @@
         "format-error-message": "Format invalide",
         "empty-field-error-message": "Veuillez renseigner ce&nbsp;champ."
       },
-      "last-name": {
-        "placeholder": "Nom"
-      },
       "password": {
         "placeholder": "Mot de passe",
         "format-error-message": "Votre mot de passe doit contenir au moins %{min}&nbsp;caractères.",
@@ -767,10 +693,6 @@
   },
   "main-footer": {
     "menu": {
-      "item-1": {
-        "label": "Devenez Maker&nbsp;!",
-        "link": "/"
-      },
       "item-2": {
         "label": "Jobs",
         "link": "https://about.make.org/jobs"
@@ -798,14 +720,6 @@
       "item-8": {
         "label": "Contact",
         "link": "https://about.make.org/contact"
-      },
-      "item-9": {
-        "label": "f.a.q.",
-        "link": "/"
-      },
-      "item-10": {
-        "label": "sitemap",
-        "link": "/"
       }
     }
   }
