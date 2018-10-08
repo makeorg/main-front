@@ -47,50 +47,12 @@
       "see-more": "En savoir&nbsp;+"
     },
     "featured-operation": {
-      "vff":{
-        "title": "Stop aux Violences Faites aux&nbsp;Femmes",
-        "label": "Grande cause Make.org",
-        "purpose": "Grâce à vos votes et à vos propositions, 17 grandes idées ont été identifiées.",
-        "learn-more": {
-          "label": "Découvrir les résultats",
-          "link": "https://stopvff.make.org/about-vff"
-        }
-      },
-      "mve":{
-        "title": "Mieux vivre ensemble",
-        "label": "Grande cause Make.org",
-        "purpose": "Votez et proposez des solutions pour mieux vivre ensemble.",
-        "learn-more": {
-          "label": "Participer à la consultation",
-          "link": "https://www.make.org/#/fr/consultation/mieux-vivre-ensemble/selection"
-        }
-      },
-      "chance-aux-jeunes": {
-        "title": "Une chance pour chaque jeune",
-        "label": "Grande cause Make.org",
-        "purpose": "Votez et proposez des solutions pour donner une chance à chaque jeune.",
-        "learn-more": {
-          "label": "Participer à la consultation",
-          "link": "/?utm_source=core&utm_medium=push-hp&utm_campaign=jeunes#/fr/consultation/chance-aux-jeunes/selection"
-        }
-      },
-      "culture": {
-        "title": "Accès à la culture pour tous",
-        "label": "Grande cause Make.org",
-        "purpose": "Votez et proposez des solutions pour rendre la culture accessible à tous.",
-        "learn-more": {
-          "label": "Participer à la consultation",
-          "link": "/?utm_source=core&utm_medium=push-hp&utm_campaign=cpt#/FR/consultation/culture/consultation"
-        }
-      },
-      "aines": {
-        "title":  "Comment mieux prendre soin de nos aînés ?",
-        "label": "Grande cause Make.org",
-        "purpose": "Votez et proposez des solutions pour mieux prendre soin de nos aînés.",
-        "learn-more": {
-          "label": "Participer à la consultation",
-          "link": "/?utm_source=core&utm_medium=push-hp&utm_campaign=aines#/FR/consultation/aines/consultation"
-        }
+      "title": "Comment mieux prendre soin de nos aînés ?",
+      "label": "Grande cause Make.org",
+      "purpose": "Votez et proposez des solutions pour mieux prendre soin de nos aînés.",
+      "learn-more": {
+        "label": "Participer à la consultation",
+        "link": "/?utm_source=core&utm_medium=push-hp&utm_campaign=aines#/FR/consultation/aines/consultation"
       }
     },
     "explanations": {

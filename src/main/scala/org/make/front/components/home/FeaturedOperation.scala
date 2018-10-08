@@ -36,13 +36,13 @@ import org.make.services.tracking.{TrackingLocation, TrackingService}
 
 import scala.scalajs.js
 
-object AinesFeaturedOperation {
+object FeaturedOperation {
 
-  final case class AinesFeaturedOperationProps(trackingLocation: TrackingLocation)
+  final case class FeaturedOperationProps(trackingLocation: TrackingLocation)
 
   lazy val reactClass: ReactClass =
     React
-      .createClass[AinesFeaturedOperationProps, Unit](
+      .createClass[FeaturedOperationProps, Unit](
         displayName = "FeaturedOperation",
         render = (self) => {
 
@@ -50,43 +50,41 @@ object AinesFeaturedOperation {
             TrackingService
               .track(
                 eventName = "click-homepage-header",
-                trackingContext = TrackingContext(self.props.wrapped.trackingLocation, Some("aines"))
+                trackingContext = TrackingContext(self.props.wrapped.trackingLocation)
               )
-            scalajs.js.Dynamic.global.window.location = I18n.t("home.featured-operation.aines.learn-more.link")
+            scalajs.js.Dynamic.global.window.location = I18n.t("home.featured-operation.learn-more.link")
           }
 
-          <.section(^.className := js.Array(TableLayoutStyles.wrapper, AinesFeaturedOperationStyles.wrapper))(
+          <.section(^.className := js.Array(TableLayoutStyles.wrapper, FeaturedOperationStyles.wrapper))(
             <.div(
               ^.className := js
-                .Array(TableLayoutStyles.cellVerticalAlignMiddle, AinesFeaturedOperationStyles.innerWrapper)
+                .Array(TableLayoutStyles.cellVerticalAlignMiddle, FeaturedOperationStyles.innerWrapper)
             )(
               <.img(
-                ^.className := AinesFeaturedOperationStyles.illustration,
-                ^.src := ainesLarge.toString,
-                ^("srcset") := ainesSmall.toString + " 400w, " + ainesSmall2x.toString + " 800w, " + ainesMedium.toString + " 840w, " + ainesMedium2x.toString + " 1680w, " + ainesLarge.toString + " 1350w, " + ainesLarge2x.toString + " 2700w",
-                ^.alt := I18n.t("home.featured-operation.aines.intro.title"),
+                ^.className := FeaturedOperationStyles.illustration,
+                ^.src := featuredOperationLarge.toString,
+                ^("srcset") := featuredOperationSmall.toString + " 400w, " + featuredOperationSmall2x.toString + " 800w, " + featuredOperationMedium.toString + " 840w, " + featuredOperationMedium2x.toString + " 1680w, " + featuredOperationLarge.toString + " 1350w, " + featuredOperationLarge2x.toString + " 2700w",
+                ^.alt := I18n.t("home.featured-operation.intro.title"),
                 ^("data-pin-no-hover") := "true"
               )(),
-              <.div(
-                ^.className := js.Array(AinesFeaturedOperationStyles.innerSubWrapper, LayoutRulesStyles.centeredRow)
-              )(
-                <.div(^.className := AinesFeaturedOperationStyles.labelWrapper)(
-                  <.p(^.className := TextStyles.label)(unescape(I18n.t("home.featured-operation.aines.label")))
+              <.div(^.className := js.Array(FeaturedOperationStyles.innerSubWrapper, LayoutRulesStyles.centeredRow))(
+                <.div(^.className := FeaturedOperationStyles.labelWrapper)(
+                  <.p(^.className := TextStyles.label)(unescape(I18n.t("home.featured-operation.label")))
                 ),
                 <.h2(
                   ^.className := js
-                    .Array(AinesFeaturedOperationStyles.title, TextStyles.veryBigText, TextStyles.boldText)
-                )(unescape(I18n.t("home.featured-operation.aines.title"))),
-                <.h3(^.className := js.Array(TextStyles.mediumText, AinesFeaturedOperationStyles.subTitle))(
-                  unescape(I18n.t("home.featured-operation.aines.purpose"))
+                    .Array(FeaturedOperationStyles.title, TextStyles.veryBigText, TextStyles.boldText)
+                )(unescape(I18n.t("home.featured-operation.title"))),
+                <.h3(^.className := js.Array(TextStyles.mediumText, FeaturedOperationStyles.subTitle))(
+                  unescape(I18n.t("home.featured-operation.purpose"))
                 ),
-                <.p(^.className := AinesFeaturedOperationStyles.ctaWrapper)(
+                <.p(^.className := FeaturedOperationStyles.ctaWrapper)(
                   <.button(
                     ^.onClick := learnMoreOnFeaturedOperation,
                     ^.className := js.Array(CTAStyles.basic, CTAStyles.basicOnButton)
-                  )(unescape(I18n.t("home.featured-operation.aines.learn-more.label")))
+                  )(unescape(I18n.t("home.featured-operation.learn-more.label")))
                 ),
-                <.style()(AinesFeaturedOperationStyles.render[String])
+                <.style()(FeaturedOperationStyles.render[String])
               )
             )
           )
@@ -94,7 +92,7 @@ object AinesFeaturedOperation {
       )
 }
 
-object AinesFeaturedOperationStyles extends StyleSheet.Inline {
+object FeaturedOperationStyles extends StyleSheet.Inline {
 
   import dsl._
 
