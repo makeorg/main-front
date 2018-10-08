@@ -289,11 +289,7 @@ object Components {
     /*********************/
     def HomeComponent: ReactClassElementSpec = self(home.Home.reactClass)
     def WelcomeComponent: ReactClassElementSpec = self(home.Welcome.reactClass)
-    def VFFFeaturedOperationComponent: ReactClassElementSpec = self(home.VFFFeaturedOperation.reactClass)
-    def MVEFeaturedOperationComponent: ReactClassElementSpec = self(home.MVEFeaturedOperation.reactClass)
-    def CAJFeaturedOperationComponent: ReactClassElementSpec = self(home.CAJFeaturedOperation.reactClass)
-    def CultureFeaturedOperationComponent: ReactClassElementSpec = self(home.CultureFeaturedOperation.reactClass)
-    def AinesFeaturedOperationComponent: ReactClassElementSpec = self(home.AinesFeaturedOperation.reactClass)
+    def FeaturedOperationComponent: ReactClassElementSpec = self(home.FeaturedOperation.reactClass)
     def ExplanationsComponent: ReactClassElementSpec = self(home.Explanations.reactClass)
 
   }
