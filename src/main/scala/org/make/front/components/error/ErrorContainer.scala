@@ -35,17 +35,7 @@ object ErrorContainer {
   lazy val reactClass: ReactClass = ReactRedux.connectAdvanced(selectorFactory)(Error.reactClass)
 
   def selectorFactory: (Dispatch) => (AppState, Props[Unit]) => Error.ErrorProps =
-    (dispatch: Dispatch) => { (state: AppState, props: Props[Unit]) =>
-      def redirectToRandomTheme: () => Unit = { () =>
-        if (state.configuration.isEmpty) {
-          dispatch(LoadConfiguration)
-        }
-
-        val randomThemeSlug = Random.shuffle(state.themes.toSeq).head.slug
-        props.history.push(s"/theme/$randomThemeSlug")
-      }
-
-      Error.ErrorProps(redirectToRandomTheme = redirectToRandomTheme)
-
+    (_: Dispatch) => { (_: AppState, _: Props[Unit]) =>
+      Error.ErrorProps()
     }
 }

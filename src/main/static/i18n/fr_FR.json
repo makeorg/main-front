@@ -15,9 +15,8 @@
     "intro": "oups",
     "title": "Erreur 404",
     "recherche-intro": "La page que vous avez demandé n’existe pas ou plus. Vous pouvez lancer une&nbsp;recherche&hellip;",
-    "redirection-intro": "&hellip; ou vous laisser tenter par une nouvelle destination&nbsp;:",
-    "redirect-to-home": "La page d'accueil",
-    "redirect-to-random-theme": "Un thème choisi au hasard"
+    "redirection-intro": "&hellip; ou retrouver l'inspiration sur notre page d'accueil&nbsp;:",
+    "redirect-to-home": "La page d'accueil"
   },
   "current-operations": {
     "operations-intro": "Des consultations sont en cours dans votre pays, venez y participer&nbsp;!",

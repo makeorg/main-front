@@ -16,8 +16,7 @@
     "title": "Error 404",
     "recherche-intro": "We are sorry, the page you have requested no longer exists. You can initiate a search to find the content that interests you&hellip;",
     "redirection-intro": "&hellip; or let youself be tempted by a new destination:",
-    "redirect-to-home": "Home Page",
-    "redirect-to-random-theme": "A random theme"
+    "redirect-to-home": "Home Page"
   },
   "current-operations": {
     "operations-intro": "We're currently running %{count} consultations in your country, join&nbsp;in!",
