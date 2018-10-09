@@ -35,7 +35,9 @@ import scala.scalajs.js
 
 object ProposalAuthorInfos {
 
-  final case class ProposalAuthorInfosProps(proposal: ProposalModel, country: Option[String])
+  final case class ProposalAuthorInfosProps(proposal: ProposalModel,
+                                            country: Option[String],
+                                            withCreationDate: Boolean = true)
 
   val reactClass: ReactClass =
     React
@@ -69,10 +71,25 @@ object ProposalAuthorInfos {
                   )
                 case _ => formatAuthorName(proposal.author.organisationName)
               },
-              <.i(^.className := js.Array(FontAwesomeStyles.checkCircle, ProposalInfosStyles.checkCircle))()
+              <.i(^.className := js.Array(FontAwesomeStyles.checkCircle, ProposalInfosStyles.checkCircle))(),
+              if (self.props.wrapped.withCreationDate) {
+                Seq(
+                  unescape("&nbsp;&#8226;&nbsp;"),
+                  I18n.l(proposal.createdAt, DateLocalizeOptions("common.date.long"))
+                )
+              }
             )
           } else {
-            <.span(^.className := ProposalInfosStyles.infos)(formatAuthorName(proposal.author.firstName), age)
+            <.span(^.className := ProposalInfosStyles.infos)(
+              formatAuthorName(proposal.author.firstName),
+              age,
+              if (self.props.wrapped.withCreationDate) {
+                Seq(
+                  unescape("&nbsp;&#8226;&nbsp;"),
+                  I18n.l(proposal.createdAt, DateLocalizeOptions("common.date.long"))
+                )
+              }
+            )
           }
         }
       )

@@ -83,7 +83,11 @@ object ProposalInsideSequence {
             <.div(^.className := ProposalInsideSequenceStyles.infosWrapper)(
               <.p(^.className := js.Array(TextStyles.mediumText, ProposalInsideSequenceStyles.infos))(
                 <.ProposalAuthorInfos(
-                  ^.wrapped := ProposalAuthorInfosProps(proposal = self.props.wrapped.proposal, None)
+                  ^.wrapped := ProposalAuthorInfosProps(
+                    proposal = self.props.wrapped.proposal,
+                    country = None,
+                    withCreationDate = false
+                  )
                 )()
               )
             ),
