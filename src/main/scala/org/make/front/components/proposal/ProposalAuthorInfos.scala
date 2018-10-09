@@ -69,16 +69,10 @@ object ProposalAuthorInfos {
                   )
                 case _ => formatAuthorName(proposal.author.organisationName)
               },
-              <.i(^.className := js.Array(FontAwesomeStyles.checkCircle, ProposalInfosStyles.checkCircle))(),
-              unescape("&nbsp;&#8226;&nbsp;"),
-              I18n.l(proposal.createdAt, DateLocalizeOptions("common.date.long"))
+              <.i(^.className := js.Array(FontAwesomeStyles.checkCircle, ProposalInfosStyles.checkCircle))()
             )
           } else {
-            <.span(^.className := ProposalInfosStyles.infos)(
-              formatAuthorName(proposal.author.firstName),
-              age + unescape("&nbsp;&#8226;&nbsp;"),
-              I18n.l(proposal.createdAt, DateLocalizeOptions("common.date.long"))
-            )
+            <.span(^.className := ProposalInfosStyles.infos)(formatAuthorName(proposal.author.firstName), age)
           }
         }
       )
