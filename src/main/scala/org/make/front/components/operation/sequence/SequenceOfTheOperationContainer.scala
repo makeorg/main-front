@@ -76,24 +76,41 @@ object SequenceOfTheOperationContainer {
           .toMap
 
         val search = org.scalajs.dom.window.location.search
-        val firstProposalSlug = (if (search.startsWith("?")) { search.substring(1) } else { search })
-          .split("&")
-          .map(_.split("="))
-          .find {
-            case Array("firstProposal", _) => true
-            case _                         => false
-          }
-          .flatMap {
-            case Array(_, value) => Some(value)
-            case _               => None
-          }
+        def searchParam(paramName: String): Option[String] =
+          (if (search.startsWith("?")) { search.substring(1) } else { search })
+            .split("&")
+            .map(_.split("="))
+            .find {
+              case Array(`paramName`, _) => true
+              case _                     => false
+            }
+            .flatMap {
+              case Array(_, value) => Some(value)
+              case _               => None
+            }
+
+        val firstProposalId = searchParam("firstProposalId")
+        @Deprecated
+        val firstProposalSlug = searchParam("firstProposal")
 
         def startSequence(sequenceId: SequenceId)(proposals: js.Array[ProposalId]): Future[SequenceModel] = {
-          firstProposalSlug.map { slug =>
+          val firstProposal = firstProposalId.map { proposalId =>
             ProposalService
-              .searchProposals(slug = Some(slug), language = Some(state.language), country = Some(state.country))
+              .searchProposals(
+                proposalIds = Some(js.Array(ProposalId(proposalId))),
+                language = Some(state.language),
+                country = Some(state.country)
+              )
               .map(_.results.map(_.id))
-          }.getOrElse(Future.successful(js.Array())).flatMap { proposalsToInclude =>
+
+          }.orElse(firstProposalSlug.map { slug =>
+              ProposalService
+                .searchProposals(slug = Some(slug), language = Some(state.language), country = Some(state.country))
+                .map(_.results.map(_.id))
+            })
+            .getOrElse(Future.successful(js.Array()))
+
+          firstProposal.flatMap { proposalsToInclude =>
             SequenceService.startSequenceById(
               sequenceId,
               proposalsToInclude ++ proposals.filter(id => !proposalsToInclude.contains(id))
