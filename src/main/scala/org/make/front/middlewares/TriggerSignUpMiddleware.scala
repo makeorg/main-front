@@ -22,7 +22,7 @@ package org.make.front.middlewares
 
 import io.github.shogowada.scalajs.reactjs.redux.Redux.Dispatch
 import io.github.shogowada.scalajs.reactjs.redux.Store
-import org.make.front.actions.VoteAction
+import org.make.front.actions.{TriggerSignUpAction, VoteAction}
 import org.make.front.components.AppState
 import org.make.front.models.Location
 import org.make.front.models.Location.Sequence
@@ -41,17 +41,21 @@ object TriggerSignUpMiddleware {
     listeners -= id
   }
 
-  final case class TriggerSignUpListener(onTriggerSignUp: Location => Unit)
+  final case class TriggerSignUpListener(onTriggerSignUp: (Location, Boolean) => Unit)
+
+  def notifyListenersIfNeeded(store: Store[AppState], location: Location, forceSignup: Boolean) =
+    if (store.getState.connectedUser.isEmpty) {
+      listeners.values.foreach { listener =>
+        Try(listener.onTriggerSignUp(location, forceSignup))
+      }
+    }
 
   val handle: Store[AppState] => Dispatch => Any => Any = (store: Store[AppState]) =>
     (dispatch: Dispatch) => {
-      case VoteAction(Sequence(_)) =>
-      case VoteAction(location) =>
-        if (store.getState.connectedUser.isEmpty) {
-          listeners.values.foreach { listener =>
-            Try(listener.onTriggerSignUp(location))
-          }
-        }
+      case VoteAction(Sequence(_))       =>
+      case VoteAction(location)          => notifyListenersIfNeeded(store, location, false)
+      case TriggerSignUpAction(location) => notifyListenersIfNeeded(store, location, true)
+
       case action => dispatch(action)
   }
 }
