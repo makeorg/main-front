@@ -57,10 +57,6 @@ object ProposalTileWithThemeContainer {
       val theme: Option[TranslatedThemeModel] =
         props.wrapped.proposal.themeId.flatMap(themeId => searchThemeById(themeId))
 
-      val themeName: Option[String] = theme.map(_.title)
-
-      val themeSlug: Option[String] = theme.map(_.slug)
-
       ProposalTile.ProposalTileProps(
         proposal = props.wrapped.proposal,
         index = props.wrapped.index,
@@ -70,12 +66,7 @@ object ProposalTileWithThemeContainer {
         maybeLocation = props.wrapped.maybeLocation,
         trackingLocation = props.wrapped.trackingLocation,
         country = appState.country,
-        maybePostedIn = Some(
-          PostedIn(
-            name = themeName.getOrElse(""),
-            link = s"/${props.wrapped.proposal.country}/theme/${themeSlug.getOrElse("")}"
-          )
-        )
+        maybePostedIn = PostedIn.fromProposal(proposal = props.wrapped.proposal, themes = appState.themes)
       )
     }
 }

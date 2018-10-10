@@ -27,7 +27,7 @@ import io.github.shogowada.scalajs.reactjs.router.WithRouter
 import org.make.core.Counter
 import org.make.front.Main.CssSettings._
 import org.make.front.components.Components.{RichVirtualDOMElements, _}
-import org.make.front.components.proposal.ProposalTile.ProposalTileProps
+import org.make.front.components.proposal.ProposalTile.{PostedIn, ProposalTileProps}
 import org.make.front.components.search.NoResultToSearch.NoResultToSearchProps
 import org.make.front.facades.ReactInfiniteScroller.{
   ReactInfiniteScrollerVirtualDOMAttributes,
@@ -35,11 +35,19 @@ import org.make.front.facades.ReactInfiniteScroller.{
 }
 import org.make.front.facades.Unescape.unescape
 import org.make.front.facades.{I18n, Replacements}
-import org.make.front.models.{Location, Proposal, SequenceId, OperationExpanded => OperationModel}
+import org.make.front.helpers.RouteHelper
+import org.make.front.models.{
+  Location,
+  SequenceId,
+  Operation         => OperationModel,
+  OperationExpanded => OperationExpandedModel,
+  Proposal          => ProposalModel
+}
 import org.make.front.styles.ThemeStyles
 import org.make.front.styles.base._
 import org.make.front.styles.ui.CTAStyles
 import org.make.front.styles.utils._
+import org.make.services.operation.OperationService
 import org.make.services.proposal.SearchResult
 import org.make.services.tracking.TrackingService.TrackingContext
 import org.make.services.tracking.{TrackingLocation, TrackingService}
@@ -51,21 +59,22 @@ import scala.util.{Failure, Success}
 
 object SearchResults {
   final case class SearchResultsProps(
-    onMoreResultsRequested: (js.Array[Proposal], Option[String]) => Future[SearchResult],
+    onMoreResultsRequested: (js.Array[ProposalModel], Option[String]) => Future[SearchResult],
     searchValue: Option[String],
     maybeSequence: Option[SequenceId],
-    maybeOperation: Option[OperationModel],
+    maybeOperation: Option[OperationExpandedModel],
     maybeLocation: Option[Location],
     isConnected: Boolean,
     language: String
   )
 
-  final case class SearchResultsState(listProposals: js.Array[Proposal],
+  final case class SearchResultsState(listProposals: js.Array[ProposalModel],
                                       initialLoad: Boolean,
                                       hasRequestedMore: Boolean,
                                       hasMore: Boolean,
                                       resultsCount: Int,
-                                      maybeOperation: Option[OperationModel])
+                                      maybeOperation: Option[OperationExpandedModel],
+                                      operations: js.Array[OperationModel] = js.Array())
 
   object SearchResultsState {
     val empty =
@@ -103,6 +112,12 @@ object SearchResults {
             self.setState(SearchResultsState.empty)
           }
         },
+        componentDidMount = self => {
+          OperationService.listOperations().onComplete {
+            case Success(operationList) => self.setState(self.state.copy(operations = operationList))
+            case Failure(_)             =>
+          }
+        },
         render = { self =>
           val onSeeMore: (Int) => Unit = {
             _ =>
@@ -132,7 +147,7 @@ object SearchResults {
                 }
           }
 
-          def proposals(proposals: js.Array[Proposal]) =
+          def proposals(proposals: js.Array[ProposalModel]) =
             js.Array(
                 <.InfiniteScroll(
                   ^.element := "ul",
@@ -166,7 +181,14 @@ object SearchResults {
                                 trackingLocation = TrackingLocation.searchResultsPage,
                                 maybeTheme = None,
                                 country = proposal.country,
-                                maybePostedIn = None
+                                maybePostedIn = PostedIn.fromProposal(
+                                  proposal = proposal,
+                                  operations = self.state.operations.flatMap(
+                                    ope =>
+                                      OperationExpandedModel
+                                        .getOperationExpandedFromOperation(Some(ope), proposal.tags, proposal.country)
+                                  )
+                                )
                               )
                           )()
                       )
@@ -189,7 +211,7 @@ object SearchResults {
               )
               .toSeq
 
-          val proposalsToDisplay: js.Array[Proposal] = self.state.listProposals
+          val proposalsToDisplay: js.Array[ProposalModel] = self.state.listProposals
 
           <.section()(
             <.div(^.className := TableLayoutStyles.fullHeightWrapper)(
@@ -233,6 +255,7 @@ object SearchResults {
             ),
             <.style()(SearchResultsStyles.render[String])
           )
+
         }
       )
     )
