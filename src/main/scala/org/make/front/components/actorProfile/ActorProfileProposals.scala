@@ -56,7 +56,7 @@ object ActorProfileProposals {
         componentDidMount = self => {
           self.props.wrapped.getOperations().onComplete {
             case Success(operationList) =>
-              self.setState(self.state.copy(operations = operationList))
+              self.setState(_.copy(operations = operationList))
             case Failure(_) =>
           }
         },

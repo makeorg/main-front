@@ -69,11 +69,11 @@ object ActionsSection {
           }
 
           def openRegisterAuthenticateModal() = () => {
-            self.setState(state => state.copy(isAuthenticateModalOpened = true, loginOrRegisterView = "actions"))
+            self.setState(_.copy(isAuthenticateModalOpened = true, loginOrRegisterView = "actions"))
           }
 
           def toggleAuthenticateModal() = () => {
-            self.setState(state => state.copy(isAuthenticateModalOpened = !self.state.isAuthenticateModalOpened))
+            self.setState(_.copy(isAuthenticateModalOpened = !self.state.isAuthenticateModalOpened))
           }
 
           <.div(^.className := ActionsSectionStyles.mainWrapper)(

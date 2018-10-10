@@ -58,7 +58,7 @@ object VoteButton {
                              removeVoteQualification: (String, String) => Future[Qualification],
                              guideToVote: Option[String] = None,
                              guideToQualification: Option[String] = None,
-                             isProposalSharable : Boolean)
+                             isProposalSharable: Boolean)
 
   case class VoteButtonState(isActivated: Boolean,
                              isHovered: Boolean,
@@ -274,7 +274,7 @@ object VoteButton {
                     qualify = qualify,
                     removeQualification = removeQualification,
                     guide = self.props.wrapped.guideToQualification,
-                    isProposalSharable  = self.props.wrapped.isProposalSharable
+                    isProposalSharable = self.props.wrapped.isProposalSharable
                   )
                 )()
               }

@@ -150,12 +150,12 @@ object SequenceOfTheOperation {
             operation.gradient.getOrElse(GradientColorModel("#FFF", "#FFF"))
 
           val closeProposalModal: () => Unit = () => {
-            self.setState(state => state.copy(isProposalModalOpened = false))
+            self.setState(_.copy(isProposalModalOpened = false))
           }
 
           val openProposalModal: (MouseSyntheticEvent) => Unit = { event =>
             event.preventDefault()
-            self.setState(state => state.copy(isProposalModalOpened = true))
+            self.setState(_.copy(isProposalModalOpened = true))
             TrackingService.track(
               eventName = "click-proposal-submit-form-open",
               trackingContext = TrackingContext(TrackingLocation.sequencePage, Some(operation.slug)),

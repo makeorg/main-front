@@ -169,13 +169,13 @@ object ResultsInConsultation {
               .onComplete {
                 case Success(searchResult) =>
                   self.setState(
-                    s =>
-                      s.copy(
+                    state =>
+                      state.copy(
                         listProposals = searchResult.results,
                         hasMore = searchResult.total > searchResult.results.size,
                         initialLoad = false,
                         maybeSeed = searchResult.seed,
-                        hasRequestedMore = !s.initialLoad
+                        hasRequestedMore = !state.initialLoad
                     )
                   )
                 case Failure(_) => // Let parent handle logging error

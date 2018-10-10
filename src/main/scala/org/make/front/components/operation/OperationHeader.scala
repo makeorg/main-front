@@ -58,11 +58,11 @@ object OperationHeader {
         var proposalInput: Option[HTMLElement] = None
 
         val closeProposalModal: () => Unit = () => {
-          self.setState(state => state.copy(isProposalModalOpened = false))
+          self.setState(_.copy(isProposalModalOpened = false))
         }
 
         def openProposalModalFromInput() = () => {
-          self.setState(state => state.copy(isProposalModalOpened = true))
+          self.setState(_.copy(isProposalModalOpened = true))
           TrackingService
             .track(
               eventName = "click-proposal-submit-form-open",

@@ -116,15 +116,15 @@ object UnconnectedUserNavElement {
   def apply(self: Self[UserNavProps, UserNavState]): ReactElement = {
 
     def openLoginAuthenticateModal() = () => {
-      self.setState(state => state.copy(isAuthenticateModalOpened = true, loginOrRegisterView = "login"))
+      self.setState(_.copy(isAuthenticateModalOpened = true, loginOrRegisterView = "login"))
     }
 
     def openRegisterAuthenticateModal() = () => {
-      self.setState(state => state.copy(isAuthenticateModalOpened = true, loginOrRegisterView = "register"))
+      self.setState(_.copy(isAuthenticateModalOpened = true, loginOrRegisterView = "register"))
     }
 
     def toggleAuthenticateModal() = () => {
-      self.setState(state => state.copy(isAuthenticateModalOpened = !self.state.isAuthenticateModalOpened))
+      self.setState(_.copy(isAuthenticateModalOpened = !self.state.isAuthenticateModalOpened))
     }
 
     <.ul(^.className := UserNavStyles.menu)(

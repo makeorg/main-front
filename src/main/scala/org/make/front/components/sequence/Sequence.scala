@@ -463,7 +463,7 @@ object Sequence {
               )
             }
 
-            self.setState(state => state.copy(currentSlideIndex = currentSlide))
+            self.setState(_.copy(currentSlideIndex = currentSlide))
           }
 
           def canScrollNext: Boolean = {

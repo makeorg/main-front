@@ -160,13 +160,13 @@ object ResultsInTheme {
               .onComplete {
                 case Success(searchResult) =>
                   self.setState(
-                    s =>
-                      s.copy(
+                    state =>
+                      state.copy(
                         listProposals = searchResult.results,
                         hasMore = searchResult.total > searchResult.results.size,
                         initialLoad = false,
                         maybeSeed = searchResult.seed,
-                        hasRequestedMore = !s.initialLoad
+                        hasRequestedMore = !state.initialLoad
                     )
                   )
                 case Failure(_) => // Let parent handle logging error
@@ -203,7 +203,8 @@ object ResultsInTheme {
                 eventName = "click-tag-action",
                 trackingContext = TrackingContext(TrackingLocation.themePage),
                 parameters = Map.empty,
-                internalOnlyParameters = Map("themeId" -> self.props.wrapped.theme.id.value, "nature" -> action, "tag-name" -> tag.label)
+                internalOnlyParameters =
+                  Map("themeId" -> self.props.wrapped.theme.id.value, "nature" -> action, "tag-name" -> tag.label)
               )
             }
 
@@ -285,11 +286,13 @@ object ResultsInTheme {
             <.h2(^.className := TextStyles.mediumTitle)(unescape(I18n.t("theme.results.title")))
           ),
           <.div(^.className := js.Array(LayoutRulesStyles.centeredRow, ResultsInThemeStyles.tagsNavWrapper))(
-            <.FilterByTagsComponent(^.wrapped := FilterByTagsProps(
-              tags = self.props.wrapped.theme.tags,
-              selectedTags = self.state.selectedTags,
-              onTagSelectionChange = onTagsChange
-            ))()
+            <.FilterByTagsComponent(
+              ^.wrapped := FilterByTagsProps(
+                tags = self.props.wrapped.theme.tags,
+                selectedTags = self.state.selectedTags,
+                onTagSelectionChange = onTagsChange
+              )
+            )()
           ),
           if (self.state.initialLoad || proposalsToDisplay.nonEmpty) {
             proposals(proposalsToDisplay, self.props.wrapped.country)
