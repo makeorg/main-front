@@ -24,32 +24,6 @@
     <meta content="width=device-width, initial-scale=1, maximum-scale=1" name="viewport">
     <link href="https://fonts.googleapis.com/css?family=Playfair+Display:400i" rel="stylesheet">
     <link rel="stylesheet" href="./styles/main.css" type="text/css" media="all">
-    <script language="javascript">
-        function extractHostname(url) {
-            var hostname;
-            if (url.indexOf("://") > -1) {
-                hostname = url.split('/')[2];
-            }
-            else {
-                hostname = url.split('/')[0];
-            }
-            hostname = hostname.split(':')[0];
-            hostname = hostname.split('?')[0];
-            return hostname;
-        }
-        function extractAnchor(url) {
-            urlParts = url.split('#');
-            if (urlParts.length > 1) {
-                return urlParts[1];
-            }
-            return "";
-        }
-        var referer = extractHostname(document.referrer);
-        var anchor = extractAnchor(window.location.href);
-        if (referer == "r.orange.fr" && (anchor == "" || anchor == "/" || anchor.toLowerCase() == "/fr")) {
-            window.location.replace("https://about.make.org/about-mieux-vivre-ensemble?utm_campaign=mve&utm_source=orange&utm_medium=redirect")
-        }
-    </script>
 </head>
 <body>
 <script>
