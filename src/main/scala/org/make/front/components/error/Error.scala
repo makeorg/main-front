@@ -39,7 +39,7 @@ import scala.scalajs.js
 
 object Error {
 
-  case class ErrorProps(redirectToRandomTheme: () => Unit)
+  case class ErrorProps()
 
   lazy val reactClass: ReactClass =
     WithRouter(
@@ -96,15 +96,6 @@ object Error {
                                   <.Link(^.className := js.Array(CTAStyles.basic, CTAStyles.basicOnA), ^.to := s"/")(
                                     <.i(^.className := FontAwesomeStyles.home)(),
                                     unescape("&nbsp;" + I18n.t("error.redirect-to-home"))
-                                  )
-                                ),
-                                <.li(^.className := ErrorStyles.ctaWrapper)(
-                                  <.button(
-                                    ^.className := js.Array(CTAStyles.basic, CTAStyles.basicOnButton),
-                                    ^.onClick := self.props.wrapped.redirectToRandomTheme
-                                  )(
-                                    <.i(^.className := FontAwesomeStyles.random)(),
-                                    unescape("&nbsp;" + I18n.t("error.redirect-to-random-theme"))
                                   )
                                 )
                               )

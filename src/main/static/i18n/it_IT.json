@@ -16,8 +16,7 @@
     "title": "Errore 404",
     "recherche-intro": "Ci dispiace, la pagina che cerchi non esiste più. Puoi provare a cercare il contenuto che ti interessa&hellip;",
     "redirection-intro": "&hellip; o lasciarti tentare da una nuova destinazione:",
-    "redirect-to-home": "Pagina principale ",
-    "redirect-to-random-theme": "Un tema a caso"
+    "redirect-to-home": "Pagina principale "
   },
   "current-operations": {
     "operations-intro": "%{count} consultazioni in corso nel tuo&nbsp;paese",
