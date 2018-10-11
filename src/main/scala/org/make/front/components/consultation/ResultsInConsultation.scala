@@ -157,17 +157,6 @@ object ResultsInConsultation {
             hasMore = false
           )
         )
-        ProposalService
-          .searchProposals(
-            slug = Some(
-              "il-faut-soutenir-les-festivals-pour-leur-permettre-d-etre-itinerants-afin-de-se-deployer-sur-le-territoire"
-            )
-          )
-          .onComplete {
-            case Success(SearchResult(_, proposals, _)) =>
-              self.setState(_.copy(proposalWithVideo = proposals.toSeq.headOption))
-            case Failure(_) =>
-          }
       },
       shouldComponentUpdate = { (self, _, state) =>
         self.state.listProposals.map(_.id).toSet != state.listProposals.map(_.id).toSet
