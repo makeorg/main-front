@@ -59,6 +59,7 @@ object Container {
           <.Route(^.exact := true, ^.path := "/maintenance", ^.component := Maintenance.reactClass)(),
           // @deprecated => Warning: /consultation/:operationSlug/selection is used by front-proxy (offline URL)
           js.Array(
+              "/proposal/:proposalId/:proposalSlug",
               "/proposal/:proposalSlug",
               "/profile",
               "/consultation/:operationSlug",
@@ -84,9 +85,15 @@ object Container {
             ^.path := "/:country/account-activation/:userId/:verificationToken",
             ^.component := CountryDetector(ActivateAccountContainer.reactClass)
           )(),
+          //@Deprecated
           <.Route(
             ^.exact := true,
             ^.path := "/:country/theme/:themeSlug/proposal/:proposalSlug",
+            ^.component := CountryDetector(ProposalContainer.reactClass)
+          )(),
+          <.Route(
+            ^.exact := true,
+            ^.path := "/:country/theme/:themeSlug/proposal/:proposalId/:proposalSlug",
             ^.component := CountryDetector(ProposalContainer.reactClass)
           )(),
           //@Deprecated
@@ -112,9 +119,15 @@ object Container {
               Layout.reactClass(<.ActorProfileContainerComponent.empty, withFooter = false)
             )
           )(),
+          // @deprecated
           <.Route(
             ^.exact := true,
             ^.path := "/:country/consultation/:operationSlug/proposal/:proposalSlug",
+            ^.component := CountryDetector(ProposalContainer.reactClass)
+          )(),
+          <.Route(
+            ^.exact := true,
+            ^.path := "/:country/consultation/:operationSlug/proposal/:proposalId/:proposalSlug",
             ^.component := CountryDetector(ProposalContainer.reactClass)
           )(),
           <.Route(

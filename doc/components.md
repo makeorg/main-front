@@ -18,7 +18,7 @@ in that country, user will be redirect to the `/:country/soon` page.
 * `/:country` -> Homepage
 * `/:country/soon` -> Display the current operation in `country`
 * `/:country/search` -> Search result page according to the `country`
-* `/:country/proposal/:proposalSlug` -> Proposal page according to the `proposalSlug` and the `country`
+* `/:country/proposal/:proposalId/:proposalSlug` -> Proposal page according to the `proposalSlug` and the `country`
 * `/:country/theme/:themeSlug` -> Theme page if this `theme` if available in the `country`
 * `/:country/consultation/:operationSlug` -> Operation page according to `operationSlug` if available in the `country`
 * `/:country/consultation/:operationSlug/selection` -> Sequence slider of the `operationSlug` if available in the `country`

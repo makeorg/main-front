@@ -123,11 +123,11 @@ object ProposalTileWithVideo {
         }
         val proposalLink: String = self.props.wrapped.maybeOperation match {
           case Some(operationExpanded) =>
-            s"/${self.props.wrapped.country}/consultation/${operationExpanded.slug}/proposal/${self.props.wrapped.proposal.slug}"
+            s"/${self.props.wrapped.country}/consultation/${operationExpanded.slug}/proposal/${self.props.wrapped.proposal.id.value}/${self.props.wrapped.proposal.slug}"
           case _ =>
             self.props.wrapped.maybeTheme match {
               case Some(theme) =>
-                s"/${self.props.wrapped.country}/theme/${theme.slug}/proposal/${self.props.wrapped.proposal.slug}"
+                s"/${self.props.wrapped.country}/theme/${theme.slug}/proposal/${self.props.wrapped.proposal.id.value}/${self.props.wrapped.proposal.slug}"
               case _ =>
                 s"/${self.props.wrapped.country}/proposal/${self.props.wrapped.proposal.id.value}/${self.props.wrapped.proposal.slug}"
             }

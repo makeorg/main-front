@@ -88,16 +88,11 @@ object ProposalInfos {
             }
           }
 
-          val avatarUrl = self.props.wrapped.proposal.author.avatarUrl.getOrElse("")
-
+          val avatarUrl: String = self.props.wrapped.proposal.author.avatarUrl.getOrElse(userPlaceholder.toString)
           <.div(^.className := js.Array(TableLayoutStyles.wrapper, ProposalInfosStyles.displayFlex))(
             <.div(^.className := js.Array(TableLayoutStyles.cellVerticalAlignMiddle, ProposalInfosStyles.infosWrapper))(
               <.div(^.className := js.Array(UserNavStyles.avatarWrapper, ProposalInfosStyles.avatar))(
-                if (avatarUrl.nonEmpty) {
-                  <.img(^.src := avatarUrl, ^.className := UserNavStyles.avatar, ^("data-pin-no-hover") := "true")()
-                } else {
-                  <.img(^.src := userPlaceholder.toString)()
-                }
+                <.img(^.src := avatarUrl, ^.className := UserNavStyles.avatar, ^("data-pin-no-hover") := "true")()
               ),
               <.ProposalAuthorInfos(
                 ^.wrapped := ProposalAuthorInfosProps(
