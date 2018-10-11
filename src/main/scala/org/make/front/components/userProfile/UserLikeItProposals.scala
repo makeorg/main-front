@@ -88,7 +88,8 @@ object UserLikeItProposals {
                       ^.wrapped := ProposalTileWithoutVoteActionProps(
                         proposal = proposal,
                         index = counter.getAndIncrement(),
-                        country = proposal.country
+                        country = proposal.country,
+                        displayStatus = false
                       ),
                       ^.key := s"proposal_${proposal.id.value}"
                     )()

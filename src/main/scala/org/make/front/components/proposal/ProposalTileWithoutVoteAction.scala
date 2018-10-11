@@ -39,7 +39,10 @@ import scala.scalajs.js
 
 object ProposalTileWithoutVoteAction {
 
-  final case class ProposalTileWithoutVoteActionProps(proposal: ProposalModel, index: Int, country: String)
+  final case class ProposalTileWithoutVoteActionProps(proposal: ProposalModel,
+                                                      index: Int,
+                                                      country: String,
+                                                      displayStatus: Boolean)
 
   final case class ProposalTileWithoutVoteActionState(votes: js.Array[VoteModel],
                                                       voteKeyMap: Map[String, String],
@@ -60,7 +63,6 @@ object ProposalTileWithoutVoteAction {
             )
           },
           render = self => {
-
             val overlayClass =
               js.Array(ProposalTileStyles.wrapperOverlay.htmlClass, self.props.wrapped.proposal.status match {
                   case "Accepted" =>
@@ -95,9 +97,11 @@ object ProposalTileWithoutVoteAction {
                     country = Some(self.props.wrapped.country)
                   )
                 )(),
-                <.div(^.className := proposalStatusClass)(
-                  unescape(I18n.t(s"proposal.status.${self.props.wrapped.proposal.status}"))
-                )
+                if (self.props.wrapped.displayStatus) {
+                  <.div(^.className := proposalStatusClass)(
+                    unescape(I18n.t(s"proposal.status.${self.props.wrapped.proposal.status}"))
+                  )
+                }
               )
 
             val proposalLink: String =

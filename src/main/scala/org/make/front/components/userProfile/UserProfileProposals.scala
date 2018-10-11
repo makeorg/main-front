@@ -73,7 +73,8 @@ object UserProfileProposals {
                       ^.wrapped := ProposalTileWithoutVoteActionProps(
                         proposal = proposal,
                         index = counter.getAndIncrement(),
-                        country = self.props.wrapped.user.country
+                        country = self.props.wrapped.user.country,
+                        displayStatus = true
                       )
                     )()
                   )
@@ -106,7 +107,8 @@ object UserProfileProposals {
                       ^.wrapped := ProposalTileWithoutVoteActionProps(
                         proposal = proposal,
                         index = counter.getAndIncrement(),
-                        country = self.props.wrapped.user.country
+                        country = self.props.wrapped.user.country,
+                        displayStatus = true
                       ),
                       ^.key := s"proposal_${proposal.id.value}"
                     )()
