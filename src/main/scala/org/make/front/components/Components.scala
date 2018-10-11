@@ -122,7 +122,6 @@ object Components {
     def ActorTabNavComponent: ReactClassElementSpec = self(actorProfile.navActorProfile.ActorTabNav.reactClass)
     def ActorButtonNavComponent: ReactClassElementSpec =
       self(actorProfile.navActorProfile.ActorButtonNav.reactClass)
-    def FollowButtonContainerComponent: ReactClassElementSpec = self(actorProfile.FollowButtonContainer.reactClass)
 
     /*********************/
     def ShareComponent: ReactClassElementSpec = self(share.ShareProposal.reactClass)

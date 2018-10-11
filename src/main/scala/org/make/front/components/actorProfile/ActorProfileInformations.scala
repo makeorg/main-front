@@ -26,7 +26,6 @@ import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import org.make.front.Main.CssSettings._
 import org.make.front.components.Components._
 import org.make.front.components.actorProfile.ActorDescription.ActorDescriptionProps
-import org.make.front.components.actorProfile.FollowButtonContainer.FollowButtonContainerProps
 import org.make.front.models.{Organisation => OrganisationModel}
 import org.make.front.styles.ThemeStyles
 import org.make.front.styles.base._
@@ -82,9 +81,6 @@ object ActorProfileInformations {
                 }.toSeq)
               )
             ),
-            <.FollowButtonContainerComponent(
-              ^.wrapped := FollowButtonContainerProps(userId = self.props.wrapped.actor.organisationId)
-            )(),
             if (descriptionLength >= 150) {
               <.ActorDescriptionComponent(^.wrapped := ActorDescriptionProps(actor = self.props.wrapped.actor))()
             } else if (descriptionLength >= 15) {

@@ -245,14 +245,6 @@ object UserService extends ApiService {
       .map(SearchResult.apply)
   }
 
-  def followUser(userId: String): Future[Unit] = {
-    MakeApiClient.post[js.Object](resourceName / userId / "follow").map(_ => {})
-  }
-
-  def unfollowUser(userId: String): Future[Unit] = {
-    MakeApiClient.post[js.Object](resourceName / userId / "unfollow").map(_ => {})
-  }
-
   final case class NoTokenException(message: String = I18n.t("error-message.no-token")) extends Exception(message)
   final case class UserNotfoundException(message: String = I18n.t("error-message.user-not-found"))
       extends Exception(message)

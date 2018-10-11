@@ -51,13 +51,7 @@ object ProfileProposalListStyles extends StyleSheet.Inline {
     )
 
   val emptyWrapper: StyleA =
-    style(
-      display.flex,
-      flexFlow := s"column",
-      alignItems.center,
-      padding(`0`, 20.pxToEm()),
-      ThemeStyles.MediaQueries.beyondLargeMedium(padding(`0`))
-    )
+    style(display.flex, flexFlow := s"column", alignItems.center)
 
   val emptyIcon: StyleA =
     style(
