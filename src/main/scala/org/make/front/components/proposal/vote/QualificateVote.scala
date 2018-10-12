@@ -47,7 +47,7 @@ object QualificateVote {
                                         qualify: String             => Future[Qualification],
                                         removeQualification: String => Future[Qualification],
                                         guide: Option[String] = None,
-                                        isProposalSharable : Boolean)
+                                        isProposalSharable: Boolean)
 
   final case class QualificateVoteState(qualifications: Map[String, Qualification], activateTooltip: Boolean)
 
@@ -56,19 +56,18 @@ object QualificateVote {
       .createClass[QualificateVoteProps, QualificateVoteState](
         displayName = "QualificateVote",
         getInitialState = { self =>
-          QualificateVoteState(
-            qualifications = self.props.wrapped.qualifications.map { qualification => qualification.key -> qualification }.toMap,
-            activateTooltip = false
-          )
+          QualificateVoteState(qualifications = self.props.wrapped.qualifications.map { qualification =>
+            qualification.key -> qualification
+          }.toMap, activateTooltip = false)
         },
         componentWillReceiveProps = { (self, props) =>
-          self.setState(QualificateVoteState(
-            qualifications = props.wrapped.qualifications.map { qualification => qualification.key -> qualification }.toMap,
-            activateTooltip = props.wrapped.qualifications.map { qualification => qualification.activateTooltip }.head)
-          )
+          self.setState(QualificateVoteState(qualifications = props.wrapped.qualifications.map { qualification =>
+            qualification.key -> qualification
+          }.toMap, activateTooltip = props.wrapped.qualifications.map { qualification =>
+            qualification.activateTooltip
+          }.head))
         },
         render = { self =>
-
           def tooltipOn() = () => {
             self.setState(_.copy(activateTooltip = true))
           }
@@ -78,36 +77,37 @@ object QualificateVote {
           }
 
           <.div(^.className := QualificateVoteStyles.wrapper, ^.onMouseOver := tooltipOn, ^.onMouseOut := tooltipOff)(
-            <.ul()(
-              self.props.wrapped.qualifications.map {
-            qualification =>
-              <.li(^.className := QualificateVoteStyles.buttonItem)(
-                <.QualificateVoteButtonComponent(
-                  ^.wrapped := QualificateVoteButtonProps(
-                    updateState = self.props.wrapped.updateState,
-                    voteKey = self.props.wrapped.voteKey,
-                    qualification = qualification,
-                    qualifyVote = self.props.wrapped.qualify,
-                    removeVoteQualification = self.props.wrapped.removeQualification
-                  )
-                )(),
-                <.style()(QualificateVoteStyles.render[String])
+            <.ul()(self.props.wrapped.qualifications.map {
+              qualification =>
+                <.li(^.className := QualificateVoteStyles.buttonItem)(
+                  <.QualificateVoteButtonComponent(
+                    ^.wrapped := QualificateVoteButtonProps(
+                      updateState = self.props.wrapped.updateState,
+                      voteKey = self.props.wrapped.voteKey,
+                      qualification = qualification,
+                      qualifyVote = self.props.wrapped.qualify,
+                      removeVoteQualification = self.props.wrapped.removeQualification
+                    )
+                  )(),
+                  <.style()(QualificateVoteStyles.render[String])
+                )
+            }.toSeq),
+            if (self.props.wrapped.guide.getOrElse("") != "") {
+              <.p(^.className := QualificateVoteStyles.guide)(
+                <.span(
+                  ^.className := TextStyles.smallerText,
+                  ^.dangerouslySetInnerHTML := self.props.wrapped.guide.getOrElse("")
+                )()
               )
-          }.toSeq), if (self.props.wrapped.guide.getOrElse("") != "") {
-            <.p(^.className := QualificateVoteStyles.guide)(
-              <.span(
-                ^.className := TextStyles.smallerText,
-                ^.dangerouslySetInnerHTML := self.props.wrapped.guide.getOrElse("")
-              )()
-            )
-          },
-            <.div (^.className := QualificateVoteStyles.tooltipTrigged(self.state.activateTooltip))(
+            },
+            <.div(^.className := QualificateVoteStyles.tooltipTrigged(self.state.activateTooltip))(
               self.props.wrapped.qualifications.map {
                 qualification =>
-                if(qualification.key == "likeIt" && qualification.hasQualified){
-                  self.props.wrapped.maybeOperation.map {
-                    operation =>
-                      <.div (^.className := QualificateVoteStyles.isProposalSharable(self.props.wrapped.isProposalSharable))(
+                  if (qualification.key == "likeIt" && qualification.hasQualified) {
+                    self.props.wrapped.maybeOperation.map { operation =>
+                      <.div(
+                        ^.className := QualificateVoteStyles.isProposalSharable(self.props.wrapped.isProposalSharable)
+                      )(
                         <.ShareLikeItProposalComponent(
                           ^.wrapped := ShareLikeItProposalProps(
                             proposal = self.props.wrapped.proposal,
@@ -116,8 +116,8 @@ object QualificateVote {
                           )
                         )()
                       )
+                    }
                   }
-                }
               }.toSeq
             )
           )
@@ -161,40 +161,26 @@ object QualificateVoteStyles extends StyleSheet.Inline {
   val tooltipTrigged: (Boolean) => StyleA = styleF.bool(
     active =>
       if (active) {
-        styleS(
-          opacity(1),
-          visibility.visible,
-          transition := s"opacity .25s ease-in"
-        )
+        styleS(opacity(1), visibility.visible, transition := s"opacity .25s ease-in")
       } else {
-        styleS(
-          opacity(0),
-          visibility.hidden,
-          transition := s"visibility 0s linear 1.25s, opacity .25s ease-in 1s"
-        )
-      }
+        styleS(opacity(0), visibility.hidden, transition := s"visibility 0s linear 1.25s, opacity .25s ease-in 1s")
+    }
   )
 
-  val isProposalSharable : (Boolean) => StyleA = styleF.bool(
+  val isProposalSharable: (Boolean) => StyleA = styleF.bool(
     active =>
       if (active) {
         styleS(
           TooltipStyles.bottomPositioned,
-          width(275.pxToEm()),
+          width(225.pxToEm()),
           height(75.pxToEm()),
           padding(ThemeStyles.SpacingValue.smaller.pxToEm()),
-          ThemeStyles.MediaQueries.beyondMedium(
-            TooltipStyles.rightPositioned,
-            width(220.pxToEm()),
-            height(100.pxToEm())
-          )
+          ThemeStyles.MediaQueries
+            .beyondMedium(TooltipStyles.rightPositioned, width(180.pxToEm()), height(100.pxToEm()))
         )
       } else {
-        styleS(
-          display.none
-        )
-      }
+        styleS(display.none)
+    }
   )
-
 
 }

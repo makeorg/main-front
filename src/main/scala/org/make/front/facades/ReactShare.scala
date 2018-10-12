@@ -37,10 +37,6 @@ object NativeFacebookShareButton extends ReactClass
 object NativeTwitterShareButton extends ReactClass
 
 @js.native
-@JSImport("react-share", "GooglePlusShareButton")
-object NativeGooglePlusShareButton extends ReactClass
-
-@js.native
 @JSImport("react-share", "LinkedinShareButton")
 object NativeLinkedinShareButton extends ReactClass
 
@@ -49,7 +45,6 @@ object ReactShare {
   implicit class ReactShareVirtualDOMElements(elements: VirtualDOMElements) {
     lazy val FacebookShareButton: ReactClassElementSpec = elements(NativeFacebookShareButton)
     lazy val TwitterShareButton: ReactClassElementSpec = elements(NativeTwitterShareButton)
-    lazy val GooglePlusShareButton: ReactClassElementSpec = elements(NativeGooglePlusShareButton)
     lazy val LinkedinShareButton: ReactClassElementSpec = elements(NativeLinkedinShareButton)
   }
 

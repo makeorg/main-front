@@ -61,14 +61,6 @@ object ShareUserProfile {
                 )
               ),
               <.li(^.className := ShareUserProfileStyles.item)(
-                <.GooglePlusShareButton()(
-                  <.button(
-                    ^.className := js
-                      .Array(ShareUserProfileStyles.button, ShareUserProfileStyles.shareWithGooglePlusButton)
-                  )()
-                )
-              ),
-              <.li(^.className := ShareUserProfileStyles.item)(
                 <.LinkedinShareButton()(
                   <.button(
                     ^.className := js
@@ -150,8 +142,6 @@ object ShareUserProfileStyles extends StyleSheet.Inline {
     style(backgroundColor(ThemeStyles.SocialNetworksColor.facebook), &.before(content := "'\\f09a'"))
   val shareWithTwitterButton: StyleA =
     style(backgroundColor(ThemeStyles.SocialNetworksColor.twitter), &.before(content := "'\\f099'"))
-  val shareWithGooglePlusButton: StyleA =
-    style(backgroundColor(ThemeStyles.SocialNetworksColor.googlePlus), &.before(content := "'\\f0d5'"))
   val shareWithLinkedInButton: StyleA =
     style(backgroundColor(ThemeStyles.SocialNetworksColor.linkedIn), &.before(content := "'\\f0e1'"))
 }
