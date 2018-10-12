@@ -46,7 +46,7 @@ object ShareLikeItProposal {
         render = (self) => {
 
           def url(network: String): String =
-            s"${dom.window.location.origin}/${self.props.wrapped.country}/proposal/${self.props.wrapped.proposal.id.value}/${self.props.wrapped.proposal.slug}?utm_source=$network&utm_medium=user-share&utm_campaign=${self.props.wrapped.operation.slug}&utm_content=${self.props.wrapped.proposal.id.value}&shared_proposal=voted-proposal#/${self.props.wrapped.country}/proposal/${self.props.wrapped.proposal.slug}"
+            s"${dom.window.location.origin}/${self.props.wrapped.country}/proposal/${self.props.wrapped.proposal.id.value}/${self.props.wrapped.proposal.slug}?utm_source=$network&utm_medium=user-share&utm_campaign=${self.props.wrapped.operation.slug}&utm_content=${self.props.wrapped.proposal.id.value}&shared_proposal=voted-proposal#/${self.props.wrapped.country}/proposal/${self.props.wrapped.proposal.id.value}/${self.props.wrapped.proposal.slug}"
 
           <.div()(
             <.p(^.className := ShareLikeItProposalStyles.title)(unescape(I18n.t("proposal.share-likeit"))),
