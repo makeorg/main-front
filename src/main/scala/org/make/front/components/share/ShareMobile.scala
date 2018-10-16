@@ -102,14 +102,6 @@ object ShareMobile {
                 )
               )
             ),
-            <.li(^.className := ShareMobileStyles.item)(
-              <.GooglePlusShareButton(^.url := shareUrl("Google"), ^.beforeOnClick := trackOnClick("Google"))(
-                <.button(^.className := js.Array(ShareMobileStyles.button, ShareMobileStyles.GooglePlusButton))(
-                  <.i(^.className := js.Array(FontAwesomeStyles.googlePlus, ShareMobileStyles.icon))(),
-                  "GOOGLE +"
-                )
-              )
-            ),
             <.li()(
               <.LinkedinShareButton(^.url := shareUrl("Linkedin"), ^.beforeOnClick := trackOnClick("Linkedin"))(
                 <.button(^.className := js.Array(ShareMobileStyles.button, ShareMobileStyles.LinkedInButton))(
@@ -151,8 +143,6 @@ object ShareMobileStyles extends StyleSheet.Inline {
     style(backgroundColor(ThemeStyles.SocialNetworksColor.facebook))
   val TwitterButton: StyleA =
     style(backgroundColor(ThemeStyles.SocialNetworksColor.twitter))
-  val GooglePlusButton: StyleA =
-    style(backgroundColor(ThemeStyles.SocialNetworksColor.googlePlus))
   val LinkedInButton: StyleA =
     style(backgroundColor(ThemeStyles.SocialNetworksColor.linkedIn))
 

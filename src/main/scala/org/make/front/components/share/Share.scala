@@ -34,6 +34,7 @@ import org.make.services.tracking.TrackingService.TrackingContext
 import org.make.services.tracking.{TrackingLocation, TrackingService}
 import org.scalajs.dom
 import org.make.core.URI._
+import org.make.front.facades.I18n
 
 import scala.scalajs.js
 
@@ -55,8 +56,13 @@ object ShareProposal {
                 ("utm_campaign", self.props.wrapped.operation.slug) &
                 ("utm_content", self.props.wrapped.operation.landingSequenceId.value)
 
+            val getParams: String = network match {
+              case "Twitter" => utm & ("text", I18n.t("proposal.share-twitter-content"))
+              case _         => utm
+            }
+
             // repalce utm params
-            val url: String = self.props.wrapped.operation.shareUrl.replaceFirst("_UTM_", utm)
+            val url: String = self.props.wrapped.operation.shareUrl.replaceFirst("_UTM_", getParams)
 
             s"${dom.window.location.origin}$url"
           }
@@ -99,11 +105,6 @@ object ShareProposal {
             <.li(^.className := ShareStyles.item)(
               <.TwitterShareButton(^.url := shareUrl("Twitter"), ^.beforeOnClick := trackOnClick("Twitter"))(
                 <.button(^.className := js.Array(ShareStyles.button, ShareStyles.shareWithTwitterButton))()
-              )
-            ),
-            <.li(^.className := ShareStyles.item)(
-              <.GooglePlusShareButton(^.url := shareUrl("Google"), ^.beforeOnClick := trackOnClick("Google"))(
-                <.button(^.className := js.Array(ShareStyles.button, ShareStyles.shareWithGooglePlusButton))()
               )
             ),
             <.li(^.className := ShareStyles.item)(
@@ -160,8 +161,6 @@ object ShareStyles extends StyleSheet.Inline {
     style(backgroundColor(ThemeStyles.SocialNetworksColor.facebook), &.before(content := "'\\f09a'"))
   val shareWithTwitterButton: StyleA =
     style(backgroundColor(ThemeStyles.SocialNetworksColor.twitter), &.before(content := "'\\f099'"))
-  val shareWithGooglePlusButton: StyleA =
-    style(backgroundColor(ThemeStyles.SocialNetworksColor.googlePlus), &.before(content := "'\\f0d5'"))
   val shareWithLinkedInButton: StyleA =
     style(backgroundColor(ThemeStyles.SocialNetworksColor.linkedIn), &.before(content := "'\\f0e1'"))
 
