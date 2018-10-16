@@ -29,6 +29,7 @@ import io.github.shogowada.scalajs.reactjs.router.dom.RouterDOM._
 import org.make.front.Main.CssSettings._
 import org.make.front.components.Components.{RichVirtualDOMElements, _}
 import org.make.front.components.proposal.ProposalInfos.ProposalInfosProps
+import org.make.front.components.proposal.ProposalTile.PostedIn
 import org.make.front.components.proposal.vote.DisplayVotesData.DisplayVotesDataProps
 import org.make.front.facades.I18n
 import org.make.front.facades.Unescape.unescape
@@ -42,7 +43,8 @@ object ProposalTileWithoutVoteAction {
   final case class ProposalTileWithoutVoteActionProps(proposal: ProposalModel,
                                                       index: Int,
                                                       country: String,
-                                                      displayStatus: Boolean)
+                                                      displayStatus: Boolean,
+                                                      maybePostedIn: Option[PostedIn] = None)
 
   final case class ProposalTileWithoutVoteActionState(votes: js.Array[VoteModel],
                                                       voteKeyMap: Map[String, String],
@@ -134,6 +136,21 @@ object ProposalTileWithoutVoteAction {
                   })
                 )
               ),
+              self.props.wrapped.maybePostedIn.map { postedIn =>
+                <.div()(
+                  <.div()(
+                    <.footer(^.className := ProposalTileStyles.footer)(
+                      <.p(^.className := js.Array(TextStyles.smallerText, ProposalTileStyles.postedInInfo))(
+                        unescape(I18n.t("proposal.posted-in")),
+                        <.Link(
+                          ^.to := postedIn.link,
+                          ^.className := js.Array(TextStyles.title, ProposalTileStyles.postedInName)
+                        )(postedIn.name)
+                      )
+                    )
+                  )
+                )
+              },
               <.style()(ProposalTileStyles.render[String])
             )
           }

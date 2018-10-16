@@ -66,7 +66,7 @@ object RecoverPassword {
               .validate(Some(self.state.email), Map("invalid" -> "authenticate.inputs.email.format-error-message"))
 
           if (errors.isEmpty) {
-            self.setState(self.state.copy(errorMessage = ""))
+            self.setState(_.copy(errorMessage = ""))
             self.props.wrapped.handleSubmit(self.state.email).onComplete {
               case Success(_) =>
               case Failure(_) =>
@@ -80,7 +80,7 @@ object RecoverPassword {
               /*TODO : specify error message from API*/
             }
           } else {
-            self.setState(self.state.copy(errorMessage = unescape(I18n.t(errors.head.message))))
+            self.setState(_.copy(errorMessage = unescape(I18n.t(errors.head.message))))
           }
         }
 

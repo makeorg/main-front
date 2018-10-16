@@ -33,14 +33,15 @@ import org.make.front.components.proposal.ShareOwnProposal.ShareOwnProposalProps
 import org.make.front.components.proposal.vote.VoteContainer.VoteContainerProps
 import org.make.front.facades.I18n
 import org.make.front.facades.Unescape.unescape
+import org.make.front.helpers.RouteHelper
 import org.make.front.models.{
   SequenceId,
   Location          => LocationModel,
-  OperationExpanded => OperationModel,
+  OperationExpanded => OperationExpandedModel,
   Proposal          => ProposalModel,
   TranslatedTheme   => TranslatedThemeModel
 }
-import org.make.front.styles.base.{TableLayoutStyles, TextStyles}
+import org.make.front.styles.base.TextStyles
 import org.make.services.tracking.TrackingLocation
 
 import scala.scalajs.js
@@ -48,11 +49,33 @@ import scala.scalajs.js
 object ProposalTile {
 
   case class PostedIn(name: String, link: String)
+  object PostedIn {
+    def fromProposal(proposal: ProposalModel,
+                     operations: js.Array[OperationExpandedModel] = js.Array(),
+                     themes: js.Array[TranslatedThemeModel] = js.Array()): Option[PostedIn] = {
+      (proposal.operationId, proposal.themeId) match {
+        case (Some(id), _) =>
+          operations
+            .find(_.operationId.value == id.value)
+            .map { op =>
+              PostedIn(
+                name = op.wordings.find(_.language == language).map(_.title).getOrElse(op.label),
+                link = RouteHelper.operationRoute(op.country, op.slug)
+              )
+            }
+        case (_, Some(id)) =>
+          themes.find(_.id == id).map { theme =>
+            PostedIn(name = theme.title, link = s"/${proposal.country}/theme/${theme.slug}")
+          }
+        case _ => None
+      }
+    }
+  }
 
   final case class ProposalTileProps(proposal: ProposalModel,
                                      index: Int,
                                      maybeTheme: Option[TranslatedThemeModel],
-                                     maybeOperation: Option[OperationModel],
+                                     maybeOperation: Option[OperationExpandedModel],
                                      maybeSequenceId: Option[SequenceId],
                                      maybeLocation: Option[LocationModel],
                                      trackingLocation: TrackingLocation,
@@ -69,7 +92,7 @@ object ProposalTile {
           getInitialState = { self =>
             ProposalTileState(isProposalSharable = true)
           },
-          render = (self) => {
+          render = self => {
 
             val intro: ReactElement = if (self.props.wrapped.proposal.myProposal) {
               <.div(^.className := ProposalTileStyles.shareOwnProposalWrapper)(

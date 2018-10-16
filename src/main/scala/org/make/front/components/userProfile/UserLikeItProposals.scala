@@ -25,28 +25,38 @@ import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import org.make.core.Counter
 import org.make.front.Main.CssSettings._
 import org.make.front.components.Components._
+import org.make.front.components.proposal.ProposalTile.PostedIn
 import org.make.front.components.proposal.ProposalTileWithoutVoteAction.ProposalTileWithoutVoteActionProps
 import org.make.front.facades.I18n
 import org.make.front.facades.Unescape.unescape
-import org.make.front.models.Proposal
+import org.make.front.models.{OperationExpanded, Proposal, Operation => OperationModel}
 import org.make.front.styles.ThemeStyles
-import org.make.front.styles.base.TextStyles
 import org.make.front.styles.utils._
 import org.make.front.styles.vendors.FontAwesomeStyles
+import org.make.services.operation.OperationService
 
-import scala.concurrent.ExecutionContext.Implicits.global
-import scala.concurrent.Future
 import scala.scalajs.js
-import scala.util.Success
+import scala.util.{Failure, Success}
+import scala.concurrent.ExecutionContext.Implicits.global
 
 object UserLikeItProposals {
 
   final case class UserLikeItProposalsProps(proposals: js.Array[Proposal])
+  final case class UserLikeItProposalsState(operations: js.Array[OperationModel])
 
   lazy val reactClass: ReactClass = {
     React
-      .createClass[UserLikeItProposalsProps, Unit](
+      .createClass[UserLikeItProposalsProps, UserLikeItProposalsState](
         displayName = "UserLikeItProposals",
+        getInitialState = { _ =>
+          UserLikeItProposalsState(js.Array())
+        },
+        componentDidMount = self => {
+          OperationService.listOperations().onComplete {
+            case Success(operationList) => self.setState(self.state.copy(operations = operationList))
+            case Failure(_)             =>
+          }
+        },
         render = self => {
           <("UserLikeItProposals")()(
             <.section(^.className := ProfileProposalListStyles.wrapper)(
@@ -82,18 +92,24 @@ object UserLikeItProposals {
                 )
               } else {
                 val counter: Counter = new Counter()
-                <.ul()(self.props.wrapped.proposals.map { proposal =>
-                  <.li(^.className := ProfileProposalListStyles.proposalItem)(
-                    <.ProposalTileWithoutVoteActionComponent(
-                      ^.wrapped := ProposalTileWithoutVoteActionProps(
-                        proposal = proposal,
-                        index = counter.getAndIncrement(),
-                        country = proposal.country,
-                        displayStatus = false
-                      ),
-                      ^.key := s"proposal_${proposal.id.value}"
-                    )()
-                  )
+                <.ul()(self.props.wrapped.proposals.map {
+                  proposal =>
+                    <.li(^.className := ProfileProposalListStyles.proposalItem)(
+                      <.ProposalTileWithoutVoteActionComponent(
+                        ^.wrapped := ProposalTileWithoutVoteActionProps(
+                          proposal = proposal,
+                          index = counter.getAndIncrement(),
+                          country = proposal.country,
+                          displayStatus = false,
+                          maybePostedIn = PostedIn.fromProposal(proposal = proposal, self.state.operations.flatMap {
+                            ope =>
+                              OperationExpanded
+                                .getOperationExpandedFromOperation(Some(ope), proposal.tags, proposal.country)
+                          })
+                        ),
+                        ^.key := s"proposal_${proposal.id.value}"
+                      )()
+                    )
                 }.toSeq)
               }
             ),

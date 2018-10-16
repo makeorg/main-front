@@ -30,7 +30,6 @@ import org.make.front.components.Components._
 import org.make.front.components.proposal.ProposalTile.{PostedIn, ProposalTileProps}
 import org.make.front.facades.ReactSlick.{ReactTooltipVirtualDOMAttributes, ReactTooltipVirtualDOMElements}
 import org.make.front.facades.logoMake
-import org.make.front.helpers.RouteHelper
 import org.make.front.models.{
   Operation,
   Location          => LocationModel,
@@ -75,13 +74,7 @@ object TrendingShowcase {
           maybeLocation = maybeLocation,
           trackingLocation = TrackingLocation.showcaseHomepage,
           country = country,
-          maybePostedIn = proposal.operationId.map { operationId =>
-            PostedIn(
-              name = operation.wordings.find(_.language == proposal.language).map(_.title).getOrElse(operation.label),
-              link = RouteHelper.operationRoute(proposal.country, operation.slug)
-            )
-
-          }
+          maybePostedIn = PostedIn.fromProposal(proposal, operations = js.Array(operation))
         )
     )()
 
@@ -135,7 +128,7 @@ object TrendingShowcase {
                       .find(_.operationId.value == proposal.operationId.map(_.value).getOrElse(""))
                       .flatMap { operation =>
                         OperationModel
-                          .getOperationExpandedFromOperation(Some(operation), js.Array(), proposal.country)
+                          .getOperationExpandedFromOperation(Some(operation), proposal.tags, proposal.country)
                           .map { op =>
                             <.div(
                               ^.className :=
@@ -153,7 +146,7 @@ object TrendingShowcase {
                         .find(_.operationId.value == proposal.operationId.map(_.value).getOrElse(""))
                         .flatMap { operation =>
                           OperationModel
-                            .getOperationExpandedFromOperation(Some(operation), js.Array(), proposal.country)
+                            .getOperationExpandedFromOperation(Some(operation), proposal.tags, proposal.country)
                             .map { op =>
                               <.li(
                                 ^.className := js

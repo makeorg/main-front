@@ -91,7 +91,7 @@ object OrganisationProfileFormContainer {
             )
             .onComplete {
               case Success(_) =>
-                self.setState(self.state.copy(message = I18n.t("user-profile.update.confirmation")))
+                self.setState(_.copy(message = I18n.t("user-profile.update.confirmation")))
                 dispatch(ReloadUserAction)
               case Failure(_) =>
                 self.setState(

@@ -58,7 +58,7 @@ object NoResultToSearch {
       render = {
         self =>
           val closeProposalModal: () => Unit = () => {
-            self.setState(state => state.copy(isProposalModalOpened = false))
+            self.setState(_.copy(isProposalModalOpened = false))
           }
 
           val openProposalModal: (MouseSyntheticEvent) => Unit = { event =>
@@ -67,9 +67,10 @@ object NoResultToSearch {
               eventName = "click-proposal-submit-form-open",
               trackingContext = TrackingContext(TrackingLocation.searchResultsPage),
               parameters = Map.empty,
-              internalOnlyParameters = self.props.wrapped.searchValue.map(query => Map("query" -> query)).getOrElse(Map.empty)
+              internalOnlyParameters =
+                self.props.wrapped.searchValue.map(query => Map("query" -> query)).getOrElse(Map.empty)
             )
-            self.setState(state => state.copy(isProposalModalOpened = true))
+            self.setState(_.copy(isProposalModalOpened = true))
           }
           <.article(^.className := js.Array(LayoutRulesStyles.centeredRow, NoResultToSearchStyles.wrapper))(
             <.p(^.className := NoResultToSearchStyles.sadSmiley)("😞"),
@@ -111,9 +112,15 @@ object NoResultToSearch {
               )()
             }.getOrElse {
               <.SubmitProposalComponent(
-                ^.wrapped := SubmitProposalProps(trackingParameters = Map.empty, trackingInternalOnlyParameters = Map.empty, onProposalProposed = () => {
-                  self.setState(_.copy(isProposalModalOpened = false))
-                }, maybeLocation = self.props.wrapped.maybeLocation, maybeOperation = self.props.wrapped.maybeOperation)
+                ^.wrapped := SubmitProposalProps(
+                  trackingParameters = Map.empty,
+                  trackingInternalOnlyParameters = Map.empty,
+                  onProposalProposed = () => {
+                    self.setState(_.copy(isProposalModalOpened = false))
+                  },
+                  maybeLocation = self.props.wrapped.maybeLocation,
+                  maybeOperation = self.props.wrapped.maybeOperation
+                )
               )()
             }),
             <.style()(NoResultToSearchStyles.render[String])
