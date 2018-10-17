@@ -25,7 +25,7 @@ import io.github.shogowada.scalajs.reactjs.VirtualDOM.VirtualDOMElements.ReactCl
 import io.github.shogowada.scalajs.reactjs.VirtualDOM.{VirtualDOMAttributes, VirtualDOMElements}
 import io.github.shogowada.statictags.{Attribute, BooleanAttributeSpec, SpaceSeparatedStringAttributeSpec}
 import org.make.front.Main.CssSettings._
-import org.make.front.components.consultation.partners.PartnersItems
+import org.make.front.components.consultation.partners.{PartnerList, PartnersItems}
 import org.make.front.components.currentOperations.CurrentOperationsContainer
 
 import scala.scalajs.js
@@ -264,23 +264,11 @@ object Components {
     def ConsultationShareMobileComponent: ReactClassElementSpec = self(consultation.ConsultationShareMobile.reactClass)
     def PartnersItemsComponent: ReactClassElementSpec = self(PartnersItems.reactClass)
     def CurrentOperationsContainerComponent: ReactClassElementSpec = self(CurrentOperationsContainer.reactClass)
+    def PartnerListComponent: ReactClassElementSpec = self(PartnerList.reactClass)
 
     /*********************/
-    def VFFOperationIntroComponent: ReactClassElementSpec = self(operation.intro.VFFOperationIntro.reactClass)
-    def VFFITOperationIntroComponent: ReactClassElementSpec = self(operation.intro.VFFITOperationIntro.reactClass)
-    def VFFGBOperationIntroComponent: ReactClassElementSpec = self(operation.intro.VFFGBOperationIntro.reactClass)
-    def MVEOperationIntroComponent: ReactClassElementSpec = self(operation.intro.MVEOperationIntro.reactClass)
-    def ClimatParisOperationIntroComponent: ReactClassElementSpec =
-      self(operation.intro.ClimatParisOperationIntro.reactClass)
-    def LPAEOperationIntroComponent: ReactClassElementSpec = self(operation.intro.LPAEOperationIntro.reactClass)
-    def ChanceAuxJeunesOperationIntroComponent: ReactClassElementSpec =
-      self(operation.intro.ChanceAuxJeunesOperationIntro.reactClass)
-    def OperationHeaderComponent: ReactClassElementSpec = self(operation.OperationHeader.reactClass)
     def SubmitProposalInRelationToOperationComponent: ReactClassElementSpec =
       self(operation.SubmitProposalInRelationToOperation.reactClass)
-    def ResultsInOperationContainerComponent: ReactClassElementSpec =
-      self(operation.ResultsInOperationContainer.reactClass)
-    def ResultsInOperationComponent: ReactClassElementSpec = self(operation.ResultsInOperation.reactClass)
     def SequenceOfTheOperationComponent: ReactClassElementSpec =
       self(operation.sequence.SequenceOfTheOperation.reactClass)
     def SequenceOfTheOperationContainerComponent: ReactClassElementSpec =

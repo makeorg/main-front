@@ -28,6 +28,7 @@ import org.make.front.Main.CssSettings._
 import org.make.front.styles.utils._
 import org.make.front.components.Components._
 import org.make.front.components.authenticate.LoginOrRegister.LoginOrRegisterProps
+import org.make.front.components.consultation.partners.PartnerList.PartnerListProps
 import org.make.front.components.modals.Modal.ModalProps
 import org.make.front.facades.{actions, actions2x, actions3x, clapping, logoMake, I18n}
 import org.make.front.facades.Unescape.unescape
@@ -185,22 +186,28 @@ object ActionsSection {
                   )
                 )
               ),
-              <.div(
-                ^.className := js
-                  .Array(ActionsSectionStyles.wrapper, ActionsSectionStyles.eraseMargin, LayoutRulesStyles.centeredRow)
-              )(
-                <.h3(^.className := ActionsSectionStyles.title)(unescape(I18n.t("operation.actions.partners-title"))),
-                <.p(^.className := js.Array(TextStyles.smallerText, ActionsSectionStyles.presentationText))(
-                  unescape(I18n.t("operation.actions.partners-text"))
-                ),
-                <(self.props.wrapped.operation.partnersComponent).empty,
-                <.a(
-                  ^.onClick := trackingPartners,
-                  ^.href := linkPartner,
-                  ^.className := js.Array(TextStyles.smallerText, TextStyles.boldText, ActionsSectionStyles.redLink),
-                  ^.target := "_blank"
-                )(unescape(I18n.t("operation.community.partner.see-more")))
-              ),
+              if (self.props.wrapped.operation.partners.nonEmpty) {
+                <.div(
+                  ^.className := js
+                    .Array(
+                      ActionsSectionStyles.wrapper,
+                      ActionsSectionStyles.eraseMargin,
+                      LayoutRulesStyles.centeredRow
+                    )
+                )(
+                  <.h3(^.className := ActionsSectionStyles.title)(unescape(I18n.t("operation.actions.partners-title"))),
+                  <.p(^.className := js.Array(TextStyles.smallerText, ActionsSectionStyles.presentationText))(
+                    unescape(I18n.t("operation.actions.partners-text"))
+                  ),
+                  <.PartnerListComponent(^.wrapped := PartnerListProps(self.props.wrapped.operation.partners))(),
+                  <.a(
+                    ^.onClick := trackingPartners,
+                    ^.href := linkPartner,
+                    ^.className := js.Array(TextStyles.smallerText, TextStyles.boldText, ActionsSectionStyles.redLink),
+                    ^.target := "_blank"
+                  )(unescape(I18n.t("operation.community.partner.see-more")))
+                )
+              },
               <.div(^.className := RWDRulesLargeMediumStyles.showBlockBeyondLargeMedium)(<.AltFooterComponent()())
             ),
             <.style()(ActionsSectionStyles.render[String])

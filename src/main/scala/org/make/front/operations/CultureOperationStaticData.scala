@@ -19,10 +19,20 @@
  */
 
 package org.make.front.operations
-import org.make.front.components.operation.intro.CultureOperationIntro
-import org.make.front.components.operation.intro.CultureOperationIntro.CultureOperationIntroProps
-import org.make.front.components.consultation.partners.CulturePartnersList
-import org.make.front.facades.{cultureLogo, cultureLogoWhite}
+import org.make.front.facades.{
+  accescultureAvatar,
+  arteAvatar,
+  bsfAvatar,
+  cinemadifferenceAvatar,
+  cssAvatar,
+  cultureLogo,
+  cultureLogoWhite,
+  engiefondationAvatar,
+  ministerecultureAvatar,
+  operadeparisAvatar,
+  sacemAvatar,
+  telemaqueAvatar
+}
 import org.make.front.models._
 
 import scala.scalajs.js
@@ -58,10 +68,58 @@ object CultureOperationStaticData extends StaticDataOfOperation {
         })
       )
     },
-    headerComponent = CultureOperationIntro.reactClass,
-    partnersComponent = CulturePartnersList.reactClass,
-    headerProps = operation => CultureOperationIntroProps(operation),
     startDateActions = None,
-    consultationVersion = ConsultationVersion.V2
+    partners = js.Array(
+      OperationPartner(
+        name = "Fondation ENGIE",
+        imageUrl = engiefondationAvatar.toString,
+        imageWidth = 60,
+        isFounder = true
+      ),
+      OperationPartner(
+        name = "Ministère de la Culture",
+        imageUrl = ministerecultureAvatar.toString,
+        imageWidth = 60,
+        isFounder = true
+      ),
+      OperationPartner(name = "Sacem", imageUrl = sacemAvatar.toString, imageWidth = 60, isFounder = true),
+      OperationPartner(name = "ARTE", imageUrl = arteAvatar.toString, imageWidth = 60, isFounder = false),
+      OperationPartner(
+        name = "Accès Culture",
+        imageUrl = accescultureAvatar.toString,
+        imageWidth = 60,
+        isFounder = false
+      ),
+      OperationPartner(
+        name = "Opéra de Paris",
+        imageUrl = operadeparisAvatar.toString,
+        imageWidth = 60,
+        isFounder = false
+      ),
+      OperationPartner(
+        name = "Ciné Ma Différence",
+        imageUrl = cinemadifferenceAvatar.toString,
+        imageWidth = 60,
+        isFounder = false
+      ),
+      OperationPartner(
+        name = "Culture et Sport solidaires 34",
+        imageUrl = cssAvatar.toString,
+        imageWidth = 60,
+        isFounder = false
+      ),
+      OperationPartner(
+        name = "Bibliothèque Sans Frontière",
+        imageUrl = bsfAvatar.toString,
+        imageWidth = 60,
+        isFounder = false
+      ),
+      OperationPartner(
+        name = "Institut Télémaque",
+        imageUrl = telemaqueAvatar.toString,
+        imageWidth = 60,
+        isFounder = false
+      )
+    )
   )
 }
