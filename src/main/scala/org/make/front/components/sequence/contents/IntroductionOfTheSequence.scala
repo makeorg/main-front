@@ -27,7 +27,7 @@ import org.make.front.Main.CssSettings._
 import org.make.front.components.Components._
 import org.make.front.facades.I18n
 import org.make.front.facades.Unescape.unescape
-import org.make.front.models.OperationIntroWording
+import org.make.front.models.{OperationIntroPartner, OperationIntroWording}
 import org.make.front.styles.ThemeStyles
 import org.make.front.styles.base.{LayoutRulesStyles, TextStyles}
 import org.make.front.styles.ui.CTAStyles
@@ -42,7 +42,8 @@ object IntroductionOfTheSequence {
                                                   explanation1: String,
                                                   explanation2: String,
                                                   cta: String,
-                                                  duration: Option[String])
+                                                  duration: Option[String],
+                                                  partners: js.Array[OperationIntroPartner])
   final case class IntroductionOfTheSequenceProps(clickOnButtonHandler: () => Unit, introWording: OperationIntroWording)
 
   lazy val reactClass: ReactClass =
@@ -58,7 +59,8 @@ object IntroductionOfTheSequence {
               .getOrElse(unescape(I18n.t("sequence.introduction.explanation-2"))),
             cta =
               self.props.wrapped.introWording.cta.getOrElse(unescape("&nbsp;" + I18n.t("sequence.introduction.cta"))),
-            duration = self.props.wrapped.introWording.duration
+            duration = self.props.wrapped.introWording.duration,
+            partners = self.props.wrapped.introWording.partners
           )
         },
         render = { self =>
@@ -93,6 +95,11 @@ object IntroductionOfTheSequence {
                 ^.onClick := self.props.wrapped.clickOnButtonHandler
               )(<.i(^.className := js.Array(FontAwesomeStyles.play))(), self.state.cta)
             ),
+            if (self.state.partners.nonEmpty) {
+              <.div()(<.p()(I18n.t("sequence.introduction.partners")), <.ul()(self.state.partners.map { partner =>
+                <.img(^.src := partner.imageUrl, ^.alt := partner.name, ^.key := partner.name)()
+              }.toSeq))
+            },
             <.style()(IntroductionOfTheSequenceStyles.render[String])
           )
         }

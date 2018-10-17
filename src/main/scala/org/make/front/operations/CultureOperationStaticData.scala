@@ -60,7 +60,7 @@ object CultureOperationStaticData extends StaticDataOfOperation {
     shareUrl = "/FR/consultation/culture/selection_UTM_&language=fr#/FR/consultation/culture/selection",
     extraSlides = (params: OperationExtraSlidesParams) => {
       js.Array(
-        Slides.displaySequenceIntroCard(params, introWording = OperationIntroWording()),
+        Slides.displaySequenceIntroCard(params = params, introWording = OperationIntroWording()),
         Slides.displaySignUpCard(params, !params.isConnected),
         Slides.displayProposalPushCard(params, false),
         Slides.redirectToConsultationCard(params, onFocus = () => {
