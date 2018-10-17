@@ -65,7 +65,7 @@ object ConsultationPresentation {
                 "open-block-learn-more",
                 TrackingContext(TrackingLocation.operationPage, operationSlug = Some(consultation.slug)),
                 Map("action" -> {
-                  if(self.state.isCollapsed) {
+                  if (self.state.isCollapsed) {
                     "open"
                   } else {
                     "close"
@@ -79,7 +79,8 @@ object ConsultationPresentation {
             TrackingService
               .track(
                 eventName = "click-button-learn-more",
-                trackingContext = TrackingContext(TrackingLocation.operationPage, operationSlug = Some(consultation.slug))
+                trackingContext =
+                  TrackingContext(TrackingLocation.operationPage, operationSlug = Some(consultation.slug))
               )
           }
 
@@ -156,10 +157,7 @@ object ConsultationPresentationStyles extends StyleSheet.Inline {
   val collapseWrapper: StyleA =
     style(
       padding(`0`, ThemeStyles.SpacingValue.small.pxToEm()),
-      ThemeStyles.MediaQueries.beyondLargeMedium(
-        paddingRight(20.pxToEm()),
-        paddingLeft(20.pxToEm())
-      )
+      ThemeStyles.MediaQueries.beyondLargeMedium(paddingRight(20.pxToEm()), paddingLeft(20.pxToEm()))
     )
 
   val title: StyleA =
@@ -167,9 +165,7 @@ object ConsultationPresentationStyles extends StyleSheet.Inline {
       TextStyles.title,
       fontSize(15.pxToEm()),
       lineHeight(1),
-      ThemeStyles.MediaQueries.beyondSmall(
-        fontSize(18.pxToEm())
-      )
+      ThemeStyles.MediaQueries.beyondSmall(fontSize(18.pxToEm()))
     )
 
   val triggerWrapper: StyleA =
