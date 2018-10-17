@@ -19,11 +19,6 @@
  */
 
 package org.make.front.operations
-import org.make.front.components.operation.intro.VFFGBOperationIntro.VFFGBOperationIntroProps
-import org.make.front.components.operation.intro.VFFITOperationIntro.VFFITOperationIntroProps
-import org.make.front.components.operation.intro.{VFFGBOperationIntro, VFFITOperationIntro, VFFOperationIntro}
-import org.make.front.components.operation.intro.VFFOperationIntro.VFFOperationIntroProps
-import org.make.front.components.operation.partners.VFFOperationPartners
 import org.make.front.facades.{VFFGBLogo, VFFGBWhiteLogo, VFFITLogo, VFFITWhiteLogo, VFFLogo, VFFWhiteLogo}
 import org.make.front.models._
 import org.make.services.tracking.TrackingLocation
@@ -60,9 +55,6 @@ object VFFOperationStaticData extends StaticDataOfOperation {
         Slides.displayFinalCard(params)
       )
     },
-    headerComponent = VFFOperationIntro.reactClass,
-    partnersComponent = VFFOperationPartners.reactClass,
-    headerProps = (operation) => VFFOperationIntroProps(operation),
     startDateActions = None
   )
 }
@@ -94,8 +86,6 @@ object VFFITOperationStaticData extends StaticDataOfOperation {
         Slides.displayFinalCard(params)
       )
     },
-    headerComponent = VFFITOperationIntro.reactClass,
-    headerProps = (operation) => VFFITOperationIntroProps(operation),
     startDateActions = None
   )
 }
@@ -125,8 +115,6 @@ object VFFGBOperationStaticData extends StaticDataOfOperation {
         Slides.displayFinalCard(params)
       )
     },
-    headerComponent = VFFGBOperationIntro.reactClass,
-    headerProps = (operation) => VFFGBOperationIntroProps(operation),
     startDateActions = None
   )
 }

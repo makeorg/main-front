@@ -20,7 +20,6 @@
 
 package org.make.front.models
 
-import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import org.make.front.components.sequence.Sequence.ExtraSlide
 import org.make.front.operations.Operations
 
@@ -36,12 +35,9 @@ final case class OperationStaticData(country: String,
                                      logoWidth: Int,
                                      shareUrl: String,
                                      extraSlides: (OperationExtraSlidesParams) => js.Array[ExtraSlide],
-                                     headerComponent: ReactClass,
-                                     partnersComponent: ReactClass,
-                                     headerProps: (OperationExpanded) => Any,
                                      startDateActions: Option[js.Date] = None,
-                                     consultationVersion: ConsultationVersion = ConsultationVersion.V1,
-                                     isConsultationOnly: Boolean = false)
+                                     isConsultationOnly: Boolean = false,
+                                     partners: js.Array[OperationPartner] = js.Array())
 
 object OperationStaticData {
   def findBySlugAndCountry(slug: String, country: String): Option[OperationStaticData] = {
@@ -53,18 +49,6 @@ object OperationStaticData {
     } else {
       None
     }
-  }
-}
-
-sealed trait ConsultationVersion {
-  def version: Int
-}
-object ConsultationVersion {
-  case object V1 extends ConsultationVersion {
-    override val version: Int = 1
-  }
-  case object V2 extends ConsultationVersion {
-    override val version: Int = 2
   }
 }
 
@@ -110,12 +94,9 @@ final case class OperationExpanded(operationId: OperationId,
                                    extraSlides: (OperationExtraSlidesParams) => js.Array[ExtraSlide],
                                    tags: js.Array[Tag],
                                    landingSequenceId: SequenceId,
-                                   headerComponent: ReactClass,
-                                   partnersComponent: ReactClass,
-                                   headerProps: (OperationExpanded) => Any,
                                    startDateActions: Option[js.Date],
-                                   consultationVersion: ConsultationVersion,
-                                   isConsultationOnly: Boolean) {
+                                   isConsultationOnly: Boolean,
+                                   partners: js.Array[OperationPartner]) {
 
   def getWordingByLanguage(language: String): Option[OperationWording] = {
     wordings.find(_.language == language)
@@ -195,12 +176,9 @@ object OperationExpanded {
         extraSlides = operationStaticData.extraSlides,
         landingSequenceId = countryConfiguration.landingSequenceId,
         tags = operationTags,
-        headerComponent = operationStaticData.headerComponent,
-        partnersComponent = operationStaticData.partnersComponent,
-        headerProps = operationStaticData.headerProps,
         startDateActions = operationStaticData.startDateActions,
-        consultationVersion = operationStaticData.consultationVersion,
-        isConsultationOnly = operationStaticData.isConsultationOnly
+        isConsultationOnly = operationStaticData.isConsultationOnly,
+        partners = operationStaticData.partners
       )
   }
 }

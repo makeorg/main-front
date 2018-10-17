@@ -28,16 +28,10 @@ import io.github.shogowada.scalajs.reactjs.router.RouterProps._
 import io.github.shogowada.scalajs.reactjs.router.WithRouter
 import org.make.front.actions.SetCountry
 import org.make.front.components.DataLoader.DataLoaderProps
-import org.make.front.components.operation.{Operation, WaitingForOperation}
+import org.make.front.components.operation.WaitingForOperation
 import org.make.front.components.{AppState, DataLoader}
 import org.make.front.helpers.Normalizer
-import org.make.front.models.{
-  ConsultationVersion,
-  OperationExpanded,
-  OperationStaticData,
-  Tag,
-  Operation => OperationModel
-}
+import org.make.front.models.{OperationExpanded, OperationStaticData, Tag, Operation => OperationModel}
 import org.make.services.operation.OperationService
 import org.make.services.tag.TagService
 import org.scalajs.dom
@@ -87,45 +81,22 @@ object ConsultationContainer {
           maybeOperation.forall(operation => operation.slug != slug || operation.country != countryCode)
         }
 
-        val consultationComponent = staticOperation match {
-          case Some(operation) if operation.consultationVersion == ConsultationVersion.V2 => Consultation.reactClass
-          case _                                                                          => Operation.reactClass
-        }
-
         DataLoaderProps[OperationExpanded](
           future = operationExpanded,
           shouldComponentUpdate = shouldOperationUpdate,
           componentDisplayedMeanwhileReactClass = WaitingForOperation.reactClass,
-          componentReactClass = consultationComponent,
+          componentReactClass = Consultation.reactClass,
           componentProps = { operation =>
-            if (operation.consultationVersion == ConsultationVersion.V2) {
-              Consultation.ConsultationProps(operation, countryCode, appState.language, onWillMount = () => {
-                if (operation.isExpired) {
-                  dom.window.location
-                    .assign(operation.getWordingByLanguage(appState.language).flatMap(_.learnMoreUrl).getOrElse("/"))
-                } else {
-                  if (!operation.isActive) {
-                    props.history.push("/404")
-                  }
+            Consultation.ConsultationProps(operation, countryCode, appState.language, onWillMount = () => {
+              if (operation.isExpired) {
+                dom.window.location
+                  .assign(operation.getWordingByLanguage(appState.language).flatMap(_.learnMoreUrl).getOrElse("/"))
+              } else {
+                if (!operation.isActive) {
+                  props.history.push("/404")
                 }
-              }, activeTab = activeTab, isSequenceDone = appState.isSequenceDone(operation.landingSequenceId.value))
-            } else {
-              Operation.OperationProps(
-                operation = operation,
-                countryCode = countryCode,
-                language = appState.language,
-                onWillMount = () => {
-                  if (operation.isExpired) {
-                    dom.window.location
-                      .assign(operation.getWordingByLanguage(appState.language).flatMap(_.learnMoreUrl).getOrElse("/"))
-                  } else {
-                    if (!operation.isActive) {
-                      props.history.push("/404")
-                    }
-                  }
-                }
-              )
-            }
+              }
+            }, activeTab = activeTab, isSequenceDone = appState.isSequenceDone(operation.landingSequenceId.value))
           },
           onNotFound = () => {
             props.history.push("/404")

@@ -20,10 +20,20 @@
 
 package org.make.front.operations
 
-import org.make.front.components.consultation.partners.AinesPartnersList
-import org.make.front.components.operation.intro.AinesOperationIntro
-import org.make.front.components.operation.intro.AinesOperationIntro.AinesOperationIntroProps
-import org.make.front.facades.{ainesLogo, ainesLogoWhite}
+import org.make.front.facades.{
+  ageVillage,
+  ainesLogo,
+  ainesLogoWhite,
+  armeeDuSalut,
+  associationFranceDependance,
+  careit,
+  klesia,
+  korian,
+  laposte,
+  lesTalentsDalphonse,
+  ocirp,
+  siel
+}
 import org.make.front.models._
 
 import scala.scalajs.js
@@ -62,10 +72,38 @@ object AinesOperationStaticData extends StaticDataOfOperation {
         })
       )
     },
-    headerComponent = AinesOperationIntro.reactClass,
-    partnersComponent = AinesPartnersList.reactClass,
-    headerProps = operation => AinesOperationIntroProps(operation),
     startDateActions = None,
-    consultationVersion = ConsultationVersion.V2
+    partners = js.Array(
+      OperationPartner(name = "Klesia", imageUrl = klesia.toString, imageWidth = 60, isFounder = true),
+      OperationPartner(
+        name = "Fondation Korian pour le Bien-vieillir",
+        imageUrl = korian.toString,
+        imageWidth = 60,
+        isFounder = true
+      ),
+      OperationPartner(name = "La Poste", imageUrl = laposte.toString, imageWidth = 60, isFounder = true),
+      OperationPartner(name = "OCIRP", imageUrl = ocirp.toString, imageWidth = 60, isFounder = true),
+      OperationPartner(name = "CAREIT", imageUrl = careit.toString, imageWidth = 60, isFounder = true),
+      OperationPartner(
+        name = "Les Talents d'Alphonse",
+        imageUrl = lesTalentsDalphonse.toString,
+        imageWidth = 60,
+        isFounder = false
+      ),
+      OperationPartner(name = "Siel Bleu", imageUrl = siel.toString, imageWidth = 60, isFounder = false),
+      OperationPartner(
+        name = "Fondation de l'Armée du Salut",
+        imageUrl = armeeDuSalut.toString,
+        imageWidth = 60,
+        isFounder = false
+      ),
+      OperationPartner(name = "Age village", imageUrl = ageVillage.toString, imageWidth = 60, isFounder = false),
+      OperationPartner(
+        name = "Association France Dépendance",
+        imageUrl = associationFranceDependance.toString,
+        imageWidth = 60,
+        isFounder = false
+      )
+    )
   )
 }

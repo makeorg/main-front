@@ -25,6 +25,7 @@ import io.github.shogowada.scalajs.reactjs.VirtualDOM._
 import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import org.make.front.Main.CssSettings._
 import org.make.front.components.Components._
+import org.make.front.components.consultation.partners.PartnerList.PartnerListProps
 import org.make.front.facades.Unescape.unescape
 import org.make.front.facades.{I18n, Replacements}
 import org.make.front.models.OperationExpanded
@@ -57,22 +58,24 @@ object ConsultationCommunity {
 
           }
 
-          def openSlugLink: () => Unit = { () =>
-            scalajs.js.Dynamic.global.window
-              .open(
-                I18n.t(
-                  "operation.community.learn-more.link",
-                  Replacements(("operation-slug", self.props.wrapped.operation.slug))
-                ),
-                "_blank"
-              )
-            TrackingService
-              .track(
-                eventName = "click-participate-community",
-                trackingContext = TrackingContext(TrackingLocation.operationPage, operationSlug = Some(consultation.slug)),
-                parameters = Map.empty,
-                internalOnlyParameters = Map("sequenceId" -> consultation.landingSequenceId.value)
-              )
+          def openSlugLink: () => Unit = {
+            () =>
+              scalajs.js.Dynamic.global.window
+                .open(
+                  I18n.t(
+                    "operation.community.learn-more.link",
+                    Replacements(("operation-slug", self.props.wrapped.operation.slug))
+                  ),
+                  "_blank"
+                )
+              TrackingService
+                .track(
+                  eventName = "click-participate-community",
+                  trackingContext =
+                    TrackingContext(TrackingLocation.operationPage, operationSlug = Some(consultation.slug)),
+                  parameters = Map.empty,
+                  internalOnlyParameters = Map("sequenceId" -> consultation.landingSequenceId.value)
+                )
           }
 
           def linkPartner =
@@ -86,7 +89,8 @@ object ConsultationCommunity {
             TrackingService
               .track(
                 eventName = "click-see-more-community",
-                trackingContext = TrackingContext(TrackingLocation.operationPage, operationSlug = Some(consultation.slug))
+                trackingContext =
+                  TrackingContext(TrackingLocation.operationPage, operationSlug = Some(consultation.slug))
               )
           }
 
@@ -116,23 +120,25 @@ object ConsultationCommunity {
                 <.p()(unescape(I18n.t("operation.community.already-participate")))
               )*/
             ),
-            <.hr(
-              ^.className := js
-                .Array(ConsultationPresentationStyles.sep, RWDRulesLargeMediumStyles.hideBeyondLargeMedium)
-            )(),
-            <.h3(^.className := ConsultationCommunityStyles.title)(
-              unescape(I18n.t("operation.presentation.also"))
-            ),
-            <.p(^.className := js.Array(TextStyles.smallerText, ConsultationCommunityStyles.communityText))(
-              unescape(I18n.t("operation.presentation.also-text"))
-            ),
-            <(self.props.wrapped.operation.partnersComponent).empty,
-            <.a(
-              ^.onClick := trackingPartners,
-              ^.href := linkPartner,
-              ^.className := js.Array(TextStyles.boldText, ConsultationCommunityStyles.communityLink),
-              ^.target := "_blank"
-            )(unescape(I18n.t("operation.community.partner.see-more"))),
+            if (self.props.wrapped.operation.partners.nonEmpty) {
+              Seq(
+                <.hr(
+                  ^.className := js
+                    .Array(ConsultationPresentationStyles.sep, RWDRulesLargeMediumStyles.hideBeyondLargeMedium)
+                )(),
+                <.h3(^.className := ConsultationCommunityStyles.title)(unescape(I18n.t("operation.presentation.also"))),
+                <.p(^.className := js.Array(TextStyles.smallerText, ConsultationCommunityStyles.communityText))(
+                  unescape(I18n.t("operation.presentation.also-text"))
+                ),
+                <.PartnerListComponent(^.wrapped := PartnerListProps(self.props.wrapped.operation.partners))(),
+                <.a(
+                  ^.onClick := trackingPartners,
+                  ^.href := linkPartner,
+                  ^.className := js.Array(TextStyles.boldText, ConsultationCommunityStyles.communityLink),
+                  ^.target := "_blank"
+                )(unescape(I18n.t("operation.community.partner.see-more")))
+              )
+            },
             <.style()(ConsultationCommunityStyles.render[String], DynamicConsultationCommunityStyles.render[String])
           )
 
@@ -148,9 +154,9 @@ object ConsultationCommunityStyles extends StyleSheet.Inline {
   val wrapper: StyleA =
     style(
       backgroundColor(ThemeStyles.BackgroundColor.white),
-      padding(`0`,`0`, ThemeStyles.SpacingValue.small.pxToEm()),
+      padding(`0`, `0`, ThemeStyles.SpacingValue.small.pxToEm()),
       ThemeStyles.MediaQueries.beyondLargeMedium(
-        padding(20.pxToEm(),`0`),
+        padding(20.pxToEm(), `0`),
         marginTop(20.pxToEm()),
         boxShadow := "0 1px 1px 0 rgba(0,0,0,0.50)"
       )
@@ -166,12 +172,10 @@ object ConsultationCommunityStyles extends StyleSheet.Inline {
         ThemeStyles.SpacingValue.small.pxToEm(15),
         ThemeStyles.SpacingValue.smaller.pxToEm(15)
       ),
-      ThemeStyles.MediaQueries.beyondSmall(
-        fontSize(18.pxToEm())
-      ),
+      ThemeStyles.MediaQueries.beyondSmall(fontSize(18.pxToEm())),
       ThemeStyles.MediaQueries.beyondLargeMedium(
-        padding(`0`,`0`,15.pxToEm(18)),
-        margin(`0`,20.pxToEm(18), ThemeStyles.SpacingValue.small.pxToEm(18)),
+        padding(`0`, `0`, 15.pxToEm(18)),
+        margin(`0`, 20.pxToEm(18), ThemeStyles.SpacingValue.small.pxToEm(18)),
         borderBottom(1.pxToEm(18), solid, ThemeStyles.BorderColor.veryLight)
       )
     )
@@ -180,11 +184,7 @@ object ConsultationCommunityStyles extends StyleSheet.Inline {
     style(
       display.flex,
       ThemeStyles.MediaQueries.beyondLargeMedium(
-        padding(
-          ThemeStyles.SpacingValue.small.pxToEm(),
-          20.pxToEm(),
-          ThemeStyles.SpacingValue.medium.pxToEm()
-        )
+        padding(ThemeStyles.SpacingValue.small.pxToEm(), 20.pxToEm(), ThemeStyles.SpacingValue.medium.pxToEm())
       )
     )
 
@@ -202,20 +202,15 @@ object ConsultationCommunityStyles extends StyleSheet.Inline {
       color(ThemeStyles.TextColor.lighter),
       paddingLeft(ThemeStyles.SpacingValue.small.pxToEm(13)),
       paddingRight(ThemeStyles.SpacingValue.small.pxToEm(13)),
-      ThemeStyles.MediaQueries.beyondLargeMedium(
-        alignItems.center,
-        paddingLeft(20.pxToEm(14)),
-        paddingRight(20.pxToEm(14))
-      )
+      ThemeStyles.MediaQueries
+        .beyondLargeMedium(alignItems.center, paddingLeft(20.pxToEm(14)), paddingRight(20.pxToEm(14)))
     )
 
   val communityLink: StyleA =
     style(
       color(ThemeStyles.ThemeColor.primary),
       marginLeft(ThemeStyles.SpacingValue.small.pxToEm()),
-      ThemeStyles.MediaQueries.beyondLargeMedium(
-        marginLeft(20.pxToEm(14))
-      )
+      ThemeStyles.MediaQueries.beyondLargeMedium(marginLeft(20.pxToEm(14)))
     )
 
   val sep: StyleA =
