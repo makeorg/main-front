@@ -120,15 +120,19 @@ object ConsultationPresentation {
                   )(unescape(I18n.t("operation.presentation.seeMore")))
                 }
               ),
-              <.hr(
-                ^.className := js
-                  .Array(ConsultationPresentationStyles.sep, RWDRulesLargeMediumStyles.hideBeyondLargeMedium)
-              )(),
-              <.div(^.className := RWDRulesLargeMediumStyles.hideBeyondLargeMedium)(
-                <.ConsultationCommunityComponent(
-                  ^.wrapped := ConsultationCommunityProps(consultation, self.props.wrapped.language)
-                )()
-              )
+              if (!self.props.wrapped.operation.isConsultationOnly) {
+                Seq(
+                  <.hr(
+                    ^.className := js
+                      .Array(ConsultationPresentationStyles.sep, RWDRulesLargeMediumStyles.hideBeyondLargeMedium)
+                  )(),
+                  <.div(^.className := RWDRulesLargeMediumStyles.hideBeyondLargeMedium)(
+                    <.ConsultationCommunityComponent(
+                      ^.wrapped := ConsultationCommunityProps(consultation, self.props.wrapped.language)
+                    )()
+                  )
+                )
+              }
             ),
             <.style()(ConsultationPresentationStyles.render[String])
           )
