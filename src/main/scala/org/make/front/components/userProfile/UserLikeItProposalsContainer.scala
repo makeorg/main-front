@@ -30,7 +30,6 @@ import org.make.front.components.DataLoader.DataLoaderProps
 import org.make.front.components.userProfile.UserLikeItProposals.UserLikeItProposalsProps
 import org.make.front.components.{AppState, DataLoader}
 import org.make.front.models.{Proposal, User => UserModel}
-import org.make.services.operation.OperationService
 import org.make.services.user.UserService
 
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -49,21 +48,14 @@ object UserLikeItProposalsContainer {
 
         UserService
           .getUserLikeItProposals(props.wrapped.user.userId.value)
-          .flatMap { proposalsSearchResult =>
-            OperationService
-              .listOperations()
-              .map { operations =>
-                Option(
-                  proposalsSearchResult.results.filter(
-                    proposal =>
-                      proposal.themeId.isDefined ||
-                        proposal.operationId.exists(opId => operations.map(_.operationId.value).contains(opId.value))
-                  )
-                )
-              }
-              .recover {
-                case _ => Some(proposalsSearchResult.results)
-              }
+          .map { proposalsSearchResult =>
+            Option(
+              proposalsSearchResult.results.filter(
+                proposal =>
+                  proposal.themeId.isDefined ||
+                    proposal.operationId.exists(opId => state.operations.containsOperationId(opId))
+              )
+            )
           }
       }
 
@@ -77,7 +69,7 @@ object UserLikeItProposalsContainer {
         componentDisplayedMeanwhileReactClass = WaitingForUserLikeItProposals.reactClass,
         componentReactClass = UserLikeItProposals.reactClass,
         componentProps = { proposals =>
-          UserLikeItProposalsProps(proposals = proposals)
+          UserLikeItProposalsProps(proposals = proposals, operations = state.operations)
         },
         onNotFound = () => {
           props.history.push("/404")

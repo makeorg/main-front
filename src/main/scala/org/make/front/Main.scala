@@ -32,9 +32,10 @@ import org.make.front.components.AppState
 import org.make.front.components.Components.RichVirtualDOMElements
 import org.make.front.facades.{I18n, NativeReactModal}
 import org.make.front.middlewares._
-import org.make.front.models.User
+import org.make.front.models.{BusinessConfiguration, Operation, OperationList, User}
 import org.make.front.reducers.Reducer
 import org.make.services.ConfigurationService
+import org.make.services.operation.OperationService
 import org.make.services.tracking.{TrackingLocation, TrackingService}
 import org.make.services.tracking.TrackingService.TrackingContext
 import org.make.services.user.UserService
@@ -46,6 +47,8 @@ import scala.util.{Failure, Success}
 import scalacss.defaults.Exports
 import scalacss.internal.mutable.Settings
 
+import scala.scalajs.js
+
 object Main {
 
   val CssSettings: Exports with Settings = scalacss.devOrProdDefaults
@@ -56,7 +59,6 @@ object Main {
 
     NativeReactModal.defaultStyles.overlay.update("zIndex", "9")
     NativeReactModal.defaultStyles.overlay.update("backgroundColor", "rgba(0, 0, 0, 0.7)")
-
     NativeReactModal.defaultStyles.content.update("position", "fixed")
     NativeReactModal.defaultStyles.content.update("top", "0")
     NativeReactModal.defaultStyles.content.update("right", "0")
@@ -79,55 +81,64 @@ object Main {
     val configurationFuture = ConfigurationService.fetchConfiguration()
     val connectedUserFuture =
       UserService.getCurrentUser().map(Some(_)).recoverWith { case _ => Future.successful(None) }
+    val operationsFuture = OperationService.listOperations()
 
     val configurationAndUser = for {
       configuration <- configurationFuture
       maybeUser     <- connectedUserFuture
-    } yield (configuration, maybeUser)
+      operations    <- operationsFuture
+    } yield (configuration, maybeUser, operations)
 
     configurationAndUser.onComplete {
       case Failure(_) => main(args)
-      case Success((configuration, maybeUser)) =>
-        val connectedUserMiddleware = new ConnectedUserMiddleware()
-
-        val store: Store[AppState] = Redux.createStore(
-          Reducer.reduce,
-          ReduxDevTools.composeWithDevTools(
-            Redux.applyMiddleware(
-              ConfigurationMiddleware.handle,
-              PoliticalActionMiddleware.handle,
-              connectedUserMiddleware.handle,
-              CookieAlertMiddleware.handle,
-              NotificationMiddleware.handle,
-              TriggerSignUpMiddleware.handle,
-              LanguageMiddleware.handle,
-              CountryMiddleware.handle
-            )
-          )
-        )
-
-        store.dispatch(SetConfiguration(configuration))
-        maybeUser.foreach { user =>
-          store.dispatch(LoggedInAction(user))
-        }
-
-        // init services depending language and country
-        LanguageMiddleware.updateServicesLanguage(store.getState.language)
-        CountryMiddleware.updateServicesCountry(store.getState.country)
-        store.dispatch(SetCountryLanguage(country = store.getState.country, language = store.getState.language))
-
-        // adding get parameters headers
-        MakeApiClient.addHeaders(Map("x-get-parameters" -> dom.window.location.search.drop(1)).filter {
-          case (_, value) => value.nonEmpty
-        })
-
-        // adding hostname header
-        MakeApiClient.addHeaders(Map("x-hostname" -> dom.window.location.hostname))
-
-        startAppWhenReady(maybeUser, store)
+      case Success((configuration, maybeUser, operations)) =>
+        initApplication(configuration, maybeUser, operations)
     }
   }
 
+  private def initApplication(configuration: BusinessConfiguration,
+                              maybeUser: Option[User],
+                              operations: OperationList) = {
+    val connectedUserMiddleware = new ConnectedUserMiddleware()
+
+    val store: Store[AppState] = Redux.createStore(
+      Reducer.reduce,
+      ReduxDevTools.composeWithDevTools(
+        Redux.applyMiddleware(
+          ConfigurationMiddleware.handle,
+          OperationsMiddleware.handle,
+          PoliticalActionMiddleware.handle,
+          connectedUserMiddleware.handle,
+          CookieAlertMiddleware.handle,
+          NotificationMiddleware.handle,
+          TriggerSignUpMiddleware.handle,
+          LanguageMiddleware.handle,
+          CountryMiddleware.handle
+        )
+      )
+    )
+
+    store.dispatch(SetConfiguration(configuration))
+    store.dispatch(SetOperations(operations))
+    maybeUser.foreach { user =>
+      store.dispatch(LoggedInAction(user))
+    }
+
+    // init services depending language and country
+    LanguageMiddleware.updateServicesLanguage(store.getState.language)
+    CountryMiddleware.updateServicesCountry(store.getState.country)
+    store.dispatch(SetCountryLanguage(country = store.getState.country, language = store.getState.language))
+
+    // adding get parameters headers
+    MakeApiClient.addHeaders(Map("x-get-parameters" -> dom.window.location.search.drop(1)).filter {
+      case (_, value) => value.nonEmpty
+    })
+
+    // adding hostname header
+    MakeApiClient.addHeaders(Map("x-hostname" -> dom.window.location.hostname))
+
+    startAppWhenReady(maybeUser, store)
+  }
   private def startAppWhenReady(maybeUser: Option[User], store: Store[AppState]): Unit = {
     if (store.getState.configuration.isEmpty || store.getState.connectedUser.isDefined != maybeUser.isDefined) {
       org.scalajs.dom.window.setTimeout(() => startAppWhenReady(maybeUser, store), 20d)

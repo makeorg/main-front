@@ -21,6 +21,7 @@
 package org.make.front.reducers
 
 import org.make.front.components.AppState
+import org.make.front.models.OperationList
 
 import scala.scalajs.js
 
@@ -34,7 +35,8 @@ object Reducer {
       configuration = ConfigurationReducer.reduce(maybeState.flatMap(_.configuration), action),
       politicalActions = PoliticalActionReducer.reduce(maybeState.map(_.politicalActions), action),
       connectedUser = ConnectedUserReducer.reduce(maybeState.flatMap(_.connectedUser), action),
-      sequenceDone = SequenceDoneReducer.reduce(maybeState.map(_.sequenceDone), action).getOrElse(js.Array())
+      sequenceDone = SequenceDoneReducer.reduce(maybeState.map(_.sequenceDone), action).getOrElse(js.Array()),
+      operations = OperationsReducer.reduce(maybeState.map(_.operations), action).getOrElse(OperationList.empty)
     )
   }
 }

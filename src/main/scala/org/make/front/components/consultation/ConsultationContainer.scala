@@ -66,7 +66,7 @@ object ConsultationContainer {
 
         val operationExpanded: () => Future[Option[OperationExpanded]] = () => {
           val operationAndTags: Future[(Option[OperationModel], js.Array[Tag])] = for {
-            operation <- OperationService.getOperationBySlugAndCountry(slug, countryCode)
+            operation <- Future.successful(appState.operations.getOperationBySlugAndCountry(slug, countryCode))
             tags      <- TagService.getTags
 
           } yield (operation, tags)

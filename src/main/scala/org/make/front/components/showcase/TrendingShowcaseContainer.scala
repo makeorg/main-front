@@ -25,7 +25,7 @@ import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import io.github.shogowada.scalajs.reactjs.redux.ReactRedux
 import io.github.shogowada.scalajs.reactjs.redux.Redux.Dispatch
 import org.make.front.components.AppState
-import org.make.front.models.{Operation, Location => LocationModel}
+import org.make.front.models.{Operation, QuestionId, Location => LocationModel}
 import org.make.services.operation.OperationService
 import org.make.services.proposal.{ProposalService, SearchResult}
 
@@ -46,36 +46,34 @@ object TrendingShowcaseContainer {
     : (Dispatch) => (AppState, Props[TrendingShowcaseContainerProps]) => TrendingShowcase.TrendingShowcaseProps =
     (_: Dispatch) => { (appState: AppState, props: Props[TrendingShowcaseContainerProps]) =>
       def results: () => Future[SearchResult] = () => {
-        OperationService.getActiveOperations(appState.country).flatMap { questionIds =>
-          val questionId = questionIds.headOption
-          ProposalService
-            .searchProposals(
-              questionId = questionId,
-              trending = Some(props.wrapped.trending),
-              limit = Some(2),
-              isRandom = Some(true),
-              language = Some(appState.language),
-              country = Some(appState.country)
-            )
-            .flatMap {
-              case results if results.total == 2 => Future.successful(results)
-              case _ =>
-                ProposalService.searchProposals(
-                  questionId = questionId,
-                  limit = Some(2),
-                  isRandom = Some(true),
-                  language = Some(appState.language),
-                  country = Some(appState.country)
-                )
-            }
-        }
-      }
+        val questionId: Option[QuestionId] = appState.operations.getActiveOperations(appState.country).headOption
 
-      def operations: () => Future[js.Array[Operation]] = () => OperationService.listOperations()
+        ProposalService
+          .searchProposals(
+            questionId = questionId,
+            trending = Some(props.wrapped.trending),
+            limit = Some(2),
+            isRandom = Some(true),
+            language = Some(appState.language),
+            country = Some(appState.country)
+          )
+          .flatMap {
+            case results if results.total == 2 => Future.successful(results)
+            case _ =>
+              ProposalService.searchProposals(
+                questionId = questionId,
+                limit = Some(2),
+                isRandom = Some(true),
+                language = Some(appState.language),
+                country = Some(appState.country)
+              )
+          }
+
+      }
 
       TrendingShowcase.TrendingShowcaseProps(
         proposals = results,
-        operations = operations,
+        operations = appState.operations,
         intro = props.wrapped.intro,
         title = props.wrapped.title,
         maybeLocation = props.wrapped.maybeLocation,

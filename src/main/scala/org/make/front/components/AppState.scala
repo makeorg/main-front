@@ -21,6 +21,8 @@
 package org.make.front.components
 
 import org.make.front.models.{
+  Operation,
+  OperationList,
   BusinessConfiguration => BusinessConfigurationModel,
   PoliticalAction       => PoliticalActionModel,
   TranslatedTheme       => TranslatedThemeModel,
@@ -35,7 +37,8 @@ final case class AppState(configuration: Option[BusinessConfigurationModel],
                           connectedUser: Option[UserModel],
                           country: String = "FR",
                           language: String = "fr",
-                          sequenceDone: js.Array[String] = js.Array()) {
+                          sequenceDone: js.Array[String] = js.Array(),
+                          operations: OperationList = OperationList.empty) {
 
   def themes: js.Array[TranslatedThemeModel] =
     configuration.map(_.themesForLocale(country, language)).getOrElse(js.Array())

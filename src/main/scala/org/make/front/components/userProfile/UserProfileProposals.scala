@@ -29,38 +29,22 @@ import org.make.front.components.proposal.ProposalTile.PostedIn
 import org.make.front.components.proposal.ProposalTileWithoutVoteAction.ProposalTileWithoutVoteActionProps
 import org.make.front.facades.I18n
 import org.make.front.facades.Unescape.unescape
-import org.make.front.models.{
-  OperationExpanded,
-  Operation => OperationModel,
-  Proposal  => ProposalModel,
-  User      => UserModel
-}
+import org.make.front.models.{OperationList, Proposal => ProposalModel, User => UserModel}
 import org.make.front.styles.vendors.FontAwesomeStyles
-import org.make.services.operation.OperationService
 import scalacss.internal.ValueT
 
-import scala.concurrent.ExecutionContext.Implicits.global
 import scala.scalajs.js
-import scala.util.{Failure, Success}
 
 object UserProfileProposals {
 
-  final case class UserProfileProposalsProps(user: UserModel, proposals: js.Array[ProposalModel])
-  final case class UserProfileProposalsState(operations: js.Array[OperationModel])
+  final case class UserProfileProposalsProps(user: UserModel,
+                                             proposals: js.Array[ProposalModel],
+                                             operations: OperationList)
 
   lazy val reactClass: ReactClass =
     React
-      .createClass[UserProfileProposalsProps, UserProfileProposalsState](
+      .createClass[UserProfileProposalsProps, Unit](
         displayName = "UserProfileProposals",
-        getInitialState = { _ =>
-          UserProfileProposalsState(js.Array())
-        },
-        componentDidMount = self => {
-          OperationService.listOperations().onComplete {
-            case Success(operationList) => self.setState(self.state.copy(operations = operationList))
-            case Failure(_)             =>
-          }
-        },
         render = self => {
           <("UserProfileProposals")()(
             <.section(^.className := ProfileProposalListStyles.wrapper)(
@@ -91,11 +75,8 @@ object UserProfileProposals {
                           displayStatus = true,
                           maybePostedIn = PostedIn.fromProposal(
                             proposal = proposal,
-                            self.state.operations.flatMap(
-                              ope =>
-                                OperationExpanded
-                                  .getOperationExpandedFromOperation(Some(ope), proposal.tags, proposal.country)
-                            )
+                            operations = self.props.wrapped.operations.values
+                              .flatMap(_.getOperationExpanded(proposal.tags, proposal.country))
                           )
                         )
                       )()
@@ -134,11 +115,8 @@ object UserProfileProposals {
                           displayStatus = true,
                           maybePostedIn = PostedIn.fromProposal(
                             proposal = proposal,
-                            self.state.operations.flatMap(
-                              ope =>
-                                OperationExpanded
-                                  .getOperationExpandedFromOperation(Some(ope), proposal.tags, proposal.country)
-                            )
+                            operations = self.props.wrapped.operations.values
+                              .flatMap(_.getOperationExpanded(proposal.tags, proposal.country))
                           )
                         ),
                         ^.key := s"proposal_${proposal.id.value}"

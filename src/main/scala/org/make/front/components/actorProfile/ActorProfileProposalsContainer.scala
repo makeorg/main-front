@@ -45,30 +45,21 @@ object ActorProfileProposalsContainer {
 
   def selectorFactory
     : Dispatch => (AppState, Props[ActorProposalsContainerProps]) => DataLoaderProps[js.Array[Proposal]] =
-    (_: Dispatch) => { (_: AppState, props: Props[ActorProposalsContainerProps]) =>
+    (_: Dispatch) => { (appState: AppState, props: Props[ActorProposalsContainerProps]) =>
       def getActorProposals: () => Future[Option[js.Array[Proposal]]] = () => {
-        OrganisationService.getOrganisationProposals(props.wrapped.actor.organisationId.value).flatMap {
-          proposalsSearchResult =>
-            OperationService
-              .listOperations()
-              .map(
-                operations =>
-                  Option(
-                    proposalsSearchResult.results.filter(
-                      proposal =>
-                        proposal.themeId.isDefined ||
-                          proposal.operationId.exists(opId => operations.map(_.operationId.value).contains(opId.value))
-                    )
-                )
+        OrganisationService
+          .getOrganisationProposals(props.wrapped.actor.organisationId.value)
+          .map { proposalsSearchResult =>
+            Option(
+              proposalsSearchResult.results.filter(
+                proposal =>
+                  proposal.themeId.isDefined ||
+                    proposal.operationId
+                      .exists(opId => appState.operations.containsOperationId(opId))
               )
-              .recover {
-                case _ => Some(proposalsSearchResult.results)
-              }
-        }
+            )
+          }
       }
-
-      def getOperations: () => Future[js.Array[Operation]] =
-        () => OperationService.listOperations()
 
       val shouldActorProposalsUpdate: Option[js.Array[Proposal]] => Boolean = { actorProposals =>
         actorProposals.forall(_.exists(_.userId != props.wrapped.actor.organisationId))
@@ -83,7 +74,7 @@ object ActorProfileProposalsContainer {
           ActorProfileProposalsProps(
             actor = props.wrapped.actor,
             actorProposals = proposals,
-            getOperations = getOperations
+            operations = appState.operations
           )
         },
         onNotFound = () => {

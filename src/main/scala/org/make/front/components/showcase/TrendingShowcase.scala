@@ -32,6 +32,7 @@ import org.make.front.facades.ReactSlick.{ReactTooltipVirtualDOMAttributes, Reac
 import org.make.front.facades.logoMake
 import org.make.front.models.{
   Operation,
+  OperationList,
   Location          => LocationModel,
   OperationExpanded => OperationModel,
   Proposal          => ProposalModel
@@ -49,14 +50,14 @@ import scala.util.{Failure, Success}
 
 object TrendingShowcase {
 
-  final case class TrendingShowcaseProps(proposals: ()  => Future[SearchResult],
-                                         operations: () => Future[js.Array[Operation]],
+  final case class TrendingShowcaseProps(proposals: () => Future[SearchResult],
+                                         operations: OperationList,
                                          intro: String,
                                          title: String,
                                          maybeLocation: Option[LocationModel],
                                          country: String)
 
-  final case class TrendingShowcaseState(proposals: js.Array[ProposalModel], operations: js.Array[Operation])
+  final case class TrendingShowcaseState(proposals: js.Array[ProposalModel])
 
   def proposalTile(proposal: ProposalModel,
                    operation: OperationModel,
@@ -82,21 +83,18 @@ object TrendingShowcase {
     React.createClass[TrendingShowcaseProps, TrendingShowcaseState](
       displayName = "TrendingShowcase",
       getInitialState = { _ =>
-        TrendingShowcaseState(js.Array(), js.Array())
+        TrendingShowcaseState(js.Array())
       },
       componentWillReceiveProps = { (self, props) =>
         props.wrapped.proposals().onComplete {
           case Failure(_)       =>
           case Success(results) => self.setState(_.copy(proposals = results.results))
         }
-        props.wrapped.operations().onComplete {
-          case Failure(_)       =>
-          case Success(results) => self.setState(_.copy(operations = results))
-        }
       },
       render = { self =>
         val counter = Counter.showcaseCounter
         val maybeLocation = self.props.wrapped.maybeLocation
+        val operations = self.props.wrapped.operations
 
         if (self.state.proposals.nonEmpty) {
           <.section(^.className := TrendingShowcaseStyles.wrapper)(
@@ -122,42 +120,36 @@ object TrendingShowcase {
                     LayoutRulesStyles.centeredRowWithCols,
                     TrendingShowcaseStyles.slideshow
                   )
-                )(<.Slider(^.infinite := false, ^.arrows := false)(self.state.proposals.flatMap {
-                  proposal =>
-                    self.state.operations
-                      .find(_.operationId.value == proposal.operationId.map(_.value).getOrElse(""))
-                      .flatMap { operation =>
-                        OperationModel
-                          .getOperationExpandedFromOperation(Some(operation), proposal.tags, proposal.country)
-                          .map { op =>
-                            <.div(
-                              ^.className :=
-                                js.Array(ColRulesStyles.col, TrendingShowcaseStyles.propasalItem)
-                            )(proposalTile(proposal, op, maybeLocation, counter, self.props.wrapped.country))
-                          }
+                )(<.Slider(^.infinite := false, ^.arrows := false)(self.state.proposals.flatMap { proposal =>
+                  proposal.operationId.flatMap { operationId =>
+                    operations.findById(operationId).flatMap {
+                      _.getOperationExpanded(proposal.tags, proposal.country).map { op =>
+                        <.div(
+                          ^.className :=
+                            js.Array(ColRulesStyles.col, TrendingShowcaseStyles.propasalItem)
+                        )(proposalTile(proposal, op, maybeLocation, counter, self.props.wrapped.country))
                       }
+                    }
+                  }
                 }.toSeq)),
                 <.div(^.className := RWDRulesMediumStyles.showBlockBeyondMedium)(
                   <.ul(
                     ^.className := js.Array(TrendingShowcaseStyles.propasalsList, LayoutRulesStyles.centeredRowWithCols)
-                  )(self.state.proposals.map {
-                    proposal =>
-                      self.state.operations
-                        .find(_.operationId.value == proposal.operationId.map(_.value).getOrElse(""))
-                        .flatMap { operation =>
-                          OperationModel
-                            .getOperationExpandedFromOperation(Some(operation), proposal.tags, proposal.country)
-                            .map { op =>
-                              <.li(
-                                ^.className := js
-                                  .Array(
-                                    TrendingShowcaseStyles.propasalItem,
-                                    ColRulesStyles.col,
-                                    ColRulesStyles.colHalfBeyondMedium
-                                  )
-                              )(proposalTile(proposal, op, maybeLocation, counter, self.props.wrapped.country))
-                            }
+                  )(self.state.proposals.map { proposal =>
+                    proposal.operationId.flatMap { operationId =>
+                      operations.findById(operationId).flatMap {
+                        _.getOperationExpanded(proposal.tags, proposal.country).map { op =>
+                          <.li(
+                            ^.className := js
+                              .Array(
+                                TrendingShowcaseStyles.propasalItem,
+                                ColRulesStyles.col,
+                                ColRulesStyles.colHalfBeyondMedium
+                              )
+                          )(proposalTile(proposal, op, maybeLocation, counter, self.props.wrapped.country))
                         }
+                      }
+                    }
                   }.toSeq)
                 )
               )

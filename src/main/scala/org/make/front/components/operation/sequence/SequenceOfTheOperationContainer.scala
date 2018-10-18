@@ -120,7 +120,7 @@ object SequenceOfTheOperationContainer {
 
         val futureMaybeOperationAndSequence: () => Future[Option[(OperationModel, SequenceModel)]] = () => {
           val operationAndTags: Future[(Option[Operation], js.Array[Tag])] = for {
-            operation <- OperationService.getOperationBySlugAndCountry(operationSlug, state.country)
+            operation <- Future.successful(state.operations.getOperationBySlugAndCountry(operationSlug, state.country))
             tags      <- TagService.getTags
           } yield (operation, tags)
           operationAndTags.map {
