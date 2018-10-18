@@ -59,7 +59,7 @@ object ProposalTile {
             .find(_.operationId.value == id.value)
             .map { op =>
               PostedIn(
-                name = op.wordings.find(_.language == proposal.language).map(_.title).getOrElse(op.label),
+                name = op.wordings.find(_.language == proposal.language).map(_.title).getOrElse(op.slug),
                 link = RouteHelper.operationRoute(op.country, op.slug)
               )
             }

@@ -52,7 +52,7 @@ object ChanceAuxJeunesOperationStaticData extends StaticDataOfOperation {
       extraSlides = (params: OperationExtraSlidesParams) => {
         js.Array(
           Slides.displaySequenceIntroCard(
-            params,
+            params = params,
             introWording = OperationIntroWording(
               title = Some("Ensemble, changeons l'avenir des jeunes !"),
               explanation1 = Some("Éducation, logement, emploi, pouvoir d'achat... nous devons trouver des solutions."),

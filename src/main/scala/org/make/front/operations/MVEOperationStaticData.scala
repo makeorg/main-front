@@ -54,7 +54,7 @@ object MVEOperationStaticData extends StaticDataOfOperation {
       extraSlides = (params: OperationExtraSlidesParams) => {
         js.Array(
           Slides.displaySequenceIntroCard(
-            params,
+            params = params,
             introWording = OperationIntroWording(duration = Some("Durée: 2 minutes"))
           ),
           Slides.displaySignUpCard(params, !params.isConnected),

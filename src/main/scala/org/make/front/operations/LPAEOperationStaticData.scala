@@ -48,7 +48,7 @@ object LPAEOperationStaticData extends StaticDataOfOperation {
     ),
     extraSlides = (params: OperationExtraSlidesParams) => {
       js.Array(
-        Slides.displaySequenceIntroCard(params, introWording = OperationIntroWording()),
+        Slides.displaySequenceIntroCard(params = params, introWording = OperationIntroWording()),
         Slides.displaySignUpCard(params, !params.isConnected),
         Slides.displayProposalPushCard(params),
         Slides.displayFinalCard(params)

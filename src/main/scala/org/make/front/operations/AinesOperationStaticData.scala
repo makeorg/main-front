@@ -64,7 +64,7 @@ object AinesOperationStaticData extends StaticDataOfOperation {
     shareUrl = "/FR/consultation/aines/selection_UTM_&language=fr#/FR/consultation/aines/selection",
     extraSlides = (params: OperationExtraSlidesParams) => {
       js.Array(
-        Slides.displaySequenceIntroCard(params, introWording = OperationIntroWording()),
+        Slides.displaySequenceIntroCard(params = params, introWording = OperationIntroWording()),
         Slides.displaySignUpCard(params, !params.isConnected),
         Slides.displayProposalPushCard(params, false),
         Slides.redirectToConsultationCard(params, onFocus = () => {

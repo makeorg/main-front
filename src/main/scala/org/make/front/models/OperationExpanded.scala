@@ -73,7 +73,9 @@ final case class OperationIntroWording(title: Option[String] = None,
                                        explanation1: Option[String] = None,
                                        explanation2: Option[String] = None,
                                        duration: Option[String] = None,
-                                       cta: Option[String] = None)
+                                       cta: Option[String] = None,
+                                       partners: js.Array[OperationIntroPartner] = js.Array())
+final case class OperationIntroPartner(name: String, imageUrl: String)
 
 final case class OperationExpanded(operationId: OperationId,
                                    startDate: Option[js.Date],
@@ -81,7 +83,6 @@ final case class OperationExpanded(operationId: OperationId,
                                    endDate: Option[js.Date],
                                    country: String,
                                    slug: String,
-                                   label: String,
                                    actionsCount: Int,
                                    proposalsCount: Int,
                                    color: String,
@@ -152,7 +153,6 @@ object OperationExpanded {
         country = country,
         operationId = operation.operationId,
         slug = operation.slug,
-        label = operation.slug,
         actionsCount = 0,
         proposalsCount = 0,
         color = operationStaticData.color,
