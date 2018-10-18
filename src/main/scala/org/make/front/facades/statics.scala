@@ -882,6 +882,11 @@ object ageVillage extends js.Object
 @JSImport("./images/operations/aines/partners/association-france-dependance.png", "default")
 object associationFranceDependance extends js.Object
 
+/* Operation Plan Climat */
+@js.native
+@JSImport("./images/operations/plan-climat/plan-climat-logo-white.svg", "default")
+object planClimatLogoWhite extends js.Object
+
 /* FLAGS */
 
 @js.native

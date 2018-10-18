@@ -21,8 +21,9 @@
 package org.make.front.models
 
 import org.make.front.components.sequence.Sequence.ExtraSlide
+import org.make.front.facades.I18n
 import org.make.front.operations.Operations
-
+import org.make.front.facades.Unescape._
 import scala.scalajs.js
 
 final case class OperationStaticData(country: String,
@@ -37,7 +38,10 @@ final case class OperationStaticData(country: String,
                                      extraSlides: (OperationExtraSlidesParams) => js.Array[ExtraSlide],
                                      startDateActions: Option[js.Date] = None,
                                      isConsultationOnly: Boolean = false,
-                                     partners: js.Array[OperationPartner] = js.Array())
+                                     partners: js.Array[OperationPartner] = js.Array(),
+                                     operationTypeRibbon: Option[String] = Some(
+                                       unescape(I18n.t("operation.vff-fr.intro.label"))
+                                     ))
 
 object OperationStaticData {
   def findBySlugAndCountry(slug: String, country: String): Option[OperationStaticData] = {
@@ -97,7 +101,8 @@ final case class OperationExpanded(operationId: OperationId,
                                    landingSequenceId: SequenceId,
                                    startDateActions: Option[js.Date],
                                    isConsultationOnly: Boolean,
-                                   partners: js.Array[OperationPartner]) {
+                                   partners: js.Array[OperationPartner],
+                                   operationTypeRibbon: Option[String]) {
 
   def getWordingByLanguage(language: String): Option[OperationWording] = {
     wordings.find(_.language == language)
@@ -178,7 +183,8 @@ object OperationExpanded {
         tags = operationTags,
         startDateActions = operationStaticData.startDateActions,
         isConsultationOnly = operationStaticData.isConsultationOnly,
-        partners = operationStaticData.partners
+        partners = operationStaticData.partners,
+        operationTypeRibbon = operationStaticData.operationTypeRibbon
       )
   }
 }

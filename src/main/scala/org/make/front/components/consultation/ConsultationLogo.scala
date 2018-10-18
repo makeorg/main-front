@@ -56,5 +56,5 @@ object ConsultationLogoStyles extends StyleSheet.Inline {
   import dsl._
 
   val logo: StyleA =
-    style(maxHeight(90.pxToEm()), maxWidth(100.%%), display.block, marginLeft(auto), marginRight(auto))
+    style(maxWidth(100.%%), display.block, marginLeft(auto), marginRight(auto))
 }
