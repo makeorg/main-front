@@ -11,7 +11,7 @@ This application is an integration of the make.org site using scala-js and react
   
 ````
 make package-docker-image
-docker run -p 9009:8080 -e API_URL=https://api.preprod.makeorg.tech nexus.prod.makeorg.tech/make-front:latest
+docker run -p 9009:80 -e API_URL=https://api.preprod.makeorg.tech nexus.prod.makeorg.tech/make-front:latest
 
 ````
 
