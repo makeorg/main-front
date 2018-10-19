@@ -46,7 +46,7 @@ object AccordionStyles extends StyleSheet.Inline {
     active =>
       if (active) {
         styleS(height(`0`), opacity(0))
-      } else styleS(height.auto, opacity(1))
+      } else styleS(height.auto, opacity(1), overflow.visible)
   )
 
 }
