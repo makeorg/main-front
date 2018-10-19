@@ -620,12 +620,13 @@ object SequenceStyles extends StyleSheet.Inline {
 
   val slide: StyleA =
     style(
+      display.flex,
+      justifyContent.center,
       height(100.%%),
+      width(100.%%),
       minWidth(240.pxToEm()),
       backgroundColor(ThemeStyles.BackgroundColor.white),
       boxShadow := "0 1px 1px 0 rgba(0,0,0,0.50)",
-      textAlign.center,
-      whiteSpace.nowrap,
       &.before(content := "' '", display.inlineBlock, height(100.%%), verticalAlign.middle),
       ThemeStyles.MediaQueries
         .verySmall(overflow.scroll)
@@ -633,9 +634,10 @@ object SequenceStyles extends StyleSheet.Inline {
 
   val slideInnerSubWrapper: StyleA =
     style(
-      display.inlineBlock,
-      verticalAlign.middle,
-      whiteSpace.normal,
+      display.flex,
+      flexFlow := "column",
+      justifyContent.center,
+      alignItems.center,
       paddingTop(ThemeStyles.SpacingValue.medium.pxToEm()),
       paddingBottom(ThemeStyles.SpacingValue.medium.pxToEm())
     )
