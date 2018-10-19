@@ -50,7 +50,8 @@ object Operations {
     ChanceAuxJeunesOperationStaticData.data,
     CultureOperationStaticData.data,
     AinesOperationStaticData.data,
-    NiceMatinOperationStaticData.data
+    NiceMatinOperationStaticData.data,
+    G9OperationStaticData.data
   )
 }
 
