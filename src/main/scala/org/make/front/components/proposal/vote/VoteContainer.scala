@@ -58,7 +58,7 @@ object VoteContainer {
                                       maybeOperation: Option[OperationModel],
                                       maybeSequenceId: Option[SequenceId],
                                       maybeLocation: Option[LocationModel],
-                                      isProposalSharable : Boolean)
+                                      isProposalSharable: Boolean)
 
   lazy val reactClass: ReactClass = ReactRedux.connectAdvanced(selectorFactory)(Vote.reactClass)
 
@@ -99,7 +99,8 @@ object VoteContainer {
 
         TrackingService.track(
           eventName = "click-proposal-vote",
-          trackingContext = TrackingContext(props.wrapped.trackingLocation, operationSlug = props.wrapped.maybeOperation.map(_.slug)),
+          trackingContext =
+            TrackingContext(props.wrapped.trackingLocation, operationSlug = props.wrapped.maybeOperation.map(_.slug)),
           parameters = defaultVoteParameters,
           internalOnlyParameters = internalOnlyParameters
         )
@@ -124,7 +125,8 @@ object VoteContainer {
 
         TrackingService.track(
           eventName = "click-proposal-unvote",
-          trackingContext = TrackingContext(props.wrapped.trackingLocation, operationSlug = props.wrapped.maybeOperation.map(_.slug)),
+          trackingContext =
+            TrackingContext(props.wrapped.trackingLocation, operationSlug = props.wrapped.maybeOperation.map(_.slug)),
           parameters = defaultVoteParameters,
           internalOnlyParameters = internalOnlyParameters
         )
@@ -146,7 +148,8 @@ object VoteContainer {
 
         TrackingService.track(
           eventName = "click-proposal-qualify",
-          trackingContext = TrackingContext(props.wrapped.trackingLocation, operationSlug = props.wrapped.maybeOperation.map(_.slug)),
+          trackingContext =
+            TrackingContext(props.wrapped.trackingLocation, operationSlug = props.wrapped.maybeOperation.map(_.slug)),
           parameters = defaultVoteParameters,
           internalOnlyParameters = internalOnlyParameters
         )
@@ -170,7 +173,8 @@ object VoteContainer {
 
         TrackingService.track(
           eventName = "click-proposal-unqualify",
-          trackingContext = TrackingContext(props.wrapped.trackingLocation, operationSlug = props.wrapped.maybeOperation.map(_.slug)),
+          trackingContext =
+            TrackingContext(props.wrapped.trackingLocation, operationSlug = props.wrapped.maybeOperation.map(_.slug)),
           parameters = defaultVoteParameters,
           internalOnlyParameters = internalOnlyParameters
         )
@@ -199,7 +203,7 @@ object VoteContainer {
         guideToVote = props.wrapped.guideToVote,
         guideToQualification = props.wrapped.guideToQualification,
         index = props.wrapped.index,
-        isProposalSharable  = props.wrapped.isProposalSharable
+        isProposalSharable = props.wrapped.isProposalSharable
       )
     }
 }

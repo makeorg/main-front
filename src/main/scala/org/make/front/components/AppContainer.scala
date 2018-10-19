@@ -38,7 +38,8 @@ object AppContainer {
           language = appState.language,
           country = appState.country,
           nVotesTriggerConnexion =
-            appState.configuration.map(_.nVotesTriggerConnexion).getOrElse(nVotesTriggerConnexionDefault)
+            appState.configuration.map(_.nVotesTriggerConnexion).getOrElse(nVotesTriggerConnexionDefault),
+          operations = appState.operations
         )
       }
     }

@@ -30,7 +30,7 @@ import org.make.front.components.proposal.ProposalTile.{PostedIn, ProposalTilePr
 import org.make.front.components.userProfile.ProfileProposalListStyles
 import org.make.front.facades.Unescape.unescape
 import org.make.front.facades.{I18n, Replacements}
-import org.make.front.models.{Operation, OperationExpanded, OperationList, Proposal, Organisation => OrganisationModel}
+import org.make.front.models.{OperationList, Proposal, Organisation => OrganisationModel}
 import org.make.front.styles.vendors.FontAwesomeStyles
 import org.make.services.tracking.TrackingLocation
 import scalacss.internal.ValueT
@@ -43,13 +43,10 @@ object ActorProfileProposals {
                                               actorProposals: js.Array[Proposal],
                                               operations: OperationList)
 
-  final case class ActorProfileProposalsState()
-
   lazy val reactClass: ReactClass =
     React
-      .createClass[ActorProfileProposalsProps, ActorProfileProposalsState](
+      .createClass[ActorProfileProposalsProps, Unit](
         displayName = "ActorProfileProposals",
-        getInitialState = _ => ActorProfileProposalsState(),
         render = self => {
           <("ActorProfileProposals")()(
             <.section(^.className := ProfileProposalListStyles.wrapper)(

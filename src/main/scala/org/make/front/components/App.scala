@@ -26,12 +26,13 @@ import io.github.shogowada.scalajs.reactjs.router.WithRouter
 import org.make.front.Main.CssSettings._
 import org.make.front.components.Components.{RichVirtualDOMElements, _}
 import org.make.front.components.users.authenticate.TriggerSignUp.TriggerSignUpProps
+import org.make.front.models.OperationList
 import org.make.front.styles.base.{ColRulesStyles, LayoutRulesStyles, RWDHideRulesStyles, TextStyles, _}
 import org.make.front.styles.ui._
 
 object App {
 
-  final case class AppProps(language: String, country: String, nVotesTriggerConnexion: Int)
+  final case class AppProps(language: String, country: String, nVotesTriggerConnexion: Int, operations: OperationList)
 
   final case class AppState(language: String, country: String)
 
@@ -68,7 +69,14 @@ object App {
               RWDHideRulesStyles.render[String]
             ),
             <.ContainerComponent.empty,
-            <.TriggerSignUpComponent(^.wrapped := TriggerSignUpProps(self.props.wrapped.nVotesTriggerConnexion))()
+            <.TriggerSignUpComponent(
+              ^.wrapped := TriggerSignUpProps(
+                self.props.wrapped.nVotesTriggerConnexion,
+                operations = self.props.wrapped.operations,
+                language = self.state.language,
+                country = self.state.country
+              )
+            )()
           )
         }
       )

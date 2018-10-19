@@ -38,7 +38,7 @@ final case class Operation(status: String,
                            updatedAt: Option[js.Date],
                            countriesConfiguration: js.Array[OperationCountryConfiguration]) {
 
-  def getOperationExpanded(tags: js.Array[Tag], country: String): Option[OperationExpanded] =
+  def getOperationExpanded(tags: js.Array[Tag] = js.Array(), country: String): Option[OperationExpanded] =
     OperationExpanded.getOperationExpandedFromOperation(Some(this), tags, country)
 }
 object Operation {

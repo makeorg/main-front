@@ -39,7 +39,8 @@ object G9OperationStaticData extends StaticDataOfOperation {
             | Comment faire émerger les champions européens du numérique ? Pour la première fois, l’Institut G9+,
             | Roland Berger, Croissance+ et Make.org vont massivement mobiliser citoyens français et allemands sur
             | cette question, pour écrire un Livre blanc inédit, première véritable feuille de route citoyenne sur le sujet.""".stripMargin
-        )
+        ),
+        registerTitle = None
       )
     ),
     color = "#5DA113",

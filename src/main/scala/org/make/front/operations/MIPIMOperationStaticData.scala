@@ -39,7 +39,8 @@ object MIPIMFROperationStaticData extends StaticDataOfOperation {
             | nous vous invitons à l’occasion du MIPIM 2019. Nous allons vous proposer de vous engager massivement en
             | amont de l’édition 2019 du salon, grâce à une consultation citoyenne ouverte, puis nous transformerons vos
             | meilleures idées en projets d’actions concrets. """.stripMargin
-        )
+        ),
+        registerTitle = None
       )
     ),
     color = "#000000",

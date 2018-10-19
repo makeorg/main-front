@@ -32,18 +32,24 @@ import org.make.front.facades.I18n
 import org.make.front.facades.Unescape.unescape
 import org.make.front.middlewares.TriggerSignUpMiddleware
 import org.make.front.middlewares.TriggerSignUpMiddleware.TriggerSignUpListener
-import org.make.front.models.Location
+import org.make.front.models.{Location, OperationList}
 import org.make.front.models.Location.OperationPage
 import org.make.services.tracking.TrackingLocation
 import org.make.services.tracking.TrackingService.TrackingContext
 
 object TriggerSignUp {
 
-  final case class TriggerSignUpProps(nVotesTriggerConnexion: Int)
+  final case class TriggerSignUpProps(nVotesTriggerConnexion: Int,
+                                      operations: OperationList,
+                                      language: String,
+                                      country: String)
   final case class TriggerSignUpState(id: String,
                                       voteCount: Int,
                                       isAuthenticateModalOpened: Boolean,
-                                      voteLocation: Option[Location])
+                                      voteLocation: Option[Location],
+                                      registerTitle: Option[String])
+
+  val defaultTitle: Option[String] = Some(unescape(I18n.t("authenticate.register.with-email-intro-trigger")))
 
   lazy val reactClass: ReactClass =
     React.createClass[TriggerSignUpProps, TriggerSignUpState](
@@ -53,14 +59,31 @@ object TriggerSignUp {
           id = UUID.randomUUID().toString,
           voteCount = 0,
           isAuthenticateModalOpened = false,
-          voteLocation = None
+          voteLocation = None,
+          registerTitle = defaultTitle
         )
       },
       componentDidMount = { self =>
-        val onTriggerSignUp: Location => Unit = { location =>
-          self.setState(state => state.copy(voteCount = state.voteCount + 1))
-          if (self.state.voteCount != 0 && self.state.voteCount % self.props.wrapped.nVotesTriggerConnexion == 0)
-            self.setState(_.copy(isAuthenticateModalOpened = true, voteLocation = Some(location)))
+        val onTriggerSignUp: Location => Unit = {
+          location =>
+            val registerTitle: Option[String] = location match {
+              case OperationPage(operationId) =>
+                self.props.wrapped.operations
+                  .findById(operationId)
+                  .flatMap(
+                    _.getOperationExpanded(country = self.props.wrapped.country)
+                      .flatMap(_.wordings.find(_.language == self.props.wrapped.language).flatMap(_.registerTitle))
+                  )
+                  .orElse(self.state.registerTitle)
+              case _ => defaultTitle
+            }
+
+            self.setState(state => state.copy(voteCount = state.voteCount + 1, registerTitle = registerTitle))
+            if (self.state.voteCount != 0 && self.state.voteCount % self.props.wrapped.nVotesTriggerConnexion == 0) {
+              self.setState(
+                _.copy(isAuthenticateModalOpened = true, voteLocation = Some(location), registerTitle = registerTitle)
+              )
+            }
         }
         TriggerSignUpMiddleware
           .addTriggerSignUpListener(self.state.id, TriggerSignUpListener(onTriggerSignUp))
@@ -88,7 +111,7 @@ object TriggerSignUp {
               onSuccessfulLogin = () => {
                 self.setState(_.copy(isAuthenticateModalOpened = false, voteLocation = None))
               },
-              registerTitle = Some(unescape(I18n.t("authenticate.register.with-email-intro-trigger")))
+              registerTitle = self.state.registerTitle
             )
           )()
         )

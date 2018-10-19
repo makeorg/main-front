@@ -46,7 +46,8 @@ object ChanceAuxJeunesOperationStaticData extends StaticDataOfOperation {
           learnMoreUrl = Some("http://www.UneChancePourChaqueJeune.org"),
           presentation = Some(
             "Précarité, chômage, inégalités, désamour du politique... La France ne semble plus offrir de place à ses jeunes. Cette fracture fragilise notre capacité à relever les défis collectifs futurs et nous pousse à imaginer ensemble un moyen d'offrir à chaque jeune une chance de se réaliser."
-          )
+          ),
+          registerTitle = None
         )
       ),
       extraSlides = (params: OperationExtraSlidesParams) => {

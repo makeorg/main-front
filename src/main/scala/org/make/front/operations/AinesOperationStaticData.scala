@@ -53,7 +53,8 @@ object AinesOperationStaticData extends StaticDataOfOperation {
             |Grâce au soutien des partenaires fondateurs Klesia, la fondation Korian, La Poste, l'OCIRP, Primonial, CAREIT, les milliers de propositions citoyennes
             |recueillies vont nous permettre de bâtir, aux côtés de l’État, le 1er grand Plan d'actions citoyen en faveur des Aînés. Entreprises, associations,
             |pouvoirs publics, citoyens, nous nous donnons trois ans pour concrétiser les actions de ce Plan et réussir ainsi à mieux prendre soin de nos aînés.""".stripMargin
-        )
+        ),
+        registerTitle = None
       )
     ),
     color = "#9C6BDA",
@@ -65,7 +66,7 @@ object AinesOperationStaticData extends StaticDataOfOperation {
     extraSlides = (params: OperationExtraSlidesParams) => {
       js.Array(
         Slides.displaySequenceIntroCard(params = params, introWording = OperationIntroWording()),
-        Slides.displaySignUpCard(params, !params.isConnected),
+        Slides.displaySignUpCard(params = params, displayed = !params.isConnected),
         Slides.displayProposalPushCard(params, false),
         Slides.redirectToConsultationCard(params, onFocus = () => {
           params.closeSequence()
