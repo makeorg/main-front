@@ -116,14 +116,16 @@ object ConsultationSection {
                 <.div(^.id := "sidebarAffixContainer")(
                   <.div(^.id := "sidebarAffixElement")(
                     mobilePresentation,
-                    <.div(^.className := RWDRulesLargeMediumStyles.showBlockBeyondLargeMedium)(
-                      <.ConsultationCommunityComponent(
-                        ^.wrapped := ConsultationCommunityProps(
-                          self.props.wrapped.operation,
-                          self.props.wrapped.language
-                        )
-                      )()
-                    ),
+                    if (!self.props.wrapped.operation.isConsultationOnly) {
+                      <.div(^.className := RWDRulesLargeMediumStyles.showBlockBeyondLargeMedium)(
+                        <.ConsultationCommunityComponent(
+                          ^.wrapped := ConsultationCommunityProps(
+                            self.props.wrapped.operation,
+                            self.props.wrapped.language
+                          )
+                        )()
+                      )
+                    },
                     <.ConsultationShareMobileComponent(
                       ^.wrapped := ConsultationShareMobileProps(operation = consultation)
                     )(),
