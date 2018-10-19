@@ -74,9 +74,6 @@ object ConsultationHeader {
 
             val gradient: StyleA =
               style(background := s"linear-gradient(115deg, ${gradientValues.from}, ${gradientValues.to})")
-
-            val titleWidth: StyleA =
-              style(maxWidth(consultation.logoWidth.pxToEm()))
           }
 
           val startDateActions: Option[js.Date] = self.props.wrapped.operation.startDateActions
@@ -86,17 +83,13 @@ object ConsultationHeader {
               ^.className := js
                 .Array(
                   ConsultationHeaderStyles.titleWrapper,
-                  DynamicConsultationHeaderStyles.titleWidth,
                   ConsultationHeaderStyles.headerWrapper(self.props.wrapped.operation.isConsultationOnly)
                 )
-            )(
+            )(self.props.wrapped.operation.operationTypeRibbon.map { consultationRibbon =>
               <.p(^.className := ConsultationHeaderStyles.labelWrapper)(
-                <.span(^.className := TextStyles.label)(unescape(I18n.t("operation.vff-fr.intro.label")))
-              ),
-              <.ConsultationLogoComponent(
-                ^.wrapped := ConsultationLogoProps(consultation, self.props.wrapped.language)
-              )()
-            ),
+                <.span(^.className := TextStyles.label)(consultationRibbon)
+              )
+            }, <.ConsultationLogoComponent(^.wrapped := ConsultationLogoProps(consultation, self.props.wrapped.language))()),
             if (!self.props.wrapped.operation.isConsultationOnly) {
               <.div(^.id := "tabAffixContainer")(
                 <.div(^.id := "tabAffixElement")(
