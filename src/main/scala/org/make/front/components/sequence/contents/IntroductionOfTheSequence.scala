@@ -63,45 +63,55 @@ object IntroductionOfTheSequence {
             partners = self.props.wrapped.introWording.partners
           )
         },
-        render = { self =>
-          <.div(^.className := js.Array(LayoutRulesStyles.row))(
-            <.div(^.className := IntroductionOfTheSequenceStyles.titleWrapper)(
-              <.p(^.className := js.Array(TextStyles.bigIntro, IntroductionOfTheSequenceStyles.title))(self.state.title)
-            ),
-            <.div(^.className := IntroductionOfTheSequenceStyles.explanationWrapper)(
-              <.p(^.className := js.Array(TextStyles.biggerMediumText, IntroductionOfTheSequenceStyles.explanation))(
-                self.state.explanation1
-              )
-            ),
-            <.div(^.className := IntroductionOfTheSequenceStyles.explanationWrapper)(
-              <.p(^.className := js.Array(TextStyles.biggerMediumText, IntroductionOfTheSequenceStyles.explanation))(
-                self.state.explanation2
-              )
-            ),
-            self.state.duration.map { duration =>
-              <.div(^.className := IntroductionOfTheSequenceStyles.explanationWrapper)(
-                <.p(
-                  ^.className := js.Array(
-                    TextStyles.biggerMediumText,
-                    TextStyles.boldText,
-                    IntroductionOfTheSequenceStyles.explanation
+        render = {
+          self =>
+            <.div(^.className := js.Array(IntroductionOfTheSequenceStyles.introCardWrapper))(
+              <.div(^.className := IntroductionOfTheSequenceStyles.contentWrapper)(
+                <.div(^.className := IntroductionOfTheSequenceStyles.titleWrapper)(
+                  <.p(^.className := js.Array(TextStyles.bigIntro, IntroductionOfTheSequenceStyles.title))(
+                    self.state.title
                   )
-                )(duration)
-              )
-            },
-            <.div(^.className := IntroductionOfTheSequenceStyles.ctaWrapper)(
-              <.button(
-                ^.className := js.Array(CTAStyles.basic, CTAStyles.basicOnButton),
-                ^.onClick := self.props.wrapped.clickOnButtonHandler
-              )(<.i(^.className := js.Array(FontAwesomeStyles.play))(), self.state.cta)
-            ),
-            if (self.state.partners.nonEmpty) {
-              <.div()(<.p()(I18n.t("sequence.introduction.partners")), <.ul()(self.state.partners.map { partner =>
-                <.img(^.src := partner.imageUrl, ^.alt := partner.name, ^.key := partner.name)()
-              }.toSeq))
-            },
-            <.style()(IntroductionOfTheSequenceStyles.render[String])
-          )
+                ),
+                <.div(^.className := IntroductionOfTheSequenceStyles.explanationWrapper)(
+                  <.p(
+                    ^.className := js.Array(TextStyles.biggerMediumText, IntroductionOfTheSequenceStyles.explanation)
+                  )(self.state.explanation1)
+                ),
+                <.div(^.className := IntroductionOfTheSequenceStyles.explanationWrapper)(
+                  <.p(
+                    ^.className := js.Array(TextStyles.biggerMediumText, IntroductionOfTheSequenceStyles.explanation)
+                  )(self.state.explanation2)
+                ),
+                self.state.duration.map { duration =>
+                  <.div(^.className := IntroductionOfTheSequenceStyles.explanationWrapper)(
+                    <.p(
+                      ^.className := js.Array(
+                        TextStyles.biggerMediumText,
+                        TextStyles.boldText,
+                        IntroductionOfTheSequenceStyles.explanation
+                      )
+                    )(duration)
+                  )
+                },
+                <.div(^.className := IntroductionOfTheSequenceStyles.ctaWrapper)(
+                  <.button(
+                    ^.className := js.Array(CTAStyles.basic, CTAStyles.basicOnButton),
+                    ^.onClick := self.props.wrapped.clickOnButtonHandler
+                  )(<.i(^.className := js.Array(FontAwesomeStyles.play))(), self.state.cta)
+                )
+              ),
+              if (self.state.partners.nonEmpty) {
+                <.p(^.className := IntroductionOfTheSequenceStyles.extraPartners)(
+                  I18n.t("sequence.introduction.partners"),
+                  <.ul()(self.state.partners.map { partner =>
+                    <.li(^.className := IntroductionOfTheSequenceStyles.partnerItem)(
+                      <.img(^.src := partner.imageUrl, ^.alt := partner.name, ^.key := partner.name)()
+                    )
+                  }.toSeq)
+                )
+              },
+              <.style()(IntroductionOfTheSequenceStyles.render[String])
+            )
         }
       )
 
@@ -110,6 +120,12 @@ object IntroductionOfTheSequence {
 object IntroductionOfTheSequenceStyles extends StyleSheet.Inline {
 
   import dsl._
+
+  val introCardWrapper: StyleA =
+    style(display.flex, height(100.%%), flexFlow := "column", alignItems.center, justifyContent.spaceBetween)
+
+  val contentWrapper: StyleA =
+    style(display.flex, height(100.%%), flexFlow := "column", alignItems.center, justifyContent.center)
 
   val titleWrapper: StyleA =
     style(marginBottom(ThemeStyles.SpacingValue.medium.pxToEm()))
@@ -126,4 +142,17 @@ object IntroductionOfTheSequenceStyles extends StyleSheet.Inline {
   val ctaWrapper: StyleA =
     style(textAlign.center, marginTop(ThemeStyles.SpacingValue.medium.pxToEm()))
 
+  val extraPartners: StyleA =
+    style(
+      TextStyles.smallerText,
+      color(ThemeStyles.TextColor.lighter),
+      display.flex,
+      flexFlow := "column",
+      justifyContent.center,
+      alignItems.center,
+      ThemeStyles.MediaQueries.beyondMedium(flexFlow := "row")
+    )
+
+  val partnerItem: StyleA =
+    style(display.inlineBlock, marginLeft(ThemeStyles.SpacingValue.small.pxToEm()))
 }
