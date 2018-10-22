@@ -900,6 +900,10 @@ object niceMatin extends js.Object
 @JSImport("./images/operations/european-digital-champions/european-digital-champions-logo-white.svg", "default")
 object europeanDigitalChampionsLogoWhite extends js.Object
 
+@js.native
+@JSImport("./images/operations/mipim/mipim-logo.jpg", "default")
+object mipimLogo extends js.Object
+
 /* FLAGS */
 
 @js.native
