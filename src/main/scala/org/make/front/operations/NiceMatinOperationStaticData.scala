@@ -19,7 +19,7 @@
  */
 
 package org.make.front.operations
-import org.make.front.facades.planClimatLogoWhite
+import org.make.front.facades.{niceMatin, planClimatAirEnergieTerritorial, planClimatLogoWhite}
 import org.make.front.models._
 
 import scala.scalajs.js
@@ -50,7 +50,19 @@ object NiceMatinOperationStaticData extends StaticDataOfOperation {
     shareUrl = "/FR/consultation/plan-climat/selection_UTM_&language=fr#/FR/consultation/plan-climat/selection",
     extraSlides = (params: OperationExtraSlidesParams) => {
       js.Array(
-        Slides.displaySequenceIntroCard(params, introWording = OperationIntroWording()),
+        Slides.displaySequenceIntroCard(
+          params,
+          introWording = OperationIntroWording(
+            explanation2 = None,
+            partners = js.Array(
+              OperationIntroPartner(name = "Nice Matin", imageUrl = niceMatin.toString),
+              OperationIntroPartner(
+                name = "Plan climat air énergie territorial",
+                imageUrl = planClimatAirEnergieTerritorial.toString
+              )
+            )
+          )
+        ),
         Slides.displaySignUpCard(params, !params.isConnected),
         Slides.displayProposalPushCard(params),
         Slides.redirectToConsultationCard(params, onFocus = () => {

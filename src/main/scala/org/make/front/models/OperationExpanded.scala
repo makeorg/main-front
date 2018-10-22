@@ -73,12 +73,14 @@ final case class OperationExtraSlidesParams(operation: OperationExpanded,
                                             handleCanUpdate: (Boolean) => Unit,
                                             closeSequence: ()          => Unit)
 
-final case class OperationIntroWording(title: Option[String] = None,
-                                       explanation1: Option[String] = None,
-                                       explanation2: Option[String] = None,
-                                       duration: Option[String] = None,
-                                       cta: Option[String] = None,
-                                       partners: js.Array[OperationIntroPartner] = js.Array())
+final case class OperationIntroWording(
+  title: Option[String] = Some(unescape(I18n.t("sequence.introduction.title"))),
+  explanation1: Option[String] = Some(unescape(I18n.t("sequence.introduction.explanation-1"))),
+  explanation2: Option[String] = Some(unescape(I18n.t("sequence.introduction.explanation-2"))),
+  duration: Option[String] = None,
+  cta: Option[String] = None,
+  partners: js.Array[OperationIntroPartner] = js.Array()
+)
 final case class OperationIntroPartner(name: String, imageUrl: String)
 
 final case class OperationExpanded(operationId: OperationId,
