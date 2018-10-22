@@ -45,10 +45,10 @@ object ConsultationShare {
         displayName = "ConsultationShare",
         render = { self =>
           <.article(^.className := js.Array(ConsultationShareStyles.wrapper, LayoutRulesStyles.centeredRow))(
-            <.h3(^.className := ConsultationShareStyles.title)(
-              unescape(I18n.t("operation.share.title"))
-            ),
-            <.ShareComponent(^.wrapped := ShareProps(operation = self.props.wrapped.operation))(),
+            <.h3(^.className := ConsultationShareStyles.title)(unescape(I18n.t("operation.share.title"))),
+            if (self.props.wrapped.operation.featureSettings.share) {
+              <.ShareComponent(^.wrapped := ShareProps(operation = self.props.wrapped.operation))()
+            },
             <.style()(ConsultationShareStyles.render[String])
           )
         }
@@ -65,10 +65,7 @@ object ConsultationShareStyles extends StyleSheet.Inline {
       boxShadow := "0 1px 1px 0 rgba(0,0,0,0.50)",
       padding(ThemeStyles.SpacingValue.small.pxToEm()),
       marginTop(ThemeStyles.SpacingValue.small.pxToEm()),
-      ThemeStyles.MediaQueries.beyondLargeMedium(
-        padding(20.pxToEm()),
-        marginTop(20.pxToEm())
-      )
+      ThemeStyles.MediaQueries.beyondLargeMedium(padding(20.pxToEm()), marginTop(20.pxToEm()))
     )
 
   val title: StyleA =

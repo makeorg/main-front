@@ -50,7 +50,7 @@ object ConsultationSection {
         .createClass[ConsultationSectionProps, Unit](
           displayName = "ConsultationSection",
           componentDidMount = { _ =>
-            AffixMethods.sidebarAffixrAF
+            AffixMethods.sidebarAffixrAF()
           },
           render = { self =>
             val consultation = self.props.wrapped.operation
@@ -116,7 +116,7 @@ object ConsultationSection {
                 <.div(^.id := "sidebarAffixContainer")(
                   <.div(^.id := "sidebarAffixElement")(
                     mobilePresentation,
-                    if (!self.props.wrapped.operation.isConsultationOnly) {
+                    if (self.props.wrapped.operation.featureSettings.action) {
                       <.div(^.className := RWDRulesLargeMediumStyles.showBlockBeyondLargeMedium)(
                         <.ConsultationCommunityComponent(
                           ^.wrapped := ConsultationCommunityProps(
@@ -126,13 +126,17 @@ object ConsultationSection {
                         )()
                       )
                     },
-                    <.ConsultationShareMobileComponent(
-                      ^.wrapped := ConsultationShareMobileProps(operation = consultation)
-                    )(),
-                    <.div(^.className := RWDRulesLargeMediumStyles.showBlockBeyondLargeMedium)(
-                      <.ConsultationShareComponent(^.wrapped := ConsultationShareProps(operation = consultation))(),
-                      <.AltFooterComponent()()
-                    )
+                    if (self.props.wrapped.operation.featureSettings.share) {
+                      Seq(
+                        <.ConsultationShareMobileComponent(
+                          ^.wrapped := ConsultationShareMobileProps(operation = consultation)
+                        )(),
+                        <.div(^.className := RWDRulesLargeMediumStyles.showBlockBeyondLargeMedium)(
+                          <.ConsultationShareComponent(^.wrapped := ConsultationShareProps(operation = consultation))(),
+                          <.AltFooterComponent()()
+                        )
+                      )
+                    }
                   )
                 )
               ),

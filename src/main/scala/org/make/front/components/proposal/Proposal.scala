@@ -174,14 +174,16 @@ object Proposal {
                       ),
                       self.state.maybeOperation.map { operation =>
                         self.state.maybeProposal.map { proposal =>
-                          <.ShareProposalPageComponent(
-                            ^.wrapped := ShareProposalProps(
-                              proposal = proposal,
-                              operation = operation,
-                              language = self.props.wrapped.language,
-                              country = self.props.wrapped.country
-                            )
-                          )()
+                          if (operation.featureSettings.share) {
+                            <.ShareProposalPageComponent(
+                              ^.wrapped := ShareProposalProps(
+                                proposal = proposal,
+                                operation = operation,
+                                language = self.props.wrapped.language,
+                                country = self.props.wrapped.country
+                              )
+                            )()
+                          }
                         }
                       }.toSeq
                     )

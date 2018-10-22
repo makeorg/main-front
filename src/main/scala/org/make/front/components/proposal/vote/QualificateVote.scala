@@ -105,17 +105,19 @@ object QualificateVote {
                 qualification =>
                   if (qualification.key == "likeIt" && qualification.hasQualified) {
                     self.props.wrapped.maybeOperation.map { operation =>
-                      <.div(
-                        ^.className := QualificateVoteStyles.isProposalSharable(self.props.wrapped.isProposalSharable)
-                      )(
-                        <.ShareLikeItProposalComponent(
-                          ^.wrapped := ShareLikeItProposalProps(
-                            proposal = self.props.wrapped.proposal,
-                            operation = operation,
-                            country = operation.country
-                          )
-                        )()
-                      )
+                      if (operation.featureSettings.share) {
+                        <.div(
+                          ^.className := QualificateVoteStyles.isProposalSharable(self.props.wrapped.isProposalSharable)
+                        )(
+                          <.ShareLikeItProposalComponent(
+                            ^.wrapped := ShareLikeItProposalProps(
+                              proposal = self.props.wrapped.proposal,
+                              operation = operation,
+                              country = operation.country
+                            )
+                          )()
+                        )
+                      }
                     }
                   }
               }.toSeq
@@ -158,7 +160,7 @@ object QualificateVoteStyles extends StyleSheet.Inline {
       )
     )
 
-  val tooltipTrigged: (Boolean) => StyleA = styleF.bool(
+  val tooltipTrigged: Boolean => StyleA = styleF.bool(
     active =>
       if (active) {
         styleS(opacity(1), visibility.visible, transition := s"opacity .25s ease-in")
@@ -167,7 +169,7 @@ object QualificateVoteStyles extends StyleSheet.Inline {
     }
   )
 
-  val isProposalSharable: (Boolean) => StyleA = styleF.bool(
+  val isProposalSharable: Boolean => StyleA = styleF.bool(
     active =>
       if (active) {
         styleS(

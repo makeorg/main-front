@@ -65,7 +65,8 @@ object ChanceAuxJeunesOperationStaticData extends StaticDataOfOperation {
           Slides.displayFinalCard(params)
         )
       },
-      startDateActions = None
+      startDateActions = None,
+      featureSettings = FeatureSettings(action = true, share = true)
     )
   }
 }

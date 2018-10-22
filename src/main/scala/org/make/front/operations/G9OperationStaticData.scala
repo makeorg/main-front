@@ -61,7 +61,7 @@ object G9OperationStaticData extends StaticDataOfOperation {
     },
     startDateActions = None,
     partners = js.Array(),
-    isConsultationOnly = true,
-    operationTypeRibbon = None
+    operationTypeRibbon = None,
+    featureSettings = FeatureSettings(action = false, share = true)
   )
 }
