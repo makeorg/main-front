@@ -39,8 +39,8 @@ import scala.scalajs.js
 object IntroductionOfTheSequence {
 
   final case class IntroductionOfTheSequenceState(title: String,
-                                                  explanation1: String,
-                                                  explanation2: String,
+                                                  explanation1: Option[String],
+                                                  explanation2: Option[String],
                                                   cta: String,
                                                   duration: Option[String],
                                                   partners: js.Array[OperationIntroPartner])
@@ -53,65 +53,66 @@ object IntroductionOfTheSequence {
         getInitialState = { self =>
           IntroductionOfTheSequenceState(
             title = self.props.wrapped.introWording.title.getOrElse(unescape(I18n.t("sequence.introduction.title"))),
-            explanation1 = self.props.wrapped.introWording.explanation1
-              .getOrElse(unescape(I18n.t("sequence.introduction.explanation-1"))),
-            explanation2 = self.props.wrapped.introWording.explanation2
-              .getOrElse(unescape(I18n.t("sequence.introduction.explanation-2"))),
+            explanation1 = self.props.wrapped.introWording.explanation1,
+            explanation2 = self.props.wrapped.introWording.explanation2,
             cta =
               self.props.wrapped.introWording.cta.getOrElse(unescape("&nbsp;" + I18n.t("sequence.introduction.cta"))),
             duration = self.props.wrapped.introWording.duration,
             partners = self.props.wrapped.introWording.partners
           )
         },
-        render = {
-          self =>
-            <.div(^.className := js.Array(IntroductionOfTheSequenceStyles.introCardWrapper))(
-              <.div(^.className := IntroductionOfTheSequenceStyles.contentWrapper)(
-                <.div(^.className := IntroductionOfTheSequenceStyles.titleWrapper)(
-                  <.p(^.className := js.Array(TextStyles.bigIntro, IntroductionOfTheSequenceStyles.title))(
-                    self.state.title
-                  )
-                ),
-                <.div(^.className := IntroductionOfTheSequenceStyles.explanationWrapper)(
-                  <.p(
-                    ^.className := js.Array(TextStyles.biggerMediumText, IntroductionOfTheSequenceStyles.explanation)
-                  )(self.state.explanation1)
-                ),
-                <.div(^.className := IntroductionOfTheSequenceStyles.explanationWrapper)(
-                  <.p(
-                    ^.className := js.Array(TextStyles.biggerMediumText, IntroductionOfTheSequenceStyles.explanation)
-                  )(self.state.explanation2)
-                ),
-                self.state.duration.map { duration =>
-                  <.div(^.className := IntroductionOfTheSequenceStyles.explanationWrapper)(
-                    <.p(
-                      ^.className := js.Array(
-                        TextStyles.biggerMediumText,
-                        TextStyles.boldText,
-                        IntroductionOfTheSequenceStyles.explanation
-                      )
-                    )(duration)
-                  )
-                },
-                <.div(^.className := IntroductionOfTheSequenceStyles.ctaWrapper)(
-                  <.button(
-                    ^.className := js.Array(CTAStyles.basic, CTAStyles.basicOnButton),
-                    ^.onClick := self.props.wrapped.clickOnButtonHandler
-                  )(<.i(^.className := js.Array(FontAwesomeStyles.play))(), self.state.cta)
+        render = { self =>
+          <.div(^.className := js.Array(IntroductionOfTheSequenceStyles.introCardWrapper))(
+            <.div(^.className := IntroductionOfTheSequenceStyles.contentWrapper)(
+              <.div(^.className := IntroductionOfTheSequenceStyles.titleWrapper)(
+                <.p(^.className := js.Array(TextStyles.bigIntro, IntroductionOfTheSequenceStyles.title))(
+                  self.state.title
                 )
               ),
-              if (self.state.partners.nonEmpty) {
-                <.p(^.className := IntroductionOfTheSequenceStyles.extraPartners)(
-                  I18n.t("sequence.introduction.partners"),
-                  <.ul()(self.state.partners.map { partner =>
-                    <.li(^.className := IntroductionOfTheSequenceStyles.partnerItem)(
-                      <.img(^.src := partner.imageUrl, ^.alt := partner.name, ^.key := partner.name)()
-                    )
-                  }.toSeq)
+              self.state.explanation1.map { content =>
+                <.div(^.className := IntroductionOfTheSequenceStyles.explanationWrapper)(
+                  <.p(
+                    ^.className := js.Array(TextStyles.biggerMediumText, IntroductionOfTheSequenceStyles.explanation)
+                  )(content)
                 )
               },
-              <.style()(IntroductionOfTheSequenceStyles.render[String])
-            )
+              self.state.explanation2.map { content =>
+                <.div(^.className := IntroductionOfTheSequenceStyles.explanationWrapper)(
+                  <.p(
+                    ^.className := js.Array(TextStyles.biggerMediumText, IntroductionOfTheSequenceStyles.explanation)
+                  )(content)
+                )
+              },
+              self.state.duration.map { duration =>
+                <.div(^.className := IntroductionOfTheSequenceStyles.explanationWrapper)(
+                  <.p(
+                    ^.className := js.Array(
+                      TextStyles.biggerMediumText,
+                      TextStyles.boldText,
+                      IntroductionOfTheSequenceStyles.explanation
+                    )
+                  )(duration)
+                )
+              },
+              <.div(^.className := IntroductionOfTheSequenceStyles.ctaWrapper)(
+                <.button(
+                  ^.className := js.Array(CTAStyles.basic, CTAStyles.basicOnButton),
+                  ^.onClick := self.props.wrapped.clickOnButtonHandler
+                )(<.i(^.className := js.Array(FontAwesomeStyles.play))(), self.state.cta)
+              )
+            ),
+            if (self.state.partners.nonEmpty) {
+              <.p(^.className := IntroductionOfTheSequenceStyles.extraPartners)(
+                I18n.t("sequence.introduction.partners"),
+                <.ul()(self.state.partners.map { partner =>
+                  <.li(^.className := IntroductionOfTheSequenceStyles.partnerItem)(
+                    <.img(^.src := partner.imageUrl, ^.alt := partner.name, ^.key := partner.name)()
+                  )
+                }.toSeq)
+              )
+            },
+            <.style()(IntroductionOfTheSequenceStyles.render[String])
+          )
         }
       )
 

@@ -887,6 +887,14 @@ object associationFranceDependance extends js.Object
 @JSImport("./images/operations/plan-climat/plan-climat-logo-white.svg", "default")
 object planClimatLogoWhite extends js.Object
 
+@js.native
+@JSImport("./images/operations/plan-climat/partners/logo-pcaet-2018-cmjn.png", "default")
+object planClimatAirEnergieTerritorial extends js.Object
+
+@js.native
+@JSImport("./images/operations/plan-climat/partners/nice-matin.png", "default")
+object niceMatin extends js.Object
+
 /* Operation European Digital Champion */
 @js.native
 @JSImport("./images/operations/european-digital-champions/european-digital-champions-logo-white.svg", "default")
