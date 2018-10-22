@@ -172,20 +172,23 @@ object PromptingToContinueAfterTheSequence {
                 )
               )
             ),
-            <.div(^.className := TableLayoutStyles.row)(
-              <.div(^.className := js.Array(TableLayoutStyles.cell))(
-                <.div(
-                  ^.className := js.Array(LayoutRulesStyles.row, PromptingToContinueAfterTheSequenceStyles.shareWrapper)
-                )(
-                  <.ShareComponent(
-                    ^.wrapped := ShareProps(
-                      operation = self.props.wrapped.operation,
-                      intro = Some(unescape(I18n.t("sequence.prompting-to-continue.share.intro")))
-                    )
-                  )()
+            if (self.props.wrapped.operation.featureSettings.share) {
+              <.div(^.className := TableLayoutStyles.row)(
+                <.div(^.className := js.Array(TableLayoutStyles.cell))(
+                  <.div(
+                    ^.className := js
+                      .Array(LayoutRulesStyles.row, PromptingToContinueAfterTheSequenceStyles.shareWrapper)
+                  )(
+                    <.ShareComponent(
+                      ^.wrapped := ShareProps(
+                        operation = self.props.wrapped.operation,
+                        intro = Some(unescape(I18n.t("sequence.prompting-to-continue.share.intro")))
+                      )
+                    )()
+                  )
                 )
               )
-            ),
+            },
             <.style()(
               PromptingToContinueAfterTheSequenceStyles.render[String],
               DynamicPromptingToContinueAfterTheSequenceStyles.render[String]

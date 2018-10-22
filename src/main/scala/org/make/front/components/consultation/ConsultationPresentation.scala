@@ -121,7 +121,7 @@ object ConsultationPresentation {
                   )(unescape(I18n.t("operation.presentation.seeMore")))
                 }
               ),
-              if (!self.props.wrapped.operation.isConsultationOnly) {
+              if (self.props.wrapped.operation.featureSettings.action) {
                 Seq(
                   <.hr(
                     ^.className := js

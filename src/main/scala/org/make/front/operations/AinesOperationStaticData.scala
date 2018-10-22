@@ -104,6 +104,7 @@ object AinesOperationStaticData extends StaticDataOfOperation {
         imageWidth = 60,
         isFounder = false
       )
-    )
+    ),
+    featureSettings = FeatureSettings(action = true, share = true)
   )
 }

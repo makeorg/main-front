@@ -83,14 +83,14 @@ object ConsultationHeader {
               ^.className := js
                 .Array(
                   ConsultationHeaderStyles.titleWrapper,
-                  ConsultationHeaderStyles.headerWrapper(self.props.wrapped.operation.isConsultationOnly)
+                  ConsultationHeaderStyles.headerWrapper(!self.props.wrapped.operation.featureSettings.action)
                 )
             )(self.props.wrapped.operation.operationTypeRibbon.map { consultationRibbon =>
               <.p(^.className := ConsultationHeaderStyles.labelWrapper)(
                 <.span(^.className := TextStyles.label)(consultationRibbon)
               )
             }, <.ConsultationLogoComponent(^.wrapped := ConsultationLogoProps(consultation, self.props.wrapped.language))()),
-            if (!self.props.wrapped.operation.isConsultationOnly) {
+            if (self.props.wrapped.operation.featureSettings.action) {
               <.div(^.id := "tabAffixContainer")(
                 <.div(^.id := "tabAffixElement")(
                   <.div(^.className := js.Array(LayoutRulesStyles.centeredRow, ConsultationHeaderStyles.tabWrapper))(

@@ -26,22 +26,22 @@ import org.make.front.operations.Operations
 import org.make.front.facades.Unescape._
 import scala.scalajs.js
 
-final case class OperationStaticData(country: String,
-                                     slug: String,
-                                     wording: js.Array[OperationWording],
-                                     color: String,
-                                     gradient: Option[GradientColor],
-                                     logoUrl: String,
-                                     whiteLogoUrl: String,
-                                     logoWidth: Int,
-                                     shareUrl: String,
-                                     extraSlides: (OperationExtraSlidesParams) => js.Array[ExtraSlide],
-                                     startDateActions: Option[js.Date] = None,
-                                     isConsultationOnly: Boolean = false,
-                                     partners: js.Array[OperationPartner] = js.Array(),
-                                     operationTypeRibbon: Option[String] = Some(
-                                       unescape(I18n.t("operation.vff-fr.intro.label"))
-                                     ))
+final case class OperationStaticData(
+  country: String,
+  slug: String,
+  wording: js.Array[OperationWording],
+  color: String,
+  gradient: Option[GradientColor],
+  logoUrl: String,
+  whiteLogoUrl: String,
+  logoWidth: Int,
+  shareUrl: String,
+  extraSlides: OperationExtraSlidesParams => js.Array[ExtraSlide],
+  startDateActions: Option[js.Date] = None,
+  partners: js.Array[OperationPartner] = js.Array(),
+  operationTypeRibbon: Option[String] = Some(unescape(I18n.t("operation.vff-fr.intro.label"))),
+  featureSettings: FeatureSettings
+)
 
 object OperationStaticData {
   def findBySlugAndCountry(slug: String, country: String): Option[OperationStaticData] = {
@@ -70,8 +70,8 @@ final case class OperationExtraSlidesParams(operation: OperationExpanded,
                                             maybeLocation: Option[Location],
                                             language: String,
                                             country: String,
-                                            handleCanUpdate: (Boolean) => Unit,
-                                            closeSequence: ()          => Unit)
+                                            handleCanUpdate: Boolean => Unit,
+                                            closeSequence: ()        => Unit)
 
 final case class OperationIntroWording(
   title: Option[String] = Some(unescape(I18n.t("sequence.introduction.title"))),
@@ -82,6 +82,8 @@ final case class OperationIntroWording(
   partners: js.Array[OperationIntroPartner] = js.Array()
 )
 final case class OperationIntroPartner(name: String, imageUrl: String)
+
+final case class FeatureSettings(action: Boolean, share: Boolean)
 
 final case class OperationExpanded(operationId: OperationId,
                                    startDate: Option[js.Date],
@@ -98,13 +100,13 @@ final case class OperationExpanded(operationId: OperationId,
                                    logoWidth: Int,
                                    shareUrl: String,
                                    wordings: js.Array[OperationWording],
-                                   extraSlides: (OperationExtraSlidesParams) => js.Array[ExtraSlide],
+                                   extraSlides: OperationExtraSlidesParams => js.Array[ExtraSlide],
                                    tags: js.Array[Tag],
                                    landingSequenceId: SequenceId,
                                    startDateActions: Option[js.Date],
-                                   isConsultationOnly: Boolean,
                                    partners: js.Array[OperationPartner],
-                                   operationTypeRibbon: Option[String]) {
+                                   operationTypeRibbon: Option[String],
+                                   featureSettings: FeatureSettings) {
 
   def getWordingByLanguage(language: String): Option[OperationWording] = {
     wordings.find(_.language == language)
@@ -184,9 +186,9 @@ object OperationExpanded {
         landingSequenceId = countryConfiguration.landingSequenceId,
         tags = operationTags,
         startDateActions = operationStaticData.startDateActions,
-        isConsultationOnly = operationStaticData.isConsultationOnly,
         partners = operationStaticData.partners,
-        operationTypeRibbon = operationStaticData.operationTypeRibbon
+        operationTypeRibbon = operationStaticData.operationTypeRibbon,
+        featureSettings = operationStaticData.featureSettings
       )
   }
 }

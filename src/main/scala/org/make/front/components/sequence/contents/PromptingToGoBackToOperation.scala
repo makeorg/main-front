@@ -80,7 +80,8 @@ object PromptingToGoBackToOperation {
             val onClick: () => Unit = () => {
               TrackingService.track(
                 eventName = "click-finale-card-learnmore",
-                trackingContext = TrackingContext(TrackingLocation.sequencePage, Some(self.props.wrapped.operation.slug)),
+                trackingContext =
+                  TrackingContext(TrackingLocation.sequencePage, Some(self.props.wrapped.operation.slug)),
                 parameters = Map.empty,
                 internalOnlyParameters = Map("sequenceId" -> self.props.wrapped.sequenceId.value)
               )
@@ -148,35 +149,39 @@ object PromptingToGoBackToOperation {
                         )
                       )
                     ),
-                    <.div(
-                      ^.className := js.Array(
-                        TableLayoutBeyondMediumStyles.cell,
-                        ColRulesStyles.col,
-                        ColRulesStyles.colHalfBeyondMedium
-                      )
-                    )(
+                    if (self.props.wrapped.operation.featureSettings.share) {
                       <.div(
-                        ^.className := js.Array(
-                          TableLayoutBeyondMediumStyles.fullHeightWrapper,
-                          PromptingToGoBackToOperationStyles.sharingWrapper
-                        )
+                        ^.className := js
+                          .Array(
+                            TableLayoutBeyondMediumStyles.cell,
+                            ColRulesStyles.col,
+                            ColRulesStyles.colHalfBeyondMedium
+                          )
                       )(
                         <.div(
                           ^.className := js
-                            .Array(TableLayoutBeyondMediumStyles.cellVerticalAlignMiddle, LayoutRulesStyles.row)
+                            .Array(
+                              TableLayoutBeyondMediumStyles.fullHeightWrapper,
+                              PromptingToGoBackToOperationStyles.sharingWrapper
+                            )
                         )(
-                          <.div(^.className := PromptingToGoBackToOperationStyles.sharingIntroWrapper)(
-                            <.p(
-                              ^.className := js
-                                .Array(PromptingToGoBackToOperationStyles.sharingIntro, TextStyles.mediumText)
-                            )(unescape(I18n.t("sequence.prompting-to-continue.share.intro")))
-                          ),
-                          <.div(^.className := PromptingToGoBackToOperationStyles.alignshare)(
-                            <.ShareComponent(^.wrapped := ShareProps(operation = self.props.wrapped.operation))()
+                          <.div(
+                            ^.className := js
+                              .Array(TableLayoutBeyondMediumStyles.cellVerticalAlignMiddle, LayoutRulesStyles.row)
+                          )(
+                            <.div(^.className := PromptingToGoBackToOperationStyles.sharingIntroWrapper)(
+                              <.p(
+                                ^.className := js
+                                  .Array(PromptingToGoBackToOperationStyles.sharingIntro, TextStyles.mediumText)
+                              )(unescape(I18n.t("sequence.prompting-to-continue.share.intro")))
+                            ),
+                            <.div(^.className := PromptingToGoBackToOperationStyles.alignshare)(
+                              <.ShareComponent(^.wrapped := ShareProps(operation = self.props.wrapped.operation))()
+                            )
                           )
                         )
                       )
-                    )
+                    }
                   )
                 ),
                 <.style()(
