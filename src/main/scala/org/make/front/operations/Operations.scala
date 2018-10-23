@@ -51,7 +51,8 @@ object Operations {
     CultureOperationStaticData.data,
     AinesOperationStaticData.data,
     NiceMatinOperationStaticData.data,
-    G9OperationStaticData.data
+    G9OperationStaticData.data,
+    MIPIMFROperationStaticData.data
   )
 }
 
