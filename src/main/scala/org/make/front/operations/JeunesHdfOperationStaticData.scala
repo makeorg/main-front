@@ -79,6 +79,7 @@ object JeunesHdfOperationStaticData extends StaticDataOfOperation {
     startDateActions = None,
     partners =
       js.Array(OperationPartner(name = "Région Hauts-de-France", imageUrl = hdfLogo.toString, isFounder = true)),
-    featureSettings = FeatureSettings(action = false, share = true)
+    featureSettings = FeatureSettings(action = false, share = true),
+    initiators = js.Array(OperationInitiator(name = "Région Hauts-de-France", imageUrl = hdfLogo.toString))
   )
 }

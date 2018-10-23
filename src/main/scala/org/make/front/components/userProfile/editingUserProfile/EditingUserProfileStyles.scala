@@ -21,7 +21,6 @@
 package org.make.front.components.userProfile.editingUserProfile
 
 import org.make.front.Main.CssSettings._
-import org.make.front.components.authenticate.register.RegisterWithEmailExpandedStyles.{&, style}
 import org.make.front.styles._
 import org.make.front.styles.base.TextStyles
 import org.make.front.styles.ui.InputStyles
@@ -170,6 +169,12 @@ object EditingUserProfileStyles extends StyleSheet.Inline {
   val ageInputWithIconWrapper: StyleA =
     style(&.before(content := "'\\f1ae'"))
 
+  val genderInputWithIconWrapper: StyleA =
+    style(&.before(content := "'\\f228'"))
+
+  val cspInputWithIconWrapper: StyleA =
+    style(&.before(content := "'\\f0f2'"))
+
   val postalCodeInputWithIconWrapper: StyleA =
     style(&.before(content := "'\\f041'"))
 
@@ -178,4 +183,24 @@ object EditingUserProfileStyles extends StyleSheet.Inline {
 
   val professionInputWithIconWrapper: StyleA =
     style(&.before(content := "'\\f0f2'"))
+
+  val selectInput: StyleA =
+    style(
+      backgroundColor.transparent,
+      width(100.%%),
+      height(ThemeStyles.SpacingValue.largerMedium.pxToEm()),
+      ThemeStyles.Font.circularStdBook,
+      border.none,
+      fontSize(1.em)
+    )
+
+  val firstOption: Boolean => StyleA = styleF.bool(
+    first =>
+      if (first) {
+        styleS(color(ThemeStyles.TextColor.grey))
+      } else {
+        styleS()
+    }
+  )
+
 }

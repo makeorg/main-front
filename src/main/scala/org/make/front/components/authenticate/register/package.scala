@@ -30,7 +30,9 @@ import scala.concurrent.Future
 import scala.scalajs.js
 
 package object register {
-  case class RegisterState(fields: Map[String, String], errors: Map[String, String]) {
+  case class RegisterState(fields: Map[String, String],
+                           errors: Map[String, String],
+                           additionalFields: Seq[SignUpField]) {
     def hasError(field: String): Boolean = {
       val maybeErrorMessage = errors.get(field)
       maybeErrorMessage.isEmpty || maybeErrorMessage.contains("")
@@ -38,14 +40,15 @@ package object register {
   }
 
   object RegisterState {
-    val empty = RegisterState(Map(), Map())
+    val empty = RegisterState(fields = Map.empty, errors = Map.empty, additionalFields = Seq.empty)
   }
 
   case class RegisterProps(note: String,
                            register: (RegisterState) => Future[UserModel],
                            trackingContext: TrackingContext,
                            trackingParameters: Map[String, String],
-                           trackingInternalOnlyParameters: Map[String, String])
+                           trackingInternalOnlyParameters: Map[String, String],
+                           additionalFields: Seq[SignUpField])
 
   def getErrorsMessagesFromApiErrors(errors: js.Array[ValidationError]): js.Array[(String, String)] = {
     errors.map {
@@ -72,8 +75,22 @@ package object register {
         "postalCode" -> I18n.t("authenticate.inputs.postal-code.format-error-message")
       case ValidationError("profession", _) =>
         "profession" -> I18n.t("authenticate.inputs.job.format-error-message")
+      case ValidationError("gender", _) =>
+        "gender" -> I18n.t("authenticate.inputs.gender.format-error-message")
+      case ValidationError("socioProfessionalCategory", _) =>
+        "socioProfessionalCategory" -> I18n.t("authenticate.inputs.csp.format-error-message")
       case ValidationError(_, _) =>
         "global" -> I18n.t("authenticate.error-message")
     }
+  }
+
+  sealed trait SignUpField
+  object SignUpField {
+    case object FirstName extends SignUpField
+    case object Age extends SignUpField
+    case object Job extends SignUpField
+    case object PostalCode extends SignUpField
+    case object Gender extends SignUpField
+    case object Csp extends SignUpField
   }
 }

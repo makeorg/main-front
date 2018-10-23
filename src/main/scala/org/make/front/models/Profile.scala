@@ -22,6 +22,7 @@ package org.make.front.models
 
 import scalajs.js
 import org.make.front.helpers.UndefToOption.undefToOption
+import org.make.front.models.Gender.Other
 sealed trait Gender {
   def shortName: String
 }
@@ -47,6 +48,40 @@ object Gender {
   }
 }
 
+sealed trait SocioProfessionalCategory {
+  def shortName: String
+}
+
+object SocioProfessionalCategory {
+  val csps: Map[String, SocioProfessionalCategory] = Map(
+    Farmers.shortName -> Farmers,
+    ArtisansMerchantsCompanyDirector.shortName -> ArtisansMerchantsCompanyDirector,
+    ManagersAndHigherIntellectualOccupations.shortName -> ManagersAndHigherIntellectualOccupations,
+    IntermediateProfessions.shortName -> IntermediateProfessions,
+    Employee.shortName -> Employee,
+    Workers.shortName -> Workers,
+    Other.shortName -> Other
+  )
+
+  case object Farmers extends SocioProfessionalCategory { override val shortName: String = "FARM" }
+  case object ArtisansMerchantsCompanyDirector extends SocioProfessionalCategory {
+    override val shortName: String = "AMCD"
+  }
+  case object ManagersAndHigherIntellectualOccupations extends SocioProfessionalCategory {
+    override val shortName: String = "MHIO"
+  }
+  case object IntermediateProfessions extends SocioProfessionalCategory { override val shortName: String = "INPR" }
+  case object Employee extends SocioProfessionalCategory { override val shortName: String = "EMPL" }
+  case object Workers extends SocioProfessionalCategory { override val shortName: String = "WORK" }
+  case object Other extends SocioProfessionalCategory { override val shortName: String = "O" }
+
+  def matchSocioProfessionalCategory(csp: String): Option[SocioProfessionalCategory] = {
+    val maybeSocioProfessionalCategory: Option[SocioProfessionalCategory] = csps.get(csp)
+    maybeSocioProfessionalCategory
+  }
+
+}
+
 case class Profile(dateOfBirth: Option[js.Date],
                    avatarUrl: Option[String],
                    profession: Option[String],
@@ -61,7 +96,8 @@ case class Profile(dateOfBirth: Option[js.Date],
                    postalCode: Option[String],
                    karmaLevel: Option[Int],
                    locale: Option[String],
-                   optInNewsletter: Boolean = false)
+                   optInNewsletter: Boolean = false,
+                   socioProfessionalCategory: Option[SocioProfessionalCategory])
 
 object Profile {
   def apply(profileResponse: ProfileResponse): Profile = {
@@ -79,7 +115,7 @@ object Profile {
       twitterId = undefToOption(profileResponse.twitterId),
       facebookId = undefToOption(profileResponse.facebookId),
       googleId = undefToOption(profileResponse.googleId),
-      gender = undefToOption(profileResponse.genderName).flatMap { gender =>
+      gender = undefToOption(profileResponse.gender).flatMap { gender =>
         gender match {
           case _ if Option(gender).forall(_.isEmpty) => None
           case _                                     => Gender.matchGender(gender)
@@ -90,13 +126,20 @@ object Profile {
       postalCode = undefToOption(profileResponse.postalCode),
       karmaLevel = undefToOption(profileResponse.karmaLevel),
       locale = undefToOption(profileResponse.locale),
-      optInNewsletter = profileResponse.optInNewsletter
+      optInNewsletter = profileResponse.optInNewsletter,
+      socioProfessionalCategory = undefToOption(profileResponse.socioProfessionalCategory).flatMap { csp =>
+        csp match {
+          case _ if Option(csp).forall(_.isEmpty) => None
+          case _                                  => SocioProfessionalCategory.matchSocioProfessionalCategory(csp)
+        }
+      },
     )
   }
 
   def isEmpty(profile: Profile): Boolean = profile match {
-    case Profile(None, None, None, None, None, None, None, None, None, None, None, None, None, None, false) => true
-    case _                                                                                                  => false
+    case Profile(None, None, None, None, None, None, None, None, None, None, None, None, None, None, false, None) =>
+      true
+    case _ => false
   }
 
   def parseProfile(dateOfBirth: Option[js.Date] = None,
@@ -113,7 +156,8 @@ object Profile {
                    postalCode: Option[String] = None,
                    karmaLevel: Option[Int] = None,
                    locale: Option[String] = None,
-                   optInNewsletter: Boolean = false): Option[Profile] = {
+                   optInNewsletter: Boolean = false,
+                   socioProfessionalCategory: Option[SocioProfessionalCategory] = None): Option[Profile] = {
 
     val profile = Profile(
       dateOfBirth = dateOfBirth,
@@ -130,7 +174,8 @@ object Profile {
       postalCode = postalCode,
       karmaLevel = karmaLevel,
       locale = locale,
-      optInNewsletter = optInNewsletter
+      optInNewsletter = optInNewsletter,
+      socioProfessionalCategory = socioProfessionalCategory
     )
     if (isEmpty(profile)) {
       None

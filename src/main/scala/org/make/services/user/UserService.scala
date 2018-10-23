@@ -23,7 +23,7 @@ package org.make.services.user
 import org.make.client.MakeApiClient
 import org.make.core.URI._
 import org.make.front.facades.I18n
-import org.make.front.models.{OperationId, User, UserId, UserResponse}
+import org.make.front.models._
 import org.make.services.ApiService
 import org.make.services.proposal.{SearchResult, SearchResultResponse}
 
@@ -50,7 +50,9 @@ object UserService extends ApiService {
                    postalCode: Option[String],
                    operationId: Option[OperationId],
                    language: String,
-                   country: String): Future[User] = {
+                   country: String,
+                   gender: Option[String],
+                   socioProfessionalCategory: Option[String]): Future[User] = {
 
     val headers = MakeApiClient.getDefaultHeaders ++ operationId.map(op => MakeApiClient.operationHeader -> op.value)
     MakeApiClient
@@ -66,7 +68,9 @@ object UserService extends ApiService {
               postalCode = postalCode,
               dateOfBirth = age.map(age => s"${new js.Date().getUTCFullYear() - age}-01-01"),
               country = country,
-              language = language
+              language = language,
+              gender = gender,
+              socioProfessionalCategory = socioProfessionalCategory
             )
           )
         ),
@@ -85,7 +89,9 @@ object UserService extends ApiService {
                  description: Option[String] = None,
                  optInNewsletter: Option[Boolean] = None,
                  language: Option[String] = None,
-                 country: Option[String] = None): Future[Unit] = {
+                 country: Option[String] = None,
+                 gender: Option[String] = None,
+                 socioProfessionalCategory: Option[String] = None): Future[Unit] = {
 
     val dateOfBirth: Option[String] = age match {
       case Some(age) if age.nonEmpty => Some(s"${new js.Date().getUTCFullYear() - age.toInt}-01-01")
@@ -108,7 +114,9 @@ object UserService extends ApiService {
               optInNewsletter = optInNewsletter,
               dateOfBirth = dateOfBirth,
               country = country,
-              language = language
+              language = language,
+              gender = gender,
+              socioProfessionalCategory = socioProfessionalCategory
             )
           )
         )

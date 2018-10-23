@@ -20,10 +20,12 @@
 
 package org.make.front.models
 
+import org.make.front.components.authenticate.register.SignUpField
 import org.make.front.components.sequence.Sequence.ExtraSlide
 import org.make.front.facades.I18n
 import org.make.front.operations.Operations
 import org.make.front.facades.Unescape._
+
 import scala.scalajs.js
 
 final case class OperationStaticData(
@@ -42,6 +44,8 @@ final case class OperationStaticData(
   operationTypeRibbon: Option[String] = Some(unescape(I18n.t("operation.vff-fr.intro.label"))),
   featureSettings: FeatureSettings,
   initiators: js.Array[OperationInitiator] = js.Array(),
+  additionalFields: Seq[SignUpField] =
+    Seq(SignUpField.FirstName, SignUpField.Age, SignUpField.Job, SignUpField.PostalCode)
 )
 
 object OperationStaticData {
@@ -110,7 +114,8 @@ final case class OperationExpanded(operationId: OperationId,
                                    partners: js.Array[OperationPartner],
                                    operationTypeRibbon: Option[String],
                                    featureSettings: FeatureSettings,
-                                   initiatorList: js.Array[OperationInitiator]) {
+                                   initiatorList: js.Array[OperationInitiator],
+                                   additionalFields: Seq[SignUpField]) {
 
   def getWordingByLanguage(language: String): Option[OperationWording] = {
     wordings.find(_.language == language)
@@ -194,7 +199,8 @@ object OperationExpanded {
         partners = operationStaticData.partners,
         operationTypeRibbon = operationStaticData.operationTypeRibbon,
         featureSettings = operationStaticData.featureSettings,
-        initiatorList = operationStaticData.initiators
+        initiatorList = operationStaticData.initiators,
+        additionalFields = operationStaticData.additionalFields
       )
   }
 }

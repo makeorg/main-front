@@ -20,6 +20,7 @@
 
 package org.make.front.operations
 
+import org.make.front.components.authenticate.register.SignUpField
 import org.make.front.facades.{
   ageVillage,
   ainesLogo,
@@ -91,6 +92,8 @@ object AinesOperationStaticData extends StaticDataOfOperation {
           isFounder = false
         )
       ),
-    featureSettings = FeatureSettings(action = true, share = true)
+    featureSettings = FeatureSettings(action = true, share = true),
+    additionalFields =
+      Seq(SignUpField.FirstName, SignUpField.Age, SignUpField.PostalCode, SignUpField.Csp, SignUpField.Gender)
   )
 }

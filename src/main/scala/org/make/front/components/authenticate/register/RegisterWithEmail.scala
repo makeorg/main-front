@@ -25,12 +25,14 @@ import io.github.shogowada.scalajs.reactjs.VirtualDOM._
 import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import io.github.shogowada.scalajs.reactjs.events.FormSyntheticEvent
 import org.make.client.BadRequestHttpException
-import org.make.core.validation.{Constraint, EmailConstraint, NotBlankConstraint, PasswordConstraint}
+import org.make.core.validation._
 import org.make.front.Main.CssSettings._
 import org.make.front.components.Components._
 import org.make.front.components.authenticate.NewPasswordInput.NewPasswordInputProps
 import org.make.front.facades.Unescape.unescape
 import org.make.front.facades.{I18n, Replacements}
+import org.make.front.models.Gender.{Female, Male, Other}
+import org.make.front.models.{Gender, SocioProfessionalCategory}
 import org.make.front.styles._
 import org.make.front.styles.base.TextStyles
 import org.make.front.styles.ui.{CTAStyles, InputStyles}
@@ -39,6 +41,7 @@ import org.make.front.styles.vendors.FontAwesomeStyles
 import org.make.services.tracking.TrackingService
 import org.scalajs.dom.raw.HTMLInputElement
 
+import scala.scalajs.js.JSConverters._
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.scalajs.js
 import scala.util.{Failure, Success}
@@ -49,7 +52,7 @@ object RegisterWithEmail {
     React.createClass[RegisterProps, RegisterState](
       displayName = "RegisterWithEmail",
       getInitialState = { _ =>
-        RegisterState(Map(), Map())
+        RegisterState.empty
       },
       componentDidMount = { self =>
         TrackingService
@@ -94,6 +97,16 @@ object RegisterWithEmail {
               "firstName",
               NotBlankConstraint,
               Map("notBlank" -> I18n.t("authenticate.inputs.first-name.empty-field-error-message"))
+            ),
+            (
+              "gender",
+              ChoiceConstraint(Gender.genders.keys.toJSArray),
+              Map("invalid" -> I18n.t("authenticate.inputs.gender.format-error-message"))
+            ),
+            (
+              "socioProfessionalCategory",
+              ChoiceConstraint(SocioProfessionalCategory.csps.keys.toJSArray),
+              Map("invalid" -> I18n.t("authenticate.inputs.csp.format-error-message"))
             )
           )
         }
@@ -182,6 +195,87 @@ object RegisterWithEmail {
           if (self.state.errors.getOrElse("firstName", "") != "") {
             <.p(^.className := InputStyles.errorMessage)(unescape(self.state.errors.getOrElse("firstName", "")))
           },
+          if (self.props.wrapped.additionalFields.contains(SignUpField.Gender)) {
+            Seq(
+              <.label(
+                ^.className := js
+                  .Array(InputStyles.wrapper, InputStyles.withIcon, RegisterWithEmailStyles.genderInputWithIconWrapper)
+              )(
+                <.select(
+                  ^.className := js.Array(
+                    RegisterWithEmailStyles.selectInput,
+                    RegisterWithEmailStyles.firstOption(self.state.fields.getOrElse("gender", "").isEmpty)
+                  ),
+                  ^.required := false,
+                  ^.onChange := updateField("gender"),
+                  ^.value := self.state.fields.getOrElse("gender", "")
+                )(
+                  <.option(^.value := "")(I18n.t("authenticate.inputs.gender.placeholder")),
+                  <.option(^.value := Male.shortName)(I18n.t(s"authenticate.inputs.gender.values.${Male.shortName}")),
+                  <.option(^.value := Female.shortName)(
+                    I18n.t(s"authenticate.inputs.gender.values.${Female.shortName}")
+                  ),
+                  <.option(^.value := Other.shortName)(I18n.t(s"authenticate.inputs.gender.values.${Other.shortName}"))
+                )
+              ),
+              if (self.state.errors.getOrElse("gender", "") != "") {
+                <.p(^.className := InputStyles.errorMessage)(unescape(self.state.errors.getOrElse("gender", "")))
+              },
+            )
+          },
+          if (self.props.wrapped.additionalFields.contains(SignUpField.Csp)) {
+            Seq(
+              <.label(
+                ^.className := js
+                  .Array(InputStyles.wrapper, InputStyles.withIcon, RegisterWithEmailStyles.cspInputWithIconWrapper)
+              )(
+                <.select(
+                  ^.className := js.Array(
+                    RegisterWithEmailStyles.selectInput,
+                    RegisterWithEmailStyles
+                      .firstOption(self.state.fields.getOrElse("socioProfessionalCategory", "").isEmpty)
+                  ),
+                  ^.required := false,
+                  ^.onChange := updateField("socioProfessionalCategory"),
+                  ^.value := self.state.fields.getOrElse("socioProfessionalCategory", "")
+                )(
+                  <.option(^.value := "")(I18n.t("authenticate.inputs.csp.placeholder")),
+                  <.option(^.value := SocioProfessionalCategory.Farmers.shortName)(
+                    I18n.t(s"authenticate.inputs.csp.values.${SocioProfessionalCategory.Farmers.shortName}")
+                  ),
+                  <.option(^.value := SocioProfessionalCategory.ArtisansMerchantsCompanyDirector.shortName)(
+                    I18n.t(
+                      s"authenticate.inputs.csp.values.${SocioProfessionalCategory.ArtisansMerchantsCompanyDirector.shortName}"
+                    )
+                  ),
+                  <.option(^.value := SocioProfessionalCategory.ManagersAndHigherIntellectualOccupations.shortName)(
+                    I18n.t(
+                      s"authenticate.inputs.csp.values.${SocioProfessionalCategory.ManagersAndHigherIntellectualOccupations.shortName}"
+                    )
+                  ),
+                  <.option(^.value := SocioProfessionalCategory.IntermediateProfessions.shortName)(
+                    I18n.t(
+                      s"authenticate.inputs.csp.values.${SocioProfessionalCategory.IntermediateProfessions.shortName}"
+                    )
+                  ),
+                  <.option(^.value := SocioProfessionalCategory.Employee.shortName)(
+                    I18n.t(s"authenticate.inputs.csp.values.${SocioProfessionalCategory.Employee.shortName}")
+                  ),
+                  <.option(^.value := SocioProfessionalCategory.Workers.shortName)(
+                    I18n.t(s"authenticate.inputs.csp.values.${SocioProfessionalCategory.Workers.shortName}")
+                  ),
+                  <.option(^.value := SocioProfessionalCategory.Other.shortName)(
+                    I18n.t(s"authenticate.inputs.csp.values.${SocioProfessionalCategory.Other.shortName}")
+                  )
+                )
+              ),
+              if (self.state.errors.getOrElse("socioProfessionalCategory", "") != "") {
+                <.p(^.className := InputStyles.errorMessage)(
+                  unescape(self.state.errors.getOrElse("socioProfessionalCategory", ""))
+                )
+              }
+            )
+          },
           if (self.state.errors.getOrElse("global", "") != "") {
             <.p(^.className := InputStyles.errorMessage)(unescape(self.state.errors.getOrElse("firstName", "")))
           },
@@ -217,6 +311,39 @@ object RegisterWithEmailStyles extends StyleSheet.Inline {
       marginTop(ThemeStyles.SpacingValue.small.pxToEm()),
       backgroundColor(ThemeStyles.BackgroundColor.lightGrey),
       &.before(content := "'\\f007'")
+    )
+
+  val genderInputWithIconWrapper: StyleA =
+    style(
+      marginTop(ThemeStyles.SpacingValue.small.pxToEm()),
+      backgroundColor(ThemeStyles.BackgroundColor.lightGrey),
+      &.before(content := "'\\f228'")
+    )
+
+  val selectInput: StyleA =
+    style(
+      backgroundColor.transparent,
+      width(100.%%),
+      height(ThemeStyles.SpacingValue.largerMedium.pxToEm()),
+      ThemeStyles.Font.circularStdBook,
+      border.none,
+      fontSize(1.em)
+    )
+
+  val firstOption: Boolean => StyleA = styleF.bool(
+    first =>
+      if (first) {
+        styleS(color(ThemeStyles.TextColor.grey))
+      } else {
+        styleS()
+    }
+  )
+
+  val cspInputWithIconWrapper: StyleA =
+    style(
+      marginTop(ThemeStyles.SpacingValue.small.pxToEm()),
+      backgroundColor(ThemeStyles.BackgroundColor.lightGrey),
+      &.before(content := "'\\f0f2'")
     )
 
   val note: StyleA =
