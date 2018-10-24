@@ -25,7 +25,7 @@ import org.scalajs.dom
 import org.scalajs.dom.raw.ClientRect
 import org.scalajs.dom.{window, Element, Event}
 
-class AffixRequiredElements {
+object AffixRequiredElements {
   def wrapperContainer: Element = dom.document.getElementById("wrapperContainer")
   def mainContainer: Element = dom.document.getElementById("mainContainer")
   def sidebarAffixContainer: Element = dom.document.getElementById("sidebarAffixContainer")
@@ -38,24 +38,28 @@ class AffixRequiredElements {
   def wrapperContainerRect: ClientRect = wrapperContainer.getBoundingClientRect()
 }
 
-object AffixValues extends AffixRequiredElements {
+object AffixValues {
   def spacingValue: Int = 30
-  def mainContainerHeight: Int = mainContainer.clientHeight
-  def sidebarAffixElementHeight: Int = sidebarAffixElement.clientHeight
-  def specialSidebarWidth: Int = wrapperContainer.clientWidth - mainContainer.clientWidth - spacingValue * 3
-  def specialSidebarBottom: Double = window.innerHeight - mainContainerRect.bottom.intValue()
-  def tabAffixElementHeight: Int = tabAffixElement.clientHeight
+  def mainContainerHeight: Int = AffixRequiredElements.mainContainer.clientHeight
+  def sidebarAffixElementHeight: Int = AffixRequiredElements.sidebarAffixElement.clientHeight
+  def specialSidebarWidth: Int =
+    AffixRequiredElements.wrapperContainer.clientWidth - AffixRequiredElements.mainContainer.clientWidth - spacingValue * 3
+  def specialSidebarBottom: Double = window.innerHeight - AffixRequiredElements.mainContainerRect.bottom.intValue()
+  def tabAffixElementHeight: Int = AffixRequiredElements.tabAffixElement.clientHeight
 }
 
-object affixConditions extends AffixRequiredElements {
+object affixConditions {
   def widthThresold: Boolean = window.innerWidth > 1000
   def minHeightForSidebarAffix: Boolean = AffixValues.mainContainerHeight > AffixValues.sidebarAffixElementHeight
-  def tabAffixThresold: Boolean = tabContainerRect.top.intValue() < 0
+  def tabAffixThresold: Boolean = AffixRequiredElements.tabContainerRect.top.intValue() < 0
   def sidebarAffixStart: Boolean =
-    sidebarAffixContainerRect.bottom.intValue() - window.innerHeight + 13 < 0 && wrapperContainerRect.bottom
+    AffixRequiredElements.sidebarAffixContainerRect.bottom
+      .intValue() - window.innerHeight + 13 < 0 && AffixRequiredElements.wrapperContainerRect.bottom
       .intValue() - window.innerHeight - 40 >= 0
-  def sidebarAffixStop: Boolean = mainContainerRect.bottom.intValue() - window.innerHeight < 0
-  def stopThresold: Boolean = window.pageYOffset > mainContainerRect.bottom.intValue()
+  def specialsidebarAffixStart: Boolean =
+    AffixRequiredElements.sidebarAffixContainerRect.top.intValue() - 10 < 0
+  def sidebarAffixStop: Boolean = AffixRequiredElements.mainContainerRect.bottom.intValue() - window.innerHeight < 0
+  def stopThresold: Boolean = window.pageYOffset > AffixRequiredElements.mainContainerRect.bottom.intValue()
 }
 
 object AffixMethods {
@@ -85,24 +89,26 @@ object AffixMethods {
 
   // handling tab Affix Methods on scroll event
   def enablingTabAffix: Unit = {
-    if (affixConditions.tabAffixThresold) {
-      setTabContainerValues
-      enablingTabElementAffix
-      addGradientClass
-    } else {
-      unsetTabContainerValues
-      disablingTabElementAffix
-      removeGradientClass
+    if (AffixRequiredElements.tabAffixContainer != null && AffixRequiredElements.tabAffixContainer != null) {
+      if (affixConditions.tabAffixThresold) {
+        setTabContainerValues
+        enablingTabElementAffix
+        addGradientClass
+      } else {
+        unsetTabContainerValues
+        disablingTabElementAffix
+        removeGradientClass
+      }
     }
   }
 
   /* Declaring private Tab Affix Methods */
   private def enablingTabElementAffix: Unit = {
-    AffixValues.tabAffixElement.classList.add(ConsultationHeaderStyles.affixOn.htmlClass)
+    AffixRequiredElements.tabAffixElement.classList.add(ConsultationHeaderStyles.affixOn.htmlClass)
   }
 
   private def disablingTabElementAffix: Unit = {
-    AffixValues.tabAffixElement.classList.remove(ConsultationHeaderStyles.affixOn.htmlClass)
+    AffixRequiredElements.tabAffixElement.classList.remove(ConsultationHeaderStyles.affixOn.htmlClass)
   }
 
   /*  Sidebar Affix Methods   */
@@ -166,14 +172,26 @@ object AffixMethods {
 
   // Declaring Sidebar Affix enabling Method
   def enablingSidebarAffix: Unit = {
-    if (affixConditions.sidebarAffixStart && affixConditions.minHeightForSidebarAffix) {
-      setSidebarContainerValues
-      enablingSidebarElementAffix
-    } else if (affixConditions.sidebarAffixStop && affixConditions.minHeightForSidebarAffix) {
-      stoppingSidebarElementAffix
-    } else {
-      unsetSidebarContainerValues
-      disablingSidebarElementAffix
+    if (AffixRequiredElements.sidebarAffixContainer != null && AffixRequiredElements.tabAffixContainer != null) {
+      if (affixConditions.sidebarAffixStart && affixConditions.minHeightForSidebarAffix) {
+        setSidebarContainerValues
+        enablingSidebarElementAffix
+      } else if (affixConditions.sidebarAffixStop && affixConditions.minHeightForSidebarAffix) {
+        stoppingSidebarElementAffix
+      } else {
+        unsetSidebarContainerValues
+        disablingSidebarElementAffix
+      }
+    } else if (AffixRequiredElements.sidebarAffixContainer != null && AffixRequiredElements.tabAffixContainer == null) {
+      if (affixConditions.specialsidebarAffixStart && affixConditions.minHeightForSidebarAffix) {
+        setSidebarContainerValues
+        enablingSpecialSidebarElementAffix
+      } else if (affixConditions.sidebarAffixStop && affixConditions.minHeightForSidebarAffix) {
+        stoppingSidebarElementAffix
+      } else {
+        unsetSidebarContainerValues
+        disablingSidebarElementAffix
+      }
     }
   }
 
@@ -185,43 +203,59 @@ object AffixMethods {
 
   /* Declaring private Sidebar Affix Methods */
   private def setTabContainerValues: Unit = {
-    AffixValues.tabAffixContainer
+    AffixRequiredElements.tabAffixContainer
       .setAttribute("style", "min-height: " + AffixValues.tabAffixElementHeight.pxToEm().value + ";")
   }
 
   private def unsetTabContainerValues: Unit = {
-    AffixValues.tabAffixContainer
+    AffixRequiredElements.tabAffixContainer
       .setAttribute("style", "min-height: 0;")
   }
 
   private def addGradientClass: Unit = {
-    AffixValues.tabAffixElement.classList.add("ConsultationHeader_DynamicConsultationHeaderStyles_2-gradient")
+    AffixRequiredElements.tabAffixElement.classList.add("ConsultationHeader_DynamicConsultationHeaderStyles_2-gradient")
   }
 
   private def removeGradientClass: Unit = {
-    AffixValues.tabAffixElement.classList.remove("ConsultationHeader_DynamicConsultationHeaderStyles_2-gradient")
+    AffixRequiredElements.tabAffixElement.classList
+      .remove("ConsultationHeader_DynamicConsultationHeaderStyles_2-gradient")
   }
 
   private def enablingSidebarElementAffix: Unit = {
-    AffixValues.sidebarAffixElement
+    AffixRequiredElements.sidebarAffixElement
       .setAttribute(
         "style",
         "width: " + AffixValues.specialSidebarWidth
           .pxToEm()
-          .value + "; " + "left: " + AffixValues.sidebarAffixContainerRect.left
+          .value + "; " + "left: " + AffixRequiredElements.sidebarAffixContainerRect.left
           .intValue()
           .pxToEm()
           .value + "; " + "bottom: " + 13.pxToEm().value + "; z-index: 1; position: fixed;"
       )
   }
 
-  private def stoppingSidebarElementAffix: Unit = {
-    AffixValues.sidebarAffixElement
+  private def enablingSpecialSidebarElementAffix: Unit = {
+    AffixRequiredElements.sidebarAffixElement
       .setAttribute(
         "style",
         "width: " + AffixValues.specialSidebarWidth
           .pxToEm()
-          .value + "; " + "left: " + AffixValues.sidebarAffixContainerRect.left
+          .value + "; " + "left: " + AffixRequiredElements.sidebarAffixContainerRect.left
+          .intValue()
+          .pxToEm()
+          .value + "; " + "top: " + 10
+          .pxToEm()
+          .value + "; z-index: 1; position: fixed;"
+      )
+  }
+
+  private def stoppingSidebarElementAffix: Unit = {
+    AffixRequiredElements.sidebarAffixElement
+      .setAttribute(
+        "style",
+        "width: " + AffixValues.specialSidebarWidth
+          .pxToEm()
+          .value + "; " + "left: " + AffixRequiredElements.sidebarAffixContainerRect.left
           .intValue()
           .pxToEm()
           .value + "; " + "bottom: " + AffixValues.specialSidebarBottom
@@ -232,12 +266,12 @@ object AffixMethods {
   }
 
   private def disablingSidebarElementAffix: Unit = {
-    AffixValues.sidebarAffixElement
+    AffixRequiredElements.sidebarAffixElement
       .setAttribute("style", "width: auto; position: inherit;")
   }
 
   private def setSidebarContainerValues: Unit = {
-    AffixValues.sidebarAffixContainer
+    AffixRequiredElements.sidebarAffixContainer
       .setAttribute(
         "style",
         "min-height: " + AffixValues.sidebarAffixElementHeight
@@ -249,7 +283,7 @@ object AffixMethods {
   }
 
   private def unsetSidebarContainerValues: Unit = {
-    AffixValues.sidebarAffixContainer
+    AffixRequiredElements.sidebarAffixContainer
       .setAttribute("style", "min-height: 0; width: auto;")
   }
 
