@@ -4,6 +4,7 @@ This application is an integration of the make.org site using scala-js and react
  
 ### Setting up the dev environment
  *  install nodejs >= 6 and npm >= 3
+ *  Yarn
  *  Install the scalafmt IntelliJ plugin
  *  Install the scala IntelliJ plugin
   
