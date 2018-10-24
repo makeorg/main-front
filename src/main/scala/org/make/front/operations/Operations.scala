@@ -57,9 +57,9 @@ object Operations {
 }
 
 object Slides {
-  def trackingContext(params: OperationExtraSlidesParams) =
+  def trackingContext(params: OperationExtraSlidesParams): TrackingContext =
     TrackingContext(TrackingLocation.sequencePage, Some(params.operation.slug))
-  def defaultTrackingInternalOnlyParameters(params: OperationExtraSlidesParams) =
+  def defaultTrackingInternalOnlyParameters(params: OperationExtraSlidesParams): Map[String, String] =
     Map("sequenceId" -> params.sequence.sequenceId.value, "operation" -> params.operation.slug)
   def displaySequenceIntroCard(params: OperationExtraSlidesParams,
                                displayed: Boolean = true,
@@ -95,33 +95,40 @@ object Slides {
     )
   }
 
-  def displaySignUpCard(params: OperationExtraSlidesParams, displayed: Boolean = true) = ExtraSlide(
-    reactClass = PromptingToConnect.reactClass,
-    slideName = "register",
-    props = { handler =>
-      PromptingToConnectProps(
-        operation = params.operation,
-        sequenceId = params.sequence.sequenceId,
-        trackingContext = trackingContext(params),
-        trackingParameters = Map.empty,
-        trackingInternalOnlyParameters = defaultTrackingInternalOnlyParameters(params),
-        clickOnButtonHandler = handler,
-        authenticateHandler = () => {}
-      )
-    },
-    position = { slides =>
-      slides.size
-    },
-    displayed = displayed,
-    maybeTracker = Some(
-      DisplayTracker(
-        "display-sign-up-card",
-        trackingContext(params),
-        Map.empty,
-        defaultTrackingInternalOnlyParameters(params)
+  def displaySignUpCard(params: OperationExtraSlidesParams,
+                        displayed: Boolean = true,
+                        registerTitle: Option[String] = None,
+                        nextCta: Option[String] = None): ExtraSlide =
+    ExtraSlide(
+      reactClass = PromptingToConnect.reactClass,
+      slideName = "register",
+      props = { handler =>
+        PromptingToConnectProps(
+          operation = params.operation,
+          sequenceId = params.sequence.sequenceId,
+          trackingContext = trackingContext(params),
+          trackingParameters = Map.empty,
+          trackingInternalOnlyParameters = defaultTrackingInternalOnlyParameters(params),
+          clickOnButtonHandler = handler,
+          authenticateHandler = () => {},
+          language = params.language,
+          registerTitle = registerTitle,
+          nextCta = nextCta
+        )
+      },
+      position = { slides =>
+        slides.size
+      },
+      displayed = displayed,
+      maybeTracker = Some(
+        DisplayTracker(
+          "display-sign-up-card",
+          trackingContext(params),
+          Map.empty,
+          defaultTrackingInternalOnlyParameters(params)
+        )
       )
     )
-  )
 
   def displayProposalPushCard(params: OperationExtraSlidesParams, displayed: Boolean = true): ExtraSlide = {
     ExtraSlide(
@@ -153,7 +160,9 @@ object Slides {
     )
   }
 
-  def displayFinalCard(params: OperationExtraSlidesParams, displayed: Boolean = true, onFocus: () => Unit = () => {}) =
+  def displayFinalCard(params: OperationExtraSlidesParams,
+                       displayed: Boolean = true,
+                       onFocus: () => Unit = () => {}): ExtraSlide =
     ExtraSlide(
       reactClass = PromptingToGoBackToOperation.reactClass,
       slideName = "finale",
@@ -183,7 +192,7 @@ object Slides {
 
   def redirectToConsultationCard(params: OperationExtraSlidesParams,
                                  displayed: Boolean = true,
-                                 onFocus: () => Unit = () => {}) =
+                                 onFocus: () => Unit = () => {}): ExtraSlide =
     ExtraSlide(
       reactClass = PromptingToGoBackToOperationLight.reactClass,
       slideName = "redirect",

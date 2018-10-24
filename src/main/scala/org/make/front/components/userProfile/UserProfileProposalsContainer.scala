@@ -49,22 +49,16 @@ object UserProfileProposalsContainer {
 
         UserService
           .getUserProposals(props.wrapped.user.userId.value)
-          .flatMap { proposalsSearchResult =>
-            OperationService
-              .listOperations()
-              .map { operations =>
-                Option(
-                  proposalsSearchResult.results.filter(
-                    proposal =>
-                      proposal.themeId.isDefined ||
-                        proposal.operationId.exists(opId => operations.map(_.operationId.value).contains(opId.value))
-                  )
-                )
-              }
-              .recover {
-                case _ => Some(proposalsSearchResult.results)
-              }
+          .map { proposalsSearchResult =>
+            Option(
+              proposalsSearchResult.results.filter(
+                proposal =>
+                  proposal.themeId.isDefined ||
+                    proposal.operationId.exists(state.operations.containsOperationId(_))
+              )
+            )
           }
+
       }
 
       val shouldUSerProposalsUpdate: Option[js.Array[Proposal]] => Boolean = { userProposals =>
@@ -77,7 +71,7 @@ object UserProfileProposalsContainer {
         componentDisplayedMeanwhileReactClass = WaitingForUserProfileProposals.reactClass,
         componentReactClass = UserProfileProposals.reactClass,
         componentProps = { proposals =>
-          UserProfileProposalsProps(user = props.wrapped.user, proposals = proposals)
+          UserProfileProposalsProps(user = props.wrapped.user, proposals = proposals, operations = state.operations)
         },
         onNotFound = () => {
           props.history.push("/404")

@@ -74,7 +74,8 @@ object SubmitProposalAndAuthenticate {
           TrackingService
             .track(
               eventName = "display-proposal-submit-journey",
-              trackingContext = TrackingContext(TrackingLocation.submitProposalPage, props.wrapped.trackingContext.operationSlug),
+              trackingContext =
+                TrackingContext(TrackingLocation.submitProposalPage, props.wrapped.trackingContext.operationSlug),
               parameters = props.wrapped.trackingParameters,
               internalOnlyParameters = props.wrapped.trackingInternalOnlyParameters
             )
@@ -135,7 +136,7 @@ object SubmitProposalAndAuthenticate {
           <.div()(
             <.RequireAuthenticatedUserComponent(
               ^.wrapped := RequireAuthenticatedUserContainerProps(
-                operationId = self.props.wrapped.maybeOperation.map(_.operationId),
+                maybeOperationId = self.props.wrapped.maybeOperation.map(_.operationId),
                 trackingContext = TrackingContext(
                   TrackingLocation.submitProposalPage,
                   self.props.wrapped.trackingContext.operationSlug

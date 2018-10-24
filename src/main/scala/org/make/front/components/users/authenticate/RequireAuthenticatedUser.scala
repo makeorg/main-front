@@ -39,7 +39,8 @@ object RequireAuthenticatedUser {
                                            registerView: String,
                                            defaultView: String = "register",
                                            onceConnected: () => Unit,
-                                           isConnected: Boolean)
+                                           isConnected: Boolean,
+                                           registerTitle: Option[String])
   type RequireAuthenticatedUserState = Unit
 
   val reactClass: ReactClass =
@@ -62,7 +63,7 @@ object RequireAuthenticatedUser {
           <.div()(<.SpinnerComponent.empty)
         } else {
           <.div()(
-            self.props.wrapped.intro,
+            props.intro,
             <.LoginOrRegisterComponent(
               // There is no need to use callback here, since the component will be reloaded with different props
               // once the user is connected. if we map it here, the callback will be called twice
@@ -73,7 +74,8 @@ object RequireAuthenticatedUser {
                 operationId = self.props.wrapped.operationId,
                 registerView = props.registerView,
                 displayView = props.defaultView,
-                onSuccessfulLogin = () => {}
+                onSuccessfulLogin = () => {},
+                registerTitle = props.registerTitle
               )
             )()
           )

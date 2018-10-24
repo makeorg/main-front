@@ -39,7 +39,8 @@ object NiceMatinOperationStaticData extends StaticDataOfOperation {
             | “Comment lutter ensemble contre le réchauffement climatique ?”. Chaque jour un article publié par Nice-Matin
             | s’appuiera sur une proposition citoyenne pour traiter d’un sujet de fond. En fin de consultation,
             | les meilleures propositions seront reprises par la Métropole Nice Côte d’Azur dans le Plan Climat.""".stripMargin
-        )
+        ),
+        registerTitle = None
       )
     ),
     color = "#DA815E",

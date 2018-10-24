@@ -48,7 +48,8 @@ object MVEOperationStaticData extends StaticDataOfOperation {
           learnMoreUrl = Some("https://about.make.org/about-mieux-vivre-ensemble"),
           presentation = Some(
             "Les nouveaux modes de vie tendent à créer une fragmentation de la société en une multitude de groupes qui n'interagissent plus ensemble tandis que la solitude et l’isolement des citoyens sont des problématiques grandissantes. Ces évolutions mettent en péril notre capacité à “faire société” et nous poussent à imaginer ensemble de nouvelles manières de recréer du lien&nbsp;social."
-          )
+          ),
+          registerTitle = None
         )
       ),
       extraSlides = (params: OperationExtraSlidesParams) => {

@@ -30,36 +30,23 @@ import org.make.front.components.proposal.ProposalTile.{PostedIn, ProposalTilePr
 import org.make.front.components.userProfile.ProfileProposalListStyles
 import org.make.front.facades.Unescape.unescape
 import org.make.front.facades.{I18n, Replacements}
-import org.make.front.models.{Operation, OperationExpanded, Proposal, Organisation => OrganisationModel}
+import org.make.front.models.{OperationList, Proposal, Organisation => OrganisationModel}
 import org.make.front.styles.vendors.FontAwesomeStyles
 import org.make.services.tracking.TrackingLocation
 import scalacss.internal.ValueT
 
-import scala.concurrent.ExecutionContext.Implicits.global
-import scala.concurrent.Future
 import scala.scalajs.js
-import scala.util.{Failure, Success}
 
 object ActorProfileProposals {
 
   final case class ActorProfileProposalsProps(actor: OrganisationModel,
                                               actorProposals: js.Array[Proposal],
-                                              getOperations: () => Future[js.Array[Operation]])
-
-  final case class ActorProfileProposalsState(operations: js.Array[Operation])
+                                              operations: OperationList)
 
   lazy val reactClass: ReactClass =
     React
-      .createClass[ActorProfileProposalsProps, ActorProfileProposalsState](
+      .createClass[ActorProfileProposalsProps, Unit](
         displayName = "ActorProfileProposals",
-        getInitialState = _ => ActorProfileProposalsState(js.Array()),
-        componentDidMount = self => {
-          self.props.wrapped.getOperations().onComplete {
-            case Success(operationList) =>
-              self.setState(_.copy(operations = operationList))
-            case Failure(_) =>
-          }
-        },
         render = self => {
           <("ActorProfileProposals")()(
             <.section(^.className := ProfileProposalListStyles.wrapper)(
@@ -107,14 +94,8 @@ object ActorProfileProposals {
                             country = actorProposal.country,
                             maybePostedIn = PostedIn.fromProposal(
                               proposal = actorProposal,
-                              operations = self.state.operations.flatMap(
-                                ope =>
-                                  OperationExpanded.getOperationExpandedFromOperation(
-                                    Some(ope),
-                                    actorProposal.tags,
-                                    actorProposal.country
-                                )
-                              )
+                              operations = self.props.wrapped.operations.values
+                                .flatMap(_.getOperationExpanded(actorProposal.tags, actorProposal.country))
                             )
                           )
                       )()

@@ -43,7 +43,8 @@ object LPAEOperationStaticData extends StaticDataOfOperation {
         learnMoreUrl = Some("https://about.make.org/about-lpae"),
         presentation = Some(
           "Dans une société bousculée, disruptée et en permanente évolution cette consultation est l’occasion pour vous d’exprimer ce que vous voulez changer, de proposer vos idées pour la société de demain, de dessiner les contours du Monde dans lequel vous souhaitez vivre. Vous avez entre 18 et 28 ans, vous avez des choses à dire, c’est le moment&nbsp;!"
-        )
+        ),
+        registerTitle = None
       )
     ),
     extraSlides = (params: OperationExtraSlidesParams) => {

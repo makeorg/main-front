@@ -366,7 +366,7 @@
       }
     },
     "prompting-to-connect": {
-      "title": "Recevez les résultats de la consultation et découvrez où vous vous situez",
+      "title": "Recevez les résultats de la consultation et soyez informé(e) des actions à venir",
       "intro": "Je m'identifie avec",
       "authenticate-with-email-cta": "Mon adresse email",
       "login-screen-access": {
@@ -636,8 +636,8 @@
       "caution": "(Rassurez-vous, nous ne publierons jamais rien sans votre&nbsp;accord.)",
       "separator": "ou",
       "with-email-intro": "Je m'inscris avec mon adresse&nbsp;email",
-      "with-email-intro-trigger": "Je m'inscris avec mon mail pour être informé(e) des actions à venir sur ces propositions",
-      "with-email-actions-intro": "Je m'inscris avec mon mail pour être informé(e) du début des actions",
+      "with-email-intro-trigger": "Je m'inscris pour être informé(e) des actions à venir sur ces propositions",
+      "with-email-actions-intro": "Je m'inscris pour être informé(e) du début des actions",
       "terms": "En vous inscrivant, vous acceptez nos <a href=\"https://about.make.org/conditions-dutilisation\" target=\"_blank\">conditions générales d'utilisation</a> ainsi que de recevoir ponctuellement des emails de&nbsp;Make.org.",
       "send-cta": "s'inscrire",
       "error-message": {

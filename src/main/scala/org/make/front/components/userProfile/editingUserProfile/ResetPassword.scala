@@ -23,13 +23,11 @@ package org.make.front.components.userProfile.editingUserProfile
 import io.github.shogowada.scalajs.reactjs.React
 import io.github.shogowada.scalajs.reactjs.VirtualDOM.{<, _}
 import io.github.shogowada.scalajs.reactjs.classes.ReactClass
-import io.github.shogowada.scalajs.reactjs.elements.ReactElement
 import io.github.shogowada.scalajs.reactjs.events.{FormSyntheticEvent, MouseSyntheticEvent}
 import org.make.client.BadRequestHttpException
 import org.make.core.validation.{NotBlankConstraint, PasswordConstraint}
 import org.make.front.Main.CssSettings._
 import org.make.front.components.Components.{RichVirtualDOMElements, _}
-import org.make.front.components.authenticate.LoginOrRegister.LoginOrRegisterProps
 import org.make.front.components.authenticate.NewPasswordInput.NewPasswordInputProps
 import org.make.front.components.authenticate.NewPasswordInputStyles
 import org.make.front.components.authenticate.recoverPassword.RecoverPasswordContainer.RecoverPasswordContainerProps
@@ -39,8 +37,6 @@ import org.make.front.facades.{I18n, Replacements}
 import org.make.front.styles.base.LayoutRulesStyles
 import org.make.front.styles.ui.{CTAStyles, InputStyles}
 import org.make.front.styles.vendors.FontAwesomeStyles
-import org.make.services.tracking.TrackingLocation
-import org.make.services.tracking.TrackingService.TrackingContext
 import org.scalajs.dom.raw.HTMLInputElement
 
 import scala.concurrent.ExecutionContext.Implicits.global

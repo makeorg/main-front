@@ -62,7 +62,8 @@ final case class OperationWording(language: String,
                                   title: String,
                                   question: String,
                                   learnMoreUrl: Option[String],
-                                  presentation: Option[String])
+                                  presentation: Option[String],
+                                  registerTitle: Option[String])
 
 final case class OperationExtraSlidesParams(operation: OperationExpanded,
                                             isConnected: Boolean,
@@ -178,7 +179,8 @@ object OperationExpanded {
               title = translation.title,
               question = operationWording.question,
               learnMoreUrl = operationWording.learnMoreUrl,
-              presentation = operationWording.presentation
+              presentation = operationWording.presentation,
+              registerTitle = operationWording.registerTitle
             )
           }
         },

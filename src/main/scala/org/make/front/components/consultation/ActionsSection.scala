@@ -128,7 +128,10 @@ object ActionsSection {
                         trackingInternalOnlyParameters = Map.empty,
                         onSuccessfulLogin = () => {
                           self.setState(_.copy(isAuthenticateModalOpened = false))
-                        }
+                        },
+                        registerTitle = self.props.wrapped.operation.wordings
+                          .find(_.language == self.props.wrapped.language)
+                          .flatMap(_.registerTitle)
                       )
                     )()
                   )

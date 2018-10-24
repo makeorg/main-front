@@ -36,7 +36,11 @@ final case class Operation(status: String,
                            defaultLanguage: String,
                            createdAt: Option[js.Date],
                            updatedAt: Option[js.Date],
-                           countriesConfiguration: js.Array[OperationCountryConfiguration])
+                           countriesConfiguration: js.Array[OperationCountryConfiguration]) {
+
+  def getOperationExpanded(tags: js.Array[Tag] = js.Array(), country: String): Option[OperationExpanded] =
+    OperationExpanded.getOperationExpandedFromOperation(Some(this), tags, country)
+}
 object Operation {
   def apply(operationResponse: OperationResponse): Operation = {
     Operation(
@@ -53,6 +57,47 @@ object Operation {
       )
     )
   }
+}
+
+final case class OperationList(values: js.Array[Operation]) {
+  def getActiveOperations(country: String): js.Array[QuestionId] = {
+    values
+      .flatMap(_.countriesConfiguration)
+      .filter { configuration =>
+        val now = new js.Date().getTime()
+        configuration.countryCode == country &&
+        configuration.startDate.forall(_.getTime() <= now) &&
+        configuration.endDate.forall(_.getTime() >= now)
+      }
+      .map(_.questionId)
+  }
+
+  def getOperationBySlug(slug: String): Option[Operation] = {
+    values.find(_.slug == slug)
+  }
+
+  def getOperationBySlugAndCountry(slug: String, country: String): Option[Operation] = {
+    values.find(
+      operation => operation.slug == slug && operation.countriesConfiguration.map(_.countryCode).contains(country)
+    )
+  }
+
+  def getOperationsByCountry(country: String): OperationList = {
+    OperationList(values.filter(operation => operation.countriesConfiguration.map(_.countryCode).contains(country)))
+  }
+
+  def findById(operationId: OperationId): Option[Operation] = {
+    values.find(_.operationId.value == operationId.value)
+  }
+
+  def containsOperationId(operationId: OperationId): Boolean = {
+    values.exists(_.operationId.value == operationId.value)
+  }
+
+  def isEmpty(): Boolean = values.isEmpty
+}
+object OperationList {
+  val empty: OperationList = OperationList(js.Array())
 }
 @js.native
 trait OperationId extends js.Object {

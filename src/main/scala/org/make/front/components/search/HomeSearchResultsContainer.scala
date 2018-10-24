@@ -71,8 +71,9 @@ object HomeSearchResultsContainer {
 
           val result: Future[SearchResult] = for {
             operation <- operationSlug match {
-              case None                     => Future.successful(None)
-              case Some(operationSlugValue) => OperationService.getOperationBySlug(operationSlugValue)
+              case None => Future.successful(None)
+              case Some(operationSlugValue) =>
+                Future.successful(appState.operations.getOperationBySlug(operationSlugValue))
             }
             proposals <- ProposalService
               .searchProposals(
@@ -114,7 +115,8 @@ object HomeSearchResultsContainer {
           maybeOperation = None,
           maybeLocation = Some(LocationModel.SearchResultsPage),
           isConnected = appState.connectedUser.isDefined,
-          language = appState.language
+          language = appState.language,
+          operations = appState.operations
         )
       }
     }

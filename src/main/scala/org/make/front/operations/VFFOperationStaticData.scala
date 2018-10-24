@@ -44,7 +44,8 @@ object VFFOperationStaticData extends StaticDataOfOperation {
         learnMoreUrl = Some("https://stopvff.make.org/about-vff"),
         presentation = Some(
           "Les violences faites aux femmes sont au coeur de l’actualité politique et médiatique. Les mentalités sont en train de changer. Mais pour autant tout commence maintenant. À nous de transformer cette prise de conscience généralisée en actions concrètes et d’apporter une réponse décisive face à ce&nbsp;fléau."
-        )
+        ),
+        registerTitle = None
       )
     ),
     extraSlides = (params: OperationExtraSlidesParams) => {
@@ -74,7 +75,8 @@ object VFFITOperationStaticData extends StaticDataOfOperation {
         learnMoreUrl = Some("https://about.make.org/it/about-vff"),
         presentation = Some(
           "La violenza sulle donne è al centro dell'attualità politica e mediatica. Le idee stanno cambiando, ma tutto inizia da qui. Sta a noi trasformare questa presa di coscienza generale in azioni concrete e dare una risposta decisiva a questo flagello."
-        )
+        ),
+        registerTitle = None
       )
     ),
     extraSlides = (params: OperationExtraSlidesParams) => {
@@ -105,7 +107,8 @@ object VFFGBOperationStaticData extends StaticDataOfOperation {
         learnMoreUrl = Some("https://about.make.org/gb/about-vff"),
         presentation = Some(
           "Violence against women is at the heart of political events and news coverage. Mindsets are changing. But it all begins now. It is up to us to transform this generalised awareness into concrete actions and to provide a decisive response to this epidemic."
-        )
+        ),
+        registerTitle = None
       )
     ),
     extraSlides = (params: OperationExtraSlidesParams) => {

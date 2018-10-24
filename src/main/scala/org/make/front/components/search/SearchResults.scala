@@ -35,11 +35,10 @@ import org.make.front.facades.ReactInfiniteScroller.{
 }
 import org.make.front.facades.Unescape.unescape
 import org.make.front.facades.{I18n, Replacements}
-import org.make.front.helpers.RouteHelper
 import org.make.front.models.{
   Location,
+  OperationList,
   SequenceId,
-  Operation         => OperationModel,
   OperationExpanded => OperationExpandedModel,
   Proposal          => ProposalModel
 }
@@ -47,7 +46,6 @@ import org.make.front.styles.ThemeStyles
 import org.make.front.styles.base._
 import org.make.front.styles.ui.CTAStyles
 import org.make.front.styles.utils._
-import org.make.services.operation.OperationService
 import org.make.services.proposal.SearchResult
 import org.make.services.tracking.TrackingService.TrackingContext
 import org.make.services.tracking.{TrackingLocation, TrackingService}
@@ -65,7 +63,8 @@ object SearchResults {
     maybeOperation: Option[OperationExpandedModel],
     maybeLocation: Option[Location],
     isConnected: Boolean,
-    language: String
+    language: String,
+    operations: OperationList
   )
 
   final case class SearchResultsState(listProposals: js.Array[ProposalModel],
@@ -73,8 +72,7 @@ object SearchResults {
                                       hasRequestedMore: Boolean,
                                       hasMore: Boolean,
                                       resultsCount: Int,
-                                      maybeOperation: Option[OperationExpandedModel],
-                                      operations: js.Array[OperationModel] = js.Array())
+                                      maybeOperation: Option[OperationExpandedModel])
 
   object SearchResultsState {
     val empty =
@@ -110,12 +108,6 @@ object SearchResults {
         componentWillReceiveProps = (self, props) => {
           if (self.props.wrapped.searchValue != props.wrapped.searchValue) {
             self.setState(SearchResultsState.empty)
-          }
-        },
-        componentDidMount = self => {
-          OperationService.listOperations().onComplete {
-            case Success(operationList) => self.setState(self.state.copy(operations = operationList))
-            case Failure(_)             =>
           }
         },
         render = { self =>
@@ -183,11 +175,8 @@ object SearchResults {
                                 country = proposal.country,
                                 maybePostedIn = PostedIn.fromProposal(
                                   proposal = proposal,
-                                  operations = self.state.operations.flatMap(
-                                    ope =>
-                                      OperationExpandedModel
-                                        .getOperationExpandedFromOperation(Some(ope), proposal.tags, proposal.country)
-                                  )
+                                  operations = self.props.wrapped.operations.values
+                                    .flatMap(_.getOperationExpanded(proposal.tags, proposal.country))
                                 )
                               )
                           )()

@@ -49,49 +49,15 @@ object OperationService extends ApiService {
         .map(Operation.apply)
     } else {
       listOperations().map { operations =>
-        operations.find(_.operationId.value == operationId.value).getOrElse(throw new NotFoundException)
+        operations.findById(operationId).getOrElse(throw new NotFoundException)
       }
     }
   }
 
-  def getActiveOperations(country: String): Future[js.Array[QuestionId]] = {
-    listOperations().map { operations =>
-      operations
-        .flatMap(_.countriesConfiguration)
-        .filter { configuration =>
-          val now = new js.Date().getTime()
-          configuration.countryCode == country &&
-          configuration.startDate.forall(_.getTime() <= now) &&
-          configuration.endDate.forall(_.getTime() >= now)
-        }
-        .map(_.questionId)
-    }
-  }
-
-  def getOperationBySlug(slug: String): Future[Option[Operation]] = {
-    listOperations().map { operations =>
-      operations.find(_.slug == slug)
-    }
-  }
-
-  def getOperationBySlugAndCountry(slug: String, country: String): Future[Option[Operation]] = {
-    listOperations().map { operations =>
-      operations.find(
-        operation => operation.slug == slug && operation.countriesConfiguration.map(_.countryCode).contains(country)
-      )
-    }
-  }
-
-  def getOperationsByCountry(country: String): Future[js.Array[Operation]] = {
-    listOperations().map { operations =>
-      operations.filter(operation => operation.countriesConfiguration.map(_.countryCode).contains(country))
-    }
-  }
-
-  def listOperations(): Future[js.Array[Operation]] = {
+  def listOperations(force: Boolean = false): Future[OperationList] = {
 
     val futureOperations: Future[js.Array[Operation]] = operationsCache match {
-      case Some(matchingFutureOperations) => matchingFutureOperations
+      case Some(matchingFutureOperations) if !force => matchingFutureOperations
       case _ =>
         val futureOperations: Future[js.Array[Operation]] = client
           .get[js.Array[OperationResponse]](apiEndpoint = resourceName, urlParams = js.Array(), headers = Map.empty)
@@ -99,7 +65,7 @@ object OperationService extends ApiService {
         operationsCache = Some(futureOperations)
         futureOperations
     }
-    futureOperations
+    futureOperations.map(OperationList(_))
   }
 
   final case class UnexpectedException(message: String = I18n.t("errors.unexpected")) extends Exception(message)

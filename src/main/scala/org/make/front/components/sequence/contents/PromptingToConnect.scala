@@ -49,7 +49,10 @@ object PromptingToConnect {
                                            trackingInternalOnlyParameters: Map[String, String],
                                            sequenceId: SequenceId,
                                            clickOnButtonHandler: () => Unit,
-                                           authenticateHandler: ()  => Unit)
+                                           authenticateHandler: ()  => Unit,
+                                           language: String,
+                                           registerTitle: Option[String],
+                                           nextCta: Option[String])
 
   final case class PromptingToConnectState(isAuthenticateModalOpened: Boolean, loginOrRegisterView: String = "login")
 
@@ -61,7 +64,9 @@ object PromptingToConnect {
           PromptingToConnectState(isAuthenticateModalOpened = false)
         },
         render = { self =>
-          val defaultTrackingInternalOnlyParameters = self.props.wrapped.trackingInternalOnlyParameters ++ Map("sequenceId" -> self.props.wrapped.sequenceId.value)
+          val defaultTrackingInternalOnlyParameters = self.props.wrapped.trackingInternalOnlyParameters ++ Map(
+            "sequenceId" -> self.props.wrapped.sequenceId.value
+          )
 
           def openLoginAuthenticateModal() = () => {
             self.setState(state => state.copy(isAuthenticateModalOpened = true, loginOrRegisterView = "login"))
@@ -102,7 +107,7 @@ object PromptingToConnect {
           <.div(^.className := PromptingToConnectStyles.wrapper)(
             <.div(^.className := js.Array(LayoutRulesStyles.row, PromptingToConnectStyles.titleWrapper))(
               <.p(^.className := js.Array(TextStyles.bigText, TextStyles.boldText))(
-                unescape(I18n.t("sequence.prompting-to-connect.title"))
+                self.props.wrapped.registerTitle.getOrElse(unescape(I18n.t("sequence.prompting-to-connect.title")))
               )
             ),
             <.div(^.className := LayoutRulesStyles.evenNarrowerCenteredRow)(
@@ -157,7 +162,10 @@ object PromptingToConnect {
                       self.setState(_.copy(isAuthenticateModalOpened = false))
                       self.props.wrapped.authenticateHandler()
                     },
-                    operationId = Some(self.props.wrapped.operation.operationId)
+                    operationId = Some(self.props.wrapped.operation.operationId),
+                    registerTitle = self.props.wrapped.operation.wordings
+                      .find(_.language == self.props.wrapped.language)
+                      .flatMap(_.registerTitle)
                   )
                 )()
               ),
@@ -172,7 +180,8 @@ object PromptingToConnect {
                 ^.onClick := skipSignup
               )(
                 <.i(^.className := js.Array(FontAwesomeStyles.stepForward))(),
-                unescape("&nbsp;" + I18n.t("sequence.prompting-to-connect.next-cta"))
+                self.props.wrapped.nextCta
+                  .getOrElse(unescape("&nbsp;" + I18n.t("sequence.prompting-to-connect.next-cta")))
               )
             ),
             <.style()(PromptingToConnectStyles.render[String])

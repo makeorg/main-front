@@ -44,7 +44,8 @@ object ClimatParisOperationStaticData extends StaticDataOfOperation {
         learnMoreUrl = Some("https://climatparis.make.org/about-climatparis"),
         presentation = Some(
           "Les changements climatiques sont au coeur de l’actualité politique et internationale. La COP21 a démontré la volonté des décideurs politiques d’avancer. Un changement de comportement de chaque citoyen est maintenant nécessaire : à nous de transformer la prise de conscience planétaire en idées concrètes pour changer notre rapport à la planète."
-        )
+        ),
+        registerTitle = None
       )
     ),
     extraSlides = (params: OperationExtraSlidesParams) => {

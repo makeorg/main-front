@@ -32,7 +32,7 @@ import org.make.services.tracking.TrackingService.TrackingContext
 
 object RequireAuthenticatedUserContainer {
 
-  case class RequireAuthenticatedUserContainerProps(operationId: Option[OperationId],
+  case class RequireAuthenticatedUserContainerProps(maybeOperationId: Option[OperationId],
                                                     trackingContext: TrackingContext,
                                                     trackingParameters: Map[String, String],
                                                     trackingInternalOnlyParameters: Map[String, String],
@@ -43,8 +43,19 @@ object RequireAuthenticatedUserContainer {
 
   val reactClass: ReactClass = ReactRedux.connectAdvanced {
     _: Dispatch => (state: AppState, props: Props[RequireAuthenticatedUserContainerProps]) =>
+      val registerTitle: Option[String] = props.wrapped.maybeOperationId.flatMap { operationId =>
+        state.operations
+          .findById(operationId)
+          .flatMap(_.getOperationExpanded(country = state.country))
+          .flatMap(
+            _.wordings
+              .find(_.language == state.language)
+              .flatMap(_.registerTitle)
+          )
+      }
       RequireAuthenticatedUserProps(
-        operationId = props.wrapped.operationId,
+        operationId = props.wrapped.maybeOperationId,
+        registerTitle = registerTitle,
         trackingContext = props.wrapped.trackingContext,
         trackingParameters = props.wrapped.trackingParameters,
         trackingInternalOnlyParameters = props.wrapped.trackingInternalOnlyParameters,
