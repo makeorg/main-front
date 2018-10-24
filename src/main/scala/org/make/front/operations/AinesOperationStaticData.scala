@@ -74,38 +74,39 @@ object AinesOperationStaticData extends StaticDataOfOperation {
       )
     },
     startDateActions = None,
-    partners = js.Array(
-      OperationPartner(name = "Klesia", imageUrl = klesia.toString, imageWidth = 60, isFounder = true),
-      OperationPartner(
-        name = "Fondation Korian pour le Bien-vieillir",
-        imageUrl = korian.toString,
-        imageWidth = 60,
-        isFounder = true
+    partners = js
+      .Array(
+        OperationPartner(name = "Klesia", imageUrl = klesia.toString, imageWidth = 60, isFounder = true),
+        OperationPartner(
+          name = "Fondation Korian pour le Bien-vieillir",
+          imageUrl = korian.toString,
+          imageWidth = 60,
+          isFounder = true
+        ),
+        OperationPartner(name = "La Poste", imageUrl = laposte.toString, imageWidth = 60, isFounder = true),
+        OperationPartner(name = "OCIRP", imageUrl = ocirp.toString, imageWidth = 60, isFounder = true),
+        OperationPartner(name = "CAREIT", imageUrl = careit.toString, imageWidth = 60, isFounder = true),
+        OperationPartner(
+          name = "Les Talents d'Alphonse",
+          imageUrl = lesTalentsDalphonse.toString,
+          imageWidth = 60,
+          isFounder = false
+        ),
+        OperationPartner(name = "Siel Bleu", imageUrl = siel.toString, imageWidth = 60, isFounder = false),
+        OperationPartner(
+          name = "Fondation de l'Armée du Salut",
+          imageUrl = armeeDuSalut.toString,
+          imageWidth = 60,
+          isFounder = false
+        ),
+        OperationPartner(name = "Age village", imageUrl = ageVillage.toString, imageWidth = 60, isFounder = false),
+        OperationPartner(
+          name = "Association France Dépendance",
+          imageUrl = associationFranceDependance.toString,
+          imageWidth = 60,
+          isFounder = false
+        )
       ),
-      OperationPartner(name = "La Poste", imageUrl = laposte.toString, imageWidth = 60, isFounder = true),
-      OperationPartner(name = "OCIRP", imageUrl = ocirp.toString, imageWidth = 60, isFounder = true),
-      OperationPartner(name = "CAREIT", imageUrl = careit.toString, imageWidth = 60, isFounder = true),
-      OperationPartner(
-        name = "Les Talents d'Alphonse",
-        imageUrl = lesTalentsDalphonse.toString,
-        imageWidth = 60,
-        isFounder = false
-      ),
-      OperationPartner(name = "Siel Bleu", imageUrl = siel.toString, imageWidth = 60, isFounder = false),
-      OperationPartner(
-        name = "Fondation de l'Armée du Salut",
-        imageUrl = armeeDuSalut.toString,
-        imageWidth = 60,
-        isFounder = false
-      ),
-      OperationPartner(name = "Age village", imageUrl = ageVillage.toString, imageWidth = 60, isFounder = false),
-      OperationPartner(
-        name = "Association France Dépendance",
-        imageUrl = associationFranceDependance.toString,
-        imageWidth = 60,
-        isFounder = false
-      )
-    ),
     featureSettings = FeatureSettings(action = true, share = true)
   )
 }

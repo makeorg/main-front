@@ -26,6 +26,7 @@ import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import org.make.front.Main.CssSettings._
 import org.make.front.components.Components._
 import org.make.front.components.consultation.ConsultationCommunity.ConsultationCommunityProps
+import org.make.front.components.consultation.partners.PartnerList.PartnerListProps
 import org.make.front.models.{OperationExpanded => OperationModel}
 import org.make.front.facades.I18n
 import org.make.front.facades.Unescape.unescape
@@ -133,6 +134,16 @@ object ConsultationPresentation {
                     )()
                   )
                 )
+              },
+              if (self.props.wrapped.operation.founderList.nonEmpty) {
+                Seq(
+                  <.div(^.className := RWDRulesLargeMediumStyles.showBlockBeyondLargeMedium)(
+                    <.p(^.className := ConsultationPresentationStyles.communityIntro)(
+                      unescape(I18n.t("operation.presentation.founder-presentation"))
+                    ),
+                    <.PartnerListComponent(^.wrapped := PartnerListProps(self.props.wrapped.operation.founderList))()
+                  )
+                )
               }
             ),
             <.style()(ConsultationPresentationStyles.render[String])
@@ -215,6 +226,16 @@ object ConsultationPresentationStyles extends StyleSheet.Inline {
       height(2.pxToEm()),
       backgroundColor(ThemeStyles.BorderColor.veryLight),
       marginTop(ThemeStyles.SpacingValue.smaller.pxToEm())
+    )
+
+  val communityIntro: StyleA =
+    style(
+      TextStyles.smallerText,
+      color(ThemeStyles.TextColor.lighter),
+      marginLeft(ThemeStyles.SpacingValue.small.pxToEm()),
+      marginRight(ThemeStyles.SpacingValue.small.pxToEm()),
+      paddingTop(ThemeStyles.SpacingValue.small.pxToEm()),
+      borderTop(1.pxToEm(), solid, ThemeStyles.BorderColor.veryLight)
     )
 
 }
