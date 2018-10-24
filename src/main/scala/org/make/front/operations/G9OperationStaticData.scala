@@ -52,7 +52,13 @@ object G9OperationStaticData extends StaticDataOfOperation {
       "/FR/consultation/european-digital-champions/selection_UTM_&language=fr#/FR/consultation/european-digital-champions/selection",
     extraSlides = (params: OperationExtraSlidesParams) => {
       js.Array(
-        Slides.displaySequenceIntroCard(params, introWording = OperationIntroWording(explanation2 = None)),
+        Slides.displaySequenceIntroCard(
+          params,
+          introWording = OperationIntroWording(
+            title = Some("Des milliers de citoyens européens proposent des solutions."),
+            explanation2 = None
+          )
+        ),
         Slides.displaySignUpCard(
           params = params,
           displayed = !params.isConnected,
