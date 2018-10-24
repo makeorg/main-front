@@ -40,7 +40,7 @@ object MIPIMFROperationStaticData extends StaticDataOfOperation {
             | amont de l’édition 2019 du salon, grâce à une consultation citoyenne ouverte, puis nous transformerons vos
             | meilleures idées en projets d’actions concrets. """.stripMargin
         ),
-        registerTitle = None
+        registerTitle = Some("JE M'INSCRIS POUR ÊTRE INFORMÉ(E) DES RÉSULTATS DE LA CONSULTATION")
       )
     ),
     color = "#000000",
@@ -51,8 +51,17 @@ object MIPIMFROperationStaticData extends StaticDataOfOperation {
     shareUrl = "/FR/consultation/villededemain/selection_UTM_&language=fr#/FR/consultation/villededemain/selection",
     extraSlides = (params: OperationExtraSlidesParams) => {
       js.Array(
-        Slides.displaySequenceIntroCard(params, introWording = OperationIntroWording()),
-        Slides.displaySignUpCard(params, !params.isConnected),
+        Slides.displaySequenceIntroCard(
+          params,
+          introWording = OperationIntroWording(
+            explanation2 = Some("Les + soutenues seront transformées en projets d'action lors du MIPIM 2019.")
+          )
+        ),
+        Slides.displaySignUpCard(
+          params = params,
+          displayed = !params.isConnected,
+          registerTitle = Some("Soyez informés des résultats de la consultation")
+        ),
         Slides.displayProposalPushCard(params),
         Slides.redirectToConsultationCard(params, onFocus = () => {
           params.closeSequence()
