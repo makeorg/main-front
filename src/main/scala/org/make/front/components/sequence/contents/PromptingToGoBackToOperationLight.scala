@@ -54,18 +54,14 @@ object PromptingToGoBackToOperationLight {
             PromptingToGoBackToOperationLightState()
           },
           render = { _ =>
-            <.div(^.className := TableLayoutStyles.fullHeightWrapper)(
-              <.div(^.className := TableLayoutStyles.row)(
-                <.div(^.className := TableLayoutStyles.cell)(
-                  <.div(
-                    ^.className := js.Array(LayoutRulesStyles.row, PromptingToGoBackToOperationLightStyles.introWrapper)
-                  )(
-                    <.p(
-                      ^.className := js
-                        .Array(PromptingToGoBackToOperationLightStyles.intro, TextStyles.bigText, TextStyles.boldText)
-                    )(unescape(I18n.t("sequence.prompting-to-continue.intro-light")))
-                  )
-                )
+            <.div(^.className := PromptingToGoBackToOperationLightStyles.finalCardWrapper)(
+              <.div(
+                ^.className := js.Array(LayoutRulesStyles.row, PromptingToGoBackToOperationLightStyles.introWrapper)
+              )(
+                <.p(
+                  ^.className := js
+                    .Array(PromptingToGoBackToOperationLightStyles.intro, TextStyles.bigText, TextStyles.boldText)
+                )(unescape(I18n.t("sequence.prompting-to-continue.intro-light")))
               )
             )
           }
@@ -76,6 +72,9 @@ object PromptingToGoBackToOperationLight {
 object PromptingToGoBackToOperationLightStyles extends StyleSheet.Inline {
 
   import dsl._
+
+  val finalCardWrapper: StyleA =
+    style(display.flex, flexFlow := "column", alignItems.center, justifyContent.center)
 
   val intro: StyleA =
     style(textAlign.center)
