@@ -40,7 +40,7 @@ object G9OperationStaticData extends StaticDataOfOperation {
             | Roland Berger, Croissance+ et Make.org vont massivement mobiliser citoyens français et allemands sur
             | cette question, pour écrire un Livre blanc inédit, première véritable feuille de route citoyenne sur le sujet.""".stripMargin
         ),
-        registerTitle = None
+        registerTitle = Some("JE M'INSCRIS POUR ÊTRE INFORMÉ(E) DES RÉSULTATS DE LA CONSULTATION")
       )
     ),
     color = "#5DA113",
@@ -52,8 +52,12 @@ object G9OperationStaticData extends StaticDataOfOperation {
       "/FR/consultation/european-digital-champions/selection_UTM_&language=fr#/FR/consultation/european-digital-champions/selection",
     extraSlides = (params: OperationExtraSlidesParams) => {
       js.Array(
-        Slides.displaySequenceIntroCard(params, introWording = OperationIntroWording()),
-        Slides.displaySignUpCard(params, !params.isConnected),
+        Slides.displaySequenceIntroCard(params, introWording = OperationIntroWording(explanation2 = None)),
+        Slides.displaySignUpCard(
+          params = params,
+          displayed = !params.isConnected,
+          registerTitle = Some("Soyez informés des résultats de la consultation")
+        ),
         Slides.displayProposalPushCard(params),
         Slides.redirectToConsultationCard(params, onFocus = () => {
           params.closeSequence()

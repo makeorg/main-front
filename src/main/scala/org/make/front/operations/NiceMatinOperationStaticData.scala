@@ -40,7 +40,7 @@ object NiceMatinOperationStaticData extends StaticDataOfOperation {
             | s’appuiera sur une proposition citoyenne pour traiter d’un sujet de fond. En fin de consultation,
             | les meilleures propositions seront reprises par la Métropole Nice Côte d’Azur dans le Plan Climat.""".stripMargin
         ),
-        registerTitle = None
+        registerTitle = Some("JE M'INSCRIS POUR ÊTRE INFORMÉ(E) DES RÉSULTATS DE LA CONSULTATION")
       )
     ),
     color = "#DA815E",
@@ -54,7 +54,7 @@ object NiceMatinOperationStaticData extends StaticDataOfOperation {
         Slides.displaySequenceIntroCard(
           params,
           introWording = OperationIntroWording(
-            explanation2 = None,
+            explanation2 = Some("Les + soutenues seront reprises dans le Plan Climat."),
             partners = js.Array(
               OperationIntroPartner(name = "Nice Matin", imageUrl = niceMatin.toString),
               OperationIntroPartner(
@@ -64,7 +64,11 @@ object NiceMatinOperationStaticData extends StaticDataOfOperation {
             )
           )
         ),
-        Slides.displaySignUpCard(params, !params.isConnected),
+        Slides.displaySignUpCard(
+          params = params,
+          displayed = !params.isConnected,
+          registerTitle = Some("Soyez informés des résultats de la consultation")
+        ),
         Slides.displayProposalPushCard(params),
         Slides.redirectToConsultationCard(params, onFocus = () => {
           params.closeSequence()
