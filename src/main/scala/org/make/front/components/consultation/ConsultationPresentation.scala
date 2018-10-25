@@ -126,16 +126,15 @@ object ConsultationPresentation {
                 Seq(
                   <.hr(
                     ^.className := js
-                      .Array(ConsultationPresentationStyles.sep)
+                      .Array(ConsultationPresentationStyles.sep, RWDRulesLargeMediumStyles.hideBeyondLargeMedium)
                   )(),
-                  <.div()(
+                  <.div(^.className := RWDRulesLargeMediumStyles.hideBeyondLargeMedium)(
                     <.ConsultationCommunityComponent(
                       ^.wrapped := ConsultationCommunityProps(consultation, self.props.wrapped.language)
                     )()
                   )
                 )
-              },
-              if (self.props.wrapped.operation.founderList.nonEmpty) {
+              } else {
                 Seq(
                   <.div()(
                     <.p(^.className := ConsultationPresentationStyles.communityIntro)(
