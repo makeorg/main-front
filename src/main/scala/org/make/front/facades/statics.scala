@@ -917,6 +917,15 @@ object rolandBergerLogo extends js.Object
 @JSImport("./images/operations/mipim/mipim-logo.jpg", "default")
 object mipimLogo extends js.Object
 
+/* Operation Jeunes HdF */
+@js.native
+@JSImport("./images/operations/jeunes-hdf/jeunes-hdf-logo.svg", "default")
+object jeunesHdfLogo extends js.Object
+
+@js.native
+@JSImport("./images/operations/jeunes-hdf/hdf-logo.svg", "default")
+object hdfLogo extends js.Object
+
 /* FLAGS */
 
 @js.native
