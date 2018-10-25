@@ -19,7 +19,7 @@
  */
 
 package org.make.front.operations
-import org.make.front.facades.europeanDigitalChampionsLogoWhite
+import org.make.front.facades.{croissancePlusLogo, europeanDigitalChampionsLogoWhite, g9PlusLogo, rolandBergerLogo}
 import org.make.front.models._
 
 import scala.scalajs.js
@@ -56,7 +56,12 @@ object G9OperationStaticData extends StaticDataOfOperation {
           params,
           introWording = OperationIntroWording(
             title = Some("Des milliers de citoyens européens proposent des solutions."),
-            explanation2 = None
+            explanation2 = None,
+            partners = js.Array(
+              OperationIntroPartner(name = "G9+", imageUrl = g9PlusLogo.toString),
+              OperationIntroPartner(name = "Roland Berger", imageUrl = rolandBergerLogo.toString),
+              OperationIntroPartner(name = "CroissancePlus", imageUrl = croissancePlusLogo.toString)
+            )
           )
         ),
         Slides.displaySignUpCard(
