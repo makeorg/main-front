@@ -40,7 +40,6 @@ final case class OperationStaticData(
   startDateActions: Option[js.Date] = None,
   partners: js.Array[OperationPartner] = js.Array(),
   operationTypeRibbon: Option[String] = Some(unescape(I18n.t("operation.vff-fr.intro.label"))),
-  founders: js.Array[OperationPartner] = js.Array(),
   featureSettings: FeatureSettings
 )
 
@@ -57,7 +56,7 @@ object OperationStaticData {
   }
 }
 
-final case class OperationPartner(name: String, imageUrl: String, imageWidth: Int, isFounder: Boolean)
+final case class OperationPartner(name: String, imageUrl: String, isFounder: Boolean)
 
 final case class OperationWording(language: String,
                                   title: String,

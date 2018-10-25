@@ -71,56 +71,16 @@ object CultureOperationStaticData extends StaticDataOfOperation {
     },
     startDateActions = None,
     partners = js.Array(
-      OperationPartner(
-        name = "Fondation ENGIE",
-        imageUrl = engiefondationAvatar.toString,
-        imageWidth = 60,
-        isFounder = true
-      ),
-      OperationPartner(
-        name = "Ministère de la Culture",
-        imageUrl = ministerecultureAvatar.toString,
-        imageWidth = 60,
-        isFounder = true
-      ),
-      OperationPartner(name = "Sacem", imageUrl = sacemAvatar.toString, imageWidth = 60, isFounder = true),
-      OperationPartner(name = "ARTE", imageUrl = arteAvatar.toString, imageWidth = 60, isFounder = false),
-      OperationPartner(
-        name = "Accès Culture",
-        imageUrl = accescultureAvatar.toString,
-        imageWidth = 60,
-        isFounder = false
-      ),
-      OperationPartner(
-        name = "Opéra de Paris",
-        imageUrl = operadeparisAvatar.toString,
-        imageWidth = 60,
-        isFounder = false
-      ),
-      OperationPartner(
-        name = "Ciné Ma Différence",
-        imageUrl = cinemadifferenceAvatar.toString,
-        imageWidth = 60,
-        isFounder = false
-      ),
-      OperationPartner(
-        name = "Culture et Sport solidaires 34",
-        imageUrl = cssAvatar.toString,
-        imageWidth = 60,
-        isFounder = false
-      ),
-      OperationPartner(
-        name = "Bibliothèque Sans Frontière",
-        imageUrl = bsfAvatar.toString,
-        imageWidth = 60,
-        isFounder = false
-      ),
-      OperationPartner(
-        name = "Institut Télémaque",
-        imageUrl = telemaqueAvatar.toString,
-        imageWidth = 60,
-        isFounder = false
-      )
+      OperationPartner(name = "Fondation ENGIE", imageUrl = engiefondationAvatar.toString, isFounder = true),
+      OperationPartner(name = "Ministère de la Culture", imageUrl = ministerecultureAvatar.toString, isFounder = true),
+      OperationPartner(name = "Sacem", imageUrl = sacemAvatar.toString, isFounder = true),
+      OperationPartner(name = "ARTE", imageUrl = arteAvatar.toString, isFounder = false),
+      OperationPartner(name = "Accès Culture", imageUrl = accescultureAvatar.toString, isFounder = false),
+      OperationPartner(name = "Opéra de Paris", imageUrl = operadeparisAvatar.toString, isFounder = false),
+      OperationPartner(name = "Ciné Ma Différence", imageUrl = cinemadifferenceAvatar.toString, isFounder = false),
+      OperationPartner(name = "Culture et Sport solidaires 34", imageUrl = cssAvatar.toString, isFounder = false),
+      OperationPartner(name = "Bibliothèque Sans Frontière", imageUrl = bsfAvatar.toString, isFounder = false),
+      OperationPartner(name = "Institut Télémaque", imageUrl = telemaqueAvatar.toString, isFounder = false)
     ),
     featureSettings = FeatureSettings(action = true, share = true)
   )

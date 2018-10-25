@@ -126,9 +126,9 @@ object ConsultationPresentation {
                 Seq(
                   <.hr(
                     ^.className := js
-                      .Array(ConsultationPresentationStyles.sep, RWDRulesLargeMediumStyles.hideBeyondLargeMedium)
+                      .Array(ConsultationPresentationStyles.sep)
                   )(),
-                  <.div(^.className := RWDRulesLargeMediumStyles.hideBeyondLargeMedium)(
+                  <.div()(
                     <.ConsultationCommunityComponent(
                       ^.wrapped := ConsultationCommunityProps(consultation, self.props.wrapped.language)
                     )()
@@ -137,7 +137,7 @@ object ConsultationPresentation {
               },
               if (self.props.wrapped.operation.founderList.nonEmpty) {
                 Seq(
-                  <.div(^.className := RWDRulesLargeMediumStyles.showBlockBeyondLargeMedium)(
+                  <.div()(
                     <.p(^.className := ConsultationPresentationStyles.communityIntro)(
                       unescape(I18n.t("operation.presentation.founder-presentation"))
                     ),

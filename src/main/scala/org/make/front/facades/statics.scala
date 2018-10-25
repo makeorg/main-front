@@ -901,6 +901,19 @@ object niceMatin extends js.Object
 object europeanDigitalChampionsLogoWhite extends js.Object
 
 @js.native
+@JSImport("./images/operations/european-digital-champions/partners/croissance-plus.svg", "default")
+object croissancePlusLogo extends js.Object
+
+@js.native
+@JSImport("./images/operations/european-digital-champions/partners/g-9-logo.png", "default")
+object g9PlusLogo extends js.Object
+
+@js.native
+@JSImport("./images/operations/european-digital-champions/partners/roland-berger-logo.png", "default")
+object rolandBergerLogo extends js.Object
+
+/* Operation MIPIM */
+@js.native
 @JSImport("./images/operations/mipim/mipim-logo.jpg", "default")
 object mipimLogo extends js.Object
 
