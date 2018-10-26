@@ -40,7 +40,8 @@ final case class OperationStaticData(
   startDateActions: Option[js.Date] = None,
   partners: js.Array[OperationPartner] = js.Array(),
   operationTypeRibbon: Option[String] = Some(unescape(I18n.t("operation.vff-fr.intro.label"))),
-  featureSettings: FeatureSettings
+  featureSettings: FeatureSettings,
+  initiators: js.Array[OperationInitiator] = js.Array(),
 )
 
 object OperationStaticData {
@@ -57,6 +58,7 @@ object OperationStaticData {
 }
 
 final case class OperationPartner(name: String, imageUrl: String, isFounder: Boolean)
+final case class OperationInitiator(name: String, imageUrl: String)
 
 final case class OperationWording(language: String,
                                   title: String,
@@ -108,7 +110,7 @@ final case class OperationExpanded(operationId: OperationId,
                                    partners: js.Array[OperationPartner],
                                    operationTypeRibbon: Option[String],
                                    featureSettings: FeatureSettings,
-                                   founderList: js.Array[OperationPartner]) {
+                                   initiatorList: js.Array[OperationInitiator]) {
 
   def getWordingByLanguage(language: String): Option[OperationWording] = {
     wordings.find(_.language == language)
@@ -192,7 +194,7 @@ object OperationExpanded {
         partners = operationStaticData.partners,
         operationTypeRibbon = operationStaticData.operationTypeRibbon,
         featureSettings = operationStaticData.featureSettings,
-        founderList = operationStaticData.partners.filter(_.isFounder)
+        initiatorList = operationStaticData.initiators
       )
   }
 }
