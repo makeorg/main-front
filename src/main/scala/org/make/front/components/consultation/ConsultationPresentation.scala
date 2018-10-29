@@ -27,7 +27,7 @@ import org.make.front.Main.CssSettings._
 import org.make.front.components.Components._
 import org.make.front.components.consultation.ConsultationCommunity.ConsultationCommunityProps
 import org.make.front.components.consultation.partners.PartnerList.PartnerListProps
-import org.make.front.models.{OperationExpanded => OperationModel}
+import org.make.front.models.{OperationPartner, OperationExpanded => OperationModel}
 import org.make.front.facades.I18n
 import org.make.front.facades.Unescape.unescape
 import org.make.front.styles.ThemeStyles
@@ -140,7 +140,11 @@ object ConsultationPresentation {
                     <.p(^.className := ConsultationPresentationStyles.communityIntro)(
                       unescape(I18n.t("operation.presentation.founder-presentation"))
                     ),
-                    <.PartnerListComponent(^.wrapped := PartnerListProps(self.props.wrapped.operation.founderList))()
+                    <.PartnerListComponent(
+                      ^.wrapped := PartnerListProps(self.props.wrapped.operation.initiatorList.map { initiator =>
+                        OperationPartner(name = initiator.name, imageUrl = initiator.imageUrl, isFounder = false)
+                      })
+                    )()
                   )
                 )
               }

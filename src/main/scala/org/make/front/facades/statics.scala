@@ -912,6 +912,14 @@ object g9PlusLogo extends js.Object
 @JSImport("./images/operations/european-digital-champions/partners/roland-berger-logo.png", "default")
 object rolandBergerLogo extends js.Object
 
+@js.native
+@JSImport("./images/operations/plan-climat/initiators/nice-matin.png", "default")
+object niceMatinInitiator extends js.Object
+
+@js.native
+@JSImport("./images/operations/plan-climat/initiators/plan-climat.png", "default")
+object planClimatAirEnergieTerritorialInitiator extends js.Object
+
 /* Operation MIPIM */
 @js.native
 @JSImport("./images/operations/mipim/mipim-logo.jpg", "default")

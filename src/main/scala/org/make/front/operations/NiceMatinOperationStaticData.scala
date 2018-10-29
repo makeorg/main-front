@@ -19,7 +19,13 @@
  */
 
 package org.make.front.operations
-import org.make.front.facades.{niceMatin, planClimatAirEnergieTerritorial, planClimatLogoWhite}
+import org.make.front.facades.{
+  niceMatin,
+  niceMatinInitiator,
+  planClimatAirEnergieTerritorial,
+  planClimatAirEnergieTerritorialInitiator,
+  planClimatLogoWhite
+}
 import org.make.front.models._
 
 import scala.scalajs.js
@@ -43,11 +49,11 @@ object NiceMatinOperationStaticData extends StaticDataOfOperation {
         registerTitle = Some("JE M'INSCRIS POUR ÊTRE INFORMÉ(E) DES RÉSULTATS DE LA CONSULTATION")
       )
     ),
-    color = "#DA815E",
-    gradient = Some(GradientColor("#FF5AB2", "#FEDF1C")),
+    color = "#8c3783",
+    gradient = Some(GradientColor("#00B1BA", "#00B1BA")),
     logoUrl = planClimatLogoWhite.toString,
     whiteLogoUrl = planClimatLogoWhite.toString,
-    logoWidth = 245,
+    logoWidth = 364,
     shareUrl = "/FR/consultation/plan-climat/selection_UTM_&language=fr#/FR/consultation/plan-climat/selection",
     extraSlides = (params: OperationExtraSlidesParams) => {
       js.Array(
@@ -78,6 +84,13 @@ object NiceMatinOperationStaticData extends StaticDataOfOperation {
     startDateActions = None,
     partners = js.Array(),
     operationTypeRibbon = None,
-    featureSettings = FeatureSettings(action = false, share = true)
+    featureSettings = FeatureSettings(action = false, share = true),
+    initiators = js.Array(
+      OperationInitiator(name = "Nice matin", imageUrl = niceMatinInitiator.toString),
+      OperationInitiator(
+        name = "Plan climat air énergie territorial",
+        imageUrl = planClimatAirEnergieTerritorialInitiator.toString
+      )
+    )
   )
 }
