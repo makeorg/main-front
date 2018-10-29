@@ -28,13 +28,13 @@ import scala.scalajs.js
 object JeunesHdfOperationStaticData extends StaticDataOfOperation {
   override val data: OperationStaticData = OperationStaticData(
     country = "FR",
-    slug = "jeunes-hdf",
+    slug = "jeunesse-hautsdefrance",
     wording = js.Array(
       OperationWording(
         language = "fr",
         title = "Construire l’avenir des jeunes en Hauts-de-France ",
         question = "Comment vous aider à construire votre avenir en Hauts-de-France ?",
-        learnMoreUrl = Some("https://about.make.org/about-jeunes-hdf"),
+        learnMoreUrl = Some("https://about.make.org/about-jeunesse-hautsdefrance"),
         presentation = Some(
           """
             |15/30 ans, vous habitez en #HDF, faites entendre votre voix !
@@ -53,14 +53,15 @@ object JeunesHdfOperationStaticData extends StaticDataOfOperation {
     logoUrl = jeunesHdfLogo.toString,
     whiteLogoUrl = jeunesHdfLogo.toString,
     logoWidth = 463,
-    shareUrl = "/FR/consultation/jeunes-hdf/selection_UTM_&language=fr#/FR/consultation/jeunes-hdf/selection",
+    shareUrl =
+      "/FR/consultation/jeunesse-hautsdefrance/selection_UTM_&language=fr#/FR/consultation/jeunesse-hautsdefrance/selection",
     extraSlides = (params: OperationExtraSlidesParams) => {
       js.Array(
         Slides.displaySequenceIntroCard(
           params,
           introWording = OperationIntroWording(
-            title = Some("Des milliers de jeunes des Hauts-de-France proposent des solutions."),
-            explanation2 = Some("Les + soutenues seront mises en oeuvre par la Région. "),
+            title = Some("Les jeunes des Hauts-de-France proposent des solutions."),
+            explanation2 = Some("Les plus soutenues seront mises en oeuvre par la Région."),
             partners = js.Array(OperationIntroPartner(name = "Région Hauts-de-France", imageUrl = hdfLogo.toString))
           )
         ),
@@ -79,6 +80,7 @@ object JeunesHdfOperationStaticData extends StaticDataOfOperation {
     startDateActions = None,
     partners =
       js.Array(OperationPartner(name = "Région Hauts-de-France", imageUrl = hdfLogo.toString, isFounder = true)),
+    operationTypeRibbon = None,
     featureSettings = FeatureSettings(action = false, share = true),
     initiators = js.Array(OperationInitiator(name = "Région Hauts-de-France", imageUrl = hdfLogo.toString))
   )
