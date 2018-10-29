@@ -19,7 +19,7 @@
  */
 
 package org.make.front.operations
-import org.make.front.facades.mipimLogo
+import org.make.front.facades.{mipimLogo, mipimPartnersLogo}
 import org.make.front.models._
 
 import scala.scalajs.js
@@ -43,7 +43,7 @@ object MIPIMFROperationStaticData extends StaticDataOfOperation {
         registerTitle = Some("JE M'INSCRIS POUR ÊTRE INFORMÉ(E) DES RÉSULTATS DE LA CONSULTATION")
       )
     ),
-    color = "#000000",
+    color = "#c42a3c",
     gradient = Some(GradientColor("#000000", "#000000")),
     logoUrl = mipimLogo.toString,
     whiteLogoUrl = mipimLogo.toString,
@@ -54,7 +54,8 @@ object MIPIMFROperationStaticData extends StaticDataOfOperation {
         Slides.displaySequenceIntroCard(
           params,
           introWording = OperationIntroWording(
-            explanation2 = Some("Les + soutenues seront transformées en projets d'action lors du MIPIM 2019.")
+            explanation2 = Some("Les + soutenues seront transformées en projets d'action lors du MIPIM 2019."),
+            partners = js.Array(OperationIntroPartner(name = "MIPIM", imageUrl = mipimPartnersLogo.toString))
           )
         ),
         Slides.displaySignUpCard(
@@ -69,8 +70,8 @@ object MIPIMFROperationStaticData extends StaticDataOfOperation {
       )
     },
     startDateActions = None,
-    partners = js.Array(),
     operationTypeRibbon = None,
-    featureSettings = FeatureSettings(action = false, share = true)
+    featureSettings = FeatureSettings(action = false, share = true),
+    initiators = js.Array(OperationInitiator(name = "MIPIM", imageUrl = mipimPartnersLogo.toString))
   )
 }
