@@ -114,7 +114,7 @@ object VoteContainer {
         future.onComplete {
           case Success(response) =>
             props.wrapped.onSuccessfulVote(response) // let child handle new results
-            dispatch(VoteAction(location))
+            dispatch(VoteAction(location, props.wrapped.proposal.operationId, props.wrapped.proposal.themeId))
           case Failure(_) => dispatch(NotifyError(I18n.t("error-message.main")))
         }
         future

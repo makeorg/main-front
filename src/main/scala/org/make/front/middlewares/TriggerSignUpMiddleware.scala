@@ -24,7 +24,7 @@ import io.github.shogowada.scalajs.reactjs.redux.Redux.Dispatch
 import io.github.shogowada.scalajs.reactjs.redux.Store
 import org.make.front.actions.VoteAction
 import org.make.front.components.AppState
-import org.make.front.models.Location
+import org.make.front.models.{Location, OperationId, ThemeId}
 import org.make.front.models.Location.Sequence
 
 import scala.util.Try
@@ -41,15 +41,15 @@ object TriggerSignUpMiddleware {
     listeners -= id
   }
 
-  final case class TriggerSignUpListener(onTriggerSignUp: Location => Unit)
+  final case class TriggerSignUpListener(onTriggerSignUp: (Location, Option[OperationId], Option[ThemeId]) => Unit)
 
   val handle: Store[AppState] => Dispatch => Any => Any = (store: Store[AppState]) =>
     (dispatch: Dispatch) => {
-      case VoteAction(Sequence(_)) =>
-      case VoteAction(location) =>
+      case VoteAction(Sequence(_), _, _) =>
+      case VoteAction(location, maybeOperationId, maybeThemeId) =>
         if (store.getState.connectedUser.isEmpty) {
           listeners.values.foreach { listener =>
-            Try(listener.onTriggerSignUp(location))
+            Try(listener.onTriggerSignUp(location, maybeOperationId, maybeThemeId))
           }
         }
       case action => dispatch(action)

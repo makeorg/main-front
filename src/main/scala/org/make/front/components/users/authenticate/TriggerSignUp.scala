@@ -32,7 +32,7 @@ import org.make.front.facades.I18n
 import org.make.front.facades.Unescape.unescape
 import org.make.front.middlewares.TriggerSignUpMiddleware
 import org.make.front.middlewares.TriggerSignUpMiddleware.TriggerSignUpListener
-import org.make.front.models.{Location, OperationList}
+import org.make.front.models.{Location, OperationId, OperationList, ThemeId}
 import org.make.front.models.Location.OperationPage
 import org.make.services.tracking.TrackingLocation
 import org.make.services.tracking.TrackingService.TrackingContext
@@ -64,18 +64,20 @@ object TriggerSignUp {
         )
       },
       componentDidMount = { self =>
-        val onTriggerSignUp: Location => Unit = {
-          location =>
-            val registerTitle: Option[String] = location match {
-              case OperationPage(operationId) =>
-                self.props.wrapped.operations
-                  .findById(operationId)
-                  .flatMap(
-                    _.getOperationExpanded(country = self.props.wrapped.country)
-                      .flatMap(_.wordings.find(_.language == self.props.wrapped.language).flatMap(_.registerTitle))
-                  )
-                  .orElse(self.state.registerTitle)
-              case _ => defaultTitle
+        def findRegisterTitleByOperationId(operationId: OperationId): Option[String] = {
+          self.props.wrapped.operations
+            .findById(operationId)
+            .flatMap(
+              _.getOperationExpanded(country = self.props.wrapped.country)
+                .flatMap(_.wordings.find(_.language == self.props.wrapped.language).flatMap(_.registerTitle))
+            )
+        }
+
+        val onTriggerSignUp: (Location, Option[OperationId], Option[ThemeId]) => Unit = {
+          (location, maybeOperationId, _) =>
+            val registerTitle: Option[String] = maybeOperationId match {
+              case Some(operationId) => findRegisterTitleByOperationId(operationId).orElse(defaultTitle)
+              case _                 => defaultTitle
             }
 
             self.setState(state => state.copy(voteCount = state.voteCount + 1, registerTitle = registerTitle))
