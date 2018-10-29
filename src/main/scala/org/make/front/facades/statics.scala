@@ -1136,6 +1136,10 @@ object translationsEnGB extends js.Object
 @JSImport("./i18n/it_IT.json", "default")
 object translationsItIT extends js.Object
 
+@js.native
+@JSImport("./i18n/de_DE.json", "default")
+object translationsDeDE extends js.Object
+
 /* MISC */
 
 @js.native
