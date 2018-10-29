@@ -1,0 +1,688 @@
+{
+    "common": {
+        "bait": "Wir müssen",
+        "date": {
+            "long": "Wir"
+        }
+    },
+    "error-message": {
+        "main": "Ups! Ups! Ups! Wir haben einige Schwierigkeiten beim Laden dieser Seite. Bitte laden Sie sie erneut auf.",
+        "no-token": "Token fehlt",
+        "unexpected-behaviour": "Etwas hat nicht funktioniert",
+        "user-not-found": "Benutzer nicht gefunden"
+    },
+    "error": {
+        "intro": "ups",
+        "title": "Fehler 404",
+        "recherche-intro": "Die von Ihnen angeforderte Seite existiert nicht oder nicht mehr. Sie können eine Suche starten.\n",
+        "redirection-intro": "oder sich von einem neuen Ziel verführen lassen...",
+        "redirect-to-home": "Die Startseite",
+        "redirect-to-random-theme": "Ein zufällig ausgewähltes Thema\n"
+    },
+    "current-operations": {
+        "operations-intro": " Mehrere Konsultationen sind in Ihrem Land im Gange, kommen Sie und nehmen Sie teil!",
+        "operations-intro_1": " Eine Konsultation ist in Ihrem Land im Gange, kommen Sie und nehmen Sie teil!",
+        "operations-intro_0": "Leider ist unser Service in Ihrem Land nicht geöffnet. Entdecken Sie unseren Service, indem Sie auf \"Wer sind wir?\" klicken oder einen Blick auf unseren Service in anderen Ländern werfen.",
+        "see-operation-cta": "Teilnehmen",
+        "countries-intro": "Sie können unseren Service auch in anderen Ländern mitverfolgen.",
+        "FR": "Frankreich",
+        "IT": "Italien",
+        "GB": "Großbritannien",
+        "DE": "Deutschland"
+    },
+    "maintenance": {
+        "intro": "ups",
+        "title": "laufende Wartung",
+        "explanation-1": "Um Ihnen eine immer effizientere Website anbieten zu können, wird Make.org derzeit gewartet.",
+        "explanation-2": "Sie können gerne in ein paar Minuten wiederkommen.\n"
+    },
+    "cookie-alert": "Mit der Fortsetzung Ihres Browsens erklären Sie sich mit unseren allgemeinen Nutzungsbedingungen, unseren Richtlinien zur Verwendung personenbezogener Daten sowie der Verwendung von Cookies auf unserer Website zur Verbesserung unseres Service einverstanden.",
+    "link-cgu": "https://about.make.org/nutzungsbedingungen",
+    "link-data-policy": "https://about.make.org/datenpolitik",
+    "home": {
+        "welcome": {
+            "baseline": "über uns",
+            "title": "Schlagen Sie vor, stimmen Sie ab, handeln wir!",
+            "subtitle": " Make.org ist eine unabhängige Initiative im allgemeinen Interesse.",
+            "see-more": "Mehr darüber erfahren"
+        },
+        "explanations": {
+            "article-1": {
+                "intro": "Politik ist nicht mehr genug, lasst uns die Linien gemeinsam verschieben.\n",
+                "title": "Schlagen Sie vor, stimmen Sie ab, handeln wir!",
+                "item-1": "Stimmen Sie für die Vorschläge, die Sie verteidigen.\n",
+                "item-2": "Schlagen Sie Ihre Ideen zu den angesprochenen Themen vor.\n",
+                "item-3": "Und am Ende der Konsultation, beteiligen Sie sich an der Erstellung eines Bürgeraktionsplans.\n"
+            },
+            "article-2": {
+                "intro": "Wer sind wir?",
+                "title": "Make.org, neutral und unabhängig",
+                "text": "Make.org ist eine bürgerliche, europäische und unabhängige Initiative.\n",
+                "see-more-link": "https://about.make.org/wer-sind-wir\n",
+                "see-more": "Mehr dazu wissen"
+            }
+        },
+        "showcase-2": {
+            "intro": "Äußern Sie sich!",
+            "title": "Die beliebtesten Vorschläge zu den Themen"
+        },
+        "showcase-3": {
+            "intro": "Entscheiden Sie zwischen den Vorschlägen!",
+            "title": "Die am häufigsten diskutierten Vorschläge"
+        },
+        "featured-articles-showcase": {
+            "title": "HANDELN MIT MAKE.ORG"
+        },
+        "featured-operation": {
+            "title": "Wie können wir unsere Senioren besser betreuen?\n",
+            "label": "Große Sache Make.org\n",
+            "purpose": "Stimmen Sie ab und schlagen Sie Lösungen vor, um unsere Senioren besser zu betreuen.\n",
+            "learn-more": {
+                "label": "An der Konsultation teilnehmen.",
+                "link": "/?utm_source=core&utm_medium=push-hp&utm_campaign=aines#/FR/consultation/aines/consultation\n"
+            }
+        }
+    },
+    "operation-showcase": {
+        "see-all": "Alle Vorschläge sehen",
+        "prompting-to-propose-tile": {
+            "intro": "Und was ist Ihr Vorschlag?",
+            "bait": "Wir müssen"
+        },
+        "data-units": {
+            "actions": "Aktionen",
+            "proposals": "Vorschläge"
+        }
+    },
+    "nav-in-themes": {
+        "title": "Alle Themen",
+        "total-of-actions": "%{total} laufende Aktionen\n",
+        "total-of-actions_1": "%{total} laufende Aktionen\n",
+        "total-of-proposals_1": "%{total} Vorschläge\n",
+        "total-of-proposals": "%{total} Vorschläge"
+    },
+    "main-header": {
+        "menu": {
+            "item-1": {
+                "label": "Wer sind wir?",
+                "link": "https://about.make.org/wer-sind-wir\n"
+            }
+        }
+    },
+    "search": {
+        "form": {
+            "placeholder": "nach einem Vorschlag suchen"
+        },
+        "results": {
+            "intro": "<strong>%{total} Ergebnisse</strong> für Ihrer Suche\n",
+            "see-more": "Mehr Vorschläge sehen"
+        },
+        "no-results": {
+            "intro": "Wir haben <strong>keine Ergebnisse</strong> für Ihre Suche gefunden.\n",
+            "prompting-to-propose": "Seien Sie die erste Person, die einen Vorschlag zu diesem Thema macht!",
+            "propose-cta": "Vorschlagen"
+        }
+    },
+    "user-nav": {
+        "login": "sich einloggen",
+        "register": "sich anmelden"
+    },
+    "user-profile": {
+        "disconnect-cta": "Ich logge mich aus.",
+        "show-more": "mehr anzeigen",
+        "show-less": "weniger anzeigen",
+        "edit-profile": "mein Profil ändern",
+        "back-to-profile": "Zurück zu meinem Profil",
+        "share-profile": "Dieses Profil teilen",
+        "proposals-tab": "Vorschläge",
+        "settings-tab": "Mein Konto verwalten",
+        "years-old": "Jahre alt",
+        "likeItproposal": {
+            "tab": "Meine.....",
+            "title": "Meine Lieblingsvorschläge",
+            "empty": "Sie haben noch keine Lieblingsvorschläge auf Make.org",
+            "explanation-first-part": "Sie können einen Lieblingsvorschlag machen.\n",
+            "explanation-second-part": " ,kurz nachdem Sie abgestimmt haben.",
+            "explanation-third-part": "\" ",
+            "explanation-fourth-part": "mit diesem Vorschlag einverstanden\"",
+            "fake-proposal": "Qualitätsvorschläge müssen unterstützt werden.\n"
+        },
+        "optin-newsletter": {
+            "title": "Meine E-Mails verwalten\n",
+            "description": "Ich bin damit einverstanden, Informationen von Make.org zu erhalten (Ihre Adresse wird unter keinen Umständen an Dritte weitergegeben).\n",
+            "confirmation": "Ihre Anfrage wurde berücksichtigt.\n",
+            "error": "Ups! Ups! Ups! Beim Speichern Ihrer Informationen ist ein Fehler aufgetreten. Bitte versuchen Sie es später noch einmal.\n"
+        },
+        "form": {
+            "title": "Mein Profil ändern\n",
+            "cta": "Änderungen speichern",
+            "inputs": {
+                "max-error-message": "Ihre Nachricht muss aus weniger als %{max} Zeichen bestehen.\n",
+                "min-error-message": "Ihre Nachricht muss aus weniger als %{min} Zeichen bestehen.\n",
+                "char": "Zeichen",
+                "format-error-message": "Format ungültig",
+                "empty-field-error-message": "Bitte füllen Sie dieses Feld aus.\n",
+                "first-name": {
+                    "label": "Vorname"
+                },
+                "age": {
+                    "label": "Alter"
+                },
+                "postal-code": {
+                    "label": "Postleitzahl"
+                },
+                "profession": {
+                    "label": "Beruf"
+                },
+                "description": {
+                    "label": "Biographie"
+                },
+                "organisation-name": {
+                    "label": "Name"
+                }
+            }
+        },
+        "update": {
+            "confirmation": "Ihre Anfrage wird schnellstmöglich bearbeitet.",
+            "error": "Ups! Ups! Ups! Beim Speichern Ihrer Informationen ist ein Fehler aufgetreten. Bitte versuchen Sie es später noch einmal.\n"
+        },
+        "delete-account": {
+            "title": "Löschung meines Kontos beantragen",
+            "description": "Vorsicht, diese Aktion ist unwiderruflich. Sie werden Ihre Vorschläge, ihre detaillierten Statistiken sowie die Vorschläge, über die Sie abgestimmt haben, verlieren.\n",
+            "cta": "Löschung meines Konto beantragen",
+            "extra": "oder eine E-Mail senden an␣",
+            "confirmation": "Ihre Anfrage wurde berücksichtigt.\n",
+            "password": {
+                "label": "Passwort",
+                "placeholder": "Ich gebe mein Passwort ein, um mein Konto zu löschen.\n",
+                "error": "Dein Passwort ist ungültig, bitte gib es erneut ein.\n"
+            },
+            "email": {
+                "label": "E-Mail",
+                "placeholder": "Ich gebe meine E-Mail an, um mein Konto zu löschen.\n",
+                "error": "Diese E-Mail ist nicht mit deinem Konto verknüpft, bitte gib deine E-Mail erneut ein.\n"
+            }
+        },
+        "reset-password": {
+            "title": "Passwort bearbeiten",
+            "send-cta": "Änderungen speichern",
+            "error-message": "Ein Fehler ist aufgetreten, versuchen Sie es in ein paar Minuten erneut.\n",
+            "old-password": {
+                "label": "Aktuelles Passwort",
+                "placeholder": "Aktuelles Passwort",
+                "wrong-password": "Das von Ihnen eingegebene aktuelle Passwort ist falsch. Haben Sie Ihr Passwort vergessen?\n",
+                "wrong-password-alt": "Das von Ihnen eingegebene aktuelle Passwort ist falsch.\n",
+                "wrong-password-alt-extra-1": "Haben Sie",
+                "wrong-password-alt-extra-2": "Ihr Passwort vergessen?"
+            },
+            "new-password": {
+                "label": "Neues Passwort",
+                "placeholder": "Neues Passwort"
+            }
+        },
+        "proposal": {
+            "title": "Ihre letzten Vorschläge",
+            "empty": "leer"
+        }
+    },
+    "actor-profile": {
+        "proposals-tab": "Vorschläge",
+        "contributions-tab": "Stellungnahmen",
+        "proposal": {
+            "title": "Die neuesten Vorschläge von %{actor-name}:",
+            "empty": "hat noch keinen Vorschlag auf Make.org eingereicht"
+        },
+        "contributions": {
+            "title": "Die letzten Stellungnahmen von %{actor-name} :",
+            "empty": "hat auf Make.org noch nicht Stellung genommen",
+            "agree": "ist mit diesem Vorschlag einverstanden",
+            "disagree": "ist mit diesem Vorschlag nicht einverstanden"
+        }
+    },
+    "proposal": {
+        "created-by-user": "Mein Vorschlag",
+        "share-page": "Unterstützen Sie diesen Vorschlag, indem Sie ihn teilen:\n",
+        "share-likeit": "Ihnen gefällt dieser Vorschlag, teilen Sie ihn!",
+        "status": {
+            "Accepted": "eingereicht",
+            "Refused": "verweigert",
+            "Postponed": "verschoben",
+            "Pending": "auf die Mäßigung wartend\n"
+        },
+        "proposal-s-operation-infos": {
+            "intro": "Intro",
+            "participate": "teilnehmen",
+            "see-more": "Mehr dazu wissen"
+        },
+        "author-infos": {
+            "age": ", %{age} Alter\n",
+            "anonymous": "anonym"
+        },
+        "vote": {
+            "partOfVotes": "(%{value}%)\n",
+            "agree": {
+                "label": "einverstanden",
+                "qualifications": {
+                    "likeIt": "Lieblingsvorschlag <span class=\"fa fa-heart\"></span>",
+                    "doable": "machbar",
+                    "platitudeAgree": "selbstverständlich\n"
+                }
+            },
+            "disagree": {
+                "label": "ich bin dagegen!",
+                "qualifications": {
+                    "noWay": "auf keinen Fall!",
+                    "impossible": "unrealistisch",
+                    "platitudeDisagree": "selbstverständlich"
+                }
+            },
+            "neutral": {
+                "label": "Stimmenthaltung",
+                "qualifications": {
+                    "doNotUnderstand": "ich habe nicht verstanden",
+                    "noOpinion": "keine Meinung",
+                    "doNotCare": "gleichgültig"
+                }
+            }
+        },
+        "qualificate-vote": {
+            "increment": "+1"
+        },
+        "actor-voted_1": "␣hat über diesen Vorschlag abgestimmt.\n",
+        "actor-voted": "␣haben über diesen Vorschlag abgestimmt.\n",
+        "actor-voted-and": "␣und␣\n",
+        "posted-in": "gepostet in"
+    },
+    "submit-proposal": {
+        "intro": "Teilen Sie Ihren Vorschlag",
+        "error-message": "Leider ist ein Fehler aufgetreten, bitte versuchen Sie es in wenigen Minuten noch einmal.",
+        "form": {
+            "proposal-input-placeholder": "Wir brauchen einen realistischen und respektvollen Vorschlag für alle.\n",
+            "limit-of-chars-reached-alert": "Hoppla! Du hast die 140-stellige Grenze überschritten 😅 Versuche, dich prägnanter zu äußern!",
+            "info": "Keine Sorge, wir korrigieren alle Rechtschreibfehler, die Sie möglicherweise haben.",
+            "moderation-charter": "Um mehr über unsere Moderations-Charta zu erfahren, klicken Sie auf den folgenden Link:<a href=\"https://about.make.org/moderation\" target=\"_blank\">cliquez&nbsp;ici.</a>",
+            "validate-cta": "vorschlagen"
+        },
+        "authenticate": {
+            "intro": "Wir benötigen einige Informationen",
+            "title": "Titel"
+        },
+        "confirmation": {
+            "title": "Danke!",
+            "info": "Info",
+            "back-to-theme-cta": "Zurück zum Thema",
+            "back-cta": "Zurück",
+            "new-proposal-cta": "Einen neuen Vorschlag machen"
+        }
+    },
+    "no-political-action": {
+        "intro": "Wir haben im Moment keine Maßnahmen, um Ihnen zu diesem Thema einen Vorschlag zu unterbreiten, aber wir arbeiten daran!",
+        "text": "Bis bald, um gemeinsam zu handeln!\n"
+    },
+    "theme": {
+        "results": {
+            "title": "Stimmen Sie über die Vorschläge ab",
+            "see-more": "Mehr Vorschläge sehen",
+            "no-results": "Wir haben <strong> keine Ergebnisse gefunden,</strong> die Ihrer Auswahl an Schlagwörtern entsprechen.<br> Sie können andere Kombinationen von Schlagwörtern auswählen.\n"
+        },
+        "submit-proposal": {
+            "intro": "Teilen Sie Ihren Vorschlag zum Thema\n"
+        }
+    },
+    "sequence": {
+        "proposal": {
+            "next-cta": "nächster Vorschlag"
+        },
+        "guide": {
+            "vote": "Verwenden Sie die Schaltflächen, um <br> abzustimmen und zum nächsten Vorschlag zu gelangen.\n",
+            "qualification": "Wenn Sie möchten, können Sie Ihre Stimme angeben (andernfalls fahren Sie mit dem nächsten Vorschlag fort).\n"
+        },
+        "introduction": {
+            "title": "Tausende von Bürgern schlagen Lösungen vor.\n",
+            "explanation-1": "Nehmen Sie Stellung zu diesen Lösungen und schlagen Sie Ihre eigenen vor.\n",
+            "explanation-2": "Die am meisten unterstützten Vorschläge werden unsere Maßnahmen bestimmen.",
+            "cta": "Starten"
+        },
+        "prompting-to-propose": {
+            "intro": "Und haben Sie eine Lösung zu diesem Thema vorzuschlagen?\n",
+            "propose-cta": "Vorschlagen",
+            "next-cta": "Noch nicht, ich möchte weiterhin abstimmen."
+        },
+        "prompting-to-continue": {
+            "intro": "Vielen Dank für Ihren Beitrag. Setzen Sie sich weiterhin für diese Sache ein:\n",
+            "intro-light": "Vielen Dank, Sie können jetzt auf die vollständige Konsultation zugreifen.\n",
+            "continue": {
+                "intro": "Durch die Fortsetzung der Konsultation:\n",
+                "cta": "Starten"
+            },
+            "learn-more": {
+                "intro": "Durch die Entdeckung des Gesamtvorgangs.\n",
+                "following-intro": "und alle Vorschläge der Bürger:\n",
+                "cta": "Mehr dazu wissen"
+            },
+            "share": {
+                "intro": "Indem Sie Ihre Lieben einladen, an der Beratung teilzunehmen:\n"
+            }
+        },
+        "prompting-to-connect": {
+            "title": "Erhalten Sie die Auswertungsergebnisse der Beratung und erfahren Sie, wo Sie sich befinden.\n",
+            "intro": "Ich logge mich ein mit",
+            "authenticate-with-email-cta": "Meine E-Mail Adresse",
+            "login-screen-access": {
+                "intro": "Ich habe schon ein Konto",
+                "link-support": "Anmeldung"
+            },
+            "next-cta": "Nein, danke, ich möchte nicht über die Ergebnisse informiert werden.\n"
+        }
+    },
+    "operation": {
+        "presentation": {
+            "title": "Warum diese Konsultation?\n",
+            "seeMore": "Mehr dazu wissen",
+            "community": "Eine groß angelegte Mobilisierung.",
+            "community-text": "Tausende von Bürgern beteiligen sich durch die Teilnahme an der Konsultation.\n",
+            "also": "Unsere Partner engagieren sich an unserer Seite",
+            "also-text": "Sie unterstützen die Konsultation und den anschließenden Bürgeraktionsplan.\n",
+            "founder": "Gründer"
+        },
+        "intro": {
+            "consultation": "KONSULTATION",
+            "action": "Maßnahmen",
+            "from": "vom",
+            "to": "bis zum",
+            "datefrom": "ab dem"
+        },
+        "share": {
+            "title": "Diese Konsultation teilen"
+        },
+        "community": {
+            "partner": {
+                "see-more": "Alle Partner sehen"
+            },
+            "citizen-count": "%{count} Bürger␣\n",
+            "already-participate": "haben schon teilgenommen",
+            "learn-more": {
+                "label": "Teilnehmen",
+                "link": "??"
+            }
+        },
+        "actions": {
+            "goals": "Am Ende der Konsultation werden sich Bürger und Partner der Großen Sache treffen, um den aus Ihren Vorschlägen resultierenden Aktionsplan zu erstellen.\n",
+            "know-more": "mehr über die Berechnung der Ergebnisse erfahren\n",
+            "register-bait": "Möchten Sie über den Start der Aktionsphase informiert werden oder an den Workshops teilnehmen?\n",
+            "register-button": "Registrieren Sie sich!",
+            "support-title": "Unterstützen Sie die Aktionen",
+            "support-text": "Nach dem Start des Aktionsplans können Sie hier den Fortschritt und Erfolg der verschiedenen Aktionen verfolgen, unterstützen oder jederzeit daran teilnehmen.\n",
+            "actionsplan-title": "Unser Bürgeraktionsplan\n",
+            "actionsplan-text": "In Kürze werden Sie hier den Bürgeraktionsplan finden, der sich aus der Konsultation ergibt.\n",
+            "actionsplan-list-title": "Was ist eine Aktion auf Make.org?\n",
+            "actionsplan-list-intro": "Für uns muss eine Aktion:\n",
+            "actions-list-item1": "- bürgernah sein, weil es das Ergebnis Ihrer Vorschläge ist\n",
+            "actions-list-item2": "- gemeinschaftlich und immer offen für alle sein.\n",
+            "actions-list-item3": "eine starke, reale und messbare Wirkung haben",
+            "partners-title": "Unsere Aktionspartner\n",
+            "partners-text": "Bei Make.org sind wir überzeugt, dass wir durch die Zusammenführung aller Akteure der Zivilgesellschaft (Bürger, aber auch Unternehmen, Verbände, Institutionen,....) die Situation verändern können.\n"
+        },
+        "vff-fr": {
+            "intro": {
+                "label": "Große Sache Make.org\n",
+                "title": "Stop aux Violences Faites aux Femmes",
+                "period": "Consultation ouverte du 25 nov. 2017 à fin janvier\n",
+                "partners": {
+                    "intro": "mit",
+                    "others": "und unsere Support- und Aktionspartner\n"
+                },
+                "article": {
+                    "title": "Warum diese Konsultation?",
+                    "text": "Gewalt gegen Frauen steht im Mittelpunkt der politischen und medialen Berichterstattung. Die Einstellungen ändern sich. Aber alles beginnt jetzt. Es liegt an uns, dieses weit verbreitete Bewusstsein in konkrete Aktionen umzusetzen und eine entschlossene Antwort auf diese Plage zu geben.",
+                    "see-more": {
+                        "label": "Mehr dazu wissen.",
+                        "link": "https://stopvff.make.org/about-vff\n"
+                    }
+                }
+            }
+        },
+        "climatparis": {
+            "intro": {
+                "title": "Klima Paris",
+                "article": {
+                    "title": "Warum diese Konsultation?",
+                    "text": "Der Klimawandel steht im Mittelpunkt der politischen und internationalen Agenda. Die COP21 zeigte die Bereitschaft der politischen Entscheidungsträger, Fortschritte zu erzielen. Eine Änderung des Verhaltens jedes Bürgers ist jetzt notwendig: Es liegt an uns, das globale Bewusstsein in konkrete Ideen umzuwandeln, um unsere Beziehung zum Planeten zu verändern.\n",
+                    "see-more": {
+                        "label": "Mehr dazu wissen.",
+                        "link": "https://climatparis.make.org/about-climatparis\n"
+                    }
+                }
+            }
+        },
+        "lpae": {
+            "intro": {
+                "title": "Das Wort an die Studenten",
+                "partners": {
+                    "intro": "mit"
+                },
+                "article": {
+                    "title": "Warum diese Konsultation",
+                    "text": "In einer Gesellschaft, die zerrüttet, zerrüttet und sich ständig weiterentwickelt, ist diese Konsultation eine Gelegenheit für ich, auszudrücken, was Du ändern willst, deine Ideen für die Gesellschaft von morgen vorzuschlagen, die Umrisse der Welt zu zeichnen, in der Du leben willst. Du bist zwischen 18 und 28 Jahre alt, Du hast etwas zu sagen, es ist Zeit zu sagen.\n",
+                    "see-more": {
+                        "label": "Mehr dazu wissen",
+                        "link": "https://about.make.org/about-lpae\n"
+                    }
+                }
+            }
+        },
+        "mve": {
+            "intro": {
+                "label": "Große Sache Make.org\n",
+                "title": "Besser zusammenleben",
+                "partners": {
+                    "intro": "mit"
+                },
+                "article": {
+                    "title": "Warum diese Konsultation?",
+                    "text": "Les nouveaux modes de vie tendent à créer une fragmentation de la société en une multitude de groupes qui n'interagissent plus ensemble tandis que la solitude et l’isolement des citoyens sont des problématiques grandissantes. Ces évolutions mettent en péril notre capacité à “faire société” et nous poussent à imaginer ensemble de nouvelles manières de recréer du lien&nbsp;social.\n",
+                    "see-more": {
+                        "label": "Mehr dazu wissen",
+                        "link": "https://about.make.org/about-mieux-vivre-ensemble\n"
+                    }
+                }
+            }
+        },
+        "chance-aux-jeunes": {
+            "intro": {
+                "label": "Große Sache Make.org\n",
+                "title": "Eine Chance für jeden Jugendlichen",
+                "partners": {
+                    "intro": "mit"
+                },
+                "article": {
+                    "title": "Pourquoi cette consultation&nbsp;?",
+                    "text": "Précarité, chômage, inégalités, désamour du politique... La France ne semble plus offrir de place à ses jeunes. Cette fracture fragilise notre capacité à relever les défis collectifs futurs et nous pousse à imaginer ensemble un moyen d'offrir à chaque jeune une chance de se réaliser.\n",
+                    "see-more": {
+                        "label": "Mehr dazu wissen",
+                        "link": "https://about.make.org/about-chance-aux-jeunes\n"
+                    }
+                }
+            }
+        },
+        "results": {
+            "title": "Stimmen Sie über die Vorschläge ab.",
+            "see-more": "Mehr Vorschläge sehen",
+            "no-results": "Wir haben keine Ergebnisse <stark> gefunden, die Ihrer Auswahl an Schlagwörtern entsprechen. <br> Sie können andere Kombinationen von Schlagwörtern auswählen.\n"
+        },
+        "consultation-proposal": {
+            "title": "Schlagen Sie eine Lösung vor"
+        },
+        "proposal-form-in-header": {
+            "intro": "Schlagen Sie Ihre Lösungen zum Thema vor.",
+            "limit-of-chars-info": "8/140"
+        },
+        "submit-proposal": {
+            "intro": "Teilen Sie Ihren Vorschlag"
+        },
+        "sequence": {
+            "header": {
+                "total-of-proposals": "%{total} Vorschläge",
+                "total-of-proposals_1": "%{total} Vorschlag",
+                "back-cta": "Zum Vorgang gelangen",
+                "propose-cta": "Vorschlagen",
+                "guide": {
+                    "propose-cta": "Mit einem Klick auf diese Schaltfläche können Sie jederzeit eine Lösung vorschlagen.\n"
+                }
+            },
+            "link": {
+                "presentation": "Stimmen Sie über die letzten Vorschläge der Konsultation ab.",
+                "cta": "Teilnehmen"
+            }
+        }
+    },
+    "tags": {
+        "filter": {
+            "intro": "Nach Stichwort filtern:"
+        },
+        "list": {
+            "show-all": "alle Schlagwörter sehen",
+            "show-less": "weniger anzeigen"
+        }
+    },
+    "activate-account": {
+        "notifications": {
+            "success": "Erfolg",
+            "error-message": "Dieser Link ist leider nicht mehr gültig."
+        }
+    },
+    "authenticate": {
+        "forgot-password": {
+            "intro": "Ups, ich habe",
+            "link-support": "Passwort vergessen?\n"
+        },
+        "switch-to-register-screen": {
+            "intro": "Ich habe kein Konto,",
+            "link-support": "Ich erstelle eins"
+        },
+        "switch-to-login-screen": {
+            "intro": "Ich habe schon ein Konto!",
+            "link-support": "Anmeldung"
+        },
+        "back-to-login-screen": {
+            "intro": "Zurück",
+            "link-support": "zum Anmeldebildschirm"
+        },
+        "no-account-found": "Wir können kein Konto finden, das mit dieser E-Mail Adresse verknüpft ist.\n",
+        "no-email-found": "Ups! Ups! Ups! Wir können Sie nicht verbinden. Bitte versuchen Sie es erneut mit einer gültigen E-Mail Adresse.\n",
+        "error-message": "Etwas funktionierte nicht. Wenn das Problem weiterhin besteht, zögern Sie nicht, uns unter <a href=\"mailto:contact@make.org\">contact@make.org</a> zu kontaktieren.\n",
+        "inputs": {
+            "required": "(erforderlich)",
+            "email": {
+                "placeholder": "E-Mail",
+                "format-error-message": "Nicht erkanntes E-Mail-Format\n",
+                "empty-field-error-message": "Bitte füllen Sie dieses Feld aus."
+            },
+            "first-name": {
+                "placeholder": "Vorname",
+                "format-error-message": "Ungültiges Format",
+                "empty-field-error-message": "Bitte füllen Sie dieses Feld aus.\n"
+            },
+            "password": {
+                "placeholder": "Passwort",
+                "format-error-message": "Ihr Passwort muss mindestens %{min} Zeichen enthalten.",
+                "empty-field-error-message": "Bitte füllen Sie dieses Feld aus."
+            },
+            "age": {
+                "placeholder": "Alter",
+                "format-error-message": "Ungültiges Format."
+            },
+            "postal-code": {
+                "placeholder": "Postleitzahl",
+                "format-error-message": "Ungültiges Format"
+            },
+            "job": {
+                "placeholder": "Beruf",
+                "format-error-message": "Ungültiges Format"
+            }
+        },
+        "recover-password": {
+            "title": "Ich setze mein Passwort zurück",
+            "info": "Bitte geben Sie die E-Mail-Adresse ein, die mit Ihrem Konto verknüpft ist, um den Reset-Link zu erhalten.\n",
+            "send-cta": "E-Mail anfordern",
+            "error-message": {
+                "mail-not-found": "E-Mail-not-found"
+            },
+            "notifications": {
+                "success": "Vielen Dank, es wurde Ihnen gerade eine E-Mail geschickt, um Ihr Passwort zurückzusetzen.\n"
+            }
+        },
+        "reset-password": {
+            "title": "Ich erstelle ein neues Passwort",
+            "info": "Sie können ein neues Passwort auswählen.",
+            "send-cta": "bestätigen",
+            "success": {
+                "title": "Vielen Dank, Ihr Passwort wurde aktualisiert.\n",
+                "info": "Sie können sich jetzt einloggen.\n"
+            },
+            "failure": {
+                "title": "Dieser Link ist nicht mehr gültig."
+            },
+            "notifications": {
+                "error-message": "Ihr Passwort konnte nicht zurückgesetzt werden."
+            }
+        },
+        "register": {
+            "with-social-networks": {
+                "intro": "Ich registriere mit",
+                "separator": "oder"
+            },
+            "caution": "(Keine Sorge, wir werden nie etwas ohne Ihre Zustimmung veröffentlichen.)\n",
+            "separator": "oder",
+            "with-email-intro": "Ich melde mich mit einer E-Mail Adresse an.",
+            "with-email-intro-trigger": "Ich melde mich mit meiner E-Mail Adresse an, um über die zukünftigen Aktionen informiert zu werden.",
+            "with-email-actions-intro": "Ich melde mich mit meiner E-Mail Adresse an, um über den Beginn der Aktionen informiert zu werden.",
+            "terms": "Bedingungen",
+            "send-cta": "sich anmelden",
+            "error-message": {
+                "already-exists": "Dieses Konto existiert bereits, bitte melden Sie sich an.\n"
+            },
+            "notifications": {
+                "success": "Ihr Konto wurde erfolgreich erstellt. Vergessen Sie nicht, Ihre E-Mail-Adresse über den Link zu bestätigen, der Ihnen geschickt wurde - damit Sie es auch wirklich sind.\n"
+            }
+        },
+        "login": {
+            "with-social-networks-intro": "Ich logge mich ein mit",
+            "separator": "oder",
+            "with-email-intro": "Ich logge mich mit meiner E-Mail-Adresse ein",
+            "send-cta": "sich einloggen"
+        }
+    },
+    "main-footer": {
+        "menu": {
+            "item-2": {
+                "label": "Jobs",
+                "link": "https://about.make.org/jobs\n"
+            },
+            "item-3": {
+                "label": "Wer sind wir?",
+                "link": "https://about.make.org/wer-sind-wir\n"
+            },
+            "item-4": {
+                "label": "Pressebereich",
+                "link": "https://about.make.org/category/pressebereich\n"
+            },
+            "item-5": {
+                "label": "Rechtliche Hinweise",
+                "link": "https://about.make.org/rechtliche-hinweise\n"
+            },
+            "item-6": {
+                "label": "Nutzungsbedingungen",
+                "link": "https://about.make.org/nutzungsbedingungen\n"
+            },
+            "item-7": {
+                "label": "Datenschutzpolitik",
+                "link": "https://about.make.org/datenschutzpolitik\n"
+            },
+            "item-8": {
+                "label": "Kontakt",
+                "link": "https://about.make.org/kontakt\n"
+            }
+        }
+    }
+}
