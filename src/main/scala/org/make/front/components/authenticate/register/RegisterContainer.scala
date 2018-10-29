@@ -26,13 +26,16 @@ import io.github.shogowada.scalajs.reactjs.redux.{ContainerComponentFactory, Rea
 import org.make.front.actions.{LoggedInAction, NotifyInfo}
 import org.make.front.components.AppState
 import org.make.front.facades.I18n
-import org.make.front.models.{OperationId, User => UserModel}
+import org.make.front.models.{Operation, OperationExpanded, OperationId, Tag, User => UserModel}
+import org.make.services.operation.OperationService
+import org.make.services.tag.TagService
 import org.make.services.tracking.TrackingService
 import org.make.services.tracking.TrackingService.TrackingContext
 import org.make.services.user.UserService
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
+import scala.scalajs.js
 import scala.util.{Failure, Success}
 
 object RegisterContainer {
@@ -46,6 +49,17 @@ object RegisterContainer {
 
   def selector: ContainerComponentFactory[RegisterProps] = ReactRedux.connectAdvanced {
     dispatch => (appState: AppState, props: Props[RegisterUserProps]) =>
+      def getAdditionalFields: Seq[SignUpField] = props.wrapped.operationId match {
+        case Some(operationId) =>
+          appState.operations
+            .findById(operationId)
+            .flatMap(_.getOperationExpanded(country = appState.country).map(_.additionalFields)) match {
+            case None         => Seq.empty
+            case Some(values) => values
+          }
+        case _ => Seq.empty
+      }
+
       def register(): (RegisterState) => Future[UserModel] = { state =>
         val future = UserService
           .registerUser(
@@ -57,7 +71,9 @@ object RegisterContainer {
             age = state.fields.get("age").map(_.toInt),
             operationId = props.wrapped.operationId,
             country = appState.country,
-            language = appState.language
+            language = appState.language,
+            gender = state.fields.get("gender"),
+            socioProfessionalCategory = state.fields.get("socioProfessionalCategory")
           )
           .flatMap { _ =>
             UserService.login(state.fields("email"), state.fields("password"))
@@ -92,7 +108,8 @@ object RegisterContainer {
         trackingContext = props.wrapped.trackingContext,
         trackingParameters = props.wrapped.trackingParameters,
         trackingInternalOnlyParameters = props.wrapped.trackingInternalOnlyParameters,
-        register = register()
+        register = register(),
+        additionalFields = getAdditionalFields
       )
   }
 

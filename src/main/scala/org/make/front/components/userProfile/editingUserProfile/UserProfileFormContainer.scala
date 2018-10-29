@@ -60,10 +60,8 @@ object UserProfileFormContainer {
           ),
           (
             "description",
-            new LengthConstraint(min = Some(15), max = Some(450)),
+            new LengthConstraint(max = Some(450)),
             Map(
-              "minMessage" -> I18n
-                .t("user-profile.form.inputs.min-error-message", replacements = Replacements(("min", "15"))),
               "maxMessage" -> I18n
                 .t("user-profile.form.inputs.max-error-message", replacements = Replacements(("max", "450")))
             )
@@ -95,7 +93,9 @@ object UserProfileFormContainer {
               age = self.state.fields.get("age"),
               profession = self.state.fields.get("profession"),
               postalCode = self.state.fields.get("postalCode"),
-              description = self.state.fields.get("description")
+              description = self.state.fields.get("description"),
+              gender = self.state.fields.get("gender"),
+              socioProfessionalCategory = self.state.fields.get("socioProfessionalCategory")
             )
             .onComplete {
               case Success(_) =>

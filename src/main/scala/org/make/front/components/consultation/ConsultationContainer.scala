@@ -32,7 +32,6 @@ import org.make.front.components.operation.WaitingForOperation
 import org.make.front.components.{AppState, DataLoader}
 import org.make.front.helpers.Normalizer
 import org.make.front.models.{OperationExpanded, OperationStaticData, Tag, Operation => OperationModel}
-import org.make.services.operation.OperationService
 import org.make.services.tag.TagService
 import org.scalajs.dom
 

@@ -59,6 +59,8 @@ trait ProfileResponse extends js.Object {
   val karmaLevel: js.UndefOr[Int]
   val locale: js.UndefOr[String]
   val optInNewsletter: Boolean
+  val gender: js.UndefOr[String]
+  val socioProfessionalCategory: js.UndefOr[String]
 }
 
 @js.native

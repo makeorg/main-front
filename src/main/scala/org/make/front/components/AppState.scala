@@ -21,7 +21,6 @@
 package org.make.front.components
 
 import org.make.front.models.{
-  Operation,
   OperationList,
   BusinessConfiguration => BusinessConfigurationModel,
   PoliticalAction       => PoliticalActionModel,

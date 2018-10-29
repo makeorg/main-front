@@ -31,7 +31,9 @@ final case class RegisterUserRequest(email: String,
                                      lastName: Option[String] = None,
                                      dateOfBirth: Option[String] = None,
                                      profession: Option[String] = None,
-                                     postalCode: Option[String] = None)
+                                     postalCode: Option[String] = None,
+                                     gender: Option[String],
+                                     socioProfessionalCategory: Option[String])
 @js.native
 trait JsRegisterUserRequest extends js.Object {
   val email: String
@@ -43,6 +45,8 @@ trait JsRegisterUserRequest extends js.Object {
   val dateOfBirth: js.UndefOr[String]
   val profession: js.UndefOr[String]
   val postalCode: js.UndefOr[String]
+  val gender: js.UndefOr[String]
+  val socioProfessionalCategory: js.UndefOr[String]
 }
 
 object JsRegisterUserRequest {
@@ -57,7 +61,9 @@ object JsRegisterUserRequest {
         lastName = registerUserRequest.lastName.orUndefined,
         dateOfBirth = registerUserRequest.dateOfBirth.map(_.toString).orUndefined,
         profession = registerUserRequest.profession.orUndefined,
-        postalCode = registerUserRequest.postalCode.orUndefined
+        postalCode = registerUserRequest.postalCode.orUndefined,
+        gender = registerUserRequest.gender.orUndefined,
+        socioProfessionalCategory = registerUserRequest.socioProfessionalCategory.orUndefined
       )
       .asInstanceOf[JsRegisterUserRequest]
   }
@@ -73,7 +79,9 @@ final case class UpdateUserRequest(firstName: Option[String] = None,
                                    description: Option[String] = None,
                                    optInNewsletter: Option[Boolean],
                                    language: Option[String],
-                                   country: Option[String])
+                                   country: Option[String],
+                                   gender: Option[String] = None,
+                                   socioProfessionalCategory: Option[String] = None)
 @js.native
 trait JsUpdateUserRequest extends js.Object {
   val firstName: js.UndefOr[String]
@@ -87,6 +95,8 @@ trait JsUpdateUserRequest extends js.Object {
   val language: js.UndefOr[String]
   val country: js.UndefOr[String]
   val description: js.UndefOr[String]
+  val gender: js.UndefOr[String]
+  val socioProfessionalCategory: js.UndefOr[String]
 }
 
 object JsUpdateUserRequest {
@@ -103,7 +113,9 @@ object JsUpdateUserRequest {
         optInNewsletter = updateUserRequest.optInNewsletter.orUndefined,
         country = updateUserRequest.country.orUndefined,
         language = updateUserRequest.language.orUndefined,
-        description = updateUserRequest.description.orUndefined
+        description = updateUserRequest.description.orUndefined,
+        gender = updateUserRequest.gender.orUndefined,
+        socioProfessionalCategory = updateUserRequest.socioProfessionalCategory.orUndefined
       )
       .asInstanceOf[JsUpdateUserRequest]
   }

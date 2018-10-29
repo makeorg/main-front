@@ -82,7 +82,12 @@ object G9OperationStaticData extends StaticDataOfOperation {
       OperationPartner(name = "CroissancePlus", imageUrl = croissancePlusLogo.toString, isFounder = true)
     ),
     operationTypeRibbon = None,
-    featureSettings = FeatureSettings(action = false, share = true)
+    featureSettings = FeatureSettings(action = false, share = true),
+    initiators = js.Array(
+      OperationInitiator(name = "G9+", imageUrl = g9PlusLogo.toString),
+      OperationInitiator(name = "Roland Berger", imageUrl = rolandBergerLogo.toString),
+      OperationInitiator(name = "CroissancePlus", imageUrl = croissancePlusLogo.toString)
+    )
   )
 }
 

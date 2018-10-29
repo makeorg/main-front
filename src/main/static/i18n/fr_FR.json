@@ -157,7 +157,6 @@
       "cta": "Enregistrer les modifications",
       "inputs": {
         "max-error-message": "Votre message doit être inférieur à %{max} caractères.",
-        "min-error-message": "Votre message doit être supérieurs à %{min} caractères.",
         "char": "caractères",
         "format-error-message": "Format invalide",
         "empty-field-error-message": "Veuillez renseigner ce&nbsp;champ.",
@@ -178,6 +177,12 @@
         },
         "organisation-name": {
           "label": "Nom"
+        },
+        "gender": {
+          "label": "Sexe"
+        },
+        "csp": {
+          "label": "Catégorie Socio-Professionnelle"
         }
       }
     },
@@ -594,6 +599,15 @@
         "placeholder": "Âge",
         "format-error-message": "Format invalide"
       },
+      "gender": {
+        "placeholder": "Sexe",
+        "format-error-message": "Valeur invalide",
+        "values": {
+          "M": "Homme",
+          "F": "Femme",
+          "O": "Autre"
+        }
+      },
       "postal-code": {
         "placeholder": "Code postal",
         "format-error-message": "Format invalide"
@@ -601,6 +615,19 @@
       "job": {
         "placeholder": "Profession",
         "format-error-message": "Format invalide"
+      },
+      "csp": {
+        "placeholder": "Catégorie Socio-Professionnelle",
+        "format-error-message": "Valeur invalide",
+        "values": {
+          "FARM": "Agriculteurs exploitants",
+          "AMCD": "Artisans, Commerçants, Chef d’entreprise",
+          "MHIO": "Cadres et professions intellectuelles supérieures",
+          "INPR": "Professions intermédiaires",
+          "EMPL": "Employés",
+          "WORK": "Ouvriers",
+          "O": "Autre"
+        }
       }
     },
     "recover-password": {

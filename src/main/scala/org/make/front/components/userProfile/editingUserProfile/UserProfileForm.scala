@@ -29,7 +29,8 @@ import org.make.front.Main.CssSettings._
 import org.make.front.components.Components._
 import org.make.front.facades.I18n
 import org.make.front.facades.Unescape.unescape
-import org.make.front.models.{User => UserModel}
+import org.make.front.models.Gender.{Female, Male, Other}
+import org.make.front.models.{SocioProfessionalCategory, User => UserModel}
 import org.make.front.styles.ui.{CTAStyles, InputStyles}
 import org.make.front.styles.vendors.FontAwesomeStyles
 import org.scalajs.dom.raw.HTMLInputElement
@@ -47,7 +48,9 @@ object UserProfileForm {
   final case class UserProfileFormState(fields: Map[String, String],
                                         errors: Map[String, String],
                                         message: String = "",
-                                        isEdited: Boolean)
+                                        isEdited: Boolean,
+                                        displayGender: Boolean = false,
+                                        displayCsp: Boolean = false)
 
   val reactClass: ReactClass =
     React
@@ -57,6 +60,8 @@ object UserProfileForm {
           UserProfileFormState(fields = Map(), errors = Map(), isEdited = false)
         },
         componentWillReceiveProps = { (self, props) =>
+          val genderNonEmpty: Boolean = props.wrapped.user.profile.flatMap(_.gender).nonEmpty
+          val cspNonEmpty: Boolean = props.wrapped.user.profile.flatMap(_.socioProfessionalCategory).nonEmpty
           self.setState(
             _.copy(
               fields = Map(
@@ -75,8 +80,14 @@ object UserProfileForm {
                   .getOrElse(""),
                 "description" -> props.wrapped.user.profile
                   .flatMap(_.description)
+                  .getOrElse(""),
+                "gender" -> props.wrapped.user.profile.flatMap(_.gender.map(_.shortName)).getOrElse(""),
+                "socioProfessionalCategory" -> props.wrapped.user.profile
+                  .flatMap(_.socioProfessionalCategory.map(_.shortName))
                   .getOrElse("")
-              )
+              ),
+              displayCsp = cspNonEmpty,
+              displayGender = genderNonEmpty
             )
           )
         },
@@ -120,9 +131,49 @@ object UserProfileForm {
                   )()
                 )
               ),
-              if (self.state.errors.getOrElse("firstName", "") != "") {
+              if (self.state.errors.getOrElse("firstName", "").nonEmpty) {
                 <.p(^.className := js.Array(InputStyles.errorMessage, EditingUserProfileStyles.inlineMessage))(
                   unescape(self.state.errors.getOrElse("firstName", ""))
+                )
+              },
+              if (self.state.displayGender) {
+                Seq(
+                  <.div(^.className := EditingUserProfileStyles.inputGroup)(
+                    <.label(
+                      ^.`for` := s"gender",
+                      ^.className := js.Array(EditingUserProfileStyles.inputLabel, EditingUserProfileStyles.label)
+                    )(I18n.t("user-profile.form.inputs.gender.label")),
+                    <.div(
+                      ^.className := js
+                        .Array(EditingUserProfileStyles.inputField, EditingUserProfileStyles.genderInputWithIconWrapper)
+                    )(
+                      <.select(
+                        ^.className := js.Array(
+                          EditingUserProfileStyles.selectInput,
+                          EditingUserProfileStyles.firstOption(self.state.fields.getOrElse("gender", "").isEmpty)
+                        ),
+                        ^.required := false,
+                        ^.onChange := updateField("gender"),
+                        ^.value := self.state.fields.getOrElse("gender", "")
+                      )(
+                        <.option(^.value := "")(""),
+                        <.option(^.value := Male.shortName)(
+                          I18n.t(s"authenticate.inputs.gender.values.${Male.shortName}")
+                        ),
+                        <.option(^.value := Female.shortName)(
+                          I18n.t(s"authenticate.inputs.gender.values.${Female.shortName}")
+                        ),
+                        <.option(^.value := Other.shortName)(
+                          I18n.t(s"authenticate.inputs.gender.values.${Other.shortName}")
+                        )
+                      )
+                    )
+                  ),
+                  if (self.state.errors.getOrElse("gender", "").nonEmpty) {
+                    <.p(^.className := js.Array(InputStyles.errorMessage, EditingUserProfileStyles.inlineMessage))(
+                      unescape(self.state.errors.getOrElse("gender", ""))
+                    )
+                  }
                 )
               },
               <.div(^.className := EditingUserProfileStyles.inputGroup)(
@@ -145,33 +196,100 @@ object UserProfileForm {
                   )()
                 )
               ),
-              if (self.state.errors.getOrElse("age", "") != "") {
+              if (self.state.errors.getOrElse("age", "").nonEmpty) {
                 <.p(^.className := js.Array(InputStyles.errorMessage, EditingUserProfileStyles.inlineMessage))(
                   unescape(self.state.errors.getOrElse("age", ""))
                 )
               },
-              <.div(^.className := EditingUserProfileStyles.inputGroup)(
-                <.label(
-                  ^.`for` := s"profession",
-                  ^.className := js.Array(EditingUserProfileStyles.inputLabel, EditingUserProfileStyles.label)
-                )(I18n.t("user-profile.form.inputs.profession.label")),
-                <.div(
-                  ^.className := js
-                    .Array(EditingUserProfileStyles.inputField, EditingUserProfileStyles.professionInputWithIconWrapper)
-                )(
-                  <.input(
-                    ^.id := s"profession",
-                    ^.`type`.text,
-                    ^.required := false,
-                    ^.value := self.state.fields
-                      .getOrElse("profession", ""),
-                    ^.onChange := updateField("profession")
-                  )()
+              if (self.state.displayCsp) {
+                Seq(
+                  <.div(^.className := EditingUserProfileStyles.inputGroup)(
+                    <.label(
+                      ^.`for` := s"socioProfessionalCategory",
+                      ^.className := js.Array(EditingUserProfileStyles.inputLabel, EditingUserProfileStyles.label)
+                    )(I18n.t("user-profile.form.inputs.csp.label")),
+                    <.div(
+                      ^.className := js
+                        .Array(EditingUserProfileStyles.inputField, EditingUserProfileStyles.cspInputWithIconWrapper)
+                    )(
+                      <.select(
+                        ^.className := js.Array(
+                          EditingUserProfileStyles.selectInput,
+                          EditingUserProfileStyles
+                            .firstOption(self.state.fields.getOrElse("socioProfessionalCategory", "").isEmpty)
+                        ),
+                        ^.required := false,
+                        ^.onChange := updateField("socioProfessionalCategory"),
+                        ^.value := self.state.fields.getOrElse("socioProfessionalCategory", "")
+                      )(
+                        <.option(^.value := "")(""),
+                        <.option(^.value := SocioProfessionalCategory.Farmers.shortName)(
+                          I18n.t(s"authenticate.inputs.csp.values.${SocioProfessionalCategory.Farmers.shortName}")
+                        ),
+                        <.option(^.value := SocioProfessionalCategory.ArtisansMerchantsCompanyDirector.shortName)(
+                          I18n.t(
+                            s"authenticate.inputs.csp.values.${SocioProfessionalCategory.ArtisansMerchantsCompanyDirector.shortName}"
+                          )
+                        ),
+                        <.option(
+                          ^.value := SocioProfessionalCategory.ManagersAndHigherIntellectualOccupations.shortName
+                        )(
+                          I18n.t(
+                            s"authenticate.inputs.csp.values.${SocioProfessionalCategory.ManagersAndHigherIntellectualOccupations.shortName}"
+                          )
+                        ),
+                        <.option(^.value := SocioProfessionalCategory.IntermediateProfessions.shortName)(
+                          I18n.t(
+                            s"authenticate.inputs.csp.values.${SocioProfessionalCategory.IntermediateProfessions.shortName}"
+                          )
+                        ),
+                        <.option(^.value := SocioProfessionalCategory.Employee.shortName)(
+                          I18n.t(s"authenticate.inputs.csp.values.${SocioProfessionalCategory.Employee.shortName}")
+                        ),
+                        <.option(^.value := SocioProfessionalCategory.Workers.shortName)(
+                          I18n.t(s"authenticate.inputs.csp.values.${SocioProfessionalCategory.Workers.shortName}")
+                        ),
+                        <.option(^.value := SocioProfessionalCategory.Other.shortName)(
+                          I18n.t(s"authenticate.inputs.csp.values.${SocioProfessionalCategory.Other.shortName}")
+                        )
+                      )
+                    )
+                  ),
+                  if (self.state.errors.getOrElse("socioProfessionalCategory", "").nonEmpty) {
+                    <.p(^.className := js.Array(InputStyles.errorMessage, EditingUserProfileStyles.inlineMessage))(
+                      unescape(self.state.errors.getOrElse("socioProfessionalCategory", ""))
+                    )
+                  }
                 )
-              ),
-              if (self.state.errors.getOrElse("profession", "") != "") {
-                <.p(^.className := js.Array(InputStyles.errorMessage, EditingUserProfileStyles.inlineMessage))(
-                  unescape(self.state.errors.getOrElse("profession", ""))
+              } else {
+                Seq(
+                  <.div(^.className := EditingUserProfileStyles.inputGroup)(
+                    <.label(
+                      ^.`for` := s"profession",
+                      ^.className := js.Array(EditingUserProfileStyles.inputLabel, EditingUserProfileStyles.label)
+                    )(I18n.t("user-profile.form.inputs.profession.label")),
+                    <.div(
+                      ^.className := js
+                        .Array(
+                          EditingUserProfileStyles.inputField,
+                          EditingUserProfileStyles.professionInputWithIconWrapper
+                        )
+                    )(
+                      <.input(
+                        ^.id := s"profession",
+                        ^.`type`.text,
+                        ^.required := false,
+                        ^.value := self.state.fields
+                          .getOrElse("profession", ""),
+                        ^.onChange := updateField("profession")
+                      )()
+                    )
+                  ),
+                  if (self.state.errors.getOrElse("profession", "").nonEmpty) {
+                    <.p(^.className := js.Array(InputStyles.errorMessage, EditingUserProfileStyles.inlineMessage))(
+                      unescape(self.state.errors.getOrElse("profession", ""))
+                    )
+                  }
                 )
               },
               <.div(^.className := EditingUserProfileStyles.inputGroup)(
@@ -193,7 +311,7 @@ object UserProfileForm {
                   )()
                 )
               ),
-              if (self.state.errors.getOrElse("postalCode", "") != "") {
+              if (self.state.errors.getOrElse("postalCode", "").nonEmpty) {
                 <.p(^.className := js.Array(InputStyles.errorMessage, EditingUserProfileStyles.inlineMessage))(
                   unescape(self.state.errors.getOrElse("postalCode", ""))
                 )
@@ -232,7 +350,7 @@ object UserProfileForm {
                   )()
                 )
               ),
-              if (self.state.errors.getOrElse("description", "") != "") {
+              if (self.state.errors.getOrElse("description", "").nonEmpty) {
                 <.p(^.className := js.Array(InputStyles.errorMessage, EditingUserProfileStyles.inlineMessage))(
                   unescape(self.state.errors.getOrElse("description", ""))
                 )
@@ -240,7 +358,7 @@ object UserProfileForm {
               <.div(^.className := js.Array(EditingUserProfileStyles.buttonGroup, EditingUserProfileStyles.success))(
                 self.state.message
               ),
-              if (self.state.errors.getOrElse("global", "") != "") {
+              if (self.state.errors.getOrElse("global", "").nonEmpty) {
                 <.p(^.className := js.Array(EditingUserProfileStyles.buttonGroup, InputStyles.errorMessage))(
                   unescape(self.state.errors.getOrElse("global", ""))
                 )

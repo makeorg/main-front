@@ -55,10 +55,8 @@ object OrganisationProfileFormContainer {
           ),
           (
             "description",
-            new LengthConstraint(min = Some(15), max = Some(450)),
+            new LengthConstraint(max = Some(450)),
             Map(
-              "minMessage" -> I18n
-                .t("user-profile.form.inputs.min-error-message", replacements = Replacements(("min", "15"))),
               "maxMessage" -> I18n
                 .t("user-profile.form.inputs.max-error-message", replacements = Replacements(("max", "450")))
             )
