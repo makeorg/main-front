@@ -85,3 +85,54 @@ object G9OperationStaticData extends StaticDataOfOperation {
     featureSettings = FeatureSettings(action = false, share = true)
   )
 }
+
+object G9DEOperationStaticData extends StaticDataOfOperation {
+  override val data: OperationStaticData =
+    G9OperationStaticData.data.copy(
+      country = "DE",
+      wording = js.Array(
+        OperationWording(
+          language = "de",
+          title = "Wie kann man europäische digitale Champions hervorbringen?",
+          question = "Wie kann man europäische digitale Champions hervorbringen?",
+          learnMoreUrl = Some("https://about.make.org/about-digital-champions-de"),
+          presentation = Some(
+            """Die Europawahlen bieten eine enorme Chance für ein großes europäisches digitales Erwachen. Wie kann man
+              | die europäischen Digitalmeister hervorheben? Zum ersten Mal werden das G9+ Institut, Roland Berger,
+              | Croissance+ und Make.org die französischen und deutschen Bürger zu diesem Thema massiv mobilisieren, um
+              | ein unveröffentlichtes Weißbuch zu schreiben, die erste echte Bürger-Roadmap zu diesem Thema.""".stripMargin
+          ),
+          registerTitle = Some("Ich melde mich mit meiner E-Mail Adresse an.")
+        )
+      ),
+      shareUrl =
+        "/DE/consultation/european-digital-champions/selection_UTM_&language=fr#/DE/consultation/european-digital-champions/selection",
+      extraSlides = (params: OperationExtraSlidesParams) => {
+        js.Array(
+          Slides.displaySequenceIntroCard(
+            params,
+            introWording = OperationIntroWording(
+              title = Some("Tausende Europäer schlagen Lösungen vor."),
+              explanation1 = Some("Nehmen Sie Stellung und schlagen Sie Ihre eigenen vor."),
+              explanation2 = None,
+              partners = js.Array(
+                OperationIntroPartner(name = "G9+", imageUrl = g9PlusLogo.toString),
+                OperationIntroPartner(name = "Roland Berger", imageUrl = rolandBergerLogo.toString),
+                OperationIntroPartner(name = "CroissancePlus", imageUrl = croissancePlusLogo.toString)
+              )
+            )
+          ),
+          Slides.displaySignUpCard(
+            params = params,
+            displayed = !params.isConnected,
+            registerTitle = Some("Bleiben Sie über die Ergebnisse der Konsultation informiert."),
+            nextCta = Some("Nein danke, ich möchte nicht über die Ergebnisse informiert werden.")
+          ),
+          Slides.displayProposalPushCard(params),
+          Slides.redirectToConsultationCard(params, onFocus = () => {
+            params.closeSequence()
+          })
+        )
+      }
+    )
+}

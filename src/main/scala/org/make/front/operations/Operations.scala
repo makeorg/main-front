@@ -52,6 +52,7 @@ object Operations {
     AinesOperationStaticData.data,
     NiceMatinOperationStaticData.data,
     G9OperationStaticData.data,
+    G9DEOperationStaticData.data,
     MIPIMFROperationStaticData.data,
     JeunesHdfOperationStaticData.data
   )
