@@ -92,8 +92,6 @@ object AinesOperationStaticData extends StaticDataOfOperation {
           isFounder = false
         )
       ),
-    featureSettings = FeatureSettings(action = true, share = true),
-    additionalFields =
-      Seq(SignUpField.FirstName, SignUpField.Age, SignUpField.PostalCode, SignUpField.Csp, SignUpField.Gender)
+    featureSettings = FeatureSettings(action = true, share = true)
   )
 }
