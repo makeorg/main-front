@@ -165,7 +165,8 @@ object PromptingToConnect {
                     operationId = Some(self.props.wrapped.operation.operationId),
                     registerTitle = self.props.wrapped.operation.wordings
                       .find(_.language == self.props.wrapped.language)
-                      .flatMap(_.registerTitle)
+                      .flatMap(_.registerTitle),
+                    questionId = self.props.wrapped.operation.questionId
                   )
                 )()
               ),

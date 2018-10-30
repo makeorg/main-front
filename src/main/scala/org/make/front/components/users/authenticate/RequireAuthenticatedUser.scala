@@ -26,7 +26,7 @@ import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import io.github.shogowada.scalajs.reactjs.elements.ReactElement
 import org.make.front.components.Components._
 import org.make.front.components.authenticate.LoginOrRegister.LoginOrRegisterProps
-import org.make.front.models.OperationId
+import org.make.front.models.{OperationId, QuestionId}
 import org.make.services.tracking.TrackingService.TrackingContext
 
 object RequireAuthenticatedUser {
@@ -40,7 +40,8 @@ object RequireAuthenticatedUser {
                                            defaultView: String = "register",
                                            onceConnected: () => Unit,
                                            isConnected: Boolean,
-                                           registerTitle: Option[String])
+                                           registerTitle: Option[String],
+                                           questionId: Option[QuestionId])
   type RequireAuthenticatedUserState = Unit
 
   val reactClass: ReactClass =
@@ -75,7 +76,8 @@ object RequireAuthenticatedUser {
                 registerView = props.registerView,
                 displayView = props.defaultView,
                 onSuccessfulLogin = () => {},
-                registerTitle = props.registerTitle
+                registerTitle = props.registerTitle,
+                questionId = self.props.wrapped.questionId
               )
             )()
           )

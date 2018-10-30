@@ -113,7 +113,12 @@ object TriggerSignUp {
               onSuccessfulLogin = () => {
                 self.setState(_.copy(isAuthenticateModalOpened = false, voteLocation = None))
               },
-              registerTitle = self.state.registerTitle
+              registerTitle = self.state.registerTitle,
+              questionId = maybeOperationId.flatMap { id =>
+                self.props.wrapped.operations
+                  .findById(id)
+                  .flatMap(_.getOperationExpanded(country = self.props.wrapped.country).flatMap(_.questionId))
+              }
             )
           )()
         )

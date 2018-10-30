@@ -87,7 +87,6 @@ object JeunesHdfOperationStaticData extends StaticDataOfOperation {
     additionalFields = Seq(
       SignUpField.FirstName,
       SignUpField.Age,
-      SignUpField.Job,
       SignUpField.PostalCode,
       SignUpField.Csp,
       SignUpField.Gender,

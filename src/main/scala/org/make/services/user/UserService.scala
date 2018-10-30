@@ -53,7 +53,8 @@ object UserService extends ApiService {
                    country: String,
                    gender: Option[String],
                    socioProfessionalCategory: Option[String],
-                   optInPartner: Option[Boolean]): Future[User] = {
+                   optInPartner: Option[Boolean],
+                   questionId: Option[QuestionId]): Future[User] = {
 
     val headers = MakeApiClient.getDefaultHeaders ++ operationId.map(op => MakeApiClient.operationHeader -> op.value)
     MakeApiClient
@@ -72,7 +73,9 @@ object UserService extends ApiService {
               language = language,
               gender = gender,
               socioProfessionalCategory = socioProfessionalCategory,
-              optInPartner = optInPartner
+              optInPartner = optInPartner,
+              operationId = operationId,
+              questionId = questionId
             )
           )
         ),

@@ -27,7 +27,7 @@ import io.github.shogowada.scalajs.reactjs.redux.ReactRedux
 import io.github.shogowada.scalajs.reactjs.redux.Redux.Dispatch
 import org.make.front.components.AppState
 import org.make.front.components.users.authenticate.RequireAuthenticatedUser.RequireAuthenticatedUserProps
-import org.make.front.models.OperationId
+import org.make.front.models.{OperationId, QuestionId}
 import org.make.services.tracking.TrackingService.TrackingContext
 
 object RequireAuthenticatedUserContainer {
@@ -39,7 +39,8 @@ object RequireAuthenticatedUserContainer {
                                                     intro: ReactElement,
                                                     registerView: String,
                                                     defaultView: String = "register",
-                                                    onceConnected: () => Unit)
+                                                    onceConnected: () => Unit,
+                                                    maybeQuestionId: Option[QuestionId])
 
   val reactClass: ReactClass = ReactRedux.connectAdvanced {
     _: Dispatch => (state: AppState, props: Props[RequireAuthenticatedUserContainerProps]) =>
@@ -63,7 +64,8 @@ object RequireAuthenticatedUserContainer {
         registerView = props.wrapped.registerView,
         defaultView = props.wrapped.defaultView,
         onceConnected = props.wrapped.onceConnected,
-        isConnected = state.connectedUser.isDefined
+        isConnected = state.connectedUser.isDefined,
+        questionId = props.wrapped.maybeQuestionId
       )
 
   }(RequireAuthenticatedUser.reactClass)
