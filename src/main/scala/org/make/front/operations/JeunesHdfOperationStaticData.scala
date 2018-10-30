@@ -20,6 +20,7 @@
 
 package org.make.front.operations
 
+import org.make.front.components.authenticate.register.SignUpField
 import org.make.front.facades.{hdfLogo, jeunesHdfLogo}
 import org.make.front.models._
 
@@ -82,6 +83,8 @@ object JeunesHdfOperationStaticData extends StaticDataOfOperation {
       js.Array(OperationPartner(name = "Région Hauts-de-France", imageUrl = hdfLogo.toString, isFounder = true)),
     operationTypeRibbon = None,
     featureSettings = FeatureSettings(action = false, share = true),
-    initiators = js.Array(OperationInitiator(name = "Région Hauts-de-France", imageUrl = hdfLogo.toString))
+    initiators = js.Array(OperationInitiator(name = "Région Hauts-de-France", imageUrl = hdfLogo.toString)),
+    additionalFields =
+      Seq(SignUpField.FirstName, SignUpField.Age, SignUpField.PostalCode, SignUpField.Csp, SignUpField.Gender)
   )
 }
