@@ -33,7 +33,8 @@ final case class RegisterUserRequest(email: String,
                                      profession: Option[String] = None,
                                      postalCode: Option[String] = None,
                                      gender: Option[String],
-                                     socioProfessionalCategory: Option[String])
+                                     socioProfessionalCategory: Option[String],
+                                     optInPartner: Option[Boolean] = None)
 @js.native
 trait JsRegisterUserRequest extends js.Object {
   val email: String
@@ -47,6 +48,7 @@ trait JsRegisterUserRequest extends js.Object {
   val postalCode: js.UndefOr[String]
   val gender: js.UndefOr[String]
   val socioProfessionalCategory: js.UndefOr[String]
+  val optInPartner: js.UndefOr[Boolean]
 }
 
 object JsRegisterUserRequest {
@@ -63,7 +65,8 @@ object JsRegisterUserRequest {
         profession = registerUserRequest.profession.orUndefined,
         postalCode = registerUserRequest.postalCode.orUndefined,
         gender = registerUserRequest.gender.orUndefined,
-        socioProfessionalCategory = registerUserRequest.socioProfessionalCategory.orUndefined
+        socioProfessionalCategory = registerUserRequest.socioProfessionalCategory.orUndefined,
+        optInPartner = registerUserRequest.optInPartner.orUndefined
       )
       .asInstanceOf[JsRegisterUserRequest]
   }

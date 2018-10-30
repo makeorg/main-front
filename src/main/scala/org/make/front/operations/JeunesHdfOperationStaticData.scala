@@ -84,7 +84,21 @@ object JeunesHdfOperationStaticData extends StaticDataOfOperation {
     operationTypeRibbon = None,
     featureSettings = FeatureSettings(action = false, share = true),
     initiators = js.Array(OperationInitiator(name = "Région Hauts-de-France", imageUrl = hdfLogo.toString)),
-    additionalFields =
-      Seq(SignUpField.FirstName, SignUpField.Age, SignUpField.PostalCode, SignUpField.Csp, SignUpField.Gender)
+    additionalFields = Seq(
+      SignUpField.FirstName,
+      SignUpField.Age,
+      SignUpField.Job,
+      SignUpField.PostalCode,
+      SignUpField.Csp,
+      SignUpField.Gender,
+      SignUpField.PartnerOptIn(
+        labels = Seq(
+          SignUpField.PartnerOptInLabel(
+            language = "fr",
+            label = "J'autorise la région Hauts-de-France à me recontacter dans le cadre de cette opération."
+          )
+        )
+      )
+    )
   )
 }
