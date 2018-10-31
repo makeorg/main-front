@@ -19,7 +19,13 @@
  */
 
 package org.make.front.operations
-import org.make.front.facades.{croissancePlusLogo, europeanDigitalChampionsLogoWhite, g9PlusLogo, rolandBergerLogo}
+import org.make.front.facades.{
+  croissancePlusLogo,
+  europeanDigitalChampionsLogoWhite,
+  europeanDigitalChampionsLogoWhiteDE,
+  g9PlusLogo,
+  rolandBergerLogo
+}
 import org.make.front.models._
 
 import scala.scalajs.js
@@ -55,8 +61,8 @@ object G9OperationStaticData extends StaticDataOfOperation {
         Slides.displaySequenceIntroCard(
           params,
           introWording = OperationIntroWording(
-            title = Some("Des milliers de citoyens européens proposent des solutions."),
-            explanation2 = None,
+            title = Some("Aidez nous à faire émerger des champions européens du numérique"),
+            explanation2 = Some("#entrepreneuriat #attractivité #transformation #fiscalité"),
             partners = js.Array(
               OperationIntroPartner(name = "G9+", imageUrl = g9PlusLogo.toString),
               OperationIntroPartner(name = "Roland Berger", imageUrl = rolandBergerLogo.toString),
@@ -110,6 +116,8 @@ object G9DEOperationStaticData extends StaticDataOfOperation {
           registerTitle = Some("Ich melde mich mit meiner E-Mail Adresse an.")
         )
       ),
+      logoUrl = europeanDigitalChampionsLogoWhiteDE.toString,
+      whiteLogoUrl = europeanDigitalChampionsLogoWhiteDE.toString,
       shareUrl =
         "/DE/consultation/european-digital-champions/selection_UTM_&language=fr#/DE/consultation/european-digital-champions/selection",
       extraSlides = (params: OperationExtraSlidesParams) => {

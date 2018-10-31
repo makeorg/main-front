@@ -901,6 +901,10 @@ object niceMatin extends js.Object
 object europeanDigitalChampionsLogoWhite extends js.Object
 
 @js.native
+@JSImport("./images/operations/european-digital-champions/european-digital-champions-logo-white-de.svg", "default")
+object europeanDigitalChampionsLogoWhiteDE extends js.Object
+
+@js.native
 @JSImport("./images/operations/european-digital-champions/partners/croissance-plus.svg", "default")
 object croissancePlusLogo extends js.Object
 
