@@ -33,6 +33,7 @@ import org.make.front.components.consultation.ConsultationProposal.ConsultationP
 import org.make.front.components.consultation.ConsultationShare.ConsultationShareProps
 import org.make.front.components.consultation.ConsultationShareMobile.ConsultationShareMobileProps
 import org.make.front.components.consultation.ResultsInConsultationContainer.ResultsInConsultationContainerProps
+import org.make.front.components.mainFooter.AltFooter.AltFooterProps
 import org.make.front.models.{OperationWording, Location => LocationModel, OperationExpanded => OperationModel}
 import org.make.front.styles.ThemeStyles
 import org.make.front.styles.base.RWDRulesLargeMediumStyles
@@ -47,12 +48,10 @@ object ConsultationSection {
   lazy val reactClass: ReactClass =
     WithRouter(
       React
-        .createClass[ConsultationSectionProps, Unit](
-          displayName = "ConsultationSection",
-          componentDidMount = { _ =>
-            AffixMethods.sidebarAffixrAF()
-          },
-          render = { self =>
+        .createClass[ConsultationSectionProps, Unit](displayName = "ConsultationSection", componentDidMount = { _ =>
+          AffixMethods.sidebarAffixrAF()
+        }, render = {
+          self =>
             val consultation = self.props.wrapped.operation
             val maybeWording: Option[OperationWording] =
               consultation.getWordingByLanguage(self.props.wrapped.language)
@@ -133,7 +132,9 @@ object ConsultationSection {
                         )(),
                         <.div(^.className := RWDRulesLargeMediumStyles.showBlockBeyondLargeMedium)(
                           <.ConsultationShareComponent(^.wrapped := ConsultationShareProps(operation = consultation))(),
-                          <.AltFooterComponent()()
+                          <.AltFooterComponent(
+                            ^.wrapped := AltFooterProps(countryCode = self.props.wrapped.countryCode)
+                          )()
                         )
                       )
                     }
@@ -142,8 +143,7 @@ object ConsultationSection {
               ),
               <.style()(ConsultationSectionStyles.render[String])
             )
-          }
-        )
+        })
     )
 }
 

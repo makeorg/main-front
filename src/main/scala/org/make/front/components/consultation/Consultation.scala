@@ -105,7 +105,9 @@ object Consultation {
                 },
                 <.style()(ConsultationStyles.render[String])
               ),
-              <.div(^.className := RWDRulesLargeMediumStyles.hideBeyondLargeMedium)(<.MainFooterComponent.empty)
+              <.div(^.className := RWDRulesLargeMediumStyles.hideBeyondLargeMedium)(
+                <.MainFooterContainerComponent.empty
+              )
             )
           } else {
             <.div.empty

@@ -25,6 +25,7 @@ import io.github.shogowada.scalajs.reactjs.VirtualDOM.{<, _}
 import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import org.make.front.Main.CssSettings._
 import org.make.front.components.Components.{RichVirtualDOMElements, _}
+import org.make.front.components.home.Explanations.ExplenationsProps
 import org.make.front.components.home.FeaturedOperation.FeaturedOperationProps
 import org.make.front.components.showcase.TrendingShowcaseContainer.TrendingShowcaseContainerProps
 import org.make.front.facades.I18n
@@ -74,7 +75,7 @@ object Home {
                 maybeLocation = Some(Location.Homepage)
               )
             )(),
-            <.ExplanationsComponent.empty,
+            <.ExplanationsComponent(^.wrapped := ExplenationsProps(countryCode = self.props.wrapped.countryCode))(),
             <.TrendingShowcaseContainerComponent(
               ^.wrapped := TrendingShowcaseContainerProps(
                 trending = "controversial",
@@ -83,7 +84,7 @@ object Home {
                 maybeLocation = Some(Location.Homepage)
               )
             )(),
-            <.MainFooterComponent.empty,
+            <.MainFooterContainerComponent.empty,
             <.style()(HomeStyles.render[String])
           )
         }

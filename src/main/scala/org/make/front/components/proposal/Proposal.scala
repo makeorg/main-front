@@ -198,7 +198,7 @@ object Proposal {
                 ^.wrapped := OperationShowcaseContainerProps(operation = operation)
               )()
             }.getOrElse(<.NavInThemesContainerComponent.empty),
-            <.MainFooterComponent.empty,
+            <.MainFooterContainerComponent.empty,
             <.style()(ProposalStyles.render[String])
           )
       })

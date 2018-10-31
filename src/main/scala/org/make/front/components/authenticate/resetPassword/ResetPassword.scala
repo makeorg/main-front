@@ -44,7 +44,8 @@ import scala.scalajs.js
 object PasswordReset {
 
   case class PasswordResetProps(handleSubmit: (Self[PasswordResetProps, PasswordResetState])    => Unit,
-                                checkResetToken: (Self[PasswordResetProps, PasswordResetState]) => Unit)
+                                checkResetToken: (Self[PasswordResetProps, PasswordResetState]) => Unit,
+                                country: String)
 
   case class PasswordResetState(password: String,
                                 showPassword: Boolean,
@@ -79,7 +80,7 @@ object PasswordReset {
               invalidToken
             })
           ),
-          <.MainFooterComponent.empty,
+          <.MainFooterContainerComponent()(),
           <.style()(ResetPasswordStyles.render[String])
         )
       }

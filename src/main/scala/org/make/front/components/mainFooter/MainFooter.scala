@@ -35,12 +35,26 @@ import scala.scalajs.js
 
 object MainFooter {
 
+  final case class MainFooterProps(countryCode: String)
+
   lazy val reactClass: ReactClass =
     React
-      .createClass[Unit, Unit](
+      .createClass[MainFooterProps, Unit](
         displayName = "MainFooter",
         shouldComponentUpdate = (_, _, _) => true,
         render = self => {
+          val itemJobs: Int = 2
+          val itemAbout: Int = 3
+          val itemPress: Int = 4
+          val itemLegal: Int = 5
+          val itemTerms: Int = 6
+          val itemData: Int = 7
+          val itemContact: Int = 8
+          val menuItems: Seq[Int] = if (self.props.wrapped.countryCode == "FR") {
+            Seq(itemJobs, itemAbout, itemPress, itemLegal, itemTerms, itemData, itemContact)
+          } else {
+            Seq(itemAbout, itemLegal, itemTerms, itemData, itemContact)
+          }
 
           <.footer(^.className := MainFooterStyles.wrapper)(
             <.div(^.className := LayoutRulesStyles.centeredRow)(
@@ -54,26 +68,24 @@ object MainFooter {
                   )()
                 ),
                 <.div(^.className := TableLayoutStyles.cellVerticalAlignMiddle)(
-                  <.ul(^.className := MainFooterStyles.menu)(
-                    Range(2, 9).map(
-                      item =>
-                        <.li(^.className := MainFooterStyles.menuItem)(
-                          <.p(
-                            ^.className := js
-                              .Array(TextStyles.title.htmlClass, TextStyles.smallText.htmlClass, if (item == 3) {
-                                RWDRulesMediumStyles.hideBeyondMedium.htmlClass
-                              })
-                              .mkString(" ")
-                          )(
-                            <.a(
-                              ^.href := I18n.t(s"main-footer.menu.item-$item.link"),
-                              ^.target := "_blank",
-                              ^.className := MainFooterStyles.menuItemLink
-                            )(unescape(I18n.t(s"main-footer.menu.item-$item.label")))
-                          )
+                  <.ul(^.className := MainFooterStyles.menu)(menuItems.map {
+                    item =>
+                      <.li(^.className := MainFooterStyles.menuItem)(
+                        <.p(
+                          ^.className := js
+                            .Array(TextStyles.title.htmlClass, TextStyles.smallText.htmlClass, if (item == 3) {
+                              RWDRulesMediumStyles.hideBeyondMedium.htmlClass
+                            })
+                            .mkString(" ")
+                        )(
+                          <.a(
+                            ^.href := I18n.t(s"main-footer.menu.item-$item.link"),
+                            ^.target := "_blank",
+                            ^.className := MainFooterStyles.menuItemLink
+                          )(unescape(I18n.t(s"main-footer.menu.item-$item.label")))
+                        )
                       )
-                    )
-                  )
+                  })
                 )
               )
             ),
