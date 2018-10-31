@@ -306,7 +306,11 @@
       "limit-of-chars-reached-alert": "Oups&nbsp;! Vous avez dépassé la limite de 140 caractères 😅 Essayez d’être plus concis.e.&nbsp;🙏",
       "info": "Ne vous inquiétez pas, nous corrigerons vos éventuelles fautes&nbsp;d'orthographe.",
       "moderation-charter": "Pour en savoir plus sur notre charte de modération, <a href=\"https://about.make.org/moderation\" target=\"_blank\">cliquez&nbsp;ici.</a>",
-      "validate-cta": "Proposer"
+      "validate-cta": "Proposer",
+      "error-message": {
+        "limit-of-chars-exceeded": "Vous avez dépassé la limite de caractères.",
+        "not-enough-chars": "Votre proposition doit contenir au moins %{min} caractères."
+      }
     },
     "authenticate": {
       "intro": "Nous avons besoin de quelques informations",
