@@ -159,7 +159,7 @@ object SearchResults {
                             SearchResultsStyles.item,
                             ColRulesStyles.col,
                             ColRulesStyles.colHalfBeyondMedium,
-                            ColRulesStyles.colQuarterBeyondLarge
+                            ColRulesStyles.colThirdBeyondLarge
                           )
                         )(
                           <.ProposalTileComponent(
