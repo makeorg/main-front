@@ -124,11 +124,11 @@
         }
     },
     "user-nav": {
-        "login": "sich einloggen",
-        "register": "sich anmelden"
+        "login": "Einloggen",
+        "register": "Jetzt anmelden"
     },
     "user-profile": {
-        "disconnect-cta": "Ich logge mich aus.",
+        "disconnect-cta": "Ausloggen",
         "show-more": "mehr anzeigen",
         "show-less": "weniger anzeigen",
         "edit-profile": "mein Profil ändern",
@@ -138,11 +138,11 @@
         "settings-tab": "Mein Konto verwalten",
         "years-old": "Jahre alt",
         "likeItproposal": {
-            "tab": "Meine.....",
+            "tab": "Meine Lieblingsvorschläge <span class=\"fa fa-heart\"></span>",
             "title": "Meine Lieblingsvorschläge",
             "empty": "Sie haben noch keine Lieblingsvorschläge auf Make.org",
-            "explanation-first-part": "Sie können einen Lieblingsvorschlag machen.",
-            "explanation-second-part": " ,kurz nachdem Sie abgestimmt haben.",
+            "explanation-first-part": "Sie können einen Vorschlag als \"Lieblingsvorschlag\" einstufen",
+            "explanation-second-part": " , kurz nachdem Sie abgestimmt haben.",
             "explanation-third-part": "\" ",
             "explanation-fourth-part": "mit diesem Vorschlag einverstanden\"",
             "fake-proposal": "Qualitätsvorschläge müssen unterstützt werden."
@@ -179,6 +179,12 @@
                 },
                 "organisation-name": {
                     "label": "Name"
+                },
+                "gender": {
+                    "label": "Geschlecht"
+                },
+                "csp": {
+                    "label": "Sozial-Berufliche Kategorie"
                 }
             }
         },
@@ -190,7 +196,7 @@
             "title": "Löschung meines Kontos beantragen",
             "description": "Vorsicht, diese Aktion ist unwiderruflich. Sie werden Ihre Vorschläge, ihre detaillierten Statistiken sowie die Vorschläge, über die Sie abgestimmt haben, verlieren.",
             "cta": "Löschung meines Konto beantragen",
-            "extra": "oder eine E-Mail senden an␣",
+            "extra": "oder eine E-Mail senden an ",
             "confirmation": "Ihre Anfrage wurde berücksichtigt.",
             "password": {
                 "label": "Passwort",
@@ -221,7 +227,7 @@
             }
         },
         "proposal": {
-            "title": "Ihre letzten Vorschläge",
+            "title": "Meine letzten Vorschläge",
             "empty": "leer"
         }
     },
@@ -250,12 +256,12 @@
             "Pending": "auf die Mäßigung wartend"
         },
         "proposal-s-operation-infos": {
-            "intro": "Intro",
+            "intro": "Dieser Vorschlag wurde im Rahmen der Konsultation eingereicht",
             "participate": "teilnehmen",
             "see-more": "Mehr dazu wissen"
         },
         "author-infos": {
-            "age": ", %{age} Alter",
+            "age": ", %{age} Jahre",
             "anonymous": "anonym"
         },
         "vote": {
@@ -264,8 +270,8 @@
                 "label": "einverstanden",
                 "qualifications": {
                     "likeIt": "Lieblingsvorschlag <span class=\"fa fa-heart\"></span>",
-                    "doable": "machbar",
-                    "platitudeAgree": "selbstverständlich"
+                    "doable": "Machbar",
+                    "platitudeAgree": "Selbstverständlich"
                 }
             },
             "disagree": {
@@ -273,7 +279,7 @@
                 "qualifications": {
                     "noWay": "auf keinen Fall!",
                     "impossible": "unrealistisch",
-                    "platitudeDisagree": "selbstverständlich"
+                    "platitudeDisagree": "Selbstverständlich"
                 }
             },
             "neutral": {
@@ -288,10 +294,11 @@
         "qualificate-vote": {
             "increment": "+1"
         },
-        "actor-voted_1": "␣hat über diesen Vorschlag abgestimmt.",
-        "actor-voted": "␣haben über diesen Vorschlag abgestimmt.",
-        "actor-voted-and": "␣und␣",
-        "posted-in": "gepostet in"
+        "actor-voted_1": " hat über diesen Vorschlag abgestimmt.",
+        "actor-voted": " haben über diesen Vorschlag abgestimmt.",
+        "actor-voted-and": " und ",
+        "posted-in": "gepostet in ",
+        "share-twitter-content": "Wie ich, unterstützen Sie diesen Vorschlag auf Make.org."
     },
     "submit-proposal": {
         "intro": "Teilen Sie Ihren Vorschlag",
@@ -299,17 +306,21 @@
         "form": {
             "proposal-input-placeholder": "Wir brauchen einen realistischen und respektvollen Vorschlag für alle.",
             "limit-of-chars-reached-alert": "Hoppla! Du hast die 140-stellige Grenze überschritten 😅 Versuche, dich prägnanter zu äußern!",
-            "info": "Keine Sorge, wir korrigieren alle Rechtschreibfehler, die Sie möglicherweise haben.",
-            "moderation-charter": "Um mehr über unsere Moderations-Charta zu erfahren, klicken Sie auf den folgenden Link:<a href=\"https://about.make.org/moderation\" target=\"_blank\">cliquez&nbsp;ici.</a>",
-            "validate-cta": "vorschlagen"
+            "info": "Keine Sorge, wir korrigieren alle Rechtschreibfehler, die Sie möglicherweise machen.",
+            "moderation-charter": "Um mehr über unsere Moderations-Charta zu erfahren, klicken Sie auf den folgenden Link:<a href=\"https://about.make.org/moderationscharta\" target=\"_blank\">cliquez&nbsp;ici.</a>",
+            "validate-cta": "vorschlagen",
+            "error-message": {
+                "limit-of-chars-exceeded": "Sie haben die Zeichengrenze überschritten.",
+                "not-enough-chars": "Ihr Vorschlag muss mindestens %{min} Zeichen enthalten."
+            }
         },
         "authenticate": {
             "intro": "Wir benötigen einige Informationen",
-            "title": "Titel"
+            "title": "Um Ihren Vorschlag zu bestätigen"
         },
         "confirmation": {
             "title": "Danke!",
-            "info": "Info",
+            "info": "Ihr Vorschlag wurde berücksichtigt, er wird nun von unserem Moderationsdienst überprüft. <br>Sie erhalten eine E-Mail, wenn er validiert wurde.",
             "back-to-theme-cta": "Zurück zum Thema",
             "back-cta": "Zurück",
             "new-proposal-cta": "Einen neuen Vorschlag machen"
@@ -341,7 +352,8 @@
             "title": "Tausende von Bürgern schlagen Lösungen vor.",
             "explanation-1": "Nehmen Sie Stellung zu diesen Lösungen und schlagen Sie Ihre eigenen vor.",
             "explanation-2": "Die am meisten unterstützten Vorschläge werden unsere Maßnahmen bestimmen.",
-            "cta": "Starten"
+            "cta": "Starten",
+            "partners": "in Partnerschaft mit"
         },
         "prompting-to-propose": {
             "intro": "Und haben Sie eine Lösung zu diesem Thema vorzuschlagen?",
@@ -370,7 +382,7 @@
             "authenticate-with-email-cta": "Meine E-Mail Adresse",
             "login-screen-access": {
                 "intro": "Ich habe schon ein Konto",
-                "link-support": "Anmeldung"
+                "link-support": "Jetzt Einloggen"
             },
             "next-cta": "Nein, danke, ich möchte nicht über die Ergebnisse informiert werden."
         }
@@ -383,7 +395,8 @@
             "community-text": "Tausende von Bürgern beteiligen sich durch die Teilnahme an der Konsultation.",
             "also": "Unsere Partner engagieren sich an unserer Seite",
             "also-text": "Sie unterstützen die Konsultation und den anschließenden Bürgeraktionsplan.",
-            "founder": "Gründer"
+            "founder": "Gründer",
+            "founder-presentation": "Diese Konsultation wurde initiiert von:"
         },
         "intro": {
             "consultation": "KONSULTATION",
@@ -399,7 +412,7 @@
             "partner": {
                 "see-more": "Alle Partner sehen"
             },
-            "citizen-count": "%{count} Bürger␣",
+            "citizen-count": "%{count} Bürger ",
             "already-participate": "haben schon teilgenommen",
             "learn-more": {
                 "label": "Teilnehmen",
@@ -547,13 +560,13 @@
     },
     "activate-account": {
         "notifications": {
-            "success": "Erfolg",
+            "success": "Ihr Konto wurde gerade aktiviert. Sie können sich jetzt einloggen.Viel Spaß auf Make.org!",
             "error-message": "Dieser Link ist leider nicht mehr gültig."
         }
     },
     "authenticate": {
         "forgot-password": {
-            "intro": "Ups, ich habe",
+            "intro": "Ups, ich habe mein",
             "link-support": "Passwort vergessen?"
         },
         "switch-to-register-screen": {
@@ -562,7 +575,7 @@
         },
         "switch-to-login-screen": {
             "intro": "Ich habe schon ein Konto!",
-            "link-support": "Anmeldung"
+            "link-support": "Jetzt Einloggen"
         },
         "back-to-login-screen": {
             "intro": "Zurück",
@@ -599,6 +612,28 @@
             "job": {
                 "placeholder": "Beruf",
                 "format-error-message": "Ungültiges Format"
+            },
+            "gender": {
+                "placeholder": "Geschlecht",
+                "format-error-message": "Ungültiger Wert",
+                "values": {
+                    "M": "Mann",
+                    "F": "Frau",
+                    "O": "Anderes"
+                }
+            },
+            "csp": {
+                "placeholder": "Sozial-Berufliche Kategorie",
+                "format-error-message": "Ungültiger Wert",
+                "values": {
+                    "FARM": "Landwirt",
+                    "AMCD": "Handwerker(in), Händler(in), Unternehler(in)",
+                    "MHIO": "Leitende(r) in Führungsposition",
+                    "INPR": "Professions intermédiaires",
+                    "EMPL": "Angestellte(r)",
+                    "WORK": "Arbeiter",
+                    "O": "Anderes"
+                }
             }
         },
         "recover-password": {
@@ -629,7 +664,7 @@
         },
         "register": {
             "with-social-networks": {
-                "intro": "Ich registriere mit",
+                "intro": "Ich melde mich an mit",
                 "separator": "oder"
             },
             "caution": "(Keine Sorge, wir werden nie etwas ohne Ihre Zustimmung veröffentlichen.)",
@@ -637,8 +672,8 @@
             "with-email-intro": "Ich melde mich mit einer E-Mail Adresse an.",
             "with-email-intro-trigger": "Ich melde mich mit meiner E-Mail Adresse an, um über die zukünftigen Aktionen informiert zu werden.",
             "with-email-actions-intro": "Ich melde mich mit meiner E-Mail Adresse an, um über den Beginn der Aktionen informiert zu werden.",
-            "terms": "Bedingungen",
-            "send-cta": "sich anmelden",
+            "terms": "Mit der Registrierung akzeptieren Sie unsere <a href=\"https://about.make.org/nutzungsbedingungen\" target=\"_blank\">Allgemeine Nutzungsbedingungen</a> sowie gelegentliche E-Mails von Make.org.",
+            "send-cta": "Jetzt anmelden",
             "error-message": {
                 "already-exists": "Dieses Konto existiert bereits, bitte melden Sie sich an."
             },
@@ -647,10 +682,10 @@
             }
         },
         "login": {
-            "with-social-networks-intro": "Ich logge mich ein mit",
+            "with-social-networks-intro": "Ich melde mich an mit",
             "separator": "oder",
             "with-email-intro": "Ich logge mich mit meiner E-Mail-Adresse ein",
-            "send-cta": "sich einloggen"
+            "send-cta": "Einloggen"
         }
     },
     "main-footer": {
