@@ -879,6 +879,10 @@ object armeeDuSalut extends js.Object
 object ageVillage extends js.Object
 
 @js.native
+@JSImport("./images/operations/aines/partners/croix-rouge.png", "default")
+object croixRouge extends js.Object
+
+@js.native
 @JSImport("./images/operations/aines/partners/association-france-dependance.png", "default")
 object associationFranceDependance extends js.Object
 

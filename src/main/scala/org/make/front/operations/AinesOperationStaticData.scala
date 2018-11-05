@@ -20,14 +20,13 @@
 
 package org.make.front.operations
 
-import org.make.front.components.authenticate.register.SignUpField
 import org.make.front.facades.{
-  ageVillage,
   ainesLogo,
   ainesLogoWhite,
   armeeDuSalut,
   associationFranceDependance,
   careit,
+  croixRouge,
   klesia,
   korian,
   laposte,
@@ -51,7 +50,7 @@ object AinesOperationStaticData extends StaticDataOfOperation {
         learnMoreUrl = Some("https://about.make.org/about-aines"),
         presentation = Some(
           """Make.org lance avec le ministère des Solidarités et de la Santé une vaste consultation citoyenne en ligne autour de la question Comment mieux prendre soin de nos aînés ?
-            |Grâce au soutien des partenaires fondateurs Klesia, la fondation Korian, La Poste, l'OCIRP, Primonial, CAREIT, les milliers de propositions citoyennes
+            |Grâce au soutien des partenaires fondateurs Klesia, la fondation Korian, La Poste, l'OCIRP, Primonial, CAREIT, la Croix-Rouge française, les milliers de propositions citoyennes
             |recueillies vont nous permettre de bâtir, aux côtés de l’État, le 1er grand Plan d'actions citoyen en faveur des Aînés. Entreprises, associations,
             |pouvoirs publics, citoyens, nous nous donnons trois ans pour concrétiser les actions de ce Plan et réussir ainsi à mieux prendre soin de nos aînés.""".stripMargin
         ),
@@ -85,7 +84,7 @@ object AinesOperationStaticData extends StaticDataOfOperation {
         OperationPartner(name = "Les Talents d'Alphonse", imageUrl = lesTalentsDalphonse.toString, isFounder = false),
         OperationPartner(name = "Siel Bleu", imageUrl = siel.toString, isFounder = false),
         OperationPartner(name = "Fondation de l'Armée du Salut", imageUrl = armeeDuSalut.toString, isFounder = false),
-        OperationPartner(name = "Age village", imageUrl = ageVillage.toString, isFounder = false),
+        OperationPartner(name = "Croix-Rouge", imageUrl = croixRouge.toString, isFounder = false),
         OperationPartner(
           name = "Association France Dépendance",
           imageUrl = associationFranceDependance.toString,
