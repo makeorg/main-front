@@ -42,12 +42,12 @@ object NiceMatinOperationStaticData extends StaticDataOfOperation {
         title = "#MaSolutionPourLeClimat",
         question = "Comment lutter ensemble contre le réchauffement climatique ?",
         learnMoreUrl = Some("https://about.make.org/about-plan-climat"),
-        presentation = Some(
-          """Nice-Matin et la Métropole Nice Côte d'Azur lancent avec Make.org, une vaste consultation citoyenne en ligne autour de la question
-            | “Comment lutter ensemble contre le réchauffement climatique ?”. Chaque jour un article publié par Nice-Matin
-            | s’appuiera sur une proposition citoyenne pour traiter d’un sujet de fond. En fin de consultation,
-            | les meilleures propositions seront reprises par la Métropole Nice Côte d’Azur dans le Plan Climat.""".stripMargin
-        ),
+        presentation =
+          Some("""La Métropole Nice Côte d'Azur, Nice-Matin et Make.org lançent une vaste consultation citoyenne en ligne autour
+            | de la question “Comment lutter ensemble contre le réchauffement climatique ?”. Citoyens et associations,
+            | bienvenue sur la plateforme collaborative du Plan Climat air-énergie territorial. Face aux enjeux climatiques,
+            | la Métropole Nice Côte d’Azur, accompagné de Nice-Matin et Make.org, s’engage avec vous pour réduire collectivement
+            | nos émissions de gaz à effet de serre.""".stripMargin),
         registerTitle = Some("JE M'INSCRIS POUR ÊTRE INFORMÉ(E) DES RÉSULTATS DE LA CONSULTATION")
       )
     ),
