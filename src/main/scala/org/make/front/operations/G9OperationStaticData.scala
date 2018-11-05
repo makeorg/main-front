@@ -61,8 +61,9 @@ object G9OperationStaticData extends StaticDataOfOperation {
         Slides.displaySequenceIntroCard(
           params,
           introWording = OperationIntroWording(
-            title = Some("Aidez nous à faire émerger des champions européens du numérique"),
-            explanation2 = Some("#entrepreneuriat #attractivité #transformation #fiscalité"),
+            title = Some("#entrepreneuriat  #europe  #investissement  #fiscalité"),
+            explanation1 = Some("Aidez nous à faire émerger des champions européens du numérique"),
+            explanation2 = None,
             partners = js.Array(
               OperationIntroPartner(name = "G9+", imageUrl = g9PlusLogo.toString),
               OperationIntroPartner(name = "Roland Berger", imageUrl = rolandBergerLogo.toString),
