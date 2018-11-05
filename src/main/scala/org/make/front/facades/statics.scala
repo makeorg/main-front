@@ -954,6 +954,19 @@ object jeunesHdfLogo extends js.Object
 @JSImport("./images/operations/jeunes-hdf/hdf-logo.svg", "default")
 object hdfLogo extends js.Object
 
+/* Operation DITP */
+@js.native
+@JSImport("./images/operations/ditp/ditp-logo.png", "default")
+object ditpLogo extends js.Object
+
+@js.native
+@JSImport("./images/operations/ditp/partners/ditp-partner.png", "default")
+object ditpPartnerLogo extends js.Object
+
+@js.native
+@JSImport("./images/operations/ditp/partners/ditp-partner-sequence.png", "default")
+object ditpPartnerSequenceLogo extends js.Object
+
 /* FLAGS */
 
 @js.native
