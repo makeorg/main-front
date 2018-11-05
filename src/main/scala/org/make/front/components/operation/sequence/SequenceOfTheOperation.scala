@@ -324,7 +324,7 @@ object SequenceOfTheOperation {
                   )
                 )
               ),
-              <.MainFooterComponent.empty,
+              <.MainFooterContainerComponent.empty,
               <.style()(SequenceOfTheOperationStyles.render[String], DynamicSequenceOfTheOperationStyles.render[String])
             )
           } else {

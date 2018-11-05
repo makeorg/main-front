@@ -74,7 +74,7 @@ object MaybeTheme {
                   <.SpinnerComponent.empty
                 )
               ),
-              <.MainFooterComponent.empty,
+              <.MainFooterContainerComponent.empty,
               <.style()(MaybeThemeStyles.render[String])
             )
           )

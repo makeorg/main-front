@@ -25,6 +25,7 @@ import io.github.shogowada.scalajs.reactjs.VirtualDOM.{<, ^, _}
 import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import org.make.front.Main.CssSettings._
 import org.make.front.components.Components._
+import org.make.front.components.mainFooter.AltFooter.AltFooterProps
 import org.make.front.components.userProfile.UserLikeItProposalsContainer.UserLikeItProposalsContainerProps
 import org.make.front.components.userProfile.UserProfileProposalsContainer.UserProfileProposalsContainerProps
 import org.make.front.components.userProfile.UserProfileInformations.UserProfileInformationsProps
@@ -37,7 +38,7 @@ import org.make.front.styles.utils._
 
 object UserProfile {
 
-  final case class UserProfileProps(user: Option[UserModel], logout: () => Unit, activeTab: String)
+  final case class UserProfileProps(user: Option[UserModel], logout: () => Unit, activeTab: String, countryCode: String)
   final case class UserProfileState(activeTab: String)
 
   val reactClass: ReactClass =
@@ -78,7 +79,7 @@ object UserProfile {
                     <.div(^.className := RWDRulesLargeMediumStyles.showBlockBeyondLargeMedium)(
                       // Todo Uncomment when "Follow" Feature is ready
                       // <.ShareUserProfileComponent.empty,
-                      <.AltFooterComponent()()
+                      <.AltFooterComponent(^.wrapped := AltFooterProps(countryCode = self.props.wrapped.countryCode))()
                     )
                   ),
                   <.div(^.className := UserProfileStyles.main)(
@@ -110,7 +111,7 @@ object UserProfile {
                 )
               )
             ),
-            <.div(^.className := RWDRulesLargeMediumStyles.hideBeyondLargeMedium)(<.MainFooterComponent.empty)
+            <.div(^.className := RWDRulesLargeMediumStyles.hideBeyondLargeMedium)(<.MainFooterContainerComponent.empty)
           )
         }
       )

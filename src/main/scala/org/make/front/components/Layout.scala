@@ -27,7 +27,6 @@ import io.github.shogowada.scalajs.reactjs.elements.ReactElement
 import org.make.front.Main.CssSettings._
 import org.make.front.components.Components._
 import org.make.front.styles.ThemeStyles
-import org.make.front.styles.base.{RWDHideRulesStyles, TableLayoutStyles}
 import org.make.front.styles.utils._
 import scalacss.internal.mutable.StyleSheet
 
@@ -55,7 +54,7 @@ object Layout {
               )
             )
           }, <.div(^.className := LayoutStyles.mainContent)(children), if (withFooter) {
-            <.MainFooterComponent.empty
+            <.MainFooterContainerComponent.empty
           }, <.style()(LayoutStyles.render[String]))
         }
       )

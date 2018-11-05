@@ -68,6 +68,7 @@ object Components {
 
     def MainHeaderContainer: ReactClassElementSpec = self(mainHeader.MainHeaderContainer.reactClass)
     def MainFooterComponent: ReactClassElementSpec = self(mainFooter.MainFooter.reactClass)
+    def MainFooterContainerComponent: ReactClassElementSpec = self(mainFooter.MainFooterContainer.reactClass)
     def AltFooterComponent: ReactClassElementSpec = self(mainFooter.AltFooter.reactClass)
     def NavInThemesContainerComponent: ReactClassElementSpec = self(navInThemes.NavInThemesContainer.reactClass)
 

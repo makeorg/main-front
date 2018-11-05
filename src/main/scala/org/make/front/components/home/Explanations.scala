@@ -39,11 +39,13 @@ import scala.scalajs.js
 
 object Explanations {
 
+  final case class ExplenationsProps(countryCode: String)
+
   lazy val reactClass: ReactClass =
     React
-      .createClass[Unit, Unit](
+      .createClass[ExplenationsProps, Unit](
         displayName = "Explanations",
-        render = { _ =>
+        render = { self =>
           val openTarget: () => Unit = () => {
             TrackingService.track(
               eventName = "click-button-whoweare",
@@ -61,29 +63,15 @@ object Explanations {
                   unescape(I18n.t("home.explanations.article-1.intro"))
                 ),
                 <.h2(^.className := TextStyles.mediumTitle)(unescape(I18n.t("home.explanations.article-1.title"))),
-                <.ul()(
+                <.ul()(if (self.props.wrapped.countryCode == "FR") {
                   <.li(^.className := ExplanationsStyles.item)(
                     <.span(^.className := js.Array(ExplanationsStyles.icon, FontAwesomeStyles.lightbulbTransparent))(),
                     <.p(
                       ^.className := TextStyles.mediumText,
                       ^.dangerouslySetInnerHTML := I18n.t("home.explanations.article-1.item-2")
                     )()
-                  ),
-                  <.li(^.className := ExplanationsStyles.item)(
-                    <.span(^.className := js.Array(ExplanationsStyles.icon, FontAwesomeStyles.thumbsUp))(),
-                    <.p(
-                      ^.className := TextStyles.mediumText,
-                      ^.dangerouslySetInnerHTML := I18n.t("home.explanations.article-1.item-1")
-                    )()
-                  ),
-                  <.li(^.className := ExplanationsStyles.item)(
-                    <.span(^.className := js.Array(ExplanationsStyles.icon, FontAwesomeStyles.group))(),
-                    <.p(
-                      ^.className := TextStyles.mediumText,
-                      ^.dangerouslySetInnerHTML := I18n.t("home.explanations.article-1.item-3")
-                    )()
                   )
-                )
+                }, <.li(^.className := ExplanationsStyles.item)(<.span(^.className := js.Array(ExplanationsStyles.icon, FontAwesomeStyles.thumbsUp))(), <.p(^.className := TextStyles.mediumText, ^.dangerouslySetInnerHTML := I18n.t("home.explanations.article-1.item-1"))()), <.li(^.className := ExplanationsStyles.item)(<.span(^.className := js.Array(ExplanationsStyles.icon, FontAwesomeStyles.group))(), <.p(^.className := TextStyles.mediumText, ^.dangerouslySetInnerHTML := I18n.t("home.explanations.article-1.item-3"))()))
               ),
               <.article(
                 ^.className := js.Array(

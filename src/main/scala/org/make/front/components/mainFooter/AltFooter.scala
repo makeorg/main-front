@@ -35,43 +35,33 @@ import scala.scalajs.js
 
 object AltFooter {
 
+  final case class AltFooterProps(countryCode: String)
+
   lazy val reactClass: ReactClass =
     React
-      .createClass[Unit, Unit](
+      .createClass[AltFooterProps, Unit](
         displayName = "AltFooter",
-        render = _ => {
-          <.div(^.className := AltFooterStyles.wrapper)(
-            <.a(
-              ^.className := js.Array(TextStyles.smallerText, AltFooterStyles.link),
-              ^.href := I18n.t(s"main-footer.menu.item-2.link"),
-              ^.target := "_blank"
-            )(unescape(I18n.t(s"main-footer.menu.item-2.label"))),
-            " · ",
-            <.a(
-              ^.className := js.Array(TextStyles.smallerText, AltFooterStyles.link),
-              ^.href := I18n.t(s"main-footer.menu.item-4.link"),
-              ^.target := "_blank"
-            )(unescape(I18n.t(s"main-footer.menu.item-4.label"))),
-            " · ",
-            <.a(
-              ^.className := js.Array(TextStyles.smallerText, AltFooterStyles.link),
-              ^.href := I18n.t(s"main-footer.menu.item-5.link"),
-              ^.target := "_blank"
-            )(unescape(I18n.t(s"main-footer.menu.item-5.label"))),
-            " · ",
-            <.a(
-              ^.className := js.Array(TextStyles.smallerText, AltFooterStyles.link),
-              ^.href := I18n.t(s"main-footer.menu.item-6.link"),
-              ^.target := "_blank"
-            )(unescape(I18n.t(s"main-footer.menu.item-6.label"))),
-            " · ",
-            <.a(
-              ^.className := js.Array(TextStyles.smallerText, AltFooterStyles.link),
-              ^.href := I18n.t(s"main-footer.menu.item-7.link"),
-              ^.target := "_blank"
-            )(unescape(I18n.t(s"main-footer.menu.item-7.label"))),
-            <.style()(AltFooterStyles.render[String])
-          )
+        render = self => {
+
+          <.div(^.className := AltFooterStyles.wrapper)(if (self.props.wrapped.countryCode == "FR") {
+            Seq(
+              <.a(
+                ^.className := js.Array(TextStyles.smallerText, AltFooterStyles.link),
+                ^.href := I18n.t(s"main-footer.menu.item-2.link"),
+                ^.target := "_blank"
+              )(unescape(I18n.t(s"main-footer.menu.item-2.label"))),
+              " · "
+            )
+          }, if (self.props.wrapped.countryCode == "FR") {
+            Seq(
+              <.a(
+                ^.className := js.Array(TextStyles.smallerText, AltFooterStyles.link),
+                ^.href := I18n.t(s"main-footer.menu.item-4.link"),
+                ^.target := "_blank"
+              )(unescape(I18n.t(s"main-footer.menu.item-4.label"))),
+              " · "
+            )
+          }, <.a(^.className := js.Array(TextStyles.smallerText, AltFooterStyles.link), ^.href := I18n.t(s"main-footer.menu.item-5.link"), ^.target := "_blank")(unescape(I18n.t(s"main-footer.menu.item-5.label"))), " · ", <.a(^.className := js.Array(TextStyles.smallerText, AltFooterStyles.link), ^.href := I18n.t(s"main-footer.menu.item-6.link"), ^.target := "_blank")(unescape(I18n.t(s"main-footer.menu.item-6.label"))), " · ", <.a(^.className := js.Array(TextStyles.smallerText, AltFooterStyles.link), ^.href := I18n.t(s"main-footer.menu.item-7.link"), ^.target := "_blank")(unescape(I18n.t(s"main-footer.menu.item-7.label"))), <.style()(AltFooterStyles.render[String]))
         }
       )
 }

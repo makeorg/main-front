@@ -47,10 +47,15 @@ object UserProfileContainer {
       }
 
       if (state.connectedUser.isDefined) {
-        UserProfile.UserProfileProps(user = state.connectedUser, logout = logout, activeTab = activeTab)
+        UserProfile.UserProfileProps(
+          user = state.connectedUser,
+          logout = logout,
+          activeTab = activeTab,
+          countryCode = state.country
+        )
       } else {
         props.history.push(s"/${state.country}")
-        UserProfile.UserProfileProps(user = None, logout = () => {}, activeTab = activeTab)
+        UserProfile.UserProfileProps(user = None, logout = () => {}, activeTab = activeTab, countryCode = state.country)
       }
     }
 }

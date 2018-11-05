@@ -38,7 +38,7 @@ object ResetPasswordContainer {
   lazy val reactClass: ReactClass = ReactRedux.connectAdvanced(selectorFactory)(PasswordReset.reactClass)
 
   def selectorFactory: (Dispatch) => (AppState, Props[Unit]) => PasswordResetProps =
-    (_: Dispatch) => { (_: AppState, props: Props[Unit]) =>
+    (_: Dispatch) => { (state: AppState, props: Props[Unit]) =>
       val userId = props.`match`.params("userId")
       val resetToken = props.`match`.params("resetToken")
 
@@ -60,6 +60,6 @@ object ResetPasswordContainer {
         }
       }
 
-      PasswordReset.PasswordResetProps(handleSubmit, checkResetToken)
+      PasswordReset.PasswordResetProps(handleSubmit, checkResetToken, country = state.country)
     }
 }

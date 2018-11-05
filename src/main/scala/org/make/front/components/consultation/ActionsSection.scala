@@ -29,6 +29,7 @@ import org.make.front.styles.utils._
 import org.make.front.components.Components._
 import org.make.front.components.authenticate.LoginOrRegister.LoginOrRegisterProps
 import org.make.front.components.consultation.partners.PartnerList.PartnerListProps
+import org.make.front.components.mainFooter.AltFooter.AltFooterProps
 import org.make.front.components.modals.Modal.ModalProps
 import org.make.front.facades.{actions, actions2x, actions3x, clapping, logoMake, I18n}
 import org.make.front.facades.Unescape.unescape
@@ -211,7 +212,9 @@ object ActionsSection {
                   )(unescape(I18n.t("operation.community.partner.see-more")))
                 )
               },
-              <.div(^.className := RWDRulesLargeMediumStyles.showBlockBeyondLargeMedium)(<.AltFooterComponent()())
+              <.div(^.className := RWDRulesLargeMediumStyles.showBlockBeyondLargeMedium)(
+                <.AltFooterComponent(^.wrapped := AltFooterProps(countryCode = self.props.wrapped.operation.country))()
+              )
             ),
             <.style()(ActionsSectionStyles.render[String])
           )

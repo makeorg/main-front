@@ -29,6 +29,7 @@ import org.make.front.components.actorProfile.ActorProfileContributionsContainer
 import org.make.front.components.actorProfile.ActorProfileInformations.ActorProfileInformationsProps
 import org.make.front.components.actorProfile.ActorProfileProposalsContainer.ActorProposalsContainerProps
 import org.make.front.components.actorProfile.navActorProfile.ActorTabNav.ActorTabNavProps
+import org.make.front.components.mainFooter.AltFooter.AltFooterProps
 import org.make.front.models.{Organisation => OrganisationModel}
 import org.make.front.styles.ThemeStyles
 import org.make.front.styles.base.{FlexLayoutStyles, RWDRulesLargeMediumStyles}
@@ -64,7 +65,7 @@ object ActorProfile {
                     <.div(^.className := RWDRulesLargeMediumStyles.showBlockBeyondLargeMedium)(
                       // Todo Uncomment when "Follow" Feature is ready
                       // <.ShareActorProfileComponent.empty,
-                      <.AltFooterComponent()()
+                      <.AltFooterComponent(^.wrapped := AltFooterProps(countryCode = self.props.wrapped.country))()
                     )
                   ),
                   <.div(^.className := ActorProfileStyles.main)(
@@ -89,7 +90,7 @@ object ActorProfile {
                 )
               )
             ),
-            <.div(^.className := RWDRulesLargeMediumStyles.hideBeyondLargeMedium)(<.MainFooterComponent.empty)
+            <.div(^.className := RWDRulesLargeMediumStyles.hideBeyondLargeMedium)(<.MainFooterContainerComponent()())
           )
         }
       )
