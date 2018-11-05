@@ -20,6 +20,8 @@
 
 package org.make.front.operations
 import org.make.front.facades.{
+  metropole,
+  metropoleInitiator,
   niceMatin,
   niceMatinInitiator,
   planClimatAirEnergieTerritorial,
@@ -66,7 +68,8 @@ object NiceMatinOperationStaticData extends StaticDataOfOperation {
               OperationIntroPartner(
                 name = "Plan climat air énergie territorial",
                 imageUrl = planClimatAirEnergieTerritorial.toString
-              )
+              ),
+              OperationIntroPartner(name = "Métropole Nice Côte D'Azur", imageUrl = metropole.toString)
             )
           )
         ),
@@ -90,7 +93,8 @@ object NiceMatinOperationStaticData extends StaticDataOfOperation {
       OperationInitiator(
         name = "Plan climat air énergie territorial",
         imageUrl = planClimatAirEnergieTerritorialInitiator.toString
-      )
+      ),
+      OperationInitiator(name = "Métropole Nice  Côte D'Azur", imageUrl = metropoleInitiator.toString)
     )
   )
 }

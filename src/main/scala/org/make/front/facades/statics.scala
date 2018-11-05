@@ -892,8 +892,12 @@ object planClimatLogoWhite extends js.Object
 object planClimatAirEnergieTerritorial extends js.Object
 
 @js.native
-@JSImport("./images/operations/plan-climat/partners/nice-matin.png", "default")
+@JSImport("./images/operations/plan-climat/partners/nice-matin-sequence.png", "default")
 object niceMatin extends js.Object
+
+@js.native
+@JSImport("./images/operations/plan-climat/partners/metropole-sequence.jpg", "default")
+object metropole extends js.Object
 
 /* Operation European Digital Champion */
 @js.native
@@ -917,8 +921,12 @@ object g9PlusLogo extends js.Object
 object rolandBergerLogo extends js.Object
 
 @js.native
-@JSImport("./images/operations/plan-climat/initiators/nice-matin.png", "default")
+@JSImport("./images/operations/plan-climat/initiators/nice-matin-partner.png", "default")
 object niceMatinInitiator extends js.Object
+
+@js.native
+@JSImport("./images/operations/plan-climat/initiators/metropole.jpg", "default")
+object metropoleInitiator extends js.Object
 
 @js.native
 @JSImport("./images/operations/plan-climat/initiators/plan-climat.png", "default")
