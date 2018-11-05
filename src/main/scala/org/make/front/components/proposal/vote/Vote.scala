@@ -26,7 +26,12 @@ import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import org.make.front.Main.CssSettings._
 import org.make.front.components.Components._
 import org.make.front.components.proposal.vote.VoteButton.VoteButtonProps
-import org.make.front.models.{OperationExpanded, Proposal => ProposalModel, Qualification => QualificationModel, Vote => VoteModel}
+import org.make.front.models.{
+  OperationExpanded,
+  Proposal      => ProposalModel,
+  Qualification => QualificationModel,
+  Vote          => VoteModel
+}
 import org.make.front.styles._
 import org.make.front.styles.utils._
 
@@ -47,7 +52,7 @@ object Vote {
                              removeVoteQualification: (String, String) => Future[QualificationModel],
                              guideToVote: Option[String] = None,
                              guideToQualification: Option[String] = None,
-                             isProposalSharable : Boolean)
+                             isProposalSharable: Boolean)
 
   final case class VoteState(votes: Map[String, VoteModel])
 
@@ -118,7 +123,7 @@ object Vote {
                   removeVoteQualification = self.props.wrapped.removeVoteQualification,
                   index = self.props.wrapped.index,
                   guideToQualification = self.props.wrapped.guideToQualification,
-                  isProposalSharable  = self.props.wrapped.isProposalSharable
+                  isProposalSharable = self.props.wrapped.isProposalSharable
                 )
               )()
             ),
@@ -141,7 +146,7 @@ object Vote {
                   guideToVote = self.props.wrapped.guideToVote,
                   guideToQualification = self.props.wrapped.guideToQualification,
                   index = self.props.wrapped.index,
-                  isProposalSharable  = self.props.wrapped.isProposalSharable
+                  isProposalSharable = self.props.wrapped.isProposalSharable
                 )
               )()
             ),
@@ -163,7 +168,7 @@ object Vote {
                   removeVoteQualification = self.props.wrapped.removeVoteQualification,
                   guideToQualification = self.props.wrapped.guideToQualification,
                   index = self.props.wrapped.index,
-                  isProposalSharable  = self.props.wrapped.isProposalSharable
+                  isProposalSharable = self.props.wrapped.isProposalSharable
                 )
               )()
             ),
@@ -178,7 +183,7 @@ object VoteStyles extends StyleSheet.Inline {
   import dsl._
 
   val voteButtonsList: StyleA =
-    style(display.table, height(115.pxToEm()), width(210.pxToEm()), margin(`0`, auto))
+    style(display.table, minHeight(115.pxToEm()), maxWidth(300.pxToEm()), margin(`0`, auto))
 
   val voteButtonItem: (Boolean) => StyleA = styleF.bool(
     hidden =>
