@@ -307,7 +307,7 @@
             "proposal-input-placeholder": "Wir brauchen einen realistischen und respektvollen Vorschlag für alle.",
             "limit-of-chars-reached-alert": "Hoppla! Du hast die 140-stellige Grenze überschritten 😅 Versuche, dich prägnanter zu äußern!",
             "info": "Keine Sorge, wir korrigieren alle Rechtschreibfehler, die Sie möglicherweise machen.",
-            "moderation-charter": "Um mehr über unsere Moderations-Charta zu erfahren, klicken Sie auf den folgenden Link:<a href=\"https://about.make.org/moderationscharta\" target=\"_blank\">cliquez&nbsp;ici.</a>",
+            "moderation-charter": "Um mehr über unsere Moderations-Charta zu erfahren, klicken Sie auf <a href=\"https://about.make.org/moderationscharta\" target=\"_blank\">den&nbsp;folgenden&nbsp;Link</a>",
             "validate-cta": "vorschlagen",
             "error-message": {
                 "limit-of-chars-exceeded": "Sie haben die Zeichengrenze überschritten.",
