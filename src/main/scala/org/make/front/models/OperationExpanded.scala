@@ -115,7 +115,8 @@ final case class OperationExpanded(operationId: OperationId,
                                    operationTypeRibbon: Option[String],
                                    featureSettings: FeatureSettings,
                                    initiatorList: js.Array[OperationInitiator],
-                                   additionalFields: Seq[SignUpField]) {
+                                   additionalFields: Seq[SignUpField],
+                                   questionId: Option[QuestionId]) {
 
   def getWordingByLanguage(language: String): Option[OperationWording] = {
     wordings.find(_.language == language)
@@ -200,7 +201,8 @@ object OperationExpanded {
         operationTypeRibbon = operationStaticData.operationTypeRibbon,
         featureSettings = operationStaticData.featureSettings,
         initiatorList = operationStaticData.initiators,
-        additionalFields = operationStaticData.additionalFields
+        additionalFields = operationStaticData.additionalFields,
+        questionId = operation.countriesConfiguration.find(_.countryCode == country).map(_.questionId)
       )
   }
 }

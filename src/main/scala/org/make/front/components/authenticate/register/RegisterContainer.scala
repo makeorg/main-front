@@ -26,16 +26,13 @@ import io.github.shogowada.scalajs.reactjs.redux.{ContainerComponentFactory, Rea
 import org.make.front.actions.{LoggedInAction, NotifyInfo}
 import org.make.front.components.AppState
 import org.make.front.facades.I18n
-import org.make.front.models.{Operation, OperationExpanded, OperationId, Tag, User => UserModel}
-import org.make.services.operation.OperationService
-import org.make.services.tag.TagService
+import org.make.front.models.{OperationId, QuestionId, User => UserModel}
 import org.make.services.tracking.TrackingService
 import org.make.services.tracking.TrackingService.TrackingContext
 import org.make.services.user.UserService
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
-import scala.scalajs.js
 import scala.util.{Failure, Success}
 
 object RegisterContainer {
@@ -45,7 +42,8 @@ object RegisterContainer {
                                trackingParameters: Map[String, String],
                                trackingInternalOnlyParameters: Map[String, String],
                                onSuccessfulRegistration: () => Unit = () => {},
-                               operationId: Option[OperationId])
+                               operationId: Option[OperationId],
+                               questionId: Option[QuestionId])
 
   def selector: ContainerComponentFactory[RegisterProps] = ReactRedux.connectAdvanced {
     dispatch => (appState: AppState, props: Props[RegisterUserProps]) =>
@@ -73,7 +71,9 @@ object RegisterContainer {
             country = appState.country,
             language = appState.language,
             gender = state.fields.get("gender"),
-            socioProfessionalCategory = state.fields.get("socioProfessionalCategory")
+            socioProfessionalCategory = state.fields.get("socioProfessionalCategory"),
+            optInPartner = state.fields.get("optInPartner").map(_.nonEmpty),
+            questionId = props.wrapped.questionId
           )
           .flatMap { _ =>
             UserService.login(state.fields("email"), state.fields("password"))
@@ -109,7 +109,8 @@ object RegisterContainer {
         trackingParameters = props.wrapped.trackingParameters,
         trackingInternalOnlyParameters = props.wrapped.trackingInternalOnlyParameters,
         register = register(),
-        additionalFields = getAdditionalFields
+        additionalFields = getAdditionalFields,
+        language = appState.language
       )
   }
 

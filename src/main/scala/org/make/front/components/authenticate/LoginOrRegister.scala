@@ -31,7 +31,7 @@ import org.make.front.components.authenticate.recoverPassword.RecoverPasswordCon
 import org.make.front.components.authenticate.register.RegisterWithSocialNetworksOrEmail.RegisterWithSocialNetworksOrEmailProps
 import org.make.front.facades.I18n
 import org.make.front.facades.Unescape.unescape
-import org.make.front.models.OperationId
+import org.make.front.models.{OperationId, QuestionId}
 import org.make.front.styles._
 import org.make.front.styles.base.{LayoutRulesStyles, TextStyles}
 import org.make.front.styles.utils._
@@ -48,7 +48,8 @@ object LoginOrRegister {
                                   registerView: String = "register",
                                   displayView: String,
                                   onSuccessfulLogin: () => Unit = () => {},
-                                  registerTitle: Option[String] = None)
+                                  registerTitle: Option[String] = None,
+                                  questionId: Option[QuestionId] = None)
   case class LoginOrRegisterState(currentView: String = "login")
 
   object LoginOrRegisterState {
@@ -110,8 +111,7 @@ object LoginOrRegister {
             )
             .toSeq
         } else {
-          js.Array(
-            if (self.props.wrapped.registerView == "register") {
+          js.Array(if (self.props.wrapped.registerView == "register") {
               <.RegisterWithSocialNetworksOrEmailComponent(
                 ^.wrapped := RegisterWithSocialNetworksOrEmailProps(
                   operationId = self.props.wrapped.operationId,
@@ -120,11 +120,11 @@ object LoginOrRegister {
                   trackingInternalOnlyParameters = self.props.wrapped.trackingInternalOnlyParameters,
                   onSuccessfulLogin = props.onSuccessfulLogin,
                   registerTitle =
-                    Some(props.registerTitle.getOrElse(unescape(I18n.t("authenticate.register.with-email-intro"))))
+                    Some(props.registerTitle.getOrElse(unescape(I18n.t("authenticate.register.with-email-intro")))),
+                  questionId = self.props.wrapped.questionId
                 )
               )()
-            }
-            else if (self.props.wrapped.registerView == "actions") {
+            } else if (self.props.wrapped.registerView == "actions") {
               <.RegisterWithSocialNetworksOrEmailComponent(
                 ^.wrapped := RegisterWithSocialNetworksOrEmailProps(
                   operationId = self.props.wrapped.operationId,
@@ -132,19 +132,21 @@ object LoginOrRegister {
                   trackingParameters = self.props.wrapped.trackingParameters,
                   trackingInternalOnlyParameters = self.props.wrapped.trackingInternalOnlyParameters,
                   onSuccessfulLogin = props.onSuccessfulLogin,
-                  registerTitle =
-                    Some(props.registerTitle.getOrElse(unescape(I18n.t("authenticate.register.with-email-actions-intro"))))
+                  registerTitle = Some(
+                    props.registerTitle.getOrElse(unescape(I18n.t("authenticate.register.with-email-actions-intro")))
+                  ),
+                  questionId = self.props.wrapped.questionId
                 )
               )()
-            }
-            else {
+            } else {
               <.RegisterWithSocialNetworksOrEmailExpandedComponent(
                 ^.wrapped := RegisterWithSocialNetworksOrEmailProps(
                   operationId = self.props.wrapped.operationId,
                   trackingContext = self.props.wrapped.trackingContext,
                   trackingParameters = self.props.wrapped.trackingParameters,
                   trackingInternalOnlyParameters = self.props.wrapped.trackingInternalOnlyParameters,
-                  onSuccessfulLogin = props.onSuccessfulLogin
+                  onSuccessfulLogin = props.onSuccessfulLogin,
+                  questionId = self.props.wrapped.questionId
                 )
               )()
             }, <.p(^.className := js.Array(LoginOrRegisterStyles.text, TextStyles.smallText))(unescape(I18n.t("authenticate.switch-to-login-screen.intro") + " "), <.a(^.className := TextStyles.boldText, ^.onClick := goTo("login"))(unescape(I18n.t("authenticate.switch-to-login-screen.link-support")))))

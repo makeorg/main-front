@@ -30,7 +30,7 @@ import org.make.front.components.authenticate.register.RegisterContainer.Registe
 import org.make.front.components.authenticate.register.RegisterWithSocialNetworks.RegisterWithSocialNetworksProps
 import org.make.front.facades.I18n
 import org.make.front.facades.Unescape.unescape
-import org.make.front.models.OperationId
+import org.make.front.models.{OperationId, QuestionId}
 import org.make.front.styles._
 import org.make.front.styles.base.TextStyles
 import org.make.front.styles.utils._
@@ -45,7 +45,8 @@ object RegisterWithSocialNetworksOrEmail {
                                                     trackingParameters: Map[String, String],
                                                     trackingInternalOnlyParameters: Map[String, String],
                                                     onSuccessfulLogin: () => Unit = () => {},
-                                                    registerTitle: Option[String] = None)
+                                                    registerTitle: Option[String] = None,
+                                                    questionId: Option[QuestionId])
 
   val regular: ReactClass = React.createClass[RegisterWithSocialNetworksOrEmailProps, Unit](
     displayName = "RegisterWithSocialNetworksOrEmail",
@@ -77,7 +78,8 @@ object RegisterWithSocialNetworksOrEmail {
             trackingParameters = self.props.wrapped.trackingParameters,
             trackingInternalOnlyParameters = self.props.wrapped.trackingInternalOnlyParameters,
             onSuccessfulRegistration = self.props.wrapped.onSuccessfulLogin,
-            operationId = self.props.wrapped.operationId
+            operationId = self.props.wrapped.operationId,
+            questionId = self.props.wrapped.questionId
           )
         )(),
         <.style()(RegisterWithSocialNetworksOrEmailStyles.render[String])
@@ -115,7 +117,8 @@ object RegisterWithSocialNetworksOrEmail {
           trackingParameters = self.props.wrapped.trackingParameters,
           trackingInternalOnlyParameters = self.props.wrapped.trackingInternalOnlyParameters,
           onSuccessfulRegistration = self.props.wrapped.onSuccessfulLogin,
-          operationId = self.props.wrapped.operationId
+          operationId = self.props.wrapped.operationId,
+          questionId = self.props.wrapped.questionId
         )
       )(),
       <.style()(RegisterWithSocialNetworksOrEmailStyles.render[String])

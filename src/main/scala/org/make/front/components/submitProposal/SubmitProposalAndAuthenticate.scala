@@ -146,7 +146,8 @@ object SubmitProposalAndAuthenticate {
                 intro = intro,
                 onceConnected = onConnectionOk,
                 defaultView = "register-expanded",
-                registerView = "register-expanded"
+                registerView = "register-expanded",
+                maybeQuestionId = self.props.wrapped.maybeOperation.flatMap(_.questionId)
               )
             )(),
             <.style()(SubmitProposalAndAuthenticateStyles.render[String])
