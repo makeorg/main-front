@@ -59,6 +59,9 @@ object SocioProfessionalCategory {
     ManagersAndHigherIntellectualOccupations.shortName -> ManagersAndHigherIntellectualOccupations,
     IntermediateProfessions.shortName -> IntermediateProfessions,
     Employee.shortName -> Employee,
+    HighSchoolStudent.shortName -> HighSchoolStudent,
+    Student.shortName -> Student,
+    Apprentice.shortName -> Apprentice,
     Workers.shortName -> Workers,
     Other.shortName -> Other
   )
@@ -74,6 +77,9 @@ object SocioProfessionalCategory {
   case object Employee extends SocioProfessionalCategory { override val shortName: String = "EMPL" }
   case object Workers extends SocioProfessionalCategory { override val shortName: String = "WORK" }
   case object Other extends SocioProfessionalCategory { override val shortName: String = "O" }
+  case object HighSchoolStudent extends SocioProfessionalCategory { override val shortName: String = "HSTU" }
+  case object Student extends SocioProfessionalCategory { override val shortName: String = "STUD" }
+  case object Apprentice extends SocioProfessionalCategory { override val shortName: String = "APRE" }
 
   def matchSocioProfessionalCategory(csp: String): Option[SocioProfessionalCategory] = {
     val maybeSocioProfessionalCategory: Option[SocioProfessionalCategory] = csps.get(csp)
