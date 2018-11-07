@@ -31,10 +31,7 @@ object ProposalTileStyles extends StyleSheet.Inline {
 
   val wrapper: StyleA =
     style(
-      display.flex,
-      flexFlow := "column",
-      justifyContent.spaceBetween,
-      position.relative,
+      display.block,
       height(100.%%),
       ThemeStyles.MediaQueries.belowMedium(minHeight.inherit),
       minWidth(240.pxToEm()),
@@ -64,9 +61,7 @@ object ProposalTileStyles extends StyleSheet.Inline {
     style(display.flex, flexFlow := "column", justifyContent.spaceBetween)
 
   val proposalInfosWrapper: StyleA = style(
-    display.flex,
-    flexFlow := s"column",
-    alignItems.center,
+    display.block,
     margin(`0`, 20.pxToEm()),
     padding(20.pxToEm(), `0`, ThemeStyles.SpacingValue.smaller.pxToEm()),
     borderBottom(1.px, solid, ThemeStyles.BorderColor.veryLight),
@@ -112,10 +107,10 @@ object ProposalTileStyles extends StyleSheet.Inline {
 
   val contentWrapper: StyleA =
     style(
-      display.flex,
-      flexFlow := "column",
+      display.block,
       width(100.%%),
       height(100.%%),
+      maxHeight(252.pxToEm()),
       padding(ThemeStyles.SpacingValue.small.pxToEm(), 20.pxToEm())
     )
 
@@ -127,7 +122,7 @@ object ProposalTileStyles extends StyleSheet.Inline {
     )
 
   val footer: StyleA = style(
-    display.flex,
+    display.block,
     minHeight(55.pxToEm()),
     margin(`0`, ThemeStyles.SpacingValue.small.pxToEm()),
     padding(ThemeStyles.SpacingValue.smaller.pxToEm(), `0`),

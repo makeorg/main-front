@@ -172,7 +172,8 @@ object ConsultationSectionStyles extends StyleSheet.Inline {
 
   val main: StyleA =
     style(
-      ThemeStyles.MediaQueries.beyondLargeMedium(maxWidth(750.pxToPercent(1140)), marginRight(30.pxToPercent(1140)))
+      ThemeStyles.MediaQueries
+        .beyondLargeMedium(width(100.%%), maxWidth(750.pxToPercent(1140)), marginRight(30.pxToPercent(1140)))
     )
 
   val sidebar: StyleA =
