@@ -638,6 +638,7 @@ object SequenceStyles extends StyleSheet.Inline {
       flexFlow := "column",
       justifyContent.center,
       alignItems.center,
+      width(100.%%),
       paddingTop(ThemeStyles.SpacingValue.medium.pxToEm()),
       paddingBottom(ThemeStyles.SpacingValue.medium.pxToEm())
     )
