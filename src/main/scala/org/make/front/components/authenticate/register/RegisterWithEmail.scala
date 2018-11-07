@@ -24,7 +24,6 @@ import io.github.shogowada.scalajs.reactjs.React
 import io.github.shogowada.scalajs.reactjs.VirtualDOM._
 import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import io.github.shogowada.scalajs.reactjs.events.FormSyntheticEvent
-import io.github.shogowada.statictags.Element
 import org.make.client.BadRequestHttpException
 import org.make.core.validation._
 import org.make.front.Main.CssSettings._
@@ -35,16 +34,16 @@ import org.make.front.facades.{I18n, Replacements}
 import org.make.front.models.Gender.{Female, Male, Other}
 import org.make.front.models.{Gender, SocioProfessionalCategory}
 import org.make.front.styles._
-import org.make.front.styles.base.{RWDHideRulesStyles, TextStyles}
+import org.make.front.styles.base.TextStyles
 import org.make.front.styles.ui.{CTAStyles, InputStyles}
 import org.make.front.styles.utils._
 import org.make.front.styles.vendors.FontAwesomeStyles
 import org.make.services.tracking.TrackingService
 import org.scalajs.dom.raw.HTMLInputElement
 
+import scala.scalajs.js.JSConverters._
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.scalajs.js
-import scala.scalajs.js.JSConverters._
 import scala.util.{Failure, Success}
 
 object RegisterWithEmail {
@@ -69,17 +68,6 @@ object RegisterWithEmail {
           val inputValue = event.target.value
           self.setState(
             state => state.copy(fields = state.fields + (name -> inputValue), errors = state.errors + (name -> ""))
-          )
-        }
-
-        def toggleFieldCheckBox(name: String): () => Unit = { () =>
-          val value: String = if (self.state.fields.get(name).contains("isOptInPartner")) {
-            ""
-          } else {
-            "isOptInPartner"
-          }
-          self.setState(
-            state => state.copy(fields = state.fields + (name -> value), errors = state.errors + (name -> ""))
           )
         }
 
@@ -160,34 +148,6 @@ object RegisterWithEmail {
               }
             }
         }
-
-        def getPartnerOptInCheckbox(field: SignUpField.PartnerOptIn): Seq[Element] = {
-          val optInPartnerCheckValue: Boolean = self.state.fields.get("optInPartner") match {
-            case Some("isOptInPartner") => true
-            case _                      => false
-          }
-
-          Seq(
-            <.input(
-              ^.`type`.checkbox,
-              ^.checked := optInPartnerCheckValue,
-              ^.id := s"optInPartner",
-              ^.value := s"isOptInPartner",
-              ^.className := RWDHideRulesStyles.hide
-            )(),
-            <.label(
-              ^.className := RegisterWithEmailStyles.customCheckboxLabel,
-              ^.`for` := s"optinNewsletter",
-              ^.onClick := toggleFieldCheckBox("optInPartner")
-            )(<.span(^.className := RegisterWithEmailStyles.customCheckboxIconWrapper)(if (optInPartnerCheckValue) {
-              <.i(^.className := js.Array(FontAwesomeStyles.check, RegisterWithEmailStyles.customCheckedIcon))()
-            }), <.span(^.className := RegisterWithEmailStyles.label)(field.labels.find(_.language == self.props.wrapped.language).map(_.label).getOrElse("")))
-          )
-        }
-
-        val partnerOptIn: Option[SignUpField.PartnerOptIn] = self.props.wrapped.additionalFields
-          .find(_.isInstanceOf[SignUpField.PartnerOptIn])
-          .map(_.asInstanceOf[SignUpField.PartnerOptIn])
 
         <.form(^.onSubmit := onSubmit, ^.novalidate := true)(
           <.label(
@@ -334,9 +294,6 @@ object RegisterWithEmail {
               ^.dangerouslySetInnerHTML := self.props.wrapped.note
             )()
           },
-          if (partnerOptIn.nonEmpty) {
-            getPartnerOptInCheckbox(partnerOptIn.get)
-          },
           <.div(^.className := RegisterWithEmailStyles.submitButtonWrapper)(
             <.button(^.className := js.Array(CTAStyles.basicOnButton, CTAStyles.basic), ^.`type` := "submit")(
               <.i(^.className := js.Array(FontAwesomeStyles.thumbsUp))(),
@@ -407,33 +364,4 @@ object RegisterWithEmailStyles extends StyleSheet.Inline {
 
   val submitButtonWrapper: StyleA =
     style(marginTop(ThemeStyles.SpacingValue.small.pxToEm()), textAlign.center)
-
-  val customCheckboxLabel: StyleA =
-    style(display.flex, &.hover(cursor.pointer), marginTop(ThemeStyles.SpacingValue.small.pxToEm()))
-
-  val customCheckboxIconWrapper: StyleA =
-    style(
-      position.relative,
-      minWidth(14.pxToEm()),
-      height(14.pxToEm()),
-      marginRight(6.pxToEm()),
-      backgroundColor(ThemeStyles.BackgroundColor.white),
-      border(1.pxToEm(), solid, ThemeStyles.BorderColor.lighter)
-    )
-
-  val customCheckedIcon: StyleA =
-    style(
-      position.absolute,
-      top(50.%%),
-      left(50.%%),
-      display.block,
-      fontSize(16.pxToEm()),
-      marginTop(-10.pxToEm()),
-      marginLeft(-6.pxToEm()),
-      color(ThemeStyles.ThemeColor.primary)
-    )
-
-  val label: StyleA =
-    style(TextStyles.smallerText, color(ThemeStyles.TextColor.lighter))
-
 }
