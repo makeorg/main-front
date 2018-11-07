@@ -48,8 +48,7 @@ package object register {
                            trackingContext: TrackingContext,
                            trackingParameters: Map[String, String],
                            trackingInternalOnlyParameters: Map[String, String],
-                           additionalFields: Seq[SignUpField],
-                           language: String)
+                           additionalFields: Seq[SignUpField])
 
   def getErrorsMessagesFromApiErrors(errors: js.Array[ValidationError]): js.Array[(String, String)] = {
     errors.map {
@@ -93,7 +92,5 @@ package object register {
     case object PostalCode extends SignUpField
     case object Gender extends SignUpField
     case object Csp extends SignUpField
-    case class PartnerOptInLabel(language: String, label: String)
-    case class PartnerOptIn(labels: Seq[PartnerOptInLabel]) extends SignUpField
   }
 }

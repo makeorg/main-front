@@ -20,8 +20,6 @@
 
 package org.make.services.user
 
-import org.make.front.models.{OperationId, QuestionId}
-
 import scala.scalajs.js
 import scala.scalajs.js.JSConverters._
 
@@ -35,10 +33,8 @@ final case class RegisterUserRequest(email: String,
                                      profession: Option[String] = None,
                                      postalCode: Option[String] = None,
                                      gender: Option[String],
-                                     socioProfessionalCategory: Option[String],
-                                     optInPartner: Option[Boolean] = None,
-                                     operationId: Option[OperationId],
-                                     questionId: Option[QuestionId])
+                                     socioProfessionalCategory: Option[String])
+
 @js.native
 trait JsRegisterUserRequest extends js.Object {
   val email: String
@@ -52,9 +48,6 @@ trait JsRegisterUserRequest extends js.Object {
   val postalCode: js.UndefOr[String]
   val gender: js.UndefOr[String]
   val socioProfessionalCategory: js.UndefOr[String]
-  val optInPartner: js.UndefOr[Boolean]
-  val operationId: js.UndefOr[String]
-  val questionId: js.UndefOr[String]
 }
 
 object JsRegisterUserRequest {
@@ -71,10 +64,7 @@ object JsRegisterUserRequest {
         profession = registerUserRequest.profession.orUndefined,
         postalCode = registerUserRequest.postalCode.orUndefined,
         gender = registerUserRequest.gender.orUndefined,
-        socioProfessionalCategory = registerUserRequest.socioProfessionalCategory.orUndefined,
-        optInPartner = registerUserRequest.optInPartner.orUndefined,
-        operationId = registerUserRequest.operationId.map(_.value).orUndefined,
-        questionId = registerUserRequest.questionId.map(_.value).orUndefined
+        socioProfessionalCategory = registerUserRequest.socioProfessionalCategory.orUndefined
       )
       .asInstanceOf[JsRegisterUserRequest]
   }
