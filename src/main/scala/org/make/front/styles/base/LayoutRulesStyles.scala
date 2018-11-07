@@ -33,6 +33,7 @@ object LayoutRulesStyles extends StyleSheet.Inline {
     position.relative,
     paddingRight(ThemeStyles.SpacingValue.small.pxToEm()),
     paddingLeft(ThemeStyles.SpacingValue.small.pxToEm()),
+    maxWidth(100.%%),
     ThemeStyles.MediaQueries.beyondSmall(
       paddingRight(ThemeStyles.SpacingValue.medium.pxToEm()),
       paddingLeft(ThemeStyles.SpacingValue.medium.pxToEm())
