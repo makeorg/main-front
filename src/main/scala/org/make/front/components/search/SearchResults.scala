@@ -283,6 +283,7 @@ object SearchResultsStyles extends StyleSheet.Inline {
 
   val item: StyleA =
     style(
+      minHeight(365.pxToEm()),
       marginTop(ThemeStyles.SpacingValue.small.pxToEm()),
       ThemeStyles.MediaQueries.beyondSmall(marginBottom(ThemeStyles.SpacingValue.small.pxToEm()))
     )

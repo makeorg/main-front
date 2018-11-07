@@ -196,9 +196,7 @@ object ConsultationCommunityStyles extends StyleSheet.Inline {
 
   val communityText: StyleA =
     style(
-      display.flex,
-      flexFlow := s"column",
-      alignItems.flexStart,
+      display.block,
       color(ThemeStyles.TextColor.lighter),
       paddingLeft(ThemeStyles.SpacingValue.small.pxToEm(13)),
       paddingRight(ThemeStyles.SpacingValue.small.pxToEm(13)),
