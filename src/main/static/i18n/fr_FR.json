@@ -630,6 +630,9 @@
           "INPR": "Professions intermédiaires",
           "EMPL": "Employés",
           "WORK": "Ouvriers",
+          "HSTU": "Lycéens",
+          "STUD": "Étudiants",
+          "APRE": "Apprentis",
           "O": "Autre"
         }
       }

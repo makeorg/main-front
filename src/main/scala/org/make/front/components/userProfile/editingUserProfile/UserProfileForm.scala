@@ -249,6 +249,17 @@ object UserProfileForm {
                         <.option(^.value := SocioProfessionalCategory.Workers.shortName)(
                           I18n.t(s"authenticate.inputs.csp.values.${SocioProfessionalCategory.Workers.shortName}")
                         ),
+                        <.option(^.value := SocioProfessionalCategory.HighSchoolStudent.shortName)(
+                          I18n.t(
+                            s"authenticate.inputs.csp.values.${SocioProfessionalCategory.HighSchoolStudent.shortName}"
+                          )
+                        ),
+                        <.option(^.value := SocioProfessionalCategory.Student.shortName)(
+                          I18n.t(s"authenticate.inputs.csp.values.${SocioProfessionalCategory.Student.shortName}")
+                        ),
+                        <.option(^.value := SocioProfessionalCategory.Apprentice.shortName)(
+                          I18n.t(s"authenticate.inputs.csp.values.${SocioProfessionalCategory.Apprentice.shortName}")
+                        ),
                         <.option(^.value := SocioProfessionalCategory.Other.shortName)(
                           I18n.t(s"authenticate.inputs.csp.values.${SocioProfessionalCategory.Other.shortName}")
                         )
