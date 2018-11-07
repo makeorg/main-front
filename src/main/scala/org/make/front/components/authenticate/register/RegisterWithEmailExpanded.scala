@@ -24,6 +24,7 @@ import io.github.shogowada.scalajs.reactjs.React
 import io.github.shogowada.scalajs.reactjs.VirtualDOM._
 import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import io.github.shogowada.scalajs.reactjs.events.{FormSyntheticEvent, SyntheticEvent}
+import io.github.shogowada.statictags.Element
 import org.make.client.BadRequestHttpException
 import org.make.core.validation._
 import org.make.front.Main.CssSettings._
@@ -31,19 +32,19 @@ import org.make.front.components.Components._
 import org.make.front.components.authenticate.NewPasswordInput.NewPasswordInputProps
 import org.make.front.facades.Unescape.unescape
 import org.make.front.facades.{I18n, Replacements}
-import org.make.front.models.{Gender, SocioProfessionalCategory}
 import org.make.front.models.Gender.{Female, Male, Other}
+import org.make.front.models.{Gender, SocioProfessionalCategory}
 import org.make.front.styles._
-import org.make.front.styles.base.TextStyles
+import org.make.front.styles.base.{RWDHideRulesStyles, TextStyles}
 import org.make.front.styles.ui.{CTAStyles, InputStyles}
 import org.make.front.styles.utils._
 import org.make.front.styles.vendors.FontAwesomeStyles
 import org.make.services.tracking.TrackingService
 import org.scalajs.dom.raw.HTMLInputElement
 
-import scala.scalajs.js.JSConverters._
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.scalajs.js
+import scala.scalajs.js.JSConverters._
 import scala.util.{Failure, Success}
 
 object RegisterWithEmailExpanded {
@@ -68,6 +69,17 @@ object RegisterWithEmailExpanded {
           val inputValue = event.target.value
           self.setState(
             state => state.copy(fields = state.fields + (name -> inputValue), errors = state.errors + (name -> ""))
+          )
+        }
+
+        def toggleFieldCheckBox(name: String): () => Unit = { () =>
+          val value: String = if (self.state.fields.get(name).contains("isOptInPartner")) {
+            ""
+          } else {
+            "isOptInPartner"
+          }
+          self.setState(
+            state => state.copy(fields = state.fields + (name -> value), errors = state.errors + (name -> ""))
           )
         }
 
@@ -148,6 +160,43 @@ object RegisterWithEmailExpanded {
           }
         }
 
+        def getPartnerOptInCheckbox(field: SignUpField.PartnerOptIn): Seq[Element] = {
+          val optInPartnerCheckValue: Boolean = self.state.fields.get("optInPartner") match {
+            case Some("isOptInPartner") => true
+            case _                      => false
+          }
+
+          Seq(
+            <.input(
+              ^.`type`.checkbox,
+              ^.checked := optInPartnerCheckValue,
+              ^.id := s"optInPartner",
+              ^.value := s"isOptInPartner",
+              ^.className := RWDHideRulesStyles.hide
+            )(),
+            <.label(
+              ^.className := RegisterWithEmailExpandedStyles.customCheckboxLabel,
+              ^.`for` := s"optinNewsletter",
+              ^.onClick := toggleFieldCheckBox("optInPartner")
+            )(
+              <.span(^.className := RegisterWithEmailExpandedStyles.customCheckboxIconWrapper)(
+                if (optInPartnerCheckValue) {
+                  <.i(
+                    ^.className := js.Array(FontAwesomeStyles.check, RegisterWithEmailExpandedStyles.customCheckedIcon)
+                  )()
+                }
+              ),
+              <.span(^.className := RegisterWithEmailExpandedStyles.label)(
+                field.labels.find(_.language == self.props.wrapped.language).map(_.label).getOrElse("")
+              )
+            )
+          )
+        }
+
+        val partnerOptIn: Option[SignUpField.PartnerOptIn] = self.props.wrapped.additionalFields
+          .find(_.isInstanceOf[SignUpField.PartnerOptIn])
+          .map(_.asInstanceOf[SignUpField.PartnerOptIn])
+
         <.form(^.onSubmit := onSubmit, ^.novalidate := true)(
           <.label(
             ^.className := js
@@ -165,7 +214,7 @@ object RegisterWithEmailExpanded {
               ^.value := self.state.fields.getOrElse("email", "")
             )()
           ),
-          if (self.state.errors.getOrElse("email", "") != "") {
+          if (self.state.errors.getOrElse("email", "").nonEmpty) {
             <.p(^.className := InputStyles.errorMessage)(unescape(self.state.errors.getOrElse("email", "")))
           },
           <.div(^.className := RegisterWithEmailExpandedStyles.newPasswordInputComponentWrapper)(
@@ -179,7 +228,7 @@ object RegisterWithEmailExpanded {
               )
             )()
           ),
-          if (self.state.errors.getOrElse("password", "") != "") {
+          if (self.state.errors.getOrElse("password", "").nonEmpty) {
             <.p(^.className := InputStyles.errorMessage)(unescape(self.state.errors.getOrElse("password", "")))
           },
           if (self.props.wrapped.additionalFields.contains(SignUpField.FirstName)) {
@@ -199,7 +248,7 @@ object RegisterWithEmailExpanded {
                   ^.value := self.state.fields.getOrElse("firstName", "")
                 )()
               ),
-              if (self.state.errors.getOrElse("firstName", "") != "") {
+              if (self.state.errors.getOrElse("firstName", "").nonEmpty) {
                 <.p(^.className := InputStyles.errorMessage)(unescape(self.state.errors.getOrElse("firstName", "")))
               }
             )
@@ -225,7 +274,7 @@ object RegisterWithEmailExpanded {
                   ^.value := self.state.fields.getOrElse("age", "")
                 )()
               ),
-              if (self.state.errors.getOrElse("age", "") != "") {
+              if (self.state.errors.getOrElse("age", "").nonEmpty) {
                 <.p(^.className := InputStyles.errorMessage)(unescape(self.state.errors.getOrElse("age", "")))
               }
             )
@@ -256,7 +305,7 @@ object RegisterWithEmailExpanded {
                   <.option(^.value := Other.shortName)(I18n.t(s"authenticate.inputs.gender.values.${Other.shortName}"))
                 )
               ),
-              if (self.state.errors.getOrElse("gender", "") != "") {
+              if (self.state.errors.getOrElse("gender", "").nonEmpty) {
                 <.p(^.className := InputStyles.errorMessage)(unescape(self.state.errors.getOrElse("gender", "")))
               }
             )
@@ -278,7 +327,7 @@ object RegisterWithEmailExpanded {
                   ^.value := self.state.fields.getOrElse("postalCode", "")
                 )()
               ),
-              if (self.state.errors.getOrElse("postalCode", "") != "") {
+              if (self.state.errors.getOrElse("postalCode", "").nonEmpty) {
                 <.p(^.className := InputStyles.errorMessage)(unescape(self.state.errors.getOrElse("postalCode", "")))
               }
             )
@@ -300,7 +349,7 @@ object RegisterWithEmailExpanded {
                   ^.value := self.state.fields.getOrElse("profession", "")
                 )()
               ),
-              if (self.state.errors.getOrElse("profession", "") != "") {
+              if (self.state.errors.getOrElse("profession", "").nonEmpty) {
                 <.p(^.className := InputStyles.errorMessage)(unescape(self.state.errors.getOrElse("profession", "")))
               }
             )
@@ -363,14 +412,14 @@ object RegisterWithEmailExpanded {
                   )
                 ),
               ),
-              if (self.state.errors.getOrElse("socioProfessionalCategory", "") != "") {
+              if (self.state.errors.getOrElse("socioProfessionalCategory", "").nonEmpty) {
                 <.p(^.className := InputStyles.errorMessage)(
                   unescape(self.state.errors.getOrElse("socioProfessionalCategory", ""))
                 )
               }
             )
           },
-          if (self.state.errors.getOrElse("global", "") != "") {
+          if (self.state.errors.getOrElse("global", "").nonEmpty) {
             <.p(^.className := InputStyles.errorMessage)(unescape(self.state.errors.getOrElse("global", "")))
           },
           if (self.props.wrapped.note != "") {
@@ -378,6 +427,9 @@ object RegisterWithEmailExpanded {
               ^.className := js.Array(RegisterWithEmailExpandedStyles.note, TextStyles.smallerText),
               ^.dangerouslySetInnerHTML := self.props.wrapped.note
             )()
+          },
+          if (partnerOptIn.nonEmpty) {
+            getPartnerOptInCheckbox(partnerOptIn.get)
           },
           <.div(^.className := RegisterWithEmailExpandedStyles.submitButtonWrapper)(
             <.button(^.className := js.Array(CTAStyles.basicOnButton, CTAStyles.basic), ^.`type` := "submit")(
@@ -464,5 +516,33 @@ object RegisterWithEmailExpandedStyles extends StyleSheet.Inline {
 
   val submitButtonWrapper: StyleA =
     style(marginTop(ThemeStyles.SpacingValue.small.pxToEm()), textAlign.center)
+
+  val customCheckboxLabel: StyleA =
+    style(display.flex, &.hover(cursor.pointer), marginTop(ThemeStyles.SpacingValue.small.pxToEm()))
+
+  val customCheckboxIconWrapper: StyleA =
+    style(
+      position.relative,
+      minWidth(14.pxToEm()),
+      height(14.pxToEm()),
+      marginRight(6.pxToEm()),
+      backgroundColor(ThemeStyles.BackgroundColor.white),
+      border(1.pxToEm(), solid, ThemeStyles.BorderColor.lighter)
+    )
+
+  val customCheckedIcon: StyleA =
+    style(
+      position.absolute,
+      top(50.%%),
+      left(50.%%),
+      display.block,
+      fontSize(16.pxToEm()),
+      marginTop(-10.pxToEm()),
+      marginLeft(-6.pxToEm()),
+      color(ThemeStyles.ThemeColor.primary)
+    )
+
+  val label: StyleA =
+    style(TextStyles.smallerText, color(ThemeStyles.TextColor.lighter))
 
 }

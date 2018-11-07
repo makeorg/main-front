@@ -72,6 +72,8 @@ object RegisterContainer {
             language = appState.language,
             gender = state.fields.get("gender"),
             socioProfessionalCategory = state.fields.get("socioProfessionalCategory"),
+            optInPartner = state.fields.get("optInPartner").map(_.nonEmpty),
+            questionId = props.wrapped.questionId
           )
           .flatMap { _ =>
             UserService.login(state.fields("email"), state.fields("password"))
@@ -107,7 +109,8 @@ object RegisterContainer {
         trackingParameters = props.wrapped.trackingParameters,
         trackingInternalOnlyParameters = props.wrapped.trackingInternalOnlyParameters,
         register = register(),
-        additionalFields = getAdditionalFields
+        additionalFields = getAdditionalFields,
+        language = appState.language
       )
   }
 
