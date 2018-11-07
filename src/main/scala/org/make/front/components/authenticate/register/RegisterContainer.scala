@@ -58,25 +58,25 @@ object RegisterContainer {
         case _ => Seq.empty
       }
 
-      def register(): (RegisterState) => Future[UserModel] = { state =>
+      def register(): Map[String, String] => Future[UserModel] = { fields =>
         val future = UserService
           .registerUser(
-            email = state.fields("email"),
-            password = state.fields("password"),
-            firstName = state.fields("firstName"),
-            profession = state.fields.get("profession"),
-            postalCode = state.fields.get("postalCode"),
-            age = state.fields.get("age").map(_.toInt),
+            email = fields("email"),
+            password = fields("password"),
+            firstName = fields("firstName"),
+            profession = fields.get("profession"),
+            postalCode = fields.get("postalCode"),
+            age = fields.get("age").map(_.toInt),
             operationId = props.wrapped.operationId,
             country = appState.country,
             language = appState.language,
-            gender = state.fields.get("gender"),
-            socioProfessionalCategory = state.fields.get("socioProfessionalCategory"),
-            optInPartner = state.fields.get("optInPartner").map(_.nonEmpty),
+            gender = fields.get("gender"),
+            socioProfessionalCategory = fields.get("socioProfessionalCategory"),
+            optInPartner = fields.get("optInPartner").map(_.nonEmpty),
             questionId = props.wrapped.questionId
           )
           .flatMap { _ =>
-            UserService.login(state.fields("email"), state.fields("password"))
+            UserService.login(fields("email"), fields("password"))
           }
 
         future.onComplete {

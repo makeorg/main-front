@@ -32,7 +32,8 @@ import scala.scalajs.js
 package object register {
   case class RegisterState(fields: Map[String, String],
                            errors: Map[String, String],
-                           additionalFields: Seq[SignUpField]) {
+                           additionalFields: Seq[SignUpField],
+                           disableSubmit: Boolean) {
     def hasError(field: String): Boolean = {
       val maybeErrorMessage = errors.get(field)
       maybeErrorMessage.isEmpty || maybeErrorMessage.contains("")
@@ -40,11 +41,12 @@ package object register {
   }
 
   object RegisterState {
-    val empty = RegisterState(fields = Map.empty, errors = Map.empty, additionalFields = Seq.empty)
+    val empty =
+      RegisterState(fields = Map.empty, errors = Map.empty, additionalFields = Seq.empty, disableSubmit = false)
   }
 
   case class RegisterProps(note: String,
-                           register: (RegisterState) => Future[UserModel],
+                           register: Map[String, String] => Future[UserModel],
                            trackingContext: TrackingContext,
                            trackingParameters: Map[String, String],
                            trackingInternalOnlyParameters: Map[String, String],

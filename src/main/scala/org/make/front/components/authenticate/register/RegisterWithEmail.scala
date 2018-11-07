@@ -65,11 +65,17 @@ object RegisterWithEmail {
           )
       },
       render = { self =>
+        var fieldsRefs: Map[String, HTMLInputElement] = Map.empty
+
         def updateField(name: String): (FormSyntheticEvent[HTMLInputElement]) => Unit = { event =>
           val inputValue = event.target.value
           self.setState(
             state => state.copy(fields = state.fields + (name -> inputValue), errors = state.errors + (name -> ""))
           )
+        }
+
+        def setFieldRef(name: String): HTMLInputElement => Unit = { field =>
+          fieldsRefs = fieldsRefs + (name -> field)
         }
 
         def toggleFieldCheckBox(name: String): () => Unit = { () =>
@@ -129,11 +135,15 @@ object RegisterWithEmail {
 
             var errors: Map[String, String] = Map.empty
 
+            val fieldsValue: Map[String, String] = fieldsRefs.map {
+              case (key, field) => key -> field.value
+            } ++ self.state.fields
+
             fieldsValidation.foreach {
               case (fieldName, constraint, translation) => {
-                val fieldErrors = constraint
-                  .validate(self.state.fields.get(fieldName), translation)
-                  .map(_.message)
+                val fieldValue = fieldsValue.get(fieldName)
+
+                val fieldErrors = constraint.validate(fieldValue, translation).map(_.message)
                 if (fieldErrors.nonEmpty) {
                   errors += (fieldName -> fieldErrors.head)
                 }
@@ -141,20 +151,24 @@ object RegisterWithEmail {
             }
 
             if (errors.nonEmpty) {
-              self.setState(_.copy(errors = errors))
+              self.setState(_.copy(errors = errors, fields = fieldsValue))
             } else {
-              self.props.wrapped.register(self.state).onComplete {
+              self.setState(_.copy(disableSubmit = true))
+              self.props.wrapped.register(fieldsValue).onComplete {
                 case Success(_) => self.setState(RegisterState.empty)
                 case Failure(e) =>
                   e match {
                     case exception: BadRequestHttpException =>
                       val errors = getErrorsMessagesFromApiErrors(exception.errors).toMap
-                      self.setState(_.copy(errors = errors))
+                      self.setState(_.copy(errors = errors, fields = fieldsValue, disableSubmit = false))
                     case _ =>
                       self.setState(
                         state =>
-                          state
-                            .copy(errors = state.errors + ("global" -> I18n.t("authenticate.error-message")))
+                          state.copy(
+                            errors = state.errors + ("global" -> I18n.t("authenticate.error-message")),
+                            fields = fieldsValue,
+                            disableSubmit = false
+                        )
                       )
                   }
               }
@@ -199,7 +213,8 @@ object RegisterWithEmail {
               ^.required := true,
               ^.placeholder := s"${I18n.t("authenticate.inputs.email.placeholder")} ${I18n.t("authenticate.inputs.required")}",
               ^.onChange := updateField("email"),
-              ^.value := self.state.fields.getOrElse("email", "")
+              ^.value := self.state.fields.getOrElse("email", ""),
+              ^.ref := setFieldRef("email")
             )()
           ),
           if (self.state.errors.getOrElse("email", "") != "") {
@@ -229,7 +244,8 @@ object RegisterWithEmail {
               ^.className := js.Array(InputStyles.withIcon),
               ^.placeholder := s"${I18n.t("authenticate.inputs.first-name.placeholder")} ${I18n.t("authenticate.inputs.required")}",
               ^.onChange := updateField("firstName"),
-              ^.value := self.state.fields.getOrElse("firstName", "")
+              ^.value := self.state.fields.getOrElse("firstName", ""),
+              ^.ref := setFieldRef("firstName")
             )()
           ),
           if (self.state.errors.getOrElse("firstName", "") != "") {
@@ -338,7 +354,15 @@ object RegisterWithEmail {
             getPartnerOptInCheckbox(partnerOptIn.get)
           },
           <.div(^.className := RegisterWithEmailStyles.submitButtonWrapper)(
-            <.button(^.className := js.Array(CTAStyles.basicOnButton, CTAStyles.basic), ^.`type` := "submit")(
+            <.button(
+              ^.className := js
+                .Array(
+                  CTAStyles.basicOnButton,
+                  CTAStyles.basic,
+                  RegisterWithEmailStyles.disableSubmit(self.state.disableSubmit)
+                ),
+              ^.`type` := "submit"
+            )(
               <.i(^.className := js.Array(FontAwesomeStyles.thumbsUp))(),
               unescape("&nbsp;" + I18n.t("authenticate.register.send-cta"))
             )
@@ -436,4 +460,11 @@ object RegisterWithEmailStyles extends StyleSheet.Inline {
   val label: StyleA =
     style(TextStyles.smallerText, color(ThemeStyles.TextColor.lighter))
 
+  val disableSubmit: Boolean => StyleA = styleF.bool(
+    disable =>
+      if (disable) {
+        styleS(backgroundColor(ThemeStyles.TextColor.lighter))
+      } else
+        styleS()
+  )
 }
