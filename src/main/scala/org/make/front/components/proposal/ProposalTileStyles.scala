@@ -31,7 +31,8 @@ object ProposalTileStyles extends StyleSheet.Inline {
 
   val wrapper: StyleA =
     style(
-      display.block,
+      display.flex,
+      flexFlow := "column",
       height(100.%%),
       ThemeStyles.MediaQueries.belowMedium(minHeight.inherit),
       minWidth(240.pxToEm()),
@@ -107,10 +108,10 @@ object ProposalTileStyles extends StyleSheet.Inline {
 
   val contentWrapper: StyleA =
     style(
-      display.block,
+      display.flex,
+      flexFlow := "column",
       width(100.%%),
       height(100.%%),
-      maxHeight(252.pxToEm()),
       padding(ThemeStyles.SpacingValue.small.pxToEm(), 20.pxToEm())
     )
 
@@ -123,7 +124,7 @@ object ProposalTileStyles extends StyleSheet.Inline {
 
   val footer: StyleA = style(
     display.block,
-    minHeight(55.pxToEm()),
+    overflow.hidden,
     margin(`0`, ThemeStyles.SpacingValue.small.pxToEm()),
     padding(ThemeStyles.SpacingValue.smaller.pxToEm(), `0`),
     borderTop(1.px, solid, ThemeStyles.BorderColor.veryLight)
