@@ -31,10 +31,11 @@ import org.make.front.Main.CssSettings._
 import org.make.front.facades.Autosuggest._
 import org.make.front.facades._
 import org.make.front.helpers.QueryString
+import org.make.front.models.Operation
 import org.make.front.styles.ThemeStyles
 import org.make.front.styles.ui.InputStyles
-import org.make.services.tracking.{TrackingLocation, TrackingService}
 import org.make.services.tracking.TrackingService.TrackingContext
+import org.make.services.tracking.{TrackingLocation, TrackingService}
 import org.scalajs.dom.raw.FocusEvent
 
 import scala.scalajs.js
@@ -44,7 +45,7 @@ import scala.scalajs.js.{Dictionary, Dynamic, URIUtils}
 object SearchForm {
   type Self = React.Self[Unit, State]
 
-  case class SearchFormProps(country: String)
+  case class SearchFormProps(country: String, defaultOperationSearch: Option[Operation])
   case class State(value: String,
                    suggestions: js.Array[js.Object],
                    operationSlug: Option[String] = None,
@@ -84,7 +85,9 @@ object SearchForm {
             State(
               value = URIUtils.decodeURI(QueryString.parse(self.props.location.search).getOrElse("q", "")),
               suggestions = js.Array(),
-              operationSlug = self.props.`match`.params.get("operationSlug"),
+              operationSlug = self.props.`match`.params
+                .get("operationSlug")
+                .orElse(self.props.wrapped.defaultOperationSearch.map(_.slug)),
               themeSlug = self.props.`match`.params.get("themeSlug")
             )
           },
