@@ -47,7 +47,8 @@ object TriggerSignUp {
                                       voteCount: Int,
                                       isAuthenticateModalOpened: Boolean,
                                       voteLocation: Option[Location],
-                                      registerTitle: Option[String])
+                                      registerTitle: Option[String],
+                                      maybeOperationId: Option[OperationId])
 
   val defaultTitle: Option[String] = Some(unescape(I18n.t("authenticate.register.with-email-intro-trigger")))
 
@@ -60,7 +61,8 @@ object TriggerSignUp {
           voteCount = 0,
           isAuthenticateModalOpened = false,
           voteLocation = None,
-          registerTitle = defaultTitle
+          registerTitle = defaultTitle,
+          maybeOperationId = None
         )
       },
       componentDidMount = { self =>
@@ -75,15 +77,21 @@ object TriggerSignUp {
 
         val onTriggerSignUp: (Location, Option[OperationId], Option[ThemeId]) => Unit = {
           (location, maybeOperationId, _) =>
-            val registerTitle: Option[String] = maybeOperationId match {
-              case Some(operationId) => findRegisterTitleByOperationId(operationId).orElse(defaultTitle)
-              case _                 => defaultTitle
-            }
-
+            val operationId: Option[OperationId] = maybeOperationId.orElse(self.state.voteLocation.flatMap {
+              case OperationPage(operationId) => Some(operationId)
+              case _                          => None
+            })
+            val registerTitle: Option[String] =
+              operationId.flatMap(findRegisterTitleByOperationId).orElse(defaultTitle)
             self.setState(state => state.copy(voteCount = state.voteCount + 1, registerTitle = registerTitle))
             if (self.state.voteCount != 0 && self.state.voteCount % self.props.wrapped.nVotesTriggerConnexion == 0) {
               self.setState(
-                _.copy(isAuthenticateModalOpened = true, voteLocation = Some(location), registerTitle = registerTitle)
+                _.copy(
+                  isAuthenticateModalOpened = true,
+                  voteLocation = Some(location),
+                  registerTitle = registerTitle,
+                  maybeOperationId = operationId
+                )
               )
             }
         }
@@ -94,10 +102,6 @@ object TriggerSignUp {
         TriggerSignUpMiddleware.removeTriggerSignUpListener(self.state.id)
       },
       render = { self =>
-        val maybeOperationId = self.state.voteLocation.flatMap {
-          case OperationPage(operationId) => Some(operationId)
-          case _                          => None
-        }
         <.ModalComponent(
           ^.wrapped := ModalProps(isModalOpened = self.state.isAuthenticateModalOpened, closeCallback = () => {
             self.setState(_.copy(isAuthenticateModalOpened = false, voteLocation = None))
@@ -105,7 +109,7 @@ object TriggerSignUp {
         )(
           <.LoginOrRegisterComponent(
             ^.wrapped := LoginOrRegisterProps(
-              operationId = maybeOperationId,
+              operationId = self.state.maybeOperationId,
               trackingContext = TrackingContext(TrackingLocation.triggerFromVote),
               trackingParameters = Map.empty,
               trackingInternalOnlyParameters = Map.empty,
@@ -114,7 +118,7 @@ object TriggerSignUp {
                 self.setState(_.copy(isAuthenticateModalOpened = false, voteLocation = None))
               },
               registerTitle = self.state.registerTitle,
-              questionId = maybeOperationId.flatMap { id =>
+              questionId = self.state.maybeOperationId.flatMap { id =>
                 self.props.wrapped.operations
                   .findById(id)
                   .flatMap(_.getOperationExpanded(country = self.props.wrapped.country).flatMap(_.questionId))
