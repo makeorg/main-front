@@ -41,7 +41,7 @@ import scala.scalajs.js.Date
 object UserProfileForm {
 
   final case class UserProfileFormProps(
-    handleOnSubmit: Self[UserProfileFormProps, UserProfileFormState] => FormSyntheticEvent[HTMLInputElement] => Unit,
+    handleOnSubmit: (Self[UserProfileFormProps, UserProfileFormState], Map[String, HTMLInputElement]) => Unit,
     user: UserModel
   )
 
@@ -85,13 +85,17 @@ object UserProfileForm {
                 "socioProfessionalCategory" -> props.wrapped.user.profile
                   .flatMap(_.socioProfessionalCategory.map(_.shortName))
                   .getOrElse("")
-              ),
+              ).filter {
+                case (key, value) => value.nonEmpty
+              },
               displayCsp = cspNonEmpty,
               displayGender = genderNonEmpty
             )
           )
         },
         render = self => {
+          var fieldsRefs: Map[String, HTMLInputElement] = Map.empty
+
           def updateField(name: String): FormSyntheticEvent[HTMLInputElement] => Unit = { event =>
             val inputValue = event.target.value
             self.setState(
@@ -105,13 +109,18 @@ object UserProfileForm {
             )
           }
 
-          def disableButtonState: () => Unit = { () =>
+          def setFieldRef(name: String): HTMLInputElement => Unit = { field =>
+            fieldsRefs = fieldsRefs + (name -> field)
+          }
+
+          def submit: () => Unit = { () =>
             self.setState(_.copy(isEdited = false))
+            self.props.wrapped.handleOnSubmit(self, fieldsRefs)
           }
 
           <.div(^.className := EditingUserProfileStyles.wrapper)(
             <.h2(^.className := EditingUserProfileStyles.title)(s"${I18n.t("user-profile.form.title")}"),
-            <.form(^.onSubmit := self.props.wrapped.handleOnSubmit(self))(
+            <.form()(
               <.div(^.className := EditingUserProfileStyles.inputGroup)(
                 <.label(
                   ^.`for` := s"firstName",
@@ -127,7 +136,8 @@ object UserProfileForm {
                     ^.required := true,
                     ^.value := self.state.fields
                       .getOrElse("firstName", ""),
-                    ^.onChange := updateField("firstName")
+                    ^.onChange := updateField("firstName"),
+                    ^.ref := setFieldRef("firstName")
                   )()
                 )
               ),
@@ -318,7 +328,8 @@ object UserProfileForm {
                     ^.required := false,
                     ^.value := self.state.fields
                       .getOrElse("postalCode", ""),
-                    ^.onChange := updateField("postalCode")
+                    ^.onChange := updateField("postalCode"),
+                    ^.ref := setFieldRef("postalCode")
                   )()
                 )
               ),
@@ -383,7 +394,7 @@ object UserProfileForm {
                       EditingUserProfileStyles.submitButton(self.state.isEdited)
                     ),
                   ^.`type` := s"submit",
-                  ^.onClick := disableButtonState
+                  ^.onClick := submit
                 )(
                   <.i(^.className := js.Array(FontAwesomeStyles.save, EditingUserProfileStyles.submitButtonIcon))(),
                   <.span()(s"${I18n.t("user-profile.form.cta")}")

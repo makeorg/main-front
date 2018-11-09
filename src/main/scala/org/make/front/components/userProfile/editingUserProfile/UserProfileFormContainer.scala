@@ -22,7 +22,6 @@ package org.make.front.components.userProfile.editingUserProfile
 
 import io.github.shogowada.scalajs.reactjs.React.{Props, Self}
 import io.github.shogowada.scalajs.reactjs.classes.ReactClass
-import io.github.shogowada.scalajs.reactjs.events.FormSyntheticEvent
 import io.github.shogowada.scalajs.reactjs.redux.ReactRedux
 import io.github.shogowada.scalajs.reactjs.redux.Redux.Dispatch
 import org.make.core.validation.{Constraint, LengthConstraint, NotBlankConstraint}
@@ -68,34 +67,35 @@ object UserProfileFormContainer {
           )
         )
       }
-      def handleOnSubmit(
-        self: Self[UserProfileFormProps, UserProfileFormState]
-      ): FormSyntheticEvent[HTMLInputElement] => Unit = { event =>
-        event.preventDefault()
+      def handleOnSubmit(self: Self[UserProfileFormProps, UserProfileFormState],
+                         fieldsRefs: Map[String, HTMLInputElement]): Unit = {
         var errors: Map[String, String] = Map.empty
+
+        val fieldsValue: Map[String, String] = fieldsRefs.map {
+          case (key, field) =>
+            key -> field.value
+        } ++ self.state.fields
 
         fieldsValidation.foreach {
           case (fieldName, constraint, translation) =>
-            val fieldErrors = constraint
-              .validate(self.state.fields.get(fieldName), translation)
-              .map(_.message)
+            val fieldErrors = constraint.validate(fieldsValue.get(fieldName), translation).map(_.message)
             if (fieldErrors.nonEmpty) {
               errors += (fieldName -> fieldErrors.head)
             }
         }
 
         if (errors.nonEmpty) {
-          self.setState(_.copy(errors = errors))
+          self.setState(_.copy(errors = errors, fields = fieldsValue))
         } else {
           UserService
             .updateUser(
-              firstName = self.state.fields.get("firstName"),
-              age = self.state.fields.get("age"),
-              profession = self.state.fields.get("profession"),
-              postalCode = self.state.fields.get("postalCode"),
-              description = self.state.fields.get("description"),
-              gender = self.state.fields.get("gender"),
-              socioProfessionalCategory = self.state.fields.get("socioProfessionalCategory")
+              firstName = fieldsValue.get("firstName"),
+              age = fieldsValue.get("age"),
+              profession = fieldsValue.get("profession"),
+              postalCode = fieldsValue.get("postalCode"),
+              description = fieldsValue.get("description"),
+              gender = fieldsValue.get("gender"),
+              socioProfessionalCategory = fieldsValue.get("socioProfessionalCategory")
             )
             .onComplete {
               case Success(_) =>
@@ -103,7 +103,11 @@ object UserProfileFormContainer {
                 dispatch(ReloadUserAction)
               case Failure(_) =>
                 self.setState(
-                  state => state.copy(errors = state.errors + ("global" -> I18n.t("user-profile.update.error")))
+                  state =>
+                    state.copy(
+                      errors = state.errors + ("global" -> I18n.t("user-profile.update.error")),
+                      fields = fieldsValue
+                  )
                 )
             }
         }

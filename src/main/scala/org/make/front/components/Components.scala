@@ -190,7 +190,6 @@ object Components {
       self(proposal.ProposalTileWithOrganisationsVotes.reactClass)
     def ProposalTileWithActorPositionComponent: ReactClassElementSpec =
       self(proposal.ProposalTileWithActorPosition.reactClass)
-    def ProposalTileWithVideoComponent: ReactClassElementSpec = self(proposal.ProposalTileWithVideo.reactClass)
     def FakeProposalTileComponent: ReactClassElementSpec = self(proposal.FakeProposalTile.reactClass)
     def ProposalActorVotedComponent: ReactClassElementSpec = self(proposal.ProposalActorVoted.reactClass)
 

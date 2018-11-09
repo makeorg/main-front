@@ -30,6 +30,7 @@ import org.make.core.validation._
 import org.make.front.Main.CssSettings._
 import org.make.front.components.Components._
 import org.make.front.components.authenticate.NewPasswordInput.NewPasswordInputProps
+import org.make.front.components.authenticate.register.RegisterWithEmailStyles.styleF
 import org.make.front.facades.Unescape.unescape
 import org.make.front.facades.{I18n, Replacements}
 import org.make.front.models.Gender.{Female, Male, Other}
@@ -65,11 +66,17 @@ object RegisterWithEmailExpanded {
           )
       },
       render = { self =>
+        var fieldsRefs: Map[String, HTMLInputElement] = Map.empty
+
         def updateField(name: String): (FormSyntheticEvent[HTMLInputElement]) => Unit = { event =>
           val inputValue = event.target.value
           self.setState(
             state => state.copy(fields = state.fields + (name -> inputValue), errors = state.errors + (name -> ""))
           )
+        }
+
+        def setFieldRef(name: String): HTMLInputElement => Unit = { field =>
+          fieldsRefs = fieldsRefs + (name -> field)
         }
 
         def toggleFieldCheckBox(name: String): () => Unit = { () =>
@@ -128,11 +135,14 @@ object RegisterWithEmailExpanded {
 
           var errors: Map[String, String] = Map.empty
 
+          val fieldsValue: Map[String, String] = fieldsRefs.map {
+            case (key, field) => key -> field.value
+          } ++ self.state.fields
+
           fieldsValidation.foreach {
             case (fieldName, constraint, translation) => {
-              val fieldErrors = constraint
-                .validate(self.state.fields.get(fieldName), translation)
-                .map(_.message)
+              val fieldValue = fieldsValue.get(fieldName)
+              val fieldErrors = constraint.validate(fieldValue, translation).map(_.message)
               if (fieldErrors.nonEmpty) {
                 errors += (fieldName -> fieldErrors.head)
               }
@@ -140,20 +150,25 @@ object RegisterWithEmailExpanded {
           }
 
           if (errors.nonEmpty) {
-            self.setState(_.copy(errors = errors))
+            self.setState(_.copy(errors = errors, fields = fieldsValue))
           } else {
-            self.props.wrapped.register(self.state).onComplete {
+            self.setState(_.copy(disableSubmit = true))
+            self.props.wrapped.register(fieldsValue).onComplete {
               case Success(_) => self.setState(RegisterState.empty)
               case Failure(exception) =>
                 exception match {
                   case exception: BadRequestHttpException =>
                     val errors = getErrorsMessagesFromApiErrors(exception.errors).toMap
-                    self.setState(_.copy(errors = errors))
+                    self.setState(_.copy(errors = errors, fields = fieldsValue, disableSubmit = false))
                   case _ =>
                     self.setState(
                       state =>
                         state
-                          .copy(errors = state.errors + ("global" -> I18n.t("authenticate.error-message")))
+                          .copy(
+                            errors = state.errors + ("global" -> I18n.t("authenticate.error-message")),
+                            fields = fieldsValue,
+                            disableSubmit = false
+                        )
                     )
                 }
             }
@@ -211,7 +226,8 @@ object RegisterWithEmailExpanded {
               ^.required := true,
               ^.placeholder := s"${I18n.t("authenticate.inputs.email.placeholder")} ${I18n.t("authenticate.inputs.required")}",
               ^.onChange := updateField("email"),
-              ^.value := self.state.fields.getOrElse("email", "")
+              ^.value := self.state.fields.getOrElse("email", ""),
+              ^.ref := setFieldRef("email")
             )()
           ),
           if (self.state.errors.getOrElse("email", "").nonEmpty) {
@@ -245,7 +261,8 @@ object RegisterWithEmailExpanded {
                   ^.required := true,
                   ^.placeholder := s"${I18n.t("authenticate.inputs.first-name.placeholder")} ${I18n.t("authenticate.inputs.required")}",
                   ^.onChange := updateField("firstName"),
-                  ^.value := self.state.fields.getOrElse("firstName", "")
+                  ^.value := self.state.fields.getOrElse("firstName", ""),
+                  ^.ref := setFieldRef("firstName")
                 )()
               ),
               if (self.state.errors.getOrElse("firstName", "").nonEmpty) {
@@ -324,7 +341,8 @@ object RegisterWithEmailExpanded {
                   ^.required := false,
                   ^.placeholder := s"${I18n.t("authenticate.inputs.postal-code.placeholder")}",
                   ^.onChange := updateField("postalCode"),
-                  ^.value := self.state.fields.getOrElse("postalCode", "")
+                  ^.value := self.state.fields.getOrElse("postalCode", ""),
+                  ^.ref := setFieldRef("postalCode")
                 )()
               ),
               if (self.state.errors.getOrElse("postalCode", "").nonEmpty) {
@@ -432,7 +450,14 @@ object RegisterWithEmailExpanded {
             getPartnerOptInCheckbox(partnerOptIn.get)
           },
           <.div(^.className := RegisterWithEmailExpandedStyles.submitButtonWrapper)(
-            <.button(^.className := js.Array(CTAStyles.basicOnButton, CTAStyles.basic), ^.`type` := "submit")(
+            <.button(
+              ^.className := js.Array(
+                CTAStyles.basicOnButton,
+                CTAStyles.basic,
+                RegisterWithEmailExpandedStyles.disableSubmit(self.state.disableSubmit)
+              ),
+              ^.`type` := "submit"
+            )(
               <.i(^.className := js.Array(FontAwesomeStyles.thumbsUp))(),
               unescape("&nbsp;" + I18n.t("authenticate.register.send-cta"))
             )
@@ -545,4 +570,11 @@ object RegisterWithEmailExpandedStyles extends StyleSheet.Inline {
   val label: StyleA =
     style(TextStyles.smallerText, color(ThemeStyles.TextColor.lighter))
 
+  val disableSubmit: Boolean => StyleA = styleF.bool(
+    disable =>
+      if (disable) {
+        styleS(backgroundColor(ThemeStyles.TextColor.lighter))
+      } else
+        styleS()
+  )
 }
