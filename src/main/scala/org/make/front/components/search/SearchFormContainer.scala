@@ -31,9 +31,14 @@ object SearchFormContainer {
   lazy val reactClass: ReactClass = ReactRedux.connectAdvanced(selectorFactory)(SearchForm.reactClass)
 
   def selectorFactory: (Dispatch) => (AppState, Props[Unit]) => SearchForm.SearchFormProps =
-    (dispatch: Dispatch) => { (appState: AppState, props: Props[Unit]) =>
+    (_: Dispatch) => { (appState: AppState, _: Props[Unit]) =>
       {
-        SearchForm.SearchFormProps(country = appState.country)
+        val defaultOperationSlugForSearch: String = "aines"
+
+        SearchForm.SearchFormProps(
+          country = appState.country,
+          defaultOperationSearch = appState.operations.getOperationBySlug(defaultOperationSlugForSearch)
+        )
       }
     }
 }
