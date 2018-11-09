@@ -26,7 +26,7 @@ import io.github.shogowada.scalajs.reactjs.redux.{ContainerComponentFactory, Rea
 import org.make.front.actions.{LoggedInAction, NotifyInfo}
 import org.make.front.components.AppState
 import org.make.front.facades.I18n
-import org.make.front.models.{OperationId, QuestionId, User => UserModel}
+import org.make.front.models.{OperationExpanded, OperationId, QuestionId, User => UserModel}
 import org.make.services.tracking.TrackingService
 import org.make.services.tracking.TrackingService.TrackingContext
 import org.make.services.user.UserService
@@ -37,8 +37,7 @@ import scala.util.{Failure, Success}
 
 object RegisterContainer {
 
-  case class RegisterUserProps(note: String,
-                               trackingContext: TrackingContext,
+  case class RegisterUserProps(trackingContext: TrackingContext,
                                trackingParameters: Map[String, String],
                                trackingInternalOnlyParameters: Map[String, String],
                                onSuccessfulRegistration: () => Unit = () => {},
@@ -47,16 +46,18 @@ object RegisterContainer {
 
   def selector: ContainerComponentFactory[RegisterProps] = ReactRedux.connectAdvanced {
     dispatch => (appState: AppState, props: Props[RegisterUserProps]) =>
-      def getAdditionalFields: Seq[SignUpField] = props.wrapped.operationId match {
-        case Some(operationId) =>
-          appState.operations
-            .findById(operationId)
-            .flatMap(_.getOperationExpanded(country = appState.country).map(_.additionalFields)) match {
-            case None         => Seq.empty
-            case Some(values) => values
-          }
-        case _ => Seq.empty
-      }
+      def operationExpanded: Option[OperationExpanded] =
+        props.wrapped.operationId.flatMap(
+          operationId =>
+            appState.operations
+              .findById(operationId)
+              .flatMap(_.getOperationExpanded(country = appState.country))
+        )
+
+      def legalNote: String =
+        operationExpanded
+          .flatMap(_.wordings.find(_.language == appState.language).flatMap(_.legalNote))
+          .getOrElse(I18n.t("authenticate.register.terms"))
 
       def register(): Map[String, String] => Future[UserModel] = { fields =>
         val future = UserService
@@ -105,12 +106,12 @@ object RegisterContainer {
         future
       }
       RegisterProps(
-        props.wrapped.note,
+        note = legalNote,
         trackingContext = props.wrapped.trackingContext,
         trackingParameters = props.wrapped.trackingParameters,
         trackingInternalOnlyParameters = props.wrapped.trackingInternalOnlyParameters,
         register = register(),
-        additionalFields = getAdditionalFields,
+        additionalFields = operationExpanded.map(_.additionalFields).getOrElse(Seq.empty),
         language = appState.language
       )
   }
