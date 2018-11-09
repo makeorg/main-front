@@ -42,7 +42,7 @@ object DITPOperationStaticData extends StaticDataOfOperation {
               |nous allons donner à très grande échelle la parole à tous les agents publics de France,
               |sur leur quotidien, les freins qui bloquent leur travail et les inciter à proposer leurs solutions qui,
               |demain, transformeront l’action publique.""".stripMargin),
-        registerTitle = Some("JE M'INSCRIS POUR ÊTRE INFORMÉ(E) DES RÉSULTATS DE LA CONSULTATION")
+        registerTitle = Some(" JE M'INSCRIS AVEC MON EMAIL")
       )
     ),
     color = "#ED2939",
