@@ -19,6 +19,7 @@
  */
 
 package org.make.front.operations
+import org.make.front.components.authenticate.register.SignUpField
 import org.make.front.facades.{ditpLogo, ditpPartnerLogo, ditpPartnerSequenceLogo}
 import org.make.front.models._
 
@@ -76,7 +77,9 @@ object DITPOperationStaticData extends StaticDataOfOperation {
     startDateActions = None,
     operationTypeRibbon = None,
     featureSettings = FeatureSettings(action = false, share = false),
-    initiators = js.Array(OperationInitiator(name = "DITP", imageUrl = ditpPartnerLogo.toString))
+    initiators = js.Array(OperationInitiator(name = "DITP", imageUrl = ditpPartnerLogo.toString)),
+    additionalFields =
+      Seq(SignUpField.FirstName, SignUpField.Age, SignUpField.Job, SignUpField.PostalCode, SignUpField.HiddenOptOut)
   )
 
 }

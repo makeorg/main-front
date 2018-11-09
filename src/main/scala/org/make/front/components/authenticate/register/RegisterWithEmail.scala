@@ -63,6 +63,8 @@ object RegisterWithEmail {
             parameters = self.props.wrapped.trackingParameters + ("signup-type" -> "light"),
             internalOnlyParameters = self.props.wrapped.trackingInternalOnlyParameters
           )
+        if (self.props.wrapped.additionalFields.contains(SignUpField.HiddenOptOut))
+          self.setState(state => state.copy(fields = state.fields + ("optIn" -> "")))
       },
       render = { self =>
         var fieldsRefs: Map[String, HTMLInputElement] = Map.empty
@@ -79,10 +81,10 @@ object RegisterWithEmail {
         }
 
         def toggleFieldCheckBox(name: String): () => Unit = { () =>
-          val value: String = if (self.state.fields.get(name).contains("isOptInPartner")) {
+          val value: String = if (self.state.fields.get(name).contains(name)) {
             ""
           } else {
-            "isOptInPartner"
+            name
           }
           self.setState(
             state => state.copy(fields = state.fields + (name -> value), errors = state.errors + (name -> ""))

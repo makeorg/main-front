@@ -97,5 +97,6 @@ package object register {
     case object Csp extends SignUpField
     case class PartnerOptInLabel(language: String, label: String)
     case class PartnerOptIn(labels: Seq[PartnerOptInLabel]) extends SignUpField
+    case object HiddenOptOut extends SignUpField
   }
 }
