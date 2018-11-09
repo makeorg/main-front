@@ -89,7 +89,7 @@ object ProposalInfos {
           }
 
           val avatarUrl: String = self.props.wrapped.proposal.author.avatarUrl.getOrElse(userPlaceholder.toString)
-          <.div(^.className := js.Array(TableLayoutStyles.wrapper, ProposalInfosStyles.displayFlex))(
+          <.div(^.className := js.Array(ProposalInfosStyles.displayInlineBlock))(
             <.div(^.className := js.Array(TableLayoutStyles.cellVerticalAlignMiddle, ProposalInfosStyles.infosWrapper))(
               <.div(^.className := js.Array(UserNavStyles.avatarWrapper, ProposalInfosStyles.avatar))(
                 <.img(^.src := avatarUrl, ^.className := UserNavStyles.avatar, ^("data-pin-no-hover") := "true")()
@@ -148,7 +148,7 @@ object ProposalInfosStyles extends StyleSheet.Inline {
     unsafeChild("path")(Attr.real("fill") := ThemeStyles.TextColor.white)
   )
 
-  val displayFlex: StyleA = style(display.flex)
+  val displayInlineBlock: StyleA = style(display.inlineBlock)
 
   val actorLink: StyleA =
     style(color(ThemeStyles.ThemeColor.primary))

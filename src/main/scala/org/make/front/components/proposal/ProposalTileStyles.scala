@@ -31,6 +31,7 @@ object ProposalTileStyles extends StyleSheet.Inline {
 
   val wrapper: StyleA =
     style(
+      position.relative,
       display.flex,
       flexFlow := "column",
       height(100.%%),
@@ -62,19 +63,17 @@ object ProposalTileStyles extends StyleSheet.Inline {
     style(display.flex, flexFlow := "column", justifyContent.spaceBetween)
 
   val proposalInfosWrapper: StyleA = style(
-    display.block,
+    display.flex,
+    justifyContent.spaceBetween,
     margin(`0`, 20.pxToEm()),
     padding(20.pxToEm(), `0`, ThemeStyles.SpacingValue.smaller.pxToEm()),
     borderBottom(1.px, solid, ThemeStyles.BorderColor.veryLight),
-    minHeight(60.pxToEm()),
-    ThemeStyles.MediaQueries.beyondSmall(flexFlow := s"row")
+    minHeight(60.pxToEm())
   )
 
   val proposalStatus: StyleA =
     style(
-      display.flex,
-      alignSelf.flexEnd,
-      textAlign.center,
+      display.inlineBlock,
       TextStyles.smallerText,
       position.relative,
       zIndex(2),
