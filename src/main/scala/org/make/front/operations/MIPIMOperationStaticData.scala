@@ -72,6 +72,7 @@ object MIPIMFROperationStaticData extends StaticDataOfOperation {
     startDateActions = None,
     operationTypeRibbon = None,
     featureSettings = FeatureSettings(action = false, share = true),
-    initiators = js.Array(OperationInitiator(name = "MIPIM", imageUrl = mipimPartnersLogo.toString))
+    initiators = js.Array(OperationInitiator(name = "MIPIM", imageUrl = mipimPartnersLogo.toString)),
+    showCase = false
   )
 }

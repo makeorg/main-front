@@ -94,7 +94,8 @@ object G9OperationStaticData extends StaticDataOfOperation {
       OperationInitiator(name = "G9+", imageUrl = g9PlusLogo.toString),
       OperationInitiator(name = "Roland Berger", imageUrl = rolandBergerLogo.toString),
       OperationInitiator(name = "CroissancePlus", imageUrl = croissancePlusLogo.toString)
-    )
+    ),
+    showCase = false
   )
 }
 
@@ -147,6 +148,7 @@ object G9DEOperationStaticData extends StaticDataOfOperation {
             params.closeSequence()
           })
         )
-      }
+      },
+      showCase = false
     )
 }

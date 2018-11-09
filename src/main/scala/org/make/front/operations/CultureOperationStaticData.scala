@@ -82,6 +82,7 @@ object CultureOperationStaticData extends StaticDataOfOperation {
       OperationPartner(name = "Bibliothèque Sans Frontière", imageUrl = bsfAvatar.toString, isFounder = false),
       OperationPartner(name = "Institut Télémaque", imageUrl = telemaqueAvatar.toString, isFounder = false)
     ),
-    featureSettings = FeatureSettings(action = true, share = true)
+    featureSettings = FeatureSettings(action = true, share = true),
+    showCase = false
   )
 }

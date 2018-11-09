@@ -98,6 +98,7 @@ object JeunesHdfOperationStaticData extends StaticDataOfOperation {
           )
         )
       )
-    )
+    ),
+    showCase = false
   )
 }

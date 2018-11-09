@@ -45,7 +45,8 @@ final case class OperationStaticData(
   featureSettings: FeatureSettings,
   initiators: js.Array[OperationInitiator] = js.Array(),
   additionalFields: Seq[SignUpField] =
-    Seq(SignUpField.FirstName, SignUpField.Age, SignUpField.Job, SignUpField.PostalCode)
+    Seq(SignUpField.FirstName, SignUpField.Age, SignUpField.Job, SignUpField.PostalCode),
+  showCase: Boolean = true
 )
 
 object OperationStaticData {
@@ -116,7 +117,8 @@ final case class OperationExpanded(operationId: OperationId,
                                    featureSettings: FeatureSettings,
                                    initiatorList: js.Array[OperationInitiator],
                                    additionalFields: Seq[SignUpField],
-                                   questionId: Option[QuestionId]) {
+                                   questionId: Option[QuestionId],
+                                   showCase: Boolean) {
 
   def getWordingByLanguage(language: String): Option[OperationWording] = {
     wordings.find(_.language == language)
@@ -202,7 +204,8 @@ object OperationExpanded {
         featureSettings = operationStaticData.featureSettings,
         initiatorList = operationStaticData.initiators,
         additionalFields = operationStaticData.additionalFields,
-        questionId = operation.countriesConfiguration.find(_.countryCode == country).map(_.questionId)
+        questionId = operation.countriesConfiguration.find(_.countryCode == country).map(_.questionId),
+        showCase = operationStaticData.showCase
       )
   }
 }

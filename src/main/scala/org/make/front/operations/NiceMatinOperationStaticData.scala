@@ -95,6 +95,7 @@ object NiceMatinOperationStaticData extends StaticDataOfOperation {
         imageUrl = planClimatAirEnergieTerritorialInitiator.toString
       ),
       OperationInitiator(name = "Métropole Nice  Côte D'Azur", imageUrl = metropoleInitiator.toString)
-    )
+    ),
+    showCase = false
   )
 }

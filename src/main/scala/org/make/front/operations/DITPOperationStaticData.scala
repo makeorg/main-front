@@ -79,7 +79,8 @@ object DITPOperationStaticData extends StaticDataOfOperation {
     featureSettings = FeatureSettings(action = false, share = false),
     initiators = js.Array(OperationInitiator(name = "DITP", imageUrl = ditpPartnerLogo.toString)),
     additionalFields =
-      Seq(SignUpField.FirstName, SignUpField.Age, SignUpField.Job, SignUpField.PostalCode, SignUpField.HiddenOptOut)
+      Seq(SignUpField.FirstName, SignUpField.Age, SignUpField.Job, SignUpField.PostalCode, SignUpField.HiddenOptOut),
+    showCase = false
   )
 
 }
