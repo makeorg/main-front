@@ -54,7 +54,8 @@ object Operations {
     G9OperationStaticData.data,
     G9DEOperationStaticData.data,
     MIPIMFROperationStaticData.data,
-    JeunesHdfOperationStaticData.data
+    JeunesHdfOperationStaticData.data,
+    DITPOperationStaticData.data
   )
 }
 
