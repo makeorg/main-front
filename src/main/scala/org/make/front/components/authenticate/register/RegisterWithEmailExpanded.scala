@@ -30,7 +30,6 @@ import org.make.core.validation._
 import org.make.front.Main.CssSettings._
 import org.make.front.components.Components._
 import org.make.front.components.authenticate.NewPasswordInput.NewPasswordInputProps
-import org.make.front.components.authenticate.register.RegisterWithEmailStyles.styleF
 import org.make.front.facades.Unescape.unescape
 import org.make.front.facades.{I18n, Replacements}
 import org.make.front.models.Gender.{Female, Male, Other}
@@ -64,6 +63,8 @@ object RegisterWithEmailExpanded {
             parameters = self.props.wrapped.trackingParameters + ("signup-type" -> "standard"),
             internalOnlyParameters = self.props.wrapped.trackingInternalOnlyParameters
           )
+        if (self.props.wrapped.additionalFields.contains(SignUpField.HiddenOptOut))
+          self.setState(state => state.copy(fields = state.fields + ("optIn" -> "")))
       },
       render = { self =>
         var fieldsRefs: Map[String, HTMLInputElement] = Map.empty
@@ -80,10 +81,10 @@ object RegisterWithEmailExpanded {
         }
 
         def toggleFieldCheckBox(name: String): () => Unit = { () =>
-          val value: String = if (self.state.fields.get(name).contains("isOptInPartner")) {
+          val value: String = if (self.state.fields.get(name).contains(name)) {
             ""
           } else {
-            "isOptInPartner"
+            name
           }
           self.setState(
             state => state.copy(fields = state.fields + (name -> value), errors = state.errors + (name -> ""))

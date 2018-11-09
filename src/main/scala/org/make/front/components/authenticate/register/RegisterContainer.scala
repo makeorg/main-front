@@ -73,7 +73,8 @@ object RegisterContainer {
             gender = fields.get("gender"),
             socioProfessionalCategory = fields.get("socioProfessionalCategory"),
             optInPartner = fields.get("optInPartner").map(_.nonEmpty),
-            questionId = props.wrapped.questionId
+            questionId = props.wrapped.questionId,
+            optIn = fields.get("optIn").map(_.nonEmpty)
           )
           .flatMap { _ =>
             UserService.login(fields("email"), fields("password"))
