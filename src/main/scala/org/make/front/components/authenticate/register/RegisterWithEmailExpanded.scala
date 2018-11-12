@@ -511,10 +511,11 @@ object RegisterWithEmailExpandedStyles extends StyleSheet.Inline {
     style(
       backgroundColor.transparent,
       width(100.%%),
-      height(ThemeStyles.SpacingValue.largerMedium.pxToEm()),
+      height(28.pxToEm(13)),
       ThemeStyles.Font.circularStdBook,
       border.none,
-      fontSize(1.em)
+      fontSize(13.pxToEm()),
+      ThemeStyles.MediaQueries.beyondSmall(minHeight(38.pxToEm(16)), fontSize(16.pxToEm()))
     )
 
   val firstOption: Boolean => StyleA = styleF.bool(
