@@ -80,14 +80,14 @@ object RegisterWithEmail {
           fieldsRefs = fieldsRefs + (name -> field)
         }
 
-        def toggleFieldCheckBox(name: String): () => Unit = { () =>
-          val value: String = if (self.state.fields.get(name).contains(name)) {
+        def toggleFieldCheckBox(name: String, value: String): () => Unit = { () =>
+          val newValue: String = if (self.state.fields.get(name).contains(value)) {
             ""
           } else {
-            name
+            value
           }
           self.setState(
-            state => state.copy(fields = state.fields + (name -> value), errors = state.errors + (name -> ""))
+            state => state.copy(fields = state.fields + (name -> newValue), errors = state.errors + (name -> ""))
           )
         }
 
@@ -193,8 +193,8 @@ object RegisterWithEmail {
             )(),
             <.label(
               ^.className := RegisterWithEmailStyles.customCheckboxLabel,
-              ^.`for` := s"optinNewsletter",
-              ^.onClick := toggleFieldCheckBox("optInPartner")
+              ^.`for` := s"optInPartner",
+              ^.onClick := toggleFieldCheckBox("optInPartner", "isOptInPartner")
             )(<.span(^.className := RegisterWithEmailStyles.customCheckboxIconWrapper)(if (optInPartnerCheckValue) {
               <.i(^.className := js.Array(FontAwesomeStyles.check, RegisterWithEmailStyles.customCheckedIcon))()
             }), <.span(^.className := RegisterWithEmailStyles.label)(field.labels.find(_.language == self.props.wrapped.language).map(_.label).getOrElse("")))
