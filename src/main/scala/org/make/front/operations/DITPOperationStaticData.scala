@@ -49,7 +49,7 @@ object DITPOperationStaticData extends StaticDataOfOperation {
     gradient = Some(GradientColor("#8ADCD7", "#367ABC")),
     logoUrl = ditpLogo.toString,
     whiteLogoUrl = ditpLogo.toString,
-    logoWidth = 540,
+    logoWidth = 322,
     shareUrl = "/FR/consultation/ditp/selection_UTM_&language=fr#/FR/consultation/ditp/selection",
     extraSlides = (params: OperationExtraSlidesParams) => {
       js.Array(

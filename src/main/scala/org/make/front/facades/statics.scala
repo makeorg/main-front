@@ -956,7 +956,7 @@ object hdfLogo extends js.Object
 
 /* Operation DITP */
 @js.native
-@JSImport("./images/operations/ditp/ditp-logo.png", "default")
+@JSImport("./images/operations/ditp/ditp-logo.svg", "default")
 object ditpLogo extends js.Object
 
 @js.native
