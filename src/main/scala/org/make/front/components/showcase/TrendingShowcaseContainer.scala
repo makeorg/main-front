@@ -25,8 +25,7 @@ import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import io.github.shogowada.scalajs.reactjs.redux.ReactRedux
 import io.github.shogowada.scalajs.reactjs.redux.Redux.Dispatch
 import org.make.front.components.AppState
-import org.make.front.models.{Operation, QuestionId, Location => LocationModel}
-import org.make.services.operation.OperationService
+import org.make.front.models.{QuestionId, Location => LocationModel}
 import org.make.services.proposal.{ProposalService, SearchResult}
 
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -46,29 +45,31 @@ object TrendingShowcaseContainer {
     : (Dispatch) => (AppState, Props[TrendingShowcaseContainerProps]) => TrendingShowcase.TrendingShowcaseProps =
     (_: Dispatch) => { (appState: AppState, props: Props[TrendingShowcaseContainerProps]) =>
       def results: () => Future[SearchResult] = () => {
-        val questionId: Option[QuestionId] = appState.operations.getActiveOperations(appState.country).headOption
-
-        ProposalService
-          .searchProposals(
-            questionId = questionId,
-            trending = Some(props.wrapped.trending),
-            limit = Some(2),
-            isRandom = Some(true),
-            language = Some(appState.language),
-            country = Some(appState.country)
-          )
-          .flatMap {
-            case results if results.total == 2 => Future.successful(results)
-            case _ =>
-              ProposalService.searchProposals(
-                questionId = questionId,
+        val maybeQuestionId: Option[QuestionId] = appState.operations.getOperationForShowCase(appState.country)
+        maybeQuestionId match {
+          case Some(questionId) =>
+            ProposalService
+              .searchProposals(
+                questionId = Some(questionId),
+                trending = Some(props.wrapped.trending),
                 limit = Some(2),
                 isRandom = Some(true),
                 language = Some(appState.language),
                 country = Some(appState.country)
               )
+              .flatMap {
+                case results if results.total == 2 => Future.successful(results)
+                case _ =>
+                  ProposalService.searchProposals(
+                    questionId = Some(questionId),
+                    limit = Some(2),
+                    isRandom = Some(true),
+                    language = Some(appState.language),
+                    country = Some(appState.country)
+                  )
+              }
+            case _ => Future.successful(SearchResult(total = 0, results = js.Array(), seed = None))
           }
-
       }
 
       TrendingShowcase.TrendingShowcaseProps(

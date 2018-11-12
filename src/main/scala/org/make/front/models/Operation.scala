@@ -21,11 +21,8 @@
 package org.make.front.models
 
 import org.make.front.helpers.UndefToOption.undefToOption
-import org.make.services.operation.{
-  OperationCountryConfigurationResponse,
-  OperationResponse,
-  OperationTranslationResponse
-}
+import org.make.front.operations.Operations
+import org.make.services.operation.{OperationCountryConfigurationResponse, OperationResponse, OperationTranslationResponse}
 
 import scala.scalajs.js
 
@@ -94,6 +91,24 @@ final case class OperationList(values: js.Array[Operation]) {
     values.exists(_.operationId.value == operationId.value)
   }
 
+  def getOperationForShowCase(country: String): Option[QuestionId] = {
+    values
+      .filter{operation =>
+        operation.getOperationExpanded(js.Array(), country) match {
+          case Some(operationExpanded) => operationExpanded.showCase
+          case None => false
+        }
+      }
+      .flatMap(_.countriesConfiguration)
+      .filter { configuration =>
+        val now = new js.Date().getTime()
+        configuration.countryCode == country &&
+          configuration.startDate.forall(_.getTime() <= now) &&
+          configuration.endDate.forall(_.getTime() >= now)
+      }
+      .map(_.questionId)
+      .headOption
+  }
   def isEmpty(): Boolean = values.isEmpty
 }
 object OperationList {

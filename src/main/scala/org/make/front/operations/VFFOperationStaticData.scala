@@ -57,7 +57,8 @@ object VFFOperationStaticData extends StaticDataOfOperation {
       )
     },
     startDateActions = None,
-    featureSettings = FeatureSettings(action = true, share = true)
+    featureSettings = FeatureSettings(action = true, share = true),
+    showCase = false
   )
 }
 
@@ -89,7 +90,8 @@ object VFFITOperationStaticData extends StaticDataOfOperation {
         Slides.displayFinalCard(params)
       )
     },
-    startDateActions = None
+    startDateActions = None,
+    showCase = false
   )
 }
 
@@ -119,6 +121,7 @@ object VFFGBOperationStaticData extends StaticDataOfOperation {
         Slides.displayFinalCard(params)
       )
     },
-    startDateActions = None
+    startDateActions = None,
+    showCase = false
   )
 }

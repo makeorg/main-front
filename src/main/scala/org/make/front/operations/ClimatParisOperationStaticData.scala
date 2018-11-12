@@ -61,6 +61,7 @@ object ClimatParisOperationStaticData extends StaticDataOfOperation {
       )
     },
     startDateActions = None,
-    featureSettings = FeatureSettings(action = true, share = true)
+    featureSettings = FeatureSettings(action = true, share = true),
+    showCase = false
   )
 }
