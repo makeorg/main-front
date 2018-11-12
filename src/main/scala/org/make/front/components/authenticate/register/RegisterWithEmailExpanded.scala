@@ -80,14 +80,14 @@ object RegisterWithEmailExpanded {
           fieldsRefs = fieldsRefs + (name -> field)
         }
 
-        def toggleFieldCheckBox(name: String): () => Unit = { () =>
-          val value: String = if (self.state.fields.get(name).contains(name)) {
+        def toggleFieldCheckBox(name: String, value: String): () => Unit = { () =>
+          val newValue: String = if (self.state.fields.get(name).contains(value)) {
             ""
           } else {
-            name
+            value
           }
           self.setState(
-            state => state.copy(fields = state.fields + (name -> value), errors = state.errors + (name -> ""))
+            state => state.copy(fields = state.fields + (name -> newValue), errors = state.errors + (name -> ""))
           )
         }
 
@@ -192,8 +192,8 @@ object RegisterWithEmailExpanded {
             )(),
             <.label(
               ^.className := RegisterWithEmailExpandedStyles.customCheckboxLabel,
-              ^.`for` := s"optinNewsletter",
-              ^.onClick := toggleFieldCheckBox("optInPartner")
+              ^.`for` := s"optInPartner",
+              ^.onClick := toggleFieldCheckBox("optInPartner", "isOptInPartner")
             )(
               <.span(^.className := RegisterWithEmailExpandedStyles.customCheckboxIconWrapper)(
                 if (optInPartnerCheckValue) {
