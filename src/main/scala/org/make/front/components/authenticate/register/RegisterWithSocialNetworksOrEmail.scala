@@ -73,7 +73,6 @@ object RegisterWithSocialNetworksOrEmail {
         ),
         <.RegisterWithEmailContainerComponent(
           ^.wrapped := RegisterUserProps(
-            note = I18n.t("authenticate.register.terms"),
             trackingContext = self.props.wrapped.trackingContext,
             trackingParameters = self.props.wrapped.trackingParameters,
             trackingInternalOnlyParameters = self.props.wrapped.trackingInternalOnlyParameters,
@@ -112,7 +111,6 @@ object RegisterWithSocialNetworksOrEmail {
       ),
       <.RegisterWithEmailExpandedContainerComponent(
         ^.wrapped := RegisterUserProps(
-          note = I18n.t("authenticate.register.terms"),
           trackingContext = self.props.wrapped.trackingContext,
           trackingParameters = self.props.wrapped.trackingParameters,
           trackingInternalOnlyParameters = self.props.wrapped.trackingInternalOnlyParameters,

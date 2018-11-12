@@ -54,7 +54,12 @@ object AinesOperationStaticData extends StaticDataOfOperation {
             |recueillies vont nous permettre de bâtir, aux côtés de l’État, le 1er grand Plan d'actions citoyen en faveur des Aînés. Entreprises, associations,
             |pouvoirs publics, citoyens, nous nous donnons trois ans pour concrétiser les actions de ce Plan et réussir ainsi à mieux prendre soin de nos aînés.""".stripMargin
         ),
-        registerTitle = None
+        registerTitle = None,
+        legalNote = Some(
+          """En vous inscrivant, vous acceptez nos
+            | <a href=\\\"https://about.make.org/conditions-dutilisation\\\" target=\\\"_blank\\\">conditions générales d'utilisation</a>
+            | ainsi que de recevoir ponctuellement des emails de&nbsp;Make.org ou de nos partenaires associatifs.""".stripMargin
+        )
       )
     ),
     color = "#9C6BDA",
