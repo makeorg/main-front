@@ -113,7 +113,7 @@ object ConsultationPresentation {
                 .Array(AccordionStyles.collapseWrapper, AccordionStyles.collapseWrapperToggle(self.state.isCollapsed))
             )(
               <.p(^.className := js.Array(TextStyles.smallerText, ConsultationPresentationStyles.presentationText))(
-                unescape(self.props.wrapped.content),
+                <.span(^.dangerouslySetInnerHTML := self.props.wrapped.content)(),
                 unescape("&nbsp"),
                 self.props.wrapped.learnMoreUrl.map { url =>
                   <.a(

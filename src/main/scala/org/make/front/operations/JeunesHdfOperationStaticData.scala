@@ -42,9 +42,11 @@ object JeunesHdfOperationStaticData extends StaticDataOfOperation {
             |
             |Les Hauts-de-France vont initier avec Make.org une consultation totalement inédite : plusieurs dizaines de
             | milliers de jeunes vont en effet pouvoir répondre très librement à la question
-            | « Comment vous aider à construire votre avenir en Hauts-de-France ? ». Les résultats de la consultation
-            | seront le point de départ d’une mobilisation plus ample de toutes les forces vives de la région,
-            | débouchant sur un plan d’actions concrètes. """.stripMargin
+            | « Comment vous aider à construire votre avenir en Hauts-de-France ? ».
+            | Les résultats de la consultation seront le point de départ d’une mobilisation
+            | plus ample de toutes les forces vives de la région,
+            | débouchant sur un plan d’actions concrètes que vous pourrez retrouver sur
+            | <a href="http://www.generation.hautsdefrance.fr">www.generation.hautsdefrance.fr</a>. """.stripMargin
         ),
         registerTitle = Some("JE M'INSCRIS POUR ÊTRE INFORMÉ(E) DES RÉSULTATS DE LA CONSULTATION")
       )
