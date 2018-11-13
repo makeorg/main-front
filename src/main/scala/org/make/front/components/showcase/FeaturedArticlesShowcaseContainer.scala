@@ -25,7 +25,7 @@ import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import io.github.shogowada.scalajs.reactjs.redux.ReactRedux
 import io.github.shogowada.scalajs.reactjs.redux.Redux.Dispatch
 import org.make.front.components.AppState
-import org.make.front.facades.{cajShowcase, cajShowcaseX2, mveShowcase, mveShowcaseX2, vffShowcase, vffShowcaseX2}
+import org.make.front.facades.{cajShowcase, cultureShowcase, mveShowcase, vffShowcase}
 import org.make.front.models.{FeaturedArticle => FeaturedArticleModel}
 
 import scala.scalajs.js
@@ -39,8 +39,15 @@ object FeaturedArticlesShowcaseContainer {
       FeaturedArticlesShowcase.FeaturedArticlesShowcaseProps(
         articles = js.Array(
           FeaturedArticleModel(
+            illUrl = cultureShowcase.toString,
+            imageAlt = Some("Accès à la culture pour tous"),
+            label = "Consultation terminée",
+            excerpt = "Découvrez prochainement les idées qui ont émergé de notre consultation.",
+            seeMoreLabel = "En savoir + sur la consultation",
+            seeMoreLink = "https://about.make.org/about-culture"
+          ),
+          FeaturedArticleModel(
             illUrl = cajShowcase.toString,
-            ill2xUrl = cajShowcaseX2.toString,
             imageAlt = Some("Une chance pour chaque jeune"),
             label = "Consultation terminée",
             excerpt = "Découvrez prochainement les idées qui ont émergé de notre consultation.",
@@ -49,7 +56,6 @@ object FeaturedArticlesShowcaseContainer {
           ),
           FeaturedArticleModel(
             illUrl = mveShowcase.toString,
-            ill2xUrl = mveShowcaseX2.toString,
             imageAlt = Some("Comment mieux vivre ensemble ?"),
             label = "Consultation terminée",
             excerpt = "Découvrez prochainement les idées qui ont émergé de notre consultation.",
@@ -58,7 +64,6 @@ object FeaturedArticlesShowcaseContainer {
           ),
           FeaturedArticleModel(
             illUrl = vffShowcase.toString,
-            ill2xUrl = vffShowcaseX2.toString,
             imageAlt = Some("Stop aux violences faîtes aux femmes"),
             label = "Actions",
             excerpt = "Grâce aux idées issues de la consultation, 8 actions nationales ont été identifiées.",

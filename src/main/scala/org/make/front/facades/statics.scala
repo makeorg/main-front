@@ -797,42 +797,18 @@ object cinemadifferenceAvatar extends js.Object
 /** Featured operation **/
 
 @js.native
-@JSImport("./images/operations/aines/aines-400x500.jpg", "default")
+@JSImport("./images/operations/aines/aines-500x375.jpg", "default")
 object featuredOperationSmall extends js.Object
 
 @js.native
-@JSImport("./images/operations/aines/aines-400x500@2x.jpg", "default")
-object featuredOperationSmall2x extends js.Object
-
-@js.native
-@JSImport("./images/operations/aines/aines-840x500.jpg", "default")
+@JSImport("./images/operations/aines/aines-840x440.jpg", "default")
 object featuredOperationMedium extends js.Object
 
 @js.native
-@JSImport("./images/operations/aines/aines-840x500@2x.jpg", "default")
-object featuredOperationMedium2x extends js.Object
-
-@js.native
-@JSImport("./images/operations/aines/aines-1350x500.jpg", "default")
+@JSImport("./images/operations/aines/aines-1140x440.jpg", "default")
 object featuredOperationLarge extends js.Object
 
-@js.native
-@JSImport("./images/operations/aines/aines-1350x500@2x.jpg", "default")
-object featuredOperationLarge2x extends js.Object
-
 /** Operation Aines **/
-
-@js.native
-@JSImport("./images/operations/aines/aines-ill-1440x530.jpg", "default")
-object ainesIll extends js.Object
-
-@js.native
-@JSImport("./images/operations/aines/aines-ill-2880x1070.jpg", "default")
-object ainesIll2x extends js.Object
-
-@js.native
-@JSImport("./images/operations/aines/aines-ill-4320x1605.jpg", "default")
-object ainesIll3x extends js.Object
 
 @js.native
 @JSImport("./images/operations/aines/aines-logo-dark.svg", "default")
@@ -1088,28 +1064,20 @@ object itFlag extends js.Object
 /* SHOWCASES */
 
 @js.native
-@JSImport("./images/showcase/caj_showcase.jpg", "default")
+@JSImport("./images/showcase/illustration-caj.png", "default")
 object cajShowcase extends js.Object
 
 @js.native
-@JSImport("./images/showcase/caj_showcase@2x.jpg", "default")
-object cajShowcaseX2 extends js.Object
-
-@js.native
-@JSImport("./images/showcase/vff_showcase.png", "default")
+@JSImport("./images/showcase/illustration-vff.png", "default")
 object vffShowcase extends js.Object
 
 @js.native
-@JSImport("./images/showcase/vff_showcase@2x.png", "default")
-object vffShowcaseX2 extends js.Object
-
-@js.native
-@JSImport("./images/showcase/mve_showcase.jpg", "default")
+@JSImport("./images/showcase/illustration-mve.png", "default")
 object mveShowcase extends js.Object
 
 @js.native
-@JSImport("./images/showcase/mve_showcase@2x.jpg", "default")
-object mveShowcaseX2 extends js.Object
+@JSImport("./images/showcase/illustration-culture.png", "default")
+object cultureShowcase extends js.Object
 
 /* FONTS */
 
