@@ -20,6 +20,8 @@
 
 package org.make.front.operations
 import org.make.front.facades.{
+  bpiFranceLogo,
+  bpiFranceSequenceLogo,
   croissancePlusLogo,
   europeanDigitalChampionsLogoWhite,
   europeanDigitalChampionsLogoWhiteDE,
@@ -67,7 +69,8 @@ object G9OperationStaticData extends StaticDataOfOperation {
             partners = js.Array(
               OperationIntroPartner(name = "G9+", imageUrl = g9PlusLogo.toString),
               OperationIntroPartner(name = "Roland Berger", imageUrl = rolandBergerLogo.toString),
-              OperationIntroPartner(name = "CroissancePlus", imageUrl = croissancePlusLogo.toString)
+              OperationIntroPartner(name = "CroissancePlus", imageUrl = croissancePlusLogo.toString),
+              OperationIntroPartner(name = "Bpifrance", imageUrl = bpiFranceSequenceLogo.toString)
             )
           )
         ),
@@ -93,7 +96,8 @@ object G9OperationStaticData extends StaticDataOfOperation {
     initiators = js.Array(
       OperationInitiator(name = "G9+", imageUrl = g9PlusLogo.toString),
       OperationInitiator(name = "Roland Berger", imageUrl = rolandBergerLogo.toString),
-      OperationInitiator(name = "CroissancePlus", imageUrl = croissancePlusLogo.toString)
+      OperationInitiator(name = "CroissancePlus", imageUrl = croissancePlusLogo.toString),
+      OperationInitiator(name = "Bpifrance", imageUrl = bpiFranceLogo.toString)
     ),
     showCase = false
   )
@@ -133,7 +137,8 @@ object G9DEOperationStaticData extends StaticDataOfOperation {
               partners = js.Array(
                 OperationIntroPartner(name = "G9+", imageUrl = g9PlusLogo.toString),
                 OperationIntroPartner(name = "Roland Berger", imageUrl = rolandBergerLogo.toString),
-                OperationIntroPartner(name = "CroissancePlus", imageUrl = croissancePlusLogo.toString)
+                OperationIntroPartner(name = "CroissancePlus", imageUrl = croissancePlusLogo.toString),
+                OperationIntroPartner(name = "Bpifrance", imageUrl = bpiFranceSequenceLogo.toString)
               )
             )
           ),

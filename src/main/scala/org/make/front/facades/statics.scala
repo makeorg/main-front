@@ -925,6 +925,14 @@ object g9PlusLogo extends js.Object
 object rolandBergerLogo extends js.Object
 
 @js.native
+@JSImport("./images/operations/european-digital-champions/initiators/bpi-france.png", "default")
+object bpiFranceLogo extends js.Object
+
+@js.native
+@JSImport("./images/operations/european-digital-champions/initiators/bpi-france-sequence.png", "default")
+object bpiFranceSequenceLogo extends js.Object
+
+@js.native
 @JSImport("./images/operations/plan-climat/initiators/nice-matin-partner.png", "default")
 object niceMatinInitiator extends js.Object
 
