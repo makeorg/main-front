@@ -86,6 +86,7 @@ final case class OperationIntroWording(
   title: Option[String] = Some(unescape(I18n.t("sequence.introduction.title"))),
   explanation1: Option[String] = Some(unescape(I18n.t("sequence.introduction.explanation-1"))),
   explanation2: Option[String] = Some(unescape(I18n.t("sequence.introduction.explanation-2"))),
+  partnershipText: Option[String] = Some(unescape(I18n.t("sequence.introduction.partners"))),
   duration: Option[String] = None,
   cta: Option[String] = None,
   partners: js.Array[OperationIntroPartner] = js.Array()

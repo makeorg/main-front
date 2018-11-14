@@ -59,6 +59,7 @@ object DITPOperationStaticData extends StaticDataOfOperation {
             title = Some("Des milliers d'agents publics proposent des solutions."),
             explanation1 = Some("Prenez position sur ces solutions ou proposez les vôtres."),
             explanation2 = Some("Vos contributions seront restituées à la DITP de manière anonyme."),
+            partnershipText = None,
             partners = js.Array(OperationIntroPartner(name = "DITP", imageUrl = ditpPartnerSequenceLogo.toString))
           )
         ),
