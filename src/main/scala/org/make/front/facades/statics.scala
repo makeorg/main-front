@@ -944,12 +944,20 @@ object hdfLogo extends js.Object
 object ditpLogo extends js.Object
 
 @js.native
-@JSImport("./images/operations/ditp/partners/ditp-partner.png", "default")
+@JSImport("./images/operations/ditp/partners/ditp-partner-sequence.svg", "default")
 object ditpPartnerLogo extends js.Object
 
 @js.native
 @JSImport("./images/operations/ditp/partners/macp-partner-sequence.jpg", "default")
 object macpPartnerLogo extends js.Object
+
+@js.native
+@JSImport("./images/operations/ditp/sequence-intro-icon.png", "default")
+object sequenceIntroIcon extends js.Object
+
+@js.native
+@JSImport("./images/operations/ditp/sequence-proposal-icon.png", "default")
+object sequenceProposalIcon extends js.Object
 
 /* FLAGS */
 

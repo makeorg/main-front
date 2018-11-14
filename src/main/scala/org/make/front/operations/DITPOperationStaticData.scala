@@ -80,7 +80,10 @@ object DITPOperationStaticData extends StaticDataOfOperation {
     operationTypeRibbon = None,
     featureSettings = FeatureSettings(action = false, share = false),
     initiators = js.Array(
-      OperationInitiator(name = "Ministère de l'action et des comptes publiques", imageUrl = macpPartnerLogo.toString)
+      OperationInitiator(
+        name = "Direction Interministérielle de la Transformation Publique",
+        imageUrl = ditpPartnerLogo.toString
+      )
     ),
     additionalFields =
       Seq(SignUpField.FirstName, SignUpField.Age, SignUpField.Job, SignUpField.PostalCode, SignUpField.HiddenOptOut),

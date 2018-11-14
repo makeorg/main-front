@@ -28,8 +28,8 @@ import org.make.front.Main.CssSettings._
 import org.make.front.components.Components._
 import org.make.front.components.modals.FullscreenModal.FullscreenModalProps
 import org.make.front.components.operation.SubmitProposalInRelationToOperation.SubmitProposalInRelationToOperationProps
-import org.make.front.facades.I18n
 import org.make.front.facades.Unescape.unescape
+import org.make.front.facades.{sequenceProposalIcon, I18n}
 import org.make.front.models.{SequenceId, Location => LocationModel, OperationExpanded => OperationModel}
 import org.make.front.styles.ThemeStyles
 import org.make.front.styles.base.{LayoutRulesStyles, TextStyles}
@@ -90,51 +90,59 @@ object PromptingToProposeInRelationToDITPOperation {
             )
           }
 
-          <.div(
-            ^.className := js.Array(LayoutRulesStyles.row, PromptingToProposeInRelationToDITPOperationStyles.wrapper)
-          )(
-            <.div(^.className := js.Array(PromptingToProposeInRelationToDITPOperationStyles.titleWrapper))(
-              <.p(^.className := js.Array(TextStyles.bigText, TextStyles.boldText))(
-                unescape(I18n.t("sequence.prompting-to-propose.intro"))
-              )
+          <.div(^.className := js.Array(PromptingToProposeInRelationToDITPOperationStyles.wrapper))(
+            <.p(^.className := PromptingToProposeInRelationToDITPOperationStyles.extraIcon)(
+              <.img(
+                ^.src := sequenceProposalIcon.toString,
+                ^.alt := "",
+                ^.className := PromptingToProposeInRelationToDITPOperationStyles.sequenceIcon
+              )()
             ),
-            <.div(^.className := js.Array(PromptingToProposeInRelationToDITPOperationStyles.ctaWrapper))(
-              <.button(
-                ^.className := js.Array(CTAStyles.basic, CTAStyles.basicOnButton),
-                ^.onClick := openProposalModal
-              )(
-                <.i(^.className := js.Array(FontAwesomeStyles.pencil))(),
-                unescape("&nbsp;" + I18n.t("sequence.prompting-to-propose.propose-cta"))
-              ),
-              <.FullscreenModalComponent(
-                ^.wrapped := FullscreenModalProps(
-                  isModalOpened = self.state.isProposalModalOpened,
-                  closeCallback = closeProposalModal
+            <.div(^.className := PromptingToProposeInRelationToDITPOperationStyles.contentWrapper)(
+              <.div(^.className := js.Array(PromptingToProposeInRelationToDITPOperationStyles.titleWrapper))(
+                <.p(^.className := js.Array(TextStyles.bigText, TextStyles.boldText))(
+                  unescape(I18n.t("sequence.prompting-to-propose.intro"))
                 )
-              )(
-                <.SubmitProposalInRelationToOperationComponent(
-                  ^.wrapped := SubmitProposalInRelationToOperationProps(
-                    operation = self.props.wrapped.operation,
-                    onProposalProposed = () => {
-                      closeProposalModal()
-                      self.props.wrapped.proposeHandler()
-                    },
-                    maybeSequence = Some(self.props.wrapped.sequenceId),
-                    maybeLocation = self.props.wrapped.maybeLocation,
-                    language = self.props.wrapped.language
+              ),
+              <.div(^.className := js.Array(PromptingToProposeInRelationToDITPOperationStyles.ctaWrapper))(
+                <.button(
+                  ^.className := js.Array(CTAStyles.basic, CTAStyles.basicOnButton),
+                  ^.onClick := openProposalModal
+                )(
+                  <.i(^.className := js.Array(FontAwesomeStyles.pencil))(),
+                  unescape("&nbsp;" + I18n.t("sequence.prompting-to-propose.propose-cta"))
+                ),
+                <.FullscreenModalComponent(
+                  ^.wrapped := FullscreenModalProps(
+                    isModalOpened = self.state.isProposalModalOpened,
+                    closeCallback = closeProposalModal
                   )
-                )()
+                )(
+                  <.SubmitProposalInRelationToOperationComponent(
+                    ^.wrapped := SubmitProposalInRelationToOperationProps(
+                      operation = self.props.wrapped.operation,
+                      onProposalProposed = () => {
+                        closeProposalModal()
+                        self.props.wrapped.proposeHandler()
+                      },
+                      maybeSequence = Some(self.props.wrapped.sequenceId),
+                      maybeLocation = self.props.wrapped.maybeLocation,
+                      language = self.props.wrapped.language
+                    )
+                  )()
+                )
+              ),
+              <.div(^.className := PromptingToProposeInRelationToDITPOperationStyles.ctaWrapper)(
+                <.button(
+                  ^.className := js.Array(CTAStyles.basic, CTAStyles.basicOnButton, CTAStyles.moreDiscreet),
+                  ^.onClick := onNextProposal
+                )(
+                  <.i(^.className := js.Array(FontAwesomeStyles.stepForward))(),
+                  unescape("&nbsp;" + I18n.t("sequence.prompting-to-propose.next-cta"))
+                )
               )
             ),
-            <.div(^.className := PromptingToProposeInRelationToDITPOperationStyles.ctaWrapper)(
-              <.button(
-                ^.className := js.Array(CTAStyles.basic, CTAStyles.basicOnButton, CTAStyles.moreDiscreet),
-                ^.onClick := onNextProposal
-              )(
-                <.i(^.className := js.Array(FontAwesomeStyles.stepForward))(),
-                unescape("&nbsp;" + I18n.t("sequence.prompting-to-propose.next-cta"))
-              )
-            ),
+            <.div()(),
             <.style()(PromptingToProposeInRelationToDITPOperationStyles.render[String])
           )
         }
@@ -147,7 +155,16 @@ object PromptingToProposeInRelationToDITPOperationStyles extends StyleSheet.Inli
   import dsl._
 
   val wrapper: StyleA =
-    style(textAlign.center)
+    style(display.flex, height(100.%%), flexFlow := "column", alignItems.center, justifyContent.spaceAround)
+
+  val contentWrapper: StyleA =
+    style(textAlign.center, padding(`0`, ThemeStyles.SpacingValue.small.pxToEm()))
+
+  val extraIcon: StyleA =
+    style(marginBottom(ThemeStyles.SpacingValue.medium.pxToEm()))
+
+  val sequenceIcon: StyleA =
+    style(maxWidth(75.pxToEm()), margin(`0`, auto), ThemeStyles.MediaQueries.beyondSmall(maxWidth(100.%%)))
 
   val titleWrapper: StyleA =
     style(marginBottom(ThemeStyles.SpacingValue.small.pxToEm()))

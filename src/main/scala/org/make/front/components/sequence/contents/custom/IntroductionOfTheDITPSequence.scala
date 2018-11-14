@@ -25,11 +25,11 @@ import io.github.shogowada.scalajs.reactjs.VirtualDOM.{<, _}
 import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import org.make.front.Main.CssSettings._
 import org.make.front.components.Components._
-import org.make.front.facades.I18n
 import org.make.front.facades.Unescape.unescape
+import org.make.front.facades.{sequenceIntroIcon, I18n}
 import org.make.front.models.{OperationIntroPartner, OperationIntroWording}
 import org.make.front.styles.ThemeStyles
-import org.make.front.styles.base.{LayoutRulesStyles, TextStyles}
+import org.make.front.styles.base.TextStyles
 import org.make.front.styles.ui.CTAStyles
 import org.make.front.styles.utils._
 import org.make.front.styles.vendors.FontAwesomeStyles
@@ -64,6 +64,13 @@ object IntroductionOfTheDITPSequence {
         },
         render = { self =>
           <.div(^.className := js.Array(IntroductionOfTheDITPSequenceStyles.introCardWrapper))(
+            <.p(^.className := IntroductionOfTheDITPSequenceStyles.extraIcon)(
+              <.img(
+                ^.src := sequenceIntroIcon.toString,
+                ^.alt := "",
+                ^.className := IntroductionOfTheDITPSequenceStyles.sequenceIcon
+              )()
+            ),
             <.div(^.className := IntroductionOfTheDITPSequenceStyles.contentWrapper)(
               <.div(^.className := IntroductionOfTheDITPSequenceStyles.titleWrapper)(
                 <.p(^.className := js.Array(TextStyles.bigIntro, IntroductionOfTheDITPSequenceStyles.title))(
@@ -105,14 +112,10 @@ object IntroductionOfTheDITPSequence {
               )
             ),
             if (self.state.partners.nonEmpty) {
-              <.p(^.className := IntroductionOfTheDITPSequenceStyles.extraPartners)(
-                I18n.t("sequence.introduction.partners"),
-                <.ul()(self.state.partners.map { partner =>
-                  <.li(^.className := IntroductionOfTheDITPSequenceStyles.partnerItem)(
-                    <.img(^.src := partner.imageUrl, ^.alt := partner.name, ^.key := partner.name)()
-                  )
-                }.toSeq)
-              )
+              <.p(^.className := IntroductionOfTheDITPSequenceStyles.extraPartners)(self.state.partners.map { partner =>
+                <.img(^.src := partner.imageUrl, ^.alt := partner.name, ^.key := partner.name)()
+              }.toSeq)
+
             },
             <.style()(IntroductionOfTheDITPSequenceStyles.render[String])
           )
@@ -138,13 +141,13 @@ object IntroductionOfTheDITPSequenceStyles extends StyleSheet.Inline {
     style(textAlign.center, color(ThemeStyles.TextColor.lighter))
 
   val explanationWrapper: StyleA =
-    style(marginTop(ThemeStyles.SpacingValue.small.pxToEm()), marginBottom(ThemeStyles.SpacingValue.small.pxToEm()))
+    style(marginTop(ThemeStyles.SpacingValue.smaller.pxToEm()), marginBottom(ThemeStyles.SpacingValue.smaller.pxToEm()))
 
   val explanation: StyleA =
     style(textAlign.center)
 
   val ctaWrapper: StyleA =
-    style(textAlign.center, marginTop(ThemeStyles.SpacingValue.medium.pxToEm()))
+    style(textAlign.center, marginTop(ThemeStyles.SpacingValue.small.pxToEm()))
 
   val extraPartners: StyleA =
     style(
@@ -154,8 +157,15 @@ object IntroductionOfTheDITPSequenceStyles extends StyleSheet.Inline {
       flexFlow := "column",
       justifyContent.center,
       alignItems.center,
+      marginTop(ThemeStyles.SpacingValue.small.pxToEm()),
       ThemeStyles.MediaQueries.beyondMedium(flexFlow := "row")
     )
+
+  val extraIcon: StyleA =
+    style(marginBottom(ThemeStyles.SpacingValue.small.pxToEm()))
+
+  val sequenceIcon: StyleA =
+    style(maxWidth(75.pxToEm()), ThemeStyles.MediaQueries.beyondSmall(maxWidth(100.%%)))
 
   val partnerItem: StyleA =
     style(display.inlineBlock, marginLeft(ThemeStyles.SpacingValue.small.pxToEm()))
