@@ -27,7 +27,14 @@ import org.make.front.components.sequence.contents.PromptingToGoBackToOperation.
 import org.make.front.components.sequence.contents.PromptingToGoBackToOperationLight.PromptingToGoBackToOperationLightProps
 import org.make.front.components.sequence.contents._
 import org.make.front.components.sequence.contents.PromptingToProposeInRelationToOperation.PromptingToProposeInRelationToOperationProps
+import org.make.front.components.sequence.contents.custom.IntroductionOfTheDITPSequence.IntroductionOfTheDITPSequenceProps
+import org.make.front.components.sequence.contents.custom.PromptingToProposeInRelationToDITPOperation.PromptingToProposeInRelationToDITPOperationProps
+import org.make.front.components.sequence.contents.custom.{
+  IntroductionOfTheDITPSequence,
+  PromptingToProposeInRelationToDITPOperation
+}
 import org.make.front.models._
+import org.make.front.operations.Slides.{defaultTrackingInternalOnlyParameters, trackingContext}
 import org.make.services.tracking.{TrackingLocation, TrackingService}
 import org.make.services.tracking.TrackingService.TrackingContext
 
@@ -222,4 +229,76 @@ object Slides {
       ),
       onFocus = onFocus
     )
+}
+
+object CustomSlides {
+  def trackingContext(params: OperationExtraSlidesParams): TrackingContext =
+    TrackingContext(TrackingLocation.sequencePage, Some(params.operation.slug))
+  def defaultTrackingInternalOnlyParameters(params: OperationExtraSlidesParams): Map[String, String] =
+    Map("sequenceId" -> params.sequence.sequenceId.value, "operation" -> params.operation.slug)
+
+  def displayDITPSequenceIntroCard(params: OperationExtraSlidesParams,
+                                   displayed: Boolean = true,
+                                   introWording: OperationIntroWording): ExtraSlide = {
+    ExtraSlide(
+      reactClass = IntroductionOfTheDITPSequence.reactClass,
+      slideName = "intro",
+      props = { (handler: () => Unit) =>
+        {
+          val onClick: () => Unit = () => {
+            TrackingService
+              .track(
+                eventName = "click-sequence-launch",
+                trackingContext = trackingContext(params),
+                parameters = Map.empty,
+                internalOnlyParameters = defaultTrackingInternalOnlyParameters(params)
+              )
+            handler()
+          }
+          IntroductionOfTheDITPSequenceProps(clickOnButtonHandler = onClick, introWording = introWording)
+        }
+      },
+      position = _ => 0,
+      displayed = displayed,
+      maybeTracker = Some(
+        DisplayTracker(
+          name = "display-sequence-intro-card",
+          context = trackingContext(params),
+          parameters = Map.empty,
+          internalOnlyParameters = defaultTrackingInternalOnlyParameters(params)
+        )
+      )
+    )
+  }
+
+  def displayDITPProposalPushCard(params: OperationExtraSlidesParams, displayed: Boolean = true): ExtraSlide = {
+    ExtraSlide(
+      reactClass = PromptingToProposeInRelationToDITPOperation.reactClass,
+      slideName = "propose",
+      props = { handler =>
+        PromptingToProposeInRelationToDITPOperationProps(
+          operation = params.operation,
+          clickOnButtonHandler = handler,
+          proposeHandler = handler,
+          sequenceId = params.sequence.sequenceId,
+          maybeLocation = params.maybeLocation,
+          language = params.language,
+          handleCanUpdate = params.handleCanUpdate
+        )
+      },
+      position = { slides =>
+        slides.size / 2
+      },
+      displayed = displayed,
+      maybeTracker = Some(
+        DisplayTracker(
+          "display-proposal-push-card",
+          trackingContext(params),
+          Map.empty,
+          defaultTrackingInternalOnlyParameters(params)
+        )
+      )
+    )
+  }
+
 }
