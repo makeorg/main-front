@@ -41,6 +41,7 @@ object IntroductionOfTheSequence {
   final case class IntroductionOfTheSequenceState(title: String,
                                                   explanation1: Option[String],
                                                   explanation2: Option[String],
+                                                  partnershipText: Option[String],
                                                   cta: String,
                                                   duration: Option[String],
                                                   partners: js.Array[OperationIntroPartner])
@@ -55,6 +56,7 @@ object IntroductionOfTheSequence {
             title = self.props.wrapped.introWording.title.getOrElse(unescape(I18n.t("sequence.introduction.title"))),
             explanation1 = self.props.wrapped.introWording.explanation1,
             explanation2 = self.props.wrapped.introWording.explanation2,
+            partnershipText = self.props.wrapped.introWording.partnershipText,
             cta =
               self.props.wrapped.introWording.cta.getOrElse(unescape("&nbsp;" + I18n.t("sequence.introduction.cta"))),
             duration = self.props.wrapped.introWording.duration,
@@ -103,7 +105,7 @@ object IntroductionOfTheSequence {
             ),
             if (self.state.partners.nonEmpty) {
               <.p(^.className := IntroductionOfTheSequenceStyles.extraPartners)(
-                I18n.t("sequence.introduction.partners"),
+                self.state.partnershipText,
                 <.ul()(self.state.partners.map { partner =>
                   <.li(^.className := IntroductionOfTheSequenceStyles.partnerItem)(
                     <.img(^.src := partner.imageUrl, ^.alt := partner.name, ^.key := partner.name)()
