@@ -948,8 +948,8 @@ object ditpLogo extends js.Object
 object ditpPartnerLogo extends js.Object
 
 @js.native
-@JSImport("./images/operations/ditp/partners/ditp-partner-sequence.png", "default")
-object ditpPartnerSequenceLogo extends js.Object
+@JSImport("./images/operations/ditp/partners/macp-partner-sequence.jpg", "default")
+object macpPartnerLogo extends js.Object
 
 /* FLAGS */
 

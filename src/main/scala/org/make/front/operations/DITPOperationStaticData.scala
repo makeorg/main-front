@@ -20,7 +20,7 @@
 
 package org.make.front.operations
 import org.make.front.components.authenticate.register.SignUpField
-import org.make.front.facades.{ditpLogo, ditpPartnerLogo, ditpPartnerSequenceLogo}
+import org.make.front.facades.{ditpLogo, ditpPartnerLogo, macpPartnerLogo}
 import org.make.front.models._
 
 import scala.scalajs.js
@@ -53,14 +53,15 @@ object DITPOperationStaticData extends StaticDataOfOperation {
     shareUrl = "/FR/consultation/ditp/selection_UTM_&language=fr#/FR/consultation/ditp/selection",
     extraSlides = (params: OperationExtraSlidesParams) => {
       js.Array(
-        Slides.displaySequenceIntroCard(
+        CustomSlides.displayDITPSequenceIntroCard(
           params,
           introWording = OperationIntroWording(
             title = Some("Des milliers d'agents publics proposent des solutions."),
             explanation1 = Some("Prenez position sur ces solutions ou proposez les vôtres."),
-            explanation2 = Some("Vos contributions seront restituées à la DITP de manière anonyme."),
-            partnershipText = None,
-            partners = js.Array(OperationIntroPartner(name = "DITP", imageUrl = ditpPartnerSequenceLogo.toString))
+            explanation2 = Some(
+              "Vos contributions seront restituées à la Direction Interministérielle de la Transformation Publique de manière anonyme."
+            ),
+            partners = js.Array(OperationIntroPartner(name = "DITP", imageUrl = macpPartnerLogo.toString))
           )
         ),
         Slides.displaySignUpCard(
@@ -69,7 +70,7 @@ object DITPOperationStaticData extends StaticDataOfOperation {
           registerTitle = Some("Inscrivez vous pour enregistrer vos contributions"),
           nextCta = Some("Non merci, je ne souhaite pas que mes contributions soient enregistrées")
         ),
-        Slides.displayProposalPushCard(params),
+        CustomSlides.displayDITPProposalPushCard(params),
         Slides.redirectToConsultationCard(params, onFocus = () => {
           params.closeSequence()
         })
@@ -78,7 +79,9 @@ object DITPOperationStaticData extends StaticDataOfOperation {
     startDateActions = None,
     operationTypeRibbon = None,
     featureSettings = FeatureSettings(action = false, share = false),
-    initiators = js.Array(OperationInitiator(name = "DITP", imageUrl = ditpPartnerLogo.toString)),
+    initiators = js.Array(
+      OperationInitiator(name = "Ministère de l'action et des comptes publiques", imageUrl = macpPartnerLogo.toString)
+    ),
     additionalFields =
       Seq(SignUpField.FirstName, SignUpField.Age, SignUpField.Job, SignUpField.PostalCode, SignUpField.HiddenOptOut),
     showCase = false
