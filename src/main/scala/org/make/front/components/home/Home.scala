@@ -92,6 +92,7 @@ object Home {
                 maybeLocation = Some(Location.Homepage)
               )
             )(),
+            <.ExtraOperationsContainerComponent.empty,
             <.MainFooterContainerComponent.empty,
             <.style()(HomeStyles.render[String])
           )

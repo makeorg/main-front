@@ -278,6 +278,8 @@ object Components {
     def HomeComponent: ReactClassElementSpec = self(home.Home.reactClass)
     def WelcomeComponent: ReactClassElementSpec = self(home.Welcome.reactClass)
     def FeaturedOperationComponent: ReactClassElementSpec = self(home.FeaturedOperation.reactClass)
+    def ExtraOperationsContainerComponent: ReactClassElementSpec =
+      self(home.ExtraOperationsContainer.reactClass)
     def ExplanationsComponent: ReactClassElementSpec = self(home.Explanations.reactClass)
 
   }
