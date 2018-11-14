@@ -64,7 +64,12 @@ object TextStyles extends StyleSheet.Inline {
   )
 
   val veryBigText: StyleA =
-    style(ThemeStyles.Font.circularStdBook, fontSize(44.pxToEm()), lineHeight(1))
+    style(
+      ThemeStyles.Font.circularStdBook,
+      fontSize(22.pxToEm()),
+      lineHeight(1),
+      ThemeStyles.MediaQueries.beyondSmall(fontSize(44.pxToEm()))
+    )
 
   val boldText: StyleA = style(ThemeStyles.Font.circularStdBold)
 

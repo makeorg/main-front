@@ -32,10 +32,12 @@ import org.make.front.facades.I18n
 import org.make.front.facades.Unescape.unescape
 import org.make.front.models.Location
 import org.make.front.styles.ThemeStyles
-import org.make.front.styles.base.RWDHideRulesStyles
+import org.make.front.styles.base.{LayoutRulesStyles, RWDHideRulesStyles, TableLayoutStyles, TextStyles}
 import org.make.front.styles.utils._
 import org.make.services.tracking.TrackingService.TrackingContext
 import org.make.services.tracking.{TrackingLocation, TrackingService}
+
+import scala.scalajs.js
 
 object Home {
 
@@ -58,12 +60,18 @@ object Home {
                 <.MainHeaderContainer.empty
               )
             ),
-            <.h1(^.style := Map("display" -> "none"))("Make.org"),
             if (self.props.wrapped.countryCode == "FR") {
-              <.FeaturedOperationComponent(
-                ^.wrapped := FeaturedOperationProps(trackingLocation = TrackingLocation.homepage)
-              )()
+              <.section(^.className := LayoutRulesStyles.centeredRow)(
+                <.header(^.className := HomeStyles.contentHeader)(
+                  <.span(^.className := TextStyles.mediumTitle)(I18n.t("home.main-title")),
+                  <.h1(^.className := js.Array(TextStyles.mediumTitle, HomeStyles.mainTitle))("Make.org")
+                ),
+                <.FeaturedOperationComponent(
+                  ^.wrapped := FeaturedOperationProps(trackingLocation = TrackingLocation.homepage)
+                )()
+              )
             } else {
+              <.h1(^.style := Map("display" -> "none"))("Make.org")
               <.WelcomeComponent.empty
             },
             <.FeaturedArticlesShowcaseContainerComponent.empty,
@@ -102,6 +110,12 @@ object HomeStyles extends StyleSheet.Inline {
     paddingBottom(50.pxToEm()),
     ThemeStyles.MediaQueries.beyondSmall(paddingBottom(ThemeStyles.mainNavDefaultHeight))
   )
+
+  val mainTitle: StyleA =
+    style(display.inline)
+
+  val contentHeader: StyleA =
+    style(padding(ThemeStyles.SpacingValue.medium.pxToEm(20), `0`, ThemeStyles.SpacingValue.small.pxToEm(20)))
 
   val fixedMainHeaderWrapper: StyleA =
     style(position.fixed, top(`0`), left(`0`), width(100.%%), zIndex(10), boxShadow := s"0 2px 4px 0 rgba(0,0,0,0.50)")

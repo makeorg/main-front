@@ -44,22 +44,16 @@ object FeaturedArticlesShowcase {
       .createClass[FeaturedArticlesShowcaseProps, Unit](
         displayName = "FeaturedArticlesShowcase",
         render = { self =>
-          def articleTile(article: FeaturedArticleModel) = <.article()(
-            <.div(^.className := FeaturedArticleTileStyles.illWrapper)(
+          def articleTile(article: FeaturedArticleModel) =
+            <.article(^.className := FeaturedArticleTileStyles.operation)(
               <.a(^.href := article.seeMoreLink, ^.className := TextStyles.boldText)(
                 <.img(
+                  ^.className := FeaturedArticleTileStyles.operationPicture,
                   ^.src := article.illUrl,
-                  ^.srcset := article.illUrl + " 1x," + article.ill2xUrl + " 2x",
                   ^.alt := article.imageAlt.getOrElse("")
                 )()
-              )
-            ),
-            <.div(^.className := FeaturedArticleTileStyles.contentWrapper)(
-              <.div(^.className := FeaturedArticleTileStyles.labelWrapper)(
-                <.div(^.className := FeaturedArticleTileStyles.labelInnerWrapper)(
-                  <.p(^.className := js.Array(FeaturedArticleTileStyles.label, TextStyles.label))(article.label)
-                )
               ),
+              <.h2(^.className := js.Array(FeaturedArticleTileStyles.label, TextStyles.verySmallTitle))(article.label),
               <.div(^.className := FeaturedArticleTileStyles.excerptWrapper)(
                 <.p(^.className := TextStyles.mediumText)(
                   article.excerpt,
@@ -68,168 +62,55 @@ object FeaturedArticlesShowcase {
                 )
               )
             )
-          )
 
-          <.section(^.className := FeaturedArticlesShowcaseStyles.wrapper)(
-            <.header(^.className := LayoutRulesStyles.centeredRow)(
-              <.h2(^.className := TextStyles.mediumTitle)(unescape(I18n.t("home.featured-articles-showcase.title")))
-            ),
-            <.div(
-              ^.className := js.Array(
-                RWDRulesMediumStyles.hideBeyondMedium,
-                LayoutRulesStyles.centeredRowWithCols,
-                FeaturedArticlesShowcaseStyles.slideshow
-              )
-            )(
-              <.Slider(^.infinite := false, ^.arrows := false)(
-                self.props.wrapped.articles
-                  .map(
-                    article =>
-                      <.div(
-                        ^.className :=
-                          js.Array(ColRulesStyles.col, FeaturedArticleTileStyles.wrapper)
-                      )(articleTile(article))
-                  )
-                  .toSeq
-              )
-            ),
-            <.div(
-              ^.className := js.Array(
-                RWDRulesMediumStyles.showBlockBeyondMedium,
-                RWDHideRulesStyles.hideBeyondLarge,
-                LayoutRulesStyles.centeredRowWithCols,
-                FeaturedArticlesShowcaseStyles.slideshow
-              )
-            )(
-              <.Slider(^.infinite := false, ^.arrows := false, ^.slidesToShow := 2, ^.slidesToScroll := 2)(
-                self.props.wrapped.articles
-                  .map(
-                    article =>
-                      <.div(
-                        ^.className := js.Array(
-                          FeaturedArticleTileStyles.wrapper,
-                          ColRulesStyles.col,
-                          ColRulesStyles.colHalfBeyondMedium
-                        )
-                      )(articleTile(article))
-                  )
-                  .toSeq
-              )
-            ),
-            <.div(^.className := RWDHideRulesStyles.showBlockBeyondLarge)(
-              <.ul(^.className := LayoutRulesStyles.centeredRowWithCols)(
-                self.props.wrapped.articles
-                  .map(
-                    article =>
-                      <.li(
-                        ^.className := js.Array(
-                          FeaturedArticleTileStyles.wrapper,
-                          ColRulesStyles.col,
-                          ColRulesStyles.colThirdBeyondLarge
-                        )
-                      )(articleTile(article))
-                  )
-                  .toSeq
-              )
-            ),
-            <.style()(FeaturedArticlesShowcaseStyles.render[String], FeaturedArticleTileStyles.render[String])
+          <.section(^.className := js.Array(LayoutRulesStyles.centeredRow, FeaturedArticleTileStyles.wrapper))(
+            self.props.wrapped.articles
+              .map(article => articleTile(article))
+              .toSeq,
+            <.style()(FeaturedArticleTileStyles.render[String])
           )
         }
       )
 
 }
 
-object FeaturedArticlesShowcaseStyles extends StyleSheet.Inline {
-  import dsl._
-
-  val wrapper: StyleA =
-    style(
-      padding(ThemeStyles.SpacingValue.medium.pxToEm(), `0`),
-      ThemeStyles.MediaQueries.beyondSmall(
-        padding(
-          ThemeStyles.SpacingValue.larger.pxToEm(),
-          `0`,
-          (ThemeStyles.SpacingValue.larger - ThemeStyles.SpacingValue.small).pxToEm()
-        )
-      ),
-      overflow.hidden
-    )
-
-  val slideshow: StyleA =
-    style(
-      width(95.%%),
-      unsafeChild(".slick-list")(overflow.visible),
-      unsafeChild(".slick-slide")(height.auto, minHeight.inherit),
-      unsafeChild(".slick-track")(display.flex)
-    )
-}
-
 object FeaturedArticleTileStyles extends StyleSheet.Inline {
 
   import dsl._
 
+  val specialPadding = ThemeStyles.SpacingValue.small / 2
+
+  val specialTabletPadding = ThemeStyles.SpacingValue.small + specialPadding
+
   val wrapper: StyleA =
     style(
-      marginTop(ThemeStyles.SpacingValue.small.pxToEm()),
-      ThemeStyles.MediaQueries.beyondSmall(marginBottom(ThemeStyles.SpacingValue.small.pxToEm()))
+      padding(ThemeStyles.SpacingValue.small.pxToEm()),
+      ThemeStyles.MediaQueries
+        .beyondSmall(padding(ThemeStyles.SpacingValue.small.pxToEm(), specialTabletPadding.pxToEm())),
+      ThemeStyles.MediaQueries
+        .beyondMedium(
+          padding(ThemeStyles.SpacingValue.medium.pxToEm(), ThemeStyles.SpacingValue.small.pxToEm()),
+          display.flex,
+          justifyContent.spaceBetween
+        )
     )
 
-  val illWrapper: StyleA =
+  val operation: StyleA =
     style(
-      position.relative,
-      padding(((50 * 100) / 180).%%, 50.%%),
-      backgroundColor(ThemeStyles.BackgroundColor.blackVeryTransparent),
-      overflow.hidden,
-      unsafeChild("img")(
-        position.absolute,
-        top(50.%%),
-        left(50.%%),
-        height.auto,
-        maxHeight.none,
-        minHeight(100.%%),
-        width.auto,
-        maxWidth.none,
-        minWidth(100.%%),
-        transform := s"translate(-50%, -50%)"
-      )
-    )
-
-  val contentWrapper: StyleA =
-    style(position.relative)
-
-  val labelWrapper: StyleA =
-    style(
-      position.absolute,
-      left(`0`),
-      bottom(100.%%),
+      display.inlineBlock,
       width(100.%%),
-      padding(`0`, (ThemeStyles.SpacingValue.largerMedium / 2).pxToEm()),
-      overflow.hidden
+      padding(`0`),
+      marginBottom(ThemeStyles.SpacingValue.small.pxToEm()),
+      ThemeStyles.MediaQueries.beyondSmall(width(50.%%), padding(`0`, specialPadding.pxToEm())),
+      ThemeStyles.MediaQueries.beyondMedium(width(100.%%), padding(`0`, ThemeStyles.SpacingValue.small.pxToEm()))
     )
 
-  val labelInnerWrapper: StyleA =
-    style(
-      position.relative,
-      padding(`0`, (ThemeStyles.SpacingValue.largerMedium / 2).pxToEm()),
-      textAlign.center,
-      &.before(
-        content := "''",
-        position.absolute,
-        left(`0`),
-        bottom(`0`),
-        display.block,
-        height(50.%%),
-        width(100.%%),
-        backgroundColor(ThemeStyles.TextColor.white),
-        boxShadow := "0 0px 4px 0 rgba(0,0,0,0.5)"
-      )
-    )
+  val operationPicture: StyleA =
+    style(width(100.%%))
+
   val label: StyleA =
-    style(position.relative)
+    style(marginTop(ThemeStyles.SpacingValue.small.pxToEm(13)))
 
   val excerptWrapper: StyleA =
-    style(
-      padding(ThemeStyles.SpacingValue.smaller.pxToEm(), ThemeStyles.SpacingValue.largerMedium.pxToEm(), `0`),
-      unsafeChild("a")(color(ThemeStyles.ThemeColor.primary))
-    )
+    style(unsafeChild("a")(color(ThemeStyles.ThemeColor.primary)))
 }
