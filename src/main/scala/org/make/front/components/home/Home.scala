@@ -116,7 +116,10 @@ object HomeStyles extends StyleSheet.Inline {
     style(display.inline)
 
   val contentHeader: StyleA =
-    style(padding(ThemeStyles.SpacingValue.medium.pxToEm(20), `0`, ThemeStyles.SpacingValue.small.pxToEm(20)))
+    style(
+      padding(ThemeStyles.SpacingValue.medium.pxToEm(), `0`, ThemeStyles.SpacingValue.small.pxToEm()),
+      ThemeStyles.MediaQueries.beyondMedium(paddingTop(ThemeStyles.SpacingValue.largerMedium.pxToEm()))
+    )
 
   val fixedMainHeaderWrapper: StyleA =
     style(position.fixed, top(`0`), left(`0`), width(100.%%), zIndex(10), boxShadow := s"0 2px 4px 0 rgba(0,0,0,0.50)")

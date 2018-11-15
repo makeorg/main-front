@@ -142,7 +142,6 @@ object PromptingToProposeInRelationToDITPOperation {
                 )
               )
             ),
-            <.div()(),
             <.style()(PromptingToProposeInRelationToDITPOperationStyles.render[String])
           )
         }
@@ -155,14 +154,7 @@ object PromptingToProposeInRelationToDITPOperationStyles extends StyleSheet.Inli
   import dsl._
 
   val wrapper: StyleA =
-    style(
-      display.flex,
-      width(100.%%),
-      height(100.%%),
-      flexFlow := "column",
-      alignItems.center,
-      justifyContent.spaceAround
-    )
+    style(display.flex, width(100.%%), height(100.%%), flexFlow := "column", alignItems.center, justifyContent.center)
 
   val contentWrapper: StyleA =
     style(maxWidth(100.%%), textAlign.center, padding(`0`, ThemeStyles.SpacingValue.small.pxToEm()))

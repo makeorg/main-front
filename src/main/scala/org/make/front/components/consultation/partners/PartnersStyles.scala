@@ -44,6 +44,7 @@ object PartnersStyles extends StyleSheet.Inline {
   val item: StyleA =
     style(
       position.relative,
+      zIndex(1),
       float.left,
       marginBottom(ThemeStyles.SpacingValue.small.pxToEm()),
       marginRight(14.pxToPercent(320)),

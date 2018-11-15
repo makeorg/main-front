@@ -132,7 +132,7 @@ object QualificateVoteStyles extends StyleSheet.Inline {
   import dsl._
 
   val wrapper: StyleA =
-    style(position.relative)
+    style(position.relative, zIndex(1))
 
   val buttonItem: StyleA =
     style(marginTop((ThemeStyles.SpacingValue.smaller / 2).pxToEm()), &.firstChild(marginTop(`0`)))
