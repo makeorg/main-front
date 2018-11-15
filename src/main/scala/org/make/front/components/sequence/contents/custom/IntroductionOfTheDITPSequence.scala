@@ -129,19 +129,37 @@ object IntroductionOfTheDITPSequenceStyles extends StyleSheet.Inline {
   import dsl._
 
   val introCardWrapper: StyleA =
-    style(display.flex, height(100.%%), flexFlow := "column", alignItems.center, justifyContent.spaceBetween)
+    style(
+      display.flex,
+      width(100.%%),
+      height(100.%%),
+      flexFlow := "column",
+      alignItems.center,
+      justifyContent.spaceBetween
+    )
 
   val contentWrapper: StyleA =
-    style(display.flex, height(100.%%), flexFlow := "column", alignItems.center, justifyContent.center)
+    style(
+      display.flex,
+      maxWidth(100.%%),
+      height(100.%%),
+      flexFlow := "column",
+      alignItems.center,
+      justifyContent.center
+    )
 
   val titleWrapper: StyleA =
-    style(marginBottom(ThemeStyles.SpacingValue.medium.pxToEm()))
+    style(maxWidth(100.%%), marginBottom(ThemeStyles.SpacingValue.medium.pxToEm()))
 
   val title: StyleA =
     style(textAlign.center, color(ThemeStyles.TextColor.lighter))
 
   val explanationWrapper: StyleA =
-    style(marginTop(ThemeStyles.SpacingValue.smaller.pxToEm()), marginBottom(ThemeStyles.SpacingValue.smaller.pxToEm()))
+    style(
+      marginTop(ThemeStyles.SpacingValue.smaller.pxToEm()),
+      marginBottom(ThemeStyles.SpacingValue.smaller.pxToEm()),
+      maxWidth(100.%%)
+    )
 
   val explanation: StyleA =
     style(textAlign.center)

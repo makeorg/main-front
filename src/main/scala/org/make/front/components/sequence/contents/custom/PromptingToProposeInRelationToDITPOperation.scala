@@ -155,10 +155,17 @@ object PromptingToProposeInRelationToDITPOperationStyles extends StyleSheet.Inli
   import dsl._
 
   val wrapper: StyleA =
-    style(display.flex, height(100.%%), flexFlow := "column", alignItems.center, justifyContent.spaceAround)
+    style(
+      display.flex,
+      width(100.%%),
+      height(100.%%),
+      flexFlow := "column",
+      alignItems.center,
+      justifyContent.spaceAround
+    )
 
   val contentWrapper: StyleA =
-    style(textAlign.center, padding(`0`, ThemeStyles.SpacingValue.small.pxToEm()))
+    style(maxWidth(100.%%), textAlign.center, padding(`0`, ThemeStyles.SpacingValue.small.pxToEm()))
 
   val extraIcon: StyleA =
     style(marginBottom(ThemeStyles.SpacingValue.medium.pxToEm()))
