@@ -46,6 +46,9 @@
     },
     "featured-operation": {
     },
+    "extra-operations" : {
+      "title" : "Le nostre altre consultazioni"
+    },
     "explanations": {
       "article-1": {
         "intro": "\nLa politica non basta più, cambiamo le carte in tavola insieme",
