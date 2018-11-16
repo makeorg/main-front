@@ -103,13 +103,16 @@ object ExtraOperationsStyles extends StyleSheet.Inline {
 
   val operationLink: StyleA =
     style(
+      TextStyles.smallerText,
+      color(ThemeStyles.TextColor.base),
       display.flex,
       justifyContent.spaceBetween,
       alignItems.center,
       width(100.%%),
       backgroundColor(ThemeStyles.BackgroundColor.lightGrey),
-      minHeight(70.pxToEm()),
-      padding(`0`, 20.pxToEm()),
+      minHeight(70.pxToEm(13)),
+      padding(`0`, 20.pxToEm(13)),
+      ThemeStyles.MediaQueries.beyondLargeMedium(minHeight(70.pxToEm(14)), padding(`0`, 20.pxToEm(14)))
     )
 
   val gradient: StyleA =

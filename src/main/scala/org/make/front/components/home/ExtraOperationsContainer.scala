@@ -39,20 +39,17 @@ object ExtraOperationsContainer {
           ExtraOperationsModel(
             title = "Comment imaginer la ville de demain ?",
             operationGradient = "linear-gradient(355deg, #818181, #000000)",
-            operationLink =
-              "/?utm_source=core&utm_medium=push-hp&utm_campaign=villededemain#/FR/consultation/villededemain/consultation"
+            operationLink = "/#/FR/consultation/villededemain/consultation"
           ),
           ExtraOperationsModel(
             title = "Comment faire émerger des champions européens du numérique ?",
             operationGradient = "linear-gradient(175deg, #7db7e3, #5da113)",
-            operationLink =
-              "/?utm_source=core&utm_medium=push-hp&utm_campaign=european-digital-champions#/FR/consultation/european-digital-champions/consultation"
+            operationLink = "/#/FR/consultation/european-digital-champions/consultation"
           ),
           ExtraOperationsModel(
             title = "Comment vous aider à construire votre avenir en Hauts de France ?",
             operationGradient = "linear-gradient(352deg, #fea8fe, #35bfff)",
-            operationLink =
-              "/?utm_source=core&utm_medium=push-hp&utm_campaign=jeunesse-hautsdefrance#/FR/consultation/jeunesse-hautsdefrance/consultation"
+            operationLink = "/#/FR/consultation/jeunesse-hautsdefrance/consultation"
           )
         )
       )

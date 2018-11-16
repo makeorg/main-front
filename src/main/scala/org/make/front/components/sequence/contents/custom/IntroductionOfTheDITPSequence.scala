@@ -78,31 +78,14 @@ object IntroductionOfTheDITPSequence {
                 )
               ),
               self.state.explanation1.map { content =>
-                <.div(^.className := IntroductionOfTheDITPSequenceStyles.explanationWrapper)(
-                  <.p(
-                    ^.className := js
-                      .Array(TextStyles.biggerMediumText, IntroductionOfTheDITPSequenceStyles.explanation)
-                  )(content)
-                )
+                <.p(^.className := IntroductionOfTheDITPSequenceStyles.explanation)(content)
+
               },
               self.state.explanation2.map { content =>
-                <.div(^.className := IntroductionOfTheDITPSequenceStyles.explanationWrapper)(
-                  <.p(
-                    ^.className := js
-                      .Array(TextStyles.biggerMediumText, IntroductionOfTheDITPSequenceStyles.explanation)
-                  )(content)
-                )
+                <.p(^.className := IntroductionOfTheDITPSequenceStyles.explanation)(content)
               },
               self.state.duration.map { duration =>
-                <.div(^.className := IntroductionOfTheDITPSequenceStyles.explanationWrapper)(
-                  <.p(
-                    ^.className := js.Array(
-                      TextStyles.biggerMediumText,
-                      TextStyles.boldText,
-                      IntroductionOfTheDITPSequenceStyles.explanation
-                    )
-                  )(duration)
-                )
+                <.p(^.className := IntroductionOfTheDITPSequenceStyles.explanation)(duration)
               },
               <.div(^.className := IntroductionOfTheDITPSequenceStyles.ctaWrapper)(
                 <.button(
@@ -134,6 +117,7 @@ object IntroductionOfTheDITPSequenceStyles extends StyleSheet.Inline {
       width(100.%%),
       height(100.%%),
       flexFlow := "column",
+      padding(`0`, ThemeStyles.SpacingValue.small.pxToEm()),
       alignItems.center,
       justifyContent.spaceBetween
     )
@@ -149,7 +133,7 @@ object IntroductionOfTheDITPSequenceStyles extends StyleSheet.Inline {
     )
 
   val titleWrapper: StyleA =
-    style(maxWidth(100.%%), marginBottom(ThemeStyles.SpacingValue.medium.pxToEm()))
+    style(maxWidth(100.%%), marginBottom(25.pxToEm()))
 
   val title: StyleA =
     style(textAlign.center, color(ThemeStyles.TextColor.lighter))
@@ -162,10 +146,16 @@ object IntroductionOfTheDITPSequenceStyles extends StyleSheet.Inline {
     )
 
   val explanation: StyleA =
-    style(textAlign.center)
+    style(
+      textAlign.center,
+      ThemeStyles.Font.circularStdBook,
+      fontSize(15.pxToEm()),
+      lineHeight(20.pxToEm()),
+      ThemeStyles.MediaQueries.beyondSmall(fontSize(20.pxToEm()), lineHeight(30.pxToEm()))
+    )
 
   val ctaWrapper: StyleA =
-    style(textAlign.center, marginTop(ThemeStyles.SpacingValue.small.pxToEm()))
+    style(textAlign.center, marginTop(20.pxToEm()))
 
   val extraPartners: StyleA =
     style(
