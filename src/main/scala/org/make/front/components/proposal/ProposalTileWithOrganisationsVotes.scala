@@ -131,7 +131,7 @@ object ProposalTileWithOrganisationsVotes {
                 ),
                 if (self.props.wrapped.proposal.tags.nonEmpty) {
                   <.footer(^.className := ProposalTileStyles.footer)(
-                    <.ul(^.className := ProposalTileWithOragnisationsVotesStyles.tagList)(
+                    <.ul()(
                       self.props.wrapped.proposal.tags
                         .map(
                           tag =>
@@ -154,9 +154,6 @@ object ProposalTileWithOrganisationsVotes {
 object ProposalTileWithOragnisationsVotesStyles extends StyleSheet.Inline {
 
   import dsl._
-
-  val tagList: StyleA =
-    style(lineHeight(0), margin(((ThemeStyles.SpacingValue.smaller / 2) * -1).pxToEm()))
 
   val tagListItem: StyleA =
     style(display.inlineBlock, verticalAlign.middle, margin((ThemeStyles.SpacingValue.smaller / 2).pxToEm()))
