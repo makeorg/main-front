@@ -32,8 +32,8 @@ import org.make.front.facades.I18n
 import org.make.front.facades.Unescape.unescape
 import org.make.front.middlewares.TriggerSignUpMiddleware
 import org.make.front.middlewares.TriggerSignUpMiddleware.TriggerSignUpListener
-import org.make.front.models.{Location, OperationId, OperationList, ThemeId}
 import org.make.front.models.Location.OperationPage
+import org.make.front.models.{Location, OperationId, OperationList, ThemeId}
 import org.make.services.tracking.TrackingLocation
 import org.make.services.tracking.TrackingService.TrackingContext
 

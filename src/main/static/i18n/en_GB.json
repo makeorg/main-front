@@ -217,6 +217,16 @@
       "empty": "You didn't submit proposals on Make.org"
     }
   },
+  "actor-profile": {
+    "proposals-tab": "Proposals",
+    "contributions-tab": "Positions",
+    "proposal": {
+      "title": "Last proposals from %{actor-name} :",
+      "empty": "didn't submit proposals on Make.org"
+    },
+    "follow": "Follow",
+    "followed": "Followed"
+  },
   "proposal": {
     "created-by-user": "My proposal",
     "share-intro": "Share this proposal with your community",
