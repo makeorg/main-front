@@ -135,7 +135,11 @@ object QualificateVoteStyles extends StyleSheet.Inline {
     style(position.relative, zIndex(1))
 
   val buttonItem: StyleA =
-    style(marginTop((ThemeStyles.SpacingValue.smaller / 2).pxToEm()), &.firstChild(marginTop(`0`)))
+    style(
+      marginTop((ThemeStyles.SpacingValue.smaller / 2).pxToEm()),
+      minWidth(160.pxToEm()),
+      &.firstChild(marginTop(`0`))
+    )
 
   val guide: StyleA =
     style(
