@@ -26,9 +26,11 @@ object QueryString {
       search
         .split("[?]")
         .last
-        .split("=|&")
-        .grouped(2)
-        .map { case Array(k, v) => k -> v }
+        .split("&")
+        .map(_.split("=") match {
+          case Array(k)    => k -> ""
+          case Array(k, v) => k -> v
+        })
         .toMap
     } else {
       Map.empty[String, String]
