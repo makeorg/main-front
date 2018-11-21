@@ -35,13 +35,14 @@ object DITPOperationStaticData extends StaticDataOfOperation {
         title = "Agents publics : comment lever les blocages que vous rencontrez au quotidien ? ",
         question = "Agents publics : comment lever les blocages que vous rencontrez au quotidien ?",
         learnMoreUrl = Some("https://about.make.org/about-ditp"),
-        presentation =
-          Some("""« Agents publics : comment lever les blocages que vous rencontrez au quotidien ? ». 
-              |Le ministre de l’Action et des comptes publics a choisi d’adopter une nouvelle méthode
-              |pour conduire la transformation de l’État, une méthode “engageante”. Pour la première fois,
-              |nous allons donner à très grande échelle la parole à tous les agents publics de France,
-              |sur leur quotidien, les freins qui bloquent leur travail et les inciter à proposer leurs solutions qui,
-              |demain, transformeront l’action publique.""".stripMargin),
+        presentation = Some(
+          """Le Gouvernement a décidé de revoir en profondeur le mode de fonctionnement de l’État 
+              | pour vous redonner la liberté d’action qui vous est nécessaire. C’est pourquoi
+              | cette question simple, ouverte, « Comment lever les blocages que vous rencontrez au quotidien ? »
+              | vous sera soumise pendant deux mois. Pour la première fois à cette échelle,
+              | vous allez pouvoir vous exprimer sur votre quotidien, pointer les freins
+              | qui vous bloquent et proposer vos solutions qui demain transformeront l’action publique.""".stripMargin
+        ),
         registerTitle = Some(" JE M'INSCRIS AVEC MON EMAIL")
       )
     ),
