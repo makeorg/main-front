@@ -80,7 +80,7 @@
             "purpose": "Stimmen Sie ab und schlagen Sie Lösungen vor, um unsere Senioren besser zu betreuen.",
             "learn-more": {
                 "label": "An der Konsultation teilnehmen.",
-                "link": "/#/FR/consultation/aines/consultation"
+                "link": "/?utm_source=core&utm_medium=push-hp&utm_campaign=aines#/FR/consultation/aines/consultation"
             }
         },
         "extra-operations" : {
@@ -271,7 +271,7 @@
         "vote": {
             "partOfVotes": "(%{value}%)",
             "agree": {
-                "label": "einverstanden",
+                "label": "Ich bin einverstanden!",
                 "qualifications": {
                     "likeIt": "Lieblingsvorschlag <span class=\"fa fa-heart\"></span>",
                     "doable": "Machbar",
@@ -279,7 +279,7 @@
                 }
             },
             "disagree": {
-                "label": "ich bin dagegen!",
+                "label": "Ich bin dagegen!",
                 "qualifications": {
                     "noWay": "auf keinen Fall!",
                     "impossible": "unrealistisch",
@@ -289,7 +289,7 @@
             "neutral": {
                 "label": "Stimmenthaltung",
                 "qualifications": {
-                    "doNotUnderstand": "ich habe nicht verstanden",
+                    "doNotUnderstand": "Vorschlag unverständlich",
                     "noOpinion": "keine Meinung",
                     "doNotCare": "gleichgültig"
                 }
@@ -354,15 +354,15 @@
         },
         "introduction": {
             "title": "Tausende von Bürgern schlagen Lösungen vor.",
-            "explanation-1": "Nehmen Sie Stellung zu diesen Lösungen und schlagen Sie Ihre eigenen vor.",
+            "explanation-1": "Beziehen sie Stellung und machen Sie eigene Vorschläge. ",
             "explanation-2": "Die am meisten unterstützten Vorschläge werden unsere Maßnahmen bestimmen.",
             "cta": "Starten",
             "partners": "in Partnerschaft mit"
         },
         "prompting-to-propose": {
-            "intro": "Und haben Sie eine Lösung zu diesem Thema vorzuschlagen?",
+            "intro": "Und, haben Sie schon einen Lösungsvorschlag zu diesem Thema?",
             "propose-cta": "Vorschlagen",
-            "next-cta": "Noch nicht, ich möchte weiterhin abstimmen."
+            "next-cta": "Noch nicht, ich möchte weiter abstimmen"
         },
         "prompting-to-continue": {
             "intro": "Vielen Dank für Ihren Beitrag. Setzen Sie sich weiterhin für diese Sache ein:",
@@ -382,8 +382,8 @@
         },
         "prompting-to-connect": {
             "title": "Erhalten Sie die Auswertungsergebnisse der Beratung und erfahren Sie, wo Sie sich befinden.",
-            "intro": "Ich logge mich ein mit",
-            "authenticate-with-email-cta": "Meine E-Mail Adresse",
+            "intro": "Ich möchte mich anmelden",
+            "authenticate-with-email-cta": "mit meiner E-Mail-Adresse",
             "login-screen-access": {
                 "intro": "Ich habe schon ein Konto",
                 "link-support": "Jetzt Einloggen"
@@ -394,7 +394,7 @@
     "operation": {
         "presentation": {
             "title": "Warum diese Konsultation?",
-            "seeMore": "Mehr dazu wissen",
+            "seeMore": "Mehr erfahren",
             "community": "Eine groß angelegte Mobilisierung.",
             "community-text": "Tausende von Bürgern beteiligen sich durch die Teilnahme an der Konsultation.",
             "also": "Unsere Partner engagieren sich an unserer Seite",
@@ -541,7 +541,7 @@
             "header": {
                 "total-of-proposals": "%{total} Vorschläge",
                 "total-of-proposals_1": "%{total} Vorschlag",
-                "back-cta": "Zum Vorgang gelangen",
+                "back-cta": "zum Überblick ",
                 "propose-cta": "Vorschlagen",
                 "guide": {
                     "propose-cta": "Mit einem Klick auf diese Schaltfläche können Sie jederzeit eine Lösung vorschlagen."
@@ -564,7 +564,7 @@
     },
     "activate-account": {
         "notifications": {
-            "success": "Ihr Konto wurde gerade aktiviert. Sie können sich jetzt einloggen.Viel Spaß auf Make.org!",
+            "success": "Ihr Konto wurde gerade aktiviert. Sie können sich jetzt einloggen. Viel Spaß auf Make.org!",
             "error-message": "Dieser Link ist leider nicht mehr gültig."
         }
     },

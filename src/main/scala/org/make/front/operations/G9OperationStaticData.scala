@@ -113,12 +113,12 @@ object G9DEOperationStaticData extends StaticDataOfOperation {
           title = "Wie kann man europäische digitale Champions hervorbringen?",
           question = "Wie kann man europäische digitale Champions hervorbringen?",
           learnMoreUrl = Some("https://about.make.org/about-digital-champions-de"),
-          presentation = Some(
-            """Die Europawahlen bieten eine enorme Chance für ein großes europäisches digitales Erwachen. Wie kann man
-              | die europäischen Digitalmeister hervorheben? Zum ersten Mal werden das G9+ Institut, Roland Berger,
-              | Croissance+ und Make.org die französischen und deutschen Bürger zu diesem Thema massiv mobilisieren, um
-              | ein unveröffentlichtes Weißbuch zu schreiben, die erste echte Bürger-Roadmap zu diesem Thema.""".stripMargin
-          ),
+          presentation =
+            Some("""Die Europawahlen bieten eine enorme Chance für ein großes europäisches digitales Erwachen.
+              | Wie kann man die europäischen Digitalmeister hervorbringen? Zum ersten Mal werden das G9+ Institut,
+              | Roland Berger, Croissance+ und Make.org die französischen und deutschen Bürgerinnen
+              | zu diesem Thema in großem Umfang befragen, um ein Weißbuch zu schreiben,
+              | die erste echte Bürgerinnen-Roadmap zu diesem Thema.""".stripMargin),
           registerTitle = Some("Ich melde mich mit meiner E-Mail Adresse an.")
         )
       ),
@@ -145,7 +145,7 @@ object G9DEOperationStaticData extends StaticDataOfOperation {
           Slides.displaySignUpCard(
             params = params,
             displayed = !params.isConnected,
-            registerTitle = Some("Bleiben Sie über die Ergebnisse der Konsultation informiert."),
+            registerTitle = Some("Lassen Sie sich über die Ergebnisse der Konsultation informieren."),
             nextCta = Some("Nein danke, ich möchte nicht über die Ergebnisse informiert werden.")
           ),
           Slides.displayProposalPushCard(params),
