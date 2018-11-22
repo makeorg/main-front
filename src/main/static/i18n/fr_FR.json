@@ -232,7 +232,12 @@
     "proposal": {
       "title": "Vos dernières propositions",
       "empty": "Vous n'avez pas soumis de proposition sur Make.org"
-    }
+    },
+    "follow": {
+      "title": "Vous ne suivez aucun profil d'organisation présente sur Make.org pour le moment.",
+      "explanation-first": "Rendez-vous sur le profil d'une organisation",
+      "explanation-second": "Cliquez sur \"Suivre\" pour vous abonner au fil d'actualité de cette organisation."
+  }
   },
   "actor-profile": {
     "proposals-tab": "Propositions",
@@ -248,7 +253,11 @@
       "disagree": "n'est pas d'accord avec cette proposition"
     },
     "follow": "Suivre",
-    "followed": "Suivi"
+    "followed": "Suivi",
+    "register": {
+      "title": "Je m'inscris avec mon mail pour être informé(e) de l'activité de %{actor-name}",
+      "empty-title": "cet acteur"
+    }
   },
   "proposal": {
     "created-by-user": "Ma proposition",

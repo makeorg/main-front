@@ -76,9 +76,7 @@ object ActorProfile {
                       <.ActorProfileProposalsContainerComponent(
                         ^.wrapped := ActorProposalsContainerProps(actor = self.props.wrapped.actor)
                       )()
-                    }
-                    //TODO uncomment for #330
-                    else if (self.state.activeTab == "contributions") {
+                    } else if (self.state.activeTab == "contributions") {
                       <.div()(
                         <.ActorProfileContributionsContainerComponent(
                           ^.wrapped := ActorProfileContributionsContainerProps(actor = self.props.wrapped.actor)

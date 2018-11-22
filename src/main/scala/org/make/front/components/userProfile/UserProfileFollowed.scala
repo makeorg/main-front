@@ -26,10 +26,14 @@ import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import org.make.front.Main.CssSettings._
 import org.make.front.components.Components._
 import org.make.front.components.actorProfile.FollowButtonContainer.FollowButtonContainerProps
-import org.make.front.components.userProfile.UserProfileInformationsStyles.style
 import org.make.front.models.User
 import org.make.front.styles.ThemeStyles
+import org.make.front.styles.base.{RWDRulesLargeMediumStyles, TextStyles}
 import org.make.front.styles.utils._
+import org.make.front.styles.vendors.FontAwesomeStyles
+import scalacss.internal.ValueT
+
+import scala.scalajs.js
 
 object UserProfileFollowed {
 
@@ -48,24 +52,57 @@ object UserProfileFollowed {
           val avatarUrl: Option[String] = followedUser.profile.flatMap(_.avatarUrl)
           <("UserProfileFollowed")()(
             <.div(^.className := UserProfileFollowedStyles.wrapper)(
-              Seq(
-                avatarUrl.map(
-                  url =>
-                    <.div(^.className := UserProfileFollowedStyles.avatarWrapper)(
-                      <.img(
-                        ^.src := url,
-                        ^.alt := followedUser.organisationName.getOrElse("-"),
-                        ^.className := UserProfileFollowedStyles.avatar
-                      )()
+              <.div(^.className := UserProfileFollowedStyles.innerWrapper)(
+                Seq(
+                  avatarUrl.map(
+                    url =>
+                      <.div(^.className := UserProfileFollowedStyles.avatarWrapper)(
+                        <.img(
+                          ^.src := url,
+                          ^.alt := followedUser.organisationName.getOrElse("-"),
+                          ^.className := UserProfileFollowedStyles.avatar
+                        )()
+                    )
+                  ),
+                  <.div()(
+                    followedUser.organisationName
+                      .orElse(followedUser.firstName)
+                      .map(
+                        name =>
+                          <.h3(^.className := js.Array(TextStyles.smallerTitleAlt, UserProfileFollowedStyles.name))(
+                            name,
+                            <.i(
+                              ^.className := js
+                                .Array(FontAwesomeStyles.checkCircle, UserProfileFollowedStyles.checkCircle)
+                            )()
+                        )
+                      ),
+                    followedUser.profile
+                      .flatMap(_.description)
+                      .map(
+                        description =>
+                          <.p()(
+                            <.p(^.className := js.Array(TextStyles.smallerText, UserProfileFollowedStyles.desc))(
+                              description
+                            ),
+                            if (description.length >= 250) {
+                              <.span(
+                                ^.className := js.Array(
+                                  RWDRulesLargeMediumStyles.showBlockBeyondLargeMedium,
+                                  TextStyles.smallerText,
+                                  UserProfileFollowedStyles.desc
+                                )
+                              )("...")
+                            }
+                        )
+                      )
                   )
-                ),
-                followedUser.organisationName.orElse(followedUser.firstName).map(name => <.p()(name)),
-                followedUser.profile.flatMap(_.description).map(description           => <.p()(description)),
-                <.FollowButtonContainerComponent(
-                  ^.wrapped := FollowButtonContainerProps(userId = self.props.wrapped.user.userId)
-                )(),
-                <.style()(UserProfileFollowedStyles.render[String])
-              )
+                )
+              ),
+              <.FollowButtonContainerComponent(
+                ^.wrapped := FollowButtonContainerProps(userId = self.props.wrapped.user.userId, actorName = None)
+              )(),
+              <.style()(UserProfileFollowedStyles.render[String])
             )
           )
         }
@@ -76,7 +113,20 @@ object UserProfileFollowed {
 object UserProfileFollowedStyles extends StyleSheet.Inline {
   import dsl._
 
-  val wrapper: StyleA = style(backgroundColor(ThemeStyles.BackgroundColor.white), marginTop(30.pxToEm()), display.block)
+  val wrapper: StyleA =
+    style(
+      display.flex,
+      position.relative,
+      height(100.%%),
+      justifyContent.spaceBetween,
+      flexFlow := "column",
+      backgroundColor(ThemeStyles.BackgroundColor.white),
+      padding(15.pxToEm()),
+      boxShadow := "0 1px 1px 0 rgba(0, 0, 0, 0.5)"
+    )
+
+  val innerWrapper: StyleA =
+    style(display.flex, ThemeStyles.MediaQueries.beyondLargeMedium(flexFlow := "column"))
 
   val avatar: StyleA =
     style(
@@ -84,36 +134,50 @@ object UserProfileFollowedStyles extends StyleSheet.Inline {
       top(50.%%),
       left(50.%%),
       transform := s"translate(-50%, -50%)",
-      width(ThemeStyles.SpacingValue.evenLarger.pxToEm()),
-      minWidth(100.%%),
-      minHeight(100.%%),
-      maxWidth.none,
-      maxHeight.none,
+      width(100.%%),
+      height(100.%%),
       ThemeStyles.MediaQueries.beyondLargeMedium(width(160.pxToEm()))
     )
   val avatarWrapper: StyleA =
     style(
       position.relative,
-      width(ThemeStyles.SpacingValue.evenLarger.pxToEm()),
-      height(ThemeStyles.SpacingValue.evenLarger.pxToEm()),
-      marginTop(-40.pxToEm()),
+      width(ThemeStyles.SpacingValue.larger.pxToEm()),
+      minWidth(ThemeStyles.SpacingValue.larger.pxToEm()),
+      height(ThemeStyles.SpacingValue.larger.pxToEm()),
       marginRight(ThemeStyles.SpacingValue.small.pxToEm()),
       overflow.hidden,
       backgroundColor(ThemeStyles.BackgroundColor.white),
       borderRadius(50.%%),
-      border(1.5.px, solid, ThemeStyles.BorderColor.lighter),
+      border(1.px, solid, ThemeStyles.BorderColor.lighter),
       textAlign.center,
-      ThemeStyles.MediaQueries.beyondLargeMedium(
-        float.none,
-        display.block,
-        verticalAlign.middle,
-        width(80.pxToEm()),
-        height(80.pxToEm()),
-        marginTop(-20.pxToEm()),
-        borderWidth(5.px),
-        marginLeft.auto,
-        marginRight.auto
-      )
+      ThemeStyles.MediaQueries
+        .beyondLargeMedium(
+          position.absolute,
+          left(50.%%),
+          top(-10.pxToEm()),
+          transform := s"translateX(-50%)",
+          width(ThemeStyles.SpacingValue.evenLarger.pxToEm()),
+          minWidth(ThemeStyles.SpacingValue.evenLarger.pxToEm()),
+          height(ThemeStyles.SpacingValue.evenLarger.pxToEm()),
+          marginRight(`0`)
+        )
     )
-  // @toDo
+
+  val name: StyleA =
+    style(
+      marginBottom(5.pxToEm(13)),
+      ThemeStyles.MediaQueries.beyondLargeMedium(textAlign.center, margin(75.pxToEm(16), `0`, 10.pxToEm(16)))
+    )
+
+  val blue: ValueT[ValueT.Color] = rgb(74, 144, 226)
+
+  val checkCircle: StyleA =
+    style(color(blue), marginLeft(5.pxToEm()))
+
+  val desc: StyleA =
+    style(
+      color(ThemeStyles.TextColor.lighter),
+      ThemeStyles.MediaQueries.beyondLargeMedium(maxHeight(80.pxToEm(14)), overflow.hidden)
+    )
+
 }

@@ -83,7 +83,10 @@ object ActorProfileInformations {
               )
             ),
             <.FollowButtonContainerComponent(
-              ^.wrapped := FollowButtonContainerProps(userId = self.props.wrapped.actor.organisationId)
+              ^.wrapped := FollowButtonContainerProps(
+                userId = self.props.wrapped.actor.organisationId,
+                actorName = self.props.wrapped.actor.organisationName
+              )
             )(),
             if (descriptionLength >= 150) {
               <.ActorDescriptionComponent(^.wrapped := ActorDescriptionProps(actor = self.props.wrapped.actor))()

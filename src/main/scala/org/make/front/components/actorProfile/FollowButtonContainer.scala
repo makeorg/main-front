@@ -27,6 +27,8 @@ import io.github.shogowada.scalajs.reactjs.redux.Redux.Dispatch
 import io.github.shogowada.scalajs.reactjs.router.WithRouter
 import org.make.front.actions.ReloadUserAction
 import org.make.front.components.AppState
+import org.make.front.facades.I18n
+import org.make.front.facades.Unescape.unescape
 import org.make.front.models.UserId
 import org.make.services.user.UserService
 
@@ -34,7 +36,7 @@ import scala.concurrent.ExecutionContext.Implicits.global
 
 object FollowButtonContainer {
 
-  case class FollowButtonContainerProps(userId: UserId)
+  case class FollowButtonContainerProps(userId: UserId, actorName: Option[String])
   case class ShowModal(value: Boolean)
 
   lazy val reactClass: ReactClass = WithRouter(ReactRedux.connectAdvanced(selectorFactory)(FollowButton.reactClass))
@@ -57,7 +59,11 @@ object FollowButtonContainer {
         }
       }
 
-      FollowButton.FollowButtonProps(isFollowedByUser = isFollowedByUserValue, triggerFollowToggle = triggerFollow)
+      FollowButton.FollowButtonProps(
+        isFollowedByUser = isFollowedByUserValue,
+        triggerFollowToggle = triggerFollow,
+        actorName = props.wrapped.actorName.getOrElse(unescape(I18n.t("actor-profile.contributions.title")))
+      )
     }
 
 }

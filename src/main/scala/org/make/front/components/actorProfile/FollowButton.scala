@@ -28,7 +28,8 @@ import org.make.front.components.Components._
 import org.make.front.components.actorProfile.FollowButtonContainer.ShowModal
 import org.make.front.components.authenticate.LoginOrRegister.LoginOrRegisterProps
 import org.make.front.components.modals.Modal.ModalProps
-import org.make.front.facades.I18n
+import org.make.front.facades.{I18n, Replacements}
+import org.make.front.facades.Unescape.unescape
 import org.make.front.styles.ThemeStyles
 import org.make.front.styles.ui.CTAStyles
 import org.make.front.styles.utils._
@@ -41,7 +42,7 @@ import scala.scalajs.js
 
 object FollowButton {
 
-  final case class FollowButtonProps(isFollowedByUser: Boolean, triggerFollowToggle: () => ShowModal)
+  final case class FollowButtonProps(isFollowedByUser: Boolean, triggerFollowToggle: () => ShowModal, actorName: String)
 
   final case class FollowButtonState(isAuthenticateModalOpened: Boolean)
 
@@ -83,14 +84,22 @@ object FollowButton {
             )(
               <.LoginOrRegisterComponent(
                 ^.wrapped := LoginOrRegisterProps(
-                  displayView = "login",
+                  displayView = "register",
                   trackingContext = TrackingContext(TrackingLocation.triggerFromFollow, None),
                   trackingParameters = Map.empty,
                   trackingInternalOnlyParameters = Map.empty,
                   onSuccessfulLogin = () => {
                     self.setState(_.copy(isAuthenticateModalOpened = false))
                     self.props.wrapped.triggerFollowToggle()
-                  }
+                  },
+                  registerTitle = Some(
+                    unescape(
+                      I18n.t(
+                        "actor-profile.contributions.title",
+                        replacements = Replacements(("actor-name", self.props.wrapped.actorName))
+                      )
+                    )
+                  )
                 )
               )()
             ),
@@ -108,7 +117,12 @@ object FollowButtonStyles extends StyleSheet.Inline {
     style(display.flex, justifyContent.center, margin(ThemeStyles.SpacingValue.small.pxToEm(), `0`))
 
   val button: StyleA =
-    style(display.flex, justifyContent.center, width(100.%%), maxWidth(280.pxToEm()))
+    style(
+      display.flex,
+      justifyContent.center,
+      width(100.%%),
+      ThemeStyles.MediaQueries.beyondLargeMedium(maxWidth(280.pxToEm()))
+    )
 
   val icon: StyleA =
     style(marginRight(5.pxToEm()))

@@ -107,10 +107,12 @@ object TabNavStyles extends StyleSheet.Inline {
 
   val tabWrapper: StyleA =
     style(
+      display.flex,
       position.relative,
       marginTop(ThemeStyles.SpacingValue.medium.pxToEm()),
+      padding(`0`),
       ThemeStyles.MediaQueries
-        .beyondLargeMedium(marginTop(-53.pxToEm()), padding(`0`))
+        .beyondLargeMedium(marginTop(-53.pxToEm()))
     )
 
   val tab: StyleA =

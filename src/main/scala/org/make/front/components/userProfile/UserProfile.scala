@@ -27,9 +27,9 @@ import org.make.front.Main.CssSettings._
 import org.make.front.components.Components._
 import org.make.front.components.mainFooter.AltFooter.AltFooterProps
 import org.make.front.components.userProfile.UserLikeItProposalsContainer.UserLikeItProposalsContainerProps
-import org.make.front.components.userProfile.UserProfileFollowedContainer.UserProfileFollowedContainerProps
-import org.make.front.components.userProfile.UserProfileProposalsContainer.UserProfileProposalsContainerProps
+import org.make.front.components.userProfile.UserProfileFollowedList.UserProfileFollowedListProps
 import org.make.front.components.userProfile.UserProfileInformations.UserProfileInformationsProps
+import org.make.front.components.userProfile.UserProfileProposalsContainer.UserProfileProposalsContainerProps
 import org.make.front.components.userProfile.UserProfileSettings.UserProfileSettingsProps
 import org.make.front.components.userProfile.navUserProfile.TabNav.TabNavProps
 import org.make.front.models.{UserId, User => UserModel}
@@ -103,9 +103,7 @@ object UserProfile {
                         <.UserLikeItProposalsContainerComponent(^.wrapped := UserLikeItProposalsContainerProps(user = user))()
                       }.toSeq
                     } else if (self.state.activeTab == "followed") {
-                      self.state.followedUserIds.map { followedUserId =>
-                          <.UserProfileFollowedContainerComponent(^.wrapped := UserProfileFollowedContainerProps(followedUserId = followedUserId))()
-                      }
+                      <.UserProfileFollowedListComponent(^.wrapped := UserProfileFollowedListProps(user = self.props.wrapped.user))()
                     } else if (self.state.activeTab == "actions") {
                       <.UserProfileActionsComponent()()
                     } else if (self.state.activeTab == "settings") {
