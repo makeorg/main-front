@@ -109,6 +109,8 @@ object Components {
       self(userProfile.navUserProfile.ButtonNav.reactClass)
     def UserLikeItProposalsContainerComponent: ReactClassElementSpec =
       self(userProfile.UserLikeItProposalsContainer.reactClass)
+    def UserProfileFollowedContainerComponent: ReactClassElementSpec =
+      self(userProfile.UserProfileFollowedContainer.reactClass)
 
     /*********************/
     def ActorProfileContainerComponent: ReactClassElementSpec = self(actorProfile.ActorProfileContainer.reactClass)

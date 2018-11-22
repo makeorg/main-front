@@ -23,27 +23,41 @@ package org.make.front.components.actorProfile
 import io.github.shogowada.scalajs.reactjs.React
 import io.github.shogowada.scalajs.reactjs.VirtualDOM.{<, _}
 import io.github.shogowada.scalajs.reactjs.classes.ReactClass
-import org.make.front.styles.ui.CTAStyles
-import org.make.front.components.Components._
-import scalacss.internal.mutable.StyleSheet
 import org.make.front.Main.CssSettings._
+import org.make.front.components.Components._
+import org.make.front.components.actorProfile.FollowButtonContainer.ShowModal
+import org.make.front.components.authenticate.LoginOrRegister.LoginOrRegisterProps
+import org.make.front.components.modals.Modal.ModalProps
 import org.make.front.facades.I18n
 import org.make.front.styles.ThemeStyles
+import org.make.front.styles.ui.CTAStyles
 import org.make.front.styles.utils._
 import org.make.front.styles.vendors.FontAwesomeStyles
+import org.make.services.tracking.TrackingLocation
+import org.make.services.tracking.TrackingService.TrackingContext
+import scalacss.internal.mutable.StyleSheet
 
-import scala.concurrent.Future
 import scala.scalajs.js
 
 object FollowButton {
 
-  final case class FollowButtonProps(isFollowedByUser: Boolean, triggerFollowToggle: () => Future[Any])
+  final case class FollowButtonProps(isFollowedByUser: Boolean, triggerFollowToggle: () => ShowModal)
+
+  final case class FollowButtonState(isAuthenticateModalOpened: Boolean)
 
   val reactClass: ReactClass =
     React
-      .createClass[FollowButtonProps, Unit](
+      .createClass[FollowButtonProps, FollowButtonState](
         displayName = "FollowButton",
+        getInitialState = { _ =>
+          FollowButtonState(isAuthenticateModalOpened = false)
+        },
         render = self => {
+          def submit: () => Unit = { () =>
+            val showModal: ShowModal = self.props.wrapped.triggerFollowToggle()
+            self.setState(_.copy(isAuthenticateModalOpened = showModal.value))
+          }
+
           <.div(^.className := FollowButtonStyles.wrapper)(
             <.button(
               ^.className := js.Array(
@@ -52,7 +66,7 @@ object FollowButton {
                 FollowButtonStyles.button,
                 FollowButtonStyles.activeButton(self.props.wrapped.isFollowedByUser)
               ),
-              ^.onClick := self.props.wrapped.triggerFollowToggle
+              ^.onClick := submit
             )(if (self.props.wrapped.isFollowedByUser) {
               <("ButtonWithIcon")()(
                 <.i(^.className := js.Array(FollowButtonStyles.icon, FontAwesomeStyles.check))(),
@@ -61,6 +75,25 @@ object FollowButton {
             } else {
               I18n.t("actor-profile.follow")
             }),
+            <.ModalComponent(
+              ^.wrapped := ModalProps(
+                isModalOpened = self.state.isAuthenticateModalOpened,
+                closeCallback = () => self.setState(_.copy(isAuthenticateModalOpened = false))
+              )
+            )(
+              <.LoginOrRegisterComponent(
+                ^.wrapped := LoginOrRegisterProps(
+                  displayView = "login",
+                  trackingContext = TrackingContext(TrackingLocation.triggerFromFollow, None),
+                  trackingParameters = Map.empty,
+                  trackingInternalOnlyParameters = Map.empty,
+                  onSuccessfulLogin = () => {
+                    self.setState(_.copy(isAuthenticateModalOpened = false))
+                    self.props.wrapped.triggerFollowToggle()
+                  }
+                )
+              )()
+            ),
             <.style()(FollowButtonStyles.render[String])
           )
         }
@@ -80,7 +113,7 @@ object FollowButtonStyles extends StyleSheet.Inline {
   val icon: StyleA =
     style(marginRight(5.pxToEm()))
 
-  val activeButton: (Boolean) => StyleA = styleF.bool(
+  val activeButton: Boolean => StyleA = styleF.bool(
     isFollowedByUser =>
       if (isFollowedByUser) {
         styleS(color(ThemeStyles.TextColor.lighter), backgroundColor(ThemeStyles.BackgroundColor.blackMoreTransparent))
