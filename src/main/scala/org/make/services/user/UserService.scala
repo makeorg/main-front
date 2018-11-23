@@ -250,8 +250,10 @@ object UserService extends ApiService {
   def logout(): Future[Unit] =
     MakeApiClient.logout()
 
-  def getUserProposals(userId: String): Future[SearchResult] = {
-    MakeApiClient.get[SearchResultResponse](resourceName / userId / "proposals").map(SearchResult.apply)
+  def getUserProposals(userId: String, sort: String = "createdAt", order: String = "desc"): Future[SearchResult] = {
+    MakeApiClient
+      .get[SearchResultResponse](resourceName / userId / s"proposals?sort=$sort&order=$order")
+      .map(SearchResult.apply)
   }
 
   def getUserLikeItProposals(userId: String): Future[SearchResult] = {

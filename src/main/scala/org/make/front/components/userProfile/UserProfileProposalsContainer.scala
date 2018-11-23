@@ -30,7 +30,6 @@ import org.make.front.components.DataLoader.DataLoaderProps
 import org.make.front.components.userProfile.UserProfileProposals.UserProfileProposalsProps
 import org.make.front.components.{AppState, DataLoader}
 import org.make.front.models.{Proposal, User => UserModel}
-import org.make.services.operation.OperationService
 import org.make.services.user.UserService
 
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -54,7 +53,7 @@ object UserProfileProposalsContainer {
               proposalsSearchResult.results.filter(
                 proposal =>
                   proposal.themeId.isDefined ||
-                    proposal.operationId.exists(state.operations.containsOperationId(_))
+                    proposal.operationId.exists(state.operations.containsOperationId)
               )
             )
           }
