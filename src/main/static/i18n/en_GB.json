@@ -161,6 +161,7 @@
     "proposals-tab": "Proposals",
     "actions-tab": "Actions",
     "settings-tab": "Manage my account",
+    "followed-tab": "Followed profiles",
     "years-old": "years old",
     "vote": "vote",
     "votes": "votes",
@@ -216,6 +217,16 @@
       "title": "Your last proposals",
       "empty": "You didn't submit proposals on Make.org"
     }
+  },
+  "actor-profile": {
+    "proposals-tab": "Proposals",
+    "contributions-tab": "Positions",
+    "proposal": {
+      "title": "Last proposals from %{actor-name} :",
+      "empty": "didn't submit proposals on Make.org"
+    },
+    "follow": "Follow",
+    "followed": "Followed"
   },
   "proposal": {
     "created-by-user": "My proposal",

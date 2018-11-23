@@ -139,6 +139,7 @@
     "share-profile": "Partagez ce profil",
     "proposals-tab": "Propositions",
     "settings-tab": "Gérer mon compte",
+    "followed-tab": "Mes profils suivis",
     "years-old": "ans",
     "likeItproposal": {
       "tab": "Mes coups de <span class=\"fa fa-heart\"></span>",
@@ -231,7 +232,12 @@
     "proposal": {
       "title": "Vos dernières propositions",
       "empty": "Vous n'avez pas soumis de proposition sur Make.org"
-    }
+    },
+    "follow": {
+      "title": "Vous ne suivez aucun profil d'organisation présente sur Make.org pour le moment.",
+      "explanation-first": "Rendez-vous sur le profil d'une organisation",
+      "explanation-second": "Cliquez sur \"Suivre\" pour vous abonner au fil d'actualité de cette organisation."
+  }
   },
   "actor-profile": {
     "proposals-tab": "Propositions",
@@ -245,6 +251,12 @@
       "empty": "n'a pas encore pris position sur Make.org",
       "agree": "est d'accord avec cette proposition",
       "disagree": "n'est pas d'accord avec cette proposition"
+    },
+    "follow": "Suivre",
+    "followed": "Suivi",
+    "register": {
+      "title": "Je m'inscris avec mon mail pour être informé(e) de l'activité de %{actor-name}",
+      "empty-title": "cet acteur"
     }
   },
   "proposal": {

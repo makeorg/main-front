@@ -109,6 +109,10 @@ object Components {
       self(userProfile.navUserProfile.ButtonNav.reactClass)
     def UserLikeItProposalsContainerComponent: ReactClassElementSpec =
       self(userProfile.UserLikeItProposalsContainer.reactClass)
+    def UserProfileFollowedContainerComponent: ReactClassElementSpec =
+      self(userProfile.UserProfileFollowedContainer.reactClass)
+    def UserProfileFollowedListComponent: ReactClassElementSpec =
+      self(userProfile.UserProfileFollowedList.reactClass)
 
     /*********************/
     def ActorProfileContainerComponent: ReactClassElementSpec = self(actorProfile.ActorProfileContainer.reactClass)
@@ -123,6 +127,7 @@ object Components {
     def ActorTabNavComponent: ReactClassElementSpec = self(actorProfile.navActorProfile.ActorTabNav.reactClass)
     def ActorButtonNavComponent: ReactClassElementSpec =
       self(actorProfile.navActorProfile.ActorButtonNav.reactClass)
+    def FollowButtonContainerComponent: ReactClassElementSpec = self(actorProfile.FollowButtonContainer.reactClass)
 
     /*********************/
     def ShareComponent: ReactClassElementSpec = self(share.ShareProposal.reactClass)

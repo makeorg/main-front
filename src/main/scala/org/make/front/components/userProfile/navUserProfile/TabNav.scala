@@ -49,13 +49,14 @@ object TabNav {
           }
 
           val listTabs: Seq[Element] = {
-            val tabNames = Seq("proposals", "likeitproposals")
+            val tabNames: Seq[String] = Seq("proposals", "likeitproposals", "followed")
             val tabContents = Seq(
               <.span(^.className := TabNavStyles.titleLink)(unescape(I18n.t("user-profile.proposals-tab"))),
               <.span(
                 ^.className := TabNavStyles.titleLink,
                 ^.dangerouslySetInnerHTML := I18n.t("user-profile.likeItproposal.tab")
-              )()
+              )(),
+              <.span(^.className := TabNavStyles.titleLink)(unescape(I18n.t("user-profile.followed-tab"))),
             )
 
             def isLeftToActiveTab(tabName: String) =
@@ -106,10 +107,12 @@ object TabNavStyles extends StyleSheet.Inline {
 
   val tabWrapper: StyleA =
     style(
+      display.flex,
       position.relative,
       marginTop(ThemeStyles.SpacingValue.medium.pxToEm()),
+      padding(`0`),
       ThemeStyles.MediaQueries
-        .beyondLargeMedium(marginTop(-53.pxToEm()), padding(`0`))
+        .beyondLargeMedium(marginTop(-53.pxToEm()))
     )
 
   val tab: StyleA =

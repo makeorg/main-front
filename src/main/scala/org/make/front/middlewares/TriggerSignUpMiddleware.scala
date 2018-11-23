@@ -24,8 +24,8 @@ import io.github.shogowada.scalajs.reactjs.redux.Redux.Dispatch
 import io.github.shogowada.scalajs.reactjs.redux.Store
 import org.make.front.actions.VoteAction
 import org.make.front.components.AppState
-import org.make.front.models.{Location, OperationId, ThemeId}
 import org.make.front.models.Location.Sequence
+import org.make.front.models.{Location, OperationId, ThemeId}
 
 import scala.util.Try
 

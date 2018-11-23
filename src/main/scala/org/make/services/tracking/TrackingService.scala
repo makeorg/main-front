@@ -106,6 +106,7 @@ object TrackingLocation {
   val triggerFromVote: TrackingLocation = MakeTrackingLocation("trigger-vote")
   val userProfile: TrackingLocation = MakeTrackingLocation("user-profile")
   val actorProfile: TrackingLocation = MakeTrackingLocation("actor-profile")
+  val triggerFromFollow: TrackingLocation = MakeTrackingLocation("trigger-follow")
 }
 
 sealed trait GlobalTrackingParameter extends BasicEnum

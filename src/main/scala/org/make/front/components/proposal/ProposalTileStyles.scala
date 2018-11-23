@@ -66,6 +66,7 @@ object ProposalTileStyles extends StyleSheet.Inline {
   val proposalInfosWrapper: StyleA = style(
     display.flex,
     justifyContent.spaceBetween,
+    alignItems.flexStart,
     margin(`0`, 20.pxToEm()),
     padding(20.pxToEm(), `0`, ThemeStyles.SpacingValue.smaller.pxToEm()),
     borderBottom(1.px, solid, ThemeStyles.BorderColor.veryLight),

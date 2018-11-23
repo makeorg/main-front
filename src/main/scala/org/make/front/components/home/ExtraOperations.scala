@@ -53,7 +53,7 @@ object ExtraOperations {
                 ^.style := Map("background" -> operation.operationGradient)
               )(),
               <.a(^.href := operation.operationLink, ^.className := ExtraOperationsStyles.operationLink)(
-                <.h3(^.className := TextStyles.smallerText)(operation.title),
+                <.h3()(operation.title),
                 <.span(
                   ^.className := js
                     .Array(FontAwesomeStyles.angleRight, ExtraOperationsStyles.arrow)
@@ -104,6 +104,7 @@ object ExtraOperationsStyles extends StyleSheet.Inline {
   val operationLink: StyleA =
     style(
       TextStyles.smallerText,
+      ThemeStyles.Font.circularStdBold,
       color(ThemeStyles.TextColor.base),
       display.flex,
       justifyContent.spaceBetween,

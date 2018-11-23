@@ -57,6 +57,7 @@ object ThemeStyles extends StyleSheet.Inline {
     val base: ValueT[ValueT.Color] = rgb(0, 0, 0)
     val light: ValueT[ValueT.Color] = rgba(0, 0, 0, 0.5)
     val lighter: ValueT[ValueT.Color] = rgba(0, 0, 0, 0.3)
+    val moreLighter: ValueT[ValueT.Color] = rgba(0, 0, 0, 0.1)
     val veryLight: ValueT[ValueT.Color] = rgba(0, 0, 0, 0.05)
     val white: ValueT[ValueT.Color] = rgb(255, 255, 255)
     val grey: ValueT[ValueT.Color] = rgb(155, 155, 155)
