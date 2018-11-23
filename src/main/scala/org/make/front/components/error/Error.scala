@@ -107,7 +107,6 @@ object Error {
                   )
                 )
               ),
-              <.NavInThemesContainerComponent.empty,
               <.MainFooterContainerComponent.empty,
               <.style()(ErrorStyles.render[String])
             )
