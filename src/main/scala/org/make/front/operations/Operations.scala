@@ -62,7 +62,8 @@ object Operations {
     G9DEOperationStaticData.data,
     MIPIMFROperationStaticData.data,
     JeunesHdfOperationStaticData.data,
-    DITPOperationStaticData.data
+    DITPOperationStaticData.data,
+    MIPIMGBOperationStaticData.data
   )
 }
 

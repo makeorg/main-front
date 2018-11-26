@@ -16,7 +16,8 @@
     "title": "Error 404",
     "recherche-intro": "We are sorry, the page you have requested no longer exists. You can initiate a search to find the content that interests you&hellip;",
     "redirection-intro": "&hellip; or let youself be tempted by a new destination:",
-    "redirect-to-home": "Home Page"
+    "redirect-to-home": "Home Page",
+    "redirect-to-random-theme": "Un thème choisi au hasard"
   },
   "current-operations": {
     "operations-intro": "We're currently running %{count} consultations in your country, join&nbsp;in!",
@@ -26,7 +27,8 @@
     "countries-intro": "You can also have a look at our service in other&nbsp;countries:",
     "FR": "France",
     "IT": "Italy",
-    "GB": "Great Britain"
+    "GB": "Great Britain",
+    "DE": "Allemagne"
   },
   "maintenance": {
     "intro": "oops",
@@ -35,17 +37,14 @@
     "explanation-2": "Please come back in a few minutes."
   },
   "cookie-alert": "By continuing your navigation on our site, you hereby accept the use of cookies providing you with a personalised and smooth experience.",
+  "link-cgu": "https://about.make.org/conditions-dutilisation",
+  "link-data-policy": "https://about.make.org/politique-donnees",
   "home": {
-    "main-title": "Act with ",
     "welcome": {
       "baseline": "About",
       "title": "Propose, vote, act",
       "subtitle": "Make.org is an independent initiative in the service of the general&nbsp;public.",
-      "see-more": "Find out more",
-      "see-more-link": "https://about.make.org/gb/who-are-we"
-    },
-    "featured-operation": {
-
+      "see-more": "Find out more"
     },
     "explanations": {
       "article-1": {
@@ -53,9 +52,7 @@
         "title": "Propose, vote, act",
         "item-1": "<strong>Vote</strong> for the proposals you stand for",
         "item-2": "<strong>Submit</strong> your ideas on themes that inspire you",
-        "item-3": "And tomorrow, <strong>initiate concrete actions</strong> on the ground",
-        "see-more-link": "/",
-        "see-more": "Find out more"
+        "item-3": "And tomorrow, <strong>initiate concrete actions</strong> on the ground"
       },
       "article-2": {
         "intro": "who are we?",
@@ -64,10 +61,6 @@
         "see-more-link": "https://about.make.org/gb/who-are-we",
         "see-more": "Find out more"
       }
-    },
-    "showcase-1": {
-      "intro": "The topic of the&nbsp;month",
-      "news": ""
     },
     "showcase-2": {
       "intro": "express yourself!",
@@ -80,8 +73,14 @@
     "featured-articles-showcase": {
       "title": "AGIR AVEC MAKE.ORG"
     },
-    "extra-operations" : {
-      "title" : "Our other consultations"
+    "featured-operation": {
+      "title": "Comment mieux prendre soin de nos aînés ?",
+      "label": "Grande cause Make.org",
+      "purpose": "Votez et proposez des solutions pour mieux prendre soin de nos aînés.",
+      "learn-more": {
+        "label": "Participer à la consultation",
+        "link": "/?utm_source=core&utm_medium=push-hp&utm_campaign=aines#/FR/consultation/aines/consultation"
+      }
     }
   },
   "operation-showcase": {
@@ -92,36 +91,17 @@
     },
     "data-units": {
       "actions": "actions",
-      "votes": "votes",
       "proposals": "proposals"
-    }
-  },
-  "theme-showcase": {
-    "see-all": "See all the topic's proposals about %{themeName}",
-    "prompting-to-propose-tile": {
-      "intro": "How about you, do you have a solution?",
-      "bait": "We should..."
-    },
-    "data-units": {
-      "actions": "actions",
-      "votes": "votes",
-      "proposals": "proposals"
-    },
-    "filter": {
-      "intro": "Afficher les propositions&nbsp;:",
-      "the-most-popular": "les + populaires",
-      "the-most-original": "les + originales"
     }
   },
   "nav-in-themes": {
     "title": "All the&nbsp;topics",
     "total-of-actions": "%{total} actions",
     "total-of-actions_1": "%{total} action",
-    "total-of-proposals": "%{total} proposals",
-    "total-of-proposals_1": "%{total} proposal"
+    "total-of-proposals_1": "%{total} proposal",
+    "total-of-proposals": "%{total} proposals"
   },
   "main-header": {
-    "title": "Make.org",
     "menu": {
       "item-1": {
         "label": "Who are we?",
@@ -148,38 +128,91 @@
     "register": "Register"
   },
   "user-profile": {
-    "title": "My personal information",
     "disconnect-cta": "Log out",
     "show-more": "Show more",
     "show-less": "Show less",
     "edit-profile": "Edit my profile",
-    "manage-account": "Manage my account",
     "back-to-profile": "Back to my profile",
     "share-profile": "Share this profile",
-    "last-proposals": "Your last activity",
-    "summary-tab": "Activity summary",
     "proposals-tab": "Proposals",
-    "actions-tab": "Actions",
     "settings-tab": "Manage my account",
-    "followed-tab": "Followed profiles",
     "years-old": "years old",
-    "vote": "vote",
-    "votes": "votes",
     "likeItproposal": {
       "tab": "Outstanding",
       "title": "Outstanding",
-      "empty": "<NEED TRANSLATION>",
-      "explanation-first-part":"<NEED TRANSLATION>",
-      "explanation-second-part":"<NEED TRANSLATION>",
-      "explanation-third-part":"<NEED TRANSLATION>",
-      "explanation-fourth-part":"<NEED TRANSLATION>",
+      "empty": "You do not have a favourite proposal yet on Make.org",
+      "explanation-first-part": "You can \"like\" a proposal",
+      "explanation-second-part": "after you vote",
+      "explanation-third-part": "<NEED TRANSLATION>",
+      "explanation-fourth-part": "Agree about this proposal",
       "fake-proposal": "<NEED TRANSLATION>"
+    },
+    "optin-newsletter": {
+      "title": "organise my emails",
+      "description": "by clicking I accept receiving informations about Make.org (your email will never be revealed to a third party)",
+      "confirmation": "your request has been registered",
+      "error": "Oops! An error has occured while processing your info. Please try again later."
+    },
+    "form": {
+      "title": "modify my profile",
+      "cta": "register my modifications",
+      "inputs": {
+        "max-error-message": "your message should be under%{max} characters",
+        "min-error-message": "your message should be  %{min} characters ",
+        "char": "characters",
+        "format-error-message": "invalid wording",
+        "empty-field-error-message": "Please fill in this &nbsp;",
+        "first-name": {
+          "label": "Name"
+        },
+        "age": {
+          "label": "age"
+        },
+        "postal-code": {
+          "label": "Postcode"
+        },
+        "profession": {
+          "label": "occupation"
+        },
+        "description": {
+          "label": "bio"
+        },
+        "organisation-name": {
+          "label": "Surname"
+        },
+        "gender": {
+          "label": "Sexe"
+        },
+        "csp": {
+          "label": "Catégorie Socio-Professionnelle"
+        }
+      }
+    },
+    "update": {
+      "confirmation": "your request has been accepted",
+      "error": "Oops! An error has occured while processing your information. Please try again later."
+    },
+    "delete-account": {
+      "title": "Requesting account cancelation",
+      "description": "Careful, this is a final action. You will lose your proposals, their stats, as well as the ones that you voted on.",
+      "cta": "Requesting account cancelation",
+      "extra": "or send an email to",
+      "confirmation": "Your request has been registered",
+      "password": {
+        "label": "Password",
+        "placeholder": "giving my password to cancel my account",
+        "error": "unvalid password, please try again"
+      },
+      "email": {
+        "label": "Email",
+        "placeholder": "giving my password to cancel my account",
+        "error": "this email is not linked to your account, please try again"
+      }
     },
     "reset-password": {
       "title": "Edit password",
-      "required": "(required)",
-      "error-message": "An error has occurred, please try again in a few minutes.",
       "send-cta": "Save",
+      "error-message": "An error has occurred, please try again in a few minutes.",
       "old-password": {
         "label": "Current password",
         "placeholder": "Current password",
@@ -193,26 +226,6 @@
         "placeholder": "New password"
       }
     },
-    "delete-account": {
-      "title": "<NEED TRANSLATION>",
-      "description": "<NEED TRANSLATION>",
-      "cta": "<NEED TRANSLATION>",
-      "extra": "<NEED TRANSLATION>",
-      "confirmation": "<NEED TRANSLATION>",
-      "password": {
-        "label": "Password",
-        "placeholder": "<NEED TRANSLATION>",
-        "error": "<NEED TRANSLATION>"
-      },
-      "email": {
-        "label": "Email",
-        "placeholder": "<NEED TRANSLATION>",
-        "error": "<NEED TRANSLATION>"
-      },
-      "inputs": {
-        "required": "(required)"
-      }
-    },
     "proposal": {
       "title": "Your last proposals",
       "empty": "You didn't submit proposals on Make.org"
@@ -220,21 +233,22 @@
   },
   "actor-profile": {
     "proposals-tab": "Proposals",
-    "contributions-tab": "Positions",
+    "contributions-tab": "stances",
     "proposal": {
-      "title": "Last proposals from %{actor-name} :",
-      "empty": "didn't submit proposals on Make.org"
+      "title": "latest proposals from%{actor-name} : ",
+      "empty": "has not submitted proposals on Make.org"
     },
-    "follow": "Follow",
-    "followed": "Followed"
+    "contributions": {
+      "title": "latest stances from %{actor-name} ",
+      "empty": "<NEED TRANSLATION>",
+      "agree": "<NEED TRANSLATION>",
+      "disagree": "<NEED TRANSLATION>"
+    }
   },
   "proposal": {
     "created-by-user": "My proposal",
-    "share-intro": "Share this proposal with your community",
     "share-page": "Support this proposal by sharing it :",
-    "share-twitter-content": "Support this proposal on Make.org",
     "share-likeit": "You liked this proposal, share it!",
-    "posted-in": "published in ",
     "status": {
       "Accepted": "Published",
       "Refused": "Refused",
@@ -248,7 +262,6 @@
     },
     "author-infos": {
       "age": ", %{age} years",
-      "postal-code": " (%{postalCode})",
       "anonymous": "anonymous"
     },
     "vote": {
@@ -283,7 +296,9 @@
     },
     "actor-voted_1": " actor-voted",
     "actor-voted": " actor-voted",
-    "actor-voted-and": " and "
+    "actor-voted-and": " and ",
+    "posted-in": "published in ",
+    "share-twitter-content": "Support this proposal on Make.org"
   },
   "submit-proposal": {
     "intro": "Share your proposal",
@@ -311,11 +326,6 @@
       "new-proposal-cta": "Submit a new&nbsp;proposal"
     }
   },
-  "political-actions": {
-    "intro": "%{actions} actions from your proposals",
-    "intro_0": "%{actions} action from your proposals",
-    "intro_1": "%{actions} action from your proposals"
-  },
   "no-political-action": {
     "intro": "We do not have an action to propose on this topic at the present time, but we are working on&nbsp;it!",
     "text": "Come back soon to work together!"
@@ -325,9 +335,6 @@
       "title": "Vote on the&nbsp;proposals",
       "see-more": "See more proposals",
       "no-results": "We did not find <strong>any result</strong> corresponding to your tag selection. <br>Please make another&nbsp;selection."
-    },
-    "proposal-form-in-header": {
-      "limit-of-chars-info": "8/140"
     },
     "submit-proposal": {
       "intro": "Share your proposal on the&nbsp;subject"
@@ -345,8 +352,8 @@
       "title": "Thousands of citizens are submitting solutions.",
       "explanation-1": "Take a stand on these solutions and offer yours.",
       "explanation-2": "The ones with the most support will determine future actions.",
-      "duration": "Duration: 2 minutes",
-      "cta": "Start"
+      "cta": "Start",
+      "partners": "<NEED TRANSLATION>"
     },
     "prompting-to-propose": {
       "intro": "How about you, do you have a solution on this&nbsp;subject?",
@@ -386,27 +393,23 @@
       "seeMore": "Find out more",
       "community": "The community of actions",
       "community-text": "Thousands of citizens commit themselves by participating in the consultation.",
-      "citizens": "citizens",
-      "participated": "have already  participated",
       "also": "They are involved too :",
       "also-text": "They support the consultation and the citizen action plan that will follow.",
-      "morePartners": "See all partners",
-      "founder": "Founder Partner"
+      "founder": "Founder Partner",
+      "founder-presentation": "<NEED TRANSLATION>"
     },
     "intro": {
       "consultation": "CONSULTATION",
       "action": "ACTION",
       "from": "from",
       "to": "to",
-      "dateuntil": "until"
+      "datefrom": "from the"
     },
     "share": {
       "title": "Partagez cette consultation"
     },
     "community": {
-      "title": "Comunauté d'actions",
       "partner": {
-        "title": "Eux aussi participent:",
         "see-more": "Voir tous les  partenaires"
       },
       "citizen-count": "%{count} citoyens ",
@@ -423,29 +426,94 @@
       "register-button": "Inscrivez-vous",
       "support-title": "Soutenez les actions",
       "support-text": "Vous pourrez suivre ici les avancées et succès sur les différentes actions et vous aurez à tout moment la possibilité d'y prendre part.",
-      "actionplan-title": "Notre plan d'actions citoyen",
-      "actionplan-text": "Vous trouverez ici le plan d'actions citoyen issu de la consultation.",
-      "actionplan-list-title": "Qu'est ce qu'une action sur Make.org ?",
-      "actionpan-list-intro": "Pour nous une action se doit d'être :",
+      "actionsplan-title": "Our citizens' action plan",
+      "actionsplan-text": "You will soon find here the citizens' action plan as a result of the consultation",
+      "actionsplan-list-title": "What is an action on Make.org",
+      "actionsplan-list-intro": "According to us an action should be",
       "actions-list-item1": "- citoyenne car issue de vos propositions, celles qui ont émergé de la consultation,",
       "actions-list-item2": "- collective, et toujours ouverte à toutes et tous,",
       "actions-list-item3": "- avec un impact fort, réel et mesurable.",
       "partners-title": "Nos partenaires d'actions",
       "partners-text": "Chez Make.org nous sommes convaincus que c'est en rassemblant tous les acteurs de la société civile (citoyens mais aussi entreprises, associations, institutions, ...) que nous pourrons changer la donne."
     },
-    "vff-gb": {
+    "vff-fr": {
       "intro": {
-        "label": "Make.org Grand Challenge",
-        "title": "Stop violence against women",
+        "label": "Grande cause Make.org",
+        "title": "Stop aux Violences Faites aux Femmes",
+        "period": "Consultation ouverte du 25 nov. 2017 à fin janvier",
         "partners": {
-          "intro": "with"
+          "intro": "avec",
+          "others": "et nos partenaires soutien et&nbsp;actions"
         },
         "article": {
-          "title": "Why this consultation&nbsp;?",
-          "text": "Violence against women is at the heart of political events and news coverage. Mindsets are changing. But it all begins now. It is up to us to transform this generalised awareness into concrete actions and to provide a decisive response to this epidemic.",
+          "title": "Pourquoi cette consultation&nbsp;?",
+          "text": "Les violences faites aux femmes sont au coeur de l’actualité politique et médiatique. Les mentalités sont en train de changer. Mais pour autant tout commence maintenant. À nous de transformer cette prise de conscience généralisée en actions concrètes et d’apporter une réponse décisive face à ce&nbsp;fléau.",
           "see-more": {
-            "label": "Find out more",
-            "link": "https://about.make.org/gb/about-vff"
+            "label": "En savoir&nbsp;+",
+            "link": "https://stopvff.make.org/about-vff"
+          }
+        }
+      }
+    },
+    "climatparis": {
+      "intro": {
+        "title": "Climat Paris",
+        "article": {
+          "title": "Pourquoi cette consultation&nbsp;?",
+          "text": "Les changements climatiques sont au coeur de l’actualité politique et internationale. La COP21 a démontré la volonté des décideurs politiques d’avancer. Un changement de comportement de chaque citoyen est maintenant nécessaire : à nous de transformer la prise de conscience planétaire en idées concrètes pour changer notre rapport à la planète.",
+          "see-more": {
+            "label": "En savoir&nbsp;+",
+            "link": "https://climatparis.make.org/about-climatparis"
+          }
+        }
+      }
+    },
+    "lpae": {
+      "intro": {
+        "title": "La Parole aux Etudiants",
+        "partners": {
+          "intro": "avec"
+        },
+        "article": {
+          "title": "Pourquoi cette consultation&nbsp;?",
+          "text": "Dans une société bousculée, disruptée et en permanente évolution cette consultation est l’occasion pour vous d’exprimer ce que vous voulez changer, de proposer vos idées pour la société de demain, de dessiner les contours du Monde dans lequel vous souhaitez vivre. Vous avez entre 18 et 28 ans, vous avez des choses à dire, c’est le moment&nbsp;!",
+          "see-more": {
+            "label": "En savoir&nbsp;+",
+            "link": "https://about.make.org/about-lpae"
+          }
+        }
+      }
+    },
+    "mve": {
+      "intro": {
+        "label": "Grande cause Make.org",
+        "title": "Mieux Vivre Ensemble",
+        "partners": {
+          "intro": "avec"
+        },
+        "article": {
+          "title": "Pourquoi cette consultation&nbsp;?",
+          "text": "Les nouveaux modes de vie tendent à créer une fragmentation de la société en une multitude de groupes qui n'interagissent plus ensemble tandis que la solitude et l’isolement des citoyens sont des problématiques grandissantes. Ces évolutions mettent en péril notre capacité à “faire société” et nous poussent à imaginer ensemble de nouvelles manières de recréer du lien&nbsp;social.",
+          "see-more": {
+            "label": "En savoir&nbsp;+",
+            "link": "https://about.make.org/about-mieux-vivre-ensemble"
+          }
+        }
+      }
+    },
+    "chance-aux-jeunes": {
+      "intro": {
+        "label": "Grande cause Make.org",
+        "title": "Une chance pour chaque jeune",
+        "partners": {
+          "intro": "avec"
+        },
+        "article": {
+          "title": "Pourquoi cette consultation&nbsp;?",
+          "text": "Précarité, chômage, inégalités, désamour du politique... La France ne semble plus offrir de place à ses jeunes. Cette fracture fragilise notre capacité à relever les défis collectifs futurs et nous pousse à imaginer ensemble un moyen d'offrir à chaque jeune une chance de se réaliser.",
+          "see-more": {
+            "label": "En savoir&nbsp;+",
+            "link": "https://about.make.org/about-chance-aux-jeunes"
           }
         }
       }
@@ -528,9 +596,6 @@
         "format-error-message": "Invalid format",
         "empty-field-error-message": "Please complete this&nbsp;field."
       },
-      "last-name": {
-        "placeholder": "Lastname"
-      },
       "password": {
         "placeholder": "Password",
         "format-error-message": "Your password must contain at least %{min}&nbsp;characters.",
@@ -547,6 +612,28 @@
       "job": {
         "placeholder": "Occupation",
         "format-error-message": "Invalid format"
+      },
+      "gender": {
+        "placeholder": "Sexe",
+        "format-error-message": "Valeur invalide",
+        "values": {
+          "M": "Homme",
+          "F": "Femme",
+          "O": "Autre"
+        }
+      },
+      "csp": {
+        "placeholder": "Catégorie Socio-Professionnelle",
+        "format-error-message": "Valeur invalide",
+        "values": {
+          "FARM": "Agriculteurs exploitants",
+          "AMCD": "Artisans, Commerçants, Chef d’entreprise",
+          "MHIO": "Cadres et professions intellectuelles supérieures",
+          "INPR": "Professions intermédiaires",
+          "EMPL": "Employés",
+          "WORK": "Ouvriers",
+          "O": "Autre"
+        }
       }
     },
     "recover-password": {
@@ -603,10 +690,6 @@
   },
   "main-footer": {
     "menu": {
-      "item-1": {
-        "label": "Become a Maker!",
-        "link": "/"
-      },
       "item-2": {
         "label": " ",
         "link": "#"
@@ -634,14 +717,6 @@
       "item-8": {
         "label": "Contact",
         "link": "https://about.make.org/gb/contact-us"
-      },
-      "item-9": {
-        "label": "f.a.q.",
-        "link": "/"
-      },
-      "item-10": {
-        "label": "sitemap",
-        "link": "/"
       }
     }
   }
