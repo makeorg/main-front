@@ -30,6 +30,7 @@ import org.make.front.facades.Localize.DateLocalizeOptions
 import org.make.front.facades.Unescape.unescape
 import org.make.front.facades._
 import org.make.front.models.{GradientColor => GradientColorModel, OperationExpanded => OperationModel}
+import org.make.front.styles
 import org.make.front.styles.ThemeStyles
 import org.make.front.styles.base._
 import org.make.front.styles.utils._
@@ -93,7 +94,7 @@ object ConsultationHeader {
             if (self.props.wrapped.operation.featureSettings.action) {
               <.div(^.id := "tabAffixContainer")(
                 <.div(^.id := "tabAffixElement")(
-                  <.div(^.className := js.Array(LayoutRulesStyles.centeredRow, ConsultationHeaderStyles.tabWrapper))(
+                  <.div(^.className := ConsultationHeaderStyles.tabWrapper)(
                     <.button(
                       ^.className := js.Array(
                         ConsultationHeaderStyles.tab,
@@ -101,10 +102,10 @@ object ConsultationHeader {
                       ),
                       ^.onClick := changeTab("consultation")
                     )(
-                      <.span(^.className := ConsultationHeaderStyles.titleLink)(
+                      <.p(^.className := ConsultationHeaderStyles.titleLink)(
                         unescape(I18n.t("operation.intro.consultation"))
                       ),
-                      <.span(^.className := ConsultationHeaderStyles.dateLink)(
+                      <.p(^.className := ConsultationHeaderStyles.dateLink)(
                         unescape(I18n.t("operation.intro.from")) +
                           " " +
                           unescape(
@@ -176,7 +177,10 @@ object ConsultationHeaderStyles extends StyleSheet.Inline {
 
   val tabWrapper: StyleA =
     style(
-      padding(`0`),
+      display.flex,
+      maxWidth(ThemeStyles.containerMaxWidth),
+      margin(`0`, auto),
+      alignItems.flexEnd,
       paddingTop(ThemeStyles.SpacingValue.small.pxToEm()),
       ThemeStyles.MediaQueries.beyondSmall(
         paddingRight(ThemeStyles.SpacingValue.medium.pxToEm()),
@@ -187,16 +191,16 @@ object ConsultationHeaderStyles extends StyleSheet.Inline {
   val tab: StyleA =
     style(
       position.relative,
-      display.inlineBlock,
+      width(100.%%),
       verticalAlign.bottom,
-      width :=! "calc(50% - 1px)",
-      paddingTop(14.pxToEm()),
-      paddingBottom(7.pxToEm()),
+      padding(14.pxToEm(), 5.pxToEm(), 7.pxToEm()),
       backgroundColor(ThemeStyles.BackgroundColor.altGrey),
       textAlign.center,
-      unsafeChild("span")(display.block),
-      ThemeStyles.MediaQueries
-        .beyondLarge(unsafeChild("span")(display.inlineBlock, paddingLeft(5.pxToEm()), paddingRight(5.pxToEm()))),
+      display.flex,
+      flexFlow := "column",
+      justifyContent.center,
+      alignItems.center,
+      ThemeStyles.MediaQueries.beyondLargeMedium(flexFlow := "row"),
       &.before(
         content := "''",
         position.absolute,
@@ -227,7 +231,8 @@ object ConsultationHeaderStyles extends StyleSheet.Inline {
     style(
       ThemeStyles.Font.circularStdBook,
       fontSize(12.pxToEm()),
-      ThemeStyles.MediaQueries.beyondMedium(fontSize(14.pxToEm()))
+      padding(`0`, 5.pxToEm(12)),
+      ThemeStyles.MediaQueries.beyondMedium(fontSize(14.pxToEm()), padding(`0`, 5.pxToEm(14))),
     )
 
   val affixOn: StyleA =
