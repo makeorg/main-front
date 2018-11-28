@@ -20,6 +20,7 @@
 
 package org.make.front
 
+import io.github.shogowada.scalajs.history.History
 import io.github.shogowada.scalajs.reactjs.ReactDOM
 import io.github.shogowada.scalajs.reactjs.VirtualDOM._
 import io.github.shogowada.scalajs.reactjs.redux.ReactRedux._
@@ -46,7 +47,6 @@ import scala.concurrent.Future
 import scala.util.{Failure, Success}
 import scalacss.defaults.Exports
 import scalacss.internal.mutable.Settings
-
 import scala.scalajs.js
 
 object Main {
@@ -143,6 +143,7 @@ object Main {
     if (store.getState.configuration.isEmpty || store.getState.connectedUser.isDefined != maybeUser.isDefined) {
       org.scalajs.dom.window.setTimeout(() => startAppWhenReady(maybeUser, store), 20d)
     } else {
+
       ReactDOM.render(
         <.Provider(^.store := store)(<.HashRouter()(<.AppContainerComponent.empty)),
         dom.document.getElementById("make-app")

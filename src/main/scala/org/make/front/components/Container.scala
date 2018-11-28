@@ -22,6 +22,7 @@ package org.make.front.components
 
 import io.github.shogowada.scalajs.reactjs.React
 import io.github.shogowada.scalajs.reactjs.VirtualDOM._
+import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import io.github.shogowada.scalajs.reactjs.router.RouterProps._
 import io.github.shogowada.scalajs.reactjs.router.WithRouter
 import io.github.shogowada.scalajs.reactjs.router.dom.RouterDOM._
@@ -43,6 +44,9 @@ import scala.scalajs.js.Dynamic
 object Container {
 
   // toDo: refactor this with a router middleware for country detection and redirect
+  def manageParams(reactClass: ReactClass): ReactClass = {
+    OperationDetector(CountryDetector(reactClass))
+  }
 
   lazy val reactClass = WithRouter(
     React.createClass[Unit, Unit](
@@ -78,57 +82,55 @@ object Container {
           <.Route(
             ^.exact := true,
             ^.path := "/:country/password-recovery/:userId/:resetToken",
-            ^.component := CountryDetector(ResetPasswordContainer.reactClass)
+            ^.component := manageParams(ResetPasswordContainer.reactClass)
           )(),
           <.Route(
             ^.exact := true,
             ^.path := "/:country/account-activation/:userId/:verificationToken",
-            ^.component := CountryDetector(ActivateAccountContainer.reactClass)
+            ^.component := manageParams(ActivateAccountContainer.reactClass)
           )(),
           //@Deprecated
           <.Route(
             ^.exact := true,
             ^.path := "/:country/theme/:themeSlug/proposal/:proposalSlug",
-            ^.component := CountryDetector(ProposalContainer.reactClass)
+            ^.component := manageParams(ProposalContainer.reactClass)
           )(),
           <.Route(
             ^.exact := true,
             ^.path := "/:country/theme/:themeSlug/proposal/:proposalId/:proposalSlug",
-            ^.component := CountryDetector(ProposalContainer.reactClass)
+            ^.component := manageParams(ProposalContainer.reactClass)
           )(),
           //@Deprecated
           <.Route(
             ^.exact := true,
             ^.path := "/:country/proposal/:proposalSlug",
-            ^.component := CountryDetector(ProposalContainer.reactClass)
+            ^.component := manageParams(ProposalContainer.reactClass)
           )(),
           <.Route(
             ^.exact := true,
             ^.path := "/:country/proposal/:proposalId/:proposalSlug",
-            ^.component := CountryDetector(ProposalContainer.reactClass)
+            ^.component := manageParams(ProposalContainer.reactClass)
           )(),
           <.Route(
             ^.exact := true,
             ^.path := "/:country/profile",
-            ^.component := CountryDetector(UserProfileContainer.reactClass)
+            ^.component := manageParams(UserProfileContainer.reactClass)
           )(),
           <.Route(
             ^.exact := true,
             ^.path := "/:country/profile/:organisationSlug",
-            ^.component := CountryDetector(
-              Layout.reactClass(<.ActorProfileContainerComponent.empty, withFooter = false)
-            )
+            ^.component := manageParams(Layout.reactClass(<.ActorProfileContainerComponent.empty, withFooter = false))
           )(),
           // @deprecated
           <.Route(
             ^.exact := true,
             ^.path := "/:country/consultation/:operationSlug/proposal/:proposalSlug",
-            ^.component := CountryDetector(ProposalContainer.reactClass)
+            ^.component := manageParams(ProposalContainer.reactClass)
           )(),
           <.Route(
             ^.exact := true,
             ^.path := "/:country/consultation/:operationSlug/proposal/:proposalId/:proposalSlug",
-            ^.component := CountryDetector(ProposalContainer.reactClass)
+            ^.component := manageParams(ProposalContainer.reactClass)
           )(),
           <.Route(
             ^.exact := true,
@@ -142,34 +144,34 @@ object Container {
           <.Route(
             ^.exact := true,
             ^.path := "/:country/consultation/:operationSlug/selection",
-            ^.component := CountryDetector(SequenceOfTheOperationContainer.reactClass)
+            ^.component := manageParams(SequenceOfTheOperationContainer.reactClass)
           )(),
           <.Route(
             ^.exact := true,
             ^.path := "/:country/consultation/:operationSlug/search",
-            ^.component := CountryDetector(Layout.reactClass(<.SearchResultsContainerComponent.empty))
+            ^.component := manageParams(Layout.reactClass(<.SearchResultsContainerComponent.empty))
           )(),
           <.Route(
             ^.exact := true,
             ^.path := "/:country/consultation/:operationSlug/:activeTab(consultation|actions)",
-            ^.component := CountryDetector(
+            ^.component := manageParams(
               Layout.reactClass(<.ConsultationContainerComponent.empty, fixedHeader = false, withFooter = false)
             )
           )(),
           <.Route(
             ^.exact := true,
             ^.path := "/:country/theme/:themeSlug",
-            ^.component := CountryDetector(MaybeThemeContainer.reactClass)
+            ^.component := manageParams(MaybeThemeContainer.reactClass)
           )(),
           <.Route(
             ^.exact := true,
             ^.path := "/:country/theme/:themeSlug/search",
-            ^.component := CountryDetector(Layout.reactClass(<.SearchResultsContainerComponent.empty))
+            ^.component := manageParams(Layout.reactClass(<.SearchResultsContainerComponent.empty))
           )(),
           <.Route(
             ^.exact := true,
             ^.path := "/:country/search",
-            ^.component := CountryDetector(Layout.reactClass(<.HomeSearchResultsContainerComponent.empty))
+            ^.component := manageParams(Layout.reactClass(<.HomeSearchResultsContainerComponent.empty))
           )(),
           <.Route(
             ^.exact := true,
@@ -184,7 +186,7 @@ object Container {
           <.Route(
             ^.exact := true,
             ^.path := "/:country([A-Za-z]{2,3})",
-            ^.component := CountryDetector(HomeContainer.reactClass)
+            ^.component := manageParams(HomeContainer.reactClass)
           )(),
           <.Route(^.exact := true, ^.path := "/:operationSlug", ^.component := RedirectToCountryRoute())(),
           <.Route(^.exact := false, ^.path := "/", ^.component := ErrorContainer.reactClass)()

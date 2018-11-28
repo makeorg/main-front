@@ -26,7 +26,7 @@ import io.github.shogowada.scalajs.reactjs.redux.{ContainerComponentFactory, Rea
 import org.make.front.actions.{LoggedInAction, NotifyInfo}
 import org.make.front.components.AppState
 import org.make.front.facades.I18n
-import org.make.front.models.{OperationExpanded, OperationId, QuestionId, User => UserModel}
+import org.make.front.models.{OperationExpanded, QuestionId, User => UserModel}
 import org.make.services.tracking.TrackingService
 import org.make.services.tracking.TrackingService.TrackingContext
 import org.make.services.user.UserService
@@ -40,19 +40,12 @@ object RegisterContainer {
   case class RegisterUserProps(trackingContext: TrackingContext,
                                trackingParameters: Map[String, String],
                                trackingInternalOnlyParameters: Map[String, String],
-                               onSuccessfulRegistration: () => Unit = () => {},
-                               operationId: Option[OperationId],
-                               questionId: Option[QuestionId])
+                               onSuccessfulRegistration: () => Unit = () => {})
 
   def selector: ContainerComponentFactory[RegisterProps] = ReactRedux.connectAdvanced {
     dispatch => (appState: AppState, props: Props[RegisterUserProps]) =>
-      def operationExpanded: Option[OperationExpanded] =
-        props.wrapped.operationId.flatMap(
-          operationId =>
-            appState.operations
-              .findById(operationId)
-              .flatMap(_.getOperationExpanded(country = appState.country))
-        )
+      def operationExpanded: Option[OperationExpanded] = appState.currentOperation.operation
+      def questionId: Option[QuestionId] = operationExpanded.flatMap(_.questionId)
 
       def legalNote: String =
         operationExpanded
@@ -68,13 +61,13 @@ object RegisterContainer {
             profession = fields.get("profession"),
             postalCode = fields.get("postalCode"),
             age = fields.get("age").map(_.toInt),
-            operationId = props.wrapped.operationId,
+            operationId = operationExpanded.map(_.operationId),
             country = appState.country,
             language = appState.language,
             gender = fields.get("gender"),
             socioProfessionalCategory = fields.get("socioProfessionalCategory"),
             optInPartner = fields.get("optInPartner").map(_.nonEmpty),
-            questionId = props.wrapped.questionId,
+            questionId = questionId,
             optIn = fields.get("optIn").map(_.nonEmpty)
           )
           .flatMap { _ =>

@@ -21,6 +21,7 @@
 package org.make.front.components
 
 import org.make.front.models.{
+  OperationExpanded,
   OperationList,
   BusinessConfiguration => BusinessConfigurationModel,
   PoliticalAction       => PoliticalActionModel,
@@ -30,6 +31,10 @@ import org.make.front.models.{
 
 import scala.scalajs.js
 
+final case class CurrentOperation(slug: Option[String], operation: Option[OperationExpanded])
+object CurrentOperation {
+  val empty = CurrentOperation(None, None)
+}
 final case class AppState(configuration: Option[BusinessConfigurationModel],
                           politicalActions: js.Array[PoliticalActionModel],
                           bait: String = "Il faut ",
@@ -37,7 +42,8 @@ final case class AppState(configuration: Option[BusinessConfigurationModel],
                           country: String = "FR",
                           language: String = "fr",
                           sequenceDone: js.Array[String] = js.Array(),
-                          operations: OperationList = OperationList.empty) {
+                          operations: OperationList = OperationList.empty,
+                          currentOperation: CurrentOperation = CurrentOperation.empty) {
 
   def themes: js.Array[TranslatedThemeModel] =
     configuration.map(_.themesForLocale(country, language)).getOrElse(js.Array())

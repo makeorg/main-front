@@ -76,9 +76,7 @@ object RegisterWithSocialNetworksOrEmail {
             trackingContext = self.props.wrapped.trackingContext,
             trackingParameters = self.props.wrapped.trackingParameters,
             trackingInternalOnlyParameters = self.props.wrapped.trackingInternalOnlyParameters,
-            onSuccessfulRegistration = self.props.wrapped.onSuccessfulLogin,
-            operationId = self.props.wrapped.operationId,
-            questionId = self.props.wrapped.questionId
+            onSuccessfulRegistration = self.props.wrapped.onSuccessfulLogin
           )
         )(),
         <.style()(RegisterWithSocialNetworksOrEmailStyles.render[String])
@@ -114,9 +112,7 @@ object RegisterWithSocialNetworksOrEmail {
           trackingContext = self.props.wrapped.trackingContext,
           trackingParameters = self.props.wrapped.trackingParameters,
           trackingInternalOnlyParameters = self.props.wrapped.trackingInternalOnlyParameters,
-          onSuccessfulRegistration = self.props.wrapped.onSuccessfulLogin,
-          operationId = self.props.wrapped.operationId,
-          questionId = self.props.wrapped.questionId
+          onSuccessfulRegistration = self.props.wrapped.onSuccessfulLogin
         )
       )(),
       <.style()(RegisterWithSocialNetworksOrEmailStyles.render[String])
