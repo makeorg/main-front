@@ -50,7 +50,7 @@ object AinesOperationStaticData extends StaticDataOfOperation {
         learnMoreUrl = Some("https://about.make.org/about-aines"),
         presentation = Some(
           """Make.org lance avec le ministère des Solidarités et de la Santé une vaste consultation citoyenne en ligne autour de la question Comment mieux prendre soin de nos aînés ?
-            |Grâce au soutien des partenaires fondateurs Klesia, la fondation Korian, La Poste, l'OCIRP, Primonial, CAREIT, la Croix-Rouge française, les milliers de propositions citoyennes
+            |Grâce au soutien des partenaires fondateurs Klesia, la fondation Korian, La Poste, l'OCIRP, Primonial REIM, CAREIT, la Croix-Rouge française, les milliers de propositions citoyennes
             |recueillies vont nous permettre de bâtir, aux côtés de l’État, le 1er grand Plan d'actions citoyen en faveur des Aînés. Entreprises, associations,
             |pouvoirs publics, citoyens, nous nous donnons trois ans pour concrétiser les actions de ce Plan et réussir ainsi à mieux prendre soin de nos aînés.""".stripMargin
         ),
