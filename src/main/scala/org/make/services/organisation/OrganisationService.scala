@@ -21,7 +21,7 @@
 package org.make.services.organisation
 import org.make.client.{Client, MakeApiClient}
 import org.make.core.URI._
-import org.make.front.models.{Organisation, OrganisationSearchResult, OrganisationSearchResultResponse}
+import org.make.front.models._
 import org.make.services.ApiService
 import org.make.services.proposal.{
   ProposalsResultWithUserVoteSeeded,
@@ -72,6 +72,16 @@ object OrganisationService extends ApiService {
         urlParams = js.Array(("votes", filterVotes.mkString(",")))
       )
       .map(ProposalsResultWithUserVoteSeeded.apply)
+  }
+
+  def getOrganisationById(organisationId: String): Future[Option[User]] = {
+    MakeApiClient
+      .get[UserResponse](apiEndpoint = resourceName / organisationId)
+      .map(user => Option(User(user)))
+      .recover {
+        case _: Exception => None
+      }
+
   }
 
 }
