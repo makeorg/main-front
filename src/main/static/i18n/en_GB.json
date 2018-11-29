@@ -36,7 +36,7 @@
     "explanation-1": "In order to offer you an ever more efficient website<br>Make.org is currently in maintenance.",
     "explanation-2": "Please come back in a few minutes."
   },
-  "cookie-alert": "By continuing your navigation on our site, you hereby accept the use of cookies providing you with a personalised and smooth experience.",
+  "cookie-alert": "By continuing your navigation on our site, you hereby accept the use of cookies providing you with a customized and smooth experience.",
   "link-cgu": "https://about.make.org/conditions-dutilisation",
   "link-data-policy": "https://about.make.org/politique-donnees",
   "home": {
@@ -138,18 +138,18 @@
     "settings-tab": "Manage my account",
     "years-old": "years old",
     "likeItproposal": {
-      "tab": "Outstanding",
-      "title": "Outstanding",
+      "tab": "My favourites",
+      "title": "My favourites",
       "empty": "You do not have a favourite proposal yet on Make.org",
-      "explanation-first-part": "You can \"like\" a proposal",
-      "explanation-second-part": "after you vote",
-      "explanation-third-part": "<NEED TRANSLATION>",
+      "explanation-first-part": "You can",
+      "explanation-second-part": "",
+      "explanation-third-part": "like a proposal after you vote",
       "explanation-fourth-part": "Agree about this proposal",
-      "fake-proposal": "<NEED TRANSLATION>"
+      "fake-proposal": "We must support good proposals"
     },
     "optin-newsletter": {
       "title": "organise my emails",
-      "description": "by clicking I accept receiving informations about Make.org (your email will never be revealed to a third party)",
+      "description": "By clicking I hereby accept receiving informations about Make.org (your email will never be revealed to a third party)",
       "confirmation": "your request has been registered",
       "error": "Oops! An error has occured while processing your info. Please try again later."
     },
@@ -166,16 +166,16 @@
           "label": "Name"
         },
         "age": {
-          "label": "age"
+          "label": "Age"
         },
         "postal-code": {
           "label": "Postcode"
         },
         "profession": {
-          "label": "occupation"
+          "label": "Occupation"
         },
         "description": {
-          "label": "bio"
+          "label": "Bio"
         },
         "organisation-name": {
           "label": "Surname"
@@ -194,7 +194,7 @@
     },
     "delete-account": {
       "title": "Requesting account cancelation",
-      "description": "Careful, this is a final action. You will lose your proposals, their stats, as well as the ones that you voted on.",
+      "description": "Careful, this is a final action. You will lose your proposals, their stats, as well as the ones that you have voted on.",
       "cta": "Requesting account cancelation",
       "extra": "or send an email to",
       "confirmation": "Your request has been registered",
@@ -227,7 +227,7 @@
       }
     },
     "proposal": {
-      "title": "Your last proposals",
+      "title": "Your latest proposals",
       "empty": "You didn't submit proposals on Make.org"
     }
   },
@@ -240,9 +240,9 @@
     },
     "contributions": {
       "title": "latest stances from %{actor-name} ",
-      "empty": "<NEED TRANSLATION>",
-      "agree": "<NEED TRANSLATION>",
-      "disagree": "<NEED TRANSLATION>"
+      "empty": "hasn't yet taken a stand on any proposal",
+      "agree": "agrees with this proposal",
+      "disagree": "doesn't agree with this proposal"
     }
   },
   "proposal": {
@@ -253,7 +253,7 @@
       "Accepted": "Published",
       "Refused": "Refused",
       "Postponed": "Awaiting moderation",
-      "Pending": "Awaiting modration"
+      "Pending": "Awaiting moderation"
     },
     "proposal-s-operation-infos": {
       "intro": "This proposal was submitted during the operation",
@@ -320,7 +320,7 @@
     },
     "confirmation": {
       "title": "Thank you!",
-      "info": "Your proposal has been taken into consideration, it will now be reviewed by our moderation service.<br>You will receive an email once it has been validated.",
+      "info": "Your proposal has been taken into consideration, it will now be reviewed by our moderation team.<br>You will receive an email once it has been validated.",
       "back-to-theme-cta": "Back to the subject&nbsp;%{theme}",
       "back-cta": "Go back",
       "new-proposal-cta": "Submit a new&nbsp;proposal"
@@ -353,10 +353,10 @@
       "explanation-1": "Take a stand on these solutions and offer yours.",
       "explanation-2": "The ones with the most support will determine future actions.",
       "cta": "Start",
-      "partners": "<NEED TRANSLATION>"
+      "partners": "in"
     },
     "prompting-to-propose": {
-      "intro": "How about you, do you have a solution on this&nbsp;subject?",
+      "intro": "How about you, do you have a solution on this&nbsp;topic?",
       "propose-cta": "Propose",
       "next-cta": "Not yet, continue voting"
     },
@@ -396,7 +396,7 @@
       "also": "They are involved too :",
       "also-text": "They support the consultation and the citizen action plan that will follow.",
       "founder": "Founder Partner",
-      "founder-presentation": "<NEED TRANSLATION>"
+      "founder-presentation": "This consultation has been initiated by"
     },
     "intro": {
       "consultation": "CONSULTATION",
@@ -406,7 +406,7 @@
       "datefrom": "from the"
     },
     "share": {
-      "title": "Partagez cette consultation"
+      "title": "Share this consultation"
     },
     "community": {
       "partner": {
@@ -544,8 +544,8 @@
         }
       },
       "link": {
-        "presentation": "Votez sur les dernières propositions issues de la consultation.",
-        "cta": "Participer"
+        "presentation": "Vote on the latest proposals on this&nbsp;topic",
+        "cta": "Participate"
       }
     }
   },
@@ -678,7 +678,7 @@
         "already-exists": "This account already exists, thank you for logging&nbsp;in."
       },
       "notifications": {
-        "success": "Your account has been successfully created. Remember to confirm your email address using the link sent to you - to ensure the account is yours."
+        "success": "Your account has been successfully created. Remember to confirm your email address using the link you received - to ensure the account is yours."
       }
     },
     "login": {
