@@ -81,6 +81,7 @@ object MIPIMGBOperationStaticData extends StaticDataOfOperation {
   override val data: OperationStaticData =
     MIPIMFROperationStaticData.data.copy(
       country = "GB",
+      slug = "cityoftomorrow",
       wording = js.Array(
         OperationWording(
           language = "en",
@@ -97,14 +98,14 @@ object MIPIMGBOperationStaticData extends StaticDataOfOperation {
           registerTitle = Some("Sign up with your email address")
         )
       ),
-      shareUrl = "/GB/consultation/villededemain/selection_UTM_&language=en#/GB/consultation/villededemain/selection",
+      shareUrl = "/GB/consultation/cityoftomorrow/selection_UTM_&language=en#/GB/consultation/cityoftomorrow/selection",
       extraSlides = (params: OperationExtraSlidesParams) => {
         js.Array(
           Slides.displaySequenceIntroCard(
             params,
             introWording = OperationIntroWording(
               title = Some("Thousands of citizens are submitting solution."),
-              explanation1 = Some("Take a stand on these solutions and affer yours"),
+              explanation1 = Some("Take a stand on these solutions and offer yours"),
               explanation2 = Some("The ones with the most support will determine future actions"),
               partners = js.Array(OperationIntroPartner(name = "MIPIM", imageUrl = mipimPartnersLogo.toString))
             )
