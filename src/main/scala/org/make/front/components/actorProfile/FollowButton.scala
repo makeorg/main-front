@@ -95,7 +95,7 @@ object FollowButton {
                   registerTitle = Some(
                     unescape(
                       I18n.t(
-                        "actor-profile.contributions.title",
+                        "actor-profile.register.title",
                         replacements = Replacements(("actor-name", self.props.wrapped.actorName))
                       )
                     )

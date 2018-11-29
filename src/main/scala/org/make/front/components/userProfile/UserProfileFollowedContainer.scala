@@ -30,7 +30,7 @@ import org.make.front.components.DataLoader.DataLoaderProps
 import org.make.front.components.userProfile.UserProfileFollowed.UserProfileFollowedProps
 import org.make.front.components.{AppState, DataLoader}
 import org.make.front.models.{UserId, User => UserModel}
-import org.make.services.user.UserService
+import org.make.services.organisation.OrganisationService
 
 import scala.concurrent.Future
 
@@ -42,7 +42,7 @@ object UserProfileFollowedContainer {
   def selectorFactory: Dispatch => (AppState, Props[UserProfileFollowedContainerProps]) => DataLoaderProps[UserModel] =
     (_: Dispatch) => { (_: AppState, props: Props[UserProfileFollowedContainerProps]) =>
       def getFollowed: () => Future[Option[UserModel]] = () => {
-        UserService.getUserById(props.wrapped.followedUserId.value)
+        OrganisationService.getOrganisationById(props.wrapped.followedUserId.value)
       }
       def shouldUserFollowedUpdate: Option[UserModel] => Boolean = { _.isEmpty }
 

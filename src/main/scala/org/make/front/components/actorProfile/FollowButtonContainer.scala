@@ -62,7 +62,7 @@ object FollowButtonContainer {
       FollowButton.FollowButtonProps(
         isFollowedByUser = isFollowedByUserValue,
         triggerFollowToggle = triggerFollow,
-        actorName = props.wrapped.actorName.getOrElse(unescape(I18n.t("actor-profile.contributions.title")))
+        actorName = props.wrapped.actorName.getOrElse(unescape(I18n.t("actor-profile.register.empty-title")))
       )
     }
 
