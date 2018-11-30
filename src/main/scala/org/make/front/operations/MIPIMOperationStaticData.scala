@@ -85,16 +85,15 @@ object MIPIMGBOperationStaticData extends StaticDataOfOperation {
       wording = js.Array(
         OperationWording(
           language = "en",
-          title = "How can we plan the city of tomorrow ?",
-          question = "How can we plan the city of tomorrow ?",
+          title = "How can we rethink the city of tomorrow?",
+          question = "How can we rethink the city of tomorrow?",
           learnMoreUrl = Some("https://about.make.org/about-cityoftomorrow"),
-          presentation = Some(
-            """How to rethink the urban landscape, essentially how can we fully incorporate you in the process of
-                | imagining tomorrow's city? It is the challenge we've set for ourselves by inviting you to the 2019 MIPIM.
-                | Prior to the show we will organize an open consultation, in partnership with MIPIM, giving you the
-                | opportunity to submit your ideas alongside thousands of other citizens. Turning the most popular ideas
-                | into reality supported by a realistic roadmap.""".stripMargin
-          ),
+          presentation =
+            Some("""How to rethink the urban landscape? Most importantly, how can we fully involve you in the process of
+              | imagining tomorrow's city? This is the challenge we have set for ourselves by inviting you to MIPIM 2019.
+              | Prior to the event we will organize an open consultation, in partnership with MIPIM, giving you the
+              | opportunity to submit your ideas alongside thousands of other citizens. We will be turning the most popular
+              | ideas into reality supported by a realistic roadmap.""".stripMargin),
           registerTitle = Some("Sign up with your email address")
         )
       ),
@@ -104,16 +103,16 @@ object MIPIMGBOperationStaticData extends StaticDataOfOperation {
           Slides.displaySequenceIntroCard(
             params,
             introWording = OperationIntroWording(
-              title = Some("Thousands of citizens are submitting solution."),
-              explanation1 = Some("Take a stand on these solutions and offer yours"),
-              explanation2 = Some("The ones with the most support will determine future actions"),
+              title = Some("Thousands of citizens are submitting solutions."),
+              explanation1 = Some("Take a stand on these solutions and offer yours."),
+              explanation2 = Some("The ones with the most support will be turned into actions during MIPIM 2019."),
               partners = js.Array(OperationIntroPartner(name = "MIPIM", imageUrl = mipimPartnersLogo.toString))
             )
           ),
           Slides.displaySignUpCard(
             params = params,
             displayed = !params.isConnected,
-            registerTitle = Some("Stay tuned on the actions implemented"),
+            registerTitle = Some("Stay tuned on the results of this consultation."),
             nextCta = Some("No thanks")
           ),
           Slides.displayProposalPushCard(params),
