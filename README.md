@@ -30,3 +30,4 @@ Open it and add an request header named x-forced-country with the country code d
 ### License
 
 This project is licenced under the GNU GPL license version 3 or later. See the [license](LICENSE.md)
+
