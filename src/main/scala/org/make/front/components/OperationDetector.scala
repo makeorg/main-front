@@ -24,10 +24,11 @@ import io.github.shogowada.scalajs.reactjs.React.Props
 import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import io.github.shogowada.scalajs.reactjs.redux.ReactRedux
 import io.github.shogowada.scalajs.reactjs.redux.Redux.Dispatch
-import org.make.front.actions.SetCountry
 import io.github.shogowada.scalajs.reactjs.router.RouterProps._
+import org.make.front.actions.SetCurrentOperationSlug
+import org.make.front.helpers.Normalizer
 
-object CountryDetector {
+object OperationDetector {
   def apply(reactClass: ReactClass): ReactClass = {
     ReactRedux.connectAdvanced(selectorFactory)(reactClass)
   }
@@ -35,10 +36,11 @@ object CountryDetector {
   def selectorFactory: (Dispatch) => (AppState, Props[Unit]) => Unit =
     (dispatch: Dispatch) => { (appState: AppState, props: Props[Unit]) =>
       {
-        val countryCode: String = props.`match`.params.get("country").getOrElse("FR").toUpperCase
-        if (appState.country != countryCode) {
-          dispatch(SetCountry(countryCode))
+        val maybeSlug: Option[String] = props.`match`.params.get("operationSlug").map(Normalizer.normalizeSlug)
+        if (appState.currentOperation.slug != maybeSlug) {
+          dispatch(SetCurrentOperationSlug(maybeSlug))
         }
+
       }
     }
 }

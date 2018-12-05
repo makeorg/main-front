@@ -18,11 +18,17 @@
  *
  */
 
-package org.make.front.actions
-import io.github.shogowada.scalajs.reactjs.redux.Action
-import org.make.front.models.{OperationExpanded, OperationList}
+package org.make.front.reducers
+import org.make.front.actions.{SetCurrentOperation, SetCurrentOperationSlug}
+import org.make.front.components.CurrentOperation
 
-final case class SetOperations(operations: OperationList) extends Action
-final case class SetCurrentOperationSlug(slug: Option[String]) extends Action
-final case class SetCurrentOperation(operation: Option[OperationExpanded]) extends Action
-case object LoadOperations extends Action
+object OperationReducer {
+  def reduce(operation: CurrentOperation, action: Any): CurrentOperation = {
+    action match {
+      case SetCurrentOperation(newOperation) =>
+        CurrentOperation(slug = newOperation.map(_.slug), operation = newOperation)
+      case SetCurrentOperationSlug(slug) => operation.copy(slug = slug)
+      case _                             => operation
+    }
+  }
+}
