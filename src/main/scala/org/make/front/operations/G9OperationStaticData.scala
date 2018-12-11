@@ -116,9 +116,9 @@ object G9DEOperationStaticData extends StaticDataOfOperation {
           presentation =
             Some("""Die Europawahlen bieten eine enorme Chance für ein großes europäisches digitales Erwachen.
               | Wie kann man die europäischen Digitalmeister hervorbringen? Zum ersten Mal werden das G9+ Institut,
-              | Roland Berger, Croissance+ und Make.org die französischen und deutschen Bürgerinnen
+              | Roland Berger, Croissance+ und Make.org die französischen und deutschen Bürger*innen
               | zu diesem Thema in großem Umfang befragen, um ein Weißbuch zu schreiben,
-              | die erste echte Bürgerinnen-Roadmap zu diesem Thema.""".stripMargin),
+              | die erste echte Bürger*innen-Roadmap zu diesem Thema.""".stripMargin),
           registerTitle = Some("Ich melde mich mit meiner E-Mail Adresse an.")
         )
       ),
