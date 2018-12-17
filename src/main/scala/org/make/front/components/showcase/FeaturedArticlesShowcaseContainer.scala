@@ -50,16 +50,16 @@ object FeaturedArticlesShowcaseContainer {
             illUrl = cajShowcase.toString,
             imageAlt = Some("Une chance pour chaque jeune"),
             label = "Consultation terminée",
-            excerpt = "Découvrez prochainement les idées qui ont émergé de notre consultation.",
-            seeMoreLabel = "En savoir + sur la consultation",
+            excerpt = "Découvrez les idées qui ont émergé de notre consultation.",
+            seeMoreLabel = "Voir les résultats",
             seeMoreLink = "https://about.make.org/about-chance-aux-jeunes"
           ),
           FeaturedArticleModel(
             illUrl = mveShowcase.toString,
             imageAlt = Some("Comment mieux vivre ensemble ?"),
             label = "Consultation terminée",
-            excerpt = "Découvrez prochainement les idées qui ont émergé de notre consultation.",
-            seeMoreLabel = "En savoir + sur la consultation",
+            excerpt = "Découvrez les idées qui ont émergé de notre consultation.",
+            seeMoreLabel = "Voir les résultats",
             seeMoreLink = "https://about.make.org/about-mieux-vivre-ensemble"
           ),
           FeaturedArticleModel(
