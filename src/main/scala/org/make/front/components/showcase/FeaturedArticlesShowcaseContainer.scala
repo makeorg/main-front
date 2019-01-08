@@ -42,8 +42,8 @@ object FeaturedArticlesShowcaseContainer {
             illUrl = cultureShowcase.toString,
             imageAlt = Some("Accès à la culture pour tous"),
             label = "Consultation terminée",
-            excerpt = "Découvrez prochainement les idées qui ont émergé de notre consultation.",
-            seeMoreLabel = "En savoir + sur la consultation",
+            excerpt = "Découvrez les idées qui ont émergé de notre consultation.",
+            seeMoreLabel = "Voir les résultats",
             seeMoreLink = "https://about.make.org/about-culture"
           ),
           FeaturedArticleModel(
