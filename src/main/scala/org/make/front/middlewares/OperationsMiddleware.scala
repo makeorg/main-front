@@ -36,7 +36,7 @@ import scala.util.{Failure, Success}
 object OperationsMiddleware {
   var lastCall: Option[js.Date] = None
 
-  val handle: (Store[AppState]) => (Dispatch) => (Any) => Any = (appStore: Store[AppState]) =>
+  val handle: Store[AppState] => Dispatch => Any => Any = (appStore: Store[AppState]) =>
     (dispatch: Dispatch) => {
       case LoadOperations =>
         if ((lastCall.isEmpty || lastCall.exists { time =>

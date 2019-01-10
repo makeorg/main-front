@@ -26,7 +26,7 @@ object OperationReducer {
   def reduce(operation: CurrentOperation, action: Any): CurrentOperation = {
     action match {
       case SetCurrentOperation(newOperation) =>
-        CurrentOperation(slug = newOperation.map(_.slug), operation = newOperation)
+        CurrentOperation(slug = newOperation.map(_.slug).orElse(operation.slug), operation = newOperation)
       case SetCurrentOperationSlug(slug) => operation.copy(slug = slug)
       case _                             => operation
     }
