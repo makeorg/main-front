@@ -32,6 +32,7 @@ import org.make.front.actions._
 import org.make.front.components.AppState
 import org.make.front.components.Components.RichVirtualDOMElements
 import org.make.front.facades.{I18n, NativeReactModal}
+import org.make.front.helpers.{DetectedCountry, WeEuropeansRedirect}
 import org.make.front.middlewares._
 import org.make.front.models.{BusinessConfiguration, Operation, OperationList, User}
 import org.make.front.reducers.Reducer
@@ -47,13 +48,15 @@ import scala.concurrent.Future
 import scala.util.{Failure, Success}
 import scalacss.defaults.Exports
 import scalacss.internal.mutable.Settings
-import scala.scalajs.js
 
 object Main {
 
   val CssSettings: Exports with Settings = scalacss.devOrProdDefaults
 
   def main(args: Array[String]): Unit = {
+
+    WeEuropeansRedirect.weEuropeanRedirect(DetectedCountry.getDetectedCountry)
+
     Translations.loadTranslations()
     I18n.setLocale("fr", true)
 
