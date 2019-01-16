@@ -25,8 +25,8 @@ import org.make.front.components.sequence.contents.IntroductionOfTheSequence.Int
 import org.make.front.components.sequence.contents.PromptingToConnect.PromptingToConnectProps
 import org.make.front.components.sequence.contents.PromptingToGoBackToOperation.PromptingToGoBackToOperationProps
 import org.make.front.components.sequence.contents.PromptingToGoBackToOperationLight.PromptingToGoBackToOperationLightProps
-import org.make.front.components.sequence.contents._
 import org.make.front.components.sequence.contents.PromptingToProposeInRelationToOperation.PromptingToProposeInRelationToOperationProps
+import org.make.front.components.sequence.contents._
 import org.make.front.components.sequence.contents.custom.IntroductionOfTheDITPSequence.IntroductionOfTheDITPSequenceProps
 import org.make.front.components.sequence.contents.custom.PromptingToProposeInRelationToDITPOperation.PromptingToProposeInRelationToDITPOperationProps
 import org.make.front.components.sequence.contents.custom.{
@@ -34,9 +34,8 @@ import org.make.front.components.sequence.contents.custom.{
   PromptingToProposeInRelationToDITPOperation
 }
 import org.make.front.models._
-import org.make.front.operations.Slides.{defaultTrackingInternalOnlyParameters, trackingContext}
-import org.make.services.tracking.{TrackingLocation, TrackingService}
 import org.make.services.tracking.TrackingService.TrackingContext
+import org.make.services.tracking.{TrackingLocation, TrackingService}
 
 import scala.scalajs.js
 
@@ -63,7 +62,8 @@ object Operations {
     MIPIMFROperationStaticData.data,
     JeunesHdfOperationStaticData.data,
     DITPOperationStaticData.data,
-    MIPIMGBOperationStaticData.data
+    MIPIMGBOperationStaticData.data,
+    WeEuropeansOperationStaticData.data
   )
 }
 
