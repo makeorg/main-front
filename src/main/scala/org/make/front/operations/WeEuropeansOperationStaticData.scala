@@ -20,20 +20,6 @@
 
 package org.make.front.operations
 
-import org.make.front.facades.{
-  ainesLogo,
-  ainesLogoWhite,
-  armeeDuSalut,
-  associationFranceDependance,
-  careit,
-  croixRouge,
-  klesia,
-  korian,
-  laposte,
-  lesTalentsDalphonse,
-  ocirp,
-  siel
-}
 import org.make.front.models._
 
 import scala.scalajs.js
