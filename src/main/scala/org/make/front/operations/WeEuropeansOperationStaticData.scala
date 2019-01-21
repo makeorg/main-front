@@ -64,6 +64,7 @@ object WeEuropeansOperationStaticData extends StaticDataOfOperation {
     },
     startDateActions = None,
     partners = js.Array(),
-    featureSettings = FeatureSettings(action = false, share = true)
+    featureSettings = FeatureSettings(action = false, share = true),
+    showCase = false
   )
 }

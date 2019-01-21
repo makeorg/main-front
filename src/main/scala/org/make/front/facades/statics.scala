@@ -797,15 +797,15 @@ object cinemadifferenceAvatar extends js.Object
 /** Featured operation **/
 
 @js.native
-@JSImport("./images/operations/aines/aines-500x375.jpg", "default")
+@JSImport("./images/operations/grand-debat/grand-debat-500x375.jpg", "default")
 object featuredOperationSmall extends js.Object
 
 @js.native
-@JSImport("./images/operations/aines/aines-840x440.jpg", "default")
+@JSImport("./images/operations/grand-debat/grand-debat-840x440.jpg", "default")
 object featuredOperationMedium extends js.Object
 
 @js.native
-@JSImport("./images/operations/aines/aines-1140x440.jpg", "default")
+@JSImport("./images/operations/grand-debat/grand-debat-1140x440.jpg", "default")
 object featuredOperationLarge extends js.Object
 
 /** Operation Aines **/
@@ -1086,6 +1086,10 @@ object mveShowcase extends js.Object
 @js.native
 @JSImport("./images/showcase/illustration-culture.png", "default")
 object cultureShowcase extends js.Object
+
+@js.native
+@JSImport("./images/showcase/illustration-aines.png", "default")
+object ainesShowcase extends js.Object
 
 /* FONTS */
 

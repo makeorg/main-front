@@ -25,7 +25,7 @@ import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import io.github.shogowada.scalajs.reactjs.redux.ReactRedux
 import io.github.shogowada.scalajs.reactjs.redux.Redux.Dispatch
 import org.make.front.components.AppState
-import org.make.front.facades.{cajShowcase, cultureShowcase, mveShowcase, vffShowcase}
+import org.make.front.facades.{ainesShowcase, cajShowcase, cultureShowcase, mveShowcase}
 import org.make.front.models.{FeaturedArticle => FeaturedArticleModel}
 
 import scala.scalajs.js
@@ -39,11 +39,19 @@ object FeaturedArticlesShowcaseContainer {
       FeaturedArticlesShowcase.FeaturedArticlesShowcaseProps(
         articles = js.Array(
           FeaturedArticleModel(
+            illUrl = ainesShowcase.toString,
+            imageAlt = Some("Comment mieux prendre soin de nos aînés ?"),
+            label = "Consultation terminée",
+            excerpt = "Découvrez les idées qui ont émergé de notre consultation sur les aînés.",
+            seeMoreLabel = "En savoir + sur la consultation",
+            seeMoreLink = "https://about.make.org/about-aines"
+          ),
+          FeaturedArticleModel(
             illUrl = cultureShowcase.toString,
             imageAlt = Some("Accès à la culture pour tous"),
             label = "Consultation terminée",
             excerpt = "Découvrez les idées qui ont émergé de notre consultation.",
-            seeMoreLabel = "Voir les résultats",
+            seeMoreLabel = "En savoir + sur la consultation",
             seeMoreLink = "https://about.make.org/about-culture"
           ),
           FeaturedArticleModel(
@@ -51,7 +59,7 @@ object FeaturedArticlesShowcaseContainer {
             imageAlt = Some("Une chance pour chaque jeune"),
             label = "Consultation terminée",
             excerpt = "Découvrez les idées qui ont émergé de notre consultation.",
-            seeMoreLabel = "Voir les résultats",
+            seeMoreLabel = "En savoir + sur la consultation",
             seeMoreLink = "https://about.make.org/about-chance-aux-jeunes"
           ),
           FeaturedArticleModel(
@@ -59,16 +67,8 @@ object FeaturedArticlesShowcaseContainer {
             imageAlt = Some("Comment mieux vivre ensemble ?"),
             label = "Consultation terminée",
             excerpt = "Découvrez les idées qui ont émergé de notre consultation.",
-            seeMoreLabel = "Voir les résultats",
+            seeMoreLabel = "En savoir + sur la consultation",
             seeMoreLink = "https://about.make.org/about-mieux-vivre-ensemble"
-          ),
-          FeaturedArticleModel(
-            illUrl = vffShowcase.toString,
-            imageAlt = Some("Stop aux violences faîtes aux femmes"),
-            label = "Actions",
-            excerpt = "Grâce aux idées issues de la consultation, 8 actions nationales ont été identifiées.",
-            seeMoreLabel = "Voir le plan d'actions",
-            seeMoreLink = "https://about.make.org/about-vff"
           )
         )
       )

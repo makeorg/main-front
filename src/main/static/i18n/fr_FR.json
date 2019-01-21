@@ -47,12 +47,12 @@
       "see-more": "En savoir&nbsp;+"
     },
     "featured-operation": {
-      "title": "Comment mieux prendre soin de nos aînés ?",
-      "label": "Grande cause Make.org",
-      "purpose": "Découvrez les idées qui ont émergé de la consultation Mieux prendre soin de nos aînés.",
+      "title": "Quelles sont vos propositions ?",
+      "label": "Grande consultation nationale",
+      "purpose": "Dans le contexte du Grand débat national, des médias lancent, avec Make.org, une grande consultation.",
       "learn-more": {
-        "label": "Voir les résultats",
-        "link": "https://about.make.org/about-aines"
+        "label": "Participer à la consultation",
+        "link": "https://about.make.org/grande-consultation-nationale-quelles-sont-vos-propositions"
       }
     },
     "explanations": {
