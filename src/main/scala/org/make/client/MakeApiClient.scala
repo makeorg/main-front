@@ -62,6 +62,7 @@ object MakeApiClient extends Client {
     Map(
       "Accept" -> MediaTypes.`application/json`,
       "Content-Type" -> "application/json;charset=UTF-8",
+      "x-make-app-name" -> "legacy-front",
       MakeApiClient.sourceHeader -> Source.Core.name
     )
   }
