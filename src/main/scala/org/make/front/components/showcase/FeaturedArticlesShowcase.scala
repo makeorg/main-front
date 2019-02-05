@@ -98,10 +98,10 @@ object FeaturedArticleTileStyles extends StyleSheet.Inline {
   val operation: StyleA =
     style(
       display.inlineBlock,
-      width(100.%%),
-      padding(`0`),
+      verticalAlign.top,
+      width(50.%%),
+      padding(`0`, specialPadding.pxToEm()),
       marginBottom(ThemeStyles.SpacingValue.small.pxToEm()),
-      ThemeStyles.MediaQueries.beyondSmall(width(50.%%), padding(`0`, specialPadding.pxToEm())),
       ThemeStyles.MediaQueries.beyondMedium(width(100.%%), padding(`0`, ThemeStyles.SpacingValue.small.pxToEm()))
     )
 
