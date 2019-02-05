@@ -49,7 +49,7 @@ object VoteContainer {
 
   final case class VoteContainerProps(index: Int,
                                       proposal: ProposalModel,
-                                      onSuccessfulVote: (VoteModel)                           => Unit = (_)    => {},
+                                      onSuccessfulVote: VoteModel                             => Unit = _      => {},
                                       onSuccessfulQualification: (String, QualificationModel) => Unit = (_, _) => {},
                                       guideToVote: Option[String] = None,
                                       guideToQualification: Option[String] = None,
@@ -62,7 +62,7 @@ object VoteContainer {
 
   lazy val reactClass: ReactClass = ReactRedux.connectAdvanced(selectorFactory)(Vote.reactClass)
 
-  def selectorFactory: (Dispatch) => (AppState, Props[VoteContainerProps]) => Vote.VoteProps =
+  def selectorFactory: Dispatch => (AppState, Props[VoteContainerProps]) => Vote.VoteProps =
     (dispatch: Dispatch) => { (_: AppState, props: Props[VoteContainerProps]) =>
       val location = LocationModel.firstByPrecedence(
         location = props.wrapped.maybeLocation,
@@ -108,7 +108,8 @@ object VoteContainer {
           proposalId = props.wrapped.proposal.id,
           key,
           location,
-          operation = props.wrapped.maybeOperation
+          operation = props.wrapped.maybeOperation,
+          proposalKey = props.wrapped.proposal.proposalKey
         )
 
         future.onComplete {
@@ -134,7 +135,8 @@ object VoteContainer {
           proposalId = props.wrapped.proposal.id,
           key,
           location,
-          operation = props.wrapped.maybeOperation
+          operation = props.wrapped.maybeOperation,
+          proposalKey = props.wrapped.proposal.proposalKey
         )
         future.onComplete {
           case Success(response) => props.wrapped.onSuccessfulVote(response) // let child handle new results
@@ -159,7 +161,8 @@ object VoteContainer {
           vote,
           qualification,
           location,
-          operation = props.wrapped.maybeOperation
+          operation = props.wrapped.maybeOperation,
+          proposalKey = props.wrapped.proposal.proposalKey
         )
         future.onComplete {
           case Success(response) => props.wrapped.onSuccessfulQualification(vote, response)
@@ -184,7 +187,8 @@ object VoteContainer {
           vote,
           qualification,
           location,
-          operation = props.wrapped.maybeOperation
+          operation = props.wrapped.maybeOperation,
+          proposalKey = props.wrapped.proposal.proposalKey
         )
         future.onComplete {
           case Success(response) => props.wrapped.onSuccessfulQualification(vote, response)

@@ -44,7 +44,8 @@ final case class Proposal(id: ProposalId,
                           themeId: Option[ThemeId],
                           operationId: Option[OperationId],
                           tags: js.Array[Tag],
-                          myProposal: Boolean) {
+                          myProposal: Boolean,
+                          proposalKey: String) {
   def votesAgree: Vote =
     votes.find(_.key == "agree").getOrElse(Vote(key = "agree", qualifications = js.Array(), hasVoted = false))
   def votesDisagree: Vote =
@@ -89,7 +90,8 @@ object Proposal {
         case other => Some(OperationId(other))
       },
       tags = seqTags,
-      myProposal = proposalResponse.myProposal
+      myProposal = proposalResponse.myProposal,
+      proposalKey = proposalResponse.proposalKey
     )
   }
 }
