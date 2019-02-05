@@ -25,7 +25,7 @@ import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import io.github.shogowada.scalajs.reactjs.redux.ReactRedux
 import io.github.shogowada.scalajs.reactjs.redux.Redux.Dispatch
 import org.make.front.components.AppState
-import org.make.front.facades.{ainesShowcase, cajShowcase, cultureShowcase, mveShowcase}
+import org.make.front.facades.{ainesShowcase, cajShowcase, cultureShowcase, granddebatShowcase}
 import org.make.front.models.{FeaturedArticle => FeaturedArticleModel}
 
 import scala.scalajs.js
@@ -38,6 +38,15 @@ object FeaturedArticlesShowcaseContainer {
     (dispatch: Dispatch) => { (state: AppState, props: Props[Unit]) =>
       FeaturedArticlesShowcase.FeaturedArticlesShowcaseProps(
         articles = js.Array(
+          FeaturedArticleModel(
+            illUrl = granddebatShowcase.toString,
+            imageAlt = Some("Comment mieux vivre ensemble ?"),
+            label = "Actualité",
+            excerpt =
+              "Parallèlement au Grand débat national, plusieurs médias lancent, avec Make.org, une grande consultation citoyenne.",
+            seeMoreLabel = "Participer à la consultation",
+            seeMoreLink = "https://about.make.org/grande-consultation-nationale-quelles-sont-vos-propositions"
+          ),
           FeaturedArticleModel(
             illUrl = ainesShowcase.toString,
             imageAlt = Some("Comment mieux prendre soin de nos aînés ?"),
@@ -61,14 +70,6 @@ object FeaturedArticlesShowcaseContainer {
             excerpt = "Découvrez les idées qui ont émergé de notre consultation.",
             seeMoreLabel = "En savoir + sur la consultation",
             seeMoreLink = "https://about.make.org/about-chance-aux-jeunes"
-          ),
-          FeaturedArticleModel(
-            illUrl = mveShowcase.toString,
-            imageAlt = Some("Comment mieux vivre ensemble ?"),
-            label = "Consultation terminée",
-            excerpt = "Découvrez les idées qui ont émergé de notre consultation.",
-            seeMoreLabel = "En savoir + sur la consultation",
-            seeMoreLink = "https://about.make.org/about-mieux-vivre-ensemble"
           )
         )
       )

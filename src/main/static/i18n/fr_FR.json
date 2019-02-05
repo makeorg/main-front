@@ -47,12 +47,12 @@
       "see-more": "En savoir&nbsp;+"
     },
     "featured-operation": {
-      "title": "Grand débat : quelles sont vos propositions ?",
-      "label": "Actualité",
-      "purpose": "Parallèlement au Grand débat national, plusieurs médias lancent, avec Make.org, une grande consultation citoyenne.",
+      "title": "Comment réinventer l’Europe, concrètement ?",
+      "label": "Événement",
+      "purpose": "Participez à WeEuropeans, la plus grande consultation citoyenne jamais organisée en Europe.",
       "learn-more": {
-        "label": "Participer à la consultation",
-        "link": "https://about.make.org/grande-consultation-nationale-quelles-sont-vos-propositions"
+        "label": "Votez et proposez vos solutions",
+        "link": "https://weeuropeans.eu"
       }
     },
     "explanations": {
