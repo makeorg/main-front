@@ -69,17 +69,18 @@ final case class ContextRequest(operation: Option[String] = None,
                                 source: Option[String] = None,
                                 question: Option[String] = None)
 
-final case class VoteRequest(voteKey: String)
-final case class QualificationRequest(voteKey: String, qualificationKey: String)
+final case class VoteRequest(voteKey: String, proposalKey: String)
+final case class QualificationRequest(voteKey: String, qualificationKey: String, proposalKey: String)
 
 @js.native
 trait JsVoteRequest extends js.Object {
   val voteKey: String
+  val proposalKey: String
 }
 
 object JsVoteRequest {
   def apply(voteRequest: VoteRequest): JsVoteRequest = {
-    js.Dynamic.literal(voteKey = voteRequest.voteKey).asInstanceOf[JsVoteRequest]
+    js.Dynamic.literal(voteKey = voteRequest.voteKey, proposalKey = voteRequest.proposalKey).asInstanceOf[JsVoteRequest]
   }
 }
 
@@ -87,12 +88,17 @@ object JsVoteRequest {
 trait JsQualificationRequest extends js.Object {
   val voteKey: String
   val qualificationKey: String
+  val proposalKey: String
 }
 
 object JsQualificationRequest {
   def apply(qualificationRequest: QualificationRequest): JsQualificationRequest = {
     js.Dynamic
-      .literal(voteKey = qualificationRequest.voteKey, qualificationKey = qualificationRequest.qualificationKey)
+      .literal(
+        voteKey = qualificationRequest.voteKey,
+        qualificationKey = qualificationRequest.qualificationKey,
+        proposalKey = qualificationRequest.proposalKey
+      )
       .asInstanceOf[JsQualificationRequest]
   }
 }

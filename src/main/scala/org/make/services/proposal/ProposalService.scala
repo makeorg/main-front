@@ -129,7 +129,8 @@ object ProposalService extends ApiService {
            voteValue: String,
            location: Location,
            operation: Option[OperationExpanded] = None,
-           question: Option[String] = None): Future[Vote] = {
+           question: Option[String] = None,
+           proposalKey: String): Future[Vote] = {
     var headers =
       Map[String, String](MakeApiClient.locationHeader -> location.name)
     operation.foreach(op => headers += MakeApiClient.operationHeader -> op.operationId.value)
@@ -138,7 +139,7 @@ object ProposalService extends ApiService {
     MakeApiClient
       .post[VoteResponse](
         apiEndpoint = resourceName / proposalId.value / "vote",
-        data = JSON.stringify(JsVoteRequest(VoteRequest(voteValue))),
+        data = JSON.stringify(JsVoteRequest(VoteRequest(voteValue, proposalKey))),
         headers = headers
       )
       .map(Vote.apply)
@@ -148,7 +149,8 @@ object ProposalService extends ApiService {
              oldVoteValue: String,
              location: Location,
              operation: Option[OperationExpanded] = None,
-             question: Option[String] = None): Future[Vote] = {
+             question: Option[String] = None,
+             proposalKey: String): Future[Vote] = {
     var headers =
       Map[String, String](MakeApiClient.locationHeader -> location.name)
     operation.foreach(op => headers += MakeApiClient.operationHeader -> op.operationId.value)
@@ -157,7 +159,7 @@ object ProposalService extends ApiService {
     MakeApiClient
       .post[VoteResponse](
         apiEndpoint = resourceName / proposalId.value / "unvote",
-        data = JSON.stringify(JsVoteRequest(VoteRequest(oldVoteValue))),
+        data = JSON.stringify(JsVoteRequest(VoteRequest(oldVoteValue, proposalKey))),
         headers = headers
       )
       .map(Vote.apply)
@@ -168,7 +170,8 @@ object ProposalService extends ApiService {
                   qualification: String,
                   location: Location,
                   operation: Option[OperationExpanded] = None,
-                  question: Option[String] = None): Future[Qualification] = {
+                  question: Option[String] = None,
+                  proposalKey: String): Future[Qualification] = {
     var headers =
       Map[String, String](MakeApiClient.locationHeader -> location.name)
     operation.foreach(op => headers += MakeApiClient.operationHeader -> op.operationId.value)
@@ -178,7 +181,11 @@ object ProposalService extends ApiService {
       .post[QualificationResponse](
         apiEndpoint = resourceName / proposalId.value / "qualification",
         data = JSON
-          .stringify(JsQualificationRequest(QualificationRequest(voteKey = vote, qualificationKey = qualification))),
+          .stringify(
+            JsQualificationRequest(
+              QualificationRequest(voteKey = vote, qualificationKey = qualification, proposalKey = proposalKey)
+            )
+          ),
         headers = headers
       )
       .map(Qualification.apply)
@@ -189,7 +196,8 @@ object ProposalService extends ApiService {
                               qualification: String,
                               location: Location,
                               operation: Option[OperationExpanded] = None,
-                              question: Option[String] = None): Future[Qualification] = {
+                              question: Option[String] = None,
+                              proposalKey: String): Future[Qualification] = {
     var headers =
       Map[String, String](MakeApiClient.locationHeader -> location.name)
     operation.foreach(op => headers += MakeApiClient.operationHeader -> op.operationId.value)
@@ -199,7 +207,11 @@ object ProposalService extends ApiService {
       .post[QualificationResponse](
         apiEndpoint = resourceName / proposalId.value / "unqualification",
         data = JSON
-          .stringify(JsQualificationRequest(QualificationRequest(voteKey = vote, qualificationKey = qualification))),
+          .stringify(
+            JsQualificationRequest(
+              QualificationRequest(voteKey = vote, qualificationKey = qualification, proposalKey = proposalKey)
+            )
+          ),
         headers = headers
       )
       .map(Qualification.apply)
