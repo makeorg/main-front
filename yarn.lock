@@ -6008,10 +6008,10 @@ react-dom@15.6.1:
     object-assign "^4.1.0"
     prop-types "^15.5.10"
 
-react-facebook-login@3.6.2:
-  version "3.6.2"
-  resolved "https://registry.yarnpkg.com/react-facebook-login/-/react-facebook-login-3.6.2.tgz#1965f6af54cc90341b788d0752185cfd25a14d30"
-  integrity sha512-HOyC92hdvsk892OMulzMPDLjCTKRrgM1QQrVSZZuBS7w5TYgpLjO5E9/Q82rz8kPlKiOZbcu4wrnPwLFaG0neg==
+react-facebook-login@4.1.1:
+  version "4.1.1"
+  resolved "https://registry.yarnpkg.com/react-facebook-login/-/react-facebook-login-4.1.1.tgz#005121236a6ac0dee02099976fb1a3265f9d633e"
+  integrity sha512-COnHEHlYGTKipz4963safFAK9PaNTcCiXfPXMS/yxo8El+/AJL5ye8kMJf23lKSSGGPgqFQuInskIHVqGqTvSw==
 
 react-google-login@2.9.3:
   version "2.9.3"

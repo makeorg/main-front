@@ -120,6 +120,7 @@ object AuthenticateWithFacebookButton {
           ^.disableMobileRedirect := true,
           ^.cssClass := buttonClasses,
           ^.containerStyle := Map("transition" -> "none", "opacity" -> 1).toJSDictionary,
+          ^.version := "2.3",
           ^.iconElement :=
             <.i(^.className := js.Array(if (self.props.wrapped.isLookingLikeALink) {
               FontAwesomeStyles.facebookOfficial
