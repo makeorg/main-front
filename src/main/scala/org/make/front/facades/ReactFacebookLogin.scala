@@ -70,6 +70,7 @@ object ReactFacebookLogin {
     lazy val iconClass: StringAttributeSpec = StringAttributeSpec("icon")
     lazy val iconComponent: NativeReactElementAttribute = NativeReactElementAttribute("icon")
     lazy val textButton: StringAttributeSpec = StringAttributeSpec("textButton")
+    lazy val version: StringAttributeSpec = StringAttributeSpec("version")
     lazy val containerStyle: NativeJsObjectAttributeSpec[js.Dictionary[Any]] = NativeJsObjectAttributeSpec(
       "containerStyle"
     )
