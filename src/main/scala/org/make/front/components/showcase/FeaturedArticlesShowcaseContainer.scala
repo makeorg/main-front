@@ -25,7 +25,7 @@ import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import io.github.shogowada.scalajs.reactjs.redux.ReactRedux
 import io.github.shogowada.scalajs.reactjs.redux.Redux.Dispatch
 import org.make.front.components.AppState
-import org.make.front.facades.{ainesShowcase, cajShowcase, granddebatShowcase, vffShowcase}
+import org.make.front.facades.{ainesShowcase, granddebatShowcase, mebShowcase, vffShowcase}
 import org.make.front.models.{FeaturedArticle => FeaturedArticleModel}
 
 import scala.scalajs.js
@@ -58,18 +58,19 @@ object FeaturedArticlesShowcaseContainer {
           FeaturedArticleModel(
             illUrl = vffShowcase.toString,
             imageAlt = Some("Grâce aux idées issues de la consultation, 8 actions nationales ont été identifiées."),
-            label = "Plan d'actions en cours",
-            excerpt = "Découvrez les projets issus de la consultation et des ateliers de transformation.",
-            seeMoreLabel = "En savoir + sur le plan d'actions",
+            label = "Actions",
+            excerpt =
+              "À l’occasion de la Journée internationale des droits des Femmes, découvrez l’état d’avancement de nos actions.",
+            seeMoreLabel = "Voir le plan d'actions",
             seeMoreLink = "https://about.make.org/about-vff"
           ),
           FeaturedArticleModel(
-            illUrl = cajShowcase.toString,
-            imageAlt = Some("Une chance pour chaque jeune"),
-            label = "Consultation terminée",
-            excerpt = "Découvrez les idées qui ont émergé de notre consultation.",
-            seeMoreLabel = "En savoir + sur la consultation",
-            seeMoreLink = "https://about.make.org/about-chance-aux-jeunes"
+            illUrl = mebShowcase.toString,
+            imageAlt = Some("Comment agir pour rendre notre économie plus bienveillante ?"),
+            label = "Actualité",
+            excerpt = "Proposez vos idées pour rendre notre économie plus bienveillante.",
+            seeMoreLabel = "Participer à la consultation",
+            seeMoreLink = "https://about.make.org/about-economiebienveillante"
           )
         )
       )

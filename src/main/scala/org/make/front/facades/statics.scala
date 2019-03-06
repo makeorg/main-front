@@ -1072,8 +1072,8 @@ object itFlag extends js.Object
 /* SHOWCASES */
 
 @js.native
-@JSImport("./images/showcase/illustration-caj.png", "default")
-object cajShowcase extends js.Object
+@JSImport("./images/showcase/illustration-meb.png", "default")
+object mebShowcase extends js.Object
 
 @js.native
 @JSImport("./images/showcase/illustration-vff.png", "default")
