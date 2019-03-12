@@ -42,9 +42,9 @@ object ExtraOperationsContainer {
             operationLink = "/#/FR/consultation/villededemain/consultation"
           ),
           ExtraOperationsModel(
-            title = "Comment agir pour rendre notre économie plus bienveillante ?",
-            operationGradient = "linear-gradient(175deg, #1657ec, #1657ec)",
-            operationLink = "https://app.make.org/FR-fr/consultation/economiebienveillante/selection"
+            title = "Comment faire émerger des champions européens du numérique ?",
+            operationGradient = "linear-gradient(175deg, #7db7e3, #5da113)",
+            operationLink = "/#/FR/consultation/european-digital-champions/consultation"
           ),
           ExtraOperationsModel(
             title = "Comment vous aider à construire votre avenir en Hauts de France ?",
