@@ -25,7 +25,7 @@ import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import io.github.shogowada.scalajs.reactjs.redux.ReactRedux
 import io.github.shogowada.scalajs.reactjs.redux.Redux.Dispatch
 import org.make.front.components.AppState
-import org.make.front.facades.{ainesShowcase, cultureShowcase, granddebatShowcase, mebShowcase, vffShowcase}
+import org.make.front.facades.{ainesShowcase, alimentationShowcase, granddebatShowcase, mebShowcase, vffShowcase}
 import org.make.front.models.{FeaturedArticle => FeaturedArticleModel}
 
 import scala.scalajs.js
@@ -73,12 +73,12 @@ object FeaturedArticlesShowcaseContainer {
             seeMoreLink = "https://about.make.org/about-aines"
           ),
           FeaturedArticleModel(
-            illUrl = cultureShowcase.toString,
-            imageAlt = Some("Accès à la culture pour tous"),
-            label = "Consultation terminée",
-            excerpt = "Découvrez les idées qui ont émergé de notre consultation.",
+            illUrl = alimentationShowcase.toString,
+            imageAlt = Some("Comment permettre à chacun de mieux manger ?"),
+            label = "Consultation à venir",
+            excerpt = "Préparez-vous à participer à la Grande Cause à partir du 26 mars #AgirPourMieuxManger",
             seeMoreLabel = "En savoir + sur la consultation",
-            seeMoreLink = "https://about.make.org/about-culture"
+            seeMoreLink = "https://about.make.org/about-mieuxmanger"
           )
         )
       )
