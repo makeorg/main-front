@@ -30,6 +30,7 @@ import org.make.front.facades.ReactSlick.{ReactTooltipVirtualDOMAttributes, Reac
 import org.make.front.facades.Unescape.unescape
 import org.make.front.models.{FeaturedArticle => FeaturedArticleModel}
 import org.make.front.styles.ThemeStyles
+import org.make.front.styles.ThemeStyles.TextColor
 import org.make.front.styles.base._
 import org.make.front.styles.utils._
 
@@ -55,7 +56,7 @@ object FeaturedArticlesShowcase {
               ),
               <.h2(^.className := js.Array(FeaturedArticleTileStyles.label, TextStyles.verySmallTitle))(article.label),
               <.div(^.className := FeaturedArticleTileStyles.excerptWrapper)(
-                <.p(^.className := TextStyles.mediumText)(
+                <.p(^.className := TextStyles.smallText)(
                   article.excerpt,
                   <.br()(),
                   <.a(^.href := article.seeMoreLink, ^.className := TextStyles.boldText)(article.seeMoreLabel)
@@ -112,5 +113,5 @@ object FeaturedArticleTileStyles extends StyleSheet.Inline {
     style(marginTop(ThemeStyles.SpacingValue.small.pxToEm(13)))
 
   val excerptWrapper: StyleA =
-    style(unsafeChild("a")(color(ThemeStyles.ThemeColor.primary)))
+    style(unsafeChild("a")(color(ThemeStyles.ThemeColor.primary)), unsafeChild("p")(color(TextColor.light)))
 }

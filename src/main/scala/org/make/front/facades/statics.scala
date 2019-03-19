@@ -1091,6 +1091,10 @@ object ainesShowcase extends js.Object
 @JSImport("./images/showcase/illustration-grand-debat.png", "default")
 object granddebatShowcase extends js.Object
 
+@js.native
+@JSImport("./images/showcase/illustration-alimentation.png", "default")
+object alimentationShowcase extends js.Object
+
 /* FONTS */
 
 @js.native
