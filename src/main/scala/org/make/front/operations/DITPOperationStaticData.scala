@@ -71,7 +71,7 @@ object DITPOperationStaticData extends StaticDataOfOperation {
           registerTitle = Some("Inscrivez vous pour enregistrer vos contributions"),
           nextCta = Some("Non merci, je ne souhaite pas que mes contributions soient enregistrées")
         ),
-        CustomSlides.displayDITPProposalPushCard(params, displayed = false),
+        CustomSlides.displayDITPProposalPushCard(params),
         Slides.redirectToConsultationCard(params, onFocus = () => {
           params.closeSequence()
         })
