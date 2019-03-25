@@ -25,7 +25,7 @@ import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import io.github.shogowada.scalajs.reactjs.redux.ReactRedux
 import io.github.shogowada.scalajs.reactjs.redux.Redux.Dispatch
 import org.make.front.components.AppState
-import org.make.front.facades.{ainesShowcase, alimentationShowcase, granddebatShowcase, mebShowcase, vffShowcase}
+import org.make.front.facades.{ainesShowcase, granddebatShowcase, mebShowcase, vffShowcase, weeuropeansShowcase}
 import org.make.front.models.{FeaturedArticle => FeaturedArticleModel}
 
 import scala.scalajs.js
@@ -56,6 +56,15 @@ object FeaturedArticlesShowcaseContainer {
             seeMoreLink = "https://about.make.org/about-economiebienveillante"
           ),
           FeaturedArticleModel(
+            illUrl = weeuropeansShowcase.toString,
+            imageAlt = Some("Comment réinventer l'Europe, concrétement ?"),
+            label = "Consultation terminée",
+            excerpt =
+              "Après 5 semaines de consultation, découvrez les 10 priorités sélectionnées par les citoyens européen.",
+            seeMoreLabel = "Découvrir l’Agenda citoyen",
+            seeMoreLink = "https://weeuropeans.eu/"
+          ),
+          FeaturedArticleModel(
             illUrl = vffShowcase.toString,
             imageAlt = Some("Grâce aux idées issues de la consultation, 8 actions nationales ont été identifiées."),
             label = "Actions",
@@ -71,14 +80,6 @@ object FeaturedArticlesShowcaseContainer {
             excerpt = "Découvrez les idées qui ont émergé de notre consultation sur les aînés.",
             seeMoreLabel = "En savoir + sur la consultation",
             seeMoreLink = "https://about.make.org/about-aines"
-          ),
-          FeaturedArticleModel(
-            illUrl = alimentationShowcase.toString,
-            imageAlt = Some("Comment permettre à chacun de mieux manger ?"),
-            label = "Consultation à venir",
-            excerpt = "Préparez-vous à participer à la Grande Cause à partir du 26 mars #AgirPourMieuxManger",
-            seeMoreLabel = "En savoir + sur la consultation",
-            seeMoreLink = "https://about.make.org/about-mieuxmanger"
           )
         )
       )
