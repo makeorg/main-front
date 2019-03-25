@@ -797,15 +797,15 @@ object cinemadifferenceAvatar extends js.Object
 /** Featured operation **/
 
 @js.native
-@JSImport("./images/operations/we-europeans/we-europeans-500x375.jpg", "default")
+@JSImport("./images/operations/mieux-manger/mieux-manger-500x375.jpg", "default")
 object featuredOperationSmall extends js.Object
 
 @js.native
-@JSImport("./images/operations/we-europeans/we-europeans-840x440.jpg", "default")
+@JSImport("./images/operations/mieux-manger/mieux-manger-840x440.jpg", "default")
 object featuredOperationMedium extends js.Object
 
 @js.native
-@JSImport("./images/operations/we-europeans/we-europeans-1140x440.jpg", "default")
+@JSImport("./images/operations/mieux-manger/mieux-manger-1140x440.jpg", "default")
 object featuredOperationLarge extends js.Object
 
 /** Operation Aines **/
@@ -1094,6 +1094,10 @@ object granddebatShowcase extends js.Object
 @js.native
 @JSImport("./images/showcase/illustration-alimentation.png", "default")
 object alimentationShowcase extends js.Object
+
+@js.native
+@JSImport("./images/showcase/illustration-weeuropeans.png", "default")
+object weeuropeansShowcase extends js.Object
 
 /* FONTS */
 
