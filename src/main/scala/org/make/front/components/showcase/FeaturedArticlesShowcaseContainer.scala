@@ -60,7 +60,7 @@ object FeaturedArticlesShowcaseContainer {
             imageAlt = Some("Comment réinventer l'Europe, concrétement ?"),
             label = "Consultation terminée",
             excerpt =
-              "Après 5 semaines de consultation, découvrez les 10 priorités sélectionnées par les citoyens européen.",
+              "Après 5 semaines de consultation, découvrez les 10 priorités sélectionnées par les citoyens européens.",
             seeMoreLabel = "Découvrir l’Agenda citoyen",
             seeMoreLink = "https://weeuropeans.eu/"
           ),
