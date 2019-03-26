@@ -43,14 +43,14 @@ object FeaturedArticlesShowcaseContainer {
             imageAlt = Some("Grand débat national"),
             label = "Actualité",
             excerpt =
-              "Parallèlement au Grand débat national, plusieurs médias lancent, avec Make.org, une grande consultation citoyenne.",
+              "Parallèlement au Grand Débat national, Make.org a mené, avec quatre médias, une grande consultation citoyenne.",
             seeMoreLabel = "Participer à la consultation",
             seeMoreLink = "https://about.make.org/grande-consultation-nationale-quelles-sont-vos-propositions"
           ),
           FeaturedArticleModel(
             illUrl = mebShowcase.toString,
             imageAlt = Some("Comment agir pour rendre notre économie plus bienveillante ?"),
-            label = "Actualité",
+            label = "Consultation en cours",
             excerpt = "Proposez vos idées pour rendre notre économie plus bienveillante.",
             seeMoreLabel = "Participer à la consultation",
             seeMoreLink = "https://about.make.org/about-economiebienveillante"
