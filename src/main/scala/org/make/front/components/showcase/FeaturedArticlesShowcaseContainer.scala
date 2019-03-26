@@ -44,7 +44,7 @@ object FeaturedArticlesShowcaseContainer {
             label = "Actualité",
             excerpt =
               "Parallèlement au Grand Débat national, Make.org a mené, avec quatre médias, une grande consultation citoyenne.",
-            seeMoreLabel = "Participer à la consultation",
+            seeMoreLabel = "En savoir + sur la consultation",
             seeMoreLink = "https://about.make.org/grande-consultation-nationale-quelles-sont-vos-propositions"
           ),
           FeaturedArticleModel(
