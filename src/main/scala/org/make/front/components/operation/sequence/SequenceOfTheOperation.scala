@@ -246,7 +246,10 @@ object SequenceOfTheOperation {
                               )
                           )
                         )
-                      ),
+                      ) /**
+                        remove proposal button for DITP operation, should be last
+                        operation before migration to the new application
+                      ,
                       <.div(
                         ^.className := js
                           .Array(TableLayoutStyles.cell, SequenceOfTheOperationStyles.openProposalModalButtonWrapper)
@@ -291,7 +294,7 @@ object SequenceOfTheOperation {
                             )
                           )()
                         )
-                      )
+                      )**/
                     )
                   )
                 )
