@@ -29,8 +29,7 @@ import io.github.shogowada.scalajs.reactjs.router.WithRouter
 import org.make.front.components.DataLoader.DataLoaderProps
 import org.make.front.components.actorProfile.ActorProfileProposals.ActorProfileProposalsProps
 import org.make.front.components.{AppState, DataLoader}
-import org.make.front.models.{Operation, OperationExpanded, Organisation, Proposal}
-import org.make.services.operation.OperationService
+import org.make.front.models._
 import org.make.services.organisation.OrganisationService
 
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -39,7 +38,7 @@ import scala.scalajs.js
 
 object ActorProfileProposalsContainer {
 
-  final case class ActorProposalsContainerProps(actor: Organisation)
+  final case class ActorProposalsContainerProps(actor: Organisation, maybeLocation: Option[Location])
 
   lazy val reactClass: ReactClass = WithRouter(ReactRedux.connectAdvanced(selectorFactory)(DataLoader.reactClass))
 
@@ -48,7 +47,7 @@ object ActorProfileProposalsContainer {
     (_: Dispatch) => { (appState: AppState, props: Props[ActorProposalsContainerProps]) =>
       def getActorProposals: () => Future[Option[js.Array[Proposal]]] = () => {
         OrganisationService
-          .getOrganisationProposals(props.wrapped.actor.organisationId.value)
+          .getOrganisationProposals(props.wrapped.actor.organisationId.value, props.wrapped.maybeLocation)
           .map { proposalsSearchResult =>
             Option(
               proposalsSearchResult.results.filter(

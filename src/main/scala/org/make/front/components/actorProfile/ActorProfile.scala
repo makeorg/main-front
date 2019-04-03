@@ -74,12 +74,12 @@ object ActorProfile {
                     )(),
                     if (self.state.activeTab == "proposals") {
                       <.ActorProfileProposalsContainerComponent(
-                        ^.wrapped := ActorProposalsContainerProps(actor = self.props.wrapped.actor)
+                        ^.wrapped := ActorProposalsContainerProps(actor = self.props.wrapped.actor, None)
                       )()
                     } else if (self.state.activeTab == "contributions") {
                       <.div()(
                         <.ActorProfileContributionsContainerComponent(
-                          ^.wrapped := ActorProfileContributionsContainerProps(actor = self.props.wrapped.actor)
+                          ^.wrapped := ActorProfileContributionsContainerProps(actor = self.props.wrapped.actor, None)
                         )()
                       )
                     }

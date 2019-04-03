@@ -77,6 +77,7 @@ object HomeSearchResultsContainer {
             }
             proposals <- ProposalService
               .searchProposals(
+                maybeLocation = Some(LocationModel.Homepage),
                 content = content,
                 limit = Some(defaultResultsCount),
                 skip = Some(originalProposals.size),

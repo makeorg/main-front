@@ -71,7 +71,8 @@ object ProposalService extends ApiService {
       .map(RegisterProposal.apply)
   }
 
-  def searchProposals(proposalIds: Option[js.Array[ProposalId]] = None,
+  def searchProposals(maybeLocation: Option[Location],
+                      proposalIds: Option[js.Array[ProposalId]] = None,
                       content: Option[String] = None,
                       slug: Option[String] = None,
                       themesIds: js.Array[ThemeId] = js.Array(),
@@ -119,8 +120,13 @@ object ProposalService extends ApiService {
           case _         => true
         }
 
+    val headers =
+      maybeLocation
+        .map(location => Map[String, String](MakeApiClient.locationHeader -> location.name))
+        .getOrElse(Map.empty)
+
     MakeApiClient
-      .get[SearchResultResponse](resourceName, params)
+      .get[SearchResultResponse](resourceName, params, headers)
       .map(SearchResult.apply)
 
   }

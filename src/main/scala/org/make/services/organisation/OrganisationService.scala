@@ -53,23 +53,36 @@ object OrganisationService extends ApiService {
       }
   }
 
-  def getOrganisationProposals(organisationId: String): Future[SearchResult] = {
+  def getOrganisationProposals(organisationId: String, maybeLocation: Option[Location]): Future[SearchResult] = {
+    val headers =
+      maybeLocation
+        .map(location => Map[String, String](MakeApiClient.locationHeader -> location.name))
+        .getOrElse(Map.empty)
+
     MakeApiClient
       .get[SearchResultResponse](
         apiEndpoint = resourceName / organisationId / "proposals",
-        urlParams = js.Array(("sort", "createdAt"), ("order", "DESC"))
+        urlParams = js.Array(("sort", "createdAt"), ("order", "DESC")),
+        headers = headers
       )
       .map(SearchResult.apply)
   }
 
   def getOrganisationVotes(organisationId: String,
                            filterVotes: Seq[String],
-                           filterQualifications: Seq[String]): Future[ProposalsResultWithUserVoteSeeded] = {
+                           filterQualifications: Seq[String],
+                           maybeLocation: Option[Location]): Future[ProposalsResultWithUserVoteSeeded] = {
+
+    val headers =
+      maybeLocation
+        .map(location => Map[String, String](MakeApiClient.locationHeader -> location.name))
+        .getOrElse(Map.empty)
 
     MakeApiClient
       .get[ProposalsResultWithUserVoteSeededResponse](
         apiEndpoint = resourceName / organisationId / "votes",
-        urlParams = js.Array(("votes", filterVotes.mkString(",")))
+        urlParams = js.Array(("votes", filterVotes.mkString(","))),
+        headers = headers
       )
       .map(ProposalsResultWithUserVoteSeeded.apply)
   }

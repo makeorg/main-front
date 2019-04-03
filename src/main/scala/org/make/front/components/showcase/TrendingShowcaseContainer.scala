@@ -50,6 +50,7 @@ object TrendingShowcaseContainer {
           case Some(questionId) =>
             ProposalService
               .searchProposals(
+                maybeLocation = props.wrapped.maybeLocation,
                 questionId = Some(questionId),
                 trending = Some(props.wrapped.trending),
                 limit = Some(2),
@@ -61,6 +62,7 @@ object TrendingShowcaseContainer {
                 case results if results.total == 2 => Future.successful(results)
                 case _ =>
                   ProposalService.searchProposals(
+                    maybeLocation = props.wrapped.maybeLocation,
                     questionId = Some(questionId),
                     limit = Some(2),
                     isRandom = Some(true),
@@ -68,8 +70,8 @@ object TrendingShowcaseContainer {
                     country = Some(appState.country)
                   )
               }
-            case _ => Future.successful(SearchResult(total = 0, results = js.Array(), seed = None))
-          }
+          case _ => Future.successful(SearchResult(total = 0, results = js.Array(), seed = None))
+        }
       }
 
       TrendingShowcase.TrendingShowcaseProps(
