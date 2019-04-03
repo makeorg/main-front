@@ -106,6 +106,7 @@ object SearchResultsContainer {
             operation <- futureMaybeOperation
             proposals <- ProposalService
               .searchProposals(
+                maybeLocation = Some(LocationModel.SearchResultsPage),
                 content = content,
                 limit = Some(defaultResultsCount),
                 skip = Some(originalProposals.size),

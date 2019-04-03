@@ -29,6 +29,7 @@ import org.make.front.actions.NotifyError
 import org.make.front.components.AppState
 import org.make.front.facades.I18n
 import org.make.front.models.{
+  Location,
   Operation,
   ProposalId,
   Tag,
@@ -37,7 +38,7 @@ import org.make.front.models.{
   TranslatedTheme   => TranslatedThemeModel
 }
 import org.make.services.operation.OperationService
-import org.make.services.proposal.{ProposalService, SearchResult}
+import org.make.services.proposal.ProposalService
 import org.make.services.tag.TagService
 
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -64,11 +65,17 @@ object ProposalContainer {
 
           val futureProposalResult: Future[Option[ProposalModel]] = {
             val futureSearchResults = proposalId match {
-              case Some(id) => ProposalService.searchProposals(proposalIds = Some(js.Array(ProposalId(id))))
-              case None     =>
+              case Some(id) =>
+                val proposalId: ProposalId = ProposalId(id)
+                ProposalService.searchProposals(
+                  maybeLocation = Some(Location.ProposalPage(proposalId)),
+                  proposalIds = Some(js.Array(proposalId))
+                )
+              case None =>
                 //TODO: remove once the route with slug only has been deprecated
                 ProposalService
                   .searchProposals(
+                    maybeLocation = None,
                     slug = Some(proposalSlug),
                     limit = Some(1),
                     language = Some(state.language),

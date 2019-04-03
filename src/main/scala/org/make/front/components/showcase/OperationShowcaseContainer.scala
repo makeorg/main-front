@@ -25,13 +25,13 @@ import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import io.github.shogowada.scalajs.reactjs.redux.ReactRedux
 import io.github.shogowada.scalajs.reactjs.redux.Redux.Dispatch
 import org.make.front.components.AppState
-import org.make.front.models.{OperationExpanded => OperationModel}
+import org.make.front.models.{Location, OperationExpanded => OperationModel}
 import org.make.services.proposal.{ProposalService, SearchResult}
 
 import scala.concurrent.Future
 
 object OperationShowcaseContainer {
-  final case class OperationShowcaseContainerProps(operation: OperationModel)
+  final case class OperationShowcaseContainerProps(operation: OperationModel, maybeLocation: Option[Location])
 
   lazy val reactClass: ReactClass = ReactRedux.connectAdvanced(selectorFactory)(OperationShowcase.reactClass)
 
@@ -39,6 +39,7 @@ object OperationShowcaseContainer {
     : Dispatch => (AppState, Props[OperationShowcaseContainerProps]) => OperationShowcase.OperationShowcaseProps =
     (_: Dispatch) => { (appState: AppState, props: Props[OperationShowcaseContainerProps]) =>
       val proposals: Future[SearchResult] = ProposalService.searchProposals(
+        maybeLocation = props.wrapped.maybeLocation,
         operationId = Some(props.wrapped.operation.operationId),
         limit = Some(3),
         language = Some(appState.language),

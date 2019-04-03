@@ -30,6 +30,7 @@ import org.make.front.components.AppState
 import org.make.front.components.operation.sequence.SequenceLoader.SequenceLoaderProps
 import org.make.front.helpers.{Normalizer, QueryString}
 import org.make.front.models.{
+  Location,
   Operation,
   ProposalId,
   SequenceId,
@@ -37,7 +38,6 @@ import org.make.front.models.{
   OperationExpanded => OperationModel,
   Sequence          => SequenceModel
 }
-import org.make.services.operation.OperationService
 import org.make.services.proposal.ProposalService
 import org.make.services.sequence.SequenceService
 import org.make.services.tag.TagService
@@ -94,9 +94,11 @@ object SequenceOfTheOperationContainer {
         val firstProposalSlug = searchParam("firstProposal")
 
         def startSequence(sequenceId: SequenceId)(proposals: js.Array[ProposalId]): Future[SequenceModel] = {
+          val location = Some(Location.Sequence(sequenceId))
           val firstProposal = firstProposalId.map { proposalId =>
             ProposalService
               .searchProposals(
+                maybeLocation = location,
                 proposalIds = Some(js.Array(ProposalId(proposalId))),
                 language = Some(state.language),
                 country = Some(state.country)
@@ -105,7 +107,12 @@ object SequenceOfTheOperationContainer {
 
           }.orElse(firstProposalSlug.map { slug =>
               ProposalService
-                .searchProposals(slug = Some(slug), language = Some(state.language), country = Some(state.country))
+                .searchProposals(
+                  maybeLocation = location,
+                  slug = Some(slug),
+                  language = Some(state.language),
+                  country = Some(state.country)
+                )
                 .map(_.results.map(_.id))
             })
             .getOrElse(Future.successful(js.Array()))

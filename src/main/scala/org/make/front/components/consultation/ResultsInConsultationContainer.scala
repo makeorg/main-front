@@ -78,6 +78,7 @@ object ResultsInConsultationContainer {
       def getProposals(tags: js.Array[TagModel], skip: Int, seed: Option[Int] = None): Future[SearchResult] = {
         ProposalService
           .searchProposals(
+            maybeLocation = props.wrapped.maybeLocation,
             operationId = Some(props.wrapped.currentConsultation.operationId),
             tagsIds = tags.map(_.tagId),
             content = None,

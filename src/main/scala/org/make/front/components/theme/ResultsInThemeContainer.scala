@@ -61,6 +61,7 @@ object ResultsInThemeContainer {
       def getProposals(tags: js.Array[TagModel], skip: Int, seed: Option[Int] = None): Future[SearchResult] = {
         ProposalService
           .searchProposals(
+            maybeLocation = props.wrapped.maybeLocation,
             themesIds = themesIds,
             tagsIds = tags.map(_.tagId),
             seed = seed,

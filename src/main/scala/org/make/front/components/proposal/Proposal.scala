@@ -23,10 +23,10 @@ package org.make.front.components.proposal
 import io.github.shogowada.scalajs.reactjs.React
 import io.github.shogowada.scalajs.reactjs.VirtualDOM.{<, ^, _}
 import io.github.shogowada.scalajs.reactjs.classes.ReactClass
+import io.github.shogowada.scalajs.reactjs.router.RouterProps._
 import io.github.shogowada.scalajs.reactjs.router.WithRouter
 import io.github.shogowada.scalajs.reactjs.router.dom.RouterDOM._
 import org.make.front.Main.CssSettings._
-import io.github.shogowada.scalajs.reactjs.router.RouterProps._
 import org.make.front.components.Components.{RichVirtualDOMElements, _}
 import org.make.front.components.proposal.ProposalAuthorInfos.ProposalAuthorInfosProps
 import org.make.front.components.proposal.ProposalContainer.ProposalAndThemeOrOperationModel
@@ -195,7 +195,10 @@ object Proposal {
             ),
             self.state.maybeOperation.map { operation =>
               <.OperationShowcaseContainerComponent(
-                ^.wrapped := OperationShowcaseContainerProps(operation = operation)
+                ^.wrapped := OperationShowcaseContainerProps(
+                  operation = operation,
+                  maybeLocation = self.state.maybeLocation
+                )
               )()
             }.getOrElse(<.NavInThemesContainerComponent.empty),
             <.MainFooterContainerComponent.empty,

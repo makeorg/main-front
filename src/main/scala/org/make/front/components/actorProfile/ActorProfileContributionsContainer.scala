@@ -28,7 +28,7 @@ import io.github.shogowada.scalajs.reactjs.router.RouterProps._
 import org.make.front.components.DataLoader.DataLoaderProps
 import org.make.front.components.actorProfile.ActorProfileContributions.ActorProfileContributionsProps
 import org.make.front.components.{AppState, DataLoader}
-import org.make.front.models.Organisation
+import org.make.front.models.{Location, Organisation}
 import org.make.services.organisation.OrganisationService
 import org.make.services.proposal.ProposalResultWithUserVote
 
@@ -37,7 +37,7 @@ import scala.concurrent.Future
 
 object ActorProfileContributionsContainer {
 
-  final case class ActorProfileContributionsContainerProps(actor: Organisation)
+  final case class ActorProfileContributionsContainerProps(actor: Organisation, maybeLocation: Option[Location])
 
   lazy val reactClass: ReactClass = ReactRedux.connectAdvanced(selectorFactory)(DataLoader.reactClass)
 
@@ -47,7 +47,12 @@ object ActorProfileContributionsContainer {
     (_: Dispatch) => { (state: AppState, props: Props[ActorProfileContributionsContainerProps]) =>
       def getProposalsVotedByActor: () => Future[Option[Seq[ProposalResultWithUserVote]]] = () => {
         OrganisationService
-          .getOrganisationVotes(props.wrapped.actor.organisationId.value, Seq("agree", "disagree"), Seq.empty)
+          .getOrganisationVotes(
+            props.wrapped.actor.organisationId.value,
+            Seq("agree", "disagree"),
+            Seq.empty,
+            props.wrapped.maybeLocation
+          )
           .map { searchResult =>
             Some(searchResult.results)
           }
