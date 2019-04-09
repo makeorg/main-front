@@ -41,10 +41,10 @@ object FeaturedArticlesShowcaseContainer {
           FeaturedArticleModel(
             illUrl = granddebatShowcase.toString,
             imageAlt = Some("Grand débat national"),
-            label = "Actualité",
+            label = "CONSULTATION TERMINÉE",
             excerpt =
-              "Parallèlement au Grand Débat national, Make.org a mené, avec quatre médias, une grande consultation citoyenne.",
-            seeMoreLabel = "En savoir + sur la consultation",
+              "Découvrez la première synthèse du Grand Débat national faite par les Français eux-mêmes.",
+            seeMoreLabel = "Voir les résultats",
             seeMoreLink = "https://about.make.org/grande-consultation-nationale-quelles-sont-vos-propositions"
           ),
           FeaturedArticleModel(
