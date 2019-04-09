@@ -109,9 +109,7 @@ object ConsultationLinkSequenceStyles extends StyleSheet.Inline {
       display.flex,
       alignItems.center,
       padding(20.pxToEm(), ThemeStyles.SpacingValue.smaller.pxToEm()),
-      // Restore margin if propose component is restored
-      // margin(20.pxToEm(), `0`),
-      margin(`0`, `0`),
+      margin(20.pxToEm(), `0`),
       boxShadow := s"0 1px 1px 0 rgba(0, 0, 0, .5)"
     )
 

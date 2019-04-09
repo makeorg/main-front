@@ -73,14 +73,13 @@ object ConsultationSection {
             <.div(^.className := ConsultationSectionStyles.wrapper, ^.id := "wrapperContainer")(
               <.div(^.className := ConsultationSectionStyles.main)(
                 <.div(^.id := "mainContainer")(
-                  /** Removed for DITP */
-                  /**<.ConsultationProposalComponent(
+                  <.ConsultationProposalComponent(
                     ^.wrapped := ConsultationProposalProps(
                       self.props.wrapped.operation,
                       maybeLocation = Some(LocationModel.OperationPage(self.props.wrapped.operation.operationId)),
                       language = self.props.wrapped.language
                     )
-                  )(), */
+                  )(),
                   if (!self.props.wrapped.isSequenceDone) {
                     <.ConsultationLinkSequenceComponent(
                       ^.wrapped := ConsultationLinkSequenceProps(
