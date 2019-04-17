@@ -148,7 +148,7 @@ object G9DEOperationStaticData extends StaticDataOfOperation {
             registerTitle = Some("Lassen Sie sich über die Ergebnisse der Konsultation informieren."),
             nextCta = Some("Nein danke, ich möchte nicht über die Ergebnisse informiert werden.")
           ),
-          Slides.displayProposalPushCard(params),
+          Slides.displayProposalPushCard(params, false),
           Slides.redirectToConsultationCard(params, onFocus = () => {
             params.closeSequence()
           })
