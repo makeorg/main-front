@@ -67,6 +67,10 @@ object TrackingService {
 
   }
 
+  def sendPerformanceJournal(): Unit = {
+    TrackingApiService.performance()
+  }
+
   case class TrackingContext(location: TrackingLocation,
                              operationSlug: Option[String] = None,
                              source: TrackingSource = TrackingSource.core)

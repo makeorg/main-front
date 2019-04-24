@@ -80,6 +80,7 @@ object Main {
       trackingContext = TrackingContext(TrackingLocation.homepage),
       parameters = Map("href" -> dom.window.location.href)
     )
+    TrackingService.sendPerformanceJournal()
 
     val configurationFuture = ConfigurationService.fetchConfiguration()
     val connectedUserFuture =

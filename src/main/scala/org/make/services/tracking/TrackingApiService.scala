@@ -47,8 +47,16 @@ object TrackingApiService extends ApiService {
 
     MakeApiClient
       .post[js.Object](resourceName / "front", data = JSON.stringify(params))
-      .map { _ =>
-        }
+      .map(_ => ())
+  }
+
+  def performance(): Future[Unit] = {
+    val parameters =
+      js.Dictionary[js.Any]("applicationName" -> "legacy-front", "timings" -> org.scalajs.dom.window.performance.timing)
+
+    MakeApiClient
+      .post[js.Object](resourceName / "performance", data = JSON.stringify(parameters))
+      .map(_ => ())
   }
 
 }
