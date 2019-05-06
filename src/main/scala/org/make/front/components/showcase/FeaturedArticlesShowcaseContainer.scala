@@ -25,7 +25,14 @@ import io.github.shogowada.scalajs.reactjs.classes.ReactClass
 import io.github.shogowada.scalajs.reactjs.redux.ReactRedux
 import io.github.shogowada.scalajs.reactjs.redux.Redux.Dispatch
 import org.make.front.components.AppState
-import org.make.front.facades.{ainesShowcase, granddebatShowcase, mebShowcase, vffShowcase, weeuropeansShowcase}
+import org.make.front.facades.{
+  ainesShowcase,
+  chanceAuxJeunesShowcase,
+  granddebatShowcase,
+  mebShowcase,
+  vffShowcase,
+  weeuropeansShowcase
+}
 import org.make.front.models.{FeaturedArticle => FeaturedArticleModel}
 
 import scala.scalajs.js
@@ -42,18 +49,17 @@ object FeaturedArticlesShowcaseContainer {
             illUrl = granddebatShowcase.toString,
             imageAlt = Some("Grand débat national"),
             label = "CONSULTATION TERMINÉE",
-            excerpt =
-              "Découvrez la première synthèse du Grand Débat national faite par les Français eux-mêmes.",
-            seeMoreLabel = "Voir les résultats",
+            excerpt = "Découvrez la première synthèse du Grand Débat national faite par les Français eux-mêmes.",
+            seeMoreLabel = "Découvrir les résultats",
             seeMoreLink = "https://about.make.org/grande-consultation-nationale-quelles-sont-vos-propositions"
           ),
           FeaturedArticleModel(
-            illUrl = mebShowcase.toString,
-            imageAlt = Some("Comment agir pour rendre notre économie plus bienveillante ?"),
-            label = "Consultation en cours",
-            excerpt = "Proposez vos idées pour rendre notre économie plus bienveillante.",
-            seeMoreLabel = "Participer à la consultation",
-            seeMoreLink = "https://about.make.org/about-economiebienveillante"
+            illUrl = chanceAuxJeunesShowcase.toString,
+            imageAlt = Some("Comment donner une chance à chaque jeune ?"),
+            label = "CONSULTATION TERMINÉE",
+            excerpt = "Découvrez les résultats de notre consultation pour donner une chance à chaque jeune.",
+            seeMoreLabel = "Découvrir les résultats",
+            seeMoreLink = "https://about.make.org/about-chance-aux-jeunes"
           ),
           FeaturedArticleModel(
             illUrl = weeuropeansShowcase.toString,
@@ -78,7 +84,7 @@ object FeaturedArticlesShowcaseContainer {
             imageAlt = Some("Comment mieux prendre soin de nos aînés ?"),
             label = "Consultation terminée",
             excerpt = "Découvrez les idées qui ont émergé de notre consultation sur les aînés.",
-            seeMoreLabel = "En savoir + sur la consultation",
+            seeMoreLabel = "Découvrir les résultats",
             seeMoreLink = "https://about.make.org/about-aines"
           )
         )

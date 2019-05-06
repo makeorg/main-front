@@ -1099,6 +1099,10 @@ object alimentationShowcase extends js.Object
 @JSImport("./images/showcase/illustration-weeuropeans.png", "default")
 object weeuropeansShowcase extends js.Object
 
+@js.native
+@JSImport("./images/showcase/illustration-chance-jeunes.svg", "default")
+object chanceAuxJeunesShowcase extends js.Object
+
 /* FONTS */
 
 @js.native
