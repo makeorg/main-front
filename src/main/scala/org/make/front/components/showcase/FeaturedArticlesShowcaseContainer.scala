@@ -80,6 +80,14 @@ object FeaturedArticlesShowcaseContainer {
             seeMoreLink = "https://about.make.org/about-vff"
           ),
           FeaturedArticleModel(
+            illUrl = mebShowcase.toString,
+            imageAlt = Some("Comment agir pour rendre notre économie plus bienveillante ?"),
+            label = "Consultation terminée",
+            excerpt = "En attendant la publication des résultats, redécouvrez les enjeux de cette consultation.",
+            seeMoreLabel = "En savoir plus",
+            seeMoreLink = "https://about.make.org/about-economiebienveillante"
+          ),
+          FeaturedArticleModel(
             illUrl = ainesShowcase.toString,
             imageAlt = Some("Comment mieux prendre soin de nos aînés ?"),
             label = "Consultation terminée",
