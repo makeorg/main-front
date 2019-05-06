@@ -37,11 +37,6 @@ object ExtraOperationsContainer {
       ExtraOperations.ExtraOperationsProps(
         operations = js.Array(
           ExtraOperationsModel(
-            title = "Comment imaginer la ville de demain ?",
-            operationGradient = "linear-gradient(355deg, #818181, #000000)",
-            operationLink = "/#/FR/consultation/villededemain/consultation"
-          ),
-          ExtraOperationsModel(
             title = "Comment faire émerger des champions européens du numérique ?",
             operationGradient = "linear-gradient(175deg, #7db7e3, #5da113)",
             operationLink = "/#/FR/consultation/european-digital-champions/consultation"
@@ -50,6 +45,11 @@ object ExtraOperationsContainer {
             title = "Comment vous aider à construire votre avenir en Hauts de France ?",
             operationGradient = "linear-gradient(352deg, #fea8fe, #35bfff)",
             operationLink = "/#/FR/consultation/jeunesse-hautsdefrance/consultation"
+          ),
+          ExtraOperationsModel(
+            title = "Comment inciter les jeunes à mieux prendre soin de leur santé ?",
+            operationGradient = "linear-gradient(352deg, #ffb662, #ff5757)",
+            operationLink = "https://app.make.org/FR-fr/consultation/prevention-jeunes/consultation"
           )
         )
       )
