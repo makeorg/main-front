@@ -33,6 +33,7 @@ object Location {
   }
   case object Homepage extends Location { override val name = "homepage" }
   case object SearchResultsPage extends Location { override val name = "search_results" }
+  case class OrganisationPage(slug: String) extends Location { override val name = s"organisation $slug" }
   case class UnknownLocation(path: String = "") extends Location { override val name = s"unknown_location $path" }
 
   def firstByPrecedence(location: Option[Location],

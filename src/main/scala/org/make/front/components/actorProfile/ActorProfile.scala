@@ -30,6 +30,7 @@ import org.make.front.components.actorProfile.ActorProfileInformations.ActorProf
 import org.make.front.components.actorProfile.ActorProfileProposalsContainer.ActorProposalsContainerProps
 import org.make.front.components.actorProfile.navActorProfile.ActorTabNav.ActorTabNavProps
 import org.make.front.components.mainFooter.AltFooter.AltFooterProps
+import org.make.front.models.Location.OrganisationPage
 import org.make.front.models.{Organisation => OrganisationModel}
 import org.make.front.styles.ThemeStyles
 import org.make.front.styles.base.{FlexLayoutStyles, RWDRulesLargeMediumStyles}
@@ -79,7 +80,10 @@ object ActorProfile {
                     } else if (self.state.activeTab == "contributions") {
                       <.div()(
                         <.ActorProfileContributionsContainerComponent(
-                          ^.wrapped := ActorProfileContributionsContainerProps(actor = self.props.wrapped.actor, None)
+                          ^.wrapped := ActorProfileContributionsContainerProps(
+                            actor = self.props.wrapped.actor,
+                            maybeLocation = Some(OrganisationPage(self.props.wrapped.actor.slug.getOrElse("unknown")))
+                          )
                         )()
                       )
                     }
