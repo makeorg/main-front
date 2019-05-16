@@ -56,7 +56,7 @@ object WeEuropeansRedirect {
   def weEuropeanRedirect(country: String): Unit = {
     if (dom.window.location.hash.isEmpty) {
       languageBySupportedCountries.get(country).foreach { language =>
-        val link: String = s"https://weeuropeans.eu/${country.toLowerCase}/$language/about"
+        val link: String = s"https://weeuropeans.eu/${country.toLowerCase}/$language/"
         TrackingService.track(
           eventName = "redirect-weeuropeans",
           trackingContext = TrackingContext(TrackingLocation.homepage),
